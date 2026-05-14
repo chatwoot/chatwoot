@@ -1,6 +1,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import AutomationActionWhatsappTemplateInput from './AutomationActionWhatsappTemplateInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
@@ -11,6 +12,7 @@ export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    AutomationActionWhatsappTemplateInput,
     WootMessageEditor,
     NextButton,
     SingleSelect,
@@ -93,7 +95,9 @@ export default {
       return this.actionTypes.map(a => ({ id: a.key, name: a.label }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea'].includes(this.inputType);
+      return ['team_message', 'textarea', 'whatsapp_template'].includes(
+        this.inputType
+      );
     },
     castMessageVmodel: {
       get() {
@@ -193,6 +197,10 @@ export default {
         enable-variables
         :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
         class="[&_.ProseMirror-menubar]:hidden px-3 py-1 bg-n-alpha-1 rounded-lg outline outline-1 outline-n-weak dark:outline-n-strong"
+      />
+      <AutomationActionWhatsappTemplateInput
+        v-if="inputType === 'whatsapp_template'"
+        v-model="castMessageVmodel"
       />
     </div>
     <span v-if="errorMessage" class="text-sm text-n-ruby-11">

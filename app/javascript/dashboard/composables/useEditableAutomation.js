@@ -95,6 +95,11 @@ export function useEditableAutomation() {
         message: params[0].message,
       };
     }
+    // whatsapp_template stores a single config object inside the params
+    // array. Unwrap it for the form; actionQueryGenerator re-wraps on save.
+    if (inputType === 'whatsapp_template') {
+      return params[0] || {};
+    }
     return [...params];
   };
 

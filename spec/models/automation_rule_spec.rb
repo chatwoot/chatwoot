@@ -137,4 +137,46 @@ RSpec.describe AutomationRule do
       end
     end
   end
+
+  describe 'send_whatsapp_template action validation' do
+    let(:account) { create(:account) }
+    let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:web_inbox) { create(:inbox, account: account) }
+
+    def build_rule(action_params)
+      build(:automation_rule,
+            account: account,
+            event_name: 'conversation_created',
+            conditions: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'], query_operator: nil }],
+            actions: [{ action_name: 'send_whatsapp_template', action_params: action_params }])
+    end
+
+    it 'is valid with a WhatsApp inbox and template_name' do
+      rule = build_rule([{
+                          inbox_id: whatsapp_inbox.id,
+                          template_name: 'sample_shipping_confirmation',
+                          template_language: 'en_US',
+                          processed_params: { '1' => '{{contact.name}}' }
+                        }])
+      expect(rule).to be_valid
+    end
+
+    it 'is invalid without an inbox_id' do
+      rule = build_rule([{ inbox_id: nil, template_name: 'sample_shipping_confirmation' }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('requires a WhatsApp inbox')
+    end
+
+    it 'is invalid when the inbox is not a WhatsApp inbox' do
+      rule = build_rule([{ inbox_id: web_inbox.id, template_name: 'sample_shipping_confirmation' }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('not a WhatsApp inbox')
+    end
+
+    it 'is invalid when template_name is missing' do
+      rule = build_rule([{ inbox_id: whatsapp_inbox.id }])
+      expect(rule).to be_invalid
+      expect(rule.errors[:actions].join).to include('requires a template_name')
+    end
+  end
 end

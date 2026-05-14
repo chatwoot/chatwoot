@@ -791,6 +791,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'textarea',
   },
   {
+    key: 'send_whatsapp_template',
+    label: 'SEND_WHATSAPP_TEMPLATE',
+    inputType: 'whatsapp_template',
+  },
+  {
     key: 'add_private_note',
     label: 'ADD_PRIVATE_NOTE',
     inputType: 'textarea',

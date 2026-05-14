@@ -99,7 +99,20 @@
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
       "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
       "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "URL_INPUT_PLACEHOLDER": "Enter URL",
+      "WHATSAPP_TEMPLATE": {
+        "OVERVIEW": "Pick a WhatsApp inbox and an approved template. When this rule fires on any conversation, the template is sent to the contact's phone number through the selected WhatsApp inbox — regardless of which channel the conversation came in on.",
+        "INBOX_LABEL": "Send from",
+        "INBOX_PLACEHOLDER": "Choose a WhatsApp inbox to send from",
+        "NO_WA_INBOXES": "No WhatsApp inboxes are connected to this account.",
+        "TEMPLATE_LABEL": "Template",
+        "TEMPLATE_PLACEHOLDER": "Choose an approved template",
+        "NO_TEMPLATES": "This inbox has no approved templates yet.",
+        "BODY_LABEL": "Template body",
+        "VARIABLES_LABEL": "Variables",
+        "VARIABLES_HINT": "Fill each variable. Use these placeholders for live contact / conversation / agent data at send time:",
+        "VARIABLE_PLACEHOLDER": "Static text or a placeholder"
+      }
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",
@@ -153,6 +166,7 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "SEND_WHATSAPP_TEMPLATE": "Send a WhatsApp Template",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",

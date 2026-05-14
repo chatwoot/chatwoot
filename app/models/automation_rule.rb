@@ -28,6 +28,7 @@ class AutomationRule < ApplicationRecord
   validate :json_actions_format
   validate :query_operator_presence
   validate :query_operator_value
+  validate :whatsapp_template_action_config
   validates :account_id, presence: true
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
@@ -40,10 +41,10 @@ class AutomationRule < ApplicationRecord
   end
 
   def actions_attributes
-    %w[send_message add_label remove_label send_email_to_team assign_team assign_agent remove_assigned_agent
-       remove_assigned_team send_webhook_event mute_conversation send_attachment change_status resolve_conversation
-       open_conversation pending_conversation snooze_conversation change_priority send_email_transcript
-       add_private_note].freeze
+    %w[send_message send_whatsapp_template add_label remove_label send_email_to_team assign_team assign_agent
+       remove_assigned_agent remove_assigned_team send_webhook_event mute_conversation send_attachment change_status
+       resolve_conversation open_conversation pending_conversation snooze_conversation change_priority
+       send_email_transcript add_private_note].freeze
   end
 
   def file_base_data
@@ -103,6 +104,29 @@ class AutomationRule < ApplicationRecord
 
     operator = query_operator.upcase
     errors.add(:conditions, 'Query operator must be either "AND" or "OR"') unless %w[AND OR].include?(operator)
+  end
+
+  def whatsapp_template_action_config
+    return if actions.blank?
+    return if account.blank?
+
+    actions.select { |obj| obj['action_name'] == 'send_whatsapp_template' }.each do |action|
+      validate_single_whatsapp_template_action(action)
+    end
+  end
+
+  def validate_single_whatsapp_template_action(action)
+    config = Array(action['action_params']).first
+    inbox_id = config.is_a?(Hash) ? (config['inbox_id'] || config[:inbox_id]) : nil
+    template_name = config.is_a?(Hash) ? (config['template_name'].presence || config[:template_name].presence) : nil
+
+    if inbox_id.blank?
+      errors.add(:actions, 'send_whatsapp_template requires a WhatsApp inbox to send from.')
+    elsif account.inboxes.where(id: inbox_id, channel_type: 'Channel::Whatsapp').none?
+      errors.add(:actions, "Inbox #{inbox_id} is not a WhatsApp inbox in this account.")
+    end
+
+    errors.add(:actions, 'send_whatsapp_template requires a template_name.') if template_name.blank?
   end
 end
 
