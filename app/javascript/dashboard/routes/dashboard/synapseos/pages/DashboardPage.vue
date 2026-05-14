@@ -108,6 +108,13 @@ const secondaryKpis = computed(() => {
       tone: 'neutral',
     },
     {
+      key: 'shoots_month',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_MONTH'),
+      value: formatNumber(k.shoots_month),
+      icon: 'i-lucide-zap',
+      tone: 'brand',
+    },
+    {
       key: 'ai_responses',
       label: t('SYNAPSEOS.DASHBOARD.KPI.AI_RESPONSES'),
       value: formatNumber(k.ai_responses),

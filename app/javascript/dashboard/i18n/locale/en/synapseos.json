@@ -84,6 +84,7 @@
         "REVENUE": "Revenue",
         "MESSAGES_RECEIVED": "Messages in",
         "MESSAGES_SENT": "Messages out",
+        "SHOOTS_MONTH": "Disparos no mês",
         "BOT_TAKEOVERS": "Bot → human takeovers",
         "HUMAN_RESCUES": "Human → bot rescues",
         "AI_RESPONSES": "AI responses",

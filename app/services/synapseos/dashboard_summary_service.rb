@@ -49,6 +49,9 @@ module Synapseos
         # o pricing por contato e com como o time comercial fala ("disparei
         # X leads esse mês").
         messages_sent: outgoing_distinct_contacts(@range),
+        # CUSTOMIZAÇÃO_SYNAPSEOS: "disparos no mês" = novos leads criados desde
+        # o dia 1 do mês corrente até agora (acumulativo, conta 1 por contato).
+        shoots_month: shoots_month_count,
         bot_takeovers: events_of('bot_takeover').count,
         human_rescues: events_of('human_rescue').count,
         ai_responses: messages.where(sender_type: 'AgentBot').count,
@@ -100,6 +103,11 @@ module Synapseos
 
     def leads_scope
       ::Synapseos::Lead.where(account_id: @account.id, created_at: @range)
+    end
+
+    def shoots_month_count
+      month_range = Time.current.beginning_of_month..Time.current
+      ::Synapseos::Lead.where(account_id: @account.id, created_at: month_range).count
     end
 
     def deals_scope
