@@ -34,7 +34,12 @@ class Onboarding::HelpCenterCurator
   end
 
   def extract_urls(links)
-    Array(links).map { |link| link.is_a?(Hash) ? link[:url].to_s : link.to_s }.reject(&:blank?).uniq
+    # Firecrawl's MapData normalises every link to a string-keyed hash
+    # ({ "url" => ... }), so read both keys to stay tolerant of either shape.
+    Array(links).filter_map do |link|
+      raw = link.is_a?(Hash) ? (link['url'] || link[:url]) : link
+      raw.to_s.presence
+    end.uniq
   end
 
   def curate(links)
