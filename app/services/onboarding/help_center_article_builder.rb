@@ -10,7 +10,7 @@ class Onboarding::HelpCenterArticleBuilder
     @urls = Array(spec[:urls]).map(&:to_s).reject(&:blank?)
     @title = spec[:title]
     @category_id = spec[:category_id]
-    @allowed_urls = Array(spec[:allowed_urls]).map(&:to_s).to_set
+    @allowed_urls = Array(spec[:allowed_urls]).to_set(&:to_s)
   end
 
   def perform
