@@ -44,6 +44,29 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
     end
   end
 
+  describe 'orphan article filtering' do
+    let(:curated_plan) do
+      {
+        categories: [{ name: 'Getting Started', description: 'desc' }],
+        articles: [
+          { title: 'Valid', urls: ['https://x.test/a'], category_name: 'Getting Started' },
+          { title: 'Orphan', urls: ['https://x.test/b'], category_name: 'NonExistent' }
+        ]
+      }
+    end
+
+    it 'drops articles whose category was not emitted alongside them' do
+      perform_enqueued_jobs(only: described_class) { described_class.perform_later(generation) }
+
+      generation.reload
+      expect(generation.plan['articles'].size).to eq(1)
+      expect(generation.plan['articles'].first['title']).to eq('Valid')
+
+      writer_jobs = enqueued_jobs.select { |j| j['job_class'] == Onboarding::HelpCenterArticleWriterJob.name }
+      expect(writer_jobs.size).to eq(1)
+    end
+  end
+
   describe 'idempotency' do
     it 'no-ops when the generation is not pending' do
       generation.update!(status: :completed)

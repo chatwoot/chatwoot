@@ -50,8 +50,11 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   end
 
   def stamp_category_ids(articles, categories_by_name)
-    Array(articles).map do |article|
-      article.merge(category_id: categories_by_name[article[:category_name].to_s]&.id)
+    Array(articles).filter_map do |article|
+      category_id = categories_by_name[article[:category_name].to_s]&.id
+      next if category_id.nil?
+
+      article.merge(category_id: category_id)
     end
   end
 
