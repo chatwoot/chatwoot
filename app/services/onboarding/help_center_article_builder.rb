@@ -1,7 +1,7 @@
 class Onboarding::HelpCenterArticleBuilder
   BuildFailed = CustomExceptions::HelpCenter::ArticleBuildFailed
 
-  def initialize(account:, portal:, user:, article:)
+  def initialize(account:, portal:, user:, article:, allowed_urls: [])
     @account = account
     @portal = portal
     @user = user
@@ -10,7 +10,7 @@ class Onboarding::HelpCenterArticleBuilder
     @urls = Array(spec[:urls]).map(&:to_s).reject(&:blank?)
     @title = spec[:title]
     @category_id = spec[:category_id]
-    @allowed_urls = Array(spec[:allowed_urls]).to_set(&:to_s)
+    @allowed_urls = Array(allowed_urls).to_set(&:to_s)
   end
 
   def perform

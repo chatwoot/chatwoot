@@ -13,6 +13,18 @@ RSpec.describe HelpCenterGeneration do
     end
   end
 
+  describe '#allowed_urls' do
+    it 'returns the array stored on the plan' do
+      generation = described_class.create!(account: account, portal: portal, plan: plan)
+      expect(generation.allowed_urls).to eq(['https://x.test/a'])
+    end
+
+    it 'returns [] when the plan is blank' do
+      generation = described_class.create!(account: account, portal: portal)
+      expect(generation.allowed_urls).to eq([])
+    end
+  end
+
   describe '#start_curating!' do
     it 'transitions pending → curating and stamps started_at' do
       generation = described_class.create!(account: account, portal: portal)

@@ -7,24 +7,22 @@ RSpec.describe Onboarding::HelpCenterArticleBuilder do
 
   describe 'allowlist enforcement' do
     it 'raises BuildFailed when none of the supplied urls are in the allowlist' do
-      article = {
-        urls: ['https://attacker.com/x'],
-        title: 'X',
+      article = { urls: ['https://attacker.com/x'], title: 'X' }
+      builder = described_class.new(
+        account: account, portal: portal, user: user, article: article,
         allowed_urls: ['https://ok.com/a']
-      }
-      builder = described_class.new(account: account, portal: portal, user: user, article: article)
+      )
 
       expect { builder.perform }
         .to raise_error(CustomExceptions::HelpCenter::ArticleBuildFailed, /no allowlisted urls/)
     end
 
     it 'does not call Firecrawl when the allowlist rejects every url' do
-      article = {
-        urls: ['https://attacker.com/x'],
-        title: 'X',
+      article = { urls: ['https://attacker.com/x'], title: 'X' }
+      builder = described_class.new(
+        account: account, portal: portal, user: user, article: article,
         allowed_urls: ['https://ok.com/a']
-      }
-      builder = described_class.new(account: account, portal: portal, user: user, article: article)
+      )
 
       expect(Firecrawl::Configuration).not_to receive(:client)
       expect { builder.perform }.to raise_error(CustomExceptions::HelpCenter::ArticleBuildFailed)

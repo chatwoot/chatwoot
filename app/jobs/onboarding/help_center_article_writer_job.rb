@@ -10,13 +10,12 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   end
 
   def perform(generation, article_index)
-    spec = generation.plan['articles'][article_index].merge('allowed_urls' => generation.plan['allowed_urls'])
-
     article = Onboarding::HelpCenterArticleBuilder.new(
       account: generation.account,
       portal: generation.portal,
       user: generation.account.administrators.first,
-      article: spec
+      article: generation.plan['articles'][article_index],
+      allowed_urls: generation.allowed_urls
     ).perform
 
     finalize(generation, article: article)

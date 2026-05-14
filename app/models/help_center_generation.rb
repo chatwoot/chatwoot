@@ -35,6 +35,10 @@ class HelpCenterGeneration < ApplicationRecord
     plan&.dig('articles')&.size.to_i
   end
 
+  def allowed_urls
+    Array(plan&.dig('allowed_urls'))
+  end
+
   def all_finished?
     articles_finished >= planned_total
   end
