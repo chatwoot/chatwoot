@@ -41,6 +41,9 @@ GEM
       net-imap
       net-pop
       net-smtp
+    actionmailbox-resend (1.0.5)
+      rails (>= 7.0)
+      svix (~> 1.0)
     actionmailer (7.1.5.2)
       actionpack (= 7.1.5.2)
       actionview (= 7.1.5.2)
@@ -950,6 +953,9 @@ GEM
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
     stripe (18.0.1)
+    svix (1.93.0)
+      base64 (~> 0.3.0)
+      logger (~> 1.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
     thor (1.4.0)
@@ -1033,6 +1039,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  actionmailbox-resend (~> 1.0)
   active_record_query_trace
   activerecord-import
   acts-as-taggable-on
