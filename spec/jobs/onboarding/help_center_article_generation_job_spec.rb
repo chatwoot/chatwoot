@@ -80,4 +80,36 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       expect(generation.skip_reason).to include('firecrawl exhausted')
     end
   end
+
+  describe 'broadcasts' do
+    let!(:admin) { create(:user, account: account, role: :administrator) }
+
+    it 'broadcasts generation_completed with status: skipped on CurationSkipped' do
+      curator = instance_double(Onboarding::HelpCenterCurator)
+      allow(curator).to receive(:perform).and_raise(
+        CustomExceptions::HelpCenter::CurationSkipped, 'no website url'
+      )
+      allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
+
+      payload = hash_including(generation_id: generation.id, status: 'skipped', skip_reason: 'no website url')
+      expect { described_class.perform_now(generation) }
+        .to have_enqueued_job(ActionCableBroadcastJob)
+        .with([admin.pubsub_token], 'help_center.generation_completed', payload)
+    end
+
+    it 'broadcasts generation_completed with status: skipped when firecrawl retries exhaust' do
+      curator = instance_double(Onboarding::HelpCenterCurator)
+      allow(curator).to receive(:perform).and_raise(Firecrawl::FirecrawlError, 'rate limited')
+      allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
+
+      perform_enqueued_jobs(only: described_class) { described_class.perform_later(generation) }
+
+      expect(enqueued_jobs).to include(
+        a_hash_including(
+          'job_class' => ActionCableBroadcastJob.name,
+          'arguments' => array_including('help_center.generation_completed')
+        )
+      )
+    end
+  end
 end
