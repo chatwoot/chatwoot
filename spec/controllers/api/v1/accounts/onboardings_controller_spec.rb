@@ -68,7 +68,7 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
       end
 
-      it 'invokes HelpCenterCreationService when website is present' do
+      it 'invokes HelpCenterCreationService when website is present', skip: 'help center generation wiring disabled until UI is ready' do
         service = instance_double(Onboarding::HelpCenterCreationService, perform: nil)
         allow(Onboarding::HelpCenterCreationService).to receive(:new).and_return(service)
 

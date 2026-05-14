@@ -10,7 +10,8 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
     @account.custom_attributes.delete('onboarding_step') if finalize
     @account.save!
 
-    Onboarding::HelpCenterCreationService.new(@account, Current.user).perform if finalize && website.present?
+    # TODO: re-enable when the help center generation UI is ready to surface progress
+    # Onboarding::HelpCenterCreationService.new(@account, Current.user).perform if finalize && website.present?
 
     render 'api/v1/accounts/update', format: :json
   end
