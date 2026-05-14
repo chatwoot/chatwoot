@@ -41,7 +41,7 @@ class Onboarding::HelpCenterCurator
   end
 
   def website_url
-    @website_url ||= custom_attributes_website.presence || @account.domain.presence || brand_info[:domain].presence
+    @website_url ||= custom_attributes_website.presence || brand_info[:domain].presence
   end
 
   def custom_attributes_website

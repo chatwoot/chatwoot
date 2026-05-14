@@ -60,7 +60,7 @@ class Onboarding::HelpCenterCreationService
   end
 
   def homepage_link
-    custom_attributes_website.presence || @account.domain.presence || brand_info[:domain].presence
+    custom_attributes_website.presence || brand_info[:domain].presence
   end
 
   def custom_attributes_website
