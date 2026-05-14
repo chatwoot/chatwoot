@@ -39,6 +39,36 @@ class HelpCenterGeneration < ApplicationRecord
     articles_finished >= planned_total
   end
 
+  def start_curating!
+    return unless pending?
+
+    update!(status: :curating, started_at: Time.current)
+  end
+
+  def start_generating!(plan:)
+    update!(plan: plan, status: :generating)
+  end
+
+  def mark_skipped!(reason:)
+    update!(status: :skipped, skip_reason: reason, finished_at: Time.current)
+  end
+
+  def record_article_finished!
+    self.class.update_counters(id, articles_finished: 1) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
+  def complete_if_finished!
+    updated = self.class
+                  .where(id: id, status: self.class.statuses[:generating])
+                  .where('articles_finished >= ?', planned_total)
+                  .update_all(status: self.class.statuses[:completed], finished_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+    return false unless updated == 1
+
+    reload
+    true
+  end
+
   private
 
   def enqueue_generation_job

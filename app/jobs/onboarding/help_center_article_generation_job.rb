@@ -4,7 +4,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
     generation = job.arguments.first
     Rails.logger.warn "[HelpCenterGenerationJob] gen=#{generation.id} firecrawl exhausted: #{error.message}"
-    generation.update!(status: :skipped, skip_reason: "firecrawl exhausted: #{error.message}", finished_at: Time.current)
+    generation.mark_skipped!(reason: "firecrawl exhausted: #{error.message}")
     Onboarding::HelpCenterBroadcaster.completed(generation)
   end
 
@@ -15,25 +15,29 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     process(generation)
   rescue CustomExceptions::HelpCenter::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation.id} skipped: #{e.message}"
-    generation.update!(status: :skipped, skip_reason: e.message, finished_at: Time.current)
+    generation.mark_skipped!(reason: e.message)
     Onboarding::HelpCenterBroadcaster.completed(generation)
   end
 
   private
 
   def process(generation)
-    generation.update!(status: :curating, started_at: Time.current) if generation.pending?
+    generation.start_curating!
 
     plan = Onboarding::HelpCenterCurator.new(account: generation.account, portal: generation.portal).perform
-    categories_by_name = create_categories(generation.portal, plan['categories'])
-    enriched = plan.merge('articles' => stamp_category_ids(plan['articles'], categories_by_name))
 
-    if enriched['articles'].empty?
-      raise CustomExceptions::HelpCenter::CurationSkipped,
-            'no articles after category stamping (LLM article category_name did not match any curated category)'
+    ActiveRecord::Base.transaction do
+      categories_by_name = create_categories(generation.portal, plan['categories'])
+      enriched = plan.merge('articles' => stamp_category_ids(plan['articles'], categories_by_name))
+
+      if enriched['articles'].empty?
+        raise CustomExceptions::HelpCenter::CurationSkipped,
+              'no articles after category stamping (LLM article category_name did not match any curated category)'
+      end
+
+      generation.start_generating!(plan: enriched)
     end
 
-    generation.update!(plan: enriched, status: :generating)
     fan_out(generation)
   end
 

@@ -67,6 +67,17 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
     end
   end
 
+  describe 'transaction rollback' do
+    it 'leaves zero categories when start_generating! fails after categories are created' do
+      allow(HelpCenterGeneration).to receive(:find).and_call_original
+      allow(HelpCenterGeneration).to receive(:find).with(generation.id).and_return(generation)
+      allow(generation).to receive(:start_generating!).and_raise(ActiveRecord::RecordInvalid)
+
+      expect { described_class.perform_now(generation) }.to raise_error(ActiveRecord::RecordInvalid)
+      expect(portal.categories.count).to eq(0)
+    end
+  end
+
   describe 'idempotency' do
     it 'no-ops when the generation is not pending' do
       generation.update!(status: :completed)

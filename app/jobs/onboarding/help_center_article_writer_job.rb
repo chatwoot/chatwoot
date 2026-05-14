@@ -31,20 +31,9 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   end
 
   def finalize(generation, article:)
-    HelpCenterGeneration.update_counters(generation.id, articles_finished: 1) # rubocop:disable Rails/SkipsModelValidations
-    generation.reload
+    generation.record_article_finished!
 
     Onboarding::HelpCenterBroadcaster.article_generated(generation, article) if article
-    transition_to_completed(generation)
-  end
-
-  def transition_to_completed(generation)
-    statuses = HelpCenterGeneration.statuses
-    updated = HelpCenterGeneration.where(id: generation.id, status: statuses[:generating])
-                                  .where('articles_finished >= ?', generation.planned_total)
-                                  .update_all(status: statuses[:completed], finished_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
-    return unless updated == 1
-
-    Onboarding::HelpCenterBroadcaster.completed(generation.reload)
+    Onboarding::HelpCenterBroadcaster.completed(generation) if generation.complete_if_finished!
   end
 end
