@@ -29,5 +29,16 @@ RSpec.describe Onboarding::HelpCenterCreationService do
           .not_to(change { account.help_center_generations.count })
       end
     end
+
+    context 'when only custom_attributes website is set' do
+      let(:account) do
+        create(:account, domain: nil, custom_attributes: { 'website' => 'user-confirmed.com' })
+      end
+
+      it 'creates a HelpCenterGeneration row using the user-confirmed website' do
+        expect { described_class.new(account, admin).perform }
+          .to change { account.help_center_generations.count }.by(1)
+      end
+    end
   end
 end

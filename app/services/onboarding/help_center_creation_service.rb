@@ -60,7 +60,11 @@ class Onboarding::HelpCenterCreationService
   end
 
   def homepage_link
-    @account.domain.presence || brand_info[:domain].presence
+    custom_attributes_website.presence || @account.domain.presence || brand_info[:domain].presence
+  end
+
+  def custom_attributes_website
+    @account.custom_attributes['website']
   end
 
   def enqueue_article_generation(portal)
