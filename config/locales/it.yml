@@ -103,12 +103,12 @@ it:
         generic: 'Impossibile riautorizzare WhatsApp. Riprova.'
         not_supported: 'La riautorizzazione non è supportata per questo tipo di canale WhatsApp.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'Le chiamate non sono abilitate per questa inbox'
+        no_recording: 'Nessun file di registrazione fornito'
+        no_message: 'La chiamata non ha messaggi associati'
+        sdp_offer_required: 'sdp_offer è richiesto'
+        contact_phone_required: 'È richiesto il numero di telefono del contatto'
+        permission_request_failed: 'Impossibile inviare la richiesta di autorizzazione di chiamata'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -240,8 +240,8 @@ it:
         list_button_label: 'Scegli un elemento'
         call_permission_request_body: 'Vorremmo chiamarti riguardo alla tua conversazione.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Chiamata Vocale'
+        whatsapp: 'Chiamata WhatsApp'
       delivery_status:
         error_code: 'Codice errore: %{error_code}'
     activity:
@@ -287,8 +287,8 @@ it:
         issue_linked: 'Issue Linear %{issue_id} è stata collegata da %{user_name}'
         issue_unlinked: 'Issue Linear %{issue_id} è stata scollegata da %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'Richiesta di autorizzazione di chiamata inviata a %{contact_name}.'
+        permission_granted: '%{contact_name} ha accettato la richiesta di autorizzazione di chiamata.'
       csat:
         not_sent_due_to_messaging_window: 'Sondaggio CSAT non inviato a causa di restrizioni sui messaggi in uscita'
       auto_resolve:
@@ -353,7 +353,7 @@ it:
       name: 'Linear'
       short_description: 'Crea e collega issue Linear direttamente dalle conversazioni.'
       description: 'Crea issue in Linear direttamente dalla finestra di conversazione. In alternativa, collega issue Linear esistenti per un processo di monitoraggio più snello ed efficiente.'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: 'Conversazione (#%{conversation_id}) con %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integra database, documenti e pagine direttamente con Captain.'
