@@ -286,6 +286,10 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'inherit_contact_labels',
+        name: 'INHERIT_CONTACT_LABELS',
+      },
     ],
   },
   conversation_updated: {
@@ -804,5 +808,10 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'add_sla',
     label: 'ADD_SLA',
     inputType: 'search_select',
+  },
+  {
+    key: 'inherit_contact_labels',
+    label: 'INHERIT_CONTACT_LABELS',
+    inputType: null,
   },
 ];

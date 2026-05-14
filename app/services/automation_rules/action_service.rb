@@ -22,6 +22,19 @@ class AutomationRules::ActionService < ActionService
 
   private
 
+  def inherit_contact_labels(_params = nil)
+    contact = @conversation.contact
+    return if contact.blank?
+
+    inherited = contact.label_list
+    return if inherited.blank?
+
+    merged = (@conversation.label_list + inherited).uniq
+    return if merged.sort == @conversation.label_list.sort
+
+    @conversation.update_labels(merged)
+  end
+
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 

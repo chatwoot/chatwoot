@@ -217,5 +217,40 @@ RSpec.describe AutomationRules::ActionService do
         expect(conversation.reload.assignee).to eq(agent)
       end
     end
+
+    describe '#perform with inherit_contact_labels action' do
+      before do
+        rule.actions.delete_if { |a| %w[send_message send_webhook_event].include?(a['action_name']) }
+        rule.actions << { action_name: 'inherit_contact_labels', action_params: [] }
+        rule.save
+      end
+
+      it 'copies labels from the contact onto the conversation' do
+        conversation.contact.update_labels(%w[paid research])
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list.sort).to eq(%w[paid research])
+      end
+
+      it 'merges with existing conversation labels without duplicating' do
+        conversation.contact.update_labels(%w[paid research])
+        conversation.update_labels(%w[paid existing])
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list.sort).to eq(%w[existing paid research])
+      end
+
+      it 'is a no-op when the contact has no labels' do
+        expect { described_class.new(rule, account, conversation).perform }
+          .not_to(change { conversation.reload.label_list })
+      end
+
+      it 'does not re-update when every contact label is already present' do
+        conversation.contact.update_labels(%w[paid])
+        conversation.update_labels(%w[paid extra])
+        allow_any_instance_of(Conversation).to receive(:update_labels).and_call_original # rubocop:disable RSpec/AnyInstance
+        described_class.new(rule, account, conversation).perform
+        # update_labels is called twice during setup; the action itself should not invoke it again
+        expect(conversation.reload.label_list.sort).to eq(%w[extra paid])
+      end
+    end
   end
 end

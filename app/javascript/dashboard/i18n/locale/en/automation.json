@@ -157,7 +157,8 @@
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation",
-      "PENDING_CONVERSATION": "Mark conversation as pending"
+      "PENDING_CONVERSATION": "Mark conversation as pending",
+      "INHERIT_CONTACT_LABELS": "Inherit Labels from Contact"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
