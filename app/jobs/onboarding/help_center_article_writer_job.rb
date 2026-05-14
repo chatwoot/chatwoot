@@ -35,7 +35,7 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
     HelpCenterGeneration.update_counters(generation.id, articles_finished: 1) # rubocop:disable Rails/SkipsModelValidations
     generation.reload
 
-    broadcast_article_generated(generation, article) if article
+    Onboarding::HelpCenterBroadcaster.article_generated(generation, article) if article
     transition_to_completed(generation)
   end
 
@@ -46,28 +46,6 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
                                   .update_all(status: statuses[:completed], finished_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
     return unless updated == 1
 
-    broadcast_completed(generation.reload)
-  end
-
-  def broadcast_article_generated(generation, article)
-    token = generation.account.administrators.first&.pubsub_token
-    return if token.blank?
-
-    ActionCableBroadcastJob.perform_later(
-      [token],
-      'help_center.article_generated',
-      { generation_id: generation.id, article_id: article.id, articles_finished: generation.articles_finished }
-    )
-  end
-
-  def broadcast_completed(generation)
-    token = generation.account.administrators.first&.pubsub_token
-    return if token.blank?
-
-    ActionCableBroadcastJob.perform_later(
-      [token],
-      'help_center.generation_completed',
-      { generation_id: generation.id, status: generation.status, skip_reason: generation.skip_reason }
-    )
+    Onboarding::HelpCenterBroadcaster.completed(generation.reload)
   end
 end

@@ -5,7 +5,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     generation = job.arguments.first
     Rails.logger.warn "[HelpCenterGenerationJob] gen=#{generation.id} firecrawl exhausted: #{error.message}"
     generation.update!(status: :skipped, skip_reason: "firecrawl exhausted: #{error.message}", finished_at: Time.current)
-    job.send(:broadcast_completed, generation)
+    Onboarding::HelpCenterBroadcaster.completed(generation)
   end
 
   def perform(generation)
@@ -16,7 +16,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   rescue CustomExceptions::HelpCenter::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation.id} skipped: #{e.message}"
     generation.update!(status: :skipped, skip_reason: e.message, finished_at: Time.current)
-    broadcast_completed(generation)
+    Onboarding::HelpCenterBroadcaster.completed(generation)
   end
 
   private
@@ -62,16 +62,5 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     generation.plan['articles'].each_with_index do |_spec, index|
       Onboarding::HelpCenterArticleWriterJob.perform_later(generation, index)
     end
-  end
-
-  def broadcast_completed(generation)
-    token = generation.account.administrators.first&.pubsub_token
-    return if token.blank?
-
-    ActionCableBroadcastJob.perform_later(
-      [token],
-      'help_center.generation_completed',
-      { generation_id: generation.id, status: generation.status, skip_reason: generation.skip_reason }
-    )
   end
 end
