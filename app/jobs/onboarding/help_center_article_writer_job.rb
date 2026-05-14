@@ -11,6 +11,7 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
 
   def perform(generation, article_index)
     spec = generation.plan['articles'][article_index].with_indifferent_access
+                     .merge(allowed_urls: generation.plan['allowed_urls'])
 
     article = Onboarding::HelpCenterArticleBuilder.new(
       account: generation.account,

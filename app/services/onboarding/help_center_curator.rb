@@ -20,7 +20,7 @@ class Onboarding::HelpCenterCurator
     plan = curate(links)
     raise Skipped, "only #{plan[:articles].size} articles curated (< #{MIN_ARTICLES} threshold)" if plan[:articles].size < MIN_ARTICLES
 
-    plan
+    plan.merge(allowed_urls: extract_urls(links))
   end
 
   private
@@ -31,6 +31,10 @@ class Onboarding::HelpCenterCurator
       Firecrawl::Models::MapOptions.new(limit: MAP_LIMIT, search: MAP_SEARCH)
     )
     Array(data.links)
+  end
+
+  def extract_urls(links)
+    Array(links).map { |link| link.is_a?(Hash) ? link[:url].to_s : link.to_s }.reject(&:blank?).uniq
   end
 
   def curate(links)

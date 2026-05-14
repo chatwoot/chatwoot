@@ -10,13 +10,17 @@ class Onboarding::HelpCenterArticleBuilder
     @urls = Array(spec[:urls]).map(&:to_s).reject(&:blank?)
     @title = spec[:title]
     @category_id = spec[:category_id]
+    @allowed_urls = Array(spec[:allowed_urls]).map(&:to_s).to_set
   end
 
   def perform
     raise BuildFailed, 'no source urls supplied' if @urls.empty?
 
-    source_pages = scrape
-    raise BuildFailed, "scrape produced no usable pages for #{@urls.join(', ')}" if source_pages.empty?
+    urls = allowlisted_urls
+    raise BuildFailed, "no allowlisted urls in #{@urls.join(', ')}" if urls.empty?
+
+    source_pages = scrape(urls)
+    raise BuildFailed, "scrape produced no usable pages for #{urls.join(', ')}" if source_pages.empty?
 
     payload = rewrite(source_pages)
 
@@ -33,9 +37,15 @@ class Onboarding::HelpCenterArticleBuilder
 
   private
 
-  def scrape
+  def allowlisted_urls
+    return @urls if @allowed_urls.empty?
+
+    @urls.select { |u| @allowed_urls.include?(u) }
+  end
+
+  def scrape(urls)
     job = Firecrawl::Configuration.client.batch_scrape(
-      @urls,
+      urls,
       Firecrawl::Models::BatchScrapeOptions.new(options: Firecrawl::Configuration.default_scrape_options)
     )
     Array(job.data).filter_map { |doc| normalize(doc) }
