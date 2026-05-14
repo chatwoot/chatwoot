@@ -12,6 +12,30 @@ RSpec.describe 'Onboarding API', type: :request do
       end
     end
 
+    context 'when authenticated as an agent (non-admin)' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns unauthorized and does not change the account' do
+        patch "/api/v1/accounts/#{account.id}/onboarding",
+              params: { name: 'Hijacked', website: 'attacker.com' },
+              headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(account.reload.name).not_to eq('Hijacked')
+      end
+
+      it 'does not invoke HelpCenterCreationService' do
+        account.update!(custom_attributes: { 'onboarding_step' => 'account_details' })
+        allow(Onboarding::HelpCenterCreationService).to receive(:new)
+
+        patch "/api/v1/accounts/#{account.id}/onboarding",
+              params: { website: 'attacker.com' },
+              headers: agent.create_new_auth_token, as: :json
+
+        expect(Onboarding::HelpCenterCreationService).not_to have_received(:new)
+      end
+    end
+
     context 'when finalizing account_details' do
       before { account.update!(custom_attributes: { 'onboarding_step' => 'account_details' }) }
 

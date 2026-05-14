@@ -1,4 +1,6 @@
 class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseController
+  before_action :check_admin_authorization?
+
   def update
     @account = Current.account
     finalize = finalizing_account_details?
