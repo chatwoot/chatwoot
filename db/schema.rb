@@ -359,7 +359,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_11_145127) do
     t.text "request_template"
     t.text "response_template"
     t.string "auth_type", default: "none"
-    t.text "auth_config"
+    t.jsonb "auth_config", default: {}
     t.jsonb "param_schema", default: []
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
