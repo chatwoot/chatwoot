@@ -104,9 +104,7 @@ class Attachment < ApplicationRecord
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {
-        # ActiveStorage's redirect endpoint defaults to Content-Disposition: attachment,
-        # which makes <audio> elements download instead of play. Force inline so the
-        # call-recording chip (and any other audio bubble) can stream directly.
+        # Keep audio playback inline while avoiding the ActiveStorage proxy path.
         data_url: inline_audio_url,
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
