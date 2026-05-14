@@ -35,11 +35,17 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
     generation.reload
 
     broadcast_article_generated(generation, article) if article
+    transition_to_completed(generation)
+  end
 
-    return unless generation.all_finished? && !generation.terminal?
+  def transition_to_completed(generation)
+    statuses = HelpCenterGeneration.statuses
+    updated = HelpCenterGeneration.where(id: generation.id, status: statuses[:generating])
+                                  .where('articles_finished >= ?', generation.planned_total)
+                                  .update_all(status: statuses[:completed], finished_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
+    return unless updated == 1
 
-    generation.update!(status: :completed, finished_at: Time.current)
-    broadcast_completed(generation)
+    broadcast_completed(generation.reload)
   end
 
   def broadcast_article_generated(generation, article)

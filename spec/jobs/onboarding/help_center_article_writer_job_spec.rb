@@ -104,5 +104,14 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
         .not_to have_enqueued_job(ActionCableBroadcastJob)
         .with(anything, 'help_center.article_generated', anything)
     end
+
+    it 'does not broadcast generation_completed when another writer already transitioned the generation' do
+      # Simulate the race: a concurrent writer already flipped status to :completed.
+      generation.update!(status: :completed, articles_finished: generation.planned_total, finished_at: Time.current)
+
+      expect { described_class.perform_now(generation, 0) }
+        .not_to have_enqueued_job(ActionCableBroadcastJob)
+        .with(anything, 'help_center.generation_completed', anything)
+    end
   end
 end
