@@ -399,99 +399,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_11_145127) do
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
-  create_table "captain_knowledge_chunk_topics", force: :cascade do |t|
-    t.bigint "knowledge_chunk_id", null: false
-    t.bigint "knowledge_topic_id", null: false
-    t.float "confidence", default: 1.0, null: false
-    t.boolean "primary", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["knowledge_chunk_id", "knowledge_topic_id"], name: "idx_cap_knowledge_chunk_topics_on_chunk_and_topic", unique: true
-    t.index ["knowledge_chunk_id"], name: "index_captain_knowledge_chunk_topics_on_knowledge_chunk_id"
-    t.index ["knowledge_topic_id"], name: "index_captain_knowledge_chunk_topics_on_knowledge_topic_id"
-  end
-
-  create_table "captain_knowledge_chunks", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "knowledge_source_id", null: false
-    t.bigint "knowledge_page_id", null: false
-    t.integer "chunk_kind", default: 0, null: false
-    t.integer "ordinal", null: false
-    t.jsonb "heading_path", default: [], null: false
-    t.text "content", null: false
-    t.integer "token_count", default: 0, null: false
-    t.vector "embedding", limit: 1536
-    t.tsvector "search_vector"
-    t.bigint "prev_chunk_id"
-    t.bigint "next_chunk_id"
-    t.jsonb "metadata", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_knowledge_chunks_on_account_id"
-    t.index ["embedding"], name: "vector_idx_captain_knowledge_chunks_embedding", using: :ivfflat
-    t.index ["knowledge_page_id", "ordinal"], name: "idx_cap_knowledge_chunks_on_page_and_ordinal", unique: true
-    t.index ["knowledge_page_id"], name: "index_captain_knowledge_chunks_on_knowledge_page_id"
-    t.index ["knowledge_source_id"], name: "index_captain_knowledge_chunks_on_knowledge_source_id"
-    t.index ["search_vector"], name: "idx_cap_knowledge_chunks_on_search_vector", using: :gin
-  end
-
-  create_table "captain_knowledge_pages", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "knowledge_source_id", null: false
-    t.string "canonical_url", null: false
-    t.string "fetched_url"
-    t.string "title"
-    t.text "content_markdown"
-    t.text "content_text"
-    t.string "content_hash"
-    t.integer "status", default: 0, null: false
-    t.jsonb "metadata", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_knowledge_pages_on_account_id"
-    t.index ["knowledge_source_id", "canonical_url"], name: "idx_cap_knowledge_pages_on_source_and_url", unique: true
-    t.index ["knowledge_source_id"], name: "index_captain_knowledge_pages_on_knowledge_source_id"
-  end
-
-  create_table "captain_knowledge_source_links", force: :cascade do |t|
-    t.bigint "assistant_id", null: false
-    t.bigint "knowledge_source_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["assistant_id", "knowledge_source_id"], name: "idx_cap_knowledge_source_links_on_asst_source", unique: true
-    t.index ["assistant_id"], name: "index_captain_knowledge_source_links_on_assistant_id"
-    t.index ["knowledge_source_id"], name: "index_captain_knowledge_source_links_on_knowledge_source_id"
-  end
-
-  create_table "captain_knowledge_sources", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.integer "source_type", default: 0, null: false
-    t.string "root_url", null: false
-    t.string "normalized_root_url", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "crawl_config", default: {}, null: false
-    t.jsonb "metadata", default: {}, null: false
-    t.datetime "last_crawled_at"
-    t.datetime "last_indexed_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "normalized_root_url"], name: "idx_cap_knowledge_sources_on_account_root_url", unique: true
-    t.index ["account_id"], name: "index_captain_knowledge_sources_on_account_id"
-  end
-
-  create_table "captain_knowledge_topics", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "name", null: false
-    t.string "slug", null: false
-    t.jsonb "aliases", default: [], null: false
-    t.text "description"
-    t.jsonb "metadata", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "slug"], name: "idx_cap_knowledge_topics_on_account_and_slug", unique: true
-    t.index ["account_id"], name: "index_captain_knowledge_topics_on_account_id"
-  end
-
   create_table "captain_scenarios", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -566,8 +473,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_11_145127) do
     t.boolean "smtp_enable_ssl_tls", default: false
     t.jsonb "provider_config", default: {}
     t.string "provider"
-    t.boolean "verified_for_sending", default: false, null: false
     t.string "imap_authentication", default: "plain"
+    t.boolean "verified_for_sending", default: false, null: false
     t.index ["email"], name: "index_channel_email_on_email", unique: true
     t.index ["forward_to_email"], name: "index_channel_email_on_forward_to_email", unique: true
   end
