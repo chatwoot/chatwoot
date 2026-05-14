@@ -9,7 +9,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::Accounts::Concerns::WhatsappHealthManagement
 
   def index
-    @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
+    @inboxes = policy_scope(Current.account.inboxes)
+               .includes(:channel, :portal, :working_hours, { avatar_attachment: :blob })
+               .order_by_name
   end
 
   def show; end
