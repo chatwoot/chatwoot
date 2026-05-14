@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 import { parseBoolean } from '@chatwoot/utils';
 
-import SettingsContent from './Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 import Index from './Index.vue';
 import MfaSettings from './MfaSettings.vue';
 
@@ -13,7 +13,7 @@ export default {
       meta: {
         permissions: ['administrator', 'agent', 'custom_role'],
       },
-      component: SettingsContent,
+      component: SettingsWrapper,
       children: [
         {
           path: 'settings',

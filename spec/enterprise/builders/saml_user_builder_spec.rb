@@ -74,7 +74,7 @@ RSpec.describe SamlUserBuilder do
     end
 
     context 'when user already exists' do
-      let!(:existing_user) { create(:user, email: email) }
+      let!(:existing_user) { create(:user, email: email, account: account) }
 
       it 'does not create a new user' do
         expect { builder.perform }.not_to change(User, :count)
@@ -85,7 +85,7 @@ RSpec.describe SamlUserBuilder do
         expect(user).to eq(existing_user)
       end
 
-      it 'adds existing user to the account if not already added' do
+      it 'keeps the existing user in the account' do
         user = builder.perform
         expect(user.accounts).to include(account)
       end
@@ -105,9 +105,36 @@ RSpec.describe SamlUserBuilder do
       end
 
       it 'does not duplicate account association' do
-        existing_user.account_users.create!(account: account, role: 'agent')
-
         expect { builder.perform }.not_to change(AccountUser, :count)
+      end
+
+      context 'when the user does not belong to the target account' do
+        let!(:other_account) { create(:account) }
+        let!(:existing_user) { create(:user, email: email, account: other_account) }
+
+        it 'raises an authentication failure' do
+          expect { builder.perform }.to raise_error do |error|
+            expect(error.class.name).to eq('SamlUserBuilder::AuthenticationFailed')
+            expect(error.message).to eq(I18n.t('auth.saml.authentication_failed'))
+          end
+        end
+
+        it 'does not add the user to the target account' do
+          expect do
+            builder.perform
+          rescue SamlUserBuilder::AuthenticationFailed
+            nil
+          end.not_to change(AccountUser, :count)
+          expect(existing_user.reload.accounts).not_to include(account)
+        end
+
+        it 'does not convert the user provider to saml' do
+          expect do
+            builder.perform
+          rescue SamlUserBuilder::AuthenticationFailed
+            nil
+          end.not_to(change { existing_user.reload.provider })
+        end
       end
 
       context 'when user is not confirmed' do
@@ -131,7 +158,7 @@ RSpec.describe SamlUserBuilder do
         end
         let(:unconfirmed_builder) { described_class.new(unconfirmed_auth_hash, account.id) }
         let!(:existing_user) do
-          user = build(:user, email: unconfirmed_email)
+          user = build(:user, email: unconfirmed_email, account: account)
           user.confirmed_at = nil
           user.save!(validate: false)
           user
@@ -147,7 +174,7 @@ RSpec.describe SamlUserBuilder do
       end
 
       context 'when user is already confirmed' do
-        let!(:existing_user) { create(:user, email: email, confirmed_at: Time.current) }
+        let!(:existing_user) { create(:user, email: email, account: account, confirmed_at: Time.current) }
 
         it 'keeps already confirmed user confirmed' do
           expect(existing_user.confirmed?).to be true

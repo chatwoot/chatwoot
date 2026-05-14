@@ -1,64 +1,64 @@
 {
   "YEAR_IN_REVIEW": {
-    "TITLE": "Year in Review",
-    "LOADING": "Loading your year in review...",
-    "ERROR": "Failed to load year in review",
+    "TITLE": "年度回顧",
+    "LOADING": "正在載入您的年度回顧...",
+    "ERROR": "無法載入年度回顧",
     "CLOSE": "關閉",
     "CONVERSATIONS": {
-      "TITLE": "You have handled",
-      "SUBTITLE": "對話",
-      "FALLBACK": "This year wasn't about the numbers. It was about showing up.",
+      "TITLE": "您已處理",
+      "SUBTITLE": "則對話",
+      "FALLBACK": "今年不只是數字，而是每一次你都在場。",
       "COMPARISON": {
-        "0_50": "You showed up, and that's how every good inbox begins.",
-        "50_100": "You kept the replies flowing and the conversations alive.",
-        "100_500": "You handled serious volume and kept everything on track.",
-        "500_2000": "You kept things moving while the volume kept climbing.",
-        "2000_10000": "You ran high traffic through your inbox without breaking a sweat.",
-        "10000_PLUS": "That's a full city of customers knocking on your door. You made it look effortless."
+        "0_50": "你出現了，而這正是每個優秀收件匣的開始。",
+        "50_100": "你讓回覆持續流動，讓每段對話保持活力。",
+        "100_500": "你處理了相當可觀的量，並讓一切保持正軌。",
+        "500_2000": "即使對話量持續攀升，你仍然讓一切順利運轉。",
+        "2000_10000": "高流量湧入收件匣，但你依舊從容應對。",
+        "10000_PLUS": "像是一整座城市的顧客都在敲門，而你讓這一切看起來毫不費力。"
       }
     },
     "BUSIEST_DAY": {
-      "TITLE": "Your busiest day was",
-      "MESSAGE": "{count} conversations that day.",
+      "TITLE": "您最忙碌的一天是",
+      "MESSAGE": "當天共有 {count} 則對話。",
       "COMPARISON": {
-        "0_5": "A warm-up lap that barely woke the inbox.",
-        "5_10": "Enough action to justify a second cup of coffee.",
-        "10_25": "Things got busy and the inbox stayed on its toes.",
-        "25_50": "A proper rush that barely broke a sweat.",
-        "50_100": "Controlled chaos, handled like a normal Tuesday.",
-        "100_500": "Absolute dumpster fire, somehow still shipping replies.",
-        "500_PLUS": "The inbox lost all chill and never slowed down."
+        "0_5": "像是熱身圈，才剛讓收件匣醒過來。",
+        "5_10": "忙到值得再來一杯咖啡。",
+        "10_25": "事情開始變多，但收件匣依然穩穩接住。",
+        "25_50": "一波扎實的忙碌時段，但你依然從容。",
+        "50_100": "可控的混亂，被你處理得像普通星期二一樣。",
+        "100_500": "簡直一團混亂，但你還是持續把回覆送出去。",
+        "500_PLUS": "收件匣徹底失控，但你從未掉速。"
       }
     },
     "PERSONALITY": {
-      "TITLE": "Your support personality is",
+      "TITLE": "您的客服風格是",
       "MESSAGES": {
-        "SWIFT_HELPER": "You replied in {time} on average. Faster than most notifications.",
-        "QUICK_RESPONDER": "You replied in {time} on average. The inbox barely waited.",
-        "STEADY_SUPPORT": "You replied in {time} on average. Calm pace, solid replies.",
-        "THOUGHTFUL_ADVISOR": "You replied in {time} on average. Took the time to get it right."
+        "SWIFT_HELPER": "您的平均回覆時間為 {time}。比大多數通知還快。",
+        "QUICK_RESPONDER": "您的平均回覆時間為 {time}。收件匣幾乎不用等待。",
+        "STEADY_SUPPORT": "您的平均回覆時間為 {time}。節奏穩定，回覆扎實。",
+        "THOUGHTFUL_ADVISOR": "您的平均回覆時間為 {time}。願意花時間把事情做對。"
       }
     },
     "THANK_YOU": {
-      "TITLE": "Congratulations on surviving the inbox of {year}.",
-      "MESSAGE": "Thank you for your incredible dedication to supporting customers throughout this year. Your hard work has made a real difference, and we're grateful to have you on this journey. Here's to making {nextYear} even better together!"
+      "TITLE": "恭喜您撐過了 {year} 年的收件匣。",
+      "MESSAGE": "感謝您這一年來持續為客戶提供出色的支援。您的努力帶來了真正的改變，我們很高興能與您一起走過這段旅程。讓我們一起讓 {nextYear} 變得更好！"
     },
     "SHARE_MODAL": {
-      "TITLE": "Share Your Year in Review",
-      "PREPARING": "Preparing your image...",
+      "TITLE": "分享您的年度回顧",
+      "PREPARING": "正在準備您的圖片...",
       "DOWNLOAD": "下載",
-      "SHARE_TITLE": "My {year} Year in Review",
-      "SHARE_TEXT": "Check out my {year} Year in Review with Chatwoot!",
-      "BRANDING": "Made with Chatwoot"
+      "SHARE_TITLE": "我的 {year} 年度回顧",
+      "SHARE_TEXT": "來看看我在 Chatwoot 的 {year} 年度回顧！",
+      "BRANDING": "使用 Chatwoot 製作"
     },
     "BANNER": {
-      "TITLE": "Your {year} Year in Review is here",
-      "BUTTON": "See your impact"
+      "TITLE": "您的 {year} 年度回顧來了",
+      "BUTTON": "查看您的影響力"
     },
     "NAVIGATION": {
-      "PREVIOUS": "Previous",
-      "NEXT": "Next",
-      "SHARE": "Share conversation"
+      "PREVIOUS": "上一頁",
+      "NEXT": "下一頁",
+      "SHARE": "分享"
     }
   }
 }

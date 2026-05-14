@@ -26,6 +26,7 @@ module Integrations::LlmInstrumentationConstants
   ATTR_LANGFUSE_METADATA = 'langfuse.trace.metadata.%s'
   ATTR_LANGFUSE_TRACE_INPUT = 'langfuse.trace.input'
   ATTR_LANGFUSE_TRACE_OUTPUT = 'langfuse.trace.output'
+  ATTR_LANGFUSE_OBSERVATION_TYPE = 'langfuse.observation.type'
   ATTR_LANGFUSE_OBSERVATION_INPUT = 'langfuse.observation.input'
   ATTR_LANGFUSE_OBSERVATION_OUTPUT = 'langfuse.observation.output'
 end

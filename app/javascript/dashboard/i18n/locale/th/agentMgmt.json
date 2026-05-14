@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "ผู้ดูเเล",
       "AGENT": "พนักงาน"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "ไม่มีพนักงานที่เกี่ยวข้องในบัญชีนี้",
       "TITLE": "จัดการพนักงานในทีมของคุณ",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "ไม่สามารถเชื่อมต่อเซิฟเวอร์ได้โปรดลองอีกครั้งในภายหลัง"
       }
     },
+    "SEARCH_PLACEHOLDER": "ค้นหาพนักงาน...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "ไม่พบผลการค้นหา"
     },

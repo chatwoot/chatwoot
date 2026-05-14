@@ -3,8 +3,11 @@
     "HEADER": "Automatizācija",
     "DESCRIPTION": "Automatizācija var aizstāt un racionalizēt esošos procesus, kuriem nepieciešama manuāla piepūle, piemēram, etiķešu pievienošana un sarunu piešķiršana vispiemērotākajam aģentam. Tas ļauj komandai koncentrēties uz savām stiprajām pusēm, vienlaikus samazinot laiku, kas pavadīts ikdienas uzdevumiem.",
     "LEARN_MORE": "Uzzināt vairāk par automatizāciju",
-    "HEADER_BTN_TXT": "Pievienot Automatizācijas Noteikumu",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Notiek automatizācijas noteikumu iegūšana",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Pievienot Automatizācijas Noteikumu",
       "SUBMIT": "Izveidot",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nosaukums",
-        "DESCRIPTION": "Apraksts",
         "ACTIVE": "Aktīvs",
-        "CREATED_ON": "Izveidots"
+        "CREATED_ON": "Izveidots",
+        "ACTIONS": "Darbības"
       },
       "404": "Automatizācijas noteikumi nav atrasti"
     },
@@ -137,6 +140,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Piešķirt Aģentam",
       "ASSIGN_TEAM": "Piešķirt Komandai",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Noņemt Piešķirto Komandu",
       "ADD_LABEL": "Pievienot Etiķeti",
       "REMOVE_LABEL": "Noņemt Etiķeti",
       "SEND_EMAIL_TO_TEAM": "Nosūtīt E-pastu Komandai",
@@ -150,7 +155,8 @@
       "ADD_PRIVATE_NOTE": "Pievienot Privātu Piezīmi",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
       "ADD_SLA": "Pievienot SLA",
-      "OPEN_CONVERSATION": "Atvērt sarunu"
+      "OPEN_CONVERSATION": "Atvērt sarunu",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
@@ -165,6 +171,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
+      "PRIVATE_NOTE": "Privāta Piezīme",
       "MESSAGE_CONTAINS": "Ziņojums Satur",
       "EMAIL": "E-pasts",
       "INBOX": "Iesūtne",

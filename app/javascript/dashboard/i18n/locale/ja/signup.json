@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "アカウントを作成",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "登録",
     "TESTIMONIAL_HEADER": "前進するために必要なのはたった一歩",
     "TESTIMONIAL_CONTENT": "顧客と関わり、維持し、新たな顧客を見つけるまであと一歩です。",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
     },
     "SUBMIT": "アカウントを作成",
-    "HAVE_AN_ACCOUNT": "すでにアカウントをお持ちですか？"
+    "HAVE_AN_ACCOUNT": "すでにアカウントをお持ちですか？",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "認証メールを再送",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

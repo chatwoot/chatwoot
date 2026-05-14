@@ -1,61 +1,75 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "ஷாப்பிபை",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify ஒருங்கிணைப்பை நீக்கு",
+        "MESSAGE": "Shopify ஒருங்கிணைப்பை நீக்க விரும்புகிறீர்களா?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Shopify கடையை இணைக்கவும்",
+        "LABEL": "கடை URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "உங்கள் Shopify கடையின் myshopify.com URL ஐ உள்ளிடவும்",
         "CANCEL": "ரத்துசெய்",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "கடை இணைக்கவும்"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify-க்கு இணைக்கும்போது பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும் அல்லது பிரச்சினை தொடர்ந்தால் ஆதரவுடன் தொடர்பு கொள்ளவும்."
     },
     "HEADER": "சேர்ப்புகள்",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
+    "DESCRIPTION": "Chatwoot பல கருவிகள் மற்றும் சேவைகளுடன் ஒருங்கிணைக்கிறது, உங்கள் குழுவின் திறனை மேம்படுத்த. உங்கள் விருப்ப செயலிகளை அமைக்க கீழே உள்ள பட்டியலை ஆராயவும்.",
+    "LEARN_MORE": "ஒருங்கிணைப்புகள் பற்றி மேலும் அறியவும்",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "இணைப்புகளைத் தேடு...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
+      "DISABLED": "உங்கள் கணக்கில் Captain இயங்கவில்லை.",
+      "CLICK_HERE_TO_CONFIGURE": "கட்டமைக்க இங்கே கிளிக் செய்யவும்",
+      "LOADING_CONSOLE": "கேப்டன் கன்சோல் ஏற்றப்படுகிறது...",
       "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "சந்தா எடுத்த நிகழ்வுகள்",
+      "LEARN_MORE": "வெப்ஹுக்குகள் பற்றி மேலும் அறிக",
+      "SECRET": {
+        "LABEL": "ரகசியம்",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "ரகசியம் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது",
+        "TOGGLE": "ரகசியத்தை காண்பிக்க/மறைக்கவும்",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "முடிந்தது"
+      },
+      "COUNT": "{n} வெப்ஹுக் | {n} வெப்ஹுக்குகள்",
+      "SEARCH_PLACEHOLDER": "வெப்ஹுக்குகளைத் தேடு...",
+      "NO_RESULTS": "உங்கள் தேடலுக்கு பொருந்தும் எந்த webhooks-களும் இல்லை",
       "FORM": {
         "CANCEL": "ரத்துசெய்",
         "DESC": "உங்கள் சாட்வூட் கணக்கில் என்ன நடக்கிறது என்பது குறித்த நிகழ்நேர தகவல்களை வெப்ஹூக் நிகழ்வுகள் உங்களுக்கு வழங்குகின்றன. மீட்டமைக்க சரியான URL ஐ உள்ளிடவும்.",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "நிகழ்வுகள்",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "உரையாடல் உருவாக்கப்பட்டது",
+            "CONVERSATION_STATUS_CHANGED": "உரையாடல் நிலை மாற்றப்பட்டது",
+            "CONVERSATION_UPDATED": "உரையாடல் புதுப்பிக்கப்பட்டது",
+            "MESSAGE_CREATED": "செய்தி உருவாக்கப்பட்டது",
+            "MESSAGE_UPDATED": "செய்தி புதுப்பிக்கப்பட்டது",
+            "WEBWIDGET_TRIGGERED": "பயனர் திறந்த நேரடி உரையாடல் விகெட்",
+            "CONTACT_CREATED": "தொடர்பு உருவாக்கப்பட்டது",
+            "CONTACT_UPDATED": "தொடர்பு புதுப்பிக்கப்பட்டது",
+            "CONVERSATION_TYPING_ON": "உரையாடல் தட்டச்சு செய்கிறது",
+            "CONVERSATION_TYPING_OFF": "உரையாடல் தட்டச்சு நிறுத்தப்பட்டது"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Webhook பெயர்",
+          "PLACEHOLDER": "வெப்ஹுக் பெயரை உள்ளிடவும்"
         },
         "END_POINT": {
           "LABEL": "வெப்ஹூக் URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "உதாரணம்: {webhookExampleURL}",
           "ERROR": "சரியான URL ஐ பதிவிடவும்"
         },
-        "EDIT_SUBMIT": "Update webhook",
+        "EDIT_SUBMIT": "Webhook ஐ புதுப்பிக்கவும்",
         "ADD_SUBMIT": "வெப்ஹூக்கை உருவாக்கவும்"
       },
       "TITLE": "வெப்ஹூக்",
@@ -75,7 +89,7 @@
       },
       "EDIT": {
         "BUTTON_TEXT": "திருத்து",
-        "TITLE": "Edit webhook",
+        "TITLE": "வெப்ஹுக் திருத்தவும்",
         "API": {
           "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
           "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
@@ -90,400 +104,431 @@
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "அழி",
         "API": {
           "SUCCESS_MESSAGE": "வெப்ஹூக் வெற்றிகரமாக நீக்கப்பட்டது",
           "ERROR_MESSAGE": "வூட் சர்வருடன் இணைக்க முடியவில்ல, மீண்டும் முயற்சிக்கவும்"
         },
         "CONFIRM": {
           "TITLE": "நீக்குதலை உறுதிப்படுத்தவும்",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
+          "MESSAGE": "நீங்கள் webhook-ஐ நீக்க விரும்புகிறீர்களா? ({webhookURL})",
           "YES": "ஆம், நீக்கு ",
           "NO": "இல்லை, அதை வைத்திரு"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "அழி",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "இணைப்பை அழிக்கவும்",
+        "MESSAGE": "நீங்கள் இந்த ஒருங்கிணைப்பை நீக்க விரும்புகிறீர்களா? இதனால் உங்கள் Slack வேலைப்பகுதியில் உள்ள உரையாடல்களுக்கு அணுகல் இழக்கப்படும்."
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "BODY": "இந்த ஒருங்கிணைப்புடன், உங்களுக்குள் வரும் அனைத்து உரையாடல்களும் உங்கள் Slack பணிமிடத்தில் உள்ள ***{selectedChannelName}*** சேனலுடன் ஒத்திசைக்கப்படும். அந்த சேனலுக்குள்ளேயே உங்கள் அனைத்து வாடிக்கையாளர் உரையாடல்களையும் நிர்வகிக்கலாம்; இதனால் எந்தச் செய்தியையும் தவறவிடமாட்டீர்கள்.\n\nஇந்த ஒருங்கிணைப்பின் முக்கிய அம்சங்கள் இவை:\n\n**Slack-இலிருந்தே உரையாடல்களுக்கு பதிலளிக்கவும்:** ***{selectedChannelName}*** Slack சேனலில் உள்ள ஒரு உரையாடலுக்கு பதிலளிக்க, உங்கள் செய்தியைத் தட்டச்சு செய்து அதை thread ஆக அனுப்பினால் போதும். இதனால் Chatwoot வழியாக வாடிக்கையாளருக்கு ஒரு பதில் உருவாகும். அவ்வளவுதான்!\n\n **தனிப்பட்ட குறிப்புகளை உருவாக்கவும்:** பதில்களுக்கு பதிலாக தனிப்பட்ட குறிப்புகளை உருவாக்க விரும்பினால், உங்கள் செய்தியை ***`note:`*** என்று தொடங்குங்கள். இதனால் உங்கள் செய்தி தனிப்பட்டதாகவே இருக்கும், மேலும் அது வாடிக்கையாளருக்குப் புலப்படாது.\n\n**ஒரு முகவர் சுயவிவரத்தை இணைக்கவும்:** Slack-இல் பதிலளித்த நபருக்கு, அதே மின்னஞ்சலுடன் Chatwoot-இல் ஒரு முகவர் சுயவிவரம் இருந்தால், அந்த பதில்கள் தானாகவே அந்த முகவர் சுயவிவரத்துடன் இணைக்கப்படும். இதன் மூலம் யார் என்ன, எப்போது சொன்னார் என்பதை எளிதாகக் கண்காணிக்கலாம். மறுபுறம், பதிலளிப்பவருக்கு தொடர்புடைய முகவர் சுயவிவரம் இல்லையெனில், வாடிக்கையாளருக்கு அந்த பதில்கள் bot சுயவிவரத்திலிருந்து வந்ததுபோல் தோன்றும்.",
+        "SELECTED": "தேர்ந்தெடுக்கப்பட்டது"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "ஒரு சேனலைத் தேர்ந்தெடுக்கவும்",
         "UPDATE": "புதுப்பிப்பு",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "சேனலை இணைக்கவும்",
+        "DESCRIPTION": "உங்கள் Slack பணியிடம் இப்போது Chatwoot உடன் இணைக்கப்பட்டுள்ளது. இருப்பினும், இந்த ஒருங்கிணைப்பு தற்போது செயல்படவில்லை. ஒருங்கிணைப்பை செயல்படுத்தி Slack-இல் ஒரு சேனலை Chatwoot உடன் இணைக்க கீழே உள்ள பொத்தானை அழுத்தவும்.\n\n**குறிப்பு:** தனிப்பட்ட சேனலை இணைக்க முயற்சிக்கும்போது, இந்த படியை தொடரும் முன் Slack சேனலில் Chatwoot செயலியை சேர்க்கவும்.",
+        "ATTENTION_REQUIRED": "கவனத்திற்கு",
+        "EXPIRED": "உங்கள் Slack ஒருங்கிணைப்பு காலாவதியானது. Slack-இல் செய்திகளை பெற தொடர, ஒருங்கிணைப்பை நீக்கி உங்கள் பணியிடத்தை மீண்டும் இணைக்கவும்."
       },
       "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_SUCCESS": "சேனல் வெற்றிகரமாக இணைக்கப்பட்டது",
+      "FAILED_TO_FETCH_CHANNELS": "Slack-இல் இருந்து சேனல்களை பெறுவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
+      "CLICK_HERE_TO_JOIN": "இணைய சேர இங்கே கிளிக் செய்யவும்",
+      "LEAVE_THE_ROOM": "அறையை விட்டு வெளியேறு",
+      "START_VIDEO_CALL_HELP_TEXT": "வாடிக்கையாளருடன் புதிய வீடியோ அழைப்பைத் தொடங்கவும்",
+      "JOIN_ERROR": "அழைப்பில் சேர்வதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
       "CREATE_ERROR": "There was an error creating a meeting link, please try again"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI உதவி",
+      "WITH_AI": " AI உடன் {option} ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
+        "REPLY_SUGGESTION": "பதில் பரிந்துரை",
+        "SUMMARIZE": "சுருக்கம்",
+        "REPHRASE": "எழுத்தை மேம்படுத்தவும்",
         "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
+        "SHORTEN": "சுருக்கவும்",
+        "EXPAND": "விரிவாக்கவும்",
+        "MAKE_FRIENDLY": "செய்தி மொழியை நட்பானதாக மாற்றவும்",
         "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "SIMPLIFY": "எளிமைப்படுத்து",
+        "CONFIDENT": "நம்பகமான தொனியில் பயன்படுத்தவும்",
+        "PROFESSIONAL": "தொழில்முறை சுருக்கத்தைப் பயன்படுத்தவும்",
+        "CASUAL": "சாதாரண சுருக்கத்தைப் பயன்படுத்தவும்",
+        "STRAIGHTFORWARD": "நேரடியான தொனியில் பயன்படுத்தவும்"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "பதில் மேம்படுத்தவும்",
+        "IMPROVE_REPLY_SELECTION": "தேர்வை மேம்படுத்தவும்",
+        "CHANGE_TONE": {
+          "TITLE": "உரைநிலையை மாற்றவும்",
+          "OPTIONS": {
+            "PROFESSIONAL": "தொழில்முறை",
+            "CASUAL": "சாதாரண",
+            "STRAIGHTFORWARD": "நேர்மையான",
+            "CONFIDENT": "நம்பிக்கையுடன்",
+            "FRIENDLY": "நண்பரான"
+          }
+        },
+        "GRAMMAR": "வினாக்களையும் எழுத்துப்பிழைகளையும் சரி செய்க",
+        "SUGGESTION": "பதில் பரிந்துரை செய்",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "கோபைலட்டிடம் கேளுங்கள்"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "வரைவுத் தொகுப்பு உள்ளடக்கம்",
+        "GENERATED_TITLE": "உருவாக்கப்பட்ட உள்ளடக்கம்",
+        "AI_WRITING": "AI எழுதுகிறது",
         "BUTTONS": {
           "APPLY": "Use this suggestion",
           "CANCEL": "ரத்துசெய்"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI உடன் ஒருங்கிணைக்கவும்",
+        "DESC": "OpenAI-யின் GPT மாதிரிகளுடன் உங்கள் டாஷ்போர்டுக்கு முன்னேற்ற AI அம்சங்களை கொண்டு வாருங்கள். தொடங்க, உங்கள் OpenAI கணக்கிலிருந்து API விசையை உள்ளிடவும்.",
+        "KEY_PLACEHOLDER": "உங்கள் OpenAI API விசையை உள்ளிடவும்",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "உதவி தேவைவா?",
+          "DISMISS": "மறுக்கவும்",
+          "FINISH": "அமைப்பை முடிக்கவும்"
         },
         "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "SUCCESS_MESSAGE": "OpenAI ஒருங்கிணைப்பு வெற்றிகரமாக அமைக்கப்பட்டது"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "AI மூலம் மேம்படுத்தவும்",
+      "SUMMARY_TITLE": "AI உடன் சுருக்கம்",
+      "REPLY_TITLE": "AI உடன் பதில் பரிந்துரை",
+      "SUBTITLE": "உங்கள் தற்போதைய வரைபடத்தின் அடிப்படையில் AI பயன்படுத்தி மேம்படுத்தப்பட்ட பதில் உருவாக்கப்படும்.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "சுருதி",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "தொழில்முறை",
+          "FRIENDLY": "நண்பரான"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "உருவாக்கு",
+        "GENERATING": "உருவாக்கப்படுகிறது...",
         "CANCEL": "ரத்துசெய்"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "அழி",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "இணைப்பு வெற்றிகரமாக நீக்கப்பட்டது"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "இணைக்கவும்"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
+      "TITLE": "டாஷ்போர்டு செயலிகள்",
+      "HEADER_BTN_TXT": "புதிய டாஷ்போர்டு செயலியைச் சேர்க்கவும்",
+      "SIDEBAR_TXT": "<p><b>டாஷ்போர்டு செயலிகள்</b></p><p>டாஷ்போர்டு செயலிகள் நிறுவனங்களுக்கு Chatwoot டாஷ்போர்டு உள்ளே ஒரு செயலியை இணைக்க அனுமதிக்கிறது, இது வாடிக்கையாளர் ஆதரவு முகவர்களுக்கு சூழலை வழங்குகிறது. இந்த அம்சம், நீங்கள் தனியாக ஒரு செயலியை உருவாக்கி அதை டாஷ்போர்டில் இணைத்து பயனர் தகவல், அவர்களின் ஆர்டர்கள் அல்லது முந்தைய கட்டண வரலாறு போன்றவற்றை வழங்க உதவுகிறது.</p><p>Chatwoot டாஷ்போர்டில் உங்கள் செயலியை இணைக்கும் போது, உங்கள் செயலி உரையாடல் மற்றும் தொடர்பின் சூழலை ஒரு விண்டோ நிகழ்வாக பெறும். உங்கள் பக்கத்தில் message நிகழ்வுக்கான கேட்கும் செயலியை செயல்படுத்தவும்.</p><p>புதிய டாஷ்போர்டு செயலியை சேர்க்க, 'புதிய டாஷ்போர்டு செயலியைச் சேர்க்க' பொத்தானை கிளிக் செய்யவும்.</p>",
+      "DESCRIPTION": "டாஷ்போர்டு செயலிகள் நிறுவனங்களுக்கு டாஷ்போர்டு உள்ளே ஒரு செயலியை இணைத்து வாடிக்கையாளர் ஆதரவு முகவர்களுக்கு சூழலை வழங்க அனுமதிக்கிறது. இந்த அம்சம், நீங்கள் தனியாக ஒரு செயலியை உருவாக்கி அதை இணைத்து பயனர் தகவல், அவர்களின் ஆர்டர்கள் அல்லது முந்தைய கட்டண வரலாறு போன்றவற்றை வழங்க உதவுகிறது.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} டாஷ்போர்டு செயலி | {n} டாஷ்போர்டு செயலிகள்",
+      "SEARCH_PLACEHOLDER": "டாஷ்போர்டு செயலிகளைத் தேடு...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
         "TABLE_HEADER": {
           "NAME": "பெயர்",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "முடிவுச்சுட்டி",
+          "ACTIONS": "செயல்கள்"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "ஆப் தொகுக்கவும்",
+        "DELETE_TOOLTIP": "ஆப் நீக்கவும்"
       },
       "FORM": {
         "TITLE_LABEL": "பெயர்",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_PLACEHOLDER": "உங்கள் டாஷ்போர்டு செயலிக்கு ஒரு பெயரை உள்ளிடவும்",
+        "TITLE_ERROR": "டாஷ்போர்டு செயலிக்கான பெயர் அவசியம்",
+        "URL_LABEL": "எண்ட்பாயிண்ட்",
+        "URL_PLACEHOLDER": "உங்கள் செயலி ஹோஸ்ட் செய்யப்பட்டுள்ள எண்ட்பாயிண்ட் URL ஐ உள்ளிடவும்",
+        "URL_ERROR": "சரியான URL தேவை"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
+        "HEADER": "புதிய டாஷ்போர்டு செயலியைச் சேர்க்கவும்",
         "FORM_SUBMIT": "சமர்பிக்கவும்",
         "FORM_CANCEL": "ரத்துசெய்",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "API_SUCCESS": "டாஷ்போர்டு செயலி வெற்றிகரமாக அமைக்கப்பட்டது",
+        "API_ERROR": "நாம் ஒரு செயலியை உருவாக்க முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்"
       },
       "UPDATE": {
         "HEADER": "Edit dashboard app",
         "FORM_SUBMIT": "புதுப்பிப்பு",
         "FORM_CANCEL": "ரத்துசெய்",
         "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "API_ERROR": "செயலியை புதுப்பிக்க முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "ஆம், அதை நீக்கவும்",
+        "CONFIRM_NO": "இல்லை, அதை வைத்திருக்கவும்",
+        "TITLE": "அழிப்பை உறுதிப்படுத்தவும்",
+        "MESSAGE": "{appName} என்ற செயலியை நீக்க விரும்புகிறீர்களா?",
+        "API_SUCCESS": "டாஷ்போர்டு செயலி வெற்றிகரமாக நீக்கப்பட்டது",
+        "API_ERROR": "செயலியை நீக்க முடியவில்லை. தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
+      "HEADER": "லினியர்",
+      "ADD_OR_LINK_BUTTON": "Linear பிரச்சினையை உருவாக்கவும்/இணைக்கவும்",
+      "LOADING": "Linear பிரச்சினைகள் பெறப்படுகிறது...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "CREATE": "உருவாக்கவும்",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
+        "SEARCH": "பிரச்சனைகளைத் தேடு",
+        "SELECT": "பிரச்சனையைத் தேர்ந்தெடு",
+        "TITLE": "இணைப்பு",
+        "EMPTY_LIST": "எந்த லினியர் பிரச்சனைகளும் இல்லை",
+        "LOADING": "ஏற்றுகிறது",
         "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
+        "LINK_SUCCESS": "பிரச்சனை வெற்றிகரமாக இணைக்கப்பட்டது",
         "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "LINK_TITLE": "உரையாடல் (#{conversationId}) {name} உடன்"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "லினியர் பிரச்சினையை உருவாக்கவும்/இணைக்கவும்",
+        "DESCRIPTION": "உரையாடல்களில் இருந்து Linear பிரச்சனைகளை உருவாக்கவும் அல்லது தொடர்ச்சியான கண்காணிப்புக்கு உள்ளனவற்றை இணைக்கவும்.",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "தலைப்பு",
+            "PLACEHOLDER": "தலைப்பை உள்ளிடவும்",
+            "REQUIRED_ERROR": "தலைப்பு அவசியம்"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "விளக்கம்",
+            "PLACEHOLDER": "விவரத்தை உள்ளிடவும்"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "அணி",
+            "PLACEHOLDER": "அணி தேர்ந்தெடுக்கவும்",
+            "SEARCH": "அணியைத் தேடவும்",
+            "REQUIRED_ERROR": "குழு அவசியம்"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
+            "LABEL": "பொறுப்பாளர்",
             "PLACEHOLDER": "Select assignee",
             "SEARCH": "Search assignee"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "முன்னுரிமை",
+            "PLACEHOLDER": "முக்கியத்துவத்தை தேர்ந்தெடுக்கவும்",
+            "SEARCH": "முக்கியத்துவத்தை தேடவும்"
           },
           "LABEL": {
-            "LABEL": "Label",
+            "LABEL": "லேபிள்",
             "PLACEHOLDER": "Select label",
             "SEARCH": "Search label"
           },
           "STATUS": {
             "LABEL": "நிலை",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "நிலை தேர்ந்தெடுக்கவும்",
+            "SEARCH": "நிலையைத் தேடவும்"
           },
           "PROJECT": {
-            "LABEL": "Project",
+            "LABEL": "திட்டம்",
             "PLACEHOLDER": "Select project",
             "SEARCH": "Search project"
           }
         },
-        "CREATE": "Create",
+        "CREATE": "உருவாக்கு",
         "CANCEL": "ரத்துசெய்",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
+        "CREATE_SUCCESS": "பிரச்சினை வெற்றிகரமாக உருவாக்கப்பட்டது",
+        "CREATE_ERROR": "பிரச்சினை உருவாக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
         "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
         "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
       },
       "ISSUE": {
         "STATUS": "நிலை",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "PRIORITY": "முன்னுரிமை",
+        "ASSIGNEE": "பொறுப்பாளர்",
+        "LABELS": "லேபல்கள்",
+        "CREATED_AT": "{createdAt} அன்று உருவாக்கப்பட்டது"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "இணைப்பை நீக்கு",
+        "SUCCESS": "பிரச்சனை வெற்றிகரமாக இணைப்பு நீக்கப்பட்டது",
+        "ERROR": "பிரச்சனையை இணைப்பு நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "இணைக்கப்பட்ட பிரச்சினைகள் எதுவும் இல்லை",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "நீங்கள் ஒருங்கிணைப்பை நீக்க விரும்புகிறீர்களா?",
+        "MESSAGE": "நீங்கள் ஒருங்கிணைப்பை நீக்க விரும்புகிறீர்களா?",
+        "CONFIRM": "ஆம், நீக்கு",
         "CANCEL": "ரத்துசெய்"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "TITLE": "Linear-க்கு இணைக்கவும்",
+        "AGENT_DESCRIPTION": "Linear பணியிடம் இணைக்கப்படவில்லை. இந்த ஒருங்கிணைப்பை பயன்படுத்த உங்கள் நிர்வாகியிடம் பணியிடத்தை இணைக்குமாறு கோரவும்.",
         "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "BUTTON_TEXT": "Linear வேலைப்பகுதியை இணைக்கவும்"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "நீங்கள் Notion ஒருங்கிணைப்பை நீக்க விரும்புகிறீர்களா?",
+        "MESSAGE": "இந்த ஒருங்கிணைப்பை நீக்குவது உங்கள் Notion பணியிட அணுகலை அகற்றும் மற்றும் அனைத்து தொடர்புடைய செயல்பாடுகளையும் நிறுத்தும்.",
+        "CONFIRM": "ஆம், நீக்கு",
         "CANCEL": "ரத்துசெய்"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "கேப்டன்",
+    "HEADER_KNOW_MORE": "மேலும் அறியவும்",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "உதவியாளர்கள்",
+      "SWITCH_ASSISTANT": "உதவியாளர்களுக்கு இடையே மாறவும்",
+      "NEW_ASSISTANT": "உதவியாளரை உருவாக்கவும்",
+      "EMPTY_LIST": "எந்த உதவியாளர்களும் கிடைக்கவில்லை, தொடங்க ஒரு உதவியாளரை உருவாக்கவும்"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
+      "TITLE": "கோபைலட்",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "PANEL_TITLE": "Copilot உடன் துவங்குங்கள்",
+      "KICK_OFF_MESSAGE": "விரைவான சுருக்கம் வேண்டும், முந்தைய உரையாடல்களை பார்க்க விரும்புகிறீர்களா அல்லது சிறந்த பதிலை உருவாக்க விரும்புகிறீர்களா? Copilot இங்கே வேகமாக உதவ.",
+      "SEND_MESSAGE": "செய்தி அனுப்பு...",
+      "EMPTY_MESSAGE": "பதில் உருவாக்குவதில் பிழை ஏற்பட்டது. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+      "LOADER": "கேப்டன் யோசித்து கொண்டிருக்கிறார்",
+      "YOU": "நீங்கள்",
+      "USE": "இதைப் பயன்படுத்தவும்",
+      "RESET": "மீட்டமைக்கவும்",
+      "SHOW_STEPS": "சரண்களை காட்டு",
+      "SELECT_ASSISTANT": "உதவியாளரை தேர்வு செய்க",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "இந்த உரையாடலை சுருக்கவும்",
+          "CONTENT": "வாடிக்கையாளர் மற்றும் ஆதரவு முகவருக்கு இடையேயான முக்கிய அம்சங்களை சுருக்கவும், இதில் வாடிக்கையாளர் கவலைகள், கேள்விகள் மற்றும் ஆதரவு முகவரால் வழங்கப்பட்ட தீர்வுகள் அல்லது பதில்கள் அடங்கும்"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "பதில் பரிந்துரைக்கவும்",
+          "CONTENT": "வாடிக்கையாளர் கேள்வியை பகுப்பாய்வு செய்து, அவர்களின் கவலைகள் அல்லது கேள்விகளை விளக்கமாக, தெளிவாக மற்றும் உதவிகரமாக பதிலளிக்கும் வரைவு உருவாக்கவும்."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "இந்த உரையாடலை மதிப்பிடுக",
+          "CONTENT": "உரையாடலை மதிப்பாய்வு செய்து அது வாடிக்கையாளர் தேவைகளை எவ்வாறு பூர்த்தி செய்கிறது என்பதை பாருங்கள். தொனியில், தெளிவில் மற்றும் செயல்திறனில் அடிப்படையாக 5 இல் இருந்து மதிப்பீட்டை பகிரவும்."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "உயர் முன்னுரிமை உரையாடல்கள்",
+          "CONTENT": "அனைத்து உயர் முன்னுரிமை திறந்த உரையாடல்களின் சுருக்கத்தை கொடுங்கள். உரையாடல் ஐடி, வாடிக்கையாளர் பெயர் (இருப்பின்), கடைசி செய்தி உள்ளடக்கம் மற்றும் நியமிக்கப்பட்ட முகவரையும் சேர்க்கவும். பொருத்தமானால் நிலை அடிப்படையில் குழுவாக்கவும்."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "தொடர்புகளை பட்டியலிடு",
+          "CONTENT": "மேல்தர 10 தொடர்புகளின் பட்டியலை எனக்கு காட்டவும். பெயர், மின்னஞ்சல் அல்லது தொலைபேசி எண் (இருப்பின்), கடைசியாக பார்க்கப்பட்ட நேரம், குறிச்சொற்கள் (இருப்பின்) ஆகியவற்றையும் சேர்க்கவும்."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "நீங்கள்",
+      "ASSISTANT": "உதவியாளர்",
+      "MESSAGE_PLACEHOLDER": "உங்கள் செய்தியை தட்டச்சு செய்யவும்...",
+      "HEADER": "விளையாட்டு மைதானம்",
+      "DESCRIPTION": "உங்கள் உதவியாளருக்கு செய்திகள் அனுப்பவும், அது துல்லியமாக, விரைவாக மற்றும் எதிர்பார்க்கும் தொனியில் பதிலளிக்கிறதா என சரிபார்க்க இந்த மைதானத்தை பயன்படுத்தவும்.",
+      "CREDIT_NOTE": "இங்கே அனுப்பப்படும் செய்திகள் உங்கள் Captain கிரெடிட்களுக்கு சேர்க்கப்படும்."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Captain AI ஐ பயன்படுத்த மேம்படுத்தவும்",
+      "AVAILABLE_ON": "Captain இலவச திட்டத்தில் கிடைக்கவில்லை.",
+      "UPGRADE_PROMPT": "எங்கள் உதவியாளர்கள், கோபைலட் மற்றும் மேலும் பலவற்றை அணுக உங்கள் திட்டத்தை மேம்படுத்தவும்.",
+      "UPGRADE_NOW": "இப்போது மேம்படுத்தவும்",
+      "CANCEL_ANYTIME": "உங்கள் திட்டத்தை எப்போது வேண்டுமானாலும் மாற்றவோ அல்லது ரத்து செய்யவோ முடியும்"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI என்பது Enterprise திட்டங்களில் மட்டுமே கிடைக்கிறது.",
+      "UPGRADE_PROMPT": "எங்கள் உதவியாளர்கள், கோபைலட் மற்றும் மேலும் பலவற்றுக்கு அணுகலை பெற உங்கள் திட்டத்தை மேம்படுத்தவும்.",
+      "ASK_ADMIN": "மேம்படுத்துவதற்கு உங்கள் நிர்வாகியை அணுகவும்."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "நீங்கள் உங்கள் பதில் வரம்பின் 80% க்கும் மேல் பயன்படுத்தியுள்ளீர்கள். Captain AI ஐ தொடர பயன்படுத்த, தயவுசெய்து மேம்படுத்தவும்.",
+      "DOCUMENTS": "ஆவண வரம்பு எட்டியுள்ளது. Captain AI ஐ தொடர பயன்படுத்த, மேம்படுத்தவும்."
     },
     "FORM": {
       "CANCEL": "ரத்துசெய்",
-      "CREATE": "Create",
+      "CREATE": "உருவாக்கவும்",
       "EDIT": "புதுப்பிப்பு"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "உதவியாளர்கள்",
+      "NO_ASSISTANTS_AVAILABLE": "உங்கள் கணக்கில் எந்த உதவியாளர்களும் இல்லை.",
+      "ADD_NEW": "புதிய உதவியாளரை உருவாக்கவும்",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
+        "TITLE": "உதவியாளரை நீக்க விரும்புகிறீர்களா?",
         "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "CONFIRM": "ஆம், நீக்கு",
+        "SUCCESS_MESSAGE": "உதவியாளர் வெற்றிகரமாக நீக்கப்பட்டது",
+        "ERROR_MESSAGE": "உதவியாளரை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
+        "TITLE": "ஒரு உதவியாளரை உருவாக்கவும்",
+        "SUCCESS_MESSAGE": "உதவியாளர் வெற்றிகரமாக உருவாக்கப்பட்டது",
         "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
       },
       "FORM": {
         "UPDATE": "புதுப்பிப்பு",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "அடிப்படை தகவல்",
+          "SYSTEM_MESSAGES": "கணினி செய்திகள்",
+          "INSTRUCTIONS": "வழிமுறைகள்",
+          "FEATURES": "அம்சங்கள்",
+          "TOOLS": "கருவிகள் "
         },
         "NAME": {
           "LABEL": "பெயர்",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "உதவியாளர் பெயரை உள்ளிடவும்",
+          "ERROR": "பெயர் அவசியம்"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "பதில் வெப்பநிலை",
+          "DESCRIPTION": "உதவியாளரின் பதில்கள் எவ்வளவு படைப்பாற்றல் அல்லது கட்டுப்படுத்தப்பட்டதாக இருக்க வேண்டும் என்பதை சரிசெய்க. குறைந்த மதிப்புகள் அதிக கவனம் செலுத்திய மற்றும் தீர்மானமான பதில்களை உருவாக்கும், அதிக மதிப்புகள் அதிக படைப்பாற்றல் மற்றும் மாறுபட்ட வெளியீடுகளை அனுமதிக்கும்."
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "விளக்கம்",
+          "PLACEHOLDER": "உதவியாளர் விளக்கத்தை உள்ளிடவும்",
+          "ERROR": "விளக்கம் அவசியம்"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "PLACEHOLDER": "பொருள் பெயரை உள்ளிடவும்",
+          "ERROR": "தயாரிப்பு பெயர் அவசியம்"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "வரவேற்பு செய்தி",
+          "PLACEHOLDER": "வரவேற்பு செய்தியை உள்ளிடவும்"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "கையளிக்கும் செய்தி",
+          "PLACEHOLDER": "ஹேண்ட்ஓப் செய்தியை உள்ளிடவும்"
         },
         "RESOLUTION_MESSAGE": {
           "LABEL": "Resolution Message",
           "PLACEHOLDER": "Enter resolution message"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "வழிமுறைகள்",
+          "PLACEHOLDER": "உதவியாளருக்கான வழிமுறைகளை உள்ளிடவும்"
         },
         "FEATURES": {
-          "TITLE": "Features",
+          "TITLE": "அம்சங்கள்",
           "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
           "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
@@ -495,172 +540,172 @@
       "SETTINGS": {
         "HEADER": "அமைப்புகள்",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "அடிப்படை அமைப்புகள்",
+          "DESCRIPTION": "ஒரு உரையாடலை முடிக்கும்போது அல்லது மனிதருக்கு மாற்றும்போது உதவியாளர் என்ன கூற வேண்டும் என்பதை தனிப்பயனாக்கவும்."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "கணினி அமைப்புகள்",
+          "DESCRIPTION": "ஒரு உரையாடலை முடிக்கும்போது அல்லது மனிதருக்கு மாற்றும்போது உதவியாளர் என்ன கூற வேண்டும் என்பதை தனிப்பயனாக்கவும்."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "விளையாட்டு விஷயங்கள்",
+          "DESCRIPTION": "உதவியாளருக்கு மேலும் கட்டுப்பாட்டை சேர்க்கவும். (ஒரு கதை போல சிறிது காட்சி: கேள்வி பாதுகாப்பு → சூழ்நிலைகள் → வெளியீடு) பயனரை இதைப் பயன்படுத்த ஊக்குவிக்கிறது.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "பாதுகாப்பு கட்டுப்பாடுகள்",
+              "DESCRIPTION": "வழிமுறைகளை பின்பற்றி, உங்கள் உதவியாளர் பதிலளிக்க வேண்டிய கேள்விகளுக்கு மட்டுமே பதிலளிக்கிறது, எந்தவிதமான தடைபட்ட அல்லது பொருத்தமற்ற கேள்விகளும் இல்லை."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "பதில் வழிகாட்டுதல்கள்",
+              "DESCRIPTION": "உங்கள் உதவியாளரின் பதில்களின் உணர்வு மற்றும் அமைப்பு—தெளிவான மற்றும் நட்பானதா? சுருக்கமான மற்றும் கூர்மையானதா? விரிவான மற்றும் அதிகாரபூர்வமானதா?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
+          "TITLE": "உதவியாளரை நீக்கு",
           "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "BUTTON_TEXT": "{assistantName} ஐ நீக்கு"
         }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "DELETE_ASSISTANT": "உதவியாளரை நீக்கு",
+        "VIEW_CONNECTED_INBOXES": "இணைக்கப்பட்ட இன்பாக்ஸ்களை காண்க"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
+        "TITLE": "எந்த உதவியாளர்களும் இல்லை",
         "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "கேப்டன் உதவியாளர்",
+          "NOTE": "Captain உதவியாளர் நேரடியாக வாடிக்கையாளர்களுடன் தொடர்பு கொண்டு, உங்கள் உதவி ஆவணங்கள் மற்றும் முந்தைய உரையாடல்களில் இருந்து கற்றுக்கொண்டு, உடனடி மற்றும் துல்லியமான பதில்களை வழங்குகிறது. அது ஆரம்ப கேள்விகளை கையாளி, தேவையான போது முகவருக்கு விரைவான தீர்வுகளை வழங்குகிறது."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "பாதுகாப்பு வரம்புகள்",
+        "DESCRIPTION": "வழிமுறைகளை பின்பற்றி, உங்கள் உதவியாளர் பதிலளிக்க வேண்டிய கேள்விகளுக்கு மட்டுமே பதிலளிக்கிறது, எந்தவிதமான தடைபட்ட அல்லது பொருத்தமற்ற கேள்விகளும் இல்லை.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} பொருள் தேர்ந்தெடுக்கப்பட்டது | {count} பொருட்கள் தேர்ந்தெடுக்கப்பட்டன",
+          "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
+          "UNSELECT_ALL": "அனைத்தையும் தேர்ந்தெடுக்காதே ({count})",
+          "BULK_DELETE_BUTTON": "அழிக்கவும்"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
+            "TITLE": "உதாரணக் காவல்துறைகள்",
+            "ADD": "அனைத்தையும் சேர்க்கவும்",
+            "ADD_SINGLE": "இதைச் சேர்க்கவும்",
+            "SAVE": "சேர்க்கவும் மற்றும் சேமிக்கவும் (↵)",
             "PLACEHOLDER": "Type in another guardrail..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
+            "TITLE": "ஒரு பாதுகாப்பு வரம்பைச் சேர்க்கவும்",
+            "CREATE": "உருவாக்கவும்",
             "CANCEL": "ரத்துசெய்",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "மற்றொரு பாதுகாப்பு வரம்பை உள்ளிடவும்...",
+            "TEST_ALL": "அனைத்தையும் சோதிக்கவும்"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "தேடுக..."
         },
         "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "ERROR": "கார்ட்ரெயில்களை சேர்ப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "UPDATE": {
             "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "ERROR": "கார்ட்ரெயில்களை புதுப்பிக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "கார்ட்ரெயில்கள் வெற்றிகரமாக நீக்கப்பட்டன",
+            "ERROR": "கார்ட்ரெயில்களை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "பதில் வழிகாட்டுதல்கள்",
+        "DESCRIPTION": "உங்கள் உதவியாளரின் பதில்களின் உணர்வு மற்றும் அமைப்பு—தெளிவானதும் நட்பானதும்? சுருக்கமானதும் கூர்மையானதும்? விரிவானதும் அதிகாரபூர்வமானதும்?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} பொருள் தேர்ந்தெடுக்கப்பட்டது | {count} பொருட்கள் தேர்ந்தெடுக்கப்பட்டன",
+          "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடுக்கவும் ({count})",
+          "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
+          "BULK_DELETE_BUTTON": "நீக்கு"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "உதாரண பதில் வழிகாட்டுதல்கள்",
+            "ADD": "அனைத்தையும் சேர்க்கவும்",
+            "ADD_SINGLE": "இதைச் சேர்க்கவும்",
+            "SAVE": "சேர்க்கவும் மற்றும் சேமிக்கவும் (↵)",
+            "PLACEHOLDER": "மற்றொரு பதில் வழிகாட்டுதலை தட்டச்சு செய்யவும்..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
+            "TITLE": "ஒரு பதில் வழிகாட்டுதலைச் சேர்க்கவும்",
+            "CREATE": "உருவாக்கவும்",
             "CANCEL": "ரத்துசெய்",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "மற்றொரு பதில் வழிகாட்டுதலை உள்ளிடவும்...",
+            "TEST_ALL": "எல்லாவற்றையும் சோதிக்கவும்"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "தேடுக..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "பதில் வழிகாட்டுதல்கள் எதுவும் கிடைக்கவில்லை. தொடங்க உதாரணங்களை உருவாக்கவும் அல்லது சேர்க்கவும்.",
         "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "ERROR": "பதில் வழிகாட்டுதல்களைச் சேர்ப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "UPDATE": {
             "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "ERROR": "பதில் வழிகாட்டுதல்களை புதுப்பிக்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "பதில் வழிகாட்டுதல்கள் வெற்றிகரமாக நீக்கப்பட்டன",
+            "ERROR": "பதில் வழிகாட்டுதல்களை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "நிகழ்வுகள்",
+        "DESCRIPTION": "உதவியாளருக்கு சில சூழ்நிலைகளை கொடுங்கள் — உதாரணமாக “பயனர் சிக்கிய போது என்ன செய்ய வேண்டும்” அல்லது “பணம் திரும்பப்பெறுதல் கோரிக்கையின் போது எப்படி நடக்க வேண்டும்”.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} பொருள் தேர்ந்தெடுக்கப்பட்டது | {count} பொருட்கள் தேர்ந்தெடுக்கப்பட்டன",
+          "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
+          "UNSELECT_ALL": "அனைத்தையும் தேர்ந்தெடுக்காதே ({count})",
+          "BULK_DELETE_BUTTON": "அழி"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "உதாரண காட்சிகள்",
+            "ADD": "அனைத்தையும் சேர்க்கவும்",
+            "ADD_SINGLE": "இதைச் சேர்க்கவும்",
+            "TOOLS_USED": "பயன்படுத்தப்பட்ட கருவிகள் :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "ஒரு காட்சி சேர்க்கவும்",
+            "TITLE": "ஒரு காட்சி உருவாக்கவும்",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "தலைப்பு",
+                "PLACEHOLDER": "சூழ்நிலைக்கான பெயரை உள்ளிடவும்",
+                "ERROR": "சூழ்நிலை பெயர் அவசியம்"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
+                "LABEL": "விளக்கம்",
                 "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "ERROR": "காட்சியின் விளக்கம் அவசியம்"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
+                "LABEL": "எப்படி கையாள்வது",
                 "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "ERROR": "சூழ்நிலை உள்ளடக்கம் அவசியம்"
               },
-              "CREATE": "Create",
+              "CREATE": "செய்யவும்",
               "CANCEL": "ரத்துசெய்"
             }
           }
@@ -670,307 +715,338 @@
           "UPDATE": "Update changes"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "தேடுக..."
         },
         "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
         "API": {
           "ADD": {
             "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "ERROR": "சூழல்கள் சேர்க்கும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "UPDATE": {
             "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "ERROR": "காட்சிகள் புதுப்பிப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "காட்சிகள் வெற்றிகரமாக நீக்கப்பட்டன",
+            "ERROR": "சூழல்களை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "ஆவணங்கள்",
+      "ADD_NEW": "புதிய ஆவணத்தை உருவாக்கவும்",
+      "SELECTED": "{count} தேர்ந்தெடுக்கப்பட்டது",
+      "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
+      "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "ஆம், அனைத்தையும் நீக்கவும்",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "சம்பந்தப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள்",
+        "DESCRIPTION": "இந்த அடிக்கடி கேட்கப்படும் கேள்விகள் நேரடியாக ஆவணத்திலிருந்து உருவாக்கப்பட்டவை."
+      },
+      "FORM_DESCRIPTION": "அறிவுத்தளமாக சேர்க்க ஆவணத்தின் URL ஐ உள்ளிடவும் மற்றும் அதை தொடர்புபடுத்த வேண்டிய உதவியாளரை தேர்ந்தெடுக்கவும்.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
+        "TITLE": "ஆவணத்தைச் சேர்க்கவும்",
+        "SUCCESS_MESSAGE": "ஆவணம் வெற்றிகரமாக உருவாக்கப்பட்டது",
         "ERROR_MESSAGE": "There was an error creating the document, please try again."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
+          "LABEL": "ஆவண வகை",
           "URL": "URL",
-          "PDF": "PDF File"
+          "PDF": "PDF கோப்பு"
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "ஆவணத்தின் URL ஐ உள்ளிடவும்",
+          "ERROR": "தயவுசெய்து ஆவணத்திற்கான செல்லுபடியான URL ஐ வழங்கவும்"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "PDF கோப்பு",
+          "CHOOSE_FILE": "PDF கோப்பை தேர்ந்தெடுக்கவும்",
+          "ERROR": "தயவுசெய்து PDF கோப்பை தேர்ந்தெடுக்கவும்",
+          "HELP_TEXT": "அதிகபட்ச கோப்பு அளவு: 10MB",
+          "INVALID_TYPE": "தயவுசெய்து செல்லுபடியாகும் PDF கோப்பை தேர்ந்தெடுக்கவும்",
+          "TOO_LARGE": "கோப்பு அளவு 10MB வரம்பை மீறுகிறது"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "ஆவணத்தின் பெயர் (விருப்பமானது)",
+          "PLACEHOLDER": "ஆவணத்திற்கான பெயரை உள்ளிடவும்"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
+        "TITLE": "ஆவணத்தை நீக்க நீங்கள் உறுதியாக உள்ளீர்களா?",
         "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "CONFIRM": "ஆம், நீக்கு",
+        "SUCCESS_MESSAGE": "ஆவணம் வெற்றிகரமாக நீக்கப்பட்டது",
+        "ERROR_MESSAGE": "ஆவணத்தை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "சம்பந்தப்பட்ட பதில்களைப் பார்க்கவும்",
+        "DELETE_DOCUMENT": "ஆவணத்தை நீக்கு"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "எந்த ஆவணங்களும் இல்லை",
+        "SUBTITLE": "உங்கள் உதவியாளர் அடிக்கடி கேட்கப்படும் கேள்விகளை உருவாக்க ஆவணங்களை பயன்படுத்துகிறது. உதவியாளருக்கு சூழலை வழங்க ஆவணங்களை இறக்குமதி செய்யலாம்.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain ஆவணம்",
+          "NOTE": "Captain இல் உள்ள ஆவணம் உதவியாளருக்கு அறிவுத்தளமாக செயல்படுகிறது. உங்கள் உதவி மையம் அல்லது வழிகாட்டிகளை இணைத்து, Captain உள்ளடக்கத்தை பகுப்பாய்வு செய்து வாடிக்கையாளர் கேள்விகளுக்கு துல்லியமான பதில்களை வழங்க முடியும்."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "கருவிகள்",
+      "ADD_NEW": "புதிய கருவியை உருவாக்கவும்",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "தனிப்பயன் கருவிகள் இல்லை",
+        "SUBTITLE": "உங்கள் உதவியாளரை வெளிப்புற APIகள் மற்றும் சேவைகளுடன் இணைக்க தனிப்பயன் கருவிகளை உருவாக்கவும், அது தரவுகளை பெறவும் மற்றும் உங்கள் சார்பாக செயல்களை செய்யவும்.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "தனிப்பயன் கருவிகள்",
+          "NOTE": "தனிப்பயன் கருவிகள் உங்கள் உதவியாளருக்கு வெளிப்புற APIகள் மற்றும் சேவைகளுடன் தொடர்பு கொள்ள அனுமதிக்கின்றன. தரவுகளை பெற, செயல்களை செய்ய அல்லது உங்கள் உள்ளமைவுகளுடன் ஒருங்கிணைக்க கருவிகளை உருவாக்கி உங்கள் உதவியாளரின் திறன்களை மேம்படுத்தவும்."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "உங்கள் தனிப்பயன் கருவியை வெளிப்புற API-களுடன் இணைக்க அமைக்கவும்",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "DELETE_TOOL": "கருவியை நீக்கு"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "தனிப்பயன் கருவி உருவாக்கவும்",
+        "SUCCESS_MESSAGE": "தனிப்பயன் கருவி வெற்றிகரமாக உருவாக்கப்பட்டது",
+        "ERROR_MESSAGE": "தனிப்பயன் கருவி உருவாக்க முடியவில்லை"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
+        "TITLE": "தனிப்பயன் கருவியைத் திருத்து",
         "SUCCESS_MESSAGE": "Custom tool updated successfully",
         "ERROR_MESSAGE": "Failed to update custom tool"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "தனிப்பயன் கருவியை நீக்கு",
+        "DESCRIPTION": "இந்த தனிப்பயன் கருவியை நீக்க விரும்புகிறீர்களா? இந்த செயல் மீண்டும் திரும்ப முடியாது.",
+        "CONFIRM": "ஆம், நீக்கு",
+        "SUCCESS_MESSAGE": "தனிப்பயன் கருவி வெற்றிகரமாக நீக்கப்பட்டது",
+        "ERROR_MESSAGE": "தனிப்பயன் கருவியை நீக்க முடியவில்லை"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "கருவி பெயர்",
+          "PLACEHOLDER": "ஆர்டர் தேடல்",
+          "ERROR": "கருவி பெயர் அவசியம்",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
+          "LABEL": "விளக்கம்",
           "PLACEHOLDER": "Looks up order details by order ID"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "முறை"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "எண்ட்பாயிண்ட் URL",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "சரியான URL தேவை"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "அங்கீகார வகை"
         },
         "AUTH_TYPES": {
-          "NONE": "None",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
-          "API_KEY": "API Key"
+          "NONE": "எதுவும் இல்லை",
+          "BEARER": "Bearer டோக்கன்",
+          "BASIC": "அடிப்படைக் அங்கீகாரம்",
+          "API_KEY": "API விசை"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN": "பியர் டோக்கன்",
+          "BEARER_TOKEN_PLACEHOLDER": "உங்கள் பியர் டோக்கனை உள்ளிடவும்",
+          "USERNAME": "பயனர்பெயர்",
+          "USERNAME_PLACEHOLDER": "பயனர்பெயரை உள்ளிடவும்",
           "PASSWORD": "பாஸ்வேர்ட்",
-          "PASSWORD_PLACEHOLDER": "Enter password",
+          "PASSWORD_PLACEHOLDER": "கடவுச்சொல்லை உள்ளிடவும்",
           "API_KEY": "Header Name",
-          "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_KEY_PLACEHOLDER": "X-API-கீ",
+          "API_VALUE": "தலைப்பு மதிப்பு",
+          "API_VALUE_PLACEHOLDER": "API விசை மதிப்பை உள்ளிடவும்"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "பரிமாணங்கள்",
+          "HELP_TEXT": "பயனர் கேள்விகளிலிருந்து எடுக்கப்படும் அளவுருக்களை வரையறுக்கவும்"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "அளவுருவைச் சேர்க்கவும்",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "பராமரிப்பு பெயர் (உதா., order_id)"
         },
         "PARAM_TYPE": {
-          "PLACEHOLDER": "Type"
+          "PLACEHOLDER": "வகை"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
-          "NUMBER": "Number",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "STRING": "சரம்",
+          "NUMBER": "எண்",
+          "BOOLEAN": "பூலியன்",
+          "ARRAY": "அணி",
+          "OBJECT": "பொருள்"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "பரிமாணத்தின் விளக்கம்"
         },
         "PARAM_REQUIRED": {
-          "LABEL": "Required"
+          "LABEL": "தேவை"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "கோரிக்கை உடல் வார்ப்புரு (விருப்பமானது)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "பதில் வார்ப்புரு (விருப்பமானது)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "பரிமாணத்தின் பெயர் அவசியம்"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "அடிக்கடி கேட்கப்படும் கேள்விகள்",
+      "PENDING_FAQS": "நிலுவையில் உள்ள அடிக்கடி கேட்கப்படும் கேள்விகள்",
+      "ADD_NEW": "புதிய FAQ உருவாக்கவும்",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "உரையாடல் #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "SELECTED": "{count} தேர்ந்தெடுக்கப்பட்டது",
+      "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
+      "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
+      "SEARCH_PLACEHOLDER": "அடிக்கடி கேட்கப்படும் கேள்விகள் தேடவும்...",
+      "BULK_APPROVE_BUTTON": "அங்கீகாரம் செய்யவும்",
+      "BULK_DELETE_BUTTON": "அழிக்கவும்",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகள் வெற்றிகரமாக அங்கீகாரம் செய்யப்பட்டது",
+        "ERROR_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகளை அங்கீகாரம் செய்யும்போது பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "அடிக்கடி கேட்கப்படும் கேள்விகளை நீக்கவா?",
+        "DESCRIPTION": "தேர்ந்தெடுக்கப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகளை நீக்க விரும்புகிறீர்களா? இந்த நடவடிக்கை மீட்க முடியாது.",
+        "CONFIRM": "ஆம், அனைத்தையும் நீக்கவும்",
+        "SUCCESS_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகள் வெற்றிகரமாக நீக்கப்பட்டன",
+        "ERROR_MESSAGE": "அடிக்கடி கேட்கப்படும் கேள்விகளை நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "FAQ-ஐ நீக்க விரும்புகிறீர்களா?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "ஆம், நீக்கு",
+        "SUCCESS_MESSAGE": "FAQ வெற்றிகரமாக நீக்கப்பட்டது",
+        "ERROR_MESSAGE": "FAQ-ஐ நீக்குவதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
+        "ASSISTANT": "உதவியாளர்: {selected}",
+        "STATUS": "நிலை: {selected}",
         "ALL_ASSISTANTS": "எல்லாம்"
       },
       "STATUS": {
         "TITLE": "நிலை",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
+        "PENDING": "நிலுவையில் உள்ளது",
+        "APPROVED": "அங்கீகாரம் பெற்றது",
         "ALL": "எல்லாம்"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "உங்கள் வாடிக்கையாளர்கள் தேடிய சில அடிக்கடி கேட்கப்படும் கேள்விகளை Captain கண்டுபிடித்துள்ளது.",
+        "ACTION": "சரிபார்க்க இங்கே கிளிக் செய்யவும்"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "ஒரு கேள்வி மற்றும் அதற்கான பதிலை அறிவுத்தளத்தில் சேர்க்கவும் மற்றும் அது தொடர்புபடுத்த வேண்டிய உதவியாளரை தேர்ந்தெடுக்கவும்.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
+        "TITLE": "ஒரு FAQ ஐச் சேர்க்கவும்",
         "SUCCESS_MESSAGE": "The response has been added successfully.",
         "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "கேள்வி",
+          "PLACEHOLDER": "கேள்வியை இங்கே உள்ளிடவும்",
+          "ERROR": "தயவுசெய்து செல்லுபடியான கேள்வியை வழங்கவும்."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "பதில்",
+          "PLACEHOLDER": "பதில் இங்கே உள்ளிடவும்",
+          "ERROR": "தயவுசெய்து செல்லுபடியாகும் பதிலை வழங்கவும்."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
+        "TITLE": "FAQ-ஐ புதுப்பிக்கவும்",
         "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "ERROR_MESSAGE": "FAQ புதுப்பிப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ-க்கு அங்கீகாரம் அளிக்கப்பட்டது"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
+        "APPROVE": "அங்கீகரிக்கவும்",
         "EDIT_RESPONSE": "திருத்து",
-        "DELETE_RESPONSE": "Delete"
+        "DELETE_RESPONSE": "அழி"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
+        "TITLE": "ஏதுமில்லை கேள்விகள்",
+        "NO_PENDING_TITLE": "பரிசீலிக்க வேண்டிய மேலதிக கேள்விகள் இல்லை",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "CLEAR_SEARCH": "செயலில் உள்ள வடிகட்டிகளை அழிக்கவும்",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Captain அடிக்கடி கேட்கப்படும் கேள்விகள்",
+          "NOTE": "Captain FAQs பொதுவான வாடிக்கையாளர் கேள்விகளை கண்டறிந்து அவை உங்கள் அறிவுத்தளத்தில் இல்லையெனில் அல்லது அடிக்கடி கேட்கப்படும் தொடர்புடைய FAQs உருவாக்கி ஆதரவை மேம்படுத்துகிறது. ஒவ்வொரு பரிந்துரையையும் நீங்கள் மதிப்பாய்வு செய்து ஒப்புதல் அல்லது நிராகரிப்பு செய்ய முடியும்."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "இணைக்கப்பட்ட இன்பாக்ஸ்கள்",
+      "ADD_NEW": "புதிய இன்பாக்ஸ் இணைக்கவும்",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "தொடர்பு துண்டிக்கவும்"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "நீங்கள் இந்த இன்பாக்ஸை துண்டிக்க விரும்புகிறீர்களா?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
+        "CONFIRM": "ஆம், நீக்கு",
         "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "ERROR_MESSAGE": "இன்பாக்ஸ் துண்டிப்பதில் பிழை ஏற்பட்டது, தயவுசெய்து மீண்டும் முயற்சிக்கவும்."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "உதவியாளருடன் இணைக்க ஒரு இன்பாக்ஸ் தேர்ந்தெடுக்கவும்.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "TITLE": "ஒரு இன்பாக்ஸை இணைக்கவும்",
+        "SUCCESS_MESSAGE": "இன்பாக்ஸ் வெற்றிகரமாக இணைக்கப்பட்டது.",
         "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "இன்பாக்ஸ்",
+          "PLACEHOLDER": "உதவியாளரை இயக்க இன்பாக்ஸை தேர்ந்தெடுக்கவும்.",
+          "ERROR": "ஒரு இன்பாக்ஸ் தேர்வு அவசியம்."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "இணைக்கப்பட்ட அஞ்சல் பெட்டிகள் எதுவும் இல்லை",
+        "SUBTITLE": "ஒரு இன்பாக்ஸ் இணைப்பது, உதவியாளருக்கு உங்கள் வாடிக்கையாளர்களின் ஆரம்ப கேள்விகளை கையாள அனுமதிக்கும், பின்னர் அவற்றை உங்களுக்கு மாற்றும்."
       }
     }
   }

@@ -3,7 +3,10 @@
     "HEADER": "Источники",
     "DESCRIPTION": "Канал — это способ коммуникации, который ваш клиент выбирает для связи с вами. Входящие — это место, где вы управляете диалогами для определенного канала. Он может включать диалоги из различных источников, таких как электронная почта, онлайн чат или социальные сети.",
     "LEARN_MORE": "Узнать больше о «Входящих»",
-    "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
+    "COUNT": "Найдено источников: {n}",
+    "SEARCH_PLACEHOLDER": "Поиск источников...",
+    "NO_RESULTS": "Не найдено источников, соответствующих вашему запросу",
+    "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения, пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "WHATSAPP_REGISTRATION_INCOMPLETE": "Ваша регистрация в WhatsApp Business не завершена. Пожалуйста, проверьте статус отображения в Meta Business Manager перед повторным подключением.",
     "COMPLETE_REGISTRATION": "Завершить регистрацию",
@@ -58,17 +61,17 @@
         "DUPLICATE_INBOX_BANNER": "Этот аккаунт Instagram был перенесен в новый почтовый ящик Instagram. Вы больше не сможете отправлять и получать сообщения Instagram из этого ящика."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Продолжить в TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Подключить ваш профиль TikTok",
+        "HELP": "Чтобы добавить ваш профиль TikTok в качестве источника, вам нужно авторизоваться в вашем профиле TikTok, нажав на 'Продолжить в TikTok' ",
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к TikTok, попробуйте еще раз",
+        "ERROR_AUTH": "Произошла ошибка при подключении к TikTok, попробуйте еще раз"
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
         "ERROR_MESSAGE": "Произошла ошибка при подключении к Twitter, попробуйте еще раз",
         "TWEETS": {
-          "ENABLE": "Создать беседы из твитов с упоминанем"
+          "ENABLE": "Создать беседы из твитов с упоминанием"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -82,6 +85,14 @@
           "LABEL": "URL вебхука",
           "PLACEHOLDER": "Введите URL-адрес вебхука",
           "ERROR": "Пожалуйста, введите правильный URL"
+        },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Домен сайта",
@@ -123,7 +134,7 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp канал",
-        "DESC": "Интегрируйте Twilio и начните поддерживать ваших клиентов через SMS или Whatsapp.",
+        "DESC": "Интегрируйте Twilio и начните поддерживать ваших клиентов через SMS или WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "SID аккаунта",
           "PLACEHOLDER": "Пожалуйста, введите SID вашего аккаунта Twilio",
@@ -222,7 +233,7 @@
           },
           "API_CALLBACK": {
             "TITLE": "URL",
-            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth используя этот URL."
+            "SUBTITLE": "Вы должны настроить URL колбеков в Bandwidth, используя этот URL."
           }
         }
       },
@@ -231,7 +242,7 @@
         "DESC": "Начните поддерживать своих клиентов через WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Поставщик API",
-          "WHATSAPP_EMBEDDED": "WhatsApp Бизнес",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Быстрая настройка через Meta",
@@ -275,7 +286,7 @@
         },
         "API_CALLBACK": {
           "TITLE": "URL",
-          "SUBTITLE": "Вы должны настроить URL-адрес webhook и токен проверки на портале разработчика Facebook с значениями, показанными ниже.",
+          "SUBTITLE": "Вы должны настроить URL-адрес webhook и токен проверки на портале разработчика Facebook со значениями, показанными ниже.",
           "WEBHOOK_URL": "URL вебхука",
           "WEBHOOK_VERIFICATION_TOKEN": "Токен авторизации Webhook"
         },
@@ -389,10 +400,10 @@
           "ERROR_MESSAGE": "Не удалось сохранить источник"
         },
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "Ваш почтовый ящик был успешно создан! Вам необходимо настроить учетные данные SMTP и IMAP для отправки и получения писем. Без этих настроек письма обрабатываться не будут.",
+        "FORWARDING_ADDRESS_LABEL": "Пересылайте письма на этот адрес:",
         "CONFIGURE_SMTP_IMAP_LINK": "Нажмите здесь",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " чтобы настроить параметры IMAP и SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Канал LINE",
@@ -438,7 +449,7 @@
       },
       "AUTH": {
         "TITLE": "Выберите источник",
-        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить.",
+        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, WhatsApp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить.",
         "TITLE_NEXT": "Завершить установку",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -480,7 +491,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Подключите ваш аккаунт TikTok"
           },
           "VOICE": {
             "TITLE": "Голосовая связь",
@@ -496,11 +507,11 @@
       },
       "DETAILS": {
         "TITLE": "Настройки источника",
-        "DESC": "Выберите страницу Facebook, которую вы хотите подключить к чату из списка. Для удобства ыы также можете указать имя вашего источника."
+        "DESC": "Выберите страницу Facebook, которую вы хотите подключить к чату из списка. Для удобства вы также можете указать имя вашего источника."
       },
       "FINISH": {
         "TITLE": "Готово!",
-        "DESC": "Вы успешно подключили страницу Facebook к Chatwoot. В следующий раз когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в Chatwoot.<br>Круто, да"
+        "DESC": "Вы успешно подключили страницу Facebook к Chatwoot. В следующий раз, когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в Chatwoot.<br>Круто, да"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Выберите почтового провайдера",
@@ -536,7 +547,7 @@
       "ADD_AGENTS": "Добавление операторов в ваш источник..."
     },
     "FINISH": {
-      "TITLE": "Истоник готов!",
+      "TITLE": "Источник готов!",
       "MESSAGE": "Теперь вы можете взаимодействовать с вашими клиентами через ваш новый канал. Удачной поддержки",
       "BUTTON_TEXT": "Перейти",
       "MORE_SETTINGS": "Больше параметров",
@@ -575,7 +586,7 @@
           "SUBTITLE": "Используйте только сконфигурированное бизнес-имя отправителя в заголовке электронной почты."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Настройте название вашей компании",
+          "BUTTON_TEXT": "Настройте название вашей компании",
           "PLACEHOLDER": "Введите название вашей компании",
           "SAVE_BUTTON_TEXT": "Сохранить"
         }
@@ -589,8 +600,10 @@
         "DISABLED": "Выключено"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Включено",
-        "DISABLED": "Выключено"
+        "ENABLED": "Переоткрывать тот же диалог",
+        "DISABLED": "Создавать новые диалоги",
+        "ENABLED_DESCRIPTION": "Когда контакт напишет снова, предыдущий диалог будет открыт повторно.",
+        "DISABLED_DESCRIPTION": "После завершения предыдущего диалога при каждом новом сообщении контакта будет создаваться новый диалог."
       },
       "ENABLE_HMAC": {
         "LABEL": "Включить"
@@ -625,6 +638,8 @@
       "ACCOUNT_HEALTH": "Здоровье аккаунта",
       "CSAT": "CSAT"
     },
+    "CHANNEL_PREFERENCES": "Настройки канала",
+    "WIDGET_FEATURES": "Функции виджета",
     "ACCOUNT_HEALTH": {
       "TITLE": "Управление учетной записью WhatsApp",
       "DESCRIPTION": "Проверьте состояние учетной записи WhatsApp, ограничения на сообщения и качество. Обновите настройки или решите проблемы при необходимости",
@@ -637,7 +652,7 @@
         },
         "VERIFIED_NAME": {
           "LABEL": "Название компании",
-          "TOOLTIP": "Название компании, подтвержденные WhatsApp"
+          "TOOLTIP": "Название компании, подтверждённое WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
           "LABEL": "Отображаемое имя статуса",
@@ -664,7 +679,7 @@
           "TIER_10K": "10тыс. клиентов в сутки",
           "TIER_100K": "100тыс. клиентов в сутки",
           "TIER_UNLIMITED": "Неограниченно клиентов в сутки",
-          "UNKNOWN": "Рейтинг не доступен"
+          "UNKNOWN": "Рейтинг недоступен"
         },
         "STATUSES": {
           "APPROVED": "Одобрено",
@@ -678,6 +693,16 @@
           "SANDBOX": "Песочница",
           "LIVE": "Онлайн"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Настройки",
@@ -693,8 +718,20 @@
       "MESSENGER_SUB_HEAD": "Поместите эту кнопку внутри тега <body>",
       "ALLOWED_DOMAINS": {
         "TITLE": "Разрешенные домены",
-        "SUBTITLE": "Добавьте подстановочные или обычные домены, разделенные запятыми (оставьте пустым, чтобы разрешить всем), например *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Введите домены, разделенные запятыми (например: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Ограничение того, какие сайты могут встраивать виджет чата. Для безопасности добавьте только домены, которые вы владеете и доверяете. Добавьте один или несколько доменов, разделенных запятыми. Оставьте пустым, чтобы разрешить все домены (не рекомендуется для производства).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Включить виджет в мобильных приложениях",
+        "SUBTITLE": "Установите флажок, если вы вставьте виджет в приложения iOS или Android. Мобильные приложения не посылают информацию о домене, поэтому они будут заблокированы ограничениями домена, если это не включено."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Проверка личности",
+        "DESCRIPTION": "Проверяйте подлинность пользователей, генерируя безопасные токены. Это не позволит неавторизованным пользователям выдавать себя за других участников вашего чата.",
+        "SECRET_KEY": "Секретный ключ",
+        "VIEW_DOCS": "Посмотреть документацию",
+        "REQUIRE_LABEL": "Требовать подтверждение личности для всех разговоров",
+        "REQUIRE_DESCRIPTION": "Если эта функция включена, для начала разговора пользователи должны предоставить действительный токен идентификации. Запросы без действительных токенов будут отклонены."
       },
       "INBOX_AGENTS": "Операторы",
       "INBOX_AGENTS_SUB_TEXT": "Добавить или удалить агентов из этого источника",
@@ -702,14 +739,14 @@
       "AGENT_ASSIGNMENT_SUB_TEXT": "Обновить настройки назначения для бесед",
       "UPDATE": "Обновить",
       "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящика для сбора почты в новой беседе",
       "AUTO_ASSIGNMENT": "Включить автоназначение",
       "SENDER_NAME_SECTION": "Включить имя агента в электронной почте",
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Заблокировать один диалог",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Включение или отключение нескольких диалогов для одного и того же контакта в этой папке «Входящие»",
+      "LOCK_TO_SINGLE_CONVERSATION": "Маршрутизация диалогов",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Настройте создание диалогов для существующих контактов",
       "INBOX_UPDATE_TITLE": "Настройки источника",
       "INBOX_UPDATE_SUB_TEXT": "Изменить настройки источника",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Включить или отключить автоматическое назначение новых разговоров к агентам, добавленным к этому источнику.",
@@ -722,7 +759,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
       "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Пересылка писем в этот почтовый ящик в данной установке отключена. Чтобы использовать эту функцию, администратор должен включить её. Пожалуйста, свяжитесь с ним для продолжения.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения диалога",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как диалог будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
@@ -740,7 +777,7 @@
       "WHATSAPP_CONNECT_DESCRIPTION": "Подключите этот почтовый ящик к WhatsApp Business для расширения функций и упрощения управления.",
       "WHATSAPP_CONNECT_BUTTON": "Подключить",
       "WHATSAPP_CONNECT_SUCCESS": "Успешно подключено к WhatsApp Business!",
-      "WHATSAPP_CONNECT_ERROR": "Не удалось подключиться WhatsApp Business. Пожалуйста, попробуйте еще раз.",
+      "WHATSAPP_CONNECT_ERROR": "Не удалось подключиться к WhatsApp Business. Пожалуйста, попробуйте еще раз.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Успешная перенастройка WhatsApp Business!",
       "WHATSAPP_RECONFIGURE_ERROR": "Не удалось перенастроить WhatsApp Business. Пожалуйста, попробуйте еще раз.",
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID не настроен. Пожалуйста, обратитесь к администратору.",
@@ -758,6 +795,7 @@
       "LABEL": "Центр поддержки",
       "PLACEHOLDER": "Выберите справочный центр",
       "SELECT_PLACEHOLDER": "Выберите справочный центр",
+      "NONE": "Ничего",
       "REMOVE": "Удалить справочный центр",
       "SUB_TEXT": "Прикрепить справочный центр с помощью папки \"Входящие\""
     },
@@ -765,6 +803,53 @@
       "MAX_ASSIGNMENT_LIMIT": "Авто распределение лимита",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Пожалуйста, введите значение больше 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ограничьте максимальное количество диалогов из этого почтового ящика, которые могут быть автоматически назначены агенту"
+    },
+    "ASSIGNMENT": {
+      "TITLE": "Назначение диалогов",
+      "DESCRIPTION": "Автоматически назначайте входящие диалоги доступным агентам на основе правил назначения",
+      "ENABLE_AUTO_ASSIGNMENT": "Включить автоматическое назначение диалогов",
+      "DEFAULT_RULES_TITLE": "Стандартные правила назначения",
+      "DEFAULT_RULES_DESCRIPTION": "Использовать стандартное поведение назначения для всех диалогов",
+      "DEFAULT_RULE_1": "Сначала самые ранние диалоги",
+      "DEFAULT_RULE_2": "Распределение по кругу",
+      "CUSTOMIZE_WITH_POLICY": "Настроить через политику назначения",
+      "USING_POLICY": "Для этого источника используется пользовательская политика назначения",
+      "CUSTOMIZE_POLICY": "Настроить через политику назначения",
+      "DELETE_POLICY": "Удалить политику",
+      "POLICY_LABEL": "Политика назначения",
+      "ASSIGNMENT_ORDER_LABEL": "Порядок назначения",
+      "ASSIGNMENT_METHOD_LABEL": "Метод назначения",
+      "POLICY_STATUS": {
+        "ACTIVE": "Активно",
+        "INACTIVE": "Неактивен"
+      },
+      "PRIORITY": {
+        "EARLIEST_CREATED": "Сначала старые",
+        "LONGEST_WAITING": "Сначала ожидающие дольше всех"
+      },
+      "METHOD": {
+        "ROUND_ROBIN": "По кругу",
+        "BALANCED": "Сбалансированное назначение"
+      },
+      "UPGRADE_PROMPT": "Пользовательские политики назначения доступны в плане Business",
+      "UPGRADE_TO_BUSINESS": "Перейти на Business",
+      "DEFAULT_POLICY_LINKED": "Стандартная политика привязана",
+      "DEFAULT_POLICY_DESCRIPTION": "Привяжите пользовательскую политику назначения, чтобы настроить, как диалоги назначаются агентам в этом источнике.",
+      "LINK_EXISTING_POLICY": "Привязать существующую политику",
+      "CREATE_NEW_POLICY": "Создать новую политику",
+      "NO_POLICIES": "Не найдены связанные политики",
+      "VIEW_ALL_POLICIES": "Посмотреть все политики",
+      "CURRENT_BEHAVIOR": "Сейчас используется стандартное поведение назначения:",
+      "LINK_SUCCESS": "Политика назначения успешно привязана",
+      "LINK_ERROR": "Не удалось привязать политику назначения"
+    },
+    "ASSIGNMENT_POLICY": {
+      "DELETE_CONFIRM_TITLE": "Удалить политику назначения?",
+      "DELETE_CONFIRM_MESSAGE": "Вы уверены, что хотите удалить эту политику назначения из этого источника? После этого источник вернётся к стандартным правилам назначения.",
+      "CANCEL": "Отменить",
+      "CONFIRM_DELETE": "Удалить",
+      "DELETE_SUCCESS": "Политика назначения успешно удалена",
+      "DELETE_ERROR": "Не удалось удалить политику назначения"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Войти заново",
@@ -809,37 +894,51 @@
         "PLACEHOLDER": "Добавьте сообщение, которое будет отображено в форме обратной связи"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Текст кнопки",
+        "PLACEHOLDER": "Пожалуйста, оцените нас"
       },
       "LANGUAGE": {
         "LABEL": "Язык",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "Выберите язык шаблона"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Предварительный просмотр сообщения",
+        "TOOLTIP": "Отображение может немного отличаться на платформе WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Одобрено WhatsApp",
+        "PENDING": "Ожидает одобрения WhatsApp",
+        "REJECTED": "Шаблон отклонён Meta",
+        "DEFAULT": "Требуется одобрение WhatsApp",
+        "NOT_FOUND": "Шаблон не существует на платформе Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Шаблон WhatsApp успешно создан и отправлен на одобрение",
+        "ERROR_MESSAGE": "Не удалось создать шаблон WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "Редактировать детали опроса",
+        "DESCRIPTION": "Мы удалим предыдущий шаблон и создадим новый, который будет повторно отправлен на одобрение WhatsApp",
+        "CONFIRM": "Создать новый шаблон",
         "CANCEL": "Вернуться"
       },
+      "UTILITY_ANALYZER": {
+        "ACTION": "Проверить соответствие категории Utility",
+        "HELPER_NOTE": "Проверьте сообщение перед отправкой, чтобы повысить вероятность категории Utility. Система создаёт отдельный CSAT-шаблон с кнопками для отчётности и отправляет его на одобрение как Utility; в зависимости от содержания Meta всё равно может переклассифицировать его в Marketing.",
+        "RESULT_LABEL": "Прогноз категории Meta",
+        "GUIDANCE_NOTE": "Это лишь подсказка и не гарантирует одобрение Meta.",
+        "SUGGESTION_LABEL": "Предлагаемая формулировка для категории Utility",
+        "APPLY": "Использовать этот вариант",
+        "ERROR_MESSAGE": "Не удалось проанализировать сообщение. Пожалуйста, попробуйте ещё раз.",
+        "CLASSIFICATION": {
+          "LIKELY_UTILITY": "Вероятно Utility",
+          "LIKELY_MARKETING": "Вероятно Marketing",
+          "UNCLEAR": "Нужны уточнения"
+        }
+      },
       "SURVEY_RULE": {
-        "LABEL": "Условие опросы",
-        "DESCRIPTION_PREFIX": "Отправить опрос если диалог",
+        "LABEL": "Условие опроса",
+        "DESCRIPTION_PREFIX": "Отправить опрос, если диалог",
         "DESCRIPTION_SUFFIX": "метки",
         "OPERATOR": {
           "CONTAINS": "содержит",
@@ -848,7 +947,7 @@
         "SELECT_PLACEHOLDER": "Выбрать метки"
       },
       "NOTE": "Примечание: опросы CSAT отправляются только один раз для диалога",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Примечание: при сохранении система создаёт в WhatsApp отдельный CSAT-шаблон, который используется для сбора оценки и обратной связи в отчётах, и отправляет его на одобрение как Utility. В зависимости от содержания Meta всё равно может классифицировать его как Marketing. После одобрения опросы отправляются только один раз для каждого диалога в соответствии с правилом опроса.",
       "API": {
         "SUCCESS_MESSAGE": "Настройки CSAT успешно обновлены",
         "ERROR_MESSAGE": "Не удалось обновить CSAT настройки. Повторите попытку позже."
@@ -864,9 +963,11 @@
       "UNAVAILABLE_MESSAGE_LABEL": "Сообщение для посетителей о недоступности",
       "TOGGLE_HELP": "Включение доступности для бизнеса покажет часы работы в виджете онлайн общения, даже если все менеджеры не в сети. Вне доступных часов работы - посетители могут быть предупреждены сообщением и формой предварительного чата.",
       "DAY": {
+        "DAY": "День",
+        "AVAILABILITY": "Доступность",
+        "HOURS": "Часов",
         "ENABLE": "Я работаю в этот день",
         "UNAVAILABLE": "Я не работаю в этот день",
-        "HOURS": "часы",
         "VALIDATION_ERROR": "Время начала должно предшествовать времени окончания.",
         "CHOOSE": "Выбрать"
       },
@@ -973,11 +1074,12 @@
           "IN_A_DAY": "Через день"
         },
         "WIDGET_COLOR_LABEL": "Цвет виджета",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Позиция конструктора виджетов",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Тип рамки для виджета",
+        "WIDGET_BUBBLE": "Пузырёк",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Положение:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Тип:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
           "DEFAULT": "Пообщайтесь с нами",
-          "LABEL": "Название виджета",
+          "LABEL": "Заголовок кнопки запуска",
           "PLACE_HOLDER": "Пообщайтесь с нами"
         },
         "UPDATE": {
@@ -1002,7 +1104,7 @@
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "По умолчанию",
-        "CHAT": "Чат"
+        "CHAT": "Режим чата"
       },
       "REPLY_TIME": {
         "IN_A_FEW_MINUTES": "Обычно отвечаем в течение нескольких минут",

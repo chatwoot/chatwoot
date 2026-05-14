@@ -1,49 +1,63 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Shopify انٹیگریشن حذف کریں",
+        "MESSAGE": "کیا آپ واقعی Shopify انٹیگریشن حذف کرنا چاہتے ہیں؟"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Shopify اسٹور سے جڑیں",
+        "LABEL": "اسٹور URL",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Cancel",
-        "SUBMIT": "Connect Store"
+        "HELP": "اپنے Shopify اسٹور کا myshopify.com URL درج کریں",
+        "CANCEL": "منسوخ کریں",
+        "SUBMIT": "اسٹور سے جڑیں"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Shopify سے جڑنے میں خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں یا مسئلہ برقرار رہنے پر سپورٹ سے رابطہ کریں۔"
     },
-    "HEADER": "Integrations",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "HEADER": "انضمام",
+    "DESCRIPTION": "Chatwoot متعدد آلات اور خدمات کے ساتھ انضمام کرتا ہے تاکہ آپ کی ٹیم کی کارکردگی کو بہتر بنایا جا سکے۔ اپنی پسندیدہ ایپس کو ترتیب دینے کے لیے نیچے دی گئی فہرست کو دریافت کریں۔",
+    "LEARN_MORE": "انضمام کے بارے میں مزید جانیں",
+    "LOADING": "انضمام حاصل کیا جا رہا ہے",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain آپ کے اکاؤنٹ پر فعال نہیں ہے۔",
+      "CLICK_HERE_TO_CONFIGURE": "ترتیب دینے کے لیے یہاں کلک کریں",
+      "LOADING_CONSOLE": "Captain Console لوڈ ہو رہا ہے...",
+      "FAILED_TO_LOAD_CONSOLE": "Captain Console لوڈ کرنے میں ناکامی۔ براہ کرم صفحہ تازہ کریں اور دوبارہ کوشش کریں۔"
     },
     "WEBHOOK": {
-      "SUBSCRIBED_EVENTS": "Subscribed Events",
-      "LEARN_MORE": "Learn more about webhooks",
+      "SUBSCRIBED_EVENTS": "سبسکرائب شدہ واقعات",
+      "LEARN_MORE": "ویب ہکس کے بارے میں مزید جانیں",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
-        "CANCEL": "Cancel",
-        "DESC": "Webhook events provide you the realtime information about what's happening in your Chatwoot account. Please enter a valid URL to configure a callback.",
+        "CANCEL": "منسوخ کریں",
+        "DESC": "ویب ہک کے واقعات آپ کو آپ کے Chatwoot اکاؤنٹ میں ہو رہی چیزوں کی حقیقی وقت کی معلومات فراہم کرتے ہیں۔ براہ کرم کال بیک ترتیب دینے کے لیے ایک درست URL درج کریں۔",
         "SUBSCRIPTIONS": {
-          "LABEL": "Events",
+          "LABEL": "واقعات",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Conversation Created",
-            "CONVERSATION_STATUS_CHANGED": "Conversation Status Changed",
-            "CONVERSATION_UPDATED": "Conversation Updated",
-            "MESSAGE_CREATED": "Message created",
-            "MESSAGE_UPDATED": "Message updated",
-            "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_CREATED": "گفتگو تخلیق ہوئی",
+            "CONVERSATION_STATUS_CHANGED": "گفتگو کی حیثیت تبدیل ہوئی",
+            "CONVERSATION_UPDATED": "گفتگو اپ ڈیٹ ہوئی",
+            "MESSAGE_CREATED": "پیغام تخلیق ہوا",
+            "MESSAGE_UPDATED": "پیغام اپ ڈیٹ ہوا",
+            "WEBWIDGET_TRIGGERED": "صارف کی جانب سے لائیو چیٹ ویجیٹ کھولا گیا",
+            "CONTACT_CREATED": "رابطہ بنایا گیا",
+            "CONTACT_UPDATED": "رابطہ اپ ڈیٹ ہوا",
+            "CONVERSATION_TYPING_ON": "گفتگو میں ٹائپنگ آن",
+            "CONVERSATION_TYPING_OFF": "گفتگو میں ٹائپنگ آف"
           }
         },
         "NAME": {
@@ -51,468 +65,499 @@
           "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
-          "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
-          "ERROR": "Please enter a valid URL"
+          "LABEL": "ویب ہک URL",
+          "PLACEHOLDER": "مثال: {webhookExampleURL}",
+          "ERROR": "براہ کرم ایک درست URL درج کریں"
         },
-        "EDIT_SUBMIT": "Update webhook",
-        "ADD_SUBMIT": "Create webhook"
+        "EDIT_SUBMIT": "ویب ہک کو اپ ڈیٹ کریں",
+        "ADD_SUBMIT": "ویب ہک بنائیں"
       },
-      "TITLE": "Webhook",
-      "CONFIGURE": "Configure",
-      "HEADER": "Webhook settings",
-      "HEADER_BTN_TXT": "Add new webhook",
-      "LOADING": "Fetching attached webhooks",
-      "SEARCH_404": "There are no items matching this query",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks are HTTP callbacks which can be defined for every account. They are triggered by events like message creation in Chatwoot. You can create more than one webhook for this account. <br /><br /> For creating a <b>webhook</b>, click on the <b>Add new webhook</b> button. You can also remove any existing webhook by clicking on the Delete button.</p>",
+      "TITLE": "ویب ہک",
+      "CONFIGURE": "ترتیب دیں",
+      "HEADER": "ویب ہک کی ترتیبات",
+      "HEADER_BTN_TXT": "نیا ویب ہک شامل کریں",
+      "LOADING": "منسلک ویب ہکس حاصل کیے جا رہے ہیں",
+      "SEARCH_404": "اس تلاش سے میل کھانے والی کوئی اشیاء نہیں ہیں",
+      "SIDEBAR_TXT": "<p><b>ویب ہکس</b> </p> <p>ویب ہکس HTTP کال بیکس ہیں جو ہر اکاؤنٹ کے لیے متعین کیے جا سکتے ہیں۔ یہ ایسے واقعات کی وجہ سے متحرک ہوتے ہیں جیسے Chatwoot میں پیغام کی تخلیق۔ آپ اس اکاؤنٹ کے لیے ایک سے زیادہ ویب ہکس بنا سکتے ہیں۔ <br /><br /> نیا <b>ویب ہک</b> بنانے کے لیے، <b>نیا ویب ہک شامل کریں</b> بٹن پر کلک کریں۔ آپ موجودہ ویب ہک کو حذف کرنے کے لیے حذف کریں بٹن پر بھی کلک کر سکتے ہیں۔</p>",
       "LIST": {
-        "404": "There are no webhooks configured for this account.",
-        "TITLE": "Manage webhooks",
+        "404": "اس اکاؤنٹ کے لیے کوئی ویب ہکس ترتیب نہیں دیے گئے ہیں۔",
+        "TITLE": "ویب ہکس کا انتظام کریں",
         "TABLE_HEADER": {
-          "WEBHOOK_ENDPOINT": "Webhook endpoint",
-          "ACTIONS": "Actions"
+          "WEBHOOK_ENDPOINT": "Webhook اینڈ پوائنٹ",
+          "ACTIONS": "عمل"
         }
       },
       "EDIT": {
-        "BUTTON_TEXT": "Edit",
-        "TITLE": "Edit webhook",
+        "BUTTON_TEXT": "ترمیم کریں",
+        "TITLE": "ویب ہک میں ترمیم کریں",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration updated successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "ویب ہک کی ترتیب کامیابی سے اپ ڈیٹ ہو گئی",
+          "ERROR_MESSAGE": "Woot سرور سے رابطہ قائم نہیں ہو سکا، براہ کرم بعد میں دوبارہ کوشش کریں"
         }
       },
       "ADD": {
-        "CANCEL": "Cancel",
-        "TITLE": "Add new webhook",
+        "CANCEL": "منسوخ کریں",
+        "TITLE": "نیا ویب ہک شامل کریں",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook configuration added successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "ویب ہک کی ترتیب کامیابی سے شامل ہو گئی",
+          "ERROR_MESSAGE": "Woot سرور سے رابطہ قائم نہیں ہو سکا، براہ کرم بعد میں دوبارہ کوشش کریں"
         }
       },
       "DELETE": {
-        "BUTTON_TEXT": "Delete",
+        "BUTTON_TEXT": "حذف کریں",
         "API": {
-          "SUCCESS_MESSAGE": "Webhook deleted successfully",
-          "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+          "SUCCESS_MESSAGE": "ویب ہک کامیابی سے حذف کر دیا گیا",
+          "ERROR_MESSAGE": "Woot سرور سے رابطہ قائم نہیں ہو سکا، براہ کرم بعد میں دوبارہ کوشش کریں"
         },
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the webhook? ({webhookURL})",
-          "YES": "Yes, Delete ",
-          "NO": "No, Keep it"
+          "TITLE": "حذف کرنے کی تصدیق کریں",
+          "MESSAGE": "کیا آپ واقعی webhook کو حذف کرنا چاہتے ہیں؟ ({webhookURL})",
+          "YES": "ہاں، حذف کریں ",
+          "NO": "نہیں، اسے رکھیں"
         }
       }
     },
     "SLACK": {
-      "DELETE": "Delete",
+      "HEADER": "Slack",
+      "DELETE": "حذف کریں",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "انضمام کو حذف کریں",
+        "MESSAGE": "کیا آپ واقعی انضمام کو حذف کرنا چاہتے ہیں؟ ایسا کرنے سے آپ کے Slack ورک اسپیس پر بات چیت تک رسائی ختم ہو جائے گی۔"
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "SELECTED": "منتخب شدہ"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
-        "UPDATE": "Update",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "OPTION_LABEL": "ایک چینل منتخب کریں",
+        "UPDATE": "اپ ڈیٹ کریں",
+        "BUTTON_TEXT": "چینل کو جوڑیں",
+        "DESCRIPTION": "آپ کا Slack ورک اسپیس اب Chatwoot سے منسلک ہے۔ تاہم، انضمام فی الحال غیر فعال ہے۔ انضمام کو فعال کرنے اور Chatwoot سے چینل کو جوڑنے کے لیے نیچے دیے گئے بٹن پر کلک کریں۔\n\n**نوٹ:** اگر آپ نجی چینل کو جوڑنے کی کوشش کر رہے ہیں، تو اس قدم سے پہلے Slack چینل میں Chatwoot ایپ شامل کریں۔",
+        "ATTENTION_REQUIRED": "توجہ درکار ہے",
+        "EXPIRED": "آپ کا Slack انضمام ختم ہو چکا ہے۔ Slack پر پیغامات وصول کرنا جاری رکھنے کے لیے، براہ کرم انضمام کو حذف کریں اور اپنا ورک اسپیس دوبارہ جوڑیں۔"
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "انضمام کو اپ ڈیٹ کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+      "UPDATE_SUCCESS": "چینل کامیابی سے منسلک ہو گیا ہے",
+      "FAILED_TO_FETCH_CHANNELS": "Slack سے چینلز حاصل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "شمولیت کے لیے یہاں کلک کریں",
+      "LEAVE_THE_ROOM": "کمرہ چھوڑیں",
+      "START_VIDEO_CALL_HELP_TEXT": "گاہک کے ساتھ نیا ویڈیو کال شروع کریں",
+      "JOIN_ERROR": "کال میں شامل ہونے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+      "CREATE_ERROR": "میٹنگ لنک بنانے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "AI مدد",
+      "WITH_AI": " {option} AI کے ساتھ ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "جواب کی تجویز",
+        "SUMMARIZE": "خلاصہ کریں",
+        "REPHRASE": "تحریر کو بہتر بنائیں",
+        "FIX_SPELLING_GRAMMAR": "املا اور گرامر درست کریں",
+        "SHORTEN": "مختصر کریں",
+        "EXPAND": "وسیع کریں",
+        "MAKE_FRIENDLY": "پیغام کا لہجہ دوستانہ کریں",
+        "MAKE_FORMAL": "رسمی لہجہ استعمال کریں",
+        "SIMPLIFY": "سادہ کریں",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Friendly"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Ask Copilot"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "مسودہ مواد",
+        "GENERATED_TITLE": "تخلیق شدہ مواد",
+        "AI_WRITING": "AI لکھ رہا ہے",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Cancel"
+          "APPLY": "اس تجویز کو استعمال کریں",
+          "CANCEL": "منسوخ کریں"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "OpenAI کے ساتھ انضمام کریں",
+        "DESC": "اپنے ڈیش بورڈ میں OpenAI کے GPT ماڈلز کے ساتھ جدید AI خصوصیات لائیں۔ شروع کرنے کے لیے، اپنے OpenAI اکاؤنٹ سے API کلید درج کریں۔",
+        "KEY_PLACEHOLDER": "اپنی OpenAI API کلید درج کریں",
         "BUTTONS": {
-          "NEED_HELP": "Need help?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "NEED_HELP": "مدد چاہیے؟",
+          "DISMISS": "ختم کریں",
+          "FINISH": "سیٹ اپ مکمل کریں"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "آپ OpenAI انضمام بعد میں بھی جب چاہیں سیٹ کر سکتے ہیں۔",
+        "SUCCESS_MESSAGE": "OpenAI انضمام کامیابی سے سیٹ اپ ہو گیا"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "AI کے ساتھ بہتری",
+      "SUMMARY_TITLE": "AI کے ساتھ خلاصہ",
+      "REPLY_TITLE": "AI کے ساتھ جواب کی تجویز",
+      "SUBTITLE": "آپ کے موجودہ مسودے کی بنیاد پر AI کے ذریعے بہتر جواب تیار کیا جائے گا۔",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "لہجہ",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "پیشہ ور",
+          "FRIENDLY": "دوستانہ"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Cancel"
+        "GENERATE": "تخلیق کریں",
+        "GENERATING": "تخلیق ہو رہا ہے...",
+        "CANCEL": "منسوخ کریں"
       },
       "GENERATE_ERROR": "There was an error processing the content, please try again"
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "حذف کریں",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "انضمام کامیابی سے حذف کر دیا گیا"
       }
     },
     "CONNECT": {
-      "BUTTON_TEXT": "Connect"
+      "BUTTON_TEXT": "جوڑیں"
     },
     "DASHBOARD_APPS": {
-      "TITLE": "Dashboard Apps",
-      "HEADER_BTN_TXT": "Add a new dashboard app",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard Apps allow organizations to embed an application inside the Chatwoot dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that inside the dashboard to provide user information, their orders, or their previous payment history.</p><p>When you embed your application using the dashboard in Chatwoot, your application will get the context of the conversation and contact as a window event. Implement a listener for the message event on your page to receive the context.</p><p>To add a new dashboard app, click on the button 'Add a new dashboard app'.</p>",
-      "DESCRIPTION": "Dashboard Apps allow organizations to embed an application inside the dashboard to provide the context for customer support agents. This feature allows you to create an application independently and embed that to provide user information, their orders, or their previous payment history.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "TITLE": "ڈیش بورڈ ایپس",
+      "HEADER_BTN_TXT": "نئی ڈیش بورڈ ایپ شامل کریں",
+      "SIDEBAR_TXT": "<p><b>ڈیش بورڈ ایپس</b></p><p>ڈیش بورڈ ایپس تنظیموں کو اجازت دیتی ہیں کہ وہ Chatwoot ڈیش بورڈ کے اندر ایک ایپلیکیشن شامل کریں تاکہ کسٹمر سپورٹ ایجنٹس کے لیے سیاق و سباق فراہم کیا جا سکے۔ یہ خصوصیت آپ کو ایک ایپلیکیشن آزادانہ طور پر بنانے اور اسے ڈیش بورڈ میں شامل کرنے کی اجازت دیتی ہے تاکہ صارف کی معلومات، ان کے آرڈرز، یا ان کی سابقہ ادائیگی کی تاریخ فراہم کی جا سکے۔</p><p>جب آپ Chatwoot میں ڈیش بورڈ کے ذریعے اپنی ایپلیکیشن کو شامل کرتے ہیں، تو آپ کی ایپلیکیشن کو گفتگو اور رابطہ کا سیاق و سباق ونڈو ایونٹ کے طور پر ملے گا۔ سیاق و سباق وصول کرنے کے لیے اپنے صفحہ پر پیغام ایونٹ کے لیے ایک سننے والا نافذ کریں۔</p><p>نئی ڈیش بورڈ ایپ شامل کرنے کے لیے، 'نئی ڈیش بورڈ ایپ شامل کریں' بٹن پر کلک کریں۔</p>",
+      "DESCRIPTION": "ڈیش بورڈ ایپس تنظیموں کو اجازت دیتی ہیں کہ وہ ڈیش بورڈ کے اندر ایک ایپلیکیشن شامل کریں تاکہ کسٹمر سپورٹ ایجنٹس کے لیے سیاق و سباق فراہم کیا جا سکے۔ یہ خصوصیت آپ کو ایک ایپلیکیشن آزادانہ طور پر بنانے اور اسے شامل کرنے کی اجازت دیتی ہے تاکہ صارف کی معلومات، ان کے آرڈرز، یا ان کی سابقہ ادائیگی کی تاریخ فراہم کی جا سکے۔",
+      "LEARN_MORE": "ڈیش بورڈ ایپس کے بارے میں مزید جانیں",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
-        "404": "There are no dashboard apps configured on this account yet",
-        "LOADING": "Fetching dashboard apps...",
+        "404": "اس اکاؤنٹ پر ابھی تک کوئی ڈیش بورڈ ایپس ترتیب نہیں دی گئی ہیں",
+        "LOADING": "ڈیش بورڈ ایپس حاصل کی جا رہی ہیں...",
         "TABLE_HEADER": {
-          "NAME": "Name",
-          "ENDPOINT": "Endpoint"
+          "NAME": "نام",
+          "ENDPOINT": "اینڈ پوائنٹ",
+          "ACTIONS": "Actions"
         },
-        "EDIT_TOOLTIP": "Edit app",
-        "DELETE_TOOLTIP": "Delete app"
+        "EDIT_TOOLTIP": "ایپ میں ترمیم کریں",
+        "DELETE_TOOLTIP": "ایپ حذف کریں"
       },
       "FORM": {
-        "TITLE_LABEL": "Name",
-        "TITLE_PLACEHOLDER": "Enter a name for your dashboard app",
-        "TITLE_ERROR": "A name for the dashboard app is required",
-        "URL_LABEL": "Endpoint",
-        "URL_PLACEHOLDER": "Enter the endpoint URL where your app is hosted",
-        "URL_ERROR": "A valid URL is required"
+        "TITLE_LABEL": "نام",
+        "TITLE_PLACEHOLDER": "اپنی ڈیش بورڈ ایپ کے لیے ایک نام درج کریں",
+        "TITLE_ERROR": "ڈیش بورڈ ایپ کے لیے نام ضروری ہے",
+        "URL_LABEL": "اینڈ پوائنٹ",
+        "URL_PLACEHOLDER": "وہ اینڈ پوائنٹ URL درج کریں جہاں آپ کی ایپ ہوسٹ کی گئی ہے",
+        "URL_ERROR": "ایک درست URL ضروری ہے"
       },
       "CREATE": {
-        "HEADER": "Add a new dashboard app",
-        "FORM_SUBMIT": "Submit",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app configured successfully",
-        "API_ERROR": "We couldn't create an app. Please try again later"
+        "HEADER": "نئی ڈیش بورڈ ایپ شامل کریں",
+        "FORM_SUBMIT": "جمع کریں",
+        "FORM_CANCEL": "منسوخ کریں",
+        "API_SUCCESS": "ڈیش بورڈ ایپ کامیابی سے ترتیب دی گئی",
+        "API_ERROR": "ہم ایپ نہیں بنا سکے۔ براہ کرم بعد میں دوبارہ کوشش کریں"
       },
       "UPDATE": {
-        "HEADER": "Edit dashboard app",
-        "FORM_SUBMIT": "Update",
-        "FORM_CANCEL": "Cancel",
-        "API_SUCCESS": "Dashboard app updated successfully",
-        "API_ERROR": "We couldn't update the app. Please try again later"
+        "HEADER": "ڈیش بورڈ ایپ میں ترمیم کریں",
+        "FORM_SUBMIT": "اپ ڈیٹ کریں",
+        "FORM_CANCEL": "منسوخ کریں",
+        "API_SUCCESS": "ڈیش بورڈ ایپ کامیابی سے اپ ڈیٹ ہو گئی",
+        "API_ERROR": "ہم ایپ کو اپ ڈیٹ نہیں کر سکے۔ براہ کرم بعد میں دوبارہ کوشش کریں"
       },
       "DELETE": {
-        "CONFIRM_YES": "Yes, delete it",
-        "CONFIRM_NO": "No, keep it",
-        "TITLE": "Confirm deletion",
-        "MESSAGE": "Are you sure to delete the app - {appName}?",
-        "API_SUCCESS": "Dashboard app deleted successfully",
-        "API_ERROR": "We couldn't delete the app. Please try again later"
+        "CONFIRM_YES": "ہاں، اسے حذف کریں",
+        "CONFIRM_NO": "نہیں، اسے رکھیں",
+        "TITLE": "حذف کرنے کی تصدیق کریں",
+        "MESSAGE": "کیا آپ واقعی ایپ - {appName} کو حذف کرنا چاہتے ہیں؟",
+        "API_SUCCESS": "ڈیش بورڈ ایپ کامیابی سے حذف ہو گئی",
+        "API_ERROR": "ہم ایپ کو حذف نہیں کر سکے۔ براہ کرم بعد میں دوبارہ کوشش کریں"
       }
     },
     "LINEAR": {
-      "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
-      "CREATE": "Create",
+      "HEADER": "Linear",
+      "ADD_OR_LINK_BUTTON": "Linear مسئلہ بنائیں/جوڑیں",
+      "LOADING": "Linear مسائل حاصل کیے جا رہے ہیں...",
+      "LOADING_ERROR": "Linear مسائل حاصل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+      "CREATE": "بنائیں",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
-        "TITLE": "Link",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "SEARCH": "مسائل تلاش کریں",
+        "SELECT": "مسئلہ منتخب کریں",
+        "TITLE": "جوڑیں",
+        "EMPTY_LIST": "کوئی Linear مسئلہ نہیں ملا",
+        "LOADING": "لوڈ ہو رہا ہے",
+        "ERROR": "Linear مسائل حاصل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "LINK_SUCCESS": "مسئلہ کامیابی سے جوڑا گیا",
+        "LINK_ERROR": "مسئلہ جوڑنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "LINK_TITLE": "گفتگو (#{conversationId}) {name} کے ساتھ"
       },
       "ADD_OR_LINK": {
-        "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "TITLE": "Linear مسئلہ بنائیں/جوڑیں",
+        "DESCRIPTION": "بات چیت سے Linear مسائل بنائیں، یا موجودہ مسائل کو جوڑیں تاکہ آسانی سے ٹریک کیا جا سکے۔",
         "FORM": {
           "TITLE": {
-            "LABEL": "Title",
-            "PLACEHOLDER": "Enter title",
-            "REQUIRED_ERROR": "Title is required"
+            "LABEL": "عنوان",
+            "PLACEHOLDER": "عنوان درج کریں",
+            "REQUIRED_ERROR": "عنوان ضروری ہے"
           },
           "DESCRIPTION": {
-            "LABEL": "Description",
-            "PLACEHOLDER": "Enter description"
+            "LABEL": "تفصیل",
+            "PLACEHOLDER": "تفصیل درج کریں"
           },
           "TEAM": {
-            "LABEL": "Team",
-            "PLACEHOLDER": "Select team",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "LABEL": "ٹیم",
+            "PLACEHOLDER": "ٹیم منتخب کریں",
+            "SEARCH": "ٹیم تلاش کریں",
+            "REQUIRED_ERROR": "ٹیم ضروری ہے"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "ذمہ دار",
+            "PLACEHOLDER": "مقرر منتخب کریں",
+            "SEARCH": "مقرر تلاش کریں"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "ترجیح",
+            "PLACEHOLDER": "ترجیح منتخب کریں",
+            "SEARCH": "ترجیح تلاش کریں"
           },
           "LABEL": {
-            "LABEL": "Label",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "LABEL": "لیبل",
+            "PLACEHOLDER": "لیبل منتخب کریں",
+            "SEARCH": "لیبل تلاش کریں"
           },
           "STATUS": {
-            "LABEL": "Status",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "LABEL": "حالت",
+            "PLACEHOLDER": "حالت منتخب کریں",
+            "SEARCH": "حالت تلاش کریں"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "پروجیکٹ",
+            "PLACEHOLDER": "پروجیکٹ منتخب کریں",
+            "SEARCH": "پروجیکٹ تلاش کریں"
           }
         },
-        "CREATE": "Create",
-        "CANCEL": "Cancel",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE": "بنائیں",
+        "CANCEL": "منسوخ کریں",
+        "CREATE_SUCCESS": "مسئلہ کامیابی سے بنایا گیا",
+        "CREATE_ERROR": "مسئلہ بنانے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "LOADING_TEAM_ERROR": "ٹیمز حاصل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "LOADING_TEAM_ENTITIES_ERROR": "ٹیم کی اکائیاں حاصل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
       },
       "ISSUE": {
-        "STATUS": "Status",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
-        "LABELS": "Labels",
-        "CREATED_AT": "Created at {createdAt}"
+        "STATUS": "حالت",
+        "PRIORITY": "ترجیح",
+        "ASSIGNEE": "ذمہ دار",
+        "LABELS": "لیبلز",
+        "CREATED_AT": "تخلیق شدہ: {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "جوڑ توڑ ختم کریں",
+        "SUCCESS": "مسئلہ کامیابی سے منقطع ہو گیا",
+        "ERROR": "مسئلہ منقطع کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "کوئی منسلک مسائل نہیں ملے",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "کیا آپ واقعی انضمام کو حذف کرنا چاہتے ہیں؟",
+        "MESSAGE": "کیا آپ واقعی انضمام کو حذف کرنا چاہتے ہیں؟",
+        "CONFIRM": "ہاں، حذف کریں",
+        "CANCEL": "منسوخ کریں"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Linear سے جڑیں",
+        "AGENT_DESCRIPTION": "Linear ورک اسپیس منسلک نہیں ہے۔ اس انٹیگریشن کو استعمال کرنے کے لیے اپنے ایڈمنسٹریٹر سے ورک اسپیس منسلک کرنے کی درخواست کریں۔",
+        "DESCRIPTION": "Linear ورک اسپیس منسلک نہیں ہے۔ اس انٹیگریشن کو استعمال کرنے کے لیے نیچے دیے گئے بٹن پر کلک کر کے اپنا ورک اسپیس منسلک کریں۔",
+        "BUTTON_TEXT": "Linear ورک اسپیس سے جڑیں"
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
-        "CANCEL": "Cancel"
+        "TITLE": "کیا آپ واقعی Notion انٹیگریشن حذف کرنا چاہتے ہیں؟",
+        "MESSAGE": "اس انٹیگریشن کو حذف کرنے سے آپ کے Notion ورک اسپیس تک رسائی ختم ہو جائے گی اور تمام متعلقہ فعالیت بند ہو جائے گی۔",
+        "CONFIRM": "ہاں، حذف کریں",
+        "CANCEL": "منسوخ کریں"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "کپٹن",
+    "HEADER_KNOW_MORE": "مزید جانیں",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
-      "EMPTY_LIST": "No assistants found, please create one to get started"
+      "ASSISTANTS": "اسسٹنٹس",
+      "SWITCH_ASSISTANT": "اسسٹنٹس کے درمیان سوئچ کریں",
+      "NEW_ASSISTANT": "اسسٹنٹ بنائیں",
+      "EMPTY_LIST": "کوئی اسسٹنٹ نہیں ملا، شروع کرنے کے لیے براہ کرم ایک بنائیں"
     },
     "COPILOT": {
-      "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
-      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
-      "SEND_MESSAGE": "Send message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "TITLE": "کوپائلٹ",
+      "TRY_THESE_PROMPTS": "ان پرامپٹس کو آزمائیں",
+      "PANEL_TITLE": "کوپائلٹ کے ساتھ شروع کریں",
+      "KICK_OFF_MESSAGE": "کیا آپ کو فوری خلاصہ چاہیے، پچھلی بات چیت چیک کرنا چاہتے ہیں، یا بہتر جواب تیار کرنا چاہتے ہیں؟ کوپائلٹ یہاں ہے تاکہ کام تیز ہو جائے۔",
+      "SEND_MESSAGE": "پیغام بھیجیں...",
+      "EMPTY_MESSAGE": "جواب تیار کرنے میں خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔",
+      "LOADER": "Captain سوچ رہا ہے",
+      "YOU": "آپ",
+      "USE": "اسے استعمال کریں",
+      "RESET": "ری سیٹ کریں",
+      "SHOW_STEPS": "مراحل دکھائیں",
+      "SELECT_ASSISTANT": "اسسٹنٹ منتخب کریں",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "اس گفتگو کا خلاصہ کریں",
+          "CONTENT": "گاہک اور سپورٹ ایجنٹ کے درمیان زیر بحث اہم نکات کا خلاصہ کریں، بشمول گاہک کے خدشات، سوالات، اور سپورٹ ایجنٹ کی طرف سے فراہم کردہ حل یا جوابات۔"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "جواب تجویز کریں",
+          "CONTENT": "گاہک کی استفسار کا تجزیہ کریں، اور ایک ایسا جواب تیار کریں جو ان کے خدشات یا سوالات کو مؤثر طریقے سے حل کرے۔ جواب واضح، مختصر اور مددگار معلومات فراہم کرے۔"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "اس گفتگو کی درجہ بندی کریں",
+          "CONTENT": "گفتگو کا جائزہ لیں کہ یہ کس حد تک گاہک کی ضروریات کو پورا کرتی ہے۔ لہجے، وضاحت، اور مؤثریت کی بنیاد پر 5 میں سے درجہ بندی شیئر کریں۔"
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "اعلی ترجیحی گفتگو",
+          "CONTENT": "تمام اعلی ترجیحی کھلی گفتگوؤں کا خلاصہ دیں۔ گفتگو کا ID، گاہک کا نام (اگر دستیاب ہو)، آخری پیغام کا مواد، اور تفویض شدہ ایجنٹ شامل کریں۔ اگر متعلقہ ہو تو حیثیت کے مطابق گروپ بندی کریں۔"
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "رابطے کی فہرست",
+          "CONTENT": "مجھے ٹاپ 10 رابطوں کی فہرست دکھائیں۔ نام، ای میل یا فون نمبر (اگر دستیاب ہو)، آخری بار دیکھنے کا وقت، ٹیگز (اگر کوئی ہوں) شامل کریں۔"
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
-      "MESSAGE_PLACEHOLDER": "Type your message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "USER": "آپ",
+      "ASSISTANT": "اسسٹنٹ",
+      "MESSAGE_PLACEHOLDER": "اپنا پیغام ٹائپ کریں...",
+      "HEADER": "پلے گراؤنڈ",
+      "DESCRIPTION": "اس پلے گراؤنڈ کا استعمال اپنے اسسٹنٹ کو پیغامات بھیجنے اور چیک کرنے کے لیے کریں کہ آیا وہ درست، تیز اور متوقع انداز میں جواب دیتا ہے۔",
+      "CREDIT_NOTE": "یہاں بھیجے گئے پیغامات آپ کے کپٹن کریڈٹس میں شمار ہوں گے۔"
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Captain AI استعمال کرنے کے لیے اپ گریڈ کریں",
+      "AVAILABLE_ON": "Captain مفت پلان پر دستیاب نہیں ہے۔",
+      "UPGRADE_PROMPT": "ہمارے اسسٹنٹس، کوپائلٹ اور مزید تک رسائی کے لیے اپنا پلان اپ گریڈ کریں۔",
+      "UPGRADE_NOW": "ابھی اپ گریڈ کریں",
+      "CANCEL_ANYTIME": "آپ کسی بھی وقت اپنا پلان تبدیل یا منسوخ کر سکتے ہیں"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Captain AI صرف انٹرپرائز پلانز میں دستیاب ہے۔",
+      "UPGRADE_PROMPT": "ہمارے اسسٹنٹس، کوپائلٹ اور مزید تک رسائی کے لیے اپنا پلان اپ گریڈ کریں۔",
+      "ASK_ADMIN": "براہ کرم اپ گریڈ کے لیے اپنے ایڈمنسٹریٹر سے رابطہ کریں۔"
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "آپ نے اپنے جواب کی حد کا 80% سے زیادہ استعمال کر لیا ہے۔ Captain AI استعمال جاری رکھنے کے لیے براہ کرم اپ گریڈ کریں۔",
+      "DOCUMENTS": "دستاویز کی حد پوری ہو گئی ہے۔ Captain AI استعمال جاری رکھنے کے لیے اپ گریڈ کریں۔"
     },
     "FORM": {
-      "CANCEL": "Cancel",
-      "CREATE": "Create",
-      "EDIT": "Update"
+      "CANCEL": "منسوخ کریں",
+      "CREATE": "بنائیں",
+      "EDIT": "اپ ڈیٹ کریں"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "اسسٹنٹس",
+      "NO_ASSISTANTS_AVAILABLE": "آپ کے اکاؤنٹ میں کوئی اسسٹنٹ دستیاب نہیں ہے۔",
+      "ADD_NEW": "نیا اسسٹنٹ بنائیں",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "کیا آپ واقعی اسسٹنٹ کو حذف کرنا چاہتے ہیں؟",
+        "DESCRIPTION": "یہ عمل مستقل ہے۔ اس اسسٹنٹ کو حذف کرنے سے یہ تمام منسلک ان باکسز سے ہٹا دیا جائے گا اور تمام تیار کردہ معلومات مستقل طور پر مٹ جائیں گی۔",
+        "CONFIRM": "ہاں، حذف کریں",
+        "SUCCESS_MESSAGE": "اسسٹنٹ کامیابی سے حذف کر دیا گیا ہے",
+        "ERROR_MESSAGE": "اسسٹنٹ کو حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "نیچے دی گئی تفصیلات پُر کریں تاکہ اپنے اسسٹنٹ کا نام رکھ سکیں، اس کا مقصد بیان کریں، اور جس پروڈکٹ کی مدد کرے گا اسے مخصوص کریں۔",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "ایک اسسٹنٹ بنائیں",
+        "SUCCESS_MESSAGE": "اسسٹنٹ کامیابی سے بنایا گیا ہے",
+        "ERROR_MESSAGE": "اسسٹنٹ بنانے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "FORM": {
-        "UPDATE": "Update",
+        "UPDATE": "اپ ڈیٹ کریں",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
-          "FEATURES": "Features",
-          "TOOLS": "Tools "
+          "BASIC_INFO": "بنیادی معلومات",
+          "SYSTEM_MESSAGES": "سسٹم پیغامات",
+          "INSTRUCTIONS": "ہدایات",
+          "FEATURES": "خصوصیات",
+          "TOOLS": "اوزار "
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "LABEL": "نام",
+          "PLACEHOLDER": "اسسٹنٹ کا نام درج کریں",
+          "ERROR": "نام ضروری ہے"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "جواب کا درجہ حرارت",
+          "DESCRIPTION": "اسسٹنٹ کے جوابات کتنے تخلیقی یا محدود ہونے چاہئیں، اسے ایڈجسٹ کریں۔ کم قیمتیں زیادہ مرکوز اور متعین جوابات دیتی ہیں، جبکہ زیادہ قیمتیں زیادہ تخلیقی اور متنوع نتائج کی اجازت دیتی ہیں۔"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "LABEL": "تفصیل",
+          "PLACEHOLDER": "اسسٹنٹ کی تفصیل درج کریں",
+          "ERROR": "تفصیل ضروری ہے"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "پروڈکٹ کا نام",
+          "PLACEHOLDER": "مصنوعات کا نام درج کریں",
+          "ERROR": "مصنوعات کا نام ضروری ہے"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "خوش آمدید پیغام",
+          "PLACEHOLDER": "خوش آمدید پیغام درج کریں"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "ہینڈ آف پیغام",
+          "PLACEHOLDER": "ہینڈ آف پیغام درج کریں"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "حل کا پیغام",
+          "PLACEHOLDER": "حل کا پیغام درج کریں"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "ہدایات",
+          "PLACEHOLDER": "اسسٹنٹ کے لیے ہدایات درج کریں"
         },
         "FEATURES": {
-          "TITLE": "Features",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "TITLE": "خصوصیات",
+          "ALLOW_CONVERSATION_FAQS": "حل شدہ گفتگوؤں سے FAQs تیار کریں",
+          "ALLOW_MEMORIES": "گاہک کے تعاملات سے اہم تفصیلات کو یادداشتوں کے طور پر محفوظ کریں۔",
+          "ALLOW_CITATIONS": "Include source citations in responses",
+          "ALLOW_CONTACT_ATTRIBUTES": "Allow access to contact information"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "اسسٹنٹ کو اپ ڈیٹ کریں",
+        "SUCCESS_MESSAGE": "اسسٹنٹ کامیابی سے اپ ڈیٹ ہو گیا ہے",
+        "ERROR_MESSAGE": "اسسٹنٹ کو اپ ڈیٹ کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔",
+        "NOT_FOUND": "اسسٹنٹ نہیں ملا۔ براہ کرم دوبارہ کوشش کریں۔"
       },
       "SETTINGS": {
         "HEADER": "Settings",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "بنیادی ترتیبات",
+          "DESCRIPTION": "جب گفتگو ختم ہو یا انسان کو منتقل کیا جائے تو اسسٹنٹ کیا کہتا ہے اسے حسب ضرورت بنائیں۔"
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "سسٹم کی ترتیبات",
+          "DESCRIPTION": "جب گفتگو ختم ہو یا انسان کو منتقل کیا جائے تو اسسٹنٹ کیا کہتا ہے اسے حسب ضرورت بنائیں۔"
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "مزے کی چیزیں",
+          "DESCRIPTION": "اسسٹنٹ کو مزید کنٹرول دیں۔ (کچھ زیادہ بصری جیسے کہ کہانی: سوال کی گارڈریل → منظرنامے → آؤٹ پٹ) صارف کو واقعی ان کا استعمال کرنے کی ترغیب دیں۔",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "گارڈریل",
+              "DESCRIPTION": "چیزوں کو راستے پر رکھتا ہے—صرف وہی قسم کے سوالات جو آپ چاہتے ہیں کہ آپ کا اسسٹنٹ جواب دے، کوئی غیر متعلقہ یا موضوع سے ہٹ کر نہیں۔"
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "جواب کی رہنما اصول",
+              "DESCRIPTION": "آپ کے معاون کے جوابات کا انداز اور ساخت—صاف اور دوستانہ؟ مختصر اور جامع؟ تفصیلی اور رسمی؟"
             }
           }
         },
@@ -523,157 +568,157 @@
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "اسسٹنٹ کو ترمیم کریں",
+        "DELETE_ASSISTANT": "اسسٹنٹ کو حذف کریں",
+        "VIEW_CONNECTED_INBOXES": "منسلک ان باکسز دیکھیں"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "کوئی اسسٹنٹ دستیاب نہیں",
+        "SUBTITLE": "ایک اسسٹنٹ بنائیں جو آپ کے صارفین کو تیز اور درست جوابات فراہم کرے۔ یہ آپ کے مدد کے مضامین اور پچھلی گفتگوؤں سے سیکھ سکتا ہے۔",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Captain اسسٹنٹ",
+          "NOTE": "Captain اسسٹنٹ براہ راست صارفین سے بات چیت کرتا ہے، آپ کے مدد کے دستاویزات اور پچھلی گفتگوؤں سے سیکھتا ہے، اور فوری، درست جوابات فراہم کرتا ہے۔ یہ ابتدائی سوالات کو سنبھالتا ہے، تیز حل فراہم کرتا ہے اور ضرورت پڑنے پر ایجنٹ کو منتقل کر دیتا ہے۔"
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "محفوظ حدود",
+        "DESCRIPTION": "چیزوں کو درست راستے پر رکھتا ہے—صرف وہی سوالات جن کے جوابات آپ اپنے معاون سے چاہتے ہیں، کوئی ممنوع یا غیر متعلقہ بات نہیں۔",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} آئٹم منتخب | {count} آئٹمز منتخب",
+          "SELECT_ALL": "تمام منتخب کریں ({count})",
+          "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
+          "BULK_DELETE_BUTTON": "حذف کریں"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "مثالی محفوظ حدود",
+            "ADD": "سب شامل کریں",
+            "ADD_SINGLE": "اسے شامل کریں",
+            "SAVE": "شامل کریں اور محفوظ کریں (↵)",
+            "PLACEHOLDER": "ایک اور محفوظ حد ٹائپ کریں..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "TITLE": "ایک محفوظ حد شامل کریں",
+            "CREATE": "بنائیں",
+            "CANCEL": "منسوخ کریں",
+            "PLACEHOLDER": "ایک اور محفوظ حد ٹائپ کریں...",
+            "TEST_ALL": "سب کی جانچ کریں"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "تلاش کریں..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "کوئی محفوظ حدود نہیں ملی۔ شروع کرنے کے لیے تخلیق کریں یا مثالیں شامل کریں۔",
+        "SEARCH_EMPTY_MESSAGE": "اس تلاش کے لیے کوئی محفوظ حدود نہیں ملی۔",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "محفوظ حدود کامیابی سے شامل کی گئیں",
+            "ERROR": "محفوظ حدود شامل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "محفوظ حدود کامیابی سے اپ ڈیٹ کی گئیں",
+            "ERROR": "محفوظ حدود اپ ڈیٹ کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "محفوظ حدود کامیابی سے حذف کی گئیں",
+            "ERROR": "محفوظ حدود حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "جواب کی رہنما اصول",
+        "DESCRIPTION": "آپ کے معاون کے جوابات کا انداز اور ساخت—صاف اور دوستانہ؟ مختصر اور جامع؟ تفصیلی اور رسمی؟",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} آئٹم منتخب | {count} آئٹمز منتخب",
+          "SELECT_ALL": "تمام منتخب کریں ({count})",
+          "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
+          "BULK_DELETE_BUTTON": "حذف کریں"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "مثالی جواب کی رہنما اصول",
+            "ADD": "سب شامل کریں",
+            "ADD_SINGLE": "اسے شامل کریں",
+            "SAVE": "شامل کریں اور محفوظ کریں (↵)",
+            "PLACEHOLDER": "ایک اور جواب کی رہنما اصول ٹائپ کریں..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Create",
-            "CANCEL": "Cancel",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "TITLE": "ایک جواب کی رہنما اصول شامل کریں",
+            "CREATE": "بنائیں",
+            "CANCEL": "منسوخ کریں",
+            "PLACEHOLDER": "ایک اور جواب کی رہنما اصول ٹائپ کریں...",
+            "TEST_ALL": "سب کی جانچ کریں"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "تلاش کریں..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "کوئی جواب کی رہنما اصول نہیں ملی۔ شروع کرنے کے لیے تخلیق کریں یا مثالیں شامل کریں۔",
+        "SEARCH_EMPTY_MESSAGE": "اس تلاش کے لیے کوئی جواب کی رہنما اصول نہیں ملی۔",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "جواب کی رہنما اصول کامیابی سے شامل کی گئیں",
+            "ERROR": "جواب کی رہنما اصول شامل کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "جواب کی رہنما اصول کامیابی سے اپ ڈیٹ کی گئیں",
+            "ERROR": "جواب کی رہنما اصول اپ ڈیٹ کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "جواب کی رہنما اصول کامیابی سے حذف کی گئیں",
+            "ERROR": "جواب کی رہنما اصول حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "مناظر",
+        "DESCRIPTION": "اپنے معاون کو کچھ سیاق و سباق دیں—جیسے “جب صارف پھنس جائے تو کیا کرنا ہے”، یا “ریفنڈ کی درخواست کے دوران کیسے عمل کرنا ہے۔”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
-          "BULK_DELETE_BUTTON": "Delete"
+          "SELECTED": "{count} آئٹم منتخب | {count} آئٹمز منتخب",
+          "SELECT_ALL": "تمام منتخب کریں ({count})",
+          "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
+          "BULK_DELETE_BUTTON": "حذف کریں"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "مثالی مناظر",
+            "ADD": "سب شامل کریں",
+            "ADD_SINGLE": "اسے شامل کریں",
+            "TOOLS_USED": "استعمال شدہ آلات :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "ایک منظر شامل کریں",
+            "TITLE": "ایک منظر بنائیں",
             "FORM": {
               "TITLE": {
-                "LABEL": "Title",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "LABEL": "عنوان",
+                "PLACEHOLDER": "منظر کے لیے نام درج کریں",
+                "ERROR": "منظر کا نام ضروری ہے"
               },
               "DESCRIPTION": {
-                "LABEL": "Description",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "LABEL": "تفصیل",
+                "PLACEHOLDER": "وضاحت کریں کہ یہ منظر کہاں اور کیسے استعمال ہوگا",
+                "ERROR": "منظر کی تفصیل ضروری ہے"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "کیسے سنبھالنا ہے",
+                "PLACEHOLDER": "وضاحت کریں کہ یہ منظر کہاں اور کیسے سنبھالا جائے گا",
+                "ERROR": "منظر کا مواد ضروری ہے"
               },
-              "CREATE": "Create",
-              "CANCEL": "Cancel"
+              "CREATE": "بنائیں",
+              "CANCEL": "منسوخ کریں"
             }
           }
         },
         "UPDATE": {
-          "CANCEL": "Cancel",
-          "UPDATE": "Update changes"
+          "CANCEL": "منسوخ کریں",
+          "UPDATE": "تبدیلیاں اپ ڈیٹ کریں"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "تلاش کریں..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "کوئی منظر نہیں ملا۔ شروع کرنے کے لیے تخلیق کریں یا مثالیں شامل کریں۔",
+        "SEARCH_EMPTY_MESSAGE": "اس تلاش کے لیے کوئی منظر نہیں ملا۔",
         "API": {
           "ADD": {
             "SUCCESS": "Scenarios added successfully",
@@ -691,17 +736,28 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
-      "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+      "HEADER": "دستاویزات",
+      "ADD_NEW": "نئی دستاویز بنائیں",
+      "SELECTED": "{count} منتخب شدہ",
+      "SELECT_ALL": "تمام منتخب کریں ({count})",
+      "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "ہاں، سب کو حذف کریں",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "RELATED_RESPONSES": {
+        "TITLE": "متعلقہ FAQs",
+        "DESCRIPTION": "یہ FAQs براہ راست دستاویز سے تیار کیے گئے ہیں۔"
+      },
+      "FORM_DESCRIPTION": "دستاویز کا URL درج کریں تاکہ اسے معلوماتی ماخذ کے طور پر شامل کیا جا سکے اور اس سے منسلک اسسٹنٹ منتخب کریں۔",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "دستاویز شامل کریں",
+        "SUCCESS_MESSAGE": "دستاویز کامیابی سے بنائی گئی ہے",
+        "ERROR_MESSAGE": "دستاویز بنانے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "FORM": {
         "TYPE": {
@@ -711,8 +767,8 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "PLACEHOLDER": "دستاویز کا URL درج کریں",
+          "ERROR": "براہ کرم دستاویز کے لیے درست URL فراہم کریں"
         },
         "PDF_FILE": {
           "LABEL": "PDF File",
@@ -728,28 +784,29 @@
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "کیا آپ واقعی دستاویز کو حذف کرنا چاہتے ہیں؟",
+        "DESCRIPTION": "یہ عمل مستقل ہے۔ اس دستاویز کو حذف کرنے سے تمام تیار کردہ معلومات مستقل طور پر مٹ جائیں گی۔",
+        "CONFIRM": "ہاں، حذف کریں",
+        "SUCCESS_MESSAGE": "دستاویز کامیابی سے حذف کر دی گئی ہے",
+        "ERROR_MESSAGE": "دستاویز کو حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "متعلقہ جوابات دیکھیں",
+        "DELETE_DOCUMENT": "دستاویز حذف کریں"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "کوئی دستاویزات دستیاب نہیں",
+        "SUBTITLE": "دستاویزات آپ کے اسسٹنٹ کے لیے FAQs تیار کرنے میں استعمال ہوتی ہیں۔ آپ دستاویزات درآمد کر کے اپنے اسسٹنٹ کے لیے سیاق و سباق فراہم کر سکتے ہیں۔",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain دستاویز",
+          "NOTE": "Captain میں ایک دستاویز اسسٹنٹ کے لیے علم کا ذریعہ ہوتی ہے۔ آپ کے مدد مرکز یا رہنما خطوط کو منسلک کر کے، Captain مواد کا تجزیہ کر سکتا ہے اور صارفین کی پوچھ گچھ کے لیے درست جوابات فراہم کر سکتا ہے۔"
         }
       }
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "No custom tools available",
         "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Custom tool deleted successfully",
         "ERROR_MESSAGE": "Failed to delete custom tool"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Tool Name",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "ERROR": "Tool name is required",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
@@ -857,74 +933,74 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "اکثر پوچھے جانے والے سوالات",
       "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "نیا FAQ بنائیں",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "گفتگو #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
+      "SELECTED": "{count} منتخب شدہ",
+      "SELECT_ALL": "تمام منتخب کریں ({count})",
+      "UNSELECT_ALL": "تمام غیر منتخب کریں ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
-      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_APPROVE_BUTTON": "منظور کریں",
+      "BULK_DELETE_BUTTON": "حذف کریں",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "FAQs کامیابی سے منظور کر دیے گئے",
+        "ERROR_MESSAGE": "FAQs کی منظوری میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "FAQs حذف کریں؟",
+        "DESCRIPTION": "کیا آپ واقعی منتخب شدہ FAQs کو حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں کیا جا سکتا۔",
+        "CONFIRM": "ہاں، سب کو حذف کریں",
+        "SUCCESS_MESSAGE": "FAQs کامیابی سے حذف کر دیے گئے",
+        "ERROR_MESSAGE": "FAQs حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "کیا آپ واقعی FAQ کو حذف کرنا چاہتے ہیں؟",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "ہاں، حذف کریں",
+        "SUCCESS_MESSAGE": "FAQ کامیابی سے حذف کر دیا گیا",
+        "ERROR_MESSAGE": "FAQ حذف کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
-        "ALL_ASSISTANTS": "All"
+        "ASSISTANT": "اسسٹنٹ: {selected}",
+        "STATUS": "حالت: {selected}",
+        "ALL_ASSISTANTS": "تمام"
       },
       "STATUS": {
-        "TITLE": "Status",
-        "PENDING": "Pending",
-        "APPROVED": "Approved",
-        "ALL": "All"
+        "TITLE": "حالت",
+        "PENDING": "زیر التواء",
+        "APPROVED": "منظور شدہ",
+        "ALL": "تمام"
       },
       "PENDING_BANNER": {
         "TITLE": "Captain has found some FAQs your customers were looking for.",
         "ACTION": "Click here to review"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "ایک سوال اور اس کا متعلقہ جواب علم کے ذخیرے میں شامل کریں اور اس اسسٹنٹ کا انتخاب کریں جس سے یہ منسلک ہونا چاہیے۔",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "ایک FAQ شامل کریں",
+        "SUCCESS_MESSAGE": "جواب کامیابی سے شامل کر دیا گیا ہے۔",
+        "ERROR_MESSAGE": "جواب شامل کرنے میں خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔"
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "سوال",
+          "PLACEHOLDER": "سوال یہاں درج کریں",
+          "ERROR": "براہ کرم ایک درست سوال فراہم کریں۔"
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "جواب",
+          "PLACEHOLDER": "جواب یہاں درج کریں",
+          "ERROR": "براہ کرم ایک درست جواب فراہم کریں۔"
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "FAQ کو اپ ڈیٹ کریں",
+        "SUCCESS_MESSAGE": "FAQ کامیابی سے اپ ڈیٹ کر دیا گیا ہے",
+        "ERROR_MESSAGE": "FAQ اپ ڈیٹ کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں",
+        "APPROVE_SUCCESS_MESSAGE": "FAQ کو منظور شدہ نشان زد کیا گیا ہے"
       },
       "OPTIONS": {
         "APPROVE": "Approve",
@@ -932,45 +1008,45 @@
         "DELETE_RESPONSE": "Delete"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
+        "TITLE": "کوئی FAQ نہیں ملا",
         "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "SUBTITLE": "FAQs آپ کے اسسٹنٹ کو آپ کے صارفین کے سوالات کے تیز اور درست جوابات فراہم کرنے میں مدد دیتی ہیں۔ یہ خودکار طور پر آپ کے مواد سے تیار کی جا سکتی ہیں یا دستی طور پر شامل کی جا سکتی ہیں۔",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "کپٹن FAQ",
+          "NOTE": "کپٹن FAQs عام صارف کے سوالات کا پتہ لگاتا ہے—چاہے وہ آپ کے نالج بیس میں موجود نہ ہوں یا بار بار پوچھے جاتے ہوں—اور متعلقہ FAQs تیار کرتا ہے تاکہ سپورٹ بہتر ہو سکے۔ آپ ہر تجویز کا جائزہ لے سکتے ہیں اور فیصلہ کر سکتے ہیں کہ اسے منظور کرنا ہے یا مسترد۔"
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "متصل ان باکسز",
+      "ADD_NEW": "نیا ان باکس منسلک کریں",
       "OPTIONS": {
-        "DISCONNECT": "Disconnect"
+        "DISCONNECT": "منقطع کریں"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "کیا آپ واقعی ان باکس کو منقطع کرنا چاہتے ہیں؟",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "ہاں، حذف کریں",
+        "SUCCESS_MESSAGE": "ان باکس کامیابی سے منقطع کر دیا گیا۔",
+        "ERROR_MESSAGE": "ان باکس منقطع کرنے میں خرابی ہوئی، براہ کرم دوبارہ کوشش کریں۔"
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "اسسٹنٹ کے ساتھ منسلک کرنے کے لیے ایک ان باکس منتخب کریں۔",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "ایک ان باکس منسلک کریں",
+        "SUCCESS_MESSAGE": "ان باکس کامیابی سے منسلک ہو گیا۔",
+        "ERROR_MESSAGE": "ان باکس منسلک کرنے میں خرابی ہوئی۔ براہ کرم دوبارہ کوشش کریں۔"
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Inbox",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "ان باکس",
+          "PLACEHOLDER": "اسسٹنٹ کو تعینات کرنے کے لیے ان باکس منتخب کریں۔",
+          "ERROR": "ان باکس کا انتخاب ضروری ہے۔"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "کوئی منسلک ان باکس نہیں",
+        "SUBTITLE": "ان باکس منسلک کرنے سے اسسٹنٹ ابتدائی سوالات کو سنبھال سکتا ہے اور پھر انہیں آپ کو منتقل کر سکتا ہے۔"
       }
     }
   }

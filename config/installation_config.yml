@@ -107,6 +107,16 @@
   value:
   description: 'The support email address for your installation'
   locked: false
+- name: ACCOUNT_EMAILS_LIMIT
+  display_title: 'Account Email Sending Limit (Daily)'
+  description: 'Maximum number of non-channel emails an account can send per day'
+  value: 100
+  locked: false
+- name: ACCOUNT_EMAILS_PLAN_LIMITS
+  display_title: 'Account Email Plan Limits (Daily)'
+  description: 'Per-plan daily email sending limits as JSON'
+  value:
+  type: code
 # ------- End of Email Related Config ------- #
 
 # ------- Facebook Channel Related Config ------- #
@@ -199,7 +209,20 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS
+  display_title: 'Captain Document Auto Sync Intervals'
+  description: 'JSON map of plan-wise Captain document auto-sync intervals in hours. Use null to disable auto-sync for a plan.'
+  value:
+  locked: false
+  type: code
 # End of Captain Config
+
+# ------- Context.dev Config ------- #
+- name: CONTEXT_DEV_API_KEY
+  display_title: 'Context.dev API Key'
+  description: 'API key for Context.dev branding service used during account onboarding'
+  type: secret
+# ------- End of Context.dev Config ------- #
 
 # ------- Chatwoot Internal Config for Cloud ----#
 - name: CHATWOOT_INBOX_TOKEN

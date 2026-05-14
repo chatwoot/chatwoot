@@ -1,6 +1,7 @@
 {
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
+      "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
         "MESSAGE": "Are you sure you want to delete the Shopify integration?"
@@ -17,8 +18,10 @@
     },
     "HEADER": "Entegrasyonlar",
     "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
-    "LEARN_MORE": "Learn more about integrations",
+    "LEARN_MORE": "Entegrasyonlar hakkında daha fazla bilgi edinin",
     "LOADING": "Fetching integrations",
+    "SEARCH_PLACEHOLDER": "Search integrations...",
+    "NO_RESULTS": "No integrations found matching your search",
     "CAPTAIN": {
       "DISABLED": "Captain is not enabled on your account.",
       "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
@@ -28,6 +31,17 @@
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abone Olunan Olaylar",
       "LEARN_MORE": "Learn more about webhooks",
+      "SECRET": {
+        "LABEL": "Secret",
+        "COPY": "Copy secret to clipboard",
+        "COPY_SUCCESS": "Secret copied to clipboard",
+        "TOGGLE": "Toggle secret visibility",
+        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "DONE": "Done"
+      },
+      "COUNT": "{n} webhook | {n} webhooks",
+      "SEARCH_PLACEHOLDER": "Search webhooks...",
+      "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "İptal Et",
         "DESC": "Web kancası etkinlikleri, Chatwoot hesabınızdaki olaylar hakkında gerçek zamanlı bilgi sağlar. Bir geri aramayı yapılandırmak için lütfen geçerli bir URL girin.",
@@ -104,6 +118,7 @@
       }
     },
     "SLACK": {
+      "HEADER": "Slack",
       "DELETE": "Sil",
       "DELETE_CONFIRMATION": {
         "TITLE": "Entegrasyonu Sil",
@@ -145,7 +160,29 @@
         "EXPAND": "Genişlet",
         "MAKE_FRIENDLY": "Mesaj tonunu dostça yap",
         "MAKE_FORMAL": "Resmi ton kullan",
-        "SIMPLIFY": "Basitleştir"
+        "SIMPLIFY": "Basitleştir",
+        "CONFIDENT": "Use confident tone",
+        "PROFESSIONAL": "Use professional tone",
+        "CASUAL": "Use casual tone",
+        "STRAIGHTFORWARD": "Use straightforward tone"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Improve reply",
+        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "CHANGE_TONE": {
+          "TITLE": "Change tone",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profesyonel",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Straightforward",
+            "CONFIDENT": "Confident",
+            "FRIENDLY": "Dostça"
+          }
+        },
+        "GRAMMAR": "Fix grammar & spelling",
+        "SUGGESTION": "Suggest a reply",
+        "SUMMARIZE": "Summarize the conversation",
+        "ASK_COPILOT": "Copilot'a sor"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Taslak içeriği",
@@ -201,12 +238,16 @@
       "SIDEBAR_TXT": "<p><b>Panel Uygulamaları</b></p><p>Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı Chatwoot paneli içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.</p><p>Chatwoot'taki panel üzerine uygulamanızı yerleştirdiğinizde, uygulamanız konuşma ve iletişim bağlamını pencere olayı olarak alır. Bağlamı almak için sayfanızda bir message olayı için bir dinleyici uygulayın.</p><p>Yeni bir panel uygulaması eklemek için 'Yeni bir panel uygulaması ekle' düğmesine tıklayın.</p>",
       "DESCRIPTION": "Panel Uygulamaları, organizasyonlara destek uzmanları için bağlam sağlamak amacıyla bir uygulamayı panel içine yerleştirmelerine izin verir. Bu özellik, bağımsız bir uygulama oluşturmanıza ve bunu panel içine yerleştirmenize olanak tanır, böylece kullanıcı bilgilerini, siparişlerini veya önceki ödeme geçmişini sağlayabilirsiniz.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
+      "COUNT": "{n} dashboard app | {n} dashboard apps",
+      "SEARCH_PLACEHOLDER": "Search dashboard apps...",
+      "NO_RESULTS": "No dashboard apps found matching your search",
       "LIST": {
         "404": "Bu hesapta henüz yapılandırılmış panel uygulamaları yok",
         "LOADING": "Panel uygulamaları alınıyor...",
         "TABLE_HEADER": {
           "NAME": "İsim",
-          "ENDPOINT": "Endpoint"
+          "ENDPOINT": "Endpoint",
+          "ACTIONS": "Hareketler"
         },
         "EDIT_TOOLTIP": "Uygulamayı Düzenle",
         "DELETE_TOOLTIP": "Uygulamayı Sil"
@@ -243,6 +284,7 @@
       }
     },
     "LINEAR": {
+      "HEADER": "Linear",
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
       "LOADING": "Fetching linear issues...",
       "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
@@ -337,6 +379,7 @@
       }
     },
     "NOTION": {
+      "HEADER": "Notion",
       "DELETE": {
         "TITLE": "Notion entegrasyonunu silmek istediğinizden emin misiniz?",
         "MESSAGE": "Bu entegrasyonu silmek, Notion çalışma alanınıza erişimi kaldıracak ve ilgili tüm işlevleri durduracaktır.",
@@ -361,12 +404,12 @@
       "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
       "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
-      "LOADER": "Captain is thinking",
+      "LOADER": "Captain düşünüyor",
       "YOU": "Sen",
-      "USE": "Use this",
-      "RESET": "Reset",
+      "USE": "Bunu kullan",
+      "RESET": "Sıfırla",
       "SHOW_STEPS": "Adımları göster",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SELECT_ASSISTANT": "Asistanı Seç",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Bu sohbeti özetle",
@@ -392,25 +435,26 @@
     },
     "PLAYGROUND": {
       "USER": "Sen",
-      "ASSISTANT": "Assistant",
+      "ASSISTANT": "Asistan",
       "MESSAGE_PLACEHOLDER": "Mesajınızı yazın...",
       "HEADER": "Oyun Alanı",
       "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
       "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "TITLE": "Captain AI kullanmak için yükseltin",
+      "AVAILABLE_ON": "Captain ücretsiz planda kullanılamaz.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
-      "UPGRADE_NOW": "Upgrade now",
+      "UPGRADE_NOW": "Şimdi yükselt",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI yalnızca Enterprise planlarında mevcuttur.",
       "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "RESPONSES": "Yanıt sınırınızın %80'inden fazlasını kullandınız. Captain AI'yı kullanmaya devam etmek için lütfen yükseltin.",
       "DOCUMENTS": "Belge sınırı aşıldı. Captain AI'yı kullanmaya devam etmek için yükseltme yapın."
     },
     "FORM": {
@@ -483,7 +527,8 @@
           "TITLE": "Özellikleri",
           "ALLOW_CONVERSATION_FAQS": "Çözümlenmiş konuşmalardan SSS oluştur",
           "ALLOW_MEMORIES": "Müşteri etkileşimlerinden önemli detayları anı olarak yakala.",
-          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle"
+          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle",
+          "ALLOW_CONTACT_ATTRIBUTES": "İletişim bilgilerine erişime izin ver"
         }
       },
       "EDIT": {
@@ -525,7 +570,7 @@
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Asistanı Sil",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "VIEW_CONNECTED_INBOXES": "Bağlı gelen kutularını görüntüle"
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
@@ -639,7 +684,7 @@
             "TITLE": "Örnek senaryolar",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
-            "TOOLS_USED": "Tools used :"
+            "TOOLS_USED": "Kullanılan araçlar:"
           },
           "NEW": {
             "CREATE": "Senaryo ekle",
@@ -672,19 +717,19 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Ara..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Hiçbir senaryo bulunamadı. Başlamak için örnekler oluşturun veya ekleyin.",
         "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
+            "SUCCESS": "Senaryolar başarıyla eklendi",
             "ERROR": "There was an error adding scenarios, please try again."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
+            "SUCCESS": "Senaryolar başarıyla güncellendi",
             "ERROR": "There was an error updating scenarios, please try again."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
+            "SUCCESS": "Senaryolar başarıyla silindi",
             "ERROR": "There was an error deleting scenarios, please try again."
           }
         }
@@ -693,6 +738,17 @@
     "DOCUMENTS": {
       "HEADER": "Belgeler",
       "ADD_NEW": "Yeni belge oluştur",
+      "SELECTED": "{count} selected",
+      "SELECT_ALL": "Tümünü seç ({count})",
+      "UNSELECT_ALL": "Tümünü kaldır ({count})",
+      "BULK_DELETE_BUTTON": "Sil",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
       "RELATED_RESPONSES": {
         "TITLE": "İlgili SSS",
         "DESCRIPTION": "Bu SSS'ler doğrudan belgeden oluşturulmuştur."
@@ -750,6 +806,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Araçlar",
       "ADD_NEW": "Yeni bir araç oluşturun",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Özel araçlar mevcut değil",
         "SUBTITLE": "Asistanınızın harici API'lere ve hizmetlere bağlanmasını sağlamak için özel araçlar oluşturun; böylece asistanınız sizin adınıza veri çekebilir ve işlemler gerçekleştirebilir.",
@@ -780,11 +837,30 @@
         "SUCCESS_MESSAGE": "Özel araç başarıyla silindi",
         "ERROR_MESSAGE": "Özel araç silinemedi"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Fatura Detayları",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Araç Adı",
           "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Araç adı zorunludur"
+          "ERROR": "Araç adı zorunludur",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama",
@@ -943,7 +1019,7 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
+      "HEADER": "Bağlı Gelen Kutuları",
       "ADD_NEW": "Connect a new inbox",
       "OPTIONS": {
         "DISCONNECT": "Bağlantıyı Kes"
@@ -952,13 +1028,13 @@
         "TITLE": "Are you sure to disconnect the inbox?",
         "DESCRIPTION": "",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
+        "SUCCESS_MESSAGE": "Gelen kutusu başarıyla bağlantısı kesildi.",
         "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
       },
       "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
       "CREATE": {
         "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
+        "SUCCESS_MESSAGE": "Gelen kutusu başarıyla bağlandı.",
         "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
       },
       "FORM": {
@@ -969,7 +1045,7 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
+        "TITLE": "Bağlı Gelen Kutusu Yok",
         "SUBTITLE": "Bir gelen kutusunu bağlamak, asistanın müşterilerinizden gelen ilk soruları size aktarmadan önce ele almasını sağlar."
       }
     }
