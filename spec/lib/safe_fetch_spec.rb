@@ -278,17 +278,10 @@ RSpec.describe SafeFetch do
           headers: { 'Content-Type' => 'image/webp' }
         )
 
-        # rubocop:disable Style/MultilineBlockChain
-        expect do
-          described_class.fetch(
-            url,
-            allowed_content_type_prefixes: [],
-            allowed_content_types: ['image/png']
-          ) { nil }
-        end.to raise_error do |error|
-          expect(error.class.name).to eq('SafeFetch::UnsupportedContentTypeError')
-        end
-        # rubocop:enable Style/MultilineBlockChain
+        expect { described_class.fetch(url, allowed_content_type_prefixes: [], allowed_content_types: ['image/png']) { nil } }
+          .to raise_error do |error|
+            expect(error.class.name).to eq('SafeFetch::UnsupportedContentTypeError')
+          end
       end
 
       it 'rejects when the content-type header is missing' do
