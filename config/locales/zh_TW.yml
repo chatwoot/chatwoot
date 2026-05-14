@@ -435,16 +435,12 @@ zh_TW:
     button: '開啟對話'
   time_units:
     days:
-      one: '%{count} 天'
       other: '%{count} 天'
     hours:
-      one: '%{count} 小時'
       other: '%{count} 小時'
     minutes:
-      one: '%{count} 分鐘'
       other: '%{count} 分鐘'
     seconds:
-      one: '%{count} 秒'
       other: '%{count} 秒'
   auto_assignment:
     default_policy_name: '預設策略'

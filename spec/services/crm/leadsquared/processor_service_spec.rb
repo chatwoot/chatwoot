@@ -157,7 +157,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
         it 'logs the error' do
           service.handle_conversation_created(conversation)
-          expect(Rails.logger).to have_received(:error).with(/Error creating conversation activity/)
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
         end
       end
     end

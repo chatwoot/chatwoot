@@ -29,7 +29,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
   describe '#analyze' do
     context 'when website content is available and LLM call is successful' do
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_return('Welcome to Example Corp')
+        allow(mock_crawler).to receive(:body_markdown).and_return('Welcome to Example Corp')
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
@@ -56,7 +56,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
 
     context 'when website content fetch raises an error' do
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_raise(StandardError, 'Network error')
+        allow(mock_crawler).to receive(:body_markdown).and_raise(StandardError, 'Network error')
       end
 
       it 'returns error response' do
@@ -69,7 +69,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
 
     context 'when website content is empty' do
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_return('')
+        allow(mock_crawler).to receive(:body_markdown).and_return('')
         allow(mock_crawler).to receive(:page_title).and_return('')
         allow(mock_crawler).to receive(:meta_description).and_return('')
       end
@@ -84,7 +84,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
 
     context 'when LLM call fails' do
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_return('Welcome to Example Corp')
+        allow(mock_crawler).to receive(:body_markdown).and_return('Welcome to Example Corp')
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
@@ -103,7 +103,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
       let(:invalid_response) { instance_double(RubyLLM::Message, content: 'not valid json') }
 
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_return('Welcome to Example Corp')
+        allow(mock_crawler).to receive(:body_markdown).and_return('Welcome to Example Corp')
         allow(mock_crawler).to receive(:page_title).and_return('Example Corp - Home')
         allow(mock_crawler).to receive(:meta_description).and_return('Leading provider of business solutions')
         allow(mock_crawler).to receive(:favicon_url).and_return('https://example.com/favicon.ico')
@@ -122,7 +122,7 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
       let(:website_url) { 'example.com' }
 
       before do
-        allow(mock_crawler).to receive(:body_text_content).and_return('Welcome')
+        allow(mock_crawler).to receive(:body_markdown).and_return('Welcome')
         allow(mock_crawler).to receive(:page_title).and_return('Example')
         allow(mock_crawler).to receive(:meta_description).and_return('Description')
         allow(mock_crawler).to receive(:favicon_url).and_return(nil)

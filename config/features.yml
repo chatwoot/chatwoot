@@ -144,10 +144,11 @@
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
-- name: report_v4
-  display_name: Report V4
+- name: captain_v1_action_classifier
+  display_name: Captain V1 Action Classifier
   enabled: false
-  deprecated: true
+  premium: true
+  chatwoot_internal: true
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
@@ -191,10 +192,10 @@
 - name: assignment_v2
   display_name: Assignment V2
   enabled: true
-- name: twilio_content_templates
-  display_name: Twilio Content Templates
+- name: captain_document_auto_sync
+  display_name: Captain Document Auto Sync
   enabled: false
-  deprecated: true
+  premium: true
 - name: advanced_search
   display_name: Advanced Search
   enabled: false
