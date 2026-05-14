@@ -210,6 +210,18 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
     }
   },
+  getById: async ({ commit, getters: $getters }, inboxId) => {
+    if (!inboxId || $getters.getInbox(inboxId).id) return;
+
+    commit(types.default.SET_INBOXES_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await InboxesAPI.show(inboxId);
+      commit(types.default.SET_INBOXES_ITEM, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isFetchingItem: false });
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isFetchingItem: false });
+    }
+  },
   createChannel: async ({ commit }, params) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });

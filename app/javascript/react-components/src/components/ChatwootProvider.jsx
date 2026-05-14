@@ -15,6 +15,7 @@ export const ChatwootProvider = ({
   websocketURL,
   pubsubToken,
   conversationId,
+  inboxId,
   disableUpload,
   disableEditor,
   disableSignature,
@@ -40,6 +41,7 @@ export const ChatwootProvider = ({
     userToken,
     accountId: Number(accountId),
     conversationId: Number(conversationId),
+    inboxId: inboxId ? Number(inboxId) : undefined,
     disableEditor: disableEditor || false,
     disableUpload: disableUpload || false,
     disableSignature: disableSignature || false,
@@ -62,6 +64,7 @@ export const ChatwootProvider = ({
     window.__WEBSOCKET_URL__ = config.websocketURL;
     window.__PUBSUB_TOKEN__ = config.pubsubToken;
     window.__WOOT_CONVERSATION_ID__ = config.conversationId;
+    window.__WOOT_INBOX_ID__ = config.inboxId;
     window.__EDITOR_DISABLE_UPLOAD__ = config.disableUpload;
     window.__DISABLE_EDITOR__ = config.disableEditor;
     window.__WOOT_DISABLE_SIGNATURE__ = config.disableSignature;
@@ -76,15 +79,7 @@ export const ChatwootProvider = ({
     window.WootConstants = constants;
     window.axios = createAxios(axios);
 
-    // Initialize user in store and ActionCable
-    store.dispatch('setUser').then(async () => {
-      // Fetch inboxes once per session. Guarded against the shared Vuex store
-      // so remounting the provider (e.g. when the consumer re-keys per
-      // conversation) doesn't trigger redundant /inboxes requests.
-      const hasInboxes = store.getters['inboxes/getInboxes'].length > 0;
-      if (!hasInboxes) {
-        await store.dispatch('inboxes/get');
-      }
+    store.dispatch('setUser').then(() => {
       vueActionCable.init(store, config.pubsubToken);
       setInitializationComplete(true);
     });

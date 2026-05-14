@@ -23,6 +23,11 @@ const conversationId = computed(() => {
   return window.__WOOT_CONVERSATION_ID__;
 });
 
+const configuredInboxId = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  return window.__WOOT_INBOX_ID__;
+});
+
 const { t } = useI18n();
 
 const messageListRef = useTemplateRef('messageListRef');
@@ -73,11 +78,25 @@ const fetchMore = async () => {
   }
 };
 
+const fetchConversationInbox = async () => {
+  const currentConversation = conversation.value;
+  const inboxId =
+    configuredInboxId.value ||
+    currentConversation?.inbox_id ||
+    currentConversation?.inbox?.id;
+
+  if (!inboxId) return;
+
+  await store.dispatch('inboxes/getById', inboxId);
+};
+
 onMounted(async () => {
   await Promise.all([
     store.dispatch('getConversation', conversationId.value),
     store.dispatch('fetchAllAttachments', conversationId.value),
   ]);
+
+  await fetchConversationInbox();
 });
 
 watch(conversation, async (newConversation, oldConversation) => {
