@@ -82,7 +82,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
   end
 
   def reserve_sync_slot(document)
-    document.update!(sync_status: :syncing, last_sync_attempted_at: Time.current)
+    mark_sync_started(document)
     true
   rescue ActiveRecord::RecordInvalid => e
     log_document_skip(document, e)
@@ -111,5 +111,14 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     }.merge(stats)
 
     Rails.logger.info("[Captain::Documents::ScheduleSyncsJob] #{payload.to_json}")
+  end
+
+  def mark_sync_started(document)
+    document.update!(
+      sync_status: :syncing,
+      sync_step: nil,
+      last_sync_error_code: nil,
+      last_sync_attempted_at: Time.current
+    )
   end
 end

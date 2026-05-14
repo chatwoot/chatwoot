@@ -212,6 +212,26 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when put request targets a message from another visitor in the same inbox' do
+      it 'does not update the foreign message' do
+        other_contact = create(:contact, account: account, email: nil)
+        other_contact_inbox = create(:contact_inbox, contact: other_contact, inbox: web_widget.inbox)
+        other_conversation = create(:conversation, contact: other_contact, account: account,
+                                                   inbox: web_widget.inbox, contact_inbox: other_contact_inbox)
+        foreign_message = create(:message, content_type: 'input_email', account: account,
+                                           inbox: web_widget.inbox, conversation: other_conversation)
+        original_email = foreign_message.submitted_email
+
+        put api_v1_widget_message_url(foreign_message.id),
+            params: { website_token: web_widget.website_token, contact: { email: Faker::Internet.email } },
+            headers: { 'X-Auth-Token' => token },
+            as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(foreign_message.reload.submitted_email).to eq(original_email)
+      end
+    end
+
     context 'when put request is made with non existing email' do
       it 'updates message in conversation and creates a new contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
