@@ -116,17 +116,28 @@ class AutomationRule < ApplicationRecord
   end
 
   def validate_single_whatsapp_template_action(action)
+    config = whatsapp_template_config(action)
+    validate_whatsapp_template_inbox(config)
+    errors.add(:actions, 'send_whatsapp_template requires a template_name.') if whatsapp_template_name(config).blank?
+  end
+
+  def whatsapp_template_config(action)
     config = Array(action['action_params']).first
-    inbox_id = config.is_a?(Hash) ? (config['inbox_id'] || config[:inbox_id]) : nil
-    template_name = config.is_a?(Hash) ? (config['template_name'].presence || config[:template_name].presence) : nil
+    config.is_a?(Hash) ? config : {}
+  end
+
+  def whatsapp_template_name(config)
+    config['template_name'].presence || config[:template_name].presence
+  end
+
+  def validate_whatsapp_template_inbox(config)
+    inbox_id = config['inbox_id'] || config[:inbox_id]
 
     if inbox_id.blank?
       errors.add(:actions, 'send_whatsapp_template requires a WhatsApp inbox to send from.')
     elsif account.inboxes.where(id: inbox_id, channel_type: 'Channel::Whatsapp').none?
       errors.add(:actions, "Inbox #{inbox_id} is not a WhatsApp inbox in this account.")
     end
-
-    errors.add(:actions, 'send_whatsapp_template requires a template_name.') if template_name.blank?
   end
 end
 

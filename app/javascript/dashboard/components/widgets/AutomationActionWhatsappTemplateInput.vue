@@ -5,6 +5,15 @@ import { useI18n } from 'vue-i18n';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 
+const props = defineProps({
+  modelValue: {
+    type: [Object, Array],
+    default: () => null,
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
 // Tokens the rule author can drop into a variable input. Substitution
 // happens server-side via Liquid drops, so anything supported by the
 // existing message drops (contact / conversation / inbox / account / agent)
@@ -27,15 +36,6 @@ const defaultConfig = () => ({
   template_body: '',
   processed_params: {},
 });
-
-const props = defineProps({
-  modelValue: {
-    type: [Object, Array],
-    default: () => null,
-  },
-});
-
-const emit = defineEmits(['update:modelValue']);
 
 const { t } = useI18n();
 const store = useStore();
@@ -155,7 +155,7 @@ const renderedBody = computed(() => {
   if (!body) return '';
   return body.replace(/{{\s*(\d+)\s*}}/g, (match, key) => {
     const value = (config.value.processed_params || {})[key];
-    return value ? value : match;
+    return value || match;
   });
 });
 
@@ -196,7 +196,9 @@ const formatVariableKey = key => `{{${key}}}`;
       <SingleSelect
         v-model="selectedInboxOption"
         :options="whatsappInboxOptions"
-        :placeholder="t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_PLACEHOLDER')"
+        :placeholder="
+          t('AUTOMATION.ACTION.WHATSAPP_TEMPLATE.INBOX_PLACEHOLDER')
+        "
       />
       <p
         v-if="!whatsappInboxOptions.length"
@@ -248,7 +250,9 @@ const formatVariableKey = key => `{{${key}}}`;
         :key="key"
         class="flex items-center gap-2 mt-2"
       >
-        <span class="wa-template-variable__key">{{ formatVariableKey(key) }}</span>
+        <span class="wa-template-variable__key">{{
+          formatVariableKey(key)
+        }}</span>
         <NextInput
           :model-value="(config.processed_params || {})[key] || ''"
           type="text"

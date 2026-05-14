@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe AutomationRules::TemplatePlaceholderService do
+  subject(:service) { described_class.new(conversation) }
+
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, name: 'Alice Agent', email: 'alice@example.com') }
   let(:contact) { create(:contact, account: account, name: 'Bob Buyer', email: 'bob@example.com', phone_number: '+15551234567') }
   let(:inbox) { create(:inbox, account: account, name: 'Support Email') }
   let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact, assignee: agent) }
-
-  subject(:service) { described_class.new(conversation) }
 
   describe '#substitute' do
     it 'resolves contact tokens via Liquid drops' do
@@ -23,7 +23,7 @@ RSpec.describe AutomationRules::TemplatePlaceholderService do
     end
 
     it 'resolves agent tokens when an assignee exists' do
-      expect(service.substitute('Reply to {{agent.name}}')).to eq("Reply to #{agent.available_name}")
+      expect(service.substitute('Reply to {{agent.name}}')).to eq("Reply to #{agent.name}")
     end
 
     it 'leaves agent tokens empty when there is no assignee' do

@@ -274,12 +274,15 @@ RSpec.describe AutomationRules::ActionService do
       end
 
       it 'no-ops when the configured inbox is not a WhatsApp inbox' do
-        template_rule.update_columns(actions: [
-                                       {
-                                         action_name: 'send_whatsapp_template',
-                                         action_params: [template_config.merge('inbox_id' => email_inbox.id)]
-                                       }
-                                     ])
+        # The model-level whatsapp_template_action_config validation already
+        # blocks this state at save time. To exercise the runtime guard
+        # independently (e.g. inbox channel changed after a rule was saved),
+        # mutate the persisted JSONB column directly so model validations
+        # don't re-run.
+        bad_params = [template_config.merge('inbox_id' => email_inbox.id)]
+        AutomationRule.where(id: template_rule.id).update_all(actions: [ # rubocop:disable Rails/SkipsModelValidations
+                                                                { action_name: 'send_whatsapp_template', action_params: bad_params }
+                                                              ])
         expect do
           described_class.new(template_rule.reload, account, trigger_conversation).perform
         end.not_to(change(Message, :count))

@@ -67,10 +67,17 @@ class AutomationRules::ActionService < ActionService
   #   * contact missing or contact.phone_number blank
   #   * configured inbox not found, deleted, or not a WhatsApp channel
   def send_whatsapp_template(params)
-    config = Array(params).first
+    config = Array(params).first&.with_indifferent_access
     return if config.blank?
 
-    config = config.with_indifferent_access
+    target = resolve_whatsapp_target(config)
+    return if target.blank?
+
+    processed = AutomationRules::TemplatePlaceholderService.new(@conversation).substitute_processed_params(config[:processed_params])
+    Messages::MessageBuilder.new(nil, target, whatsapp_builder_params(config, processed)).perform
+  end
+
+  def resolve_whatsapp_target(config)
     inbox = whatsapp_target_inbox(config[:inbox_id])
     return if inbox.blank?
 
@@ -80,21 +87,7 @@ class AutomationRules::ActionService < ActionService
     contact_inbox = ContactInboxBuilder.new(contact: contact, inbox: inbox).perform
     return if contact_inbox.blank?
 
-    target_conversation = whatsapp_target_conversation(contact_inbox)
-    processed = AutomationRules::TemplatePlaceholderService.new(@conversation).substitute_processed_params(config[:processed_params])
-
-    Messages::MessageBuilder.new(nil, target_conversation, {
-                                  content: rendered_template_body(config, processed),
-                                  private: false,
-                                  content_attributes: { automation_rule_id: @rule.id },
-                                  template_params: {
-                                    name: config[:template_name],
-                                    namespace: config[:template_namespace],
-                                    language: config[:template_language],
-                                    category: config[:template_category],
-                                    processed_params: processed
-                                  }
-                                }).perform
+    whatsapp_target_conversation(contact_inbox)
   end
 
   def whatsapp_target_inbox(inbox_id)
@@ -105,6 +98,21 @@ class AutomationRules::ActionService < ActionService
 
   def whatsapp_target_conversation(contact_inbox)
     ConversationBuilder.new(params: ActionController::Parameters.new({}), contact_inbox: contact_inbox).perform
+  end
+
+  def whatsapp_builder_params(config, processed)
+    {
+      content: rendered_template_body(config, processed),
+      private: false,
+      content_attributes: { automation_rule_id: @rule.id },
+      template_params: {
+        name: config[:template_name],
+        namespace: config[:template_namespace],
+        language: config[:template_language],
+        category: config[:template_category],
+        processed_params: processed
+      }
+    }
   end
 
   # Rendered body is stored on the message record for the agent UI; the
