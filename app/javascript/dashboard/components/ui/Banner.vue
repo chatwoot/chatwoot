@@ -136,7 +136,7 @@ export default {
   }
 
   &.alert {
-    @apply bg-n-ruby-3 text-n-ruby-12 font-medium;
+    @apply bg-n-ruby-3/90 backdrop-blur-sm text-n-ruby-12 font-medium;
 
     a {
       @apply text-n-ruby-12 font-semibold;

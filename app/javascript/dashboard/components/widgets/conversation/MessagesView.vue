@@ -482,11 +482,13 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
+  <div
+    class="flex flex-col justify-between flex-grow h-full min-w-0 m-0 relative"
+  >
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg shadow-sm border border-n-ruby-4"
+      class="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-6 shadow-md rounded-full border border-n-ruby-4 w-max max-w-[90%]"
       icon="i-lucide-alert-triangle"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
@@ -495,7 +497,8 @@ export default {
     <Banner
       v-else-if="hasDuplicateInstagramInbox"
       color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      class="absolute top-4 left-1/2 -translate-x-1/2 z-20 px-6 shadow-md rounded-full border border-n-ruby-4 w-max max-w-[90%]"
+      icon="i-lucide-info"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <MessageList
