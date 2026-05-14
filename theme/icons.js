@@ -113,6 +113,20 @@ export const icons = {
     width: 16,
     height: 20,
   },
+  'file-pfx': {
+    body: `<g clip-path="url(#clip0_pfx_icon)">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M12.6562 19.7578H2.94141C0.972656 19.7578 0 18.7734 0 16.7695V2.98828C0 0.996094 0.972656 0 2.94141 0H7.07812V6.80859C7.07812 8.05078 7.66406 8.63672 8.90625 8.63672H15.6094V16.7695C15.6094 18.7617 14.625 19.7578 12.6562 19.7578Z" fill="#4F46E5"/>
+    <path d="M15.5039 7.26562H8.90625C8.61328 7.26562 8.44922 7.11328 8.44922 6.80859V0.0820312C8.88281 0.152344 9.31641 0.457031 9.79688 0.949219L14.6602 5.91797C15.1523 6.42188 15.4453 6.83203 15.5039 7.26562Z" fill="#4F46E5"/>
+    <text x="8" y="15.7" fill="white" font-family="Arial, Helvetica, sans-serif" font-size="4" font-weight="900" text-anchor="middle">PFX</text>
+    </g>
+    <defs>
+    <clipPath id="clip0_pfx_icon">
+    <rect width="15.9609" height="19.7695" fill="white"/>
+    </clipPath>
+    </defs>`,
+    width: 16,
+    height: 20,
+  },
   bin: {
     body: `<g fill="none" stroke="currentColor"><path d="M12.3999 5.7334L11.3359 11.7848C11.2463 12.2948 10.8032 12.6667 10.2854 12.6667H5.98111C5.46327 12.6667 5.02023 12.2948 4.93056 11.7848L3.86658 5.7334" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.9334 4.13334H9.93338M9.93338 4.13334V3.06667C9.93338 2.47756 9.45584 2 8.86671 2H7.40005C6.81094 2 6.33338 2.47756 6.33338 3.06667V4.13334M9.93338 4.13334H6.33338M3.33337 4.13334H6.33338" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/></g>`,
     width: 16,

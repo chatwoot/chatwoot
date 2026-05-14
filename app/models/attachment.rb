@@ -33,6 +33,7 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.presentationml.presentation
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    application/x-pkcs12 application/pkcs12
   ].freeze
   belongs_to :account
   belongs_to :message
