@@ -376,6 +376,10 @@ en:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    remnawave:
+      name: 'Remnawave'
+      short_description: 'View and manage VPN user subscriptions from Remnawave.'
+      description: 'Connect your Remnawave panel to view VPN user subscription details, traffic usage, and manage user status directly from conversations. Users are automatically linked via their Telegram ID.'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'

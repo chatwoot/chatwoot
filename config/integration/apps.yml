@@ -241,6 +241,43 @@ shopify:
   hook_type: account
   allow_multiple_hooks: false
 
+remnawave:
+  id: remnawave
+  logo: remnawave.png
+  i18n_key: remnawave
+  action: /remnawave
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'api_url': { 'type': 'string' },
+          'api_token': { 'type': 'string' },
+        },
+      'required': ['api_url', 'api_token'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'API URL',
+        'type': 'text',
+        'name': 'api_url',
+        'validation': 'required',
+        'help': 'Base URL of your Remnawave instance (e.g. https://panel.example.com)',
+      },
+      {
+        'label': 'API Token',
+        'type': 'text',
+        'name': 'api_token',
+        'validation': 'required',
+        'help': 'Bearer token for Remnawave API authentication',
+      },
+    ]
+  visible_properties: ['api_url']
+
 leadsquared:
   id: leadsquared
   feature_flag: crm_integration

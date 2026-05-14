@@ -367,6 +367,7 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
+      "REMNAWAVE_USER": "Remnawave VPN",
       "SHARED_FILES": "Attachments"
     },
     "SHARED_FILES": {
@@ -398,6 +399,42 @@
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
         "UNFULFILLED": "Unfulfilled"
       }
+    },
+    "REMNAWAVE": {
+      "LOADING": "Loading VPN user data...",
+      "ERROR": "Error loading VPN user data",
+      "NO_TELEGRAM_ID": "No Telegram ID found for this contact",
+      "USER_NOT_FOUND": "No Remnawave user found for this Telegram ID",
+      "NOT_CONFIGURED": "Remnawave integration is not configured",
+      "STATUS": "Status",
+      "TRAFFIC_USED": "Traffic used",
+      "TRAFFIC_LIMIT": "Traffic limit",
+      "TRAFFIC_RESET_STRATEGY": "Reset period",
+      "EXPIRES_AT": "Expires at",
+      "USERNAME": "Username",
+      "SUBSCRIPTION_URL": "Subscription URL",
+      "ACTIONS": {
+        "ENABLE": "Enable user",
+        "DISABLE": "Disable user",
+        "RESET_TRAFFIC": "Reset traffic",
+        "ENABLE_SUCCESS": "User enabled successfully",
+        "DISABLE_SUCCESS": "User disabled successfully",
+        "RESET_TRAFFIC_SUCCESS": "Traffic reset successfully",
+        "ERROR": "Action failed. Please try again."
+      },
+      "USER_STATUS": {
+        "ACTIVE": "Active",
+        "DISABLED": "Disabled",
+        "LIMITED": "Traffic limited",
+        "EXPIRED": "Expired"
+      },
+      "TRAFFIC_STRATEGY": {
+        "NO_RESET": "No reset",
+        "DAY": "Daily",
+        "WEEK": "Weekly",
+        "MONTH": "Monthly"
+      },
+      "UNLIMITED": "Unlimited"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

@@ -44,13 +44,10 @@ class Telegram::IncomingMessageService
       contact_attributes: contact_attributes
     ).perform
 
-    # TODO: Should we update contact_attributes when the user changes their first or last name?
-    # In business chats, when our Telegram bot initiates the conversation,
-    # the message does not include a language code.
-    # This is critical for AI assistants and translation plugins.
-
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
+
+    backfill_telegram_user_id
   end
 
   def process_message_attachments
@@ -104,6 +101,14 @@ class Telegram::IncomingMessageService
       social_telegram_user_id: telegram_params_from_id,
       social_telegram_user_name: telegram_params_username
     }
+  end
+
+  def backfill_telegram_user_id
+    return if @contact.additional_attributes&.dig('social_telegram_user_id').present?
+
+    @contact.update!(
+      additional_attributes: (@contact.additional_attributes || {}).merge(additional_attributes)
+    )
   end
 
   def conversation_additional_attributes
