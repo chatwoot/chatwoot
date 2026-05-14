@@ -103,12 +103,12 @@ pt_BR:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
+        no_recording: 'Nenhum arquivo de gravação fornecido'
+        no_message: 'A chamada não possui mensagem associada'
+        sdp_offer_required: 'sdp_offer é obrigatório'
+        contact_phone_required: 'Número de telefone do contato é obrigatório'
+        permission_request_failed: 'Falha ao enviar solicitação de permissão de chamada'
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -240,8 +240,8 @@ pt_BR:
         list_button_label: 'Escolha um item'
         call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Chamada de Voz'
+        whatsapp: 'Chamada do WhatsApp'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
@@ -287,8 +287,8 @@ pt_BR:
         issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
         issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'Solicitação de permissão de chamada enviada para %{contact_name}.'
+        permission_granted: '%{contact_name} aceitou a solicitação de permissão de chamada.'
       csat:
         not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       auto_resolve:
@@ -353,7 +353,7 @@ pt_BR:
       name: 'Linear'
       short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: 'Conversa (#%{conversation_id}) com %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
