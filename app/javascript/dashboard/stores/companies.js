@@ -8,10 +8,13 @@ const createInitialUIFlags = () => ({
   fetchingList: false,
   fetchingItem: false,
   updatingItem: false,
+  creatingItem: false,
   deletingItem: false,
   deletingAvatar: false,
   deletingCustomAttributes: false,
   fetchingContacts: false,
+  fetchingConversations: false,
+  fetchingNotes: false,
   searchingContacts: false,
   creatingContact: false,
   removingContact: false,
@@ -66,6 +69,16 @@ export const useCompaniesStore = createStore({
   name: 'companies',
   type: 'pinia',
   API: CompanyAPI,
+  state: () => ({
+    activeCompanyId: null,
+    companyContacts: [],
+    companyContactsMeta: {},
+    companyConversations: [],
+    companyNotes: [],
+    contactSearchResults: [],
+    contactSearchMeta: {},
+    activeContactSearchQuery: '',
+  }),
 
   getters: {
     getCompaniesList: state => state.records,
@@ -172,6 +185,22 @@ export const useCompaniesStore = createStore({
       }
     },
 
+    async create(companyAttrs) {
+      this.setUIFlag({ creatingItem: true });
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.create(buildCompanyRequestPayload(companyAttrs));
+        const company = camelizeCompany(payload);
+        this.upsertCompanyRecord(company);
+        return company;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        this.setUIFlag({ creatingItem: false });
+      }
+    },
+
     async delete(id) {
       this.setUIFlag({ deletingItem: true });
       try {
@@ -249,6 +278,74 @@ export const useCompaniesStore = createStore({
       } finally {
         if (this.companyContactsRequestToken === requestToken) {
           this.setUIFlag({ fetchingContacts: false });
+        }
+      }
+    },
+
+    async getCompanyNotes(companyId) {
+      this.setUIFlag({ fetchingNotes: true });
+      this.ensureActiveCompanyContext(companyId);
+      const activeCompanyId = Number(companyId);
+      const requestToken = (this.companyNotesRequestToken || 0) + 1;
+      this.companyNotesRequestToken = requestToken;
+
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.listNotes(companyId);
+        const notes = camelcaseKeys(payload || [], { deep: true });
+
+        if (
+          this.companyNotesRequestToken !== requestToken ||
+          this.activeCompanyId !== activeCompanyId
+        ) {
+          return notes;
+        }
+
+        this.companyNotes = notes;
+        return notes;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        if (
+          this.companyNotesRequestToken === requestToken &&
+          this.activeCompanyId === activeCompanyId
+        ) {
+          this.setUIFlag({ fetchingNotes: false });
+        }
+      }
+    },
+
+    async getCompanyConversations(companyId) {
+      this.setUIFlag({ fetchingConversations: true });
+      this.ensureActiveCompanyContext(companyId);
+      const activeCompanyId = Number(companyId);
+      const requestToken = (this.companyConversationsRequestToken || 0) + 1;
+      this.companyConversationsRequestToken = requestToken;
+
+      try {
+        const {
+          data: { payload },
+        } = await CompanyAPI.listConversations(companyId);
+        const conversations = camelcaseKeys(payload || [], { deep: true });
+
+        if (
+          this.companyConversationsRequestToken !== requestToken ||
+          this.activeCompanyId !== activeCompanyId
+        ) {
+          return conversations;
+        }
+
+        this.companyConversations = conversations;
+        return conversations;
+      } catch (error) {
+        return throwErrorMessage(error);
+      } finally {
+        if (
+          this.companyConversationsRequestToken === requestToken &&
+          this.activeCompanyId === activeCompanyId
+        ) {
+          this.setUIFlag({ fetchingConversations: false });
         }
       }
     },
@@ -362,10 +459,15 @@ export const useCompaniesStore = createStore({
         (this.companyDetailRequestToken || 0) + 1;
       this.companyContactsRequestToken =
         (this.companyContactsRequestToken || 0) + 1;
+      this.companyConversationsRequestToken =
+        (this.companyConversationsRequestToken || 0) + 1;
+      this.companyNotesRequestToken = (this.companyNotesRequestToken || 0) + 1;
       this.contactSearchRequestToken =
         (this.contactSearchRequestToken || 0) + 1;
       this.companyContacts = [];
       this.companyContactsMeta = {};
+      this.companyConversations = [];
+      this.companyNotes = [];
       this.contactSearchResults = [];
       this.contactSearchMeta = {};
       this.activeContactSearchQuery = '';

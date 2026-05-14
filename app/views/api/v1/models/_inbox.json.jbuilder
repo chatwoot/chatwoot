@@ -90,6 +90,7 @@ if resource.email?
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
     json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
+    json.imap_authentication resource.channel.try(:imap_authentication)
 
     if resource.channel.try(:microsoft?) || resource.channel.try(:google?) || resource.channel.try(:legacy_google?)
       json.reauthorization_required resource.channel.try(:provider_config).empty? || resource.channel.try(:reauthorization_required?)
@@ -142,3 +143,6 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
   end
 end
+
+## Voice attribute for WhatsApp Cloud (only embedded-signup channels surface true)
+json.voice_enabled resource.channel.voice_enabled? if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(:voice_enabled?)

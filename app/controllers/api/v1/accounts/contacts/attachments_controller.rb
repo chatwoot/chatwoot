@@ -9,7 +9,7 @@ class Api::V1::Accounts::Contacts::AttachmentsController < Api::V1::Accounts::Co
     ).perform
 
     @attachments = Attachment.where(message_id: Message.where(conversation_id: conversations).select(:id))
-                             .includes(message: :conversation)
+                             .includes({ file_attachment: :blob }, message: [:conversation, :inbox, { sender: { avatar_attachment: :blob } }])
                              .order(created_at: :desc)
                              .page(params[:page])
                              .per(RESULTS_PER_PAGE)
