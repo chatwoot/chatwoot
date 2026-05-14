@@ -152,6 +152,8 @@ const onDownloadFile = async attachment => {
             class="opacity-0 group-hover:opacity-100"
             :aria-label="t('CONVERSATION_SIDEBAR.SHARED_FILES.JUMP_TO_MESSAGE')"
             @click.stop="emit('jumpToMessage', attachment)"
+            @keydown.enter.stop
+            @keydown.space.stop
           />
           <NextButton
             ghost
@@ -162,6 +164,8 @@ const onDownloadFile = async attachment => {
             :is-loading="downloadingId === attachment.id"
             :aria-label="t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD')"
             @click.stop="onDownloadFile(attachment)"
+            @keydown.enter.stop
+            @keydown.space.stop
           />
         </div>
       </li>
