@@ -212,7 +212,7 @@ GEM
       logger
       msgpack
     datadog-ruby_core_source (3.4.1)
-    date (3.4.1)
+    date (3.5.1)
     debug (1.8.0)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
@@ -574,7 +574,7 @@ GEM
       uri (>= 0.11.1)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.20)
+    net-imap (0.4.24)
       date
       net-protocol
     net-pop (0.1.2)
@@ -961,7 +961,7 @@ GEM
     time_diff (0.3.0)
       activesupport
       i18n
-    timeout (0.4.3)
+    timeout (0.6.1)
     trailblazer-option (0.1.2)
     twilio-ruby (7.6.0)
       faraday (>= 0.9, < 3.0)
