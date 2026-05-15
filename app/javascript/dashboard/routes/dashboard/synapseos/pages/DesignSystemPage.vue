@@ -15,7 +15,11 @@ const errorField = ref('abc');
 const tokens = [
   { name: 's-bg', hex: '#F6F8FB', role: 'Background da aplicação' },
   { name: 's-surface', hex: '#FFFFFF', role: 'Cards, painéis, composer' },
-  { name: 's-sidebar', hex: '#0B1F3A', role: 'Sidebar navy institucional Dexi' },
+  {
+    name: 's-sidebar',
+    hex: '#0B1F3A',
+    role: 'Sidebar navy institucional Dexi',
+  },
   { name: 's-subtle', hex: '#EEF2F7', role: 'Hover neutro, blocos internos' },
   { name: 's-border', hex: '#D7DFE8', role: 'Bordas e divisórias' },
   { name: 's-border-strong', hex: '#B8C4D4', role: 'Bordas em contexto denso' },
@@ -27,9 +31,21 @@ const tokens = [
   { name: 's-brand', hex: '#0B1F3A', role: 'Navy institucional Dexi' },
   { name: 's-brand-800', hex: '#123056', role: 'Navy hover / ativo escuro' },
   { name: 's-brand-700', hex: '#1A4272', role: 'Navy foco secundário' },
-  { name: 's-brand-cta', hex: '#0B1F3A', role: 'Botão primário (AAA sobre branco)' },
-  { name: 's-brand-text', hex: '#0E7490', role: 'Texto brand acessível (cyan-700)' },
-  { name: 's-accent', hex: '#00B8D9', role: 'Cyan técnico: foco, borda ativa, ícone' },
+  {
+    name: 's-brand-cta',
+    hex: '#0B1F3A',
+    role: 'Botão primário (AAA sobre branco)',
+  },
+  {
+    name: 's-brand-text',
+    hex: '#0E7490',
+    role: 'Texto brand acessível (cyan-700)',
+  },
+  {
+    name: 's-accent',
+    hex: '#00B8D9',
+    role: 'Cyan técnico: foco, borda ativa, ícone',
+  },
   { name: 's-accent-700', hex: '#0E7490', role: 'Cyan escuro: texto pequeno' },
   { name: 's-accent-100', hex: '#E6F7FB', role: 'Cyan claro: bg badge/chip' },
   { name: 's-success', hex: '#1D7F56', role: 'Sucesso' },
@@ -40,16 +56,22 @@ const tokens = [
 </script>
 
 <template>
-  <div class="bg-s-bg min-h-full p-8 space-y-10 overflow-auto">
+  <div
+    class="bg-s-bg min-h-full w-full flex-1 min-w-0 p-8 space-y-10 overflow-auto"
+  >
     <header class="flex flex-col gap-2">
-      <h1 class="text-3xl font-bold tracking-tight text-s-primary">Design System</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-s-primary">
+        Design System
+      </h1>
       <p class="text-sm text-s-muted">
         Preview dos primitivos Synapse OS usados pelos sprints de refactor.
       </p>
     </header>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
         Color tokens
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -63,7 +85,9 @@ const tokens = [
             :style="{ backgroundColor: t.hex }"
           />
           <div class="flex flex-col min-w-0">
-            <span class="text-xs font-medium text-s-primary truncate">{{ t.name }}</span>
+            <span class="text-xs font-medium text-s-primary truncate">{{
+              t.name
+            }}</span>
             <span class="text-[11px] text-s-muted font-mono">{{ t.hex }}</span>
             <span class="text-[11px] text-s-muted truncate">{{ t.role }}</span>
           </div>
@@ -72,7 +96,9 @@ const tokens = [
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
         Typography
       </h2>
       <SynapseCard padding="loose">
@@ -103,7 +129,9 @@ const tokens = [
           </div>
           <div class="flex flex-col gap-1">
             <span class="text-xs text-s-muted font-mono">overline · 11/600 uppercase</span>
-            <span class="text-[11px] font-semibold uppercase tracking-wider text-s-muted">
+            <span
+              class="text-[11px] font-semibold uppercase tracking-wider text-s-muted"
+            >
               Receita mensal
             </span>
           </div>
@@ -112,16 +140,28 @@ const tokens = [
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">Buttons</h2>
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
+        Buttons
+      </h2>
       <SynapseCard>
         <div class="flex flex-col gap-4">
           <div class="flex flex-wrap gap-3">
-            <SynapseButton variant="primary" icon="i-lucide-plus">Novo Lead</SynapseButton>
+            <SynapseButton variant="primary" icon="i-lucide-plus">
+              Novo Lead
+            </SynapseButton>
             <SynapseButton variant="outline">Export</SynapseButton>
-            <SynapseButton variant="ghost" icon="i-lucide-settings">Config</SynapseButton>
-            <SynapseButton variant="danger" icon="i-lucide-trash-2">Excluir</SynapseButton>
+            <SynapseButton variant="ghost" icon="i-lucide-settings">
+              Config
+            </SynapseButton>
+            <SynapseButton variant="danger" icon="i-lucide-trash-2">
+              Excluir
+            </SynapseButton>
             <SynapseButton variant="primary" loading>Salvando…</SynapseButton>
-            <SynapseButton variant="primary" disabled>Desabilitado</SynapseButton>
+            <SynapseButton variant="primary" disabled>
+              Desabilitado
+            </SynapseButton>
           </div>
           <div class="flex items-end flex-wrap gap-3">
             <SynapseButton size="sm">Small</SynapseButton>
@@ -133,7 +173,9 @@ const tokens = [
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
         KPI cards
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -169,7 +211,9 @@ const tokens = [
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
         Status pills
       </h2>
       <SynapseCard>
@@ -192,62 +236,80 @@ const tokens = [
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">Inputs</h2>
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
+        Inputs
+      </h2>
       <SynapseCard>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <SynapseInput
+            id="name-field"
             v-model="textField"
             label="Nome"
             placeholder="Digite seu nome completo"
             hint="Como aparecerá nos e-mails"
-            id="name-field"
           />
           <SynapseInput
+            id="email-field"
             v-model="emailField"
             label="E-mail"
             type="email"
             icon-leading="i-lucide-mail"
-            id="email-field"
           />
           <SynapseInput
+            id="cep-field"
             v-model="errorField"
             label="CEP"
             error="CEP inválido, verifique o formato"
-            id="cep-field"
           />
           <SynapseInput
+            id="disabled-field"
             label="Desabilitado"
             placeholder="Campo bloqueado"
             disabled
-            id="disabled-field"
           />
         </div>
       </SynapseCard>
     </section>
 
     <section>
-      <h2 class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4">
+      <h2
+        class="text-sm font-semibold text-s-secondary uppercase tracking-wider mb-4"
+      >
         Card anatomy
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <SynapseCard title="Card com título" subtitle="E um subtítulo descritivo">
+        <SynapseCard
+          title="Card com título"
+          subtitle="E um subtítulo descritivo"
+        >
           <template #actions>
-            <SynapseButton variant="ghost" size="sm" icon="i-lucide-more-horizontal" />
+            <SynapseButton
+              variant="ghost"
+              size="sm"
+              icon="i-lucide-more-horizontal"
+            />
           </template>
           <p class="text-sm text-s-secondary leading-relaxed">
-            Padding default (p-6), border-s-border, rounded-2xl, shadow-s-sm → hover shadow-s-md.
-            Usado em toda tela de entrada (Dashboard, Settings, Reports).
+            Padding default (p-6), border-s-border, rounded-2xl, shadow-s-sm →
+            hover shadow-s-md. Usado em toda tela de entrada (Dashboard,
+            Settings, Reports).
           </p>
           <template #footer>
             <div class="flex justify-end gap-2">
-              <SynapseButton variant="outline" size="sm">Cancelar</SynapseButton>
+              <SynapseButton variant="outline" size="sm">
+                Cancelar
+              </SynapseButton>
               <SynapseButton size="sm">Salvar</SynapseButton>
             </div>
           </template>
         </SynapseCard>
         <SynapseCard interactive padding="tight">
           <div class="flex items-center gap-3">
-            <span class="inline-flex size-10 rounded-lg bg-s-brand-soft items-center justify-center">
+            <span
+              class="inline-flex size-10 rounded-lg bg-s-brand-soft items-center justify-center"
+            >
               <span class="i-lucide-zap size-5 text-s-brand" />
             </span>
             <div class="flex flex-col">

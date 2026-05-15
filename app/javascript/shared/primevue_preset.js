@@ -1,118 +1,136 @@
 // CUSTOMIZAÇÃO_SYNAPSEOS
-// PrimeVue preset customizado — mapeia o tema Aura para os tokens Synapse
-// OS via CSS vars. Componentes PrimeVue (DataTable, Chart, Dialog, Button,
-// Select) herdam o visual sem cada um precisar ser re-estilizado via
-// classes Tailwind.
+// PrimeVue preset customizado — mapeia o tema Aura para os tokens Synapse OS
+// via CSS vars (_synapseos_tokens.scss). Componentes PrimeVue (DataTable,
+// Chart, Dialog, Button, Select) herdam o branding sem cada um precisar ser
+// re-estilizado via classes Tailwind.
+//
+// Como o branding evolui: alterar SOMENTE `_synapseos_tokens.scss`. Como os
+// valores aqui são `rgb(var(--s-*))`, qualquer mudança nas CSS vars propaga
+// pra todos os componentes PrimeVue automaticamente.
+//
+// Light/dark: as próprias CSS vars já alternam via `body.dark`, então os
+// blocos `colorScheme.light` e `colorScheme.dark` referenciam as mesmas vars
+// — PrimeVue só precisa de ambos os blocos definidos pra ativar o switch via
+// `darkModeSelector: '.dark'` (config em entrypoints/dashboard.js).
 import { definePreset } from '@primevue/themes';
 import Aura from '@primevue/themes/aura';
 
+const v = name => `rgb(var(${name}))`;
+
+const sharedScheme = {
+  primary: {
+    color: v('--s-brand-cta'),
+    contrastColor: v('--s-text-inverse'),
+    hoverColor: v('--s-brand-cta-hover'),
+    activeColor: v('--s-brand-cta-active'),
+  },
+  highlight: {
+    background: v('--s-brand-soft'),
+    focusBackground: v('--s-brand-soft-hover'),
+    color: v('--s-brand-text'),
+    focusColor: v('--s-brand-text'),
+  },
+  surface: {
+    0: v('--s-surface'),
+    50: v('--s-bg'),
+    100: v('--s-subtle'),
+    200: v('--s-border-subtle'),
+    300: v('--s-border'),
+    400: v('--s-border-strong'),
+    500: v('--s-text-muted'),
+    600: v('--s-text-secondary'),
+    700: v('--s-text-primary'),
+    800: v('--s-sidebar'),
+    900: v('--s-sidebar'),
+    950: v('--s-sidebar'),
+  },
+  formField: {
+    background: v('--s-surface'),
+    borderColor: v('--s-border'),
+    hoverBorderColor: v('--s-border-strong'),
+    focusBorderColor: v('--s-focus'),
+    placeholderColor: v('--s-text-disabled'),
+    color: v('--s-text-primary'),
+  },
+  content: {
+    background: v('--s-surface'),
+    hoverBackground: v('--s-subtle'),
+    borderColor: v('--s-border'),
+    color: v('--s-text-primary'),
+    hoverColor: v('--s-text-primary'),
+  },
+  text: {
+    color: v('--s-text-primary'),
+    hoverColor: v('--s-text-primary'),
+    mutedColor: v('--s-text-muted'),
+    hoverMutedColor: v('--s-text-secondary'),
+  },
+};
+
 export const SynapseOSPreset = definePreset(Aura, {
   semantic: {
+    // Paleta primary alinhada com a Synka oficial (Manual 2026):
+    // Deep Blue #1A2B4D, Medium #2E5C99, Electric #5DADE2, Light #F5F8FB.
+    // As CSS vars dessas cores estão em `_synapseos_tokens.scss`.
     primary: {
-      50: '#E3F2FD',
-      100: '#BBDEFB',
-      200: '#90CAF9',
-      300: '#64B5F6',
-      400: '#42A5F5',
-      500: '#2196F3', // brand
-      600: '#1E88E5', // CTA sólido
-      700: '#1976D2',
-      800: '#1565C0',
-      900: '#0D47A1',
-      950: '#0A3A7A',
+      50: v('--s-brand-soft'),
+      100: v('--s-brand-soft-hover'),
+      200: v('--s-accent-100'),
+      300: v('--s-accent-500'),
+      400: v('--s-accent'),
+      500: v('--s-brand-700'),
+      600: v('--s-brand-cta'),
+      700: v('--s-brand-800'),
+      800: v('--s-brand-900'),
+      900: v('--s-brand-900'),
+      950: v('--s-brand-900'),
     },
     colorScheme: {
-      light: {
-        primary: {
-          color: '{primary.600}',
-          contrastColor: '#FFFFFF',
-          hoverColor: '{primary.700}',
-          activeColor: '{primary.800}',
-        },
-        highlight: {
-          background: '{primary.50}',
-          focusBackground: '{primary.100}',
-          color: '{primary.700}',
-          focusColor: '{primary.700}',
-        },
-        surface: {
-          0: '#FFFFFF',
-          50: '#F8FAFC',
-          100: '#F1F5F9',
-          200: '#E2E8F0',
-          300: '#CBD5E1',
-          400: '#94A3B8',
-          500: '#64748B',
-          600: '#475569',
-          700: '#334155',
-          800: '#1E293B',
-          900: '#0F172A',
-          950: '#020617',
-        },
-        formField: {
-          background: '#FFFFFF',
-          borderColor: '#E2E8F0',
-          hoverBorderColor: '#CBD5E1',
-          focusBorderColor: '{primary.500}',
-          placeholderColor: '#94A3B8',
-          color: '#0F172A',
-        },
-        content: {
-          background: '#FFFFFF',
-          hoverBackground: '#F8FAFC',
-          borderColor: '#E2E8F0',
-          color: '#0F172A',
-          hoverColor: '#0F172A',
-        },
-        text: {
-          color: '#0F172A',
-          hoverColor: '#0F172A',
-          mutedColor: '#64748B',
-          hoverMutedColor: '#475569',
-        },
-      },
+      light: sharedScheme,
+      dark: sharedScheme,
     },
   },
   components: {
     button: {
-      root: {
-        borderRadius: '0.5rem',
-      },
+      root: { borderRadius: '0.5rem' },
     },
     card: {
       root: {
         borderRadius: '1rem',
-        background: '#FFFFFF',
-        borderColor: '#E2E8F0',
-        color: '#0F172A',
+        background: v('--s-surface'),
+        borderColor: v('--s-border'),
+        color: v('--s-text-primary'),
         shadow: 'var(--s-shadow-md)',
       },
       body: { padding: '1.5rem' },
-      title: {
-        fontSize: '1rem',
-        fontWeight: '600',
-      },
+      title: { fontSize: '1rem', fontWeight: '600' },
     },
     datatable: {
       headerCell: {
-        background: '#F8FAFC',
-        color: '#64748B',
-        borderColor: '#E2E8F0',
+        background: v('--s-bg'),
+        color: v('--s-text-muted'),
+        borderColor: v('--s-border'),
       },
       bodyCell: {
-        borderColor: '#F1F5F9',
+        borderColor: v('--s-border-subtle'),
       },
       row: {
-        background: '#FFFFFF',
-        hoverBackground: '#F1F5F9',
-        stripedBackground: '#F8FAFC',
+        background: v('--s-surface'),
+        hoverBackground: v('--s-subtle'),
+        stripedBackground: v('--s-bg'),
       },
     },
     dialog: {
       root: {
         borderRadius: '1rem',
+        background: v('--s-surface'),
+        borderColor: v('--s-border'),
+        color: v('--s-text-primary'),
         shadow: 'var(--s-shadow-lg)',
       },
+      header: { padding: '1.25rem 1.5rem 1rem' },
+      title: { fontSize: '1rem', fontWeight: '600' },
+      content: { padding: '0.5rem 1.5rem 1.25rem' },
     },
     tag: {
       root: {

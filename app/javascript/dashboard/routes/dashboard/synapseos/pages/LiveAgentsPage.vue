@@ -77,8 +77,14 @@ const summary = computed(() => {
   const online = agents.value.filter(a => a.availability === 'online').length;
   const busy = agents.value.filter(a => a.availability === 'busy').length;
   const offline = agents.value.filter(a => a.availability === 'offline').length;
-  const openConversations = agents.value.reduce((sum, a) => sum + (a.open_conversations || 0), 0);
-  const handledToday = agents.value.reduce((sum, a) => sum + (a.conversations_today || 0), 0);
+  const openConversations = agents.value.reduce(
+    (sum, a) => sum + (a.open_conversations || 0),
+    0
+  );
+  const handledToday = agents.value.reduce(
+    (sum, a) => sum + (a.conversations_today || 0),
+    0
+  );
   return { total, online, busy, offline, openConversations, handledToday };
 });
 
@@ -151,7 +157,9 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-s-bg p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6 h-full overflow-auto">
+  <div
+    class="bg-s-bg p-4 sm:p-6 md:p-8 space-y-4 md:space-y-6 h-full w-full flex-1 min-w-0 overflow-auto"
+  >
     <header class="flex flex-col gap-1">
       <h1 class="text-xl md:text-2xl font-semibold text-s-primary">
         {{ t('SYNAPSEOS.LIVE_AGENTS.TITLE') }}
@@ -176,7 +184,9 @@ onBeforeUnmount(() => {
       />
     </div>
 
-    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+    <section
+      class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4"
+    >
       <SynapseKpiCard
         v-for="card in summaryCards"
         :key="card.key"
@@ -187,13 +197,15 @@ onBeforeUnmount(() => {
       />
     </section>
 
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4">
+    <div
+      class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
+    >
       <div class="w-full sm:w-72">
         <SynapseInput
+          id="live-agents-search"
           v-model="searchQuery"
           icon-leading="i-lucide-search"
           :placeholder="t('SYNAPSEOS.LIVE_AGENTS.SEARCH_PLACEHOLDER')"
-          id="live-agents-search"
         />
       </div>
       <span class="text-xs text-s-muted">
@@ -202,100 +214,147 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4">
-    <SynapseCard padding="none">
-      <DataTable
-        :value="filteredAgents"
-        :loading="loading"
-        data-key="id"
-        removable-sort
-        :row-class="rowClass"
-        :pt="{
-          table: { class: 'min-w-full' },
-          bodyRow: { class: 'cursor-pointer hover:bg-s-subtle transition-colors border-b border-s-border-subtle' },
-          headerRow: { class: 'bg-s-subtle' },
-          headerCell: {
-            class: 'text-xs font-semibold uppercase tracking-wide text-s-secondary !bg-s-subtle !border-b !border-s-border px-4 py-3 whitespace-nowrap',
-          },
-          bodyCell: { class: 'px-4 py-3 text-sm text-s-primary align-middle' },
-          emptyMessage: { class: 'text-center py-8 text-sm text-s-muted' },
-          loadingOverlay: { class: '!bg-s-surface/70' },
-        }"
-        class="w-full"
-        @row-click="handleRowClick"
-      >
-        <template #empty>
-          <SynapseEmptyState
-            icon="i-lucide-users"
-            :title="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_TITLE')"
-            :description="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_DESCRIPTION')"
-            size="md"
+      <SynapseCard padding="none">
+        <DataTable
+          :value="filteredAgents"
+          :loading="loading"
+          data-key="id"
+          removable-sort
+          :row-class="rowClass"
+          :pt="{
+            table: { class: 'min-w-full' },
+            bodyRow: {
+              class:
+                'cursor-pointer hover:bg-s-subtle transition-colors border-b border-s-border-subtle',
+            },
+            headerRow: { class: 'bg-s-subtle' },
+            headerCell: {
+              class:
+                'text-xs font-semibold uppercase tracking-wide text-s-secondary !bg-s-subtle !border-b !border-s-border px-4 py-3 whitespace-nowrap',
+            },
+            bodyCell: {
+              class: 'px-4 py-3 text-sm text-s-primary align-middle',
+            },
+            emptyMessage: { class: 'text-center py-8 text-sm text-s-muted' },
+            loadingOverlay: { class: '!bg-s-surface/70' },
+          }"
+          class="w-full"
+          @row-click="handleRowClick"
+        >
+          <template #empty>
+            <SynapseEmptyState
+              icon="i-lucide-users"
+              :title="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_TITLE')"
+              :description="t('SYNAPSEOS.LIVE_AGENTS.EMPTY_DESCRIPTION')"
+              size="md"
+            />
+          </template>
+          <Column
+            field="name"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_NAME')"
+            sortable
+          >
+            <template #body="{ data }">
+              <div class="flex items-center gap-3">
+                <img
+                  v-if="data.thumbnail"
+                  :src="data.thumbnail"
+                  :alt="data.name"
+                  class="rounded-full size-8"
+                />
+                <div
+                  v-else
+                  class="rounded-full size-8 bg-s-subtle flex items-center justify-center text-xs text-s-secondary font-medium"
+                >
+                  {{ data.name?.[0]?.toUpperCase() || '?' }}
+                </div>
+                <div class="flex flex-col">
+                  <span class="text-sm font-medium text-s-primary">{{
+                    data.name
+                  }}</span>
+                  <span class="text-xs text-s-muted">{{ data.email }}</span>
+                </div>
+              </div>
+            </template>
+          </Column>
+
+          <Column
+            field="availability"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_STATUS')"
+            sortable
+          >
+            <template #body="{ data }">
+              <SynapseStatusPill :tone="availabilityTone(data.availability)">
+                {{
+                  t(
+                    `SYNAPSEOS.LIVE_AGENTS.STATUS.${data.availability.toUpperCase()}`
+                  )
+                }}
+              </SynapseStatusPill>
+            </template>
+          </Column>
+
+          <Column
+            field="open_conversations"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_OPEN')"
+            sortable
           />
-        </template>
-        <Column field="name" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_NAME')" sortable>
-          <template #body="{ data }">
-            <div class="flex items-center gap-3">
-              <img
-                v-if="data.thumbnail"
-                :src="data.thumbnail"
-                :alt="data.name"
-                class="rounded-full size-8"
+          <Column
+            field="conversations_today"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_TODAY')"
+            sortable
+          />
+
+          <Column
+            field="avg_first_response_seconds"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_FIRST_RESPONSE')"
+            sortable
+          >
+            <template #body="{ data }">
+              <span
+                class="text-sm"
+:class="[
+                :class="
+[firstResponseClass(data.avg_first_response_seconds)]"
               >
-              <div
-                v-else
-                class="rounded-full size-8 bg-s-subtle flex items-center justify-center text-xs text-s-secondary font-medium"
+                {{ formatSeconds(data.avg_first_response_seconds) }}
+              </span>
+            </template>
+          </Column>
+
+          <Column
+            field="role"
+            :header="t('SYNAPSEOS.LIVE_AGENTS.COL_ROLE')"
+            sortable
+          >
+            <template #body="{ data }">
+              <SynapseBadge
+                :tone="data.role === 'administrator' ? 'brand' : 'neutral'"
               >
-                {{ data.name?.[0]?.toUpperCase() || '?' }}
-              </div>
-              <div class="flex flex-col">
-                <span class="text-sm font-medium text-s-primary">{{ data.name }}</span>
-                <span class="text-xs text-s-muted">{{ data.email }}</span>
-              </div>
-            </div>
-          </template>
-        </Column>
+                <span class="capitalize">{{ data.role }}</span>
+              </SynapseBadge>
+            </template>
+          </Column>
+        </DataTable>
+      </SynapseCard>
 
-        <Column field="availability" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_STATUS')" sortable>
-          <template #body="{ data }">
-            <SynapseStatusPill :tone="availabilityTone(data.availability)">
-              {{ t(`SYNAPSEOS.LIVE_AGENTS.STATUS.${data.availability.toUpperCase()}`) }}
-            </SynapseStatusPill>
-          </template>
-        </Column>
-
-        <Column field="open_conversations" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_OPEN')" sortable />
-        <Column field="conversations_today" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_TODAY')" sortable />
-
-        <Column field="avg_first_response_seconds" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_FIRST_RESPONSE')" sortable>
-          <template #body="{ data }">
-            <span :class="['text-sm', firstResponseClass(data.avg_first_response_seconds)]">
-              {{ formatSeconds(data.avg_first_response_seconds) }}
-            </span>
-          </template>
-        </Column>
-
-        <Column field="role" :header="t('SYNAPSEOS.LIVE_AGENTS.COL_ROLE')" sortable>
-          <template #body="{ data }">
-            <SynapseBadge :tone="data.role === 'administrator' ? 'brand' : 'neutral'">
-              <span class="capitalize">{{ data.role }}</span>
-            </SynapseBadge>
-          </template>
-        </Column>
-      </DataTable>
-    </SynapseCard>
-
-    <div v-if="selectedAgent">
-      <AgentConversationsPanel
-        :agent="selectedAgent"
-        @close="selectedAgent = null"
-      />
-    </div>
-    <SynapseCard v-else padding="none" class="hidden lg:flex items-center justify-center min-h-[300px]">
-      <SynapseEmptyState
-        icon="i-lucide-mouse-pointer-click"
-        :title="t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT')"
-        size="sm"
-      />
-    </SynapseCard>
+      <div v-if="selectedAgent">
+        <AgentConversationsPanel
+          :agent="selectedAgent"
+          @close="selectedAgent = null"
+        />
+      </div>
+      <SynapseCard
+        v-else
+        padding="none"
+        class="hidden lg:flex items-center justify-center min-h-[300px]"
+      >
+        <SynapseEmptyState
+          icon="i-lucide-mouse-pointer-click"
+          :title="t('SYNAPSEOS.LIVE_AGENTS.PANEL.HINT')"
+          size="sm"
+        />
+      </SynapseCard>
     </div>
   </div>
 </template>

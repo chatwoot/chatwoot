@@ -5,10 +5,10 @@ import { useRoute, useRouter } from 'vue-router';
 /* global axios */
 import draggable from 'vuedraggable';
 import InputText from 'primevue/inputtext';
-import Dialog from 'primevue/dialog';
 import Select from 'primevue/select';
 import SynapseButton from 'next/synapseos/SynapseButton.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
+import SynapseDialog from 'next/synapseos/SynapseDialog.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -219,7 +219,7 @@ onMounted(fetchPipeline);
 
 <template>
   <div
-    class="bg-s-bg p-4 sm:p-6 md:p-8 h-full flex flex-col gap-4 overflow-hidden"
+    class="bg-s-bg p-4 sm:p-6 md:p-8 h-full w-full flex-1 min-w-0 flex flex-col gap-4 overflow-hidden"
   >
     <header
       class="flex items-start md:items-end justify-between flex-wrap gap-3 md:gap-4"
@@ -426,7 +426,7 @@ onMounted(fetchPipeline);
     </div>
 
     <!-- New Stage Dialog -->
-    <Dialog
+    <SynapseDialog
       v-model:visible="showNewStageDialog"
       :header="t('SYNAPSEOS.PIPELINE.NEW_STAGE_HEADER')"
       modal
@@ -473,10 +473,10 @@ onMounted(fetchPipeline);
           </SynapseButton>
         </div>
       </template>
-    </Dialog>
+    </SynapseDialog>
 
     <!-- Template Picker Dialog -->
-    <Dialog
+    <SynapseDialog
       v-model:visible="showTemplateDialog"
       :header="t('SYNAPSEOS.PIPELINE.TEMPLATE_HEADER')"
       modal
@@ -532,6 +532,6 @@ onMounted(fetchPipeline);
           </SynapseButton>
         </div>
       </template>
-    </Dialog>
+    </SynapseDialog>
   </div>
 </template>

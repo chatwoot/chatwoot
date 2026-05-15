@@ -137,7 +137,8 @@ const refreshAll = () => store.fetchAll({ accountId: accountId.value });
 const selectRange = rangeKey => {
   store.range = rangeKey;
   store.since = new Date(
-    Date.now() - (RANGE_OPTIONS.find(r => r.key === rangeKey)?.hours || 720) * 3600 * 1000
+    Date.now() -
+      (RANGE_OPTIONS.find(r => r.key === rangeKey)?.hours || 720) * 3600 * 1000
   ).toISOString();
   refreshAll();
 };
@@ -146,8 +147,10 @@ onMounted(refreshAll);
 </script>
 
 <template>
-  <div class="bg-s-bg p-8 space-y-8 h-full overflow-auto">
-    <header class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+  <div class="bg-s-bg p-8 space-y-8 h-full w-full flex-1 min-w-0 overflow-auto">
+    <header
+      class="flex flex-col md:flex-row md:items-start md:justify-between gap-4"
+    >
       <div class="flex flex-col gap-1">
         <h1 class="text-2xl font-semibold text-s-primary">
           {{ t('SYNAPSEOS.METRICS.TITLE') }}
@@ -165,8 +168,8 @@ onMounted(refreshAll);
             v-for="r in RANGE_OPTIONS"
             :key="r.key"
             type="button"
+            class="px-3 h-8 text-xs font-medium rounded-md transition-colors"
             :class="[
-              'px-3 h-8 text-xs font-medium rounded-md transition-colors',
               store.range === r.key
                 ? 'bg-s-brand-soft text-s-brand-text'
                 : 'text-s-secondary hover:bg-s-subtle',
@@ -215,33 +218,29 @@ onMounted(refreshAll);
         </SynapseStatusPill>
       </div>
 
-      <div
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-      >
-        <SynapseCard
-          v-for="slug in group.slugs"
-          :key="slug"
-          padding="none"
-        >
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <SynapseCard v-for="slug in group.slugs" :key="slug" padding="none">
           <div class="p-6 flex flex-col gap-5">
             <!-- Header: icon + agent name + status chip -->
             <div class="flex items-start justify-between gap-3">
               <div class="flex items-center gap-3 min-w-0">
                 <span
+                  class="inline-flex items-center justify-center size-10 rounded-xl shrink-0"
                   :class="[
-                    'inline-flex items-center justify-center size-10 rounded-xl shrink-0',
                     `bg-s-${AGENT_CARDS[slug].tone}-soft`,
                     `text-s-${AGENT_CARDS[slug].tone}-text`,
                   ]"
                 >
-                  <span :class="['size-5', AGENT_CARDS[slug].icon]" />
+                  <span class="size-5" :class="[AGENT_CARDS[slug].icon]" />
                 </span>
                 <div class="flex flex-col min-w-0">
                   <span class="text-base font-semibold text-s-primary truncate">
                     {{ agentDisplayName(slug) }}
                   </span>
                   <span class="text-xs text-s-muted">
-                    {{ t(`SYNAPSEOS.METRICS.AGENTS.${i18nAgentKey(slug)}.ROLE`) }}
+                    {{
+                      t(`SYNAPSEOS.METRICS.AGENTS.${i18nAgentKey(slug)}.ROLE`)
+                    }}
                   </span>
                 </div>
               </div>
@@ -255,7 +254,10 @@ onMounted(refreshAll);
             </div>
 
             <!-- Loading skeleton -->
-            <div v-if="store.agents[slug].isLoading" class="flex flex-col gap-4">
+            <div
+              v-if="store.agents[slug].isLoading"
+              class="flex flex-col gap-4"
+            >
               <div class="h-12 rounded bg-s-subtle animate-pulse" />
               <div class="h-4 rounded bg-s-subtle animate-pulse w-3/4" />
               <div class="h-4 rounded bg-s-subtle animate-pulse w-2/3" />
@@ -273,12 +275,14 @@ onMounted(refreshAll);
             <template v-else>
               <!-- Hero KPI -->
               <div class="flex flex-col gap-1">
-                <span class="text-xs font-medium uppercase tracking-wider text-s-muted">
+                <span
+                  class="text-xs font-medium uppercase tracking-wider text-s-muted"
+                >
                   {{ kpiLabel(slug, AGENT_CARDS[slug].hero.key) }}
                 </span>
                 <span
+                  class="font-synapse font-bold tracking-tight leading-none text-[2.75rem]"
                   :class="[
-                    'font-synapse font-bold tracking-tight leading-none text-[2.75rem]',
                     isHighlightFormat(AGENT_CARDS[slug].hero.format)
                       ? 'text-s-brand'
                       : 'text-s-primary',
@@ -307,14 +311,16 @@ onMounted(refreshAll);
                     {{ kpiLabel(slug, kpi.key) }}
                   </span>
                   <span
+                    class="text-base font-semibold"
                     :class="[
-                      'text-base font-semibold',
                       isHighlightFormat(kpi.format)
                         ? 'text-s-brand-text'
                         : 'text-s-primary',
                     ]"
                   >
-                    {{ formatKpi(kpi.format, store.agents[slug].kpis[kpi.key]) }}
+                    {{
+                      formatKpi(kpi.format, store.agents[slug].kpis[kpi.key])
+                    }}
                   </span>
                 </div>
               </div>

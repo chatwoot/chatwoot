@@ -171,8 +171,14 @@ const eventTypeMeta = {
 const recentEvents = computed(() => {
   return (summary.value?.recent_events || []).map(ev => ({
     ...ev,
-    meta: eventTypeMeta[ev.event_type] || { icon: 'i-lucide-circle-dot', tone: 'neutral' },
-    label: t(`SYNAPSEOS.DASHBOARD.EVENT_TYPE.${ev.event_type.toUpperCase()}`, ev.event_type),
+    meta: eventTypeMeta[ev.event_type] || {
+      icon: 'i-lucide-circle-dot',
+      tone: 'neutral',
+    },
+    label: t(
+      `SYNAPSEOS.DASHBOARD.EVENT_TYPE.${ev.event_type.toUpperCase()}`,
+      ev.event_type
+    ),
     relativeTime: formatRelativeTime(ev.created_at),
   }));
 });
@@ -202,7 +208,12 @@ const chartData = computed(() => {
         backgroundColor: ctx => {
           const { ctx: c, chartArea } = ctx.chart;
           if (!chartArea) return 'rgba(0, 184, 217, 0.15)';
-          const gradient = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          const gradient = c.createLinearGradient(
+            0,
+            chartArea.top,
+            0,
+            chartArea.bottom
+          );
           gradient.addColorStop(0, 'rgba(0, 184, 217, 0.20)');
           gradient.addColorStop(1, 'rgba(0, 184, 217, 0)');
           return gradient;
@@ -307,15 +318,20 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="bg-s-bg h-full overflow-auto">
+  <div class="bg-s-bg h-full w-full flex-1 min-w-0 overflow-auto">
     <!-- Header bar: compact mission-control style -->
     <header
       class="sticky top-0 z-10 bg-s-surface/95 backdrop-blur-sm border-b border-s-border px-4 md:px-6 py-3 flex flex-wrap items-center justify-between gap-3"
     >
       <div class="flex items-center gap-3 min-w-0">
-        <div class="size-2 rounded-full bg-s-success animate-pulse" aria-hidden="true" />
+        <div
+          class="size-2 rounded-full bg-s-success animate-pulse"
+          aria-hidden="true"
+        />
         <div class="flex flex-col min-w-0">
-          <h1 class="text-sm md:text-base font-semibold text-s-primary leading-tight truncate">
+          <h1
+            class="text-sm md:text-base font-semibold text-s-primary leading-tight truncate"
+          >
             {{ t('SYNAPSEOS.DASHBOARD.TITLE') }}
           </h1>
           <p class="text-xs text-s-muted">
@@ -323,13 +339,16 @@ onBeforeUnmount(() => {
           </p>
         </div>
       </div>
-      <div v-if="activeTab === 'overview'" class="flex items-center gap-1 p-1 rounded-lg bg-s-subtle border border-s-border">
+      <div
+        v-if="activeTab === 'overview'"
+        class="flex items-center gap-1 p-1 rounded-lg bg-s-subtle border border-s-border"
+      >
         <button
           v-for="opt in periodOptions"
           :key="opt.value"
           type="button"
+          class="px-3 py-1 text-xs font-semibold rounded-md transition-colors tabular-nums"
           :class="[
-            'px-3 py-1 text-xs font-semibold rounded-md transition-colors tabular-nums',
             period === opt.value
               ? 'bg-s-surface text-s-primary shadow-s-sm'
               : 'text-s-muted hover:text-s-secondary',
@@ -346,8 +365,8 @@ onBeforeUnmount(() => {
         v-for="tab in tabs"
         :key="tab.key"
         type="button"
+        class="py-2.5 text-xs font-semibold uppercase tracking-wide transition-colors border-b-2 -mb-px"
         :class="[
-          'py-2.5 text-xs font-semibold uppercase tracking-wide transition-colors border-b-2 -mb-px',
           activeTab === tab.key
             ? 'text-s-primary border-s-accent-500'
             : 'text-s-muted border-transparent hover:text-s-secondary',
@@ -369,12 +388,16 @@ onBeforeUnmount(() => {
           class="px-4 md:px-6 py-5 flex flex-col gap-2 min-w-0"
         >
           <div class="flex items-center gap-2 text-s-muted">
-            <span :class="['size-3.5 shrink-0', kpi.icon]" />
-            <span class="text-[10px] font-semibold uppercase tracking-wider truncate">
+            <span class="size-3.5 shrink-0" :class="[kpi.icon]" />
+            <span
+              class="text-[10px] font-semibold uppercase tracking-wider truncate"
+            >
               {{ kpi.label }}
             </span>
           </div>
-          <div class="text-2xl md:text-3xl font-semibold text-s-primary tabular-nums leading-tight truncate">
+          <div
+            class="text-2xl md:text-3xl font-semibold text-s-primary tabular-nums leading-tight truncate"
+          >
             {{ kpi.value }}
           </div>
         </div>
@@ -390,14 +413,18 @@ onBeforeUnmount(() => {
           class="px-4 md:px-6 py-3 flex items-center justify-between gap-3 min-w-0"
         >
           <div class="flex flex-col min-w-0">
-            <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate">
+            <span
+              class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate"
+            >
               {{ kpi.label }}
             </span>
-            <span class="text-lg font-semibold text-s-secondary tabular-nums leading-tight truncate">
+            <span
+              class="text-lg font-semibold text-s-secondary tabular-nums leading-tight truncate"
+            >
               {{ kpi.value }}
             </span>
           </div>
-          <span :class="['size-4 shrink-0 text-s-muted', kpi.icon]" />
+          <span class="size-4 shrink-0 text-s-muted" :class="[kpi.icon]" />
         </div>
       </section>
 
@@ -410,10 +437,15 @@ onBeforeUnmount(() => {
           :key="op.key"
           class="px-4 md:px-6 py-2.5 flex items-center justify-between gap-2 min-w-0"
         >
-          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate">
+          <span
+            class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate"
+          >
             {{ op.label }}
           </span>
-          <span :class="['text-sm font-semibold tabular-nums', op.valueClass]">
+          <span
+            class="text-sm font-semibold tabular-nums"
+            :class="[op.valueClass]"
+          >
             {{ op.value }}
           </span>
         </div>
@@ -422,9 +454,15 @@ onBeforeUnmount(() => {
       <!-- MAIN GRID: chart (2/3) + event feed (1/3) -->
       <div class="p-4 md:p-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div class="lg:col-span-2">
-          <div class="bg-s-surface border border-s-border rounded-lg overflow-hidden">
-            <div class="px-5 py-3 border-b border-s-border flex items-center justify-between">
-              <h3 class="text-xs font-semibold uppercase tracking-wider text-s-secondary">
+          <div
+            class="bg-s-surface border border-s-border rounded-lg overflow-hidden"
+          >
+            <div
+              class="px-5 py-3 border-b border-s-border flex items-center justify-between"
+            >
+              <h3
+                class="text-xs font-semibold uppercase tracking-wider text-s-secondary"
+              >
                 {{ t('SYNAPSEOS.DASHBOARD.CHART.TITLE') }}
               </h3>
               <SynapseStatusPill tone="success" size="sm">
@@ -456,22 +494,39 @@ onBeforeUnmount(() => {
           </div>
         </div>
 
-        <div class="bg-s-surface border border-s-border rounded-lg overflow-hidden flex flex-col">
-          <div class="px-5 py-3 border-b border-s-border flex items-center justify-between">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-s-secondary">
+        <div
+          class="bg-s-surface border border-s-border rounded-lg overflow-hidden flex flex-col"
+        >
+          <div
+            class="px-5 py-3 border-b border-s-border flex items-center justify-between"
+          >
+            <h3
+              class="text-xs font-semibold uppercase tracking-wider text-s-secondary"
+            >
               {{ t('SYNAPSEOS.DASHBOARD.RECENT_EVENTS.TITLE') }}
             </h3>
-            <span v-if="recentEvents.length" class="text-[10px] font-mono text-s-muted tabular-nums">
+            <span
+              v-if="recentEvents.length"
+              class="text-[10px] font-mono text-s-muted tabular-nums"
+            >
               {{ recentEvents.length }}
             </span>
           </div>
-          <ul v-if="recentEvents.length" class="flex flex-col divide-y divide-s-border-subtle overflow-auto max-h-80">
+          <ul
+            v-if="recentEvents.length"
+            class="flex flex-col divide-y divide-s-border-subtle overflow-auto max-h-80"
+          >
             <li
               v-for="event in recentEvents"
               :key="event.id"
               class="flex items-start gap-3 px-5 py-3 hover:bg-s-subtle/50 transition-colors"
             >
-              <span :class="['size-4 mt-0.5 shrink-0 text-s-secondary', event.meta.icon]" />
+              <span
+                class="size-4 mt-0.5 shrink-0 text-s-secondary"
+:class="[
+                :class="
+[event.meta.icon]"
+              />
               <div class="flex flex-col min-w-0 flex-1 gap-1">
                 <span class="text-sm font-medium text-s-primary truncate">
                   {{ event.label }}
