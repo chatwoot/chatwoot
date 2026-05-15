@@ -87,7 +87,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     return {} unless permitted_params.key?(:inbox_id)
     return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
-    inbox = Inbox.find(permitted_params[:inbox_id])
+    inbox = Current.account.inboxes.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?
 
     { channel_web_widget_id: inbox.channel.id }
