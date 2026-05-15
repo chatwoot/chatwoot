@@ -217,7 +217,11 @@ export default {
     isReplyButtonDisabled() {
       if (this.isEditorDisabled) return true;
       if (this.isATwitterInbox) return true;
-      if (this.hasAttachments || this.hasRecordedAudio) return false;
+      // Note: only `hasAttachments` (attachedFiles populated) enables send.
+      // `hasRecordedAudio` becomes true the moment recording stops, but the
+      // file upload that follows is async — sending in that window produced
+      // empty messages that Meta rejected with "text.body is required".
+      if (this.hasAttachments) return false;
 
       return (
         this.isMessageEmpty ||
@@ -762,6 +766,13 @@ export default {
     },
     confirmOnSendReply() {
       if (this.isReplyButtonDisabled) {
+        return;
+      }
+      // Defensive: never send a payload that has neither content nor a file.
+      // The send button's disabled state already covers this, but guard here
+      // too so any other entry point (hotkey, programmatic) cannot create the
+      // empty Message rows that Meta rejects with "text.body is required".
+      if (this.isMessageEmpty && !this.hasAttachments) {
         return;
       }
       if (!this.showMentions) {
