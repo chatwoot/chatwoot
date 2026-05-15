@@ -192,6 +192,21 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(portal.reload.logo).to be_attached
       end
 
+      it 'does not allow associating an inbox from another account' do
+        other_account = create(:account)
+        foreign_inbox = create(:inbox, account: other_account)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: { name: portal.name },
+              inbox_id: foreign_inbox.id
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+        expect(portal.reload.channel_web_widget_id).to be_nil
+      end
+
       it 'clears associated web widget when inbox selection is blank' do
         web_widget_inbox = create(:inbox, account: account)
         portal.update!(channel_web_widget: web_widget_inbox.channel)
