@@ -100,6 +100,41 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(json_response['name']).to eql('test_portal')
         expect(json_response['custom_domain']).to eql('support.chatwoot.dev')
       end
+
+      it 'creates portal when custom_domain is omitted from request body' do
+        portal_params = {
+          portal: {
+            name: 'test_portal_no_domain',
+            slug: 'test_kbase_no_domain'
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals",
+             params: portal_params,
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['name']).to eql('test_portal_no_domain')
+        expect(json_response['custom_domain']).to be_nil
+      end
+
+      it 'creates portal when custom_domain is blank' do
+        portal_params = {
+          portal: {
+            name: 'test_portal_blank_domain',
+            slug: 'test_kbase_blank_domain',
+            custom_domain: ''
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals",
+             params: portal_params,
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['name']).to eql('test_portal_blank_domain')
+        expect(json_response['custom_domain']).to be_blank
+      end
     end
   end
 
