@@ -1,7 +1,12 @@
 class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
+  before_action :portal
+  before_action :set_portal_layout
+  before_action :set_view_variant
+  before_action :ensure_portal_feature_enabled
   before_action :set_category, only: [:show]
   before_action :load_category_articles, only: [:show], if: -> { @portal_layout == 'documentation' }
+  layout 'portal'
 
   def index
     respond_to do |format|

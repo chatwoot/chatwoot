@@ -1,7 +1,12 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index, :show_markdown]
+  before_action :portal
+  before_action :set_portal_layout
+  before_action :set_view_variant
+  before_action :ensure_portal_feature_enabled
   before_action :set_category, except: [:index, :show, :tracking_pixel]
   before_action :set_article, only: [:show, :show_markdown]
+  layout 'portal'
 
   def index
     @search_query = list_params[:query]
