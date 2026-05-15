@@ -9,7 +9,7 @@ class Captain::ActivityMessageContextBuilderService
   def generate_content
     return unless resolved_status_activity?
 
-    { content: RESOLVED_CONTEXT, role: 'system' }
+    { content: RESOLVED_CONTEXT, role: 'assistant' }
   end
 
   private

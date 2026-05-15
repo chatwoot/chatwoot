@@ -79,7 +79,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
                                           { content: 'Hello', role: 'user' },
                                           {
                                             content: Captain::ActivityMessageContextBuilderService::RESOLVED_CONTEXT,
-                                            role: 'system'
+                                            role: 'assistant'
                                           },
                                           { content: 'Fresh question', role: 'user' }
                                         ])
