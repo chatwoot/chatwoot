@@ -89,10 +89,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
-      it 'sends only messages after last_resolved_at when strict reset mode is enabled' do
+      it 'sends only messages after last_resolved_message_id when strict reset mode is enabled' do
         assistant.update!(config: { conversation_context: 'since_last_resolution' })
-        conversation.messages.incoming.last.update!(created_at: 10.minutes.ago)
-        conversation.update!(last_resolved_at: 5.minutes.ago)
+        conversation.update!(last_resolved_message_id: conversation.messages.incoming.last.id)
         create(:message, conversation: conversation, content: 'New issue', message_type: :incoming)
 
         expect(mock_llm_chat_service).to receive(:generate_response).with(
@@ -102,12 +101,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
-      it 'keeps same-second messages after last_resolved_at when strict reset mode is enabled' do
+      it 'uses message ids instead of timestamps for the strict reset boundary' do
         assistant.update!(config: { conversation_context: 'since_last_resolution' })
-        boundary = Time.zone.parse('2026-05-08 12:00:00.500')
-        conversation.messages.incoming.last.update!(created_at: boundary - 1.second)
-        conversation.update!(last_resolved_at: boundary)
-        create(:message, conversation: conversation, content: 'Immediate new issue', message_type: :incoming, created_at: boundary.change(usec: 0))
+        same_second = Time.zone.parse('2026-05-08 12:00:00')
+        old_message = conversation.messages.incoming.last
+        old_message.update!(created_at: same_second)
+        conversation.update!(last_resolved_message_id: old_message.id)
+        create(:message, conversation: conversation, content: 'Immediate new issue', message_type: :incoming, created_at: same_second)
 
         expect(mock_llm_chat_service).to receive(:generate_response).with(
           message_history: [{ content: 'Immediate new issue', role: 'user' }]

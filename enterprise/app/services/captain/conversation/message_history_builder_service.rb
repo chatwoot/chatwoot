@@ -15,12 +15,12 @@ class Captain::Conversation::MessageHistoryBuilderService
 
   def conversation_messages_for_context
     messages = conversation.messages.where(private: false)
-    messages = messages.where('created_at >= ?', conversation.last_resolved_at.change(usec: 0)) if since_last_resolution_boundary?
+    messages = messages.where('id > ?', conversation.last_resolved_message_id) if since_last_resolution_boundary?
     messages.where(message_type: context_message_types)
   end
 
   def since_last_resolution_boundary?
-    assistant.conversation_context_since_last_resolution? && conversation.last_resolved_at.present?
+    assistant.conversation_context_since_last_resolution? && conversation.last_resolved_message_id.present?
   end
 
   def context_message_types

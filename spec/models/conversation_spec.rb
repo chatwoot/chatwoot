@@ -233,9 +233,11 @@ RSpec.describe Conversation do
                                content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
     end
 
-    it 'updates last_resolved_at when marked resolved' do
+    it 'updates last_resolved_message_id when marked resolved' do
+      message = create(:message, conversation: conversation)
+
       expect { conversation.update!(status: :resolved) }
-        .to change { conversation.reload.last_resolved_at }.from(nil)
+        .to change { conversation.reload.last_resolved_message_id }.from(nil).to(message.id)
     end
   end
 
