@@ -3,7 +3,6 @@
     "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
       "LABEL": "Rate your conversation",
-      "SUBMIT_BUTTON_TEXT": "Submit Rating",
       "SUCCESS_MESSAGE": "Thank you for submitting the rating"
     },
     "FEEDBACK": {

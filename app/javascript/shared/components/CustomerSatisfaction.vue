@@ -49,8 +49,8 @@ export default {
         ?.feedback_message;
     },
     isButtonDisabled() {
-      if (!this.selectedRating) return true;
-      if (this.isRatingSubmitted && !this.feedback) return true;
+      if (!(this.selectedRating && this.feedback)) return true;
+      if (this.isUpdating) return true;
       return false;
     },
     textColor() {
@@ -81,7 +81,7 @@ export default {
 
   methods: {
     buttonClass(rating) {
-      const isLocked = this.isRatingSubmitted || this.isUpdating;
+      const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
         { disabled: isLocked },
@@ -109,12 +109,14 @@ export default {
     },
 
     selectRating(rating) {
-      if (this.isRatingSubmitted || this.isUpdating) return;
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating.value;
+      this.onSubmit();
     },
     selectStarRating(value) {
-      if (this.isRatingSubmitted || this.isUpdating) return;
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = value;
+      this.onSubmit();
     },
   },
 };
@@ -141,7 +143,7 @@ export default {
     <StarRating
       v-else-if="isStarType"
       :selected-rating="selectedRating"
-      :is-disabled="isRatingSubmitted || isUpdating"
+      :is-disabled="isFeedbackSubmitted || isUpdating"
       @select-rating="selectStarRating"
     />
     <form
@@ -163,7 +165,7 @@ export default {
           color: textColor,
         }"
       >
-        <Spinner v-if="isUpdating" />
+        <Spinner v-if="isUpdating && feedback" />
         <FluentIcon v-else icon="chevron-right" />
       </button>
     </form>
