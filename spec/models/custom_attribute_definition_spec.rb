@@ -42,6 +42,17 @@ RSpec.describe CustomAttributeDefinition do
         cad = build(:custom_attribute_definition, account: account, attribute_key: 'key()')
         expect(cad).not_to be_valid
       end
+
+      it 'allows company custom attributes' do
+        cad = build(:custom_attribute_definition, account: account, attribute_model: 'company_attribute')
+        expect(cad).to be_valid
+      end
+
+      it 'rejects company custom attributes that conflict with standard company fields' do
+        cad = build(:custom_attribute_definition, account: account, attribute_model: 'company_attribute', attribute_key: 'domain')
+        expect(cad).not_to be_valid
+        expect(cad.errors[:attribute_key]).to be_present
+      end
     end
   end
 
