@@ -5,22 +5,9 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def redirect_callbacks
-    # derive target redirect route from 'resource_class' param, which was set
-    # before authentication.
-    devise_mapping = get_devise_mapping
-    redirect_route = get_redirect_route(devise_mapping)
+    return omniauth_success if params[:provider] == 'saml'
 
-    # preserve omniauth info for success route. ignore 'extra' in twitter
-    # auth response to avoid CookieOverflow.
-    session['dta.omniauth.auth'] = request.env['omniauth.auth'].except('extra')
-    session['dta.omniauth.params'] = request.env['omniauth.params']
-
-    # For SAML, use 303 See Other to convert POST to GET and preserve session
-    if params[:provider] == 'saml'
-      redirect_to redirect_route, { status: 303 }.merge(redirect_options)
-    else
-      super
-    end
+    super
   end
 
   def omniauth_success
@@ -63,11 +50,15 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def extract_saml_account_id
-    params[:account_id] || session[:saml_account_id] || request.env['omniauth.params']&.dig('account_id')
+    params[:account_id] || request.env['omniauth.params']&.dig('account_id')
   end
 
   def saml_relay_state
-    session[:saml_relay_state] || request.env['omniauth.params']&.dig('RelayState')
+    params[:RelayState] || request.env['omniauth.params']&.dig('RelayState')
+  end
+
+  def auth_hash
+    request.env['omniauth.auth'] || super
   end
 
   def for_mobile?(relay_state)
