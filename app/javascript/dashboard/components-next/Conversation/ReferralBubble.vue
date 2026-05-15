@@ -48,8 +48,15 @@ const handleMediaError = () => {
   mediaLoadError.value = true;
 };
 
+// We never embed the video directly: Meta's `video_url` is typically a
+// Facebook/Instagram Reel page (HTML), not a playable media file. We always
+// render the thumbnail as an image; when the ad is a video, we overlay a
+// play icon and the click opens `source_url` on Meta's platform.
 const showMedia = computed(
-  () => (hasVideo.value || hasImage.value) && !mediaLoadError.value
+  () =>
+    !!mediaThumbnail.value &&
+    (hasVideo.value || hasImage.value) &&
+    !mediaLoadError.value
 );
 
 // Reset the media error flag when the referral changes so that a fresh ad's
@@ -87,18 +94,7 @@ watch(
           rel="noopener noreferrer"
           class="block relative bg-n-slate-3"
         >
-          <video
-            v-if="hasVideo"
-            class="block w-full max-h-72 object-cover"
-            :poster="mediaThumbnail"
-            :src="referral.video_url"
-            muted
-            playsinline
-            preload="metadata"
-            @error="handleMediaError"
-          />
           <img
-            v-else
             class="block w-full max-h-72 object-cover"
             :src="mediaThumbnail"
             :alt="headline"

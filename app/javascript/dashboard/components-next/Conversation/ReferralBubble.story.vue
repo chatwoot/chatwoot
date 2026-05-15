@@ -14,11 +14,13 @@ const imageReferral = {
   welcome_message: { text: 'Hi, I want more info about the course' },
 };
 
+// Real-world note: Meta delivers `video_url` as a Facebook/Instagram Reel
+// page (HTML), not a media file. The component never tries to play it; it
+// renders the thumbnail and links to `source_url` instead.
 const videoReferral = {
   ...imageReferral,
   media_type: 'video',
-  video_url:
-    'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+  video_url: 'https://www.facebook.com/reel/3585119514960925/',
   thumbnail_url: 'https://picsum.photos/seed/ad2/300/180.jpg',
 };
 
