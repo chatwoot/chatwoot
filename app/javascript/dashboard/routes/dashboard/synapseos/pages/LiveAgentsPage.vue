@@ -312,10 +312,10 @@ onBeforeUnmount(() => {
           >
             <template #body="{ data }">
               <span
-                class="text-sm"
-:class="[
-                :class="
-[firstResponseClass(data.avg_first_response_seconds)]"
+                :class="[
+                  'text-sm',
+                  firstResponseClass(data.avg_first_response_seconds),
+                ]"
               >
                 {{ formatSeconds(data.avg_first_response_seconds) }}
               </span>
