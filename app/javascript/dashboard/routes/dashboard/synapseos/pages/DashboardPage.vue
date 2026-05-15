@@ -522,10 +522,10 @@ onBeforeUnmount(() => {
               class="flex items-start gap-3 px-5 py-3 hover:bg-s-subtle/50 transition-colors"
             >
               <span
-                class="size-4 mt-0.5 shrink-0 text-s-secondary"
-:class="[
-                :class="
-[event.meta.icon]"
+                :class="[
+                  'size-4 mt-0.5 shrink-0 text-s-secondary',
+                  event.meta.icon,
+                ]"
               />
               <div class="flex flex-col min-w-0 flex-1 gap-1">
                 <span class="text-sm font-medium text-s-primary truncate">
