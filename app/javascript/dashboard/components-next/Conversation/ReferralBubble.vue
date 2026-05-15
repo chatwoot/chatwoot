@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 /**
@@ -51,10 +51,20 @@ const handleMediaError = () => {
 const showMedia = computed(
   () => (hasVideo.value || hasImage.value) && !mediaLoadError.value
 );
+
+// Reset the media error flag when the referral changes so that a fresh ad's
+// media gets a real load attempt — Vue may reuse this component when the agent
+// switches between conversations that both have referral data.
+watch(
+  () => props.referral,
+  () => {
+    mediaLoadError.value = false;
+  }
+);
 </script>
 
 <template>
-  <li class="px-4 pt-3 pb-1 list-none">
+  <li class="px-4 pt-3 pb-1 list-none" data-clarity-mask="True">
     <div class="flex justify-start">
       <div
         class="w-full max-w-md overflow-hidden border border-dashed rounded-xl rounded-bl-sm bg-n-alpha-1 border-n-amber-7"
