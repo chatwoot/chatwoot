@@ -296,7 +296,7 @@ watch(
             :selected-count-label="selectedCountLabel"
             class="py-2 ltr:!pr-3 rtl:!pl-3 justify-between"
           >
-            <template #secondary-actions>
+            <template #secondaryActions>
               <Button
                 sm
                 ghost
