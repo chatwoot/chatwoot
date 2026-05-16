@@ -23,23 +23,23 @@
     "UNNAMED": "Безымянная компания",
     "CONTACTS_COUNT": "{n} Контакт | {n} Контакта | Контактов",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Добавить компанию"
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Добавить информацию о компании",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Добавить компанию"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "Компания создана.",
+        "ERROR": "Не удалось создать компанию."
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
+      "LOADING": "Загрузка информации о компании...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Компания не найдена",
+        "SUBTITLE": "Возможно, эта компания была удалена или больше не доступна для этого аккаунта."
       },
       "SIDEBAR": {
         "TABS": {
@@ -50,73 +50,73 @@
         }
       },
       "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
+        "EMPTY": "Для контактов этой компании пока нет ни одной беседы."
       },
       "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
+        "EMPTY": "Заметки для контактов этой компании еще не найдены."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Поиск по атрибутам...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "Пользовательские атрибуты компании еще не настроены.",
+        "NO_ATTRIBUTES": "Подходящие атрибуты не найдены.",
+        "UNUSED_ATTRIBUTES": "{count} неиспользуемый атрибут | {count} неиспользованные атрибуты",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "Атрибут компании обновлён.",
+          "UPDATE_ERROR": "Невозможно обновить атрибут компании.",
+          "DELETE_SUCCESS": "Атрибут организации удален.",
+          "DELETE_ERROR": "Не удалось удалить атрибут организации."
         }
       },
       "CONTACTS": {
         "LOADING": "Загрузка контактов...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "EMPTY": "Нет контактов связанных с этой компанией.",
+        "UNNAMED_CONTACT": "Контакт без имени",
         "ACTIONS": {
           "ADD": "Добавить контакт",
-          "REMOVE": "Remove contact"
+          "REMOVE": "Удалить контакт"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
+            "DESCRIPTION": "Искать существующий контакт и привязать его к этой компании.",
             "SEARCH_PLACEHOLDER": "Поиск контактов...",
-            "INITIAL": "Start typing to search contacts.",
+            "INITIAL": "Начните печатать для поиска контактов.",
             "EMPTY": "Контакты не найдены.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "CONFIRM_TITLE": "Связать контакт",
+            "CONFIRM_DESCRIPTION": "Подтвердите компанию и свяжитесь с ней перед тем, как связать ее.",
             "COMPANY_LABEL": "Компания",
             "CONTACT_LABEL": "Контакт",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "В настоящее время связаны с {companyName}",
+            "ADD": "Привязать контакт",
             "CANCEL": "Отменить"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Контакт связан с компанией.",
+          "ADD_ERROR": "Не удалось привязать контакт к компании.",
+          "REASSIGN_SUCCESS": "Контакт переназначен компании.",
+          "REASSIGN_ERROR": "Невозможно переназначить контакт с компанией.",
+          "REMOVE_SUCCESS": "Контакт удалён из компании.",
+          "REMOVE_ERROR": "Невозможно удалить контакт из компании."
         }
       },
       "AVATAR": {
-        "UPDATING": "Updating company avatar...",
-        "UPLOAD_SUCCESS": "Company avatar updated.",
-        "UPLOAD_ERROR": "Could not update the company avatar.",
-        "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "UPDATING": "Обновление аватара компании ...",
+        "UPLOAD_SUCCESS": "Аватар компании обновлён.",
+        "UPLOAD_ERROR": "Невозможно обновить аватар компании.",
+        "DELETE_SUCCESS": "Аватар компании удалён.",
+        "DELETE_ERROR": "Невозможно удалить аватар компании."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
+        "TITLE": "Изменение данных компании",
         "CREATED_AT": "Создано {date}",
         "LAST_ACTIVE": "Последняя активность {date}",
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "DESCRIPTION_PLACEHOLDER": "Добавить краткое описание этой компании",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "SAVE": "Обновить компанию"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_SUCCESS": "Компания обновлена.",
+          "UPDATE_ERROR": "Невозможно обновить компанию."
         },
         "FIELDS": {
           "NAME": "Имя",
@@ -124,16 +124,16 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "SECTION_TITLE": "Опасная зона",
+        "SECTION_DESCRIPTION": "Удалите эту компанию и отсоедините её контакты. Контакты останутся в учетной записи.",
+        "BUTTON": "Удалить компанию",
+        "TITLE": "Удалить компанию?",
+        "DESCRIPTION": "Это удалит компанию и отсоединит все связанные с ней контакты. Контакты будут сохранены.",
+        "DESCRIPTION_WITH_NAME": "Это удалит {companyName} и отсоединит все соответствующие контакты. Контакты будут сохранены.",
+        "CONFIRM": "Удалить компанию",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Компания удалена.",
+          "ERROR": "Не удалось удалить компанию."
         }
       }
     },
