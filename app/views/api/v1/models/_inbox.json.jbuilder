@@ -119,6 +119,7 @@ if resource.api?
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
+  json.additional_headers resource.channel.try(:additional_headers)
 end
 
 json.provider resource.channel.try(:provider)

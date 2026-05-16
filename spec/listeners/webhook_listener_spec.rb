@@ -34,6 +34,15 @@ describe WebhookListener do
         ).once
         listener.message_created(message_created_event)
       end
+
+      it 'passes additional headers to the webhook job' do
+        webhook = create(:webhook, inbox: inbox, account: account, additional_headers: { 'Authorization' => 'Bearer token' })
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String), additional_headers: { 'Authorization' => 'Bearer token' }
+        ).once
+        listener.message_created(message_created_event)
+      end
     end
 
     context 'when webhook is configured and event is not subscribed' do
@@ -60,6 +69,25 @@ describe WebhookListener do
         expect(WebhookJob).to receive(:perform_later).with(
           channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
           :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_created(api_event)
+      end
+
+      it 'passes additional headers for API channel webhooks' do
+        channel_api = create(:channel_api, account: account, additional_headers: { 'X-API-Key' => 'secret' })
+        api_inbox = channel_api.inbox
+        api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+        api_message = create(
+          :message,
+          message_type: 'outgoing',
+          account: account,
+          inbox: api_inbox,
+          conversation: api_conversation
+        )
+        api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+        expect(WebhookJob).to receive(:perform_later).with(
+          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
+          :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String), additional_headers: { 'X-API-Key' => 'secret' }
         ).once
         listener.message_created(api_event)
       end

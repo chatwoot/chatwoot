@@ -98,6 +98,10 @@
         "PLACEHOLDER": "https://example.com/webhook",
         "REQUIRED": "Webhook URL is required"
       },
+      "ADDITIONAL_HEADERS": {
+        "LABEL": "Custom headers",
+        "DESC": "Headers sent with every webhook request. Useful for static auth tokens (for example Authorization: Bearer ...). Chatwoot-managed headers (Content-Type, X-Chatwoot-*) cannot be overridden."
+      },
       "ERRORS": {
         "NAME": "Bot name is required",
         "URL": "Webhook URL is required",

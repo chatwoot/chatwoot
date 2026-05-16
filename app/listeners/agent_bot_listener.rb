@@ -85,7 +85,9 @@ class AgentBotListener < BaseListener
   def process_webhook_bot_event(agent_bot, payload)
     return if agent_bot.outgoing_url.blank?
 
-    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload, :agent_bot_webhook,
-                                        secret: agent_bot.secret, delivery_id: SecureRandom.uuid)
+    kwargs = { secret: agent_bot.secret, delivery_id: SecureRandom.uuid }
+    kwargs[:additional_headers] = agent_bot.additional_headers if agent_bot.additional_headers.present?
+
+    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload, :agent_bot_webhook, **kwargs)
   end
 end

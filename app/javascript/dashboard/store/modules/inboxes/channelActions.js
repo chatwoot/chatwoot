@@ -21,7 +21,14 @@ export const buildInboxData = inboxParams => {
     }
   }
   Object.keys(channelParams).forEach(key => {
-    formData.append(`channel[${key}]`, channel[key]);
+    const value = channel[key];
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      Object.keys(value).forEach(nestedKey => {
+        formData.append(`channel[${key}][${nestedKey}]`, value[nestedKey]);
+      });
+    } else {
+      formData.append(`channel[${key}]`, value);
+    }
   });
   return formData;
 };

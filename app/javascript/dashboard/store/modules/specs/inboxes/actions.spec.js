@@ -1,11 +1,34 @@
 import axios from 'axios';
 import { actions } from '../../inboxes';
+import { buildInboxData } from '../../inboxes/channelActions';
 import * as types from '../../../mutation-types';
 import inboxList from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+describe('#buildInboxData', () => {
+  it('serializes nested channel object values for form data payloads', () => {
+    const formData = buildInboxData({
+      name: 'API Inbox',
+      channel: {
+        type: 'api',
+        additional_headers: {
+          Authorization: 'Bearer token',
+          'X-Custom-Header': 'custom-value',
+        },
+      },
+    });
+
+    expect(Array.from(formData.entries())).toEqual([
+      ['name', 'API Inbox'],
+      ['channel[type]', 'api'],
+      ['channel[additional_headers][Authorization]', 'Bearer token'],
+      ['channel[additional_headers][X-Custom-Header]', 'custom-value'],
+    ]);
+  });
+});
 
 describe('#actions', () => {
   describe('#get', () => {

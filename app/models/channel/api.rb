@@ -4,6 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  additional_attributes :jsonb
+#  additional_headers    :jsonb            not null
 #  hmac_mandatory        :boolean          default(FALSE)
 #  hmac_token            :string
 #  identifier            :string
@@ -23,7 +24,7 @@ class Channel::Api < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_api'
-  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {} }].freeze
+  EDITABLE_ATTRS = [:webhook_url, :hmac_mandatory, { additional_attributes: {}, additional_headers: {} }].freeze
 
   has_secure_token :identifier
   has_secure_token :hmac_token

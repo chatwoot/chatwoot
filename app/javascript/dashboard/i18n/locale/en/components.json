@@ -1,4 +1,10 @@
 {
+  "WEBHOOK_HEADERS": {
+    "NAME_PLACEHOLDER": "Header name (for example Authorization)",
+    "VALUE_PLACEHOLDER": "Header value",
+    "ADD": "Add header",
+    "REMOVE": "Remove header"
+  },
   "PAGINATION_FOOTER": {
     "SHOWING": "Showing {startItem} - {endItem} of {totalItems} item | Showing {startItem} - {endItem} of {totalItems} items",
     "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} page | {currentPage} of {totalPages} pages"

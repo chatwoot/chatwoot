@@ -14,6 +14,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
+import HeadersEditor from 'dashboard/components-next/webhook/HeadersEditor.vue';
 
 const props = defineProps({
   type: {
@@ -43,6 +44,7 @@ const formState = reactive({
   botUrl: '',
   botAvatar: null,
   botAvatarUrl: '',
+  botAdditionalHeaders: {},
 });
 
 const [showAccessToken, toggleAccessToken] = useToggle();
@@ -122,6 +124,7 @@ const resetForm = () => {
     botUrl: '',
     botAvatar: null,
     botAvatarUrl: '',
+    botAdditionalHeaders: {},
   });
   v$.value.$reset();
 };
@@ -161,6 +164,7 @@ const handleSubmit = async () => {
     outgoing_url: formState.botUrl,
     bot_type: 'webhook',
     avatar: formState.botAvatar,
+    additional_headers: formState.botAdditionalHeaders,
   };
 
   const isCreate = props.type === MODAL_TYPES.CREATE;
@@ -220,11 +224,13 @@ const initializeForm = () => {
       bot_config: botConfig,
       access_token: botAccessToken,
       secret: botSecretValue,
+      additional_headers: botAdditionalHeaders,
     } = props.selectedBot;
     formState.botName = name || '';
     formState.botDescription = description || '';
     formState.botUrl = botUrl || botConfig?.webhook_url || '';
     formState.botAvatarUrl = thumbnail || '';
+    formState.botAdditionalHeaders = { ...(botAdditionalHeaders || {}) };
 
     if (props.type === MODAL_TYPES.EDIT) {
       if (botAccessToken) accessToken.value = botAccessToken;
@@ -343,6 +349,12 @@ defineExpose({ dialogRef });
           :message="botUrlError"
           :message-type="botUrlError ? 'error' : 'info'"
           @blur="v$.botUrl.$touch()"
+        />
+
+        <HeadersEditor
+          v-model="formState.botAdditionalHeaders"
+          :label="$t('AGENT_BOTS.FORM.ADDITIONAL_HEADERS.LABEL')"
+          :description="$t('AGENT_BOTS.FORM.ADDITIONAL_HEADERS.DESC')"
         />
       </div>
 

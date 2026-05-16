@@ -209,6 +209,36 @@ describe Webhooks::Trigger do
       end
     end
 
+    context 'with additional headers' do
+      it 'adds custom headers to the request' do
+        expect(SafeFetch).to receive(:fetch) do |_received_url, **options, &block|
+          expect(options[:headers]['Authorization']).to eq('Bearer token')
+          expect(options[:headers]['X-Custom-Header']).to eq('custom-value')
+          block.call(fetch_result)
+        end
+
+        trigger.execute(
+          url, payload, webhook_type,
+          additional_headers: { 'Authorization' => 'Bearer token', 'X-Custom-Header' => 'custom-value' }
+        )
+      end
+
+      it 'does not allow custom headers to override Chatwoot managed headers' do
+        expect(SafeFetch).to receive(:fetch) do |_received_url, **options, &block|
+          expect(options[:headers]['Content-Type']).to eq('application/json')
+          expect(options[:headers]['Accept']).to eq('application/json')
+          expect(options[:headers]['X-Chatwoot-Delivery']).to eq('test-uuid')
+          block.call(fetch_result)
+        end
+
+        trigger.execute(
+          url, payload, webhook_type,
+          delivery_id: 'test-uuid',
+          additional_headers: { 'content-type' => 'text/plain', 'Accept' => 'text/plain', 'X-Chatwoot-Delivery' => 'override' }
+        )
+      end
+    end
+
     context 'with secret' do
       let(:secret) { 'test-secret' }
 

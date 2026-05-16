@@ -2,16 +2,17 @@
 #
 # Table name: webhooks
 #
-#  id            :bigint           not null, primary key
-#  name          :string
-#  secret        :string
-#  subscriptions :jsonb
-#  url           :text
-#  webhook_type  :integer          default("account_type")
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :integer
-#  inbox_id      :integer
+#  id                 :bigint           not null, primary key
+#  additional_headers :jsonb            not null
+#  name               :string
+#  secret             :string
+#  subscriptions      :jsonb
+#  url                :text
+#  webhook_type       :integer          default("account_type")
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :integer
+#  inbox_id           :integer
 #
 # Indexes
 #

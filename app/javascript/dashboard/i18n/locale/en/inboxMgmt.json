@@ -94,6 +94,10 @@
           "RESET_SUCCESS": "Webhook secret regenerated successfully",
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
+        "CHANNEL_WEBHOOK_HEADERS": {
+          "LABEL": "Additional headers",
+          "DESC": "Send these headers with API channel webhook requests. Chatwoot security headers are managed automatically."
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
@@ -376,6 +380,10 @@
           "LABEL": "Webhook URL",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
+        },
+        "HEADERS": {
+          "LABEL": "Additional headers",
+          "DESC": "Send these headers with API channel webhook requests. Chatwoot security headers are managed automatically."
         },
         "SUBMIT_BUTTON": "Create API Channel",
         "API": {

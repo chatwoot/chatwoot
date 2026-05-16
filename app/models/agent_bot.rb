@@ -2,16 +2,17 @@
 #
 # Table name: agent_bots
 #
-#  id           :bigint           not null, primary key
-#  bot_config   :jsonb
-#  bot_type     :integer          default("webhook")
-#  description  :string
-#  name         :string
-#  outgoing_url :string
-#  secret       :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  account_id   :bigint
+#  id                 :bigint           not null, primary key
+#  additional_headers :jsonb            not null
+#  bot_config         :jsonb
+#  bot_type           :integer          default("webhook")
+#  description        :string
+#  name               :string
+#  outgoing_url       :string
+#  secret             :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  account_id         :bigint
 #
 # Indexes
 #

@@ -28,4 +28,25 @@ RSpec.describe WebhookJob do
       perform_enqueued_jobs { job }
     end
   end
+
+  context 'with additional headers' do
+    subject(:job) do
+      described_class.perform_later(
+        url, payload, webhook_type,
+        secret: 'secret',
+        delivery_id: 'delivery-id',
+        additional_headers: { 'Authorization' => 'Bearer token' }
+      )
+    end
+
+    it 'serializes keyword arguments and passes additional headers to the trigger' do
+      expect(Webhooks::Trigger).to receive(:execute).with(
+        url, payload, webhook_type,
+        secret: 'secret',
+        delivery_id: 'delivery-id',
+        additional_headers: { 'Authorization' => 'Bearer token' }
+      )
+      perform_enqueued_jobs { job }
+    end
+  end
 end
