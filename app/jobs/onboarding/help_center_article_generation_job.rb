@@ -2,34 +2,29 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   queue_as :low
 
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
-    account_id, _portal_id, user_id, generation_id = job.arguments
-    account = Account.find(account_id)
-    user = User.find_by(id: user_id)
+    _account_id, _portal_id, user_id, generation_id = job.arguments
     reason = "firecrawl exhausted: #{error.message}"
-
     Rails.logger.warn "[HelpCenterGenerationJob] gen=#{generation_id} #{reason}"
-    Onboarding::HelpCenterGenerationStatus.mark_skipped!(account, generation_id, reason: reason)
-    Onboarding::HelpCenterBroadcaster.completed(user: user, generation_id: generation_id, status: 'skipped', skip_reason: reason)
+    job.send(:skip_and_broadcast, user: User.find_by(id: user_id), generation_id: generation_id, reason: reason)
   end
 
   def perform(account_id, portal_id, user_id, generation_id)
-    account = Account.find(account_id)
-    return if already_generating_or_terminal?(account, generation_id)
+    return if Onboarding::HelpCenterGenerationState.current(generation_id).present?
 
-    process(account: account, portal: Portal.find(portal_id), user: User.find(user_id), generation_id: generation_id)
+    process(
+      account: Account.find(account_id),
+      portal: Portal.find(portal_id),
+      user: User.find(user_id),
+      generation_id: generation_id
+    )
   rescue CustomExceptions::HelpCenter::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation_id} skipped: #{e.message}"
-    Onboarding::HelpCenterGenerationStatus.mark_skipped!(account, generation_id, reason: e.message)
-    Onboarding::HelpCenterBroadcaster.completed(
-      user: User.find_by(id: user_id), generation_id: generation_id, status: 'skipped', skip_reason: e.message
-    )
+    skip_and_broadcast(user: User.find_by(id: user_id), generation_id: generation_id, reason: e.message)
   end
 
   private
 
   def process(account:, portal:, user:, generation_id:)
-    Onboarding::HelpCenterGenerationStatus.mark_curating!(account, generation_id)
-
     plan = Onboarding::HelpCenterCurator.new(account: account, portal: portal).perform
 
     articles = ActiveRecord::Base.transaction do
@@ -44,12 +39,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
       stamped_articles
     end
 
-    Onboarding::HelpCenterGenerationCounter.create!(generation_id, total: articles.size)
-    Onboarding::HelpCenterGenerationStatus.mark_generating!(account, generation_id)
+    Onboarding::HelpCenterGenerationState.start(generation_id, total: articles.size)
     fan_out(
-      { account: account, portal: portal, user: user, generation_id: generation_id },
-      articles: articles,
-      allowed_urls: plan['allowed_urls']
+      [account.id, portal.id, user.id, generation_id],
+      articles: articles, allowed_urls: plan['allowed_urls']
     )
   end
 
@@ -79,22 +72,18 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def fan_out(context, articles:, allowed_urls:)
+  def fan_out(job_ids, articles:, allowed_urls:)
     articles.each do |article|
       Onboarding::HelpCenterArticleWriterJob.perform_later(
-        context[:account].id,
-        context[:portal].id,
-        context[:user].id,
-        context[:generation_id],
-        { article: article, allowed_urls: allowed_urls }
+        *job_ids, { article: article, allowed_urls: allowed_urls }
       )
     end
   end
 
-  def already_generating_or_terminal?(account, generation_id)
-    state = Onboarding::HelpCenterGenerationStatus.current(account)
-    return false if state.blank? || state['id'] != generation_id
-
-    %w[generating completed skipped].include?(state['status'])
+  def skip_and_broadcast(user:, generation_id:, reason:)
+    Onboarding::HelpCenterGenerationState.skip(generation_id, reason: reason)
+    Onboarding::HelpCenterBroadcaster.completed(
+      user: user, generation_id: generation_id, status: 'skipped', skip_reason: reason
+    )
   end
 end

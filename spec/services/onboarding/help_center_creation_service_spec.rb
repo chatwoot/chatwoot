@@ -9,17 +9,20 @@ RSpec.describe Onboarding::HelpCenterCreationService do
     allow(SecureRandom).to receive(:uuid).and_return(generation_id)
   end
 
+  after do
+    Redis::Alfred.delete(Onboarding::HelpCenterGenerationState.account_pointer_key(account.id))
+  end
+
   describe 'article generation enqueue' do
     context 'when account has a custom_attributes website' do
-      it 'stores pending onboarding state and enqueues generation' do
+      it 'marks the generation active for the account and enqueues generation' do
         expect { described_class.new(account, admin).perform }
           .to have_enqueued_job(Onboarding::HelpCenterArticleGenerationJob)
           .with(account.id, kind_of(Integer), admin.id, generation_id)
 
-        expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to eq(
-          'id' => generation_id,
-          'status' => 'pending'
-        )
+        expect(
+          Onboarding::HelpCenterGenerationState.superseded?('older-id', account_id: account.id)
+        ).to be(true)
       end
     end
 
@@ -39,8 +42,6 @@ RSpec.describe Onboarding::HelpCenterCreationService do
       it 'does not enqueue generation' do
         expect { described_class.new(account, admin).perform }
           .not_to have_enqueued_job(Onboarding::HelpCenterArticleGenerationJob)
-
-        expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to be_nil
       end
     end
 
@@ -50,8 +51,6 @@ RSpec.describe Onboarding::HelpCenterCreationService do
       it 'does not enqueue generation' do
         expect { described_class.new(account, admin).perform }
           .not_to have_enqueued_job(Onboarding::HelpCenterArticleGenerationJob)
-
-        expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to be_nil
       end
     end
   end

@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
-  let(:account) { create(:account, custom_attributes: {}) }
+  let(:account) { create(:account) }
   let(:portal) { create(:portal, account_id: account.id) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let(:generation_id) { 'generation-123' }
   let(:job_args) { [account.id, portal.id, admin.id, generation_id] }
+  let(:state_key) { Onboarding::HelpCenterGenerationState.key(generation_id) }
   let(:curated_plan) do
     {
       'allowed_urls' => ['https://x.test/a', 'https://x.test/b'],
@@ -18,14 +19,13 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   end
 
   before do
-    Onboarding::HelpCenterGenerationStatus.create!(account, generation_id)
     clear_enqueued_jobs
     curator = instance_double(Onboarding::HelpCenterCurator, perform: curated_plan)
     allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
   end
 
   after do
-    Redis::Alfred.delete(Onboarding::HelpCenterGenerationCounter.key(generation_id))
+    Redis::Alfred.delete(state_key)
   end
 
   describe 'queue' do
@@ -36,19 +36,14 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   end
 
   describe 'happy path' do
-    it 'creates categories, stores generating state, creates a counter, and fans out article payloads' do
+    it 'creates categories, starts state with total/finished, and fans out article payloads' do
       expect do
         perform_enqueued_jobs(only: described_class) { described_class.perform_later(*job_args) }
       end.to change { portal.categories.count }.by(1)
 
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to eq(
-        'id' => generation_id,
-        'status' => 'generating'
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
+        'status' => 'generating', 'total' => '2', 'finished' => '0'
       )
-      Redis::Alfred.with do |conn|
-        expect(conn.hget(Onboarding::HelpCenterGenerationCounter.key(generation_id), 'total')).to eq('2')
-        expect(conn.hget(Onboarding::HelpCenterGenerationCounter.key(generation_id), 'finished')).to eq('0')
-      end
       expect(enqueued_jobs).to include(
         a_hash_including(
           'job_class' => Onboarding::HelpCenterArticleWriterJob.name,
@@ -98,12 +93,11 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       }
     end
 
-    it 'leaves zero categories when no article can be stamped' do
+    it 'leaves zero categories and marks state skipped when no article can be stamped' do
       described_class.perform_now(*job_args)
 
       expect(portal.categories.count).to eq(0)
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to eq(
-        'id' => generation_id,
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
         'status' => 'skipped',
         'skip_reason' => 'no articles after category stamping (LLM article category_name did not match any curated category)'
       )
@@ -111,11 +105,12 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   end
 
   describe 'idempotency' do
-    it 'no-ops when the generation is already generating' do
-      Onboarding::HelpCenterGenerationStatus.mark_generating!(account, generation_id)
+    it 'no-ops when state already exists for this generation' do
+      Onboarding::HelpCenterGenerationState.start(generation_id, total: 2)
 
       expect { described_class.perform_now(*job_args) }
         .not_to(change { portal.categories.count })
+      expect(Onboarding::HelpCenterCurator).not_to have_received(:new)
     end
   end
 
@@ -129,10 +124,8 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
 
       described_class.perform_now(*job_args)
 
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to eq(
-        'id' => generation_id,
-        'status' => 'skipped',
-        'skip_reason' => 'no website url'
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
+        'status' => 'skipped', 'skip_reason' => 'no website url'
       )
     end
   end
@@ -145,11 +138,9 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
 
       perform_enqueued_jobs { described_class.perform_later(*job_args) }
 
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to include(
-        'id' => generation_id,
-        'status' => 'skipped',
-        'skip_reason' => a_string_including('firecrawl exhausted')
-      )
+      state = Onboarding::HelpCenterGenerationState.current(generation_id)
+      expect(state['status']).to eq('skipped')
+      expect(state['skip_reason']).to include('firecrawl exhausted')
     end
   end
 

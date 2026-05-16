@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Onboarding::HelpCenterArticleWriterJob do
-  let(:account) { create(:account, custom_attributes: {}) }
+  let(:account) { create(:account) }
   let(:portal) { create(:portal, account_id: account.id) }
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let(:generation_id) { 'generation-123' }
@@ -9,16 +9,17 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
   let(:allowed_urls) { ['https://x.test/a'] }
   let(:article_payload) { { 'article' => article_spec, 'allowed_urls' => allowed_urls } }
   let(:job_args) { [account.id, portal.id, admin.id, generation_id, article_payload] }
+  let(:state_key) { Onboarding::HelpCenterGenerationState.key(generation_id) }
 
   before do
-    Onboarding::HelpCenterGenerationStatus.create!(account, generation_id)
-    Onboarding::HelpCenterGenerationStatus.mark_generating!(account, generation_id)
-    Onboarding::HelpCenterGenerationCounter.create!(generation_id, total: 2)
+    Onboarding::HelpCenterGenerationState.start(generation_id, total: 2)
+    Onboarding::HelpCenterGenerationState.mark_active(generation_id, account_id: account.id)
     clear_enqueued_jobs
   end
 
   after do
-    Redis::Alfred.delete(Onboarding::HelpCenterGenerationCounter.key(generation_id))
+    Redis::Alfred.delete(state_key)
+    Redis::Alfred.delete(Onboarding::HelpCenterGenerationState.account_pointer_key(account.id))
   end
 
   describe 'queue' do
@@ -39,9 +40,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
     it 'invokes the builder and increments the Redis counter' do
       described_class.perform_now(*job_args)
 
-      Redis::Alfred.with do |conn|
-        expect(conn.hget(Onboarding::HelpCenterGenerationCounter.key(generation_id), 'finished')).to eq('1')
-      end
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('finished' => '1')
       expect(Onboarding::HelpCenterArticleBuilder).to have_received(:new).with(
         account: account,
         portal: portal,
@@ -51,14 +50,13 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
       )
     end
 
-    it 'transitions account onboarding to completed once the last writer finishes' do
+    it 'flips status to completed once the last writer finishes' do
       described_class.perform_now(*job_args)
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation', 'status')).to eq('generating')
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('status' => 'generating')
 
       described_class.perform_now(*job_args)
-      expect(account.reload.custom_attributes.dig('onboarding', 'help_center_generation')).to eq(
-        'id' => generation_id,
-        'status' => 'completed'
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
+        'status' => 'completed', 'finished' => '2'
       )
     end
   end
@@ -71,9 +69,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
 
       described_class.perform_now(*job_args)
 
-      Redis::Alfred.with do |conn|
-        expect(conn.hget(Onboarding::HelpCenterGenerationCounter.key(generation_id), 'finished')).to eq('1')
-      end
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('finished' => '1')
     end
 
     it 're-enqueues itself on transient Firecrawl errors' do
@@ -94,9 +90,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
         described_class.perform_later(*job_args)
       end
 
-      Redis::Alfred.with do |conn|
-        expect(conn.hget(Onboarding::HelpCenterGenerationCounter.key(generation_id), 'finished')).to eq('1')
-      end
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('finished' => '1')
     end
   end
 
@@ -134,8 +128,18 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
         .with(anything, 'help_center.article_generated', anything)
     end
 
-    it 'does not broadcast generation_completed when account state belongs to a newer generation' do
-      Onboarding::HelpCenterGenerationStatus.create!(account, 'newer-generation')
+    it 'does not re-broadcast generation_completed on late retries past total' do
+      described_class.perform_now(*job_args)
+      described_class.perform_now(*job_args)
+      clear_enqueued_jobs
+
+      expect { described_class.perform_now(*job_args) }
+        .not_to have_enqueued_job(ActionCableBroadcastJob)
+        .with(anything, 'help_center.generation_completed', anything)
+    end
+
+    it 'suppresses the completion broadcast when a newer generation has superseded this one' do
+      Onboarding::HelpCenterGenerationState.mark_active('newer-generation', account_id: account.id)
       described_class.perform_now(*job_args)
 
       expect { described_class.perform_now(*job_args) }
@@ -143,8 +147,8 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
         .with(anything, 'help_center.generation_completed', anything)
     end
 
-    it 'skips progress broadcasts when the Redis counter is missing' do
-      Redis::Alfred.delete(Onboarding::HelpCenterGenerationCounter.key(generation_id))
+    it 'skips progress broadcasts when state is missing' do
+      Redis::Alfred.delete(state_key)
 
       expect { described_class.perform_now(*job_args) }
         .not_to have_enqueued_job(ActionCableBroadcastJob)
