@@ -24,15 +24,11 @@ module Whatsapp::IncomingMessageIdentifierHelper
       contact_attributes: contact_attributes_from_contact_params(contact_params, source_ids.first)
     )
     @contact = @contact_inbox.contact
-    update_inbound_whatsapp_identifiers(contact_params, source_ids)
-    update_contact_with_profile_name(contact_params)
-  end
-
-  def update_inbound_whatsapp_identifiers(contact_params, source_ids)
     update_whatsapp_identifiers(
       source_ids: source_ids,
       username: contact_params.dig(:profile, :username)
     )
+    update_contact_with_profile_name(contact_params)
   end
 
   def find_or_create_contact_inbox(source_ids:, contact_attributes:)
@@ -110,10 +106,18 @@ module Whatsapp::IncomingMessageIdentifierHelper
     return if contact_inbox.blank?
 
     Whatsapp::IdentifierSyncService.new(contact_inbox: contact_inbox, contact: contact_inbox.contact).perform(
-      source_ids: [
-        whatsapp_source_id(status[:recipient_user_id]),
-        whatsapp_source_id(status[:recipient_parent_user_id])
-      ].compact_blank
+      source_ids: status_source_ids(status)
     )
+  end
+
+  def status_source_ids(status)
+    contact_params = @processed_params[:contacts]&.first || {}
+
+    [
+      whatsapp_source_id(status[:recipient_user_id]),
+      whatsapp_source_id(status[:recipient_parent_user_id]),
+      whatsapp_source_id(contact_params[:user_id]),
+      whatsapp_source_id(contact_params[:parent_user_id])
+    ].compact_blank.uniq
   end
 end

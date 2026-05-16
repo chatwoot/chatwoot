@@ -210,6 +210,24 @@ describe Whatsapp::IncomingMessageService do
         expect(message.reload.status).to eq('read')
       end
 
+      it 'stores BSUID source ids from status contacts' do
+        bsuid = 'IN.2081978709342942'
+        parent_bsuid = 'IN.ENT.9081726354'
+        status_params = {
+          'contacts' => [{ 'wa_id' => from, 'user_id' => bsuid, 'parent_user_id' => parent_bsuid }],
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        source_rows = whatsapp_channel.inbox.contact_inboxes.where(source_id: [from, bsuid, parent_bsuid]).pluck(:source_id, :contact_id)
+        expect(source_rows).to contain_exactly(
+          [from, contact_inbox.contact_id],
+          [bsuid, contact_inbox.contact_id],
+          [parent_bsuid, contact_inbox.contact_id]
+        )
+      end
+
       it 'update status message to failed' do
         status_params = {
           'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
