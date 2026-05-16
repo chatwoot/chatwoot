@@ -128,6 +128,24 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job_instance.perform(wb_params)
     end
 
+    it 'uses contact user_id as the mutex sender when message from_user_id is missing' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:contacts] = [
+        { profile: { name: 'Muhsin' }, wa_id: '919745786257', user_id: bsuid }
+      ]
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from: '919745786257', id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
     it 'uses to_user_id as the mutex sender for BSUID-only echo messages' do
       bsuid = 'IN.2081978709342942'
       wb_params = params.deep_dup

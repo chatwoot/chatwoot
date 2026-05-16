@@ -93,7 +93,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     value = params.dig(:entry, 0, :changes, 0, :value) || params
     return contact_sender_id_from_message_echoes(value[:message_echoes]) if value[:message_echoes].present?
 
-    contact_sender_id_from_messages(value[:messages])
+    contact_sender_id_from_messages(value[:messages], value[:contacts])
   end
 
   # Echo payloads are outbound messages from the WhatsApp Business app, so `to`
@@ -107,13 +107,21 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   # Regular inbound payloads are sent by the contact, so `from` points to the
-  # contact. Prefer `from_user_id` to serialize mixed phone+BSUID and BSUID-only
-  # webhooks for the same contact.
-  def contact_sender_id_from_messages(messages)
+  # contact. Prefer BSUIDs from the message or contact object to serialize mixed
+  # phone+BSUID and BSUID-only webhooks for the same contact.
+  def contact_sender_id_from_messages(messages, contacts)
     message = messages&.first
     return if message.blank?
 
-    message[:from_user_id].presence || message[:from].presence
+    contact = contacts&.first || {}
+
+    [
+      message[:from_user_id],
+      contact[:user_id],
+      message[:from_parent_user_id],
+      contact[:parent_user_id],
+      message[:from]
+    ].compact_blank.first
   end
 
   def channel_is_inactive?(channel)
