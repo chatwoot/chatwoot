@@ -3,8 +3,8 @@
     "CONVERSATIONS_SELECTED": "{conversationCount} бесед выбрано",
     "NONE": "Ничего",
     "CLEAR_SELECTION": "Сбросить",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Вы уверены, что вы хотите назначить разговор {n} для {agentName}? | Вы уверены, что хотите назначить {n} разговоры {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение разговора {n}? | Вы уверены, что хотите отменить назначение разговоров {n}?",
     "YES": "Да",
     "CANCEL": "Отменить",
     "SEARCH_INPUT_PLACEHOLDER": "Поиск",
@@ -33,8 +33,8 @@
     },
     "TEAMS": {
       "NONE": "Ничего",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Вы уверены, что вы хотите назначить разговор {n} для {teamName}? | Вы уверены, что хотите назначить {n} разговоры {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение разговора {n}? | Вы уверены, что хотите отменить назначение разговоров {n}?",
       "ASSIGN_SUCCESFUL": "Команды успешно назначены.",
       "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз."
     }
