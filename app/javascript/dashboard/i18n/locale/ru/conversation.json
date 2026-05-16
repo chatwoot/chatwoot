@@ -72,7 +72,7 @@
     "CARD": {
       "SHOW_LABELS": "Показать метки",
       "HIDE_LABELS": "Скрыть метки",
-      "LABELS_COUNT": "{count} labels"
+      "LABELS_COUNT": "{count} метки"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Входящий звонок",
@@ -84,7 +84,7 @@
       "NOT_ANSWERED_YET": "Пока нет ответа",
       "THEY_ANSWERED": "Они ответили",
       "YOU_ANSWERED": "Вы ответили",
-      "AGENT_ANSWERED": "{agentName} answered",
+      "AGENT_ANSWERED": "{agentName} ответил",
       "JOIN_CALL": "Присоединиться к звонку"
     },
     "HEADER": {
