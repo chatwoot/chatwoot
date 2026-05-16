@@ -15,7 +15,7 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   end
 
   def omniauth_failure
-    return super unless params[:provider] == 'saml'
+    return super unless params[:strategy] == 'saml'
 
     relay_state = saml_relay_state
     error = params[:message] || 'authentication-failed'
