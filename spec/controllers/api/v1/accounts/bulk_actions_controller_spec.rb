@@ -34,6 +34,10 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
     context 'when it is an authenticated user' do
       let!(:agent) { create(:user, account: account, role: :agent) }
 
+      before do
+        Conversation.all.find_each { |conversation| create(:inbox_member, inbox: conversation.inbox, user: agent) }
+      end
+
       it 'Ignores bulk_actions for wrong type' do
         post "/api/v1/accounts/#{account.id}/bulk_actions",
              headers: agent.create_new_auth_token,
@@ -201,6 +205,10 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
   describe 'POST /api/v1/accounts/{account.id}/bulk_actions' do
     context 'when it is an authenticated user' do
       let!(:agent) { create(:user, account: account, role: :agent) }
+
+      before do
+        Conversation.all.find_each { |conversation| create(:inbox_member, inbox: conversation.inbox, user: agent) }
+      end
 
       it 'Bulk delete conversation labels' do
         Conversation.first.add_labels(%w[support priority_customer])

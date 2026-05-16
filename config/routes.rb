@@ -177,6 +177,19 @@ Rails.application.routes.draw do
             collection do
               get :search
             end
+            member do
+              post :destroy_custom_attributes
+              delete :avatar
+            end
+            scope module: :companies do
+              resources :contacts, only: [:index, :create, :destroy] do
+                collection do
+                  get :search
+                end
+              end
+              resources :conversations, only: [:index]
+              resources :notes, only: [:index]
+            end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
@@ -196,6 +209,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              get :attachments, to: 'attachments#index'
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
@@ -215,6 +229,21 @@ Rails.application.routes.draw do
             end
           end
           resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
+
+          if ChatwootApp.enterprise?
+            resources :whatsapp_calls, only: [:show] do
+              member do
+                post :accept
+                post :reject
+                post :terminate
+                post :upload_recording
+              end
+              collection do
+                post :initiate
+              end
+            end
+          end
+
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
@@ -607,6 +636,7 @@ Rails.application.routes.draw do
       post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
+      post 'voice/recording_status/:phone', to: 'voice#recording_status', as: :voice_recording_status
     end
   end
 
