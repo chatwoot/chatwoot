@@ -66,9 +66,8 @@ class Twilio::IncomingMessageService
   # `whatsapp:+E164`; BSUID-only messages fall back to `whatsapp:<BSUID>`.
   def normalized_phone_number
     return phone_number unless twilio_channel.whatsapp?
-    return twilio_whatsapp_source_id_from_bsuid if phone_number.blank?
 
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+    twilio_whatsapp_primary_source_id
   end
 
   def formatted_phone_number

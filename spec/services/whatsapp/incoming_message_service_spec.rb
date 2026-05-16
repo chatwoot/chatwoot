@@ -108,6 +108,7 @@ describe Whatsapp::IncomingMessageService do
 
         contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
         contact = contact_inbox.contact
+        parent_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.ENT.9081726354')
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
         expect(whatsapp_channel.inbox.messages.first.content).to eq('testing bsuid')
         expect(contact).to have_attributes(name: 'Muhsin', phone_number: nil)
@@ -115,13 +116,10 @@ describe Whatsapp::IncomingMessageService do
           'social_whatsapp_user_name' => 'muhsin',
           'social_profiles' => { 'whatsapp' => 'muhsin' }
         )
-        expect(contact_inbox).to have_attributes(
-          whatsapp_bsuid: 'IN.2081978709342942',
-          whatsapp_parent_bsuid: 'IN.ENT.9081726354'
-        )
+        expect(parent_contact_inbox.contact).to eq(contact)
       end
 
-      it 'reuses the phone-based contact inbox when a later message is BSUID-only' do
+      it 'links phone and BSUID source ids to the same contact' do
         phone_with_bsuid_params = {
           'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257', 'user_id' => 'IN.2081978709342942' }],
           'messages' => [{
@@ -146,11 +144,12 @@ describe Whatsapp::IncomingMessageService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
         contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
 
         expect { described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform }.not_to raise_error
-        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(1)
+        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(2)
         expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
-        expect(contact_inbox.reload.whatsapp_bsuid).to eq('IN.2081978709342942')
+        expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_12_090000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_07_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -630,12 +630,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_12_090000) do
     t.datetime "updated_at", null: false
     t.boolean "hmac_verified", default: false
     t.string "pubsub_token"
-    t.string "whatsapp_bsuid"
-    t.string "whatsapp_parent_bsuid"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
-    t.index ["inbox_id", "whatsapp_bsuid"], name: "index_contact_inboxes_on_inbox_id_and_whatsapp_bsuid", unique: true, where: "(whatsapp_bsuid IS NOT NULL)"
-    t.index ["inbox_id", "whatsapp_parent_bsuid"], name: "index_contact_inboxes_on_inbox_id_and_whatsapp_parent_bsuid", where: "(whatsapp_parent_bsuid IS NOT NULL)"
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
     t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
     t.index ["source_id"], name: "index_contact_inboxes_on_source_id"

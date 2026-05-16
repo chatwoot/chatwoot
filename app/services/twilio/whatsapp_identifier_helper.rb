@@ -5,8 +5,7 @@ module Twilio::WhatsappIdentifierHelper
     return unless twilio_channel.whatsapp?
 
     Whatsapp::IdentifierSyncService.new(contact_inbox: @contact_inbox, contact: @contact).perform(
-      bsuid: params[:ExternalUserId].presence || twilio_whatsapp_bsuid_source_id,
-      parent_bsuid: params[:ParentExternalUserId],
+      source_ids: twilio_whatsapp_source_ids,
       username: params[:ProfileUsername].presence || params[:Username]
     )
   end
@@ -23,6 +22,31 @@ module Twilio::WhatsappIdentifierHelper
     twilio_whatsapp_bsuid.to_s.delete_prefix('whatsapp:').presence
   end
 
+  def twilio_whatsapp_source_ids
+    [
+      twilio_whatsapp_phone_source_id,
+      twilio_whatsapp_source_id(params[:ExternalUserId].presence) || twilio_whatsapp_bsuid_source_id,
+      twilio_whatsapp_source_id(params[:ParentExternalUserId].presence)
+    ].compact_blank.uniq
+  end
+
+  def twilio_whatsapp_primary_source_id
+    twilio_whatsapp_source_ids.first
+  end
+
+  def twilio_whatsapp_phone_source_id
+    return if phone_number.blank?
+
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+  end
+
+  def twilio_whatsapp_source_id(identifier)
+    identifier = identifier.to_s
+    return if identifier.blank?
+
+    "whatsapp:#{identifier.delete_prefix('whatsapp:')}"
+  end
+
   def twilio_whatsapp_bsuid_source_id
     from = params[:From].to_s
     return from if from.match?(TWILIO_WHATSAPP_BSUID_SOURCE_ID_REGEX)
@@ -31,8 +55,12 @@ module Twilio::WhatsappIdentifierHelper
   def find_twilio_contact_inbox(source_id)
     return unless twilio_channel.whatsapp?
 
-    inbox.contact_inboxes.find_by(source_id: source_id) ||
-      find_twilio_contact_inbox_by_bsuid
+    twilio_whatsapp_source_ids.each do |whatsapp_source_id|
+      contact_inbox = inbox.contact_inboxes.find_by(source_id: whatsapp_source_id)
+      return contact_inbox if contact_inbox
+    end
+
+    inbox.contact_inboxes.find_by(source_id: source_id)
   end
 
   def twilio_contact_inbox(source_id)
@@ -42,19 +70,5 @@ module Twilio::WhatsappIdentifierHelper
         inbox: inbox,
         contact_attributes: contact_attributes
       ).perform
-  end
-
-  def find_twilio_contact_inbox_by_bsuid
-    bsuid = twilio_whatsapp_display_identifier
-    return if bsuid.blank?
-
-    inbox.contact_inboxes.find_by(whatsapp_bsuid: bsuid)
-  end
-
-  def twilio_whatsapp_source_id_from_bsuid
-    bsuid = twilio_whatsapp_display_identifier
-    return if bsuid.blank?
-
-    find_twilio_contact_inbox_by_bsuid&.source_id || "whatsapp:#{bsuid}"
   end
 end

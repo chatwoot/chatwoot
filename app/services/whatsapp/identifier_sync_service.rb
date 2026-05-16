@@ -1,40 +1,36 @@
 class Whatsapp::IdentifierSyncService
   pattr_initialize [:contact_inbox!, :contact]
 
-  def perform(bsuid: nil, parent_bsuid: nil, username: nil)
-    update_contact_inbox(bsuid, parent_bsuid)
+  def perform(source_ids: [], username: nil)
+    create_contact_inboxes(source_ids)
     update_contact(username)
   end
 
   private
 
-  def update_contact_inbox(bsuid, parent_bsuid)
-    attributes = {
-      whatsapp_bsuid: normalize_bsuid(bsuid),
-      whatsapp_parent_bsuid: normalize_bsuid(parent_bsuid)
-    }.compact
+  def create_contact_inboxes(source_ids)
+    source_ids.compact_blank.uniq.each do |source_id|
+      next if inbox.contact_inboxes.exists?(source_id: source_id)
 
-    update_record(contact_inbox, attributes)
+      ContactInboxBuilder.new(contact: synced_contact, inbox: inbox, source_id: source_id).perform
+    end
   end
 
   def update_contact(username)
-    return if contact.blank?
+    return if synced_contact.blank?
 
     username = normalize_username(username)
     return if username.blank?
 
-    contact.update!(additional_attributes: additional_attributes_with_username(username))
+    synced_contact.update!(additional_attributes: additional_attributes_with_username(username))
   end
 
-  def update_record(record, attributes)
-    attributes = attributes.compact.reject { |key, value| record.public_send(key) == value }
-    return if attributes.blank?
-
-    record.update!(attributes)
+  def synced_contact
+    @synced_contact ||= contact || contact_inbox.contact
   end
 
-  def normalize_bsuid(value)
-    value.to_s.delete_prefix('whatsapp:').presence
+  def inbox
+    @inbox ||= contact_inbox.inbox
   end
 
   def normalize_username(value)
@@ -42,7 +38,7 @@ class Whatsapp::IdentifierSyncService
   end
 
   def additional_attributes_with_username(username)
-    attributes = contact.additional_attributes.deep_dup
+    attributes = synced_contact.additional_attributes.deep_dup
     social_profiles = attributes['social_profiles'] || {}
     social_profiles['whatsapp'] = username
 
