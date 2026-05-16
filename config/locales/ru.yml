@@ -51,7 +51,7 @@ ru:
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
     voice:
-      call_already_accepted: '%{agent_name} is already handling the call.'
+      call_already_accepted: '%{agent_name} уже обрабатывает вызов.'
     assignment_policy:
       not_found: Политика назначения не найдена
     attachments:
@@ -103,12 +103,12 @@ ru:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
       calls:
-        not_enabled: 'Calling is not enabled for this inbox'
-        no_recording: 'No recording file provided'
-        no_message: 'Call has no associated message'
-        sdp_offer_required: 'sdp_offer is required'
-        contact_phone_required: 'Contact phone number is required'
-        permission_request_failed: 'Failed to send call permission request'
+        not_enabled: 'Вызов не включен для этого входящего сообщения'
+        no_recording: 'Файл записи не указан'
+        no_message: 'Звонок не имеет связанных сообщений'
+        sdp_offer_required: 'Необходимо указать sdp_offer'
+        contact_phone_required: 'Требуется номер телефона контакта'
+        permission_request_failed: 'Не удалось отправить запрос на разрешение вызова'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -238,10 +238,10 @@ ru:
       deleted: Это сообщение было удалено
       whatsapp:
         list_button_label: 'Выберите элемент'
-        call_permission_request_body: 'We would like to call you regarding your conversation.'
+        call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
       voice_call:
-        twilio: 'Voice Call'
-        whatsapp: 'WhatsApp Call'
+        twilio: 'Голосовой звонок'
+        whatsapp: 'WhatsApp звонок'
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
@@ -287,8 +287,8 @@ ru:
         issue_linked: 'Линейная задача %{issue_id} была связана с %{user_name}'
         issue_unlinked: 'Линейная задача %{issue_id} была отвязана от %{user_name}'
       whatsapp_call:
-        permission_requested: 'Sent a call permission request to %{contact_name}.'
-        permission_granted: '%{contact_name} accepted the call permission request.'
+        permission_requested: 'Отправлен запрос на разрешение на звонок %{contact_name}.'
+        permission_granted: '%{contact_name} принял запрос на разрешение звонка.'
       csat:
         not_sent_due_to_messaging_window: 'Опрос CSAT не отправлен из-за ограничений исходящих сообщений'
       auto_resolve:
@@ -353,7 +353,7 @@ ru:
       name: 'Linear'
       short_description: 'Создать и связать Линейные задачи непосредственно из диалогов.'
       description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
-      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
+      attachment_link_title: 'Разговор (#%{conversation_id}) с %{name}'
     notion:
       name: 'Notion'
       short_description: 'Интеграция баз данных, документов и страниц напрямую с Captain.'
@@ -382,9 +382,9 @@ ru:
       limit_exceeded: 'Превышен лимит документов'
       pdf_format_error: 'должен быть PDF файлом'
       pdf_size_error: 'должно быть меньше 10МБ'
-      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
-      sync_only_available_documents: 'Sync is only available for processed documents'
-      sync_already_in_progress: 'Document sync is already in progress'
+      sync_not_supported_for_pdf: 'Синхронизация не поддерживается для PDF документов'
+      sync_only_available_documents: 'Синхронизация доступна только для обрабатываемых документов'
+      sync_already_in_progress: 'Синхронизация документов уже выполняется'
       pdf_upload_failed: 'Не удалось загрузить PDF в OpenAI'
       pdf_upload_success: 'PDF успешно загружен с file_id: %{file_id}'
       pdf_processing_failed: 'Не удалось обработать PDF документ %{document_id}: %{error}'
@@ -503,11 +503,11 @@ ru:
     inbox_already_assigned: 'Входящие уже были назначены на эту политику'
   portals:
     articles:
-      captain_not_available: 'Translation requires Captain to be enabled for this account'
-      locale_not_available: 'Locale not available in this portal'
-      category_not_found: 'Category not found in this portal'
-      no_articles_found: 'No articles found to process'
-      invalid_status: 'Invalid status value'
+      captain_not_available: 'Перевод требует включения Captain для этой учетной записи'
+      locale_not_available: 'Язык не доступен на этом портале'
+      category_not_found: 'Категория не найдена в этом портале'
+      no_articles_found: 'Нет статей для обработки'
+      invalid_status: 'Неверное значение статуса'
     send_instructions:
       email_required: 'Необходимо указать Email'
       invalid_email_format: 'Неправильный формат email'
@@ -518,7 +518,7 @@ ru:
       custom_domain_not_configured: 'Пользовательский домен не настроен'
   super_admin:
     push_diagnostics:
-      user_not_found: 'User not found.'
-      no_subscriptions_to_test: 'Select at least one subscription to test.'
-      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
-      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+      user_not_found: 'Пользователь не найден.'
+      no_subscriptions_to_test: 'Выберите хотя бы одну подписку для тестирования.'
+      no_subscriptions_to_delete: 'Выберите хотя бы одну подписку для удаления.'
+      subscriptions_deleted: "Подписка %{count} удалена. Устройство (устройства) пользователя будет перерегистрироваться при следующем запуске."
