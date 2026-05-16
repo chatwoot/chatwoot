@@ -50,7 +50,7 @@
       }
     },
     "VIEW": {
-      "TOOLTIP": "View macro"
+      "TOOLTIP": "Просмотр макроса"
     },
     "EDIT": {
       "TOOLTIP": "Изменить макрос",
@@ -70,8 +70,8 @@
         "GLOBAL": {
           "LABEL": "Публичный",
           "DESCRIPTION": "Этот макрос доступен всем агентам на этом аккаунте.",
-          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
-          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
+          "CREATE_DISABLED_DESCRIPTION": "Только администраторы могут создавать общедоступные макросы.",
+          "EDIT_DISABLED_DESCRIPTION": "Только администраторы могут редактировать общедоступные макросы."
         },
         "PERSONAL": {
           "LABEL": "Приватный",
