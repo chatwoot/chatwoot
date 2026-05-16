@@ -137,8 +137,9 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
         # way, so tolerate both.
         def run_job
           described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
-        rescue 'Captain::Tools::SimplePageCrawlParserJob::PermanentCrawlError'.constantize
+        rescue StandardError => e
           # discard_on may have failed to swallow it; the contract still holds.
+          raise unless e.class.name == 'Captain::Tools::SimplePageCrawlParserJob::PermanentCrawlError'
         end
 
         before do
