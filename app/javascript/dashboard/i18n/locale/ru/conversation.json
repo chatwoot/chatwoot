@@ -95,7 +95,7 @@
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
-      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
+      "COPY_ID_SUCCESS": "ID разговора скопирован в буфер обмена",
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
@@ -367,18 +367,18 @@
       "MACROS": "Макросс",
       "LINEAR_ISSUES": "Связанные проблемы",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "Вложения"
     },
     "SHARED_FILES": {
-      "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
-      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "EMPTY": "Нет вложений",
+      "DOWNLOAD": "Загрузить файл",
+      "DOWNLOAD_ERROR": "Не удалось загрузить файл. Пожалуйста, попробуйте еще раз.",
       "MEDIA_HEADING": "Медиа",
-      "FILES_HEADING": "Files",
+      "FILES_HEADING": "Файлы",
       "VIEW_ALL": "Посмотреть все",
-      "SHOW_LESS": "Show less",
+      "SHOW_LESS": "Показать меньше",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Файл без заголовка"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
