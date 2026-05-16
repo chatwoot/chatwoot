@@ -1,9 +1,4 @@
 module Enterprise::DeviseOverrides::OmniauthCallbacksController
-  def saml
-    # Call parent's omniauth_success which handles the auth
-    omniauth_success
-  end
-
   def redirect_callbacks
     return omniauth_success if params[:provider] == 'saml'
 
