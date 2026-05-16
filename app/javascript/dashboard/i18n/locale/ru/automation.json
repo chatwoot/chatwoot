@@ -130,7 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Необходимо указать хотя бы одно действие"
     },
     "NONE_OPTION": "Нет",
-    "LAST_RESPONDING_AGENT": "Last Responding Agent",
+    "LAST_RESPONDING_AGENT": "Последний ответ агента",
     "EVENTS": {
       "CONVERSATION_CREATED": "Диалог создан",
       "CONVERSATION_UPDATED": "Диалог обновлён",
