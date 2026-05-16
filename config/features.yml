@@ -1,11 +1,31 @@
 # DO NOT change the order of features EVER
 ############################################
+# Positions in this file map 1-to-1 to bit positions in the
+# `accounts.feature_flags` bigint column (via `flag_shih_tzu`). Inserting,
+# removing, or reordering entries shifts every following bit and silently
+# reinterprets stored `feature_flags` values for every existing account.
+#
+# The column is a signed bigint (max 2^63 − 1), which gives 63 usable bits.
+# Bit 63 is the sign bit: enabling the 64th feature on any account triggers
+# `ActiveModel::RangeError` on save. A spec in `spec/config/features_spec.rb`
+# enforces this ceiling.
+#
+# Protocol for changes:
+#   - Adding a feature → APPEND to the end of this file. Never insert in
+#     the middle.
+#   - Retiring a feature → mark `deprecated: true`. Never delete the entry
+#     (deletion shifts every following bit).
+#   - Out of slots (63 reached) → RECLAIM a `deprecated: true` entry by
+#     renaming it in place. Recent precedents: commits c7ce26c9, d6827eb2,
+#     b25e85ed, bb235ea5.
+#
+# Field reference:
 # name: the name to be used internally in the code
 # display_name: the name to be used in the UI
 # enabled: whether the feature is enabled by default
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
-# deprecated: purpose of feature flag is done, no need to show it in the UI anymore
+# deprecated: purpose of feature flag is done, no need to show it in the UI anymore. Keep the entry so the bit slot stays reserved.
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
