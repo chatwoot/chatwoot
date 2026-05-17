@@ -4,7 +4,7 @@ class Whatsapp::TemplateVariableExamples
     'contact_phone' => '+5511999887766',
     'contact_email' => 'maria@email.com',
     'company_name' => 'Empresa ABC',
-    'lista_processos' => <<~TEXT.strip
+    'lista_processos' => <<~TEXT.strip,
       📄 Processo 0008838-62.2026.4.05.8400 15 novas movimentações encontradas:
 
       26/04/2026 00:14:37 - publicado citacao e intimacao em 22/04/2026.
@@ -20,6 +20,12 @@ class Whatsapp::TemplateVariableExamples
       09/04/2026 14:38:48 - juntada de peticao de contestacao
 
       📌 Acesse: https://jusmonitoria.witdev.com.br/processos?caso=8280d983-5b78-4460-8b78-xxxxxxxxxx
+    TEXT
+    'nome' => 'Maria Silva',
+    'valor_total' => 'R$ 1.000,00',
+    'lista_parcelas' => <<~TEXT.strip
+      Parcela 3: R$ 500,00 (vence 10/06/2026)
+      Parcela 4: R$ 500,00 (vence 10/07/2026)
     TEXT
   }.freeze
 

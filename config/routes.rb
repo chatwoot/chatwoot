@@ -237,6 +237,8 @@ Rails.application.routes.draw do
             resources :whatsapp_templates, only: [:create], module: 'inboxes'
             resource :jusmonitoria_alert_template, only: [:show, :create],
                                                    controller: 'inboxes/jusmonitoria_alert_template'
+            resource :jusmonitoria_cobranca_template, only: [:show, :create],
+                                                      controller: 'inboxes/jusmonitoria_cobranca_template'
             resource :evolution_go, only: [:show, :create, :destroy], controller: 'inboxes/evolution_go' do
               post :resolve_conflict
             end
