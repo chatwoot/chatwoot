@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 namespace :help_center do
   desc 'Ad-hoc: refresh brand info (optional) and trigger help center generation for a given account'
   task regenerate: :environment do
@@ -42,3 +43,4 @@ namespace :help_center do
     puts 'Done.'
   end
 end
+# rubocop:enable Metrics/BlockLength
