@@ -16,6 +16,8 @@ class Onboarding::HelpCenterGenerationState
         total = conn.hget(key(id), 'total')
         raise Missing, "missing state for generation #{id}" if total.blank?
 
+        # Automatically increment finished count and check if completed
+        # https://redis.io/docs/latest/commands/hincrby/
         finished = conn.hincrby(key(id), 'finished', 1)
         completed = finished == total.to_i
         conn.hset(key(id), 'status', 'completed') if completed
