@@ -15,6 +15,7 @@ RSpec.describe Captain::ConversationCompletionService do
     allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+    allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
   end
 
   describe '#perform' do
