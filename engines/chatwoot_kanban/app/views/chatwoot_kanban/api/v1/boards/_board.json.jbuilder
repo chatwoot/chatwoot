@@ -1,0 +1,11 @@
+json.id board.id
+json.account_id board.account_id
+json.name board.name
+json.description board.description
+json.settings board.settings
+json.archived board.archived?
+json.created_by_id board.created_by_id
+json.columns_count board.columns.size
+json.cards_count board.cards.size
+json.created_at board.created_at.iso8601
+json.updated_at board.updated_at.iso8601

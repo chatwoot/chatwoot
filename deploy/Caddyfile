@@ -1,0 +1,20 @@
+# Caddy auto-HTTPS reverse proxy for Chatwoot Pro.
+# Replace `chatwoot.seu-dominio.com` with your real domain.
+# Caddy fetches a Let's Encrypt cert on first request — no extra config needed.
+
+chatwoot.seu-dominio.com {
+    encode gzip
+
+    # WebSocket (ActionCable) needs upgraded connections — Caddy handles this automatically
+    reverse_proxy rails:3000 {
+        header_up Host {host}
+        header_up X-Real-IP {remote_host}
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto {scheme}
+    }
+
+    # Big uploads (attachments)
+    request_body {
+        max_size 40MB
+    }
+}

@@ -276,3 +276,6 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+
+# Chatwoot Pro extensions
+gem 'chatwoot_kanban', path: 'engines/chatwoot_kanban'

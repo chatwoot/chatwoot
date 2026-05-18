@@ -1,0 +1,133 @@
+# docker-compose.coolify.yaml
+# ---------------------------
+# Optimized for Coolify deployment.
+#
+# Differences vs the standalone docker-compose.yml:
+#   - NO Caddy service (Coolify provides Traefik as reverse proxy)
+#   - NO host port bindings on rails/postgres/redis (Coolify networks them)
+#   - Coolify magic labels expose the rails service to the configured domain
+#   - Healthchecks tuned for Coolify's startup polling
+#
+# How Coolify uses this:
+#   - You point Coolify to your fork's repo (branch with engines applied)
+#   - Choose "Docker Compose" build pack
+#   - Set the Docker Compose file path to: docker-compose.coolify.yaml
+#   - Define environment variables in Coolify UI (matches .env.example)
+#   - Click Deploy → Coolify builds the image, runs the stack, attaches Traefik
+
+services:
+  base: &base
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: 'development:test'
+        RAILS_ENV: 'production'
+    image: chatwoot-pro:${SOURCE_COMMIT:-latest}
+    volumes:
+      - storage_data:/app/storage
+    environment:
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - FORCE_SSL=${FORCE_SSL:-true}
+      - ENABLE_ACCOUNT_SIGNUP=${ENABLE_ACCOUNT_SIGNUP:-false}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=${POSTGRES_DATABASE:-chatwoot}
+      - POSTGRES_USERNAME=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - RAILS_MAX_THREADS=${RAILS_MAX_THREADS:-5}
+      - REDIS_URL=redis://:${REDIS_PASSWORD}@redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY=${ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY}
+      - ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY=${ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY}
+      - ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT=${ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT}
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_ADDRESS=${SMTP_ADDRESS:-}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USERNAME=${SMTP_USERNAME:-}
+      - SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION:-plain}
+      - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO:-true}
+      - ACTIVE_STORAGE_SERVICE=${ACTIVE_STORAGE_SERVICE:-local}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - INSTALLATION_NAME=${INSTALLATION_NAME:-Chatwoot Pro}
+      - DEFAULT_LOCALE=${DEFAULT_LOCALE:-pt_BR}
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+
+  rails:
+    <<: *base
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: unless-stopped
+    expose:
+      - '3000'
+    # Coolify reads SERVICE_FQDN_RAILS_3000 and configures Traefik automatically.
+    # The magic env var is set by Coolify based on the domain you assign in the UI.
+    labels:
+      - 'coolify.managed=true'
+      - 'coolify.type=application'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://localhost:3000/api > /dev/null 2>&1 || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  sidekiq:
+    <<: *base
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'pgrep -f sidekiq || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USERNAME:-postgres} -d ${POSTGRES_DATABASE:-chatwoot}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: ['sh', '-c', 'redis-server --requirepass "$$REDIS_PASSWORD"']
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli -a "$$REDIS_PASSWORD" ping | grep -q PONG']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:

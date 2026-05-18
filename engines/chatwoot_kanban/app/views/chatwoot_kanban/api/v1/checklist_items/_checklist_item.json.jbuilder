@@ -1,0 +1,9 @@
+json.id item.id
+json.card_id item.card_id
+json.title item.title
+json.completed item.completed
+json.position item.position
+json.completed_by_id item.completed_by_id
+json.completed_at item.completed_at&.iso8601
+json.created_at item.created_at.iso8601
+json.updated_at item.updated_at.iso8601
