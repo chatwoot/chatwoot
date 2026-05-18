@@ -90,6 +90,7 @@ export default {
       ];
     },
     async onSubmit() {
+      if (this.isUpdating) return;
       this.isUpdating = true;
       try {
         await this.$store.dispatch('message/update', {
