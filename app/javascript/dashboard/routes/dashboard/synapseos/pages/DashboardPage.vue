@@ -59,13 +59,17 @@ const formatPercent = value => `${(value || 0).toFixed(1)}%`;
 const primaryKpis = computed(() => {
   const k = summary.value?.kpis || {};
   return [
+    // DISPAROS NO PERÍODO — métrica primária (substitui leads como 1º card).
+    // Respeita o filtro de período (7d/30d/90d).
     {
-      key: 'leads',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.LEADS'),
-      value: formatNumber(k.leads),
-      icon: 'i-lucide-target',
+      key: 'shoots_period',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_PERIOD'),
+      value: formatNumber(k.shoots_period),
+      icon: 'i-lucide-zap',
       tone: 'brand',
     },
+    // Negócios ganhos = quantidade de alertas únicos enviados ao time
+    // (cada conversa = 1 oportunidade qualificada).
     {
       key: 'deals_won',
       label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_WON'),
@@ -73,6 +77,8 @@ const primaryKpis = computed(() => {
       icon: 'i-lucide-trophy',
       tone: 'success',
     },
+    // Receita potencial = somatório do valor dos veículos mencionados
+    // nos alertas (preco_brl_a_partir do metadata).
     {
       key: 'revenue',
       label: t('SYNAPSEOS.DASHBOARD.KPI.REVENUE'),
@@ -94,6 +100,13 @@ const secondaryKpis = computed(() => {
   const k = summary.value?.kpis || {};
   return [
     {
+      key: 'leads',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.LEADS'),
+      value: formatNumber(k.leads),
+      icon: 'i-lucide-target',
+      tone: 'brand',
+    },
+    {
       key: 'messages_received',
       label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_RECEIVED'),
       value: formatNumber(k.messages_received),
@@ -106,13 +119,6 @@ const secondaryKpis = computed(() => {
       value: formatNumber(k.messages_sent),
       icon: 'i-lucide-send',
       tone: 'neutral',
-    },
-    {
-      key: 'shoots_month',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_MONTH'),
-      value: formatNumber(k.shoots_month),
-      icon: 'i-lucide-zap',
-      tone: 'brand',
     },
     {
       key: 'ai_responses',
@@ -131,6 +137,11 @@ const secondaryKpis = computed(() => {
   ];
 });
 
+// Operacionais — só 2 cards agora:
+// - BOT → ATENDIMENTO HUMANO (alertas únicos disparados ao time)
+// - DEALS_LOST: clientes que recusaram contato (lead_blocked events)
+// Removido HUMAN_RESCUES (era "humano devolveu pro bot" — métrica
+// confusa que não agregava insight de produto).
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
@@ -139,12 +150,6 @@ const operationalCards = computed(() => {
       label: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS'),
       value: formatNumber(k.bot_takeovers),
       valueClass: 'text-s-warning-text',
-    },
-    {
-      key: 'human_rescues',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.HUMAN_RESCUES'),
-      value: formatNumber(k.human_rescues),
-      valueClass: 'text-s-error-text',
     },
     {
       key: 'deals_lost',

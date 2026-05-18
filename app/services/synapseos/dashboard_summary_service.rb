@@ -37,27 +37,61 @@ module Synapseos
     private
 
     def kpis
+      # Alertas de venda únicos (conversas distintas) — fonte primária dos
+      # KPIs "negócios ganhos" e "receita potencial". Cada conversa que
+      # gerou sales_alert_dispatched conta uma vez, mesmo se múltiplos
+      # alertas foram disparados.
+      sales_alert_events = events_of('sales_alert_dispatched')
+      unique_alert_convs = sales_alert_events.distinct.count('conversation_id')
+
       {
         leads: leads_scope.count,
-        deals_won: won_deals.count,
-        deals_lost: lost_deals.count,
-        revenue: won_deals.sum(:amount).to_f,
+        # Negócios ganhos = alertas únicos de venda no período. Cada alerta
+        # = oportunidade qualificada passada ao time. Cliente quer ver isso
+        # como métrica principal (não o legacy `won_deals.count`).
+        deals_won: unique_alert_convs,
+        # Negócios perdidos = leads que bloquearam contato (recusa explícita).
+        # n8n handler cria event lead_blocked quando audi_block_lead dispara.
+        deals_lost: events_of('lead_blocked').distinct.count('conversation_id'),
+        # Receita potencial = somatório de preco_brl_a_partir armazenado no
+        # metadata do sales_alert_dispatched. n8n handler busca preço via
+        # audi_knowledge_query e grava no event metadata.
+        revenue: sales_alert_revenue(sales_alert_events),
         messages_received: messages.where(message_type: :incoming).count,
         # CUSTOMIZAÇÃO_SYNAPSEOS: "mensagens disparadas" no domínio Synapseos
         # significa "contatos distintos que receberam pelo menos uma outgoing
-        # no período" — não a soma bruta de outgoing. Mantém a coerência com
-        # o pricing por contato e com como o time comercial fala ("disparei
-        # X leads esse mês").
+        # no período" — não a soma bruta de outgoing.
         messages_sent: outgoing_distinct_contacts(@range),
-        # CUSTOMIZAÇÃO_SYNAPSEOS: "disparos no mês" = novos leads criados desde
-        # o dia 1 do mês corrente até agora (acumulativo, conta 1 por contato).
+        # DISPAROS NO PERÍODO selecionado (1 por contato distinto que
+        # recebeu primeira outgoing). Métrica primária do dashboard.
+        # `shoots_month` mantido por backcompat (acumulativo do mês corrente).
+        shoots_period: outgoing_distinct_contacts(@range),
         shoots_month: shoots_month_count,
-        bot_takeovers: events_of('bot_takeover').count,
+        # BOT → ATENDIMENTO HUMANO: conversas distintas onde bot transferiu
+        # pra humano (= alertas únicos disparados).
+        bot_takeovers: events_of('bot_takeover').distinct.count('conversation_id'),
+        # human_rescues mantido por backcompat; frontend não exibe mais.
         human_rescues: events_of('human_rescue').count,
         ai_responses: messages.where(sender_type: 'AgentBot').count,
         appointments: events_of('appointment_confirmed').count,
         conversion_rate: conversion_rate,
       }
+    end
+
+    # Soma preco_brl_a_partir do metadata dos sales_alert_dispatched.
+    # Pega 1 alerta por conversa (o mais recente) pra evitar dupla contagem.
+    # Defensivo contra metadata mal formado (não-numérico, ausente).
+    def sales_alert_revenue(scope)
+      latest_per_conv = scope.select('DISTINCT ON (conversation_id) conversation_id, metadata, created_at')
+                             .order('conversation_id, created_at DESC')
+      latest_per_conv.sum do |ev|
+        meta = ev.metadata.is_a?(Hash) ? ev.metadata : {}
+        price = meta['preco_brl_a_partir'] || meta[:preco_brl_a_partir]
+        price.to_f
+      end
+    rescue StandardError => e
+      Rails.logger.warn("[DashboardSummaryService] revenue calc failed: #{e.message}")
+      0.0
     end
 
     def daily_breakdown
@@ -131,10 +165,16 @@ module Synapseos
     end
 
     def conversion_rate
-      total_leads = leads_scope.count
-      return 0.0 if total_leads.zero?
+      # Taxa de conversão = alertas únicos / disparos no período. Mede
+      # quantos disparos viraram alerta de venda qualificado (handoff
+      # pra humano). Diferente da legacy (won_deals/leads) que dependia
+      # de pipeline manual que ninguém preenchia.
+      total_shoots = outgoing_distinct_contacts(@range)
+      return 0.0 if total_shoots.zero?
 
-      ((won_deals.count.to_f / total_leads) * 100).round(2)
+      unique_alert_convs = events_of('sales_alert_dispatched')
+                             .distinct.count('conversation_id')
+      ((unique_alert_convs.to_f / total_shoots) * 100).round(2)
     end
   end
 end

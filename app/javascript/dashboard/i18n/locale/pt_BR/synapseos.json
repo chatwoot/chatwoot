@@ -79,9 +79,11 @@
       },
       "KPI": {
         "LEADS": "Leads",
+        "SHOOTS_PERIOD": "Disparos no período",
+        "SHOOTS_MONTH": "Disparos no mês",
         "DEALS_WON": "Negócios ganhos",
-        "DEALS_LOST": "Negócios perdidos",
-        "REVENUE": "Receita",
+        "DEALS_LOST": "Clientes que recusaram contato",
+        "REVENUE": "Receita potencial",
         "MESSAGES_RECEIVED": "Mensagens recebidas",
         "MESSAGES_SENT": "Mensagens enviadas",
         "BOT_TAKEOVERS": "Bot → atendimento humano",

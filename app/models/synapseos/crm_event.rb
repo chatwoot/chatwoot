@@ -43,6 +43,8 @@ module Synapseos
       pix_sent
       lead_rescued
       private_note_added
+      sales_alert_dispatched
+      lead_blocked
     ].freeze
 
     belongs_to :account
@@ -61,6 +63,8 @@ module Synapseos
       lead_qualified
       deal_won
       deal_lost
+      sales_alert_dispatched
+      lead_blocked
     ].freeze
 
     private
@@ -102,6 +106,12 @@ module Synapseos
         "✅ Negócio fechado (ganho) — #{metadata['amount'] || metadata[:amount] || ''}".strip
       when 'deal_lost'
         '❌ Negócio perdido'
+      when 'sales_alert_dispatched'
+        modelo = metadata['modelo_interesse'] || metadata[:modelo_interesse]
+        modelo.present? ? "🚨 Alerta de venda disparado (#{modelo})" : '🚨 Alerta de venda disparado'
+      when 'lead_blocked'
+        motivo = metadata['motivo'] || metadata[:motivo]
+        motivo.present? ? "🚫 Lead bloqueou contato (#{motivo[0..60]})" : '🚫 Lead bloqueou contato'
       else
         "Evento: #{event_type}"
       end
