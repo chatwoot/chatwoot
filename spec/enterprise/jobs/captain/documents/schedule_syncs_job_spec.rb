@@ -75,8 +75,10 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
         .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('purgable')
     end
 
-    it 'marks the due document as syncing before queueing' do
+    it 'reserves the due document until the scheduled sync time before queueing' do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
+        job = described_class.new
+        allow(job).to receive(:sync_jitter).and_return(30.minutes)
         document = create(
           :captain_document,
           assistant: assistant,
@@ -87,11 +89,11 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
         )
         clear_enqueued_jobs
 
-        described_class.new.perform
+        job.perform
 
         expect(document.reload).to have_attributes(
           sync_status: 'syncing',
-          last_sync_attempted_at: Time.current
+          last_sync_attempted_at: 30.minutes.from_now
         )
       end
     end
@@ -167,8 +169,9 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
     end
 
     it 'keeps paging due documents when invalid documents fill the first batch' do
+      job = described_class.new
+      allow(job).to receive(:due_document_candidate_limit).and_return(1)
       update_sync_limit('CAPTAIN_DOCUMENT_AUTO_SYNC_PER_ACCOUNT_HOURLY_CAP', 1)
-      stub_const("#{described_class}::DUE_DOCUMENT_BATCH_MULTIPLIER", 1)
       create(
         :captain_document,
         assistant: assistant,
@@ -192,35 +195,46 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       valid_document.update!(sync_status: :synced, last_synced_at: 2.days.ago, last_sync_attempted_at: 2.days.ago)
       clear_enqueued_jobs
 
-      described_class.new.perform
+      job.perform
 
       expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document)
     end
   end
 
-  context 'when account jitter delays the next scheduled sync' do
+  context 'when jitter spreads queued sync execution' do
     before do
       InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')
                         .update!(value: { business: 168, hacker: nil }.to_json)
     end
 
-    it 'queues synced documents only after the plan cadence plus account jitter' do
+    it 'keeps due detection at the plan cadence and delays only the sync job' do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
+        job = described_class.new
         interval = 1.week
-        jitter = described_class.new.send(:sync_jitter, account, interval)
+        allow(job).to receive(:sync_jitter).with(interval).and_return(2.hours)
         document = create(:captain_document, assistant: assistant, account: account, status: :available)
 
-        document.update!(sync_status: :synced, last_synced_at: (interval + jitter - 1.minute).ago)
+        document.update!(sync_status: :synced, last_synced_at: (interval - 1.minute).ago)
         clear_enqueued_jobs
 
-        expect { described_class.new.perform }.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+        expect { job.perform }.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
 
-        document.update!(sync_status: :synced, last_synced_at: (interval + jitter + 1.minute).ago)
+        document.update!(sync_status: :synced, last_synced_at: (interval + 1.minute).ago)
         clear_enqueued_jobs
 
-        expect { described_class.new.perform }
-          .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('purgable')
+        expect { job.perform }
+          .to have_enqueued_job(Captain::Documents::PerformSyncJob)
+          .with(document)
+          .on_queue('purgable')
+          .at(2.hours.from_now)
       end
+    end
+
+    it 'generates random jitter inside the cadence window' do
+      job = described_class.new
+      allow(job).to receive(:rand).with(0..described_class::WEEKLY_SYNC_JITTER.to_i).and_return(12_345)
+
+      expect(job.send(:sync_jitter, 1.week)).to eq(12_345.seconds)
     end
   end
 

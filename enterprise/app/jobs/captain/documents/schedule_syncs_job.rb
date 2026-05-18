@@ -3,7 +3,6 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
   DEFAULT_PER_ACCOUNT_HOURLY_CAP = 50
   DEFAULT_GLOBAL_HOURLY_CAP = 1000
-  DUE_DOCUMENT_BATCH_MULTIPLIER = 2 # In spite of skipping, we should at least reach the hourly cap
   SYNC_STALE_TIMEOUT = Captain::Document::SYNC_STALE_TIMEOUT
   DAILY_SYNC_JITTER = 4.hours
   WEEKLY_SYNC_JITTER = 1.day
@@ -44,30 +43,32 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
     while result[:enqueued] < per_account_limit
 
-      documents = due_documents(account, interval, skipped_document_ids).limit(due_document_batch_size).to_a
+      documents = due_documents(account, interval, skipped_document_ids).limit(due_document_candidate_limit).to_a
       break if documents.empty?
 
       documents.each do |document|
         break if result[:enqueued] >= per_account_limit
 
-        process_due_document(document, result, skipped_document_ids)
+        process_due_document(document, interval, result, skipped_document_ids)
       end
     end
 
     result
   end
 
-  def process_due_document(document, result, skipped_document_ids)
+  def process_due_document(document, interval, result, skipped_document_ids)
     return unless document.syncable?
 
+    enqueue_delay = sync_jitter(interval)
+
     # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
-    unless reserve_sync_slot(document)
+    unless reserve_sync_slot(document, enqueue_delay)
       result[:skipped] += 1
       skipped_document_ids << document.id
       return
     end
 
-    Captain::Documents::PerformSyncJob.set(queue: :purgable).perform_later(document)
+    Captain::Documents::PerformSyncJob.set(queue: :purgable, wait: enqueue_delay).perform_later(document)
     @remaining_global_capacity -= 1
     result[:enqueued] += 1
   end
@@ -77,7 +78,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     synced = Captain::Document.sync_statuses[:synced]
     failed = Captain::Document.sync_statuses[:failed]
     stale_cutoff = SYNC_STALE_TIMEOUT.ago
-    due_cutoff = (interval + sync_jitter(account, interval)).ago
+    due_cutoff = interval.ago
 
     documents = account.captain_documents.syncable.where(status: :available).where(
       '(sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
@@ -94,12 +95,13 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     limit.positive? ? limit : default
   end
 
-  def due_document_batch_size
-    @per_account_hourly_cap * DUE_DOCUMENT_BATCH_MULTIPLIER
+  def due_document_candidate_limit
+    # Fetch twice the enqueue cap so skipped legacy rows do not prevent filling the account quota.
+    @per_account_hourly_cap * 2
   end
 
-  def reserve_sync_slot(document)
-    mark_sync_started(document)
+  def reserve_sync_slot(document, enqueue_delay)
+    mark_sync_scheduled(document, enqueue_delay)
     true
   rescue ActiveRecord::RecordInvalid => e
     log_document_skip(document, e)
@@ -120,8 +122,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     Rails.logger.warn("[Captain::Documents::ScheduleSyncsJob] #{payload.to_json}")
   end
 
-  def sync_jitter(account, interval)
-    # Spread recurring refreshes by account so longer cadences do not all become due in the same scheduler run.
+  def sync_jitter(interval)
     jitter_window = if interval <= 1.day
                       DAILY_SYNC_JITTER
                     elsif interval <= 1.week
@@ -129,9 +130,8 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
                     else
                       MONTHLY_SYNC_JITTER
                     end
-    jitter_bucket_count = (jitter_window / 1.hour).to_i + 1
 
-    (account.id % jitter_bucket_count).hours
+    rand(0..jitter_window.to_i).seconds
   end
 
   def log_scheduler_summary(stats)
@@ -146,12 +146,13 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     Rails.logger.info("[Captain::Documents::ScheduleSyncsJob] #{payload.to_json}")
   end
 
-  def mark_sync_started(document)
+  def mark_sync_scheduled(document, enqueue_delay)
+    # Use the scheduled execution time so stale-lock recovery does not duplicate delayed jobs before they run.
     document.update!(
       sync_status: :syncing,
       sync_step: nil,
       last_sync_error_code: nil,
-      last_sync_attempted_at: Time.current
+      last_sync_attempted_at: Time.current + enqueue_delay
     )
   end
 end
