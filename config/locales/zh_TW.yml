@@ -423,7 +423,7 @@ zh_TW:
       articles: 篇文章
       author: 位作者
       authors: 位作者
-      other: other
+      other: 其他
       others: 其他
       by: 作者：
       no_articles: 這裡還沒有文章
@@ -457,12 +457,16 @@ zh_TW:
     button: 開啟對話
   time_units:
     days:
+      one: '%{count} 天'
       other: '%{count} 天'
     hours:
+      one: '%{count} 小時'
       other: '%{count} 小時'
     minutes:
+      one: '%{count} 分鐘'
       other: '%{count} 分鐘'
     seconds:
+      one: '%{count} 秒'
       other: '%{count} 秒'
   auto_assignment:
     default_policy_name: '預設策略'

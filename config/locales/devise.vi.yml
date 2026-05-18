@@ -57,4 +57,5 @@ vi:
       not_found: "không tìm thấy"
       not_locked: "không được khoá"
       not_saved:
+        one: "Có %{count} lỗi được tìm thấy từ %{resource}:"
         other: "Có %{count} lỗi được tìm thấy từ %{resource}:"
