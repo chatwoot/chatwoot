@@ -140,6 +140,14 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article_in_locale.slug}"
       expect(response).to have_http_status(:success)
     end
+
+    it 'resolves the locale from the article itself for an uncategorized article' do
+      uncategorized_article = create(:article, category: nil, locale: 'es', portal: portal,
+                                               account_id: account.id, author_id: agent.id)
+      get "/hc/#{portal.slug}/articles/#{uncategorized_article.slug}"
+      expect(response).to have_http_status(:success)
+      expect(response.body).to include('lang="es"')
+    end
   end
 
   describe 'GET /public/api/v1/portals/:slug/articles/:slug.md (markdown)' do

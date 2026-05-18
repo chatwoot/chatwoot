@@ -52,7 +52,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
     article_locale = if article.category.present?
                        article.category.locale
                      else
-                       article.portal.default_locale
+                       article.locale
                      end
     @locale = validate_and_get_locale(article_locale)
     I18n.with_locale(@locale, &)
