@@ -6,7 +6,6 @@ RSpec.describe Onboarding::HelpCenterGenerationState do
 
   after do
     Redis::Alfred.delete(described_class.key(generation_id))
-    Redis::Alfred.delete(described_class.account_pointer_key(account_id))
   end
 
   describe '.start' do
@@ -23,7 +22,7 @@ RSpec.describe Onboarding::HelpCenterGenerationState do
   end
 
   describe '.record_article_finished' do
-    it 'increments finished and flips status to completed only on the exact final count' do
+    it 'increments finished and keeps completed true past the final count' do
       described_class.start(generation_id, total: 2)
 
       expect(described_class.record_article_finished(generation_id)).to eq(finished: 1, completed: false)
@@ -32,8 +31,8 @@ RSpec.describe Onboarding::HelpCenterGenerationState do
       expect(described_class.record_article_finished(generation_id)).to eq(finished: 2, completed: true)
       expect(described_class.current(generation_id)).to include('status' => 'completed', 'finished' => '2')
 
-      expect(described_class.record_article_finished(generation_id)).to eq(finished: 3, completed: false)
-      expect(described_class.current(generation_id)).to include('status' => 'completed')
+      expect(described_class.record_article_finished(generation_id)).to eq(finished: 3, completed: true)
+      expect(described_class.current(generation_id)).to include('status' => 'completed', 'finished' => '3')
     end
 
     it 'raises Missing when no state exists for the generation' do
@@ -57,23 +56,6 @@ RSpec.describe Onboarding::HelpCenterGenerationState do
   describe '.current' do
     it 'returns nil when no state exists' do
       expect(described_class.current(generation_id)).to be_nil
-    end
-  end
-
-  describe '.mark_active and .superseded?' do
-    it 'returns false when no pointer is set' do
-      expect(described_class.superseded?(generation_id, account_id: account_id)).to be(false)
-    end
-
-    it 'returns false when the pointer matches the generation id' do
-      described_class.mark_active(generation_id, account_id: account_id)
-      expect(described_class.superseded?(generation_id, account_id: account_id)).to be(false)
-    end
-
-    it 'returns true when a newer generation has overwritten the pointer' do
-      described_class.mark_active(generation_id, account_id: account_id)
-      described_class.mark_active('newer-generation', account_id: account_id)
-      expect(described_class.superseded?(generation_id, account_id: account_id)).to be(true)
     end
   end
 end

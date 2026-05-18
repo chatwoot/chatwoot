@@ -9,20 +9,12 @@ RSpec.describe Onboarding::HelpCenterCreationService do
     allow(SecureRandom).to receive(:uuid).and_return(generation_id)
   end
 
-  after do
-    Redis::Alfred.delete(Onboarding::HelpCenterGenerationState.account_pointer_key(account.id))
-  end
-
   describe 'article generation enqueue' do
     context 'when account has a custom_attributes website' do
-      it 'marks the generation active for the account and enqueues generation' do
+      it 'enqueues generation' do
         expect { described_class.new(account, admin).perform }
           .to have_enqueued_job(Onboarding::HelpCenterArticleGenerationJob)
           .with(account.id, kind_of(Integer), admin.id, generation_id)
-
-        expect(
-          Onboarding::HelpCenterGenerationState.superseded?('older-id', account_id: account.id)
-        ).to be(true)
       end
     end
 

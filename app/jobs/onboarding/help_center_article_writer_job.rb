@@ -39,7 +39,6 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
       )
     end
     return unless result[:completed]
-    return if Onboarding::HelpCenterGenerationState.superseded?(generation_id, account_id: account_id)
 
     Onboarding::HelpCenterBroadcaster.completed(user: user, generation_id: generation_id, status: 'completed')
   rescue Onboarding::HelpCenterGenerationState::Missing => e

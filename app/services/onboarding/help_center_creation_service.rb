@@ -74,7 +74,6 @@ class Onboarding::HelpCenterCreationService
     return if homepage_link.blank?
 
     generation_id = SecureRandom.uuid
-    Onboarding::HelpCenterGenerationState.mark_active(generation_id, account_id: @account.id)
     Onboarding::HelpCenterArticleGenerationJob.perform_later(@account.id, portal.id, @user.id, generation_id)
   rescue StandardError => e
     Rails.logger.error "[HelpCenterCreation] Failed to enqueue article generation for account #{@account.id}: #{e.class} - #{e.message}"

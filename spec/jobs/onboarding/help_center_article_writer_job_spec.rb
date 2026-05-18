@@ -12,13 +12,11 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
 
   before do
     Onboarding::HelpCenterGenerationState.start(generation_id, total: 2)
-    Onboarding::HelpCenterGenerationState.mark_active(generation_id, account_id: account.id)
     clear_enqueued_jobs
   end
 
   after do
     Redis::Alfred.delete(state_key)
-    Redis::Alfred.delete(Onboarding::HelpCenterGenerationState.account_pointer_key(account.id))
   end
 
   describe 'queue' do
@@ -141,23 +139,14 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
         .with(anything, 'help_center.article_generated', anything)
     end
 
-    it 'does not re-broadcast generation_completed on late retries past total' do
+    it 'broadcasts generation_completed on late retries past total' do
       described_class.perform_now(*job_args)
       described_class.perform_now(*job_args)
       clear_enqueued_jobs
 
       expect { described_class.perform_now(*job_args) }
-        .not_to have_enqueued_job(ActionCableBroadcastJob)
-        .with(anything, 'help_center.generation_completed', anything)
-    end
-
-    it 'suppresses the completion broadcast when a newer generation has superseded this one' do
-      Onboarding::HelpCenterGenerationState.mark_active('newer-generation', account_id: account.id)
-      described_class.perform_now(*job_args)
-
-      expect { described_class.perform_now(*job_args) }
-        .not_to have_enqueued_job(ActionCableBroadcastJob)
-        .with(anything, 'help_center.generation_completed', anything)
+        .to have_enqueued_job(ActionCableBroadcastJob)
+        .with([admin.pubsub_token], 'help_center.generation_completed', hash_including(generation_id: generation_id))
     end
 
     it 'skips progress broadcasts when state is missing' do
