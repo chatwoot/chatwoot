@@ -5,9 +5,8 @@ class Onboarding::HelpCenterCurator
 
   Skipped = CustomExceptions::HelpCenter::CurationSkipped
 
-  def initialize(account:, portal:)
+  def initialize(account:)
     @account = account
-    @portal = portal
   end
 
   def perform

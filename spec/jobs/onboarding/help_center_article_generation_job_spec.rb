@@ -21,7 +21,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
   before do
     clear_enqueued_jobs
     curator = instance_double(Onboarding::HelpCenterCurator, perform: curated_plan)
-    allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
+    allow(Onboarding::HelpCenterCurator).to receive(:new).with(account: account).and_return(curator)
   end
 
   after do

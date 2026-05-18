@@ -25,7 +25,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   private
 
   def process(account:, portal:, user:, generation_id:)
-    plan = Onboarding::HelpCenterCurator.new(account: account, portal: portal).perform
+    plan = Onboarding::HelpCenterCurator.new(account: account).perform
 
     articles = ActiveRecord::Base.transaction do
       categories_by_name = create_categories(portal, plan['categories'])
