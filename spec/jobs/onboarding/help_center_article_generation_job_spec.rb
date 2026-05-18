@@ -12,7 +12,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       'allowed_urls' => ['https://x.test/a', 'https://x.test/b'],
       'categories' => [{ 'name' => 'Getting Started', 'description' => 'desc' }],
       'articles' => [
-        { 'title' => 'Hello', 'urls' => ['https://x.test/a'], 'category_name' => 'Getting Started' },
+        { 'title' => 'Hello', 'urls' => ['https://x.test/a', 'https://evil.test/hallucinated'], 'category_name' => 'Getting Started' },
         { 'title' => 'World', 'urls' => ['https://x.test/b'], 'category_name' => 'Getting Started' }
       ]
     }
@@ -53,7 +53,11 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
             admin.id,
             generation_id,
             hash_including(
-              'article' => hash_including('title' => 'Hello', 'category_id' => portal.categories.first.id),
+              'article' => hash_including(
+                'title' => 'Hello',
+                'urls' => ['https://x.test/a'],
+                'category_id' => portal.categories.first.id
+              ),
               'allowed_urls' => ['https://x.test/a', 'https://x.test/b']
             )
           )
@@ -85,6 +89,30 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
     end
   end
 
+  describe 'article URL filtering' do
+    let(:curated_plan) do
+      {
+        'allowed_urls' => ['https://x.test/a'],
+        'categories' => [{ 'name' => 'Getting Started', 'description' => 'desc' }],
+        'articles' => [
+          { 'title' => 'Approved', 'urls' => ['https://x.test/a'], 'category_name' => 'Getting Started' },
+          { 'title' => 'Hallucinated', 'urls' => ['https://evil.test/hallucinated'], 'category_name' => 'Getting Started' }
+        ]
+      }
+    end
+
+    it 'drops articles with no approved source urls before fanout' do
+      perform_enqueued_jobs(only: described_class) { described_class.perform_later(*job_args) }
+
+      writer_jobs = enqueued_jobs.select { |job| job['job_class'] == Onboarding::HelpCenterArticleWriterJob.name }
+      expect(writer_jobs.size).to eq(1)
+      expect(writer_jobs.first['arguments']).to include(
+        hash_including('article' => hash_including('title' => 'Approved', 'urls' => ['https://x.test/a']))
+      )
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('total' => '1')
+    end
+  end
+
   describe 'transaction rollback' do
     let(:curated_plan) do
       {
@@ -99,7 +127,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       expect(portal.categories.count).to eq(0)
       expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
         'status' => 'skipped',
-        'skip_reason' => 'no articles after category stamping (LLM article category_name did not match any curated category)'
+        'skip_reason' => 'no articles after category or URL filtering'
       )
     end
   end

@@ -29,11 +29,15 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
 
     articles = ActiveRecord::Base.transaction do
       categories_by_name = create_categories(portal, plan['categories'])
-      stamped_articles = stamp_category_ids(plan['articles'], categories_by_name)
+      stamped_articles = stamp_category_ids_and_filter_urls(
+        plan['articles'],
+        categories_by_name,
+        plan['allowed_urls']
+      )
 
       if stamped_articles.empty?
         raise CustomExceptions::HelpCenter::CurationSkipped,
-              'no articles after category stamping (LLM article category_name did not match any curated category)'
+              'no articles after category or URL filtering'
       end
 
       stamped_articles
@@ -63,12 +67,16 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def stamp_category_ids(articles, categories_by_name)
+  def stamp_category_ids_and_filter_urls(articles, categories_by_name, allowed_urls)
+    allowed_urls = Array(allowed_urls).to_set
     Array(articles).filter_map do |article|
       category_id = categories_by_name[article['category_name'].to_s]&.id
       next if category_id.nil?
 
-      article.merge('category_id' => category_id)
+      urls = Array(article['urls']).select { |url| allowed_urls.include?(url) }
+      next if urls.empty?
+
+      article.merge('category_id' => category_id, 'urls' => urls)
     end
   end
 
