@@ -413,6 +413,22 @@ he:
       loading_placeholder: מחפש...
       results_title: תוצאות חיפוש
     toc_header: 'בעמוד זה'
+    sidebar:
+      help_center: מרכז עזרה
+      categories: קטגוריות
+      language: שפה
+      theme: Theme
+      open_sidebar: פתח סרגל צד
+      close_sidebar: סגור סרגל צד
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: חפש את המאמרים כאן או עיין בקטגוריות למטה.
     common:
@@ -427,12 +443,19 @@ he:
       others: אחרים
       by: על ידי
       no_articles: אין כאן מאמרים
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: נוצר עם
     header:
       go_to_homepage: אתר
       visit_website: בקר באתר
       appearance:
+        title: מראה
         system: מערכת
         light: בהיר
         dark: כהה
