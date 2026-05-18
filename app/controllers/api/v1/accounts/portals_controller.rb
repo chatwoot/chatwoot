@@ -23,11 +23,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      if params[:portal].present?
-        attrs = portal_params.merge(live_chat_widget_params).to_h.deep_symbolize_keys
-        attrs[:config] = merged_config(attrs[:config]) if attrs.key?(:config)
-        @portal.update!(attrs)
-      end
+      @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
     rescue ActiveRecord::RecordInvalid => e
@@ -83,14 +79,9 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived,
-      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] }] }
+      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+                 { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] }] }
     )
-  end
-
-  def merged_config(incoming_config)
-    base = (@portal.config || {}).deep_stringify_keys
-    incoming = (incoming_config || {}).deep_stringify_keys
-    base.merge(incoming)
   end
 
   def live_chat_widget_params

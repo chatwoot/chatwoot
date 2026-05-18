@@ -879,6 +879,13 @@
             "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
           }
         },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Remove"
+        },
         "SAVE": "Save changes"
       },
       "API": {

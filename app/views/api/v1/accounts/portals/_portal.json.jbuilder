@@ -17,6 +17,7 @@ json.config do
   end
   json.default_locale portal.default_locale
   json.layout portal.layout
+  json.social_profiles portal.social_profiles
 end
 
 if portal.channel_web_widget
