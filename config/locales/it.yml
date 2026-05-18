@@ -413,6 +413,22 @@ it:
       loading_placeholder: Ricerca...
       results_title: Risultati di ricerca
     toc_header: 'Su questa pagina'
+    sidebar:
+      help_center: Help Center
+      categories: Categorie
+      language: Lingua
+      theme: Theme
+      open_sidebar: Apri barra laterale
+      close_sidebar: Chiudi barra laterale
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Cerca gli articoli qui oppure sfoglia le categorie qui sotto.
     common:
@@ -427,12 +443,19 @@ it:
       others: altri
       by: Da
       no_articles: Non ci sono articoli qui
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Realizzato con
     header:
       go_to_homepage: Sito Web
       visit_website: Visita sito
       appearance:
+        title: Aspetto
         system: Sistema
         light: Chiaro
         dark: Scuro
