@@ -38,6 +38,10 @@ const unreadCount = computed(() => props.chat.unread_count);
 const hasUnread = computed(() => unreadCount.value > 0);
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 
+const currentContactCompanyName = computed(
+  () => props.currentContact?.additional_attributes?.company_name
+);
+
 const voiceCallData = computed(() => {
   const last = lastMessageInChat.value;
   if (last?.content_type !== 'voice_call' || !last.call) {
@@ -174,6 +178,17 @@ watch(
       >
         {{ currentContact.name }}
       </h4>
+      <span
+        v-if="currentContactCompanyName"
+        class="inline-flex items-center gap-1 my-0 mx-2 max-w-[calc(100%-1rem)]"
+      >
+        <span
+          class="i-ph-building-light size-3 text-n-slate-10 flex-shrink-0"
+        />
+        <span class="text-xs truncate text-n-slate-11">
+          {{ currentContactCompanyName }}
+        </span>
+      </span>
       <VoiceCallStatus
         v-if="voiceCallData.status"
         key="voice-status-row"

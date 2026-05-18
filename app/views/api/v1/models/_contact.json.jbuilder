@@ -7,6 +7,7 @@ json.phone_number resource.phone_number
 json.blocked resource.blocked
 json.identifier resource.identifier
 json.thumbnail resource.avatar_url
+json.company_id resource.company_id
 json.custom_attributes resource.custom_attributes
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?

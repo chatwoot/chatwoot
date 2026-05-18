@@ -7,6 +7,8 @@ import {
 } from 'shared/helpers/CustomErrors';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { frontendURL } from 'dashboard/helper/URLHelper.js';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -56,9 +58,32 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      globalConfig: 'globalConfig/get',
+      isFeatureEnabledOnAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
+    },
+    isCompaniesAvailable() {
+      const isSupportedInstall =
+        this.isOnChatwootCloud || this.globalConfig.isEnterprise;
+      return (
+        isSupportedInstall &&
+        this.isFeatureEnabledOnAccount(
+          this.$route.params.accountId,
+          FEATURE_FLAGS.COMPANIES
+        )
+      );
+    },
+    companyDetailUrl() {
+      if (!this.isCompaniesAvailable) return '';
+      if (!this.contact?.company_id) return '';
+      return frontendURL(
+        `accounts/${this.$route.params.accountId}/companies/${this.contact.company_id}`
+      );
     },
     additionalAttributes() {
       return this.contact.additional_attributes || {};
@@ -265,6 +290,7 @@ export default {
             :title="$t('CONTACT_PANEL.IDENTIFIER')"
           />
           <ContactInfoRow
+            :href="companyDetailUrl"
             :value="additionalAttributes.company_name"
             icon="building-bank"
             emoji="🏢"
