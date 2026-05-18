@@ -1,0 +1,9 @@
+json.id link.id
+json.account_id link.account_id
+json.conversation_id link.conversation_id
+json.kanban_card_id link.kanban_card_id
+json.glpi_ticket_id link.glpi_ticket_id
+json.sync_direction link.sync_direction
+json.last_status link.last_status
+json.last_synced_at link.last_synced_at&.iso8601
+json.created_at link.created_at.iso8601

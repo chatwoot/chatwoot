@@ -1,0 +1,9 @@
+json.id column.id
+json.board_id column.board_id
+json.name column.name
+json.position column.position
+json.color column.color
+json.wip_limit column.wip_limit
+json.wip_reached column.wip_reached?
+json.created_at column.created_at.iso8601
+json.updated_at column.updated_at.iso8601
