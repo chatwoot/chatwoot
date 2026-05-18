@@ -133,7 +133,7 @@ const closeMobileSidebar = () => {
       <div class="shrink-0">
         <slot name="sidebarHeader" />
       </div>
-      <div class="flex-1 overflow-y-auto pb-6 pt-3">
+      <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
         <slot name="sidebar" />
       </div>
     </div>
@@ -189,7 +189,7 @@ const closeMobileSidebar = () => {
           <div class="shrink-0">
             <slot name="sidebarHeader" />
           </div>
-          <div class="flex-1 overflow-y-auto pb-6 pt-3">
+          <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
             <slot name="sidebar" />
           </div>
         </div>
