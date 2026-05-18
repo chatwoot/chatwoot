@@ -109,6 +109,8 @@ ru:
         sdp_offer_required: 'Необходимо указать sdp_offer'
         contact_phone_required: 'Требуется номер телефона контакта'
         permission_request_failed: 'Не удалось отправить запрос на разрешение вызова'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
