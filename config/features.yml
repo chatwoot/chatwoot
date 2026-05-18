@@ -219,6 +219,7 @@
 - name: quoted_email_reply
   display_name: Quoted Email Reply
   enabled: false
+  deprecated: true
 - name: companies
   display_name: Companies
   enabled: false
