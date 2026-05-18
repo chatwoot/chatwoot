@@ -19,18 +19,18 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
       article: payload[:article]
     ).perform
 
-    finalize(account_id: account_id, user: user, generation_id: generation_id, article: article)
+    finalize(user: user, generation_id: generation_id, article: article)
   end
 
   private
 
   def on_writer_failure(error)
-    account_id, _portal_id, user_id, generation_id = arguments
+    _, _portal_id, user_id, generation_id = arguments
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} failed: #{error.class} #{error.message}"
-    finalize(account_id: account_id, user: User.find_by(id: user_id), generation_id: generation_id, article: nil)
+    finalize(user: User.find_by(id: user_id), generation_id: generation_id, article: nil)
   end
 
-  def finalize(account_id:, user:, generation_id:, article:)
+  def finalize(user:, generation_id:, article:)
     result = Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
 
     if article
