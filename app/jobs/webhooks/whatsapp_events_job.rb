@@ -97,18 +97,18 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   # Echo payloads are outbound messages from the WhatsApp Business app, so `to`
-  # points to the contact. Prefer `to_user_id` (and `to_parent_user_id`) to keep
-  # phone+BSUID and BSUID-only payloads for the same contact under the same lock.
+  # points to the contact. Prefer parent BSUID when present so payloads that have
+  # both regular+parent BSUIDs serialize with parent-BSUID-only payloads.
   def contact_sender_id_from_message_echoes(message_echoes)
     message = message_echoes&.first
     return if message.blank?
 
-    [message[:to_user_id], message[:to_parent_user_id], message[:to]].compact_blank.first
+    [message[:to_parent_user_id], message[:to_user_id], message[:to]].compact_blank.first
   end
 
   # Regular inbound payloads are sent by the contact, so `from` points to the
-  # contact. Prefer BSUIDs from the message or contact object to serialize mixed
-  # phone+BSUID and BSUID-only webhooks for the same contact.
+  # contact. Prefer parent BSUID when present so payloads that have both
+  # regular+parent BSUIDs serialize with parent-BSUID-only payloads.
   def contact_sender_id_from_messages(messages, contacts)
     message = messages&.first
     return if message.blank?
@@ -116,10 +116,10 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
     contact = contacts&.first || {}
 
     [
-      message[:from_user_id],
-      contact[:user_id],
       message[:from_parent_user_id],
       contact[:parent_user_id],
+      message[:from_user_id],
+      contact[:user_id],
       message[:from]
     ].compact_blank.first
   end
