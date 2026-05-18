@@ -22,6 +22,7 @@ gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
 gem 'email-provider-info'
+gem 'gemoji'
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
@@ -84,6 +85,7 @@ gem 'barnes'
 gem 'devise', '>= 4.9.4'
 gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
 gem 'devise_token_auth', '>= 1.2.3'
+gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
@@ -193,10 +195,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.9.1'
+gem 'ai-agents', '>= 0.10.0'
 
 # TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm', '>= 1.8.2'
+gem 'ruby_llm', '>= 1.14.1'
 gem 'ruby_llm-schema'
 
 gem 'cld3', '~> 3.7'

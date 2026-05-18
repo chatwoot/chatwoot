@@ -38,6 +38,9 @@ class Account < ApplicationRecord
   }.freeze
 
   validates :name, presence: true
+  # `domain` is the inbound email domain used to construct reply addresses
+  # (see `inbound_email_domain`). Do not repurpose it for a website or any
+  # non-mail-related domain.
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
@@ -155,6 +158,14 @@ class Account < ApplicationRecord
     # we need to extract the language code from the locale
     account_locale = locale&.split('_')&.first
     ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
+  def onboarding_step
+    step = custom_attributes['onboarding_step']
+    return nil if step.blank?
+
+    enrichment_key = format(Redis::Alfred::ACCOUNT_ONBOARDING_ENRICHMENT, account_id: id)
+    Redis::Alfred.exists?(enrichment_key) ? 'enrichment' : step
   end
 
   private

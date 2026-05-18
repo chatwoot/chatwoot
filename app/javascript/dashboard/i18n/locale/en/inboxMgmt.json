@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voice"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -1001,7 +1011,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Enable SSL",
+      "AUTH_MECHANISM": "Authentication"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

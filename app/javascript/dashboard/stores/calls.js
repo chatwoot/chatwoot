@@ -55,5 +55,19 @@ export const useCallsStore = defineStore('calls', {
     dismissCall(callSid) {
       this.calls = this.calls.filter(call => call.callSid !== callSid);
     },
+
+    removeCallsForConversation(conversationId) {
+      const callsToRemove = this.calls.filter(
+        call => call.conversationId === conversationId
+      );
+
+      if (callsToRemove.some(call => call.isActive)) {
+        TwilioVoiceClient.endClientCall();
+      }
+
+      this.calls = this.calls.filter(
+        call => call.conversationId !== conversationId
+      );
+    },
   },
 });
