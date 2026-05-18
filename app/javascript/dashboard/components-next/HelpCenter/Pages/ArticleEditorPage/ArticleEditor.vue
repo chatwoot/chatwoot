@@ -92,7 +92,7 @@ const previewArticle = () => {
 };
 
 const handleCreateArticle = event => {
-  if (!isNewArticle.value) return;
+  if (!isNewArticle.value || props.isUpdating) return;
   const title = event?.target?.value || '';
   if (title.trim()) {
     emit('createArticle', { title, content: localContent.value });

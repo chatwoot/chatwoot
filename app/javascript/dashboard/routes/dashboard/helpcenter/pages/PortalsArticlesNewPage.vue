@@ -26,6 +26,8 @@ const categoryId = computed(() => categories.value[0]?.id || null);
 const article = ref({});
 const isUpdating = ref(false);
 const isSaved = ref(false);
+const createdArticleId = ref(null);
+const createArticleRequest = ref(null);
 
 const setAuthorId = authorId => {
   selectedAuthorId.value = authorId;
@@ -35,41 +37,46 @@ const setCategoryId = newCategoryId => {
   selectedCategoryId.value = newCategoryId;
 };
 
-const createNewArticle = async ({ title, content }) => {
+const createNewArticle = ({ title, content }) => {
   if (title) article.value.title = title;
   if (content) article.value.content = content;
 
-  if (!article.value.title || isUpdating.value) return;
+  if (!article.value.title || createdArticleId.value) return;
+  if (createArticleRequest.value) return;
 
-  isUpdating.value = true;
-  try {
-    const { locale } = route.params;
-    const articleId = await store.dispatch('articles/create', {
-      portalSlug,
-      content: article.value.content,
-      title: article.value.title,
-      locale: locale,
-      authorId: selectedAuthorId.value || currentUserId.value,
-      categoryId: selectedCategoryId.value || categoryId.value,
-    });
-
-    useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
-
-    router.replace({
-      name: 'portals_articles_edit',
-      params: {
-        articleSlug: articleId,
+  createArticleRequest.value = (async () => {
+    isUpdating.value = true;
+    try {
+      const { locale } = route.params;
+      const articleId = await store.dispatch('articles/create', {
         portalSlug,
-        locale,
-      },
-    });
-  } catch (error) {
-    const errorMessage =
-      error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR');
-    useAlert(errorMessage);
-  } finally {
-    isUpdating.value = false;
-  }
+        content: article.value.content,
+        title: article.value.title,
+        locale: locale,
+        authorId: selectedAuthorId.value || currentUserId.value,
+        categoryId: selectedCategoryId.value || categoryId.value,
+      });
+      createdArticleId.value = articleId;
+
+      useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
+
+      router.replace({
+        name: 'portals_articles_edit',
+        params: {
+          articleSlug: articleId,
+          portalSlug,
+          locale,
+        },
+      });
+    } catch (error) {
+      createArticleRequest.value = null;
+      const errorMessage =
+        error?.message || t('HELP_CENTER.EDIT_ARTICLE_PAGE.API.ERROR');
+      useAlert(errorMessage);
+    } finally {
+      isUpdating.value = false;
+    }
+  })();
 };
 
 const goBackToArticles = () => {
