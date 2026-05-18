@@ -109,6 +109,8 @@ it:
         sdp_offer_required: 'sdp_offer è richiesto'
         contact_phone_required: 'È richiesto il numero di telefono del contatto'
         permission_request_failed: 'Impossibile inviare la richiesta di autorizzazione di chiamata'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
