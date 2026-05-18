@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Land",
       "CITY": "Woonplaats",
+      "COMPANY": "Bedrijfsnaam",
       "CREATED_AT": "Aangemaakt op",
       "LAST_ACTIVITY": "Laatste Activiteit",
       "REFERER_LINK": "Verwijzende link",

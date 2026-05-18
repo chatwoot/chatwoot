@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "会話",
-      "CONTACT": "連絡先"
+      "CONTACT": "連絡先",
+      "COMPANY": "企業名"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "テキスト",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "カスタム属性",
       "CONVERSATION": "会話",
-      "CONTACT": "連絡先"
+      "CONTACT": "連絡先",
+      "COMPANY": "企業名"
     },
     "LIST": {
       "TABLE_HEADER": {

@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Виділити \"Вхідні\""
         },
         "SUBMIT": "Створити",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Скасувати"
       },
       "API": {

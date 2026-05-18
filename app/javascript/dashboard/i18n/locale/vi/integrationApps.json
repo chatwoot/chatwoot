@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Chọn Hộp thư đến"
         },
         "SUBMIT": "Tạo",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Huỷ"
       },
       "API": {

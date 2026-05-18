@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Sohbet",
-      "CONTACT": "İletişim"
+      "CONTACT": "İletişim",
+      "COMPANY": "Şirket"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Metin",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Özel Nitelikler",
       "CONVERSATION": "Sohbet",
-      "CONTACT": "İletişim"
+      "CONTACT": "İletişim",
+      "COMPANY": "Şirket"
     },
     "LIST": {
       "TABLE_HEADER": {

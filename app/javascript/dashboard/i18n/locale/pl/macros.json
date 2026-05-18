@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Wystąpił błąd podczas usuwania makra. Spróbuj ponownie później"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Edytuj makro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Widoczność makra",
         "GLOBAL": {
           "LABEL": "Publiczne",
-          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie."
+          "DESCRIPTION": "To makro jest publicznie dostępne dla wszystkich agentów na tym koncie.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Prywatne",
