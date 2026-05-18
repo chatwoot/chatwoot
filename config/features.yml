@@ -224,7 +224,7 @@
   display_name: Companies
   enabled: false
   premium: true
-  chatwoot_internal: true
+  chatwoot_internal: false
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
