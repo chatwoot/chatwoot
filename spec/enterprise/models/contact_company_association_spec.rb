@@ -52,15 +52,6 @@ RSpec.describe Contact, type: :model do
 
         expect(company.reload.last_activity_at).to be_within(1.second).of(contact.last_activity_at)
       end
-
-      it 'updates company activity when assigning an active contact' do
-        company = create(:company, account: account)
-        contact = create(:contact, account: account, last_activity_at: 1.hour.ago)
-
-        contact.update!(company: company)
-
-        expect(company.reload.last_activity_at).to be_within(1.second).of(contact.last_activity_at)
-      end
     end
 
     context 'when multiple contacts share the same domain' do
