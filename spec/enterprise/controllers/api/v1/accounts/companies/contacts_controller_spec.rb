@@ -46,7 +46,8 @@ RSpec.describe 'Company contacts API', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/companies/{company.id}/contacts' do
     it 'links an existing contact to the company' do
-      contact = create(:contact, name: 'Jane Contact', account: account, additional_attributes: { 'city' => 'Berlin' })
+      contact = create(:contact, name: 'Jane Contact', account: account, last_activity_at: 1.hour.ago,
+                                 additional_attributes: { 'city' => 'Berlin' })
 
       post "/api/v1/accounts/#{account.id}/companies/#{company.id}/contacts",
            params: { contact_id: contact.id },
@@ -58,6 +59,7 @@ RSpec.describe 'Company contacts API', type: :request do
       expect(contact.additional_attributes).to eq('city' => 'Berlin')
       expect(response.parsed_body['payload']['company_id']).to eq(company.id)
       expect(response.parsed_body['payload']['linked_to_current_company']).to be true
+      expect(company.reload.last_activity_at).to be_within(1.second).of(contact.last_activity_at)
     end
   end
 
