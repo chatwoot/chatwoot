@@ -1,7 +1,13 @@
 namespace :help_center do
-  desc 'Ad-hoc: refresh brand info (optional) and trigger help center generation for account 5'
+  desc 'Ad-hoc: refresh brand info (optional) and trigger help center generation for a given account'
   task regenerate: :environment do
-    account = Account.find(5)
+    abort 'This task is not allowed in production.' if Rails.env.production?
+
+    print 'Account ID: '
+    account_id = $stdin.gets.to_s.strip
+    abort 'Account ID required' if account_id.empty?
+
+    account = Account.find(account_id)
     current_domain = account.custom_attributes['website'].presence ||
                      account.custom_attributes.dig('brand_info', 'domain')
 
