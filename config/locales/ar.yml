@@ -413,6 +413,22 @@ ar:
       loading_placeholder: جاري البحث...
       results_title: نتائج البحث
     toc_header: 'في هذه الصفحة'
+    sidebar:
+      help_center: مركز المساعدة
+      categories: الفئات
+      language: اللغة
+      theme: المظهر
+      open_sidebar: فتح الشريط الجانبي
+      close_sidebar: إغلاق الشريط الجانبي
+      browse: تصفح
+      back_to_category: العودة إلى %{name}
+      browse_by_topic: تصفح حسب الموضوع
+      browse_by_topic_subtitle: اعثر على أدلة ودروس وأجوبة منظمة حسب الفئة.
+      popular_articles: المقالات الشائعة
+      popular_articles_subtitle: ما يقرأه الآخرون الآن.
+      popular_label: 'مواضيع شائعة:'
+      authors_others: "%{names} و %{count} آخرون"
+      primary_nav: التنقل الرئيسي
     hero:
       sub_title: ابحث عن المقالات هنا أو تصفح الفئات أدناه.
     common:
@@ -427,6 +443,12 @@ ar:
       others: الآخرين
       by: بواسطة
       no_articles: لا توجد مقالات
+    article_actions:
+      label: فتح في
+      view_markdown: عرض كـ Markdown
+      open_in_chatgpt: فتح في ChatGPT
+      open_in_claude: فتح في Claude
+      llm_prompt: "اقرأ المقال التالي وساعدني في فهمه: %{url}"
     footer:
       made_with: صنع بـ
     header:
