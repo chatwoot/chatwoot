@@ -97,13 +97,13 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   # Echo payloads are outbound messages from the WhatsApp Business app, so `to`
-  # points to the contact. Prefer `to_user_id` to keep phone+BSUID and BSUID-only
-  # payloads for the same contact under the same lock.
+  # points to the contact. Prefer `to_user_id` (and `to_parent_user_id`) to keep
+  # phone+BSUID and BSUID-only payloads for the same contact under the same lock.
   def contact_sender_id_from_message_echoes(message_echoes)
     message = message_echoes&.first
     return if message.blank?
 
-    message[:to_user_id].presence || message[:to].presence
+    [message[:to_user_id], message[:to_parent_user_id], message[:to]].compact_blank.first
   end
 
   # Regular inbound payloads are sent by the contact, so `from` points to the

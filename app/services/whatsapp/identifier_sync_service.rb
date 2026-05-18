@@ -12,7 +12,12 @@ class Whatsapp::IdentifierSyncService
     source_ids.compact_blank.uniq.each do |source_id|
       next if inbox.contact_inboxes.exists?(source_id: source_id)
 
-      ContactInboxBuilder.new(contact: synced_contact, inbox: inbox, source_id: source_id).perform
+      inbox.contact_inboxes.create!(contact: synced_contact, source_id: source_id)
+    rescue ActiveRecord::RecordNotUnique
+      # A concurrent webhook (e.g. a status update bypassing the per-contact
+      # mutex) just inserted the same (inbox_id, source_id). Treat it as a
+      # no-op instead of falling through to ContactInboxBuilder's retry path,
+      # which would scramble the freshly-written row.
     end
   end
 
