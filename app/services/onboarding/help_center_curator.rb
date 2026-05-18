@@ -33,11 +33,8 @@ class Onboarding::HelpCenterCurator
   end
 
   def extract_urls(links)
-    # Firecrawl's MapData normalises every link to a string-keyed hash
-    # ({ "url" => ... }), so read both keys to stay tolerant of either shape.
     Array(links).filter_map do |link|
-      raw = link.is_a?(Hash) ? (link['url'] || link[:url]) : link
-      raw.to_s.presence
+      link['url'].presence
     end.uniq
   end
 
