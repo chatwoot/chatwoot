@@ -480,6 +480,35 @@ describe Twilio::IncomingMessageService do
           expect(whatsapp_twilio_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
           expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
         end
+
+        it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
+          bsuid_only_params = {
+            SmsSid: 'SMxx1',
+            From: 'whatsapp:IN.2081978709342942',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'bsuid first',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+          phone_with_bsuid_params = {
+            SmsSid: 'SMxx2',
+            From: 'whatsapp:+919745786257',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'phone follow up',
+            ProfileName: 'Muhsin',
+            ExternalUserId: 'IN.2081978709342942'
+          }
+
+          described_class.new(params: bsuid_only_params).perform
+          bsuid_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:IN.2081978709342942')
+
+          described_class.new(params: phone_with_bsuid_params).perform
+
+          phone_contact_inbox = whatsapp_twilio_channel.inbox.contact_inboxes.find_by!(source_id: 'whatsapp:+919745786257')
+          expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
+          expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
+        end
       end
 
       describe 'When the incoming number is a Brazilian number in new format with 9 included' do

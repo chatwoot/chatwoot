@@ -4,12 +4,13 @@ module Whatsapp::IncomingMessageIdentifierHelper
     source_ids = outgoing_message_source_ids(message)
     return if source_ids.blank?
 
+    contact_attributes = contact_attributes_for_identifier(source_ids.first, message[:to])
     @contact_inbox = find_or_create_contact_inbox(
       source_ids: source_ids,
-      contact_attributes: contact_attributes_for_identifier(source_ids.first, message[:to])
+      contact_attributes: contact_attributes
     )
     @contact = @contact_inbox.contact
-    update_whatsapp_identifiers(source_ids: source_ids)
+    update_whatsapp_identifiers(source_ids: source_ids, phone_number: contact_attributes[:phone_number])
   end
 
   def set_contact_from_message
@@ -19,15 +20,13 @@ module Whatsapp::IncomingMessageIdentifierHelper
     source_ids = incoming_message_source_ids(contact_params)
     return if source_ids.blank?
 
+    attrs = contact_attributes_from_contact_params(contact_params, source_ids.first)
     @contact_inbox = find_or_create_contact_inbox(
       source_ids: source_ids,
-      contact_attributes: contact_attributes_from_contact_params(contact_params, source_ids.first)
+      contact_attributes: attrs
     )
     @contact = @contact_inbox.contact
-    update_whatsapp_identifiers(
-      source_ids: source_ids,
-      username: contact_params.dig(:profile, :username)
-    )
+    update_whatsapp_identifiers(source_ids: source_ids, username: contact_params.dig(:profile, :username), phone_number: attrs[:phone_number])
     update_contact_with_profile_name(contact_params)
   end
 
@@ -94,11 +93,9 @@ module Whatsapp::IncomingMessageIdentifierHelper
     { name: display_name, phone_number: formatted_phone_number }
   end
 
-  def update_whatsapp_identifiers(source_ids: [], username: nil)
-    Whatsapp::IdentifierSyncService.new(contact_inbox: @contact_inbox, contact: @contact).perform(
-      source_ids: source_ids,
-      username: username
-    )
+  def update_whatsapp_identifiers(source_ids: [], username: nil, phone_number: nil)
+    Whatsapp::IdentifierSyncService.new(contact_inbox: @contact_inbox, contact: @contact).perform(source_ids: source_ids, username: username,
+                                                                                                  phone_number: phone_number)
   end
 
   def update_whatsapp_identifiers_from_status(status)

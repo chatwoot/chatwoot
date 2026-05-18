@@ -110,6 +110,23 @@ RSpec.describe ContactInbox do
           ["Source invalid source id for twilio whatsapp inbox. valid Regex #{RegexHelper::TWILIO_CHANNEL_WHATSAPP_REGEX}"]
         )
       end
+
+      it 'rejects whatsapp BSUID source_id values longer than 128 alphanumeric characters' do
+        whatsapp_inbox = create(:channel_whatsapp, sync_templates: false, validate_provider_config: false).inbox
+        contact = create(:contact)
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: whatsapp_inbox, source_id: "IN.#{'1' * 129}")
+
+        expect(contact_inbox.valid?).to be(false)
+      end
+
+      it 'rejects twilio whatsapp parent BSUID source_id values longer than 128 alphanumeric characters' do
+        twilio_whatsapp_inbox = create(:channel_twilio_sms, medium: :whatsapp).inbox
+        contact = create(:contact)
+        contact_inbox = build(:contact_inbox, contact: contact, inbox: twilio_whatsapp_inbox,
+                                              source_id: "whatsapp:IN.ENT.#{'1' * 129}")
+
+        expect(contact_inbox.valid?).to be(false)
+      end
     end
   end
 end

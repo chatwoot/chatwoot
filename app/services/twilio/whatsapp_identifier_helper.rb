@@ -6,7 +6,8 @@ module Twilio::WhatsappIdentifierHelper
 
     Whatsapp::IdentifierSyncService.new(contact_inbox: @contact_inbox, contact: @contact).perform(
       source_ids: twilio_whatsapp_source_ids,
-      username: params[:ProfileUsername].presence || params[:Username]
+      username: params[:ProfileUsername].presence || params[:Username],
+      phone_number: phone_number.presence
     )
   end
 

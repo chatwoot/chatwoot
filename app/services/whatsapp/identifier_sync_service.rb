@@ -1,9 +1,9 @@
 class Whatsapp::IdentifierSyncService
   pattr_initialize [:contact_inbox!, :contact]
 
-  def perform(source_ids: [], username: nil)
+  def perform(source_ids: [], username: nil, phone_number: nil)
     create_contact_inboxes(source_ids)
-    update_contact(username)
+    update_contact(username, phone_number)
   end
 
   private
@@ -21,9 +21,22 @@ class Whatsapp::IdentifierSyncService
     end
   end
 
-  def update_contact(username)
+  def update_contact(username, phone_number)
     return if synced_contact.blank?
 
+    update_contact_phone_number(phone_number)
+    update_contact_username(username)
+  end
+
+  def update_contact_phone_number(phone_number)
+    phone_number = phone_number.presence
+    return if phone_number.blank? || synced_contact.phone_number.present?
+    return if synced_contact.account.contacts.where(phone_number: phone_number).where.not(id: synced_contact.id).exists?
+
+    synced_contact.update!(phone_number: phone_number)
+  end
+
+  def update_contact_username(username)
     username = normalize_username(username)
     return if username.blank?
 
