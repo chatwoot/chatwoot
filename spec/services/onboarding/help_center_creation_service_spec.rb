@@ -53,5 +53,14 @@ RSpec.describe Onboarding::HelpCenterCreationService do
           .not_to have_enqueued_job(Onboarding::HelpCenterArticleGenerationJob)
       end
     end
+
+    context 'when portal creation fails' do
+      it 'raises the error' do
+        allow(account.portals).to receive(:create!).and_raise(ActiveRecord::RecordInvalid)
+
+        expect { described_class.new(account, admin).perform }
+          .to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
   end
 end

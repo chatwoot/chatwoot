@@ -18,9 +18,6 @@ class Onboarding::HelpCenterCreationService
       attach_brand_logo(portal)
       enqueue_article_generation(portal)
     end
-  rescue StandardError => e
-    Rails.logger.error "[HelpCenterCreation] #{e.message}"
-    nil
   end
 
   private
