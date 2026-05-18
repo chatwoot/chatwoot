@@ -44,10 +44,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
 
     Onboarding::HelpCenterGenerationState.start(generation_id, total: articles.size)
-    fan_out(
-      [account.id, portal.id, user.id, generation_id],
-      articles: articles, allowed_urls: plan['allowed_urls']
-    )
+    fan_out([account.id, portal.id, user.id, generation_id], articles: articles)
   end
 
   def create_categories(portal, categories)
@@ -80,10 +77,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def fan_out(job_ids, articles:, allowed_urls:)
+  def fan_out(job_ids, articles:)
     articles.each do |article|
       Onboarding::HelpCenterArticleWriterJob.perform_later(
-        *job_ids, { article: article, allowed_urls: allowed_urls }
+        *job_ids, { article: article }
       )
     end
   end

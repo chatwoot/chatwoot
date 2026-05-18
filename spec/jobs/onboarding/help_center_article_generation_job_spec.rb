@@ -57,8 +57,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
                 'title' => 'Hello',
                 'urls' => ['https://x.test/a'],
                 'category_id' => portal.categories.first.id
-              ),
-              'allowed_urls' => ['https://x.test/a', 'https://x.test/b']
+              )
             )
           )
         )

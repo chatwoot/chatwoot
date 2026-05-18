@@ -1,7 +1,7 @@
 class Onboarding::HelpCenterArticleBuilder
   BuildFailed = CustomExceptions::HelpCenter::ArticleBuildFailed
 
-  def initialize(account:, portal:, user:, article:, allowed_urls: [])
+  def initialize(account:, portal:, user:, article:)
     @account = account
     @portal = portal
     @user = user
@@ -10,17 +10,13 @@ class Onboarding::HelpCenterArticleBuilder
     @urls = Array(spec[:urls]).map(&:to_s).reject(&:blank?)
     @title = spec[:title]
     @category_id = spec[:category_id]
-    @allowed_urls = Array(allowed_urls).to_set(&:to_s)
   end
 
   def perform
     raise BuildFailed, 'no source urls supplied' if @urls.empty?
 
-    urls = allowlisted_urls
-    raise BuildFailed, "no allowlisted urls in #{@urls.join(', ')}" if urls.empty?
-
-    source_pages = scrape(urls)
-    raise BuildFailed, "scrape produced no usable pages for #{urls.join(', ')}" if source_pages.empty?
+    source_pages = scrape(@urls)
+    raise BuildFailed, "scrape produced no usable pages for #{@urls.join(', ')}" if source_pages.empty?
 
     payload = rewrite(source_pages)
 
@@ -36,10 +32,6 @@ class Onboarding::HelpCenterArticleBuilder
   end
 
   private
-
-  def allowlisted_urls
-    @urls.select { |u| @allowed_urls.include?(u) }
-  end
 
   def scrape(urls)
     job = Firecrawl::Configuration.client.batch_scrape(

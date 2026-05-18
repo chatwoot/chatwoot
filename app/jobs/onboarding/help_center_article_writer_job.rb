@@ -16,8 +16,7 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
       account: Account.find(account_id),
       portal: Portal.find(portal_id),
       user: user,
-      article: payload[:article],
-      allowed_urls: payload[:allowed_urls]
+      article: payload[:article]
     ).perform
 
     finalize(account_id: account_id, user: user, generation_id: generation_id, article: article)
