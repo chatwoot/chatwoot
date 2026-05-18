@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['localeChange']);
+const emit = defineEmits(['localeChange', 'newArticle']);
 
 const route = useRoute();
 const router = useRouter();
@@ -179,7 +179,7 @@ const handleBreadcrumbClick = () => {
         />
       </OnClickOutside>
     </div>
-    <div v-else class="relative">
+    <div v-else class="relative flex items-center gap-2">
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
         <Button
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
@@ -196,6 +196,12 @@ const handleBreadcrumbClick = () => {
           @close="isEditCategoryDialogOpen = false"
         />
       </OnClickOutside>
+      <Button
+        :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
+        icon="i-lucide-plus"
+        size="sm"
+        @click="emit('newArticle')"
+      />
     </div>
   </div>
 </template>

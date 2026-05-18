@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "刪除巨集時發生錯誤，請稍後再試"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "編輯巨集",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "巨集可見範圍",
         "GLOBAL": {
           "LABEL": "公開",
-          "DESCRIPTION": "此巨集對帳號中的所有客服人員公開可用。"
+          "DESCRIPTION": "此巨集對帳號中的所有客服人員公開可用。",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "私人",

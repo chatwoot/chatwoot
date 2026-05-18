@@ -38,9 +38,23 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
 
         expect(response).to have_http_status(:found)
         expect(response).to redirect_to(super_admin_settings_path)
+        expect(flash[:notice]).to be_present
+        expect(flash[:alert]).to be_blank
+        expect(flash[:success]).to be_blank
 
         config = GlobalConfig.get('FB_APP_ID')
         expect(config['FB_APP_ID']).to eq('FB_APP_ID')
+      end
+
+      it 'asks admins to restart web and worker processes for runtime config changes' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: { app_config: { CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.openai.com' } }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_settings_path)
+        expect(flash[:success]).to be_present
+        expect(flash[:alert]).to be_blank
+        expect(flash[:notice]).to be_blank
       end
     end
   end
