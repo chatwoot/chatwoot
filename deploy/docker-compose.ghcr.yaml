@@ -1,0 +1,105 @@
+# docker-compose.ghcr.yaml — Chatwoot Pro (uses pre-built GHCR image)
+#
+# Pulls the image built by .github/workflows/build-and-push.yml and pushed to
+# ghcr.io/fabriciomuaca1989/chatwoot-pro:latest — no local Docker build needed.
+#
+# Usage on VPS:
+#   cp deploy/docker-compose.ghcr.yaml docker-compose.yaml
+#   docker compose pull
+#   docker compose run --rm rails bundle exec rails db:chatwoot_prepare
+#   docker compose up -d
+
+x-app-image: &app-image
+  image: ghcr.io/fabriciomuaca1989/chatwoot-pro:latest
+  pull_policy: always
+
+services:
+  base: &base
+    <<: *app-image
+    env_file: .env
+    volumes:
+      - storage_data:/app/storage
+
+  rails:
+    <<: *base
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - '127.0.0.1:3000:3000'
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  sidekiq:
+    <<: *base
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: unless-stopped
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USERNAME:-postgres}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    restart: unless-stopped
+    command: ['sh', '-c', 'redis-server --requirepass "$$REDIS_PASSWORD"']
+    env_file: .env
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ['CMD-SHELL', 'redis-cli -a "$$REDIS_PASSWORD" ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - rails
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
