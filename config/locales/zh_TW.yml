@@ -413,6 +413,22 @@ zh_TW:
       loading_placeholder: 搜尋中...
       results_title: 搜尋結果
     toc_header: '本頁內容'
+    sidebar:
+      help_center: 幫助中心
+      categories: 分類
+      language: 語言
+      theme: Theme
+      open_sidebar: 開啟側邊欄
+      close_sidebar: 關閉側邊欄
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: 在此搜尋文章或瀏覽以下分類。
     common:
@@ -427,12 +443,19 @@ zh_TW:
       others: 其他
       by: 作者：
       no_articles: 這裡還沒有文章
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: 由以下技術製作
     header:
       go_to_homepage: 網站首頁
       visit_website: 前往網站
       appearance:
+        title: 外觀
         system: 系統
         light: 淺色
         dark: 深色
