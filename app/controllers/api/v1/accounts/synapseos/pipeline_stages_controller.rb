@@ -28,6 +28,16 @@ class Api::V1::Accounts::Synapseos::PipelineStagesController < Api::V1::Accounts
     render json: ::Synapseos::PipelineTemplates.list
   end
 
+  # Retorna loss_reasons do template aplicado nessa account. Usado pelo
+  # frontend pra popular dropdown quando lead vai pro stage "Perdido".
+  # Response: { "template_key": "audi_sdr", "loss_reasons": [...] }
+  def loss_reasons
+    render json: {
+      template_key: ::Synapseos::PipelineTemplates.detect_applied(Current.account),
+      loss_reasons: ::Synapseos::PipelineTemplates.loss_reasons_for(Current.account)
+    }
+  end
+
   def apply_template
     key = params[:template_key].presence
     raise ArgumentError, "template_key is required" if key.nil?

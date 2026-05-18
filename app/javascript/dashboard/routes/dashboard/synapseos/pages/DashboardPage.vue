@@ -173,17 +173,16 @@ const eventTypeMeta = {
   private_note_added: { icon: 'i-lucide-sticky-note', tone: 'neutral' },
 };
 
+// ATIVIDADE RECENTE — só últimos alertas de venda. Backend já filtra por
+// sales_alert_dispatched e enriquece com contact_name + modelo_interesse.
+// Render: nome do cliente em destaque + modelo de interesse como badge.
 const recentEvents = computed(() => {
   return (summary.value?.recent_events || []).map(ev => ({
     ...ev,
     meta: eventTypeMeta[ev.event_type] || {
-      icon: 'i-lucide-circle-dot',
-      tone: 'neutral',
+      icon: 'i-lucide-bell',
+      tone: 'success',
     },
-    label: t(
-      `SYNAPSEOS.DASHBOARD.EVENT_TYPE.${ev.event_type.toUpperCase()}`,
-      ev.event_type
-    ),
     relativeTime: formatRelativeTime(ev.created_at),
   }));
 });
@@ -528,17 +527,18 @@ onBeforeUnmount(() => {
             >
               <span
                 :class="[
-                  'size-4 mt-0.5 shrink-0 text-s-secondary',
+                  'size-4 mt-0.5 shrink-0 text-s-success-text',
                   event.meta.icon,
                 ]"
               />
               <div class="flex flex-col min-w-0 flex-1 gap-1">
+                <!-- Cliente + veículo de interesse (formato pedido pelo produto) -->
                 <span class="text-sm font-medium text-s-primary truncate">
-                  {{ event.label }}
+                  {{ event.contact_name || '—' }}
                 </span>
                 <div class="flex items-center gap-2 flex-wrap">
-                  <SynapseBadge :tone="event.meta.tone">
-                    #{{ event.conversation_id || '—' }}
+                  <SynapseBadge tone="brand">
+                    🚗 {{ event.modelo_interesse || 'a definir' }}
                   </SynapseBadge>
                   <span class="text-[11px] font-mono text-s-muted tabular-nums">
                     {{ event.relativeTime }}

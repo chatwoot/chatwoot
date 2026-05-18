@@ -31,6 +31,30 @@ module Synapseos
         ]
       },
 
+      audi_sdr: {
+        name: 'Audi Center Uberlândia — SDR Outbound',
+        description: 'Funil SDR pra cold outreach Audi: A Contatar → Tentativa → Em Relacionamento → Qualificação SPIN → Alerta/Transbordo. Lost reasons calibrados pra outbound.',
+        loss_reasons: [
+          'Sem Resposta (Unresponsive)',
+          'Desqualificado (No Fit)',
+          'Sem Interesse no Momento (Timing errado)'
+        ],
+        stages: [
+          { slug: 'a_contatar', name: 'A Contatar', color: '#6B7280', position: 1, stage_type: 'inbound',
+            description: 'Status inicial para leads importados da lista fria. Aguardando primeiro disparo da Elisa.' },
+          { slug: 'tentativa_contato', name: 'Tentativa de Contato', color: '#3B82F6', position: 2, stage_type: 'inbound',
+            description: 'Lead em fluxo de cadência (follow-up). Disparo enviado pela Elisa, aguardando resposta. Se ficar sem resposta por N tentativas, mover para "Perdido" com motivo "Sem Resposta".' },
+          { slug: 'em_relacionamento', name: 'Em Relacionamento', color: '#8B5CF6', position: 3, stage_type: 'open',
+            description: 'Lead respondeu. Fase de quebra-gelo e rapport. Elisa entende momento de vida (radar da marca, intenção de troca) sem qualificação comercial ainda.' },
+          { slug: 'qualificacao_spin', name: 'Qualificação (SPIN)', color: '#F59E0B', position: 4, stage_type: 'working',
+            description: 'Lead sinalizou intenção. Aplicação das perguntas SPIN: Situação (carro atual, uso), Problema (incômodos), Implicação (impacto) e Necessidade (modelo Audi que resolve). Elisa captura modelo de interesse e perfil.' },
+          { slug: 'alerta_transbordo', name: 'Alerta / Transbordo', color: '#10B981', position: 5, stage_type: 'won',
+            description: 'Lead qualificado. Passagem de bastão para o Closer humano via alerta Slack (sales_alert_dispatched). A partir daqui o time de vendas assume a conversa no Chatwoot.' },
+          { slug: 'perdido', name: 'Perdido', color: '#EF4444', position: 6, stage_type: 'lost',
+            description: 'Registre o motivo de perda usando uma das opções configuradas. Resgate em 3-6 meses pode ser tentado conforme o caso (cadência de nutrição).' }
+        ]
+      },
+
       premium_luxo: {
         name: 'Concessionária — Padrão Premium / Luxo',
         description: 'Funil para marcas premium com foco em experiência (CX), Test Drive obrigatório e cerimônia de entrega conforme padrões de montadora.',
@@ -97,12 +121,47 @@ module Synapseos
 
     def self.list
       TEMPLATES.map do |key, tmpl|
-        { key: key, name: tmpl[:name], description: tmpl[:description], stage_count: tmpl[:stages].size }
+        {
+          key: key,
+          name: tmpl[:name],
+          description: tmpl[:description],
+          stage_count: tmpl[:stages].size,
+          loss_reasons: tmpl[:loss_reasons] || []
+        }
       end
     end
 
     def self.find(key)
       TEMPLATES[key.to_sym]
+    end
+
+    # Detecta qual template está aplicado na account comparando os slugs
+    # das stages atuais com cada template. Match exato (set de slugs).
+    # Retorna a key do template (Symbol) ou nil se não bate com nenhum.
+    def self.detect_applied(account)
+      column_supported = ::Synapseos::PipelineStage.column_names.include?('slug')
+      return nil unless column_supported
+
+      current_slugs = ::Synapseos::PipelineStage
+                        .where(account_id: account.id)
+                        .pluck(:slug)
+                        .compact
+                        .sort
+      return nil if current_slugs.empty?
+
+      TEMPLATES.find do |_, tmpl|
+        template_slugs = tmpl[:stages].map { |s| s[:slug] }.sort
+        template_slugs == current_slugs
+      end&.first
+    end
+
+    # Retorna loss_reasons do template aplicado na account. Defaults pra
+    # array vazio se não detectar (fallback evita crash no frontend).
+    def self.loss_reasons_for(account)
+      applied = detect_applied(account)
+      return [] unless applied
+
+      TEMPLATES.dig(applied, :loss_reasons) || []
     end
 
     def self.apply(account, template_key)

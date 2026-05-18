@@ -71,8 +71,8 @@
       "NO_DATA": "No data for the selected period yet.",
       "EMPTY_CHART_TITLE": "No activity yet",
       "EMPTY_CHART_DESCRIPTION": "Receive or send messages in this period to populate the chart.",
-      "EMPTY_EVENTS_TITLE": "No CRM events yet",
-      "EMPTY_EVENTS_DESCRIPTION": "Events appear here when leads move in the pipeline, deals close, or bots hand conversations over.",
+      "EMPTY_EVENTS_TITLE": "No alerts yet",
+      "EMPTY_EVENTS_DESCRIPTION": "Alerts appear here when Elisa hands qualified leads off to the sales team.",
       "TABS": {
         "OVERVIEW": "Overview",
         "REPORTS": "Live reports"
@@ -100,8 +100,8 @@
         "BOT_TAKEOVERS": "Bot takeovers"
       },
       "RECENT_EVENTS": {
-        "TITLE": "Recent activity",
-        "EMPTY": "No CRM events yet."
+        "TITLE": "Latest alerts",
+        "EMPTY": "No sales alerts yet."
       },
       "EVENT_TYPE": {
         "LEAD_CREATED": "Lead created",

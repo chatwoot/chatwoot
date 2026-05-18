@@ -64,6 +64,7 @@ Rails.application.routes.draw do
             resources :leads, only: [:index, :show, :create, :update] do
               collection do
                 get 'by_conversation/:conversation_id', action: :by_conversation
+                post :upsert_by_conversation
               end
             end
             resources :deals, only: [:index, :show, :create, :update]
@@ -73,6 +74,7 @@ Rails.application.routes.draw do
                 post :reorder
                 get :templates
                 post :apply_template
+                get :loss_reasons
               end
             end
             resource :pipeline, only: [:show], controller: 'pipeline'

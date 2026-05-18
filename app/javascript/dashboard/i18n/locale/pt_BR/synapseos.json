@@ -71,8 +71,8 @@
       "NO_DATA": "Sem dados no período selecionado ainda.",
       "EMPTY_CHART_TITLE": "Sem atividade ainda",
       "EMPTY_CHART_DESCRIPTION": "Receba ou envie mensagens neste período pra popular o gráfico.",
-      "EMPTY_EVENTS_TITLE": "Nenhum evento de CRM ainda",
-      "EMPTY_EVENTS_DESCRIPTION": "Eventos aparecem aqui quando leads avançam no pipeline, negócios são fechados ou bots transferem conversas.",
+      "EMPTY_EVENTS_TITLE": "Nenhum alerta ainda",
+      "EMPTY_EVENTS_DESCRIPTION": "Alertas aparecem aqui quando a Elisa transbordar leads qualificados pra equipe de vendas.",
       "TABS": {
         "OVERVIEW": "Visão geral",
         "REPORTS": "Relatórios ao vivo"
@@ -100,8 +100,8 @@
         "BOT_TAKEOVERS": "Transferências do bot"
       },
       "RECENT_EVENTS": {
-        "TITLE": "Atividade recente",
-        "EMPTY": "Nenhum evento de CRM ainda."
+        "TITLE": "Últimos alertas",
+        "EMPTY": "Nenhum alerta de venda ainda."
       },
       "EVENT_TYPE": {
         "LEAD_CREATED": "Lead criado",

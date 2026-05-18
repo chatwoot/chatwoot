@@ -18,16 +18,26 @@ module Synapseos
     end
 
     def recent_events
+      # ATIVIDADE RECENTE — somente últimos alertas de venda (sales_alert_
+      # dispatched). Inclui nome do contato (via conversação) + modelo de
+      # interesse extraído do metadata. Ordenado decrescente por created_at.
+      # Limite 10. Eventos sem conv associada são pulados (não dá pra mostrar
+      # nome).
       ::Synapseos::CrmEvent
-        .where(account_id: @account.id)
+        .where(account_id: @account.id, event_type: 'sales_alert_dispatched')
+        .where.not(conversation_id: nil)
+        .includes(conversation: :contact)
         .order(created_at: :desc)
         .limit(10)
         .map do |e|
+          contact = e.conversation&.contact
           {
             id: e.id,
             event_type: e.event_type,
             conversation_id: e.conversation_id,
-            user_id: e.user_id,
+            contact_name: contact&.name.presence || e.metadata['nome'] || '—',
+            modelo_interesse: e.metadata.is_a?(Hash) ? (e.metadata['modelo_interesse'] || 'a definir') : 'a definir',
+            tipo: e.metadata.is_a?(Hash) ? e.metadata['tipo'] : nil,
             metadata: e.metadata,
             created_at: e.created_at,
           }
