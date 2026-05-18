@@ -107,6 +107,49 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    # ref: https://github.com/chatwoot/chatwoot/issues/13986
+    describe 'when echo message has a Brazilian number without the 9th digit' do
+      let(:echo_params_without_9) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                message_echoes: [{
+                  id: 'wamid.echo001',
+                  to: '558812345678',
+                  timestamp: '1664799904',
+                  type: 'text',
+                  text: { body: 'Echo test' }
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'when a contact exists with the normalized number (with 9th digit)' do
+        it 'reuses the existing contact instead of creating a duplicate' do
+          create(:contact, phone_number: '+5588912345678', account: whatsapp_channel.account)
+          described_class.new(inbox: whatsapp_channel.inbox, params: echo_params_without_9, outgoing_echo: true).perform
+          expect(whatsapp_channel.account.contacts.where("phone_number LIKE '+5588%'").count).to eq(1)
+          expect(whatsapp_channel.account.contacts.first.phone_number).to eq('+5588912345678')
+        end
+      end
+
+      context 'when a contact_inbox exists with the normalized source_id (with 9th digit)' do
+        it 'appends the message to the existing conversation' do
+          contact = create(:contact, phone_number: '+5588912345678', account: whatsapp_channel.account)
+          contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '5588912345678')
+          create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          described_class.new(inbox: whatsapp_channel.inbox, params: echo_params_without_9, outgoing_echo: true).perform
+          expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+          expect(whatsapp_channel.account.contacts.where("phone_number LIKE '+5588%'").count).to eq(1)
+        end
+      end
+    end
+
     context 'when message is a reply (has context)' do
       let(:reply_params) do
         {

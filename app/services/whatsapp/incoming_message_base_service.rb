@@ -103,7 +103,7 @@ class Whatsapp::IncomingMessageBaseService
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: { name: "+#{phone_number}", phone_number: "+#{phone_number}" }
+      contact_attributes: { name: "+#{waid}", phone_number: "+#{waid}" }
     ).perform
 
     @contact_inbox = contact_inbox
