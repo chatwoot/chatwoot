@@ -27,5 +27,17 @@ RSpec.describe Onboarding::HelpCenterArticleBuilder do
       expect(Firecrawl::Configuration).not_to receive(:client)
       expect { builder.perform }.to raise_error(CustomExceptions::HelpCenter::ArticleBuildFailed)
     end
+
+    it 'requires an allowlist' do
+      article = { urls: ['https://ok.com/a'], title: 'X' }
+      builder = described_class.new(
+        account: account, portal: portal, user: user, article: article,
+        allowed_urls: []
+      )
+
+      expect(Firecrawl::Configuration).not_to receive(:client)
+      expect { builder.perform }
+        .to raise_error(CustomExceptions::HelpCenter::ArticleBuildFailed, /no allowlisted urls/)
+    end
   end
 end

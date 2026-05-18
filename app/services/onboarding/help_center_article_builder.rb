@@ -38,8 +38,6 @@ class Onboarding::HelpCenterArticleBuilder
   private
 
   def allowlisted_urls
-    return @urls if @allowed_urls.empty?
-
     @urls.select { |u| @allowed_urls.include?(u) }
   end
 
