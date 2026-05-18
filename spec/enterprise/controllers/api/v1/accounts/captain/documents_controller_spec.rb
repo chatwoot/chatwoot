@@ -285,10 +285,26 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
           expect(document.reload).to have_attributes(
             sync_status: 'syncing',
+            sync_scheduled_at: nil,
             last_sync_attempted_at: Time.current
           )
         end
 
+        expect(response).to have_http_status(:accepted)
+      end
+
+      it 'lets manual sync supersede a scheduled auto-sync' do
+        document.update!(sync_status: :synced, sync_scheduled_at: 30.minutes.from_now)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
+               headers: admin.create_new_auth_token, as: :json
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('low')
+
+        expect(document.reload).to have_attributes(
+          sync_status: 'syncing',
+          sync_scheduled_at: nil
+        )
         expect(response).to have_http_status(:accepted)
       end
 
@@ -314,6 +330,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
           expect(document.reload).to have_attributes(
             sync_status: 'syncing',
+            sync_scheduled_at: nil,
             last_sync_attempted_at: Time.current
           )
         end

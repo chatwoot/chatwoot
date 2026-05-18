@@ -23,6 +23,10 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
     InstallationConfig.find_by!(name: name).update!(value: value)
   end
 
+  def scheduled_sync_job_for(document)
+    have_enqueued_job(Captain::Documents::PerformSyncJob).with(document, kind_of(Integer))
+  end
+
   context 'when the account has not enabled auto-sync' do
     before { account.disable_features!('captain_document_auto_sync') }
 
@@ -72,13 +76,13 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('purgable')
+        .to scheduled_sync_job_for(document).on_queue('purgable')
     end
 
     it 'reserves the due document until the scheduled sync time before queueing' do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
         job = described_class.new
-        allow(job).to receive(:sync_jitter).and_return(30.minutes)
+        allow(job).to receive(:rand).and_return(30.minutes.to_i)
         document = create(
           :captain_document,
           assistant: assistant,
@@ -90,11 +94,14 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
         clear_enqueued_jobs
 
         job.perform
+        document.reload
 
-        expect(document.reload).to have_attributes(
-          sync_status: 'syncing',
-          last_sync_attempted_at: 30.minutes.from_now
+        expect(document).to have_attributes(
+          sync_status: 'synced',
+          sync_scheduled_at: 30.minutes.from_now
         )
+        expect(Captain::Documents::PerformSyncJob)
+          .to have_been_enqueued.with(document, document.sync_scheduled_at.to_i)
       end
     end
 
@@ -110,11 +117,27 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+        .to scheduled_sync_job_for(document)
 
       clear_enqueued_jobs
 
       expect { described_class.new.perform }.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+    end
+
+    it 'requeues the document when a scheduled reservation is stale' do
+      document = create(
+        :captain_document,
+        assistant: assistant,
+        account: account,
+        status: :available,
+        sync_status: :synced,
+        last_synced_at: 2.days.ago,
+        sync_scheduled_at: (described_class::SYNC_STALE_TIMEOUT + 1.minute).ago
+      )
+      clear_enqueued_jobs
+
+      expect { described_class.new.perform }
+        .to scheduled_sync_job_for(document)
     end
   end
 
@@ -135,7 +158,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+        .to scheduled_sync_job_for(document)
     end
 
     it 'skips invalid legacy documents without counting them against the account cap' do
@@ -165,7 +188,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
 
       expect { described_class.new.perform }.not_to raise_error
       expect(Captain::Documents::PerformSyncJob).not_to have_been_enqueued.with(invalid_document)
-      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document)
+      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document, kind_of(Integer))
     end
 
     it 'keeps paging due documents when invalid documents fill the first batch' do
@@ -197,7 +220,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
 
       job.perform
 
-      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document)
+      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(valid_document, kind_of(Integer))
     end
   end
 
@@ -211,7 +234,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
         job = described_class.new
         interval = 1.week
-        allow(job).to receive(:sync_jitter).with(interval).and_return(2.hours)
+        allow(job).to receive(:rand).and_return(2.hours.to_i)
         document = create(:captain_document, assistant: assistant, account: account, status: :available)
 
         document.update!(sync_status: :synced, last_synced_at: (interval - 1.minute).ago)
@@ -224,17 +247,28 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
 
         expect { job.perform }
           .to have_enqueued_job(Captain::Documents::PerformSyncJob)
-          .with(document)
+          .with(document, 2.hours.from_now.to_i)
           .on_queue('purgable')
           .at(2.hours.from_now)
       end
     end
 
-    it 'generates random jitter inside the cadence window' do
-      job = described_class.new
-      allow(job).to receive(:rand).with(0..described_class::WEEKLY_SYNC_JITTER.to_i).and_return(12_345)
+    it 'uses a random delay inside the cadence window' do
+      travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
+        document = create(:captain_document, assistant: assistant, account: account, status: :available)
+        document.update!(sync_status: :synced, last_synced_at: 8.days.ago)
+        job = described_class.new
+        sync_execution_delay = 12_345.seconds
 
-      expect(job.send(:sync_jitter, 1.week)).to eq(12_345.seconds)
+        clear_enqueued_jobs
+        allow(job).to receive(:rand).with(0..described_class::WEEKLY_SYNC_JITTER.to_i).and_return(sync_execution_delay.to_i)
+
+        expect { job.perform }
+          .to scheduled_sync_job_for(document)
+          .at(sync_execution_delay.from_now)
+
+        expect(document.reload.sync_scheduled_at).to eq(sync_execution_delay.from_now)
+      end
     end
   end
 
@@ -254,8 +288,8 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(backfilled_document)
-        .and have_enqueued_job(Captain::Documents::PerformSyncJob).with(oldest_document)
+        .to scheduled_sync_job_for(backfilled_document)
+        .and scheduled_sync_job_for(oldest_document)
       expect(Captain::Documents::PerformSyncJob).not_to have_been_enqueued.with(newest_document)
     end
   end
@@ -279,8 +313,8 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       expect { described_class.new.perform }
         .to have_enqueued_job(Captain::Documents::PerformSyncJob).exactly(3).times
 
-      expect(first_account_documents.count { |document| document.reload.sync_status == 'syncing' }).to eq(2)
-      expect(second_account_documents.count { |document| document.reload.sync_status == 'syncing' }).to eq(1)
+      expect(first_account_documents.count { |document| document.reload.sync_scheduled_at.present? }).to eq(2)
+      expect(second_account_documents.count { |document| document.reload.sync_scheduled_at.present? }).to eq(1)
     end
   end
 
@@ -291,7 +325,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+        .to scheduled_sync_job_for(document)
     end
   end
 
@@ -305,7 +339,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
-        .to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+        .to scheduled_sync_job_for(document)
     end
   end
 

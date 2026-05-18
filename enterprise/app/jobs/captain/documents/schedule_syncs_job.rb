@@ -60,15 +60,15 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     return unless document.syncable?
 
     sync_execution_delay = sync_jitter(interval)
+    sync_scheduled_at = Time.current + sync_execution_delay
 
-    # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
-    unless reserve_sync_slot(document, sync_execution_delay)
+    unless mark_auto_sync_scheduled(document, sync_scheduled_at)
       result[:skipped] += 1
       skipped_document_ids << document.id
       return
     end
 
-    Captain::Documents::PerformSyncJob.set(queue: :purgable, wait: sync_execution_delay).perform_later(document)
+    Captain::Documents::PerformSyncJob.set(queue: :purgable, wait: sync_execution_delay).perform_later(document, sync_scheduled_at.to_i)
     @remaining_global_capacity -= 1
     result[:enqueued] += 1
   end
@@ -78,12 +78,16 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     synced = Captain::Document.sync_statuses[:synced]
     failed = Captain::Document.sync_statuses[:failed]
     stale_cutoff = SYNC_STALE_TIMEOUT.ago
-    due_cutoff = interval.ago
+    # Anything synced before this timestamp is old enough to sync again.
+    sync_due_before = interval.ago
 
+    # Skip documents that already have an auto-sync scheduled.
+    # Pick them again only when the scheduled time is overdue by the stale timeout.
     documents = account.captain_documents.syncable.where(status: :available).where(
-      '(sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
-      '(sync_status = ? AND last_sync_attempted_at < ?)',
-      synced, due_cutoff, failed, due_cutoff, syncing, stale_cutoff
+      '((sync_scheduled_at IS NULL OR sync_scheduled_at < ?) AND ' \
+      '((sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
+      '(sync_status = ? AND last_sync_attempted_at < ?)))',
+      stale_cutoff, synced, sync_due_before, failed, sync_due_before, syncing, stale_cutoff
     )
     documents = documents.where.not(id: skipped_document_ids) if skipped_document_ids.present?
     documents.order(Arel.sql('last_sync_attempted_at ASC NULLS FIRST'), :id)
@@ -100,8 +104,8 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     @per_account_hourly_cap * 2
   end
 
-  def reserve_sync_slot(document, sync_execution_delay)
-    mark_sync_scheduled(document, sync_execution_delay)
+  def mark_auto_sync_scheduled(document, sync_scheduled_at)
+    document.update!(sync_scheduled_at: sync_scheduled_at)
     true
   rescue ActiveRecord::RecordInvalid => e
     log_document_skip(document, e)
@@ -144,15 +148,5 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     }.merge(stats)
 
     Rails.logger.info("[Captain::Documents::ScheduleSyncsJob] #{payload.to_json}")
-  end
-
-  def mark_sync_scheduled(document, sync_execution_delay)
-    # Use the scheduled execution time so stale-lock recovery does not duplicate delayed jobs before they run.
-    document.update!(
-      sync_status: :syncing,
-      sync_step: nil,
-      last_sync_error_code: nil,
-      last_sync_attempted_at: Time.current + sync_execution_delay
-    )
   end
 end

@@ -152,6 +152,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
           documents.each do |document|
             expect(document.reload).to have_attributes(
               sync_status: 'syncing',
+              sync_scheduled_at: nil,
               last_sync_attempted_at: Time.current
             )
           end
@@ -159,6 +160,24 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
 
         expect(response).to have_http_status(:ok)
         expect(json_response).to eq({ ids: documents.map(&:id), count: documents.size })
+      end
+
+      it 'lets bulk sync supersede scheduled auto-sync reservations' do
+        scheduled_document = documents.first
+        scheduled_document.update!(sync_status: :synced, sync_scheduled_at: 30.minutes.from_now)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/bulk_actions",
+               params: sync_params.merge(ids: [scheduled_document.id]),
+               headers: admin.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(scheduled_document).on_queue('low')
+
+        expect(scheduled_document.reload).to have_attributes(
+          sync_status: 'syncing',
+          sync_scheduled_at: nil
+        )
+        expect(response).to have_http_status(:ok)
       end
 
       it 'skips PDF documents because they are not syncable' do
@@ -222,6 +241,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::BulkActions', type: :request do
 
           expect(syncing_document.reload).to have_attributes(
             sync_status: 'syncing',
+            sync_scheduled_at: nil,
             last_sync_attempted_at: Time.current
           )
         end

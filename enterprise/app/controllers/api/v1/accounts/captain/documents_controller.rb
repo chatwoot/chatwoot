@@ -43,6 +43,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
       sync_status: :syncing,
       sync_step: nil,
       last_sync_error_code: nil,
+      sync_scheduled_at: nil,
       last_sync_attempted_at: Time.current
     )
     Captain::Documents::PerformSyncJob.perform_later(@document)
