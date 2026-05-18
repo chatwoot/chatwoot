@@ -181,10 +181,6 @@ describe Messages::MessageBuilder do
       end
 
       context 'when custom email content is provided' do
-        before do
-          account.enable_features('quoted_email_reply')
-        end
-
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({
                                                       content: 'Regular message content',

@@ -18,7 +18,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
-    process_attached_logo
+    process_attached_logo if params[:blob_id].present?
   end
 
   def update
@@ -98,6 +98,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def parsed_custom_domain
+    return @portal.custom_domain if @portal.custom_domain.blank?
+
     domain = URI.parse(@portal.custom_domain)
     domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
   end
