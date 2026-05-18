@@ -58,6 +58,8 @@ custom_filter:
   $ref: ./resource/custom_filter.yml
 webhook:
   $ref: ./resource/webhook.yml
+csat_survey_response_payload:
+  $ref: ./resource/csat_survey_response_payload.yml
 account:
   $ref: ./resource/account.yml
 account_detail:
