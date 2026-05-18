@@ -49,7 +49,9 @@ export default {
         ?.feedback_message;
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      if (!(this.selectedRating && this.feedback)) return true;
+      if (this.isUpdating) return true;
+      return false;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -79,14 +81,16 @@ export default {
 
   methods: {
     buttonClass(rating) {
+      const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.isRatingSubmitted },
-        { hover: this.isRatingSubmitted },
+        { disabled: isLocked },
+        { hover: isLocked },
         'emoji-button',
       ];
     },
     async onSubmit() {
+      if (this.isUpdating) return;
       this.isUpdating = true;
       try {
         await this.$store.dispatch('message/update', {
@@ -106,10 +110,12 @@ export default {
     },
 
     selectRating(rating) {
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating.value;
       this.onSubmit();
     },
     selectStarRating(value) {
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = value;
       this.onSubmit();
     },
@@ -138,7 +144,7 @@ export default {
     <StarRating
       v-else-if="isStarType"
       :selected-rating="selectedRating"
-      :is-disabled="isRatingSubmitted"
+      :is-disabled="isFeedbackSubmitted || isUpdating"
       @select-rating="selectStarRating"
     />
     <form

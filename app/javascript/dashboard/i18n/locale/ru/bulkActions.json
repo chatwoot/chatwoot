@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Вернуться",
     "ASSIGN_LABEL": "Назначить",
+    "NONE": "Ничего",
+    "CLEAR_SELECTION": "Сбросить",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Вы уверены, что вы хотите назначить разговор {n} для {agentName}? | Вы уверены, что хотите назначить {n} разговоры {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение разговора {n}? | Вы уверены, что хотите отменить назначение разговоров {n}?",
     "YES": "Да",
+    "CANCEL": "Отменить",
     "SEARCH_INPUT_PLACEHOLDER": "Поиск",
     "ASSIGN_AGENT_TOOLTIP": "Назначить агента",
     "ASSIGN_TEAM_TOOLTIP": "Назначить команду",
@@ -38,6 +43,8 @@
       "NONE": "Ничего",
       "NO_TEAMS_AVAILABLE": "Нет команд, добавленных в этот аккаунт.",
       "ASSIGN_SELECTED_TEAMS": "Назначить выбранную команду.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Вы уверены, что вы хотите назначить разговор {n} для {teamName}? | Вы уверены, что хотите назначить {n} разговоры {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Вы уверены, что хотите отменить назначение разговора {n}? | Вы уверены, что хотите отменить назначение разговоров {n}?",
       "ASSIGN_SUCCESFUL": "Команды успешно назначены.",
       "ASSIGN_FAILED": "Не удалось назначить команду, попробуйте еще раз."
     }

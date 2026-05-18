@@ -50,6 +50,8 @@ ne:
       email_already_exists: 'तपाईंले पहिले नै %{email} मा खाता दर्ता गर्नुभएको छ'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: दर्ता असफल भयो
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -100,6 +102,15 @@ ne:
       reauthorization:
         generic: 'WhatsApp पुन: अधिकृत गर्न असफल भयो। कृपया फेरि प्रयास गर्नुहोस्।.'
         not_supported: 'यस प्रकारको WhatsApp च्यानलमा पुन: अधिकृत समर्थन छैन।.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: कृपया नेटवर्क जडान, IMAP ठेगाना जाँच गर्नुहोस् र फेरि प्रयास गर्नुहोस्।.
@@ -229,6 +240,10 @@ ne:
       deleted: यो सन्देश मेटाइएको छ
       whatsapp:
         list_button_label: 'Choose an item'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -273,6 +288,9 @@ ne:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'बाहिर पठाउने सन्देशमा प्रतिबन्ध भएकाले CSAT सर्वेक्षण पठाइएको छैन'
       auto_resolve:
@@ -337,6 +355,7 @@ ne:
       name: 'Linear'
       short_description: 'कुराकानीबाट सिधै Linear मुद्दा सिर्जना र लिंक गर्नुहोस्।.'
       description: 'तपाईंको कुराकानी विन्डोबाट सिधै Linear मा मुद्दा सिर्जना गर्नुहोस्। वैकल्पिक रूपमा, अझ सहज र प्रभावकारी ट्र्याकिङका लागि अवस्थित Linear मुद्दा जोड्नुहोस्।.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
     notion:
       name: 'Notion'
       short_description: 'डेटाबेस, कागजात र पृष्ठहरू सिधै Captain सँग एकीकृत गर्नुहोस्।.'
@@ -365,6 +384,9 @@ ne:
       limit_exceeded: 'कागजात सीमा पार गरियो'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'PDF दस्तावेज %{document_id} प्रक्रिया गर्न असफल भयो: %{error}'
@@ -474,6 +496,12 @@ ne:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'इमेल आवश्यक छ'
       invalid_email_format: 'अवैध इमेल ढाँचा'
@@ -482,3 +510,9 @@ ne:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
