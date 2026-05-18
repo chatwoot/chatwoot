@@ -59,16 +59,16 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
   def process_due_document(document, interval, result, skipped_document_ids)
     return unless document.syncable?
 
-    enqueue_delay = sync_jitter(interval)
+    sync_execution_delay = sync_jitter(interval)
 
     # Reserve the sync slot before enqueueing so later scheduler runs skip this document while the job is queued.
-    unless reserve_sync_slot(document, enqueue_delay)
+    unless reserve_sync_slot(document, sync_execution_delay)
       result[:skipped] += 1
       skipped_document_ids << document.id
       return
     end
 
-    Captain::Documents::PerformSyncJob.set(queue: :purgable, wait: enqueue_delay).perform_later(document)
+    Captain::Documents::PerformSyncJob.set(queue: :purgable, wait: sync_execution_delay).perform_later(document)
     @remaining_global_capacity -= 1
     result[:enqueued] += 1
   end
@@ -100,8 +100,8 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     @per_account_hourly_cap * 2
   end
 
-  def reserve_sync_slot(document, enqueue_delay)
-    mark_sync_scheduled(document, enqueue_delay)
+  def reserve_sync_slot(document, sync_execution_delay)
+    mark_sync_scheduled(document, sync_execution_delay)
     true
   rescue ActiveRecord::RecordInvalid => e
     log_document_skip(document, e)
@@ -146,13 +146,13 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     Rails.logger.info("[Captain::Documents::ScheduleSyncsJob] #{payload.to_json}")
   end
 
-  def mark_sync_scheduled(document, enqueue_delay)
+  def mark_sync_scheduled(document, sync_execution_delay)
     # Use the scheduled execution time so stale-lock recovery does not duplicate delayed jobs before they run.
     document.update!(
       sync_status: :syncing,
       sync_step: nil,
       last_sync_error_code: nil,
-      last_sync_attempted_at: Time.current + enqueue_delay
+      last_sync_attempted_at: Time.current + sync_execution_delay
     )
   end
 end
