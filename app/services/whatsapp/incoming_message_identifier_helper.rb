@@ -74,7 +74,7 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def whatsapp_source_id(identifier)
-    identifier.to_s.delete_prefix('whatsapp:').presence
+    identifier.to_s.presence
   end
 
   def contact_attributes_from_contact_params(contact_params, source_identifier)

@@ -184,6 +184,12 @@ describe Whatsapp::IncomingMessageService do
         expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
         expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
       end
+
+      it 'keeps cloud BSUID source ids in the Meta-provided shape' do
+        service = described_class.new(inbox: whatsapp_channel.inbox, params: params)
+
+        expect(service.send(:whatsapp_source_id, 'whatsapp:IN.2081978709342942')).to eq('whatsapp:IN.2081978709342942')
+      end
     end
 
     context 'when unsupported message types' do
