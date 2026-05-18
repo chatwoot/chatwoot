@@ -58,9 +58,9 @@ By default, it renders:
       }
     </script>
   </head>
-  <body>
+  <body class="bg-white dark:bg-slate-900">
     <div id="portal" class="antialiased">
-      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
+      <main class="flex flex-col min-h-screen main-content" role="main">
         <% if !@is_plain_layout_enabled %>
           <%= render "public/api/v1/portals/header", portal: @portal %>
         <% end %>

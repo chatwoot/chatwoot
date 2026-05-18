@@ -66,6 +66,9 @@ export default {
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
     },
+    isUnreadOrCampaignView() {
+      return ['unread-messages', 'campaigns'].includes(this.$route.name);
+    },
   },
   watch: {
     activeCampaign() {
@@ -374,6 +377,7 @@ export default {
       'is-widget-right': isRightAligned,
       'is-bubble-hidden': hideMessageBubble,
       'is-flat-design': isWidgetStyleFlat,
+      'bg-n-slate-2 dark:bg-n-solid-1': !isUnreadOrCampaignView,
       dark: prefersDarkMode,
     }"
   >
