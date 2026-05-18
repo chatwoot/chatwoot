@@ -413,6 +413,22 @@ sv:
       loading_placeholder: Searching...
       results_title: Search results
     toc_header: 'På denna sida'
+    sidebar:
+      help_center: Help Center
+      categories: Categories
+      language: Language
+      theme: Theme
+      open_sidebar: Open sidebar
+      close_sidebar: Close sidebar
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Sök efter artiklarna här eller bläddra i kategorierna nedan.
     common:
@@ -427,12 +443,19 @@ sv:
       others: andra
       by: Av
       no_articles: Det finns inga artiklar här
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Gjord med
     header:
       go_to_homepage: Hemsida
       visit_website: Visit website
       appearance:
+        title: Appearance
         system: System
         light: Ljus
         dark: Mörk
