@@ -139,7 +139,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
           described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
         rescue StandardError => e
           # discard_on may have failed to swallow it; the contract still holds.
-          raise unless e.class.name == 'Captain::Tools::SimplePageCrawlParserJob::PermanentCrawlError'
+          raise unless e.class.name == 'Captain::Tools::SimplePageCrawlParserJob::PermanentCrawlError' # rubocop:disable Style/ClassEqualityComparison
         end
 
         before do
