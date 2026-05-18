@@ -70,6 +70,21 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
       expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('finished' => '1')
     end
 
+    it 'broadcasts completion when the final writer fails with ArticleBuildFailed' do
+      allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
+        CustomExceptions::HelpCenter::ArticleBuildFailed, 'no source urls'
+      )
+      Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
+      payload = hash_including(generation_id: generation_id, status: 'completed')
+
+      expect { described_class.perform_now(*job_args) }
+        .to have_enqueued_job(ActionCableBroadcastJob)
+        .with([admin.pubsub_token], 'help_center.generation_completed', payload)
+      expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include(
+        'status' => 'completed', 'finished' => '2'
+      )
+    end
+
     it 're-enqueues itself on transient Firecrawl errors' do
       allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
         Firecrawl::FirecrawlError, 'transient'
