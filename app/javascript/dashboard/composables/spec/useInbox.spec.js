@@ -47,7 +47,11 @@ const mockStore = createStore({
             11: { id: 11, channel_type: INBOX_TYPES.API },
             12: { id: 12, channel_type: INBOX_TYPES.SMS },
             13: { id: 13, channel_type: INBOX_TYPES.INSTAGRAM },
-            14: { id: 14, channel_type: INBOX_TYPES.VOICE },
+            14: {
+              id: 14,
+              channel_type: INBOX_TYPES.TWILIO,
+              voice_enabled: true,
+            },
             15: { id: 15, channel_type: INBOX_TYPES.TIKTOK },
           };
           return inboxes[id] || null;
@@ -211,11 +215,11 @@ describe('useInbox', () => {
       });
       expect(wrapper.vm.isAnInstagramChannel).toBe(true);
 
-      // Test Voice
+      // Test Voice (Twilio with voice_enabled)
       wrapper = mount(createTestComponent(14), {
         global: { plugins: [mockStore] },
       });
-      expect(wrapper.vm.isAVoiceChannel).toBe(true);
+      expect(wrapper.vm.voiceCallEnabled).toBe(true);
 
       // Test Tiktok
       wrapper = mount(createTestComponent(15), {
@@ -274,7 +278,8 @@ describe('useInbox', () => {
         'isAnEmailChannel',
         'isAnInstagramChannel',
         'isATiktokChannel',
-        'isAVoiceChannel',
+        'voiceCallEnabled',
+        'voiceCallProvider',
       ];
 
       expectedProperties.forEach(prop => {

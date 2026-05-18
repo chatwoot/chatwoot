@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifikators",
       "COUNTRY": "Valsts",
       "CITY": "Pilsēta",
+      "COMPANY": "Uzņēmums",
       "CREATED_AT": "Izveidots plkst",
       "LAST_ACTIVITY": "Pēdējā darbība",
       "REFERER_LINK": "Atsauces saite",

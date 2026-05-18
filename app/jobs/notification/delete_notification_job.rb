@@ -1,14 +1,14 @@
 class Notification::DeleteNotificationJob < ApplicationJob
   queue_as :low
 
-  def perform(user, type: :all)
+  def perform(user, account, type: :all)
+    notifications = user.notifications.where(account_id: account.id)
+
     ActiveRecord::Base.transaction do
       if type == :all
-        # Delete all notifications
-        user.notifications.destroy_all
+        notifications.destroy_all
       elsif type == :read
-        # Delete only read notifications
-        user.notifications.where.not(read_at: nil).destroy_all
+        notifications.where.not(read_at: nil).destroy_all
       end
     end
   end

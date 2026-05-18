@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "المحادثات",
-      "CONTACT": "جهات الاتصال"
+      "CONTACT": "جهات الاتصال",
+      "COMPANY": "المنشأة"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "النص",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "صفات مخصصة",
       "CONVERSATION": "المحادثات",
-      "CONTACT": "جهات الاتصال"
+      "CONTACT": "جهات الاتصال",
+      "COMPANY": "المنشأة"
     },
     "LIST": {
       "TABLE_HEADER": {

@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifikator",
       "COUNTRY": "Država",
       "CITY": "Mesto",
+      "COMPANY": "Podjetje",
       "CREATED_AT": "Ustvarjeno ob",
       "LAST_ACTIVITY": "Zadnja aktivnost",
       "REFERER_LINK": "Napotitvena povezava",

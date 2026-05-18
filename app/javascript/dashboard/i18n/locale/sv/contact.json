@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Country",
       "CITY": "City",
+      "COMPANY": "Företag",
       "CREATED_AT": "Skapad den",
       "LAST_ACTIVITY": "Senaste aktivitet",
       "REFERER_LINK": "Referer link",

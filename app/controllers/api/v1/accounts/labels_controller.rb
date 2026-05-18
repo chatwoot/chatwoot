@@ -18,7 +18,16 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
+    label_title = @label.title
+    account_id = Current.account.id
+    label_deleted_at = Time.current
+
     @label.destroy!
+    Labels::RemoveAssociationsJob.perform_later(
+      label_title: label_title,
+      account_id: account_id,
+      label_deleted_at: label_deleted_at
+    )
     head :ok
   end
 
