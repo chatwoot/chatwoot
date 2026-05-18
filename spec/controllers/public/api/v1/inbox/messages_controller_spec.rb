@@ -16,6 +16,19 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       data = response.parsed_body
       expect(data.length).to eq 2
     end
+
+    it 'does not return messages from a conversation in another inbox even when both share the same contact' do
+      other_channel = create(:channel_api, account: conversation.account)
+      other_contact_inbox = create(:contact_inbox, contact: contact, inbox: other_channel.inbox)
+      foreign_conversation = create(:conversation, contact: contact, account: conversation.account,
+                                                   inbox: other_channel.inbox, contact_inbox: other_contact_inbox)
+      create(:message, account: foreign_conversation.account, inbox: foreign_conversation.inbox, conversation: foreign_conversation)
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/" \
+          "#{foreign_conversation.display_id}/messages"
+
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
   describe 'POST /public/api/v1/inboxes/{identifier}/contact/{source_id}/conversations/{conversation_id}/messages' do
