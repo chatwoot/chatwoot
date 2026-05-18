@@ -124,7 +124,7 @@ en:
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard and save again.'
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Please check the network connection, IMAP address and try again.
