@@ -427,8 +427,8 @@ pt_BR:
       popular_articles: Artigos populares
       popular_articles_subtitle: O que outras pessoas estão lendo agora.
       popular_label: 'Tópicos populares:'
-      authors_others: "%{names} e mais %{count}"
-      primary_nav: Navegação principal
+      authors_others: "%{names} e %{count} outros"
+      primary_nav: Primário
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:
