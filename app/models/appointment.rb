@@ -35,6 +35,8 @@ class Appointment < ApplicationRecord
   validate :ended_at_after_scheduled_at
   validate :type_specific_fields
   validate :appointment_type_enabled
+  validate :no_overlapping_appointments
+  validate :within_owner_working_hours
 
   # Callbacks
   before_create :generate_access_token
@@ -160,5 +162,43 @@ class Appointment < ApplicationRecord
       Time.zone.now,
       appointment: self
     )
+  end
+
+  def no_overlapping_appointments
+    return if scheduled_at.blank? || owner_id.blank?
+
+    appt_end = ended_at.presence || scheduled_at
+
+    conflicting = Appointment
+      .kept
+      .where(owner_id: owner_id, status: [:scheduled, :in_progress])
+      .where.not(id: id)
+      .where('scheduled_at <= ? AND COALESCE(ended_at, scheduled_at) >= ?', appt_end, scheduled_at)
+      .exists?
+
+    errors.add(:scheduled_at, 'the advisor already has an appointment scheduled at this time') if conflicting
+  end
+
+  def within_owner_working_hours
+    return if scheduled_at.blank? || owner_id.blank? || account.blank?
+
+    account_user = account.account_users.find_by(user_id: owner_id)
+    return unless account_user
+
+    tz = account.business_hours_timezone.presence || account_user.timezone.presence || 'UTC'
+    local_time = scheduled_at.in_time_zone(tz)
+    working_hour = account_user.working_hours.find_by(day_of_week: local_time.wday)
+    return unless working_hour
+    return if working_hour.open_all_day?
+
+    if working_hour.closed_all_day?
+      errors.add(:scheduled_at, 'the advisor does not work on this day')
+      return
+    end
+
+    open_time  = local_time.change(hour: working_hour.open_hour,  min: working_hour.open_minutes,  sec: 0)
+    close_time = local_time.change(hour: working_hour.close_hour, min: working_hour.close_minutes, sec: 0)
+
+    errors.add(:scheduled_at, 'the appointment time is outside the advisor working hours') unless local_time.between?(open_time, close_time)
   end
 end
