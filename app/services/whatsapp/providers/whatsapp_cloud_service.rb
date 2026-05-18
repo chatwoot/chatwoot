@@ -117,12 +117,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def send_attachment_message(phone_number, message)
+    last_message_id = nil
     message.attachments.each_with_index do |attachment, index|
       type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
       type_content = {
         'link': attachment.download_url
       }
-      type_content['caption'] = message.outgoing_content if index.zero? && !%w[audio sticker].include?(type)
+      type_content['caption'] = message.outgoing_content if index.zero? && !%w[audio sticker].include?(type) && message.outgoing_content.present?
       type_content['filename'] = attachment.file.filename if type == 'document'
       response = HTTParty.post(
         "#{phone_id_path}/messages",
@@ -136,8 +137,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         }.to_json
       )
 
-      process_response(response, message)
+      last_message_id = process_response(response, message)
     end
+    last_message_id
   end
 
   def error_message(response)
