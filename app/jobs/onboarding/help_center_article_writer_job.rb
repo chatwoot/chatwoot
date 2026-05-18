@@ -25,9 +25,14 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   private
 
   def on_writer_failure(error)
-    _, _portal_id, user_id, generation_id = arguments
+    user, generation_id = failure_context
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} failed: #{error.class} #{error.message}"
-    finalize(user: User.find_by(id: user_id), generation_id: generation_id, article: nil)
+    finalize(user: user, generation_id: generation_id, article: nil)
+  end
+
+  def failure_context
+    _account_id, _portal_id, user_id, generation_id = arguments
+    [User.find_by(id: user_id), generation_id]
   end
 
   def finalize(user:, generation_id:, article:)

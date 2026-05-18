@@ -26,25 +26,34 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
 
   def process(account:, portal:, user:, generation_id:)
     plan = Onboarding::HelpCenterCurator.new(account: account).perform
+    articles = create_categories_and_build_article_payloads(portal, plan)
 
-    articles = ActiveRecord::Base.transaction do
+    Onboarding::HelpCenterGenerationState.start(generation_id, total: articles.size)
+    enqueue_writer_jobs(
+      account_id: account.id,
+      portal_id: portal.id,
+      user_id: user.id,
+      generation_id: generation_id,
+      articles: articles
+    )
+  end
+
+  def create_categories_and_build_article_payloads(portal, plan)
+    ActiveRecord::Base.transaction do
       categories_by_name = create_categories(portal, plan['categories'])
-      stamped_articles = stamp_category_ids_and_filter_urls(
+      articles = build_article_payloads(
         plan['articles'],
         categories_by_name,
         plan['allowed_urls']
       )
 
-      if stamped_articles.empty?
+      if articles.empty?
         raise CustomExceptions::HelpCenter::CurationSkipped,
               'no articles after category or URL filtering'
       end
 
-      stamped_articles
+      articles
     end
-
-    Onboarding::HelpCenterGenerationState.start(generation_id, total: articles.size)
-    fan_out([account.id, portal.id, user.id, generation_id], articles: articles)
   end
 
   def create_categories(portal, categories)
@@ -64,7 +73,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def stamp_category_ids_and_filter_urls(articles, categories_by_name, allowed_urls)
+  def build_article_payloads(articles, categories_by_name, allowed_urls)
     allowed_urls = Array(allowed_urls).to_set
     Array(articles).filter_map do |article|
       category_id = categories_by_name[article['category_name'].to_s]&.id
@@ -77,10 +86,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def fan_out(job_ids, articles:)
+  def enqueue_writer_jobs(account_id:, portal_id:, user_id:, generation_id:, articles:)
     articles.each do |article|
       Onboarding::HelpCenterArticleWriterJob.perform_later(
-        *job_ids, { article: article }
+        account_id, portal_id, user_id, generation_id, { article: article }
       )
     end
   end

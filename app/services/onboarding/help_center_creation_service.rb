@@ -9,10 +9,7 @@ class Onboarding::HelpCenterCreationService
 
   def perform
     existing = existing_portal
-    if existing
-      Rails.logger.info "[HelpCenterCreation] Reusing existing portal #{existing.id} for account #{@account.id}"
-      return existing
-    end
+    return reuse_existing_portal(existing) if existing
 
     @account.portals.create!(portal_attributes).tap do |portal|
       attach_brand_logo(portal)
@@ -24,6 +21,11 @@ class Onboarding::HelpCenterCreationService
 
   def existing_portal
     @account.portals.first
+  end
+
+  def reuse_existing_portal(portal)
+    Rails.logger.info "[HelpCenterCreation] Reusing existing portal #{portal.id} for account #{@account.id}"
+    portal
   end
 
   def portal_attributes
