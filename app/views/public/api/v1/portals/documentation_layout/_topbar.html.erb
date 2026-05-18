@@ -10,8 +10,6 @@
     <a href="<%= home_url %>" class="flex items-center min-w-0 gap-2.5">
       <% if portal.logo.present? %>
         <img src="<%= url_for(portal.logo) %>" class="w-8 h-8 rounded-full" draggable="false" />
-      <% else %>
-        <span class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold text-white" style="background: <%= portal.color %>;"><%= portal.name.first&.upcase %></span>
       <% end %>
       <span class="text-base font-semibold tracking-tight text-n-slate-12 truncate"><%= portal.name %></span>
       <span class="hidden sm:inline-block w-px h-5 bg-n-weak mx-1"></span>
