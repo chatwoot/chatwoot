@@ -20,7 +20,7 @@ gem 'rest-client'
 gem 'telephone_number'
 gem 'time_diff'
 gem 'tzinfo-data'
-gem 'valid_email2'
+gem 'valid_email2', '~> 7.0'
 gem 'email-provider-info'
 gem 'gemoji'
 # compress javascript config.assets.js_compressor

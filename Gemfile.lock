@@ -167,8 +167,8 @@ GEM
       statsd-ruby (~> 1.1)
     base64 (0.3.0)
     bcrypt (3.1.22)
-    benchmark (0.4.1)
-    bigdecimal (3.2.2)
+    benchmark (0.5.0)
+    bigdecimal (3.3.1)
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -190,7 +190,7 @@ GEM
     climate_control (1.2.0)
     coderay (1.1.3)
     commonmarker (0.23.10)
-    concurrent-ruby (1.3.5)
+    concurrent-ruby (1.3.6)
     connection_pool (2.5.5)
     crack (1.0.0)
       bigdecimal
@@ -448,7 +448,7 @@ GEM
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
@@ -542,7 +542,8 @@ GEM
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    mail (2.8.1)
+    mail (2.9.0)
+      logger
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -559,7 +560,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
-    minitest (5.25.5)
+    minitest (5.27.0)
     mock_redis (0.36.0)
       ruby2_keywords
     msgpack (1.8.0)
@@ -574,7 +575,7 @@ GEM
       uri (>= 0.11.1)
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.24)
+    net-imap (0.6.4)
       date
       net-protocol
     net-pop (0.1.2)
@@ -986,8 +987,8 @@ GEM
     uri (1.1.1)
     uri-idna (0.3.1)
     uri_template (0.7.0)
-    valid_email2 (5.2.6)
-      activemodel (>= 3.2)
+    valid_email2 (7.0.15)
+      activemodel (>= 6.0)
       mail (~> 2.5)
     version_gem (1.1.4)
     vite_rails (3.0.17)
@@ -1176,7 +1177,7 @@ DEPENDENCIES
   twitty (~> 0.1.5)
   tzinfo-data
   uglifier
-  valid_email2
+  valid_email2 (~> 7.0)
   vite_rails
   web-console (>= 4.2.1)
   web-push (>= 3.0.1)
