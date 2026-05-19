@@ -49,14 +49,14 @@ const handleChange = () => {
 </script>
 
 <template>
-  <div
-    class="cursor-pointer rounded-xl outline outline-1 p-4 transition-all duration-200 bg-n-solid-1 py-4 ltr:pl-4 rtl:pr-4 ltr:pr-6 rtl:pl-6"
+  <label
+    :for="id"
+    class="rounded-xl outline outline-1 p-4 transition-all duration-200 bg-n-solid-1 py-4 ltr:pl-4 rtl:pr-4 ltr:pr-6 rtl:pl-6 focus-within:has-[:focus-visible]:ring-2 focus-within:has-[:focus-visible]:ring-n-strong"
     :class="[
       disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
       isActive ? 'outline-n-blue-9' : 'outline-n-weak',
       !disabled && !isActive ? 'hover:outline-n-strong' : '',
     ]"
-    @click="handleChange"
   >
     <div class="flex flex-col gap-2 items-start">
       <div class="flex items-center justify-between w-full gap-3">
@@ -83,5 +83,5 @@ const handleChange = () => {
       </p>
       <slot />
     </div>
-  </div>
+  </label>
 </template>
