@@ -46,7 +46,7 @@ class Portal < ApplicationRecord
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout].freeze
 
   def file_base_data
     {
@@ -92,6 +92,10 @@ class Portal < ApplicationRecord
 
   def display_title
     page_title.presence || name
+  end
+
+  def layout
+    config_value('layout').presence || 'classic'
   end
 
   private
