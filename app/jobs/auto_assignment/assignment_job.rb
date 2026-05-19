@@ -8,9 +8,8 @@ class AutoAssignment::AssignmentJob < MutexApplicationJob
   # caps the queue depth, so retry storms stay bounded.
   retry_on LockAcquisitionError, wait: 10.seconds, attempts: 30
 
-  # Coalesce bursts of triggers per inbox: while a job is queued for this
-  # inbox, further enqueues are no-ops. The key clears at the start of perform
-  # so triggers that fire while we run can queue exactly one "next" job.
+  # Coalesce bursts of triggers per inbox: while a job is queued or running
+  # for this inbox, further enqueues are no-ops.
   def self.enqueue_for_inbox(inbox_id)
     key = format(::Redis::Alfred::AUTO_ASSIGNMENT_QUEUED_KEY, inbox_id: inbox_id)
     return false unless ::Redis::Alfred.set(key, '1', nx: true, ex: COALESCE_TTL)
@@ -20,11 +19,13 @@ class AutoAssignment::AssignmentJob < MutexApplicationJob
   end
 
   def perform(inbox_id:)
-    ::Redis::Alfred.delete(format(::Redis::Alfred::AUTO_ASSIGNMENT_QUEUED_KEY, inbox_id: inbox_id))
+    inbox = Inbox.find_by(id: inbox_id)
+    return unless inbox
 
     with_lock(format(::Redis::Alfred::AUTO_ASSIGNMENT_RUNNING_MUTEX, inbox_id: inbox_id), RUNNING_LOCK_TTL) do
-      inbox = Inbox.find_by(id: inbox_id)
-      return unless inbox
+      # Clear inside the lock so contended jobs that fail to acquire it cannot
+      # reopen the coalesce gate while work is still in-flight.
+      ::Redis::Alfred.delete(format(::Redis::Alfred::AUTO_ASSIGNMENT_QUEUED_KEY, inbox_id: inbox_id))
 
       service = AutoAssignment::AssignmentService.new(inbox: inbox)
       assigned_count = service.perform_bulk_assignment(limit: bulk_assignment_limit)
