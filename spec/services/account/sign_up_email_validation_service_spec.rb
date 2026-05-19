@@ -84,4 +84,42 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       end
     end
   end
+
+  # Exercises the real ValidEmail2 + config/deny_listed_email_domains.yml
+  # integration without stubbing ValidEmail2::Address. Guards against the YAML
+  # file going missing, the path drifting, or upstream API renames.
+  describe '#perform with the real deny list' do
+    before do
+      allow(GlobalConfigService).to receive(:load).with('BLOCKED_EMAIL_DOMAINS', '').and_return('')
+      # Avoid real DNS in disposable_mx_server? and valid_mx?.
+      allow_any_instance_of(ValidEmail2::Dns).to receive_messages(mx_servers: [], a_servers: [])
+    end
+
+    %w[user@gmail.com user@outlook.com user@hotmail.com user@yahoo.com user@protonmail.com user@icloud.com].each do |email|
+      it "rejects #{email} with the free_email_provider message" do
+        expect { described_class.new(email).perform }.to raise_error do |error|
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
+          expect(error.message).to eq(I18n.t('errors.signup.free_email_provider'))
+        end
+      end
+    end
+
+    it 'rejects a subdomain of a free provider via ValidEmail2 depth walking' do
+      expect { described_class.new('user@mail.gmail.com').perform }.to raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
+        expect(error.message).to eq(I18n.t('errors.signup.free_email_provider'))
+      end
+    end
+
+    it 'allows a real business domain' do
+      expect(described_class.new('hello@chatwoot.com').perform).to be(true)
+    end
+
+    it 'still rejects a disposable email with the disposable message, not the free_email message' do
+      expect { described_class.new('user@mailinator.com').perform }.to raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
+        expect(error.message).to eq(I18n.t('errors.signup.disposable_email'))
+      end
+    end
+  end
 end
