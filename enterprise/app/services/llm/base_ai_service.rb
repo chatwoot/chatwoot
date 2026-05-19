@@ -10,12 +10,13 @@ class Llm::BaseAiService
 
   def initialize
     Llm::Config.initialize!
+    setup_provider
     setup_model
     setup_temperature
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model).with_temperature(temperature)
+    RubyLLM.chat(model: model, provider: @provider, assume_model_exists: true).with_temperature(temperature)
   end
 
   private
@@ -31,6 +32,10 @@ class Llm::BaseAiService
   def setup_model
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
     @model = (config_value.presence || DEFAULT_MODEL)
+  end
+
+  def setup_provider
+    @provider = Llm::Config.default_provider
   end
 
   def setup_temperature

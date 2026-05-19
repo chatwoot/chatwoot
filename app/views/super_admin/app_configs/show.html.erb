@@ -16,62 +16,98 @@
 
 <section class="main-content__body">
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
-    <% @allowed_configs.each do |key| %>
-      <div class="flex mb-8">
-        <div class="field-unit__label">
-          <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
-        </div>
-        <div class="-mt-2 field-unit__field ">
-          <% if @installation_configs[key]&.dig('type') == 'boolean' %>
-            <%= form.select "app_config[#{key}]",
-              [["True", true], ["False", false]],
-              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
-              class: "mt-2 border border-slate-100 p-1 rounded-md"
-            %>
-          <% elsif @installation_configs[key]&.dig('type') == 'code' %>
-            <%= form.text_area "app_config[#{key}]",
-                value: @app_config[key],
-                rows: 12,
-                wrap: 'off',
-                class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
-            %>
-          <% elsif @installation_configs[key]&.dig('type') == 'secret' %>
-            <div class="relative">
-              <%= form.password_field "app_config[#{key}]",
-                  id: "app_config_#{key}",
-                  value: @app_config[key],
-                  class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full"
-              %>
-              <button
-                type="button"
-                class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password"
-                data-target="app_config_<%= key %>"
-              >
-                <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 5C5.63636 5 2 12 2 12C2 12 5.63636 19 12 19C18.3636 19 22 12 22 12C22 12 18.3636 5 12 5Z"/>
-                  <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"/>
-                </svg>
-              </button>
+    <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
+      <div>
+        <% @allowed_configs.each do |key| %>
+          <div class="flex mb-8">
+            <div class="field-unit__label">
+              <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
             </div>
-          <% elsif @installation_configs[key]&.dig('type') == 'select' && @installation_configs[key]&.dig('options').present? %>
-            <%= form.select "app_config[#{key}]",
-              @installation_configs[key]['options'].map { |val, label| [label, val] },
-              { selected: @app_config[key] },
-              class: "mt-2 border border-slate-100 p-1 rounded-md"
-            %>
-        <% else %>
-          <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
+            <div class="-mt-2 field-unit__field ">
+              <% if @installation_configs[key]&.dig('type') == 'boolean' %>
+                <%= form.select "app_config[#{key}]",
+                  [["True", true], ["False", false]],
+                  { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
+                  class: "mt-2 border border-slate-100 p-1 rounded-md"
+                %>
+              <% elsif @installation_configs[key]&.dig('type') == 'code' %>
+                <%= form.text_area "app_config[#{key}]",
+                    value: @app_config[key],
+                    rows: 12,
+                    wrap: 'off',
+                    class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
+                %>
+              <% elsif @installation_configs[key]&.dig('type') == 'secret' %>
+                <div class="relative">
+                  <%= form.password_field "app_config[#{key}]",
+                      id: "app_config_#{key}",
+                      value: @app_config[key],
+                      class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full"
+                  %>
+                  <button
+                    type="button"
+                    class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password"
+                    data-target="app_config_<%= key %>"
+                  >
+                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 5C5.63636 5 2 12 2 12C2 12 5.63636 19 12 19C18.3636 19 22 12 22 12C22 12 18.3636 5 12 5Z"/>
+                      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"/>
+                    </svg>
+                  </button>
+                </div>
+              <% elsif @installation_configs[key]&.dig('type') == 'select' && @installation_configs[key]&.dig('options').present? %>
+                <%= form.select "app_config[#{key}]",
+                  @installation_configs[key]['options'].map { |val, label| [label, val] },
+                  { selected: @app_config[key] },
+                  class: "mt-2 border border-slate-100 p-1 rounded-md"
+                %>
+              <% else %>
+                <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
+              <% end %>
+              <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  OpenAI models only. Required when Captain LLM uses a non-OpenAI provider or a custom API base.
+                </p>
+              <% elsif @config != 'captain' && @installation_configs[key]&.dig('description').present? %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  <%= @installation_configs[key]&.dig('description') %>
+                </p>
+              <% end %>
+            </div>
+          </div>
         <% end %>
-          <%if @installation_configs[key]&.dig('description').present? %>
-            <p class="pt-2 text-xs italic text-slate-400">
-              <%= @installation_configs[key]&.dig('description') %>
-            </p>
-          <% end %>
+        <div class="form-actions">
+          <%= form.submit "Submit" %>
         </div>
       </div>
-    <% end %>
-    <div class="form-actions">
-      <%= form.submit "Submit" %>
+
+      <% if @config == 'captain' %>
+        <aside class="self-start border-l border-slate-100 pl-6 text-xs text-slate-500">
+          <h2 class="mb-3 text-sm font-medium text-slate-700">Captain provider notes</h2>
+
+          <div class="space-y-3 leading-5">
+            <p class="italic">
+              Model quality and prompt adherence are not guaranteed for non-OpenAI models.
+            </p>
+
+            <p>
+              Choose your provider from the list.
+            </p>
+
+            <p>
+              If your provider is not listed but exposes an OpenAI-compatible chat completions API, choose OpenAI, enter your custom model, and set Captain LLM API Base to the correct OpenAI-compatible endpoint.
+            </p>
+
+            <p>
+              When Provider is OpenAI and you are using OpenAI directly, leave Captain LLM API Base empty. The default OpenAI endpoint will be used.
+            </p>
+
+            <p>
+              Documentation search embeddings use OpenAI only. If Captain LLM Provider is not OpenAI, or Provider is OpenAI with a custom API base, add an OpenAI key in Embedding API Key.
+            </p>
+          </div>
+        </aside>
+      <% end %>
     </div>
   <% end %>
 </section>

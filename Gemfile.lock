@@ -1,4 +1,12 @@
 GIT
+  remote: https://github.com/chatwoot/ai-agents.git
+  revision: e4d52a7000fe50f3b5786b3645cb1ba4760713d2
+  branch: feat/add-provider-support-rubyllm
+  specs:
+    ai-agents (0.11.0)
+      ruby_llm (~> 1.14)
+
+GIT
   remote: https://github.com/chatwoot/azure-storage-ruby
   revision: 9957cf899d33a285b5dfe15bdb875292398e392b
   branch: chatwoot
@@ -126,8 +134,6 @@ GEM
       jbuilder (~> 2)
       rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
-    ai-agents (0.10.0)
-      ruby_llm (~> 1.14)
     annotaterb (4.20.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -1039,7 +1045,7 @@ DEPENDENCIES
   administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.3)
   administrate-field-belongs_to_search (>= 0.9.0)
-  ai-agents (>= 0.10.0)
+  ai-agents!
   annotaterb
   attr_extras
   audited (~> 5.4, >= 5.4.1)

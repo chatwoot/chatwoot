@@ -195,7 +195,7 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.10.0'
+gem 'ai-agents', github: 'chatwoot/ai-agents', branch: 'feat/add-provider-support-rubyllm'
 
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm', '>= 1.14.1'

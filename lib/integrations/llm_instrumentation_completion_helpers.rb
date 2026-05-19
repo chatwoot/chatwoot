@@ -6,8 +6,9 @@ module Integrations::LlmInstrumentationCompletionHelpers
   private
 
   def set_embedding_span_attributes(span, params)
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, determine_provider(params[:model]))
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, params[:provider] || determine_provider(params[:model]))
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
+    span.set_attribute('embedding.requested_dimensions', params[:dimensions]) if params[:dimensions]
     span.set_attribute('embedding.input_length', params[:input]&.length || 0)
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:input].to_s)
     set_common_span_metadata(span, params)

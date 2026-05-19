@@ -12,6 +12,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     @installation_configs = ConfigLoader.new.general_configs.each_with_object({}) do |config_hash, result|
       result[config_hash['name']] = config_hash.except('name')
     end
+    populate_captain_provider_options if @config == 'captain'
+    apply_captain_defaults if @config == 'captain'
   end
 
   def create
@@ -19,6 +21,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     params['app_config'].each do |key, value|
       next unless @allowed_configs.include?(key)
 
+      value = normalized_config_value(key, value)
       i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
       i.value = value
       errors.concat(i.errors.full_messages) unless i.save
@@ -50,7 +53,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'whatsapp_embedded' => %w[WHATSAPP_APP_ID WHATSAPP_APP_SECRET WHATSAPP_CONFIGURATION_ID WHATSAPP_API_VERSION],
       'notion' => %w[NOTION_CLIENT_ID NOTION_CLIENT_SECRET],
       'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN],
-      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT]
+      'captain' => captain_config_options
     }
 
     @allowed_configs = mapping.fetch(
@@ -72,6 +75,40 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def restart_required_config_saved?
     params.fetch('app_config', {}).keys.intersect?(InstallationConfig::RESTART_REQUIRED_CONFIG_KEYS)
+  end
+
+  def captain_config_options
+    %w[
+      CAPTAIN_OPEN_AI_API_KEY
+      CAPTAIN_LLM_PROVIDER
+      CAPTAIN_OPEN_AI_MODEL
+      CAPTAIN_OPEN_AI_ENDPOINT
+      CAPTAIN_EMBEDDING_API_KEY
+    ]
+  end
+
+  def populate_captain_provider_options
+    %w[CAPTAIN_LLM_PROVIDER].each do |key|
+      next unless @installation_configs[key]
+
+      @installation_configs[key]['options'] = Llm::Config.provider_options
+    end
+  end
+
+  def apply_captain_defaults
+    @app_config['CAPTAIN_LLM_PROVIDER'] = Llm::Config::DEFAULT_PROVIDER if @app_config['CAPTAIN_LLM_PROVIDER'].blank?
+  end
+
+  def captain_default_value(key)
+    return Llm::Config::DEFAULT_PROVIDER if key == 'CAPTAIN_LLM_PROVIDER'
+
+    nil
+  end
+
+  def normalized_config_value(key, value)
+    return value unless @config == 'captain' && value.blank? && key == 'CAPTAIN_LLM_PROVIDER'
+
+    captain_default_value(key)
   end
 end
 

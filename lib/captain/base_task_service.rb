@@ -32,9 +32,11 @@ class Captain::BaseTaskService
   end
 
   def api_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value.presence || 'https://api.openai.com/'
-    endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1"
+    Llm::Config.api_base_for(provider: llm_provider)
+  end
+
+  def llm_provider
+    Llm::Config.default_provider
   end
 
   def make_api_call(model:, messages:, schema: nil, tools: [])
@@ -58,7 +60,7 @@ class Captain::BaseTaskService
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
     credential = llm_credential
 
-    Llm::Config.with_api_key(credential[:api_key], api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -73,14 +75,14 @@ class Captain::BaseTaskService
   end
 
   def build_chat(context, model:, messages:, schema: nil, tools: [])
-    chat = context.chat(model: model)
+    chat = context.chat(model: model, provider: llm_provider, assume_model_exists: true)
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
     chat.with_schema(schema) if schema
 
     if tools.any?
       tools.each { |tool| chat = chat.with_tool(tool) }
-      chat.on_end_message { |message| record_generation(chat, message, model) }
+      chat.on_end_message { |message| record_generation(chat, message, model, llm_provider) }
     end
 
     chat
@@ -113,6 +115,7 @@ class Captain::BaseTaskService
       conversation_id: conversation&.display_id,
       feature_name: event_name,
       model: model,
+      provider: llm_provider,
       messages: messages,
       temperature: nil,
       metadata: instrumentation_metadata

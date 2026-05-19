@@ -263,7 +263,9 @@ RSpec.describe Captain::BaseTaskService do
     it 'does not track exceptions for account hook failures' do
       create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
 
-      expect(Llm::Config).to receive(:with_api_key).with('hook-key', api_base: anything).and_raise(error)
+      expect(Llm::Config).to receive(:with_api_key)
+        .with('hook-key', provider: 'openai', api_base: anything)
+        .and_raise(error)
       expect(ChatwootExceptionTracker).not_to receive(:new)
 
       result = service.send(:make_api_call, model: model, messages: messages)
