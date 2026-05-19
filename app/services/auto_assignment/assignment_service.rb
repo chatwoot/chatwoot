@@ -4,6 +4,7 @@ class AutoAssignment::AssignmentService
   def perform_bulk_assignment(limit: 100)
     return 0 unless inbox.auto_assignment_v2_enabled?
     return 0 unless inbox.enable_auto_assignment?
+    return 0 if inbox.available_agents.empty?
 
     assigned_count = 0
 
