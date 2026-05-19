@@ -5,9 +5,9 @@ require 'rails_helper'
 RSpec.describe Account::SignUpEmailValidationService, type: :service do
   let(:service) { described_class.new(email) }
   let(:blocked_domains) { "gmail.com\noutlook.com" }
-  let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false, deny_listed?: false) }
-  let(:free_provider_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false, deny_listed?: true) }
-  let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: true) }
+  let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false, deny_listed?: false) }
+  let(:free_provider_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: false, deny_listed?: true) }
+  let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable_domain?: true) }
   let(:invalid_email_address) { instance_double(ValidEmail2::Address, valid?: false) }
 
   before do
@@ -91,8 +91,6 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
   describe '#perform with the real deny list' do
     before do
       allow(GlobalConfigService).to receive(:load).with('BLOCKED_EMAIL_DOMAINS', '').and_return('')
-      # Avoid real DNS in disposable_mx_server? and valid_mx?.
-      allow_any_instance_of(ValidEmail2::Dns).to receive_messages(mx_servers: [], a_servers: [])
     end
 
     %w[user@gmail.com user@outlook.com user@hotmail.com user@yahoo.com user@protonmail.com user@icloud.com].each do |email|
