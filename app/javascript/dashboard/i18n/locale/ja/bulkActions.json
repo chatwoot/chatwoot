@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} 件の{conversationLabel}の割り当てを解除しますか？",
     "GO_BACK_LABEL": "戻る",
     "ASSIGN_LABEL": "割り当て",
+    "NONE": "なし",
+    "CLEAR_SELECTION": "クリア",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "はい",
+    "CANCEL": "キャンセル",
     "SEARCH_INPUT_PLACEHOLDER": "検索",
     "ASSIGN_AGENT_TOOLTIP": "担当者を割り当てる",
     "ASSIGN_TEAM_TOOLTIP": "チームを割り当てる",
@@ -38,6 +43,8 @@
       "NONE": "該当なし",
       "NO_TEAMS_AVAILABLE": "このアカウントにはまだチームが追加されていません。",
       "ASSIGN_SELECTED_TEAMS": "選択したチームを割り当てる",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "チームが正常に割り当てられました。",
       "ASSIGN_FAILED": "チームの割り当てに失敗しました。再試行してください。"
     }

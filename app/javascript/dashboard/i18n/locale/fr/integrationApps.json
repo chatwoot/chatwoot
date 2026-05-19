@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Sélectionner la boîte de réception"
         },
         "SUBMIT": "Créer",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Annuler"
       },
       "API": {
