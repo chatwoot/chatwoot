@@ -184,31 +184,25 @@
 # MARK: Captain Config
 - name: CAPTAIN_OPEN_AI_API_KEY
   display_title: 'Captain LLM API Key'
-  description: 'The API key used to authenticate Captain AI requests with the configured provider.'
   locked: false
   type: secret
 - name: CAPTAIN_LLM_PROVIDER
   display_title: 'Captain LLM Provider'
-  description: 'The RubyLLM provider used for Captain AI. Default: openai. Custom providers and endpoints may behave differently; model quality and feature support are not guaranteed.'
   value: openai
   locked: false
   type: select
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'Captain LLM Model'
-  description: 'The model configured for Captain AI assistant, copilot, and task responses. Default: gpt-4.1'
   locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'Captain LLM API Base (optional)'
-  description: 'Optional API base override for the selected Captain LLM provider. When Provider is OpenAI, omit /v1 and it will be added automatically. For other providers, enter the provider-specific API base exactly as required. Custom endpoints are supported for self-hosted installs without performance guarantees.'
   locked: false
 - name: CAPTAIN_EMBEDDING_API_KEY
-  display_title: 'Embedding API Key (optional)'
-  description: 'OpenAI API key used only for Captain embeddings and documentation search. Required when Captain LLM Provider is not OpenAI; otherwise defaults to Captain LLM API Key.'
+  display_title: 'OpenAI API Key (optional)'
   locked: false
   type: secret
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
-  description: 'The FireCrawl API key for the Captain AI service'
   locked: false
   type: secret
 - name: CAPTAIN_CLOUD_PLAN_LIMITS

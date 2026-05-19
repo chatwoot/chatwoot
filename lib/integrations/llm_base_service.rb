@@ -104,6 +104,7 @@ class Integrations::LlmBaseService
     messages = parsed_body['messages']
     model = parsed_body['model']
     credential = llm_credential
+    return { error: I18n.t('captain.api_key_missing'), error_code: 401, request_messages: messages } if credential.blank?
 
     Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base) do |context|
       chat = context.chat(model: model, provider: llm_provider, assume_model_exists: true)
@@ -170,7 +171,19 @@ class Integrations::LlmBaseService
   end
 
   def llm_credential
-    @llm_credential ||= { api_key: hook.settings['api_key'], source: :hook }
+    @llm_credential ||= hook_llm_credential || system_llm_credential
+  end
+
+  def hook_llm_credential
+    return unless Llm::Config.default_openai_endpoint?
+
+    key = hook.settings['api_key'].presence
+    { api_key: key, source: :hook } if key
+  end
+
+  def system_llm_credential
+    key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    { api_key: key, source: :system } if key.present?
   end
 
   def exception_tracking_account

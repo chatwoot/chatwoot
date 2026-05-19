@@ -284,6 +284,12 @@ RSpec.describe Captain::BaseTaskService do
       it 'uses api key from hook' do
         expect(service.send(:api_key)).to eq('hook-key')
       end
+
+      it 'uses system api key when Captain LLM provider is not OpenAI' do
+        allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
+
+        expect(service.send(:api_key)).to eq('test-key')
+      end
     end
 
     context 'when openai hook is not configured' do

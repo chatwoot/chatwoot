@@ -88,27 +88,17 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def populate_captain_provider_options
-    %w[CAPTAIN_LLM_PROVIDER].each do |key|
-      next unless @installation_configs[key]
-
-      @installation_configs[key]['options'] = Llm::Config.provider_options
-    end
+    @installation_configs['CAPTAIN_LLM_PROVIDER']['options'] = Llm::Config.provider_options if @installation_configs['CAPTAIN_LLM_PROVIDER']
   end
 
   def apply_captain_defaults
     @app_config['CAPTAIN_LLM_PROVIDER'] = Llm::Config::DEFAULT_PROVIDER if @app_config['CAPTAIN_LLM_PROVIDER'].blank?
   end
 
-  def captain_default_value(key)
-    return Llm::Config::DEFAULT_PROVIDER if key == 'CAPTAIN_LLM_PROVIDER'
-
-    nil
-  end
-
   def normalized_config_value(key, value)
     return value unless @config == 'captain' && value.blank? && key == 'CAPTAIN_LLM_PROVIDER'
 
-    captain_default_value(key)
+    Llm::Config::DEFAULT_PROVIDER
   end
 end
 

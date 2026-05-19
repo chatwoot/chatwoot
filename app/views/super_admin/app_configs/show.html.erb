@@ -66,7 +66,7 @@
               <% end %>
               <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
                 <p class="pt-2 text-xs italic text-slate-400">
-                  OpenAI models only. Required when Captain LLM uses a non-OpenAI provider or a custom API base.
+                  OpenAI only. Required when Captain LLM uses a non-OpenAI provider or a custom API base.
                 </p>
               <% elsif @config != 'captain' && @installation_configs[key]&.dig('description').present? %>
                 <p class="pt-2 text-xs italic text-slate-400">
@@ -103,7 +103,7 @@
             </p>
 
             <p>
-              Documentation search embeddings use OpenAI only. If Captain LLM Provider is not OpenAI, or Provider is OpenAI with a custom API base, add an OpenAI key in Embedding API Key.
+              Documentation search embeddings, PDF processing, and audio transcription use OpenAI only. If Captain LLM Provider is not OpenAI, or Provider is OpenAI with a custom API base, add an OpenAI key in OpenAI API Key.
             </p>
           </div>
         </aside>

@@ -134,7 +134,7 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the system API key instead of the account hook key' do
-        expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
+        expect(Llm::Config).to receive(:with_api_key).with('test-key', provider: 'openai', api_base: anything).and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
           instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
         )

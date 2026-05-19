@@ -33,10 +33,6 @@ module Llm::Config
       provider_config_value.presence || DEFAULT_PROVIDER
     end
 
-    def default_embedding_provider
-      DEFAULT_PROVIDER
-    end
-
     def api_base_for(provider: default_provider, endpoint: api_endpoint)
       return if endpoint.blank?
 
@@ -44,10 +40,6 @@ module Llm::Config
       return "#{normalized_endpoint}/v1" if provider.to_s == 'openai' && normalized_endpoint.exclude?('/v1')
 
       normalized_endpoint
-    end
-
-    def embedding_api_base
-      api_base_for(provider: default_embedding_provider, endpoint: LlmConstants::OPENAI_API_ENDPOINT)
     end
 
     def available_providers
@@ -72,23 +64,7 @@ module Llm::Config
     end
 
     def default_openai_endpoint?
-      default_provider == DEFAULT_PROVIDER && api_endpoint.blank?
-    end
-
-    private
-
-    def configure_ruby_llm
-      RubyLLM.configure do |config|
-        configure_provider(config, provider: default_provider, api_key: system_api_key, api_base: api_base_for)
-        configure_provider(
-          config,
-          provider: default_embedding_provider,
-          api_key: embedding_api_key.presence || system_openai_api_key,
-          api_base: embedding_api_base
-        )
-        config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
-        config.logger = Rails.logger
-      end
+      default_provider == DEFAULT_PROVIDER && default_openai_endpoint_value?
     end
 
     def configure_provider(config, provider:, api_key:, api_base: nil)
@@ -97,12 +73,27 @@ module Llm::Config
       api_key_option = :"#{provider}_api_key"
       api_base_option = :"#{provider}_api_base"
 
-      config.public_send("#{api_key_option}=", api_key) if api_key.present? && options.include?(api_key_option)
-      config.public_send("#{api_base_option}=", api_base) if api_base.present? && options.include?(api_base_option)
+      set_config_value(config, api_key_option, api_key) if api_key.present? && options.include?(api_key_option)
+      set_config_value(config, api_base_option, api_base) if api_base.present? && options.include?(api_base_option)
+    end
+
+    private
+
+    def configure_ruby_llm
+      RubyLLM.configure do |config|
+        configure_provider(config, provider: default_provider, api_key: system_api_key, api_base: api_base_for)
+        config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
+        config.logger = Rails.logger
+      end
     end
 
     def provider_configuration_options(provider)
       RubyLLM::Provider.providers[provider.to_sym]&.configuration_options || []
+    end
+
+    def set_config_value(config, option, value)
+      setter = :"#{option}="
+      config.public_send(setter, value) if config.respond_to?(setter)
     end
 
     def system_api_key
@@ -113,12 +104,9 @@ module Llm::Config
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
     end
 
-    def embedding_api_key
-      InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_API_KEY')&.value
-    end
-
-    def system_openai_api_key
-      system_api_key if default_openai_endpoint?
+    def default_openai_endpoint_value?
+      normalized_endpoint = api_endpoint.to_s.chomp('/').delete_suffix('/v1')
+      normalized_endpoint.blank? || normalized_endpoint == LlmConstants::OPENAI_API_ENDPOINT
     end
 
     def provider_config_value

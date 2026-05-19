@@ -175,6 +175,8 @@ class Captain::BaseTaskService
   end
 
   def hook_llm_credential
+    return unless Llm::Config.default_openai_endpoint?
+
     key = openai_hook&.settings&.dig('api_key').presence
     { api_key: key, source: :hook } if key
   end

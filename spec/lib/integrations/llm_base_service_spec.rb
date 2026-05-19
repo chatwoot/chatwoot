@@ -26,5 +26,32 @@ RSpec.describe Integrations::LlmBaseService do
       expect(result[:error]).to eq('API Error')
       expect(result[:request_messages]).to eq([{ 'role' => 'user', 'content' => 'Hello' }])
     end
+
+    it 'uses the system key when Captain LLM provider is not default OpenAI' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'system-key')
+      create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openrouter')
+      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
+
+      expect(Llm::Config).to receive(:with_api_key)
+        .with('system-key', provider: 'openrouter', api_base: anything)
+        .and_raise(error)
+
+      service.send(:make_api_call, body)
+    end
+
+    it 'returns a clear error when the hook key is ignored and no system key exists' do
+      create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openrouter')
+      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
+
+      expect(Llm::Config).not_to receive(:with_api_key)
+
+      result = service.send(:make_api_call, body)
+
+      expect(result).to eq(
+        error: I18n.t('captain.api_key_missing'),
+        error_code: 401,
+        request_messages: [{ 'role' => 'user', 'content' => 'Hello' }]
+      )
+    end
   end
 end
