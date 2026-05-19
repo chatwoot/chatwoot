@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Widget Qurucusu",
       "BOT_CONFIGURATION": "Bot Konfiqurasiyası",
       "ACCOUNT_HEALTH": "Hesabın sağlamlığı",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Səs"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Kanal üstünlükləri",
     "WIDGET_FEATURES": "Widget xüsusiyyətləri",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "E-poçtda Agentin adının göstərilməsini aktivləşdirin/deaktivləşdirin, deaktiv edilsə biznes adı göstəriləcək",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-poçt vasitəsilə söhbət davamlılığını aktiv edin",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Əlaqə e-poçt ünvanı mövcuddursa, söhbətlər e-poçt vasitəsilə davam edəcək.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Söhbət yönləndirilməsi",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Mövcud əlaqələr üçün söhbət yaradılmasını qurun",
       "INBOX_UPDATE_TITLE": "Gələn Qutu Parametrləri",
@@ -1000,7 +1011,8 @@
         "LABEL": "Şifrə",
         "PLACE_HOLDER": "Şifrə"
       },
-      "ENABLE_SSL": "SSL-i aktiv et"
+      "ENABLE_SSL": "SSL-i aktiv et",
+      "AUTH_MECHANISM": "Avtorizasiya"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
