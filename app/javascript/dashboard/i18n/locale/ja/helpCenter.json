@@ -866,6 +866,28 @@
         },
         "EDIT_CONFIGURATION": "設定を編集"
       },
+      "LAYOUT_CONTENT": {
+        "HEADER": "外観",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "削除"
+        },
+        "SAVE": "変更を保存"
+      },
       "API": {
         "CREATE_PORTAL": {
           "SUCCESS_MESSAGE": "ポータルが正常に作成されました",
