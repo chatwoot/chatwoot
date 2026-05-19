@@ -72,31 +72,15 @@ class AutoAssignment::AssignmentService
   end
 
   def assign_conversation(conversation, agent)
-    return false unless claim_and_assign(conversation, agent)
-
-    conversation.reload
+    Current.executed_by = inbox.assignment_policy || inbox
+    conversation.update!(assignee: agent)
+    Current.executed_by = nil
 
     rate_limiter = build_rate_limiter(agent)
     rate_limiter.track_assignment(conversation)
 
     dispatch_assignment_event(conversation, agent)
     true
-  end
-
-  # SKIP LOCKED so concurrent AssignmentJobs don't double-assign the same row.
-  def claim_and_assign(conversation, agent)
-    Current.executed_by = inbox.assignment_policy || inbox
-
-    Conversation.transaction do
-      locked = inbox.conversations
-                    .where(id: conversation.id, assignee_id: nil)
-                    .lock('FOR UPDATE SKIP LOCKED')
-                    .first
-      next false unless locked
-
-      locked.update!(assignee: agent)
-      true
-    end
   ensure
     Current.executed_by = nil
   end
