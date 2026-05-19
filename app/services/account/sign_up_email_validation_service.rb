@@ -17,6 +17,8 @@ class Account::SignUpEmailValidationService
 
     raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
 
+    raise InvalidEmail.new({ free_email_provider: true }) if address.deny_listed?
+
     true
   end
 

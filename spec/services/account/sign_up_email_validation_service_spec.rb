@@ -5,7 +5,8 @@ require 'rails_helper'
 RSpec.describe Account::SignUpEmailValidationService, type: :service do
   let(:service) { described_class.new(email) }
   let(:blocked_domains) { "gmail.com\noutlook.com" }
-  let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false) }
+  let(:valid_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false, deny_listed?: false) }
+  let(:free_provider_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: false, deny_listed?: true) }
   let(:disposable_email_address) { instance_double(ValidEmail2::Address, valid?: true, disposable?: true) }
   let(:invalid_email_address) { instance_double(ValidEmail2::Address, valid?: false) }
 
@@ -62,8 +63,20 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
       end
     end
 
-    context 'when email is valid business email' do
+    context 'when email is from a free provider' do
       let(:email) { 'test@example.com' }
+
+      it 'raises InvalidEmail with free email provider message' do
+        allow(ValidEmail2::Address).to receive(:new).with(email).and_return(free_provider_email_address)
+        expect { service.perform }.to raise_error do |error|
+          expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
+          expect(error.message).to eq(I18n.t('errors.signup.free_email_provider'))
+        end
+      end
+    end
+
+    context 'when email is valid business email' do
+      let(:email) { 'test@chatwoot.com' }
 
       it 'returns true' do
         allow(ValidEmail2::Address).to receive(:new).with(email).and_return(valid_email_address)

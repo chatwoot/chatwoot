@@ -7,6 +7,8 @@ module CustomExceptions::Account
         I18n.t 'errors.signup.blocked_domain'
       elsif @data[:disposable]
         I18n.t 'errors.signup.disposable_email'
+      elsif @data[:free_email_provider]
+        I18n.t 'errors.signup.free_email_provider'
       elsif !@data[:valid]
         I18n.t 'errors.signup.invalid_email'
       end
