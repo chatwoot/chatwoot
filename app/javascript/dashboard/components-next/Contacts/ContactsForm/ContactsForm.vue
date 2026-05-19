@@ -1,10 +1,13 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
+import CompanyAPI from 'dashboard/api/companies';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -28,6 +31,7 @@ const props = defineProps({
 const emit = defineEmits(['update']);
 
 const { t } = useI18n();
+const { currentAccount, isCloudFeatureEnabled } = useAccount();
 
 const FORM_CONFIG = {
   FIRST_NAME: { field: 'firstName' },
@@ -54,6 +58,7 @@ const defaultState = {
   id: 0,
   name: '',
   email: '',
+  companyId: '',
   firstName: '',
   lastName: '',
   phoneNumber: '',
@@ -76,6 +81,8 @@ const defaultState = {
 };
 
 const state = reactive({ ...defaultState });
+const companyOptions = ref([]);
+let companySearchRequestToken = 0;
 
 const validationRules = {
   firstName: { required },
@@ -85,6 +92,64 @@ const validationRules = {
 const v$ = useVuelidate(validationRules, state);
 
 const isFormInvalid = computed(() => v$.value.$invalid);
+const hasCompaniesFeature = computed(
+  () =>
+    currentAccount.value?.id && isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
+);
+const showCompanySelector = computed(
+  () =>
+    hasCompaniesFeature.value &&
+    (Boolean(state.companyId) || !state.additionalAttributes.companyName)
+);
+
+const normalizeCompanyOptions = companies =>
+  companies.map(company => ({
+    label: company.name,
+    value: company.id,
+  }));
+
+const selectedCompanyOption = computed(() => {
+  const { companyId, additionalAttributes } = state;
+  if (!companyId || !additionalAttributes.companyName) return null;
+
+  return {
+    label: additionalAttributes.companyName,
+    value: Number(companyId),
+  };
+});
+
+const ensureSelectedCompanyOption = options => {
+  const selected = selectedCompanyOption.value;
+  if (!selected || options.some(option => option.value === selected.value)) {
+    return options;
+  }
+
+  return [selected, ...options];
+};
+
+const loadCompanyOptions = async query => {
+  if (!hasCompaniesFeature.value) return;
+
+  const requestToken = companySearchRequestToken + 1;
+  companySearchRequestToken = requestToken;
+
+  try {
+    const {
+      data: { payload },
+    } = query?.trim()
+      ? await CompanyAPI.search(query)
+      : await CompanyAPI.get({ page: 1 });
+
+    if (companySearchRequestToken !== requestToken) return;
+    companyOptions.value = ensureSelectedCompanyOption(
+      normalizeCompanyOptions(payload || [])
+    );
+  } catch {
+    if (companySearchRequestToken === requestToken) {
+      companyOptions.value = ensureSelectedCompanyOption([]);
+    }
+  }
+};
 
 const prepareStateBasedOnProps = () => {
   if (props.isNewContact) {
@@ -96,6 +161,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    companyId = '',
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -115,6 +181,7 @@ const prepareStateBasedOnProps = () => {
   Object.assign(state, {
     id,
     name,
+    companyId: companyId || '',
     firstName,
     lastName,
     email: emailAddress,
@@ -221,6 +288,21 @@ const handleCountrySelection = value => {
   emit('update', state);
 };
 
+const handleCompanySelection = async value => {
+  const companyId = value ? Number(value) : '';
+  const selectedCompany = companyOptions.value.find(
+    option => option.value === companyId
+  );
+  state.companyId = companyId;
+  state.additionalAttributes.companyName = selectedCompany?.label || '';
+
+  const isFormValid = await v$.value.$validate();
+  if (isFormValid) {
+    const { firstName, lastName, ...stateWithoutNames } = state;
+    emit('update', stateWithoutNames);
+  }
+};
+
 const resetValidation = () => {
   v$.value.$reset();
 };
@@ -232,7 +314,18 @@ const resetForm = () => {
 watch(
   () => props.contactData?.id,
   id => {
-    if (id) prepareStateBasedOnProps();
+    if (id) {
+      prepareStateBasedOnProps();
+      companyOptions.value = ensureSelectedCompanyOption(companyOptions.value);
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  hasCompaniesFeature,
+  enabled => {
+    if (enabled) loadCompanyOptions();
   },
   { immediate: true }
 );
@@ -272,6 +365,22 @@ defineExpose({
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
+          />
+          <ComboBox
+            v-else-if="item.key === 'COMPANY_NAME' && showCompanySelector"
+            :model-value="state.companyId"
+            :options="companyOptions"
+            :placeholder="item.placeholder"
+            :search-placeholder="t('COMPANIES.SEARCH_PLACEHOLDER')"
+            use-api-results
+            class="[&>div>button]:h-8"
+            :class="{
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+                !isDetailsView,
+              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+            }"
+            @search="loadCompanyOptions"
+            @update:model-value="handleCompanySelection"
           />
           <Input
             v-else

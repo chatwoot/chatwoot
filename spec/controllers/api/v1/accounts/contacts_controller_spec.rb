@@ -631,6 +631,20 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact.additional_attributes).to eq({ 'attr1' => 'attr1', 'attr2' => 'new attr2', 'attr3' => 'attr3' })
       end
 
+      it 'updates company association when companies feature is enabled' do
+        account.enable_features!(:companies)
+        company = create(:company, account: account, name: 'Acme')
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { company_id: company.id },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.company).to eq(company)
+        expect(contact.additional_attributes['company_name']).to eq('Acme')
+      end
+
       it 'prevents the update of contact of another account' do
         other_account = create(:account)
         other_contact = create(:contact, account: other_account)

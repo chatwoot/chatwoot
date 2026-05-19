@@ -6,6 +6,7 @@ module Enterprise::Concerns::Contact
     after_commit :associate_company_from_email,
                  on: [:create, :update],
                  if: :should_associate_company?
+    before_save :sync_company_name_from_company, if: :will_save_change_to_company_id?
     after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
   end
 
@@ -32,5 +33,15 @@ module Enterprise::Concerns::Contact
 
   def record_company_activity
     company&.record_activity_at!(last_activity_at) if last_activity_at.present?
+  end
+
+  def sync_company_name_from_company
+    self.additional_attributes ||= {}
+
+    if company_id.present?
+      additional_attributes['company_name'] = company&.name
+    else
+      additional_attributes.delete('company_name')
+    end
   end
 end
