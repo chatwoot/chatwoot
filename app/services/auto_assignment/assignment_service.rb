@@ -83,10 +83,7 @@ class AutoAssignment::AssignmentService
     true
   end
 
-  # Atomically claim the conversation row before assigning. Without this guard
-  # concurrent AssignmentJobs (one per inbox resolve/snooze, plus the cron)
-  # all read the same unassigned row and each writes a different assignee,
-  # producing duplicate "Assigned to ..." activity messages.
+  # SKIP LOCKED so concurrent AssignmentJobs don't double-assign the same row.
   def claim_and_assign(conversation, agent)
     Current.executed_by = inbox.assignment_policy || inbox
 
