@@ -43,10 +43,15 @@ class Portal < ApplicationRecord
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
   validate :config_json_format
+  validate :gtm_container_id_format
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout gtm_container_id].freeze
+
+  # Google Tag Manager container IDs look like `GTM-XXXXXX`. Restricting the value to this
+  # shape keeps it safe to interpolate into the help center markup (no quotes/angle brackets).
+  GTM_CONTAINER_ID_FORMAT = /\AGTM-[A-Z0-9]+\z/
 
   def file_base_data
     {
@@ -102,7 +107,18 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
+  def gtm_container_id
+    config_value('gtm_container_id').presence
+  end
+
   private
+
+  def gtm_container_id_format
+    value = config_value('gtm_container_id')
+    return if value.blank?
+
+    errors.add(:config, 'Google Tag Manager container ID is invalid') unless value.to_s.match?(GTM_CONTAINER_ID_FORMAT)
+  end
 
   def config_json_format
     self.config = persisted_config.merge((config || {}).deep_stringify_keys)
