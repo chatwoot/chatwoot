@@ -2,12 +2,12 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import LayoutPreviewCard from './LayoutPreviewCard.vue';
 import classicLayoutPreview from './classic-layout-preview.svg?raw';
 import documentationLayoutPreview from './documentation-layout-preview.svg?raw';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 
 const props = defineProps({
   activePortal: { type: Object, required: true },
@@ -154,11 +154,10 @@ const handleSave = () => {
 
     <section class="flex flex-col gap-3">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-n-slate-11">
-        <LayoutPreviewCard
-          name="portal-layout"
-          value="classic"
-          :active="state.layout === 'classic'"
-          :title="
+        <RadioCard
+          id="classic"
+          :is-active="state.layout === 'classic'"
+          :label="
             t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.LAYOUT.CLASSIC.TITLE')
           "
           :description="
@@ -168,15 +167,18 @@ const handleSave = () => {
           "
           @select="value => (state.layout = value)"
         >
-          <span v-dompurify-html="classicLayoutPreview" />
-        </LayoutPreviewCard>
+          <div
+            class="w-full mt-2 rounded-md overflow-hidden border border-solid border-n-weak bg-n-slate-2 dark:bg-n-slate-1"
+          >
+            <span v-dompurify-html="classicLayoutPreview" />
+          </div>
+        </RadioCard>
 
-        <LayoutPreviewCard
-          name="portal-layout"
-          value="documentation"
+        <RadioCard
+          id="documentation"
           beta
-          :active="state.layout === 'documentation'"
-          :title="
+          :is-active="state.layout === 'documentation'"
+          :label="
             t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.LAYOUT.SIDEBAR.TITLE')
           "
           :description="
@@ -186,8 +188,12 @@ const handleSave = () => {
           "
           @select="value => (state.layout = value)"
         >
-          <span v-dompurify-html="documentationLayoutPreview" />
-        </LayoutPreviewCard>
+          <div
+            class="w-full mt-2 rounded-md overflow-hidden border border-solid border-n-weak bg-n-slate-2 dark:bg-n-slate-1"
+          >
+            <span v-dompurify-html="documentationLayoutPreview" />
+          </div>
+        </RadioCard>
       </div>
     </section>
 
