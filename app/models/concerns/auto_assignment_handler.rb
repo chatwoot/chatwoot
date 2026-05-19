@@ -15,8 +15,8 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system
-      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
+      # Use new assignment system; coalesces bursts of triggers per inbox.
+      AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox.id)
     else
       # Use legacy assignment system
       # If conversation has a team, only consider team members for assignment
