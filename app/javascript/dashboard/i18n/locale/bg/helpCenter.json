@@ -866,6 +866,28 @@
         },
         "EDIT_CONFIGURATION": "Edit configuration"
       },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Appearance",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Remove"
+        },
+        "SAVE": "Save changes"
+      },
       "API": {
         "CREATE_PORTAL": {
           "SUCCESS_MESSAGE": "Portal created successfully",
