@@ -18,6 +18,11 @@ const emit = defineEmits(['updatePortalConfiguration']);
 
 const { t } = useI18n();
 
+const PORTAL_LAYOUTS = {
+  CLASSIC: 'classic',
+  DOCUMENTATION: 'documentation',
+};
+
 // `prefix` is the link the help center auto-fills; the DB only stores the handle.
 const SOCIAL_PLATFORMS = [
   {
@@ -67,7 +72,10 @@ const SOCIAL_PLATFORMS = [
 
 const portalConfig = computed(() => props.activePortal?.config || {});
 
-const state = reactive({ layout: 'classic', socialProfiles: {} });
+const state = reactive({
+  layout: PORTAL_LAYOUTS.CLASSIC,
+  socialProfiles: {},
+});
 const visiblePlatforms = ref([]);
 const showAddMenu = ref(false);
 
@@ -89,7 +97,7 @@ const snapshot = () =>
 
 const resetFromPortal = () => {
   const savedProfiles = portalConfig.value.social_profiles || {};
-  state.layout = portalConfig.value.layout || 'classic';
+  state.layout = portalConfig.value.layout || PORTAL_LAYOUTS.CLASSIC;
   state.socialProfiles = SOCIAL_PLATFORMS.reduce((acc, { key }) => {
     acc[key] = savedProfiles[key] || '';
     return acc;
@@ -155,8 +163,8 @@ const handleSave = () => {
     <section class="flex flex-col gap-3">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-n-slate-11">
         <RadioCard
-          id="classic"
-          :is-active="state.layout === 'classic'"
+          :id="PORTAL_LAYOUTS.CLASSIC"
+          :is-active="state.layout === PORTAL_LAYOUTS.CLASSIC"
           :label="
             t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.LAYOUT.CLASSIC.TITLE')
           "
@@ -175,9 +183,9 @@ const handleSave = () => {
         </RadioCard>
 
         <RadioCard
-          id="documentation"
+          :id="PORTAL_LAYOUTS.DOCUMENTATION"
           beta
-          :is-active="state.layout === 'documentation'"
+          :is-active="state.layout === PORTAL_LAYOUTS.DOCUMENTATION"
           :label="
             t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.LAYOUT.SIDEBAR.TITLE')
           "
@@ -198,7 +206,7 @@ const handleSave = () => {
     </section>
 
     <section
-      v-if="state.layout === 'documentation'"
+      v-if="state.layout === PORTAL_LAYOUTS.DOCUMENTATION"
       class="flex flex-col gap-3"
     >
       <div class="flex flex-col gap-1">
