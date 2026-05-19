@@ -876,14 +876,14 @@
           },
           "SIDEBAR": {
             "TITLE": "Documentação",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "DESCRIPTION": "Navegação lado a lado que mantém todos os guias a um clique de distância."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "HEADER": "Links sociais",
+          "DESCRIPTION": "Adicione o identificador de cada rede e sua central de ajuda criará o link completo automaticamente. Exibido no rodapé do leiaute da documentação.",
           "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "ADD": "Adicionar link social",
           "REMOVE": "Excluir"
         },
         "SAVE": "Salvar Alterações"
