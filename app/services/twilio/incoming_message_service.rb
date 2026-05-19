@@ -82,10 +82,8 @@ class Twilio::IncomingMessageService
 
   def set_contact
     source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
-    contact_inbox = twilio_contact_inbox(source_id)
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
+    @contact_inbox = twilio_contact_inbox(source_id)
+    @contact = @contact_inbox.contact
     update_twilio_whatsapp_identifiers
 
     # Update existing contact name if ProfileName is available and current name is just phone number
