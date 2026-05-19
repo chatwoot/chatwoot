@@ -86,8 +86,8 @@
         "REVENUE": "Receita potencial",
         "MESSAGES_RECEIVED": "Mensagens recebidas",
         "MESSAGES_SENT": "Mensagens enviadas",
-        "BOT_TAKEOVERS": "Bot → atendimento humano",
-        "HUMAN_RESCUES": "Humano → resgate pelo bot",
+        "BOT_TAKEOVERS": "Elisa → atendimento humano",
+        "HUMAN_RESCUES": "Humano → resgate pela Elisa",
         "AI_RESPONSES": "Respostas da IA",
         "APPOINTMENTS": "Agendamentos",
         "CONVERSION_RATE": "Taxa de conversão"
@@ -97,7 +97,7 @@
         "MESSAGES_RECEIVED": "Mensagens recebidas",
         "MESSAGES_SENT": "Mensagens enviadas",
         "AI_RESPONSES": "Respostas da IA",
-        "BOT_TAKEOVERS": "Transferências do bot"
+        "BOT_TAKEOVERS": "Transferências da Elisa"
       },
       "RECENT_EVENTS": {
         "TITLE": "Últimos alertas",

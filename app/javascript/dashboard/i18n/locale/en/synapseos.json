@@ -86,8 +86,8 @@
         "REVENUE": "Potential revenue",
         "MESSAGES_RECEIVED": "Messages in",
         "MESSAGES_SENT": "Messages out",
-        "BOT_TAKEOVERS": "Bot → human takeovers",
-        "HUMAN_RESCUES": "Human → bot rescues",
+        "BOT_TAKEOVERS": "Elisa → human takeovers",
+        "HUMAN_RESCUES": "Human → Elisa rescues",
         "AI_RESPONSES": "AI responses",
         "APPOINTMENTS": "Appointments",
         "CONVERSION_RATE": "Conversion rate"
@@ -97,7 +97,7 @@
         "MESSAGES_RECEIVED": "Messages received",
         "MESSAGES_SENT": "Messages sent",
         "AI_RESPONSES": "AI responses",
-        "BOT_TAKEOVERS": "Bot takeovers"
+        "BOT_TAKEOVERS": "Elisa takeovers"
       },
       "RECENT_EVENTS": {
         "TITLE": "Latest alerts",
