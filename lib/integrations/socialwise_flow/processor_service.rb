@@ -190,8 +190,9 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       return
     end
 
-    # Accept pending OR open conversations without agent replies
-    # This allows the bot to respond to auto-assigned conversations
+    # Accept pending OR open conversations unless Socialwise explicitly handed off.
+    # A historical human reply must not suppress automation forever: Chatwit is
+    # transport, and the platform decides handoff through the response action.
     unless bot_should_respond?
       Rails.logger.info "[SOCIALWISE-FLOW] BLOCKED: Bot should not respond (status: #{conversation.status}, has_agent_reply: #{has_agent_reply?})"
       return
@@ -204,17 +205,16 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   # Check if bot should respond to this conversation
   # Returns true if:
   # - Conversation is pending (original behavior, ignores handoff flag as it's a new/reopened conversation)
-  # - Conversation is open but has NO agent replies yet AND no handoff has occurred
+  # - Conversation is open and no explicit Socialwise handoff has occurred
   def bot_should_respond?
     Rails.logger.info "[SOCIALWISE-FLOW] Checking bot_should_respond: status=#{conversation.status}, has_agent_reply=#{has_agent_reply?}, handoff_completed=#{handoff_completed?}"
 
     # Pending conversations always get bot responses (new or reopened conversations)
     return true if conversation.pending?
 
-    # Open conversations only get bot responses if:
-    # 1. No human agent has replied yet, AND
-    # 2. No handoff action has been executed
-    return true if conversation.open? && !has_agent_reply? && !handoff_completed?
+    # Open conversations remain automatable unless the platform explicitly
+    # executed handoff. Human replies may be old history on a long-lived thread.
+    return true if conversation.open? && !handoff_completed?
 
     false
   end
