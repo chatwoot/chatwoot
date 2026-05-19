@@ -112,7 +112,10 @@ const reorderCategories = async reorderedGroup => {
 </script>
 
 <template>
-  <HelpCenterLayout :show-pagination-footer="false">
+  <HelpCenterLayout
+    :show-pagination-footer="false"
+    :breadcrumb-label="$t('HELP_CENTER.BREADCRUMB.CATEGORIES')"
+  >
     <template #header-actions>
       <CategoryHeaderControls
         :categories="categories"

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 
@@ -62,6 +62,7 @@ const { isOnChatwootCloud } = useAccount();
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
 const updatedDomainAddress = ref('');
+const pendingDomain = ref('');
 
 const customDomainAddress = computed(
   () => props.activePortal?.custom_domain || ''
@@ -111,13 +112,22 @@ const updatePortalConfiguration = customDomain => {
     id: props.activePortal?.id,
     custom_domain: customDomain,
   };
+  pendingDomain.value = customDomain;
   emit('updatePortalConfiguration', portal);
   addCustomDomainDialogRef.value.dialogRef.close();
-  if (customDomain) {
-    updatedDomainAddress.value = customDomain;
-    dnsConfigurationDialogRef.value.dialogRef.open();
-  }
 };
+
+// The save above is fire-and-forget, so the DNS instructions dialog must not
+// open until the domain is actually persisted — otherwise a failed save still
+// advances to the next step. We open it once the stored value reflects the
+// submitted domain.
+watch(customDomainAddress, savedDomain => {
+  if (!pendingDomain.value || savedDomain !== pendingDomain.value) return;
+
+  pendingDomain.value = '';
+  updatedDomainAddress.value = savedDomain;
+  dnsConfigurationDialogRef.value.dialogRef.open();
+});
 
 const closeDNSConfigurationDialog = () => {
   updatedDomainAddress.value = '';

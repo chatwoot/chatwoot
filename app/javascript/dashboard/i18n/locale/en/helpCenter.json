@@ -404,6 +404,12 @@
         "PLACEHOLDER": "Search for articles"
       }
     },
+    "BREADCRUMB": {
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Categories",
+      "LOCALES": "Locales",
+      "SETTINGS": "Settings"
+    },
     "CATEGORY": {
       "ADD": {
         "TITLE": "Create a category",
@@ -806,12 +812,6 @@
           "LABEL": "Slug",
           "PLACEHOLDER": "Portal slug"
         },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center",
-          "NONE_OPTION": "No widget"
-        },
         "BRAND_COLOR": {
           "LABEL": "Brand color"
         },
@@ -887,6 +887,30 @@
           "REMOVE": "Remove"
         },
         "SAVE": "Save changes"
+      },
+      "INTEGRATIONS": {
+        "HEADER": "Integrations",
+        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "LIVE_CHAT": {
+          "TITLE": "Live chat with Chatwoot",
+          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
+          "PLACEHOLDER": "Select live chat widget",
+          "NONE_OPTION": "No widget"
+        },
+        "GTM": {
+          "TITLE": "Google Tag Manager",
+          "DESCRIPTION": "Add analytics and marketing tags, like Google Analytics, by connecting your Tag Manager container.",
+          "PLACEHOLDER": "GTM-XXXXXXX",
+          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
+          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+        },
+        "SAVE": "Save changes"
+      },
+      "NAV": {
+        "GENERAL": "General",
+        "DOMAIN": "Domain",
+        "APPEARANCE": "Appearance",
+        "INTEGRATIONS": "Integrations"
       },
       "API": {
         "CREATE_PORTAL": {
