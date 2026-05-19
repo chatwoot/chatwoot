@@ -387,7 +387,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_15_000000) do
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
-    t.index ["account_id", "sync_status"], name: "index_captain_documents_on_account_id_and_sync_status"
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
