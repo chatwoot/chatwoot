@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Sakriji citirani tekst",
     "SHOW_QUOTED_TEXT": "Prikaži citirani tekst",
     "MESSAGE_READ": "Pročitane",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

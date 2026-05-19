@@ -742,12 +742,58 @@
       "SELECT_ALL": "全選（{count}）",
       "UNSELECT_ALL": "取消全選（{count}）",
       "BULK_DELETE_BUTTON": "刪除",
+      "BULK_SYNC_BUTTON": "重新整理",
       "BULK_DELETE": {
         "TITLE": "刪除文件？",
         "DESCRIPTION": "您確定要刪除所選的文件嗎？此操作無法復原。",
         "CONFIRM": "是，全部刪除",
         "SUCCESS_MESSAGE": "文件已成功刪除",
         "ERROR_MESSAGE": "刪除文件時發生錯誤，請重試。"
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "失敗"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "搜尋..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "找不到頁面",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "相關常見問答",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "檢視相關回應",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "刪除文件"
       },
       "EMPTY_STATE": {
         "TITLE": "沒有可用的文件",
         "SUBTITLE": "文件可供助理生成常見問答。您可以匯入文件為助理提供知識來源。",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 文件",
           "NOTE": "Captain 中的文件可作為助理的知識資源。透過連接您的幫助中心或指南，Captain 能分析內容並為客戶詢問提供準確的回應。"

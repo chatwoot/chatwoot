@@ -10,7 +10,8 @@
     "NO_RESULTS": "Не найдено атрибутов, соответствующих вашему запросу",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Диалог",
-      "CONTACT": "Контакт"
+      "CONTACT": "Контакт",
+      "COMPANY": "Компания"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Текст",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Пользовательские атрибуты",
       "CONVERSATION": "Диалог",
-      "CONTACT": "Контакт"
+      "CONTACT": "Контакт",
+      "COMPANY": "Компания"
     },
     "LIST": {
       "TABLE_HEADER": {

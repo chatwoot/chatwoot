@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Нiчого",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Розмову створено",
       "CONVERSATION_UPDATED": "Розмову оновлено",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Мова браузера",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Країна",
+      "COMPANY_NAME": "Організація",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Команда",

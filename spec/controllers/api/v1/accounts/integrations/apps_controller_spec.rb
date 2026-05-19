@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Integration Apps API', type: :request do
   let(:account) { create(:account) }
 
+  before { allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true) }
+
   describe 'GET /api/v1/integrations/apps' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
