@@ -33,9 +33,6 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     super
   end
 
-  # Article-only: honour `?cw_image_width=N` (px) emitted by the HC editor's
-  # resize NodeView. `max-width: 100%` keeps it responsive; `height: auto`
-  # preserves the intrinsic aspect ratio.
   def image(node)
     src = escape_href(node.url)
     width = extract_image_width(src)
