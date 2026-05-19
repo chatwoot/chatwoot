@@ -4,8 +4,9 @@ class Account::SignUpEmailValidationService
   include CustomExceptions::Account
   attr_reader :email
 
-  def initialize(email)
+  def initialize(email, allow_free_email_provider: false)
     @email = email
+    @allow_free_email_provider = allow_free_email_provider
   end
 
   def perform
@@ -17,7 +18,7 @@ class Account::SignUpEmailValidationService
 
     raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
 
-    raise InvalidEmail.new({ free_email_provider: true }) if address.deny_listed?
+    raise InvalidEmail.new({ free_email_provider: true }) if !@allow_free_email_provider && address.deny_listed?
 
     true
   end

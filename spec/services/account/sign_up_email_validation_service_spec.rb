@@ -121,5 +121,16 @@ RSpec.describe Account::SignUpEmailValidationService, type: :service do
         expect(error.message).to eq(I18n.t('errors.signup.disposable_email'))
       end
     end
+
+    it 'allows free email providers when allow_free_email_provider is true' do
+      expect(described_class.new('admin@gmail.com', allow_free_email_provider: true).perform).to be(true)
+    end
+
+    it 'still rejects disposable emails even when allow_free_email_provider is true' do
+      expect { described_class.new('user@mailinator.com', allow_free_email_provider: true).perform }.to raise_error do |error|
+        expect(error.class.name).to eq('CustomExceptions::Account::InvalidEmail')
+        expect(error.message).to eq(I18n.t('errors.signup.disposable_email'))
+      end
+    end
   end
 end

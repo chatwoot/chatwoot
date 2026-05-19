@@ -11,7 +11,8 @@ class Installation::OnboardingController < ApplicationController
         email: onboarding_params.dig(:user, :email),
         user_password: params.dig(:user, :password),
         super_admin: true,
-        confirmed: true
+        confirmed: true,
+        allow_free_email_provider: true
       ).perform
     rescue StandardError => e
       redirect_to '/', flash: { error: e.message } and return
