@@ -18,6 +18,7 @@ json.config do
   json.default_locale portal.default_locale
   json.layout portal.layout
   json.social_profiles portal.social_profiles
+  json.gtm_container_id portal.gtm_container_id
 end
 
 if portal.channel_web_widget
