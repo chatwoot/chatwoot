@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Wybierz skrzynkę odbiorczą"
         },
         "SUBMIT": "Dodaj",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Anuluj"
       },
       "API": {

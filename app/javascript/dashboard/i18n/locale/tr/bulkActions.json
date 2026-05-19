@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanmamış yapılacak. Emin misiniz?",
     "GO_BACK_LABEL": "Geri git",
     "ASSIGN_LABEL": "Atama yap",
+    "NONE": "Hiç",
+    "CLEAR_SELECTION": "Clear",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Evet",
+    "CANCEL": "İptal Et",
     "SEARCH_INPUT_PLACEHOLDER": "Ara",
     "ASSIGN_AGENT_TOOLTIP": "Temsilci ata",
     "ASSIGN_TEAM_TOOLTIP": "Takım ata",
@@ -38,6 +43,8 @@
       "NONE": "Hiçbiri",
       "NO_TEAMS_AVAILABLE": "Bu hesaba henüz eklenmiş takımlar yok.",
       "ASSIGN_SELECTED_TEAMS": "Seçili takımları atama",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Takımlar atanırken bir hata oluştu. Lütfen tekrar deneyin."
     }

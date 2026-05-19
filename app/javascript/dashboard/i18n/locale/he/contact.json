@@ -386,6 +386,7 @@
       "IDENTIFIER": "מזהה",
       "COUNTRY": "מדינה",
       "CITY": "עיר",
+      "COMPANY": "חברה",
       "CREATED_AT": "נוצר בזמן",
       "LAST_ACTIVITY": "פעילות אחרונה",
       "REFERER_LINK": "קישור מפנה",
