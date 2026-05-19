@@ -55,7 +55,7 @@ gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'google-cloud-storage', '>= 1.48.0', require: false
+gem 'google-cloud-storage', '>= 1.53.0', require: false
 gem 'image_processing'
 
 ##-- for actionmailbox --##
@@ -89,7 +89,7 @@ gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
-gem 'jwt'
+gem 'jwt', '>= 3.2.0'
 gem 'pundit'
 
 # super admin
@@ -104,21 +104,21 @@ gem 'wisper', '2.0.0'
 ##--- gems for channels ---##
 gem 'facebook-messenger'
 gem 'line-bot-api'
-gem 'twilio-ruby'
+gem 'twilio-ruby', '>= 7.8.1'
 # twitty will handle subscription of twitter account events
 # gem 'twitty', git: 'https://github.com/chatwoot/twitty'
 gem 'twitty', '~> 0.1.5'
 # facebook client
-gem 'koala'
+gem 'koala', '>= 3.5.0'
 # slack client
-gem 'slack-ruby-client', '~> 2.7.0'
+gem 'slack-ruby-client', '~> 3.0.0'
 # for dialogflow integrations
-gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
+gem 'google-cloud-dialogflow-v2', '>= 0.32.0'
 gem 'grpc'
 # Translate integrations
 # 'google-cloud-translate' gem depends on faraday 2.0 version
 # this dependency breaks the slack-ruby-client gem
-gem 'google-cloud-translate-v3', '>= 0.7.0'
+gem 'google-cloud-translate-v3', '>= 0.11.0'
 
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.
@@ -140,8 +140,8 @@ gem 'sidekiq-cron', '>= 2.4.0'
 gem 'sidekiq_alive'
 
 ##-- Push notification service --##
-gem 'fcm'
-gem 'web-push', '>= 3.0.1'
+gem 'fcm', '>= 2.0.0'
+gem 'web-push', '>= 3.0.2'
 
 ##-- geocoding / parse location from ip --##
 # http://www.rubygeocoder.com/
@@ -176,14 +176,14 @@ gem 'faker'
 gem 'lograge', '~> 0.14.0', require: false
 
 # worked with microsoft refresh token
-gem 'omniauth-oauth2'
+gem 'omniauth-oauth2', '>= 1.9.0'
 
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-saml'
-gem 'omniauth-google-oauth2', '>= 1.1.3'
+gem 'omniauth-google-oauth2', '>= 1.2.0'
 gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 ## Gems for reponse bot
@@ -194,7 +194,7 @@ gem 'pgvector'
 gem 'reverse_markdown'
 
 gem 'iso-639'
-gem 'ruby-openai'
+gem 'ruby-openai', '>= 7.4.0'
 gem 'ai-agents', '>= 0.10.0'
 
 # TODO: Move this gem as a dependency of ai-agents
@@ -207,7 +207,7 @@ gem 'cld3', '~> 3.7'
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 
-gem 'shopify_api'
+gem 'shopify_api', '>= 14.9.0'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
