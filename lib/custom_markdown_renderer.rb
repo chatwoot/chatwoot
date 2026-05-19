@@ -1,4 +1,4 @@
-class CustomMarkdownRenderer < BaseMarkdownRenderer
+class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   CONFIG_PATH = Rails.root.join('config/markdown_embeds.yml')
 
   def self.config
@@ -33,7 +33,33 @@ class CustomMarkdownRenderer < BaseMarkdownRenderer
     super
   end
 
+  # Article-only: honour `?cw_image_width=N` (px) emitted by the HC editor's
+  # resize NodeView. `max-width: 100%` keeps it responsive; `height: auto`
+  # preserves the intrinsic aspect ratio.
+  def image(node)
+    src = escape_href(node.url)
+    width = extract_image_width(src)
+    plain do
+      out(%(<img src="#{src}"))
+      out(' alt="', :children, '"')
+      out(%( title="#{escape_html(node.title)}")) if node.title.present?
+      out(%( style="width: #{width}; max-width: 100%; height: auto;")) if width
+      out(' />')
+    end
+  end
+
   private
+
+  def extract_image_width(src)
+    query = URI.parse(src).query
+    raw = query && CGI.parse(query)['cw_image_width']&.first
+    return unless raw =~ /\A(\d+)px\z/
+
+    px = Regexp.last_match(1).to_i
+    "#{px}px" if px.between?(1, 2000)
+  rescue URI::InvalidURIError
+    nil
+  end
 
   def surrounded_by_empty_lines?(node)
     prev_node_empty?(node.previous) && next_node_empty?(node.next)

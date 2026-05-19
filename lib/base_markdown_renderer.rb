@@ -16,12 +16,8 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def extract_image_height(src)
-    raw = parse_query_params(src)['cw_image_height']&.first
-
-    case raw
-    when 'auto' then 'auto'
-    when /\A(\d+)(?:px)?\z/ then "#{Regexp.last_match(1)}px"
-    end
+    query_params = parse_query_params(src)
+    query_params['cw_image_height']&.first
   end
 
   def parse_query_params(url)
@@ -32,16 +28,16 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   def render_img_tag(src, title, height = nil)
+    title_attribute = title.present? ? " title=\"#{title}\"" : ''
     # Use inline style instead of the HTML height attribute: email clients and
     # the in-app Letter view both run images through CSS (e.g. prose /
     # lettersanitizer's `img { height: auto }`) which overrides presentational
     # attributes. Inline style has higher specificity and survives.
+    style_attribute = height ? " style=\"height: #{height};\"" : ''
+
     plain do
-      out(%(<img src="#{src}"))
-      out(' alt="', :children, '"')
-      out(%( title="#{title}")) if title.present?
-      out(%( style="height: #{height};")) if height
-      out(' />')
+      # plain ensures that the content is not wrapped in a paragraph tag
+      out("<img src=\"#{src}\"#{title_attribute}#{style_attribute} />")
     end
   end
 end

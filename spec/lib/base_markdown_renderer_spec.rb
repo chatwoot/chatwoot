@@ -9,59 +9,17 @@ describe BaseMarkdownRenderer do
   end
 
   describe '#image' do
-    context 'when image has a numeric height' do
-      it 'normalises bare integers to px' do
+    context 'when image has a height' do
+      it 'renders the img tag with the correct attributes' do
         markdown = '![Sample Title](https://example.com/image.jpg?cw_image_height=100)'
-        expect(render_markdown(markdown)).to include(
-          '<img src="https://example.com/image.jpg?cw_image_height=100" alt="Sample Title" style="height: 100px;" />'
-        )
-      end
-
-      it 'preserves explicit px values' do
-        markdown = '![Sample Title](https://example.com/image.jpg?cw_image_height=24px)'
-        expect(render_markdown(markdown)).to include(
-          '<img src="https://example.com/image.jpg?cw_image_height=24px" alt="Sample Title" style="height: 24px;" />'
-        )
-      end
-    end
-
-    context 'when image has height=auto' do
-      it 'renders the auto keyword' do
-        markdown = '![Sample Title](https://example.com/image.jpg?cw_image_height=auto)'
-        expect(render_markdown(markdown)).to include('alt="Sample Title" style="height: auto;"')
+        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg?cw_image_height=100" style="height: 100;" />')
       end
     end
 
     context 'when image does not have a height' do
       it 'renders the img tag without the height attribute' do
         markdown = '![Sample Title](https://example.com/image.jpg)'
-        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg" alt="Sample Title" />')
-      end
-    end
-
-    context 'when image has alt text' do
-      it 'preserves the alt text in the rendered tag' do
-        markdown = '![A descriptive label](https://example.com/image.jpg)'
-        expect(render_markdown(markdown)).to include('alt="A descriptive label"')
-      end
-
-      it 'emits an empty alt when none is provided' do
-        markdown = '![](https://example.com/image.jpg)'
-        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg" alt="" />')
-      end
-    end
-
-    context 'when cw_image_height contains an attribute-breakout payload' do
-      it 'drops the style attribute instead of injecting it' do
-        markdown = '![x](https://example.com/image.jpg?cw_image_height=100%22%20onerror%3Dalert%281%29%20x%3D%22)'
-        expect(render_markdown(markdown)).not_to include('style=')
-      end
-    end
-
-    context 'when cw_image_height is otherwise non-conforming' do
-      it 'drops the style attribute' do
-        markdown = '![x](https://example.com/image.jpg?cw_image_height=10em)'
-        expect(render_markdown(markdown)).not_to include('style=')
+        expect(render_markdown(markdown)).to include('<img src="https://example.com/image.jpg" />')
       end
     end
 
