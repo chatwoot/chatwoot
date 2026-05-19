@@ -2,6 +2,9 @@ class Conversations::UnreadCounts::Counter
   MANAGE_ALL_PERMISSION = 'conversation_manage'.freeze
   UNASSIGNED_PERMISSION = 'conversation_unassigned_manage'.freeze
   PARTICIPATING_PERMISSION = 'conversation_participating_manage'.freeze
+  BUILD_LOCK_TTL = 15.minutes.to_i
+  BUILD_WAIT_TIMEOUT = 30.seconds.to_i
+  BUILD_WAIT_INTERVAL = 0.1.seconds
 
   attr_reader :account, :user
 
@@ -11,9 +14,9 @@ class Conversations::UnreadCounts::Counter
   end
 
   def perform
-    ensure_base_cache!
     return empty_counts if permission_mode == :none
 
+    ensure_base_cache!
     ensure_assignment_cache! if assignment_mode?
 
     {
@@ -26,11 +29,42 @@ class Conversations::UnreadCounts::Counter
   private
 
   def ensure_base_cache!
-    ::Conversations::UnreadCounts::Builder.new(account).build_base! unless store.base_ready?(account.id)
+    ensure_cache_ready!(
+      ready: -> { store.base_ready?(account.id) },
+      lock_key: base_build_lock_key
+    ) { ::Conversations::UnreadCounts::Builder.new(account).build_base! }
   end
 
   def ensure_assignment_cache!
-    ::Conversations::UnreadCounts::Builder.new(account).build_assignment! unless store.assignment_ready?(account.id)
+    ensure_cache_ready!(
+      ready: -> { store.assignment_ready?(account.id) },
+      lock_key: assignment_build_lock_key
+    ) { ::Conversations::UnreadCounts::Builder.new(account).build_assignment! }
+  end
+
+  def ensure_cache_ready!(ready:, lock_key:)
+    lock_manager = Redis::LockManager.new
+
+    loop do
+      return if ready.call
+
+      return if lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) { yield unless ready.call }
+
+      wait_for_cache_ready(ready)
+    end
+  end
+
+  def wait_for_cache_ready(ready)
+    deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + BUILD_WAIT_TIMEOUT
+    sleep BUILD_WAIT_INTERVAL until ready.call || Process.clock_gettime(Process::CLOCK_MONOTONIC) >= deadline
+  end
+
+  def base_build_lock_key
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_BASE_BUILD_LOCK, account_id: account.id)
+  end
+
+  def assignment_build_lock_key
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_ASSIGNMENT_BUILD_LOCK, account_id: account.id)
   end
 
   def unread_inbox_counts

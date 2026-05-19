@@ -28,6 +28,33 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     expect(store.base_ready?(account.id)).to be(true)
   end
 
+  it 'uses a Redis lock while building the base cache on demand' do
+    lock_key = "UNREAD_CONVERSATIONS::V1::ACCOUNT::#{account.id}::BUILD_LOCK::BASE"
+    lock_manager = instance_double(Redis::LockManager)
+    allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+    allow(lock_manager).to receive(:with_lock).with(lock_key, described_class::BUILD_LOCK_TTL).and_yield.and_return(true)
+
+    create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title], team: visible_team)
+
+    described_class.new(account: account, user: agent).perform
+
+    expect(lock_manager).to have_received(:with_lock).with(lock_key, described_class::BUILD_LOCK_TTL)
+  end
+
+  it 'waits instead of rebuilding when another process owns the base build lock' do
+    lock_manager = instance_double(Redis::LockManager, with_lock: false)
+    counter = described_class.new(account: account, user: agent)
+
+    allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
+    allow(counter).to receive(:wait_for_cache_ready) { store.mark_base_ready!(account.id) }
+    expect(Conversations::UnreadCounts::Builder).not_to receive(:new)
+
+    counter.perform
+
+    expect(counter).to have_received(:wait_for_cache_ready)
+    expect(store.base_ready?(account.id)).to be(true)
+  end
+
   it 'counts unread conversations only across inboxes visible to a normal agent' do
     create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title], team: visible_team)
     create_unread_conversation(account: account, inbox: hidden_inbox, labels: [label.title], team: visible_team)

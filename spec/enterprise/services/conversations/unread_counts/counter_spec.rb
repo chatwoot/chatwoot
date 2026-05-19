@@ -66,6 +66,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: agent).perform
 
     expect(result).to eq(inboxes: {}, labels: {}, teams: {})
+    expect(store.base_ready?(account.id)).to be(false)
     expect(store.assignment_ready?(account.id)).to be(false)
   end
 end
