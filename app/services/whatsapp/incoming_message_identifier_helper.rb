@@ -31,23 +31,11 @@ module Whatsapp::IncomingMessageIdentifierHelper
   end
 
   def find_or_create_contact_inbox(source_ids:, contact_attributes:)
-    existing_contact_inbox = find_contact_inbox_by_source_ids(source_ids)
-    return existing_contact_inbox if existing_contact_inbox
-
-    ::ContactInboxWithContactBuilder.new(
-      source_id: source_ids.first,
+    ContactInboxSourceIdResolver.new(
       inbox: inbox,
+      source_ids: source_ids,
       contact_attributes: contact_attributes
     ).perform
-  end
-
-  def find_contact_inbox_by_source_ids(source_ids)
-    source_ids.each do |source_id|
-      contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id)
-      return contact_inbox if contact_inbox
-    end
-
-    nil
   end
 
   def incoming_message_source_ids(contact_params)

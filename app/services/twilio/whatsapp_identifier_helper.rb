@@ -53,23 +53,17 @@ module Twilio::WhatsappIdentifierHelper
     return from if from.match?(TWILIO_WHATSAPP_BSUID_SOURCE_ID_REGEX)
   end
 
-  def find_twilio_contact_inbox(source_id)
-    return unless twilio_channel.whatsapp?
-
-    twilio_whatsapp_source_ids.each do |whatsapp_source_id|
-      contact_inbox = inbox.contact_inboxes.find_by(source_id: whatsapp_source_id)
-      return contact_inbox if contact_inbox
-    end
-
-    inbox.contact_inboxes.find_by(source_id: source_id)
+  def twilio_contact_inbox(source_id)
+    ContactInboxSourceIdResolver.new(
+      inbox: inbox,
+      source_ids: twilio_contact_inbox_source_ids(source_id),
+      contact_attributes: contact_attributes
+    ).perform
   end
 
-  def twilio_contact_inbox(source_id)
-    find_twilio_contact_inbox(source_id) ||
-      ::ContactInboxWithContactBuilder.new(
-        source_id: source_id,
-        inbox: inbox,
-        contact_attributes: contact_attributes
-      ).perform
+  def twilio_contact_inbox_source_ids(source_id)
+    return [source_id] unless twilio_channel.whatsapp?
+
+    twilio_whatsapp_source_ids.presence || [source_id]
   end
 end
