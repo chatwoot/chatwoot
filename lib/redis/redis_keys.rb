@@ -51,10 +51,8 @@ module Redis::RedisKeys
   # Track conversation assignments to agents for rate limiting
   ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::CONVERSATION::%<conversation_id>d'.freeze
   ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
-  # Coalesce gate: an AssignmentJob is queued (or running) for this inbox; further enqueues are skipped
-  AUTO_ASSIGNMENT_QUEUED_KEY = 'AUTO_ASSIGNMENT_QUEUED::%<inbox_id>d'.freeze
-  # Execution lock: only one AssignmentJob may run at a time per inbox
-  AUTO_ASSIGNMENT_RUNNING_MUTEX = 'AUTO_ASSIGNMENT_RUNNING_LOCK::%<inbox_id>d'.freeze
+  # At-most-one AssignmentJob per inbox in-flight (queued or running); further enqueues are skipped
+  AUTO_ASSIGNMENT_IN_FLIGHT_KEY = 'AUTO_ASSIGNMENT_IN_FLIGHT::%<inbox_id>d'.freeze
 
   ## Account Onboarding
   ACCOUNT_ONBOARDING_ENRICHMENT = 'ONBOARDING_ENRICHMENT::%<account_id>d'.freeze
