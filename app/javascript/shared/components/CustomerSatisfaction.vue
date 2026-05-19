@@ -4,6 +4,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import StarRating from 'shared/components/StarRating.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
@@ -29,6 +30,10 @@ export default {
       type: String,
       default: '',
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return { formatMessage };
   },
   data() {
     return {
@@ -60,6 +65,9 @@ export default {
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.message || this.$t('CSAT.TITLE');
+    },
+    formattedTitle() {
+      return this.formatMessage(this.title, false);
     },
     isEmojiType() {
       return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
@@ -128,9 +136,10 @@ export default {
     class="customer-satisfaction w-full bg-n-background dark:bg-n-solid-3 shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] rounded-lg inline-block leading-[1.5] mt-1 border-t-2 border-t-n-brand border-solid"
     :style="{ borderColor: widgetColor }"
   >
-    <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
-      {{ title }}
-    </h6>
+    <h6
+      v-dompurify-html="formattedTitle"
+      class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center prose prose-bubble"
+    />
     <div v-if="isEmojiType" class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
