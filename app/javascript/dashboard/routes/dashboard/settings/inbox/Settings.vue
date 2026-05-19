@@ -1251,7 +1251,7 @@ export default {
               <Widget
                 :welcome-heading="channelWelcomeTitle"
                 :welcome-tagline="channelWelcomeTagline"
-                :website-name="channelWidgetTitle || selectedInboxName"
+                :website-name="channelWidgetTitle.trim() || selectedInboxName"
                 :logo="avatarUrl"
                 is-online
                 :reply-time="replyTime"
