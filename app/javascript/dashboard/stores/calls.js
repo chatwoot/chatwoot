@@ -44,7 +44,12 @@ export const useCallsStore = defineStore('calls', {
       if (existing) {
         // Merge so a later cable event with sdp_offer/provider/caller fills in
         // gaps left by the earlier message.created path (and vice versa).
-        Object.assign(existing, callData, { isActive: existing.isActive });
+        // Preserve a previously-captured caller snapshot when the incoming
+        // event has no sender info, otherwise the widget would flip to
+        // "Unknown caller" on the next status update.
+        const next = { ...callData };
+        if (existing.caller && !next.caller) delete next.caller;
+        Object.assign(existing, next, { isActive: existing.isActive });
         return;
       }
 

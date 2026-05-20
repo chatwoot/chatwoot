@@ -217,9 +217,14 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
   };
 
-  // eslint-disable-next-line class-methods-use-this
   onVoiceCallIncoming = data => {
     if (data?.provider !== 'whatsapp') return;
+    // Defense in depth: the server already filters to online agent streams,
+    // but if anything ever broadcasts to a broader stream (e.g. account-wide),
+    // an agent who's set availability=offline/busy shouldn't ring.
+    const availability = this.app.$store.getters.getCurrentUserAvailability;
+    if (availability !== 'online') return;
+
     useCallsStore().addCall({
       callSid: data.call_id,
       callId: data.id,

@@ -1,5 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
+import InboxesAPI from 'dashboard/api/inboxes';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -24,6 +25,7 @@ export default {
       permissionRequestBody:
         this.inbox.provider_config?.call_permission_request_body || '',
       isUpdating: false,
+      isTogglingCalling: false,
     };
   },
   computed: {
@@ -42,6 +44,29 @@ export default {
     },
   },
   methods: {
+    async handleCallingToggle(newValue) {
+      if (this.isTogglingCalling) return;
+      const previousValue = this.callingEnabled;
+      this.callingEnabled = newValue;
+      this.isTogglingCalling = true;
+      try {
+        if (newValue) {
+          await InboxesAPI.enableWhatsappCalling(this.inbox.id);
+        } else {
+          await InboxesAPI.disableWhatsappCalling(this.inbox.id);
+        }
+        await this.$store.dispatch('inboxes/get', this.inbox.id);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (_) {
+        this.callingEnabled = previousValue;
+        const fallbackKey = newValue
+          ? 'INBOX_MGMT.WHATSAPP_CALLING.ENABLE_FAILED'
+          : 'INBOX_MGMT.EDIT.API.ERROR_MESSAGE';
+        useAlert(this.$t(fallbackKey));
+      } finally {
+        this.isTogglingCalling = false;
+      }
+    },
     async updateCallingSettings() {
       this.isUpdating = true;
       try {
@@ -51,7 +76,6 @@ export default {
           channel: {
             provider_config: {
               ...this.inbox.provider_config,
-              calling_enabled: this.callingEnabled,
               call_permission_request_body:
                 this.permissionRequestBody.trim() || null,
             },
@@ -59,7 +83,10 @@ export default {
         });
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+        const message =
+          error?.response?.data?.message ||
+          this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE');
+        useAlert(message);
       } finally {
         this.isUpdating = false;
       }
@@ -70,47 +97,61 @@ export default {
 
 <template>
   <div class="flex flex-col gap-6">
-    <SettingsToggleSection
-      v-model="callingEnabled"
-      :header="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.LABEL')"
-      :description="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.DESCRIPTION')"
-    />
-
-    <SettingsFieldSection
-      v-if="phoneNumber"
-      :label="$t('INBOX_MGMT.WHATSAPP_CALLING.PHONE_NUMBER.LABEL')"
-      :help-text="$t('INBOX_MGMT.WHATSAPP_CALLING.PHONE_NUMBER.HELP_TEXT')"
+    <div
+      class="relative"
+      :class="{ 'pointer-events-none opacity-60': isTogglingCalling }"
     >
-      <woot-code :script="phoneNumber" lang="html" />
-    </SettingsFieldSection>
-
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.LABEL')"
-      :help-text="
-        $t('INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.HELP_TEXT')
-      "
-    >
-      <TextArea
-        v-model="permissionRequestBody"
-        :placeholder="
-          $t('INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.PLACEHOLDER')
-        "
-        auto-height
-        resize
+      <SettingsToggleSection
+        :model-value="callingEnabled"
+        :header="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.LABEL')"
+        :description="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.DESCRIPTION')"
+        @update:model-value="handleCallingToggle"
       />
-    </SettingsFieldSection>
-
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.WHATSAPP_CALLING.HOW_IT_WORKS.LABEL')"
-      :help-text="$t('INBOX_MGMT.WHATSAPP_CALLING.HOW_IT_WORKS.DESCRIPTION')"
-    />
-
-    <div>
-      <NextButton
-        :is-loading="isUpdating"
-        :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        @click="updateCallingSettings"
+      <span
+        v-if="isTogglingCalling"
+        class="absolute top-3 right-12 i-lucide-loader-circle animate-spin size-4 text-n-slate-11"
       />
     </div>
+
+    <template v-if="callingEnabled">
+      <SettingsFieldSection
+        v-if="phoneNumber"
+        :label="$t('INBOX_MGMT.WHATSAPP_CALLING.PHONE_NUMBER.LABEL')"
+        :help-text="$t('INBOX_MGMT.WHATSAPP_CALLING.PHONE_NUMBER.HELP_TEXT')"
+      >
+        <woot-code :script="phoneNumber" lang="html" />
+      </SettingsFieldSection>
+
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.LABEL')"
+        :help-text="
+          $t('INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.HELP_TEXT')
+        "
+      >
+        <TextArea
+          v-model="permissionRequestBody"
+          :placeholder="
+            $t(
+              'INBOX_MGMT.WHATSAPP_CALLING.PERMISSION_REQUEST_BODY.PLACEHOLDER'
+            )
+          "
+          auto-height
+          resize
+        />
+      </SettingsFieldSection>
+
+      <SettingsFieldSection
+        :label="$t('INBOX_MGMT.WHATSAPP_CALLING.HOW_IT_WORKS.LABEL')"
+        :help-text="$t('INBOX_MGMT.WHATSAPP_CALLING.HOW_IT_WORKS.DESCRIPTION')"
+      />
+
+      <div>
+        <NextButton
+          :is-loading="isUpdating"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          @click="updateCallingSettings"
+        />
+      </div>
+    </template>
   </div>
 </template>

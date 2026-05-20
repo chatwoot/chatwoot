@@ -59,6 +59,10 @@ const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
 const isMissedInbound = computed(() => isFailed.value && !isOutbound.value);
+const endReason = computed(() => call.value?.endReason);
+const wasDeclinedByAgent = computed(
+  () => isMissedInbound.value && endReason.value === 'agent_rejected'
+);
 const acceptedByAgentId = computed(() => call.value?.acceptedByAgentId);
 const didCurrentUserAnswer = computed(
   () =>
@@ -130,9 +134,15 @@ const subtext = computed(() => {
     return null;
   }
   if (isFailed.value) {
-    return isOutbound.value
-      ? t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT')
-      : t('CONVERSATION.VOICE_CALL.MISSED_CALL_INBOUND_SUBTEXT');
+    if (isOutbound.value) {
+      return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
+    }
+    if (wasDeclinedByAgent.value && displayAgentName.value) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
+        agentName: displayAgentName.value,
+      });
+    }
+    return t('CONVERSATION.VOICE_CALL.MISSED_CALL_INBOUND_SUBTEXT');
   }
   return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
 });

@@ -34,9 +34,17 @@ const isWhatsappActive = computed(
   () => activeCall.value?.provider === 'whatsapp'
 );
 
+const primaryIncomingCall = computed(() =>
+  hasActiveCall.value ? null : incomingCalls.value[0] || null
+);
+
+const stackedIncomingCalls = computed(() =>
+  hasActiveCall.value ? incomingCalls.value : incomingCalls.value.slice(1)
+);
+
 const mainCardState = computed(() => {
   if (hasActiveCall.value) return 'ongoing';
-  const direction = incomingCalls.value[0]?.callDirection;
+  const direction = primaryIncomingCall.value?.callDirection;
   return direction === 'outbound' ? 'outgoing' : 'incoming';
 });
 
@@ -65,12 +73,18 @@ const countryCodeToFlag = code => {
 
 const getCallInfo = call => {
   const conversation = store.getters.getConversationById(call?.conversationId);
-  const inbox = store.getters['inboxes/getInbox'](conversation?.inbox_id);
+  // Look up inbox from the call's own inboxId — the conversation can drop out
+  // of the Vuex store when the user navigates between inbox views, so going
+  // through `conversation.inbox_id` would lose the inbox name (and fall back
+  // to the literal "Customer support" string).
+  const inbox = store.getters['inboxes/getInbox'](call?.inboxId);
   const sender = conversation?.meta?.sender;
-  // Inbound WhatsApp calls stash caller info on the call record (from the cable
-  // payload) so the widget has something to show before the conversation lands.
+  // `caller` is the snapshot captured when the call first landed (from the
+  // message sender or the WhatsApp cable payload). It outlives the
+  // conversation being in the store, so prefer it for display.
   const caller = call?.caller;
-  const additional = sender?.additional_attributes || {};
+  const additional =
+    sender?.additional_attributes || caller?.additionalAttributes || {};
   const city = additional.city || '';
   const countryCode = additional.country_code || '';
   const country =
@@ -87,17 +101,17 @@ const getCallInfo = call => {
     conversation,
     inbox,
     contactName:
-      sender?.name ||
-      sender?.phone_number ||
       caller?.name ||
+      sender?.name ||
       caller?.phone ||
+      sender?.phone_number ||
       'Unknown caller',
-    phoneNumber: sender?.phone_number || caller?.phone || '',
+    phoneNumber: caller?.phone || sender?.phone_number || '',
     inboxName: inbox?.name || 'Customer support',
     location,
     countryFlag: countryCodeToFlag(countryCode),
     hasLocation: locationParts.length > 0,
-    avatar: sender?.avatar || sender?.thumbnail || caller?.avatar,
+    avatar: caller?.avatar || sender?.avatar || sender?.thumbnail,
   };
 };
 
@@ -168,7 +182,10 @@ watch(
 
 // Loop the ringtone while an inbound call is unanswered. Stop the moment any
 // call is active (we joined), every inbound call cleared, or the widget tears
-// down. Browser autoplay may reject the first play() if the tab has no prior
+// down. The watcher only fires on the boolean transitioning, so additional
+// ringing calls arriving while one is already ringing don't restart the audio
+// — they silently stack into the UI without producing a fresh ring.
+// Browser autoplay may reject the first play() if the tab has no prior
 // user gesture; that's fine — the visual widget still surfaces the call.
 const ringtone = new Audio(RINGTONE_URL);
 ringtone.loop = true;
@@ -203,9 +220,9 @@ onBeforeUnmount(stopRingtone);
     v-if="incomingCalls.length || hasActiveCall"
     class="fixed ltr:right-4 rtl:left-4 bottom-4 z-50 flex flex-col gap-3 w-[400px]"
   >
-    <!-- Incoming Calls (shown above active call) -->
+    <!-- Stacked incoming calls (shown above the primary card) -->
     <CallCard
-      v-for="call in hasActiveCall ? incomingCalls : []"
+      v-for="call in stackedIncomingCalls"
       :key="call.callSid"
       :call="call"
       state="incoming"
@@ -217,18 +234,18 @@ onBeforeUnmount(stopRingtone);
 
     <!-- Main Call Widget -->
     <CallCard
-      v-if="hasActiveCall || incomingCalls.length"
-      :call="activeCall || incomingCalls[0]"
+      v-if="hasActiveCall || primaryIncomingCall"
+      :call="activeCall || primaryIncomingCall"
       :state="mainCardState"
-      :call-info="getCallInfo(activeCall || incomingCalls[0])"
+      :call-info="getCallInfo(activeCall || primaryIncomingCall)"
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall && isWhatsappActive"
-      @accept="handleJoinCall(incomingCalls[0])"
-      @reject="rejectIncomingCall(incomingCalls[0]?.callSid)"
+      @accept="handleJoinCall(primaryIncomingCall)"
+      @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
-      @go-to-conversation="goToConversation(activeCall || incomingCalls[0])"
+      @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />
   </div>
 </template>
