@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref, computed, onMounted } from 'vue';
+import { h, ref, computed, onMounted, watch } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -67,6 +67,12 @@ const hasConversationUnreadCounts = computed(() => {
     FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
   );
 });
+
+const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
+  if (!currentAccountId || !isEnabled) return;
+
+  store.dispatch('conversationUnreadCounts/get');
+};
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -182,14 +188,15 @@ const conversationCustomViews = useMapGetter(
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
-  if (hasConversationUnreadCounts.value) {
-    store.dispatch('conversationUnreadCounts/get');
-  }
   store.dispatch('notifications/unReadCount');
   store.dispatch('teams/get');
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+});
+
+watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
+  immediate: true,
 });
 
 const sortedInboxes = computed(() =>
