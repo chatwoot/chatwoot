@@ -114,7 +114,7 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def affected_assignee_ids
-    return [conversation.assignee_id].compact unless changed_attribute?(:assignee_id)
+    return [conversation.assignee_id] unless changed_attribute?(:assignee_id)
 
     [previous_value_for(:assignee_id), conversation.assignee_id].uniq
   end
