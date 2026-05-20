@@ -69,7 +69,12 @@ const hasConversationUnreadCounts = computed(() => {
 });
 
 const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
-  if (!currentAccountId || !isEnabled) return;
+  if (!currentAccountId) return;
+
+  if (!isEnabled) {
+    store.dispatch('conversationUnreadCounts/clear');
+    return;
+  }
 
   store.dispatch('conversationUnreadCounts/get');
 };

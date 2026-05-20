@@ -48,6 +48,9 @@ export const actions = {
       // Ignore errors so the sidebar can continue rendering without badges.
     }
   },
+  clear({ commit }) {
+    commit(types.SET_CONVERSATION_UNREAD_COUNTS, {});
+  },
 };
 
 export const mutations = {
