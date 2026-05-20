@@ -3,6 +3,26 @@ module Enterprise::Api::V1::Accounts::InboxesController
     super + ee_inbox_attributes
   end
 
+  def enable_whatsapp_calling
+    channel = @inbox.channel
+    return render_could_not_create_error('Not a WhatsApp Cloud inbox') unless channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
+
+    channel.enable_voice_calling!
+    head :ok
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
+  def disable_whatsapp_calling
+    channel = @inbox.channel
+    return render_could_not_create_error('Not a WhatsApp Cloud inbox') unless channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
+
+    channel.disable_voice_calling!
+    head :ok
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
   def ee_inbox_attributes
     [auto_assignment_config: [:max_assignment_limit]]
   end

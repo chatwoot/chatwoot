@@ -58,6 +58,34 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
+  # Enables voice: turns calling on at Meta (idempotent), subscribes the `calls`
+  # webhook field, and sets calling_enabled. Raises on Meta failure.
+  # The flag is persisted with validate: false so the remote credential check in
+  # validate_provider_config can't transiently fail and leave the local flag out
+  # of sync with the changes already made at Meta.
+  def enable_voice_calling!
+    raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
+
+    provider_service.update_calling_status('ENABLED')
+    webhook_setup_service.register_callback
+    self.provider_config = provider_config.merge('calling_enabled' => true)
+    save!(validate: false)
+  end
+
+  # Disables voice: unsets calling_enabled (gates the call subsystem) and drops
+  # `calls` from the webhook subscription (best-effort, so a Meta outage can't
+  # trap admins). Leaves Meta's WABA calling.status untouched.
+  def disable_voice_calling!
+    raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
+
+    update!(provider_config: provider_config.merge('calling_enabled' => false))
+    begin
+      webhook_setup_service.register_callback(subscribed_fields: %w[messages smb_message_echoes])
+    rescue StandardError => e
+      Rails.logger.warn "[WHATSAPP CALL] disable webhook re-subscribe failed: #{e.message}"
+    end
+  end
+
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)
@@ -88,10 +116,11 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def perform_webhook_setup
-    business_account_id = provider_config['business_account_id']
-    api_key = provider_config['api_key']
+    webhook_setup_service.perform
+  end
 
-    Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
+  def webhook_setup_service
+    Whatsapp::WebhookSetupService.new(self, provider_config['business_account_id'], provider_config['api_key'])
   end
 
   def teardown_webhooks
