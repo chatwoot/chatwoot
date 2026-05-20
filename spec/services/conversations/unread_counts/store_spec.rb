@@ -149,6 +149,33 @@ RSpec.describe Conversations::UnreadCounts::Store do
 
       expect(base_keys.map { |key| ttl_for(key) }).to all(be_within(5).of(Conversations::UnreadCounts::SET_TTL))
     end
+
+    it 'clears all account memberships' do
+      described_class.mark_base_ready!(account_id)
+      described_class.mark_assignment_ready!(account_id)
+      described_class.add_base_membership(
+        account_id: account_id,
+        inbox_id: inbox_id,
+        label_ids: [label_id],
+        team_id: team_id,
+        conversation_id: conversation_id
+      )
+      described_class.add_assignment_membership(
+        account_id: account_id,
+        inbox_id: inbox_id,
+        label_ids: [label_id],
+        assignee_id: user_id,
+        team_id: team_id,
+        conversation_id: conversation_id
+      )
+
+      described_class.clear_account!(account_id)
+
+      expect(described_class.base_ready?(account_id)).to be(false)
+      expect(described_class.assignment_ready?(account_id)).to be(false)
+      expect(described_class.counts_for_keys(base_keys).values).to all(eq(0))
+      expect(described_class.counts_for_keys(assignment_keys).values).to all(eq(0))
+    end
   end
 
   def base_keys

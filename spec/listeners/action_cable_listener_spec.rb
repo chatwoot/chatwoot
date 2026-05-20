@@ -272,5 +272,27 @@ describe ActionCableListener do
 
       listener.conversation_unread_count_changed(event)
     end
+
+    it 'supports deleted conversation data' do
+      event = Events::Base.new(
+        event_name,
+        Time.zone.now,
+        conversation_data: {
+          id: conversation.id,
+          account_id: account.id,
+          inbox_id: conversation.inbox_id
+        }
+      )
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
   end
 end

@@ -91,10 +91,10 @@ class ActionCableListener < BaseListener
   end
 
   def conversation_unread_count_changed(event)
-    conversation, account = extract_conversation_and_account(event)
-    return unless ::Conversations::UnreadCounts::Feature.enabled?(account)
+    account, inbox_members = ::Conversations::UnreadCounts::BroadcastScope.new(event).perform
+    return if account.blank? || !::Conversations::UnreadCounts::Feature.enabled?(account)
 
-    tokens = user_tokens(account, conversation.inbox.members)
+    tokens = user_tokens(account, inbox_members)
 
     broadcast(account, tokens, CONVERSATION_UNREAD_COUNT_CHANGED, {})
   end
