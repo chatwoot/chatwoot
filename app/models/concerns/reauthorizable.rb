@@ -37,12 +37,14 @@ module Reauthorizable
   # Performed automatically if error threshold is breached
   # could used to manually prompt reauthorization if auth scope changes
   def prompt_reauthorization!
+    state_changed = !reauthorization_required?
+
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
     reauthorization_handlers[self.class.name]&.call(self)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
-    dispatch_inbox_reauthorization_event(true)
+    dispatch_inbox_reauthorization_event(true) if state_changed
   end
 
   def process_integration_hook_reauthorization_emails
@@ -64,11 +66,13 @@ module Reauthorizable
 
   # call this after you successfully Reauthorized the object in UI
   def reauthorized!
+    state_changed = reauthorization_required?
+
     ::Redis::Alfred.delete(authorization_error_count_key)
     ::Redis::Alfred.delete(reauthorization_required_key)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
-    dispatch_inbox_reauthorization_event(false)
+    dispatch_inbox_reauthorization_event(false) if state_changed
   end
 
   private

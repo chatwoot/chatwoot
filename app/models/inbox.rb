@@ -207,6 +207,8 @@ class Inbox < ApplicationRecord
     account.feature_enabled?('assignment_v2')
   end
 
+  # Callers (Reauthorizable) only invoke this on a real transition, so the previous
+  # value is always the inverse of the new boolean value.
   def dispatch_reauthorization_event(reauthorization_required)
     return if ENV['ENABLE_INBOX_EVENTS'].blank?
 
