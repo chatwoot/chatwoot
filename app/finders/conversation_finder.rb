@@ -12,6 +12,7 @@ class ConversationFinder
     'waiting_since_asc' => %w[sort_on_waiting_since asc],
     'waiting_since_desc' => %w[sort_on_waiting_since desc],
     'priority_desc_created_at_asc' => %w[sort_on_priority_created_at desc],
+    'unread' => %w[sort_on_last_activity_at desc],
 
     # To be removed in v3.5.0
     'latest' => %w[sort_on_last_activity_at desc],
@@ -203,6 +204,7 @@ class ConversationFinder
 
   def conversations
     @conversations = conversations_base_query
+    @conversations = @conversations.unread if params[:sort_by] == 'unread'
 
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
     @conversations = @conversations.send(sort_by, sort_order)

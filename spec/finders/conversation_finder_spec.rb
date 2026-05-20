@@ -96,6 +96,29 @@ describe ConversationFinder do
       end
     end
 
+    context 'with unread sort' do
+      let(:params) { { status: 'open', sort_by: 'unread' } }
+
+      it 'returns unread conversations matching the selected status' do
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+        resolved_unread_conversation = create(:conversation, account: account, inbox: inbox, status: 'resolved',
+                                                             agent_last_seen_at: 1.hour.ago)
+
+        [unread_conversation, read_conversation, resolved_unread_conversation].each do |conversation|
+          create(:message, account: account, inbox: inbox, conversation: conversation,
+                           message_type: :incoming, created_at: 5.minutes.ago)
+        end
+        resolved_unread_conversation.update!(status: 'resolved')
+
+        result = conversation_finder.perform
+
+        expect(result[:conversations].map(&:id)).to contain_exactly(unread_conversation.id)
+      end
+    end
+
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
 

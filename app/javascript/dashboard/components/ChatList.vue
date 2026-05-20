@@ -334,6 +334,15 @@ const conversationList = computed(() => {
     });
   }
 
+  if (
+    !hasAppliedFiltersOrActiveFolders.value &&
+    activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD
+  ) {
+    localConversationList = localConversationList.filter(
+      conversation => conversation.unread_count > 0
+    );
+  }
+
   return localConversationList;
 });
 
