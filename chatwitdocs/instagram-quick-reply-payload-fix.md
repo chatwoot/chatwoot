@@ -229,3 +229,18 @@ Para verificar se a correção está funcionando:
 ```
 
 5. Verifique se o payload enviado ao SocialWise inclui `quick_reply_payload`
+
+---
+
+## Atualização 2026-05-20 — Button Template postback
+
+O Instagram Button Template envia o clique como evento `postback` no nível do objeto `messaging`, diferente do
+Quick Reply, que chega como `message.quick_reply`.
+
+O `Webhooks::InstagramEventsJob` agora inclui `:postback` em `SUPPORTED_EVENTS` e transforma o postback em uma
+mensagem sintética antes de chamar `Instagram::MessageText`. Com isso:
+
+- o clique aparece no Chatwit com o título do botão;
+- `content_attributes.postback_payload` é preservado;
+- `Integrations::SocialwiseFlow::ProcessorService#interactive_reply?` processa o clique imediatamente;
+- o Socialwise recebe `interaction_type: "postback"` e retoma botões `flow_*` do Flow Builder.

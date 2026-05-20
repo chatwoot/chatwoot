@@ -382,6 +382,25 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.messages.count).to eq 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
       end
+
+      it 'creates incoming message with postback payload for button template clicks' do
+        postback_event = build(:instagram_message_create_event).with_indifferent_access
+        messaging = postback_event[:entry][0][:messaging][0]
+        messaging.delete(:message)
+        messaging[:postback] = {
+          mid: 'postback-message-id-1',
+          title: 'Saber Mais',
+          payload: 'flow_button_saber_mais'
+        }
+
+        instagram_webhook.perform_now(postback_event[:entry])
+
+        expect(instagram_inbox.messages.count).to eq 1
+        message = instagram_inbox.messages.last
+        expect(message.content).to eq 'Saber Mais'
+        expect(message.source_id).to eq 'postback-message-id-1'
+        expect(message.content_attributes['postback_payload']).to eq 'flow_button_saber_mais'
+      end
     end
   end
 end
