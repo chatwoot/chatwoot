@@ -607,16 +607,19 @@ end
 1. Marcar handoff em `additional_attributes['socialwise_handoff_at']`
 2. Verificar esta flag antes de permitir resposta do bot
 3. Limpar a flag quando conversa é resolvida (permite bot funcionar se reaberta)
+4. Recarregar a conversa antes de ler a flag e descartar respostas atrasadas quando outro job já executou handoff
 
 ```ruby
 # Verificação atualizada em processor_service.rb
 def bot_should_respond?
+  handoff_done = handoff_completed?
   return true if conversation.pending?
-  return true if conversation.open? && !has_agent_reply? && !handoff_completed?
+  return true if conversation.open? && !handoff_done
   false
 end
 
 def handoff_completed?
+  conversation.reload if conversation.persisted?
   conversation.additional_attributes&.dig('socialwise_handoff_at').present?
 end
 ```
@@ -625,6 +628,7 @@ end
 - Não afeta métricas de SLA (usa `additional_attributes`, não `first_reply_created_at`)
 - Flag é limpa quando conversa é resolvida, permitindo bot funcionar novamente se reaberta meses depois
 - Compatível com auto-atribuição de conversas
+- Protege contra corrida entre debounce/resposta em andamento e clique posterior em atendimento humano
 
 ---
 
@@ -752,6 +756,12 @@ end
 | Seleção de lista | ❌ Não (imediato) |
 | Áudio/Imagem/Vídeo | ✅ Sim (se configurado) |
 
+### 2026-05-20 - Correção: resposta atrasada após clique em Atendimento Humano
+- **CAUSA:** o job de debounce podia usar uma instância antiga da conversa, carregada antes de outro job gravar `additional_attributes['socialwise_handoff_at']`.
+- **SINTOMA:** o clique em `@falar_atendente` executava handoff corretamente, mas uma resposta atrasada da mensagem anterior ainda podia ser enviada.
+- **CORREÇÃO:** `handoff_completed?` recarrega a conversa antes de ler a flag e `process_response` descarta respostas não-handoff se o handoff já tiver sido concluído.
+- **REGRESSÃO COBERTA:** spec de `ProcessorService` simula a conversa memoizada e a flag gravada por outro job.
+
 ### 2026-02-02 (Atualização 5) - Correção: Bot continua respondendo após Handoff
 - **ADICIONADO:** Método `process_action` no `processor_service.rb` (override do método herdado)
 - **ADICIONADO:** Métodos `mark_handoff_completed`, `clear_handoff_flag`, `handoff_completed?`
@@ -779,6 +789,7 @@ end
 
 # Nova verificação
 def handoff_completed?
+  conversation.reload if conversation.persisted?
   conversation.additional_attributes&.dig('socialwise_handoff_at').present?
 end
 

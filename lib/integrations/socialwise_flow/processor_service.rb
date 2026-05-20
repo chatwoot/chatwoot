@@ -207,14 +207,15 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   # - Conversation is pending (original behavior, ignores handoff flag as it's a new/reopened conversation)
   # - Conversation is open and no explicit Socialwise handoff has occurred
   def bot_should_respond?
-    Rails.logger.info "[SOCIALWISE-FLOW] Checking bot_should_respond: status=#{conversation.status}, has_agent_reply=#{has_agent_reply?}, handoff_completed=#{handoff_completed?}"
+    handoff_done = handoff_completed?
+    Rails.logger.info "[SOCIALWISE-FLOW] Checking bot_should_respond: status=#{conversation.status}, has_agent_reply=#{has_agent_reply?}, handoff_completed=#{handoff_done}"
 
     # Pending conversations always get bot responses (new or reopened conversations)
     return true if conversation.pending?
 
     # Open conversations remain automatable unless the platform explicitly
     # executed handoff. Human replies may be old history on a long-lived thread.
-    return true if conversation.open? && !handoff_completed?
+    return true if conversation.open? && !handoff_done
 
     false
   end
@@ -222,6 +223,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   # Check if handoff has been completed for this conversation
   # This flag is set when process_action receives 'handoff' action
   def handoff_completed?
+    conversation.reload if conversation.persisted?
     conversation.additional_attributes&.dig('socialwise_handoff_at').present?
   end
 
@@ -391,6 +393,11 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       if response['action_type'] == 'button_reaction'
         Rails.logger.info '[SOCIALWISE-FLOW] Processing button_reaction'
         process_button_reaction(message, response)
+        return
+      end
+
+      if response['action'] != 'handoff' && handoff_completed?
+        Rails.logger.info "[SOCIALWISE-FLOW] Skipping response because handoff already completed for conversation #{conversation.id}"
         return
       end
 

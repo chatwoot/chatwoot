@@ -30,5 +30,33 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
 
       expect(service.send(:bot_should_respond?)).to be(false)
     end
+
+    it 'sees handoff flags written after the conversation was memoized' do
+      service.send(:conversation)
+      Conversation.find(conversation.id).update!(
+        additional_attributes: {
+          'socialwise_handoff_at' => Time.current.iso8601,
+          'socialwise_handoff_by' => 'bot'
+        }
+      )
+
+      expect(service.send(:handoff_completed?)).to be(true)
+    end
+  end
+
+  describe '#process_response' do
+    it 'does not send a late bot response after handoff was completed by another job' do
+      service.send(:conversation)
+      Conversation.find(conversation.id).update!(
+        additional_attributes: {
+          'socialwise_handoff_at' => Time.current.iso8601,
+          'socialwise_handoff_by' => 'bot'
+        }
+      )
+
+      expect(service).not_to receive(:create_conversation)
+
+      service.send(:process_response, message, { 'text' => 'late bot reply' })
+    end
   end
 end
