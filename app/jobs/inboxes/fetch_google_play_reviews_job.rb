@@ -7,6 +7,9 @@ class Inboxes::FetchGooglePlayReviewsJob < ApplicationJob
     rescue StandardError => e
       ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
     end
+
+    # Stamp the channel so the orchestrator skips it until the sync interval elapses.
+    channel.update!(last_synced_at: Time.current)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
   end

@@ -249,6 +249,14 @@ export default {
         ];
       }
 
+      // Google Play has no support for bots, business hours, or CSAT — strip those tabs
+      if (this.isAGooglePlayChannel) {
+        const unsupportedKeys = ['business-hours', 'csat', 'bot-configuration'];
+        visibleToAllChannelTabs = visibleToAllChannelTabs.filter(
+          tab => !unsupportedKeys.includes(tab.key)
+        );
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -281,6 +289,9 @@ export default {
       }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
+      }
+      if (this.isAGooglePlayChannel && this.inbox.app_id) {
+        return `${this.inbox.name} (${this.inbox.app_id})`;
       }
       return this.inbox.name;
     },
@@ -829,6 +840,7 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
+              v-if="!isAGooglePlayChannel"
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"
               :help-text="$t('INBOX_MGMT.HELP_CENTER.SUB_TEXT')"
             >
@@ -1128,6 +1140,7 @@ export default {
             </SettingsAccordion>
 
             <SettingsAccordion
+              v-if="!isAGooglePlayChannel"
               :title="$t('INBOX_MGMT.CHANNEL_PREFERENCES')"
               class="mt-6"
             >

@@ -19,10 +19,12 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
   end
 
-  def should_send_out_of_office_message?
+  def should_send_out_of_office_message? # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize
     return false if conversation.campaign.present?
     # should not send if its a tweet message
     return false if conversation.tweet?
+    # Google Play replies don't support out-of-office auto-replies; business hours don't apply to review responses
+    return false if inbox.google_play?
     # should not send for outbound messages
     return false unless message.incoming?
     # prevents sending out-of-office message if an agent has sent a message in last 5 minutes
@@ -40,6 +42,8 @@ class MessageTemplates::HookExecutionService
     return false if conversation.campaign.present?
     # should not send if its a tweet message
     return false if conversation.tweet?
+    # Google Play replies are constrained — auto-greetings don't fit the one-shot review reply model
+    return false if inbox.google_play?
 
     first_message_from_contact? && inbox.greeting_enabled? && inbox.greeting_message.present?
   end
