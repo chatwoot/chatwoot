@@ -67,6 +67,9 @@ ko:
     saml:
       feature_not_enabled: 이 계정에서는 SAML 기능이 활성화되지 않았습니다
       sso_not_enabled: 이 설치에서는 SAML SSO가 활성화되지 않았습니다
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: 유효하지 않은 데이터 유형
