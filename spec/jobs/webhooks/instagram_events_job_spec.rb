@@ -401,6 +401,30 @@ describe Webhooks::InstagramEventsJob do
         expect(message.source_id).to eq 'postback-message-id-1'
         expect(message.content_attributes['postback_payload']).to eq 'flow_button_saber_mais'
       end
+
+      it 'ignores non-message Instagram changes events' do
+        comment_event = {
+          entry: [
+            {
+              id: '17841447497376661',
+              time: 1_779_316_621,
+              changes: [
+                {
+                  field: 'comments',
+                  value: {
+                    from: { id: '1002859634954741', username: 'witalo_rocha_' },
+                    media: { id: '18022566713041135', media_product_type: 'FEED' },
+                    id: '18173815279409628',
+                    text: 'Boa noite'
+                  }
+                }
+              ]
+            }
+          ]
+        }.with_indifferent_access
+
+        expect { instagram_webhook.perform_now(comment_event[:entry]) }.not_to change(Message, :count)
+      end
     end
   end
 end

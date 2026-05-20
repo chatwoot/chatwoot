@@ -52,7 +52,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def test_event?(entry)
-    entry[:changes].present?
+    extract_messaging_from_test_event(entry).present?
   end
 
   def process_test_event(entry)
@@ -62,7 +62,13 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def extract_messaging_from_test_event(entry)
-    entry[:changes].first&.dig(:value) if entry[:changes].present?
+    Array(entry[:changes]).filter_map { |change| change.with_indifferent_access[:value] }.find do |value|
+      test_message_change_value?(value)
+    end
+  end
+
+  def test_message_change_value?(value)
+    value[:sender].present? && value[:recipient].present? && value[:message].present?
   end
 
   def instagram_id(messaging)
