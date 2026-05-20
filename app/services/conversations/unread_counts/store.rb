@@ -153,7 +153,16 @@ class Conversations::UnreadCounts::Store
     end
 
     def remove_from_sets(keys, conversation_id)
-      write_to_sets(keys) { |pipeline, key| pipeline.srem(key, conversation_id) }
+      keys = keys.compact_blank
+      return false if keys.blank?
+
+      results = Redis::Alfred.pipelined do |pipeline|
+        keys.each do |key|
+          pipeline.srem(key, conversation_id)
+          pipeline.expire(key, Conversations::UnreadCounts::SET_TTL)
+        end
+      end
+      results.each_slice(2).any? { |removed, _| removed == true || (removed.respond_to?(:to_i) && removed.to_i.positive?) }
     end
 
     def write_to_sets(keys)
