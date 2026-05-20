@@ -79,6 +79,18 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
     end
   end
 
+  describe '.enqueue_for_inbox' do
+    after { Redis::Alfred.delete(format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)) }
+
+    it 'enqueues one run per inbox and coalesces concurrent triggers' do
+      allow(described_class).to receive(:perform_later).and_return(true)
+
+      expect(described_class.enqueue_for_inbox(inbox.id)).to be(true)
+      expect(described_class.enqueue_for_inbox(inbox.id)).to be(false)
+      expect(described_class).to have_received(:perform_later).once
+    end
+  end
+
   describe 'job configuration' do
     it 'is queued in the default queue' do
       expect(described_class.queue_name).to eq('default')

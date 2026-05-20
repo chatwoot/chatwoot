@@ -16,6 +16,11 @@ class AutoAssignment::AssignmentJob < ApplicationJob
     # Enqueue was halted; don't hold the gate for the full TTL with nothing behind it.
     ::Redis::Alfred.delete(key)
     false
+  rescue StandardError
+    # Enqueue raised after we claimed the gate; release it so the inbox isn't
+    # starved until the TTL, then re-raise.
+    ::Redis::Alfred.delete(key)
+    raise
   end
 
   def perform(inbox_id:, token: nil)
