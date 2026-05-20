@@ -4,6 +4,7 @@ class Conversations::UnreadCounts::Listener < BaseListener
   def message_created(event)
     message, = extract_message_and_account(event)
     return unless message.incoming?
+    return unless message.account.feature_enabled?('conversation_unread_counts')
 
     refresh(message.conversation)
   end

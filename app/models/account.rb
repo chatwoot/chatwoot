@@ -175,6 +175,10 @@ class Account < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
   end
 
+  def clear_unread_conversation_counts_cache
+    ::Conversations::UnreadCounts::Store.clear_account!(id)
+  end
+
   trigger.after(:insert).for_each(:row) do
     "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
   end
