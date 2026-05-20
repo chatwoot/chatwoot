@@ -9,7 +9,7 @@ class Api::V1::Accounts::Conversations::UnreadCountsController < Api::V1::Accoun
   private
 
   def ensure_unread_counts_enabled
-    return if ::Conversations::UnreadCounts::Feature.enabled?(Current.account)
+    return if Current.account.feature_enabled?('conversation_unread_counts')
 
     render json: { error: I18n.t('errors.conversations.unread_counts.feature_not_enabled') }, status: :forbidden
   end

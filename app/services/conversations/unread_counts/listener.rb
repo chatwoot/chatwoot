@@ -35,7 +35,7 @@ class Conversations::UnreadCounts::Listener < BaseListener
     return if conversation_data.blank?
 
     account = Account.find_by(id: conversation_data[:account_id])
-    return unless ::Conversations::UnreadCounts::Feature.enabled?(account)
+    return unless account&.feature_enabled?('conversation_unread_counts')
     return unless remove_deleted_conversation(account, conversation_data)
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation_data: conversation_data.to_h)
