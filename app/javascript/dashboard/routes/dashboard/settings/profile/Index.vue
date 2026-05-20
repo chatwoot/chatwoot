@@ -200,6 +200,25 @@ export default {
         useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
       }
     },
+    async resetReadOnlyAccessToken() {
+      const hadToken = Boolean(this.currentUser.read_only_access_token);
+      const success = await this.$store.dispatch('resetReadOnlyAccessToken');
+      if (success && hadToken) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_RESET_SUCCESS')
+        );
+      } else if (success) {
+        useAlert(
+          this.$t(
+            'PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_GENERATE_SUCCESS'
+          )
+        );
+      } else {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_RESET_ERROR')
+        );
+      }
+    },
   },
 };
 </script>
@@ -338,6 +357,21 @@ export default {
         :value="currentUser.access_token"
         @on-copy="onCopyToken"
         @on-reset="resetAccessToken"
+      />
+    </SectionLayout>
+    <SectionLayout
+      with-border
+      :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_TITLE')"
+      :description="
+        replaceInstallationName(
+          $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_NOTE')
+        )
+      "
+    >
+      <AccessToken
+        :value="currentUser.read_only_access_token"
+        @on-copy="onCopyToken"
+        @on-reset="resetReadOnlyAccessToken"
       />
     </SectionLayout>
   </div>

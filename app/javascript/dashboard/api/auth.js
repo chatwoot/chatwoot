@@ -106,4 +106,8 @@ export default {
     const urlData = endPoints('resetAccessToken');
     return axios.post(urlData.url);
   },
+  resetReadOnlyAccessToken() {
+    const urlData = endPoints('resetReadOnlyAccessToken');
+    return axios.post(urlData.url);
+  },
 };
