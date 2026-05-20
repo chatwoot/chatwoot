@@ -12,6 +12,7 @@
 #
 # Indexes
 #
+#  index_access_tokens_on_owner_and_scope          (owner_type,owner_id,scope) UNIQUE
 #  index_access_tokens_on_owner_type_and_owner_id  (owner_type,owner_id)
 #  index_access_tokens_on_token                    (token) UNIQUE
 #
