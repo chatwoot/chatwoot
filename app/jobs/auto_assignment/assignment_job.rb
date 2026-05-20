@@ -39,11 +39,14 @@ class AutoAssignment::AssignmentJob < ApplicationJob
 
   private
 
-  # Release the in-flight marker only if we still own it. If our TTL lapsed and a
-  # newer job claimed the key, leave it so we don't reopen the gate under it.
+  # Release the in-flight marker only if we still own it. The atomic
+  # compare-and-delete ensures a job whose TTL lapsed can't delete a newer
+  # job's claim. Tokenless (pre-deploy) jobs never claimed a key, so skip.
   def release_in_flight(inbox_id, token)
+    return if token.nil?
+
     key = format(::Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox_id)
-    ::Redis::Alfred.delete(key) if token.nil? || ::Redis::Alfred.get(key) == token
+    ::Redis::Alfred.delete_if_equals(key, token)
   end
 
   def bulk_assignment_limit

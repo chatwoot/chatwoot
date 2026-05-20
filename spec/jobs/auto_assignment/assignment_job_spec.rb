@@ -89,6 +89,17 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
       expect(described_class.enqueue_for_inbox(inbox.id)).to be(false)
       expect(described_class).to have_received(:perform_later).once
     end
+
+    it 'does not release a newer run marker when its own token is stale' do
+      key = format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)
+      Redis::Alfred.set(key, 'newer-token', ex: 300)
+      allow(AutoAssignment::AssignmentService).to receive(:new)
+        .and_return(instance_double(AutoAssignment::AssignmentService, perform_bulk_assignment: 0))
+
+      described_class.new.perform(inbox_id: inbox.id, token: 'stale-token')
+
+      expect(Redis::Alfred.get(key)).to eq('newer-token')
+    end
   end
 
   describe 'job configuration' do
