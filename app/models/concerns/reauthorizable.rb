@@ -42,6 +42,7 @@ module Reauthorizable
     reauthorization_handlers[self.class.name]&.call(self)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
+    dispatch_inbox_reauthorization_event(true)
   end
 
   def process_integration_hook_reauthorization_emails
@@ -67,9 +68,17 @@ module Reauthorizable
     ::Redis::Alfred.delete(reauthorization_required_key)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
+    dispatch_inbox_reauthorization_event(false)
   end
 
   private
+
+  def dispatch_inbox_reauthorization_event(reauthorization_required)
+    return unless respond_to?(:inbox)
+    return if inbox.blank?
+
+    inbox.dispatch_reauthorization_event(reauthorization_required)
+  end
 
   def reauthorization_handlers
     {
