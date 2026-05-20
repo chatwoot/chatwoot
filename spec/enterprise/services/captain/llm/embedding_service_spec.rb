@@ -6,6 +6,7 @@ RSpec.describe Captain::Llm::EmbeddingService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
+    create(:installation_config, name: 'CAPTAIN_EMBEDDING_API_KEY', value: 'embedding-key')
     allow(Llm::Config).to receive(:initialize!)
     allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(true)
     allow(Llm::Config).to receive(:with_api_key).and_yield(context)
@@ -17,7 +18,7 @@ RSpec.describe Captain::Llm::EmbeddingService do
       described_class.new.get_embedding('refund policy')
 
       expect(Llm::Config).to have_received(:with_api_key)
-        .with('test-key', provider: Llm::Config::DEFAULT_PROVIDER, api_base: Llm::OpenAiConfig.api_v1_base)
+        .with('embedding-key', provider: Llm::Config::DEFAULT_PROVIDER, api_base: Llm::OpenAiConfig.api_v1_base)
       expect(context).to have_received(:embed).with(
         'refund policy',
         model: LlmConstants::DEFAULT_EMBEDDING_MODEL,
@@ -28,7 +29,6 @@ RSpec.describe Captain::Llm::EmbeddingService do
     end
 
     it 'uses the embedding API key when Captain LLM uses another provider' do
-      create(:installation_config, name: 'CAPTAIN_EMBEDDING_API_KEY', value: 'embedding-key')
       allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       described_class.new.get_embedding('refund policy')
@@ -37,13 +37,28 @@ RSpec.describe Captain::Llm::EmbeddingService do
         .with('embedding-key', provider: Llm::Config::DEFAULT_PROVIDER, api_base: Llm::OpenAiConfig.api_v1_base)
     end
 
+    it 'uses the configured embedding model' do
+      create(:installation_config, name: 'CAPTAIN_EMBEDDING_MODEL', value: 'text-embedding-3-large')
+
+      described_class.new.get_embedding('refund policy')
+
+      expect(context).to have_received(:embed).with(
+        'refund policy',
+        model: 'text-embedding-3-large',
+        provider: Llm::Config::DEFAULT_PROVIDER,
+        assume_model_exists: true,
+        dimensions: LlmConstants::DEFAULT_EMBEDDING_DIMENSIONS
+      )
+    end
+
     it 'fails clearly when Captain LLM uses another provider without an embedding API key' do
+      InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_API_KEY')&.destroy
       allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect { described_class.new.get_embedding('refund policy') }
         .to raise_error(
           Llm::ConfigurationError,
-          'An OpenAI API key is required for embeddings when Captain LLM uses a non-OpenAI provider or a custom API base.'
+          'An OpenAI API key is required for embeddings and document search.'
         )
       expect(Llm::Config).not_to have_received(:with_api_key)
     end

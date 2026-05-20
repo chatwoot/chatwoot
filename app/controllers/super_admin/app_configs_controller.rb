@@ -84,6 +84,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       CAPTAIN_OPEN_AI_MODEL
       CAPTAIN_OPEN_AI_ENDPOINT
       CAPTAIN_EMBEDDING_API_KEY
+      CAPTAIN_EMBEDDING_MODEL
     ]
   end
 

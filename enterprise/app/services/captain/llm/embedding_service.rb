@@ -7,11 +7,12 @@ class Captain::Llm::EmbeddingService
     Llm::Config.initialize!
     @account_id = account_id
     @embedding_dimensions = LlmConstants::DEFAULT_EMBEDDING_DIMENSIONS
+    @embedding_model = Llm::OpenAiConfig.embedding_model
     @embedding_provider = Llm::Config::DEFAULT_PROVIDER
     @api_key = Llm::OpenAiConfig.api_key
   end
 
-  def get_embedding(content, model: LlmConstants::DEFAULT_EMBEDDING_MODEL)
+  def get_embedding(content, model: @embedding_model)
     return [] if content.blank?
 
     instrument_embedding_call(instrumentation_params(content, model)) do
@@ -40,7 +41,7 @@ class Captain::Llm::EmbeddingService
   def validate_api_key!
     return if @api_key.present?
 
-    raise Llm::ConfigurationError, 'An OpenAI API key is required for embeddings when Captain LLM uses a non-OpenAI provider or a custom API base.'
+    raise Llm::ConfigurationError, 'An OpenAI API key is required for embeddings and document search.'
   end
 
   def instrumentation_params(content, model)

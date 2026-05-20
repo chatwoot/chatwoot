@@ -33,7 +33,7 @@ RSpec.describe Article do
       expect { article.generate_article_search_terms }
         .to raise_error(
           Llm::ConfigurationError,
-          'An OpenAI API key is required for article search term generation when Captain LLM uses a non-OpenAI provider or a custom API base.'
+          'An OpenAI API key is required for article search term generation.'
         )
       expect(WebMock).not_to have_requested(:post, Llm::OpenAiConfig.chat_completions_url)
     end

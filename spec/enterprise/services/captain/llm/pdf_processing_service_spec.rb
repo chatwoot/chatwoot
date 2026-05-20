@@ -6,6 +6,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-api-key')
+    create(:installation_config, name: 'CAPTAIN_EMBEDDING_API_KEY', value: 'openai-key')
   end
 
   describe '#process' do

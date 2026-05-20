@@ -80,8 +80,7 @@ module Enterprise::Concerns::Article
   def validate_openai_api_key!
     return if Llm::OpenAiConfig.api_key.present?
 
-    raise Llm::ConfigurationError,
-          'An OpenAI API key is required for article search term generation when Captain LLM uses a non-OpenAI provider or a custom API base.'
+    raise Llm::ConfigurationError, 'An OpenAI API key is required for article search term generation.'
   end
 
   def openai_api_url

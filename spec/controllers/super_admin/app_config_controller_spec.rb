@@ -20,6 +20,16 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include(config.value)
       end
+
+      it 'groups Captain model and embedding settings' do
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Captain Model')
+        expect(response.body).to include('Embeddings and documents')
+        expect(response.body).to include('Embedding Model')
+      end
     end
   end
 

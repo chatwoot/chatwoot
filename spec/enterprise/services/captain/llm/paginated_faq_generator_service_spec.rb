@@ -7,6 +7,7 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-api-key')
+    create(:installation_config, name: 'CAPTAIN_EMBEDDING_API_KEY', value: 'openai-key')
     allow(OpenAI::Client).to receive(:new).and_return(openai_client)
   end
 

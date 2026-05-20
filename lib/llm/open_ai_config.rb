@@ -13,21 +13,17 @@ module Llm::OpenAiConfig
     end
 
     def api_key
-      openai_only_api_key.presence || system_openai_api_key
+      openai_only_api_key
+    end
+
+    def embedding_model
+      InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
     end
 
     private
 
     def openai_only_api_key
       InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_API_KEY')&.value
-    end
-
-    def system_api_key
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    end
-
-    def system_openai_api_key
-      system_api_key if Llm::Config.default_openai_endpoint?
     end
   end
 end

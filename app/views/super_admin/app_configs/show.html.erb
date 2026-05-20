@@ -19,6 +19,15 @@
     <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
       <div>
         <% @allowed_configs.each do |key| %>
+          <% if @config == 'captain' && key == 'CAPTAIN_OPEN_AI_API_KEY' %>
+            <div class="mb-5">
+              <h2 class="text-sm font-medium text-slate-700">Captain Model</h2>
+            </div>
+          <% elsif @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
+            <div class="mb-5 mt-10">
+              <h2 class="text-sm font-medium text-slate-700">Embeddings and documents</h2>
+            </div>
+          <% end %>
           <div class="flex mb-8">
             <div class="field-unit__label">
               <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
@@ -66,7 +75,11 @@
               <% end %>
               <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
                 <p class="pt-2 text-xs italic text-slate-400">
-                  OpenAI only. Required when Captain LLM uses a non-OpenAI provider or a custom API base.
+                  Required for embeddings, PDF processing, and audio transcription.
+                </p>
+              <% elsif @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  Defaults to https://api.openai.com.
                 </p>
               <% elsif @config != 'captain' && @installation_configs[key]&.dig('description').present? %>
                 <p class="pt-2 text-xs italic text-slate-400">
@@ -83,7 +96,7 @@
 
       <% if @config == 'captain' %>
         <aside class="self-start border-l border-slate-100 pl-6 text-xs text-slate-500">
-          <h2 class="mb-3 text-sm font-medium text-slate-700">Captain provider notes</h2>
+          <h2 class="mb-3 text-sm font-medium text-slate-700">Provider notes</h2>
 
           <div class="space-y-3 leading-5">
             <p class="italic">
@@ -95,15 +108,15 @@
             </p>
 
             <p>
-              If your provider is not listed but exposes an OpenAI-compatible chat completions API, choose OpenAI, enter your custom model, and set Captain LLM API Base to the correct OpenAI-compatible endpoint.
+              If your provider is not listed but exposes an OpenAI-compatible chat completions API, choose OpenAI, enter your custom model, and set API Base to the correct OpenAI-compatible endpoint.
             </p>
 
             <p>
-              When Provider is OpenAI and you are using OpenAI directly, leave Captain LLM API Base empty. The default OpenAI endpoint will be used.
+              When Provider is OpenAI and you are using OpenAI directly, leave API Base empty. The default OpenAI endpoint will be used.
             </p>
 
             <p>
-              Documentation search embeddings, PDF processing, and audio transcription use OpenAI only. If Captain LLM Provider is not OpenAI, or Provider is OpenAI with a custom API base, add an OpenAI key in OpenAI API Key.
+              Embeddings and document features always use OpenAI. Add an OpenAI key in the Embeddings and documents section, even when Captain LLM also uses OpenAI.
             </p>
           </div>
         </aside>
