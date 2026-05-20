@@ -90,10 +90,10 @@ RSpec.describe User do
   end
 
   describe 'access token' do
-    it 'creates a single access token upon user creation' do
+    it 'creates a full and a read-only access token upon user creation' do
       new_user = create(:user)
-      token_count = AccessToken.where(owner: new_user).count
-      expect(token_count).to eq(1)
+      scopes = AccessToken.where(owner: new_user).pluck(:scope)
+      expect(scopes).to contain_exactly('full', 'read_only')
     end
   end
 
