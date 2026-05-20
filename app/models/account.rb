@@ -169,6 +169,11 @@ class Account < ApplicationRecord
     Redis::Alfred.exists?(enrichment_key) ? 'enrichment' : step
   end
 
+  def reset_cache_keys
+    super
+    clear_unread_conversation_counts_cache
+  end
+
   private
 
   def notify_creation
