@@ -8,6 +8,13 @@ class Api::BaseController < ApplicationController
     api/v1/accounts/contacts#filter
   ].freeze
 
+  # GET-shaped endpoints that mutate state and must be blocked for read-only
+  # tokens despite the verb being "safe". Add any new write-on-GET endpoint
+  # here when it ships.
+  READ_ONLY_BLOCKED_GET_ACTIONS = %w[
+    api/v1/accounts/callbacks#register_facebook_page
+  ].freeze
+
   respond_to :json
   before_action :authenticate_access_token!, if: :authenticate_by_access_token?
   before_action :validate_bot_access_token!, if: :authenticate_by_access_token?
@@ -22,11 +29,21 @@ class Api::BaseController < ApplicationController
 
   def enforce_read_only_token_scope
     return unless @access_token&.scope == 'read_only'
-    return if request.get? || request.head? || request.options?
-    return if READ_ONLY_POST_ALLOWLIST.include?("#{params[:controller]}##{params[:action]}")
+    return if read_only_token_action_allowed?
 
     render json: { error: 'This access token is read-only and cannot perform write operations.' },
            status: :forbidden
+  end
+
+  def read_only_token_action_allowed?
+    action_key = "#{params[:controller]}##{params[:action]}"
+    return READ_ONLY_POST_ALLOWLIST.include?(action_key) unless safe_http_method?
+
+    READ_ONLY_BLOCKED_GET_ACTIONS.exclude?(action_key)
+  end
+
+  def safe_http_method?
+    request.get? || request.head? || request.options?
   end
 
   def check_authorization(model = nil)
