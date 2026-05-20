@@ -4,6 +4,7 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
@@ -150,8 +151,21 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   fetchConversationUnreadCounts = () => {
+    if (!this.isConversationUnreadCountsEnabled()) return;
+
     this.lastUnreadCountsFetchAt = Date.now();
     this.app.$store.dispatch('conversationUnreadCounts/get');
+  };
+
+  isConversationUnreadCountsEnabled = () => {
+    const accountId = this.app.$store.getters.getCurrentAccountId;
+    const isFeatureEnabled =
+      this.app.$store.getters['accounts/isFeatureEnabledonAccount'];
+
+    return isFeatureEnabled?.(
+      accountId,
+      FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+    );
   };
 
   onTypingOn = ({ conversation, user }) => {

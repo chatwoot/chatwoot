@@ -61,6 +61,13 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
+const hasConversationUnreadCounts = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+  );
+});
+
 const toggleShortcutModalFn = show => {
   if (show) {
     emit('openKeyShortcutModal');
@@ -175,7 +182,9 @@ const conversationCustomViews = useMapGetter(
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
-  store.dispatch('conversationUnreadCounts/get');
+  if (hasConversationUnreadCounts.value) {
+    store.dispatch('conversationUnreadCounts/get');
+  }
   store.dispatch('notifications/unReadCount');
   store.dispatch('teams/get');
   store.dispatch('attributes/get');
