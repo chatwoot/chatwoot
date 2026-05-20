@@ -67,6 +67,9 @@ zh_TW:
     saml:
       feature_not_enabled: 此帳號尚未啟用 SAML 功能
       sso_not_enabled: 此安裝尚未啟用 SAML SSO
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: 無效的資料類型
