@@ -67,6 +67,9 @@ ru:
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SSO SAML не включен для этой установки
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: Недопустимый тип данных
