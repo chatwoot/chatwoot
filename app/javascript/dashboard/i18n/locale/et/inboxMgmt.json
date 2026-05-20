@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Vidina koostaja",
       "BOT_CONFIGURATION": "Boti seadistamine",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Hääl"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Luba/keela agendi nime kuvamine e-kirjas, kui keelatud, kuvatakse ettevõtte nimi",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Luba vestluse jätkumine e-posti teel",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Vestlused jätkuvad e-posti teel, kui kontakti e-posti aadress on olemas.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Postkasti seaded",
@@ -1000,7 +1011,8 @@
         "LABEL": "Parool",
         "PLACE_HOLDER": "Parool"
       },
-      "ENABLE_SSL": "Luba SSL"
+      "ENABLE_SSL": "Luba SSL",
+      "AUTH_MECHANISM": "Autentimine"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

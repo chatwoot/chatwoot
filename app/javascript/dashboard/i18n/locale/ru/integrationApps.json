@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Выбрать \"Входящий\" канал"
         },
         "SUBMIT": "Создать",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Отменить"
       },
       "API": {

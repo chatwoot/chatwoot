@@ -104,9 +104,17 @@ class Attachment < ApplicationRecord
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {
+        # Keep audio playback inline while avoiding the ActiveStorage proxy path.
+        data_url: inline_audio_url,
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
     )
+  end
+
+  def inline_audio_url
+    return '' unless file.attached?
+
+    Rails.application.routes.url_helpers.rails_storage_redirect_url(file, disposition: 'inline')
   end
 
   def file_metadata

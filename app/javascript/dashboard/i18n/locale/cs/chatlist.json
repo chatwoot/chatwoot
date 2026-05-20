@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Skrýt citovaný text",
     "SHOW_QUOTED_TEXT": "Zobrazit citovaný text",
     "MESSAGE_READ": "Přečtené",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

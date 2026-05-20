@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "উইজেট নির্মাতা",
       "BOT_CONFIGURATION": "বট কনফিগারেশন",
       "ACCOUNT_HEALTH": "অ্যাকাউন্টের স্বাস্থ্য",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "ভয়েস"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "চ্যানেল পছন্দসমূহ",
     "WIDGET_FEATURES": "উইজেট ফিচারসমূহ",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "ইমেইলে এজেন্টের নাম দেখানো চালু/বন্ধ করুন, বন্ধ করলে ব্যবসার নাম দেখানো হবে",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ইমেইলের মাধ্যমে আলোচনা ধারাবাহিকতা সক্রিয় করুন",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "যোগাযোগের ইমেইল ঠিকানা থাকলে কথোপকথন ইমেইলের মাধ্যমে চলতে থাকবে।.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "কথোপকথন রাউটিং",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "বিদ্যমান কন্টাক্টের জন্য কথোপকথন তৈরি কনফিগার করুন",
       "INBOX_UPDATE_TITLE": "ইনবক্স সেটিংস",
@@ -1000,7 +1011,8 @@
         "LABEL": "পাসওয়ার্ড",
         "PLACE_HOLDER": "পাসওয়ার্ড"
       },
-      "ENABLE_SSL": "SSL সক্রিয় করুন"
+      "ENABLE_SSL": "SSL সক্রিয় করুন",
+      "AUTH_MECHANISM": "প্রমাণীকরণ"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
