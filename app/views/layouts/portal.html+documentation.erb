@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <%= render 'layouts/portal_head' %>
+  </head>
+  <body class="font-inter">
+    <div id="portal" class="antialiased">
+      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
+        <%= render 'public/api/v1/portals/documentation_layout/topbar',
+                   portal: @portal, locale: @locale, article: @article, category: @category %>
+        <div class="bg-white dark:bg-n-slate-2 flex-1 flex font-inter tracking-normal [font-optical-sizing:auto]">
+          <div class="max-w-screen-2xl w-full mx-auto flex flex-1">
+            <%= render 'public/api/v1/portals/documentation_layout/sidebar',
+                       portal: @portal, locale: @locale, article: @article, category: @category %>
+            <main class="flex-1 min-w-0 flex flex-col">
+              <%= yield %>
+              <%= render 'public/api/v1/portals/documentation_layout/footer',
+                         portal: @portal, global_config: @global_config %>
+            </main>
+          </div>
+        </div>
+      </main>
+    </div>
+    <%= render 'layouts/portal_scripts' %>
+  </body>
+</html>
