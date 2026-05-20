@@ -13,13 +13,12 @@ class AutoAssignment::AssignmentJob < ApplicationJob
 
     return true if perform_later(inbox_id: inbox_id, token: token)
 
-    # Enqueue was halted; don't hold the gate for the full TTL with nothing behind it.
-    ::Redis::Alfred.delete(key)
+    # Enqueue was halted; release our own claim so the inbox isn't gated until the TTL.
+    ::Redis::Alfred.delete_if_equals(key, token)
     false
   rescue StandardError
-    # Enqueue raised after we claimed the gate; release it so the inbox isn't
-    # starved until the TTL, then re-raise.
-    ::Redis::Alfred.delete(key)
+    # Enqueue raised after we claimed the gate; release our own claim, then re-raise.
+    ::Redis::Alfred.delete_if_equals(key, token)
     raise
   end
 
