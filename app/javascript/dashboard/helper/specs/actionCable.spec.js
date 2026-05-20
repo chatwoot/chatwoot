@@ -132,5 +132,32 @@ describe('ActionCableConnector - Copilot Tests', () => {
         'conversationUnreadCounts/get'
       );
     });
+
+    it('clears pending unread count refetch before immediate refetch', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      vi.advanceTimersByTime(1000);
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      vi.setSystemTime(new Date('2026-01-01T00:00:06Z'));
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+
+      vi.advanceTimersByTime(4000);
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+    });
   });
 });

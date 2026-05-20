@@ -138,6 +138,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.lastUnreadCountsFetchAt === null ||
       elapsedTime >= UNREAD_COUNTS_REFETCH_THROTTLE_MS
     ) {
+      this.clearUnreadCountsFetchTimer();
       this.fetchConversationUnreadCounts();
       return;
     }
@@ -148,6 +149,13 @@ class ActionCableConnector extends BaseActionCableConnector {
       this.unreadCountsFetchTimer = null;
       this.fetchConversationUnreadCounts();
     }, UNREAD_COUNTS_REFETCH_THROTTLE_MS - elapsedTime);
+  };
+
+  clearUnreadCountsFetchTimer = () => {
+    if (!this.unreadCountsFetchTimer) return;
+
+    clearTimeout(this.unreadCountsFetchTimer);
+    this.unreadCountsFetchTimer = null;
   };
 
   fetchConversationUnreadCounts = () => {
