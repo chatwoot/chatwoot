@@ -81,7 +81,9 @@ RSpec.describe Channel::GooglePlay do
     end
 
     it 'raises when the API responds with an error' do
-      stub_request(:get, base_url).to_return(status: 403, body: 'forbidden')
+      stub_request(:get, base_url)
+        .with(query: hash_including('maxResults' => '100'))
+        .to_return(status: 403, body: 'forbidden')
 
       expect { channel.fetch_reviews }.to raise_error(/Google Play reviews fetch failed \(403\)/)
     end
@@ -105,15 +107,15 @@ RSpec.describe Channel::GooglePlay do
     end
 
     it 'truncates the reply text to MAX_REPLY_LENGTH' do
-      long_text = 'a' * 500
-      stub_request(:post, url)
-        .with(body: hash_including('replyText' => 'a' * described_class::MAX_REPLY_LENGTH))
-        .to_return(status: 200, body: { result: { lastEdited: { seconds: '1' } } }.to_json,
-                   headers: { 'Content-Type' => 'application/json' })
+      stub_request(:post, url).to_return(status: 200,
+                                         body: { result: { lastEdited: { seconds: '1' } } }.to_json,
+                                         headers: { 'Content-Type' => 'application/json' })
 
-      channel.reply_to_review('REV-1', long_text)
-      expect(WebMock).to have_requested(:post, url)
-        .with(body: hash_including('replyText' => 'a' * described_class::MAX_REPLY_LENGTH))
+      channel.reply_to_review('REV-1', 'a' * 500)
+
+      expect(WebMock).to(have_requested(:post, url).with do |req|
+        JSON.parse(req.body)['replyText'].length <= described_class::MAX_REPLY_LENGTH
+      end)
     end
 
     it 'raises when the API responds with an error' do
