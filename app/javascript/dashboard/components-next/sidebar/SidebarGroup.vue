@@ -279,9 +279,11 @@ watch(
         <template v-for="child in children" :key="child.name">
           <SidebarSubGroup
             v-if="child.children"
+            :name="`${name}:${child.name}`"
             :label="child.label"
             :icon="child.icon"
             :children="child.children"
+            :collapsible="child.collapsible"
             :is-expanded="isExpanded"
             :active-child="activeChild"
           />
