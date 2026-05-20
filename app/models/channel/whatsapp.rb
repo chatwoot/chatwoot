@@ -60,9 +60,8 @@ class Channel::Whatsapp < ApplicationRecord
 
   # Enables voice: turns calling on at Meta (idempotent), subscribes the `calls`
   # webhook field, and sets calling_enabled. Raises on Meta failure.
-  # The flag is persisted with validate: false so the remote credential check in
-  # validate_provider_config can't transiently fail and leave the local flag out
-  # of sync with the changes already made at Meta.
+  # Saved with validate: false to skip validate_provider_config's remote credential
+  # re-check, which could spuriously fail and desync the flag from Meta.
   def enable_voice_calling!
     raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
 
@@ -78,7 +77,8 @@ class Channel::Whatsapp < ApplicationRecord
   def disable_voice_calling!
     raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
 
-    update!(provider_config: provider_config.merge('calling_enabled' => false))
+    self.provider_config = provider_config.merge('calling_enabled' => false)
+    save!(validate: false)
     begin
       webhook_setup_service.register_callback(subscribed_fields: %w[messages smb_message_echoes])
     rescue StandardError => e
