@@ -28,9 +28,7 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   def destroy
     call = resolve_call!
     rejecting = agent_rejecting_before_pickup?(call)
-    # Tear down the provider conference before marking the call terminal: if
-    # end_conference raises, the call stays ringing (non-terminal) and remains
-    # repairable by later status webhooks instead of being stuck as failed.
+    # Tear down provider side first so a teardown failure leaves the call repairable.
     Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
     finalize_as_agent_reject!(call) if rejecting
     render json: { status: 'success', id: call.conversation.display_id }
@@ -71,11 +69,14 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
   end
 
   def finalize_as_agent_reject!(call)
-    call.update!(
-      status: 'failed',
-      end_reason: 'agent_rejected',
-      accepted_by_agent_id: Current.user.id
-    )
-    Voice::CallMessageBuilder.new(call).update_status!(status: 'failed', agent: Current.user)
+    # Re-check under a row lock: a webhook may have accepted/completed the call
+    # while end_conference was in flight, so don't force agent_rejected on stale state.
+    rejected = call.with_lock do
+      next false unless agent_rejecting_before_pickup?(call)
+
+      call.update!(status: 'failed', end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
+      true
+    end
+    Voice::CallMessageBuilder.new(call).update_status!(status: 'failed', agent: Current.user) if rejected
   end
 end
