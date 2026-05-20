@@ -69,7 +69,7 @@ pt_BR:
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
     conversations:
       unread_counts:
-        feature_not_enabled: Conversation unread counts feature not enabled for this account
+        feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
       data_type:
         invalid: Tipo de dado inválido
