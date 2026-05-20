@@ -386,6 +386,7 @@
       "IDENTIFIER": "ตัวระบุ",
       "COUNTRY": "ประเทศ",
       "CITY": "เมือง",
+      "COMPANY": "บริษัท",
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "Last activity",
       "REFERER_LINK": "ลิงก์อ้างอิง",
