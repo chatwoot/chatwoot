@@ -9,10 +9,7 @@ class Conversations::UnreadCounts::Notifier
   end
 
   def perform
-    unless conversation.account.feature_enabled?('conversation_unread_counts')
-      ::Conversations::UnreadCounts::Store.expire_ready_keys!(conversation.account_id)
-      return false
-    end
+    return false unless conversation.account.feature_enabled?('conversation_unread_counts')
 
     return false unless ::Conversations::UnreadCounts::Refresher.new(conversation, changed_attributes: changed_attributes).perform
 
