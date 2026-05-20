@@ -67,6 +67,9 @@ bn:
     saml:
       feature_not_enabled: এই অ্যাকাউন্টের জন্য SAML ফিচার সক্রিয় নয়
       sso_not_enabled: এই ইনস্টলেশনের জন্য SAML SSO সক্রিয় করা হয়নি
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: অবৈধ ডেটা টাইপ
