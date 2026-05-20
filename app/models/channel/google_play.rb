@@ -40,7 +40,7 @@ class Channel::GooglePlay < ApplicationRecord
   after_create_commit :enqueue_initial_review_fetch
 
   def name
-    'Google Play'
+    'Google PlayStore'
   end
 
   def sync_due?

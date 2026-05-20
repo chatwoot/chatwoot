@@ -28,7 +28,7 @@ RSpec.describe Channel::GooglePlay do
 
   describe '#name' do
     it 'returns the human-readable channel name' do
-      expect(channel.name).to eq 'Google Play'
+      expect(channel.name).to eq 'Google PlayStore'
     end
   end
 
