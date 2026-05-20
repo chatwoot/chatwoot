@@ -40,6 +40,11 @@ module Redis::Alfred
       $alfred.with { |conn| conn.expire(key, seconds) }
     end
 
+    # get expiry of a key in seconds
+    def ttl(key)
+      $alfred.with { |conn| conn.ttl(key) }
+    end
+
     # scan keys matching a pattern
     def scan_each(match: nil, count: 100, &)
       $alfred.with do |conn|
@@ -78,6 +83,10 @@ module Redis::Alfred
 
     def lrem(key, value, count = 0)
       $alfred.with { |conn| conn.lrem(key, count, value) }
+    end
+
+    def pipelined(&)
+      $alfred.with { |conn| conn.pipelined(&) }
     end
 
     # hash operations
