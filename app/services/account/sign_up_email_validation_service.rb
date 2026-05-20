@@ -16,7 +16,7 @@ class Account::SignUpEmailValidationService
 
     raise InvalidEmail.new({ domain_blocked: true }) if domain_blocked?
 
-    raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable_domain?
+    raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
 
     raise InvalidEmail.new({ free_email_provider: true }) if !@allow_free_email_provider && address.deny_listed?
 
