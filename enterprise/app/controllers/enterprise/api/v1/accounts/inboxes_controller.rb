@@ -4,20 +4,18 @@ module Enterprise::Api::V1::Accounts::InboxesController
   end
 
   def enable_whatsapp_calling
-    channel = @inbox.channel
-    return render_could_not_create_error('Not a WhatsApp Cloud inbox') unless channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
+    return unless ensure_whatsapp_calling_supported
 
-    channel.enable_voice_calling!
+    @inbox.channel.enable_voice_calling!
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
 
   def disable_whatsapp_calling
-    channel = @inbox.channel
-    return render_could_not_create_error('Not a WhatsApp Cloud inbox') unless channel.is_a?(Channel::Whatsapp) && channel.provider == 'whatsapp_cloud'
+    return unless ensure_whatsapp_calling_supported
 
-    channel.disable_voice_calling!
+    @inbox.channel.disable_voice_calling!
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -28,6 +26,14 @@ module Enterprise::Api::V1::Accounts::InboxesController
   end
 
   private
+
+  def ensure_whatsapp_calling_supported
+    channel = @inbox.channel
+    return true if channel.is_a?(Channel::Whatsapp) && channel.voice_calling_supported?
+
+    render_could_not_create_error('Inbox does not support WhatsApp calling')
+    false
+  end
 
   def allowed_channel_types
     super + ['voice']

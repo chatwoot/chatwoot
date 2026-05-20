@@ -44,10 +44,16 @@ class Channel::Whatsapp < ApplicationRecord
   # Meta's Calling API is only available via the embedded-signup whatsapp_cloud flow —
   # 360dialog (default provider) and manual whatsapp_cloud setups can't reach the call APIs.
   def voice_enabled?
-    provider == 'whatsapp_cloud' &&
-      provider_config['source'] == 'embedded_signup' &&
+    voice_calling_supported? &&
       provider_config['calling_enabled'].present? &&
       account.feature_enabled?('channel_voice')
+  end
+
+  # Whether this inbox can do WhatsApp calling at all. Meta's Calling API is only
+  # reachable via the embedded-signup whatsapp_cloud flow, so manual whatsapp_cloud
+  # and 360dialog inboxes can't be toggled on even though calling_enabled would persist.
+  def voice_calling_supported?
+    provider == 'whatsapp_cloud' && provider_config['source'] == 'embedded_signup'
   end
 
   def provider_service
@@ -63,7 +69,7 @@ class Channel::Whatsapp < ApplicationRecord
   # Saved with validate: false to skip validate_provider_config's remote credential
   # re-check, which could spuriously fail and desync the flag from Meta.
   def enable_voice_calling!
-    raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
+    raise 'WhatsApp calling requires an embedded-signup whatsapp_cloud inbox' unless voice_calling_supported?
 
     provider_service.update_calling_status('ENABLED')
     webhook_setup_service.register_callback
@@ -75,7 +81,7 @@ class Channel::Whatsapp < ApplicationRecord
   # `calls` from the webhook subscription (best-effort, so a Meta outage can't
   # trap admins). Leaves Meta's WABA calling.status untouched.
   def disable_voice_calling!
-    raise 'Voice calling is only supported on whatsapp_cloud channels' unless provider == 'whatsapp_cloud'
+    raise 'WhatsApp calling requires an embedded-signup whatsapp_cloud inbox' unless voice_calling_supported?
 
     self.provider_config = provider_config.merge('calling_enabled' => false)
     save!(validate: false)
