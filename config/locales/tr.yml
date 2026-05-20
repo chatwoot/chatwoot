@@ -67,6 +67,9 @@ tr:
     saml:
       feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
       sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
+    conversations:
+      unread_counts:
+        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: Hatalı veri türü
