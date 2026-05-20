@@ -1,8 +1,3 @@
-module Conversations::UnreadCounts
-  READY_TTL = 24.hours.to_i
-  SET_TTL = 25.hours.to_i
-end
-
 class Conversations::UnreadCounts::Store
   class << self
     def base_ready?(account_id)
