@@ -99,6 +99,7 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def unread?
+    # Sidebar unread counts intentionally track only open conversations.
     return false unless conversation.open?
 
     incoming_messages = conversation.messages.incoming.where(account_id: account.id)
@@ -113,6 +114,8 @@ class Conversations::UnreadCounts::Refresher
   end
 
   def affected_assignee_ids
+    return [conversation.assignee_id].compact unless changed_attribute?(:assignee_id)
+
     [previous_value_for(:assignee_id), conversation.assignee_id].uniq
   end
 
@@ -141,6 +144,10 @@ class Conversations::UnreadCounts::Refresher
   def previous_value_for(attribute)
     change = changed_attributes[attribute.to_s] || changed_attributes[attribute.to_sym]
     change&.first
+  end
+
+  def changed_attribute?(attribute)
+    changed_attributes.key?(attribute.to_s) || changed_attributes.key?(attribute.to_sym)
   end
 
   def team_assignment_key_for(team_id, inbox_id, assignee_id)

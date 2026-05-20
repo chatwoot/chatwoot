@@ -10,7 +10,10 @@ RSpec.describe 'Twilio::CallbacksController', type: :request do
         'To' => '+0987654321',
         'Body' => 'Test message',
         'AccountSid' => 'AC123',
-        'SmsSid' => 'SM123'
+        'SmsSid' => 'SM123',
+        'ExternalUserId' => 'IN.2081978709342942',
+        'ParentExternalUserId' => 'IN.ENT.9081726354',
+        'ProfileUsername' => 'muhsin'
       }
     end
 

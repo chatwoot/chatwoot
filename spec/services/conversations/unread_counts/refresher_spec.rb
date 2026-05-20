@@ -108,6 +108,17 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
                                  )
   end
 
+  it 'does not remove unassigned membership when assignee did not change' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: assignee)
+    Conversations::UnreadCounts::Builder.new(account).build_assignment!
+    allow(store).to receive(:remove_assignment_membership).and_call_original
+
+    conversation.update_labels([new_label.title])
+    described_class.new(conversation.reload, changed_attributes: { label_list: [[label.title], [new_label.title]] }).perform
+
+    expect(store).to have_received(:remove_assignment_membership).with(hash_including(assignee_ids: [assignee.id]))
+  end
+
   it 'moves assignment-aware team membership when team changes' do
     create(:team_member, user: assignee, team: new_team)
     conversation = create_unread_conversation(account: account, inbox: inbox, assignee: assignee, team: team)
