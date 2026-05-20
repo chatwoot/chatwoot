@@ -25,17 +25,14 @@ module Redis::Alfred
       $alfred.with { |conn| conn.del(key) }
     end
 
-    # atomically delete a key only if its current value matches the expected value
-    # (compare-and-delete used to release a lock you own). WATCH/MULTI aborts the
-    # delete if the key changes between the check and the delete.
+    # atomic compare-and-delete (release a lock only if you still own it); WATCH/MULTI
+    # aborts the delete if the key changes between the check and the delete.
     def delete_if_equals(key, expected_value)
       $alfred.with do |conn|
         conn.watch(key) do
-          if conn.get(key) == expected_value
-            conn.multi { |transaction| transaction.del(key) }
-          else
-            conn.unwatch
-          end
+          next conn.unwatch unless conn.get(key) == expected_value
+
+          conn.multi { |transaction| transaction.del(key) }
         end
       end
     end
