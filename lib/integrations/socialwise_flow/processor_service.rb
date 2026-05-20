@@ -1384,40 +1384,39 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       }
     end
 
-    # 2) SocialWise direct format (instagram-like)
-    if facebook_payload['message_format'].present?
-      case facebook_payload['message_format']
-      when 'GENERIC_TEMPLATE'
-        # Support single-element direct format (title/image_url/buttons)
-        if facebook_payload['elements'].blank?
-          element = {
-            'title' => facebook_payload['title'],
-            'subtitle' => facebook_payload['subtitle'],
-            'image_url' => facebook_payload['image_url'],
-            'buttons' => facebook_payload['buttons']
-          }.compact
-          return {
-            'template_type' => 'generic',
-            'elements' => [element]
-          }
-        else
-          return {
-            'template_type' => 'generic',
-            'elements' => facebook_payload['elements']
-          }
-        end
-      when 'BUTTON_TEMPLATE'
-        return {
-          'template_type' => 'button',
-          'text' => facebook_payload['text'],
+    # 2) SocialWise direct format (instagram-like). Infer by structure first;
+    # message_format is only an advisory fallback and may be stale.
+    case infer_meta_message_format(facebook_payload)
+    when 'GENERIC_TEMPLATE'
+      # Support single-element direct format (title/image_url/buttons)
+      if facebook_payload['elements'].blank?
+        element = {
+          'title' => facebook_payload['title'],
+          'subtitle' => facebook_payload['subtitle'],
+          'image_url' => facebook_payload['image_url'],
           'buttons' => facebook_payload['buttons']
-        }
-      when 'QUICK_REPLIES'
+        }.compact
         return {
-          'text' => facebook_payload['text'],
-          'quick_replies' => facebook_payload['quick_replies']
+          'template_type' => 'generic',
+          'elements' => [element]
+        }
+      else
+        return {
+          'template_type' => 'generic',
+          'elements' => facebook_payload['elements']
         }
       end
+    when 'BUTTON_TEMPLATE'
+      return {
+        'template_type' => 'button',
+        'text' => facebook_payload['text'],
+        'buttons' => facebook_payload['buttons']
+      }
+    when 'QUICK_REPLIES'
+      return {
+        'text' => facebook_payload['text'],
+        'quick_replies' => facebook_payload['quick_replies']
+      }
     end
 
     nil
@@ -1428,8 +1427,9 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     # Use Messenger raw message if present
     return facebook_payload['message'] if facebook_payload['message'].is_a?(Hash)
 
-    # Build from SocialWise direct format
-    case facebook_payload['message_format']
+    # Build from SocialWise direct format. Infer by structure first;
+    # message_format is only an advisory fallback and may be stale.
+    case infer_meta_message_format(facebook_payload)
     when 'GENERIC_TEMPLATE'
       elements = (facebook_payload['elements'].presence || [{
         'title' => facebook_payload['title'],
@@ -1485,7 +1485,8 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       # Verificar se já está no formato correto (Dialogflow)
       if instagram_payload['payload'].present? && instagram_payload['message_format'].present?
         Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Payload already in Dialogflow format'
-        return instagram_payload
+        message_format = infer_meta_message_format(instagram_payload['payload']) || instagram_payload['message_format']
+        return instagram_payload.merge('message_format' => message_format)
       end
 
       if instagram_payload.dig('message', 'quick_replies').present? && instagram_payload.dig('message', 'text').present?
@@ -1507,7 +1508,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Detected SocialWise Flow nested format'
 
         nested_payload = instagram_payload['message']['attachment']['payload']
-        message_format = instagram_payload['message_format'].presence || infer_instagram_message_format(nested_payload)
+        message_format = infer_meta_message_format(nested_payload) || instagram_payload['message_format'].presence
 
         return nil if message_format.blank?
 
@@ -1521,7 +1522,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       end
 
       # Verificar se é formato SocialWise Flow direto (sem aninhamento)
-      message_format = instagram_payload['message_format'].presence || infer_instagram_message_format(instagram_payload)
+      message_format = infer_meta_message_format(instagram_payload)
       if message_format.present?
         Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Detected SocialWise Flow direct format'
 
@@ -1553,12 +1554,23 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   end
 
   def infer_instagram_message_format(payload)
+    infer_meta_message_format(payload)
+  end
+
+  def infer_meta_message_format(payload)
     return unless payload.is_a?(Hash)
 
-    return payload['message_format'] if payload['message_format'].present?
+    declared_format = payload['message_format'].presence
     return 'GENERIC_TEMPLATE' if payload['template_type'] == 'generic' || payload['elements'].present?
+    return 'GENERIC_TEMPLATE' if declared_format == 'GENERIC_TEMPLATE' && generic_card_fields_present?(payload)
     return 'BUTTON_TEMPLATE' if payload['template_type'] == 'button' || payload['buttons'].present?
     return 'QUICK_REPLIES' if payload['quick_replies'].present?
+
+    declared_format
+  end
+
+  def generic_card_fields_present?(payload)
+    payload['title'].present? || payload['subtitle'].present? || payload['image_url'].present?
   end
 
   def create_fallback_instagram_message(message, instagram_payload)
@@ -1620,15 +1632,7 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
     # Try Instagram content
     if fallback_content.blank? && response['instagram'].present?
-      instagram_payload = response['instagram']
-      fallback_content = case instagram_payload['message_format']
-                         when 'QUICK_REPLIES', 'BUTTON_TEMPLATE'
-                           instagram_payload['text']
-                         when 'GENERIC_TEMPLATE'
-                           instagram_payload.dig('elements', 0, 'title')
-                         else
-                           'Instagram rich message'
-                         end
+      fallback_content = extract_instagram_fallback_text(response['instagram']) || 'Instagram rich message'
     end
 
     # Try Facebook content

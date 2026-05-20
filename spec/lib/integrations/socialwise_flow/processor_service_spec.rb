@@ -23,6 +23,16 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
       ]
     }
   end
+  let(:button_payload_with_wrong_format) do
+    {
+      'message_format' => 'QUICK_REPLIES',
+      'template_type' => 'button',
+      'text' => 'Escolha uma opção:',
+      'buttons' => [
+        { 'type' => 'postback', 'title' => 'Falar com atendente', 'payload' => '@falar_atendente' }
+      ]
+    }
+  end
 
   describe '#bot_should_respond?' do
     it 'allows open conversations with an old human reply when no explicit handoff exists' do
@@ -100,6 +110,57 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
 
         instagram_service.send(:process_response, instagram_message, { 'instagram' => instagram_payload_without_format })
       end
+
+      it 'trusts the payload structure over a misleading message_format' do
+        expect(Integrations::Socialwise::InstagramResponseProcessor).to receive(:process).with(
+          {
+            'message_format' => 'BUTTON_TEMPLATE',
+            'payload' => {
+              'template_type' => 'button',
+              'text' => 'Escolha uma opção:',
+              'buttons' => [
+                { 'type' => 'postback', 'title' => 'Falar com atendente', 'payload' => '@falar_atendente' }
+              ]
+            }
+          },
+          instagram_message
+        ).and_return(true)
+
+        expect(instagram_service).not_to receive(:create_fallback_instagram_message)
+
+        instagram_service.send(:process_response, instagram_message, { 'instagram' => button_payload_with_wrong_format })
+      end
+    end
+  end
+
+  describe 'Facebook rich payload mapping' do
+    it 'maps direct payloads by structure when message_format is misleading' do
+      expect(service.send(:build_facebook_mapping_payload_for_cards, button_payload_with_wrong_format)).to eq(
+        {
+          'template_type' => 'button',
+          'text' => 'Escolha uma opção:',
+          'buttons' => [
+            { 'type' => 'postback', 'title' => 'Falar com atendente', 'payload' => '@falar_atendente' }
+          ]
+        }
+      )
+    end
+
+    it 'builds the Messenger send payload by structure when message_format is misleading' do
+      expect(service.send(:build_facebook_send_message_payload, button_payload_with_wrong_format)).to eq(
+        {
+          'attachment' => {
+            'type' => 'template',
+            'payload' => {
+              'template_type' => 'button',
+              'text' => 'Escolha uma opção:',
+              'buttons' => [
+                { 'type' => 'postback', 'title' => 'Falar com atendente', 'payload' => '@falar_atendente' }
+              ]
+            }
+          }
+        }
+      )
     end
   end
 
