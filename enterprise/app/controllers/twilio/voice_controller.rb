@@ -94,7 +94,6 @@ class Twilio::VoiceController < ApplicationController
     case twilio_direction
     when 'inbound'
       Voice::InboundCallBuilder.perform!(
-        account: current_account,
         inbox: inbox,
         from_number: twilio_from,
         call_sid: twilio_call_sid

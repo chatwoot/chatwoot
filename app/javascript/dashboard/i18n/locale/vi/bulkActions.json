@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Bạn có chắc chắn hủy chỉ định {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Trở về",
     "ASSIGN_LABEL": "Gán",
+    "NONE": "Không có",
+    "CLEAR_SELECTION": "Clear",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Có",
+    "CANCEL": "Huỷ",
     "SEARCH_INPUT_PLACEHOLDER": "Tìm kiếm",
     "ASSIGN_AGENT_TOOLTIP": "Gán tổng đài viên",
     "ASSIGN_TEAM_TOOLTIP": "Gán nhóm",
@@ -38,6 +43,8 @@
       "NONE": "Không có",
       "NO_TEAMS_AVAILABLE": "Chưa có nhóm nào được thêm vào tài khoản này.",
       "ASSIGN_SELECTED_TEAMS": "Chỉ định nhóm đã chọn.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }

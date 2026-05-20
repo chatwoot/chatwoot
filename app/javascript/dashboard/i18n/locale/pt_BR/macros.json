@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir a macro. Por favor, tente novamente mais tarde"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "Ver macro"
+    },
     "EDIT": {
       "TOOLTIP": "Editar macro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Visibilidade da Macro",
         "GLOBAL": {
           "LABEL": "Publico",
-          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes desta conta."
+          "DESCRIPTION": "Esta macro está disponível publicamente para todos os agentes desta conta.",
+          "CREATE_DISABLED_DESCRIPTION": "Somente administradores podem criar macros públicos.",
+          "EDIT_DISABLED_DESCRIPTION": "Somente administradores podem editar macros públicos."
         },
         "PERSONAL": {
           "LABEL": "Privada",

@@ -20,13 +20,13 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
                                           exception_class: error.class.name)
   end
 
-  # Permanent errors (404, 403, empty content) — no point retrying, discard immediately.
+  # Permanent errors (404, 403, empty content) - no point retrying, discard immediately.
   # Document is already marked failed by SyncService before the exception reaches here.
   discard_on(Captain::Documents::SyncService::PermanentSyncError)
 
-  # TransientSyncError is raised by SyncService when the customer's site is unreachable —
+  # TransientSyncError is raised by SyncService when the customer's site is unreachable -
   # timeouts, TLS errors, 5xx, connection drops. Four attempts with backoff gives the site
-  # a chance to recover before we give up.
+  # a chance to recover before we mark the document failed.
   #
   # The exhaustion block absorbs the exception so it doesn't propagate to Sentry —
   # site flakiness isn't an application bug.
@@ -36,6 +36,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
     attempts: 4
   ) do |job, error|
     document = job.arguments.first
+    job.send(:mark_sync_failed, document, error.message)
     job.send(:log_sync_outcome, document, result: :transient_retry_exhausted, error_code: error.message)
   end
 
@@ -47,7 +48,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
     return if document.pdf_document?
 
     with_lock(lock_key(document), LOCK_TIMEOUT) do
-      document.update!(sync_status: :syncing, last_sync_attempted_at: Time.current)
+      mark_sync_started(document)
       result = Captain::Documents::SyncService.new(document.reload).perform
       log_sync_outcome(document, result: result, duration_ms: duration_ms_since(start_time))
     end
@@ -78,13 +79,26 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
     raise error
   end
 
-  def handle_unexpected_failure(document, error, start_time)
+  def mark_sync_failed(document, error_code)
     document.update!(
       sync_status: :failed,
       sync_step: nil,
-      last_sync_error_code: 'sync_error',
+      last_sync_error_code: error_code,
       last_sync_attempted_at: Time.current
     )
+  end
+
+  def mark_sync_started(document)
+    document.update!(
+      sync_status: :syncing,
+      sync_step: nil,
+      last_sync_error_code: nil,
+      last_sync_attempted_at: Time.current
+    )
+  end
+
+  def handle_unexpected_failure(document, error, start_time)
+    mark_sync_failed(document, 'sync_error')
     log_sync_outcome(document, result: :unexpected_failure, error_code: 'sync_error',
                                exception_class: error.class.name,
                                duration_ms: duration_ms_since(start_time))

@@ -1,0 +1,44 @@
+<% content_for :head do %>
+  <%= render 'public/api/v1/portals/documentation_layout/articles/meta_head',
+             article: @article, portal: @portal, og_image_url: @og_image_url %>
+<% end %>
+
+<div class="px-6 md:px-10 py-8 md:py-10">
+  <div class="flex gap-10">
+    <article class="flex-1 min-w-0">
+      <%= render 'public/api/v1/portals/documentation_layout/breadcrumb',
+                 portal: @portal, locale: @locale, category: @article.category, article: @article %>
+      <%= render 'public/api/v1/portals/documentation_layout/articles/header',
+                 portal: @portal, article: @article %>
+
+      <div id="cw-article-content"
+           class="prose dark:prose-invert max-w-none break-words
+                  prose-headings:font-620
+                  prose-p:font-420 prose-li:font-420 prose-blockquote:font-420 prose-td:font-420
+                  prose-a:text-n-portal prose-a:no-underline hover:prose-a:underline
+                  [&_li>p]:m-0
+                  [&_.tableWrapper]:overflow-x-auto [&_.tableWrapper]:mb-4 [&_.tableWrapper]:rounded-lg [&_.tableWrapper]:border [&_.tableWrapper]:border-solid [&_.tableWrapper]:border-n-weak
+                  [&_table]:!my-0 [&_table]:!min-w-full [&_table]:!border-separate [&_table]:!border-spacing-0
+                  [&_th]:!bg-n-slate-2 [&_th]:!text-n-slate-12 [&_th]:!font-semibold [&_th]:!text-start [&_th]:!px-3 [&_th]:!py-2 [&_th]:!border-0 [&_th]:!border-b [&_th]:!border-solid [&_th]:!border-n-weak
+                  [&_td]:!text-n-slate-11 [&_td]:!align-top [&_td]:!text-start [&_td]:!px-3 [&_td]:!py-2 [&_td]:!border-0 [&_td]:!border-b [&_td]:!border-solid [&_td]:!border-n-weak
+                  [&_th:not(:last-child)]:!border-e [&_td:not(:last-child)]:!border-e
+                  [&_tr:last-child_td]:!border-b-0">
+        <%= @parsed_content %>
+      </div>
+
+      <% if @article.category %>
+        <footer class="mt-20 pt-8 border-t border-n-weak flex items-center justify-between gap-4 flex-wrap">
+          <a href="<%= public_portal_category_path(@portal.slug, @article.category.locale, @article.category.slug) %>"
+             class="group inline-flex items-center gap-2 px-3 py-2 -ml-3 text-sm font-medium text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 rounded-md transition">
+            <span class="i-lucide-arrow-left size-3.5 transition-transform group-hover:-translate-x-0.5" aria-hidden="true"></span>
+            <%= I18n.t('public_portal.sidebar.back_to_category', name: @article.category.name) %>
+          </a>
+        </footer>
+      <% end %>
+    </article>
+
+    <aside class="hidden lg:block w-56 shrink-0">
+      <div class="sticky top-20" id="cw-hc-toc"></div>
+    </aside>
+  </div>
+</div>
