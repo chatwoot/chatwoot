@@ -15,6 +15,14 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
   let(:conversation) { create(:conversation, account: account, inbox: inbox, status: :open) }
   let(:message) { create(:message, account: account, inbox: inbox, conversation: conversation) }
   let(:service) { described_class.new(event_name: 'message.created', hook: hook, event_data: { message: message }) }
+  let(:instagram_payload_without_format) do
+    {
+      'text' => 'Olá! Sou a Ana e posso ajudar. Escolha uma opção:',
+      'quick_replies' => [
+        { 'content_type' => 'text', 'title' => 'Mandado OAB', 'payload' => '@mandado-de-seguranca-oab' }
+      ]
+    }
+  end
 
   describe '#bot_should_respond?' do
     it 'allows open conversations with an old human reply when no explicit handoff exists' do
@@ -57,6 +65,52 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
       expect(service).not_to receive(:create_conversation)
 
       service.send(:process_response, message, { 'text' => 'late bot reply' })
+    end
+
+    context 'with Instagram quick replies without message_format' do
+      let(:instagram_channel) { create(:channel_instagram, account: account) }
+      let(:instagram_inbox) { instagram_channel.inbox }
+      let(:instagram_hook) do
+        create(
+          :integrations_hook,
+          inbox: instagram_inbox,
+          account: account,
+          app_id: 'socialwise_flow',
+          settings: { 'language' => 'pt-BR' }
+        )
+      end
+      let(:instagram_conversation) { create(:conversation, account: account, inbox: instagram_inbox, status: :open) }
+      let(:instagram_message) do
+        create(:message, account: account, inbox: instagram_inbox, conversation: instagram_conversation)
+      end
+      let(:instagram_service) do
+        described_class.new(event_name: 'message.created', hook: instagram_hook, event_data: { message: instagram_message })
+      end
+
+      it 'infers QUICK_REPLIES and sends the rich payload to the Instagram processor' do
+        expect(Integrations::Socialwise::InstagramResponseProcessor).to receive(:process).with(
+          {
+            'message_format' => 'QUICK_REPLIES',
+            'payload' => instagram_payload_without_format
+          },
+          instagram_message
+        ).and_return(true)
+
+        expect(instagram_service).not_to receive(:create_fallback_instagram_message)
+
+        instagram_service.send(:process_response, instagram_message, { 'instagram' => instagram_payload_without_format })
+      end
+    end
+  end
+
+  describe '#create_fallback_instagram_message' do
+    it 'uses the payload text instead of sending the internal placeholder' do
+      expect(service).to receive(:create_conversation).with(
+        message,
+        { content: 'Olá! Sou a Ana e posso ajudar. Escolha uma opção:' }
+      )
+
+      service.send(:create_fallback_instagram_message, message, instagram_payload_without_format)
     end
   end
 

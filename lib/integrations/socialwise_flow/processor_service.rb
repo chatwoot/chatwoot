@@ -1,7 +1,7 @@
 # lib/integrations/socialwise_flow/processor_service.rb
 # rubocop:disable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 # rubocop:disable Metrics/PerceivedComplexity, Style/GlobalVars, Layout/LineLength
-# rubocop:disable Naming/PredicateName, Rails/WhereExists, Rails/Blank, Lint/DuplicateBranch
+# rubocop:disable Naming/PredicateName, Rails/WhereExists, Rails/Blank
 
 class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcessorService
   pattr_initialize [:event_name!, :hook!, :event_data!]
@@ -1488,6 +1488,17 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         return instagram_payload
       end
 
+      if instagram_payload.dig('message', 'quick_replies').present? && instagram_payload.dig('message', 'text').present?
+        Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Detected Messenger quick replies format'
+        return {
+          'message_format' => 'QUICK_REPLIES',
+          'payload' => {
+            'text' => instagram_payload.dig('message', 'text'),
+            'quick_replies' => instagram_payload.dig('message', 'quick_replies')
+          }
+        }
+      end
+
       # Verificar se é formato SocialWise Flow com estrutura aninhada
       if instagram_payload['message'].present? &&
          instagram_payload['message']['attachment'].present? &&
@@ -1495,8 +1506,10 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
         Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Detected SocialWise Flow nested format'
 
-        message_format = instagram_payload['message_format']
         nested_payload = instagram_payload['message']['attachment']['payload']
+        message_format = instagram_payload['message_format'].presence || infer_instagram_message_format(nested_payload)
+
+        return nil if message_format.blank?
 
         normalized = {
           'message_format' => message_format,
@@ -1508,11 +1521,12 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       end
 
       # Verificar se é formato SocialWise Flow direto (sem aninhamento)
-      if instagram_payload['message_format'].present?
+      message_format = instagram_payload['message_format'].presence || infer_instagram_message_format(instagram_payload)
+      if message_format.present?
         Rails.logger.info '[SOCIALWISE-FLOW][INSTAGRAM] Detected SocialWise Flow direct format'
 
         normalized = {
-          'message_format' => instagram_payload['message_format'],
+          'message_format' => message_format,
           'payload' => {}
         }
 
@@ -1538,24 +1552,24 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     end
   end
 
+  def infer_instagram_message_format(payload)
+    return unless payload.is_a?(Hash)
+
+    return payload['message_format'] if payload['message_format'].present?
+    return 'GENERIC_TEMPLATE' if payload['template_type'] == 'generic' || payload['elements'].present?
+    return 'BUTTON_TEMPLATE' if payload['template_type'] == 'button' || payload['buttons'].present?
+    return 'QUICK_REPLIES' if payload['quick_replies'].present?
+  end
+
   def create_fallback_instagram_message(message, instagram_payload)
     Rails.logger.info '[SOCIALWISE-FLOW] Creating fallback Instagram message'
     Rails.logger.info "[SOCIALWISE-FLOW] Instagram payload for fallback: #{instagram_payload.inspect}"
 
     begin
       # Extrair texto principal do payload Instagram
-      text = case instagram_payload['message_format']
-             when 'QUICK_REPLIES'
-               instagram_payload['text']
-             when 'BUTTON_TEMPLATE'
-               instagram_payload['text']
-             when 'GENERIC_TEMPLATE'
-               instagram_payload.dig('elements', 0, 'title')
-             else
-               'Mensagem rica do Instagram'
-             end
+      text = extract_instagram_fallback_text(instagram_payload)
 
-      fallback_text = text || 'Mensagem do Instagram'
+      fallback_text = text.presence || 'Não consegui exibir as opções interativas aqui. Me diga com poucas palavras como posso ajudar.'
       create_conversation(message, { content: fallback_text })
       Rails.logger.info "[SOCIALWISE-FLOW] Instagram fallback message created: #{fallback_text}"
 
@@ -1571,6 +1585,21 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         Rails.logger.error "[SOCIALWISE-FLOW] Last resort Instagram fallback also failed: #{last_resort_error.class}: #{last_resort_error.message}"
       end
     end
+  end
+
+  def extract_instagram_fallback_text(payload)
+    return unless payload.is_a?(Hash)
+
+    payload['text'].presence ||
+      payload['content'].presence ||
+      payload.dig('payload', 'text').presence ||
+      payload.dig('instagram', 'text').presence ||
+      payload.dig('message', 'text').presence ||
+      payload.dig('message', 'attachment', 'payload', 'text').presence ||
+      payload.dig('elements', 0, 'title').presence ||
+      payload.dig('payload', 'elements', 0, 'title').presence ||
+      payload.dig('instagram', 'elements', 0, 'title').presence ||
+      payload.dig('message', 'attachment', 'payload', 'elements', 0, 'title').presence
   end
 
   # Helper method to extract fallback content from any response format
@@ -2032,4 +2061,4 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 end
 # rubocop:enable Metrics/ClassLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength
 # rubocop:enable Metrics/PerceivedComplexity, Style/GlobalVars, Layout/LineLength
-# rubocop:enable Naming/PredicateName, Rails/WhereExists, Rails/Blank, Lint/DuplicateBranch
+# rubocop:enable Naming/PredicateName, Rails/WhereExists, Rails/Blank
