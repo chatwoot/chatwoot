@@ -98,15 +98,19 @@ class Portal < ApplicationRecord
     config_value('layout').presence || 'classic'
   end
 
+  def social_profiles
+    config_value('social_profiles') || {}
+  end
+
   private
 
   def config_json_format
-    self.config = (config || {}).deep_stringify_keys
+    self.config = persisted_config.merge((config || {}).deep_stringify_keys)
     config['allowed_locales'] = allowed_locale_codes
     config['default_locale'] = default_locale
     config['draft_locales'] = draft_locale_codes
     denied_keys = config.keys - CONFIG_JSON_KEYS
-    errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
+    errors.add(:config, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
     errors.add(:config, 'default locale cannot be drafted.') if draft_locale?(default_locale)
   end
 
