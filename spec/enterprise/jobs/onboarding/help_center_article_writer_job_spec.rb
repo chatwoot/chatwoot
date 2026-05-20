@@ -60,7 +60,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
   describe 'failure handling' do
     it 'increments the counter on ArticleBuildFailed without re-raising' do
       allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
-        CustomExceptions::HelpCenter::ArticleBuildFailed, 'no source urls'
+        Onboarding::HelpCenterErrors::ArticleBuildFailed, 'no source urls'
       )
 
       described_class.perform_now(*job_args)
@@ -70,7 +70,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
 
     it 'broadcasts completion when the final writer fails with ArticleBuildFailed' do
       allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
-        CustomExceptions::HelpCenter::ArticleBuildFailed, 'no source urls'
+        Onboarding::HelpCenterErrors::ArticleBuildFailed, 'no source urls'
       )
       Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
       payload = hash_including(generation_id: generation_id, status: 'completed')
@@ -131,7 +131,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
 
     it 'does not broadcast article_generated on builder failure' do
       allow(Onboarding::HelpCenterArticleBuilder).to receive(:new).and_raise(
-        CustomExceptions::HelpCenter::ArticleBuildFailed, 'no source urls'
+        Onboarding::HelpCenterErrors::ArticleBuildFailed, 'no source urls'
       )
 
       expect { described_class.perform_now(*job_args) }

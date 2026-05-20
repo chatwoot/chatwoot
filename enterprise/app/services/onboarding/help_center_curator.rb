@@ -3,7 +3,7 @@ class Onboarding::HelpCenterCurator
   MAP_SEARCH = 'docs help support faq'.freeze
   MIN_ARTICLES = 3
 
-  Skipped = CustomExceptions::HelpCenter::CurationSkipped
+  Skipped = Onboarding::HelpCenterErrors::CurationSkipped
 
   def initialize(account:)
     @account = account

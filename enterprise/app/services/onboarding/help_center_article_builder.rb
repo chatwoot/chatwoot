@@ -1,5 +1,5 @@
 class Onboarding::HelpCenterArticleBuilder
-  BuildFailed = CustomExceptions::HelpCenter::ArticleBuildFailed
+  BuildFailed = Onboarding::HelpCenterErrors::ArticleBuildFailed
 
   def initialize(account:, portal:, user:, article:)
     @account = account

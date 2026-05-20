@@ -5,7 +5,7 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
     job.send(:on_writer_failure, error)
   end
 
-  discard_on CustomExceptions::HelpCenter::ArticleBuildFailed do |job, error|
+  discard_on Onboarding::HelpCenterErrors::ArticleBuildFailed do |job, error|
     job.send(:on_writer_failure, error)
   end
 

@@ -145,7 +145,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
     it 'records skip_reason and transitions to skipped' do
       curator = instance_double(Onboarding::HelpCenterCurator)
       allow(curator).to receive(:perform).and_raise(
-        CustomExceptions::HelpCenter::CurationSkipped, 'no website url'
+        Onboarding::HelpCenterErrors::CurationSkipped, 'no website url'
       )
       allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
 
@@ -175,7 +175,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
     it 'broadcasts generation_completed with status: skipped on CurationSkipped' do
       curator = instance_double(Onboarding::HelpCenterCurator)
       allow(curator).to receive(:perform).and_raise(
-        CustomExceptions::HelpCenter::CurationSkipped, 'no website url'
+        Onboarding::HelpCenterErrors::CurationSkipped, 'no website url'
       )
       allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
 

@@ -17,7 +17,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
       user: User.find(user_id),
       generation_id: generation_id
     )
-  rescue CustomExceptions::HelpCenter::CurationSkipped => e
+  rescue Onboarding::HelpCenterErrors::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation_id} skipped: #{e.message}"
     skip_and_broadcast(user: User.find_by(id: user_id), generation_id: generation_id, reason: e.message)
   end
@@ -48,7 +48,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
       )
 
       if articles.empty?
-        raise CustomExceptions::HelpCenter::CurationSkipped,
+        raise Onboarding::HelpCenterErrors::CurationSkipped,
               'no articles after category or URL filtering'
       end
 
