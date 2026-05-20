@@ -1,6 +1,5 @@
 class Onboarding::HelpCenterGenerationState
   TTL = 7.days.to_i
-  KEY_FORMAT = 'HELP_CENTER_GENERATION::%<id>s'.freeze
 
   class Missing < StandardError; end
 
@@ -39,7 +38,7 @@ class Onboarding::HelpCenterGenerationState
     end
 
     def key(id)
-      format(KEY_FORMAT, id: id)
+      format(Redis::Alfred::HELP_CENTER_GENERATION, id: id)
     end
   end
 end
