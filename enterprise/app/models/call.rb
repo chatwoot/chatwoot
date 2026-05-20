@@ -29,12 +29,15 @@
 #  index_calls_on_provider_and_provider_call_id   (provider,provider_call_id) UNIQUE
 #
 class Call < ApplicationRecord
-  # All valid call statuses
   STATUSES = %w[ringing in_progress completed no_answer failed].freeze
-  # Statuses where the call is finished and won't change again
   TERMINAL_STATUSES = %w[completed no_answer failed].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+
+  # Frontend voice bubbles/stores expect inbound/outbound string values
+  DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
+
+  DEFAULT_STUN_URL = 'stun:stun.l.google.com:19302'.freeze
 
   enum :provider, { twilio: 0, whatsapp: 1 }
   enum :direction, { incoming: 0, outgoing: 1 }
@@ -63,6 +66,28 @@ class Call < ApplicationRecord
 
   def default_conference_sid
     "conf_account_#{account_id}_call_#{id}"
+  end
+
+  # Browser ↔ Meta WebRTC needs at least one STUN server to discover its public srflx candidate.
+  def self.default_ice_servers
+    urls = ENV.fetch('VOICE_CALL_STUN_URLS', DEFAULT_STUN_URL).split(',').filter_map { |u| u.strip.presence }
+    [{ urls: urls }]
+  end
+
+  def direction_label
+    DISPLAY_DIRECTION[direction]
+  end
+
+  def ringing?
+    status == 'ringing'
+  end
+
+  def in_progress?
+    status == 'in_progress'
+  end
+
+  def terminal?
+    TERMINAL_STATUSES.include?(status)
   end
 
   def display_status

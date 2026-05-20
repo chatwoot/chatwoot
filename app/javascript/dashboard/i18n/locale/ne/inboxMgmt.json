@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "विजेट बिल्डर",
       "BOT_CONFIGURATION": "बोट कन्फिगरेसन",
       "ACCOUNT_HEALTH": "खाता स्वास्थ्य",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "भ्वाइस"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "च्यानल प्राथमिकता",
     "WIDGET_FEATURES": "Widget features",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "एजेन्टको नाम इमेलमा देखाउने/नदेखाउने सक्षम/अक्षम गर्नुहोस्, यदि अक्षम गरिएको छ भने व्यवसाय नाम देखाइनेछ",
       "ENABLE_CONTINUITY_VIA_EMAIL": "इमेल मार्फत कुराकानी निरन्तरता सक्षम गर्नुहोस्",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "यदि सम्पर्क इमेल ठेगाना उपलब्ध छ भने कुराकानी इमेल मार्फत जारी रहनेछ।",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "कुराकानी मार्गनिर्देशन",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "अस्तित्वमा रहेका सम्पर्कहरूको लागि संवाद सिर्जना कन्फिगर गर्नुहोस्",
       "INBOX_UPDATE_TITLE": "इनबक्स सेटिङहरू",
@@ -1000,7 +1011,8 @@
         "LABEL": "पासवर्ड",
         "PLACE_HOLDER": "पासवर्ड"
       },
-      "ENABLE_SSL": "SSL सक्षम गर्नुहोस्"
+      "ENABLE_SSL": "SSL सक्षम गर्नुहोस्",
+      "AUTH_MECHANISM": "प्रमाणीकरण"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Verberg geciteerde tekst",
     "SHOW_QUOTED_TEXT": "Toon geciteerde tekst",
     "MESSAGE_READ": "Lezen",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Você tem certeza que quer remover a atribuição de {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Voltar atrás",
     "ASSIGN_LABEL": "Atribua",
+    "NONE": "Nenhuma",
+    "CLEAR_SELECTION": "Limpar",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} conversa para {agentName}? | Tem certeza de que deseja atribuir {n} conversas para {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
     "YES": "Sim",
+    "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Pesquisar",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir Agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir time",
@@ -38,6 +43,8 @@
       "NONE": "Nenhum",
       "NO_TEAMS_AVAILABLE": "Ainda não há times adicionados a esta conta.",
       "ASSIGN_SELECTED_TEAMS": "Atribuir time selecionado.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja atribuir {n} conversa ao time {teamName}? | Tem certeza de que deseja atribuir {n} conversas ao time {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Tem certeza de que deseja remover a atribuição de {n} conversa? | Tem certeza de que deseja remover a atribuição de {n} conversas?",
       "ASSIGN_SUCCESFUL": "Times atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir time. Por favor, tente novamente."
     }

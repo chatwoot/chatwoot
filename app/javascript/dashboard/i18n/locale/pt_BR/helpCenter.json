@@ -525,6 +525,7 @@
             "PUBLISH": "Publicar",
             "DRAFT": "Rascunho",
             "ARCHIVE": "Arquivar",
+            "TRANSLATE": "Traduzir",
             "DELETE": "Excluir"
           },
           "STATUS": {
@@ -579,6 +580,41 @@
           "TITLE": "Não há artigos nesta categoria",
           "SUBTITLE": "Os artigos nesta categoria aparecerão aqui"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Traduzir artigo | Traduzir {count} artigos",
+        "DESCRIPTION": "Traduza o artigo selecionado para outro idioma. | Traduza os artigos selecionados para outro idioma.",
+        "LOCALE_LABEL": "Idioma alvo",
+        "LOCALE_PLACEHOLDER": "Selecione um idioma",
+        "CATEGORY_LABEL": "Categoria alvo",
+        "CATEGORY_PLACEHOLDER": "Selecione uma categoria",
+        "OPTIONAL": "(opcional)",
+        "CONFIRM": "Traduzir",
+        "SELECT_ALL": "Selecionar todos ({count})",
+        "SELECTED_COUNT": "{count} selecionado",
+        "CLEAR_SELECTION": "Limpar seleção",
+        "TRANSLATE_BUTTON": "Traduzir",
+        "CONFIRM_OVERWRITE": "Sobrescrever e traduzir",
+        "DUPLICATE_WARNING": "Uma tradução deste artigo já existe no idioma selecionado. | As traduções já existem para {count} artigos no idioma selecionado.",
+        "DUPLICATE_CONFIRM_HINT": "Clique em traduzir novamente para substituir a tradução existente.",
+        "API": {
+          "SUCCESS_MESSAGE": "Tradução em andamento. O artigo aparecerá como rascunho uma vez pronto.",
+          "ERROR_MESSAGE": "Falha ao iniciar a tradução. Por favor, tente novamente."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Publicar",
+        "DRAFT": "Rascunho",
+        "ARCHIVE": "Arquivar",
+        "TRANSLATE": "Traduzir",
+        "DELETE": "Excluir",
+        "STATUS_SUCCESS": "Artigos atualizados com sucesso",
+        "STATUS_ERROR": "Falha ao atualizar artigos",
+        "DELETE_CONFIRM_TITLE": "Excluir artigo | Excluir {count} artigos",
+        "DELETE_CONFIRM_DESCRIPTION": "Isto irá apagar o artigo selecionado permanentemente. Esta ação não pode ser desfeita. | Isso irá apagar permanentemente {count} artigos selecionados. Esta ação não pode ser desfeita.",
+        "DELETE_CONFIRM": "Excluir",
+        "DELETE_SUCCESS": "Artigos excluídos com sucesso",
+        "DELETE_ERROR": "Falha ao excluir artigos"
       }
     },
     "CATEGORY_PAGE": {

@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Nascondi Testo Citato",
     "SHOW_QUOTED_TEXT": "Mostra Testo Citato",
     "MESSAGE_READ": "Letto",
-    "SENDING": "Invio"
+    "SENDING": "Invio",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }
