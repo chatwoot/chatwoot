@@ -1,4 +1,5 @@
-json.access_token resource.access_token.token
+json.access_token resource.access_token&.token
+json.read_only_access_token resource.read_only_access_token&.token
 json.account_id resource.active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url
