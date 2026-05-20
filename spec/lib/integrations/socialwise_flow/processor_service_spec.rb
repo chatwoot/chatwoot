@@ -59,4 +59,21 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
       service.send(:process_response, message, { 'text' => 'late bot reply' })
     end
   end
+
+  describe '#should_run_processor?' do
+    it 'marks handoff when a human agent sends an outgoing reply' do
+      agent_reply = create(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        message_type: :outgoing,
+        sender: create(:user, account: account)
+      )
+
+      expect(service.send(:should_run_processor?, agent_reply)).to be_nil
+      expect(conversation.reload.additional_attributes['socialwise_handoff_at']).to be_present
+      expect(conversation.additional_attributes['socialwise_handoff_by']).to eq('agent_reply')
+    end
+  end
 end

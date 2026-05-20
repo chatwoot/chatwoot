@@ -185,6 +185,12 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
       return
     end
 
+    if human_agent_reply?(message)
+      Rails.logger.info "[SOCIALWISE-FLOW] Human agent reply detected, marking handoff for conversation #{message.conversation.id}"
+      mark_handoff_completed(message.conversation, by: 'agent_reply')
+      return
+    end
+
     unless processable_message?(message)
       Rails.logger.info '[SOCIALWISE-FLOW] BLOCKED: Message is not processable'
       return
@@ -233,6 +239,12 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     conversation.messages.outgoing.where(sender_type: 'User').exists?
   end
 
+  def human_agent_reply?(message)
+    message.outgoing? &&
+      message.sender_type == 'User' &&
+      !message.additional_attributes&.dig('skip_send_reply')
+  end
+
   # Override process_action to mark handoff in additional_attributes
   # This ensures bot stops responding after handoff even if no human has replied yet
   def process_action(message, action)
@@ -266,13 +278,13 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
   # Mark that handoff has been completed for this conversation
   # Uses additional_attributes to avoid affecting SLA metrics (first_reply_created_at)
-  def mark_handoff_completed(conv)
+  def mark_handoff_completed(conv, by: 'bot')
     Rails.logger.info "[SOCIALWISE-FLOW] Marking handoff completed for conversation #{conv.id}"
 
     current_attrs = conv.additional_attributes || {}
     updated_attrs = current_attrs.merge(
       'socialwise_handoff_at' => Time.current.iso8601,
-      'socialwise_handoff_by' => 'bot'
+      'socialwise_handoff_by' => by
     )
 
     conv.update!(additional_attributes: updated_attrs)
