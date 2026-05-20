@@ -760,7 +760,7 @@ end
 - **CAUSA:** o job de debounce podia usar uma instância antiga da conversa, carregada antes de outro job gravar `additional_attributes['socialwise_handoff_at']`.
 - **SINTOMA:** o clique em `@falar_atendente` executava handoff corretamente, mas uma resposta atrasada da mensagem anterior ainda podia ser enviada.
 - **CORREÇÃO:** `handoff_completed?` recarrega a conversa antes de ler a flag e `process_response` descarta respostas não-handoff se o handoff já tiver sido concluído.
-- **CORREÇÃO ADICIONAL:** mensagem manual de atendente (`outgoing` com `sender_type='User'`) também marca `socialwise_handoff_at` com `socialwise_handoff_by='agent_reply'`, desligando o bot até a conversa ser resolvida.
+- **CORREÇÃO ADICIONAL:** mensagem manual de atendente no evento `message.created` (`outgoing` com `sender_type='User'`) também marca `socialwise_handoff_at` com `socialwise_handoff_by='agent_reply'`, desligando o bot até a conversa ser resolvida.
 - **REGRESSÃO COBERTA:** spec de `ProcessorService` simula a conversa memoizada, a flag gravada por outro job e a resposta humana manual.
 
 ### 2026-02-02 (Atualização 5) - Correção: Bot continua respondendo após Handoff

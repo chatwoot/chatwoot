@@ -240,6 +240,8 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   end
 
   def human_agent_reply?(message)
+    return false unless event_name == 'message.created'
+
     message.outgoing? &&
       message.sender_type == 'User' &&
       !message.additional_attributes&.dig('skip_send_reply')
