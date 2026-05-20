@@ -15,7 +15,9 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system; coalesces bursts of triggers per inbox.
+      # Coalesces bursts of triggers per inbox. Fine if the job runs even when the
+      # surrounding save rolls back: it only scans the inbox's current unassigned
+      # conversations, so running it for an uncommitted change is harmless.
       AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox.id)
     else
       # Use legacy assignment system
