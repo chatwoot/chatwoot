@@ -28,7 +28,7 @@ import {
 const { t } = useI18n();
 const router = useRouter();
 const store = useStore();
-const { accountId, currentAccount, finishOnboarding } = useAccount();
+const { accountId, currentAccount, updateAccount } = useAccount();
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
 
@@ -195,12 +195,6 @@ const handleWebsiteEnter = () => {
   websiteInput.value?.blur();
 };
 
-const normalizeWebsiteUrl = raw => {
-  const trimmed = (raw || '').trim();
-  if (!trimmed) return '';
-  return /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
-};
-
 const handleSubmit = async () => {
   // Block submit while enrichment is still running so users can't bypass
   // the form with empty values — the controller would otherwise clear
@@ -217,13 +211,9 @@ const handleSubmit = async () => {
     return;
   }
 
-  // Persist with a scheme so downstream consumers (Firecrawl, portal
-  // homepage_link) get a fully-qualified URL regardless of what the user typed.
-  website.value = normalizeWebsiteUrl(website.value);
-
   isSubmitting.value = true;
   try {
-    await finishOnboarding({
+    await updateAccount({
       name: accountName.value,
       locale: locale.value,
       website: website.value,
