@@ -386,6 +386,7 @@
       "IDENTIFIER": "Ідентифікатор",
       "COUNTRY": "Країна",
       "CITY": "Місто",
+      "COMPANY": "Організація",
       "CREATED_AT": "Створений в",
       "LAST_ACTIVITY": "Остання активність",
       "REFERER_LINK": "Посилання",

@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Gelen Kutu Seç"
         },
         "SUBMIT": "Oluştur",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "İptal Et"
       },
       "API": {

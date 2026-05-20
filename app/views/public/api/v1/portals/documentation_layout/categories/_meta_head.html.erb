@@ -1,0 +1,11 @@
+<title><%= category.name %> | <%= portal.display_title %></title>
+<meta name="title" content="<%= category.name %> | <%= portal.display_title %>">
+<% if category.description.present? %>
+  <meta name="description" content="<%= category.description %>">
+  <meta property="og:description" content="<%= category.description %>">
+<% end %>
+<% if og_image_url.present? %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="og:image" content="<%= og_image_url.html_safe %>">
+  <meta property="og:image" content="<%= og_image_url.html_safe %>">
+<% end %>

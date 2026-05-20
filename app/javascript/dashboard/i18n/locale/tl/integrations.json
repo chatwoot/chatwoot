@@ -742,12 +742,58 @@
       "SELECT_ALL": "Piliin lahat ({count})",
       "UNSELECT_ALL": "Alisin ang pagpili sa lahat ({count})",
       "BULK_DELETE_BUTTON": "Delete",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "Oo, tanggalin lahat",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Nabigo"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Hindi makita ang pahina",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Mga Kaugnay na FAQ",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Tingnan ang mga Kaugnay na Tugon",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Tanggalin ang Dokumento"
       },
       "EMPTY_STATE": {
         "TITLE": "Walang magagamit na mga dokumento",
         "SUBTITLE": "Ginagamit ng iyong assistant ang mga dokumento para gumawa ng FAQs. Maaari kang mag-import ng mga dokumento upang magbigay ng konteksto para sa iyong assistant.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "Ang isang dokumento sa Captain ay nagsisilbing pinagkukunan ng kaalaman para sa assistant. Sa pamamagitan ng pagkonekta ng iyong help center o mga gabay, maaaring suriin ni Captain ang nilalaman at magbigay ng tumpak na mga sagot para sa mga tanong ng customer."

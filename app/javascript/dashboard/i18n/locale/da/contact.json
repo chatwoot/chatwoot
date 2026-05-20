@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Land",
       "CITY": "By",
+      "COMPANY": "Virksomhed",
       "CREATED_AT": "Oprettet den",
       "LAST_ACTIVITY": "Last activity",
       "REFERER_LINK": "Refererer link",
