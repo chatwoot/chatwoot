@@ -344,8 +344,11 @@ export function useWhatsappCallSession() {
       return;
     }
     try {
-      await stopRecorderAndUpload(callId);
+      // Terminate on Meta first so the contact is disconnected immediately. The
+      // recording upload below can be slow on long calls or poor networks, and
+      // the peer connection / mic must not stay live for the contact during it.
       await WhatsappCallsAPI.terminate(callId).catch(() => {});
+      await stopRecorderAndUpload(callId);
     } finally {
       cleanup();
     }
