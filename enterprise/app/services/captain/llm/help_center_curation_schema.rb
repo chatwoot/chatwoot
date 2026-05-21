@@ -20,7 +20,7 @@ class Captain::Llm::HelpCenterCurationSchema < RubyLLM::Schema
     end
   end
 
-  array :articles, description: ARTICLES_DESCRIPTION, min_items: 1, max_items: 25 do
+  array :articles, description: ARTICLES_DESCRIPTION, min_items: 1, max_items: 60 do
     object do
       array :urls, description: URLS_DESCRIPTION, min_items: 1, max_items: 3, of: :string
       string :title, description: TITLE_DESCRIPTION, max_length: 80

@@ -1,6 +1,6 @@
 class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::Llm::HelpCenterCurationSchema
-  MAX_LINKS_IN_PROMPT = 50
+  MAX_LINKS_IN_PROMPT = 200
   IGNORED_URL_PATTERN = /\.(?:pdf|jpe?g|png|gif|webp|svg|ico|bmp|tiff?|avif|heic)(?:\?|#|$)/i
   # This model consistently outperforms 5.2 in generating tighter and more
   # accurate curations.
@@ -42,16 +42,15 @@ class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
       substantive how-to, FAQ, troubleshooting, policy, getting-started, account/billing
       help, or product guide content.
 
-      This is a STARTING SET for the user, not a comprehensive corpus. The user will add
-      more articles later. Each article you pick costs downstream time, compute, and
-      money to scrape and rewrite — be deliberate. Only include pages with clear,
-      high-value, substantive help content. When unsure about a page's value, leave it
-      out. 8 strong articles beat 20 padded ones, even when the input has 20+ candidates.
+      Aim for broad coverage of the site's substantive help content. Include every
+      page that genuinely helps a user accomplish a task, understand a feature, or
+      troubleshoot an issue. Err on the side of including a page when it has real
+      help content.
 
-      Quality over quantity: do not pad with thin, overview, or marketing-adjacent pages
-      to hit a target count. If a site has only a few genuinely useful pages, return only
-      those few. The schema allows up to 25 articles, but treat that as a hard ceiling,
-      not a target — most sites should land well under it.
+      Still skip thin, overview, or marketing-adjacent pages — don't pad to hit a
+      target. But on sites with extensive documentation, aim to cover the breadth
+      of help content. The schema allows up to 60 articles; use as many as the
+      site warrants.
 
       Skip marketing/landing pages, blog posts, login, pricing tiers, legal, careers, press, investor pages.
       Group your picks into reusable categories — use as many as the content naturally breaks into.
@@ -70,26 +69,15 @@ class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
           /careers, /jobs, /about, /team, /investors, /customers, /testimonials,
           /case-studies, /login, /signup, /register, /legal, /terms, /privacy.
 
-      For each article, group 1 to 3 URLs that together cover a single topic. PREFER
-      grouping whenever pages overlap or complement each other — merged sources give
-      the writer more context and produce a stronger article than two thin stubs.
+      Each article should generally come from a single URL. Group 1 to 3 URLs into
+      one article when one URL is a clear stub, FAQ, or restatement of another on
+      the same exact topic — e.g. "Bookmarks" + "Using Bookmarks", or an FAQ entry
+      that restates a deep-dive article. Do not group merely related or adjacent
+      topics; when in doubt, keep URLs as separate articles — distinct pages almost
+      always warrant distinct help-center articles.
 
-      Strong signals to group multiple URLs (treat any of these as a green light):
-        - Same topic from different angles: overview + deep-dive, FAQ + how-to,
-          policy + FAQ, feature page + feature docs.
-        - Parent topic + its troubleshooting page (e.g. "Bank reconciliation" +
-          "Problems with bank reconciliation"; "SSO setup" + "SSO not working").
-        - Variant-specific guides on the same topic ("SSO setup" + "SSO with Okta";
-          "Webhooks overview" + "Webhook payload reference").
-        - A how-to split across step or platform pages (install on iOS + Android + web).
-        - FAQ entries that match a deep-dive article elsewhere on the site.
-
-      Before finalizing your picks, scan them for merge candidates: if two URLs are
-      about the same topic, they should almost always be one article, not two.
-
-      Don't group across distinct topics that merely share a category ("Setting up SSO"
-      and "Setting up MFA" stay separate). If a URL is marketing for a feature and
-      another is the feature's docs, pick the docs and skip the marketing.
+      If a URL is marketing for a feature and another is the feature's docs, pick
+      the docs and skip the marketing.
 
       Write all category names, category descriptions, and article titles in #{locale_name}.
       The input page titles and descriptions may be in another language; translate the labels you emit into #{locale_name}.
