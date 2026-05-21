@@ -22,6 +22,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.TIKTOK,
+    INBOX_TYPES.APP_STORE,
     INBOX_TYPES.API,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
@@ -30,6 +31,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.TIKTOK,
+    INBOX_TYPES.APP_STORE,
     INBOX_TYPES.API,
   ],
 };
@@ -138,6 +140,10 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.TIKTOK;
   });
 
+  const isAnAppStoreChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.APP_STORE;
+  });
+
   const voiceCallEnabled = computed(() => isVoiceCallEnabled(inbox.value));
 
   const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
@@ -160,6 +166,7 @@ export const useInbox = (inboxId = null) => {
     isAnEmailChannel,
     isAnInstagramChannel,
     isATiktokChannel,
+    isAnAppStoreChannel,
     voiceCallEnabled,
     voiceCallProvider,
   };

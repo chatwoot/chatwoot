@@ -66,6 +66,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'tiktok',
+    'app_store',
     'voice',
   ].includes(key);
 });
@@ -78,7 +79,7 @@ const isComingSoon = computed(() => {
 });
 
 const isBeta = computed(() => {
-  return ['tiktok', 'voice'].includes(props.channel.key);
+  return ['tiktok', 'app_store', 'voice'].includes(props.channel.key);
 });
 
 const onItemClick = () => {
