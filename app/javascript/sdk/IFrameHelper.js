@@ -268,6 +268,19 @@ export const IFrameHelper = {
     },
 
     resetUnreadMode: () => removeUnreadClass(),
+    resetTransientView: () => {
+      const holderEl = document.querySelector('.woot-widget-holder');
+      if (!holderEl?.classList.contains('has-unread-view')) {
+        return;
+      }
+
+      removeUnreadClass();
+      IFrameHelper.setFrameHeightToFitContent(0, false);
+
+      if (window.$chatwoot.isOpen) {
+        IFrameHelper.events.toggleBubble('close');
+      }
+    },
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
