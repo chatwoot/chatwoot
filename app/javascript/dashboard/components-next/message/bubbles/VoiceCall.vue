@@ -225,17 +225,24 @@ const handleCallBack = async () => {
         conversationId.value
       );
       if (response?.status === 'locked') return;
-      if (response?.call_id) {
-        const callsStore = useCallsStore();
-        callsStore.addCall({
-          callSid: response.call_id,
-          callId: response.id,
-          conversationId: conversationId.value,
-          inboxId: inboxId.value,
-          callDirection: 'outbound',
-          provider: 'whatsapp',
-        });
+      // Permission template path returns no call id — show banner, no widget yet.
+      if (!response?.id) {
+        useAlert(
+          response?.status === 'permission_pending'
+            ? t('CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_PENDING')
+            : t('CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_REQUESTED')
+        );
+        return;
       }
+      const callsStore = useCallsStore();
+      callsStore.addCall({
+        callSid: response.call_id,
+        callId: response.id,
+        conversationId: conversationId.value,
+        inboxId: inboxId.value,
+        callDirection: 'outbound',
+        provider: 'whatsapp',
+      });
       return;
     }
     await store.dispatch('contacts/initiateCall', {
