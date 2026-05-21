@@ -1,9 +1,11 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   call: {
@@ -66,14 +68,15 @@ const channelIcon = computed(() => {
 
 <template>
   <div
-    class="flex flex-col gap-3 pt-4 pb-4 bg-n-solid-2/95 rounded-2xl shadow-xl outline outline-1 outline-n-strong backdrop-blur-md"
+    class="flex flex-col gap-3 pt-4 bg-n-solid-2/95 rounded-2xl shadow-xl outline outline-1 outline-n-strong backdrop-blur-md"
+    :class="call?.conversationId ? 'pb-2' : 'pb-4'"
   >
     <!-- Top section: status badge + location/inbox + duration -->
     <div class="flex flex-col gap-3 pb-2">
       <div class="flex items-center gap-2 px-4">
         <!-- Ongoing: status badge on left -->
         <div v-if="isOngoing" class="flex items-center gap-1.5 shrink-0">
-          <i class="text-sm text-n-teal-9" :class="statusIcon" />
+          <Icon :icon="statusIcon" class="size-3.5 text-n-teal-9 shrink-0" />
           <span class="text-xs font-medium text-n-teal-9 tracking-tight">
             {{ statusLabel }}
           </span>
@@ -87,10 +90,10 @@ const channelIcon = computed(() => {
           >
             {{ callInfo.countryFlag }}
           </span>
-          <i
+          <Icon
             v-else-if="!isOngoing"
-            class="text-sm text-n-slate-10 shrink-0"
-            :class="channelIcon"
+            :icon="channelIcon"
+            class="size-3.5 text-n-slate-10 shrink-0"
           />
           <span
             class="text-xs font-medium text-n-slate-11 tracking-tight truncate"
@@ -108,7 +111,7 @@ const channelIcon = computed(() => {
         </p>
         <!-- Incoming/Outgoing: status badge on right -->
         <div v-else class="flex items-center gap-1.5 shrink-0">
-          <i class="text-sm text-n-teal-9" :class="statusIcon" />
+          <Icon :icon="statusIcon" class="size-3.5 text-n-teal-9 shrink-0" />
           <span class="text-xs font-medium text-n-teal-9 tracking-tight">
             {{ statusLabel }}
           </span>
@@ -141,75 +144,79 @@ const channelIcon = computed(() => {
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
           <!-- Mute toggle (WhatsApp ongoing only) -->
-          <button
+          <NextButton
             v-if="isOngoing && showMute"
             v-tooltip.top="
               isMuted
                 ? $t('CONVERSATION.VOICE_WIDGET.UNMUTE')
                 : $t('CONVERSATION.VOICE_WIDGET.MUTE')
             "
-            class="flex justify-center items-center w-10 h-10 rounded-full transition-colors"
-            :class="
-              isMuted
-                ? 'bg-n-amber-9 hover:bg-n-amber-10 text-white'
-                : 'bg-n-teal-3 hover:bg-n-teal-4 text-n-teal-11'
+            :icon="
+              isMuted ? 'i-ph-microphone-slash-bold' : 'i-ph-microphone-bold'
             "
+            :variant="isMuted ? 'solid' : 'faded'"
+            :color="isMuted ? 'amber' : 'teal'"
+            class="!rounded-full"
             @click="$emit('toggleMute')"
-          >
-            <i
-              class="text-base"
-              :class="
-                isMuted ? 'i-ph-microphone-slash-bold' : 'i-ph-microphone-bold'
-              "
-            />
-          </button>
+          />
 
           <!-- Accept call (incoming only) -->
-          <button
+          <NextButton
             v-if="isIncoming"
             v-tooltip.top="$t('CONVERSATION.VOICE_WIDGET.JOIN_CALL')"
-            class="flex justify-center items-center w-10 h-10 bg-n-teal-9 hover:bg-n-teal-10 rounded-full transition-colors shadow-sm"
+            icon="i-ph-phone-bold"
+            teal
+            class="!rounded-full"
             @click="$emit('accept')"
-          >
-            <i class="text-base text-white i-ph-phone-bold" />
-          </button>
+          />
 
           <!-- Reject / end call (all states) -->
-          <button
+          <NextButton
             v-tooltip.top="
               isOngoing
                 ? $t('CONVERSATION.VOICE_WIDGET.END_CALL')
                 : $t('CONVERSATION.VOICE_WIDGET.REJECT_CALL')
             "
-            class="flex justify-center items-center w-10 h-10 bg-n-ruby-9 hover:bg-n-ruby-10 rounded-full transition-colors shadow-sm"
+            icon="i-ph-phone-x-bold"
+            ruby
+            class="!rounded-full rotate-[134deg]"
             @click="isOngoing ? $emit('end') : $emit('reject')"
-          >
-            <i class="text-base text-white i-ph-phone-x-bold rotate-[134deg]" />
-          </button>
+          />
         </div>
       </div>
     </div>
 
     <!-- Footer: go to conversation thread -->
-    <button
+    <NextButton
       v-if="call?.conversationId"
-      class="flex items-center justify-between gap-2 px-4 pt-3 border-t border-n-strong hover:bg-n-alpha-1 transition-colors group"
+      slate
+      ghost
+      trailing-icon
+      class="!justify-between !px-2 !mx-2"
       @click="$emit('goToConversation')"
     >
+      <slot icon>
+        <span
+          class="flex items-center gap-1 text-n-slate-11 group-hover:text-n-slate-12"
+        >
+          <Icon
+            icon="i-ph-chat-circle-text-bold"
+            class="size-3.5 text-n-slate-11 shrink-0"
+          />
+          <span class="text-sm tracking-tight tabular-nums">
+            #{{ call.conversationId }}
+          </span>
+          <Icon
+            icon="i-ph-caret-right-bold"
+            class="size-3 text-n-slate-11 shrink-0"
+          />
+        </span>
+      </slot>
       <span
         class="text-sm text-n-slate-11 tracking-tight group-hover:text-n-slate-12"
       >
         {{ $t('CONVERSATION.VOICE_WIDGET.GO_TO_CONVERSATION') }}
       </span>
-      <span
-        class="flex items-center gap-1 text-n-slate-11 group-hover:text-n-slate-12"
-      >
-        <i class="text-sm i-ph-chat-circle-text-bold" />
-        <span class="text-sm tracking-tight tabular-nums">
-          #{{ call.conversationId }}
-        </span>
-        <i class="text-xs i-ph-caret-right-bold" />
-      </span>
-    </button>
+    </NextButton>
   </div>
 </template>
