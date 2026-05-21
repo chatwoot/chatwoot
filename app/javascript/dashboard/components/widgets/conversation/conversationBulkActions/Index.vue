@@ -57,6 +57,7 @@ const attrs = useAttrs();
 const {
   onAssignAgent,
   onAssignLabels,
+  onRemoveLabels,
   onAssignTeamsForBulk: onAssignTeam,
   onUpdateConversations,
 } = useBulkActions();
