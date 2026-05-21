@@ -1,12 +1,20 @@
 import axios from 'axios';
 import { actions } from '../../agents';
 import * as types from '../../../mutation-types';
+import AgentAPI from '../../../../api/agents';
 import agentList from './fixtures';
 
 const commit = vi.fn();
 const dispatch = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+// Clear the IDB-backed cache between tests so each case starts from a known
+// empty state and isn't affected by data persisted by a previous test.
+beforeEach(async () => {
+  await AgentAPI.dataManager.initDb();
+  await AgentAPI.dataManager.db.clear(AgentAPI.cacheModelName);
+});
 
 describe('#actions', () => {
   describe('#get', () => {
