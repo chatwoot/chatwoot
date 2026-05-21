@@ -1,3 +1,4 @@
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import { computed } from 'vue';
 
 export function useChannelIcon(inbox) {
@@ -26,14 +27,17 @@ export function useChannelIcon(inbox) {
     const type = inboxDetails.channel_type;
     let icon = channelTypeIconMap[type];
 
-    if (type === 'Channel::Email' && inboxDetails.provider) {
+    if (type === INBOX_TYPES.EMAIL && inboxDetails.provider) {
       if (Object.keys(providerIconMap).includes(inboxDetails.provider)) {
         icon = providerIconMap[inboxDetails.provider];
       }
     }
 
     // Special case for Twilio whatsapp
-    if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
+    if (
+      type === INBOX_TYPES.TWILIO &&
+      inboxDetails.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+    ) {
       icon = 'i-woot-whatsapp';
     }
 
@@ -42,9 +46,9 @@ export function useChannelIcon(inbox) {
     const voiceEnabled =
       inboxDetails.voice_enabled || inboxDetails.voiceEnabled;
     if (
-      type === 'Channel::TwilioSms' &&
+      type === INBOX_TYPES.TWILIO &&
       voiceEnabled &&
-      inboxDetails.medium !== 'whatsapp'
+      inboxDetails.medium !== TWILIO_CHANNEL_MEDIUM.WHATSAPP
     ) {
       icon = 'i-woot-voice';
     }
