@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Weet u zeker dat u {conversationCount} {conversationLabel} wilt ontkoppelen?",
     "GO_BACK_LABEL": "Ga terug",
     "ASSIGN_LABEL": "Toewijzen",
+    "NONE": "Geen",
+    "CLEAR_SELECTION": "Clear",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Ja",
+    "CANCEL": "Annuleren",
     "SEARCH_INPUT_PLACEHOLDER": "Zoeken",
     "ASSIGN_AGENT_TOOLTIP": "Agent toewijzen",
     "ASSIGN_TEAM_TOOLTIP": "Team toewijzen",
@@ -38,6 +43,8 @@
       "NONE": "Geen",
       "NO_TEAMS_AVAILABLE": "Er zijn nog geen teams toegevoegd aan dit account.",
       "ASSIGN_SELECTED_TEAMS": "Geselecteerde team toewijzen.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Toewijzen team mislukt, probeer het opnieuw."
     }
