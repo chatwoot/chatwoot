@@ -25,10 +25,16 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     # This must happen BEFORE debounce to provide instant feedback to the user
     send_typing_indicator_to_user(message)
 
-    # Check if this is an interactive reply (button click or list selection)
-    # Interactive replies should ALWAYS be processed immediately, never debounced
+    # Check if this is an interactive reply (button click or list selection).
+    # Interactive replies skip debounce AND discard any pending text already
+    # buffered for this conversation: the click is the user's deliberate final
+    # answer; stale free-text would generate a regressive LLM response that
+    # overrides the button-driven progression (e.g. user types "46" then taps
+    # OAB - without discard, the "46" still triggers a separate LLM call that
+    # asks the previous step's question again with the previous step's buttons).
     if interactive_reply?(message)
-      Rails.logger.info '[SOCIALWISE-FLOW] Interactive reply detected (button/list click) - processing immediately, skipping debounce'
+      Rails.logger.info '[SOCIALWISE-FLOW] Interactive reply detected (button/list click) - discarding pending debounce buffer + processing immediately'
+      discard_pending_debounce_buffer(message.conversation.id)
       process_content(message)
       Rails.logger.info '[SOCIALWISE-FLOW] === ProcessorService.perform completed (immediate - interactive reply) ==='
       return
@@ -166,6 +172,27 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     )
 
     Rails.logger.info "[SOCIALWISE-DEBOUNCE] Message #{message.id} enqueued, job will sleep for #{debounce_ms}ms (max timeout: #{max_timeout_ms}ms)"
+  end
+
+  # Discard any pending text messages buffered for debounce on this conversation.
+  # Called when an interactive reply (button click) arrives: the user's deliberate
+  # choice supersedes prior free-text. A SocialwiseDebounceJob that may be sleeping
+  # for this conversation will wake up, find an empty buffer, and exit silently
+  # (see SocialwiseDebounceJob#process_debounced_messages).
+  # The active marker is intentionally NOT deleted: leaving it prevents a brief
+  # window where a new text could spawn a parallel job that races the sleeper.
+  def discard_pending_debounce_buffer(conversation_id)
+    messages_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_MESSAGES, conversation_id: conversation_id)
+    first_at_key = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_FIRST_AT, conversation_id: conversation_id)
+    last_at_key  = format(Redis::Alfred::SOCIALWISE_DEBOUNCE_LAST_AT,  conversation_id: conversation_id)
+
+    pending = Redis::Alfred.lrange(messages_key, 0, -1)
+    return if pending.blank?
+
+    Redis::Alfred.delete(messages_key)
+    Redis::Alfred.delete(first_at_key)
+    Redis::Alfred.delete(last_at_key)
+    Rails.logger.info "[SOCIALWISE-FLOW] Discarded #{pending.count} pending debounced message(s) for conversation #{conversation_id} (button click takes precedence)"
   end
 
   # Expose should_run_processor? and process_content for use by DebounceProcessorService
