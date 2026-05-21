@@ -23,12 +23,12 @@
     "UNNAMED": "Unnamed Company",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": ""
     },
     "CREATE": {
       "TITLE": "Add company details",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": ""
       },
       "MESSAGES": {
         "SUCCESS": "Company created.",
