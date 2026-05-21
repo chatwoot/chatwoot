@@ -2,9 +2,9 @@
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
     "NONE": "Nincs",
-    "CLEAR_SELECTION": "Clear",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "CLEAR_SELECTION": "Kijelölés törlése",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Biztosan hozzárendeled a kijelölt {n} beszélgetést ehhez az ügyintézőhöz: {agentName}? | Biztosan hozzárendeled a kijelölt {n} beszélgetést ehhez az ügyintézőhöz: {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Biztosan megszünteted a kijelölt {n} beszélgetés ügyintézői hozzárendelését? | Biztosan megszünteted a kijelölt {n} beszélgetés ügyintézői hozzárendelését?",
     "YES": "Igen",
     "CANCEL": "Mégse",
     "SEARCH_INPUT_PLACEHOLDER": "Keresés",
@@ -33,8 +33,8 @@
     },
     "TEAMS": {
       "NONE": "Nincs",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Biztosan hozzárendeled a kijelölt {n} beszélgetést ehhez a csapathoz: {teamName}? | Biztosan hozzárendeled a kijelölt {n} beszélgetést ehhez a csapathoz: {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Biztosan megszünteted a kijelölt {n} beszélgetés csapathoz rendelését? | Biztosan megszünteted a kijelölt {n} beszélgetés csapathoz rendelését?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Nem sikerült csapatot kijelölni. Kérjük, próbálja újra."
     }
