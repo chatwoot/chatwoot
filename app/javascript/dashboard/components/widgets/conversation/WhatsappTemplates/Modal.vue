@@ -1,10 +1,10 @@
 <script>
 import TemplatesPicker from './TemplatesPicker.vue';
-import TemplateParser from './TemplateParser.vue';
+import WhatsAppTemplateReply from './WhatsAppTemplateReply.vue';
 export default {
   components: {
     TemplatesPicker,
-    TemplateParser,
+    WhatsAppTemplateReply,
   },
   props: {
     show: {
@@ -68,7 +68,7 @@ export default {
         :inbox-id="inboxId"
         @on-select="pickTemplate"
       />
-      <TemplateParser
+      <WhatsAppTemplateReply
         v-else
         :template="selectedWaTemplate"
         @reset-template="onResetTemplate"

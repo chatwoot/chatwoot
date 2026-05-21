@@ -33,6 +33,7 @@ end
 json.tweets_enabled resource.channel.try(:tweets_enabled) if resource.twitter?
 
 ## WebWidget Attributes
+json.allowed_domains resource.channel.try(:allowed_domains)
 json.widget_color resource.channel.try(:widget_color)
 json.website_url resource.channel.try(:website_url)
 json.hmac_mandatory resource.channel.try(:hmac_mandatory)
@@ -59,19 +60,27 @@ end
 json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.instagram?
 json.instagram_id resource.channel.try(:instagram_id) if resource.instagram?
 
+## Tiktok Attributes
+json.reauthorization_required resource.channel.try(:reauthorization_required?) if resource.tiktok?
+
 ## Twilio Attributes
 json.messaging_service_sid resource.channel.try(:messaging_service_sid)
 json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
-if resource.twilio? && Current.account_user&.administrator?
-  json.auth_token resource.channel.try(:auth_token)
-  json.account_sid resource.channel.try(:account_sid)
+if resource.twilio?
+  json.content_templates resource.channel.try(:content_templates)
+  if Current.account_user&.administrator?
+    json.auth_token resource.channel.try(:auth_token)
+    json.account_sid resource.channel.try(:account_sid)
+    json.api_key_sid resource.channel.try(:api_key_sid)
+  end
 end
 
 if resource.email?
   ## Email Channel Attributes
-  json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
+  json.forwarding_enabled ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
+  json.forward_to_email resource.channel.try(:forward_to_email) if ENV.fetch('MAILER_INBOUND_EMAIL_DOMAIN', '').present?
 
   ## IMAP
   if Current.account_user&.administrator?
@@ -81,6 +90,7 @@ if resource.email?
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
     json.imap_enable_ssl resource.channel.try(:imap_enable_ssl)
+    json.imap_authentication resource.channel.try(:imap_authentication)
 
     if resource.channel.try(:microsoft?) || resource.channel.try(:google?) || resource.channel.try(:legacy_google?)
       json.reauthorization_required resource.channel.try(:provider_config).empty? || resource.channel.try(:reauthorization_required?)
@@ -105,6 +115,7 @@ end
 ## API Channel Attributes
 if resource.api?
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
+  json.secret resource.channel.try(:secret) if Current.account_user&.administrator?
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
@@ -112,8 +123,26 @@ end
 
 json.provider resource.channel.try(:provider)
 
+## Telegram Attributes
+json.bot_name resource.channel.try(:bot_name) if resource.telegram?
+
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
   json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
+
+## Voice attributes for TwilioSms
+if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
+  json.voice_enabled resource.channel.voice_enabled?
+  json.voice_configured resource.channel.try(:twiml_app_sid).present?
+  json.has_api_key_secret resource.channel.try(:api_key_secret).present?
+  if resource.channel.try(:twiml_app_sid).present?
+    json.voice_call_webhook_url resource.channel.try(:voice_call_webhook_url)
+    json.voice_status_webhook_url resource.channel.try(:voice_status_webhook_url)
+  end
+end
+
+## Voice attribute for WhatsApp Cloud (only embedded-signup channels surface true)
+json.voice_enabled resource.channel.voice_enabled? if resource.channel_type == 'Channel::Whatsapp' && resource.channel.respond_to?(:voice_enabled?)

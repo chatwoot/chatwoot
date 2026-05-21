@@ -1,5 +1,5 @@
 <script>
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -8,12 +8,17 @@ const {
 } = window.globalConfig || {};
 
 export default {
-  mixins: [globalConfigMixin],
   props: {
     disableBranding: {
       type: Boolean,
       default: false,
     },
+  },
+  setup() {
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+    };
   },
   data() {
     return {
@@ -28,13 +33,15 @@ export default {
     brandRedirectURL() {
       try {
         const referrerHost = this.$store.getters['appConfig/getReferrerHost'];
-        const baseURL = `${this.globalConfig.widgetBrandURL}?utm_source=${
-          referrerHost ? 'widget_branding' : 'survey_branding'
-        }`;
+        const url = new URL(this.globalConfig.widgetBrandURL);
         if (referrerHost) {
-          return `${baseURL}&utm_referrer=${referrerHost}`;
+          url.searchParams.set('utm_source', referrerHost);
+          url.searchParams.set('utm_medium', 'widget');
+        } else {
+          url.searchParams.set('utm_medium', 'survey');
         }
-        return baseURL;
+        url.searchParams.set('utm_campaign', 'branding');
+        return url.toString();
       } catch (e) {
         // Suppressing the error as getter is not defined in some cases
       }
@@ -61,7 +68,7 @@ export default {
         :src="globalConfig.logoThumbnail"
       />
       <span>
-        {{ useInstallationName($t('POWERED_BY'), globalConfig.brandName) }}
+        {{ replaceInstallationName($t('POWERED_BY')) }}
       </span>
     </a>
   </div>

@@ -183,6 +183,73 @@ describe('#getters', () => {
       ]);
     });
   });
+  describe('#getParticipatingChats', () => {
+    const conversationList = [
+      { id: 1, inbox_id: 2, status: 1, meta: { assignee: { id: 1 } } },
+      { id: 2, inbox_id: 2, status: 1, meta: {} },
+      { id: 3, inbox_id: 3, status: 1, meta: { assignee: { id: 2 } } },
+    ];
+
+    it('returns all conversations when watchers are not loaded', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': () => undefined,
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+
+    it('filters out conversation when watchers loaded and user not participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 2) return [{ id: 3 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual([conversationList[0], conversationList[2]]);
+    });
+
+    it('keeps conversation when watchers loaded and user is participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 1) return [{ id: 1 }, { id: 2 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+  });
   describe('#getConversationById', () => {
     it('get conversations based on id', () => {
       const state = {
@@ -258,6 +325,31 @@ describe('#getters', () => {
         { id: 1, file_name: 'test1' },
         { id: 2, file_name: 'test2' },
       ]);
+    });
+  });
+
+  describe('#getSelectedChatAttachmentsLoaded', () => {
+    it('returns true when attachments have been fetched for the selected chat', () => {
+      const state = { selectedChatId: 1, attachments: { 1: [] } };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns true when the fetched attachment list is non-empty', () => {
+      const state = {
+        selectedChatId: 1,
+        attachments: { 1: [{ id: 1, file_name: 'test' }] },
+      };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns false when attachments have not been fetched yet', () => {
+      const state = { selectedChatId: 1, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
+    });
+
+    it('returns false when no chat is selected', () => {
+      const state = { selectedChatId: null, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
     });
   });
 

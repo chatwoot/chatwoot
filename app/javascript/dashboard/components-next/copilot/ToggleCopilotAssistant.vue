@@ -45,7 +45,7 @@ const activeAssistantLabel = computed(() => {
         />
       </template>
       <DropdownBody class="bottom-9 min-w-64 z-50" strong>
-        <DropdownSection class="max-h-80 overflow-scroll">
+        <DropdownSection class="[&>ul]:max-h-80">
           <DropdownItem
             v-for="assistant in assistants"
             :key="assistant.id"

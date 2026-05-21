@@ -21,11 +21,15 @@ class Integrations::Hook < ApplicationRecord
   before_validation :ensure_hook_type
   after_create :trigger_setup_if_crm
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
+
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
+  validate :validate_openai_api_key, if: :validate_openai_api_key?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -53,6 +57,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'dialogflow'
   end
 
+  def openai?
+    app_id == 'openai'
+  end
+
   def notion?
     app_id == 'notion'
   end
@@ -61,13 +69,10 @@ class Integrations::Hook < ApplicationRecord
     update(status: 'disabled')
   end
 
-  def process_event(event)
-    case app_id
-    when 'openai'
-      Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
-    else
-      { error: 'No processor found' }
-    end
+  def process_event(_event)
+    # OpenAI integration migrated to Captain::EditorService
+    # Other integrations (slack, dialogflow, etc.) handled via HookJob
+    { error: 'No processor found' }
   end
 
   def feature_allowed?
@@ -93,6 +98,26 @@ class Integrations::Hook < ApplicationRecord
     return if app.blank? || app.params[:settings_json_schema].blank?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
+  end
+
+  # TODO: When adding credential validation for other integrations (dialogflow, dyte, etc.),
+  # extract this into an app-level config flag in apps.yml instead of hardcoding app_id checks.
+  def validate_openai_api_key?
+    openai? && enabled? && (new_record? || openai_api_key_changed? || will_save_change_to_status?)
+  end
+
+  def openai_api_key_changed?
+    settings_api_key(settings) != settings_api_key(settings_in_database)
+  end
+
+  def validate_openai_api_key
+    return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings))
+
+    errors.add(:base, I18n.t('errors.openai.invalid_api_key'))
+  end
+
+  def settings_api_key(value)
+    value&.dig('api_key') || value&.dig(:api_key)
   end
 
   def trigger_setup_if_crm

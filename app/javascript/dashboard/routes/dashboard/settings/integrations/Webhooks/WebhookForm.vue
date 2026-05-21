@@ -3,6 +3,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
@@ -55,11 +57,16 @@ export default {
   data() {
     return {
       url: this.value.url || '',
+      name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
+      secretVisible: false,
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
   },
   computed: {
+    hasSecret() {
+      return !!this.value.secret;
+    },
     webhookURLInputPlaceholder() {
       return this.$t(
         'INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER',
@@ -68,13 +75,21 @@ export default {
         }
       );
     },
+    webhookNameInputPlaceholder() {
+      return this.$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.PLACEHOLDER');
+    },
   },
   methods: {
     onSubmit() {
       this.$emit('submit', {
         url: this.url,
+        name: this.name,
         subscriptions: this.subscriptions,
       });
+    },
+    async copySecret() {
+      await copyTextToClipboard(this.value.secret);
+      useAlert(this.$t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.COPY_SUCCESS'));
     },
     getI18nKey,
   },
@@ -96,6 +111,44 @@ export default {
         <span v-if="v$.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
+      </label>
+      <label>
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.LABEL') }}
+        <input
+          v-model="name"
+          type="text"
+          name="name"
+          :placeholder="webhookNameInputPlaceholder"
+        />
+      </label>
+      <label v-if="hasSecret" class="mb-4">
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.LABEL') }}
+        <div class="flex items-center gap-2">
+          <input
+            :value="
+              secretVisible ? value.secret : '••••••••••••••••••••••••••••••••'
+            "
+            type="text"
+            readonly
+            class="!mb-0 font-mono"
+          />
+          <NextButton
+            v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.TOGGLE')"
+            type="button"
+            :icon="secretVisible ? 'i-lucide-eye-off' : 'i-lucide-eye'"
+            slate
+            faded
+            @click="secretVisible = !secretVisible"
+          />
+          <NextButton
+            v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.SECRET.COPY')"
+            type="button"
+            icon="i-lucide-copy"
+            slate
+            faded
+            @click="copySecret"
+          />
+        </div>
       </label>
       <label :class="{ error: v$.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}

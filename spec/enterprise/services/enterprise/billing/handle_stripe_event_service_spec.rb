@@ -19,9 +19,20 @@ describe Enterprise::Billing::HandleStripeEventService do
                { 'name' => 'Enterprise', 'product_id' => ['plan_id_enterprise'], 'price_ids' => ['price_enterprise'] }
              ]
            })
+
+    create(:installation_config, {
+             name: 'CAPTAIN_CLOUD_PLAN_LIMITS',
+             value: {
+               'hacker' => { 'responses' => 0 },
+               'startups' => { 'responses' => 300 },
+               'business' => { 'responses' => 500 },
+               'enterprise' => { 'responses' => 800 }
+             }
+           })
     # Setup common subscription mocks
     allow(event).to receive(:data).and_return(data)
     allow(data).to receive(:object).and_return(subscription)
+    allow(data).to receive(:previous_attributes).and_return({})
     allow(subscription).to receive(:[]).with('quantity').and_return('10')
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
@@ -52,7 +63,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect(account).not_to be_feature_enabled('audit_logs')
     end
 
-    it 'resets captain usage on subscription update' do
+    it 'resets captain usage on billing period renewal' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
       expect(account.custom_attributes['captain_responses_usage']).to eq(5)
@@ -60,11 +71,46 @@ describe Enterprise::Billing::HandleStripeEventService do
       # Setup for any plan
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({ 'id' => 'test', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+      allow(subscription).to receive(:[]).with('current_period_start').and_return(1_686_567_520)
+
+      # Simulate billing period renewal with previous_attributes showing old period
+      allow(data).to receive(:previous_attributes).and_return({ 'current_period_start' => 1_683_975_520 })
 
       stripe_event_service.new.perform(event: event)
 
       # Verify usage was reset
       expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+    end
+  end
+
+  describe 'subscription quantity update' do
+    before do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({ 'id' => 'price_startups', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+    end
+
+    it 'updates subscribed_quantity' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+    end
+
+    it 'persists quantity even when increment_response_usage runs concurrently' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100))
+
+      # Simulate: webhook updates quantity, then a concurrent increment_response_usage writes usage
+      stripe_event_service.new.perform(event: event)
+      account.reload
+
+      # Simulate concurrent increment_response_usage (atomic jsonb_set, not full hash overwrite)
+      account.increment_response_usage
+
+      # Quantity must survive the concurrent usage update
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(101)
     end
   end
 

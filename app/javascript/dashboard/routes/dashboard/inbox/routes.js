@@ -21,7 +21,7 @@ export const routes = [
         },
       },
       {
-        path: ':notification_id',
+        path: ':type/:id',
         name: 'inbox_view_conversation',
         component: InboxDetailView,
         meta: {

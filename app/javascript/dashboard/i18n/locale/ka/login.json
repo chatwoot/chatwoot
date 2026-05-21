@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "Forgot your password?",
     "CREATE_NEW_ACCOUNT": "Create new account",
-    "SUBMIT": "Login"
+    "SUBMIT": "Login",
+    "SAML": {
+      "LABEL": "SSO-ით შესვლა",
+      "TITLE": "ერთიანი შესვლის (SSO) დაწყება",
+      "SUBTITLE": "შეიყვანეთ თქვენი სამუშაო ელფოსტა, რათა შეხვიდეთ თქვენს ორგანიზაციაში",
+      "BACK_TO_LOGIN": "შესვლა პაროლით",
+      "WORK_EMAIL": {
+        "LABEL": "სამუშაო ელფოსტა",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი სამუშაო ელფოსტა"
+      },
+      "SUBMIT": "გაგრძელება SSO-ით",
+      "API": {
+        "ERROR_MESSAGE": "SSO-ით ავთენტიფიკაცია ვერ შესრულდა. გთხოვთ, გადაამოწმეთ თქვენი შესვლის მონაცემები და სცადეთ ხელახლა."
+      }
+    }
   }
 }

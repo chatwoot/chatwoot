@@ -4,7 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { DirectUpload } from 'activestorage';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
-import { MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL } from 'shared/constants/messages';
+import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables', () => ({
@@ -12,7 +12,12 @@ vi.mock('dashboard/composables', () => ({
 }));
 vi.mock('vue-i18n');
 vi.mock('activestorage');
-vi.mock('shared/helpers/FileHelper');
+vi.mock('shared/helpers/FileHelper', () => ({
+  checkFileSizeLimit: vi.fn(),
+  resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
+}));
+vi.mock('@chatwoot/utils');
 
 describe('useFileUpload', () => {
   const mockAttachFile = vi.fn();
@@ -20,6 +25,11 @@ describe('useFileUpload', () => {
 
   const mockFile = {
     file: new File(['test'], 'test.jpg', { type: 'image/jpeg' }),
+  };
+
+  const inbox = {
+    channel_type: 'Channel::WhatsApp',
+    medium: 'whatsapp',
   };
 
   beforeEach(() => {
@@ -30,18 +40,21 @@ describe('useFileUpload', () => {
         getCurrentAccountId: { value: '123' },
         getCurrentUser: { value: { access_token: 'test-token' } },
         getSelectedChat: { value: { id: '456' } },
-        'globalConfig/get': { value: { directUploadsEnabled: true } },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: true, maximumFileUploadSize: 40 },
+        },
       };
       return getterMap[getter];
     });
 
     useI18n.mockReturnValue({ t: mockTranslate });
     checkFileSizeLimit.mockReturnValue(true);
+    getMaxUploadSizeByChannel.mockReturnValue(25); // default max size MB for tests
   });
 
-  it('should handle direct file upload when enabled', () => {
+  it('handles direct file upload when direct uploads enabled', () => {
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: false,
+      inbox,
       attachFile: mockAttachFile,
     });
 
@@ -51,6 +64,16 @@ describe('useFileUpload', () => {
     }));
 
     onFileUpload(mockFile);
+
+    // size rules called with inbox + mime
+    expect(getMaxUploadSizeByChannel).toHaveBeenCalledWith({
+      channelType: inbox.channel_type,
+      medium: inbox.medium,
+      mime: 'image/jpeg',
+    });
+
+    // size check called with max from helper
+    expect(checkFileSizeLimit).toHaveBeenCalledWith(mockFile, 25);
 
     expect(DirectUpload).toHaveBeenCalledWith(
       mockFile.file,
@@ -63,34 +86,38 @@ describe('useFileUpload', () => {
     });
   });
 
-  it('should handle indirect file upload when direct upload is disabled', () => {
+  it('handles indirect file upload when direct upload disabled', () => {
     useMapGetter.mockImplementation(getter => {
       const getterMap = {
         getCurrentAccountId: { value: '123' },
         getCurrentUser: { value: { access_token: 'test-token' } },
         getSelectedChat: { value: { id: '456' } },
-        'globalConfig/get': { value: { directUploadsEnabled: false } },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: false, maximumFileUploadSize: 40 },
+        },
       };
       return getterMap[getter];
     });
 
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: false,
+      inbox,
       attachFile: mockAttachFile,
     });
 
     onFileUpload(mockFile);
 
     expect(DirectUpload).not.toHaveBeenCalled();
+    expect(getMaxUploadSizeByChannel).toHaveBeenCalled();
+    expect(checkFileSizeLimit).toHaveBeenCalledWith(mockFile, 25);
     expect(mockAttachFile).toHaveBeenCalledWith({ file: mockFile });
   });
 
-  it('should show alert when file size exceeds limit', () => {
+  it('shows alert when file size exceeds limit', () => {
     checkFileSizeLimit.mockReturnValue(false);
     mockTranslate.mockReturnValue('File size exceeds limit');
 
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: false,
+      inbox,
       attachFile: mockAttachFile,
     });
 
@@ -100,28 +127,37 @@ describe('useFileUpload', () => {
     expect(mockAttachFile).not.toHaveBeenCalled();
   });
 
-  it('should use different max file size for Twilio SMS channel', () => {
+  it('uses per-mime limits from helper', () => {
+    getMaxUploadSizeByChannel.mockImplementation(({ mime }) =>
+      mime.startsWith('image/') ? 10 : 50
+    );
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: true,
+      inbox,
       attachFile: mockAttachFile,
     });
 
+    DirectUpload.mockImplementation(() => ({
+      create: cb => cb(null, { signed_id: 'blob' }),
+    }));
+
     onFileUpload(mockFile);
 
-    expect(checkFileSizeLimit).toHaveBeenCalledWith(
-      mockFile,
-      MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL
-    );
+    expect(getMaxUploadSizeByChannel).toHaveBeenCalledWith({
+      channelType: inbox.channel_type,
+      medium: inbox.medium,
+      mime: 'image/jpeg',
+    });
+    expect(checkFileSizeLimit).toHaveBeenCalledWith(mockFile, 10);
   });
 
-  it('should handle direct upload errors', () => {
+  it('handles direct upload errors', () => {
     const mockError = 'Upload failed';
     DirectUpload.mockImplementation(() => ({
       create: callback => callback(mockError, null),
     }));
 
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: false,
+      inbox,
       attachFile: mockAttachFile,
     });
 
@@ -131,15 +167,16 @@ describe('useFileUpload', () => {
     expect(mockAttachFile).not.toHaveBeenCalled();
   });
 
-  it('should do nothing when file is null', () => {
+  it('does nothing when file is null', () => {
     const { onFileUpload } = useFileUpload({
-      isATwilioSMSChannel: false,
+      inbox,
       attachFile: mockAttachFile,
     });
 
     onFileUpload(null);
 
     expect(checkFileSizeLimit).not.toHaveBeenCalled();
+    expect(getMaxUploadSizeByChannel).not.toHaveBeenCalled();
     expect(mockAttachFile).not.toHaveBeenCalled();
     expect(useAlert).not.toHaveBeenCalled();
   });

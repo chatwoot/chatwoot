@@ -5,6 +5,15 @@
       "PLACEHOLDER": "Pesquisar",
       "EMPTY_STATE": "Nenhum resultado encontrado"
     },
-    "CLOSE": "Fechar"
+    "CLOSE": "Fechar",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "Este recurso está em fase BETA e deve sofre alterações assim que Nós melhorarmos ele.",
+    "ACCEPT": "Aceitar",
+    "DISCARD": "Descartar",
+    "PREFERRED": "Preferido"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Sim",
+    "NO": "Não"
   }
 }

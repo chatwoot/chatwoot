@@ -10,7 +10,7 @@ class Whatsapp::ChannelCreationService
     validate_parameters!
 
     existing_channel = find_existing_channel
-    raise "Channel already exists: #{existing_channel.phone_number}" if existing_channel
+    raise I18n.t('errors.whatsapp.phone_number_already_exists', phone_number: existing_channel.phone_number) if existing_channel
 
     create_channel_with_inbox
   end
@@ -26,22 +26,20 @@ class Whatsapp::ChannelCreationService
 
   def find_existing_channel
     Channel::Whatsapp.find_by(
-      account: @account,
       phone_number: @phone_info[:phone_number]
     )
   end
 
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
-      channel = create_channel
+      channel = build_channel
       create_inbox(channel)
-      channel.reload
       channel
     end
   end
 
-  def create_channel
-    Channel::Whatsapp.create!(
+  def build_channel
+    Channel::Whatsapp.build(
       account: @account,
       phone_number: @phone_info[:phone_number],
       provider: 'whatsapp_cloud',

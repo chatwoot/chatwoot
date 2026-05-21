@@ -45,6 +45,10 @@ describe('#resolveTeamIds', () => {
     const resolvedTeams = '⚙️ sales team, 🤷‍♂️ fayaz';
     expect(resolveTeamIds(teams, [1, 2])).toEqual(resolvedTeams);
   });
+
+  it('resolves nil as None', () => {
+    expect(resolveTeamIds(teams, ['nil'])).toEqual('None');
+  });
 });
 
 describe('#resolveLabels', () => {
@@ -58,6 +62,10 @@ describe('#resolveAgents', () => {
   it('resolves agents names from ids and returns a joined string', () => {
     const resolvedAgents = 'John Doe';
     expect(resolveAgents(agents, [1])).toEqual(resolvedAgents);
+  });
+
+  it('resolves nil and self values', () => {
+    expect(resolveAgents(agents, ['nil', 'self'])).toEqual('None, Self');
   });
 });
 

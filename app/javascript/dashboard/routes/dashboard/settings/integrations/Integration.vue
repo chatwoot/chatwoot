@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { frontendURL } from '../../../../helper/URLHelper';
 import { useAlert } from 'dashboard/composables';
-import { useInstallationName } from 'shared/mixins/globalConfigMixin';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -26,11 +26,11 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
+const { replaceInstallationName } = useBranding();
 
 const dialogRef = ref(null);
 
 const accountId = computed(() => store.getters.getCurrentAccountId);
-const globalConfig = computed(() => store.getters['globalConfig/get']);
 
 const openDeletePopup = () => {
   if (dialogRef.value) {
@@ -62,7 +62,7 @@ const confirmDeletion = () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-card rounded-xl gap-6"
   >
     <div
       class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
@@ -78,16 +78,11 @@ const confirmDeletion = () => {
         />
       </div>
       <div>
-        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
+        <h3 class="mb-1 text-heading-1 text-n-slate-12">
           {{ integrationName }}
         </h3>
-        <p class="text-n-slate-11 text-sm leading-6">
-          {{
-            useInstallationName(
-              integrationDescription,
-              globalConfig.installationName
-            )
-          }}
+        <p class="text-n-slate-11 text-body-main">
+          {{ replaceInstallationName(integrationDescription) }}
         </p>
       </div>
     </div>

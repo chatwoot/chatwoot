@@ -1,7 +1,11 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import {
+  INBOX_TYPES,
+  isVoiceCallEnabled,
+  getVoiceCallProvider,
+} from 'dashboard/helper/inbox';
 
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
@@ -17,6 +21,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.TIKTOK,
     INBOX_TYPES.API,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
@@ -24,26 +29,30 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.TIKTOK,
     INBOX_TYPES.API,
   ],
 };
 
 /**
- * Composable for handling macro-related functionality
- * @returns {Object} An object containing the getMacroDropdownValues function
+ * Composable for handling inbox-related functionality
+ * @param {string|null} inboxId - Optional inbox ID. If not provided, uses current chat's inbox
+ * @returns {Object} An object containing inbox type checking functions
  */
-export const useInbox = () => {
+export const useInbox = (inboxId = null) => {
   const currentChat = useMapGetter('getSelectedChat');
   const inboxGetter = useMapGetter('inboxes/getInboxById');
 
   const inbox = computed(() => {
-    const inboxId = currentChat.value.inbox_id;
+    const targetInboxId = inboxId || currentChat.value?.inbox_id;
 
-    return useCamelCase(inboxGetter.value(inboxId), { deep: true });
+    if (!targetInboxId) return null;
+
+    return useCamelCase(inboxGetter.value(targetInboxId), { deep: true });
   });
 
   const channelType = computed(() => {
-    return inbox.value.channelType;
+    return inbox.value?.channelType;
   });
 
   const isAPIInbox = computed(() => {
@@ -75,19 +84,19 @@ export const useInbox = () => {
   });
 
   const whatsAppAPIProvider = computed(() => {
-    return inbox.value.provider || '';
+    return inbox.value?.provider || '';
   });
 
   const isAMicrosoftInbox = computed(() => {
-    return isAnEmailChannel.value && inbox.value.provider === 'microsoft';
+    return isAnEmailChannel.value && inbox.value?.provider === 'microsoft';
   });
 
   const isAGoogleInbox = computed(() => {
-    return isAnEmailChannel.value && inbox.value.provider === 'google';
+    return isAnEmailChannel.value && inbox.value?.provider === 'google';
   });
 
   const isATwilioSMSChannel = computed(() => {
-    const { medium: medium = '' } = inbox.value;
+    const { medium: medium = '' } = inbox.value || {};
     return isATwilioChannel.value && medium === 'sms';
   });
 
@@ -96,7 +105,7 @@ export const useInbox = () => {
   });
 
   const isATwilioWhatsAppChannel = computed(() => {
-    const { medium: medium = '' } = inbox.value;
+    const { medium: medium = '' } = inbox.value || {};
     return isATwilioChannel.value && medium === 'whatsapp';
   });
 
@@ -125,9 +134,13 @@ export const useInbox = () => {
     return channelType.value === INBOX_TYPES.INSTAGRAM;
   });
 
-  const isAVoiceChannel = computed(() => {
-    return channelType.value === INBOX_TYPES.VOICE;
+  const isATiktokChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.TIKTOK;
   });
+
+  const voiceCallEnabled = computed(() => isVoiceCallEnabled(inbox.value));
+
+  const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
 
   return {
     inbox,
@@ -146,6 +159,8 @@ export const useInbox = () => {
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
-    isAVoiceChannel,
+    isATiktokChannel,
+    voiceCallEnabled,
+    voiceCallProvider,
   };
 };

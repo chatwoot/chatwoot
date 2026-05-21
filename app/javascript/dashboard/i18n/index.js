@@ -1,4 +1,5 @@
 import ar from './locale/ar';
+import bg from './locale/bg';
 import ca from './locale/ca';
 import cs from './locale/cs';
 import da from './locale/da';
@@ -6,6 +7,7 @@ import de from './locale/de';
 import el from './locale/el';
 import en from './locale/en';
 import es from './locale/es';
+import et from './locale/et';
 import fa from './locale/fa';
 import fi from './locale/fi';
 import fr from './locale/fr';
@@ -40,6 +42,7 @@ import lt from './locale/lt';
 
 export default {
   ar,
+  bg,
   ca,
   cs,
   da,
@@ -47,6 +50,7 @@ export default {
   el,
   en,
   es,
+  et,
   fa,
   fi,
   fr,

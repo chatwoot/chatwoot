@@ -1,5 +1,6 @@
 <script setup>
 import { useToggle } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
@@ -44,7 +45,10 @@ const onClickCancel = () => {
 </script>
 
 <template>
-  <div class="inline-flex relative">
+  <div
+    v-on-click-outside="() => togglePopover(false)"
+    class="inline-flex relative"
+  >
     <Button
       :label="buttonLabel"
       sm

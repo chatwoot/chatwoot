@@ -21,7 +21,18 @@ const selectedCategoryId = ref(null);
 const currentUserId = useMapGetter('getCurrentUserID');
 const categories = useMapGetter('categories/allCategories');
 
-const categoryId = computed(() => categories.value[0]?.id || null);
+const categoryId = computed(() => {
+  const { categorySlug } = route.params;
+  if (categorySlug) {
+    const matched = categories.value?.find(c => c.slug === categorySlug);
+    if (matched) return matched.id;
+  }
+  return categories.value[0]?.id || null;
+});
+
+const isCategoryArticles = computed(
+  () => route.name === 'portals_categories_articles_new'
+);
 
 const article = ref({});
 const isUpdating = ref(false);
@@ -39,28 +50,39 @@ const createNewArticle = async ({ title, content }) => {
   if (title) article.value.title = title;
   if (content) article.value.content = content;
 
-  if (!article.value.title || !article.value.content) return;
+  if (!article.value.title || isUpdating.value) return;
 
   isUpdating.value = true;
   try {
     const { locale } = route.params;
+    const resolvedCategoryId = selectedCategoryId.value || categoryId.value;
     const articleId = await store.dispatch('articles/create', {
       portalSlug,
       content: article.value.content,
       title: article.value.title,
       locale: locale,
       authorId: selectedAuthorId.value || currentUserId.value,
-      categoryId: selectedCategoryId.value || categoryId.value,
+      categoryId: resolvedCategoryId,
     });
 
     useTrack(PORTALS_EVENTS.CREATE_ARTICLE, { locale });
 
+    const resolvedSlug = categories.value?.find(
+      c => c.id === resolvedCategoryId
+    )?.slug;
+    const startedFromCategorySlug = route.params.categorySlug;
+
     router.replace({
-      name: 'portals_articles_edit',
+      name: isCategoryArticles.value
+        ? 'portals_categories_articles_edit'
+        : 'portals_articles_edit',
       params: {
         articleSlug: articleId,
         portalSlug,
         locale,
+        ...(startedFromCategorySlug
+          ? { categorySlug: resolvedSlug || startedFromCategorySlug }
+          : {}),
       },
     });
   } catch (error) {
@@ -74,10 +96,17 @@ const createNewArticle = async ({ title, content }) => {
 
 const goBackToArticles = () => {
   const { tab, categorySlug, locale } = route.params;
-  router.push({
-    name: 'portals_articles_index',
-    params: { tab, categorySlug, locale },
-  });
+  if (isCategoryArticles.value) {
+    router.push({
+      name: 'portals_categories_articles_index',
+      params: { categorySlug, locale },
+    });
+  } else {
+    router.push({
+      name: 'portals_articles_index',
+      params: { tab, categorySlug, locale },
+    });
+  }
 };
 </script>
 
@@ -86,7 +115,7 @@ const goBackToArticles = () => {
     :article="article"
     :is-updating="isUpdating"
     :is-saved="isSaved"
-    @save-article="createNewArticle"
+    @create-article="createNewArticle"
     @go-back="goBackToArticles"
     @set-author="setAuthorId"
     @set-category="setCategoryId"

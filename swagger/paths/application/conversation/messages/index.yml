@@ -5,6 +5,17 @@ summary: Get messages
 security:
   - userApiKey: []
 description: List all messages of a conversation
+parameters:
+  - name: after
+    in: query
+    schema:
+      type: integer
+    description: Fetch messages after the message with this ID. Returns up to 100 messages in ascending order.
+  - name: before
+    in: query
+    schema:
+      type: integer
+    description: Fetch messages before the message with this ID. Returns up to 20 messages in ascending order.
 responses:
   '200':
     description: Success
@@ -27,10 +38,14 @@ responses:
                 assignee:
                   $ref: '#/components/schemas/agent'
                 agent_last_seen_at:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date-time
                 assignee_last_seen_at:
-                  type: string
+                  type:
+                    - string
+                    - 'null'
                   format: date-time
             payload:
               type: array

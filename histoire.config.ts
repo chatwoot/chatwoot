@@ -4,6 +4,7 @@ import { HstVue } from '@histoire/plugin-vue';
 export default defineConfig({
   setupFile: './histoire.setup.ts',
   plugins: [HstVue()],
+  collectMaxThreads: 4,
   vite: {
     server: {
       port: 6179,

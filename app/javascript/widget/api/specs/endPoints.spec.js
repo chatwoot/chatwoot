@@ -32,6 +32,50 @@ describe('#sendMessage', () => {
   });
 });
 
+describe('#sendMessage with pending metadata', () => {
+  it('includes custom_attributes and labels in payload', () => {
+    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+      toString: () => 'mock date',
+    }));
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      search: '?param=1',
+    });
+
+    window.WOOT_WIDGET = {
+      $root: { $i18n: { locale: 'ar' } },
+    };
+
+    const result = endPoints.sendMessage('hello', null, {
+      customAttributes: { plan: 'enterprise' },
+      labels: ['vip'],
+    });
+
+    expect(result.params.custom_attributes).toEqual({ plan: 'enterprise' });
+    expect(result.params.labels).toEqual(['vip']);
+    spy.mockRestore();
+  });
+
+  it('does not include metadata keys when not provided', () => {
+    const spy = vi.spyOn(global, 'Date').mockImplementation(() => ({
+      toString: () => 'mock date',
+    }));
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      ...window.location,
+      search: '?param=1',
+    });
+
+    window.WOOT_WIDGET = {
+      $root: { $i18n: { locale: 'ar' } },
+    };
+
+    const result = endPoints.sendMessage('hello');
+    expect(result.params.custom_attributes).toBeUndefined();
+    expect(result.params.labels).toBeUndefined();
+    spy.mockRestore();
+  });
+});
+
 describe('#getConversation', () => {
   it('returns correct payload', () => {
     vi.spyOn(window, 'location', 'get').mockReturnValue({

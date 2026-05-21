@@ -4,6 +4,7 @@ import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { differenceInDays } from 'date-fns';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useI18n } from 'vue-i18n';
@@ -22,6 +23,7 @@ const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 const { accountId, currentAccount } = useAccount();
+const { isEnterprise } = useConfig();
 const { isAdmin } = useAdmin();
 
 const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
@@ -100,48 +102,54 @@ const routeToBilling = () => {
   });
 };
 
-onMounted(() => fetchLimits());
+onMounted(() => {
+  if (isEnterprise) {
+    fetchLimits();
+  }
+});
 
 defineExpose({ shouldShowUpgradePage });
 </script>
 
 <template>
-  <template v-if="shouldShowUpgradePage">
-    <div class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]">
-      <div
-        class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
-      >
-        <div class="flex flex-col gap-4">
-          <div class="flex items-center w-full gap-2">
-            <span
-              class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
-            >
-              <Icon
-                class="flex-shrink-0 text-n-brand size-[14px]"
-                icon="i-lucide-lock-keyhole"
-              />
-            </span>
-            <span class="text-base font-medium text-n-slate-12">
-              {{ $t('GENERAL_SETTINGS.UPGRADE') }}
-            </span>
-          </div>
-          <div>
-            <p class="text-sm font-normal text-n-slate-11 mb-3">
-              {{ limitExceededMessage }}
-            </p>
-            <p v-if="!isAdmin">
-              {{ t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
-            </p>
-          </div>
+  <div
+    v-if="shouldShowUpgradePage"
+    class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]"
+  >
+    <div
+      class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
+    >
+      <div class="flex flex-col gap-4">
+        <div class="flex items-center w-full gap-2">
+          <span
+            class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
+          >
+            <Icon
+              class="flex-shrink-0 text-n-brand size-[14px]"
+              icon="i-lucide-lock-keyhole"
+            />
+          </span>
+          <span class="text-base font-medium text-n-slate-12">
+            {{ $t('GENERAL_SETTINGS.UPGRADE') }}
+          </span>
         </div>
-        <NextButton
-          v-if="isAdmin"
-          :label="$t('GENERAL_SETTINGS.OPEN_BILLING')"
-          icon="i-lucide-credit-card"
-          @click="routeToBilling()"
-        />
+        <div>
+          <p class="text-sm font-normal text-n-slate-11 mb-3">
+            {{ limitExceededMessage }}
+          </p>
+          <p v-if="!isAdmin">
+            {{ t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
+          </p>
+        </div>
       </div>
+      <NextButton
+        v-if="isAdmin"
+        :label="$t('GENERAL_SETTINGS.OPEN_BILLING')"
+        icon="i-lucide-credit-card"
+        @click="routeToBilling()"
+      />
     </div>
-  </template>
-  <template v-else />
+    <slot />
+  </div>
+  <div v-else />
 </template>

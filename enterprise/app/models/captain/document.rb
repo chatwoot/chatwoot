@@ -2,40 +2,58 @@
 #
 # Table name: captain_documents
 #
-#  id            :bigint           not null, primary key
-#  content       :text
-#  external_link :string           not null
-#  name          :string
-#  status        :integer          default("in_progress"), not null
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  account_id    :bigint           not null
-#  assistant_id  :bigint           not null
+#  id                     :bigint           not null, primary key
+#  content                :text
+#  content_fingerprint    :string
+#  external_link          :string           not null
+#  last_sync_attempted_at :datetime
+#  last_sync_error_code   :string
+#  last_synced_at         :datetime
+#  metadata               :jsonb
+#  name                   :string
+#  status                 :integer          default("in_progress"), not null
+#  sync_status            :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  account_id             :bigint           not null
+#  assistant_id           :bigint           not null
 #
 # Indexes
 #
+#  idx_captain_documents_on_account_assistant_sync_stats      (account_id,assistant_id,sync_status,last_synced_at)
 #  index_captain_documents_on_account_id                      (account_id)
+#  index_captain_documents_on_account_id_and_sync_status      (account_id,sync_status)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
+  SYNC_STALE_TIMEOUT = 2.hours
   self.table_name = 'captain_documents'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
+  has_one_attached :pdf_file
+  store_accessor :metadata, :content_fingerprint, :last_sync_error_code, :sync_step, :openai_file_id
 
-  validates :external_link, presence: true
-  validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :external_link, presence: true, unless: -> { pdf_file.attached? }
+  validates :external_link, uniqueness: { scope: :assistant_id }, allow_blank: true
   validates :content, length: { maximum: 200_000 }
+  validates :pdf_file, presence: true, if: :pdf_document?
+  validate :validate_pdf_format, if: :pdf_document?
+  validate :validate_file_attachment, if: -> { pdf_file.attached? }
   before_validation :ensure_account_id
+  before_validation :set_external_link_for_pdf
+  before_validation :normalize_external_link
 
   enum status: {
     in_progress: 0,
     available: 1
   }
+
+  enum :sync_status, { syncing: 0, synced: 1, failed: 2 }, prefix: :sync
 
   before_create :ensure_within_plan_limit
   after_create_commit :enqueue_crawl_job
@@ -46,6 +64,60 @@ class Captain::Document < ApplicationRecord
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+  scope :syncable, -> { where("external_link NOT LIKE 'PDF:%' AND external_link NOT LIKE '%.pdf'") }
+  scope :pdf_documents, -> { where("external_link LIKE 'PDF:%' OR external_link LIKE '%.pdf'") }
+  scope :sync_in_progress, -> { sync_syncing.where(arel_table[:last_sync_attempted_at].gteq(SYNC_STALE_TIMEOUT.ago)) }
+  scope :stale, lambda { |stale_before|
+    sync_failed.or(sync_synced.where(arel_table[:last_synced_at].lt(stale_before)))
+  }
+  scope :synced_since, lambda { |time|
+    sync_synced.where(arel_table[:last_synced_at].gteq(time))
+  }
+
+  def pdf_document?
+    return true if pdf_file.attached? && pdf_file.blob.content_type == 'application/pdf'
+    return true if external_link&.start_with?('PDF:')
+
+    external_link&.ends_with?('.pdf')
+  end
+
+  def content_type
+    pdf_file.blob.content_type if pdf_file.attached?
+  end
+
+  def file_size
+    pdf_file.blob.byte_size if pdf_file.attached?
+  end
+
+  def store_openai_file_id(file_id)
+    update!(openai_file_id: file_id)
+  end
+
+  def display_url
+    return external_link if external_link.present? && !external_link.start_with?('PDF:')
+
+    if pdf_file.attached?
+      Rails.application.routes.url_helpers.rails_blob_url(pdf_file, only_path: false)
+    else
+      external_link
+    end
+  end
+
+  def to_llm_metadata
+    { document_id: id, assistant_id: assistant_id, external_link: external_link }
+  end
+
+  def syncable?
+    !pdf_document?
+  end
+
+  def sync_stale?
+    sync_syncing? && (last_sync_attempted_at.blank? || last_sync_attempted_at < SYNC_STALE_TIMEOUT.ago)
+  end
+
+  def sync_in_progress?
+    sync_syncing? && !sync_stale?
+  end
 
   private
 
@@ -56,9 +128,18 @@ class Captain::Document < ApplicationRecord
   end
 
   def enqueue_response_builder_job
-    return if status != 'available'
+    return unless should_enqueue_response_builder?
 
     Captain::Documents::ResponseBuilderJob.perform_later(self)
+  end
+
+  def should_enqueue_response_builder?
+    return false if destroyed?
+    return false unless available?
+
+    return saved_change_to_status? if pdf_document?
+
+    (saved_change_to_status? || saved_change_to_content?) && content.present?
   end
 
   def update_document_usage
@@ -71,6 +152,36 @@ class Captain::Document < ApplicationRecord
 
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
-    raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
+    raise LimitExceededError, I18n.t('captain.documents.limit_exceeded') unless limits[:current_available].positive?
+  end
+
+  def validate_pdf_format
+    return unless pdf_file.attached?
+
+    errors.add(:pdf_file, I18n.t('captain.documents.pdf_format_error')) unless pdf_file.blob.content_type == 'application/pdf'
+  end
+
+  def validate_file_attachment
+    return unless pdf_file.attached?
+
+    return unless pdf_file.blob.byte_size > 10.megabytes
+
+    errors.add(:pdf_file, I18n.t('captain.documents.pdf_size_error'))
+  end
+
+  def set_external_link_for_pdf
+    return unless pdf_file.attached? && external_link.blank?
+
+    # Set a unique external_link for PDF files
+    # Format: PDF: filename_timestamp (without extension)
+    timestamp = Time.current.strftime('%Y%m%d%H%M%S')
+    self.external_link = "PDF: #{pdf_file.filename.base}_#{timestamp}"
+  end
+
+  def normalize_external_link
+    return if external_link.blank?
+    return if pdf_document?
+
+    self.external_link = external_link.delete_suffix('/')
   end
 end

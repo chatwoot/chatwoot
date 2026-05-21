@@ -21,8 +21,24 @@ module Redis::Alfred
       $alfred.with { |conn| conn.get(key) }
     end
 
+    def with(&)
+      $alfred.with(&)
+    end
+
     def delete(key)
       $alfred.with { |conn| conn.del(key) }
+    end
+
+    # atomic compare-and-delete (release a lock only if you still own it); WATCH/MULTI
+    # aborts the delete if the key changes between the check and the delete.
+    def delete_if_equals(key, expected_value)
+      $alfred.with do |conn|
+        conn.watch(key) do
+          next conn.unwatch unless conn.get(key) == expected_value
+
+          conn.multi { |transaction| transaction.del(key) }
+        end
+      end
     end
 
     # increment a key by 1. throws error if key value is incompatible
@@ -33,6 +49,30 @@ module Redis::Alfred
 
     def exists?(key)
       $alfred.with { |conn| conn.exists?(key) }
+    end
+
+    # set expiry on a key in seconds
+    def expire(key, seconds)
+      $alfred.with { |conn| conn.expire(key, seconds) }
+    end
+
+    # get expiry of a key in seconds
+    def ttl(key)
+      $alfred.with { |conn| conn.ttl(key) }
+    end
+
+    # scan keys matching a pattern
+    def scan_each(match: nil, count: 100, &)
+      $alfred.with do |conn|
+        conn.scan_each(match: match, count: count, &)
+      end
+    end
+
+    # count keys matching a pattern
+    def keys_count(pattern)
+      count = 0
+      scan_each(match: pattern) { count += 1 }
+      count
     end
 
     # list operations
@@ -61,6 +101,10 @@ module Redis::Alfred
       $alfred.with { |conn| conn.lrem(key, count, value) }
     end
 
+    def pipelined(&)
+      $alfred.with { |conn| conn.pipelined(&) }
+    end
+
     # hash operations
 
     # add a key value to redis hash
@@ -81,8 +125,11 @@ module Redis::Alfred
     # sorted set operations
 
     # add score and value for a key
-    def zadd(key, score, value)
-      $alfred.with { |conn| conn.zadd(key, score, value) }
+    # Modern Redis syntax: zadd(key, [[score, member], ...])
+    def zadd(key, score, value = nil)
+      # New syntax: score is an array of [score, member] pairs; old syntax: discrete score/value
+      pairs = value.nil? && score.is_a?(Array) ? score : [[score, value]]
+      $alfred.with { |conn| conn.zadd(key, pairs) }
     end
 
     # get score of a value for key
@@ -90,9 +137,22 @@ module Redis::Alfred
       $alfred.with { |conn| conn.zscore(key, value) }
     end
 
+    # count members in a sorted set with scores within the given range
+    def zcount(key, min_score, max_score)
+      $alfred.with { |conn| conn.zcount(key, min_score, max_score) }
+    end
+
+    # get the number of members in a sorted set
+    def zcard(key)
+      $alfred.with { |conn| conn.zcard(key) }
+    end
+
     # get values by score
-    def zrangebyscore(key, range_start, range_end)
-      $alfred.with { |conn| conn.zrangebyscore(key, range_start, range_end) }
+    def zrangebyscore(key, range_start, range_end, with_scores: false, limit: nil)
+      options = {}
+      options[:with_scores] = with_scores if with_scores
+      options[:limit] = limit if limit
+      $alfred.with { |conn| conn.zrangebyscore(key, range_start, range_end, **options) }
     end
 
     # remove values by score

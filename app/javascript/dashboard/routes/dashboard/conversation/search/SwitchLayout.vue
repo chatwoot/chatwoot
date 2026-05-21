@@ -31,7 +31,7 @@ export default {
     slate
     xs
     faded
-    class="flex-shrink-0 rtl:rotate-180 ltr:rotate-0"
+    class="flex-shrink-0 rtl:rotate-180 ltr:rotate-0 md:inline-flex hidden"
     @click="toggle"
   />
 </template>

@@ -48,7 +48,8 @@
       "CREATED_AT": "Vytvořeno",
       "LAST_ACTIVITY": "Poslední aktivita",
       "REFERER_LINK": "Odkazující odkaz",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Štítky"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standardní filtry",

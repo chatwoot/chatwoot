@@ -7,6 +7,7 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 import HelpCenterLayout from 'dashboard/components-next/HelpCenter/HelpCenterLayout.vue';
 import PortalBaseSettings from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/PortalBaseSettings.vue';
 import PortalConfigurationSettings from './PortalConfigurationSettings.vue';
+import PortalLayoutContentSettings from './PortalLayoutContentSettings.vue';
 import ConfirmDeletePortalDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/ConfirmDeletePortalDialog.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -26,6 +27,8 @@ const emit = defineEmits([
   'updatePortal',
   'updatePortalConfiguration',
   'deletePortal',
+  'refreshStatus',
+  'sendCnameInstructions',
 ]);
 
 const { t } = useI18n();
@@ -36,6 +39,7 @@ const confirmDeletePortalDialogRef = ref(null);
 const currentPortalSlug = computed(() => route.params.portalSlug);
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
+const isFetchingSSLStatus = useMapGetter('portals/isFetchingSSLStatus');
 
 const activePortal = computed(() => {
   return props.portals?.find(portal => portal.slug === currentPortalSlug.value);
@@ -51,6 +55,14 @@ const handleUpdatePortal = portal => {
 
 const handleUpdatePortalConfiguration = portal => {
   emit('updatePortalConfiguration', portal);
+};
+
+const fetchSSLStatus = () => {
+  emit('refreshStatus');
+};
+
+const handleSendCnameInstructions = payload => {
+  emit('sendCnameInstructions', payload);
 };
 
 const openConfirmDeletePortalDialog = () => {
@@ -83,6 +95,15 @@ const handleDeletePortal = () => {
         />
         <div class="w-full h-px bg-n-weak" />
         <PortalConfigurationSettings
+          :active-portal="activePortal"
+          :is-fetching="isFetching"
+          :is-fetching-status="isFetchingSSLStatus"
+          @update-portal-configuration="handleUpdatePortalConfiguration"
+          @refresh-status="fetchSSLStatus"
+          @send-cname-instructions="handleSendCnameInstructions"
+        />
+        <div class="w-full h-px bg-n-weak" />
+        <PortalLayoutContentSettings
           :active-portal="activePortal"
           :is-fetching="isFetching"
           @update-portal-configuration="handleUpdatePortalConfiguration"

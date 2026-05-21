@@ -192,6 +192,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should not match conversation with equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with not_equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with is_not_present operator for assignee_id', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
@@ -247,7 +273,7 @@ describe('filterHelpers', () => {
 
     // Text search tests - display_id
     it('should match conversation with equal_to operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -260,7 +286,7 @@ describe('filterHelpers', () => {
     });
 
     it('should match conversation with contains operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -273,7 +299,7 @@ describe('filterHelpers', () => {
     });
 
     it('should not match conversation with does_not_contain operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -285,8 +311,60 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    it('should not match contains operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should not match contains operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match does_not_contain operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match does_not_contain operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with does_not_contain operator when value is not present', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -336,6 +414,40 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Multi-label equal_to uses OR semantics to mirror the backend SQL `tag_id IN (...)`:
+    // a conversation matches if ANY of the filter labels is on it.
+    it('should match conversation with equal_to operator when any of multiple filter labels is present', () => {
+      const conversation = { labels: ['support'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with equal_to operator when none of multiple filter labels is present', () => {
+      const conversation = { labels: ['new'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
     it('should match conversation with is_present operator for labels', () => {
@@ -602,6 +714,59 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    // Test for array filter values (saved views)
+    it('should handle array filter values for date comparison in saved views', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: ['2022-03-19'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with is_less_than operator', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
+          values: ['2022-03-21'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with timestamp', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [1647691200], // March 19, 2022 as array (in seconds)
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle empty array filter values', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [], // Empty array
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
     it('should handle non-date string values in date comparison', () => {
       const conversation = { created_at: 1647777600000 }; // March 20, 2022
       const filters = [
@@ -716,6 +881,19 @@ describe('filterHelpers', () => {
             attribute_key: 'created_at',
             filter_operator: 'days_before',
             values: '3', // 3 days before March 25 = March 22
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(true);
+      });
+
+      it('should handle array values for days_before operator', () => {
+        const conversation = { created_at: 1647777600000 }; // March 20, 2022
+        const filters = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'days_before',
+            values: ['3'], // Array format from saved views
             query_operator: 'and',
           },
         ];
@@ -923,7 +1101,7 @@ describe('filterHelpers', () => {
 
     it('should handle empty string values in conversation', () => {
       const conversation = {
-        display_id: '',
+        id: '',
       };
       const filters = [
         {

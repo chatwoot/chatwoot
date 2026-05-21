@@ -1,4 +1,5 @@
 module PortalHelper
+  include UrlHelper
   def set_og_image_url(portal_name, title)
     cdn_url = GlobalConfig.get('OG_IMAGE_CDN_URL')['OG_IMAGE_CDN_URL']
     return if cdn_url.blank?
@@ -74,6 +75,17 @@ module PortalHelper
     end
   end
 
+  def generate_portal_brand_url(brand_url, referer)
+    url = URI.parse(brand_url.to_s)
+    query_params = Rack::Utils.parse_query(url.query)
+    query_params['utm_medium'] = 'helpcenter'
+    query_params['utm_campaign'] = 'branding'
+    query_params['utm_source'] = URI.parse(referer).host if url_valid?(referer)
+
+    url.query = query_params.to_query
+    url.to_s
+  end
+
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
@@ -83,5 +95,16 @@ module PortalHelper
     return colors.sample if username.blank?
 
     colors[username.length % colors.size]
+  end
+
+  def format_authors_label(authors)
+    return if authors.blank?
+
+    names = authors.map(&:available_name)
+    return names.to_sentence if names.size <= 3
+
+    I18n.t('public_portal.sidebar.authors_others',
+           names: names.first(2).join(', '),
+           count: authors.size - 2)
   end
 end

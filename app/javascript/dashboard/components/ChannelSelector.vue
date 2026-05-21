@@ -1,50 +1,74 @@
-<script>
-export default {
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    src: {
-      type: String,
-      required: true,
-    },
-    isComingSoon: {
-      type: Boolean,
-      default: false,
-    },
+<script setup>
+import { useI18n } from 'vue-i18n';
+import Icon from 'next/icon/Icon.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-};
+  description: {
+    type: String,
+    default: '',
+  },
+  icon: {
+    type: String,
+    required: true,
+  },
+  isComingSoon: {
+    type: Boolean,
+    default: false,
+  },
+  isBeta: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const { t } = useI18n();
 </script>
 
 <template>
   <button
-    class="relative bg-n-background cursor-pointer flex flex-col justify-end transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-n-weak hover:border-n-brand hover:shadow-md hover:z-50 disabled:opacity-60"
+    class="relative bg-n-solid-1 gap-6 cursor-pointer rounded-2xl flex flex-col justify-start transition-all duration-200 ease-in -m-px py-6 px-5 items-start border border-solid border-n-weak"
+    :class="{
+      'hover:enabled:border-n-blue-9 hover:enabled:shadow-md disabled:opacity-60 disabled:cursor-not-allowed':
+        !isComingSoon,
+      'cursor-not-allowed disabled:opacity-80': isComingSoon,
+    }"
   >
-    <img :src="src" :alt="title" draggable="false" class="w-1/2 my-4 mx-auto" />
-    <h3 class="text-n-slate-12 text-base text-center capitalize">
-      {{ title }}
-    </h3>
+    <div
+      class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
+    >
+      <Icon :icon="icon" class="text-n-slate-10 size-6" />
+    </div>
+
+    <div class="flex flex-col items-start gap-1.5">
+      <div class="flex items-center gap-2">
+        <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
+          {{ title }}
+        </h3>
+        <Label
+          v-if="isBeta && !isComingSoon"
+          v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
+          :label="t('GENERAL.BETA')"
+          color="blue"
+          compact
+        />
+      </div>
+      <p class="text-n-slate-11 text-start text-sm">
+        {{ description }}
+      </p>
+    </div>
 
     <div
       v-if="isComingSoon"
-      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-md bg-gradient-to-br from-n-background/90 via-n-background/70 to-n-background/95"
+      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-surface-1/90 via-n-surface-1/70 to-n-surface-1/95 cursor-not-allowed"
     >
-      <span class="text-n-slate-12 font-medium text-base">
-        {{ $t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
+      <span class="text-n-slate-12 font-medium text-sm">
+        {{ t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
       </span>
     </div>
   </button>
 </template>
-
-<style scoped lang="scss">
-.inactive {
-  img {
-    filter: grayscale(100%);
-  }
-
-  &:hover {
-    @apply border-n-strong shadow-none cursor-not-allowed;
-  }
-}
-</style>

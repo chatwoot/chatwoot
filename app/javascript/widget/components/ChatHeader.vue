@@ -1,55 +1,26 @@
-<script>
-import availabilityMixin from 'widget/mixins/availability';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+<script setup>
+import { toRef } from 'vue';
+import { useRouter } from 'vue-router';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
-import routerMixin from 'widget/mixins/routerMixin';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+import { useAvailability } from 'widget/composables/useAvailability';
 
-export default {
-  name: 'ChatHeader',
-  components: {
-    FluentIcon,
-    HeaderActions,
-  },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
-  props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-    showBackButton: {
-      type: Boolean,
-      default: false,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
-  },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
+const props = defineProps({
+  avatarUrl: { type: String, default: '' },
+  title: { type: String, default: '' },
+  showPopoutButton: { type: Boolean, default: false },
+  showBackButton: { type: Boolean, default: false },
+  availableAgents: { type: Array, default: () => [] },
+});
 
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    onBackButtonClick() {
-      this.replaceRoute('home');
-    },
-  },
+const availableAgents = toRef(props, 'availableAgents');
+
+const router = useRouter();
+const { isOnline } = useAvailability(availableAgents);
+
+const onBackButtonClick = () => {
+  router.replace({ name: 'home' });
 };
 </script>
 
@@ -79,9 +50,12 @@ export default {
               ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"
           />
         </div>
-        <div class="text-xs leading-3 text-n-slate-11">
-          {{ replyWaitMessage }}
-        </div>
+        <AvailabilityContainer
+          :agents="availableAgents"
+          :show-header="false"
+          :show-avatars="false"
+          text-classes="text-xs leading-3"
+        />
       </div>
     </div>
     <HeaderActions :show-popout-button="showPopoutButton" />

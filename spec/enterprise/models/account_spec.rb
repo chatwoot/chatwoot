@@ -222,6 +222,73 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'captain document sync cadence' do
+    let(:account) { create(:account) }
+
+    it 'has no cadence when installation config is missing' do
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'uses configured plan intervals from installation config' do
+      intervals = {
+        business: 48,
+        enterprise: 24
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to eq(2.days)
+    end
+
+    it 'normalizes configured plan name casing' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24 }.to_json)
+      account.update!(custom_attributes: { plan_name: 'Business' })
+
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
+      account.update!(custom_attributes: {})
+
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'allows installation config to disable a plan cadence' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: nil }.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence when installation config is invalid' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: 'invalid-json')
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'treats invalid plan interval values as disabled' do
+      intervals = {
+        business: false,
+        enterprise: { hours: 6 },
+        startups: '168'
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+  end
+
   describe 'account deletion' do
     let(:account) { create(:account) }
     let(:admin) { create(:user, account: account, role: :administrator) }
@@ -229,18 +296,27 @@ RSpec.describe Account, type: :model do
     describe '#mark_for_deletion' do
       it 'sets the marked_for_deletion_at and marked_for_deletion_reason attributes' do
         expect do
-          account.mark_for_deletion('test_reason')
+          account.mark_for_deletion('inactivity')
         end.to change { account.reload.custom_attributes['marked_for_deletion_at'] }.from(nil).to(be_present)
-           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from(nil).to('test_reason')
+           .and change { account.reload.custom_attributes['marked_for_deletion_reason'] }.from(nil).to('inactivity')
       end
 
-      it 'sends a notification email to admin users' do
+      it 'sends a user-initiated deletion email when reason is manual_deletion' do
         mailer = double
         expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
-        expect(mailer).to receive(:account_deletion).with(account, 'test_reason').and_return(mailer)
+        expect(mailer).to receive(:account_deletion_user_initiated).with(account, 'manual_deletion').and_return(mailer)
         expect(mailer).to receive(:deliver_later)
 
-        account.mark_for_deletion('test_reason')
+        account.mark_for_deletion('manual_deletion')
+      end
+
+      it 'sends a system-initiated deletion email when reason is not manual_deletion' do
+        mailer = double
+        expect(AdministratorNotifications::AccountNotificationMailer).to receive(:with).with(account: account).and_return(mailer)
+        expect(mailer).to receive(:account_deletion_for_inactivity).with(account, 'inactivity').and_return(mailer)
+        expect(mailer).to receive(:deliver_later)
+
+        account.mark_for_deletion('inactivity')
       end
 
       it 'returns true when successful' do

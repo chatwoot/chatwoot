@@ -1,20 +1,17 @@
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
+<script setup>
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
+defineProps({
+  option: {
+    type: Object,
+    default: () => {},
   },
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    variant: {
-      type: String,
-      default: 'default',
-    },
+  variant: {
+    type: String,
+    default: 'default',
   },
-};
+});
 </script>
 
 <template>
@@ -26,21 +23,28 @@ export default {
       class="flex-shrink-0"
     />
     <span
-      v-if="variant === 'label' && option.color"
+      v-if="
+        (variant === 'label' || variant === 'label-assigned') && option.color
+      "
       class="label-pill flex-shrink-0"
       :style="{ backgroundColor: option.color }"
     />
-    <Thumbnail
+    <Avatar
       v-if="variant === 'agent'"
-      :username="option.label"
+      :name="option.label"
       :src="option.thumbnail"
-      :status="option.status"
-      size="20px"
+      :status="option.status === 'online' ? option.status : null"
+      :size="20"
       class="flex-shrink-0"
     />
     <p class="menu-label truncate min-w-0 flex-1">
       {{ option.label }}
     </p>
+    <Icon
+      v-if="variant === 'label-assigned'"
+      icon="i-lucide-check"
+      class="flex-shrink-0 size-3.5 mr-1"
+    />
   </div>
 </template>
 
