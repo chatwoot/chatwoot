@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Enginn",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Tungumál Vafra",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Land",
+      "COMPANY_NAME": "Fyrirtæki",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
