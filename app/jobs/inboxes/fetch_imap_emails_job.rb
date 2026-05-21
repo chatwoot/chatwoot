@@ -77,6 +77,6 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
   end
 
   def email_processing_timeout
-    GlobalConfigService.load('EMAIL_PROCESSING_TIMEOUT', 15).to_i
+    GlobalConfigService.load('EMAIL_PROCESSING_TIMEOUT_SECONDS', 60).to_i
   end
 end
