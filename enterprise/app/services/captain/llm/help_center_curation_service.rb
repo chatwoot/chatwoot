@@ -2,11 +2,14 @@ class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::Llm::HelpCenterCurationSchema
   MAX_LINKS_IN_PROMPT = 50
   IGNORED_URL_PATTERN = /\.(?:pdf|jpe?g|png|gif|webp|svg|ico|bmp|tiff?|avif|heic)(?:\?|#|$)/i
+  # This model consistently outperforms 5.2 in generating tighter and more
+  # accurate curations.
+  CURATION_MODEL = 'gpt-4.1'.freeze
 
   pattr_initialize [:account!, :links!]
 
   def perform
-    response = make_api_call(model: curation_model, messages: messages, schema: RESPONSE_SCHEMA)
+    response = make_api_call(model: CURATION_MODEL, messages: messages, schema: RESPONSE_SCHEMA)
     return response if response[:error]
 
     response.merge(message: extract_payload(response[:message]))
@@ -146,12 +149,6 @@ class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
   # debit the customer's captain_responses quota.
   def counts_toward_usage?
     false
-  end
-
-  # This modal consistently outperforms 5.2 in generating tighter and more
-  # accurate curations.
-  def curation_model
-    'gpt-4.1'
   end
 
   def build_follow_up_context?
