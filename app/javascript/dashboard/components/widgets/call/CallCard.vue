@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   call: {
@@ -35,9 +37,13 @@ defineEmits(['accept', 'reject', 'end', 'toggleMute', 'goToConversation']);
 
 const { t } = useI18n();
 
-const isOngoing = computed(() => props.state === 'ongoing');
-const isIncoming = computed(() => props.state === 'incoming');
-const isOutgoing = computed(() => props.state === 'outgoing');
+const isOngoing = computed(() => props.state === VOICE_CALL_DIRECTION.ONGOING);
+const isIncoming = computed(
+  () => props.state === VOICE_CALL_DIRECTION.INCOMING
+);
+const isOutgoing = computed(
+  () => props.state === VOICE_CALL_DIRECTION.OUTGOING
+);
 
 const statusIcon = computed(() => {
   if (isOngoing.value) return 'i-ph-phone-call-bold';
@@ -52,7 +58,8 @@ const statusLabel = computed(() => {
 });
 
 const channelIcon = computed(() => {
-  if (props.call?.provider === 'whatsapp') return 'i-ri-whatsapp-fill';
+  if (props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP)
+    return 'i-ri-whatsapp-fill';
   return 'i-ph-phone-bold';
 });
 </script>

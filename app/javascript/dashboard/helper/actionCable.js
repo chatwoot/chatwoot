@@ -11,6 +11,8 @@ import {
   handleWhatsappRemoteEnd,
   isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
@@ -274,7 +276,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onVoiceCallIncoming = data => {
-    if (data?.provider !== 'whatsapp') return;
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
     // Defense in depth: the server already filters to online agent streams,
     // but if anything ever broadcasts to a broader stream (e.g. account-wide),
     // an agent who's set availability=offline/busy shouldn't ring.
@@ -286,8 +288,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       callId: data.id,
       conversationId: data.conversation_id,
       inboxId: data.inbox_id,
-      callDirection: 'inbound',
-      provider: 'whatsapp',
+      callDirection: VOICE_CALL_DIRECTION.INBOUND,
+      provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       sdpOffer: data.sdp_offer,
       iceServers: data.ice_servers,
       caller: data.caller,
@@ -299,7 +301,8 @@ class ActionCableConnector extends BaseActionCableConnector {
   // ringing, but stay non-active until `outbound_accepted` arrives.
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallOutboundConnected = async data => {
-    if (data?.provider !== 'whatsapp' || !data.sdp_answer) return;
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP || !data.sdp_answer)
+      return;
     // Account-wide broadcast: skip SDPs for calls another agent is handling,
     // otherwise applyOutboundAnswer would feed a foreign SDP into this tab's
     // peer connection.
@@ -315,7 +318,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   // contact answers. Flip active (timer starts) and arm the recorder.
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallOutboundAccepted = data => {
-    if (data?.provider !== 'whatsapp') return;
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
     const store = useCallsStore();
     if (!store.calls.some(c => c.callSid === data.call_id)) return;
     store.setCallActive(data.call_id);
@@ -324,7 +327,7 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   // eslint-disable-next-line class-methods-use-this
   onVoiceCallEnded = async data => {
-    if (data?.provider !== 'whatsapp') return;
+    if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP) return;
     // The store entry should always be removed for this account-wide broadcast,
     // but the WebRTC/recorder teardown must only run for the call this tab owns
     // — otherwise an unrelated agent's call ending would stop this tab's

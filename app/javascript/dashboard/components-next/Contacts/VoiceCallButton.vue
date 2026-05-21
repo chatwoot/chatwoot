@@ -8,6 +8,10 @@ import {
   getVoiceCallProvider,
   VOICE_CALL_PROVIDERS,
 } from 'dashboard/helper/inbox';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_OUTBOUND_INIT_STATUS,
+} from 'dashboard/components-next/message/constants';
 import { useAlert } from 'dashboard/composables';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { useCallsStore } from 'dashboard/stores/calls';
@@ -100,7 +104,7 @@ const startWhatsappCall = async (inboxId, conversationIdHint) => {
   // The composable returns { status: 'locked' } when an init is already in
   // flight or a call is already active; treat that as a soft no-op rather than
   // claiming success.
-  if (response?.status === 'locked') return;
+  if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
   if (!response?.id) {
     // Permission flow returns no id — banner already handled server-side; surface to user.
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
@@ -116,8 +120,8 @@ const startWhatsappCall = async (inboxId, conversationIdHint) => {
     callId: response.id,
     conversationId,
     inboxId,
-    callDirection: 'outbound',
-    provider: 'whatsapp',
+    callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+    provider: VOICE_CALL_PROVIDERS.WHATSAPP,
   });
 
   useAlert(t('CONTACT_PANEL.CALL_INITIATED'));
@@ -150,7 +154,7 @@ const startCall = async (inboxId, conversationIdHint = null) => {
       callSid,
       conversationId,
       inboxId,
-      callDirection: 'outbound',
+      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
 
     useAlert(t('CONTACT_PANEL.CALL_INITIATED'));

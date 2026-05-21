@@ -11,9 +11,15 @@ import {
   cleanupWhatsappSession,
 } from 'dashboard/composables/useWhatsappCallSession';
 import { handleVoiceCallCreated } from 'dashboard/helper/voice';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import {
+  CONTENT_TYPES,
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import Timer from 'dashboard/helper/Timer';
 
-const isWhatsappCall = call => call?.provider === 'whatsapp';
+const isWhatsappCall = call => call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP;
 
 // Dismissed call sids must not be re-seeded by the conversation-load watcher.
 // Lives at module scope so all consumers share the same set.
@@ -107,7 +113,10 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     // cleanup() and destroy the live outbound session. Outbound *Twilio*
     // calls still need joinConference + joinClientCall (FloatingCallWidget
     // auto-joins them), so don't short-circuit those.
-    if (call?.callDirection === 'outbound' && isWhatsappCall(call)) {
+    if (
+      call?.callDirection === VOICE_CALL_DIRECTION.OUTBOUND &&
+      isWhatsappCall(call)
+    ) {
       return null;
     }
 
@@ -167,7 +176,7 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     const call = findCall(callSid);
     try {
       if (isWhatsappCall(call) && call?.callId) {
-        if (call.callDirection === 'outbound') {
+        if (call.callDirection === VOICE_CALL_DIRECTION.OUTBOUND) {
           // Outbound calls that are still ringing must be terminated, not
           // rejected (reject is the inbound-side verb on Meta's API).
           await whatsappSession.endActiveCall(call.callId);
@@ -242,8 +251,8 @@ export function useCallSession() {
     const currentUserAvailability = store.getters.getCurrentUserAvailability;
     conversations.forEach(conv => {
       (conv.messages || []).forEach(msg => {
-        if (msg.content_type !== 'voice_call') return;
-        if (msg.call?.status !== 'ringing') return;
+        if (msg.content_type !== CONTENT_TYPES.VOICE_CALL) return;
+        if (msg.call?.status !== VOICE_CALL_STATUS.RINGING) return;
         const callSid = msg.call?.provider_call_id;
         if (callSid && dismissedCallSids.has(callSid)) return;
         handleVoiceCallCreated(msg, currentUserId, currentUserAvailability);

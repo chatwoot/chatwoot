@@ -17,6 +17,10 @@ import {
   getVoiceCallProvider,
   VOICE_CALL_PROVIDERS,
 } from 'dashboard/helper/inbox';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_OUTBOUND_INIT_STATUS,
+} from 'dashboard/components-next/message/constants';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -148,12 +152,12 @@ const startWhatsappCall = async () => {
 
     // Composable returns { status: 'locked' } when init is already in flight or
     // a call is active; soft no-op so a parallel click doesn't trigger a banner.
-    if (response?.status === 'locked') return;
+    if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
     // Permission template path returns no call id — show banner, no widget yet.
     if (!response?.id) {
       const status = response?.status;
       const messageKey =
-        status === 'permission_pending'
+        status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_PENDING
           ? 'CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_PENDING'
           : 'CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_REQUESTED';
       useAlert(t(messageKey));
@@ -167,8 +171,8 @@ const startWhatsappCall = async () => {
       callId: response.id,
       conversationId: currentChat.value.id,
       inboxId: inbox.value?.id,
-      callDirection: 'outbound',
-      provider: 'whatsapp',
+      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.WHATSAPP,
     });
   } catch (error) {
     useAlert(error?.message || t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED'));
@@ -188,7 +192,7 @@ const startTwilioCall = async () => {
       callSid: response?.call_sid,
       conversationId: response?.conversation_id ?? currentChat.value.id,
       inboxId: inbox.value?.id,
-      callDirection: 'outbound',
+      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
   } catch (error) {
     useAlert(error?.message || t('CONVERSATION.HEADER.VOICE_CALL_FAILED'));

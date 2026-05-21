@@ -1,6 +1,7 @@
 import { ref } from 'vue';
 import Cookies from 'js-cookie';
 import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
+import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/message/constants';
 
 // Module-level state lets the cable handlers and unload listeners reach the
 // live PeerConnection without prop-drilling refs through every composable.
@@ -294,8 +295,10 @@ export function useWhatsappCallSession() {
     // same composable instance OR a different one (header vs contact panel)
     // OR while a call is already live — can't tear down the in-flight setup
     // via prepareOutboundOffer's cleanup().
-    if (isInitiatingOutbound.value) return { status: 'locked' };
-    if (hasActiveWhatsappCall()) return { status: 'locked' };
+    if (isInitiatingOutbound.value)
+      return { status: VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED };
+    if (hasActiveWhatsappCall())
+      return { status: VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED };
     isInitiatingOutbound.value = true;
     try {
       const sdpOffer = await prepareOutboundOffer();
@@ -319,8 +322,8 @@ export function useWhatsappCallSession() {
       // response shape so it can render the banner instead of an error toast.
       const data = e?.response?.data;
       if (
-        data?.status === 'permission_requested' ||
-        data?.status === 'permission_pending'
+        data?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_REQUESTED ||
+        data?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_PENDING
       ) {
         return { status: data.status };
       }

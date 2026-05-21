@@ -5,6 +5,8 @@ import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
+import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import CallCard from 'dashboard/components/widgets/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
@@ -31,7 +33,7 @@ const {
 // don't expose a mic track on the browser side.
 const isMuted = ref(false);
 const isWhatsappActive = computed(
-  () => activeCall.value?.provider === 'whatsapp'
+  () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
 
 const primaryIncomingCall = computed(() =>
@@ -43,9 +45,11 @@ const stackedIncomingCalls = computed(() =>
 );
 
 const mainCardState = computed(() => {
-  if (hasActiveCall.value) return 'ongoing';
+  if (hasActiveCall.value) return VOICE_CALL_DIRECTION.ONGOING;
   const direction = primaryIncomingCall.value?.callDirection;
-  return direction === 'outbound' ? 'outgoing' : 'incoming';
+  return direction === VOICE_CALL_DIRECTION.OUTBOUND
+    ? VOICE_CALL_DIRECTION.OUTGOING
+    : VOICE_CALL_DIRECTION.INCOMING;
 });
 
 const toggleMute = () => {
@@ -169,8 +173,8 @@ watch(
   () => incomingCalls.value[0],
   call => {
     if (
-      call?.callDirection === 'outbound' &&
-      call?.provider !== 'whatsapp' &&
+      call?.callDirection === VOICE_CALL_DIRECTION.OUTBOUND &&
+      call?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP &&
       !hasActiveCall.value &&
       WindowVisibilityHelper.isWindowVisible()
     ) {
@@ -197,7 +201,9 @@ const stopRingtone = () => {
 };
 
 const ringingInbound = computed(() =>
-  incomingCalls.value.some(call => call.callDirection !== 'outbound')
+  incomingCalls.value.some(
+    call => call.callDirection !== VOICE_CALL_DIRECTION.OUTBOUND
+  )
 );
 
 watch(
@@ -225,7 +231,7 @@ onBeforeUnmount(stopRingtone);
       v-for="call in stackedIncomingCalls"
       :key="call.callSid"
       :call="call"
-      state="incoming"
+      :state="VOICE_CALL_DIRECTION.INCOMING"
       :call-info="getCallInfo(call)"
       @accept="handleJoinCall(call)"
       @reject="dismissCall(call.callSid)"

@@ -6,11 +6,15 @@ import { useMessageContext } from '../provider.js';
 import {
   VOICE_CALL_STATUS,
   VOICE_CALL_DIRECTION,
+  VOICE_CALL_OUTBOUND_INIT_STATUS,
+  VOICE_CALL_END_REASON,
   MESSAGE_TYPES,
+  ATTACHMENT_TYPES,
 } from '../constants';
 import { useCallActions } from 'dashboard/composables/useCallSession';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { formatDuration } from 'shared/helpers/timeHelper';
 import { useAlert } from 'dashboard/composables';
 
@@ -67,14 +71,18 @@ const isOutbound = computed(() => {
   // right (outbound) and contact-authored ones on the left.
   return messageType.value === MESSAGE_TYPES.OUTGOING;
 });
-const isWhatsapp = computed(() => call.value?.provider === 'whatsapp');
+const isWhatsapp = computed(
+  () => call.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
+);
 const isFailed = computed(() =>
   [VOICE_CALL_STATUS.NO_ANSWER, VOICE_CALL_STATUS.FAILED].includes(status.value)
 );
 const isMissedInbound = computed(() => isFailed.value && !isOutbound.value);
 const endReason = computed(() => call.value?.endReason);
 const wasDeclinedByAgent = computed(
-  () => isMissedInbound.value && endReason.value === 'agent_rejected'
+  () =>
+    isMissedInbound.value &&
+    endReason.value === VOICE_CALL_END_REASON.AGENT_REJECTED
 );
 const acceptedByAgentId = computed(() => call.value?.acceptedByAgentId);
 const didCurrentUserAnswer = computed(
@@ -98,7 +106,7 @@ const displayAgentName = computed(() => {
 });
 
 const audioAttachment = computed(() =>
-  (attachments?.value || []).find(a => a.fileType === 'audio')
+  (attachments?.value || []).find(a => a.fileType === ATTACHMENT_TYPES.AUDIO)
 );
 
 const durationSeconds = computed(() => {
@@ -202,7 +210,7 @@ const recordingAttachment = computed(() => {
   if (!url) return null;
   return {
     dataUrl: url,
-    fileType: 'audio',
+    fileType: ATTACHMENT_TYPES.AUDIO,
     extension: 'wav',
     transcribedText: call.value?.transcript || '',
   };
@@ -237,11 +245,12 @@ const handleCallBack = async () => {
       const response = await whatsappCallSession.initiateOutboundCall(
         conversationId.value
       );
-      if (response?.status === 'locked') return;
+      if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
       // Permission template path returns no call id — show banner, no widget yet.
       if (!response?.id) {
         useAlert(
-          response?.status === 'permission_pending'
+          response?.status ===
+            VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_PENDING
             ? t('CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_PENDING')
             : t('CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_REQUESTED')
         );
@@ -253,8 +262,8 @@ const handleCallBack = async () => {
         callId: response.id,
         conversationId: conversationId.value,
         inboxId: inboxId.value,
-        callDirection: 'outbound',
-        provider: 'whatsapp',
+        callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+        provider: VOICE_CALL_PROVIDERS.WHATSAPP,
       });
       return;
     }
