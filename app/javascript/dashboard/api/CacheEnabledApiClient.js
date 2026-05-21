@@ -43,24 +43,24 @@ class CacheEnabledApiClient extends ApiClient {
       return this.getFromNetwork();
     }
 
-    const { data } = await axios.get(
-      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
-    );
-    const cacheKeyFromApi = data.cache_keys[this.cacheModelName];
-    const isCacheValid = await this.validateCacheKey(cacheKeyFromApi);
+    // Trust the IDB cache. Freshness is maintained by:
+    //   - boot-time hydrateStoresFromCache (compares server keys once on boot)
+    //   - ActionCable ACCOUNT_CACHE_INVALIDATED broadcasts (live updates)
+    //   - ReconnectService.revalidateCaches (on WebSocket reconnect)
+    // Skipping the per-call /cache_keys preflight eliminates N GET requests per
+    // cold settings-page load.
+    const localData = await this.dataManager.get({
+      modelName: this.cacheModelName,
+    });
 
-    let localData = [];
-    if (isCacheValid) {
-      localData = await this.dataManager.get({
-        modelName: this.cacheModelName,
-      });
+    if (localData.length > 0) {
+      return this.marshallData(localData);
     }
 
-    if (localData.length === 0) {
-      return this.refetchAndCommit(cacheKeyFromApi);
-    }
-
-    return this.marshallData(localData);
+    // Empty IDB (first load or wiped): seed from network using whatever local
+    // cache key we have (null when never seen). refetchAndCommit handles null.
+    const localKey = await this.dataManager.getCacheKey(this.cacheModelName);
+    return this.refetchAndCommit(localKey);
   }
 
   async refetchAndCommit(newKey = null) {
@@ -69,7 +69,9 @@ class CacheEnabledApiClient extends ApiClient {
     try {
       await this.dataManager.initDb();
 
-      this.dataManager.replace({
+      // Await replace so data is persisted before the cache key is — otherwise
+      // a concurrent reader could see a fresh key paired with stale data.
+      await this.dataManager.replace({
         modelName: this.cacheModelName,
         data: this.extractDataFromResponse(response),
       });

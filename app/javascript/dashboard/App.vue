@@ -19,6 +19,7 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+import hydrateStoresFromCache from 'dashboard/helper/CacheHelper/hydrateStoresFromCache';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 export default {
@@ -108,6 +109,11 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
+      // Seed Vuex from IndexedDB before ActionCable connects so warm boots
+      // paint cached config (inboxes, labels, teams, canned responses, agents)
+      // instantly. Stale entries are revalidated in the background against the
+      // server's authoritative cache keys.
+      await hydrateStoresFromCache(this.$store, this.currentAccountId);
       const account = this.getAccount(this.currentAccountId);
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         account;
