@@ -1,4 +1,5 @@
 class Onboarding::HelpCenterGenerationState
+  # TODO: Reduce TTL to 48 hours once the full rollout is done
   TTL = 7.days.to_i
 
   class Missing < StandardError; end
