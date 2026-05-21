@@ -34,5 +34,28 @@ RSpec.describe Contacts::BulkActionService do
         service.perform
       end
     end
+
+    context 'when labels are removed' do
+      let!(:contact_one) { create(:contact, account: account) }
+      let!(:contact_two) { create(:contact, account: account) }
+      let!(:other_contact) { create(:contact) }
+      let(:params) { { ids: [contact_one.id, contact_two.id, other_contact.id], labels: { remove: %w[vip] } } }
+
+      before do
+        contact_one.add_labels(%w[vip support])
+        contact_two.add_labels(%w[vip priority])
+        other_contact.add_labels(%w[vip support])
+      end
+
+      it 'removes labels from contacts that belong to the account' do
+        result = service.perform
+
+        expect(result[:success]).to be(true)
+        expect(result[:updated_contact_ids]).to contain_exactly(contact_one.id, contact_two.id)
+        expect(contact_one.reload.label_list).to contain_exactly('support')
+        expect(contact_two.reload.label_list).to contain_exactly('priority')
+        expect(other_contact.reload.label_list).to contain_exactly('vip', 'support')
+      end
+    end
   end
 end

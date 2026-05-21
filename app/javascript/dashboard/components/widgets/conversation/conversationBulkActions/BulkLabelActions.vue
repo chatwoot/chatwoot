@@ -14,6 +14,11 @@ const props = defineProps({
     type: String,
     default: 'conversation',
   },
+  action: {
+    type: String,
+    default: 'assign',
+    validator: value => ['assign', 'remove'].includes(value),
+  },
   isLoading: {
     type: Boolean,
     default: false,
@@ -24,7 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['assign']);
+const emit = defineEmits(['assign', 'remove']);
 
 const { t } = useI18n();
 
@@ -35,9 +40,26 @@ const [showDropdown, toggleDropdown] = useToggle(false);
 const selectedLabels = ref([]);
 
 const isTypeContact = computed(() => props.type === 'contact');
+const isRemoveAction = computed(() => props.action === 'remove');
 
-const buttonLabel = computed(() =>
-  props.type === 'contact' ? t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS') : ''
+const buttonLabel = computed(() => {
+  if (!isTypeContact.value) return '';
+
+  return isRemoveAction.value
+    ? t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS')
+    : t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS');
+});
+
+const tooltipLabel = computed(() =>
+  isRemoveAction.value
+    ? t('BULK_ACTION.LABELS.REMOVE_LABELS')
+    : t('BULK_ACTION.LABELS.ASSIGN_LABELS')
+);
+
+const confirmLabel = computed(() =>
+  isRemoveAction.value
+    ? t('BULK_ACTION.LABELS.REMOVE_SELECTED_LABELS')
+    : t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')
 );
 
 const isLabelSelected = labelTitle => {
@@ -64,9 +86,13 @@ const toggleLabelSelection = labelTitle => {
   }
 };
 
-const handleAssign = () => {
+const handleApply = () => {
   if (selectedLabels.value.length > 0) {
-    emit('assign', selectedLabels.value);
+    if (isRemoveAction.value) {
+      emit('remove', selectedLabels.value);
+    } else {
+      emit('assign', selectedLabels.value);
+    }
     toggleDropdown(false);
     selectedLabels.value = [];
   }
@@ -81,9 +107,9 @@ const handleDismiss = () => {
 <template>
   <div ref="containerRef" class="relative">
     <NextButton
-      v-tooltip="isTypeContact ? '' : $t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
+      v-tooltip="isTypeContact ? '' : tooltipLabel"
       :label="buttonLabel"
-      icon="i-lucide-tag"
+      :icon="isRemoveAction ? 'i-lucide-tag-x' : 'i-lucide-tag'"
       slate
       :size="isTypeContact ? 'sm' : 'xs'"
       ghost
@@ -148,9 +174,9 @@ const handleDismiss = () => {
             <NextButton
               sm
               class="w-full [&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline-flex"
-              :label="t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')"
+              :label="confirmLabel"
               :disabled="!selectedLabels.length"
-              @click="handleAssign"
+              @click="handleApply"
             />
           </div>
         </template>

@@ -119,14 +119,23 @@ export function useBulkActions() {
         },
       });
 
-      useAlert(
-        t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
-          labelName: labelsToRemove[0],
-          conversationId,
-        })
-      );
+      if (conversationId) {
+        useAlert(
+          t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
+            labelName: labelsToRemove[0],
+            conversationId,
+          })
+        );
+      } else {
+        store.dispatch('bulkActions/clearSelectedConversationIds');
+        useAlert(t('BULK_ACTION.LABELS.REMOVE_SUCCESFUL'));
+      }
     } catch (err) {
-      useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED'));
+      useAlert(
+        conversationId
+          ? t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED')
+          : t('BULK_ACTION.LABELS.REMOVE_FAILED')
+      );
     }
   }
 

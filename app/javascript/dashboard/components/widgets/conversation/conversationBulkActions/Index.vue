@@ -161,6 +161,7 @@ onUnmounted(() => {
         </div>
         <div class="flex items-center gap-2">
           <BulkLabelActions @assign="onAssignLabels" />
+          <BulkLabelActions action="remove" @remove="onRemoveLabels" />
           <BulkUpdateActions
             :show-resolve="!showResolvedAction"
             :show-reopen="!showOpenAction"
