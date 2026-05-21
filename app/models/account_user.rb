@@ -36,9 +36,15 @@ class AccountUser < ApplicationRecord
 
   accepts_nested_attributes_for :account
 
+  AGENT_CACHE_RELEVANT_COLUMNS = %w[role availability auto_offline custom_role_id].freeze
+
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
+
+  after_commit -> { account.update_cache_key('account_user') }, on: [:create, :destroy]
+  after_update_commit -> { account.update_cache_key('account_user') },
+                      if: -> { saved_changes.keys.intersect?(AGENT_CACHE_RELEVANT_COLUMNS) }
 
   validates :user_id, uniqueness: { scope: :account_id }
 
