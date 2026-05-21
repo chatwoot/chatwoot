@@ -254,11 +254,13 @@ describe('ReconnectService', () => {
   });
 
   describe('revalidateCaches', () => {
-    it('should dispatch revalidate actions for labels, inboxes, and teams', async () => {
+    it('should dispatch revalidate actions for every cacheable model returned by the server', async () => {
       storeMock.dispatch.mockResolvedValueOnce({
         label: 'labelKey',
         inbox: 'inboxKey',
         team: 'teamKey',
+        canned_response: 'cannedKey',
+        account_user: 'accountUserKey',
       });
       await reconnectService.revalidateCaches();
       expect(storeMock.dispatch).toHaveBeenCalledWith('accounts/getCacheKeys');
@@ -271,6 +273,31 @@ describe('ReconnectService', () => {
       expect(storeMock.dispatch).toHaveBeenCalledWith('teams/revalidate', {
         newKey: 'teamKey',
       });
+      expect(storeMock.dispatch).toHaveBeenCalledWith(
+        'revalidateCannedResponses',
+        { newKey: 'cannedKey' }
+      );
+      expect(storeMock.dispatch).toHaveBeenCalledWith('agents/revalidate', {
+        newKey: 'accountUserKey',
+      });
+    });
+
+    it('should skip dispatches for models the server does not yet emit', async () => {
+      storeMock.dispatch.mockResolvedValueOnce({
+        label: 'labelKey',
+        inbox: 'inboxKey',
+        team: 'teamKey',
+        // canned_response / account_user omitted (older server)
+      });
+      await reconnectService.revalidateCaches();
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(
+        'revalidateCannedResponses',
+        expect.anything()
+      );
+      expect(storeMock.dispatch).not.toHaveBeenCalledWith(
+        'agents/revalidate',
+        expect.anything()
+      );
     });
   });
 
