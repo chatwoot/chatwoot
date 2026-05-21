@@ -3,7 +3,9 @@ class Captain::Llm::HelpCenterCurationSchema < RubyLLM::Schema
                            'as the content naturally breaks into. Names must be short (1-3 words) and reusable.'.freeze
   ARTICLES_DESCRIPTION = 'A curated starting set of help-center articles selected from the input URL list. ' \
                          'Quality over quantity: only include pages with clear, high-value, substantive help ' \
-                         'content. Skip blog posts, marketing/landing pages, login, pricing, legal, careers.'.freeze
+                         'content. Skip blog posts, marketing/landing pages, login, pricing, legal, careers, ' \
+                         'customer testimonials, press, about/company, whitepapers, support contact pages, ' \
+                         'terms of service, privacy policy.'.freeze
   TITLE_DESCRIPTION = 'Concise article title (max 80 chars), rewritten if the source title is too long or marketing-y.'.freeze
   CATEGORY_DESCRIPTION = 'One sentence describing what kind of articles belong in this category.'.freeze
   URLS_DESCRIPTION = '1 to 3 source URLs from the input list. Prefer grouping when pages cover related ' \

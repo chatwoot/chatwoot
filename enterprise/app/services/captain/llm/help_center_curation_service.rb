@@ -1,6 +1,6 @@
 class Captain::Llm::HelpCenterCurationService < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::Llm::HelpCenterCurationSchema
-  MAX_LINKS_IN_PROMPT = 200
+  MAX_LINKS_IN_PROMPT = 50
   IGNORED_URL_PATTERN = /\.(?:pdf|jpe?g|png|gif|webp|svg|ico|bmp|tiff?|avif|heic)(?:\?|#|$)/i
 
   pattr_initialize [:account!, :links!]
