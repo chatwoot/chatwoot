@@ -43,6 +43,7 @@ const { t } = useI18n();
 
 const dialogRef = ref(null);
 
+const callsStore = useCallsStore();
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 
@@ -56,6 +57,16 @@ const shouldRender = computed(() => hasVoiceInboxes.value && !!props.phone);
 const isInitiatingCall = computed(() => {
   return contactsUiFlags.value?.isInitiatingCall || false;
 });
+
+// Mirror the conversation-header button: block a new call whenever any provider
+// call is already active or ringing, otherwise starting a WhatsApp call here
+// would leave a still-live Twilio (or other) session with no visible control.
+const isCallButtonDisabled = computed(
+  () =>
+    callsStore.hasActiveCall ||
+    callsStore.hasIncomingCall ||
+    isInitiatingCall.value
+);
 
 const navigateToConversation = conversationId => {
   const accountId = route.params.accountId;
@@ -112,7 +123,6 @@ const startWhatsappCall = async (inboxId, conversationIdHint) => {
     return;
   }
 
-  const callsStore = useCallsStore();
   // Stay non-active until the connect cable event arrives — flipping to active
   // here would start the duration timer before the contact picks up.
   callsStore.addCall({
@@ -129,7 +139,7 @@ const startWhatsappCall = async (inboxId, conversationIdHint) => {
 };
 
 const startCall = async (inboxId, conversationIdHint = null) => {
-  if (isInitiatingCall.value) return;
+  if (isCallButtonDisabled.value) return;
 
   const inbox = (inboxesList.value || []).find(i => i.id === inboxId);
   if (getVoiceCallProvider(inbox) === VOICE_CALL_PROVIDERS.WHATSAPP) {
@@ -149,7 +159,6 @@ const startCall = async (inboxId, conversationIdHint = null) => {
     });
     const { call_sid: callSid, conversation_id: conversationId } = response;
 
-    const callsStore = useCallsStore();
     callsStore.addCall({
       callSid,
       conversationId,
@@ -202,7 +211,7 @@ const onPickInbox = async inbox => {
       v-if="shouldRender"
       v-tooltip.top-end="tooltipLabel || null"
       v-bind="attrs"
-      :disabled="isInitiatingCall"
+      :disabled="isCallButtonDisabled"
       :is-loading="isInitiatingCall"
       :label="label"
       :icon="icon"
