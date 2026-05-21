@@ -50,7 +50,7 @@ const { t } = useI18n();
       </div>
       <div
         v-if="hasVoiceBadge"
-        class="absolute -top-1 -right-1 flex size-4 items-center justify-center rounded-full bg-n-alpha-2 ring-2 ring-n-solid-1"
+        class="absolute -top-1 ltr:-right-1 rtl:-left-1 flex size-4 items-center justify-center rounded-full bg-n-alpha-2 ring-2 ring-n-solid-1"
       >
         <Icon icon="i-lucide-audio-lines" class="text-n-slate-10 size-2.5" />
       </div>
