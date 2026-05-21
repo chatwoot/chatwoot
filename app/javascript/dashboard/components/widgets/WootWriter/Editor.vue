@@ -43,6 +43,7 @@ import {
   MessageMarkdownSerializer,
   EditorState,
   Selection,
+  imageResizeView,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
@@ -732,6 +733,9 @@ function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
     editable: () => !props.disabled,
+    nodeViews: {
+      image: imageResizeView,
+    },
     dispatchTransaction: tx => {
       state = state.apply(tx);
       editorView.updateState(state);
