@@ -109,6 +109,7 @@ class Account < ApplicationRecord
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
+  after_update_commit :clear_unread_conversation_counts_cache, if: :saved_change_to_feature_conversation_unread_counts?
   after_destroy :remove_account_sequences
 
   def agents
@@ -168,10 +169,19 @@ class Account < ApplicationRecord
     Redis::Alfred.exists?(enrichment_key) ? 'enrichment' : step
   end
 
+  def reset_cache_keys
+    super
+    clear_unread_conversation_counts_cache
+  end
+
   private
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def clear_unread_conversation_counts_cache
+    ::Conversations::UnreadCounts::Store.clear_account!(id)
   end
 
   trigger.after(:insert).for_each(:row) do

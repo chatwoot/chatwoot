@@ -90,6 +90,23 @@ RSpec.describe Conversations::UnreadCounts::Store do
       expect(described_class.counts_for_keys(base_keys).values).to all(eq(0))
     end
 
+    it 'checks memberships for a conversation across keys' do
+      described_class.add_base_membership(
+        account_id: account_id,
+        inbox_id: inbox_id,
+        label_ids: [label_id],
+        team_id: team_id,
+        conversation_id: conversation_id
+      )
+
+      expect(described_class.memberships_for_keys(base_keys, conversation_id)).to eq(
+        described_class.inbox_key(account_id, inbox_id) => true,
+        described_class.label_inbox_key(account_id, label_id, inbox_id) => true,
+        described_class.team_inbox_key(account_id, team_id, inbox_id) => true
+      )
+      expect(described_class.memberships_for_keys(base_keys, 999).values).to all(be(false))
+    end
+
     it 'adds, counts, and removes assignment-aware memberships' do
       described_class.add_assignment_membership(
         account_id: account_id,
