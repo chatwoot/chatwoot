@@ -11,6 +11,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
@@ -41,7 +42,7 @@ export default {
   setup() {
     const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
-    const { accountId } = useAccount();
+    const { accountId, isCloudFeatureEnabled } = useAccount();
     const { width: windowWidth } = useWindowSize();
     const callsStore = useCallsStore();
 
@@ -53,6 +54,9 @@ export default {
       windowWidth,
       hasActiveCall: computed(() => callsStore.hasActiveCall),
       hasIncomingCall: computed(() => callsStore.hasIncomingCall),
+      isVoiceCallEnabled: computed(() =>
+        isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_VOICE)
+      ),
     };
   },
   data() {
@@ -162,7 +166,9 @@ export default {
           @toggle="toggleMobileSidebar"
         />
         <CopilotContainer />
-        <FloatingCallWidget v-if="hasActiveCall || hasIncomingCall" />
+        <FloatingCallWidget
+          v-if="isVoiceCallEnabled && (hasActiveCall || hasIncomingCall)"
+        />
       </template>
       <AddAccountModal
         :show="showCreateAccountModal"

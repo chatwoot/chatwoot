@@ -20,6 +20,8 @@ import {
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -106,8 +108,13 @@ const callsStore = useCallsStore();
 const whatsappCallSession = useWhatsappCallSession();
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 
+const { isCloudFeatureEnabled } = useAccount();
 const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
-const isVoiceCallInbox = computed(() => voiceCallProvider.value !== null);
+const isVoiceCallInbox = computed(
+  () =>
+    voiceCallProvider.value !== null &&
+    isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_VOICE)
+);
 const isWhatsappVoiceInbox = computed(
   () => voiceCallProvider.value === VOICE_CALL_PROVIDERS.WHATSAPP
 );
