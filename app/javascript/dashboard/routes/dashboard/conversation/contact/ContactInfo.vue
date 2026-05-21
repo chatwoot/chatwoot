@@ -310,10 +310,9 @@ export default {
           :contact-id="contact.id"
           :conversation-id="currentChat?.id"
           icon="i-lucide-phone"
-          size="sm"
-          variant="ghost"
-          color="slate"
-          class="rounded-md hover:bg-n-alpha-2"
+          sm
+          faded
+          slate
           :tooltip-label="$t('CONTACT_PANEL.CALL')"
         />
         <NextButton
