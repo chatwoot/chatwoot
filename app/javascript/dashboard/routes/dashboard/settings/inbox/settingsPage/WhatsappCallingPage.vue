@@ -5,6 +5,7 @@ import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFie
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 export default {
   components: {
@@ -12,6 +13,7 @@ export default {
     SettingsToggleSection,
     NextButton,
     TextArea,
+    Spinner,
   },
   props: {
     inbox: {
@@ -105,12 +107,13 @@ export default {
         :model-value="callingEnabled"
         :header="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.LABEL')"
         :description="$t('INBOX_MGMT.WHATSAPP_CALLING.ENABLE.DESCRIPTION')"
+        :hide-toggle="isTogglingCalling"
         @update:model-value="handleCallingToggle"
-      />
-      <span
-        v-if="isTogglingCalling"
-        class="absolute top-3 right-12 i-lucide-loader-circle animate-spin size-4 text-n-slate-11"
-      />
+      >
+        <template v-if="isTogglingCalling" #hiddenToggle>
+          <Spinner class="size-4 text-n-slate-11" />
+        </template>
+      </SettingsToggleSection>
     </div>
 
     <template v-if="callingEnabled">

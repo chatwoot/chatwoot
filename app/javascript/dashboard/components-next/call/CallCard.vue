@@ -195,7 +195,7 @@ const channelIcon = computed(() => {
       class="!justify-between !px-2 !mx-2"
       @click="$emit('goToConversation')"
     >
-      <slot icon>
+      <template #icon>
         <span
           class="flex items-center gap-1 text-n-slate-11 group-hover:text-n-slate-12"
         >
@@ -211,7 +211,7 @@ const channelIcon = computed(() => {
             class="size-3 text-n-slate-11 shrink-0"
           />
         </span>
-      </slot>
+      </template>
       <span
         class="text-sm text-n-slate-11 tracking-tight group-hover:text-n-slate-12"
       >
