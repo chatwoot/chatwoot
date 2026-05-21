@@ -119,6 +119,43 @@ RSpec.describe Conversations::UnreadCounts::Refresher do
     expect(store).to have_received(:remove_assignment_membership).with(hash_including(assignee_ids: [assignee.id]))
   end
 
+  it 'moves assignment-aware unassigned label membership when labels change' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_assignment!
+
+    conversation.update_labels([new_label.title])
+    result = described_class.new(
+      conversation.reload,
+      changed_attributes: { label_list: [[label.title], [new_label.title]] }
+    ).perform
+
+    expect(result).to be(true)
+    expect(store.counts_for_keys([
+                                   store.label_inbox_unassigned_key(account.id, label.id, inbox.id),
+                                   store.label_inbox_unassigned_key(account.id, new_label.id, inbox.id)
+                                 ])).to eq(
+                                   store.label_inbox_unassigned_key(account.id, label.id, inbox.id) => 0,
+                                   store.label_inbox_unassigned_key(account.id, new_label.id, inbox.id) => 1
+                                 )
+  end
+
+  it 'removes assignment-aware unassigned membership when conversation is resolved' do
+    conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title])
+    Conversations::UnreadCounts::Builder.new(account).build_assignment!
+
+    conversation.update!(status: :resolved)
+    result = described_class.new(conversation.reload, changed_attributes: { status: %w[open resolved] }).perform
+
+    expect(result).to be(true)
+    expect(store.counts_for_keys([
+                                   store.inbox_unassigned_key(account.id, inbox.id),
+                                   store.label_inbox_unassigned_key(account.id, label.id, inbox.id)
+                                 ])).to eq(
+                                   store.inbox_unassigned_key(account.id, inbox.id) => 0,
+                                   store.label_inbox_unassigned_key(account.id, label.id, inbox.id) => 0
+                                 )
+  end
+
   it 'moves assignment-aware team membership when team changes' do
     create(:team_member, user: assignee, team: new_team)
     conversation = create_unread_conversation(account: account, inbox: inbox, assignee: assignee, team: team)
