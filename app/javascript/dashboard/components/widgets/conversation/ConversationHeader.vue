@@ -4,28 +4,15 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import ConversationCallButton from 'dashboard/components-next/call/ConversationCallButton.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
-import {
-  getVoiceCallProvider,
-  VOICE_CALL_PROVIDERS,
-} from 'dashboard/helper/inbox';
-import {
-  VOICE_CALL_DIRECTION,
-  VOICE_CALL_OUTBOUND_INIT_STATUS,
-} from 'dashboard/components-next/message/constants';
-import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
-import { useCallsStore } from 'dashboard/stores/calls';
-import { useMapGetter } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
@@ -108,102 +95,6 @@ const hasMultipleInboxes = computed(
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
-const callsStore = useCallsStore();
-const whatsappCallSession = useWhatsappCallSession();
-const contactsUiFlags = useMapGetter('contacts/getUIFlags');
-
-const { isCloudFeatureEnabled } = useAccount();
-const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
-const isVoiceCallInbox = computed(
-  () =>
-    voiceCallProvider.value !== null &&
-    isCloudFeatureEnabled(FEATURE_FLAGS.CHANNEL_VOICE)
-);
-const isWhatsappVoiceInbox = computed(
-  () => voiceCallProvider.value === VOICE_CALL_PROVIDERS.WHATSAPP
-);
-
-const isCallButtonDisabled = computed(() => {
-  if (callsStore.hasActiveCall || callsStore.hasIncomingCall) return true;
-  if (isWhatsappVoiceInbox.value) {
-    return whatsappCallSession.isInitiating.value;
-  }
-  return contactsUiFlags.value?.isInitiatingCall || false;
-});
-
-const isCallButtonLoading = computed(() =>
-  isWhatsappVoiceInbox.value
-    ? whatsappCallSession.isInitiating.value
-    : !!contactsUiFlags.value?.isInitiatingCall
-);
-
-const callButtonTooltip = computed(() =>
-  isWhatsappVoiceInbox.value
-    ? t('CONVERSATION.HEADER.WHATSAPP_CALL')
-    : t('CONVERSATION.HEADER.VOICE_CALL')
-);
-
-const startWhatsappCall = async () => {
-  if (whatsappCallSession.isInitiating.value) return;
-  try {
-    const response = await whatsappCallSession.initiateOutboundCall(
-      currentChat.value.id
-    );
-
-    // Composable returns { status: 'locked' } when init is already in flight or
-    // a call is active; soft no-op so a parallel click doesn't trigger a banner.
-    if (response?.status === VOICE_CALL_OUTBOUND_INIT_STATUS.LOCKED) return;
-    // Permission template path returns no call id — show banner, no widget yet.
-    if (!response?.id) {
-      const status = response?.status;
-      const messageKey =
-        status === VOICE_CALL_OUTBOUND_INIT_STATUS.PERMISSION_PENDING
-          ? 'CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_PENDING'
-          : 'CONVERSATION.HEADER.WHATSAPP_CALL_PERMISSION_REQUESTED';
-      useAlert(t(messageKey));
-      return;
-    }
-
-    // Stay non-active until Meta delivers the connect webhook (sdp_answer);
-    // flipping to active here would start the duration timer before pickup.
-    callsStore.addCall({
-      callSid: response.call_id,
-      callId: response.id,
-      conversationId: currentChat.value.id,
-      inboxId: inbox.value?.id,
-      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
-      provider: VOICE_CALL_PROVIDERS.WHATSAPP,
-    });
-  } catch (error) {
-    useAlert(error?.message || t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED'));
-  }
-};
-
-const startTwilioCall = async () => {
-  if (contactsUiFlags.value?.isInitiatingCall) return;
-  try {
-    const response = await store.dispatch('contacts/initiateCall', {
-      contactId: currentContact.value.id,
-      inboxId: inbox.value?.id,
-      conversationId: currentChat.value.id,
-    });
-
-    callsStore.addCall({
-      callSid: response?.call_sid,
-      conversationId: response?.conversation_id ?? currentChat.value.id,
-      inboxId: inbox.value?.id,
-      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
-    });
-  } catch (error) {
-    useAlert(error?.message || t('CONVERSATION.HEADER.VOICE_CALL_FAILED'));
-  }
-};
-
-const startCall = () => {
-  if (isWhatsappVoiceInbox.value) return startWhatsappCall();
-  return startTwilioCall();
-};
-
 const copyConversationId = async () => {
   try {
     await copyTextToClipboard(String(props.chat.id));
@@ -282,18 +173,7 @@ const copyConversationId = async () => {
         :parent-width="width"
         class="hidden md:flex"
       />
-      <ButtonV4
-        v-if="isVoiceCallInbox"
-        v-tooltip.bottom="callButtonTooltip"
-        size="sm"
-        variant="ghost"
-        color="slate"
-        icon="i-lucide-phone"
-        :is-loading="isCallButtonLoading"
-        :disabled="isCallButtonDisabled"
-        class="rounded-md hover:bg-n-alpha-2"
-        @click="startCall"
-      />
+      <ConversationCallButton :inbox="inbox" :chat="currentChat" />
       <MoreActions :conversation-id="currentChat.id" />
     </div>
   </div>
