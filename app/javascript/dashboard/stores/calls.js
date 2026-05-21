@@ -1,10 +1,11 @@
-import { defineStore } from 'pinia';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { cleanupWhatsappSession } from 'dashboard/composables/useWhatsappCallSession';
+import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { TERMINAL_STATUSES } from 'dashboard/helper/voice';
+import { defineStore } from 'pinia';
 
 const teardownByProvider = call => {
-  if (call?.provider === 'whatsapp') {
+  if (call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP) {
     cleanupWhatsappSession();
   } else {
     TwilioVoiceClient.endClientCall();
