@@ -68,11 +68,11 @@ const channelIcon = computed(() => {
 
 <template>
   <div
-    class="flex flex-col gap-3 pt-4 bg-n-solid-2/95 rounded-2xl shadow-xl outline outline-1 outline-n-strong backdrop-blur-md"
+    class="flex flex-col gap-2 pt-4 bg-n-solid-2/95 rounded-2xl shadow-xl outline outline-1 outline-n-strong backdrop-blur-md"
     :class="call?.conversationId ? 'pb-2' : 'pb-4'"
   >
     <!-- Top section: status badge + location/inbox + duration -->
-    <div class="flex flex-col gap-3 pb-2">
+    <div class="flex flex-col gap-3">
       <div class="flex items-center gap-2 px-4">
         <!-- Ongoing: status badge on left -->
         <div v-if="isOngoing" class="flex items-center gap-1.5 shrink-0">
@@ -119,12 +119,12 @@ const channelIcon = computed(() => {
       </div>
 
       <!-- Main row: avatar + name/phone + actions -->
-      <div class="flex items-end gap-3 px-4">
+      <div class="flex items-center gap-3 px-4">
         <div class="shrink-0">
           <Avatar
             :src="callInfo.avatar"
             :name="callInfo.contactName"
-            :size="44"
+            :size="40"
           />
         </div>
         <div class="flex-1 min-w-0">

@@ -15,8 +15,8 @@ const twilioCall = {
 };
 
 const richCallInfo = {
-  contactName: 'Pranav Raj',
-  phoneNumber: '+1 415 555 0142',
+  contactName: 'John Does',
+  phoneNumber: '+1 412 245 0242',
   inboxName: 'Customer support',
   location: 'San Francisco, United States',
   countryFlag: '\u{1F1FA}\u{1F1F8}',
@@ -28,7 +28,7 @@ const richCallInfo = {
 // Falls back to inbox name when neither city nor country is on the contact.
 const noLocationCallInfo = {
   contactName: 'Anonymous Lead',
-  phoneNumber: '+44 20 7946 0958',
+  phoneNumber: '+44 20 7916 0428',
   inboxName: 'Sales',
   location: 'Sales',
   countryFlag: '',
@@ -38,8 +38,8 @@ const noLocationCallInfo = {
 
 // Truncation regression check — both contact name and location should ellipsize.
 const longCallInfo = {
-  contactName: 'Aleksandra Konstantinopolskaya-Sieczkowska',
-  phoneNumber: '+49 30 901820',
+  contactName: 'Aleksandra Konstantinopolskaya',
+  phoneNumber: '+49 30 911890',
   inboxName: 'Customer support',
   location:
     'Friedrichshain-Kreuzberg, Federal Republic of Germany (Deutschland)',
