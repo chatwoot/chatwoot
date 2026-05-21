@@ -21,6 +21,10 @@ module Redis::Alfred
       $alfred.with { |conn| conn.get(key) }
     end
 
+    def with(&)
+      $alfred.with(&)
+    end
+
     def delete(key)
       $alfred.with { |conn| conn.del(key) }
     end
