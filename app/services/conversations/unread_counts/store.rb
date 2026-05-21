@@ -1,4 +1,6 @@
 class Conversations::UnreadCounts::Store
+  extend ::Conversations::UnreadCounts::StoreKeys
+
   class << self
     def base_ready?(account_id)
       Redis::Alfred.exists?(base_ready_key(account_id))
@@ -78,46 +80,14 @@ class Conversations::UnreadCounts::Store
       keys.zip(counts).to_h
     end
 
-    def inbox_key(account_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_INBOX, account_id: account_id, inbox_id: inbox_id)
-    end
+    def memberships_for_keys(keys, conversation_id)
+      keys = keys.compact_blank
+      return {} if keys.blank?
 
-    def label_inbox_key(account_id, label_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_LABEL_INBOX, account_id: account_id, label_id: label_id, inbox_id: inbox_id)
-    end
-
-    def team_inbox_key(account_id, team_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_TEAM_INBOX, account_id: account_id, team_id: team_id, inbox_id: inbox_id)
-    end
-
-    def inbox_unassigned_key(account_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_INBOX_UNASSIGNED, account_id: account_id, inbox_id: inbox_id)
-    end
-
-    def inbox_assignee_key(account_id, inbox_id, user_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_INBOX_ASSIGNEE, account_id: account_id, inbox_id: inbox_id, user_id: user_id)
-    end
-
-    def label_inbox_unassigned_key(account_id, label_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_LABEL_INBOX_UNASSIGNED, account_id: account_id, label_id: label_id, inbox_id: inbox_id)
-    end
-
-    def label_inbox_assignee_key(account_id, label_id, inbox_id, user_id)
-      format(
-        Redis::Alfred::UNREAD_CONVERSATIONS_LABEL_INBOX_ASSIGNEE,
-        account_id: account_id,
-        label_id: label_id,
-        inbox_id: inbox_id,
-        user_id: user_id
-      )
-    end
-
-    def team_inbox_unassigned_key(account_id, team_id, inbox_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_TEAM_INBOX_UNASSIGNED, account_id: account_id, team_id: team_id, inbox_id: inbox_id)
-    end
-
-    def team_inbox_assignee_key(account_id, team_id, inbox_id, user_id)
-      format(Redis::Alfred::UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE, account_id: account_id, team_id: team_id, inbox_id: inbox_id, user_id: user_id)
+      memberships = Redis::Alfred.pipelined do |pipeline|
+        keys.each { |key| pipeline.sismember(key, conversation_id) }
+      end
+      keys.zip(memberships.map { |membership| membership == true || membership == 1 }).to_h
     end
 
     private
@@ -183,7 +153,16 @@ class Conversations::UnreadCounts::Store
     end
 
     def remove_from_sets(keys, conversation_id)
-      write_to_sets(keys) { |pipeline, key| pipeline.srem(key, conversation_id) }
+      keys = keys.compact_blank
+      return false if keys.blank?
+
+      results = Redis::Alfred.pipelined do |pipeline|
+        keys.each do |key|
+          pipeline.srem(key, conversation_id)
+          pipeline.expire(key, Conversations::UnreadCounts::SET_TTL)
+        end
+      end
+      results.each_slice(2).any? { |removed, _| removed == true || (removed.respond_to?(:to_i) && removed.to_i.positive?) }
     end
 
     def write_to_sets(keys)
