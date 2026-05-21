@@ -13,6 +13,7 @@ import { useAlert } from 'dashboard/composables';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import AudioChip from 'next/message/chips/Audio.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const LABEL_MAP = {
   [VOICE_CALL_STATUS.IN_PROGRESS]: 'CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS',
@@ -290,31 +291,27 @@ const handleCallBack = async () => {
       />
 
       <!-- Call back button (missed inbound) -->
-      <button
+      <NextButton
         v-if="canCallBack"
         type="button"
-        class="flex justify-center items-center gap-2 px-3 h-10 bg-n-teal-9 hover:bg-n-teal-10 rounded-full transition-colors"
+        :label="$t('CONVERSATION.VOICE_CALL.CALL_BACK')"
+        icon="i-ph-phone-bold"
+        teal
+        class="!rounded-full"
         @click="handleCallBack"
-      >
-        <i class="text-base text-white i-ph-phone-bold" />
-        <span class="text-sm font-medium text-white tracking-tight">
-          {{ $t('CONVERSATION.VOICE_CALL.CALL_BACK') }}
-        </span>
-      </button>
+      />
 
       <!-- Join call button (ringing inbound) -->
-      <button
+      <NextButton
         v-if="canJoinCall"
         type="button"
-        class="flex justify-center items-center gap-2 px-3 h-10 bg-n-teal-9 hover:bg-n-teal-10 disabled:opacity-50 rounded-full transition-colors"
+        :label="$t('CONVERSATION.VOICE_CALL.JOIN_CALL')"
+        icon="i-ph-phone-bold"
+        teal
+        class="!rounded-full"
         :disabled="isJoining"
         @click="handleJoinCall"
-      >
-        <i class="text-base text-white i-ph-phone-bold" />
-        <span class="text-sm font-medium text-white tracking-tight">
-          {{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}
-        </span>
-      </button>
+      />
     </div>
   </BaseBubble>
 </template>
