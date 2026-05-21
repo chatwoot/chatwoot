@@ -88,5 +88,7 @@ export const VOICE_CALL_STATUS = {
 
 export const VOICE_CALL_DIRECTION = {
   INBOUND: 'inbound',
+  INCOMING: 'incoming',
+  OUTGOING: 'outgoing',
   OUTBOUND: 'outbound',
 };

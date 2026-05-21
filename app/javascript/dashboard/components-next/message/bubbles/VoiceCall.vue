@@ -3,7 +3,11 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
 import { useMessageContext } from '../provider.js';
-import { VOICE_CALL_STATUS, MESSAGE_TYPES } from '../constants';
+import {
+  VOICE_CALL_STATUS,
+  VOICE_CALL_DIRECTION,
+  MESSAGE_TYPES,
+} from '../constants';
 import { useCallActions } from 'dashboard/composables/useCallSession';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
@@ -49,8 +53,16 @@ const status = computed(() => call.value?.status);
 // bubble label matches the message orientation no matter the source.
 const isOutbound = computed(() => {
   const dir = call.value?.direction;
-  if (dir === 'outgoing' || dir === 'outbound') return true;
-  if (dir === 'incoming' || dir === 'inbound') return false;
+  if (
+    dir === VOICE_CALL_DIRECTION.OUTGOING ||
+    dir === VOICE_CALL_DIRECTION.OUTBOUND
+  )
+    return true;
+  if (
+    dir === VOICE_CALL_DIRECTION.INCOMING ||
+    dir === VOICE_CALL_DIRECTION.INBOUND
+  )
+    return false;
   // Fall back to the message orientation: agent-authored messages sit on the
   // right (outbound) and contact-authored ones on the left.
   return messageType.value === MESSAGE_TYPES.OUTGOING;
