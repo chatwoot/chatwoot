@@ -303,10 +303,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   onVoiceCallOutboundConnected = async data => {
     if (data?.provider !== VOICE_CALL_PROVIDERS.WHATSAPP || !data.sdp_answer)
       return;
-    // Account-wide broadcast: skip SDPs for calls another agent is handling,
-    // otherwise applyOutboundAnswer would feed a foreign SDP into this tab's
-    // peer connection.
-    if (!isLocalWhatsappCall(data.id)) return;
+    // Account-wide broadcast that can arrive before /initiate sets this tab's
+    // call id. applyOutboundAnswer filters foreign calls and buffers the answer
+    // until the id is known, so we must not drop it here on a null activeCallId.
     try {
       await applyOutboundAnswer(data.id, data.sdp_answer);
     } catch (_) {

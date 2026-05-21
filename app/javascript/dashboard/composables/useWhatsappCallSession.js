@@ -13,6 +13,12 @@ let mediaRecorder = null;
 let recorderChunks = [];
 let audioContext = null;
 let activeCallId = null;
+// voice_call.outbound_connected (the sole source of the outbound SDP answer) is
+// broadcast account-wide and can arrive before the /initiate response sets
+// activeCallId in this tab. Until we know our own call id we can't tell our
+// answer from a concurrent agent's, so the cable handler buffers it here and
+// initiateOutboundCall flushes the matching one by id.
+let pendingOutboundAnswer = null;
 // Module-scoped so multiple composable callers (header button + contact-panel
 // button) share the same lock. A per-instance ref let two parallel callers
 // both pass the guard and tear down each other's WebRTC state in cleanup().
@@ -128,6 +134,7 @@ const cleanup = () => {
   recorderChunks = [];
   audioContext = null;
   activeCallId = null;
+  pendingOutboundAnswer = null;
   recorderArmed = false;
 };
 
@@ -308,6 +315,17 @@ export function useWhatsappCallSession() {
       );
       if (response?.id) {
         activeCallId = response.id;
+        // A connect webhook that raced ahead of this response was buffered;
+        // apply it now that we know our call id (and discard a buffered answer
+        // for a concurrent agent's call whose id doesn't match ours).
+        const buffered = pendingOutboundAnswer;
+        pendingOutboundAnswer = null;
+        if (buffered?.callId === activeCallId) {
+          await pc.setRemoteDescription({
+            type: 'answer',
+            sdp: buffered.sdpAnswer,
+          });
+        }
         return response;
       }
       // No call id back: this is the permission-request branch. The mic +
@@ -369,11 +387,17 @@ export function useWhatsappCallSession() {
 // surface is exposed as module-level functions for them.
 
 export const applyOutboundAnswer = async (callId, sdpAnswer) => {
+  // No in-flight peer connection in this tab → not our call.
   if (!pc) return;
-  // voice_call.outbound_connected is broadcast account-wide; only apply
-  // the SDP answer if it's for this tab's in-flight outbound call.
-  if (activeCallId != null && callId !== activeCallId) return;
-  activeCallId = callId;
+  // /initiate hasn't returned our call id yet (the connect webhook raced
+  // ahead). Buffer the answer; initiateOutboundCall flushes it by id once it
+  // knows which call is ours, so a concurrent agent's answer is never applied.
+  if (activeCallId == null) {
+    pendingOutboundAnswer = { callId, sdpAnswer };
+    return;
+  }
+  // activeCallId known → only apply the answer for this tab's call.
+  if (callId !== activeCallId) return;
   await pc.setRemoteDescription({ type: 'answer', sdp: sdpAnswer });
 };
 
