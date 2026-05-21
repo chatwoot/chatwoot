@@ -585,11 +585,11 @@ function isCmdPlusEnterToSendEnabled() {
 useKeyboardEvents({
   'Alt+KeyP': {
     action: focusEditorInputField,
-    allowOnFocusedInput: true,
+    allowOnFocusedInput: false,
   },
   'Alt+KeyL': {
     action: focusEditorInputField,
-    allowOnFocusedInput: true,
+    allowOnFocusedInput: false,
   },
 });
 
