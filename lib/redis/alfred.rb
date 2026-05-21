@@ -21,8 +21,24 @@ module Redis::Alfred
       $alfred.with { |conn| conn.get(key) }
     end
 
+    def with(&)
+      $alfred.with(&)
+    end
+
     def delete(key)
       $alfred.with { |conn| conn.del(key) }
+    end
+
+    # atomic compare-and-delete (release a lock only if you still own it); WATCH/MULTI
+    # aborts the delete if the key changes between the check and the delete.
+    def delete_if_equals(key, expected_value)
+      $alfred.with do |conn|
+        conn.watch(key) do
+          next conn.unwatch unless conn.get(key) == expected_value
+
+          conn.multi { |transaction| transaction.del(key) }
+        end
+      end
     end
 
     # increment a key by 1. throws error if key value is incompatible
@@ -38,6 +54,11 @@ module Redis::Alfred
     # set expiry on a key in seconds
     def expire(key, seconds)
       $alfred.with { |conn| conn.expire(key, seconds) }
+    end
+
+    # get expiry of a key in seconds
+    def ttl(key)
+      $alfred.with { |conn| conn.ttl(key) }
     end
 
     # scan keys matching a pattern
@@ -78,6 +99,10 @@ module Redis::Alfred
 
     def lrem(key, value, count = 0)
       $alfred.with { |conn| conn.lrem(key, count, value) }
+    end
+
+    def pipelined(&)
+      $alfred.with { |conn| conn.pipelined(&) }
     end
 
     # hash operations
