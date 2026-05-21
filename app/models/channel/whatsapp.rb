@@ -70,6 +70,7 @@ class Channel::Whatsapp < ApplicationRecord
   # re-check, which could spuriously fail and desync the flag from Meta.
   def enable_voice_calling!
     raise 'WhatsApp calling requires an embedded-signup whatsapp_cloud inbox' unless voice_calling_supported?
+    raise 'WhatsApp calling requires the channel_voice feature' unless account.feature_enabled?('channel_voice')
 
     provider_service.update_calling_status('ENABLED')
     webhook_setup_service.register_callback
