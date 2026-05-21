@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_15_000000) do
+ActiveRecord::Schema[7.1].define(version: 2026_05_20_090000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -447,6 +447,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_15_000000) do
     t.string "secret"
     t.index ["hmac_token"], name: "index_channel_api_on_hmac_token", unique: true
     t.index ["identifier"], name: "index_channel_api_on_identifier", unique: true
+  end
+
+  create_table "channel_app_store", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "app_id", null: false
+    t.string "bundle_id"
+    t.string "app_name"
+    t.string "issuer_id", null: false
+    t.string "key_id", null: false
+    t.text "private_key", null: false
+    t.jsonb "provider_config", default: {}, null: false
+    t.datetime "last_synced_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "app_id"], name: "index_channel_app_store_on_account_id_and_app_id", unique: true
   end
 
   create_table "channel_email", force: :cascade do |t|

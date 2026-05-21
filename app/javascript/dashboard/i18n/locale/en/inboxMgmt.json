@@ -382,6 +382,39 @@
           "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
+      "APP_STORE": {
+        "TITLE": "App Store Reviews",
+        "DESC": "Manage and reply to your App Store reviews from Chatwoot.",
+        "CHANNEL_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "This field is required"
+        },
+        "APP_ID": {
+          "LABEL": "App Store Connect app ID",
+          "PLACEHOLDER": "Enter your App Store Connect app ID",
+          "ERROR": "This field is required"
+        },
+        "ISSUER_ID": {
+          "LABEL": "Issuer ID",
+          "PLACEHOLDER": "Enter your App Store Connect issuer ID",
+          "ERROR": "This field is required"
+        },
+        "KEY_ID": {
+          "LABEL": "Key ID",
+          "PLACEHOLDER": "Enter your App Store Connect key ID",
+          "ERROR": "This field is required"
+        },
+        "PRIVATE_KEY": {
+          "LABEL": "Private key",
+          "PLACEHOLDER": "Paste the contents of your .p8 private key",
+          "ERROR": "This field is required"
+        },
+        "SUBMIT_BUTTON": "Create App Store Channel",
+        "API": {
+          "ERROR_MESSAGE": "We were not able to save the App Store channel"
+        }
+      },
       "EMAIL_CHANNEL": {
         "TITLE": "Email Channel",
         "DESC": "Integrate your email inbox.",
@@ -492,6 +525,10 @@
           "TIKTOK": {
             "TITLE": "TikTok",
             "DESCRIPTION": "Connect your TikTok account"
+          },
+          "APP_STORE": {
+            "TITLE": "App Store Reviews",
+            "DESCRIPTION": "Manage your App Store app reviews"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -1165,6 +1202,7 @@
       "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
+      "APP_STORE": "App Store Reviews",
       "VOICE": "Voice"
     }
   }
