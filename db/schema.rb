@@ -506,6 +506,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_22_080000) do
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
+  create_table "channel_google_play", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "app_id", null: false
+    t.jsonb "provider_config", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "last_synced_at"
+    t.index ["account_id", "app_id"], name: "index_channel_google_play_on_account_id_and_app_id", unique: true
+  end
+
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
     t.datetime "expires_at", null: false

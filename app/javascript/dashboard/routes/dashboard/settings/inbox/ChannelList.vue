@@ -83,6 +83,12 @@ const channelList = computed(() => {
       description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.APP_STORE.DESCRIPTION'),
       icon: 'i-ri-app-store-line',
     },
+    {
+      key: 'google_play',
+      title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.GOOGLE_PLAY.TITLE'),
+      description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.GOOGLE_PLAY.DESCRIPTION'),
+      icon: 'i-ri-google-play-line',
+    },
   ];
 
   if (hasTiktokConfigured.value) {

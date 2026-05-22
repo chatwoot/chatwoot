@@ -13,6 +13,7 @@ import Instagram from './channels/Instagram.vue';
 import Tiktok from './channels/Tiktok.vue';
 import Voice from './channels/Voice.vue';
 import AppStore from './channels/AppStore.vue';
+import GooglePlay from './channels/GooglePlay.vue';
 
 const channelViewList = {
   facebook: Facebook,
@@ -28,6 +29,7 @@ const channelViewList = {
   tiktok: Tiktok,
   app_store: AppStore,
   voice: Voice,
+  google_play: GooglePlay,
 };
 
 export default defineComponent({

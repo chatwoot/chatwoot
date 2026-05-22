@@ -119,6 +119,11 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Channel::GooglePlay': {
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
   // Special contexts (not actual channels)
   'Context::PrivateNote': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],

@@ -99,7 +99,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def allowed_channel_types
-    %w[web_widget api email line telegram whatsapp sms app_store]
+    %w[web_widget api email line telegram whatsapp sms app_store google_play]
   end
 
   def app_store_channel_requested?
@@ -190,7 +190,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
       'sms' => Channel::Sms,
-      'app_store' => Channel::AppStore
+      'app_store' => Channel::AppStore,
+      'google_play' => Channel::GooglePlay
     }[permitted_params[:channel][:type]]
   end
 

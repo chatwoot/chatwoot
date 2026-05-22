@@ -249,7 +249,7 @@ export default {
         ];
       }
 
-      if (this.isAnAppStoreChannel) {
+      if (this.isAnAppStoreChannel || this.isAGooglePlayChannel) {
         const unsupportedKeys = ['business-hours', 'csat', 'bot-configuration'];
         visibleToAllChannelTabs = visibleToAllChannelTabs.filter(
           tab => !unsupportedKeys.includes(tab.key)
@@ -289,7 +289,10 @@ export default {
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
       }
-      if (this.isAnAppStoreChannel && this.inbox.app_id) {
+      if (
+        (this.isAnAppStoreChannel || this.isAGooglePlayChannel) &&
+        this.inbox.app_id
+      ) {
         return `${this.inbox.name} (${this.inbox.app_id})`;
       }
       return this.inbox.name;
@@ -840,7 +843,7 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
-              v-if="!isAnAppStoreChannel"
+              v-if="!isAnAppStoreChannel && !isAGooglePlayChannel"
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"
               :help-text="$t('INBOX_MGMT.HELP_CENTER.SUB_TEXT')"
             >
@@ -1140,7 +1143,7 @@ export default {
             </SettingsAccordion>
 
             <SettingsAccordion
-              v-if="!isAnAppStoreChannel"
+              v-if="!isAnAppStoreChannel && !isAGooglePlayChannel"
               :title="$t('INBOX_MGMT.CHANNEL_PREFERENCES')"
               class="mt-6"
             >

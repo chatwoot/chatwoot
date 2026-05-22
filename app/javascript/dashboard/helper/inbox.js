@@ -12,6 +12,7 @@ export const INBOX_TYPES = {
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
   APP_STORE: 'Channel::AppStore',
+  GOOGLE_PLAY: 'Channel::GooglePlay',
 };
 
 // Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
@@ -52,6 +53,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
   [INBOX_TYPES.APP_STORE]: 'i-ri-app-store-fill',
+  [INBOX_TYPES.GOOGLE_PLAY]: 'i-ri-google-play-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -68,6 +70,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
   [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
   [INBOX_TYPES.APP_STORE]: 'i-ri-app-store-line',
+  [INBOX_TYPES.GOOGLE_PLAY]: 'i-ri-google-play-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -119,6 +122,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.APP_STORE:
       return 'app_store';
+
+    case INBOX_TYPES.GOOGLE_PLAY:
+      return 'google_play';
 
     default:
       return 'chat';

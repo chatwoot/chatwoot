@@ -141,6 +141,9 @@ export default {
     isAnAppStoreChannel() {
       return this.channelType === INBOX_TYPES.APP_STORE;
     },
+    isAGooglePlayChannel() {
+      return this.channelType === INBOX_TYPES.GOOGLE_PLAY;
+    },
   },
   methods: {
     inboxHasFeature(feature) {

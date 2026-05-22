@@ -16,6 +16,7 @@ export function useChannelIcon(inbox) {
     'Channel::Instagram': 'i-woot-instagram',
     'Channel::Tiktok': 'i-woot-tiktok',
     'Channel::AppStore': 'i-ri-app-store-fill',
+    'Channel::GooglePlay': 'i-ri-google-play-line',
   };
 
   const providerIconMap = {

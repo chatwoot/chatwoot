@@ -32,6 +32,12 @@ trigger_app_store_review_inboxes_job:
   class: 'Inboxes::FetchAppStoreReviewInboxesJob'
   queue: scheduled_jobs
 
+# executed every 15 minutes to fetch Google Play Store app reviews
+trigger_google_play_review_inboxes_job:
+  cron: '*/15 * * * *'
+  class: 'Inboxes::FetchGooglePlayReviewInboxesJob'
+  queue: scheduled_jobs
+
 # executed daily at 2230 UTC
 # which is our lowest traffic time
 remove_stale_contact_inboxes_job.rb:

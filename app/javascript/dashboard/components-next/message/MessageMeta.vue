@@ -22,6 +22,7 @@ const {
   isAnInstagramChannel,
   isAnAppStoreChannel,
   isATiktokChannel,
+  isAGooglePlayChannel,
 } = useInbox();
 
 const {
@@ -64,7 +65,8 @@ const isSent = computed(() => {
     isATelegramChannel.value ||
     isAnInstagramChannel.value ||
     isATiktokChannel.value ||
-    isAnAppStoreChannel.value
+    isAnAppStoreChannel.value ||
+    isAGooglePlayChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.SENT;
   }
