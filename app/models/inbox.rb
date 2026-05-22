@@ -146,6 +146,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Email'
   end
 
+  def google_play?
+    channel_type == 'Channel::GooglePlay'
+  end
+
   def twilio?
     channel_type == 'Channel::TwilioSms'
   end

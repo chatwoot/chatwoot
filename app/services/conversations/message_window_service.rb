@@ -14,7 +14,7 @@ class Conversations::MessageWindowService
 
   private
 
-  def messaging_window
+  def messaging_window # rubocop:disable Metrics/CyclomaticComplexity
     case @conversation.inbox.channel_type
     when 'Channel::Api'
       api_messaging_window
@@ -28,6 +28,10 @@ class Conversations::MessageWindowService
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
       twilio_messaging_window
+    when 'Channel::GooglePlay'
+      # Google Play API only allows replying to reviews left within the last 7 days.
+      # https://developers.google.com/android-publisher/reviews
+      MESSAGING_WINDOW_7_DAYS
     end
   end
 

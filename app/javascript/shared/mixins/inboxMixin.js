@@ -134,6 +134,9 @@ export default {
     isATiktokChannel() {
       return this.channelType === INBOX_TYPES.TIKTOK;
     },
+    isAGooglePlayChannel() {
+      return this.channelType === INBOX_TYPES.GOOGLE_PLAY;
+    },
   },
   methods: {
     inboxHasFeature(feature) {

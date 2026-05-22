@@ -138,6 +138,10 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.TIKTOK;
   });
 
+  const isAGooglePlayChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.GOOGLE_PLAY;
+  });
+
   const voiceCallEnabled = computed(() => isVoiceCallEnabled(inbox.value));
 
   const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
@@ -160,6 +164,7 @@ export const useInbox = (inboxId = null) => {
     isAnEmailChannel,
     isAnInstagramChannel,
     isATiktokChannel,
+    isAGooglePlayChannel,
     voiceCallEnabled,
     voiceCallProvider,
   };
