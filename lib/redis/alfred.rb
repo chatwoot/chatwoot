@@ -127,13 +127,9 @@ module Redis::Alfred
     # add score and value for a key
     # Modern Redis syntax: zadd(key, [[score, member], ...])
     def zadd(key, score, value = nil)
-      if value.nil? && score.is_a?(Array)
-        # New syntax: score is actually an array of [score, member] pairs
-        $alfred.with { |conn| conn.zadd(key, score) }
-      else
-        # Support old syntax for backward compatibility
-        $alfred.with { |conn| conn.zadd(key, [[score, value]]) }
-      end
+      # New syntax: score is an array of [score, member] pairs; old syntax: discrete score/value
+      pairs = value.nil? && score.is_a?(Array) ? score : [[score, value]]
+      $alfred.with { |conn| conn.zadd(key, pairs) }
     end
 
     # get score of a value for key
