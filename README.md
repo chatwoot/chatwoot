@@ -27,6 +27,9 @@ The modern customer support platform, an open-source alternative to Intercom, Ze
   <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
      <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
   </a>
+  <a href="https://sealos.io/products/app-store/chatwoot/" alt="Deploy on Sealos">
+     <img width="180" alt="Deploy on Sealos" src="https://sealos.io/Deploy-on-Sealos.svg"/>
+  </a>
 </p>
 
 <img src="./.github/screenshots/dashboard.png#gh-light-mode-only" width="100%" alt="Chat dashboard dark mode"/>
@@ -116,6 +119,14 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
 <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
   <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
 </a>
+
+### Sealos one-click deployment
+
+Chatwoot can also be deployed on Sealos using the one-click template:
+
+[![Deploy on Sealos](https://sealos.io/Deploy-on-Sealos.svg)](https://sealos.io/products/app-store/chatwoot/)
+
+The Sealos template provisions the Chatwoot web service, Sidekiq worker, PostgreSQL, Redis, ingress, and persistent storage for `/app/storage`.
 
 ### Other deployment options
 
