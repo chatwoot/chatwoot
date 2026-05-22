@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "נדרשת לפחות פעולה אחת"
     },
     "NONE_OPTION": "אין",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "שיחה נוצרה",
       "CONVERSATION_UPDATED": "שיחה עודכנה",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "שפת דפדפן",
       "MAIL_SUBJECT": "נושא דוא\"ל",
       "COUNTRY_NAME": "מדינה",
+      "COMPANY_NAME": "חברה",
       "REFERER_LINK": "קישור מפנה",
       "ASSIGNEE_NAME": "מוקצה",
       "TEAM_NAME": "צוות",

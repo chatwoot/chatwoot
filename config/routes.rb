@@ -136,6 +136,7 @@ Rails.application.routes.draw do
             collection do
               get :meta
               get :search
+              get :unread_counts, to: 'conversations/unread_counts#index'
               post :filter
             end
             scope module: :conversations do
@@ -380,8 +381,6 @@ Rails.application.routes.draw do
               end
             end
           end
-          resources :working_hours, only: [:update]
-
           resources :portals do
             member do
               patch :archive
@@ -588,13 +587,15 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
-  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', as: :public_portal_locale
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
-  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show', as: :public_portal_category
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
-  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
+  get 'hc/:slug/articles/:article_slug.md', to: 'public/api/v1/portals/articles#show_markdown', as: :public_portal_article_markdown,
+                                            defaults: { format: :md }
+  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show', as: :public_portal_article
 
   # ----------------------------------------------------------------------
   # Used in mailer templates

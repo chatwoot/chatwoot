@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
     "SHOW_QUOTED_TEXT": "Απόκρυψη Κειμένου Παράθεσης",
     "MESSAGE_READ": "Ανάγνωση",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

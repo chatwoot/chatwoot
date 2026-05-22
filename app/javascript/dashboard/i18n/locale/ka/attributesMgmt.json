@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "საუბარი",
-      "CONTACT": "კონტაქტი"
+      "CONTACT": "კონტაქტი",
+      "COMPANY": "კომპანია"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "ტექსტი",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Custom Attributes",
       "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "კომპანია"
     },
     "LIST": {
       "TABLE_HEADER": {

@@ -35,4 +35,15 @@ RSpec.describe Company, type: :model do
       end
     end
   end
+
+  describe '#record_activity_at!' do
+    it 'does not move company activity backwards' do
+      company = create(:company, last_activity_at: Time.zone.now)
+      original_activity_at = company.last_activity_at
+
+      company.record_activity_at!(1.hour.ago)
+
+      expect(company.reload.last_activity_at).to be_within(1.second).of(original_activity_at)
+    end
+  end
 end

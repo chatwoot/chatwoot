@@ -3,6 +3,7 @@
 # https://developers.facebook.com/docs/whatsapp/api/media/
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
+  include ::Whatsapp::IncomingMessageIdentifierHelper
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo]
 
@@ -46,9 +47,11 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
-    return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
+    status = @processed_params[:statuses].first
+    return unless find_message_by_source_id(status[:id])
 
-    update_message_with_status(@message, @processed_params[:statuses].first)
+    update_whatsapp_identifiers_from_status(status)
+    update_message_with_status(@message, status)
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
   end
@@ -93,40 +96,6 @@ class Whatsapp::IncomingMessageBaseService
     else
       set_contact_from_message
     end
-  end
-
-  def set_contact_from_echo
-    # For echo messages, contact phone is in the 'to' field
-    phone_number = messages_data.first[:to]
-    waid = processed_waid(phone_number)
-
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: waid,
-      inbox: inbox,
-      contact_attributes: { name: "+#{phone_number}", phone_number: "+#{phone_number}" }
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
-  end
-
-  def set_contact_from_message
-    contact_params = @processed_params[:contacts]&.first
-    return if contact_params.blank?
-
-    waid = processed_waid(contact_params[:wa_id])
-
-    contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: waid,
-      inbox: inbox,
-      contact_attributes: { name: contact_params.dig(:profile, :name), phone_number: "+#{messages_data.first[:from]}" }
-    ).perform
-
-    @contact_inbox = contact_inbox
-    @contact = contact_inbox.contact
-
-    # Update existing contact name if ProfileName is available and current name is just phone number
-    update_contact_with_profile_name(contact_params)
   end
 
   def set_conversation
@@ -224,7 +193,10 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def contact_name_matches_phone_number?
-    phone_number = "+#{messages_data.first[:from]}"
+    message_phone_number = whatsapp_phone_number(messages_data.first[:from])
+    return false if message_phone_number.blank?
+
+    phone_number = "+#{message_phone_number}"
     formatted_phone_number = TelephoneNumber.parse(phone_number).international_number
     @contact.name == phone_number || @contact.name == formatted_phone_number
   end

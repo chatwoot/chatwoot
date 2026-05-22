@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "인용문 숨기기",
     "SHOW_QUOTED_TEXT": "인용문 보기",
     "MESSAGE_READ": "읽음",
-    "SENDING": "전송 중"
+    "SENDING": "전송 중",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

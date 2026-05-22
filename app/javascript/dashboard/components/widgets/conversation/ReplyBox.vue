@@ -5,7 +5,6 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import ReplyToMessage from './ReplyToMessage.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
@@ -144,8 +143,6 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -181,6 +178,21 @@ export default {
         return this.isOnPrivateNote;
       }
       return true;
+    },
+    hasMeaningfulEditorContent() {
+      const body = this.message || '';
+      // Only strip the signature when it's actually being auto-appended.
+      // If the toggle is off, the agent's text might happen to match their
+      // saved signature and we'd incorrectly treat it as empty.
+      const shouldStripSignature =
+        !this.isPrivate && this.sendWithSignature && !!this.messageSignature;
+      if (!shouldStripSignature) return !!body.trim();
+      const stripped = removeSignature(
+        body,
+        this.messageSignature,
+        getEffectiveChannelType(this.channelType, this.inbox?.medium || '')
+      );
+      return !!stripped.trim();
     },
     isReplyRestricted() {
       return (
@@ -384,14 +396,8 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
-    isQuotedEmailReplyEnabled() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.QUOTED_EMAIL_REPLY
-      );
-    },
     quotedReplyPreference() {
-      if (!this.isAnEmailChannel || !this.isQuotedEmailReplyEnabled) {
+      if (!this.isAnEmailChannel) {
         return false;
       }
 
@@ -416,11 +422,7 @@ export default {
       return truncatePreviewText(this.quotedEmailText, 80);
     },
     shouldShowQuotedReplyToggle() {
-      return (
-        this.isAnEmailChannel &&
-        !this.isOnPrivateNote &&
-        this.isQuotedEmailReplyEnabled
-      );
+      return this.isAnEmailChannel && !this.isOnPrivateNote;
     },
     shouldShowQuotedPreview() {
       return (
@@ -577,7 +579,6 @@ export default {
     },
     shouldIncludeQuotedEmail() {
       return (
-        this.isQuotedEmailReplyEnabled &&
         this.quotedReplyPreference &&
         this.shouldShowQuotedReplyToggle &&
         !!this.quotedEmailText
@@ -1245,6 +1246,7 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :editor-content="message"
+      :has-content="hasMeaningfulEditorContent"
       @set-reply-mode="setReplyMode"
       @toggle-editor-size="toggleEditorSize"
       @toggle-copilot="copilot.toggleEditor"
