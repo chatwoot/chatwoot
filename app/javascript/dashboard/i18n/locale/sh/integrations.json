@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Kontakt kreiran",
             "CONTACT_UPDATED": "Kontakt ažuriran",
             "CONVERSATION_TYPING_ON": "Tipkanje u razgovoru uključeno",
-            "CONVERSATION_TYPING_OFF": "Tipkanje u razgovoru isključeno"
+            "CONVERSATION_TYPING_OFF": "Tipkanje u razgovoru isključeno",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
