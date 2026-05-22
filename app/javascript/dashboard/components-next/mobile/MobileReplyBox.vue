@@ -321,6 +321,11 @@ const onTypingOff = () => {
   });
 };
 
+const onInputBlur = () => {
+  isFocused.value = false;
+  onTypingOff();
+};
+
 const openWhatsappTemplateModal = () => {
   showWhatsAppTemplatesModal.value = true;
 };
@@ -503,7 +508,7 @@ onBeforeUnmount(() => {
           :class="{ 'opacity-50 cursor-not-allowed': isEditorDisabled }"
           @keydown="onKeydown"
           @input="onTyping"
-          @blur="isFocused = false; onTypingOff()"
+          @blur="onInputBlur"
           @focus="isFocused = true"
         />
 

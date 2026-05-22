@@ -4,7 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 
-const props = defineProps({
+defineProps({
   activeTab: {
     type: Number,
     default: 1,
