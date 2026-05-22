@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "آیا مطمئنید که {conversationCount} {conversationLabel} را می‌خواهید اختصاص را لغو کنید؟",
     "GO_BACK_LABEL": "بازگشت",
     "ASSIGN_LABEL": "اختصاص دادن",
+    "NONE": "هیچکدام",
+    "CLEAR_SELECTION": "پاک کردن",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "بله",
+    "CANCEL": "انصراف",
     "SEARCH_INPUT_PLACEHOLDER": "جستجو",
     "ASSIGN_AGENT_TOOLTIP": "اپراتور را تعیین کنید",
     "ASSIGN_TEAM_TOOLTIP": "تیم را تعیین کنید",
@@ -38,6 +43,8 @@
       "NONE": "هیچکدام",
       "NO_TEAMS_AVAILABLE": "هنوز هیچ تیمی به این حساب کاربری اضافه نشده است.",
       "ASSIGN_SELECTED_TEAMS": "اختصاص تیم انتخاب شده.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "اختصاص تیم با موفقیت انجام نشد، لطفا دوباره امتحان کنید."
     }

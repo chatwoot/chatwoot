@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "هیچکدام",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "گفتگو ایجاد شد",
       "CONVERSATION_UPDATED": "گفتگو به روز شد",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "مرور زبان",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "کشور",
+      "COMPANY_NAME": "شرکت",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "مسئول",
       "TEAM_NAME": "تیم‌",

@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "सन्देश उपलब्ध छैन",
     "CARD": {
       "SHOW_LABELS": "लेबलहरू देखाउनुहोस्",
-      "HIDE_LABELS": "लेबलहरू लुकाउनुहोस्"
+      "HIDE_LABELS": "लेबलहरू लुकाउनुहोस्",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "आउँदै गरेको कल",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "कल समाप्त भयो",
       "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
       "THEY_ANSWERED": "उनीहरूले जवाफ दिए",
-      "YOU_ANSWERED": "तपाईंले जवाफ दिनुभयो"
+      "YOU_ANSWERED": "तपाईंले जवाफ दिनुभयो",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "कलमा सामेल हुनुहोस्"
     },
     "HEADER": {
       "RESOLVE_ACTION": "समाधान गर्नुहोस्",
@@ -92,6 +95,7 @@
       "OPEN": "थप",
       "CLOSE": "बन्दा गार्नुहोस्",
       "DETAILS": "विवरणहरू",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "यस मितिसम्म सुस्काइयो",
       "SNOOZED_UNTIL_TOMORROW": "भोलिसम्म सुताइएको",
       "SNOOZED_UNTIL_NEXT_WEEK": "अर्को हप्ता सम्म सुताइएको",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "अघिल्ला कुराकानीहरू",
       "MACROS": "म्याक्रोहरू",
       "LINEAR_ISSUES": "लिङ्क गरिएका Linear समस्याहरू",
-      "SHOPIFY_ORDERS": "Shopify अर्डरहरू"
+      "SHOPIFY_ORDERS": "Shopify अर्डरहरू",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "अर्डर #{id}",
