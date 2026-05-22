@@ -1,27 +1,16 @@
 module MailboxHelper
   include MailboxInlineAttachmentHelper
+  include MailboxSanitizer
   include ::FileTypeHelper
 
   private
 
   def create_message
     Rails.logger.info "[MailboxHelper] Creating message #{processed_mail.message_id}"
-    return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
+    source_id = sanitize_mailbox_value(processed_mail.message_id)
+    return if @conversation.messages.find_by(source_id: source_id).present?
 
-    @message = @conversation.messages.create!(
-      account_id: @conversation.account_id,
-      sender: @conversation.contact,
-      content: mail_content&.truncate(150_000),
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      content_type: 'incoming_email',
-      source_id: processed_mail.message_id,
-      content_attributes: {
-        email: processed_mail.serialized_data,
-        cc_email: processed_mail.cc,
-        bcc_email: processed_mail.bcc
-      }
-    )
+    @message = @conversation.messages.create!(sanitized_message_attributes(source_id))
   end
 
   def add_attachments_to_message
