@@ -277,11 +277,6 @@
   display_title: 'Inactive WhatsApp Numbers'
   description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 422 error'
   type: code
-- name: ENABLE_APP_STORE_REVIEWS_CHANNEL
-  value: false
-  display_title: 'Enable App Store Reviews Channel'
-  description: 'Enable the App Store Reviews inbox channel'
-  type: boolean
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#

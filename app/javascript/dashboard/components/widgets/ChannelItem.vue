@@ -27,10 +27,6 @@ const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
 
-const isAppStoreReviewsEnabled = computed(() => {
-  return window.chatwootConfig?.enableAppStoreReviewsChannel === 'true';
-});
-
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -57,7 +53,7 @@ const isActive = computed(() => {
   }
 
   if (key === 'app_store') {
-    return isAppStoreReviewsEnabled.value;
+    return props.enabledFeatures.channel_app_store;
   }
 
   if (key === 'voice') {

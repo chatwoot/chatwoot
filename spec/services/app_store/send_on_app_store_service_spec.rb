@@ -3,7 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe AppStore::SendOnAppStoreService do
-  let(:channel) { create(:channel_app_store) }
+  let(:account) { create(:account) }
+  let(:channel) { create(:channel_app_store, account: account) }
   let(:inbox) { channel.inbox }
   let(:contact) { create(:contact, account: inbox.account) }
   let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: 'review-1') }
@@ -12,8 +13,7 @@ RSpec.describe AppStore::SendOnAppStoreService do
   let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
 
   before do
-    allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
+    account.enable_features!(:channel_app_store)
     allow(Messages::StatusUpdateService).to receive(:new).and_return(status_update_service)
     allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
   end
@@ -58,7 +58,7 @@ RSpec.describe AppStore::SendOnAppStoreService do
     end
 
     it 'marks the message as failed when the feature is disabled' do
-      allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
+      account.disable_features!(:channel_app_store)
       message = create(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: 'Thanks')
 
       described_class.new(message: message).perform

@@ -435,9 +435,6 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'does not create an app store inbox when the feature is disabled' do
-        allow(GlobalConfigService).to receive(:load).and_call_original
-        allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
-
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: { name: 'App Store Reviews',
@@ -452,8 +449,7 @@ RSpec.describe 'Inboxes API', type: :request do
       it 'creates an app store inbox when the feature is enabled' do
         app_store_client = instance_double(AppStoreConnect::Client)
 
-        allow(GlobalConfigService).to receive(:load).and_call_original
-        allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
+        account.enable_features!(:channel_app_store)
         allow(AppStoreConnect::Client).to receive(:new).and_return(app_store_client)
         allow(app_store_client).to receive(:fetch_app).and_return(
           {

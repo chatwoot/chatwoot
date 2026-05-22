@@ -8,8 +8,7 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
   let(:review_builder) { instance_double(AppStore::ReviewBuilder, perform: true) }
 
   before do
-    allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
+    channel.account.enable_features!(:channel_app_store)
   end
 
   it 'enqueues the job' do
@@ -43,7 +42,7 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
   end
 
   it 'does not fetch reviews when the feature is disabled for the account' do
-    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
+    channel.account.disable_features!(:channel_app_store)
 
     expect(channel).not_to receive(:fetch_reviews)
 

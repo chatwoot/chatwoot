@@ -108,10 +108,10 @@
   display_name: Custom Tools
   enabled: false
   premium: true
-- name: message_reply_to
-  display_name: Message Reply To
+- name: channel_app_store
+  display_name: App Store Reviews Channel
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
   enabled: false

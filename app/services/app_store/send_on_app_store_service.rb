@@ -21,7 +21,7 @@ class AppStore::SendOnAppStoreService < Base::SendOnChannelService
   end
 
   def validate_feature_enabled!
-    return if GlobalConfigService.load('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').to_s == 'true'
+    return if message.account.feature_enabled?(:channel_app_store)
 
     raise 'App Store Reviews channel is not enabled for this account.'
   end

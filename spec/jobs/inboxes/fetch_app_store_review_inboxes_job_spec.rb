@@ -10,8 +10,8 @@ RSpec.describe Inboxes::FetchAppStoreReviewInboxesJob do
   let(:suspended_channel) { create(:channel_app_store, account: suspended_account, last_synced_at: 2.hours.ago) }
 
   before do
-    allow(GlobalConfigService).to receive(:load).and_call_original
-    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
+    account.enable_features!(:channel_app_store)
+    suspended_account.enable_features!(:channel_app_store)
   end
 
   it 'enqueues the job' do
@@ -32,7 +32,7 @@ RSpec.describe Inboxes::FetchAppStoreReviewInboxesJob do
   end
 
   it 'skips channels when the feature is disabled for the account' do
-    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
+    account.disable_features!(:channel_app_store)
     due_channel
 
     expect(Inboxes::FetchAppStoreReviewsJob).not_to receive(:perform_later)

@@ -31,7 +31,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
-    return render_app_store_feature_disabled if app_store_channel_requested? && !app_store_reviews_enabled?
+    return render_app_store_feature_disabled if app_store_channel_requested? && !Current.account.feature_enabled?(:channel_app_store)
 
     ActiveRecord::Base.transaction do
       channel = create_channel
@@ -108,10 +108,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def render_app_store_feature_disabled
     render json: { message: 'App Store Reviews channel is not enabled for this account' }, status: :forbidden
-  end
-
-  def app_store_reviews_enabled?
-    GlobalConfigService.load('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').to_s == 'true'
   end
 
   def update_inbox_working_hours
