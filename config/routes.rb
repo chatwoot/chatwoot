@@ -261,6 +261,8 @@ Rails.application.routes.draw do
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
               end
+              post :enable_whatsapp_calling, on: :member
+              post :disable_whatsapp_calling, on: :member
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do

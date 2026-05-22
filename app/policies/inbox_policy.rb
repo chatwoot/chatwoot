@@ -69,4 +69,12 @@ class InboxPolicy < ApplicationPolicy
   def reset_secret?
     @account_user.administrator?
   end
+
+  def enable_whatsapp_calling?
+    @account_user.administrator?
+  end
+
+  def disable_whatsapp_calling?
+    @account_user.administrator?
+  end
 end
