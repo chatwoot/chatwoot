@@ -29,7 +29,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
         it 'queues assignment job for eligible inboxes' do
           inbox_assignment_policy # ensure it exists
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox.id)
 
           described_class.new.perform
         end
@@ -51,8 +51,8 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
           allow(Account).to receive(:find_in_batches).and_yield([account]).and_yield([account2])
 
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox.id)
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox2.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox2.id)
 
           described_class.new.perform
         end
@@ -65,7 +65,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         end
 
         it 'does not queue assignment job' do
-          expect(AutoAssignment::AssignmentJob).not_to receive(:perform_later)
+          expect(AutoAssignment::AssignmentJob).not_to receive(:enqueue_for_inbox)
 
           described_class.new.perform
         end
@@ -78,7 +78,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
       end
 
       it 'does not process the account' do
-        expect(AutoAssignment::AssignmentJob).not_to receive(:perform_later)
+        expect(AutoAssignment::AssignmentJob).not_to receive(:enqueue_for_inbox)
 
         described_class.new.perform
       end
