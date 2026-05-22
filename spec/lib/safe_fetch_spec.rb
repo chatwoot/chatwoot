@@ -239,7 +239,9 @@ RSpec.describe SafeFetch do
 
         expect do
           described_class.fetch('http://evil.example.com/secret', allowed_private_cidrs: ['192.168.0.0/16']) { nil }
-        end.to raise_error(SafeFetch::UnsafeUrlError)
+        end.to(raise_error do |error|
+          expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
+        end)
       end
 
       it 'validates redirect targets against the private CIDR allowlist' do
@@ -250,7 +252,9 @@ RSpec.describe SafeFetch do
 
         expect do
           described_class.fetch(redirect_url, allowed_private_cidrs: ['192.168.0.0/16']) { nil }
-        end.to raise_error(SafeFetch::UnsafeUrlError)
+        end.to(raise_error do |error|
+          expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
+        end)
       end
     end
 
