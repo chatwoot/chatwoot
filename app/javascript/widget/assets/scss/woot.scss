@@ -101,6 +101,10 @@ select:not(.reset-base) {
   background-repeat: no-repeat;
   background-size: 9px 6px;
   font-family: inherit;
+
+  option {
+    @apply bg-white text-slate-600;
+  }
 }
 
 p code {
