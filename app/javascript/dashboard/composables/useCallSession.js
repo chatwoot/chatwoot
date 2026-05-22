@@ -1,4 +1,4 @@
-import { computed, ref, watch, onUnmounted, onMounted } from 'vue';
+import { computed, readonly, ref, watch, onUnmounted, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import VoiceAPI from 'dashboard/api/channel/voice/voiceAPIClient';
@@ -38,6 +38,7 @@ let storedCallsStoreRef = null;
 // Shared join lock so two surfaces (bubble + widget) clicking concurrently
 // see one in-flight join, not two unrelated isJoining refs.
 const globalIsJoining = ref(false);
+const globalIsJoiningReadonly = readonly(globalIsJoining);
 
 const handleBeforeUnloadGlobal = event => {
   const store = storedCallsStoreRef;
@@ -97,10 +98,16 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
       return;
     }
 
-    await VoiceAPI.leaveConference({ inboxId, conversationId, callSid });
-    TwilioVoiceClient.endClientCall();
-    globalDurationTimer?.stop();
-    callsStore.clearActiveCall();
+    // try/finally so a failed leaveConference (e.g. backend 5xx) still
+    // tears down the local Device and UI state — otherwise the call stays
+    // visually active with the mic open.
+    try {
+      await VoiceAPI.leaveConference({ inboxId, conversationId, callSid });
+    } finally {
+      TwilioVoiceClient.endClientCall();
+      globalDurationTimer?.stop();
+      callsStore.clearActiveCall();
+    }
   };
 
   const joinCall = async ({ conversationId, inboxId, callSid }) => {
@@ -158,6 +165,11 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
         TwilioVoiceClient.endClientCall();
         markDismissed(callSid);
         callsStore.dismissCall(callSid);
+      } else if (!isWhatsappCall(call)) {
+        // Tear down the Twilio Device on any other join error so a retry
+        // starts from a clean state — joinClientCall can leave the device
+        // half-initialized after a network blip.
+        TwilioVoiceClient.endClientCall();
       }
       // eslint-disable-next-line no-console
       console.error('Failed to join call:', error);
@@ -223,7 +235,7 @@ const buildReactiveSurface = callsStore => {
     activeCall,
     incomingCalls,
     hasActiveCall,
-    isJoining: globalIsJoining,
+    isJoining: globalIsJoiningReadonly,
     formattedCallDuration,
   };
 };

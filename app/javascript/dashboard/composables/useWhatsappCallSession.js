@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { readonly, ref } from 'vue';
 import Cookies from 'js-cookie';
 import WhatsappCallsAPI from 'dashboard/api/channel/whatsapp/whatsappCallsAPI';
 import { VOICE_CALL_OUTBOUND_INIT_STATUS } from 'dashboard/components-next/message/constants';
@@ -26,6 +26,7 @@ const pendingOutboundAnswers = new Map();
 // ref() so consumers can reactively gate buttons on it (the composable
 // re-exports this as `isInitiating`).
 const isInitiatingOutbound = ref(false);
+const isInitiatingOutboundReadonly = readonly(isInitiatingOutbound);
 // Inbound calls record from the moment the agent clicks accept (their click =
 // pickup). Outbound calls must wait — Meta's `connect` webhook (which lands
 // during ringing) negotiates remote tracks ~20s before the contact actually
@@ -383,7 +384,7 @@ export function useWhatsappCallSession() {
   };
 
   return {
-    isInitiating: isInitiatingOutbound,
+    isInitiating: isInitiatingOutboundReadonly,
     prepareInboundAnswer,
     prepareOutboundOffer,
     acceptIncomingCall,
