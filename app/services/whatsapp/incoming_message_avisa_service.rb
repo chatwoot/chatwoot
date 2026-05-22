@@ -32,7 +32,7 @@ class Whatsapp::IncomingMessageAvisaService
     return handle_edit if edit?
     return if source_id.present? && Message.exists?(source_id: source_id, inbox_id: inbox.id)
 
-    phone = phone_from_jid(resolved_jid)
+    phone = normalize_br_phone(phone_from_jid(resolved_jid))
     return if phone.blank?
 
     contact_inbox = build_contact_inbox(phone)
@@ -79,6 +79,15 @@ class Whatsapp::IncomingMessageAvisaService
 
   def phone_from_jid(jid)
     jid.to_s.split('@').first.to_s.split(':').first.to_s.tr('^0-9', '')
+  end
+
+  # Avisa às vezes entrega o JID BR sem o 9º dígito do celular (55 + DDD + 8).
+  # Canonicaliza pro formato COM 9 (número real) pra inbound e outbound
+  # compartilharem o mesmo ContactInbox.source_id e não rachar a conversa.
+  def normalize_br_phone(phone)
+    digits = phone.to_s.tr('^0-9', '')
+    match = digits.match(/\A55(\d{2})(\d{8})\z/)
+    match ? "55#{match[1]}9#{match[2]}" : digits
   end
 
   def extract_text
