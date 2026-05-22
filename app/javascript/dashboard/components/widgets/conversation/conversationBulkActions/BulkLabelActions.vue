@@ -109,7 +109,9 @@ const handleDismiss = () => {
     <NextButton
       v-tooltip="isTypeContact ? '' : tooltipLabel"
       :label="buttonLabel"
-      :icon="isRemoveAction ? 'i-lucide-tag-x' : 'i-lucide-tag'"
+      :icon="
+        isRemoveAction ? 'i-fluent-tag-dismiss-20-regular' : 'i-lucide-tag'
+      "
       slate
       :size="isTypeContact ? 'sm' : 'xs'"
       ghost

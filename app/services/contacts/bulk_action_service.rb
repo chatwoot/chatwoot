@@ -25,13 +25,11 @@ class Contacts::BulkActionService
   end
 
   def remove_labels
-    contacts = @account.contacts.where(id: ids)
-
-    contacts.find_each do |contact|
-      contact.update(label_list: contact.label_list - labels_to_remove)
-    end
-
-    { success: true, updated_contact_ids: contacts.pluck(:id) }
+    Contacts::BulkRemoveLabelsService.new(
+      account: @account,
+      contact_ids: ids,
+      labels: labels_to_remove
+    ).perform
   end
 
   def delete_contacts
