@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "ከMeta ጋር በመረጋገጥ ላይ ነው",
           "WAITING_FOR_BUSINESS_INFO": "እባክዎ በMeta መስኮት ውስጥ የንግድ ቅንብር ያርኩ...",
           "PROCESSING": "የWhatsApp ቢዝነስ መለያዎን እየተዘጋጀ ነው",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK እየተጫነ ነው...",
           "CANCELLED": "የWhatsApp ምዝገባ ተሰርዟል",
           "SUCCESS_TITLE": "የWhatsApp ቢዝነስ መለያ ተገናኝቷል!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "ማረጋገጫ አልተጠናቀቀም። ሂደቱን እባክዎ ዳግም ይጀምሩ።.",
           "SUCCESS_FALLBACK": "የWhatsApp የንግድ መለያ በተሳካ ሁኔታ ተቋቋመ",
           "MANUAL_FALLBACK": "ቁጥርዎ ከWhatsApp Business Platform (API) ጋር ከተገናኘ እና ወይም እርስዎ የቴክኖሎጂ አቅራቢ ከሆኑ እና የእርስዎን ቁጥር በራስዎ ሲያስገቡ፣ እባክዎ የ{link} ሂደትን ይጠቀሙ",
-          "MANUAL_LINK_TEXT": "የእጅ ማቀናበሪያ ሂደት"
+          "MANUAL_LINK_TEXT": "የእጅ ማቀናበሪያ ሂደት",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsApp ቻናሉን ማስቀመጥ አልተቻለም"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "ዋትስአፕ",
             "DESCRIPTION": "በWhatsApp ላይ ደንበኞችዎን ድጋፍ ያድርጉ"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "ኢሜይል",
@@ -637,7 +643,8 @@
       "BOT_CONFIGURATION": "የቦት ቅንብሮች",
       "ACCOUNT_HEALTH": "የመለያ ጤና",
       "CSAT": "የደንበኞች ደህንነት ግምገማ (CSAT)",
-      "VOICE": "ድምጽ"
+      "VOICE": "ድምጽ",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +653,26 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },
     "CHANNEL_PREFERENCES": "የቻናል ቅድሚያዎች",
@@ -800,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "ከWhatsApp መልእክት አብነቶች እጅግ በእጅ ማስተካከል ለእንደገና የሚገኙ አብነቶችን ያዘምኑ።.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "አብነቶችን ያዘምኑ",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "የአብነት ማስተካከያ በተሳካ ሁኔታ ተጀምሯል። ለማዘመን ጥቂት ደቂቃዎች ሊወስድ ይችላል።.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "የቀደም ቻት ቅጥያ ቅንብሮችን አዘምን"
     },
     "HELP_CENTER": {
