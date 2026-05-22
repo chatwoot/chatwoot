@@ -882,7 +882,7 @@
         "SOCIAL_LINKS": {
           "HEADER": "Links sociais",
           "DESCRIPTION": "Adicione o identificador de cada rede e sua central de ajuda criará o link completo automaticamente. Exibido no rodapé do leiaute da documentação.",
-          "PLACEHOLDER": "handle",
+          "PLACEHOLDER": "@usuario",
           "ADD": "Adicionar link social",
           "REMOVE": "Excluir"
         },
