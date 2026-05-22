@@ -79,13 +79,19 @@
       "OUTGOING_CALL": "Ausgehender Anruf",
       "CALL_IN_PROGRESS": "Anruf läuft",
       "NO_ANSWER": "Keine Antwort",
+      "NO_ANSWER_OUTBOUND_LABEL": "Keine Antwort",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Entgangener Anruf",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Anruf beendet",
       "NOT_ANSWERED_YET": "Noch nicht beantwortet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Sie antworteten",
       "YOU_ANSWERED": "Sie haben beantwortet",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "Join call"
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -100,6 +106,12 @@
       "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
       "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -300,7 +312,11 @@
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
