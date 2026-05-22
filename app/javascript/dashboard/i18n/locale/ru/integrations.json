@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Контакт создан",
             "CONTACT_UPDATED": "Контакт обновлен",
             "CONVERSATION_TYPING_ON": "Печатание во время разговора включено",
-            "CONVERSATION_TYPING_OFF": "Печатание во время разговора выключено"
+            "CONVERSATION_TYPING_OFF": "Печатание во время разговора выключено",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
