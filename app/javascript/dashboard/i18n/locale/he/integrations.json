@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "צור קשר",
             "CONTACT_UPDATED": "איש קשר עודכן",
             "CONVERSATION_TYPING_ON": "הקלדה בשיחה מופעלת",
-            "CONVERSATION_TYPING_OFF": "הקלדה בשיחה מושבתת"
+            "CONVERSATION_TYPING_OFF": "הקלדה בשיחה מושבתת",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
