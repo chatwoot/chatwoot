@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "ബന്ധപ്പെടൽ സൃഷ്ടിച്ചു",
             "CONTACT_UPDATED": "ബന്ധപ്പെടൽ അപ്ഡേറ്റ് ചെയ്തു",
             "CONVERSATION_TYPING_ON": "സംഭാഷണം ടൈപ്പിംഗ് ഓൺ",
-            "CONVERSATION_TYPING_OFF": "സംവാദം ടൈപ്പിംഗ് ഓഫ്"
+            "CONVERSATION_TYPING_OFF": "സംവാദം ടൈപ്പിംഗ് ഓഫ്",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
