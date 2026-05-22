@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Kişi Oluşturuldu",
             "CONTACT_UPDATED": "Kişi Güncellendi",
             "CONVERSATION_TYPING_ON": "Konuşmada Yazıyor Açık",
-            "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı"
+            "CONVERSATION_TYPING_OFF": "Konuşmada Yazıyor Kapalı",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
