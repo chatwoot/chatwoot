@@ -1,14 +1,14 @@
 import {
-  messageSchema,
-  MessageMarkdownTransformer,
   MessageMarkdownSerializer,
+  MessageMarkdownTransformer,
+  messageSchema,
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
-import camelcaseKeys from 'camelcase-keys';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
