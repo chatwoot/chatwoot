@@ -79,13 +79,19 @@
       "OUTGOING_CALL": "Panggilan keluar",
       "CALL_IN_PROGRESS": "Panggilan sedang berlangsung",
       "NO_ANSWER": "Tiada jawapan",
+      "NO_ANSWER_OUTBOUND_LABEL": "Tiada jawapan",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Panggilan terlepas",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Panggilan tamat",
       "NOT_ANSWERED_YET": "Belum dijawab",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Mereka menjawab",
       "YOU_ANSWERED": "Anda menjawab",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "Sertai panggilan"
+      "JOIN_CALL": "Sertai panggilan",
+      "CALL_BACK": "Call back"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Selesaikan",
@@ -100,6 +106,12 @@
       "SNOOZED_UNTIL_TOMORROW": "Ditangguhkan sehingga esok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditangguhkan sehingga minggu depan",
       "SNOOZED_UNTIL_NEXT_REPLY": "Ditangguhkan sehingga balasan seterusnya",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -300,7 +312,11 @@
       "HANDLED_IN_ANOTHER_TAB": "Sedang diuruskan di tab lain",
       "REJECT_CALL": "Tolak",
       "JOIN_CALL": "Sertai panggilan",
-      "END_CALL": "Tamatkan panggilan"
+      "END_CALL": "Tamatkan panggilan",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
