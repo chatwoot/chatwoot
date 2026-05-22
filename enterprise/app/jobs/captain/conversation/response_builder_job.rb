@@ -1,5 +1,7 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
+  include Captain::Conversation::ResponseMetadataBuilder
+  include Captain::Conversation::MessageHistoryCollector
 
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
@@ -77,41 +79,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         account.increment_response_usage
       end
     end
-  end
-
-  def collect_previous_messages
-    @conversation
-      .messages
-      .where(message_type: [:incoming, :outgoing])
-      .where(private: false)
-      .flat_map { |message| history_entries_for_message(message) }
-  end
-
-  def history_entries_for_message(message)
-    captain_run_context = message.captain_run_context if captain_v2_enabled? && message.outgoing?
-    return captain_run_context['messages'] if captain_run_context&.dig('messages').present?
-
-    [legacy_history_entry_for_message(message)]
-  end
-
-  def legacy_history_entry_for_message(message)
-    message_hash = {
-      content: prepare_multimodal_message_content(message),
-      role: determine_role(message)
-    }
-
-    agent_name = message.additional_attributes&.dig('captain', 'agent', 'name') || message.additional_attributes&.dig('agent_name')
-    message_hash[:agent_name] = agent_name if agent_name.present?
-
-    message_hash
-  end
-
-  def determine_role(message)
-    message.message_type == 'incoming' ? 'user' : 'assistant'
-  end
-
-  def prepare_multimodal_message_content(message)
-    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def v1_handoff_requested?
@@ -192,93 +159,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       additional_attributes: additional_attrs,
       preserve_waiting_since: preserve_waiting_since
     )
-  end
-
-  def captain_response_metadata
-    return unless captain_v2_enabled?
-
-    {
-      'version' => 'v2',
-      'agent' => captain_agent_metadata(@response['agent_name']),
-      'run' => captain_response_run_context
-    }
-  end
-
-  def captain_handoff_metadata
-    return unless captain_v2_enabled?
-
-    {
-      'version' => 'v2',
-      'agent' => captain_agent_metadata(@response&.dig('agent_name') || assistant_agent_name),
-      'run' => {
-        'messages' => [],
-        'handoff_tool_called' => true
-      }
-    }
-  end
-
-  def captain_response_run_context
-    run_context = (@response['run_context'] || {}).deep_stringify_keys
-    messages = Array(run_context['messages'])
-    messages = fallback_captain_run_messages if messages.empty?
-
-    {
-      'messages' => messages,
-      'handoff_tool_called' => @response['handoff_tool_called'] || false
-    }
-  end
-
-  def fallback_captain_run_messages
-    content = {}
-    content['reasoning'] = @response['reasoning'] if @response['reasoning'].present?
-
-    [
-      {
-        'role' => 'assistant',
-        'content' => content,
-        'agent_name' => @response['agent_name']
-      }.compact
-    ]
-  end
-
-  def captain_agent_metadata(agent_name)
-    agent_name = agent_name.presence || assistant_agent_name
-    scenario = @assistant.scenarios.enabled.find { |enabled_scenario| enabled_scenario.handoff_key == agent_name }
-
-    return scenario_agent_metadata(scenario, agent_name) if scenario
-    return assistant_agent_metadata(agent_name) if agent_name == assistant_agent_name
-
-    unknown_agent_metadata(agent_name)
-  end
-
-  def scenario_agent_metadata(scenario, agent_name)
-    {
-      'name' => agent_name,
-      'type' => 'scenario',
-      'assistant_id' => @assistant.id,
-      'scenario_id' => scenario.id,
-      'handoff_key' => scenario.handoff_key
-    }
-  end
-
-  def assistant_agent_metadata(agent_name)
-    {
-      'name' => agent_name,
-      'type' => 'assistant',
-      'assistant_id' => @assistant.id
-    }
-  end
-
-  def unknown_agent_metadata(agent_name)
-    {
-      'name' => agent_name,
-      'type' => 'unknown',
-      'assistant_id' => @assistant.id
-    }
-  end
-
-  def assistant_agent_name
-    @assistant.name.parameterize(separator: '_')
   end
 
   def handle_error(error)
