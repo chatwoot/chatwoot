@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "सम्पर्क सिर्जना भयो",
             "CONTACT_UPDATED": "सम्पर्क अपडेट गरियो",
             "CONVERSATION_TYPING_ON": "कुराकानी टाइप गर्दै छ",
-            "CONVERSATION_TYPING_OFF": "कुराकानी टाइप गर्दै छैन"
+            "CONVERSATION_TYPING_OFF": "कुराकानी टाइप गर्दै छैन",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
