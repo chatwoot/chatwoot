@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Konfigurasi Bot",
       "ACCOUNT_HEALTH": "Kesihatan Akaun",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Suara"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Keutamaan Saluran",
     "WIDGET_FEATURES": "Widget features",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Dayakan/Matikan paparan nama Ejen dalam emel, jika dimatikan ia akan memaparkan nama perniagaan",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Perbualan akan diteruskan melalui emel jika alamat emel kenalan tersedia.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Tetapan Peti Masuk",
@@ -1000,7 +1011,8 @@
         "LABEL": "Kata Laluan",
         "PLACE_HOLDER": "Kata Laluan"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Enable SSL",
+      "AUTH_MECHANISM": "Pengesahan"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

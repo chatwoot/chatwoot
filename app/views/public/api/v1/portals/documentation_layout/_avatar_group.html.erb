@@ -1,0 +1,10 @@
+<%# locals: (users:, size: :sm, overlap: '-ml-1.5') %>
+<% z_classes = %w[z-30 z-20 z-10] %>
+<span class="inline-flex items-center">
+  <% users.first(3).each_with_index do |user, idx| %>
+    <%= render 'public/api/v1/portals/documentation_layout/user_avatar',
+               user: user,
+               size: size,
+               extra_class: "relative #{z_classes[idx]} #{idx.positive? ? overlap : ''}" %>
+  <% end %>
+</span>

@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Ingen",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Samtale Oprettet",
       "CONVERSATION_UPDATED": "Samtale Opdateret",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Browser Sprog",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Land",
+      "COMPANY_NAME": "Virksomhed",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",

@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Společnost"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Text",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Vlastní atributy",
       "CONVERSATION": "Conversation",
-      "CONTACT": "Contact"
+      "CONTACT": "Contact",
+      "COMPANY": "Společnost"
     },
     "LIST": {
       "TABLE_HEADER": {
