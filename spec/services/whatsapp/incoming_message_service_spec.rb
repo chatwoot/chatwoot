@@ -220,7 +220,9 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.conversations.count).to eq(1)
         expect(Contact.count).to eq(1)
         expect(whatsapp_channel.inbox.messages.count).to eq(1)
-        expect(whatsapp_channel.inbox.messages.last.content).to eq('This message is unavailable.')
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('This message is unavailable.')
+        expect(message.content_attributes['is_unsupported']).to be(true)
       end
     end
 
