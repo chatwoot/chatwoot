@@ -83,7 +83,9 @@ const isComingSoon = computed(() => {
 });
 
 const isBeta = computed(() => {
-  return ['tiktok', 'app_store', 'voice'].includes(props.channel.key);
+  return ['tiktok', 'app_store', 'voice', 'google_play'].includes(
+    props.channel.key
+  );
 });
 
 const onItemClick = () => {
