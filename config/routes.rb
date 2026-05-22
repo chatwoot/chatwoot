@@ -378,8 +378,6 @@ Rails.application.routes.draw do
               end
             end
           end
-          resources :working_hours, only: [:update]
-
           resources :portals do
             member do
               patch :archive
