@@ -27,6 +27,10 @@ const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
 
+const isAppStoreReviewsEnabled = computed(() => {
+  return window.chatwootConfig?.enableAppStoreReviewsChannel === 'true';
+});
+
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -52,6 +56,10 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
+  if (key === 'app_store') {
+    return isAppStoreReviewsEnabled.value;
+  }
+
   if (key === 'voice') {
     return props.enabledFeatures.channel_voice;
   }
@@ -66,7 +74,6 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'tiktok',
-    'app_store',
     'voice',
   ].includes(key);
 });

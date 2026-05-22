@@ -12,6 +12,8 @@ RSpec.describe AppStore::SendOnAppStoreService do
   let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
 
   before do
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
     allow(Messages::StatusUpdateService).to receive(:new).and_return(status_update_service)
     allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
   end
@@ -51,6 +53,20 @@ RSpec.describe AppStore::SendOnAppStoreService do
         message,
         'failed',
         'Sending attachments is not supported for App Store reviews.'
+      )
+      expect(exception_tracker).to have_received(:capture_exception)
+    end
+
+    it 'marks the message as failed when the feature is disabled' do
+      allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
+      message = create(:message, message_type: :outgoing, inbox: inbox, conversation: conversation, account: inbox.account, content: 'Thanks')
+
+      described_class.new(message: message).perform
+
+      expect(Messages::StatusUpdateService).to have_received(:new).with(
+        message,
+        'failed',
+        'App Store Reviews channel is not enabled for this account.'
       )
       expect(exception_tracker).to have_received(:capture_exception)
     end

@@ -7,6 +7,11 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
   let(:review_payload) { { 'review' => { 'id' => 'review-1' }, 'response' => nil } }
   let(:review_builder) { instance_double(AppStore::ReviewBuilder, perform: true) }
 
+  before do
+    allow(GlobalConfigService).to receive(:load).and_call_original
+    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('true')
+  end
+
   it 'enqueues the job' do
     expect { described_class.perform_later(channel) }.to have_enqueued_job(described_class)
       .with(channel)
@@ -35,5 +40,13 @@ RSpec.describe Inboxes::FetchAppStoreReviewsJob do
 
     expect(exception_tracker).to have_received(:capture_exception)
     expect(channel.reload.last_synced_at).to be_present
+  end
+
+  it 'does not fetch reviews when the feature is disabled for the account' do
+    allow(GlobalConfigService).to receive(:load).with('ENABLE_APP_STORE_REVIEWS_CHANNEL', 'false').and_return('false')
+
+    expect(channel).not_to receive(:fetch_reviews)
+
+    described_class.perform_now(channel)
   end
 end
