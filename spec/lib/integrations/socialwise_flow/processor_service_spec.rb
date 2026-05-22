@@ -205,5 +205,38 @@ RSpec.describe Integrations::SocialwiseFlow::ProcessorService do
       expect(updated_service.send(:should_run_processor?, agent_reply)).to be_nil
       expect(conversation.reload.additional_attributes['socialwise_handoff_at']).to be_nil
     end
+
+    it 'marks handoff and opens pending conversation when Instagram native app echo is received' do
+      conversation.update!(status: :pending)
+      native_echo = build(
+        :message,
+        account: account,
+        inbox: inbox,
+        conversation: conversation,
+        message_type: :outgoing,
+        sender: nil,
+        content_attributes: { external_echo: true }
+      )
+      native_echo.save!
+
+      expect(service).to receive(:discard_pending_debounce_buffer).with(conversation.id)
+
+      expect(service.send(:should_run_processor?, native_echo)).to be_nil
+      expect(conversation.reload.additional_attributes['socialwise_handoff_at']).to be_present
+      expect(conversation.additional_attributes['socialwise_handoff_by']).to eq('external_echo')
+      expect(conversation.status).to eq('open')
+    end
+
+    it 'allows pending conversations with old handoff so resolved conversations can restart the bot' do
+      conversation.update!(
+        status: :pending,
+        additional_attributes: {
+          'socialwise_handoff_at' => Time.current.iso8601,
+          'socialwise_handoff_by' => 'agent_reply'
+        }
+      )
+
+      expect(service.send(:bot_should_respond?)).to be(true)
+    end
   end
 end

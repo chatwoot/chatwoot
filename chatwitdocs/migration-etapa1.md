@@ -763,6 +763,12 @@ end
 - **CORREÇÃO ADICIONAL:** mensagem manual de atendente no evento `message.created` (`outgoing` com `sender_type='User'`) também marca `socialwise_handoff_at` com `socialwise_handoff_by='agent_reply'`, desligando o bot até a conversa ser resolvida.
 - **REGRESSÃO COBERTA:** spec de `ProcessorService` simula a conversa memoizada, a flag gravada por outro job e a resposta humana manual.
 
+### 2026-05-21 - Correção: resposta humana por app nativo também para Ana
+- **CAUSA:** o Socialwise Flow reconhecia handoff manual pelo Chatwit, mas não diferenciava resposta enviada pelo app nativo do Instagram/WhatsApp (`content_attributes.external_echo`).
+- **SINTOMA:** a Ana podia continuar respondendo depois que o humano respondeu fora do Chatwit, gerando conversa duplicada entre app nativo, Chatwit e Socialwise.
+- **CORREÇÃO:** `ProcessorService` reutiliza a lógica canônica de `Message#human_response?`, grava `socialwise_handoff_by='external_echo'` para eco nativo, abre conversa pendente via `bot_handoff!` e descarta qualquer debounce pendente.
+- **SEMÂNTICA DE RESOLVER:** conversa pendente continua elegível para bot, preservando o comportamento de resolver/reabrir conversa para a Ana atuar no próximo inbound.
+
 ### 2026-02-02 (Atualização 5) - Correção: Bot continua respondendo após Handoff
 - **ADICIONADO:** Método `process_action` no `processor_service.rb` (override do método herdado)
 - **ADICIONADO:** Métodos `mark_handoff_completed`, `clear_handoff_flag`, `handoff_completed?`

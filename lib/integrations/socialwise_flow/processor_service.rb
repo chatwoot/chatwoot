@@ -213,8 +213,11 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     end
 
     if human_agent_reply?(message)
-      Rails.logger.info "[SOCIALWISE-FLOW] Human agent reply detected, marking handoff for conversation #{message.conversation.id}"
-      mark_handoff_completed(message.conversation, by: 'agent_reply')
+      handoff_by = human_handoff_source(message)
+      Rails.logger.info "[SOCIALWISE-FLOW] Human reply detected, marking handoff for conversation #{message.conversation.id} by #{handoff_by}"
+      mark_handoff_completed(message.conversation, by: handoff_by)
+      message.conversation.bot_handoff! if message.conversation.pending?
+      discard_pending_debounce_buffer(message.conversation.id)
       return
     end
 
@@ -268,10 +271,16 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
   def human_agent_reply?(message)
     return false unless event_name == 'message.created'
+    return false if message.additional_attributes&.dig('skip_send_reply')
 
-    message.outgoing? &&
-      message.sender_type == 'User' &&
-      !message.additional_attributes&.dig('skip_send_reply')
+    message.__send__(:human_response?)
+  end
+
+  def human_handoff_source(message)
+    return 'external_echo' if message.content_attributes&.dig('external_echo').present?
+    return 'agent_reply' if message.sender_type == 'User'
+
+    'human_reply'
   end
 
   # Override process_action to mark handoff in additional_attributes
