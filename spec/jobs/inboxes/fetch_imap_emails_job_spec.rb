@@ -88,9 +88,9 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
     end
 
     context 'when the fetch service returns the email objects' do
-      let(:inbound_mail) { double(message_id: 'message-id') }
+      let(:inbound_mail) { instance_double(Mail::Message, message_id: 'message-id') }
       let(:failure_cache_key) { "email_failures:#{inbound_mail.message_id}" }
-      let(:second_inbound_mail) { double(message_id: 'second-message-id') }
+      let(:second_inbound_mail) { instance_double(Mail::Message, message_id: 'second-message-id') }
       let(:second_failure_cache_key) { "email_failures:#{second_inbound_mail.message_id}" }
       let(:mailbox) { double }
       let(:exception_tracker) { double }
