@@ -22,9 +22,9 @@ const hasVoiceBadge = computed(() => isVoiceCallEnabled(props.inbox));
     <Icon :icon="channelIcon" class="size-full" />
     <span
       v-if="hasVoiceBadge"
-      class="absolute -top-1 ltr:-right-1 rtl:-left-1 inline-flex items-center justify-center size-2.5 rounded-full bg-n-alpha-2 ring-1 ring-n-solid-1"
+      class="absolute top-0 ltr:right-0 rtl:left-0 inline-flex items-center justify-center size-2 rounded-full bg-n-surface-1"
     >
-      <Icon icon="i-lucide-audio-lines" class="size-1.5 text-n-slate-10" />
+      <Icon icon="i-lucide-audio-lines" class="size-1.5 text-n-slate-12" />
     </span>
   </span>
 </template>
