@@ -107,7 +107,7 @@ const handleDismiss = () => {
 <template>
   <div ref="containerRef" class="relative">
     <NextButton
-      v-tooltip="isTypeContact ? '' : tooltipLabel"
+      v-tooltip="tooltipLabel"
       :label="buttonLabel"
       :icon="
         isRemoveAction ? 'i-fluent-tag-dismiss-20-regular' : 'i-lucide-tag'

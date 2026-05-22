@@ -108,7 +108,7 @@ export function useBulkActions() {
     }
   }
 
-  // Only used in context menu
+  // Used by both context menu and bulk action bar.
   async function onRemoveLabels(labelsToRemove, conversationId = null) {
     try {
       await store.dispatch('bulkActions/process', {
@@ -119,6 +119,7 @@ export function useBulkActions() {
         },
       });
 
+      // Context-menu remove should not disturb an existing bulk selection.
       if (conversationId) {
         useAlert(
           t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
