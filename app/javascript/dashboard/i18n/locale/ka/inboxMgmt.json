@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "ავტორიზაცია Meta-სთან",
           "WAITING_FOR_BUSINESS_INFO": "გთხოვთ დაასრულოთ ბიზნესის დაყენება Meta ფანჯარაში...",
           "PROCESSING": "თქვენი WhatsApp Business ანგარიშის დაყენება",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK-ის ჩატვირთვა...",
           "CANCELLED": "WhatsApp რეგისტრაცია გაუქმდა",
           "SUCCESS_TITLE": "WhatsApp ბიზნეს ანგარიში დაკავშირებულია!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "ავტორიზაცია არ დასრულებულა. გთხოვთ, დაიწყეთ პროცესი თავიდან.",
           "SUCCESS_FALLBACK": "WhatsApp Business ანგარიში წარმატებით კონფიგურირებულია",
           "MANUAL_FALLBACK": "თუ თქვენი ნომერი უკვე დაკავშირებულია WhatsApp Business Platform (API)-სთან, ან თუ თქვენ ტექნიკური მიმწოდებელი ხართ და საკუთარ ნომერს ამატებთ, გთხოვთ გამოიყენოთ {link} პროცესი",
-          "MANUAL_LINK_TEXT": "მანუალური დაყენების პროცესი"
+          "MANUAL_LINK_TEXT": "მანუალური დაყენების პროცესი",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "ვერ შევძელით WhatsApp არხის შენახვა"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "მხარდაჭერა თქვენი მომხმარებლებისთვის WhatsApp-ზე"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -637,7 +643,8 @@
       "BOT_CONFIGURATION": "ბოტის კონფიგურაცია",
       "ACCOUNT_HEALTH": "ანგარიშის ჯანმრთელობა",
       "CSAT": "CSAT",
-      "VOICE": "ხმოვანი"
+      "VOICE": "ხმოვანი",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +653,26 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },
     "CHANNEL_PREFERENCES": "არხის პარამეტრები",
@@ -800,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "ხელით სინქრონიზაცია WhatsApp-ისგან, რათა განაახლოთ ხელმისაწვდომი შაბლონები.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "შაბლონების სინქრონიზაცია",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "შაბლონების სინქრონიზაცია წარმატებით დაიწყო. განახლება შეიძლება რამდენიმე წუთი გაგრძელდეს.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "განაახლეთ წინასწარი ჩატის ფორმის პარამეტრები"
     },
     "HELP_CENTER": {
