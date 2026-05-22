@@ -27,6 +27,21 @@ describe Messages::StatusUpdateService do
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq('some error')
       end
+
+      it 'updates delivered messages to read' do
+        message.update!(status: 'delivered')
+        service = described_class.new(message, 'read')
+        service.perform
+        expect(message.reload.status).to eq('read')
+      end
+
+      it 'allows failed status from read messages' do
+        message.update!(status: 'read')
+        service = described_class.new(message, 'failed', 'some error')
+        service.perform
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('some error')
+      end
     end
 
     context 'when status is invalid' do
@@ -38,6 +53,20 @@ describe Messages::StatusUpdateService do
       it 'prevents transition from read to delivered' do
         message.update!(status: 'read')
         service = described_class.new(message, 'delivered')
+        expect(service.perform).to be false
+        expect(message.reload.status).to eq('read')
+      end
+
+      it 'prevents transition from delivered to sent' do
+        message.update!(status: 'delivered')
+        service = described_class.new(message, 'sent')
+        expect(service.perform).to be false
+        expect(message.reload.status).to eq('delivered')
+      end
+
+      it 'prevents transition from read to sent' do
+        message.update!(status: 'read')
+        service = described_class.new(message, 'sent')
         expect(service.perform).to be false
         expect(message.reload.status).to eq('read')
       end

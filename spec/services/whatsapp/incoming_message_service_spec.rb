@@ -267,6 +267,44 @@ describe Whatsapp::IncomingMessageService do
         )
       end
 
+      it 'does not downgrade delivered messages to sent' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'sent' }]
+        }.with_indifferent_access
+
+        message = Message.find_by!(source_id: from)
+        message.update!(status: :delivered)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        expect(message.reload.status).to eq('delivered')
+      end
+
+      it 'does not downgrade read messages to delivered' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+        }.with_indifferent_access
+
+        message = Message.find_by!(source_id: from)
+        message.update!(status: :read)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        expect(message.reload.status).to eq('read')
+      end
+
+      it 'updates status message from sent to delivered' do
+        status_params = {
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+        }.with_indifferent_access
+
+        message = Message.find_by!(source_id: from)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        expect(message.reload.status).to eq('delivered')
+      end
+
       it 'update status message to failed' do
         status_params = {
           'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'failed',
