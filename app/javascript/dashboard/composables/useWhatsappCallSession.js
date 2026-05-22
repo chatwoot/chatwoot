@@ -279,14 +279,23 @@ export function useWhatsappCallSession() {
       throw new Error('Missing sdp_offer for accept — call may have ended.');
     }
 
-    const sdpAnswer = await prepareInboundAnswer(offer, ice);
-    activeCallId = callId;
-    // Inbound: agent's click is the pickup. Arm the recorder before the API
-    // round-trip so when ontrack fires (triggered by setRemoteDescription
-    // back in prepareInboundAnswer) the recorder is already authorized.
-    recorderArmed = true;
-    setupRecorder();
-    await WhatsappCallsAPI.accept(callId, sdpAnswer);
+    // Release the mic + peer connection if anything between here and the accept
+    // round-trip fails — otherwise a rejected accept leaves the mic live and
+    // activeCallId set. Mirrors rejectIncomingCall's self-cleanup; rethrow so
+    // the caller can surface the failure and skip marking the call active.
+    try {
+      const sdpAnswer = await prepareInboundAnswer(offer, ice);
+      activeCallId = callId;
+      // Inbound: agent's click is the pickup. Arm the recorder before the API
+      // round-trip so when ontrack fires (triggered by setRemoteDescription
+      // back in prepareInboundAnswer) the recorder is already authorized.
+      recorderArmed = true;
+      setupRecorder();
+      await WhatsappCallsAPI.accept(callId, sdpAnswer);
+    } catch (e) {
+      cleanup();
+      throw e;
+    }
   };
 
   const rejectIncomingCall = async callId => {
