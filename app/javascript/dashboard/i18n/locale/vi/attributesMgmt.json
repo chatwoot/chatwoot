@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Cuộc hội thoại",
-      "CONTACT": "Liên hệ"
+      "CONTACT": "Liên hệ",
+      "COMPANY": "Công ty"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Văn bản",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Thuộc tính tùy chỉnh",
       "CONVERSATION": "Cuộc hội thoại",
-      "CONTACT": "Liên lạc"
+      "CONTACT": "Liên lạc",
+      "COMPANY": "Công ty"
     },
     "LIST": {
       "TABLE_HEADER": {

@@ -43,10 +43,10 @@ export const FEATURE_FLAGS = {
   CAPTAIN_TASKS: 'captain_tasks',
   CAPTAIN_DOCUMENT_AUTO_SYNC: 'captain_document_auto_sync',
   SAML: 'saml',
-  QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
+  CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
 };
 
 export const PREMIUM_FEATURES = [

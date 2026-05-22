@@ -386,6 +386,7 @@
       "IDENTIFIER": "Azonosító",
       "COUNTRY": "Ország",
       "CITY": "Város",
+      "COMPANY": "Cég",
       "CREATED_AT": "Létrehozva",
       "LAST_ACTIVITY": "Utolsó aktivitás",
       "REFERER_LINK": "Hivatkozás link",

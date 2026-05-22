@@ -10,7 +10,8 @@
     "NO_RESULTS": "검색과 일치하는 사용자 지정 속성이 없습니다",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "대화",
-      "CONTACT": "연락처"
+      "CONTACT": "연락처",
+      "COMPANY": "회사"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "텍스트",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "사용자 지정 특성",
       "CONVERSATION": "대화",
-      "CONTACT": "연락처"
+      "CONTACT": "연락처",
+      "COMPANY": "회사"
     },
     "LIST": {
       "TABLE_HEADER": {
