@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Brak",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Rozpoczęcie rozmowy",
       "CONVERSATION_UPDATED": "Aktualizacja rozmowy",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Język przeglądarki",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Kraj",
+      "COMPANY_NAME": "Firma",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Zespół",

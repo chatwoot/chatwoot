@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Kısayol silinirken bir hata oluştu. Lütfen daha sonra tekrar deneyin"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Kısayolu Düzenle",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Kısayol Görünürlüğü",
         "GLOBAL": {
           "LABEL": "Genel",
-          "DESCRIPTION": "Bu kısayol, tüm temsilciler için genel olarak kullanılabilir."
+          "DESCRIPTION": "Bu kısayol, tüm temsilciler için genel olarak kullanılabilir.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Özel",

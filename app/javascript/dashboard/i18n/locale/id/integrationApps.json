@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Pilih Kotak Masuk"
         },
         "SUBMIT": "Buat",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Batalkan"
       },
       "API": {

@@ -168,7 +168,9 @@ const handlePageChange = page => emit('pageChange', page);
 const navigateToNewArticlePage = () => {
   const { categorySlug, locale } = route.params;
   router.push({
-    name: 'portals_articles_new',
+    name: props.isCategoryArticles
+      ? 'portals_categories_articles_new'
+      : 'portals_articles_new',
     params: { categorySlug, locale },
   });
 };
@@ -274,6 +276,7 @@ watch(
           :categories="categories"
           :allowed-locales="allowedLocales"
           :has-selected-category="isCategoryArticles"
+          @new-article="navigateToNewArticlePage"
         />
       </div>
     </template>
@@ -296,7 +299,7 @@ watch(
             :selected-count-label="selectedCountLabel"
             class="py-2 ltr:!pr-3 rtl:!pl-3 justify-between"
           >
-            <template #secondary-actions>
+            <template #secondaryActions>
               <Button
                 sm
                 ghost

@@ -808,6 +808,11 @@ watch(
 );
 
 watch(
+  computed(() => props.disabled),
+  () => editorView?.setProps({})
+);
+
+watch(
   computed(() => props.updateSelectionWith),
   (newValue, oldValue) => {
     if (!editorView) return;
