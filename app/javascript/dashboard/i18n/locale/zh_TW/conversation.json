@@ -79,13 +79,19 @@
       "OUTGOING_CALL": "撥出電話",
       "CALL_IN_PROGRESS": "通話中",
       "NO_ANSWER": "未接聽",
+      "NO_ANSWER_OUTBOUND_LABEL": "未接聽",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "未接來電",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "通話結束",
       "NOT_ANSWERED_YET": "尚未接聽",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "對方已接聽",
       "YOU_ANSWERED": "您已接聽",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "加入通話"
+      "JOIN_CALL": "加入通話",
+      "CALL_BACK": "Call back"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決",
@@ -100,6 +106,12 @@
       "SNOOZED_UNTIL_TOMORROW": "延後至明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "延後至下週",
       "SNOOZED_UNTIL_NEXT_REPLY": "延後至下次回覆",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -300,7 +312,11 @@
       "HANDLED_IN_ANOTHER_TAB": "正在另一個分頁中處理",
       "REJECT_CALL": "拒接",
       "JOIN_CALL": "加入通話",
-      "END_CALL": "結束通話"
+      "END_CALL": "結束通話",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
