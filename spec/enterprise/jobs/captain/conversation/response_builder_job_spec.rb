@@ -203,6 +203,124 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
       end
+
+      it 'stores normalized Captain run metadata on the outgoing message' do
+        agent_name = assistant.name.parameterize(separator: '_')
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'Hey, welcome to Captain V2',
+                                                                                     'agent_name' => agent_name,
+                                                                                     'handoff_tool_called' => false,
+                                                                                     'run_context' => {
+                                                                                       'messages' => [
+                                                                                         {
+                                                                                           'role' => 'assistant',
+                                                                                           'content' => { 'reasoning' => 'Answered from FAQ' },
+                                                                                           'agent_name' => agent_name
+                                                                                         }
+                                                                                       ],
+                                                                                       'handoff_tool_called' => false
+                                                                                     }
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        attributes = conversation.messages.outgoing.last.additional_attributes
+        expect(attributes['agent_name']).to eq(agent_name)
+        expect(attributes.dig('captain', 'version')).to eq('v2')
+        expect(attributes.dig('captain', 'agent')).to eq({
+                                                           'name' => agent_name,
+                                                           'type' => 'assistant',
+                                                           'assistant_id' => assistant.id
+                                                         })
+        expect(attributes.dig('captain', 'run', 'messages').last['content']).to eq({ 'reasoning' => 'Answered from FAQ' })
+      end
+
+      it 'stores scenario agent metadata when the scenario handles the response' do
+        scenario = create(:captain_scenario, assistant: assistant, account: account, title: 'Billing support')
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'Billing answer',
+                                                                                     'agent_name' => scenario.handoff_key,
+                                                                                     'handoff_tool_called' => false
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.outgoing.last.additional_attributes.dig('captain', 'agent')).to eq({
+                                                                                                          'name' => scenario.handoff_key,
+                                                                                                          'type' => 'scenario',
+                                                                                                          'assistant_id' => assistant.id,
+                                                                                                          'scenario_id' => scenario.id,
+                                                                                                          'handoff_key' => scenario.handoff_key
+                                                                                                        })
+      end
+
+      it 'replays persisted Captain run messages as message history' do
+        agent_name = assistant.name.parameterize(separator: '_')
+        create(
+          :message,
+          conversation: conversation,
+          account: account,
+          inbox: inbox,
+          sender: assistant,
+          message_type: :outgoing,
+          content: 'Prior visible answer',
+          additional_attributes: {
+            'captain' => {
+              'version' => 'v2',
+              'agent' => { 'name' => agent_name, 'type' => 'assistant', 'assistant_id' => assistant.id },
+              'run' => {
+                'messages' => [
+                  {
+                    'role' => 'assistant',
+                    'content' => '',
+                    'agent_name' => agent_name,
+                    'tool_calls' => [
+                      {
+                        'id' => 'call_1',
+                        'name' => 'captain--tools--faq_lookup',
+                        'arguments' => { 'query' => 'billing' }
+                      }
+                    ]
+                  },
+                  { 'role' => 'tool', 'content' => 'FAQ result', 'tool_call_id' => 'call_1' },
+                  {
+                    'role' => 'assistant',
+                    'content' => { 'reasoning' => 'Prior reasoning' },
+                    'agent_name' => agent_name
+                  }
+                ],
+                'handoff_tool_called' => false
+              }
+            }
+          }
+        )
+
+        expected_messages = [
+          { content: 'Hello', role: 'user' },
+          {
+            'role' => 'assistant',
+            'content' => '',
+            'agent_name' => agent_name,
+            'tool_calls' => [
+              {
+                'id' => 'call_1',
+                'name' => 'captain--tools--faq_lookup',
+                'arguments' => { 'query' => 'billing' }
+              }
+            ]
+          },
+          { 'role' => 'tool', 'content' => 'FAQ result', 'tool_call_id' => 'call_1' },
+          {
+            'role' => 'assistant',
+            'content' => { 'reasoning' => 'Prior reasoning', 'response' => 'Prior visible answer' },
+            'agent_name' => agent_name
+          }
+        ]
+
+        expect(mock_agent_runner_service).to receive(:generate_response).with(message_history: expected_messages)
+
+        described_class.perform_now(conversation, assistant)
+      end
     end
 
     context 'when captain_v2 handoff tool fires during agent execution' do
@@ -222,6 +340,10 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         public_messages = conversation.messages.outgoing.where(private: false)
         expect(public_messages.count).to eq(1)
         expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+        expect(public_messages.last.additional_attributes.dig('captain', 'run')).to eq({
+                                                                                         'messages' => [],
+                                                                                         'handoff_tool_called' => true
+                                                                                       })
       end
 
       it 'does not call bot_handoff! again when conversation is already open' do

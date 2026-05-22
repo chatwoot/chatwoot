@@ -24,6 +24,47 @@ RSpec.describe Message do
     expect(conversation.waiting_since).to be_nil
   end
 
+  describe '#captain_run_context' do
+    it 'restores the final response from message content without mutating additional attributes' do
+      message = create(
+        :message,
+        message_type: :outgoing,
+        conversation: conversation,
+        content: 'Visible response',
+        additional_attributes: {
+          'captain' => {
+            'version' => 'v2',
+            'run' => {
+              'messages' => [
+                { 'role' => 'tool', 'content' => 'FAQ result', 'tool_call_id' => 'call_1' },
+                {
+                  'role' => 'assistant',
+                  'content' => { 'reasoning' => 'Used FAQ' },
+                  'agent_name' => 'assistant'
+                }
+              ],
+              'handoff_tool_called' => false
+            }
+          }
+        }
+      )
+
+      run_context = message.captain_run_context
+
+      expect(run_context['messages'].last['content']).to eq({
+                                                              'reasoning' => 'Used FAQ',
+                                                              'response' => 'Visible response'
+                                                            })
+      expect(message.additional_attributes.dig('captain', 'run', 'messages').last['content']).to eq({ 'reasoning' => 'Used FAQ' })
+    end
+
+    it 'returns nil when the message has no Captain V2 run context' do
+      message = create(:message, message_type: :outgoing, conversation: conversation, additional_attributes: {})
+
+      expect(message.captain_run_context).to be_nil
+    end
+  end
+
   describe '#mark_pending_conversation_as_open_for_human_response' do
     let(:conversation) { create(:conversation, status: :pending) }
     let(:captain_assistant) { create(:captain_assistant, account: conversation.account) }

@@ -84,17 +84,26 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .messages
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
-      .map do |message|
-      message_hash = {
-        content: prepare_multimodal_message_content(message),
-        role: determine_role(message)
-      }
+      .flat_map { |message| history_entries_for_message(message) }
+  end
 
-      # Include agent_name if present in additional_attributes
-      message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
+  def history_entries_for_message(message)
+    captain_run_context = message.captain_run_context if captain_v2_enabled? && message.outgoing?
+    return captain_run_context['messages'] if captain_run_context&.dig('messages').present?
 
-      message_hash
-    end
+    [legacy_history_entry_for_message(message)]
+  end
+
+  def legacy_history_entry_for_message(message)
+    message_hash = {
+      content: prepare_multimodal_message_content(message),
+      role: determine_role(message)
+    }
+
+    agent_name = message.additional_attributes&.dig('captain', 'agent', 'name') || message.additional_attributes&.dig('agent_name')
+    message_hash[:agent_name] = agent_name if agent_name.present?
+
+    message_hash
   end
 
   def determine_role(message)
@@ -153,22 +162,26 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def create_handoff_message(preserve_waiting_since: false)
     create_outgoing_message(
       @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
+      agent_name: captain_v2_enabled? ? @response&.dig('agent_name') || assistant_agent_name : nil,
+      captain_metadata: captain_handoff_metadata,
       preserve_waiting_since: preserve_waiting_since
     )
   end
 
   def create_messages
     validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
+    create_outgoing_message(@response['response'], agent_name: @response['agent_name'], captain_metadata: captain_response_metadata)
   end
 
   def validate_message_content!(content)
     raise ArgumentError, 'Message content cannot be blank' if content.blank?
   end
 
-  def create_outgoing_message(message_content, agent_name: nil, preserve_waiting_since: false)
+  def create_outgoing_message(message_content, agent_name: nil, captain_metadata: nil, preserve_waiting_since: false)
     additional_attrs = {}
-    additional_attrs[:agent_name] = agent_name if agent_name.present?
+    agent_name ||= captain_metadata&.dig('agent', 'name')
+    additional_attrs['agent_name'] = agent_name if agent_name.present?
+    additional_attrs['captain'] = captain_metadata if captain_metadata.present?
 
     @conversation.messages.create!(
       message_type: :outgoing,
@@ -179,6 +192,93 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       additional_attributes: additional_attrs,
       preserve_waiting_since: preserve_waiting_since
     )
+  end
+
+  def captain_response_metadata
+    return unless captain_v2_enabled?
+
+    {
+      'version' => 'v2',
+      'agent' => captain_agent_metadata(@response['agent_name']),
+      'run' => captain_response_run_context
+    }
+  end
+
+  def captain_handoff_metadata
+    return unless captain_v2_enabled?
+
+    {
+      'version' => 'v2',
+      'agent' => captain_agent_metadata(@response&.dig('agent_name') || assistant_agent_name),
+      'run' => {
+        'messages' => [],
+        'handoff_tool_called' => true
+      }
+    }
+  end
+
+  def captain_response_run_context
+    run_context = (@response['run_context'] || {}).deep_stringify_keys
+    messages = Array(run_context['messages'])
+    messages = fallback_captain_run_messages if messages.empty?
+
+    {
+      'messages' => messages,
+      'handoff_tool_called' => @response['handoff_tool_called'] || false
+    }
+  end
+
+  def fallback_captain_run_messages
+    content = {}
+    content['reasoning'] = @response['reasoning'] if @response['reasoning'].present?
+
+    [
+      {
+        'role' => 'assistant',
+        'content' => content,
+        'agent_name' => @response['agent_name']
+      }.compact
+    ]
+  end
+
+  def captain_agent_metadata(agent_name)
+    agent_name = agent_name.presence || assistant_agent_name
+    scenario = @assistant.scenarios.enabled.find { |enabled_scenario| enabled_scenario.handoff_key == agent_name }
+
+    return scenario_agent_metadata(scenario, agent_name) if scenario
+    return assistant_agent_metadata(agent_name) if agent_name == assistant_agent_name
+
+    unknown_agent_metadata(agent_name)
+  end
+
+  def scenario_agent_metadata(scenario, agent_name)
+    {
+      'name' => agent_name,
+      'type' => 'scenario',
+      'assistant_id' => @assistant.id,
+      'scenario_id' => scenario.id,
+      'handoff_key' => scenario.handoff_key
+    }
+  end
+
+  def assistant_agent_metadata(agent_name)
+    {
+      'name' => agent_name,
+      'type' => 'assistant',
+      'assistant_id' => @assistant.id
+    }
+  end
+
+  def unknown_agent_metadata(agent_name)
+    {
+      'name' => agent_name,
+      'type' => 'unknown',
+      'assistant_id' => @assistant.id
+    }
+  end
+
+  def assistant_agent_name
+    @assistant.name.parameterize(separator: '_')
   end
 
   def handle_error(error)

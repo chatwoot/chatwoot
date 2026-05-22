@@ -13,7 +13,26 @@ module Enterprise::Message
     data
   end
 
+  def captain_run_context
+    captain = additional_attributes&.dig('captain')
+    return unless captain&.dig('version') == 'v2'
+
+    run_context = (captain['run'] || {}).deep_dup
+    messages = Array(run_context['messages']).map(&:deep_dup)
+    restore_captain_final_response(messages)
+
+    run_context.merge('messages' => messages)
+  end
+
   private
+
+  def restore_captain_final_response(messages)
+    final_assistant_message = messages.reverse.find { |message| message['role'] == 'assistant' }
+    return unless final_assistant_message
+
+    content_hash = final_assistant_message['content'].is_a?(Hash) ? final_assistant_message['content'] : {}
+    final_assistant_message['content'] = content_hash.merge('response' => content)
+  end
 
   def mark_pending_conversation_as_open_for_human_response
     return unless captain_pending_conversation?

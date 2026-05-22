@@ -13,7 +13,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
-  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
+  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil, messages: []) }
 
   let(:message_history) do
     [
@@ -167,13 +167,67 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+      expect(result).to eq({
+                             'response' => 'Test response',
+                             'agent_name' => nil,
+                             'handoff_tool_called' => false,
+                             'run_context' => {
+                               'messages' => [],
+                               'handoff_tool_called' => false
+                             }
+                           })
+    end
+
+    it 'normalizes run messages and removes duplicated final response' do
+      runner_messages = [
+        {
+          role: :assistant,
+          content: '',
+          agent_name: 'assistant',
+          tool_calls: [{ id: 'call_1', name: 'captain--tools--faq_lookup', arguments: { query: 'billing' } }]
+        },
+        { role: :tool, content: 'FAQ result', tool_call_id: 'call_1' },
+        {
+          role: :assistant,
+          content: { response: 'Test response', reasoning: 'Answered from FAQ' },
+          agent_name: scenario.handoff_key
+        }
+      ]
+      allow(mock_result).to receive(:messages).and_return(runner_messages)
+      allow(mock_result).to receive(:context).and_return({ current_agent: scenario.handoff_key })
+
+      result = service.generate_response(message_history: message_history)
+
+      expect(result['agent_name']).to eq(scenario.handoff_key)
+      expect(result['run_context']).to eq({
+                                            'messages' => [
+                                              {
+                                                'role' => 'assistant',
+                                                'content' => '',
+                                                'agent_name' => 'assistant',
+                                                'tool_calls' => [
+                                                  {
+                                                    'id' => 'call_1',
+                                                    'name' => 'captain--tools--faq_lookup',
+                                                    'arguments' => { 'query' => 'billing' }
+                                                  }
+                                                ]
+                                              },
+                                              { 'role' => 'tool', 'content' => 'FAQ result', 'tool_call_id' => 'call_1' },
+                                              {
+                                                'role' => 'assistant',
+                                                'content' => { 'reasoning' => 'Answered from FAQ' },
+                                                'agent_name' => scenario.handoff_key
+                                              }
+                                            ],
+                                            'handoff_tool_called' => false
+                                          })
     end
 
     context 'when handoff tool was called during agent execution' do
       let(:runner_context) { { captain_v2_handoff_tool_called: true } }
       let(:mock_result) do
-        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context)
+        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context, messages: [])
       end
 
       it 'includes handoff_tool_called flag in response' do
@@ -182,7 +236,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result).to eq({
                                'response' => 'Let me connect you',
                                'agent_name' => nil,
-                               'handoff_tool_called' => true
+                               'handoff_tool_called' => true,
+                               'run_context' => {
+                                 'messages' => [],
+                                 'handoff_tool_called' => true
+                               }
                              })
       end
     end
@@ -203,7 +261,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'when agent result is a string' do
-      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil) }
+      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil, messages: []) }
 
       it 'formats string response correctly' do
         result = service.generate_response(message_history: message_history)
@@ -212,7 +270,11 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
                                'response' => 'Simple string response',
                                'reasoning' => 'Processed by agent',
                                'agent_name' => nil,
-                               'handoff_tool_called' => false
+                               'handoff_tool_called' => false,
+                               'run_context' => {
+                                 'messages' => [],
+                                 'handoff_tool_called' => false
+                               }
                              })
       end
     end
@@ -304,6 +366,15 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           assistant_id: assistant.id
         )
       )
+    end
+
+    it 'preserves structured assistant content in conversation history' do
+      structured_content = { 'response' => 'Visible answer', 'reasoning' => 'Used FAQ', 'custom' => { 'score' => 0.9 } }
+      context = service.send(:build_context, [
+                               { role: 'assistant', content: structured_content, agent_name: 'assistant' }
+                             ])
+
+      expect(context[:conversation_history].first[:content]).to eq(structured_content)
     end
 
     context 'with multimodal content' do

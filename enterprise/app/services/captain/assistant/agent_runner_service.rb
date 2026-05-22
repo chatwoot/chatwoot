@@ -45,15 +45,14 @@ class Captain::Assistant::AgentRunnerService
 
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
-      content = msg[:content]
-      # Preserve multimodal arrays (with image_url entries) as-is for the runner to restore with attachments.
-      # Only extract text from non-array formats (hashes from agent structured output, plain strings).
-      content = extract_text_from_content(content) unless content.is_a?(Array)
+      content = message_value(msg, :content)
+      # Preserve multimodal arrays and structured agent output as-is for replay.
+      content = extract_text_from_content(content) unless content.is_a?(Array) || content.is_a?(Hash)
 
       {
-        role: msg[:role].to_sym,
+        role: message_value(msg, :role).to_sym,
         content: content,
-        agent_name: msg[:agent_name]
+        agent_name: message_value(msg, :agent_name)
       }
     end
 
@@ -65,10 +64,10 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def extract_last_user_message(message_history)
-    last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
+    last_user_msg = message_history.reverse.find { |msg| message_value(msg, :role).to_s == 'user' }
     return '' if last_user_msg.blank?
 
-    content = last_user_msg[:content]
+    content = message_value(last_user_msg, :content)
     return extract_text_from_content(content) unless content.is_a?(Array)
 
     text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(content)
@@ -78,10 +77,14 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def message_history_without_last_user_message(message_history)
-    last_user_index = message_history.rindex { |msg| msg[:role] == 'user' }
+    last_user_index = message_history.rindex { |msg| message_value(msg, :role).to_s == 'user' }
     return message_history if last_user_index.nil?
 
     message_history.reject.with_index { |_msg, index| index == last_user_index }
+  end
+
+  def message_value(message, key)
+    message[key] || message[key.to_s]
   end
 
   def extract_text_from_content(content)
@@ -100,7 +103,39 @@ class Captain::Assistant::AgentRunnerService
     response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
     response['agent_name'] = result.context&.dig(:current_agent)
     response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
+    response['run_context'] = build_run_context(result, response)
     response
+  end
+
+  def build_run_context(result, response)
+    {
+      'messages' => normalized_run_messages(result.messages || []),
+      'handoff_tool_called' => response['handoff_tool_called']
+    }
+  end
+
+  def normalized_run_messages(messages)
+    normalized_messages = messages.map { |message| normalize_run_message(message) }
+    final_assistant_message = normalized_messages.reverse.find { |message| message['role'] == 'assistant' }
+    strip_final_response(final_assistant_message) if final_assistant_message
+    normalized_messages
+  end
+
+  def normalize_run_message(message)
+    normalized = message.deep_stringify_keys
+    normalized['role'] = normalized['role'].to_s if normalized['role'].present?
+    normalized['content'] = normalized['content'].deep_stringify_keys if normalized['content'].is_a?(Hash)
+    normalized
+  end
+
+  def strip_final_response(message)
+    message['content'] = normalized_final_message_content(message['content'])
+  end
+
+  def normalized_final_message_content(content)
+    return content.except('response') if content.is_a?(Hash)
+
+    {}
   end
 
   def error_response(error_message)
