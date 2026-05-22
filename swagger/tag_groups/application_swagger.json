@@ -8822,10 +8822,16 @@
                 "contact_updated",
                 "message_created",
                 "message_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The list of subscribed events"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Secret used to sign webhook requests"
           },
           "account_id": {
             "type": "number",
@@ -10846,7 +10852,9 @@
                 "message_updated",
                 "contact_created",
                 "contact_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The events you want to subscribe to.",

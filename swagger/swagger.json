@@ -10315,7 +10315,9 @@
                 "contact_updated",
                 "message_created",
                 "message_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The list of subscribed events"
@@ -12343,7 +12345,9 @@
                 "message_updated",
                 "contact_created",
                 "contact_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The events you want to subscribe to.",

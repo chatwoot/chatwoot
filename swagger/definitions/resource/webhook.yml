@@ -21,7 +21,9 @@ properties:
         "contact_updated",
         "message_created",
         "message_updated",
-        "webwidget_triggered"
+        "webwidget_triggered",
+        "conversation_typing_on",
+        "conversation_typing_off"
       ]
     description: The list of subscribed events
   secret:
