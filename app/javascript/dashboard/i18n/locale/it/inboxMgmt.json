@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Inserisci il tuo URL Webhook",
           "ERROR": "Inserisci un URL valido"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copia secret negli appunti",
+          "COPY_SUCCESS": "Secret copiato negli appunti",
+          "TOGGLE": "Cambia visibilità secret",
+          "RESET_SUCCESS": "Webhook secret rigenerato con successo",
+          "RESET_ERROR": "Impossibile rigenerare il webhook secret. Riprova"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Dominio del Sito",
           "PLACEHOLDER": "Inserisci il dominio del tuo sito web (es: acme.com)"
@@ -628,7 +636,17 @@
       "WIDGET_BUILDER": "Costruttore Widget",
       "BOT_CONFIGURATION": "Configurazione Bot",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voce"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Abilita Chiamate Vocali",
+        "DESCRIPTION": "Abilita le chiamate vocali su questa inbox. Gli operatori saranno in grado di effettuare e ricevere chiamate."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Le chiamate vocali richiedono credenziali API di Twilio. Queste vengono usate per generare token per le connessioni voce."
+      }
     },
     "CHANNEL_PREFERENCES": "Preferenze Canali",
     "WIDGET_FEATURES": "Funzionalità Widget",
@@ -710,8 +728,20 @@
       "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
-        "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
+        "DESCRIPTION": "Limita quali siti web possono incorporare il widget di chat. Per sicurezza, aggiungi solo domini che possiedi e di cui ti puoi fidare. Aggiungi uno o più domini separati da virgole. Lascia vuoto per consentire tutti i domini (sconsigliato in produzione).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Abilita il widget nelle app mobile",
+        "SUBTITLE": "Spunta questa opzione se hai incorporato il widget nelle app iOS o Android. Le app mobile non inviano informazioni di dominio, quindi sarebbero bloccate da restrizioni di dominio a meno che questa opzione non sia abilitata."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Convalida Identità",
+        "DESCRIPTION": "Verifica l'autenticità dell'utente generando token sicuri. Questo impedisce agli utenti non autorizzati di impersonare altri nella tua chat.",
+        "SECRET_KEY": "Chiave Segreta",
+        "VIEW_DOCS": "Visualizza documentazione",
+        "REQUIRE_LABEL": "Richiedi la convalida dell'identità per tutte le conversazioni",
+        "REQUIRE_DESCRIPTION": "Se abilitato, gli utenti devono fornire un token di identità valido per avviare le conversazioni. Le richieste senza token validi verranno respinte."
       },
       "INBOX_AGENTS": "Operatori",
       "INBOX_AGENTS_SUB_TEXT": "Aggiungi o rimuovi operatori da questa inbox",
@@ -725,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "Questa funzione è disponibile sui piani a pagamento. Aggiorna per abilitare la continuità della conversazione via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Routing Conversazioni",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Gestisci come vengono create le conversazioni per i contatti esistenti",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
@@ -980,7 +1011,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Abilita SSL"
+      "ENABLE_SSL": "Abilita SSL",
+      "AUTH_MECHANISM": "Autenticazione"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

@@ -55,6 +55,54 @@ RSpec.describe MessageContentPresenter do
     end
   end
 
+  describe '#webhook_content' do
+    context 'when message is not input_csat' do
+      let(:content_type) { 'text' }
+      let(:content) { 'Regular **bold** message' }
+
+      it 'returns raw content without markdown rendering' do
+        expect(presenter.webhook_content).to eq('Regular **bold** message')
+      end
+
+      it 'strips CommonMark hard-break backslashes before newlines' do
+        message.update!(content: "First\\\nSecond\\\nThird\\\nFourth")
+        expect(presenter.webhook_content).to eq("First\nSecond\nThird\nFourth")
+      end
+
+      it 'preserves backslashes that are not followed by a newline' do
+        message.update!(content: "path\\to\\file\\\nNext line")
+        expect(presenter.webhook_content).to eq("path\\to\\file\nNext line")
+      end
+
+      it 'handles carriage return and newline pairs' do
+        message.update!(content: "Line one\\\r\nLine two\\\r\nLine three")
+        expect(presenter.webhook_content).to eq("Line one\nLine two\nLine three")
+      end
+
+      it 'preserves normal newlines and only strips hard-break newlines' do
+        message.update!(content: "line one\\\nline two\n\nline three")
+        expect(presenter.webhook_content).to eq("line one\nline two\n\nline three")
+      end
+    end
+
+    context 'when message is input_csat and inbox is not web widget' do
+      let(:content_type) { 'input_csat' }
+      let(:content) { 'Rate your experience' }
+
+      before do
+        allow(message.inbox).to receive(:web_widget?).and_return(false)
+      end
+
+      it 'includes CSAT survey URL without markdown rendering' do
+        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+          expect(presenter.webhook_content).to include(expected_url)
+          expect(presenter.webhook_content).not_to include('<p>')
+        end
+      end
+    end
+  end
+
   describe 'delegation' do
     let(:content_type) { 'text' }
     let(:content) { 'Test message' }

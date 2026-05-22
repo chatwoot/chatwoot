@@ -20,6 +20,7 @@
     "CALL": "Ara",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Sesli gelen kutusu seçin"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Doğrulayıcı",
       "COUNTRY": "Ülke",
       "CITY": "Şehir",
+      "COMPANY": "Şirket",
       "CREATED_AT": "Oluşturma zamanı",
       "LAST_ACTIVITY": "Son etkinlik",
       "REFERER_LINK": "Yönlendiren Bağlantı",

@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "جار الاتصال بجهة الاتصال…",
     "CALL_FAILED": "تعذر بدء المكالمة. الرجاء المحاولة مرة أخرى.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "المعرف",
       "COUNTRY": "الدولة",
       "CITY": "المدينة",
+      "COMPANY": "المنشأة",
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط",
       "REFERER_LINK": "رابط المرجع",

@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref, computed, onMounted } from 'vue';
+import { h, ref, computed, onMounted, watch } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -10,8 +10,6 @@ import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
-import { emitter } from 'shared/helpers/mitt';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -62,6 +60,24 @@ const hasAdvancedAssignment = computed(() => {
     FEATURE_FLAGS.ADVANCED_ASSIGNMENT
   );
 });
+
+const hasConversationUnreadCounts = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+  );
+});
+
+const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
+  if (!currentAccountId) return;
+
+  if (!isEnabled) {
+    store.dispatch('conversationUnreadCounts/clear');
+    return;
+  }
+
+  store.dispatch('conversationUnreadCounts/get');
+};
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -159,6 +175,15 @@ useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+const getInboxUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getInboxUnreadCount'
+);
+const getLabelUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getLabelUnreadCount'
+);
+const getTeamUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getTeamUnreadCount'
+);
 const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
@@ -175,22 +200,53 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
+watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
+  immediate: true,
+});
+
+const normalizeUnreadCount = count => {
+  const unreadCount = Number(count);
+  return Number.isFinite(unreadCount) && unreadCount > 0 ? unreadCount : 0;
+};
+
+const sortByUnreadCount = (items, labelKey, unreadCountKey) =>
+  items.slice().sort((a, b) => {
+    const unreadCountDiff =
+      normalizeUnreadCount(unreadCountKey(b)) -
+      normalizeUnreadCount(unreadCountKey(a));
+
+    if (unreadCountDiff !== 0) return unreadCountDiff;
+
+    return labelKey(a).localeCompare(labelKey(b));
+  });
+
+const sortedTeams = computed(() =>
+  sortByUnreadCount(
+    teams.value,
+    team => team.name,
+    team => getTeamUnreadCount.value(team.id)
+  )
+);
+
 const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+  sortByUnreadCount(
+    inboxes.value,
+    inbox => inbox.name,
+    inbox => getInboxUnreadCount.value(inbox.id)
+  )
+);
+
+const sortedLabels = computed(() =>
+  sortByUnreadCount(
+    labels.value,
+    label => label.title,
+    label => getLabelUnreadCount.value(label.id)
+  )
 );
 
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
-};
-
-const onComposeOpen = toggleFn => {
-  toggleFn();
-  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
-};
-
-const onComposeClose = () => {
-  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
 const newReportRoutes = () => [
@@ -251,6 +307,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_mentions'),
         },
         {
+          name: 'Participating',
+          label: t('SIDEBAR.PARTICIPATING_CONVERSATIONS'),
+          activeOn: ['conversation_through_participating'],
+          to: accountScopedRoute('conversation_participating'),
+        },
+        {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
           label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
@@ -272,9 +334,10 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
           activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
+          children: sortedTeams.value.map(team => ({
             name: `${team.name}-${team.id}`,
             label: team.name,
+            badgeCount: getTeamUnreadCount.value(team.id),
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
           })),
         },
@@ -286,6 +349,7 @@ const menuItems = computed(() => {
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
+            badgeCount: getInboxUnreadCount.value(inbox.id),
             icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
             component: leafProps =>
@@ -293,6 +357,7 @@ const menuItems = computed(() => {
                 label: leafProps.label,
                 active: leafProps.active,
                 inbox,
+                badgeCount: leafProps.badgeCount,
               }),
           })),
         },
@@ -301,9 +366,10 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tag',
           activeOn: ['conversations_through_label'],
-          children: labels.value.map(label => ({
+          children: sortedLabels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
+            badgeCount: getLabelUnreadCount.value(label.id),
             icon: h('span', {
               class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },
@@ -462,7 +528,7 @@ const menuItems = computed(() => {
             {},
             { page: 1, search: undefined }
           ),
-          activeOn: ['companies_dashboard_index'],
+          activeOn: ['companies_dashboard_index', 'companies_dashboard_show'],
         },
       ],
     },
@@ -728,7 +794,13 @@ const menuItems = computed(() => {
   <aside
     v-on-click-outside="[
       closeMobileSidebar,
-      { ignore: ['#mobile-sidebar-launcher'] },
+      {
+        ignore: [
+          '#mobile-sidebar-launcher',
+          '[data-popover-content]',
+          '[data-popover-backdrop]',
+        ],
+      },
     ]"
     class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
     :class="[
@@ -796,8 +868,8 @@ const menuItems = computed(() => {
         >
           <span class="i-lucide-search size-4 text-n-slate-11" />
         </RouterLink>
-        <ComposeConversation align-position="right" @close="onComposeClose">
-          <template #trigger="{ toggle, isOpen }">
+        <ComposeConversation align="start">
+          <template #trigger="{ isOpen }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
@@ -809,7 +881,6 @@ const menuItems = computed(() => {
                   : '!h-7 !outline-n-weak !text-n-slate-11',
                 { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
               ]"
-              @click="onComposeOpen(toggle)"
             />
           </template>
         </ComposeConversation>

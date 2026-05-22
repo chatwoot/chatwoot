@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "ตัวระบุ",
       "COUNTRY": "ประเทศ",
       "CITY": "เมือง",
+      "COMPANY": "บริษัท",
       "CREATED_AT": "สร้างเมื่อ",
       "LAST_ACTIVITY": "Last activity",
       "REFERER_LINK": "ลิงก์อ้างอิง",
