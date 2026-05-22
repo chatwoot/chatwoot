@@ -103,17 +103,13 @@ select:not(.reset-base) {
   font-family: inherit;
   @apply [color-scheme:light];
 
-  option {
-    @apply bg-n-background text-n-slate-12;
+  option:not(:disabled) {
+    @apply bg-n-solid-2 text-n-slate-12;
   }
 }
 
 .dark select:not(.reset-base) {
   @apply [color-scheme:dark];
-
-  option {
-    @apply bg-n-solid-2 text-n-slate-12;
-  }
 }
 
 p code {
