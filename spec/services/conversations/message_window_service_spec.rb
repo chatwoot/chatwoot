@@ -56,6 +56,7 @@ RSpec.describe Conversations::MessageWindowService do
   describe 'on Facebook channels' do
     before do
       stub_request(:post, /graph.facebook.com/)
+      InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').delete_all
       GlobalConfig.clear_cache
     end
 
@@ -199,6 +200,11 @@ RSpec.describe Conversations::MessageWindowService do
   end
 
   describe 'on Instagram channels' do
+    before do
+      InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').delete_all
+      GlobalConfig.clear_cache
+    end
+
     let!(:instagram_channel) { create(:channel_instagram) }
     let!(:instagram_inbox) { create(:inbox, channel: instagram_channel, account: instagram_channel.account) }
     let!(:conversation) { create(:conversation, inbox: instagram_inbox, account: instagram_channel.account) }

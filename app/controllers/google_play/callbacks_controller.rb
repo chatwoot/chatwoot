@@ -4,6 +4,7 @@ class GooglePlay::CallbacksController < ApplicationController
   def show
     return redirect_with_error(params[:error]) if params[:error].present?
 
+    account
     token = google_client.auth_code.get_token(params[:code], redirect_uri: google_play_callback_url)
     inbox = create_channel_with_inbox(token)
 

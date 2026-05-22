@@ -8,16 +8,17 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
   let(:token_response) do
     { access_token: 'play-access-token', refresh_token: 'play-refresh-token', token_type: 'Bearer', expires_in: 3599 }
   end
+  let(:token_url) { 'https://accounts.google.com/o/oauth2/token' }
 
   before do
-    create(:installation_config, name: 'GOOGLE_OAUTH_CLIENT_ID', value: 'client-id-123', locked: false)
-    create(:installation_config, name: 'GOOGLE_OAUTH_CLIENT_SECRET', value: 'client-secret', locked: false)
+    configure_google_oauth('GOOGLE_OAUTH_CLIENT_ID', 'client-id-123')
+    configure_google_oauth('GOOGLE_OAUTH_CLIENT_SECRET', 'client-secret')
     GlobalConfig.clear_cache
   end
 
   describe 'GET /google_play/callback' do
     it 'creates the channel + inbox and redirects to the agent assignment page' do
-      stub_request(:post, 'https://oauth2.googleapis.com/o/oauth2/token')
+      stub_request(:post, token_url)
         .to_return(status: 200, body: token_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
       expect do
@@ -41,7 +42,7 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
     end
 
     it 'redirects to the inbox setup page with the error when token exchange fails' do
-      stub_request(:post, 'https://oauth2.googleapis.com/o/oauth2/token').to_return(status: 400, body: 'invalid')
+      stub_request(:post, token_url).to_return(status: 400, body: 'invalid')
 
       get '/google_play/callback', params: { code: code, state: state }
 
@@ -54,5 +55,10 @@ RSpec.describe 'GooglePlay::CallbacksController', type: :request do
       get '/google_play/callback', params: { code: code, state: 'tampered' }
       expect(response).to redirect_to('/')
     end
+  end
+
+  def configure_google_oauth(name, value)
+    config = InstallationConfig.find_or_initialize_by(name: name)
+    config.update!(value: value, locked: false)
   end
 end

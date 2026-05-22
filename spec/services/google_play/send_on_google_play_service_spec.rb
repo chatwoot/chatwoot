@@ -11,7 +11,6 @@ RSpec.describe GooglePlay::SendOnGooglePlayService do
   describe '#perform' do
     it 'stamps the outgoing message with the source_id returned from the API' do
       allow(channel).to receive(:reply_to_review).with('REV-1', 'thanks').and_return('REV-1::reply::42')
-      allow_any_instance_of(Inbox).to receive(:channel).and_return(channel)
 
       described_class.new(message: message).perform
 
@@ -21,7 +20,6 @@ RSpec.describe GooglePlay::SendOnGooglePlayService do
 
     it 'marks the message as failed when the API call raises' do
       allow(channel).to receive(:reply_to_review).and_raise(StandardError, 'Google Play reply failed (403)')
-      allow_any_instance_of(Inbox).to receive(:channel).and_return(channel)
       allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
       described_class.new(message: message).perform
