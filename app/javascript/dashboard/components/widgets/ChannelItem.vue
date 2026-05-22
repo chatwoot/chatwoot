@@ -52,6 +52,10 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
+  if (key === 'app_store') {
+    return props.enabledFeatures.channel_app_store;
+  }
+
   if (key === 'voice') {
     return props.enabledFeatures.channel_voice;
   }
@@ -78,7 +82,7 @@ const isComingSoon = computed(() => {
 });
 
 const isBeta = computed(() => {
-  return ['tiktok', 'voice'].includes(props.channel.key);
+  return ['tiktok', 'app_store', 'voice'].includes(props.channel.key);
 });
 
 const onItemClick = () => {
