@@ -33,7 +33,10 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.presentationml.presentation
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    application/x-pkcs12 application/pkcs12
   ].freeze
+  ACCEPTABLE_FILE_EXTENSIONS = %w[pfx].freeze
+  GENERIC_FILE_CONTENT_TYPES = %w[application/octet-stream].freeze
   belongs_to :account
   belongs_to :message
   has_one_attached :file
@@ -195,7 +198,10 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_content_type(file_content_type)
-    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+    return if media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+    return if generic_file_content_type?(file_content_type) && ACCEPTABLE_FILE_EXTENSIONS.include?(file_extension)
+
+    errors.add(:file, 'type not supported')
   end
 
   def validate_file_size(byte_size)
@@ -206,7 +212,15 @@ class Attachment < ApplicationRecord
   end
 
   def media_file?(file_content_type)
-    file_content_type.start_with?('image/', 'video/', 'audio/')
+    file_content_type.to_s.start_with?('image/', 'video/', 'audio/')
+  end
+
+  def generic_file_content_type?(file_content_type)
+    file_content_type.blank? || GENERIC_FILE_CONTENT_TYPES.include?(file_content_type)
+  end
+
+  def file_extension
+    File.extname(file.filename.to_s).delete_prefix('.').downcase
   end
 end
 
