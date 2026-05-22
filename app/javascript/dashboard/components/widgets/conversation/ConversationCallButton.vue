@@ -36,10 +36,6 @@ const whatsappCallSession = useWhatsappCallSession();
 const contactsUiFlags = useMapGetter('contacts/getUIFlags');
 const { isCloudFeatureEnabled } = useAccount();
 
-const contact = computed(() =>
-  store.getters['contacts/getContact'](props.chat?.meta?.sender?.id)
-);
-
 const voiceCallProvider = computed(() => getVoiceCallProvider(props.inbox));
 const isVoiceCallInbox = computed(
   () =>
@@ -110,7 +106,7 @@ const startTwilioCall = async () => {
   if (contactsUiFlags.value?.isInitiatingCall) return;
   try {
     const response = await store.dispatch('contacts/initiateCall', {
-      contactId: contact.value?.id,
+      contactId: props.chat?.meta?.sender?.id,
       inboxId: props.inbox?.id,
       conversationId: props.chat.id,
     });

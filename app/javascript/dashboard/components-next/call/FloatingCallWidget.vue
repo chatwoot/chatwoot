@@ -25,7 +25,6 @@ const {
   joinCall,
   endCall: endCallSession,
   rejectIncomingCall,
-  dismissCall,
   formattedCallDuration,
 } = useCallSession();
 
@@ -234,7 +233,7 @@ onBeforeUnmount(stopRingtone);
       :state="VOICE_CALL_DIRECTION.INCOMING"
       :call-info="getCallInfo(call)"
       @accept="handleJoinCall(call)"
-      @reject="dismissCall(call.callSid)"
+      @reject="rejectIncomingCall(call.callSid)"
       @go-to-conversation="goToConversation(call)"
     />
 

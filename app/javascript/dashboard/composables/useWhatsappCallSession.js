@@ -16,9 +16,10 @@ let activeCallId = null;
 // voice_call.outbound_connected (the sole source of the outbound SDP answer) is
 // broadcast account-wide and can arrive before the /initiate response sets
 // activeCallId in this tab. Until we know our own call id we can't tell our
-// answer from a concurrent agent's, so the cable handler buffers it here and
-// initiateOutboundCall flushes the matching one by id.
-let pendingOutboundAnswer = null;
+// answer from a concurrent agent's, so the cable handler buffers them here keyed
+// by call id (a single slot would let a concurrent agent's event clobber ours)
+// and initiateOutboundCall flushes the matching one by id.
+const pendingOutboundAnswers = new Map();
 // Module-scoped so multiple composable callers (header button + contact-panel
 // button) share the same lock. A per-instance ref let two parallel callers
 // both pass the guard and tear down each other's WebRTC state in cleanup().
@@ -134,7 +135,7 @@ const cleanup = () => {
   recorderChunks = [];
   audioContext = null;
   activeCallId = null;
-  pendingOutboundAnswer = null;
+  pendingOutboundAnswers.clear();
   recorderArmed = false;
 };
 
@@ -325,14 +326,14 @@ export function useWhatsappCallSession() {
       if (response?.id) {
         activeCallId = response.id;
         // A connect webhook that raced ahead of this response was buffered;
-        // apply it now that we know our call id (and discard a buffered answer
-        // for a concurrent agent's call whose id doesn't match ours).
-        const buffered = pendingOutboundAnswer;
-        pendingOutboundAnswer = null;
-        if (buffered?.callId === activeCallId) {
+        // apply our own by id now that we know it, then drop every buffered
+        // answer (concurrent agents' calls aren't ours to apply).
+        const buffered = pendingOutboundAnswers.get(activeCallId);
+        pendingOutboundAnswers.clear();
+        if (buffered) {
           await pc.setRemoteDescription({
             type: 'answer',
-            sdp: buffered.sdpAnswer,
+            sdp: buffered,
           });
         }
         return response;
@@ -402,7 +403,7 @@ export const applyOutboundAnswer = async (callId, sdpAnswer) => {
   // ahead). Buffer the answer; initiateOutboundCall flushes it by id once it
   // knows which call is ours, so a concurrent agent's answer is never applied.
   if (activeCallId == null) {
-    pendingOutboundAnswer = { callId, sdpAnswer };
+    pendingOutboundAnswers.set(callId, sdpAnswer);
     return;
   }
   // activeCallId known → only apply the answer for this tab's call.

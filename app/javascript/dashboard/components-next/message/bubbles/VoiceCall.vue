@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useMessageContext } from '../provider.js';
 import {
   VOICE_CALL_STATUS,
@@ -50,6 +51,11 @@ const {
 const { joinCall, endCall, activeCall, hasActiveCall, isJoining } =
   useCallActions();
 const whatsappCallSession = useWhatsappCallSession();
+const callsStore = useCallsStore();
+const contactsUiFlags = useMapGetter('contacts/getUIFlags');
+const isInitiatingCall = computed(
+  () => contactsUiFlags.value?.isInitiatingCall || false
+);
 
 const status = computed(() => call.value?.status);
 // Server-side call records use `outgoing`/`incoming`, while the Pinia store
@@ -235,11 +241,16 @@ const handleJoinCall = async () => {
 };
 
 const canCallBack = computed(
-  () => isMissedInbound.value && !!inboxId.value && !!conversationId.value
+  () =>
+    isMissedInbound.value &&
+    !!inboxId.value &&
+    !!conversationId.value &&
+    !hasActiveCall.value &&
+    !callsStore.hasIncomingCall
 );
 
 const handleCallBack = async () => {
-  if (!canCallBack.value) return;
+  if (!canCallBack.value || isInitiatingCall.value) return;
   try {
     if (isWhatsapp.value) {
       const response = await whatsappCallSession.initiateOutboundCall(
@@ -256,7 +267,6 @@ const handleCallBack = async () => {
         );
         return;
       }
-      const callsStore = useCallsStore();
       callsStore.addCall({
         callSid: response.call_id,
         callId: response.id,
@@ -267,10 +277,16 @@ const handleCallBack = async () => {
       });
       return;
     }
-    await store.dispatch('contacts/initiateCall', {
+    const response = await store.dispatch('contacts/initiateCall', {
       contactId: sender.value?.id,
       inboxId: inboxId.value,
       conversationId: conversationId.value,
+    });
+    callsStore.addCall({
+      callSid: response?.call_sid,
+      conversationId: response?.conversation_id ?? conversationId.value,
+      inboxId: inboxId.value,
+      callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
     });
   } catch (error) {
     useAlert(error?.message || t('CONTACT_PANEL.CALL_FAILED'));
@@ -319,6 +335,7 @@ const handleCallBack = async () => {
         icon="i-ph-phone-bold"
         teal
         class="!rounded-full"
+        :disabled="isInitiatingCall"
         @click="handleCallBack"
       />
 
