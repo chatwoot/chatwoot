@@ -4,14 +4,18 @@ import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotifi
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
+const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
     super(app, pubsubToken, websocketURL);
     this.CancelTyping = [];
+    this.lastUnreadCountsFetchAt = null;
+    this.unreadCountsFetchTimer = null;
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
@@ -32,6 +36,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'notification.updated': this.onNotificationUpdated,
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
+      'conversation.unread_count_changed':
+        this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
@@ -118,6 +124,56 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
+  };
+
+  onConversationUnreadCountChanged = () => {
+    this.throttledFetchConversationUnreadCounts();
+  };
+
+  throttledFetchConversationUnreadCounts = () => {
+    const now = Date.now();
+    const elapsedTime = now - this.lastUnreadCountsFetchAt;
+
+    if (
+      this.lastUnreadCountsFetchAt === null ||
+      elapsedTime >= UNREAD_COUNTS_REFETCH_THROTTLE_MS
+    ) {
+      this.clearUnreadCountsFetchTimer();
+      this.fetchConversationUnreadCounts();
+      return;
+    }
+
+    if (this.unreadCountsFetchTimer) return;
+
+    this.unreadCountsFetchTimer = setTimeout(() => {
+      this.unreadCountsFetchTimer = null;
+      this.fetchConversationUnreadCounts();
+    }, UNREAD_COUNTS_REFETCH_THROTTLE_MS - elapsedTime);
+  };
+
+  clearUnreadCountsFetchTimer = () => {
+    if (!this.unreadCountsFetchTimer) return;
+
+    clearTimeout(this.unreadCountsFetchTimer);
+    this.unreadCountsFetchTimer = null;
+  };
+
+  fetchConversationUnreadCounts = () => {
+    if (!this.isConversationUnreadCountsEnabled()) return;
+
+    this.lastUnreadCountsFetchAt = Date.now();
+    this.app.$store.dispatch('conversationUnreadCounts/get');
+  };
+
+  isConversationUnreadCountsEnabled = () => {
+    const accountId = this.app.$store.getters.getCurrentAccountId;
+    const isFeatureEnabled =
+      this.app.$store.getters['accounts/isFeatureEnabledonAccount'];
+
+    return isFeatureEnabled?.(
+      accountId,
+      FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+    );
   };
 
   onTypingOn = ({ conversation, user }) => {
