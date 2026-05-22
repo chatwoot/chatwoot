@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Contact créé",
             "CONTACT_UPDATED": "Contact mis à jour",
             "CONVERSATION_TYPING_ON": "Saisie de conversation activée",
-            "CONVERSATION_TYPING_OFF": "Saisie de conversation désactivée"
+            "CONVERSATION_TYPING_OFF": "Saisie de conversation désactivée",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
