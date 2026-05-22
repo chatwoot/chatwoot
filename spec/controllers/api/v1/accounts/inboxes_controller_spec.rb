@@ -434,6 +434,44 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('+123456789')
       end
 
+      it 'does not create an app store inbox when the feature is disabled' do
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'App Store Reviews',
+                       channel: { type: 'app_store', app_id: '123456789', issuer_id: SecureRandom.uuid, key_id: 'KEY123',
+                                  private_key: OpenSSL::PKey::EC.generate('prime256v1').to_pem } },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['message']).to eq('App Store Reviews channel is not enabled for this account')
+      end
+
+      it 'creates an app store inbox when the feature is enabled' do
+        app_store_client = instance_double(AppStoreConnect::Client)
+
+        account.enable_features!(:channel_app_store)
+        allow(AppStoreConnect::Client).to receive(:new).and_return(app_store_client)
+        allow(app_store_client).to receive(:fetch_app).and_return(
+          {
+            'attributes' => {
+              'name' => 'Chatwoot',
+              'bundleId' => 'com.chatwoot.app'
+            }
+          }
+        )
+
+        post "/api/v1/accounts/#{account.id}/inboxes",
+             headers: admin.create_new_auth_token,
+             params: { name: 'App Store Reviews',
+                       channel: { type: 'app_store', app_id: '123456789', issuer_id: SecureRandom.uuid, key_id: 'KEY123',
+                                  private_key: OpenSSL::PKey::EC.generate('prime256v1').to_pem } },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('App Store Reviews')
+        expect(Channel::AppStore.last.app_name).to eq('Chatwoot')
+      end
+
       it 'creates the webwidget inbox that allow messages after conversation is resolved' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
