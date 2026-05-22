@@ -11,7 +11,7 @@ class Contacts::BulkRemoveLabelsService
     contacts = @account.contacts.where(id: @contact_ids)
 
     contacts.find_each do |contact|
-      contact.update(label_list: contact.label_list - @labels)
+      contact.update!(label_list: contact.label_list - @labels)
     end
 
     { success: true, updated_contact_ids: contacts.pluck(:id) }
