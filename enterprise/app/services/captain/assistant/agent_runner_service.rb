@@ -5,20 +5,9 @@ class Captain::Assistant::AgentRunnerService
   include Integrations::LlmInstrumentationConstants
   include Captain::Assistant::RunnerCallbacksHelper
   include Captain::Assistant::TracePayloadHelper
+  include Captain::Assistant::RunContextNormalizer
+  include Captain::Assistant::StateBuilder
 
-  CONVERSATION_STATE_ATTRIBUTES = %i[
-    id display_id inbox_id contact_id status priority
-    label_list custom_attributes additional_attributes
-  ].freeze
-
-  CONTACT_STATE_ATTRIBUTES = %i[
-    id name email phone_number identifier contact_type
-    custom_attributes additional_attributes
-  ].freeze
-
-  CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
-
-  CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
     @assistant = assistant
     @conversation = conversation
@@ -107,67 +96,12 @@ class Captain::Assistant::AgentRunnerService
     response
   end
 
-  def build_run_context(result, response)
-    {
-      'messages' => normalized_run_messages(result.messages || []),
-      'handoff_tool_called' => response['handoff_tool_called']
-    }
-  end
-
-  def normalized_run_messages(messages)
-    normalized_messages = messages.map { |message| normalize_run_message(message) }
-    final_assistant_message = normalized_messages.reverse.find { |message| message['role'] == 'assistant' }
-    strip_final_response(final_assistant_message) if final_assistant_message
-    normalized_messages
-  end
-
-  def normalize_run_message(message)
-    normalized = message.deep_stringify_keys
-    normalized['role'] = normalized['role'].to_s if normalized['role'].present?
-    normalized['content'] = normalized['content'].deep_stringify_keys if normalized['content'].is_a?(Hash)
-    normalized
-  end
-
-  def strip_final_response(message)
-    message['content'] = normalized_final_message_content(message['content'])
-  end
-
-  def normalized_final_message_content(content)
-    return content.except('response') if content.is_a?(Hash)
-
-    {}
-  end
-
   def error_response(error_message)
     {
       'response' => 'conversation_handoff',
       'reasoning' => "Error occurred: #{error_message}",
       'handoff_tool_called' => @handoff_tool_called
     }
-  end
-
-  def build_state
-    state = {
-      account_id: @assistant.account_id,
-      assistant_id: @assistant.id,
-      assistant_config: @assistant.config
-    }
-    state[:source] = @source if @source.present?
-
-    build_conversation_state(state) if @conversation
-    state
-  end
-
-  def build_conversation_state(state)
-    state[:conversation] = slice_attrs(@conversation, CONVERSATION_STATE_ATTRIBUTES)
-    state[:channel_type] = @conversation.inbox&.channel_type
-    state[:contact] = slice_attrs(@conversation.contact, CONTACT_STATE_ATTRIBUTES) if @conversation.contact
-    state[:campaign] = slice_attrs(@conversation.campaign, CAMPAIGN_STATE_ATTRIBUTES) if @conversation.campaign
-    state[:contact_inbox] = slice_attrs(@conversation.contact_inbox, CONTACT_INBOX_STATE_ATTRIBUTES) if @conversation.contact_inbox
-  end
-
-  def slice_attrs(record, keys)
-    record.attributes.symbolize_keys.slice(*keys)
   end
 
   def build_and_wire_agents
