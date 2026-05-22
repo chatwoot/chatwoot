@@ -1664,15 +1664,16 @@
           "availability_status": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent computed by Chatwoot."
+            "readOnly": true,
+            "description": "The effective availability status of the agent, derived from the configured availability, auto-offline setting, and current presence. To update an agent's configured availability, use the availability field in create or update requests."
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away."
+            "description": "Whether the agent is automatically marked offline when they are away."
           },
           "confirmed": {
             "type": "boolean",
@@ -3367,19 +3368,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability setting of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
@@ -3399,19 +3400,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
