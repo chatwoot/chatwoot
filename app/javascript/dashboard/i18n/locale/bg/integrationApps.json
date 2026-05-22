@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "Създаване",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Отмени"
       },
       "API": {

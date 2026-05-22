@@ -1,3 +1,5 @@
+<!-- DEPRECIATED -->
+<!-- TODO: Replace this banner component with NextBanner "app/javascript/dashboard/components-next/banner/Banner.vue" -->
 <script>
 import NextButton from 'dashboard/components-next/button/Button.vue';
 

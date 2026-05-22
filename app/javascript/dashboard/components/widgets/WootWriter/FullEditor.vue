@@ -7,16 +7,22 @@ import {
   ArticleMarkdownTransformer,
   EditorState,
   Selection,
+  imageResizeView,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
+import embedPreviewPlugin from '@chatwoot/prosemirror-schema/src/plugins/embedPreview';
+import trailingParagraphPlugin from '@chatwoot/prosemirror-schema/src/plugins/trailingParagraph';
+import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
 import { toggleMark } from 'prosemirror-commands';
 import { wrapInList } from 'prosemirror-schema-list';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import { collapseSelection } from 'dashboard/helper/editorHelper';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
@@ -75,6 +81,8 @@ export default {
       plugins: [
         imagePastePlugin(this.handleImageUpload),
         this.createSlashPlugin(),
+        embedPreviewPlugin(markdownEmbeds),
+        trailingParagraphPlugin(),
       ],
       isTextSelected: false, // Tracks text selection and prevents unnecessary re-renders on mouse selection
       showSlashMenu: false,
@@ -109,6 +117,12 @@ export default {
     editorView.updateState(state);
     if (this.autofocus) {
       this.focusEditorInputField();
+    }
+  },
+  beforeUnmount() {
+    if (editorView) {
+      editorView.destroy();
+      editorView = null;
     }
   },
   methods: {
@@ -222,6 +236,7 @@ export default {
           const tr = editorView.state.tr.replaceSelectionWith(tableNode);
           editorView.dispatch(tr.scrollIntoView());
         },
+        imageUpload: () => this.openFileBrowser(),
       };
 
       const command = commandMap[actionKey];
@@ -319,6 +334,9 @@ export default {
     createEditorView() {
       editorView = new EditorView(this.$refs.editor, {
         state: state,
+        nodeViews: {
+          image: imageResizeView,
+        },
         dispatchTransaction: tx => {
           state = state.apply(tx);
           editorView.updateState(state);
@@ -362,19 +380,33 @@ export default {
     onKeyup() {
       this.$emit('keyup');
     },
-    onKeydown() {
+    onKeydown(view, event) {
       this.$emit('keydown');
+      if (isEscape(event)) {
+        if (this.showSlashMenu) {
+          this.showSlashMenu = false;
+          this.slashSearchTerm = '';
+          this.slashMenuPosition = null;
+          return true;
+        }
+        collapseSelection(editorView);
+        return true;
+      }
+      return false;
     },
     onBlur() {
+      // ProseMirror keeps its selection on blur — clear the menu flag manually.
+      this.isTextSelected = false;
+      this.$refs.editor?.classList.remove('has-selection');
       this.$emit('blur');
     },
     onFocus() {
       this.$emit('focus');
     },
     checkSelection(editorState) {
-      const { from, to } = editorState.selection;
-      // Check if there's a selection (from and to are different)
-      const hasSelection = from !== to;
+      const { selection } = editorState;
+      // Skip NodeSelection (from Esc -> selectParentNode); only text ranges count.
+      const hasSelection = !selection.empty && !selection.node;
       // If the selection state is the same as the previous state, do nothing
       if (hasSelection === this.isTextSelected) return;
       // Update the selection state
@@ -471,5 +503,10 @@ export default {
   min-height: 5rem;
   max-height: 7.5rem;
   overflow: auto;
+}
+
+.ProseMirror .cw-embed-preview {
+  max-width: 36rem;
+  margin: 0.5rem 0 1rem;
 }
 </style>

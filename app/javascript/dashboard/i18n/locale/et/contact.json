@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifikaator",
       "COUNTRY": "Riik",
       "CITY": "Linn",
+      "COMPANY": "Ettevõte",
       "CREATED_AT": "Loodud",
       "LAST_ACTIVITY": "Viimane tegevus",
       "REFERER_LINK": "Viitaja link",
