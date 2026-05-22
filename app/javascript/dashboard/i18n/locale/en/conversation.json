@@ -279,6 +279,7 @@
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
+      "VIEW_EDIT_HISTORY": "View edit history",
       "COPY_PERMALINK": "Copy link to the message",
       "LINK_COPIED": "Message URL copied to the clipboard",
       "DELETE_CONFIRMATION": {
@@ -301,6 +302,16 @@
       "REJECT_CALL": "Reject",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call"
+    },
+    "EDIT_HISTORY": {
+      "TITLE": "Edit history",
+      "DESCRIPTION": "All previous versions of this message.",
+      "EDITED": "Edited",
+      "EDITED_TOOLTIP": "This message was edited. Click to view history.",
+      "CURRENT": "Current",
+      "PREVIOUS": "Previous",
+      "EMPTY": "No previous versions available.",
+      "CLOSE": "Close"
     }
   },
   "EMAIL_TRANSCRIPT": {

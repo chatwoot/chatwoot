@@ -54,6 +54,46 @@ describe Telegram::UpdateMessageService do
         expect(message.reload.content).to eq('updated caption')
       end
 
+      it 'tracks previous content in content_attributes when message is edited' do
+        message = create(:message, conversation: conversation, content: 'original message',
+                                   source_id: text_update_params[:edited_message][:message_id])
+        described_class.new(inbox: telegram_channel.inbox, params: text_update_params.with_indifferent_access).perform
+
+        message.reload
+        expect(message.content).to eq('updated message')
+        previous_contents = message.content_attributes[:previous_contents]
+        expect(previous_contents).to be_an(Array)
+        expect(previous_contents.length).to eq(1)
+        entry = previous_contents.first.with_indifferent_access
+        expect(entry[:content]).to eq('original message')
+        expect(entry[:edited_at]).to be_a(Integer)
+      end
+
+      it 'accumulates previous contents on multiple edits' do
+        message = create(:message, conversation: conversation, content: 'first',
+                                   source_id: text_update_params[:edited_message][:message_id])
+
+        described_class.new(inbox: telegram_channel.inbox, params: text_update_params.with_indifferent_access).perform
+
+        second_edit = text_update_params.deep_dup
+        second_edit[:edited_message][:text] = 'second edit'
+        described_class.new(inbox: telegram_channel.inbox, params: second_edit.with_indifferent_access).perform
+
+        message.reload
+        expect(message.content).to eq('second edit')
+        contents = message.content_attributes[:previous_contents].map { |e| e.with_indifferent_access[:content] }
+        expect(contents).to eq(['first', 'updated message'])
+      end
+
+      it 'does not track history when content is unchanged' do
+        message = create(:message, conversation: conversation, content: 'updated message',
+                                   source_id: text_update_params[:edited_message][:message_id])
+        described_class.new(inbox: telegram_channel.inbox, params: text_update_params.with_indifferent_access).perform
+
+        message.reload
+        expect(message.content_attributes[:previous_contents]).to be_nil
+      end
+
       context 'when business message' do
         let(:text_update_params) do
           {

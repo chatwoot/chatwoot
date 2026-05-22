@@ -44,7 +44,7 @@ export default {
       default: false,
     },
   },
-  emits: ['open', 'close', 'replyTo'],
+  emits: ['open', 'close', 'replyTo', 'viewEditHistory'],
   setup() {
     const { getPlainText } = useMessageFormatter();
 
@@ -131,6 +131,10 @@ export default {
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);
+      this.handleClose();
+    },
+    handleViewEditHistory() {
+      this.$emit('viewEditHistory', this.message);
       this.handleClose();
     },
     openDeleteModal() {
@@ -223,6 +227,15 @@ export default {
           }"
           variant="icon"
           @click.stop="handleTranslate"
+        />
+        <MenuItem
+          v-if="enabledOptions['viewEditHistory']"
+          :option="{
+            icon: 'edit-outline',
+            label: $t('CONVERSATION.CONTEXT_MENU.VIEW_EDIT_HISTORY'),
+          }"
+          variant="icon"
+          @click.stop="handleViewEditHistory"
         />
         <hr />
         <MenuItem
