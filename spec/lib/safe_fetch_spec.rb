@@ -205,6 +205,53 @@ RSpec.describe SafeFetch do
           expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
         end
       end
+
+      it 'allows private IP literals inside an explicit CIDR allowlist' do
+        private_url = 'http://192.168.3.21/image.png'
+        allow(Resolv).to receive(:getaddresses).with('192.168.3.21').and_return(['192.168.3.21'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        expect do
+          described_class.fetch(private_url, allowed_private_cidrs: ['192.168.0.0/16']) { nil }
+        end.not_to raise_error
+      end
+
+      it 'allows private hostnames inside an explicit host allowlist' do
+        private_url = 'http://internal-webhook-service/image.png'
+        allow(Resolv).to receive(:getaddresses).with('internal-webhook-service').and_return(['10.0.0.5'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        expect do
+          described_class.fetch(private_url, allowed_private_hosts: ['internal-webhook-service']) { nil }
+        end.not_to raise_error
+      end
+
+      it 'rejects private addresses outside the explicit CIDR allowlist' do
+        allow(Resolv).to receive(:getaddresses).with('evil.example.com').and_return(['10.0.0.1'])
+
+        expect do
+          described_class.fetch('http://evil.example.com/secret', allowed_private_cidrs: ['192.168.0.0/16']) { nil }
+        end.to raise_error(SafeFetch::UnsafeUrlError)
+      end
+
+      it 'validates redirect targets against the private CIDR allowlist' do
+        redirect_url = 'http://example.com/redirect.png'
+        private_url = 'http://private.example.com/image.png'
+        allow(Resolv).to receive(:getaddresses).with('private.example.com').and_return(['10.0.0.5'])
+        stub_request(:get, redirect_url).to_return(status: 302, headers: { 'Location' => private_url })
+
+        expect do
+          described_class.fetch(redirect_url, allowed_private_cidrs: ['192.168.0.0/16']) { nil }
+        end.to raise_error(SafeFetch::UnsafeUrlError)
+      end
     end
 
     context 'with content-type allowlist' do

@@ -47,8 +47,13 @@ class Webhooks::Trigger
       headers: request_headers(body),
       open_timeout: webhook_timeout,
       read_timeout: webhook_timeout,
-      validate_content_type: false
+      validate_content_type: false,
+      **private_network_options
     ) { |_response| nil }
+  end
+
+  def private_network_options
+    Webhooks::PrivateNetworkPolicy.new(@webhook_type).safe_fetch_options
   end
 
   def request_headers(body)
