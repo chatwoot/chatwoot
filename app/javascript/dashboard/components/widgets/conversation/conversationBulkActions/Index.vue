@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, useAttrs } from 'vue';
+import { useStore } from 'vuex';
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { emitter } from 'shared/helpers/mitt';
@@ -54,13 +55,25 @@ defineOptions({
 
 const attrs = useAttrs();
 
+const store = useStore();
+
 const {
+  selectedConversations,
   onAssignAgent,
   onAssignLabels,
   onRemoveLabels,
   onAssignTeamsForBulk: onAssignTeam,
   onUpdateConversations,
 } = useBulkActions();
+
+const appliedLabelsForSelection = computed(() => {
+  const applied = new Set();
+  selectedConversations.value.forEach(id => {
+    const conversation = store.getters.getConversationById(id);
+    (conversation?.labels || []).forEach(label => applied.add(label));
+  });
+  return Array.from(applied);
+});
 
 const showCustomTimeSnoozeModal = ref(false);
 
@@ -162,7 +175,11 @@ onUnmounted(() => {
         </div>
         <div class="flex items-center gap-2">
           <BulkLabelActions @assign="onAssignLabels" />
-          <BulkLabelActions action="remove" @remove="onRemoveLabels" />
+          <BulkLabelActions
+            action="remove"
+            :applied-labels="appliedLabelsForSelection"
+            @remove="onRemoveLabels"
+          />
           <BulkUpdateActions
             :show-resolve="!showResolvedAction"
             :show-reopen="!showOpenAction"

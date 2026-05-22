@@ -27,6 +27,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  appliedLabels: {
+    type: Array,
+    default: null,
+  },
 });
 
 const emit = defineEmits(['assign', 'remove']);
@@ -66,8 +70,17 @@ const isLabelSelected = labelTitle => {
   return selectedLabels.value.includes(labelTitle);
 };
 
+const visibleLabels = computed(() => {
+  if (!isRemoveAction.value || props.appliedLabels === null) {
+    return labels.value;
+  }
+
+  const applied = new Set(props.appliedLabels);
+  return labels.value.filter(label => applied.has(label.title));
+});
+
 const labelMenuItems = computed(() => {
-  return labels.value.map(label => ({
+  return visibleLabels.value.map(label => ({
     action: 'select',
     value: label.title,
     label: label.title,
