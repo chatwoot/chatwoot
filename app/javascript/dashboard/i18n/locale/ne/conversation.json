@@ -79,13 +79,19 @@
       "OUTGOING_CALL": "जाने कल",
       "CALL_IN_PROGRESS": "कल जारी छ",
       "NO_ANSWER": "उत्तर छैन",
+      "NO_ANSWER_OUTBOUND_LABEL": "उत्तर छैन",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "छुटेको कल",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "कल समाप्त भयो",
       "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "उनीहरूले जवाफ दिए",
       "YOU_ANSWERED": "तपाईंले जवाफ दिनुभयो",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "कलमा सामेल हुनुहोस्"
+      "JOIN_CALL": "कलमा सामेल हुनुहोस्",
+      "CALL_BACK": "Call back"
     },
     "HEADER": {
       "RESOLVE_ACTION": "समाधान गर्नुहोस्",
@@ -100,6 +106,12 @@
       "SNOOZED_UNTIL_TOMORROW": "भोलिसम्म सुताइएको",
       "SNOOZED_UNTIL_NEXT_WEEK": "अर्को हप्ता सम्म सुताइएको",
       "SNOOZED_UNTIL_NEXT_REPLY": "अर्को जवाफ सम्म सुताइएको",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -300,7 +312,11 @@
       "HANDLED_IN_ANOTHER_TAB": "अर्को ट्याबमा ह्यान्डल भइरहेको छ",
       "REJECT_CALL": "अस्वीकार गर्नुहोस्",
       "JOIN_CALL": "कलमा सामेल हुनुहोस्",
-      "END_CALL": "कल समाप्त गर्नुहोस्"
+      "END_CALL": "कल समाप्त गर्नुहोस्",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
