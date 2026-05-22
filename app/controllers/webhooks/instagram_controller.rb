@@ -14,6 +14,14 @@ class Webhooks::InstagramController < ActionController::API
         ::Webhooks::InstagramEventsJob.perform_later(entry_params)
       end
 
+      # Fan-out to Socialwise (IG automation owner: comments, post moderation, DM-LLM).
+      # Body + x-hub-signature-256 forwarded byte-for-byte so the receptor revalidates
+      # HMAC with INSTAGRAM_APP_SECRET as if Meta had called it directly.
+      ::Webhooks::InstagramSocialwiseForwarderJob.perform_later(
+        raw_body: request.raw_post,
+        signature: request.headers['x-hub-signature-256']
+      )
+
       render json: :ok
     else
       Rails.logger.warn("Message is not received from the instagram webhook event: #{params['object']}")
