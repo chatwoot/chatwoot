@@ -172,6 +172,10 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def evict_oldest_session(user)
+    # Untracked tokens are pre-rollout leftovers and almost always older than any
+    # tracked session; drop those first so freshly tracked logins aren't evicted.
+    return evict_oldest_token(user) if user.user_sessions.count < user.tokens.size
+
     oldest_session = user.user_sessions.order(Arel.sql('COALESCE(last_activity_at, created_at) ASC')).first
     return evict_oldest_token(user) unless oldest_session
 
