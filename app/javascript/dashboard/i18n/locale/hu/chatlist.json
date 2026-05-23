@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Idézett szöveg eltűntetése",
     "SHOW_QUOTED_TEXT": "Idézett szöveg megjelenítése",
     "MESSAGE_READ": "Olvasott",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

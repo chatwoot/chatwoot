@@ -386,6 +386,7 @@
       "IDENTIFIER": "المعرف",
       "COUNTRY": "الدولة",
       "CITY": "المدينة",
+      "COMPANY": "المنشأة",
       "CREATED_AT": "تم إنشاؤها في",
       "LAST_ACTIVITY": "آخر نشاط",
       "REFERER_LINK": "رابط المرجع",
