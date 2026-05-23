@@ -1,7 +1,7 @@
 class Public::Api::V1::Portals::BaseController < PublicController
   include SwitchLocale
 
-  before_action :set_active_storage_url_options
+  around_action :with_active_storage_url_options
   before_action :show_plain_layout
   before_action :set_color_scheme
   before_action :set_global_config
@@ -12,12 +12,17 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   private
 
-  def set_active_storage_url_options
+  def with_active_storage_url_options
+    previous_url_options = ActiveStorage::Current.url_options
     ActiveStorage::Current.url_options = {
       protocol: request.protocol,
       host: request.host,
       port: request.optional_port
     }.compact
+
+    yield
+  ensure
+    ActiveStorage::Current.url_options = previous_url_options
   end
 
   def show_plain_layout
