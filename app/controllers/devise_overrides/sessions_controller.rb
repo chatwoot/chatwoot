@@ -137,7 +137,9 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
     return false unless sessions_limit_reached?(user)
 
-    if browser_request?
+    # Picker only when every token has a tracked session; partial tracking would
+    # show a misleading count, so fall through to silent eviction instead.
+    if browser_request? && user.user_sessions.count >= user.tokens.size
       handle_sessions_limit_for_login(user)
       true
     else
