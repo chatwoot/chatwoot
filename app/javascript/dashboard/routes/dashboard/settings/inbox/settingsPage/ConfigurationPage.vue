@@ -189,90 +189,76 @@ export default {
 </script>
 
 <template>
-  <div v-if="isATwilioChannel">
+  <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
+    <div v-if="inbox.provider_config">
+      <!-- Embedded Signup Section -->
+      <template v-if="isEmbeddedSignupWhatsApp">
+        <SettingsFieldSection
+          v-if="whatsappAppId"
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_TITLE')"
+          :help-text="`${$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER')} ${$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION')}`"
+        >
+          <div class="flex flex-col gap-1 items-start">
+            <NextButton @click="handleReconfigure">
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
+            </NextButton>
+          </div>
+        </SettingsFieldSection>
+      </template>
+
+      <!-- Manual Setup Section -->
+      <template v-else>
+        <SettingsFieldSection
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
+          :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')"
+        >
+          <woot-code :script="inbox.provider_config.webhook_verify_token" />
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_TITLE')"
+          :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_SUBHEADER')"
+        >
+          <woot-code :script="inbox.provider_config.api_key" />
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
+          :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')"
+        >
+          <div class="flex flex-1 justify-between items-center whatsapp-settings--content">
+            <woot-input
+              v-model="whatsAppInboxAPIKey"
+              type="text"
+              class="flex-1 mr-2 [&>input]:!mb-0"
+              :placeholder="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_PLACEHOLDER')"
+            />
+            <NextButton
+              :disabled="v$.whatsAppInboxAPIKey.$invalid"
+              @click="updateWhatsAppInboxAPIKey"
+            >
+              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
+            </NextButton>
+          </div>
+        </SettingsFieldSection>
+      </template>
+    </div>
+
+    <!-- Always show the sync button for WhatsApp inboxes (defensive) -->
     <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
-      :help-text="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsFieldSection>
-    <SettingsFieldSection
-      v-if="isATwilioWhatsAppChannel"
       :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
-      :help-text="
-        $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
-      "
+      :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')"
     >
       <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
         {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
       </NextButton>
     </SettingsFieldSection>
-  </div>
 
-  <div v-else-if="isALineChannel">
-    <SettingsFieldSection
-      :label="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
-      :help-text="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
-    >
-      <woot-code :script="inbox.callback_webhook_url" lang="html" />
-    </SettingsFieldSection>
+    <WhatsappReauthorize
+      v-if="isEmbeddedSignupWhatsApp"
+      ref="whatsappReauth"
+      :inbox="inbox"
+      class="hidden"
+    />
   </div>
-  <div v-else-if="isAWebWidgetInbox">
-    <div class="space-y-4">
-      <SettingsToggleSection
-        :header="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.TITLE')"
-        :description="
-          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.DESCRIPTION')
-        "
-        hide-toggle
-      >
-        <template #editor>
-          <TextArea
-            v-model="allowedDomains"
-            :placeholder="
-              $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_DOMAINS.PLACEHOLDER')
-            "
-            auto-height
-            resize
-            class="w-full [&>div]:!bg-transparent [&>div]:!border-none [&>div]:!border-0 [&>div]:px-0 [&>div]:pb-0 [&>div]:pt-0"
-          />
-          <div class="mt-3 flex justify-end">
-            <NextButton
-              :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-              :is-loading="isUpdatingAllowedDomains"
-              @click="updateAllowedDomains"
-            />
-          </div>
-        </template>
-      </SettingsToggleSection>
-      <SettingsToggleSection
-        v-model="allowMobileWebview"
-        :header="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.LABEL')"
-        :description="
-          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.SUBTITLE')
-        "
-      />
-    </div>
-
-    <SettingsAccordion
-      :title="$t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.TITLE')"
-      class="mt-6"
-    >
-      <SettingsToggleSection
-        :header="$t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.TITLE')"
-        :description="
-          $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.DESCRIPTION')
-        "
-        hide-toggle
-      >
-        <template #editor>
-          <p class="mb-1 text-sm font-medium text-n-slate-12">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.IDENTITY_VALIDATION.SECRET_KEY') }}
-          </p>
-          <woot-code :script="inbox.hmac_token" />
-          <p class="mt-1.5 text-label-small text-n-slate-11">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.HMAC_DESCRIPTION') }}
-            <a
               target="_blank"
               rel="noopener noreferrer"
               href="https://www.chatwoot.com/docs/product/channels/live-chat/sdk/identity-validation/"
