@@ -11,26 +11,30 @@ RSpec.describe UserSessionTrackingService do
     )
   end
   let(:service) { described_class.new(user: user, request: request, client_id: client_id) }
+  let(:geo_result) { OpenStruct.new(city: 'Mountain View', country: 'United States', country_code: 'US') }
+  let(:ip_lookup) { instance_double(IpLookupService, perform: geo_result) }
 
-  before do
-    allow_any_instance_of(IpLookupService).to receive(:perform).and_return(
-      double('GeocoderResult', city: 'Mountain View', country: 'United States', country_code: 'US')
-    )
-  end
+  before { allow(IpLookupService).to receive(:new).and_return(ip_lookup) }
 
   describe '#create_or_update!' do
-    it 'creates a new UserSession with parsed metadata' do
+    it 'creates a new UserSession with the right client_id and timestamps' do
       expect { service.create_or_update! }.to change(user.user_sessions, :count).by(1)
 
       session = user.user_sessions.last
       expect(session.client_id).to eq(client_id)
+      expect(session.last_activity_at).to be_within(1.second).of(Time.current)
+    end
+
+    it 'populates request, browser, and geo metadata on the new session', :aggregate_failures do
+      service.create_or_update!
+
+      session = user.user_sessions.last
       expect(session.ip_address).to eq('8.8.8.8')
       expect(session.browser_name).to eq('Safari')
       expect(session.platform_name).to eq('macOS')
       expect(session.city).to eq('Mountain View')
       expect(session.country).to eq('United States')
       expect(session.country_code).to eq('US')
-      expect(session.last_activity_at).to be_within(1.second).of(Time.current)
     end
 
     it 'updates an existing session when client_id matches' do
@@ -42,7 +46,7 @@ RSpec.describe UserSessionTrackingService do
     end
 
     it 'handles missing geo data gracefully' do
-      allow_any_instance_of(IpLookupService).to receive(:perform).and_return(nil)
+      allow(ip_lookup).to receive(:perform).and_return(nil)
 
       service.create_or_update!
 

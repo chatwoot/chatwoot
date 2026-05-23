@@ -303,7 +303,7 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       end
     end
 
-    context 'on successful login' do
+    context 'with a successful login' do
       before { request.env['HTTP_USER_AGENT'] = browser_ua }
 
       it 'creates a UserSession row for the new client_id' do
