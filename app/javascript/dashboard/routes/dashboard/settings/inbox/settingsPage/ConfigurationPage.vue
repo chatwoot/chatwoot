@@ -424,6 +424,9 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
+      </div>
+
+      <!-- Always show the sync button for WhatsApp inboxes (defensive) -->
       <SettingsFieldSection
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="
