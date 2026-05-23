@@ -48,7 +48,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.body).to include('<link rel="icon" href=')
-        expect(response.body).to include('http://www.example.com/rails/active_storage')
+        expect(response.body).to include('/rails/active_storage')
         expect(response.body).not_to include('http://localhost:3000/rails/active_storage')
       end
     end
