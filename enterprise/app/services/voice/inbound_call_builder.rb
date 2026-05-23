@@ -74,15 +74,14 @@ class Voice::InboundCallBuilder
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(digits, :cloud)
   end
 
+  # Mirror incoming-message routing: reuse the open conversation (or the last one when locked), else create new.
   def resolve_conversation!(contact, contact_inbox)
-    if inbox.lock_to_single_conversation
-      reusable = account.conversations
-                        .where(contact_id: contact.id, inbox_id: inbox.id)
-                        .where.not(status: :resolved)
-                        .order(last_activity_at: :desc)
-                        .first
-      return reusable if reusable
-    end
+    reusable = if inbox.lock_to_single_conversation
+                 contact_inbox.conversations.last
+               else
+                 contact_inbox.conversations.where.not(status: :resolved).last
+               end
+    return reusable if reusable
 
     account.conversations.create!(
       contact_inbox_id: contact_inbox.id,
