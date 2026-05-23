@@ -22,11 +22,11 @@ class Messages::StatusUpdateService
   private
 
   def update_message_status
-    # Update status and set external_error only when failed
-    message.update!(
-      status: status,
-      external_error: (status == 'failed' ? external_error : nil)
-    )
+    update_attributes = { status: status }
+    update_attributes[:external_error] = nil unless status == 'failed'
+    update_attributes[:external_error] = external_error if status == 'failed' && !external_error.nil?
+
+    message.update!(update_attributes)
   end
 
   def valid_status_transition?

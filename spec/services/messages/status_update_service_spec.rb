@@ -28,6 +28,14 @@ describe Messages::StatusUpdateService do
         expect(message.reload.external_error).to eq('some error')
       end
 
+      it 'preserves external_error when failed status has no error' do
+        message.update!(status: 'failed', external_error: 'previous error')
+        service = described_class.new(message, 'failed')
+        service.perform
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('previous error')
+      end
+
       it 'updates delivered messages to read' do
         message.update!(status: 'delivered')
         service = described_class.new(message, 'read')
