@@ -129,6 +129,8 @@ const validateSingleAction = action => {
     'remove_assigned_team',
     'open_conversation',
     'pending_conversation',
+    'sync_conversation_labels_everywhere',
+    'inherit_contact_labels',
   ];
 
   if (

@@ -1169,4 +1169,49 @@ RSpec.describe Conversation do
       end
     end
   end
+
+  describe 'label change propagation to contact' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:contact) { create(:contact, account: account) }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: inbox) }
+    let!(:conv_a) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+    let!(:conv_b) { create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox) }
+
+    it 'adds labels to the contact when added to a conversation' do
+      conv_a.update_labels(%w[paid])
+      expect(contact.reload.label_list).to include('paid')
+    end
+
+    it 'fans out via the contact callback to every sibling conversation' do
+      conv_a.update_labels(%w[paid])
+      expect(conv_b.reload.label_list).to include('paid')
+    end
+
+    it 'removes labels from the contact when removed from a conversation' do
+      conv_a.update_labels(%w[paid vip])
+      conv_a.update_labels(%w[paid])
+      expect(contact.reload.label_list).not_to include('vip')
+    end
+
+    it 'is a no-op when label_list has not changed' do
+      conv_a.update_labels(%w[paid])
+      expect { conv_a.update!(status: :resolved) }.not_to(change { contact.reload.label_list })
+    end
+
+    it 'inherits the contact labels on new conversation creation' do
+      contact.update_labels(%w[paid])
+      new_conv = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox)
+      expect(new_conv.reload.label_list).to include('paid')
+    end
+
+    it 'does not loop when the contact already has the label' do
+      contact.update_labels(%w[paid])
+      allow(contact).to receive(:update_labels).and_call_original
+      conv_a.update_labels(%w[paid])
+      # Contact already had paid; conversation callback should short-circuit
+      # so contact.update_labels is NOT re-invoked from this conversation update.
+      expect(contact).not_to have_received(:update_labels)
+    end
+  end
 end

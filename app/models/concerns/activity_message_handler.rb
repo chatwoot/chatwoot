@@ -36,6 +36,10 @@ module ActivityMessageHandler
 
   def handle_label_change(user_name)
     return unless saved_change_to_label_list?
+    # Skip recording "Automation System added X" activity messages on sibling
+    # conversations during internal label propagation — those updates are not
+    # an agent / rule action on the conversation itself.
+    return if Current.label_propagation_in_progress
 
     create_label_change(activity_message_owner(user_name))
   end

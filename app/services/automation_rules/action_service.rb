@@ -22,6 +22,108 @@ class AutomationRules::ActionService < ActionService
 
   private
 
+  def add_label_to_contact(labels)
+    return if labels.blank?
+
+    contact = @conversation.contact
+    return if contact.blank?
+
+    merged = (contact.label_list + labels).uniq
+    return if merged.sort == contact.label_list.sort
+
+    # Suppress the Contact label-propagation callback so this action remains
+    # contact-scoped (the action contract). Users who want fan-out to every
+    # conversation should pick `add_label_everywhere` instead.
+    without_label_propagation { contact.update_labels(merged) }
+  end
+
+  def remove_label_from_contact(labels)
+    return if labels.blank?
+
+    contact = @conversation.contact
+    return if contact.blank?
+
+    remaining = contact.label_list - labels
+    return if remaining.sort == contact.label_list.sort
+
+    without_label_propagation { contact.update_labels(remaining) }
+  end
+
+  def without_label_propagation
+    previous = Current.label_propagation_in_progress
+    Current.label_propagation_in_progress = true
+    yield
+  ensure
+    Current.label_propagation_in_progress = previous
+  end
+
+  def add_label_everywhere(labels)
+    return if labels.blank?
+
+    contact = @conversation.contact
+    return if contact.blank?
+
+    contact_merged = (contact.label_list + labels).uniq
+    contact.update_labels(contact_merged) unless contact_merged.sort == contact.label_list.sort
+
+    # Only touch open conversations; resolved / pending / snoozed stay frozen.
+    contact.conversations.where(status: :open).find_each do |conv|
+      conv_merged = (conv.label_list + labels).uniq
+      conv.update_labels(conv_merged) unless conv_merged.sort == conv.label_list.sort
+    end
+  end
+
+  def remove_label_everywhere(labels)
+    return if labels.blank?
+
+    contact = @conversation.contact
+    return if contact.blank?
+
+    contact_remaining = contact.label_list - labels
+    contact.update_labels(contact_remaining) unless contact_remaining.sort == contact.label_list.sort
+
+    contact.conversations.where(status: :open).find_each do |conv|
+      conv_remaining = conv.label_list - labels
+      conv.update_labels(conv_remaining) unless conv_remaining.sort == conv.label_list.sort
+    end
+  end
+
+  def inherit_contact_labels(_params = nil)
+    contact = @conversation.contact
+    return if contact.blank?
+
+    inherited = contact.label_list
+    return if inherited.blank?
+
+    merged = (@conversation.label_list + inherited).uniq
+    return if merged.sort == @conversation.label_list.sort
+
+    @conversation.update_labels(merged)
+  end
+
+  def sync_conversation_labels_everywhere(_params = nil)
+    contact = @conversation.contact
+    return if contact.blank?
+
+    conv_labels = @conversation.label_list.to_a
+    return if conv_labels.empty?
+
+    sync_contact_with_labels(contact, conv_labels)
+    fan_labels_to_open_siblings(contact, conv_labels)
+  end
+
+  def sync_contact_with_labels(contact, labels)
+    next_contact = (contact.label_list + labels).uniq
+    contact.update_labels(next_contact) unless next_contact.sort == contact.label_list.sort
+  end
+
+  def fan_labels_to_open_siblings(contact, labels)
+    contact.conversations.where(status: :open).where.not(id: @conversation.id).find_each do |sib|
+      next_sib = (sib.label_list + labels).uniq
+      sib.update_labels(next_sib) unless next_sib.sort == sib.label_list.sort
+    end
+  end
+
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
