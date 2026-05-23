@@ -4,6 +4,8 @@ import { useI18n } from 'vue-i18n';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useAlert } from 'dashboard/composables';
 import authAPI from 'dashboard/api/auth';
+import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
+import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -69,6 +71,7 @@ const revokeSession = async session => {
   try {
     await authAPI.revokeSession(session.id);
     sessions.value = sessions.value.filter(s => s.id !== session.id);
+    AnalyticsHelper.track(SESSION_EVENTS.REVOKED_FROM_PROFILE);
     useAlert(t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.REVOKE_SUCCESS'));
   } catch {
     useAlert(t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.REVOKE_ERROR'));

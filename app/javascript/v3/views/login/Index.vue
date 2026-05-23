@@ -8,6 +8,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
+import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
+import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -191,6 +193,7 @@ export default {
             this.loginApi.showLoading = false;
             this.sessionsLimitReached = true;
             this.limitedSessions = result.sessions;
+            AnalyticsHelper.track(SESSION_EVENTS.LIMIT_HIT);
             return;
           }
 
@@ -257,6 +260,7 @@ export default {
             this.loginApi.showLoading = false;
             this.sessionsLimitReached = true;
             this.limitedSessions = result.sessions;
+            AnalyticsHelper.track(SESSION_EVENTS.LIMIT_HIT);
             return;
           }
           this.handleImpersonation();
