@@ -2,8 +2,10 @@ module Enterprise::Public::Api::V1::Portals::SearchController
   private
 
   def search_articles
+    return super if @query.blank?
+
     if @portal.account.feature_enabled?('help_center_embedding_search')
-      @articles = @articles.vector_search(search_params) if @query.present?
+      @articles = @articles.vector_search(search_params)
     else
       super
     end
