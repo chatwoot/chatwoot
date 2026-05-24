@@ -26,6 +26,12 @@
       <!-- Search form for the results page -->
       <form class="w-full my-4" action="<%= request.path %>" method="GET" data-search-form>
         <input type="hidden" name="locale" value="<%= params[:locale] %>">
+        <% if @theme_from_params.present? %>
+          <input type="hidden" name="theme" value="<%= @theme_from_params %>">
+        <% end %>
+        <% if @is_plain_layout_enabled %>
+          <input type="hidden" name="show_plain_layout" value="true">
+        <% end %>
         <input type="text"
                name="query"
                value="<%= @query %>"
@@ -62,6 +68,12 @@
   <!-- Search form for the results page -->
   <form class="w-full my-4" action="<%= request.path %>" method="GET" data-search-form>
     <input type="hidden" name="locale" value="<%= params[:locale] %>">
+    <% if @theme_from_params.present? %>
+      <input type="hidden" name="theme" value="<%= @theme_from_params %>">
+    <% end %>
+    <% if @is_plain_layout_enabled %>
+      <input type="hidden" name="show_plain_layout" value="true">
+    <% end %>
     <input type="text"
            name="query"
            value="<%= @query %>"
@@ -76,8 +88,10 @@
 </div>
 <% end %>
 
+<% pagination_params = params.permit(:query, :locale, :theme, :show_plain_layout) %>
+
 <script>
-document.addEventListener('turbo:load', function() {
+(function() {
   const searchInputs = document.querySelectorAll('[data-search-input]');
 
   searchInputs.forEach(function(input) {
@@ -103,9 +117,14 @@ document.addEventListener('turbo:load', function() {
           // Check if the query has actually changed
           const currentQuery = new URLSearchParams(window.location.search).get('query') || '';
           if (query !== currentQuery) {
-            // Use Turbo.visit for SPA-like navigation
             const formData = new FormData(form);
-            const searchParams = new URLSearchParams(formData);
+            const searchParams = new URLSearchParams(window.location.search);
+            searchParams.delete('page');
+
+            formData.forEach(function(value, key) {
+              searchParams.set(key, value);
+            });
+
             const url = form.action + '?' + searchParams.toString();
             Turbo.visit(url);
           }
@@ -118,7 +137,7 @@ document.addEventListener('turbo:load', function() {
       clearTimeout(debounceTimer);
     });
   });
-});
+})();
 </script>
 
 <div class="max-w-5xl w-full mx-auto px-4 md:px-8 py-6 flex flex-col items-center justify-center flex-grow">
@@ -129,7 +148,7 @@ document.addEventListener('turbo:load', function() {
       </div>
     <% else %>
       <p class="text-sm text-slate-600 dark:text-slate-400">
-        <%= I18n.t('public_portal.search.found_results', count: @articles.size) %>
+        <%= I18n.t('public_portal.search.found_results', count: @articles.total_count) %>
       </p>
 
       <% @articles.each do |article| %>
@@ -166,13 +185,13 @@ document.addEventListener('turbo:load', function() {
         <div class="flex justify-center mt-6">
           <nav class="inline-flex">
             <% if @articles.prev_page %>
-              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <a href="<%= url_for(pagination_params.merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 <%= I18n.t('public_portal.common.previous') %>
               </a>
             <% end %>
 
             <% if @articles.next_page %>
-              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <a href="<%= url_for(pagination_params.merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 <%= I18n.t('public_portal.common.next') %>
               </a>
             <% end %>
