@@ -5,7 +5,7 @@ class Public::Api::V1::Portals::SearchController < Public::Api::V1::Portals::Bas
 
   def index
     @query = params[:query].to_s.strip
-    @articles = @portal.articles.published.where(locale: params[:locale])
+    @articles = @portal.articles.published.includes(:category).where(locale: params[:locale])
 
     search_articles
 
