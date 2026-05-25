@@ -236,7 +236,29 @@ describe WebhookListener do
       end
     end
   end
+describe '#contact_deleted' do
+  let(:event_name) { :'contact.deleted' }
+  let(:contact_data) { contact.webhook_data.merge(account_id: account.id) }
+  let!(:contact_deleted_event) { Events::Base.new(event_name, Time.zone.now, contact_data: contact_data) }
 
+  context 'when webhook is not configured' do
+    it 'does not trigger webhook' do
+      expect(WebhookJob).to receive(:perform_later).exactly(0).times
+      listener.contact_deleted(contact_deleted_event)
+    end
+  end
+
+  context 'when webhook is configured' do
+    it 'triggers webhook' do
+      webhook = create(:webhook, account: account)
+      expect(WebhookJob).to receive(:perform_later).with(
+        webhook.url, contact_data.merge(event: 'contact_deleted'), :account_webhook,
+        secret: webhook.secret, delivery_id: instance_of(String)
+      ).once
+      listener.contact_deleted(contact_deleted_event)
+    end
+  end
+end
   describe '#inbox_created' do
     let(:event_name) { :'inbox.created' }
     let!(:inbox_created_event) { Events::Base.new(event_name, Time.zone.now, inbox: inbox) }
