@@ -19,12 +19,12 @@ module Synapseos
 
     def recent_events
       # ATIVIDADE RECENTE — somente últimos alertas de venda (sales_alert_
-      # dispatched). Inclui nome do contato (via conversação) + modelo de
-      # interesse extraído do metadata. Ordenado decrescente por created_at.
-      # Limite 10. Eventos sem conv associada são pulados (não dá pra mostrar
-      # nome).
+      # dispatched) no PERÍODO selecionado. Mesmo escopo do KPI "Elisa →
+      # Atendimento Humano" pra que a lista e o contador sejam consistentes
+      # (lista com items ⇒ KPI > 0). Inclui nome do contato + modelo de
+      # interesse. Ordenado por created_at desc, limite 10.
       ::Synapseos::CrmEvent
-        .where(account_id: @account.id, event_type: 'sales_alert_dispatched')
+        .where(account_id: @account.id, event_type: 'sales_alert_dispatched', created_at: @range)
         .where.not(conversation_id: nil)
         .includes(conversation: :contact)
         .order(created_at: :desc)
@@ -77,9 +77,11 @@ module Synapseos
         # `shoots_month` mantido por backcompat (acumulativo do mês corrente).
         shoots_period: outgoing_distinct_contacts(@range),
         shoots_month: shoots_month_count,
-        # BOT → ATENDIMENTO HUMANO: conversas distintas onde bot transferiu
-        # pra humano (= alertas únicos disparados).
-        bot_takeovers: events_of('bot_takeover').distinct.count('conversation_id'),
+        # ELISA → ATENDIMENTO HUMANO: conversas distintas onde Elisa
+        # transferiu pra consultor humano (= alertas únicos disparados).
+        # Mesma fonte que `deals_won` (sales_alert_dispatched) e que a lista
+        # de "Últimos alertas" — invariante: lista com items ⇒ KPI > 0.
+        bot_takeovers: unique_alert_convs,
         # human_rescues mantido por backcompat; frontend não exibe mais.
         human_rescues: events_of('human_rescue').count,
         ai_responses: messages.where(sender_type: 'AgentBot').count,
@@ -108,7 +110,15 @@ module Synapseos
       days = (0...@period_days).map { |offset| (@period_days - 1 - offset).days.ago.to_date }
       msgs_in = messages.where(message_type: :incoming).reorder(nil).group("DATE(created_at)").count
       msgs_out_distinct = outgoing_distinct_contacts_by_day
-      takeovers = events_of('bot_takeover').reorder(nil).group("DATE(created_at)").count
+      # Daily takeovers = alertas de venda únicos por dia (mesma fonte do KPI).
+      # group por DATE + conversation_id distinto evita dupla contagem se a
+      # mesma conv gerou 2 alertas no mesmo dia.
+      takeovers = events_of('sales_alert_dispatched')
+                    .where.not(conversation_id: nil)
+                    .reorder(nil)
+                    .group("DATE(created_at)")
+                    .distinct
+                    .count('conversation_id')
       ai_resp = messages.where(sender_type: 'AgentBot').reorder(nil).group("DATE(created_at)").count
 
       days.map do |day|
