@@ -26,7 +26,6 @@ import {
 
 const { t } = useI18n();
 const router = useRouter();
-const store = useStore();
 const { accountId, currentAccount, finishOnboarding } = useAccount();
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
