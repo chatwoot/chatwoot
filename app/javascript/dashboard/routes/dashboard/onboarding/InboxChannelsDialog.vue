@@ -5,6 +5,9 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
+import { useAlert } from 'dashboard/composables';
+import googleClient from 'dashboard/api/channel/googleClient';
+import microsoftClient from 'dashboard/api/channel/microsoftClient';
 
 const props = defineProps({
   connectedTypes: { type: Array, default: () => [] },
@@ -13,6 +16,27 @@ const props = defineProps({
 const emit = defineEmits(['continue', 'skip']);
 
 const { t } = useI18n();
+
+// Channels that complete via an OAuth redirect. We tag the request with a return
+// hint so the callback brings the user back to onboarding instead of inbox settings.
+const OAUTH_CLIENTS = {
+  gmail: googleClient,
+  outlook: microsoftClient,
+};
+
+const connect = async type => {
+  const client = OAUTH_CLIENTS[type];
+  if (!client) return;
+
+  try {
+    const {
+      data: { url },
+    } = await client.generateAuthorization({ return_to: 'onboarding' });
+    window.location.href = url;
+  } catch {
+    useAlert(t('ONBOARDING_INBOX_SETUP.ERROR'));
+  }
+};
 
 const dialogRef = ref(null);
 
@@ -139,6 +163,7 @@ const handleSkip = () => {
         :key="channel.type"
         type="button"
         class="flex items-center gap-3 p-3 rounded-[10px] bg-n-solid-1 outline outline-1 outline-n-weak hover:outline-n-slate-6 transition-colors text-start cursor-pointer"
+        @click="connect(channel.type)"
       >
         <ChannelIcon
           v-if="channel.iconStyle === 'logo'"
