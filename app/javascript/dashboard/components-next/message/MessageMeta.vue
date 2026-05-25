@@ -5,6 +5,7 @@ import { messageTimestamp } from 'shared/helpers/timeHelper';
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
+import { useTimeFormat } from 'dashboard/composables/useTimeFormat';
 import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
@@ -32,8 +33,10 @@ const {
   contentAttributes,
 } = useMessageContext();
 
+const { fullTimestampFormat } = useTimeFormat();
+
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(createdAt.value, fullTimestampFormat.value)
 );
 
 const showStatusIndicator = computed(() => {

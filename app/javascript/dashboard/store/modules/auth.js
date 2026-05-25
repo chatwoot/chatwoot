@@ -154,7 +154,8 @@ export const actions = {
     }
   },
 
-  updateUISettings: async ({ commit }, params) => {
+  updateUISettings: async ({ commit, state }, params) => {
+    const previousUser = state.currentUser;
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
 
@@ -167,7 +168,8 @@ export const actions = {
         commit(types.SET_CURRENT_USER, response.data);
       }
     } catch (error) {
-      // Ignore error
+      commit(types.SET_CURRENT_USER, previousUser);
+      throw error;
     }
   },
 
