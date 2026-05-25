@@ -19,33 +19,33 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
       article: payload[:article]
     ).perform
 
-    finalize(user: user, generation_id: generation_id, article: article)
+    finalize(account_id: account_id, user: user, generation_id: generation_id, article: article)
   end
 
   private
 
   def on_writer_failure(error)
-    user, generation_id = failure_context
+    account_id, user, generation_id = failure_context
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} failed: #{error.class} #{error.message}"
-    finalize(user: user, generation_id: generation_id, article: nil)
+    finalize(account_id: account_id, user: user, generation_id: generation_id, article: nil)
   end
 
   def failure_context
-    _account_id, _portal_id, user_id, generation_id = arguments
-    [User.find_by(id: user_id), generation_id]
+    account_id, _portal_id, user_id, generation_id = arguments
+    [account_id, User.find_by(id: user_id), generation_id]
   end
 
-  def finalize(user:, generation_id:, article:)
+  def finalize(account_id:, user:, generation_id:, article:)
     result = Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
 
     if article
       Onboarding::HelpCenterBroadcaster.article_generated(
-        user: user, generation_id: generation_id, article: article, articles_finished: result[:finished]
+        account_id: account_id, user: user, generation_id: generation_id, article: article, articles_finished: result[:finished]
       )
     end
     return unless result[:completed]
 
-    Onboarding::HelpCenterBroadcaster.completed(user: user, generation_id: generation_id, status: 'completed')
+    Onboarding::HelpCenterBroadcaster.completed(account_id: account_id, user: user, generation_id: generation_id, status: 'completed')
   rescue Onboarding::HelpCenterGenerationState::Missing => e
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} #{e.message}"
   end

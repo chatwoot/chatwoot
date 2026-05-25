@@ -2,10 +2,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   queue_as :low
 
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
-    _account_id, _portal_id, user_id, generation_id = job.arguments
+    account_id, _portal_id, user_id, generation_id = job.arguments
     reason = "firecrawl exhausted: #{error.message}"
     Rails.logger.warn "[HelpCenterGenerationJob] gen=#{generation_id} #{reason}"
-    job.send(:skip_and_broadcast, user: User.find_by(id: user_id), generation_id: generation_id, reason: reason)
+    job.send(:skip_and_broadcast, account_id: account_id, user: User.find_by(id: user_id), generation_id: generation_id, reason: reason)
   end
 
   def perform(account_id, portal_id, user_id, generation_id)
@@ -19,7 +19,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     )
   rescue Onboarding::HelpCenterErrors::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation_id} skipped: #{e.message}"
-    skip_and_broadcast(user: User.find_by(id: user_id), generation_id: generation_id, reason: e.message)
+    skip_and_broadcast(account_id: account_id, user: User.find_by(id: user_id), generation_id: generation_id, reason: e.message)
   end
 
   private
@@ -94,10 +94,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     end
   end
 
-  def skip_and_broadcast(user:, generation_id:, reason:)
+  def skip_and_broadcast(account_id:, user:, generation_id:, reason:)
     Onboarding::HelpCenterGenerationState.skip(generation_id, reason: reason)
     Onboarding::HelpCenterBroadcaster.completed(
-      user: user, generation_id: generation_id, status: 'skipped', skip_reason: reason
+      account_id: account_id, user: user, generation_id: generation_id, status: 'skipped', skip_reason: reason
     )
   end
 end
