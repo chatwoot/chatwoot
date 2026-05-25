@@ -329,12 +329,21 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
-    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
+    handleVoiceCallCreated(
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
-    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
+    handleVoiceCallUpdated(
+      commit,
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   deleteMessage: async function deleteLabels(

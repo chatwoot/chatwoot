@@ -51,6 +51,14 @@ module Whatsapp::IncomingMessageServiceHelpers
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
   end
 
+  def whatsapp_phone_number(identifier)
+    identifier = identifier.to_s
+    return if identifier.blank?
+    return unless identifier.match?(/\A\d{1,15}\z/)
+
+    identifier
+  end
+
   def error_webhook_event?(message)
     message.key?('errors')
   end
