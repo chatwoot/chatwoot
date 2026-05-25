@@ -130,9 +130,10 @@ class WebsiteBrandingService
   end
 
   def mx_records
-    resolver = Resolv::DNS.new
-    resolver.timeouts = 5
-    resolver.getresources(@domain, Resolv::DNS::Resource::IN::MX).map { |record| record.exchange.to_s.downcase }
+    Resolv::DNS.open do |resolver|
+      resolver.timeouts = 5
+      resolver.getresources(@domain, Resolv::DNS::Resource::IN::MX).map { |record| record.exchange.to_s.downcase }
+    end
   rescue StandardError => e
     Rails.logger.error "[WebsiteBranding] MX probe failed for #{@domain}: #{e.message}"
     []
