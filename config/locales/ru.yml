@@ -244,6 +244,7 @@ ru:
       whatsapp:
         list_button_label: 'Выберите элемент'
         call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Голосовой звонок'
         whatsapp: 'WhatsApp звонок'
