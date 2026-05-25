@@ -1,32 +1,39 @@
 class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
 
+  ONBOARDING_STEPS = %w[account_details inbox_setup].freeze
+
   def update
     @account = Current.account
-    # The client tells us which step it is completing; we trust it. Advancing is
-    # a pure function of the declared step, so replays stay idempotent:
-    # account_details always lands on inbox_setup, inbox_setup always clears.
-    step = params[:onboarding_step]
-
-    @account.assign_attributes(account_params)
-    @account.custom_attributes.merge!(custom_attributes_params)
-    advance_onboarding_step(step)
-    @account.save!
-
-    create_onboarding_inboxes if step == 'account_details'
+    complete_onboarding_step
 
     render 'api/v1/accounts/update', format: :json
   end
 
   private
 
-  def advance_onboarding_step(step)
-    case step
-    when 'account_details'
-      @account.custom_attributes['onboarding_step'] = 'inbox_setup'
-    when 'inbox_setup'
-      @account.custom_attributes.delete('onboarding_step')
-    end
+  # The client declares which step it is completing; step `foo` runs
+  # `complete_foo`, which owns persisting that step's data, advancing the cursor,
+  # and any side effects. Dispatch is gated on the known-step list so the client
+  # value can never `send` an arbitrary method.
+  def complete_onboarding_step
+    step = params[:onboarding_step]
+    return unless ONBOARDING_STEPS.include?(step)
+
+    send("complete_#{step}")
+  end
+
+  def complete_account_details
+    @account.assign_attributes(account_params)
+    @account.custom_attributes.merge!(custom_attributes_params)
+    @account.custom_attributes['onboarding_step'] = 'inbox_setup'
+    @account.save!
+    create_onboarding_inboxes
+  end
+
+  def complete_inbox_setup
+    @account.custom_attributes.delete('onboarding_step')
+    @account.save!
   end
 
   def create_onboarding_inboxes

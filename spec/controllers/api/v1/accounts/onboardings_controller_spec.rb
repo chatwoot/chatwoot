@@ -40,7 +40,7 @@ RSpec.describe 'Onboarding API', type: :request do
 
       it 'saves name and locale' do
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { name: 'Acme Inc', locale: 'fr' },
+              params: { name: 'Acme Inc', locale: 'fr', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
@@ -50,7 +50,7 @@ RSpec.describe 'Onboarding API', type: :request do
 
       it 'merges custom_attributes' do
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com', industry: 'tech', company_size: '10-50' },
+              params: { website: 'acme.com', industry: 'tech', company_size: '10-50', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
         attrs = account.reload.custom_attributes
