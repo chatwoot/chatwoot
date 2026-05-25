@@ -22,6 +22,7 @@ const OAUTH_PROVIDERS = {
   gmail: 'google',
   outlook: 'microsoft',
   instagram: 'instagram',
+  tiktok: 'tiktok',
 };
 
 const connect = type => connectViaOAuth(OAUTH_PROVIDERS[type]);

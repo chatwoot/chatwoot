@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import googleClient from 'dashboard/api/channel/googleClient';
 import microsoftClient from 'dashboard/api/channel/microsoftClient';
 import instagramClient from 'dashboard/api/channel/instagramClient';
+import tiktokClient from 'dashboard/api/channel/tiktokClient';
 
 // Channels that complete via an OAuth redirect. Email channels are keyed by their
 // Channel::Email provider, others by channel type. The request is tagged with a
@@ -12,6 +13,7 @@ const OAUTH_CLIENTS = {
   google: googleClient,
   microsoft: microsoftClient,
   instagram: instagramClient,
+  tiktok: tiktokClient,
 };
 
 export function useChannelConnect() {
