@@ -39,7 +39,8 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def reset_access_token
-    @user.access_token.regenerate_token
+    token = @user.access_token || AccessToken.create!(owner: @user, scope: 'full')
+    token.regenerate_token
     @user.reload
   end
 
