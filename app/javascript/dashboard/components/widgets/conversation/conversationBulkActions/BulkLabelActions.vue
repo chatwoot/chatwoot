@@ -122,9 +122,7 @@ const handleDismiss = () => {
     <NextButton
       v-tooltip="tooltipLabel"
       :label="buttonLabel"
-      :icon="
-        isRemoveAction ? 'i-fluent-tag-dismiss-20-regular' : 'i-lucide-tag'
-      "
+      :icon="isRemoveAction ? 'i-woot-tag-remove' : 'i-lucide-tag'"
       slate
       :size="isTypeContact ? 'sm' : 'xs'"
       ghost
