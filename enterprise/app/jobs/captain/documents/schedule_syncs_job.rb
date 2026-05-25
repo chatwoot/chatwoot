@@ -8,10 +8,11 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
   WEEKLY_SYNC_JITTER = 1.day
   MONTHLY_SYNC_JITTER = 4.days
 
-  def perform
+  def perform(plan_name = nil)
     @per_account_batch_limit = configured_sync_limit('CAPTAIN_DOCUMENT_AUTO_SYNC_PER_ACCOUNT_BATCH_LIMIT', DEFAULT_PER_ACCOUNT_BATCH_LIMIT)
     @global_batch_limit = configured_sync_limit('CAPTAIN_DOCUMENT_AUTO_SYNC_GLOBAL_BATCH_LIMIT', DEFAULT_GLOBAL_BATCH_LIMIT)
     @remaining_global_capacity = @global_batch_limit
+    @plan_name = plan_name.to_s.downcase.presence
     sync_intervals = Enterprise::Account.captain_document_sync_intervals
     stats = { accounts_scanned: 0, accounts_enabled: 0, accounts_scheduled: 0, documents_enqueued: 0 }
 
@@ -20,6 +21,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
 
       stats[:accounts_scanned] += 1
       next unless account.feature_enabled?('captain_document_auto_sync')
+      next unless account_in_selected_plan?(account)
 
       stats[:accounts_enabled] += 1
       interval = account.captain_document_sync_interval(sync_intervals)
@@ -76,6 +78,18 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     limit.positive? ? limit : default
   end
 
+  def account_in_selected_plan?(account)
+    return true if @plan_name.blank?
+
+    account_sync_plan(account) == @plan_name
+  end
+
+  def account_sync_plan(account)
+    plan = account.custom_attributes['plan_name']
+    plan = 'enterprise' if plan.blank? && ChatwootApp.self_hosted_enterprise?
+    plan.to_s.downcase.presence
+  end
+
   def sync_jitter(interval)
     jitter_window = if interval <= 1.day
                       DAILY_SYNC_JITTER
@@ -91,6 +105,7 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
   def log_scheduler_summary(stats)
     payload = {
       event: 'completed',
+      plan_name: @plan_name,
       global_cap_hit: @remaining_global_capacity <= 0,
       per_account_batch_limit: @per_account_batch_limit,
       global_batch_limit: @global_batch_limit,

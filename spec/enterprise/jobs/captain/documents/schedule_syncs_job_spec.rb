@@ -5,7 +5,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   let(:assistant) { create(:captain_assistant, account: account) }
 
   before do
-    set_installation_config('CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', { business: 24, hacker: nil }.to_json)
+    set_installation_config('CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', { business: 168, enterprise: 24, startups: 720, hacker: nil }.to_json)
     set_installation_config('CAPTAIN_DOCUMENT_AUTO_SYNC_PER_ACCOUNT_BATCH_LIMIT', 50)
     set_installation_config('CAPTAIN_DOCUMENT_AUTO_SYNC_GLOBAL_BATCH_LIMIT', 1000)
     account.enable_features!('captain_document_auto_sync')
@@ -49,6 +49,25 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
     end
   end
 
+  context 'when a plan name is passed' do
+    it 'queues due documents only for that plan' do
+      enterprise_account = create(:account, custom_attributes: { plan_name: 'Enterprise' })
+      enterprise_account.enable_features!('captain_document_auto_sync')
+      enterprise_assistant = create(:captain_assistant, account: enterprise_account)
+      business_document = create(:captain_document, assistant: assistant, account: account, status: :available)
+      enterprise_document = create(:captain_document, assistant: enterprise_assistant, account: enterprise_account, status: :available)
+
+      business_document.update!(sync_status: :synced, last_synced_at: 3.days.ago, last_sync_attempted_at: 3.days.ago)
+      enterprise_document.update!(sync_status: :synced, last_synced_at: 3.days.ago, last_sync_attempted_at: 3.days.ago)
+      clear_enqueued_jobs
+
+      described_class.new.perform('enterprise')
+
+      expect(Captain::Documents::PerformSyncJob).to have_been_enqueued.with(enterprise_document)
+      expect(Captain::Documents::PerformSyncJob).not_to have_been_enqueued.with(business_document)
+    end
+  end
+
   context 'when an available document has backfilled sync metadata' do
     it 'leaves it alone when last synced within the plan cadence' do
       create(
@@ -71,7 +90,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
         account: account,
         status: :available,
         sync_status: :synced,
-        last_synced_at: 3.days.ago
+        last_synced_at: 8.days.ago
       )
       clear_enqueued_jobs
 
@@ -89,7 +108,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
           account: account,
           status: :available,
           sync_status: :synced,
-          last_synced_at: 3.days.ago
+          last_synced_at: 8.days.ago
         )
         clear_enqueued_jobs
 
@@ -114,7 +133,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   context 'when an available document was last synced before the plan cadence' do
     it 'queues a sync for that document' do
       document = create(:captain_document, assistant: assistant, account: account, status: :available)
-      document.update!(sync_status: :synced, last_synced_at: 2.days.ago, last_sync_attempted_at: 2.days.ago)
+      document.update!(sync_status: :synced, last_synced_at: 8.days.ago, last_sync_attempted_at: 8.days.ago)
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
@@ -123,11 +142,6 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   end
 
   context 'when jitter spreads queued sync execution' do
-    before do
-      InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')
-                        .update!(value: { business: 168, hacker: nil }.to_json)
-    end
-
     it 'keeps due detection at the plan cadence and delays only the sync job' do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
         job = described_class.new
@@ -178,9 +192,9 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       oldest_document = create(:captain_document, assistant: assistant, account: account, status: :available)
       backfilled_document = create(:captain_document, assistant: assistant, account: account, status: :available)
 
-      newest_document.update!(sync_status: :synced, last_synced_at: 2.days.ago, last_sync_attempted_at: 2.days.ago)
-      oldest_document.update!(sync_status: :synced, last_synced_at: 3.days.ago, last_sync_attempted_at: 3.days.ago)
-      backfilled_document.update!(sync_status: :synced, last_synced_at: 4.days.ago, last_sync_attempted_at: nil)
+      newest_document.update!(sync_status: :synced, last_synced_at: 8.days.ago, last_sync_attempted_at: 8.days.ago)
+      oldest_document.update!(sync_status: :synced, last_synced_at: 9.days.ago, last_sync_attempted_at: 9.days.ago)
+      backfilled_document.update!(sync_status: :synced, last_synced_at: 10.days.ago, last_sync_attempted_at: nil)
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
@@ -202,7 +216,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
       first_account_documents = create_list(:captain_document, 3, assistant: assistant, account: account, status: :available)
       second_account_documents = create_list(:captain_document, 3, assistant: second_assistant, account: second_account, status: :available)
       (first_account_documents + second_account_documents).each do |document|
-        document.update!(sync_status: :synced, last_synced_at: 3.days.ago, last_sync_attempted_at: 3.days.ago)
+        document.update!(sync_status: :synced, last_synced_at: 8.days.ago, last_sync_attempted_at: 8.days.ago)
       end
       clear_enqueued_jobs
 
@@ -214,7 +228,7 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   context 'when an available document failed before the plan cadence' do
     it 'queues a sync for that document' do
       document = create(:captain_document, assistant: assistant, account: account, status: :available)
-      document.update!(sync_status: :failed, last_sync_attempted_at: 2.days.ago)
+      document.update!(sync_status: :failed, last_sync_attempted_at: 8.days.ago)
       clear_enqueued_jobs
 
       expect { described_class.new.perform }
