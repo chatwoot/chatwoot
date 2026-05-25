@@ -25,8 +25,9 @@ class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   ACCEPTABLE_FILE_TYPES = %w[
-    text/csv text/plain text/rtf
+    text/csv text/plain text/rtf text/xml
     application/json application/pdf
+    application/xml
     application/zip application/x-7z-compressed application/vnd.rar application/x-tar
     application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/rtf
     application/vnd.oasis.opendocument.text
@@ -35,7 +36,7 @@ class Attachment < ApplicationRecord
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
     application/x-pkcs12 application/pkcs12
   ].freeze
-  ACCEPTABLE_FILE_EXTENSIONS = %w[pfx].freeze
+  ACCEPTABLE_FILE_EXTENSIONS = %w[pfx xml].freeze
   GENERIC_FILE_CONTENT_TYPES = %w[application/octet-stream].freeze
   belongs_to :account
   belongs_to :message
