@@ -12,7 +12,6 @@
 #  metadata               :jsonb
 #  name                   :string
 #  status                 :integer          default("in_progress"), not null
-#  sync_scheduled_at      :datetime
 #  sync_status            :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null

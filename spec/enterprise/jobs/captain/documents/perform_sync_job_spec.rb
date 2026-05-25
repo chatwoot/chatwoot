@@ -25,49 +25,8 @@ RSpec.describe Captain::Documents::PerformSyncJob, type: :job do
     allow(Captain::Documents::SinglePageFetcher).to receive(:new).and_return(fetcher)
   end
 
-  it 'starts a scheduled auto-sync when the queued job still matches the document' do
+  it 'syncs the document content' do
     travel_to Time.zone.local(2026, 5, 18, 10, 0, 0) do
-      sync_scheduled_at = 30.minutes.from_now
-      document.update!(sync_status: :synced, sync_scheduled_at: sync_scheduled_at)
-      job = described_class.new
-      stub_lock(job)
-      stub_page_fetch
-
-      job.perform(document, sync_scheduled_at.to_i)
-
-      expect(document.reload).to have_attributes(
-        sync_status: 'synced',
-        last_sync_attempted_at: Time.current,
-        last_synced_at: Time.current,
-        sync_scheduled_at: nil,
-        content: 'Updated content'
-      )
-    end
-  end
-
-  it 'leaves the document alone when the queued auto-sync was replaced' do
-    travel_to Time.zone.local(2026, 5, 18, 10, 0, 0) do
-      sync_scheduled_at = 30.minutes.from_now
-      attempted_at = 1.hour.ago
-      document.update!(sync_status: :syncing, last_sync_attempted_at: attempted_at, sync_scheduled_at: nil, content: 'Original content')
-      job = described_class.new
-      stub_lock(job)
-      stub_page_fetch(content: 'Should not be applied')
-
-      job.perform(document, sync_scheduled_at.to_i)
-
-      expect(document.reload).to have_attributes(
-        sync_status: 'syncing',
-        last_sync_attempted_at: attempted_at,
-        sync_scheduled_at: nil,
-        content: 'Original content'
-      )
-    end
-  end
-
-  it 'starts manual sync even when an auto-sync is scheduled' do
-    travel_to Time.zone.local(2026, 5, 18, 10, 0, 0) do
-      document.update!(sync_status: :synced, sync_scheduled_at: 30.minutes.from_now)
       job = described_class.new
       stub_lock(job)
       stub_page_fetch
@@ -78,34 +37,13 @@ RSpec.describe Captain::Documents::PerformSyncJob, type: :job do
         sync_status: 'synced',
         last_sync_attempted_at: Time.current,
         last_synced_at: Time.current,
-        sync_scheduled_at: nil,
         content: 'Updated content'
       )
     end
   end
 
-  it 'keeps scheduled auto-sync available for retry after an unexpected failure' do
+  it 'marks unexpected failures as failed' do
     travel_to Time.zone.local(2026, 5, 18, 10, 0, 0) do
-      sync_scheduled_at = 30.minutes.from_now
-      document.update!(sync_status: :synced, sync_scheduled_at: sync_scheduled_at)
-      job = described_class.new
-      stub_lock(job)
-      stub_page_fetch_failure
-
-      expect { job.perform(document, sync_scheduled_at.to_i) }.to raise_error(StandardError, 'boom')
-
-      expect(document.reload).to have_attributes(
-        sync_status: 'failed',
-        last_sync_error_code: 'sync_error',
-        last_sync_attempted_at: Time.current,
-        sync_scheduled_at: sync_scheduled_at
-      )
-    end
-  end
-
-  it 'clears scheduled auto-sync when manual sync fails unexpectedly' do
-    travel_to Time.zone.local(2026, 5, 18, 10, 0, 0) do
-      document.update!(sync_status: :synced, sync_scheduled_at: 30.minutes.from_now)
       job = described_class.new
       stub_lock(job)
       stub_page_fetch_failure
@@ -115,8 +53,7 @@ RSpec.describe Captain::Documents::PerformSyncJob, type: :job do
       expect(document.reload).to have_attributes(
         sync_status: 'failed',
         last_sync_error_code: 'sync_error',
-        last_sync_attempted_at: Time.current,
-        sync_scheduled_at: nil
+        last_sync_attempted_at: Time.current
       )
     end
   end

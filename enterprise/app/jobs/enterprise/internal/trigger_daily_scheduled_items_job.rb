@@ -1,4 +1,4 @@
-module Enterprise::Internal::TriggerHourlyScheduledItemsJob
+module Enterprise::Internal::TriggerDailyScheduledItemsJob
   def perform
     super
 

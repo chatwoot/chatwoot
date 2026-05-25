@@ -45,7 +45,6 @@ class Captain::Documents::SyncService
       sync_status: :failed,
       sync_step: nil,
       last_sync_error_code: error_code,
-      sync_scheduled_at: nil,
       last_sync_attempted_at: Time.current
     )
   end
@@ -56,7 +55,6 @@ class Captain::Documents::SyncService
       sync_step: nil,
       last_synced_at: Time.current,
       last_sync_attempted_at: Time.current,
-      sync_scheduled_at: nil,
       last_sync_error_code: nil
     )
   end
@@ -70,7 +68,6 @@ class Captain::Documents::SyncService
       sync_step: nil,
       last_synced_at: Time.current,
       last_sync_attempted_at: Time.current,
-      sync_scheduled_at: nil,
       last_sync_error_code: nil
     )
   end

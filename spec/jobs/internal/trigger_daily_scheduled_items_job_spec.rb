@@ -11,6 +11,7 @@ RSpec.describe Internal::TriggerDailyScheduledItemsJob do
   before do
     allow(ChatwootHub).to receive(:installation_identifier).and_return(installation_id)
     allow(Internal::CheckNewVersionsJob).to receive(:set).and_return(configured_job)
+    allow(Captain::Documents::ScheduleSyncsJob).to receive(:perform_later)
   end
 
   it 'enqueues the job' do
@@ -35,5 +36,11 @@ RSpec.describe Internal::TriggerDailyScheduledItemsJob do
     perform_job
 
     expect(Internal::CheckNewVersionsJob).not_to have_received(:set)
+  end
+
+  it 'enqueues Captain document auto-sync' do
+    perform_job
+
+    expect(Captain::Documents::ScheduleSyncsJob).to have_received(:perform_later)
   end
 end

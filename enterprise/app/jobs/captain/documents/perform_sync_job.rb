@@ -14,7 +14,6 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
   # Goes first because retry_on handlers dispatch bottom-to-top.
   retry_on StandardError, wait: 5.seconds, attempts: 3 do |job, error|
     document = job.arguments.first
-    job.send(:clear_auto_sync_schedule, document, job.arguments.second)
     ChatwootExceptionTracker.new(error, account: document.account).capture_exception
     job.send(:log_sync_outcome, document, result: :unexpected_retry_exhausted,
                                           error_code: 'sync_error',
@@ -44,17 +43,12 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
   discard_on ActiveJob::DeserializationError
   discard_on ActiveRecord::RecordNotFound
 
-  def perform(document, sync_scheduled_at = nil)
+  def perform(document)
     start_time = Time.current
     return if document.pdf_document?
 
     with_lock(lock_key(document), LOCK_TIMEOUT) do
-      document.reload
-      if auto_sync_job_still_scheduled?(document, sync_scheduled_at)
-        perform_sync(document, start_time)
-      else
-        log_sync_outcome(document, result: :auto_sync_replaced)
-      end
+      perform_sync(document, start_time)
     end
   rescue LockAcquisitionError
     log_sync_outcome(document, result: :already_syncing)
@@ -63,7 +57,7 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
   rescue Captain::Documents::SyncService::TransientSyncError => e
     log_failure_and_raise(document, :transient_failure, e, start_time)
   rescue StandardError => e
-    handle_unexpected_failure(document, e, start_time, sync_scheduled_at)
+    handle_unexpected_failure(document, e, start_time)
   end
 
   private
@@ -94,16 +88,6 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
       sync_status: :failed,
       sync_step: nil,
       last_sync_error_code: error_code,
-      sync_scheduled_at: nil,
-      last_sync_attempted_at: Time.current
-    )
-  end
-
-  def mark_scheduled_auto_sync_failed_for_retry(document)
-    document.update!(
-      sync_status: :failed,
-      sync_step: nil,
-      last_sync_error_code: 'sync_error',
       last_sync_attempted_at: Time.current
     )
   end
@@ -117,30 +101,12 @@ class Captain::Documents::PerformSyncJob < MutexApplicationJob
     )
   end
 
-  def auto_sync_job_still_scheduled?(document, sync_scheduled_at)
-    return true if sync_scheduled_at.blank?
-
-    document.sync_scheduled_at&.to_i == sync_scheduled_at.to_i
-  end
-
-  def handle_unexpected_failure(document, error, start_time, sync_scheduled_at)
-    if sync_scheduled_at.present?
-      mark_scheduled_auto_sync_failed_for_retry(document)
-    else
-      mark_sync_failed(document, 'sync_error')
-    end
-
+  def handle_unexpected_failure(document, error, start_time)
+    mark_sync_failed(document, 'sync_error')
     log_sync_outcome(document, result: :unexpected_failure, error_code: 'sync_error',
                                exception_class: error.class.name,
                                duration_ms: duration_ms_since(start_time))
     raise error
-  end
-
-  def clear_auto_sync_schedule(document, sync_scheduled_at)
-    return if sync_scheduled_at.blank?
-    return unless document.sync_scheduled_at&.to_i == sync_scheduled_at.to_i
-
-    document.update!(sync_scheduled_at: nil)
   end
 
   def lock_key(document)
