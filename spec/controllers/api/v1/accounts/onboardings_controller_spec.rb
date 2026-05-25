@@ -24,15 +24,14 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(account.reload.name).not_to eq('Hijacked')
       end
 
-      it 'does not invoke HelpCenterCreationService' do
+      it 'does not create a help center portal' do
         account.update!(custom_attributes: { 'onboarding_step' => 'account_details' })
-        allow(Onboarding::HelpCenterCreationService).to receive(:new)
 
-        patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'attacker.com' },
-              headers: agent.create_new_auth_token, as: :json
-
-        expect(Onboarding::HelpCenterCreationService).not_to have_received(:new)
+        expect do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { website: 'attacker.com' },
+                headers: agent.create_new_auth_token, as: :json
+        end.not_to change(account.portals, :count)
       end
     end
 
@@ -83,14 +82,12 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(service).to have_received(:perform)
       end
 
-      it 'does not invoke HelpCenterCreationService when website is blank' do
-        allow(Onboarding::HelpCenterCreationService).to receive(:new)
-
-        patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { name: 'Acme Inc' },
-              headers: admin.create_new_auth_token, as: :json
-
-        expect(Onboarding::HelpCenterCreationService).not_to have_received(:new)
+      it 'does not create a help center portal when website is blank' do
+        expect do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { name: 'Acme Inc' },
+                headers: admin.create_new_auth_token, as: :json
+        end.not_to change(account.portals, :count)
       end
     end
 
@@ -105,14 +102,12 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(account.reload.custom_attributes['onboarding_step']).to eq('invite_team')
       end
 
-      it 'does not invoke HelpCenterCreationService' do
-        allow(Onboarding::HelpCenterCreationService).to receive(:new)
-
-        patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com' },
-              headers: admin.create_new_auth_token, as: :json
-
-        expect(Onboarding::HelpCenterCreationService).not_to have_received(:new)
+      it 'does not create a help center portal' do
+        expect do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { website: 'acme.com' },
+                headers: admin.create_new_auth_token, as: :json
+        end.not_to change(account.portals, :count)
       end
     end
   end
