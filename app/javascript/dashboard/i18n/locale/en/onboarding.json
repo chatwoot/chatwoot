@@ -36,6 +36,7 @@
     "SUBTITLE": "This will give you head-start in your workspace",
     "CONTINUE": "Continue",
     "SKIP": "Skip",
+    "ERROR": "Something went wrong. Please try again.",
     "CREATED_FOR_YOU": {
       "TITLE": "We've created the following for you",
       "LIVE_CHAT": "Live Chat widget",

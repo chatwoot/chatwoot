@@ -1,8 +1,11 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert, useTrack } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -12,7 +15,10 @@ import InboxChannelsDialog from './InboxChannelsDialog.vue';
 
 const { t } = useI18n();
 const store = useStore();
-const { currentAccount } = useAccount();
+const router = useRouter();
+const { accountId, currentAccount, finishOnboarding } = useAccount();
+
+const isSubmitting = ref(false);
 
 const integrations = useMapGetter('integrations/getAppIntegrations');
 
@@ -88,10 +94,32 @@ const connectedChannelTypes = computed(() => [
 
 onMounted(() => {
   store.dispatch('integrations/get');
+  useTrack(ONBOARDING_EVENTS.INBOX_SETUP_VISITED);
 });
 
-const handleContinue = () => {};
-const handleSkip = () => {};
+const completeOnboarding = async event => {
+  if (isSubmitting.value) return;
+
+  isSubmitting.value = true;
+  try {
+    // Declare the step we're completing so the controller only clears it when
+    // the stored step still matches (idempotent). setUser then refreshes the
+    // auth store so the router guard sees the cleared step and lets us in.
+    await finishOnboarding({ onboarding_step: 'inbox_setup' });
+    useTrack(event);
+    await store.dispatch('setUser');
+    router.push({ name: 'home', params: { accountId: accountId.value } });
+  } catch {
+    useAlert(t('ONBOARDING_INBOX_SETUP.ERROR'));
+  } finally {
+    isSubmitting.value = false;
+  }
+};
+
+const handleContinue = () =>
+  completeOnboarding(ONBOARDING_EVENTS.INBOX_SETUP_COMPLETED);
+const handleSkip = () =>
+  completeOnboarding(ONBOARDING_EVENTS.INBOX_SETUP_SKIPPED);
 const openChannelsDialog = () => channelsDialogRef.value?.open();
 </script>
 
@@ -101,6 +129,7 @@ const openChannelsDialog = () => channelsDialogRef.value?.open();
     :subtitle="t('ONBOARDING_INBOX_SETUP.SUBTITLE')"
     :continue-label="t('ONBOARDING_INBOX_SETUP.CONTINUE')"
     :skip-label="t('ONBOARDING_INBOX_SETUP.SKIP')"
+    :is-loading="isSubmitting"
     @continue="handleContinue"
     @skip="handleSkip"
   >

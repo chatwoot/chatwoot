@@ -244,6 +244,7 @@ const handleSubmit = async () => {
       timezone: timezone.value,
       referral_source: referralSource.value,
       user_role: userRole.value,
+      onboarding_step: 'account_details',
     });
 
     useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_COMPLETED, {

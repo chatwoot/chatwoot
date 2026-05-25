@@ -157,4 +157,7 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
 export const ONBOARDING_EVENTS = Object.freeze({
   ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
   ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',
+  INBOX_SETUP_VISITED: 'Onboarding: Inbox setup visited',
+  INBOX_SETUP_COMPLETED: 'Onboarding: Inbox setup completed',
+  INBOX_SETUP_SKIPPED: 'Onboarding: Inbox setup skipped',
 });
