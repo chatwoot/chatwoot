@@ -31,7 +31,7 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
   # POST /synapseos/leads/upsert_by_conversation
   # Atalho pra N8N mover leads entre stages sem resolver stage_id manualmente.
   #   conversation_id: integer (required)
-  #   stage_slug:      string opcional — ex 'a_contatar', 'perdido'
+  #   stage_slug:      string opcional — ex 'aguardando_atendimento', 'encerrado'
   #   metadata:        hash opcional (loss_reason, modelo, etc.)
   #   source:          string opcional pra novos leads (default 'n8n')
   # Find-or-create lead por conv_id; resolve stage por slug; deep-merge metadata.

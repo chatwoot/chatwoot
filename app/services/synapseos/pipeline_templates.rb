@@ -32,26 +32,32 @@ module Synapseos
       },
 
       audi_sdr: {
-        name: 'Audi Center Uberlândia — SDR Outbound',
-        description: 'Funil SDR pra cold outreach Audi: A Contatar → Tentativa → Em Relacionamento → Qualificação SPIN → Alerta/Transbordo. Lost reasons calibrados pra outbound.',
+        name: 'Audi Center Uberlândia — Pipeline Comercial',
+        description: 'Funil comercial completo Audi Uberlândia: do lead frio até a venda. Cobre jornada SDR (Elisa) + atendimento humano do consultor (visita, negociação, fechamento).',
         loss_reasons: [
           'Sem Resposta (Unresponsive)',
           'Desqualificado (No Fit)',
-          'Sem Interesse no Momento (Timing errado)'
+          'Sem Interesse no Momento (Timing errado)',
+          'Comprou da concorrência',
+          'Não fechou negociação'
         ],
         stages: [
-          { slug: 'a_contatar', name: 'A Contatar', color: '#6B7280', position: 1, stage_type: 'inbound',
-            description: 'Status inicial para leads importados da lista fria. Aguardando primeiro disparo da Elisa.' },
-          { slug: 'tentativa_contato', name: 'Tentativa de Contato', color: '#3B82F6', position: 2, stage_type: 'inbound',
-            description: 'Lead em fluxo de cadência (follow-up). Disparo enviado pela Elisa, aguardando resposta. Se ficar sem resposta por N tentativas, mover para "Perdido" com motivo "Sem Resposta".' },
-          { slug: 'em_relacionamento', name: 'Em Relacionamento', color: '#8B5CF6', position: 3, stage_type: 'open',
-            description: 'Lead respondeu. Fase de quebra-gelo e rapport. Elisa entende momento de vida (radar da marca, intenção de troca) sem qualificação comercial ainda.' },
-          { slug: 'qualificacao_spin', name: 'Qualificação (SPIN)', color: '#F59E0B', position: 4, stage_type: 'working',
-            description: 'Lead sinalizou intenção. Aplicação das perguntas SPIN: Situação (carro atual, uso), Problema (incômodos), Implicação (impacto) e Necessidade (modelo Audi que resolve). Elisa captura modelo de interesse e perfil.' },
-          { slug: 'alerta_transbordo', name: 'Alerta / Transbordo', color: '#10B981', position: 5, stage_type: 'won',
-            description: 'Lead qualificado. Passagem de bastão para o Closer humano via alerta Slack (sales_alert_dispatched). A partir daqui o time de vendas assume a conversa no Chatwoot.' },
-          { slug: 'perdido', name: 'Perdido', color: '#EF4444', position: 6, stage_type: 'lost',
-            description: 'Registre o motivo de perda usando uma das opções configuradas. Resgate em 3-6 meses pode ser tentado conforme o caso (cadência de nutrição).' }
+          { slug: 'aguardando_atendimento', name: 'Aguardando atendimento', color: '#6B7280', position: 1, stage_type: 'inbound',
+            description: 'Lead novo, ainda sem primeiro disparo da Elisa. Aguardando entrada no fluxo de cadência.' },
+          { slug: 'em_atendimento', name: 'Em atendimento', color: '#3B82F6', position: 2, stage_type: 'open',
+            description: 'Elisa em conversa ativa com o cliente — quebra-gelo, rapport, qualificação SPIN, descoberta de modelo de interesse.' },
+          { slug: 'futuro', name: 'Futuro', color: '#8B5CF6', position: 3, stage_type: 'open',
+            description: 'Cliente sinalizou "não é o momento" mas aceitou ficar no radar. Nutrição de médio prazo (3-6 meses) com novidades sem cobrança.' },
+          { slug: 'aguardando_visita', name: 'Aguardando visita', color: '#F59E0B', position: 4, stage_type: 'working',
+            description: 'Cliente confirmou visita à loja ou test-drive. Consultor humano aguardando recebê-lo presencialmente.' },
+          { slug: 'veiculo_em_espera', name: 'Veículo em espera', color: '#F97316', position: 5, stage_type: 'working',
+            description: 'Modelo de interesse não disponível imediatamente (sob encomenda, importação, aguardando estoque). Acompanhamento periódico do cliente.' },
+          { slug: 'negociacao', name: 'Negociação', color: '#EAB308', position: 6, stage_type: 'working',
+            description: 'Proposta enviada (preço, financiamento, condições de troca). Cliente avaliando, consultor em follow-up ativo até decisão.' },
+          { slug: 'venda', name: 'Venda', color: '#10B981', position: 7, stage_type: 'won',
+            description: 'Negócio fechado. Documentação assinada, pagamento confirmado, entrega agendada/realizada.' },
+          { slug: 'encerrado', name: 'Encerrado', color: '#EF4444', position: 8, stage_type: 'lost',
+            description: 'Cliente desistiu, sem resposta após cadência completa, comprou de concorrente ou foi desqualificado. Registre o motivo nas loss reasons.' }
         ]
       },
 
