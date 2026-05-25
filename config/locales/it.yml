@@ -244,6 +244,7 @@ it:
       whatsapp:
         list_button_label: 'Scegli un elemento'
         call_permission_request_body: 'Vorremmo chiamarti riguardo alla tua conversazione.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Chiamata Vocale'
         whatsapp: 'Chiamata WhatsApp'
