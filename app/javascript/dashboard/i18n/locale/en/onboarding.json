@@ -46,7 +46,12 @@
       "HELP_CENTER": "Help Center",
       "HELP_CENTER_DESCRIPTION": "Your digital encyclopedia",
       "HELP_CENTER_GENERATING": "Creating your help center…",
-      "HELP_CENTER_ARTICLES": "Created {count} article | Created {count} articles"
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analyzing your website…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Setting up categories…",
+      "HELP_CENTER_CURATING_ARTICLES": "Curating articles…",
+      "HELP_CENTER_ARTICLES": "Created {count} article | Created {count} articles",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "Created {count} article across {categories} | Created {count} articles across {categories}"
     },
     "CHANNELS": {
       "TITLE": "Connect all your conversation channels",
