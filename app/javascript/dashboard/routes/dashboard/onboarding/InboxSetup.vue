@@ -80,6 +80,33 @@ const connectedChannels = computed(() =>
     }))
 );
 
+// Mailbox provider inferred from the signup domain's MX records by the website
+// branding service. Values mirror Channel::Email#provider so ChannelIcon can
+// render the matching Gmail/Outlook brand.
+const EMAIL_PROVIDERS = {
+  google: { label: 'Gmail' },
+  microsoft: { label: 'Outlook' },
+};
+
+const detectedEmailChannel = computed(() => {
+  const brandInfo = currentAccount.value?.custom_attributes?.brand_info;
+  const provider = brandInfo?.email_provider;
+  if (!EMAIL_PROVIDERS[provider]) return null;
+
+  const email = brandInfo?.email;
+  return {
+    type: 'email',
+    url: email ? `mailto:${email}` : '',
+    handle: email || '',
+    label: EMAIL_PROVIDERS[provider].label,
+    inbox: { channel_type: 'Channel::Email', provider },
+  };
+});
+
+const displayedChannels = computed(() =>
+  [detectedEmailChannel.value, ...connectedChannels.value].filter(Boolean)
+);
+
 const remainingChannels = computed(() => {
   const connectedTypes = new Set(connectedChannels.value.map(c => c.type));
   return Object.entries(SOCIAL_PLATFORMS)
@@ -159,7 +186,7 @@ const openChannelsDialog = () => channelsDialogRef.value?.open();
       icon="i-lucide-inbox"
     >
       <div
-        v-for="(channel, index) in connectedChannels"
+        v-for="(channel, index) in displayedChannels"
         :key="channel.type"
         class="flex items-center justify-between gap-3 px-3 py-3"
         :class="{ 'border-t border-n-weak': index > 0 }"
@@ -186,7 +213,7 @@ const openChannelsDialog = () => channelsDialogRef.value?.open();
       </div>
       <div
         class="flex items-center justify-between gap-3 px-3 py-3"
-        :class="{ 'border-t border-n-weak': connectedChannels.length > 0 }"
+        :class="{ 'border-t border-n-weak': displayedChannels.length > 0 }"
       >
         <div class="flex items-center gap-2 min-w-0">
           <Icon
