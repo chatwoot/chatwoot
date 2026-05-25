@@ -12,7 +12,7 @@ class SafeFetch::PrivateNetworkRequest
       uri = URI(url)
       validate_scheme!(uri)
 
-      response, next_url = fetch_once(uri, allowed_addresses(uri.hostname).sample.to_s, original_uri, &)
+      response, next_url = fetch_once(uri, resolved_addresses(uri.hostname).sample.to_s, original_uri, &)
       return response if next_url.nil?
 
       url = next_url
@@ -31,21 +31,11 @@ class SafeFetch::PrivateNetworkRequest
     raise SsrfFilter::InvalidUriScheme, "URI scheme '#{uri.scheme}' not in whitelist: #{SsrfFilter::DEFAULT_SCHEME_WHITELIST}"
   end
 
-  def allowed_addresses(hostname)
+  def resolved_addresses(hostname)
     ip_addresses = options.resolver.call(hostname)
     raise SsrfFilter::UnresolvedHostname, "Could not resolve hostname '#{hostname}'" if ip_addresses.empty?
 
-    allowed_addresses = ip_addresses.select do |ip_address|
-      !unsafe_ip_address?(ip_address) || options.private_ip_allowed?(hostname, ip_address)
-    end
-
-    raise SsrfFilter::PrivateIPAddress, "Hostname '#{hostname}' has no public or allowed private ip addresses" if allowed_addresses.empty?
-
-    allowed_addresses
-  end
-
-  def unsafe_ip_address?(ip_address)
-    SsrfFilter.send(:unsafe_ip_address?, ip_address)
+    ip_addresses
   end
 
   def fetch_once(uri, ip_address, original_uri, &)

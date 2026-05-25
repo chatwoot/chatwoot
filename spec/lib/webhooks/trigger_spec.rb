@@ -46,28 +46,6 @@ describe Webhooks::Trigger do
       trigger.execute(url, payload, webhook_type)
     end
 
-    it 'passes private network allowlists only for enabled webhook types' do
-      with_modified_env(
-        'WEBHOOK_PRIVATE_NETWORK_ALLOWED_TYPES' => 'api_inbox_webhook',
-        'WEBHOOK_ALLOWED_PRIVATE_HOSTS' => 'internal-webhook-service',
-        'WEBHOOK_ALLOWED_PRIVATE_CIDRS' => '192.168.0.0/16'
-      ) do
-        expect(SafeFetch).to receive(:fetch).with(
-          url,
-          method: :post,
-          body: payload.to_json,
-          headers: base_headers,
-          open_timeout: webhook_timeout,
-          read_timeout: webhook_timeout,
-          validate_content_type: false,
-          allowed_private_hosts: ['internal-webhook-service'],
-          allowed_private_cidrs: ['192.168.0.0/16']
-        ).and_yield(fetch_result)
-
-        trigger.execute(url, payload, webhook_type)
-      end
-    end
-
     it 'updates message status if webhook fails for message-created event' do
       payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
 

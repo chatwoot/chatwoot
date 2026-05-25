@@ -7,15 +7,12 @@ class SafeFetch::RequestOptions
     read_timeout: SafeFetch::DEFAULT_READ_TIMEOUT,
     headers: nil,
     http_basic_authentication: nil,
-    allowed_private_hosts: [],
-    allowed_private_cidrs: [],
     allowed_content_type_prefixes: SafeFetch::DEFAULT_ALLOWED_CONTENT_TYPE_PREFIXES,
     allowed_content_types: SafeFetch::DEFAULT_ALLOWED_CONTENT_TYPES,
     validate_content_type: true
   }.freeze
 
-  attr_reader :allowed_content_type_prefixes, :allowed_content_types, :allowed_private_cidrs,
-              :allowed_private_hosts, :body, :headers,
+  attr_reader :allowed_content_type_prefixes, :allowed_content_types, :body, :headers,
               :http_basic_authentication, :method, :open_timeout, :read_timeout, :uri, :url
 
   def initialize(url:, **options)
@@ -29,8 +26,6 @@ class SafeFetch::RequestOptions
     @read_timeout = config[:read_timeout]
     @headers = normalize_headers(config[:headers])
     @http_basic_authentication = config[:http_basic_authentication]
-    @allowed_private_hosts = normalize_private_hosts(config[:allowed_private_hosts])
-    @allowed_private_cidrs = normalize_private_cidrs(config[:allowed_private_cidrs])
     @allowed_content_type_prefixes = Array(config[:allowed_content_type_prefixes])
     @allowed_content_types = Array(config[:allowed_content_types])
     @validate_content_type = config[:validate_content_type]
@@ -56,15 +51,6 @@ class SafeFetch::RequestOptions
 
   def validate_content_type?
     @validate_content_type
-  end
-
-  def private_network_allowed?
-    allowed_private_hosts.present? || allowed_private_cidrs.present?
-  end
-
-  def private_ip_allowed?(hostname, ip_address)
-    allowed_private_hosts.include?(hostname.to_s.downcase) ||
-      allowed_private_cidrs.any? { |range| range.include?(ip_address) }
   end
 
   def resolver
@@ -96,14 +82,6 @@ class SafeFetch::RequestOptions
 
   def normalize_headers(value)
     value&.to_h
-  end
-
-  def normalize_private_hosts(value)
-    Array(value).flat_map { |item| item.to_s.split(',') }.map { |host| host.strip.downcase }.compact_blank
-  end
-
-  def normalize_private_cidrs(value)
-    Array(value).flat_map { |item| item.to_s.split(',') }.map { |range| IPAddr.new(range.strip) }
   end
 
   def request_proc
