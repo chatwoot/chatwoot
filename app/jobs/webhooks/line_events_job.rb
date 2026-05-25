@@ -2,23 +2,40 @@ class Webhooks::LineEventsJob < ApplicationJob
   queue_as :default
 
   def perform(params: {}, signature: '', post_body: '')
-    @params = params
-    return unless valid_event_payload?
-    return unless valid_post_body?(post_body, signature)
+    @params = params.with_indifferent_access
+    @channel = Channel::Line.find_by(line_channel_id: @params[:line_channel_id])
+    return unless @channel
 
-    Line::IncomingMessageService.new(inbox: @channel.inbox, params: @params['line'].with_indifferent_access).perform
+    events = @channel.webhook_parser.parse(body: post_body, signature: signature)
+    normalized_payload = Line::WebhookEventAdapter.normalize(events).with_indifferent_access
+
+    service_errors = [
+      Line::IncomingMessageService,
+      Line::DeliveryStatusService
+    ].filter_map do |service_class|
+      perform_service_safely(service_class, normalized_payload)
+    end
+
+    raise service_errors.first if service_errors.any?
+  rescue Line::Bot::V2::WebhookParser::InvalidSignatureError
+    nil
   end
 
   private
 
-  def valid_event_payload?
-    @channel = Channel::Line.find_by(line_channel_id: @params[:line_channel_id]) if @params[:line_channel_id]
+  def perform_service_safely(service_class, normalized_payload)
+    perform_service(service_class, normalized_payload)
+    nil
+  rescue StandardError => e
+    Rails.logger.error("[LINE] #{service_class.name} failed for channel_id=#{@channel.id}: #{e.class} #{e.message}")
+    ChatwootExceptionTracker.new(e, account: @channel.account).capture_exception
+    e
   end
 
-  # https://developers.line.biz/en/reference/messaging-api/#signature-validation
-  # validate the line payload
-  def valid_post_body?(post_body, signature)
-    hash = OpenSSL::HMAC.digest(OpenSSL::Digest.new('SHA256'), @channel.line_channel_secret, post_body)
-    Base64.strict_encode64(hash) == signature
+  def perform_service(service_class, normalized_payload)
+    service_class.new(
+      inbox: @channel.inbox,
+      params: normalized_payload
+    ).perform
   end
 end

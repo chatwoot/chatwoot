@@ -36,12 +36,43 @@ class Channel::Line < ApplicationRecord
   end
 
   def client
-    @client ||= Line::Bot::Client.new do |config|
-      config.channel_id = line_channel_id
-      config.channel_secret = line_channel_secret
-      config.channel_token = line_channel_token
-      # Skip SSL verification in development to avoid certificate issues
-      config.http_options = { verify_mode: OpenSSL::SSL::VERIFY_NONE } if Rails.env.development?
-    end
+    messaging_api_client
+  end
+
+  def messaging_api_client
+    @messaging_api_client ||= Line::Bot::V2::MessagingApi::ApiClient.new(
+      channel_access_token: line_channel_token,
+      http_options: http_options
+    )
+  end
+
+  def messaging_api_blob_client
+    @messaging_api_blob_client ||= Line::Bot::V2::MessagingApi::ApiBlobClient.new(
+      channel_access_token: line_channel_token,
+      http_options: http_options
+    )
+  end
+
+  def notification_message_http_client
+    @notification_message_http_client ||= Line::Bot::V2::HttpClient.new(
+      base_url: 'https://api.line.me',
+      http_headers: { 'Authorization' => "Bearer #{line_channel_token}" },
+      http_options: http_options
+    )
+  end
+
+  def webhook_parser
+    @webhook_parser ||= Line::Bot::V2::WebhookParser.new(
+      channel_secret: line_channel_secret
+    )
+  end
+
+  private
+
+  def http_options
+    return {} unless Rails.env.development?
+
+    # Skip SSL verification in development to avoid certificate issues.
+    { verify_mode: OpenSSL::SSL::VERIFY_NONE }
   end
 end
