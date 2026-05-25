@@ -20,6 +20,9 @@ const FEATURE_HELP_URLS = {
   billing: 'https://chwt.app/pricing',
   saml: 'https://chwt.app/hc/saml',
   captain_billing: 'https://chwt.app/hc/captain_billing',
+  access_token_api:
+    'https://developers.chatwoot.com/api-reference/introduction',
+  chatwoot_cli: 'https://developers.chatwoot.com/cli',
 };
 
 export function getHelpUrlForFeature(featureName) {

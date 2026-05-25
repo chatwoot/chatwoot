@@ -92,8 +92,25 @@
         "COPY": "Copy",
         "RESET": "Reset",
         "GENERATE": "Generate",
+        "CREATE": "Create token",
         "CONFIRM_RESET": "Are you sure?",
         "CONFIRM_HINT": "Click again to confirm",
+        "TABLE": {
+          "TOKEN": "Token",
+          "PERMISSION": "Permission"
+        },
+        "EMPTY": {
+          "TITLE": "No tokens yet",
+          "DESCRIPTION": "Create your first access token to start building integrations against the API."
+        },
+        "SCOPES": {
+          "FULL_LABEL": "Full access",
+          "READ_ONLY_LABEL": "Read only"
+        },
+        "LINKS": {
+          "API_REFERENCE": "API Reference",
+          "CLI": "Chatwoot CLI"
+        },
         "RESET_SUCCESS": "Access token regenerated successfully",
         "RESET_ERROR": "Unable to regenerate access token. Please try again",
         "READ_ONLY_TITLE": "Read-only Access Token",

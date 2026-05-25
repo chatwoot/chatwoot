@@ -8,6 +8,10 @@ import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import { parseBoolean } from '@chatwoot/utils';
+import { OnClickOutside } from '@vueuse/components';
+import { getHelpUrlForFeature } from 'dashboard/helper/featureHelper';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
@@ -18,7 +22,7 @@ import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
 import SectionLayout from '../account/components/SectionLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import AccessToken from './AccessToken.vue';
+import TokenList from './TokenList.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
 import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
@@ -40,9 +44,12 @@ export default {
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
-    AccessToken,
+    TokenList,
     MfaSettingsCard,
     BaseSettingsHeader,
+    OnClickOutside,
+    NextButton,
+    DropdownMenu,
   },
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
@@ -92,6 +99,7 @@ export default {
       ],
       notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       audioNotificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      isCreateTokenMenuOpen: false,
     };
   },
   computed: {
@@ -102,6 +110,41 @@ export default {
     }),
     isMfaEnabled() {
       return parseBoolean(window.chatwootConfig?.isMfaEnabled);
+    },
+    accessTokens() {
+      return [
+        { scope: 'full', value: this.currentUser.access_token },
+        { scope: 'read_only', value: this.currentUser.read_only_access_token },
+      ].filter(token => token.value);
+    },
+    apiReferenceUrl() {
+      return getHelpUrlForFeature('access_token_api');
+    },
+    cliUrl() {
+      return getHelpUrlForFeature('chatwoot_cli');
+    },
+    createTokenMenuItems() {
+      // Each user holds at most one token per scope, so only offer scopes
+      // that don't have a token yet.
+      const presentScopes = this.accessTokens.map(token => token.scope);
+      return [
+        {
+          label: this.$t(
+            'PROFILE_SETTINGS.FORM.ACCESS_TOKEN.SCOPES.FULL_LABEL'
+          ),
+          icon: 'i-lucide-shield-check',
+          value: 'full',
+        },
+        {
+          label: this.$t(
+            'PROFILE_SETTINGS.FORM.ACCESS_TOKEN.SCOPES.READ_ONLY_LABEL'
+          ),
+          icon: 'i-lucide-eye',
+          value: 'read_only',
+        },
+      ]
+        .filter(item => !presentScopes.includes(item.value))
+        .map(item => ({ ...item, action: 'create' }));
     },
   },
   mounted() {
@@ -191,6 +234,17 @@ export default {
     async onCopyToken(value) {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+    },
+    onCreateToken({ value }) {
+      this.isCreateTokenMenuOpen = false;
+      this.resetToken(value);
+    },
+    async resetToken(scope) {
+      if (scope === 'read_only') {
+        await this.resetReadOnlyAccessToken();
+      } else {
+        await this.resetAccessToken();
+      }
     },
     async resetAccessToken() {
       const success = await this.$store.dispatch('resetAccessToken');
@@ -353,25 +407,52 @@ export default {
         replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
       "
     >
-      <AccessToken
-        :value="currentUser.access_token"
-        @on-copy="onCopyToken"
-        @on-reset="resetAccessToken"
-      />
-    </SectionLayout>
-    <SectionLayout
-      with-border
-      :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_TITLE')"
-      :description="
-        replaceInstallationName(
-          $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.READ_ONLY_NOTE')
-        )
-      "
-    >
-      <AccessToken
-        :value="currentUser.read_only_access_token"
-        @on-copy="onCopyToken"
-        @on-reset="resetReadOnlyAccessToken"
+      <template #links>
+        <div class="flex items-center gap-2 mt-2 text-xs">
+          <a
+            :href="apiReferenceUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-body-main text-n-blue-11 hover:underline"
+          >
+            {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.LINKS.API_REFERENCE') }}
+          </a>
+          <span class="w-px h-3 bg-n-slate-6" aria-hidden="true" />
+          <a
+            :href="cliUrl"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-body-main text-n-blue-11 hover:underline"
+          >
+            {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.LINKS.CLI') }}
+          </a>
+        </div>
+      </template>
+      <template v-if="createTokenMenuItems.length" #headerActions>
+        <OnClickOutside @trigger="isCreateTokenMenuOpen = false">
+          <div class="relative flex justify-end">
+            <NextButton
+              :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CREATE')"
+              icon="i-lucide-plus"
+              size="sm"
+              blue
+              solid
+              class="rounded-lg"
+              @click="isCreateTokenMenuOpen = !isCreateTokenMenuOpen"
+            />
+            <DropdownMenu
+              v-if="isCreateTokenMenuOpen"
+              :menu-items="createTokenMenuItems"
+              class="ltr:right-0 rtl:left-0 top-10"
+              @action="onCreateToken"
+            />
+          </div>
+        </OnClickOutside>
+      </template>
+      <TokenList
+        :tokens="accessTokens"
+        @copy="onCopyToken"
+        @reset="resetToken"
       />
     </SectionLayout>
   </div>

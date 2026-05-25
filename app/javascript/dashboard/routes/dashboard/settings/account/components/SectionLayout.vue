@@ -45,6 +45,7 @@ const { t } = useI18n();
         >
           <slot name="description">{{ description }}</slot>
         </p>
+        <slot name="links" />
       </div>
       <div class="col-span-1">
         <slot name="headerActions" />
