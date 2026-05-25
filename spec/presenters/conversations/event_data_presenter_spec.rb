@@ -68,5 +68,39 @@ RSpec.describe Conversations::EventDataPresenter do
     it 'returns empty messages when conversation has no chat messages' do
       expect(presenter.webhook_data[:messages]).to eq([])
     end
+
+    it 'includes private messages in webhook conversation context' do
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :outgoing, content: 'public reply')
+      private_note = create(:message, conversation: conversation, account: conversation.account,
+                                      message_type: :outgoing, content: 'internal note for team', private: true)
+      data = presenter.webhook_data
+      webhook_message = data[:messages].first
+
+      expect(webhook_message).to be_present
+      expect(webhook_message[:id]).to eq(private_note.id)
+      expect(webhook_message[:content]).to eq('internal note for team')
+    end
+
+    it 'excludes activity messages from webhook conversation context' do
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :outgoing, content: 'a normal message')
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :activity, content: 'conversation was resolved')
+      data = presenter.webhook_data
+      webhook_message = data[:messages].first
+
+      expect(webhook_message[:content]).to eq('a normal message')
+    end
+
+    it 'returns the last message regardless of private flag' do
+      create(:message, conversation: conversation, account: conversation.account,
+                       message_type: :incoming, content: 'customer message', private: false)
+      last_msg = create(:message, conversation: conversation, account: conversation.account,
+                                  message_type: :outgoing, content: 'latest private note', private: true)
+      webhook_message = presenter.webhook_data[:messages].first
+
+      expect(webhook_message[:id]).to eq(last_msg.id)
+    end
   end
 end
