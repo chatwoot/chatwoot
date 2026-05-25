@@ -10,20 +10,19 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
     @account.custom_attributes.delete('onboarding_step') if finalize
     @account.save!
 
-    # TODO: re-enable when the help center generation UI is ready to surface progress
-    # Onboarding::HelpCenterCreationService.new(@account, Current.user).perform if finalize && website.present?
+    create_onboarding_inboxes if finalize
 
     render 'api/v1/accounts/update', format: :json
   end
 
   private
 
-  def finalizing_account_details?
-    @account.custom_attributes['onboarding_step'] == 'account_details'
+  def create_onboarding_inboxes
+    Onboarding::WebWidgetCreationService.new(@account, Current.user).perform
   end
 
-  def website
-    custom_attributes_params[:website]
+  def finalizing_account_details?
+    @account.custom_attributes['onboarding_step'] == 'account_details'
   end
 
   def account_params
@@ -34,3 +33,5 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
     params.permit(:industry, :company_size, :timezone, :referral_source, :user_role, :website)
   end
 end
+
+Api::V1::Accounts::OnboardingsController.prepend_mod_with('Api::V1::Accounts::OnboardingsController')
