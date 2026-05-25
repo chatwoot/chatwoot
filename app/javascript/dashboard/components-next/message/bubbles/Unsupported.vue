@@ -6,9 +6,12 @@ import BaseBubble from './Base.vue';
 
 const { inboxId } = useMessageContext();
 
-const { isAFacebookInbox, isAnInstagramChannel, isATiktokChannel } = useInbox(
-  inboxId.value
-);
+const {
+  isAFacebookInbox,
+  isAnInstagramChannel,
+  isATiktokChannel,
+  isAWhatsAppChannel,
+} = useInbox(inboxId.value);
 
 const unsupportedMessageKey = computed(() => {
   if (isAFacebookInbox.value)
@@ -16,6 +19,8 @@ const unsupportedMessageKey = computed(() => {
   if (isAnInstagramChannel.value)
     return 'CONVERSATION.UNSUPPORTED_MESSAGE_INSTAGRAM';
   if (isATiktokChannel.value) return 'CONVERSATION.UNSUPPORTED_MESSAGE_TIKTOK';
+  if (isAWhatsAppChannel.value)
+    return 'CONVERSATION.UNSUPPORTED_MESSAGE_WHATSAPP';
   return 'CONVERSATION.UNSUPPORTED_MESSAGE';
 });
 </script>

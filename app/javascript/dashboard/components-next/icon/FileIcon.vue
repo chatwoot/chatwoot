@@ -27,6 +27,7 @@ const fileTypeIcon = computed(() => {
     txt: 'i-woot-file-txt',
     xls: 'i-woot-file-xls',
     xlsx: 'i-woot-file-xls',
+    xml: 'i-woot-file-txt',
     zip: 'i-woot-file-zip',
   };
 
