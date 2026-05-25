@@ -10,10 +10,10 @@ import { useHelpCenterGenerationStore } from 'dashboard/stores/helpCenterGenerat
 import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import InboxChannelsDialog from './InboxChannelsDialog.vue';
+import WebWidgetCreationStatus from './WebWidgetCreationStatus.vue';
 import HelpCenterCreationStatus from './HelpCenterCreationStatus.vue';
 
 const { t } = useI18n();
@@ -150,23 +150,7 @@ const openChannelsDialog = () => channelsDialogRef.value?.open();
       :title="t('ONBOARDING_INBOX_SETUP.CREATED_FOR_YOU.TITLE')"
       icon="i-lucide-sparkles"
     >
-      <div class="flex items-center justify-between gap-3 px-3 py-3">
-        <div class="flex items-center gap-2 min-w-0">
-          <Spinner :size="16" class="text-n-slate-9 flex-shrink-0" />
-          <span class="text-sm font-medium text-n-slate-12 flex-shrink-0">
-            {{ t('ONBOARDING_INBOX_SETUP.CREATED_FOR_YOU.LIVE_CHAT') }}
-          </span>
-          <span class="w-px h-4 bg-n-weak flex-shrink-0" />
-          <span class="text-sm text-n-slate-11 truncate">
-            {{
-              t('ONBOARDING_INBOX_SETUP.CREATED_FOR_YOU.LIVE_CHAT_DESCRIPTION')
-            }}
-          </span>
-        </div>
-        <span class="text-sm text-n-slate-11 flex-shrink-0">
-          {{ t('ONBOARDING_INBOX_SETUP.CREATED_FOR_YOU.LIVE_CHAT_STATUS') }}
-        </span>
-      </div>
+      <WebWidgetCreationStatus />
       <HelpCenterCreationStatus v-if="isEnterprise && helpCenterGenerationId" />
     </OnboardingSection>
 
