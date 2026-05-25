@@ -20,6 +20,7 @@
     "CALL": "Anruf",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Spracheingang wählen"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Identifizierer",
       "COUNTRY": "Land",
       "CITY": "Stadt",
+      "COMPANY": "Firma",
       "CREATED_AT": "Erstellt am",
       "LAST_ACTIVITY": "Letzte Aktivität",
       "REFERER_LINK": "Referer-Link",

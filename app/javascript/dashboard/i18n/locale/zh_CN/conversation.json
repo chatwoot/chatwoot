@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
     "CARD": {
       "SHOW_LABELS": "显示标签",
-      "HIDE_LABELS": "隐藏标签"
+      "HIDE_LABELS": "隐藏标签",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "来电",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "通话结束",
       "NOT_ANSWERED_YET": "尚未回复",
       "THEY_ANSWERED": "对方已回复",
-      "YOU_ANSWERED": "你已回复"
+      "YOU_ANSWERED": "你已回复",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -92,6 +95,7 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "推迟到",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
@@ -194,7 +198,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "为 Copilot 提供额外提示，或提问其他内容… 按 Enter 发送跟进",
       "CLICK_HERE": "点击此处更新",
       "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
@@ -214,7 +218,7 @@
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot 正在思考",
       "EMAIL_HEAD": {
         "TO": "发给",
         "ADD_BCC": "添加密送",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "上一次对话",
       "MACROS": "宏",
       "LINEAR_ISSUES": "已链接的 Linear 问题",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "媒体",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "查看全部",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

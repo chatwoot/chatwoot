@@ -86,6 +86,14 @@
           "PLACEHOLDER": "Please enter your Webhook URL",
           "ERROR": "Please enter a valid URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website Domain",
           "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
@@ -628,7 +636,17 @@
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voice"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -685,6 +703,16 @@
           "SANDBOX": "Sandbox",
           "LIVE": "Live"
         }
+      },
+      "WEBHOOK": {
+        "TITLE": "Webhook Configuration",
+        "DESCRIPTION": "Webhook URL is required for your WhatsApp Business Account to receive messages from customers",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "REGISTER_BUTTON": "Register Webhook",
+        "REGISTER_SUCCESS": "Webhook registered successfully",
+        "REGISTER_ERROR": "Failed to register webhook. Please try again.",
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
     "SETTINGS": "Settings",
@@ -700,8 +728,20 @@
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
-        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
-        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+        "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
+        "PLACEHOLDER": "example.com, www.example.com, app.example.com"
+      },
+      "ALLOW_MOBILE_WEBVIEW": {
+        "LABEL": "Enable widget in mobile apps",
+        "SUBTITLE": "Check this if you embed the widget in iOS or Android apps. Mobile apps don't send domain information, so they would be blocked by domain restrictions unless this is enabled."
+      },
+      "IDENTITY_VALIDATION": {
+        "TITLE": "Identity Validation",
+        "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
+        "SECRET_KEY": "Secret Key",
+        "VIEW_DOCS": "View documentation",
+        "REQUIRE_LABEL": "Require identity validation for all conversations",
+        "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agenti",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
@@ -715,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
@@ -970,7 +1011,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Enable SSL"
+      "ENABLE_SSL": "Enable SSL",
+      "AUTH_MECHANISM": "Authentication"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

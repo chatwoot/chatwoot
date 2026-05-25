@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Beszélgetés",
-      "CONTACT": "Kontakt"
+      "CONTACT": "Kontakt",
+      "COMPANY": "Cég"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Szöveg",
@@ -85,7 +86,7 @@
       },
       "CONFIRM": {
         "TITLE": "Biztosan törölni akarod: {attributeName}",
-        "PLACE_HOLDER": "Kérlek gépeld a megerősítéshez",
+        "PLACE_HOLDER": "Kérlek írd be: {attributeName}",
         "MESSAGE": "A törlés eltávolítja az egyéni tulajdonságot",
         "YES": "Törlés ",
         "NO": "Mégse"
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Egyedi atribútumok",
       "CONVERSATION": "Beszélgetés",
-      "CONTACT": "Kontakt"
+      "CONTACT": "Kontakt",
+      "COMPANY": "Cég"
     },
     "LIST": {
       "TABLE_HEADER": {

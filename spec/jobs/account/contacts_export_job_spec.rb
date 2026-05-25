@@ -5,7 +5,6 @@ RSpec.describe Account::ContactsExportJob do
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, email: 'account-user-test@test.com') }
-  let(:label) { create(:label, title: 'spec-billing', maccount: account) }
 
   let(:email_filter) do
     {
@@ -83,6 +82,50 @@ RSpec.describe Account::ContactsExportJob do
 
       expect(emails).to include('test1@text.example', 'test2@text.example')
       expect(phone_numbers).to include('+910808080818', '+910808080808')
+    end
+
+    it 'exports labels when requested through column names' do
+      contact_with_labels = account.contacts.first
+      create(:label, account: account, title: 'vip')
+      contact_with_labels.add_labels(%w[vip])
+
+      described_class.perform_now(account.id, user.id, %w[id email labels], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      row = csv_data.find { |r| r['email'] == contact_with_labels.email }
+
+      expect(csv_data.headers).to eq(%w[id email labels])
+      expect(row['labels']).to eq('vip')
+    end
+
+    it 'bulk loads labels while exporting contacts' do
+      create(:label, account: account, title: 'vip')
+      create(:label, account: account, title: 'support')
+      account.contacts.find_each { |contact| contact.add_labels(%w[vip support]) }
+      account.contacts.first.add_labels('legacy_tag')
+
+      taggings_queries = []
+      subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, payload|
+        taggings_queries << payload[:sql] if payload[:sql].include?('FROM "taggings"')
+      end
+
+      described_class.perform_now(account.id, user.id, [], {})
+      csv_data = CSV.parse(account.contacts_export.download, headers: true)
+      row = csv_data.find { |r| r['email'] == account.contacts.first.email }
+
+      expect(csv_data.headers).to include('labels')
+      expect(row['labels'].split(described_class::LABELS_DELIMITER)).to match_array(%w[vip support])
+      expect(taggings_queries.size).to eq(1)
+    ensure
+      ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
+    end
+
+    it 'prepends UTF-8 BOM to the exported CSV for spreadsheet compatibility' do
+      described_class.perform_now(account.id, user.id, [], {})
+
+      raw = account.contacts_export.download
+      expect(raw.bytes[0..2]).to eq([0xEF, 0xBB, 0xBF])
     end
 
     it 'returns all resolved contacts as results when filter is not prvoided' do

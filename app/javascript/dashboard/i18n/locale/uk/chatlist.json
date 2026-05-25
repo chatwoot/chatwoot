@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Приховати цитований текст",
     "SHOW_QUOTED_TEXT": "Показати цитований текст",
     "MESSAGE_READ": "Прочитано",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

@@ -29,11 +29,15 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def render_img_tag(src, title, height = nil)
     title_attribute = title.present? ? " title=\"#{title}\"" : ''
-    height_attribute = height ? " height=\"#{height}\" width=\"auto\"" : ''
+    # Use inline style instead of the HTML height attribute: email clients and
+    # the in-app Letter view both run images through CSS (e.g. prose /
+    # lettersanitizer's `img { height: auto }`) which overrides presentational
+    # attributes. Inline style has higher specificity and survives.
+    style_attribute = height ? " style=\"height: #{height};\"" : ''
 
     plain do
       # plain ensures that the content is not wrapped in a paragraph tag
-      out("<img src=\"#{src}\"#{title_attribute}#{height_attribute} />")
+      out("<img src=\"#{src}\"#{title_attribute}#{style_attribute} />")
     end
   end
 end

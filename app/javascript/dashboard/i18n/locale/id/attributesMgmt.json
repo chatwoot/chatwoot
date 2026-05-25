@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Percakapan",
-      "CONTACT": "Kontak"
+      "CONTACT": "Kontak",
+      "COMPANY": "Perusahaan"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Teks",
@@ -85,7 +86,7 @@
       },
       "CONFIRM": {
         "TITLE": "Anda yakin akan menghapus - {attributeName}",
-        "PLACE_HOLDER": "Silakan ketik %{attributeName} untuk konfirmasi",
+        "PLACE_HOLDER": "Silakan ketik {attributeName} untuk konfirmasi",
         "MESSAGE": "Menghapus akan menghapus atribut kustom",
         "YES": "Hapus ",
         "NO": "Batalkan"
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Atribut Kustom",
       "CONVERSATION": "Percakapan",
-      "CONTACT": "Kontak"
+      "CONTACT": "Kontak",
+      "COMPANY": "Perusahaan"
     },
     "LIST": {
       "TABLE_HEADER": {

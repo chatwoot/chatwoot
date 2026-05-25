@@ -20,6 +20,7 @@
     "CALL": "Дзвінок",
     "CALL_INITIATED": "Викликаємо контакт…",
     "CALL_FAILED": "Не можливо розпочати виклик. Будь ласка, спробуйте пізніше.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Оберіть голосову теку"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Ідентифікатор",
       "COUNTRY": "Країна",
       "CITY": "Місто",
+      "COMPANY": "Організація",
       "CREATED_AT": "Створений в",
       "LAST_ACTIVITY": "Остання активність",
       "REFERER_LINK": "Посилання",

@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "에디터 로딩 중...",
     "DESCRIPTION": "에이전트 봇은 팀에서 가장 뛰어난 멤버와 같습니다. 사소한 일은 봇이 처리해 주니, 중요한 일에 집중하세요. 한번 사용해 보세요. 이 페이지에서 봇을 관리하거나 '봇 추가' 버튼을 통해 새 봇을 생성할 수 있습니다.",
     "LEARN_MORE": "에이전트 봇에 대해 알아보기",
+    "COUNT": "{n}개의 봇 | {n}개의 봇",
+    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
+    "NO_RESULTS": "검색과 일치하는 봇이 없습니다",
     "GLOBAL_BOT": "시스템 봇",
     "GLOBAL_BOT_BADGE": "시스템",
     "AVATAR": {
@@ -60,6 +63,16 @@
         "ERROR_MESSAGE": "봇을 업데이트할 수 없습니다. 다시 시도하십시오."
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "시크릿을 클립보드에 복사",
+      "COPY_SUCCESS": "시크릿이 클립보드에 복사되었습니다",
+      "TOGGLE": "시크릿 표시 전환",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "액세스 토큰",
       "DESCRIPTION": "액세스 토큰을 복사하여 안전하게 보관하십시오.",
@@ -99,9 +112,6 @@
     },
     "TYPES": {
       "WEBHOOK": "웹훅 봇"
-    },
-    "COUNT": "{n}개의 봇 | {n}개의 봇",
-    "SEARCH_PLACEHOLDER": "에이전트 봇 검색...",
-    "NO_RESULTS": "검색과 일치하는 봇이 없습니다"
+    }
   }
 }

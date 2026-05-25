@@ -107,7 +107,7 @@
         "CONTENT": "共享联系人"
       },
       "embed": {
-        "CONTENT": ""
+        "CONTENT": "嵌入内容"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "隐藏引用文字",
     "SHOW_QUOTED_TEXT": "显示引用文字",
     "MESSAGE_READ": "已读",
-    "SENDING": "发送中"
+    "SENDING": "发送中",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

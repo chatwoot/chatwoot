@@ -18,6 +18,23 @@ describe ReportingEventListener do
       expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 1
     end
 
+    context 'when rollup creation fails' do
+      let(:event) { Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation) }
+      let(:error) { StandardError.new('rollup failed') }
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(ReportingEvents::RollupService).to receive(:perform).and_raise(error)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      it 'captures the error without interrupting raw event creation' do
+        expect { listener.conversation_resolved(event) }.not_to raise_error
+        expect(ChatwootExceptionTracker).to have_received(:new).with(error, account: account)
+        expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 1
+      end
+    end
+
     context 'when business hours enabled for inbox' do
       let(:created_at) { Time.zone.parse('March 20, 2022 00:00') }
       let(:updated_at) { Time.zone.parse('March 26, 2022 23:59') }

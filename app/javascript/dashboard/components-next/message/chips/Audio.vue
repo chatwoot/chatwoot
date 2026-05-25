@@ -41,8 +41,33 @@ const playbackSpeed = ref(1);
 
 const { uid } = getCurrentInstance();
 
+// MediaRecorder-produced WebM/Opus blobs lack a Duration header → <audio>.duration
+// resolves to Infinity until we seek past the end, which forces the engine to
+// scan the file and compute the real length. Safe no-op for files with a real
+// duration already (mp3/m4a/etc).
+const resolveStreamingDuration = () => {
+  const el = audioPlayer.value;
+  if (!el) return;
+  const onTimeUpdate = () => {
+    el.removeEventListener('timeupdate', onTimeUpdate);
+    el.currentTime = 0;
+    duration.value = el.duration;
+  };
+  el.addEventListener('timeupdate', onTimeUpdate);
+  try {
+    el.currentTime = Number.MAX_SAFE_INTEGER;
+  } catch {
+    el.removeEventListener('timeupdate', onTimeUpdate);
+  }
+};
+
 const onLoadedMetadata = () => {
-  duration.value = audioPlayer.value?.duration;
+  const d = audioPlayer.value?.duration;
+  if (!Number.isFinite(d)) {
+    resolveStreamingDuration();
+    return;
+  }
+  duration.value = d;
 };
 
 const playbackSpeedLabel = computed(() => {
@@ -53,7 +78,8 @@ const playbackSpeedLabel = computed(() => {
 // When the onLoadMetadata is called, so we need to set the duration
 // value when the component is mounted
 onMounted(() => {
-  duration.value = audioPlayer.value?.duration;
+  const d = audioPlayer.value?.duration;
+  if (Number.isFinite(d)) duration.value = d;
   audioPlayer.value.playbackRate = playbackSpeed.value;
 });
 

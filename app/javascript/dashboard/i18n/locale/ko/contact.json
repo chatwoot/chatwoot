@@ -20,6 +20,7 @@
     "CALL": "통화",
     "CALL_INITIATED": "연락처에 전화 거는 중...",
     "CALL_FAILED": "통화를 시작할 수 없습니다. 다시 시도하십시오.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "음성 받은 메시지함 선택"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "식별자",
       "COUNTRY": "국가",
       "CITY": "도시",
+      "COMPANY": "회사",
       "CREATED_AT": "생성일",
       "LAST_ACTIVITY": "최근 활동",
       "REFERER_LINK": "참조 링크",
@@ -457,6 +459,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram 추가"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram 추가"
+          },
           "TIKTOK": {
             "PLACEHOLDER": "TikTok 추가"
           },
@@ -465,9 +470,6 @@
           },
           "TWITTER": {
             "PLACEHOLDER": "Twitter 추가"
-          },
-          "TELEGRAM": {
-            "PLACEHOLDER": "Telegram 추가"
           }
         }
       },

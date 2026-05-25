@@ -47,7 +47,7 @@
         "SUCCESS": "Resim başarıyla yüklendi",
         "ERROR": "Resim yüklenirken hata oluştu",
         "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Resim boyutu %{size}MB'dan küçük olmalıdır",
+        "ERROR_FILE_SIZE": "Resim boyutu {size}MB'dan küçük olmalıdır",
         "ERROR_FILE_FORMAT": "Resim formatı jpg, jpeg veya png olmalıdır",
         "ERROR_FILE_DIMENSIONS": "Resim boyutları 2000 x 2000'den küçük olmalıdır"
       }
@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Yerel dil başarıyla portaldan kaldırıldı",
           "ERROR_MESSAGE": "Yerel dil portaldan kaldırılamadı. Lütfen tekrar deneyin."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -513,6 +525,7 @@
             "PUBLISH": "Yayınla",
             "DRAFT": "Taslak",
             "ARCHIVE": "Arşiv",
+            "TRANSLATE": "Çevir",
             "DELETE": "Sil"
           },
           "STATUS": {
@@ -567,6 +580,41 @@
           "TITLE": "Bu kategoride makale bulunmamaktadır",
           "SUBTITLE": "Bu kategorideki makaleler burada görünecektir"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "Çevir",
+        "SELECT_ALL": "Tümünü seç ({count})",
+        "SELECTED_COUNT": "{count} selected",
+        "CLEAR_SELECTION": "Seçimi temizle",
+        "TRANSLATE_BUTTON": "Çevir",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Yayınla",
+        "DRAFT": "Taslak",
+        "ARCHIVE": "Arşiv",
+        "TRANSLATE": "Çevir",
+        "DELETE": "Sil",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "Sil",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -644,8 +692,11 @@
         "ARTICLES_COUNT": "{count} makale | {count} makale",
         "CATEGORIES_COUNT": "{count} kategori | {count} kategori",
         "DEFAULT": "Varsayılan",
+        "DRAFT": "Taslak",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Sil"
         }
       },
@@ -654,6 +705,13 @@
         "DESCRIPTION": "Bu makalenin yazılacağı dili seçin. Seçilen dil çeviri listenize eklenecek ve daha sonra yeni diller ekleyebilirsiniz.",
         "COMBOBOX": {
           "PLACEHOLDER": "Dil seçin..."
+        },
+        "STATUS": {
+          "LABEL": "Durum",
+          "OPTIONS": {
+            "LIVE": "Yayınlandı",
+            "DRAFT": "Taslak"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Yerel dil başarıyla eklendi",
@@ -676,7 +734,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Kategorize Edilmemiş",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -724,7 +782,7 @@
           "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. Logoyu kaydetmek için lütfen 'Değişiklikleri Kaydet' butonuna tıklayın",
           "IMAGE_DELETE_SUCCESS": "Logo başarıyla silindi",
           "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu %{size}MB'dan küçük olmalıdır"
+          "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
         },
         "NAME": {
           "LABEL": "İsim",

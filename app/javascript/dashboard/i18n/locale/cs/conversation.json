@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "HIDE_LABELS": "Hide labels",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
@@ -92,6 +95,7 @@
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
       "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne",
@@ -179,7 +183,7 @@
           "FAILED": "Couldn't remove label. Please try again."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Přiřazený tým #{team} ke konverzaci id {conversationId}",
+          "SUCCESFUL": "Přiřazený tým \"{team}\" ke konverzaci id {conversationId}",
           "FAILED": "Nelze přiřadit tým. Zkuste to prosím znovu."
         }
       }
@@ -194,7 +198,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Podpis zprávy není nakonfigurován, prosím nakonfigurujte jej v nastavení profilu.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Dejte copilotu další podněty nebo se zeptejte na cokoliv dalšího... Stiskněte Enter pro odeslání pokračování",
       "CLICK_HERE": "Klikněte zde pro aktualizaci",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -214,7 +218,7 @@
       "DRAG_DROP": "Přetažením sem připojíte",
       "START_AUDIO_RECORDING": "Spustit nahrávání zvuku",
       "STOP_AUDIO_RECORDING": "Zastavit nahrávání zvuku",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot přemýšlí",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Přidat bcc",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Předchozí konverzace",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
