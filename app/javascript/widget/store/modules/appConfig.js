@@ -97,12 +97,14 @@ export const actions = {
   // differentiate "user is actively using the widget" from "widget was
   // pre-opened by an integrator script" (see #14022).
   toggleWidgetOpen({ commit }, payload) {
-    const isWidgetOpen = typeof payload === 'object' && payload !== null
-      ? payload.isWidgetOpen
-      : payload;
-    const isUserInitiated = typeof payload === 'object' && payload !== null
-      ? Boolean(payload.isUserInitiated)
-      : false;
+    const isWidgetOpen =
+      typeof payload === 'object' && payload !== null
+        ? payload.isWidgetOpen
+        : payload;
+    const isUserInitiated =
+      typeof payload === 'object' && payload !== null
+        ? Boolean(payload.isUserInitiated)
+        : false;
     commit(TOGGLE_WIDGET_OPEN, { isWidgetOpen, isUserInitiated });
   },
   setWidgetColor({ commit }, widgetColor) {
