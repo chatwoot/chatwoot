@@ -20,8 +20,6 @@ const maskIcon = computed(() => {
   return inputType.value === 'password' ? 'eye-hide' : 'eye-show';
 });
 
-const hasToken = computed(() => Boolean(props.value));
-
 const onClick = () => {
   emit('onCopy', props.value);
 };
@@ -33,64 +31,50 @@ const onReset = () => {
 
 <template>
   <div class="flex flex-row justify-between gap-4">
-    <template v-if="hasToken">
-      <woot-input
-        name="access_token"
-        class="flex-1 [&>input]:!py-1.5 ltr:[&>input]:!pr-9 ltr:[&>input]:!pl-3 rtl:[&>input]:!pl-9 rtl:[&>input]:!pr-3 focus:[&>input]:!border-n-weak [&>input]:cursor-not-allowed relative"
-        :styles="{
-          borderRadius: '12px',
-          fontSize: '14px',
-          marginBottom: '2px',
-        }"
-        :type="inputType"
-        :model-value="value"
-        readonly
-      >
-        <template #masked>
-          <button
-            class="absolute top-0 bottom-0 ltr:right-0.5 rtl:left-0.5"
-            type="button"
-            @click="toggleMasked"
-          >
-            <fluent-icon :icon="maskIcon" :size="16" />
-          </button>
-        </template>
-      </woot-input>
-      <div class="flex flex-row gap-2">
-        <NextButton
-          :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY')"
-          slate
-          outline
+    <woot-input
+      name="access_token"
+      class="flex-1 [&>input]:!py-1.5 ltr:[&>input]:!pr-9 ltr:[&>input]:!pl-3 rtl:[&>input]:!pl-9 rtl:[&>input]:!pr-3 focus:[&>input]:!border-n-weak [&>input]:cursor-not-allowed relative"
+      :styles="{
+        borderRadius: '12px',
+        fontSize: '14px',
+        marginBottom: '2px',
+      }"
+      :type="inputType"
+      :model-value="value"
+      readonly
+    >
+      <template #masked>
+        <button
+          class="absolute top-0 bottom-0 ltr:right-0.5 rtl:left-0.5"
           type="button"
-          icon="i-lucide-copy"
-          class="rounded-xl"
-          @click="onClick"
-        />
-        <ConfirmButton
-          v-if="showResetButton"
-          :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET')"
-          :confirm-label="
-            $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_RESET')
-          "
-          :confirm-hint="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_HINT')"
-          color="slate"
-          confirm-color="ruby"
-          variant="outline"
-          icon="i-lucide-key-round"
-          class="rounded-xl"
-          @click="onReset"
-        />
-      </div>
-    </template>
-    <NextButton
-      v-else
-      :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.GENERATE')"
-      slate
-      outline
-      type="button"
-      icon="i-lucide-key-round"
-      class="rounded-xl"
-      @click="onReset"
-    />
+          @click="toggleMasked"
+        >
+          <fluent-icon :icon="maskIcon" :size="16" />
+        </button>
+      </template>
+    </woot-input>
+    <div class="flex flex-row gap-2">
+      <NextButton
+        :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY')"
+        slate
+        outline
+        type="button"
+        icon="i-lucide-copy"
+        class="rounded-xl"
+        @click="onClick"
+      />
+      <ConfirmButton
+        v-if="showResetButton"
+        :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET')"
+        :confirm-label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_RESET')"
+        :confirm-hint="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_HINT')"
+        color="slate"
+        confirm-color="ruby"
+        variant="outline"
+        icon="i-lucide-key-round"
+        class="rounded-xl"
+        @click="onReset"
+      />
+    </div>
   </div>
 </template>
