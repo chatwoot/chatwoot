@@ -56,6 +56,7 @@
             "WEBWIDGET_TRIGGERED": "Live chat widget opened by the user",
             "CONTACT_CREATED": "Contact created",
             "CONTACT_UPDATED": "Contact updated",
+            "CONTACT_DELETED": "Contact deleted",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
             "INBOX_UPDATED": "Inbox updated"
