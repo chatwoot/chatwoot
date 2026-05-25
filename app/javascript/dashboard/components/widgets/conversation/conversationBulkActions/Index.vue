@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, useAttrs } from 'vue';
-import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { getUnixTime } from 'date-fns';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { emitter } from 'shared/helpers/mitt';
@@ -55,8 +55,6 @@ defineOptions({
 
 const attrs = useAttrs();
 
-const store = useStore();
-
 const {
   selectedConversations,
   onAssignAgent,
@@ -66,10 +64,12 @@ const {
   onUpdateConversations,
 } = useBulkActions();
 
+const getConversationById = useMapGetter('getConversationById');
+
 const appliedLabelsForSelection = computed(() => {
   const applied = new Set();
   selectedConversations.value.forEach(id => {
-    const conversation = store.getters.getConversationById(id);
+    const conversation = getConversationById.value(id);
     (conversation?.labels || []).forEach(label => applied.add(label));
   });
   return Array.from(applied);
