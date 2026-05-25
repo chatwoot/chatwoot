@@ -81,6 +81,7 @@ class Whatsapp::IncomingMessageBaseService
   # so the contact/conversation isn't created "headless" and agents know to check the WhatsApp app.
   def create_unsupported_message(message)
     log_error(message) if error_webhook_event?(message)
+    process_in_reply_to(message)
     create_message(message, source_id: message[:id])
     @message.content = I18n.t('conversations.messages.whatsapp.unsupported_message')
     @message.content_attributes = @message.content_attributes.merge(is_unsupported: true)
