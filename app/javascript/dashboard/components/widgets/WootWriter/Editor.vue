@@ -354,16 +354,17 @@ function isBodyEmpty(content) {
   // if content is undefined, we assume that the body is empty
   if (!content) return true;
 
-  // if the signature is present, we need to remove it before checking
-  // note that we don't update the editorView, so this is safe
-  // Use effective channel type to match how signature was appended
-  const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(
-        content,
-        props.signature,
-        effectiveChannelType.value
-      )
-    : content;
+  // Only strip the signature when it's actually being auto-appended for this
+  // draft. Otherwise an agent whose typed text happens to match their saved
+  // signature would be mistakenly treated as empty.
+  const bodyWithoutSignature =
+    sendWithSignature.value && props.signature
+      ? removeSignatureHelper(
+          content,
+          props.signature,
+          effectiveChannelType.value
+        )
+      : content;
 
   // trimming should remove all the whitespaces, so we can check the length
   return bodyWithoutSignature.trim().length === 0;
@@ -474,17 +475,6 @@ function removeSignature() {
   reloadState(content);
 }
 
-function toggleSignatureInEditor(signatureEnabled) {
-  // The toggleSignatureInEditor gets the new value from the
-  // watcher, this means that if the value is true, the signature
-  // is supposed to be added, else we remove it.
-  if (signatureEnabled) {
-    addSignature();
-  } else {
-    removeSignature();
-  }
-}
-
 function setToolbarPosition() {
   const editorRect = editorRoot.value.getBoundingClientRect();
   const rect = selectedImageNode.value.getBoundingClientRect();
@@ -557,6 +547,20 @@ function isEditorMouseFocusedOnAnImage() {
 function emitOnChange() {
   emit('input', contentFromEditor());
   emit('update:modelValue', contentFromEditor());
+}
+
+function toggleSignatureInEditor(signatureEnabled) {
+  // The toggleSignatureInEditor gets the new value from the
+  // watcher, this means that if the value is true, the signature
+  // is supposed to be added, else we remove it.
+  if (signatureEnabled) {
+    addSignature();
+  } else {
+    removeSignature();
+  }
+  // reloadState replaces editor state directly and bypasses dispatchTransaction,
+  // so v-model never hears about the signature change — sync it back explicitly.
+  emitOnChange();
 }
 
 function updateImgToolbarOnDelete() {
@@ -899,7 +903,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-on-click-outside="handleClickOutside"
       :has-selection="isTextSelected"
       :is-editor-menu-popover="isEditorMenuPopover"
-      :editor-content="modelValue"
+      :has-content="!isBodyEmpty(modelValue)"
       :conversation-id="conversationId"
       :show-selection-menu="showSelectionMenu"
       :show-general-menu="false"
