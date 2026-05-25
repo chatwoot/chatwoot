@@ -55,7 +55,7 @@
     },
     "CHANNELS": {
       "TITLE": "Connect all your conversation channels",
-      "CONNECT_HANDLE": "Connect {handle}",
+      "CONNECT": "Connect {name}",
       "MORE_CHANNELS_NOTE": "Set up Email and Voice channels later inside the app",
       "VIEW_ALL": "View all"
     },

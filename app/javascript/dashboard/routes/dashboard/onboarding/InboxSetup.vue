@@ -13,14 +13,17 @@ import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import OnboardingLayout from './OnboardingLayout.vue';
 import OnboardingSection from './OnboardingSection.vue';
 import InboxChannelsDialog from './InboxChannelsDialog.vue';
+import ChannelRow from './ChannelRow.vue';
 import WebWidgetCreationStatus from './WebWidgetCreationStatus.vue';
 import HelpCenterCreationStatus from './HelpCenterCreationStatus.vue';
+import { useChannelConnect } from './useChannelConnect';
 
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
 const { accountId, currentAccount, finishOnboarding } = useAccount();
 const { isEnterprise } = useConfig();
+const { connectViaOAuth } = useChannelConnect();
 
 const helpCenterGenerationId = computed(
   () => currentAccount.value?.custom_attributes?.help_center_generation_id
@@ -73,7 +76,6 @@ const connectedChannels = computed(() =>
     .filter(social => SOCIAL_PLATFORMS[social.type] && social.url)
     .map(social => ({
       type: social.type,
-      url: social.url,
       handle: extractHandle(social),
       label: SOCIAL_PLATFORMS[social.type].label,
       inbox: { channel_type: SOCIAL_PLATFORMS[social.type].channelType },
@@ -96,7 +98,6 @@ const detectedEmailChannel = computed(() => {
   const email = brandInfo?.email;
   return {
     type: 'email',
-    url: email ? `mailto:${email}` : '',
     handle: email || '',
     label: EMAIL_PROVIDERS[provider].label,
     inbox: { channel_type: 'Channel::Email', provider },
@@ -157,6 +158,10 @@ const handleContinue = () =>
 const handleSkip = () =>
   completeOnboarding(ONBOARDING_EVENTS.INBOX_SETUP_SKIPPED);
 const openChannelsDialog = () => channelsDialogRef.value?.open();
+
+// Gmail and Outlook connect via OAuth; other channels are no-ops for now (only
+// email channels carry an inbox provider).
+const connectChannel = channel => connectViaOAuth(channel.inbox?.provider);
 </script>
 
 <template>
@@ -185,32 +190,13 @@ const openChannelsDialog = () => channelsDialogRef.value?.open();
       :title="t('ONBOARDING_INBOX_SETUP.CHANNELS.TITLE')"
       icon="i-lucide-inbox"
     >
-      <div
+      <ChannelRow
         v-for="(channel, index) in displayedChannels"
         :key="channel.type"
-        class="flex items-center justify-between gap-3 px-3 py-3"
+        :channel="channel"
         :class="{ 'border-t border-n-weak': index > 0 }"
-      >
-        <div class="flex items-center gap-2">
-          <ChannelIcon :inbox="channel.inbox" use-image class="size-4" />
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ channel.label }}
-          </span>
-        </div>
-        <a
-          :href="channel.url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-sm font-medium text-n-blue-11 hover:underline truncate max-w-[280px]"
-        >
-          {{
-            channel.handle ||
-            t('ONBOARDING_INBOX_SETUP.CHANNELS.CONNECT_HANDLE', {
-              handle: channel.label,
-            })
-          }}
-        </a>
-      </div>
+        @connect="connectChannel"
+      />
       <div
         class="flex items-center justify-between gap-3 px-3 py-3"
         :class="{ 'border-t border-n-weak': displayedChannels.length > 0 }"

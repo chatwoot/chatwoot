@@ -5,9 +5,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
-import { useAlert } from 'dashboard/composables';
-import googleClient from 'dashboard/api/channel/googleClient';
-import microsoftClient from 'dashboard/api/channel/microsoftClient';
+import { useChannelConnect } from './useChannelConnect';
 
 const props = defineProps({
   connectedTypes: { type: Array, default: () => [] },
@@ -16,27 +14,16 @@ const props = defineProps({
 const emit = defineEmits(['continue', 'skip']);
 
 const { t } = useI18n();
+const { connectViaOAuth } = useChannelConnect();
 
-// Channels that complete via an OAuth redirect. We tag the request with a return
-// hint so the callback brings the user back to onboarding instead of inbox settings.
-const OAUTH_CLIENTS = {
-  gmail: googleClient,
-  outlook: microsoftClient,
+// Maps the dialog's display types to the Channel::Email provider the OAuth flow
+// expects. Types without an entry (manual-setup channels) are no-ops for now.
+const OAUTH_PROVIDERS = {
+  gmail: 'google',
+  outlook: 'microsoft',
 };
 
-const connect = async type => {
-  const client = OAUTH_CLIENTS[type];
-  if (!client) return;
-
-  try {
-    const {
-      data: { url },
-    } = await client.generateAuthorization({ return_to: 'onboarding' });
-    window.location.href = url;
-  } catch {
-    useAlert(t('ONBOARDING_INBOX_SETUP.ERROR'));
-  }
-};
+const connect = type => connectViaOAuth(OAUTH_PROVIDERS[type]);
 
 const dialogRef = ref(null);
 
