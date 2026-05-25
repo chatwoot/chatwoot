@@ -44,7 +44,8 @@
       "LIVE_CHAT_STATUS": "Almost done…",
       "HELP_CENTER": "Help Center",
       "HELP_CENTER_DESCRIPTION": "Your digital encyclopedia",
-      "HELP_CENTER_STATUS": "{articles} articles • {categories} categories"
+      "HELP_CENTER_GENERATING": "Creating your help center…",
+      "HELP_CENTER_ARTICLES": "Created {count} article | Created {count} articles"
     },
     "CHANNELS": {
       "TITLE": "Connect all your conversation channels",
