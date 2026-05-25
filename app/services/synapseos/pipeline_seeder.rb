@@ -16,6 +16,15 @@ module Synapseos
     end
 
     def call
+      # Preserva customizações: se a account já tem QUALQUER stage, assume
+      # template customizado (audi_sdr, premium_luxo, etc.) e NÃO re-injeta
+      # os defaults. Sem esse short-circuit, o `Pipeline#show` lazy-seed
+      # repopula os 7 spin_generico por cima de qualquer template aplicado,
+      # gerando duplicação (ex.: account Audi com 8 stages do template
+      # acabava com 15 — 8 customizados + 7 spin_generico re-criados a cada
+      # visita da página).
+      return if ::Synapseos::PipelineStage.where(account_id: @account.id).exists?
+
       # Itera por TODOS os stages mesmo se um falhar — não queremos que um
       # erro de uniqueness no primeiro impeça os demais de existirem.
       ::Synapseos::PipelineStage::DEFAULT_STAGES.each do |attrs|
