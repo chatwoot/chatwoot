@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Facebook Messenger एपमा हेर्न सक्नुहुन्छ।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Instagram एपमा हेर्न सक्नुहुन्छ।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईंले यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "सन्देश सफलतापूर्वक मेटाइयो",
     "FAIL_DELETE_MESSSAGE": "सन्देश मेटाउन सकिएन! फेरि प्रयास गर्नुहोस्",
     "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
