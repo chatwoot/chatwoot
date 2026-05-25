@@ -10,13 +10,13 @@ RSpec.describe Llm::OpenAiConfig do
       expect(described_class.api_key).to eq('openai-key')
     end
 
-    it 'does not fall back to the Captain LLM key when OpenAI uses the default endpoint' do
+    it 'falls back to the Captain LLM key when OpenAI uses the default endpoint' do
       set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
       set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.openai.com/v1')
       set_installation_config('CAPTAIN_OPEN_AI_API_KEY', 'openai-key')
       set_installation_config('CAPTAIN_EMBEDDING_API_KEY', '')
 
-      expect(described_class.api_key).to be_blank
+      expect(described_class.api_key).to eq('openai-key')
     end
 
     it 'does not use the Captain LLM key when OpenAI uses a custom endpoint' do

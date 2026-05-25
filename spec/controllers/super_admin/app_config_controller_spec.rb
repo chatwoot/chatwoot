@@ -12,7 +12,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     end
 
     context 'when it is an authenticated super admin' do
-      let!(:config) { create(:installation_config, { name: 'FB_APP_ID', value: 'TESTVALUE' }) }
+      let!(:config) { InstallationConfig.find_or_initialize_by(name: 'FB_APP_ID').tap { |record| record.update!(value: 'TESTVALUE') } }
 
       it 'shows the app_config page' do
         sign_in(super_admin, scope: :super_admin)

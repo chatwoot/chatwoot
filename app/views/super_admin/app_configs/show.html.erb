@@ -75,7 +75,7 @@
               <% end %>
               <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
                 <p class="pt-2 text-xs italic text-slate-400">
-                  Required for embeddings, PDF processing, and audio transcription.
+                  Used for embeddings, PDF processing, and audio transcription. If blank, Chatwoot reuses the Captain Model API key only when Provider is OpenAI and API Base is blank/default.
                 </p>
               <% elsif @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' %>
                 <p class="pt-2 text-xs italic text-slate-400">
