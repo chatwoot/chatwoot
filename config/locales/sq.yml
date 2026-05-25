@@ -244,6 +244,7 @@ sq:
       whatsapp:
         list_button_label: 'Zgjidhni një element'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
