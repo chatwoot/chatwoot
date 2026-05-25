@@ -159,9 +159,10 @@ const handleSkip = () =>
   completeOnboarding(ONBOARDING_EVENTS.INBOX_SETUP_SKIPPED);
 const openChannelsDialog = () => channelsDialogRef.value?.open();
 
-// Gmail and Outlook connect via OAuth; other channels are no-ops for now (only
-// email channels carry an inbox provider).
-const connectChannel = channel => connectViaOAuth(channel.inbox?.provider);
+// Gmail/Outlook are keyed by their email provider, Instagram by channel type.
+// Channels without a wired OAuth client (e.g. Facebook) are no-ops for now.
+const connectChannel = channel =>
+  connectViaOAuth(channel.inbox?.provider || channel.type);
 </script>
 
 <template>

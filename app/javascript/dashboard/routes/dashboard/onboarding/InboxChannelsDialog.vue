@@ -16,11 +16,12 @@ const emit = defineEmits(['continue', 'skip']);
 const { t } = useI18n();
 const { connectViaOAuth } = useChannelConnect();
 
-// Maps the dialog's display types to the Channel::Email provider the OAuth flow
-// expects. Types without an entry (manual-setup channels) are no-ops for now.
+// Maps the dialog's display types to the OAuth client key the flow expects.
+// Types without an entry (manual-setup channels) are no-ops for now.
 const OAUTH_PROVIDERS = {
   gmail: 'google',
   outlook: 'microsoft',
+  instagram: 'instagram',
 };
 
 const connect = type => connectViaOAuth(OAUTH_PROVIDERS[type]);
