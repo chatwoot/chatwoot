@@ -1,0 +1,20 @@
+tags:
+  - Profile
+operationId: deleteProfileAvatar
+summary: Delete profile avatar
+description: Delete the current user's avatar image.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
