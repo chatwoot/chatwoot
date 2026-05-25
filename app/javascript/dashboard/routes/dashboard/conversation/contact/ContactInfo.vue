@@ -95,6 +95,9 @@ export default {
         telegram,
       };
     },
+    telegramId() {
+      return this.additionalAttributes.social_telegram_user_id;
+    },
   },
   watch: {
     'contact.id': {
@@ -259,6 +262,14 @@ export default {
             show-copy
             editable
             @update="value => onFieldUpdate('phone_number', value)"
+          />
+          <ContactInfoRow
+            v-if="telegramId"
+            :value="String(telegramId)"
+            icon="send"
+            emoji="✈️"
+            :title="$t('CONTACT_PANEL.TELEGRAM_ID')"
+            show-copy
           />
           <ContactInfoRow
             v-if="contact.identifier"
