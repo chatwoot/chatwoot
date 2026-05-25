@@ -28,8 +28,10 @@ class Captain::CustomTool < ApplicationRecord
 
   MAX_PER_ACCOUNT = 15
 
-  include Concerns::Toolable
-  include Concerns::SafeEndpointValidatable
+  # Use absolute (::) reference to avoid Ruby resolving Concerns relative
+  # to the Captain namespace — which would look for Captain::Concerns and fail.
+  include ::Concerns::Toolable
+  include ::Concerns::SafeEndpointValidatable
 
   self.table_name = 'captain_custom_tools'
 
