@@ -33,10 +33,11 @@ class Base::SendOnChannelService
   end
 
   def outgoing_message_originated_from_channel?
-    # TODO: we need to refactor this logic as more integrations comes by
-    # chatwoot messages won't have source id at the moment
-    # TODO: migrate source_ids to external_source_ids and check the source id relevant to specific channel
-    message.source_id.present?
+    # Prefer external_echo flag (set by WhatsApp, Facebook, Instagram, TikTok, Twitter).
+    # Fall back to source_id for channels that haven't migrated yet (e.g. Telegram business mode),
+    # but only if the message hasn't failed — failed messages retain source_id from the first attempt
+    # and should be retried.
+    message.content_attributes['external_echo'].present? || (message.source_id.present? && !message.failed?)
   end
 
   def outgoing_message?
