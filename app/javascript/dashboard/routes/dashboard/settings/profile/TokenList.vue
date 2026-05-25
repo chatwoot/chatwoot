@@ -87,7 +87,7 @@ const maskToken = value =>
           <td class="px-4 py-3">
             <div class="flex items-center gap-1.5 min-w-0">
               <code
-                class="px-2 py-1 font-mono text-xs rounded-md bg-n-alpha-1 text-n-slate-12 outline outline-1 outline-n-weak max-w-xs truncate"
+                class="inline-block w-72 px-2 py-1 font-mono text-xs rounded-md bg-n-alpha-1 text-n-slate-12 outline outline-1 outline-n-weak truncate align-middle"
               >
                 {{
                   isRevealed(token.scope) ? token.value : maskToken(token.value)
