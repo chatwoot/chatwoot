@@ -29,94 +29,76 @@ const connect = type => connectViaOAuth(OAUTH_PROVIDERS[type]);
 
 const dialogRef = ref(null);
 
-// `inbox` here is a stub shaped like a real inbox so ChannelIcon can resolve
-// the brand image / monochrome glyph from the shared provider.
-// iconStyle:
-//   - 'logo'         → brand logo fills the icon slot, no surrounding frame
-//                    (logos that already carry their own colored background).
-//   - 'framed-image' → brand image sits inside a bordered square (logos that
-//                    are glyphs on transparent/white, e.g. Gmail, Outlook).
-//   - 'framed-icon'  → svg glyph inside a bordered square.
-// `fallbackIcon` is used for entries that don't map to a real channel type
-// (e.g. the "Voice" and "Other Email Providers" groupings).
+// `inbox` is a stub shaped like a real inbox so ChannelIcon can resolve the
+// icon from the shared provider. With `use-brand-icon`, ChannelIcon renders the
+// full-color brand logo when one exists and falls back to the monochrome glyph
+// otherwise, so no per-channel style flag is needed. Entries without a channel
+// type (Voice, Other Email Providers) render `fallbackIcon` instead.
 const CHANNEL_LIST = [
   {
     type: 'whatsapp',
     label: 'WhatsApp',
     inbox: { channel_type: 'Channel::Whatsapp' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'instagram',
     label: 'Instagram',
     inbox: { channel_type: 'Channel::Instagram' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'facebook',
     label: 'Facebook',
     inbox: { channel_type: 'Channel::FacebookPage' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'sms',
     label: 'SMS',
     inbox: { channel_type: 'Channel::Sms' },
-    iconStyle: 'framed-icon',
   },
   {
     type: 'tiktok',
     label: 'TikTok',
     inbox: { channel_type: 'Channel::Tiktok' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'line',
     label: 'LINE',
     inbox: { channel_type: 'Channel::Line' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'gmail',
     label: 'Gmail',
     inbox: { channel_type: 'Channel::Email', provider: 'google' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'outlook',
     label: 'Outlook',
     inbox: { channel_type: 'Channel::Email', provider: 'microsoft' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'api',
     label: 'API',
     inbox: { channel_type: 'Channel::Api' },
-    iconStyle: 'framed-icon',
   },
   {
     type: 'website',
     label: 'Website',
     inbox: { channel_type: 'Channel::WebWidget' },
-    iconStyle: 'framed-icon',
   },
   {
     type: 'telegram',
     label: 'Telegram',
     inbox: { channel_type: 'Channel::Telegram' },
-    iconStyle: 'framed-image',
   },
   {
     type: 'voice',
     label: 'Voice',
     fallbackIcon: 'i-woot-voice',
-    iconStyle: 'framed-icon',
   },
   {
     type: 'email',
     label: 'Other Email Providers',
     fallbackIcon: 'i-woot-mail',
-    iconStyle: 'framed-icon',
   },
 ];
 
@@ -154,26 +136,14 @@ const handleSkip = () => {
         class="flex items-center gap-3 p-3 rounded-[10px] bg-n-solid-1 outline outline-1 outline-n-weak hover:outline-n-slate-6 transition-colors text-start cursor-pointer"
         @click="connect(channel.type)"
       >
-        <ChannelIcon
-          v-if="channel.iconStyle === 'logo'"
-          :inbox="channel.inbox"
-          use-brand-icon
-          class="size-9 flex-shrink-0"
-        />
         <div
-          v-else
           class="size-9 rounded-md outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
         >
           <ChannelIcon
-            v-if="channel.iconStyle === 'framed-image'"
+            v-if="channel.inbox"
             :inbox="channel.inbox"
             use-brand-icon
-            class="size-5"
-          />
-          <ChannelIcon
-            v-else-if="channel.inbox"
-            :inbox="channel.inbox"
-            class="size-4 text-n-slate-11"
+            class="size-5 text-n-slate-11"
           />
           <Icon
             v-else
