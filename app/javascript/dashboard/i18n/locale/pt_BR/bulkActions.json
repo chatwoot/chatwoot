@@ -27,13 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir rótulo",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Remover etiquetas",
       "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Remover etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Etiquetas removidas com sucesso.",
+      "REMOVE_FAILED": "Falha ao remover etiquetas. Por favor, tente novamente."
     },
     "TEAMS": {
       "NONE": "Nenhum",
