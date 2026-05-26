@@ -72,12 +72,14 @@ export default {
         city = '',
         country_code: countryCode,
       } = this.additionalAttributes;
+      const canonicalCountryCode =
+        this.contact.country_code || this.contact.countryCode || countryCode;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
         return '';
       }
-      return this.findCountryFlag(countryCode, cityAndCountry);
+      return this.findCountryFlag(canonicalCountryCode, cityAndCountry);
     },
     socialProfiles() {
       const {

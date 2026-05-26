@@ -37,6 +37,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  countryCode: {
+    type: String,
+    default: '',
+  },
   updatedAt: {
     type: Number,
     default: 0,
@@ -60,12 +64,17 @@ const updatedAtTime = computed(() => {
 });
 
 const countryDetails = computed(() => {
-  const { country, countryCode, city } = props.additionalAttributes;
+  const {
+    country,
+    countryCode: additionalCountryCode,
+    city,
+  } = props.additionalAttributes;
+  const countryCode = props.countryCode || additionalCountryCode;
 
   if (!country && !countryCode) return null;
 
   const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
+    countriesMap.value[countryCode] || countriesMap.value[country];
 
   if (!activeCountry) return null;
 

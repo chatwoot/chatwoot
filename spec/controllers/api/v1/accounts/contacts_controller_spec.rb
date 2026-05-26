@@ -68,6 +68,7 @@ RSpec.describe 'Contacts API', type: :request do
           'country_code' => 'US',
           'country' => 'United States'
         )
+        expect(response_contact['country_code']).to eq('US')
       end
 
       it 'returns all contacts without contact inboxes' do
