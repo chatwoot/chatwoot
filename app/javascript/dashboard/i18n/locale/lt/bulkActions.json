@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Priskirti etiketes",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Priskirti pažymėtas etiketes",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiketės sėkmingai priskirtos.",
-      "ASSIGN_FAILED": "Nepavyko priskirti etikečių. Prašau, pabandykite dar kartą."
+      "ASSIGN_FAILED": "Nepavyko priskirti etikečių. Prašau, pabandykite dar kartą.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Nėra",
