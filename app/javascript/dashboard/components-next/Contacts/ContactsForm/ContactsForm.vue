@@ -7,6 +7,7 @@ import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
 import CompanyAPI from 'dashboard/api/companies';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -82,6 +83,7 @@ const defaultState = {
 
 const state = reactive({ ...defaultState });
 const companyOptions = ref([]);
+const companySearch = ref('');
 let companySearchRequestToken = 0;
 
 const validationRules = {
@@ -127,9 +129,32 @@ const ensureSelectedCompanyOption = options => {
   return [selected, ...options];
 };
 
+const createCompanyOption = computed(() => {
+  const name = companySearch.value.trim();
+  if (!name) return null;
+
+  const alreadyExists = companyOptions.value.some(
+    option => option.label.toLowerCase() === name.toLowerCase()
+  );
+  if (alreadyExists) return null;
+
+  return {
+    label: t('COMPANIES.SELECTOR.CREATE_OPTION', { name }),
+    value: `create:${name}`,
+  };
+});
+
+const companySelectOptions = computed(() => {
+  const createOption = createCompanyOption.value;
+  return createOption
+    ? [...companyOptions.value, createOption]
+    : companyOptions.value;
+});
+
 const loadCompanyOptions = async query => {
   if (!hasCompaniesFeature.value) return;
 
+  companySearch.value = query || '';
   const requestToken = companySearchRequestToken + 1;
   companySearchRequestToken = requestToken;
 
@@ -149,6 +174,14 @@ const loadCompanyOptions = async query => {
       companyOptions.value = ensureSelectedCompanyOption([]);
     }
   }
+};
+
+const emitContactUpdate = async () => {
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
+
+  const { firstName, lastName, ...stateWithoutNames } = state;
+  emit('update', stateWithoutNames);
 };
 
 const prepareStateBasedOnProps = () => {
@@ -267,11 +300,7 @@ const getFormBinding = key => {
         }
       }
 
-      const isFormValid = await v$.value.$validate();
-      if (isFormValid) {
-        const { firstName, lastName, ...stateWithoutNames } = state;
-        emit('update', stateWithoutNames);
-      }
+      await emitContactUpdate();
     },
   });
 };
@@ -288,7 +317,35 @@ const handleCountrySelection = value => {
   emit('update', state);
 };
 
+const selectCompany = async company => {
+  state.companyId = company.id;
+  state.additionalAttributes.companyName = company.name;
+  companyOptions.value = ensureSelectedCompanyOption([
+    { label: company.name, value: company.id },
+    ...companyOptions.value,
+  ]);
+
+  await emitContactUpdate();
+};
+
+const createCompany = async name => {
+  try {
+    const {
+      data: { payload },
+    } = await CompanyAPI.create({ company: { name } });
+    await selectCompany(payload);
+    useAlert(t('COMPANIES.CREATE.MESSAGES.SUCCESS'));
+  } catch {
+    useAlert(t('COMPANIES.CREATE.MESSAGES.ERROR'));
+  }
+};
+
 const handleCompanySelection = async value => {
+  if (typeof value === 'string' && value.startsWith('create:')) {
+    await createCompany(value.replace('create:', ''));
+    return;
+  }
+
   const companyId = value ? Number(value) : '';
   const selectedCompany = companyOptions.value.find(
     option => option.value === companyId
@@ -296,11 +353,7 @@ const handleCompanySelection = async value => {
   state.companyId = companyId;
   state.additionalAttributes.companyName = selectedCompany?.label || '';
 
-  const isFormValid = await v$.value.$validate();
-  if (isFormValid) {
-    const { firstName, lastName, ...stateWithoutNames } = state;
-    emit('update', stateWithoutNames);
-  }
+  await emitContactUpdate();
 };
 
 const resetValidation = () => {
@@ -369,8 +422,8 @@ defineExpose({
           <ComboBox
             v-else-if="item.key === 'COMPANY_NAME' && showCompanySelector"
             :model-value="state.companyId"
-            :options="companyOptions"
-            :placeholder="item.placeholder"
+            :options="companySelectOptions"
+            :placeholder="t('COMPANIES.SELECTOR.PLACEHOLDER')"
             :search-placeholder="t('COMPANIES.SEARCH_PLACEHOLDER')"
             use-api-results
             class="[&>div>button]:h-8"
