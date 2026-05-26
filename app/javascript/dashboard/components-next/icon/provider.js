@@ -32,7 +32,6 @@ const channelTypeBrandIconMap = {
   'Channel::Whatsapp': 'i-logos-whatsapp-icon',
   'Channel::Instagram': 'i-woot-instagram-color',
   'Channel::Tiktok': 'i-logos-tiktok-icon',
-  'Channel::TwilioSms': 'i-logos-twilio-icon',
 };
 
 const providerBrandIconMap = {
