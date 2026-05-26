@@ -236,7 +236,9 @@ const connectChannel = channel =>
       </div>
     </OnboardingSection>
 
+    <!-- Disabled for this phase; integrations will be implemented later. -->
     <OnboardingSection
+      v-if="false"
       :title="t('ONBOARDING_INBOX_SETUP.APPS.TITLE')"
       icon="i-lucide-blocks"
       bare
