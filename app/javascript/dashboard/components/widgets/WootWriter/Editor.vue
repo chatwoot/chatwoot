@@ -658,7 +658,9 @@ const allowsInlineImagePaste = computed(
 );
 
 // Shift+Cmd/Ctrl+V: read the clipboard and, if it holds an image, upload it
-// inline. Only on email/website channels, which support inline images.
+// inline. Only on email/website channels, which support inline images. We
+// preventDefault upfront (so ReplyBox's onPaste doesn't also attach the image),
+// then fall back to a plain-text paste when the clipboard holds no image.
 async function pasteInlineImageFromClipboard(event) {
   if (!allowsInlineImagePaste.value || !navigator.clipboard?.read) return;
   event.preventDefault();
@@ -670,11 +672,20 @@ async function pasteInlineImageFromClipboard(event) {
     const imageType = item?.types.find(type =>
       INLINE_IMAGE_PASTE_TYPES.includes(type)
     );
-    if (!imageType) return;
-    const blob = await item.getType(imageType);
-    uploadImageIfWithinSizeLimit(
-      new File([blob], 'pasted-image', { type: imageType })
+    if (imageType) {
+      const blob = await item.getType(imageType);
+      uploadImageIfWithinSizeLimit(
+        new File([blob], 'pasted-image', { type: imageType })
+      );
+      return;
+    }
+    const textItem = items.find(clipboardItem =>
+      clipboardItem.types.includes('text/plain')
     );
+    if (textItem) {
+      const text = await (await textItem.getType('text/plain')).text();
+      if (text) editorView.dispatch(editorView.state.tr.insertText(text));
+    }
   } catch (error) {
     // Clipboard read unavailable or permission denied — no-op.
   }
