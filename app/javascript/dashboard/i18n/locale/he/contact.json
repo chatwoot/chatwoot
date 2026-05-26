@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "הקצה תוויות",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "תוויות שוייכו בהצלחה.",
     "ASSIGN_LABELS_FAILED": "ההקצאה של התוויות נכשלה",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "בחר את התוויות שברצונך להוסיף לאנשי הקשר שנבחרו.",
     "NO_LABELS_FOUND": "אין עדיין תוויות זמינות.",
     "SELECTED_COUNT": "{count} נבחרו",
