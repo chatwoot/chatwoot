@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Labels zuweisen",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Labels erfolgreich zugewiesen.",
     "ASSIGN_LABELS_FAILED": "Fehler beim Zuweisen der Labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Wählen Sie die Labels aus, die zu den ausgewählten Kontakten hinzugefügt werden sollen.",
     "NO_LABELS_FOUND": "Noch keine Labels vorhanden.",
     "SELECTED_COUNT": "{count} selected",
