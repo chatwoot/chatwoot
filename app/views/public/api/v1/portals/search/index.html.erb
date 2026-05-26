@@ -117,20 +117,7 @@
           // Check if the query has actually changed
           const currentQuery = new URLSearchParams(window.location.search).get('query') || '';
           if (query !== currentQuery) {
-            const formData = new FormData(form);
-            const searchParams = new URLSearchParams(window.location.search);
-            searchParams.delete('page');
-
-            formData.forEach(function(value, key) {
-              searchParams.set(key, value);
-            });
-
-            const url = form.action + '?' + searchParams.toString();
-            if (window.Turbo) {
-              Turbo.visit(url);
-            } else {
-              window.location.href = url;
-            }
+            form.requestSubmit();
           }
         }, 500); // 500ms debounce
       }
