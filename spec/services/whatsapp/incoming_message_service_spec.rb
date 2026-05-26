@@ -206,7 +206,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
 
-      it 'ignores type unsupported and does not create ghost conversation' do
+      it 'stores type unsupported as a placeholder message so the conversation is not headless' do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
@@ -217,9 +217,12 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
-        expect(Contact.count).to eq(0)
-        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(Contact.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('This message is unavailable.')
+        expect(message.content_attributes['is_unsupported']).to be(true)
       end
     end
 
