@@ -66,7 +66,8 @@
       "CONNECT_TITLE": "Connect your {name} account",
       "CONNECT_SUBTITLE": "Fill out these quick details",
       "CONNECT": "Connect",
-      "BACK": "Back"
+      "BACK": "Back",
+      "NOT_CONFIGURED": "Setup required"
     },
     "APPS": {
       "TITLE": "Connect your favorite apps"

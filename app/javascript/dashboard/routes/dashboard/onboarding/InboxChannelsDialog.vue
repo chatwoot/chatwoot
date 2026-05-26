@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
@@ -13,6 +14,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 const { connectViaOAuth } = useChannelConnect();
+const globalConfig = useMapGetter('globalConfig/get');
 
 // Maps the dialog's display types to the OAuth client key the flow expects.
 // Types without an entry (manual-setup channels) are no-ops for now.
@@ -23,6 +25,37 @@ const OAUTH_PROVIDERS = {
   tiktok: 'tiktok',
 };
 
+// OAuth channels need installation-level app credentials to be usable. When the
+// credential is missing the channel is "not configured" — shown muted and not
+// clickable. Mirrors the availability checks in ChannelItem.vue.
+const installationConfig = window.chatwootConfig || {};
+const CHANNEL_CONFIGURED = {
+  // WhatsApp is onboarded only via Meta embedded signup, which needs both the
+  // app id (not the 'none' sentinel) and the signup configuration id.
+  whatsapp: () =>
+    Boolean(installationConfig.whatsappAppId) &&
+    installationConfig.whatsappAppId !== 'none' &&
+    Boolean(installationConfig.whatsappConfigurationId),
+  facebook: () => Boolean(installationConfig.fbAppId),
+  instagram: () => Boolean(installationConfig.instagramAppId),
+  tiktok: () => Boolean(installationConfig.tiktokAppId),
+  gmail: () => Boolean(installationConfig.googleOAuthClientId),
+  outlook: () => Boolean(globalConfig.value.azureAppId),
+};
+
+const isConfigured = channel => CHANNEL_CONFIGURED[channel.type]?.() ?? true;
+const isInteractive = channel => !channel.disabled && isConfigured(channel);
+// Unconfigured = a real channel whose installation credential is missing (as
+// opposed to the intentionally disabled SMS/API/Voice/Email cards).
+const isUnconfigured = channel => !channel.disabled && !isConfigured(channel);
+
+const cardClass = channel => {
+  if (channel.disabled) return 'bg-n-slate-2 cursor-not-allowed';
+  if (!isConfigured(channel))
+    return 'bg-n-solid-1 opacity-50 cursor-not-allowed';
+  return 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer';
+};
+
 const dialogRef = ref(null);
 
 // Credential-form channels (Line, Telegram) swap the grid for an inline form;
@@ -30,6 +63,7 @@ const dialogRef = ref(null);
 const selectedChannel = ref(null);
 
 const onCardClick = channel => {
+  if (!isInteractive(channel)) return;
   if (channel.form) {
     selectedChannel.value = channel;
     return;
@@ -172,13 +206,9 @@ defineExpose({ open, close });
           v-for="channel in CHANNEL_LIST"
           :key="channel.type"
           type="button"
-          :disabled="channel.disabled"
+          :disabled="!isInteractive(channel)"
           class="flex items-center gap-3 p-3 rounded-xl outline outline-1 outline-n-weak shadow-[0px_1px_2px_0px_rgba(27,28,29,0.036)] transition-colors text-start"
-          :class="
-            channel.disabled
-              ? 'bg-n-slate-2 cursor-not-allowed'
-              : 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer'
-          "
+          :class="cardClass(channel)"
           @click="onCardClick(channel)"
         >
           <div
@@ -196,16 +226,24 @@ defineExpose({ open, close });
               class="size-4 text-n-slate-11"
             />
           </div>
-          <span class="flex-1 text-sm font-medium text-n-slate-12">
-            {{ channel.label }}
-          </span>
+          <div class="flex-1 min-w-0">
+            <span class="block text-sm font-medium text-n-slate-12">
+              {{ channel.label }}
+            </span>
+            <span
+              v-if="isUnconfigured(channel)"
+              class="block text-xs text-n-slate-11"
+            >
+              {{ t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.NOT_CONFIGURED') }}
+            </span>
+          </div>
           <Icon
             v-if="isConnected(channel.inbox)"
             icon="i-lucide-circle-check"
             class="size-5 text-n-teal-11"
           />
           <Icon
-            v-else-if="!channel.disabled"
+            v-else-if="isInteractive(channel)"
             icon="i-lucide-chevron-right"
             class="size-5 text-n-slate-9"
           />
