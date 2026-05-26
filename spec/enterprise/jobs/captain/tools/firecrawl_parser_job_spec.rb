@@ -61,6 +61,16 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       end
     end
 
+    it 'stores external links longer than 255 characters' do
+      long_url = "https://example.com/#{'arabic-product-slug-' * 300}"
+      payload[:metadata]['url'] = long_url
+
+      described_class.perform_now(assistant_id: assistant.id, payload: payload)
+
+      expect(assistant.documents.last.external_link).to eq(long_url)
+      expect(assistant.documents.last.external_link.length).to be > 255
+    end
+
     context 'when an error occurs' do
       it 'raises an error with a descriptive message' do
         allow(Captain::Assistant).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
