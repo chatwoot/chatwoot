@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Labels toewijzen",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Geselecteerde labels toewijzen",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Labels met succes toegewezen.",
-      "ASSIGN_FAILED": "Toewijzen van labels mislukt, probeer het opnieuw."
+      "ASSIGN_FAILED": "Toewijzen van labels mislukt, probeer het opnieuw.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Geen",
