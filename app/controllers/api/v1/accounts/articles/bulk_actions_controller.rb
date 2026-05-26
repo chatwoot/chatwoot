@@ -53,8 +53,6 @@ class Api::V1::Accounts::Articles::BulkActionsController < Api::V1::Accounts::Ba
   end
 
   def category_valid?
-    return true if params[:category_id].blank?
-
     @portal.categories.exists?(id: params[:category_id])
   end
 end
