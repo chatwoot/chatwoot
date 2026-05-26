@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assegna Etichette",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etichette assegnate correttamente.",
     "ASSIGN_LABELS_FAILED": "Assegnazione delle etichette non riuscita",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Selezionare le etichette da aggiungere ai contatti selezionati.",
     "NO_LABELS_FOUND": "Nessuna etichetta disponibile.",
     "SELECTED_COUNT": "{count} selezionate",
