@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Նշումներ նշանակել",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Նշումները հաջողությամբ նշանակվեցին։",
     "ASSIGN_LABELS_FAILED": "Հնարավոր չեղավ նշանակել պիտակները",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "Դեռ պիտակներ չկան։",
     "SELECTED_COUNT": "{count} ընտրված",
