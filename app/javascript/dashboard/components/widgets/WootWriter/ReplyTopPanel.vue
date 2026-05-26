@@ -53,6 +53,10 @@ export default {
       type: String,
       default: undefined,
     },
+    hasContent: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['setReplyMode', 'toggleEditorSize', 'executeCopilotAction'],
   setup(props, { emit }) {
@@ -76,6 +80,7 @@ export default {
 
     const { captainTasksEnabled } = useCaptain();
     const showCopilotMenu = ref(false);
+    const copilotToggleRef = ref(null);
 
     const handleCopilotAction = (actionKey, data) => {
       emit('executeCopilotAction', actionKey, data || props.editorContent);
@@ -117,6 +122,7 @@ export default {
       captainTasksEnabled,
       handleCopilotAction,
       showCopilotMenu,
+      copilotToggleRef,
       toggleCopilotMenu,
       handleClickOutside,
     };
@@ -164,6 +170,7 @@ export default {
     <div v-if="captainTasksEnabled" class="flex items-center gap-2">
       <div class="relative">
         <NextButton
+          ref="copilotToggleRef"
           ghost
           :disabled="disabled || isEditorDisabled"
           :class="{
@@ -176,9 +183,12 @@ export default {
         />
         <CopilotMenuBar
           v-if="showCopilotMenu"
-          v-on-click-outside="handleClickOutside"
+          v-on-click-outside="[
+            handleClickOutside,
+            { ignore: [copilotToggleRef] },
+          ]"
           :has-selection="false"
-          :editor-content="editorContent"
+          :has-content="hasContent"
           :conversation-id="conversationId"
           class="ltr:right-0 rtl:left-0 bottom-full mb-2"
           @execute-copilot-action="handleCopilotAction"

@@ -87,6 +87,13 @@ class ArticlesAPI extends PortalsAPI {
     );
   }
 
+  bulkUpdateCategory({ portalSlug, articleIds, categoryId }) {
+    return axios.patch(
+      `${this.url}/${portalSlug}/articles/bulk_actions/update_category`,
+      { ids: articleIds, category_id: categoryId }
+    );
+  }
+
   bulkDelete({ portalSlug, articleIds }) {
     return axios.delete(
       `${this.url}/${portalSlug}/articles/bulk_actions/delete_articles`,
