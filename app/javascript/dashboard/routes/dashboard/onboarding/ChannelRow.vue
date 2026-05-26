@@ -17,7 +17,7 @@ const { t } = useI18n();
     <div class="flex items-center gap-2 min-w-0">
       <ChannelIcon
         :inbox="channel.inbox"
-        use-image
+        use-brand-icon
         class="size-4 flex-shrink-0"
       />
       <span class="text-sm font-medium text-n-slate-12">

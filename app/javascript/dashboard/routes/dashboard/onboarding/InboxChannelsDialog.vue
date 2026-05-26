@@ -44,19 +44,19 @@ const CHANNEL_LIST = [
     type: 'whatsapp',
     label: 'WhatsApp',
     inbox: { channel_type: 'Channel::Whatsapp' },
-    iconStyle: 'logo',
+    iconStyle: 'framed-image',
   },
   {
     type: 'instagram',
     label: 'Instagram',
     inbox: { channel_type: 'Channel::Instagram' },
-    iconStyle: 'logo',
+    iconStyle: 'framed-image',
   },
   {
     type: 'facebook',
     label: 'Facebook',
     inbox: { channel_type: 'Channel::FacebookPage' },
-    iconStyle: 'logo',
+    iconStyle: 'framed-image',
   },
   {
     type: 'sms',
@@ -68,13 +68,13 @@ const CHANNEL_LIST = [
     type: 'tiktok',
     label: 'TikTok',
     inbox: { channel_type: 'Channel::Tiktok' },
-    iconStyle: 'logo',
+    iconStyle: 'framed-image',
   },
   {
     type: 'line',
     label: 'LINE',
     inbox: { channel_type: 'Channel::Line' },
-    iconStyle: 'logo',
+    iconStyle: 'framed-image',
   },
   {
     type: 'gmail',
@@ -157,7 +157,7 @@ const handleSkip = () => {
         <ChannelIcon
           v-if="channel.iconStyle === 'logo'"
           :inbox="channel.inbox"
-          use-image
+          use-brand-icon
           class="size-9 flex-shrink-0"
         />
         <div
@@ -167,7 +167,7 @@ const handleSkip = () => {
           <ChannelIcon
             v-if="channel.iconStyle === 'framed-image'"
             :inbox="channel.inbox"
-            use-image
+            use-brand-icon
             class="size-5"
           />
           <ChannelIcon

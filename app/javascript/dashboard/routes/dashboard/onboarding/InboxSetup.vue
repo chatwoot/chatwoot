@@ -220,7 +220,7 @@ const connectChannel = channel =>
               v-for="channel in remainingChannels"
               :key="channel.type"
               :inbox="channel.inbox"
-              use-image
+              use-brand-icon
               class="size-4"
             />
           </div>
