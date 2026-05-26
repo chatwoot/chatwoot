@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineOptions, useAttrs } from 'vue';
+import { computed, useAttrs } from 'vue';
 
 import ImageChip from 'next/message/chips/Image.vue';
 import VideoChip from 'next/message/chips/Video.vue';

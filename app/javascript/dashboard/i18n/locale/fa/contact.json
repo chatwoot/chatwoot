@@ -386,6 +386,7 @@
       "IDENTIFIER": "شناسه",
       "COUNTRY": "کشور",
       "CITY": "شهر",
+      "COMPANY": "شرکت",
       "CREATED_AT": "ایجاد شده در",
       "LAST_ACTIVITY": "آخرین فعالیت",
       "REFERER_LINK": "پیوند ارجاع‌دهنده",

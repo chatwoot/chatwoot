@@ -168,7 +168,9 @@ const handlePageChange = page => emit('pageChange', page);
 const navigateToNewArticlePage = () => {
   const { categorySlug, locale } = route.params;
   router.push({
-    name: 'portals_articles_new',
+    name: props.isCategoryArticles
+      ? 'portals_categories_articles_new'
+      : 'portals_articles_new',
     params: { categorySlug, locale },
   });
 };
@@ -274,6 +276,7 @@ watch(
           :categories="categories"
           :allowed-locales="allowedLocales"
           :has-selected-category="isCategoryArticles"
+          @new-article="navigateToNewArticlePage"
         />
       </div>
     </template>

@@ -288,7 +288,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "聯絡人",
@@ -387,6 +386,7 @@
       "IDENTIFIER": "識別碼",
       "COUNTRY": "國家",
       "CITY": "城市",
+      "COMPANY": "公司",
       "CREATED_AT": "建立時間",
       "LAST_ACTIVITY": "最後活動",
       "REFERER_LINK": "來源連結",
@@ -602,7 +602,6 @@
       "CONFIRM_SINGLE": "刪除聯絡人"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "無法完成搜尋，請重試。"

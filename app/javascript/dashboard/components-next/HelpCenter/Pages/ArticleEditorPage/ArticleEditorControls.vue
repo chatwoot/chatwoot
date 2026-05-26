@@ -84,28 +84,20 @@ const findCategoryFromSlug = slug => {
   return categories.value?.find(category => category.slug === slug);
 };
 
-const assignCategoryFromSlug = slug => {
-  const categoryFromSlug = findCategoryFromSlug(slug);
-  if (categoryFromSlug) {
-    selectedCategoryId.value = categoryFromSlug.id;
-    return categoryFromSlug;
-  }
-  return null;
-};
-
 const selectedCategory = computed(() => {
   if (isNewArticle.value) {
+    if (selectedCategoryId.value) {
+      return (
+        categories.value?.find(c => c.id === selectedCategoryId.value) || null
+      );
+    }
     if (categorySlugFromRoute.value) {
-      const categoryFromSlug = assignCategoryFromSlug(
+      const categoryFromSlug = findCategoryFromSlug(
         categorySlugFromRoute.value
       );
       if (categoryFromSlug) return categoryFromSlug;
     }
-    return selectedCategoryId.value
-      ? categories.value.find(
-          category => category.id === selectedCategoryId.value
-        )
-      : categories.value[0] || null;
+    return categories.value?.[0] || null;
   }
   return categories.value.find(
     category => category.id === props.article?.category?.id
