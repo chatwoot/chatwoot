@@ -32,6 +32,7 @@ const helpCenterGenerationId = computed(
 const isSubmitting = ref(false);
 
 const integrations = useMapGetter('integrations/getAppIntegrations');
+const inboxes = useMapGetter('inboxes/getInboxes');
 
 const FEATURED_APP_IDS = ['slack', 'linear'];
 
@@ -122,14 +123,9 @@ const remainingChannels = computed(() => {
 
 const channelsDialogRef = ref(null);
 
-const connectedChannelTypes = computed(() => [
-  ...connectedChannels.value.map(c => c.type),
-  // Live Chat / website inbox is always created during account setup.
-  'website',
-]);
-
 onMounted(() => {
   store.dispatch('integrations/get');
+  store.dispatch('inboxes/get');
   useHelpCenterGenerationStore().hydrate(helpCenterGenerationId.value);
   useTrack(ONBOARDING_EVENTS.INBOX_SETUP_VISITED);
 });
@@ -285,7 +281,7 @@ const connectChannel = channel =>
   </OnboardingLayout>
   <InboxChannelsDialog
     ref="channelsDialogRef"
-    :connected-types="connectedChannelTypes"
+    :inboxes="inboxes"
     @continue="handleContinue"
     @skip="handleSkip"
   />

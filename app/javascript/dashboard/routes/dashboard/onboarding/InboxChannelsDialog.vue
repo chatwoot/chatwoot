@@ -8,7 +8,7 @@ import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import { useChannelConnect } from './useChannelConnect';
 
 const props = defineProps({
-  connectedTypes: { type: Array, default: () => [] },
+  inboxes: { type: Array, default: () => [] },
 });
 
 const emit = defineEmits(['continue', 'skip']);
@@ -106,7 +106,16 @@ const CHANNEL_LIST = [
   },
 ];
 
-const isConnected = type => props.connectedTypes.includes(type);
+// A channel is connected when a real inbox shares its channel_type. Gmail and
+// Outlook both use Channel::Email, so for email we also match on provider.
+const isConnected = inbox =>
+  !!inbox &&
+  props.inboxes.some(
+    configured =>
+      configured.channel_type === inbox.channel_type &&
+      (inbox.channel_type !== 'Channel::Email' ||
+        configured.provider === inbox.provider)
+  );
 
 const open = () => dialogRef.value?.open();
 const close = () => dialogRef.value?.close();
@@ -129,7 +138,7 @@ const handleSkip = () => {
     ref="dialogRef"
     :title="t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.TITLE')"
     :description="t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.SUBTITLE')"
-    width="2xl"
+    width="lg"
     @confirm="handleContinue"
   >
     <div class="grid grid-cols-2 gap-3">
@@ -165,7 +174,7 @@ const handleSkip = () => {
           {{ channel.label }}
         </span>
         <Icon
-          v-if="isConnected(channel.type)"
+          v-if="isConnected(channel.inbox)"
           icon="i-lucide-circle-check"
           class="size-5 text-n-teal-11"
         />
