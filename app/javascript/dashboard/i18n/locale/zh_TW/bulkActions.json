@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "指派標籤",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "指派已選標籤",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "標籤指派成功。",
-      "ASSIGN_FAILED": "指派標籤失敗，請再試一次。"
+      "ASSIGN_FAILED": "指派標籤失敗，請再試一次。",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "無",
