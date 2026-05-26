@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Märgendite määramine",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Märgendid määrati edukalt.",
     "ASSIGN_LABELS_FAILED": "Märgendite määramine ebaõnnestus",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Valige sildid, mida soovite valitud kontaktidele lisada.",
     "NO_LABELS_FOUND": "Silte pole veel saadaval.",
     "SELECTED_COUNT": "{count} valitud",
