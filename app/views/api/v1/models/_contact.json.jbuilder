@@ -1,4 +1,4 @@
-json.additional_attributes resource.additional_attributes
+json.additional_attributes resource.additional_attributes_with_canonical_country
 json.availability_status resource.availability_status
 json.email resource.email
 json.id resource.id
