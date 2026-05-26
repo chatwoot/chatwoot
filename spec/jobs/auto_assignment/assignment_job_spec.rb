@@ -24,10 +24,11 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
           service = instance_double(AutoAssignment::AssignmentService)
           allow(AutoAssignment::AssignmentService).to receive(:new).and_return(service)
           allow(service).to receive(:perform_bulk_assignment).and_return(3)
-
-          expect(Rails.logger).to receive(:info).with("Assigned 3 conversations for inbox #{inbox.id}")
+          allow(Rails.logger).to receive(:info)
 
           described_class.new.perform(inbox_id: inbox.id)
+
+          expect(Rails.logger).to have_received(:info).with("Assigned 3 conversations for inbox #{inbox.id}")
         end
 
         it 'uses custom bulk limit from environment' do
@@ -67,13 +68,37 @@ RSpec.describe AutoAssignment::AssignmentJob, type: :job do
         service = instance_double(AutoAssignment::AssignmentService)
         allow(AutoAssignment::AssignmentService).to receive(:new).and_return(service)
         allow(service).to receive(:perform_bulk_assignment).and_raise(StandardError, 'Something went wrong')
-
-        expect(Rails.logger).to receive(:error).with("Bulk assignment failed for inbox #{inbox.id}: Something went wrong")
+        allow(Rails.logger).to receive(:error)
 
         expect do
           described_class.new.perform(inbox_id: inbox.id)
         end.to raise_error(StandardError, 'Something went wrong')
+
+        expect(Rails.logger).to have_received(:error).with("Bulk assignment failed for inbox #{inbox.id}: Something went wrong")
       end
+    end
+  end
+
+  describe '.enqueue_for_inbox' do
+    after { Redis::Alfred.delete(format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)) }
+
+    it 'enqueues one run per inbox and coalesces concurrent triggers' do
+      allow(described_class).to receive(:perform_later).and_return(true)
+
+      expect(described_class.enqueue_for_inbox(inbox.id)).to be(true)
+      expect(described_class.enqueue_for_inbox(inbox.id)).to be(false)
+      expect(described_class).to have_received(:perform_later).once
+    end
+
+    it 'does not release a newer run marker when its own token is stale' do
+      key = format(Redis::Alfred::AUTO_ASSIGNMENT_IN_FLIGHT_KEY, inbox_id: inbox.id)
+      Redis::Alfred.set(key, 'newer-token', ex: 300)
+      allow(AutoAssignment::AssignmentService).to receive(:new)
+        .and_return(instance_double(AutoAssignment::AssignmentService, perform_bulk_assignment: 0))
+
+      described_class.new.perform(inbox_id: inbox.id, token: 'stale-token')
+
+      expect(Redis::Alfred.get(key)).to eq('newer-token')
     end
   end
 

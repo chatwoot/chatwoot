@@ -101,6 +101,76 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/unread_counts' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:visible_inbox) { create(:inbox, account: account) }
+      let(:hidden_inbox) { create(:inbox, account: account) }
+      let(:label) { create(:label, account: account, title: 'billing', show_on_sidebar: true) }
+      let(:team) { create(:team, account: account, allow_auto_assign: false) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: visible_inbox)
+        create(:team_member, user: agent, team: team)
+      end
+
+      after do
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
+      context 'when conversation unread counts feature is enabled' do
+        before do
+          account.enable_features!(:conversation_unread_counts)
+        end
+
+        it 'returns unread conversation counts scoped to the signed-in user' do
+          create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title])
+          create_unread_conversation(account: account, inbox: hidden_inbox, labels: [label.title])
+
+          get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload']).to eq(
+            'inboxes' => { visible_inbox.id.to_s => 1 },
+            'labels' => { label.id.to_s => 1 },
+            'teams' => {}
+          )
+        end
+
+        it 'returns unread team conversation counts scoped to the signed-in user' do
+          create_unread_conversation(account: account, inbox: visible_inbox, team: team)
+          create_unread_conversation(account: account, inbox: hidden_inbox, team: team)
+
+          get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload']['teams']).to eq(team.id.to_s => 1)
+        end
+      end
+
+      it 'returns forbidden when conversation unread counts feature is disabled' do
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('Conversation unread counts feature not enabled for this account')
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/search' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -777,6 +847,23 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.agent_last_seen_at).to be > initial_last_seen
       end
 
+      it 'refreshes unread count cache when conversation is marked read' do
+        account.enable_features!(:conversation_unread_counts)
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        Conversations::UnreadCounts::Builder.new(account).build_base!
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        inbox_key = Conversations::UnreadCounts::Store.inbox_key(account.id, conversation.inbox_id)
+        expect(response).to have_http_status(:success)
+        expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
+      ensure
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
       it 'updates both if one timestamp is old even when the other is recent' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older than assignee_last_seen_at (no unread messages)
@@ -846,6 +933,22 @@ RSpec.describe 'Conversations API', type: :request do
         last_seen_at = conversation.messages.incoming.last.created_at - 1.second
         expect(conversation.reload.agent_last_seen_at).to eq(last_seen_at)
         expect(conversation.reload.assignee_last_seen_at).to eq(last_seen_at)
+      end
+
+      it 'refreshes unread count cache when conversation is marked unread' do
+        account.enable_features!(:conversation_unread_counts)
+        conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
+        Conversations::UnreadCounts::Builder.new(account).build_base!
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        inbox_key = Conversations::UnreadCounts::Store.inbox_key(account.id, conversation.inbox_id)
+        expect(response).to have_http_status(:success)
+        expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
+      ensure
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
     end
   end
