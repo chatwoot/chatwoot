@@ -380,31 +380,6 @@ export const findNodeToInsertImage = (editorState, fileUrl) => {
 };
 
 /**
- * Set URL with query and size.
- *
- * @param {Object} selectedImageNode - The current selected node.
- * @param {Object} size - The size to set.
- * @param {Object} editorView - The editor view.
- */
-export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
-  if (selectedImageNode) {
-    // Create and apply the transaction
-    const tr = editorView.state.tr.setNodeMarkup(
-      editorView.state.selection.from,
-      null,
-      {
-        src: selectedImageNode.src,
-        height: size.height,
-      }
-    );
-
-    if (tr.docChanged) {
-      editorView.dispatch(tr);
-    }
-  }
-}
-
-/**
  * Strips unsupported markdown formatting from content based on the editor schema.
  * This ensures canned responses with rich formatting can be inserted into channels
  * that don't support certain formatting (e.g., API channels don't support bold).

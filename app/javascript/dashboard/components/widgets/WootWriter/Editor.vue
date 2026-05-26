@@ -32,7 +32,6 @@ import {
   CONVERSATION_EVENTS,
   CAPTAIN_EVENTS,
 } from 'dashboard/helper/AnalyticsHelper/events';
-import { MESSAGE_EDITOR_IMAGE_RESIZES } from 'dashboard/constants/editor';
 
 import {
   messageSchema,
@@ -58,7 +57,6 @@ import {
   insertAtCursor,
   removeSignature as removeSignatureHelper,
   scrollCursorIntoView,
-  setURLWithQueryAndSize,
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
@@ -95,7 +93,6 @@ const props = defineProps({
   channelType: { type: String, default: '' },
   conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
-  showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
 });
 
@@ -202,12 +199,8 @@ const cannedSearchTerm = ref('');
 const variableSearchTerm = ref('');
 const emojiSearchTerm = ref('');
 const range = ref(null);
-const isImageNodeSelected = ref(false);
-const toolbarPosition = ref({ top: 0, left: 0 });
-const selectedImageNode = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
-const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 
 // element ref
 const editorRoot = useTemplateRef('editorRoot');
@@ -485,16 +478,6 @@ function removeSignature() {
   reloadState(content);
 }
 
-function setToolbarPosition() {
-  const editorRect = editorRoot.value.getBoundingClientRect();
-  const rect = selectedImageNode.value.getBoundingClientRect();
-
-  toolbarPosition.value = {
-    top: `${rect.top - editorRect.top - 30}px`,
-    left: `${rect.left - editorRect.left - 4}px`,
-  };
-}
-
 function setMenubarPosition({ selection } = {}) {
   const wrapper = editorRoot.value;
   if (!selection || !wrapper) return;
@@ -530,30 +513,6 @@ function checkSelection(editorState) {
   if (hasSelection) setMenubarPosition(editorState);
 }
 
-function setURLWithQueryAndImageSize(size) {
-  if (!props.showImageResizeToolbar) {
-    return;
-  }
-  setURLWithQueryAndSize(selectedImageNode.value, size, editorView);
-  isImageNodeSelected.value = false;
-}
-
-function isEditorMouseFocusedOnAnImage() {
-  if (!props.showImageResizeToolbar) {
-    return;
-  }
-  selectedImageNode.value = document.querySelector(
-    'img.ProseMirror-selectednode'
-  );
-  if (selectedImageNode.value) {
-    isImageNodeSelected.value = !!selectedImageNode.value;
-    // Get the position of the selected node
-    setToolbarPosition();
-  } else {
-    isImageNodeSelected.value = false;
-  }
-}
-
 function emitOnChange() {
   emit('input', contentFromEditor());
   emit('update:modelValue', contentFromEditor());
@@ -571,21 +530,6 @@ function toggleSignatureInEditor(signatureEnabled) {
   // reloadState replaces editor state directly and bypasses dispatchTransaction,
   // so v-model never hears about the signature change — sync it back explicitly.
   emitOnChange();
-}
-
-function updateImgToolbarOnDelete() {
-  // check if the selected node is present or not on keyup
-  // this is needed because the user can select an image and then delete it
-  // in that case, the selected node will be null and we need to hide the toolbar
-  // otherwise, the toolbar will be visible even when the image is deleted and cause some errors
-  if (selectedImageNode.value) {
-    const hasImgSelectedNode = document.querySelector(
-      'img.ProseMirror-selectednode'
-    );
-    if (!hasImgSelectedNode) {
-      isImageNodeSelected.value = false;
-    }
-  }
 }
 
 function isEnterToSendEnabled() {
@@ -653,13 +597,19 @@ function onFileChange() {
 
 const allowsInlineImagePaste = computed(
   () =>
-    props.channelType === INBOX_TYPES.EMAIL ||
-    props.channelType === INBOX_TYPES.WEB
+    !props.isPrivate &&
+    (props.channelType === INBOX_TYPES.EMAIL ||
+      props.channelType === INBOX_TYPES.WEB)
 );
 
 // Shift+Cmd/Ctrl+V: read the clipboard and, if it holds an image, upload it
-// inline. Only on email/website channels, which support inline images.
+// inline. Only when the editor itself is focused (the binding is document-wide,
+// so we must not preventDefault paste in unrelated inputs) and only on
+// email/website reply channels, which support inline images. We preventDefault
+// upfront (so ReplyBox's onPaste doesn't also attach the image), then fall back
+// to a plain-text paste when the clipboard holds no image.
 async function pasteInlineImageFromClipboard(event) {
+  if (!editorView?.hasFocus()) return;
   if (!allowsInlineImagePaste.value || !navigator.clipboard?.read) return;
   event.preventDefault();
   try {
@@ -670,11 +620,20 @@ async function pasteInlineImageFromClipboard(event) {
     const imageType = item?.types.find(type =>
       INLINE_IMAGE_PASTE_TYPES.includes(type)
     );
-    if (!imageType) return;
-    const blob = await item.getType(imageType);
-    uploadImageIfWithinSizeLimit(
-      new File([blob], 'pasted-image', { type: imageType })
+    if (imageType) {
+      const blob = await item.getType(imageType);
+      uploadImageIfWithinSizeLimit(
+        new File([blob], 'pasted-image', { type: imageType })
+      );
+      return;
+    }
+    const textItem = items.find(clipboardItem =>
+      clipboardItem.types.includes('text/plain')
     );
+    if (textItem) {
+      const text = await (await textItem.getType('text/plain')).text();
+      if (text) editorView.dispatch(editorView.state.tr.insertText(text));
+    }
   } catch (error) {
     // Clipboard read unavailable or permission denied — no-op.
   }
@@ -802,12 +761,10 @@ function createEditorView() {
       keyup: () => {
         if (!props.disabled) {
           typingIndicator.start();
-          updateImgToolbarOnDelete();
         }
       },
       keydown: (view, event) => !props.disabled && onKeydown(event),
       focus: () => !props.disabled && emit('focus'),
-      click: () => !props.disabled && isEditorMouseFocusedOnAnImage(),
       blur: () => {
         if (props.disabled) return;
         typingIndicator.stop();
@@ -972,23 +929,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       @change="onFileChange"
     />
     <div ref="editor" />
-    <div
-      v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[6px] flex gap-1 py-1 px-1 bg-n-solid-3 outline outline-1 outline-n-weak text-n-slate-12"
-      :style="{
-        top: toolbarPosition.top,
-        left: toolbarPosition.left,
-      }"
-    >
-      <button
-        v-for="size in sizes"
-        :key="size.name"
-        class="text-xs font-medium rounded-[4px] outline outline-1 outline-n-strong px-1.5 py-0.5 hover:bg-n-slate-5"
-        @click="setURLWithQueryAndImageSize(size)"
-      >
-        {{ size.name }}
-      </button>
-    </div>
     <slot name="footer" />
   </div>
 </template>
