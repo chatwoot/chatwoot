@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Asignar etiqueta",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente.",
-      "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo."
+      "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Ninguna",
