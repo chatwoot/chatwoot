@@ -61,8 +61,9 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
     synced = Captain::Document.sync_statuses[:synced]
     failed = Captain::Document.sync_statuses[:failed]
     stale_cutoff = SYNC_STALE_TIMEOUT.ago
-    # Anything synced before this timestamp is old enough to sync again.
-    sync_due_before = interval.ago
+    # The scheduler runs at predictable plan windows. Use a wider due window so
+    # jittered executions do not miss the next window just because they finished later.
+    sync_due_before = due_window(interval).ago
 
     documents = account.captain_documents.syncable.where(status: :available).where(
       '(sync_status = ? AND last_synced_at < ?) OR (sync_status = ? AND last_sync_attempted_at < ?) OR ' \
@@ -100,6 +101,10 @@ class Captain::Documents::ScheduleSyncsJob < ApplicationJob
                     end
 
     rand(0..jitter_window.to_i).seconds
+  end
+
+  def due_window(interval)
+    (interval.to_i / 2).seconds
   end
 
   def log_scheduler_summary(stats)

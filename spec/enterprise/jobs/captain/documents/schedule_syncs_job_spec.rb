@@ -142,19 +142,20 @@ RSpec.describe Captain::Documents::ScheduleSyncsJob, type: :job do
   end
 
   context 'when jitter spreads queued sync execution' do
-    it 'keeps due detection at the plan cadence and delays only the sync job' do
+    it 'uses a widened due window so jittered syncs do not skip the next plan run' do
       travel_to Time.zone.local(2026, 4, 27, 10, 0, 0) do
         job = described_class.new
         interval = 1.week
+        due_window = (interval.to_i / 2).seconds
         allow(job).to receive(:rand).and_return(2.hours.to_i)
         document = create(:captain_document, assistant: assistant, account: account, status: :available)
 
-        document.update!(sync_status: :synced, last_synced_at: (interval - 1.minute).ago)
+        document.update!(sync_status: :synced, last_synced_at: (due_window - 1.minute).ago)
         clear_enqueued_jobs
 
         expect { job.perform }.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
 
-        document.update!(sync_status: :synced, last_synced_at: (interval + 1.minute).ago)
+        document.update!(sync_status: :synced, last_synced_at: (due_window + 1.minute).ago)
         clear_enqueued_jobs
 
         expect { job.perform }
