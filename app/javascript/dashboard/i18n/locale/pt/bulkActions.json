@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir etiquetas",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiquetas atribuídas com sucesso.",
-      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Nenhuma",
