@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "라벨 배정",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "선택한 라벨 배정",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "라벨이 성공적으로 배정되었습니다.",
-      "ASSIGN_FAILED": "라벨 배정에 실패했습니다. 다시 시도하십시오."
+      "ASSIGN_FAILED": "라벨 배정에 실패했습니다. 다시 시도하십시오.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "없음",
