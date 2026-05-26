@@ -51,11 +51,6 @@ const CHANNEL_LIST = [
     inbox: { channel_type: 'Channel::FacebookPage' },
   },
   {
-    type: 'sms',
-    label: 'SMS',
-    inbox: { channel_type: 'Channel::Sms' },
-  },
-  {
     type: 'tiktok',
     label: 'TikTok',
     inbox: { channel_type: 'Channel::Tiktok' },
@@ -76,9 +71,9 @@ const CHANNEL_LIST = [
     inbox: { channel_type: 'Channel::Email', provider: 'microsoft' },
   },
   {
-    type: 'api',
-    label: 'API',
-    inbox: { channel_type: 'Channel::Api' },
+    type: 'telegram',
+    label: 'Telegram',
+    inbox: { channel_type: 'Channel::Telegram' },
   },
   {
     type: 'website',
@@ -86,19 +81,28 @@ const CHANNEL_LIST = [
     inbox: { channel_type: 'Channel::WebWidget' },
   },
   {
-    type: 'telegram',
-    label: 'Telegram',
-    inbox: { channel_type: 'Channel::Telegram' },
+    type: 'sms',
+    label: 'SMS',
+    inbox: { channel_type: 'Channel::Sms' },
+    disabled: true,
+  },
+  {
+    type: 'api',
+    label: 'API',
+    inbox: { channel_type: 'Channel::Api' },
+    disabled: true,
   },
   {
     type: 'voice',
     label: 'Voice',
     fallbackIcon: 'i-woot-voice',
+    disabled: true,
   },
   {
     type: 'email',
     label: 'Other Email Providers',
     fallbackIcon: 'i-woot-mail',
+    disabled: true,
   },
 ];
 
@@ -133,11 +137,17 @@ const handleSkip = () => {
         v-for="channel in CHANNEL_LIST"
         :key="channel.type"
         type="button"
-        class="flex items-center gap-3 p-3 rounded-[10px] bg-n-solid-1 outline outline-1 outline-n-weak hover:outline-n-slate-6 transition-colors text-start cursor-pointer"
+        :disabled="channel.disabled"
+        class="flex items-center gap-3 p-3 rounded-xl outline outline-1 outline-n-weak shadow-[0px_1px_2px_0px_rgba(27,28,29,0.036)] transition-colors text-start"
+        :class="
+          channel.disabled
+            ? 'bg-n-slate-2 cursor-not-allowed'
+            : 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer'
+        "
         @click="connect(channel.type)"
       >
         <div
-          class="size-9 rounded-md outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
+          class="size-9 rounded-[10px] outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
         >
           <ChannelIcon
             v-if="channel.inbox"
@@ -160,7 +170,7 @@ const handleSkip = () => {
           class="size-5 text-n-teal-11"
         />
         <Icon
-          v-else
+          v-else-if="!channel.disabled"
           icon="i-lucide-chevron-right"
           class="size-5 text-n-slate-9"
         />

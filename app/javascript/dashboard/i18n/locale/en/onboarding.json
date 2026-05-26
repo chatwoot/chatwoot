@@ -62,7 +62,7 @@
     "CHANNELS_DIALOG": {
       "TITLE": "Connect all your channels instantly",
       "SUBTITLE": "Manage all of them from one dashboard. You can also set up and edit inboxes later inside the app.",
-      "NOTE": "You can set up Voice and other Email channels on the application."
+      "NOTE": "SMS, API, Voice, and other email providers can be set up later from your dashboard."
     },
     "APPS": {
       "TITLE": "Connect your favorite apps"
