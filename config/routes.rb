@@ -394,6 +394,7 @@ Rails.application.routes.draw do
               resource :bulk_actions, only: [] do
                 post :translate
                 patch :update_status
+                patch :update_category
                 delete :delete_articles
               end
             end
