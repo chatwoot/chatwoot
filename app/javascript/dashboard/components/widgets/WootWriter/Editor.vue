@@ -653,15 +653,19 @@ function onFileChange() {
 
 const allowsInlineImagePaste = computed(
   () =>
-    props.channelType === INBOX_TYPES.EMAIL ||
-    props.channelType === INBOX_TYPES.WEB
+    !props.isPrivate &&
+    (props.channelType === INBOX_TYPES.EMAIL ||
+      props.channelType === INBOX_TYPES.WEB)
 );
 
 // Shift+Cmd/Ctrl+V: read the clipboard and, if it holds an image, upload it
-// inline. Only on email/website channels, which support inline images. We
-// preventDefault upfront (so ReplyBox's onPaste doesn't also attach the image),
-// then fall back to a plain-text paste when the clipboard holds no image.
+// inline. Only when the editor itself is focused (the binding is document-wide,
+// so we must not preventDefault paste in unrelated inputs) and only on
+// email/website reply channels, which support inline images. We preventDefault
+// upfront (so ReplyBox's onPaste doesn't also attach the image), then fall back
+// to a plain-text paste when the clipboard holds no image.
 async function pasteInlineImageFromClipboard(event) {
+  if (!editorView?.hasFocus()) return;
   if (!allowsInlineImagePaste.value || !navigator.clipboard?.read) return;
   event.preventDefault();
   try {
