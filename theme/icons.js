@@ -445,5 +445,10 @@ export const icons = {
     width: 15,
     height: 15,
   },
+  'tag-remove': {
+    body: `<defs><mask id="cw-tagrm-cut"><rect width="24" height="24" fill="white"/><circle cx="7" cy="17" r="6.3" fill="black"/></mask><mask id="cw-tagrm-x"><rect width="24" height="24" fill="white"/><path d="M4.3 14.3 9.7 19.7M9.7 14.3 4.3 19.7" stroke="black" stroke-width="2.4" stroke-linecap="round"/></mask></defs><g transform="translate(24 0) scale(-1 1)"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" mask="url(#cw-tagrm-cut)"/><circle cx="7.5" cy="7.5" r=".5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="7" cy="17" r="6.5" fill="currentColor" mask="url(#cw-tagrm-x)"/></g>`,
+    width: 24,
+    height: 24,
+  },
   /** Ends */
 };
