@@ -1,5 +1,6 @@
 <script setup>
 import ChannelIcon from './ChannelIcon.vue';
+import { useChannelBrandIcon } from './provider';
 
 const inboxes = [
   { name: 'API', channel_type: 'Channel::Api' },
@@ -24,9 +25,10 @@ const inboxes = [
     channel_type: 'Channel::TwilioSms',
     voice_enabled: true,
   },
-  { name: 'X (Twitter)', channel_type: 'Channel::TwitterProfile' },
   { name: 'Website', channel_type: 'Channel::WebWidget' },
 ];
+
+const brandInboxes = inboxes.filter(inbox => useChannelBrandIcon(inbox).value);
 </script>
 
 <template>
@@ -39,14 +41,14 @@ const inboxes = [
           class="flex items-center gap-2"
         >
           <ChannelIcon :inbox="inbox" class="size-6 text-n-slate-11" />
-          <p>{{ inbox.name }}</p>
+          <span>{{ inbox.name }}</span>
         </div>
       </div>
     </Variant>
     <Variant title="Brand icon">
       <div class="grid grid-cols-4 gap-5">
         <div
-          v-for="inbox in inboxes"
+          v-for="inbox in brandInboxes"
           :key="inbox.name"
           class="flex items-center gap-2"
         >
@@ -55,7 +57,7 @@ const inboxes = [
             use-brand-icon
             class="size-6 text-n-slate-11"
           />
-          <p>{{ inbox.name }}</p>
+          <span>{{ inbox.name }}</span>
         </div>
       </div>
     </Variant>
