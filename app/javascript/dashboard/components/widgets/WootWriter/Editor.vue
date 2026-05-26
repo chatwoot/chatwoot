@@ -991,10 +991,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
         @apply text-n-slate-11;
       }
     }
-
-    ol li {
-      @apply list-item list-decimal;
-    }
   }
 }
 
