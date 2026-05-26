@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "برچسب اختصاص دهید",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "اختصاص برچسب‌های انتخاب شده",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "برچسب‌ها با موفقیت اختصاص یافتند.",
-      "ASSIGN_FAILED": "اختصاص برچسب‌ به صورت موفق انجام نشد، لطفا دوباره امتحان کنید."
+      "ASSIGN_FAILED": "اختصاص برچسب‌ به صورت موفق انجام نشد، لطفا دوباره امتحان کنید.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "هیچکدام",
