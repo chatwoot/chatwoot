@@ -30,5 +30,47 @@
     "VALIDATION_ERROR": "Please fill in all required fields",
     "SUCCESS": "Details saved successfully",
     "ERROR": "Could not save details. Please try again."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Let's set up a few things",
+    "SUBTITLE": "This will give you head-start in your workspace",
+    "CONTINUE": "Continue",
+    "SKIP": "Skip",
+    "ERROR": "Something went wrong. Please try again.",
+    "CREATED_FOR_YOU": {
+      "TITLE": "We've created the following for you",
+      "LIVE_CHAT": "Live Chat widget",
+      "LIVE_CHAT_DESCRIPTION": "Instant messenger for your website",
+      "LIVE_CHAT_STATUS": "Almost done…",
+      "LIVE_CHAT_READY": "Ready",
+      "HELP_CENTER": "Help Center",
+      "HELP_CENTER_DESCRIPTION": "Your digital encyclopedia",
+      "HELP_CENTER_GENERATING": "Creating your help center…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analyzing your website…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Setting up categories…",
+      "HELP_CENTER_CURATING_ARTICLES": "Curating articles…",
+      "HELP_CENTER_ARTICLES": "Created {count} article | Created {count} articles",
+      "HELP_CENTER_CATEGORIES": "{count} category | {count} categories",
+      "HELP_CENTER_SUMMARY": "Created {count} article across {categories} | Created {count} articles across {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Connect all your conversation channels",
+      "CONNECT": "Connect {name}",
+      "MORE_CHANNELS_NOTE": "Set up Email and Voice channels later inside the app",
+      "VIEW_ALL": "View all"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Connect all your channels instantly",
+      "SUBTITLE": "Manage all of them from one dashboard. You can also set up and edit inboxes later inside the app.",
+      "NOTE": "SMS, API, Voice, and other email providers can be set up later from your dashboard.",
+      "CONNECT_TITLE": "Connect your {name} account",
+      "CONNECT_SUBTITLE": "Fill out these quick details",
+      "CONNECT": "Connect",
+      "BACK": "Back",
+      "NOT_CONFIGURED": "Setup required"
+    },
+    "APPS": {
+      "TITLE": "Connect your favorite apps"
+    }
   }
 }

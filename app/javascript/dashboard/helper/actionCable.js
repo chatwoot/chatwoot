@@ -5,6 +5,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { useImpersonation } from 'dashboard/composables/useImpersonation';
 import { useCallsStore } from 'dashboard/stores/calls';
+import { useHelpCenterGenerationStore } from 'dashboard/stores/helpCenterGeneration';
 import {
   applyOutboundAnswer,
   armOutboundRecorder,
@@ -49,6 +50,8 @@ class ActionCableConnector extends BaseActionCableConnector {
         this.onConversationUnreadCountChanged,
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
+      'help_center.article_generated': this.onHelpCenterArticleGenerated,
+      'help_center.generation_completed': this.onHelpCenterGenerationCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
@@ -266,6 +269,16 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onEnrichmentCompleted = () => {
     this.app.$store.dispatch('accounts/get', { silent: true });
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onHelpCenterArticleGenerated = data => {
+    useHelpCenterGenerationStore().handleArticleGenerated(data);
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  onHelpCenterGenerationCompleted = data => {
+    useHelpCenterGenerationStore().handleGenerationCompleted(data);
   };
 
   onCacheInvalidate = data => {

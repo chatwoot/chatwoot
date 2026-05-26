@@ -4,6 +4,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 defineProps({
   title: { type: String, required: true },
   icon: { type: String, required: true },
+  bare: { type: Boolean, default: false },
 });
 </script>
 
@@ -42,8 +43,12 @@ defineProps({
     </div>
 
     <!-- Card -->
-    <div class="border border-n-weak rounded-xl overflow-hidden bg-n-surface-1">
+    <div
+      v-if="!bare"
+      class="border border-n-weak rounded-xl overflow-hidden bg-n-surface-1"
+    >
       <slot />
     </div>
+    <slot v-else />
   </div>
 </template>

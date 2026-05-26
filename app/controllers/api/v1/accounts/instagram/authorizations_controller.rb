@@ -11,7 +11,7 @@ class Api::V1::Accounts::Instagram::AuthorizationsController < Api::V1::Accounts
         enable_fb_login: '0',
         force_authentication: '1',
         response_type: 'code',
-        state: generate_instagram_token(Current.account.id)
+        state: generate_instagram_token(Current.account.id, params[:return_to])
       }
     )
     if redirect_url

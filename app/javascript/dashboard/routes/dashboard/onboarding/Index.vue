@@ -7,8 +7,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { frontendURL } from 'dashboard/helper/URLHelper';
+import { useMapGetter } from 'dashboard/composables/store';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -27,7 +26,6 @@ import {
 
 const { t } = useI18n();
 const router = useRouter();
-const store = useStore();
 const { accountId, currentAccount, finishOnboarding } = useAccount();
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
@@ -246,6 +244,7 @@ const handleSubmit = async () => {
       timezone: timezone.value,
       referral_source: referralSource.value,
       user_role: userRole.value,
+      onboarding_step: 'account_details',
     });
 
     useTrack(ONBOARDING_EVENTS.ACCOUNT_DETAILS_COMPLETED, {
@@ -260,8 +259,10 @@ const handleSubmit = async () => {
     });
 
     useAlert(t('ONBOARDING_NEXT.SUCCESS'));
-    store.commit('RESET_ONBOARDING', accountId.value);
-    router.push(frontendURL(`accounts/${accountId.value}/dashboard`));
+    router.push({
+      name: 'onboarding_inbox_setup',
+      params: { accountId: accountId.value },
+    });
   } catch {
     useAlert(t('ONBOARDING_NEXT.ERROR'));
   } finally {

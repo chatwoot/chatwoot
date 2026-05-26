@@ -40,7 +40,7 @@ RSpec.describe 'Onboarding API', type: :request do
 
       it 'saves name and locale' do
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { name: 'Acme Inc', locale: 'fr' },
+              params: { name: 'Acme Inc', locale: 'fr', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:success)
@@ -50,7 +50,7 @@ RSpec.describe 'Onboarding API', type: :request do
 
       it 'merges custom_attributes' do
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com', industry: 'tech', company_size: '10-50' },
+              params: { website: 'acme.com', industry: 'tech', company_size: '10-50', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
         attrs = account.reload.custom_attributes
@@ -59,20 +59,20 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(attrs['company_size']).to eq('10-50')
       end
 
-      it 'clears onboarding_step' do
+      it 'advances onboarding_step to inbox_setup' do
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com' },
+              params: { website: 'acme.com', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
-        expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
+        expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
       end
 
-      it 'invokes HelpCenterCreationService when website is present', skip: 'help center generation wiring disabled until UI is ready' do
+      it 'invokes HelpCenterCreationService when website is present' do
         service = instance_double(Onboarding::HelpCenterCreationService, perform: nil)
         allow(Onboarding::HelpCenterCreationService).to receive(:new).and_return(service)
 
         patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com' },
+              params: { website: 'acme.com', onboarding_step: 'account_details' },
               headers: admin.create_new_auth_token, as: :json
 
         expect(Onboarding::HelpCenterCreationService).to have_received(:new) do |arg_account, arg_user|
@@ -85,9 +85,50 @@ RSpec.describe 'Onboarding API', type: :request do
       it 'does not create a help center portal when website is blank' do
         expect do
           patch "/api/v1/accounts/#{account.id}/onboarding",
-                params: { name: 'Acme Inc' },
+                params: { name: 'Acme Inc', onboarding_step: 'account_details' },
                 headers: admin.create_new_auth_token, as: :json
         end.not_to change(account.portals, :count)
+      end
+
+      it 'is idempotent when the account_details completion is replayed' do
+        2.times do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { website: 'acme.com', onboarding_step: 'account_details' },
+                headers: admin.create_new_auth_token, as: :json
+        end
+
+        # Replaying step 1 always lands on inbox_setup; it never skips to done.
+        expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
+      end
+    end
+
+    context 'when finalizing inbox_setup' do
+      before { account.update!(custom_attributes: { 'onboarding_step' => 'inbox_setup' }) }
+
+      it 'clears onboarding_step' do
+        patch "/api/v1/accounts/#{account.id}/onboarding",
+              params: { onboarding_step: 'inbox_setup' },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
+      end
+
+      it 'does not create another web widget inbox' do
+        expect(Onboarding::WebWidgetCreationService).not_to receive(:new)
+
+        patch "/api/v1/accounts/#{account.id}/onboarding",
+              params: { onboarding_step: 'inbox_setup' },
+              headers: admin.create_new_auth_token, as: :json
+      end
+
+      it 'is idempotent when the finalize request is replayed' do
+        2.times do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { onboarding_step: 'inbox_setup' },
+                headers: admin.create_new_auth_token, as: :json
+        end
+
+        expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
       end
     end
 

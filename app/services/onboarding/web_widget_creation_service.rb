@@ -1,8 +1,6 @@
 class Onboarding::WebWidgetCreationService
   DEFAULT_WIDGET_COLOR = '#1f93ff'.freeze
-  # context.dev descriptions and LLM completions are unbounded; bound the
-  # stored tagline so a long string doesn't render as a wall of text in the
-  # widget UI (and so backends that enforce varchar limits don't raise).
+  # context.dev descriptions and LLM completions are unbounded; so we limit in the backend
   WELCOME_TAGLINE_MAX_LENGTH = 255
 
   def initialize(account, user)

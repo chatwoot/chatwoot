@@ -4,16 +4,18 @@ module Onboarding::HelpCenterBroadcaster
 
   module_function
 
-  def article_generated(user:, generation_id:, article:, articles_finished:)
+  def article_generated(account_id:, user:, generation_id:, article:, articles_finished:)
     broadcast(user, ARTICLE_GENERATED, {
+                account_id: account_id,
                 generation_id: generation_id,
                 article_id: article.id,
                 articles_finished: articles_finished
               })
   end
 
-  def completed(user:, generation_id:, status:, skip_reason: nil)
+  def completed(account_id:, user:, generation_id:, status:, skip_reason: nil)
     broadcast(user, GENERATION_COMPLETED, {
+                account_id: account_id,
                 generation_id: generation_id,
                 status: status,
                 skip_reason: skip_reason
