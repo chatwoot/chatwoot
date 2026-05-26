@@ -21,21 +21,22 @@ const providerIconMap = {
   google: 'i-woot-gmail',
 };
 
-// Branded image variants. Channels not listed here have no image and callers
-// should fall back to the icon class via useChannelIcon.
-const channelImageBase = '/dashboard/images/channels';
-const channelTypeImageMap = {
-  'Channel::FacebookPage': `${channelImageBase}/facebook.webp`,
-  'Channel::Line': `${channelImageBase}/line.webp`,
-  'Channel::Telegram': `${channelImageBase}/telegram.webp`,
-  'Channel::Whatsapp': `${channelImageBase}/whatsapp.webp`,
-  'Channel::Instagram': `${channelImageBase}/instagram.webp`,
-  'Channel::Tiktok': `${channelImageBase}/tiktok.webp`,
+// Full-color brand icons. Most come from the `logos` Iconify set; Instagram,
+// Outlook and Line use custom `woot` glyphs since the `logos` versions are
+// monochrome or missing. Channels not listed here have no brand variant and
+// callers should fall back to the monochrome glyph via useChannelIcon.
+const channelTypeBrandIconMap = {
+  'Channel::FacebookPage': 'i-logos-messenger',
+  'Channel::Line': 'i-woot-line-color',
+  'Channel::Telegram': 'i-logos-telegram',
+  'Channel::Whatsapp': 'i-logos-whatsapp-icon',
+  'Channel::Instagram': 'i-woot-instagram-color',
+  'Channel::Tiktok': 'i-logos-tiktok-icon',
 };
 
-const providerImageMap = {
-  microsoft: `${channelImageBase}/outlook.webp`,
-  google: `${channelImageBase}/gmail.webp`,
+const providerBrandIconMap = {
+  microsoft: 'i-woot-outlook-color',
+  google: 'i-logos-google-gmail',
 };
 
 const resolveInbox = inbox => inbox?.value ?? inbox;
@@ -78,22 +79,25 @@ export function useChannelIcon(inbox) {
   return channelIcon;
 }
 
-export function useChannelImage(inbox) {
+export function useChannelBrandIcon(inbox) {
   return computed(() => {
     const inboxDetails = resolveInbox(inbox);
     const type = inboxDetails.channel_type;
-    let image = channelTypeImageMap[type];
+    let icon = channelTypeBrandIconMap[type];
 
-    if (type === 'Channel::Email' && inboxDetails.provider) {
-      if (Object.keys(providerImageMap).includes(inboxDetails.provider)) {
-        image = providerImageMap[inboxDetails.provider];
+    if (type === INBOX_TYPES.EMAIL && inboxDetails.provider) {
+      if (Object.keys(providerBrandIconMap).includes(inboxDetails.provider)) {
+        icon = providerBrandIconMap[inboxDetails.provider];
       }
     }
 
-    if (type === 'Channel::TwilioSms' && inboxDetails.medium === 'whatsapp') {
-      image = channelTypeImageMap['Channel::Whatsapp'];
+    if (
+      type === INBOX_TYPES.TWILIO &&
+      inboxDetails.medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+    ) {
+      icon = channelTypeBrandIconMap['Channel::Whatsapp'];
     }
 
-    return image ?? null;
+    return icon ?? null;
   });
 }
