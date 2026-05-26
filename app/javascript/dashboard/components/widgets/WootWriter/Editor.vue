@@ -73,6 +73,7 @@ import {
 import { createTypingIndicator } from '@chatwoot/utils';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
@@ -121,6 +122,13 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 const MESSAGE_SIGNATURE_FORMATTING = 'Context::MessageSignature';
+const INLINE_IMAGE_PASTE_TYPES = [
+  'image/png',
+  'image/jpeg',
+  'image/jpg',
+  'image/gif',
+  'image/webp',
+];
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -588,17 +596,6 @@ function isCmdPlusEnterToSendEnabled() {
   return isEditorHotKeyEnabled('cmd_enter');
 }
 
-useKeyboardEvents({
-  'Alt+KeyP': {
-    action: focusEditorInputField,
-    allowOnFocusedInput: true,
-  },
-  'Alt+KeyL': {
-    action: focusEditorInputField,
-    allowOnFocusedInput: true,
-  },
-});
-
 function onImageInsertInEditor(fileUrl) {
   const { tr } = editorView.state;
 
@@ -632,9 +629,8 @@ async function uploadImageToStorage(file) {
   }
 }
 
-function onFileChange() {
-  const input = imageUpload.value;
-  const file = input.files[0];
+function uploadImageIfWithinSizeLimit(file) {
+  if (!file) return;
   if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
     uploadImageToStorage(file);
   } else {
@@ -647,8 +643,57 @@ function onFileChange() {
       )
     );
   }
+}
+
+function onFileChange() {
+  const input = imageUpload.value;
+  uploadImageIfWithinSizeLimit(input.files[0]);
   input.value = '';
 }
+
+const allowsInlineImagePaste = computed(
+  () =>
+    props.channelType === INBOX_TYPES.EMAIL ||
+    props.channelType === INBOX_TYPES.WEB
+);
+
+// Shift+Cmd/Ctrl+V: read the clipboard and, if it holds an image, upload it
+// inline. Only on email/website channels, which support inline images.
+async function pasteInlineImageFromClipboard(event) {
+  if (!allowsInlineImagePaste.value || !navigator.clipboard?.read) return;
+  event.preventDefault();
+  try {
+    const items = await navigator.clipboard.read();
+    const item = items.find(clipboardItem =>
+      clipboardItem.types.some(type => INLINE_IMAGE_PASTE_TYPES.includes(type))
+    );
+    const imageType = item?.types.find(type =>
+      INLINE_IMAGE_PASTE_TYPES.includes(type)
+    );
+    if (!imageType) return;
+    const blob = await item.getType(imageType);
+    uploadImageIfWithinSizeLimit(
+      new File([blob], 'pasted-image', { type: imageType })
+    );
+  } catch (error) {
+    // Clipboard read unavailable or permission denied — no-op.
+  }
+}
+
+useKeyboardEvents({
+  'Alt+KeyP': {
+    action: focusEditorInputField,
+    allowOnFocusedInput: true,
+  },
+  'Alt+KeyL': {
+    action: focusEditorInputField,
+    allowOnFocusedInput: true,
+  },
+  '$mod+Shift+KeyV': {
+    action: pasteInlineImageFromClipboard,
+    allowOnFocusedInput: true,
+  },
+});
 
 function handleLineBreakWhenEnterToSendEnabled(event) {
   if (
