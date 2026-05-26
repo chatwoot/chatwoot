@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "إضافة وسم",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "تعيين التسميات المحددة",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "تم تعيين التسميات بنجاح.",
-      "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى."
+      "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "لا شيء",
