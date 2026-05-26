@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Labels zuweisen",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Ausgewählte Labels zuweisen",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Labels erfolgreich zugewiesen.",
-      "ASSIGN_FAILED": "Labels konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut."
+      "ASSIGN_FAILED": "Labels konnten nicht zugewiesen werden. Bitte versuchen Sie es erneut.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Keine",
