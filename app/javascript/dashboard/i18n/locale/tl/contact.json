@@ -585,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Magtalaga ng mga label",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Matagumpay na naitalaga ang mga label.",
     "ASSIGN_LABELS_FAILED": "Nabigong italaga ang mga label",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Piliin ang mga label na nais mong idagdag sa mga napiling contact.",
     "NO_LABELS_FOUND": "Walang magagamit na mga label pa.",
     "SELECTED_COUNT": "{count} napili",
