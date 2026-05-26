@@ -27,9 +27,13 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Piešķirt etiķetes",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Piešķirt izvēlētās etiķetes",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiķetes ir veiksmīgi piešķirtas.",
-      "ASSIGN_FAILED": "Neizdevās piešķirt etiķetes. Lūdzu mēģiniet vēlreiz."
+      "ASSIGN_FAILED": "Neizdevās piešķirt etiķetes. Lūdzu mēģiniet vēlreiz.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
       "NONE": "Nav",
