@@ -64,7 +64,11 @@ class Macros::ExecutionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
+    url = webhook_url.first
+    webhook = @account.webhooks.find_by(url: url)
     payload = @conversation.webhook_data.merge(event: 'macro.executed')
-    WebhookJob.perform_later(webhook_url.first, payload)
+    WebhookJob.perform_later(url, payload, :account_webhook,
+                             secret: webhook&.secret,
+                             delivery_id: SecureRandom.uuid)
   end
 end
