@@ -5,7 +5,7 @@ module Enterprise::Public::Api::V1::Portals::SearchController
     return super if @query.blank?
 
     if @portal.account.feature_enabled?('help_center_embedding_search')
-      @articles = @articles.vector_search(search_params)
+      @articles = @articles.vector_search(search_params.merge(account_id: @portal.account_id))
     else
       super
     end

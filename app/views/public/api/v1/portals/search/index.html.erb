@@ -126,7 +126,11 @@
             });
 
             const url = form.action + '?' + searchParams.toString();
-            Turbo.visit(url);
+            if (window.Turbo) {
+              Turbo.visit(url);
+            } else {
+              window.location.href = url;
+            }
           }
         }, 500); // 500ms debounce
       }
