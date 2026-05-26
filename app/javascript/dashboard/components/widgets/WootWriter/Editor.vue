@@ -120,6 +120,7 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
+const MESSAGE_SIGNATURE_FORMATTING = 'Context::MessageSignature';
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -618,7 +619,11 @@ async function uploadImageToStorage(file) {
       onImageInsertInEditor(fileUrl);
     }
     useAlert(
-      t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS')
+      props.channelType === MESSAGE_SIGNATURE_FORMATTING
+        ? t(
+            'PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_SUCCESS'
+          )
+        : t('CONVERSATION.REPLYBOX.IMAGE_UPLOAD_SUCCESS')
     );
   } catch (error) {
     useAlert(
@@ -628,7 +633,8 @@ async function uploadImageToStorage(file) {
 }
 
 function onFileChange() {
-  const file = imageUpload.value.files[0];
+  const input = imageUpload.value;
+  const file = input.files[0];
   if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
     uploadImageToStorage(file);
   } else {
@@ -641,8 +647,7 @@ function onFileChange() {
       )
     );
   }
-
-  imageUpload.value = '';
+  input.value = '';
 }
 
 function handleLineBreakWhenEnterToSendEnabled(event) {
