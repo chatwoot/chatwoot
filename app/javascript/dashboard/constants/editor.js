@@ -265,23 +265,3 @@ export const MARKDOWN_PATTERNS = [
     ],
   },
 ];
-
-// Editor image resize options for Message Editor
-export const MESSAGE_EDITOR_IMAGE_RESIZES = [
-  {
-    name: 'Small',
-    height: '24px',
-  },
-  {
-    name: 'Medium',
-    height: '48px',
-  },
-  {
-    name: 'Large',
-    height: '72px',
-  },
-  {
-    name: 'Original Size',
-    height: 'auto',
-  },
-];
