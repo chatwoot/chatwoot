@@ -62,7 +62,11 @@
     "CHANNELS_DIALOG": {
       "TITLE": "Connect all your channels instantly",
       "SUBTITLE": "Manage all of them from one dashboard. You can also set up and edit inboxes later inside the app.",
-      "NOTE": "SMS, API, Voice, and other email providers can be set up later from your dashboard."
+      "NOTE": "SMS, API, Voice, and other email providers can be set up later from your dashboard.",
+      "CONNECT_TITLE": "Connect your {name} account",
+      "CONNECT_SUBTITLE": "Fill out these quick details",
+      "CONNECT": "Connect",
+      "BACK": "Back"
     },
     "APPS": {
       "TITLE": "Connect your favorite apps"

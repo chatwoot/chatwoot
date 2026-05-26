@@ -1,17 +1,15 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import { useChannelConnect } from './useChannelConnect';
+import InboxChannelForm from './InboxChannelForm.vue';
 
 const props = defineProps({
   inboxes: { type: Array, default: () => [] },
 });
-
-const emit = defineEmits(['continue', 'skip']);
 
 const { t } = useI18n();
 const { connectViaOAuth } = useChannelConnect();
@@ -25,9 +23,33 @@ const OAUTH_PROVIDERS = {
   tiktok: 'tiktok',
 };
 
-const connect = type => connectViaOAuth(OAUTH_PROVIDERS[type]);
-
 const dialogRef = ref(null);
+
+// Credential-form channels (Line, Telegram) swap the grid for an inline form;
+// OAuth channels redirect; the rest are no-ops for now.
+const selectedChannel = ref(null);
+
+const onCardClick = channel => {
+  if (channel.form) {
+    selectedChannel.value = channel;
+    return;
+  }
+  connectViaOAuth(OAUTH_PROVIDERS[channel.type]);
+};
+
+const dialogTitle = computed(() =>
+  selectedChannel.value
+    ? t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.CONNECT_TITLE', {
+        name: selectedChannel.value.label,
+      })
+    : t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.TITLE')
+);
+
+const dialogDescription = computed(() =>
+  selectedChannel.value
+    ? t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.CONNECT_SUBTITLE')
+    : t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.SUBTITLE')
+);
 
 // `inbox` is a stub shaped like a real inbox so ChannelIcon can resolve the
 // icon from the shared provider. With `use-brand-icon`, ChannelIcon renders the
@@ -59,6 +81,7 @@ const CHANNEL_LIST = [
     type: 'line',
     label: 'LINE',
     inbox: { channel_type: 'Channel::Line' },
+    form: true,
   },
   {
     type: 'gmail',
@@ -74,6 +97,7 @@ const CHANNEL_LIST = [
     type: 'telegram',
     label: 'Telegram',
     inbox: { channel_type: 'Channel::Telegram' },
+    form: true,
   },
   {
     type: 'website',
@@ -117,94 +141,79 @@ const isConnected = inbox =>
         configured.provider === inbox.provider)
   );
 
-const open = () => dialogRef.value?.open();
+const open = () => {
+  selectedChannel.value = null;
+  dialogRef.value?.open();
+};
 const close = () => dialogRef.value?.close();
 
 defineExpose({ open, close });
-
-const handleContinue = () => {
-  emit('continue');
-  close();
-};
-
-const handleSkip = () => {
-  emit('skip');
-  close();
-};
 </script>
 
 <template>
   <Dialog
     ref="dialogRef"
-    :title="t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.TITLE')"
-    :description="t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.SUBTITLE')"
+    :title="dialogTitle"
+    :description="dialogDescription"
     width="lg"
-    @confirm="handleContinue"
+    :show-confirm-button="false"
+    :show-cancel-button="false"
+    @close="selectedChannel = null"
   >
-    <div class="grid grid-cols-2 gap-3">
-      <button
-        v-for="channel in CHANNEL_LIST"
-        :key="channel.type"
-        type="button"
-        :disabled="channel.disabled"
-        class="flex items-center gap-3 p-3 rounded-xl outline outline-1 outline-n-weak shadow-[0px_1px_2px_0px_rgba(27,28,29,0.036)] transition-colors text-start"
-        :class="
-          channel.disabled
-            ? 'bg-n-slate-2 cursor-not-allowed'
-            : 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer'
-        "
-        @click="connect(channel.type)"
-      >
-        <div
-          class="size-9 rounded-[10px] outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
+    <InboxChannelForm
+      v-if="selectedChannel"
+      :channel="selectedChannel"
+      @back="selectedChannel = null"
+      @created="selectedChannel = null"
+    />
+    <template v-else>
+      <div class="grid grid-cols-2 gap-3">
+        <button
+          v-for="channel in CHANNEL_LIST"
+          :key="channel.type"
+          type="button"
+          :disabled="channel.disabled"
+          class="flex items-center gap-3 p-3 rounded-xl outline outline-1 outline-n-weak shadow-[0px_1px_2px_0px_rgba(27,28,29,0.036)] transition-colors text-start"
+          :class="
+            channel.disabled
+              ? 'bg-n-slate-2 cursor-not-allowed'
+              : 'bg-n-solid-1 hover:outline-n-slate-6 cursor-pointer'
+          "
+          @click="onCardClick(channel)"
         >
-          <ChannelIcon
-            v-if="channel.inbox"
-            :inbox="channel.inbox"
-            use-brand-icon
-            class="size-5 text-n-slate-11"
+          <div
+            class="size-9 rounded-[10px] outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
+          >
+            <ChannelIcon
+              v-if="channel.inbox"
+              :inbox="channel.inbox"
+              use-brand-icon
+              class="size-5 text-n-slate-11"
+            />
+            <Icon
+              v-else
+              :icon="channel.fallbackIcon"
+              class="size-4 text-n-slate-11"
+            />
+          </div>
+          <span class="flex-1 text-sm font-medium text-n-slate-12">
+            {{ channel.label }}
+          </span>
+          <Icon
+            v-if="isConnected(channel.inbox)"
+            icon="i-lucide-circle-check"
+            class="size-5 text-n-teal-11"
           />
           <Icon
-            v-else
-            :icon="channel.fallbackIcon"
-            class="size-4 text-n-slate-11"
+            v-else-if="!channel.disabled"
+            icon="i-lucide-chevron-right"
+            class="size-5 text-n-slate-9"
           />
-        </div>
-        <span class="flex-1 text-sm font-medium text-n-slate-12">
-          {{ channel.label }}
-        </span>
-        <Icon
-          v-if="isConnected(channel.inbox)"
-          icon="i-lucide-circle-check"
-          class="size-5 text-n-teal-11"
-        />
-        <Icon
-          v-else-if="!channel.disabled"
-          icon="i-lucide-chevron-right"
-          class="size-5 text-n-slate-9"
-        />
-      </button>
-    </div>
-    <p class="text-sm text-n-slate-11">
-      {{ t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.NOTE') }}
-    </p>
-    <template #footer>
-      <div class="flex items-center w-full gap-3">
-        <NextButton
-          type="submit"
-          blue
-          class="flex-1 justify-center"
-          :label="t('ONBOARDING_INBOX_SETUP.CONTINUE')"
-        />
-        <NextButton
-          type="button"
-          slate
-          faded
-          class="flex-1 justify-center"
-          :label="t('ONBOARDING_INBOX_SETUP.SKIP')"
-          @click="handleSkip"
-        />
+        </button>
       </div>
+      <p class="text-sm text-n-slate-11">
+        {{ t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.NOTE') }}
+      </p>
     </template>
   </Dialog>
 </template>

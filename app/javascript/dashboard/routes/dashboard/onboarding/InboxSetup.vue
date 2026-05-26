@@ -279,10 +279,5 @@ const connectChannel = channel =>
       </div>
     </OnboardingSection>
   </OnboardingLayout>
-  <InboxChannelsDialog
-    ref="channelsDialogRef"
-    :inboxes="inboxes"
-    @continue="handleContinue"
-    @skip="handleSkip"
-  />
+  <InboxChannelsDialog ref="channelsDialogRef" :inboxes="inboxes" />
 </template>
