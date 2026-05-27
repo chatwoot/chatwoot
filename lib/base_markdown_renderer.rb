@@ -1,9 +1,9 @@
 class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
   def image(node)
     src, title = extract_img_attributes(node)
-    height = extract_image_height(src)
+    sizing_style = extract_image_sizing_style(src)
 
-    render_img_tag(src, title, height)
+    render_img_tag(src, title, sizing_style)
   end
 
   private
@@ -15,9 +15,16 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
     ]
   end
 
-  def extract_image_height(src)
+  # Drag-resize from the reply editor encodes the chosen width as cw_image_width
+  # on the URL; the older message-signature picker uses cw_image_height. Width
+  # wins when both are set so the agent's most recent intent is honored.
+  def extract_image_sizing_style(src)
     query_params = parse_query_params(src)
-    query_params['cw_image_height']&.first
+    width = query_params['cw_image_width']&.first
+    return "width: #{width}; max-width: 100%; height: auto;" if width.present?
+
+    height = query_params['cw_image_height']&.first
+    height.present? ? "height: #{height};" : nil
   end
 
   def parse_query_params(url)
@@ -27,13 +34,13 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
     {}
   end
 
-  def render_img_tag(src, title, height = nil)
+  def render_img_tag(src, title, sizing_style = nil)
     title_attribute = title.present? ? " title=\"#{title}\"" : ''
-    # Use inline style instead of the HTML height attribute: email clients and
-    # the in-app Letter view both run images through CSS (e.g. prose /
+    # Use inline style instead of HTML width/height attributes: email clients
+    # and the in-app Letter view both run images through CSS (e.g. prose /
     # lettersanitizer's `img { height: auto }`) which overrides presentational
     # attributes. Inline style has higher specificity and survives.
-    style_attribute = height ? " style=\"height: #{height};\"" : ''
+    style_attribute = sizing_style ? " style=\"#{sizing_style}\"" : ''
 
     plain do
       # plain ensures that the content is not wrapped in a paragraph tag
