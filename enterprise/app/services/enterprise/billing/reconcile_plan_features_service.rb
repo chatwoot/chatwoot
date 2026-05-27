@@ -11,6 +11,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_facebook
     channel_email
     channel_instagram
+    channel_tiktok
     captain_integration
     advanced_search_indexing
     advanced_search

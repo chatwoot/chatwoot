@@ -134,7 +134,7 @@ const populateFormFields = () => {
 
   if (!locale.value) locale.value = detectBestLocale();
   if (!website.value) {
-    website.value = account?.domain || brandInfo?.domain || '';
+    website.value = attrs.website || brandInfo?.domain || '';
   }
   if (!timezone.value) {
     timezone.value =
@@ -216,7 +216,7 @@ const handleSubmit = async () => {
     await updateAccount({
       name: accountName.value,
       locale: locale.value,
-      domain: website.value,
+      website: website.value,
       industry: industry.value,
       company_size: companySize.value,
       timezone: timezone.value,

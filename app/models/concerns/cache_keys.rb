@@ -30,6 +30,7 @@ module CacheKeys
       update_cache_key_for_account(id, model.name.underscore)
     end
 
+    ::Conversations::UnreadCounts::Store.clear_account!(id)
     dispatch_cache_update_event
   end
 

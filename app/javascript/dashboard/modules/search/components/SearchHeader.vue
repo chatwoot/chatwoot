@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, useTemplateRef, defineModel } from 'vue';
+import { ref, watch, useTemplateRef } from 'vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { ROLES } from 'dashboard/constants/permissions';
