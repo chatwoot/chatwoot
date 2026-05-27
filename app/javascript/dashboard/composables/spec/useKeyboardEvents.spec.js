@@ -25,7 +25,15 @@ vi.mock('tinykeys', () => ({
   }),
 }));
 
+import { useDetectKeyboardLayout } from 'dashboard/composables/useDetectKeyboardLayout';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { LAYOUT_QWERTZ } from 'shared/helpers/KeyboardHelpers';
+
+const mount = async events => {
+  useKeyboardEvents(events);
+  await keyboardEventsMock.mountedCallbacks[0]();
+  return keyboardEventsMock.registeredKeybindings;
+};
 
 describe('useKeyboardEvents', () => {
   beforeEach(() => {
@@ -42,54 +50,45 @@ describe('useKeyboardEvents', () => {
     expect(useKeyboardEvents).toBeInstanceOf(Function);
   });
 
-  it('should set up listeners on mount and remove them on unmount', async () => {
-    const events = {
-      'ALT+KeyL': () => {},
-    };
+  it('registers keybindings on mount and removes the listener on unmount', async () => {
+    const addEventListener = vi.spyOn(document, 'addEventListener');
 
-    useKeyboardEvents(events);
-    await keyboardEventsMock.mountedCallbacks[0]();
+    const keybindings = await mount({ 'ALT+KeyL': () => {} });
+    expect(Object.keys(keybindings)).toEqual(['ALT+KeyL']);
+
+    const { signal } = addEventListener.mock.calls[0][2];
+    expect(signal.aborted).toBe(false);
+
     keyboardEventsMock.unmountedCallbacks[0]();
+    expect(signal.aborted).toBe(true);
+  });
 
-    expect(Object.keys(keyboardEventsMock.registeredKeybindings)).toEqual([
-      'ALT+KeyL',
-    ]);
+  it('prefixes Shift on QWERTZ layouts for the affected keys', async () => {
+    useDetectKeyboardLayout.mockResolvedValueOnce(LAYOUT_QWERTZ);
+
+    const keybindings = await mount({ 'Alt+KeyL': () => {} });
+
+    expect(Object.keys(keybindings)).toEqual(['Shift+Alt+KeyL']);
   });
 
   it('ignores shortcuts on focused typeable elements by default', async () => {
     const action = vi.fn();
-    const textarea = document.createElement('textarea');
+    const keybindings = await mount({
+      'Alt+KeyL': { action, allowOnFocusedInput: false },
+    });
 
-    useKeyboardEvents({
-      'Alt+KeyL': {
-        action,
-        allowOnFocusedInput: false,
-      },
-    });
-    await keyboardEventsMock.mountedCallbacks[0]();
-    keyboardEventsMock.registeredKeybindings['Alt+KeyL']({
-      target: textarea,
-      key: 'l',
-    });
+    keybindings['Alt+KeyL']({ target: document.createElement('textarea') });
 
     expect(action).not.toHaveBeenCalled();
   });
 
   it('runs shortcuts on focused typeable elements when allowed', async () => {
     const action = vi.fn();
-    const textarea = document.createElement('textarea');
+    const keybindings = await mount({
+      'Alt+KeyL': { action, allowOnFocusedInput: true },
+    });
 
-    useKeyboardEvents({
-      'Alt+KeyL': {
-        action,
-        allowOnFocusedInput: true,
-      },
-    });
-    await keyboardEventsMock.mountedCallbacks[0]();
-    keyboardEventsMock.registeredKeybindings['Alt+KeyL']({
-      target: textarea,
-      key: 'l',
-    });
+    keybindings['Alt+KeyL']({ target: document.createElement('textarea') });
 
     expect(action).toHaveBeenCalledTimes(1);
   });
