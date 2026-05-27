@@ -36,6 +36,11 @@ export const cacheableModels = [
     dispatchPath: 'agents/revalidate',
     setMutation: 'agents/SET_AGENTS',
   },
+  {
+    name: 'custom_attribute_definition',
+    dispatchPath: 'attributes/revalidate',
+    setMutation: 'attributes/SET_CUSTOM_ATTRIBUTE',
+  },
 ];
 
 export const cacheableModelNames = cacheableModels.map(model => model.name);

@@ -5,5 +5,5 @@
 // idempotently creates any missing stores. So bump this whenever a cached
 // model's serializer shape changes, or to force all clients to refetch.
 //
-// Wednesday, 21 May 2026 — bumped to add canned_response + account_user stores
-export const DATA_VERSION = '1747785600';
+// Thursday, 28 May 2026 — bumped to add canned_response + account_user stores + custom_attribute_definition store
+export const DATA_VERSION = '1748390400';
