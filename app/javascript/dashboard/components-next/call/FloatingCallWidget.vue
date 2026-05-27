@@ -52,6 +52,15 @@ const mainCardState = computed(() => {
     : VOICE_CALL_DIRECTION.INCOMING;
 });
 
+// Stacked cards are always non-active (ringing) calls, so reflect each call's
+// real direction. An outbound call must render as OUTGOING — otherwise it shows
+// the incoming-only dismiss (✕) control and the agent could drop it locally
+// without terminating, leaving the customer ringing with no widget to end it.
+const stackedCardState = call =>
+  call?.callDirection === VOICE_CALL_DIRECTION.OUTBOUND
+    ? VOICE_CALL_DIRECTION.OUTGOING
+    : VOICE_CALL_DIRECTION.INCOMING;
+
 const toggleMute = () => {
   isMuted.value = !isMuted.value;
   setWhatsappCallMuted(isMuted.value);
@@ -231,7 +240,7 @@ onBeforeUnmount(stopRingtone);
       v-for="call in stackedIncomingCalls"
       :key="call.callSid"
       :call="call"
-      :state="VOICE_CALL_DIRECTION.INCOMING"
+      :state="stackedCardState(call)"
       :call-info="getCallInfo(call)"
       @accept="handleJoinCall(call)"
       @reject="rejectIncomingCall(call.callSid)"
