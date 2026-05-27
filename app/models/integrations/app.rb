@@ -30,6 +30,10 @@ class Integrations::App
     params[:fields]
   end
 
+  def visible_properties
+    params[:visible_properties] || []
+  end
+
   # There is no way to get the account_id from the linear callback
   # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
   def encode_state
