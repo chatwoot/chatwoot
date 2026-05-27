@@ -215,6 +215,18 @@
   value:
   locked: false
   type: code
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_PER_ACCOUNT_BATCH_LIMIT
+  display_title: 'Captain Document Auto Sync Per Account Batch Limit'
+  description: 'Maximum syncable Captain documents to enqueue per account in one scheduler run. Defaults to 50.'
+  value: 50
+  locked: false
+  type: number
+- name: CAPTAIN_DOCUMENT_AUTO_SYNC_GLOBAL_BATCH_LIMIT
+  display_title: 'Captain Document Auto Sync Global Batch Limit'
+  description: 'Maximum syncable Captain documents to enqueue globally in one scheduler run. Defaults to 1000.'
+  value: 1000
+  locked: false
+  type: number
 # End of Captain Config
 
 # ------- Context.dev Config ------- #
