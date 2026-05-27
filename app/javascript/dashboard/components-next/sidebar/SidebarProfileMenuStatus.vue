@@ -78,8 +78,8 @@ function changeAvailabilityStatus(availability) {
 <template>
   <DropdownSection class="[&>ul]:overflow-visible">
     <div class="grid gap-0">
-      <DropdownItem preserve-open>
-        <div class="flex-grow flex items-center gap-1">
+      <DropdownItem preserve-open class="gap-1">
+        <div class="flex-grow flex items-center gap-1 min-w-0">
           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
         </div>
         <DropdownContainer class="shrink-0">
@@ -88,16 +88,17 @@ function changeAvailabilityStatus(availability) {
               size="sm"
               color="slate"
               variant="faded"
-              class="min-w-max"
               icon="i-lucide-chevron-down"
               trailing-icon
               @click="toggle"
             >
-              <div class="flex gap-1 items-center whitespace-nowrap text-sm">
+              <div class="flex gap-1 items-center min-w-0 text-sm">
                 <div class="p-1 flex-shrink-0">
                   <div class="size-2 rounded-sm" :class="activeStatus.color" />
                 </div>
-                <span>{{ activeStatus.label }}</span>
+                <span class="truncate max-w-[7rem]">
+                  {{ activeStatus.label }}
+                </span>
               </div>
             </Button>
           </template>
@@ -114,12 +115,12 @@ function changeAvailabilityStatus(availability) {
         </DropdownContainer>
       </DropdownItem>
       <DropdownItem>
-        <div class="flex-grow flex items-center gap-1">
+        <div class="flex-grow min-w-0">
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
           <Icon
             v-tooltip.top="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_SHORT')"
             icon="i-lucide-info"
-            class="size-4 text-n-slate-10"
+            class="inline-block align-middle ms-1 size-4 text-n-slate-10"
           />
         </div>
         <ToggleSwitch v-model="autoOfflineToggle" />
