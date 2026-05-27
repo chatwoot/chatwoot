@@ -33,8 +33,6 @@ const searchQuery = ref('');
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
 
-
-
 // Suggested example scenarios for quick add
 const scenariosExample = [
   {
