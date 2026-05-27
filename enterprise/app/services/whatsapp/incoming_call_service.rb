@@ -73,13 +73,22 @@ class Whatsapp::IncomingCallService
 
   def create_inbound_call(payload)
     sdp_offer = payload.dig(:session, :sdp)
+    extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+    name = caller_profile_name(payload)
+    extra_meta['contact_name'] = name if name.present?
+
     call = Voice::InboundCallBuilder.perform!(
       inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-      provider: :whatsapp,
-      extra_meta: { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+      provider: :whatsapp, extra_meta: extra_meta
     )
     update_conversation(call)
     broadcast_incoming(call, sdp_offer)
+  end
+
+  def caller_profile_name(payload)
+    contacts = Array(params[:contacts]).map(&:with_indifferent_access)
+    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s } || contacts.first
+    match&.dig(:profile, :name).presence
   end
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply

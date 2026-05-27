@@ -25,6 +25,7 @@ const {
   joinCall,
   endCall: endCallSession,
   rejectIncomingCall,
+  dismissCall,
   formattedCallDuration,
 } = useCallSession();
 
@@ -234,6 +235,7 @@ onBeforeUnmount(stopRingtone);
       :call-info="getCallInfo(call)"
       @accept="handleJoinCall(call)"
       @reject="rejectIncomingCall(call.callSid)"
+      @dismiss="dismissCall(call.callSid)"
       @go-to-conversation="goToConversation(call)"
     />
 
@@ -248,6 +250,7 @@ onBeforeUnmount(stopRingtone);
       :show-mute="hasActiveCall && isWhatsappActive"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
+      @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
