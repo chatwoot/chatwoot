@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Appel terminé",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Pas encore répondu",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "Il a répondu",
       "YOU_ANSWERED": "Vous avez répondu",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Join call",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Pas encore répondu",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Rejeter",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call",
       "MUTE": "Mute mic",
