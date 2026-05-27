@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Zəng bitdi",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Hələ cavab verilməyib",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "Onlar cavab verdi",
       "YOU_ANSWERED": "Siz cavab verdiniz",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Zəngə qoşul",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Həll et",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Hələ cavab verilməyib",
       "HANDLED_IN_ANOTHER_TAB": "Başqa sekmədə işlənir",
       "REJECT_CALL": "İmtina et",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Zəngə qoşul",
       "END_CALL": "Zəngi bitir",
       "MUTE": "Mute mic",
