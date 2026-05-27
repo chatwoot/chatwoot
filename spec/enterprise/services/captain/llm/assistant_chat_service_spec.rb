@@ -42,9 +42,8 @@ RSpec.describe Captain::Llm::AssistantChatService do
   end
 
   describe 'provider compatibility' do
-    it 'does not request JSON response format for custom OpenAI-compatible providers' do
-      set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
+    it 'does not request JSON response format for non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
       Llm::Config.reset!
 
       expect(mock_chat).not_to receive(:with_params)

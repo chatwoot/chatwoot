@@ -1,11 +1,9 @@
 require 'ruby_llm'
 
-# rubocop:disable Metrics/ModuleLength
 module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
   DEFAULT_UTILITY_MODEL = 'gpt-4.1-nano'.freeze
   DEFAULT_PROVIDER = 'openai'.freeze
-  CUSTOM_PROVIDER = 'custom'.freeze
 
   class << self
     def initialized? = @initialized ||= false
@@ -36,12 +34,12 @@ module Llm::Config
       return if endpoint.blank?
 
       normalized_endpoint = endpoint.chomp('/').delete_suffix('/chat/completions')
-      return "#{normalized_endpoint}/v1" if ruby_llm_provider(provider) == DEFAULT_PROVIDER && normalized_endpoint.exclude?('/v1')
+      return "#{normalized_endpoint}/v1" if provider.to_s == DEFAULT_PROVIDER && normalized_endpoint.exclude?('/v1')
 
       normalized_endpoint
     end
 
-    def ruby_llm_provider(provider = default_provider) = provider.to_s == CUSTOM_PROVIDER ? DEFAULT_PROVIDER : provider.to_s
+    def ruby_llm_provider(provider = default_provider) = provider.to_s
 
     def available_providers = RubyLLM::Provider.providers.keys.map(&:to_s).sort
 
@@ -57,17 +55,11 @@ module Llm::Config
     end
 
     def provider_options
-      configurable_providers.each_with_object({}) do |provider, options|
-        options[provider] = RubyLLM::Provider.providers[provider.to_sym].name
-        options[CUSTOM_PROVIDER] = 'Custom (OpenAI-compatible)' if provider == DEFAULT_PROVIDER
-      end
+      configurable_providers.index_with { |provider| RubyLLM::Provider.providers[provider.to_sym].name }
     end
 
     def provider_api_base_options
-      configurable_providers.each_with_object({}) do |provider, options|
-        options[provider] = default_api_base_for_provider(provider)
-        options[CUSTOM_PROVIDER] = '' if provider == DEFAULT_PROVIDER
-      end
+      configurable_providers.index_with { |provider| default_api_base_for_provider(provider) }
     end
 
     def direct_openai_endpoint?(provider: default_provider, endpoint: api_endpoint)
@@ -79,7 +71,6 @@ module Llm::Config
     def supports_structured_outputs_with_tools? = default_openai_endpoint?
 
     def api_key_required?(provider = default_provider)
-      provider = ruby_llm_provider(provider)
       provider_configuration_requirements(provider).include?(:"#{provider}_api_key")
     end
 
@@ -88,7 +79,6 @@ module Llm::Config
     end
 
     def configure_provider(config, provider:, api_key:, api_base: nil)
-      provider = ruby_llm_provider(provider)
       options = provider_configuration_options(provider)
       api_key_option = :"#{provider}_api_key"
       api_base_option = :"#{provider}_api_base"
@@ -121,7 +111,6 @@ module Llm::Config
     def configured_model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
 
     def default_api_base_for_provider(provider)
-      provider = ruby_llm_provider(provider)
       return if provider_configuration_requirements(provider).include?(:"#{provider}_api_base")
 
       config = RubyLLM::Configuration.new
@@ -139,7 +128,11 @@ module Llm::Config
       normalized_endpoint.blank? || normalized_endpoint == LlmConstants::OPENAI_API_ENDPOINT
     end
 
-    def provider_config_value = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+    def provider_config_value
+      provider = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
+      return provider if configurable_providers.include?(provider)
+
+      nil
+    end
   end
 end
-# rubocop:enable Metrics/ModuleLength

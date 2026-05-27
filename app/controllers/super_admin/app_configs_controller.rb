@@ -87,7 +87,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def apply_captain_defaults
-    @app_config['CAPTAIN_LLM_PROVIDER'] = Llm::Config::DEFAULT_PROVIDER if @app_config['CAPTAIN_LLM_PROVIDER'].blank?
+    provider = @app_config['CAPTAIN_LLM_PROVIDER']
+    @app_config['CAPTAIN_LLM_PROVIDER'] = Llm::Config::DEFAULT_PROVIDER unless Llm::Config.provider_options.key?(provider)
   end
 
   def apply_captain_api_base_options
@@ -119,6 +120,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     provider = normalized_config_value('CAPTAIN_LLM_PROVIDER', app_config['CAPTAIN_LLM_PROVIDER'])
     endpoint = normalized_config_value('CAPTAIN_OPEN_AI_ENDPOINT', app_config['CAPTAIN_OPEN_AI_ENDPOINT'])
 
+    return ['Provider is not supported'] unless provider_supported?(provider)
+
     errors = []
     errors << model_required_message if captain_model_required?(provider, endpoint) && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
     errors << api_base_required_message(provider) if api_base_required?(provider) && app_config['CAPTAIN_OPEN_AI_ENDPOINT'].blank?
@@ -133,13 +136,15 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     'Model is required unless Provider is OpenAI with API Base blank/default'
   end
 
-  def api_base_required?(provider)
-    provider == Llm::Config::CUSTOM_PROVIDER || Llm::Config.provider_api_base_options[provider].blank?
+  def provider_supported?(provider)
+    Llm::Config.provider_options.key?(provider)
   end
 
-  def api_base_required_message(provider)
-    return 'API Base is required when Provider is Custom' if provider == Llm::Config::CUSTOM_PROVIDER
+  def api_base_required?(provider)
+    Llm::Config.provider_api_base_options[provider].blank?
+  end
 
+  def api_base_required_message(_provider)
     'API Base is required for the selected Provider'
   end
 end

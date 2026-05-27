@@ -36,9 +36,8 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
         service.generate
       end
 
-      it 'does not send JSON response format for custom providers' do
-        set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
+      it 'does not send JSON response format for non-OpenAI providers' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
 
         expect(mock_chat).not_to receive(:with_params)
 

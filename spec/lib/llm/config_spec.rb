@@ -46,13 +46,6 @@ RSpec.describe Llm::Config do
       expect(described_class.supports_structured_outputs_with_tools?).to be true
     end
 
-    it 'returns false for custom OpenAI-compatible endpoints' do
-      set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
-
-      expect(described_class.supports_structured_outputs_with_tools?).to be false
-    end
-
     it 'returns false for named providers' do
       set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
       set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
@@ -70,12 +63,8 @@ RSpec.describe Llm::Config do
       expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: 'https://api.openai.com/v1/chat/completions')).to be true
     end
 
-    it 'returns false for OpenAI-compatible custom endpoints' do
-      expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: 'https://api.groq.com/openai/v1')).to be false
-    end
-
-    it 'returns false for custom providers' do
-      expect(described_class.direct_openai_endpoint?(provider: 'custom', endpoint: 'https://api.openai.com/v1')).to be false
+    it 'returns false for OpenAI endpoint overrides' do
+      expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: 'https://llm.example.com/v1')).to be false
     end
   end
 
@@ -88,26 +77,11 @@ RSpec.describe Llm::Config do
       expect(described_class.captain_utility_model).to eq('gpt-4.1-nano')
     end
 
-    it 'uses the configured Captain model for custom providers' do
-      set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.fireworks.ai/inference/v1')
-      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'accounts/fireworks/models/kimi-k2p6')
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
 
-      expect(described_class.captain_utility_model).to eq('accounts/fireworks/models/kimi-k2p6')
-    end
-  end
-
-  describe '.api_base_for' do
-    it 'normalizes pasted chat completions URLs to the API base URL' do
-      expect(
-        described_class.api_base_for(provider: 'custom', endpoint: 'https://api.groq.com/openai/v1/chat/completions/')
-      ).to eq('https://api.groq.com/openai/v1')
-    end
-  end
-
-  describe '.provider_options' do
-    it 'includes a custom OpenAI-compatible option' do
-      expect(described_class.provider_options).to include('custom' => 'Custom (OpenAI-compatible)')
+      expect(described_class.captain_utility_model).to eq('openai/gpt-4o-mini')
     end
   end
 
@@ -116,15 +90,14 @@ RSpec.describe Llm::Config do
       expect(described_class.provider_api_base_options).to include(
         'openai' => 'https://api.openai.com/v1',
         'gemini' => 'https://generativelanguage.googleapis.com/v1beta',
-        'openrouter' => 'https://openrouter.ai/api/v1',
-        'custom' => ''
+        'openrouter' => 'https://openrouter.ai/api/v1'
       )
     end
   end
 
   describe '.ruby_llm_provider' do
-    it 'maps custom providers to the OpenAI adapter' do
-      expect(described_class.ruby_llm_provider('custom')).to eq('openai')
+    it 'returns the selected RubyLLM provider' do
+      expect(described_class.ruby_llm_provider('openrouter')).to eq('openrouter')
     end
   end
 
@@ -169,15 +142,15 @@ RSpec.describe Llm::Config do
       expect(config.openai_api_key).to eq('test-key')
     end
 
-    it 'configures custom providers through OpenAI-compatible settings' do
+    it 'configures named providers through their RubyLLM settings' do
       config = Class.new do
-        attr_accessor :openai_api_key, :openai_api_base
+        attr_accessor :openrouter_api_key, :openrouter_api_base
       end.new
 
-      described_class.configure_provider(config, provider: 'custom', api_key: 'test-key', api_base: 'https://api.groq.com/openai/v1')
+      described_class.configure_provider(config, provider: 'openrouter', api_key: 'test-key', api_base: 'https://openrouter.ai/api/v1')
 
-      expect(config.openai_api_key).to eq('test-key')
-      expect(config.openai_api_base).to eq('https://api.groq.com/openai/v1')
+      expect(config.openrouter_api_key).to eq('test-key')
+      expect(config.openrouter_api_base).to eq('https://openrouter.ai/api/v1')
     end
   end
 end

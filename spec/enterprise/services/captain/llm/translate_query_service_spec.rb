@@ -20,12 +20,12 @@ RSpec.describe Captain::Llm::TranslateQueryService do
       expect(service.translate('hello', target_language: 'French')).to eq('bonjour')
     end
 
-    it 'uses the configured Captain model for custom providers' do
-      set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'accounts/fireworks/models/kimi-k2p6')
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
 
       expect(service).to receive(:make_api_call)
-        .with(model: 'accounts/fireworks/models/kimi-k2p6', messages: kind_of(Array))
+        .with(model: 'openai/gpt-4o-mini', messages: kind_of(Array))
         .and_return(message: 'bonjour')
 
       expect(service.translate('hello', target_language: 'French')).to eq('bonjour')

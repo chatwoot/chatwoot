@@ -59,13 +59,12 @@ RSpec.describe Concerns::Agentable do
       dummy_instance.agent
     end
 
-    it 'uses the OpenAI adapter without response schema for custom providers' do
-      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
-      allow(mock_provider_config).to receive(:value).and_return('custom')
+    it 'omits response schema for non-OpenAI providers' do
+      allow(mock_provider_config).to receive(:value).and_return('openrouter')
 
       expect(Agents::Agent).to receive(:new).with(
         hash_including(
-          provider: 'openai',
+          provider: 'openrouter',
           response_schema: nil
         )
       )

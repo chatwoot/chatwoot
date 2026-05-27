@@ -81,13 +81,13 @@ RSpec.describe Captain::Llm::AssistantActionClassifierService do
       expect(result).to include('model' => 'gpt-4.1-nano')
     end
 
-    it 'uses the configured Captain model for custom providers' do
-      set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'accounts/fireworks/models/kimi-k2p6')
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
 
       expect(RubyLLM).to receive(:chat).with(
-        model: 'accounts/fireworks/models/kimi-k2p6',
-        provider: Llm::Config::DEFAULT_PROVIDER,
+        model: 'openai/gpt-4o-mini',
+        provider: 'openrouter',
         assume_model_exists: true
       ).and_return(mock_chat)
       expect(mock_chat).not_to receive(:with_schema)
@@ -95,7 +95,7 @@ RSpec.describe Captain::Llm::AssistantActionClassifierService do
 
       result = service.classify(message_history: message_history, assistant_response: 'Would you like to talk to support?')
 
-      expect(result).to include('model' => 'accounts/fireworks/models/kimi-k2p6')
+      expect(result).to include('model' => 'openai/gpt-4o-mini')
     end
 
     context 'when the assistant has no custom instructions' do

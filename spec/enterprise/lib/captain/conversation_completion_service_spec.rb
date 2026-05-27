@@ -175,13 +175,13 @@ RSpec.describe Captain::ConversationCompletionService do
         service.perform
       end
 
-      it 'uses the configured Captain model for custom providers' do
-        set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
-        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'accounts/fireworks/models/kimi-k2p6')
+      it 'uses the configured Captain model for named non-OpenAI providers' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
 
         expect(mock_context).to receive(:chat).with(
-          model: 'accounts/fireworks/models/kimi-k2p6',
-          provider: 'openai',
+          model: 'openai/gpt-4o-mini',
+          provider: 'openrouter',
           assume_model_exists: true
         ).and_return(mock_chat)
 
