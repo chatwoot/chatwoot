@@ -1,6 +1,7 @@
 <script setup>
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -17,6 +18,7 @@ const { integration, hasConnectedHooks } = useIntegrationHook(
 );
 
 const { replaceInstallationName } = useBranding();
+const assetUrl = useAssetUrl();
 </script>
 
 <template>
@@ -26,11 +28,13 @@ const { replaceInstallationName } = useBranding();
     <div class="flex items-center justify-center">
       <div class="flex h-16 w-16 items-center justify-center">
         <img
-          :src="`/dashboard/images/integrations/${integrationId}.png`"
+          :src="assetUrl(`/dashboard/images/integrations/${integrationId}.png`)"
           class="max-w-full rounded-md border border-n-weak shadow-sm block dark:hidden bg-n-alpha-3 dark:bg-n-alpha-2"
         />
         <img
-          :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
+          :src="
+            assetUrl(`/dashboard/images/integrations/${integrationId}-dark.png`)
+          "
           class="max-w-full rounded-md border border-n-weak shadow-sm hidden dark:block bg-n-alpha-3 dark:bg-n-alpha-2"
         />
       </div>

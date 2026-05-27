@@ -1,5 +1,6 @@
 <script setup>
 import { useI18n } from 'vue-i18n';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 defineProps({
   year: {
@@ -9,9 +10,11 @@ defineProps({
 });
 
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 
-const signatureImage =
-  '/assets/images/dashboard/year-in-review/fifth-frame-signature.png';
+const signatureImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/fifth-frame-signature.png'
+);
 </script>
 
 <template>

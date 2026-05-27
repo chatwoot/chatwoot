@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useToggle } from '@vueuse/core';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -32,6 +33,8 @@ const needsCollapse = ref(false);
 const [isExpanded, toggleExpanded] = useToggle();
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
+const assetUrl = useAssetUrl();
+const botAvatarUrl = assetUrl('/assets/images/chatwoot_bot.png');
 
 const handleDelete = () => {
   emit('delete', props.note.id);
@@ -53,11 +56,7 @@ onMounted(() => {
       <div class="flex items-center gap-1.5 min-w-0">
         <Avatar
           :name="note?.user?.name || 'Bot'"
-          :src="
-            note?.user?.name
-              ? note?.user?.thumbnail
-              : '/assets/images/chatwoot_bot.png'
-          "
+          :src="note?.user?.name ? note?.user?.thumbnail : botAvatarUrl"
           :size="16"
           rounded-full
         />

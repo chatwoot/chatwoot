@@ -6,6 +6,7 @@ import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useTrack } from 'dashboard/composables';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import { YEAR_IN_REVIEW_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntroSlide from './slides/IntroSlide.vue';
 import ConversationsSlide from './slides/ConversationsSlide.vue';
@@ -26,6 +27,7 @@ const emit = defineEmits(['close']);
 const { t } = useI18n();
 const { uiSettings } = useUISettings();
 const getters = useStoreGetters();
+const assetUrl = useAssetUrl();
 const isOpen = ref(false);
 const currentSlide = ref(0);
 const yearData = ref(null);
@@ -69,7 +71,9 @@ const slideBackgrounds = [
 const playDrumroll = () => {
   try {
     if (!drumrollAudio.value) {
-      drumrollAudio.value = new Audio('/audio/dashboard/drumroll.mp3');
+      drumrollAudio.value = new Audio(
+        assetUrl('/audio/dashboard/drumroll.mp3')
+      );
       drumrollAudio.value.volume = 0.5;
     }
 

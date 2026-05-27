@@ -26,16 +26,18 @@ window.chatwootSettings = {
   darkMode: '<%= @dark_mode %>',
 };
 
+<% cdn_host = Cdn.host_or_empty %>
 (function(d,t) {
   var BASE_URL = '';
+  var SDK_URL = <%= cdn_host.empty? ? raw('BASE_URL + "/packs/js/sdk.js"') : "#{cdn_host}/packs/js/sdk.js".to_json %>;
   var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-  g.src= BASE_URL + "/packs/js/sdk.js";
+  g.src= SDK_URL;
   g.async = true;
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
     window.chatwootSDK.run({
-      websiteToken: '<%= @web_widget.website_token %>',
-      baseUrl: BASE_URL
+      websiteToken: <%= @web_widget.website_token.to_json.html_safe %>,
+      baseUrl: BASE_URL<%= ",\n      cdnUrl: #{cdn_host.to_json}".html_safe unless cdn_host.empty? %>
     })
   }
 })(document,"script");

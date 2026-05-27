@@ -6,6 +6,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -24,6 +25,7 @@ const router = useRouter();
 const route = useRoute();
 const store = useStore();
 const { isOnChatwootCloud } = useAccount();
+const assetUrl = useAssetUrl();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
@@ -222,8 +224,12 @@ onMounted(() => {
         :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
         :hide-actions="!isOnChatwootCloud"
-        fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
-        fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
+        :fallback-thumbnail="
+          assetUrl('/assets/images/dashboard/captain/faqs-popover-light.svg')
+        "
+        :fallback-thumbnail-dark="
+          assetUrl('/assets/images/dashboard/captain/faqs-popover-dark.svg')
+        "
         learn-more-url="https://chwt.app/captain-faq"
       />
     </template>

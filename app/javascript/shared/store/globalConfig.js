@@ -1,5 +1,8 @@
 import { parseBoolean } from '@chatwoot/utils';
 import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
+
+const assetUrl = useAssetUrl();
 
 const {
   API_CHANNEL_NAME: apiChannelName,
@@ -25,6 +28,7 @@ const {
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
   ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
+  ASSET_CDN_HOST: assetCdnHost,
 } = window.globalConfig || {};
 
 const state = {
@@ -43,14 +47,19 @@ const state = {
   maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,
   installationName,
-  logo,
-  logoDark,
-  logoThumbnail,
+  // Logo defaults (e.g. /brand-assets/logo.svg from installation_config.yml)
+  // are root-relative paths, so route them through assetUrl to honor
+  // ASSET_CDN_HOST. assetUrl passes absolute URLs (admin-customized logos)
+  // through unchanged.
+  logo: assetUrl(logo),
+  logoDark: assetUrl(logoDark),
+  logoThumbnail: assetUrl(logoThumbnail),
   privacyURL,
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
   activePlatformBanners: activePlatformBanners || [],
+  assetCdnHost: assetCdnHost || '',
 };
 
 export const getters = {

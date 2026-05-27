@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFontSize } from 'dashboard/composables/useFontSize';
 import { useBranding } from 'shared/composables/useBranding';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -74,8 +75,12 @@ export default {
           description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.ENTER_KEY.CONTENT'
           ),
-          lightImage: '/assets/images/dashboard/profile/hot-key-enter.svg',
-          darkImage: '/assets/images/dashboard/profile/hot-key-enter-dark.svg',
+          lightImage: useAssetUrl()(
+            '/assets/images/dashboard/profile/hot-key-enter.svg'
+          ),
+          darkImage: useAssetUrl()(
+            '/assets/images/dashboard/profile/hot-key-enter-dark.svg'
+          ),
         },
         {
           key: 'cmd_enter',
@@ -85,9 +90,12 @@ export default {
           description: this.$t(
             'PROFILE_SETTINGS.FORM.SEND_MESSAGE.CARD.CMD_ENTER_KEY.CONTENT'
           ),
-          lightImage: '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg',
-          darkImage:
-            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg',
+          lightImage: useAssetUrl()(
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter.svg'
+          ),
+          darkImage: useAssetUrl()(
+            '/assets/images/dashboard/profile/hot-key-ctrl-enter-dark.svg'
+          ),
         },
       ],
       notificationPermissions: [...ROLES, ...CONVERSATION_PERMISSIONS],

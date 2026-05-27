@@ -4,8 +4,10 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const { isAdmin } = useAdmin();
+const assetUrl = useAssetUrl();
 const getters = useStoreGetters();
 const accountId = getters.getCurrentAccountId;
 
@@ -26,11 +28,13 @@ const openLinearAccount = () => {
   <div class="flex flex-col p-3">
     <div class="w-12 h-12 mb-3">
       <img
-        :src="`/dashboard/images/integrations/${integrationId}.png`"
+        :src="assetUrl(`/dashboard/images/integrations/${integrationId}.png`)"
         class="object-contain w-full h-full border rounded-md shadow-sm border-n-weak dark:hidden dark:bg-n-alpha-2"
       />
       <img
-        :src="`/dashboard/images/integrations/${integrationId}-dark.png`"
+        :src="
+          assetUrl(`/dashboard/images/integrations/${integrationId}-dark.png`)
+        "
         class="hidden object-contain w-full h-full border rounded-md shadow-sm border-n-weak dark:block"
       />
     </div>
