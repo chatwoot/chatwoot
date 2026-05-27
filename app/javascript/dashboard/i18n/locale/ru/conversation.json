@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "Агенты не взяли трубку",
       "MISSED_CALL_DECLINED_BY": "Агент {agentName} отменил звонок",
       "CALL_ENDED": "Звонок завершен",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Пока нет ответа",
       "CALLING": "Звонок…",
       "THEY_ANSWERED": "Они ответили",
       "YOU_ANSWERED": "Вы ответили",
       "AGENT_ANSWERED": "{agentName} ответил",
       "JOIN_CALL": "Присоединиться к звонку",
-      "CALL_BACK": "Перезвонить"
+      "CALL_BACK": "Перезвонить",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Показать меньше"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Пока нет ответа",
       "HANDLED_IN_ANOTHER_TAB": "Обрабатывается в другой вкладке",
       "REJECT_CALL": "Отклонить",
+      "DISMISS_CALL": "Отклонить",
       "JOIN_CALL": "Присоединиться к звонку",
       "END_CALL": "Завершить звонок",
       "MUTE": "Выключить микрофон",
