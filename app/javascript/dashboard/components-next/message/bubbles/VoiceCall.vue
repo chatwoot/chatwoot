@@ -120,12 +120,19 @@ const durationSeconds = computed(() => {
 
 const formattedDuration = computed(() => formatDuration(durationSeconds.value));
 
-// Agent who handled the call: the initiator on outbound, the answerer on inbound.
+// Agent who handled the call (initiator on outbound, answerer on inbound), taken
+// strictly from the persisted accept fields — never the conversation's current
+// assignee, which would mis-attribute a historical call after a reassignment.
+const handlerName = computed(() => {
+  if (call.value?.acceptedByAgentName) return call.value.acceptedByAgentName;
+  if (!acceptedByAgentId.value) return null;
+  const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
+  return agent?.available_name || agent?.name || null;
+});
+
 const handledBy = computed(() =>
-  displayAgentName.value
-    ? t('CONVERSATION.VOICE_CALL.HANDLED_BY', {
-        agentName: displayAgentName.value,
-      })
+  handlerName.value
+    ? t('CONVERSATION.VOICE_CALL.HANDLED_BY', { agentName: handlerName.value })
     : null
 );
 
