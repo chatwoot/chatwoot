@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "通話結束",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "尚未接聽",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "對方已接聽",
       "YOU_ANSWERED": "您已接聽",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "加入通話",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "尚未接聽",
       "HANDLED_IN_ANOTHER_TAB": "正在另一個分頁中處理",
       "REJECT_CALL": "拒接",
+      "DISMISS_CALL": "關閉",
       "JOIN_CALL": "加入通話",
       "END_CALL": "結束通話",
       "MUTE": "Mute mic",
