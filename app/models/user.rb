@@ -216,6 +216,10 @@ class User < ApplicationRecord
     super
   end
 
+  def invalidate_avatar_cache
+    bump_account_user_cache_keys
+  end
+
   private
 
   def remove_macros
