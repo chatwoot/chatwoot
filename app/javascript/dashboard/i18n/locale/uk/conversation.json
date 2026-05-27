@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Call ended",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "They answered",
       "YOU_ANSWERED": "You answered",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Доєднатися до виклику",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Оброблюється в іншій вкладці",
       "REJECT_CALL": "Відхилити",
+      "DISMISS_CALL": "Відхилити",
       "JOIN_CALL": "Доєднатися до виклику",
       "END_CALL": "Завершити виклик",
       "MUTE": "Mute mic",
