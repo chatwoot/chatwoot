@@ -21,9 +21,15 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
+      # Carry the relay state in the ACS URL (like account_id) so the mobile
+      # signal survives the cross-site callback POST without relying on the
+      # session cookie or the IdP echoing RelayState back.
+      acs_url = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/omniauth/saml/callback?account_id=#{account_id}"
+      acs_url += "&RelayState=#{ERB::Util.url_encode(relay_state)}" if relay_state.present?
+
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
-      env['omniauth.strategy'].options[:assertion_consumer_service_url] = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/omniauth/saml/callback?account_id=#{account_id}"
+      env['omniauth.strategy'].options[:assertion_consumer_service_url] = acs_url
       env['omniauth.strategy'].options[:sp_entity_id] = settings.sp_entity_id
       env['omniauth.strategy'].options[:idp_entity_id] = settings.idp_entity_id
       env['omniauth.strategy'].options[:idp_sso_service_url] = settings.sso_url
