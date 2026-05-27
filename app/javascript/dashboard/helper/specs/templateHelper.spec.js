@@ -97,6 +97,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'image',
       });
     });
@@ -113,6 +114,32 @@ describe('templateHelper', () => {
 
       const result = buildTemplateParameters(templateWithoutBody, false);
       expect(result).toEqual({});
+    });
+
+    it('should build media header params even when body component is missing', () => {
+      const templateWithoutBody = {
+        components: [{ type: 'HEADER', format: 'IMAGE' }],
+      };
+
+      const result = buildTemplateParameters(templateWithoutBody, true);
+      expect(result).toEqual({
+        header: {
+          media_url: '',
+          media_blob_id: '',
+          media_type: 'image',
+        },
+      });
+    });
+
+    it('does not throw when hasMediaHeader is true but template has no header component', () => {
+      const bodyOnly = {
+        components: [{ type: 'BODY', text: 'Hello {{name}}' }],
+      };
+
+      expect(() => buildTemplateParameters(bodyOnly, true)).not.toThrow();
+      const result = buildTemplateParameters(bodyOnly, true);
+      expect(result.header).toBeUndefined();
+      expect(result.body).toEqual({ name: '' });
     });
 
     it('should handle template with no variables', () => {
@@ -181,6 +208,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'image',
       });
       expect(result.body).toEqual({ 1: '', 2: '' });
@@ -217,6 +245,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'document',
         media_name: '',
       });
@@ -233,6 +262,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'video',
       });
       expect(result.body).toEqual({
@@ -327,6 +357,7 @@ describe('templateHelper', () => {
 
       expect(result.header).toEqual({
         media_url: '',
+        media_blob_id: '',
         media_type: 'video',
       });
       expect(result.body).toEqual({

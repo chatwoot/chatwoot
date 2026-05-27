@@ -14,6 +14,8 @@ import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 
 import Input from 'dashboard/components-next/input/Input.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 import {
   buildTemplateParameters,
   allKeysRequired,
@@ -42,6 +44,13 @@ const emit = defineEmits(['sendMessage', 'resetTemplate', 'back']);
 const { t } = useI18n();
 
 const processedParams = ref({});
+const isUploadingMedia = ref(false);
+/** Bumped on template change, new upload, or header URL input; stale completions must not apply. */
+const mediaUploadGeneration = ref(0);
+const mediaUploadError = ref('');
+const mediaPreview = ref(null);
+const mediaInputRef = ref(null);
+const isDragOverMediaZone = ref(false);
 
 const languageLabel = computed(() => {
   return `${t('WHATSAPP_TEMPLATES.PARSER.LANGUAGE')}: ${props.template.language || DEFAULT_LANGUAGE}`;
@@ -87,7 +96,15 @@ const renderedTemplate = computed(() => {
 const isFormInvalid = computed(() => {
   if (!hasVariables.value && !hasMediaHeader.value) return false;
 
-  if (hasMediaHeader.value && !processedParams.value.header?.media_url) {
+  if (hasMediaHeader.value && isUploadingMedia.value) {
+    return true;
+  }
+
+  const hasMediaReference =
+    processedParams.value.header?.media_url ||
+    processedParams.value.header?.media_blob_id;
+
+  if (hasMediaHeader.value && !hasMediaReference) {
     return true;
   }
 
@@ -125,9 +142,27 @@ const initializeTemplateParameters = () => {
   );
 };
 
+const invalidateInFlightMediaUpload = () => {
+  mediaUploadGeneration.value += 1;
+  isUploadingMedia.value = false;
+};
+
+function clearMediaPreview() {
+  if (mediaPreview.value?.url) {
+    URL.revokeObjectURL(mediaPreview.value.url);
+  }
+  mediaPreview.value = null;
+}
+
 const updateMediaUrl = value => {
   processedParams.value.header ??= {};
   processedParams.value.header.media_url = value;
+  if (value) {
+    invalidateInFlightMediaUpload();
+    processedParams.value.header.media_blob_id = '';
+    mediaUploadError.value = '';
+    clearMediaPreview();
+  }
 };
 
 const updateMediaName = value => {
@@ -135,7 +170,135 @@ const updateMediaName = value => {
   processedParams.value.header.media_name = value;
 };
 
+const allowedMimeTypes = computed(() => {
+  const mediaType = headerComponent.value?.format?.toLowerCase();
+  if (mediaType === 'image') return ['image/*'];
+  if (mediaType === 'video') return ['video/*'];
+  if (mediaType === 'document') {
+    return [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.ms-excel',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'text/plain',
+    ];
+  }
+  return ['*/*'];
+});
+
+const localFileAccept = computed(() => allowedMimeTypes.value.join(','));
+
+const isAllowedFileType = file => {
+  const mediaType = headerComponent.value?.format?.toLowerCase();
+  if (mediaType === 'image') return file.type.startsWith('image/');
+  if (mediaType === 'video') return file.type.startsWith('video/');
+  if (mediaType === 'document')
+    return allowedMimeTypes.value.includes(file.type);
+  return false;
+};
+
+const updateMediaPreview = file => {
+  clearMediaPreview();
+
+  const isImage = file.type.startsWith('image/');
+  mediaPreview.value = {
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    url: isImage ? URL.createObjectURL(file) : '',
+    isImage,
+  };
+};
+
+const clearUploadedMedia = () => {
+  processedParams.value.header ??= {};
+  processedParams.value.header.media_blob_id = '';
+  processedParams.value.header.media_url = '';
+  processedParams.value.header.media_name = '';
+  mediaUploadError.value = '';
+  clearMediaPreview();
+};
+
+const processUploadedFile = async file => {
+  if (!file) return;
+
+  processedParams.value.header ??= {};
+  mediaUploadError.value = '';
+
+  if (!isAllowedFileType(file)) {
+    clearUploadedMedia();
+    mediaUploadError.value = t('WHATSAPP_TEMPLATES.PARSER.INVALID_MEDIA_TYPE');
+    return;
+  }
+
+  mediaUploadGeneration.value += 1;
+  const uploadId = mediaUploadGeneration.value;
+
+  // Drop previous media immediately so send cannot use stale blob/URL while the new upload resolves.
+  processedParams.value.header.media_blob_id = '';
+  processedParams.value.header.media_url = '';
+  isUploadingMedia.value = true;
+  updateMediaPreview(file);
+  try {
+    const { blobId } = await uploadFile(file);
+    if (uploadId !== mediaUploadGeneration.value) {
+      return;
+    }
+    processedParams.value.header.media_blob_id = blobId;
+    processedParams.value.header.media_url = '';
+    if (isDocumentTemplate.value) {
+      processedParams.value.header.media_name = file.name;
+    }
+  } catch (error) {
+    if (uploadId !== mediaUploadGeneration.value) {
+      return;
+    }
+    mediaUploadError.value =
+      error?.response?.data?.error ||
+      t('WHATSAPP_TEMPLATES.PARSER.MEDIA_UPLOAD_FAILED');
+  } finally {
+    if (uploadId === mediaUploadGeneration.value) {
+      isUploadingMedia.value = false;
+    }
+  }
+};
+
+const handleMediaUpload = async event => {
+  const file = event?.target?.files?.[0];
+  await processUploadedFile(file);
+  event.target.value = '';
+};
+
+const openFilePicker = () => {
+  mediaInputRef.value?.click();
+};
+
+const onMediaDragOver = event => {
+  event.preventDefault();
+  if (isUploadingMedia.value) return;
+  isDragOverMediaZone.value = true;
+};
+
+const onMediaDragLeave = () => {
+  isDragOverMediaZone.value = false;
+};
+
+const onMediaDrop = async event => {
+  event.preventDefault();
+  if (isUploadingMedia.value) return;
+  isDragOverMediaZone.value = false;
+  const file = event?.dataTransfer?.files?.[0];
+  await processUploadedFile(file);
+};
+
+const mediaPreviewSize = computed(() => {
+  if (!mediaPreview.value?.size) return '';
+  return `${Math.ceil(mediaPreview.value.size / 1024)} KB`;
+});
+
 const sendMessage = () => {
+  if (isUploadingMedia.value) return;
   v$.value.$touch();
   if (v$.value.$invalid) return;
 
@@ -167,10 +330,22 @@ onMounted(initializeTemplateParameters);
 watch(
   () => props.template,
   () => {
+    invalidateInFlightMediaUpload();
     initializeTemplateParameters();
+    clearMediaPreview();
+    mediaUploadError.value = '';
     v$.value.$reset();
   },
   { deep: true }
+);
+
+watch(
+  () => processedParams.value.header?.media_url,
+  value => {
+    if (value) {
+      clearMediaPreview();
+    }
+  }
 );
 
 defineExpose({
@@ -223,19 +398,88 @@ defineExpose({
             }) || `${formatType} Header`
           }}
         </p>
-        <div class="flex items-center mb-2.5">
-          <Input
-            :model-value="processedParams.header?.media_url || ''"
-            type="url"
-            class="flex-1"
-            :placeholder="
-              t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
-                type: formatType,
-              })
-            "
-            @update:model-value="updateMediaUrl"
+        <div
+          class="p-2 mb-2.5 rounded-lg border transition-colors"
+          :class="
+            isDragOverMediaZone
+              ? 'border-n-brand bg-n-alpha-1'
+              : 'border-n-strong bg-transparent'
+          "
+          @dragover="onMediaDragOver"
+          @dragleave="onMediaDragLeave"
+          @drop="onMediaDrop"
+        >
+          <div class="flex items-center gap-2">
+            <Input
+              :model-value="processedParams.header?.media_url || ''"
+              type="url"
+              class="flex-1"
+              :placeholder="
+                t('WHATSAPP_TEMPLATES.PARSER.MEDIA_URL_LABEL', {
+                  type: formatType,
+                })
+              "
+              @update:model-value="updateMediaUrl"
+            />
+            <Button
+              icon="i-lucide-upload"
+              faded
+              slate
+              size="sm"
+              type="button"
+              class="shrink-0 !w-8"
+              :disabled="isUploadingMedia"
+              :title="$t('WHATSAPP_TEMPLATES.PARSER.UPLOAD_LOCAL_FILE')"
+              @click="openFilePicker"
+            />
+            <Button
+              v-if="processedParams.header?.media_blob_id"
+              variant="ghost"
+              color="slate"
+              icon="i-lucide-trash-2"
+              size="xs"
+              type="button"
+              :title="$t('WHATSAPP_TEMPLATES.PARSER.REMOVE_UPLOADED_FILE')"
+              @click="clearUploadedMedia"
+            />
+          </div>
+          <input
+            ref="mediaInputRef"
+            type="file"
+            class="hidden"
+            :accept="localFileAccept"
+            :disabled="isUploadingMedia"
+            @change="handleMediaUpload"
           />
+          <p class="mt-1 text-xs text-n-slate-11">
+            {{ $t('WHATSAPP_TEMPLATES.PARSER.DRAG_AND_DROP_HINT') }}
+          </p>
         </div>
+        <div v-if="isUploadingMedia" class="mb-2.5 text-xs text-n-slate-11">
+          {{ $t('WHATSAPP_TEMPLATES.PARSER.UPLOADING_MEDIA') }}
+        </div>
+        <div
+          v-if="mediaPreview"
+          class="flex items-center gap-2 p-2 mb-2.5 rounded-md border border-n-strong bg-n-alpha-black2"
+        >
+          <img
+            v-if="mediaPreview.isImage"
+            :src="mediaPreview.url"
+            :alt="mediaPreview.name"
+            class="object-cover w-10 h-10 rounded"
+          />
+          <div class="flex flex-col min-w-0">
+            <span class="text-xs font-medium truncate text-n-slate-12">
+              {{ mediaPreview.name }}
+            </span>
+            <span class="text-xs text-n-slate-11">
+              {{ mediaPreviewSize }}
+            </span>
+          </div>
+        </div>
+        <p v-if="mediaUploadError" class="mb-2.5 text-xs text-n-ruby-9">
+          {{ mediaUploadError }}
+        </p>
         <div v-if="isDocumentTemplate" class="flex items-center mb-2.5">
           <Input
             :model-value="processedParams.header?.media_name || ''"

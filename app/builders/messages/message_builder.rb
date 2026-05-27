@@ -33,10 +33,7 @@ class Messages::MessageBuilder
 
   private
 
-  # Extracts content attributes from the given params.
-  # - Converts ActionController::Parameters to a regular hash if needed.
-  # - Attempts to parse a JSON string if content is a string.
-  # - Returns an empty hash if content is not present, if there's a parsing error, or if it's an unexpected type.
+  # Parses content_attributes from params (hash, JSON string, or empty).
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
@@ -48,9 +45,12 @@ class Messages::MessageBuilder
   end
 
   def process_attachments
-    return if @attachments.blank?
+    process_uploaded_attachments
+    process_template_media_attachment
+  end
 
-    @attachments.each do |uploaded_attachment|
+  def process_uploaded_attachments
+    Array(@attachments).each do |uploaded_attachment|
       attachment = @message.attachments.build(
         account_id: @message.account_id,
         file: uploaded_attachment
@@ -64,6 +64,12 @@ class Messages::MessageBuilder
                                file_type(uploaded_attachment&.content_type)
                              end
     end
+  end
+
+  def process_template_media_attachment
+    Messages::TemplateMediaAttachmentService.new(message: @message, attachments: @attachments, template_params: @params[:template_params]).perform
+  rescue ArgumentError => e
+    raise CustomExceptions::Message::InvalidTemplateMedia, e.message
   end
 
   def process_emails
@@ -120,7 +126,8 @@ class Messages::MessageBuilder
   end
 
   def template_params
-    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
+    normalized = Messages::TemplateParamsFromRequest.call(@params[:template_params])
+    normalized.blank? ? {} : { additional_attributes: { template_params: normalized } }
   end
 
   def message_sender
@@ -200,7 +207,6 @@ class Messages::MessageBuilder
     html_content
   end
 
-  # Liquid processing methods for email content
   def process_liquid_in_email_body(content)
     return content if content.blank?
     return content unless should_process_liquid?
@@ -218,9 +224,7 @@ class Messages::MessageBuilder
   end
 
   def drops_with_sender
-    message_drops(@conversation).merge({
-                                         'agent' => UserDrop.new(sender)
-                                       })
+    message_drops(@conversation).merge('agent' => UserDrop.new(sender))
   end
 end
 

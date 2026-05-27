@@ -20,6 +20,29 @@ describe Messages::MessageBuilder do
       message = message_builder
       expect(message.content).to eq params[:content]
     end
+
+    context 'when template_params is a JSON string' do
+      let(:template_hash) do
+        {
+          'name' => 'hello_template',
+          'language' => 'en_US',
+          'processed_params' => { 'body' => { '1' => 'x' } }
+        }
+      end
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           template_params: template_hash.to_json
+                                         })
+      end
+
+      it 'stores parsed template_params on additional_attributes' do
+        message = message_builder
+        stored = message.additional_attributes['template_params']
+        expect(stored['name']).to eq('hello_template')
+        expect(stored.dig('processed_params', 'body', '1')).to eq('x')
+      end
+    end
   end
 
   describe '#content_attributes' do
@@ -145,6 +168,56 @@ describe Messages::MessageBuilder do
         it 'creates message with attachments' do
           message = message_builder
           expect(message.attachments.first.file_type).to eq 'image'
+        end
+      end
+
+      context 'when whatsapp template has uploaded media blob' do
+        let(:inbox) do
+          create(:inbox,
+                 channel: create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false),
+                 account: account)
+        end
+        let(:blob) { get_blob_for('spec/assets/avatar.png', 'image/png') }
+        let(:params) do
+          ActionController::Parameters.new({
+                                             content: 'test',
+                                             template_params: {
+                                               name: 'sample',
+                                               language: 'en_US',
+                                               processed_params: {
+                                                 header: {
+                                                   media_type: 'image',
+                                                   media_blob_id: blob.signed_id
+                                                 }
+                                               }
+                                             }
+                                           })
+        end
+
+        it 'creates message attachment from media blob id for conversation preview' do
+          message = message_builder
+          expect(message.attachments.size).to eq(1)
+          expect(message.attachments.first.file_type).to eq('image')
+        end
+
+        it 'raises InvalidTemplateMedia when template media_blob_id is invalid' do
+          params = ActionController::Parameters.new({
+                                                      content: 'test',
+                                                      template_params: {
+                                                        name: 'sample',
+                                                        language: 'en_US',
+                                                        processed_params: {
+                                                          header: {
+                                                            media_type: 'image',
+                                                            media_blob_id: 'invalid-signed-id'
+                                                          }
+                                                        }
+                                                      }
+                                                    })
+
+          expect do
+            described_class.new(user, conversation, params).perform
+          end.to raise_error(CustomExceptions::Message::InvalidTemplateMedia, /Invalid media upload/)
         end
       end
     end

@@ -456,6 +456,51 @@ RSpec.describe 'Conversations API', type: :request do
           expect(account.conversations.find_by(display_id: response_data[:id]).messages.outgoing.first.content).to eq 'hi'
         end
 
+        it 'returns unprocessable entity when initial message has invalid template media_blob_id' do
+          whatsapp_inbox = create(:inbox,
+                                  channel: create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false),
+                                  account: account)
+          create(:inbox_member, user: agent, inbox: whatsapp_inbox)
+          whatsapp_contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_inbox)
+
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: {
+                 source_id: whatsapp_contact_inbox.source_id,
+                 message: {
+                   content: 'hi',
+                   template_params: {
+                     name: 'sample',
+                     processed_params: {
+                       header: { media_type: 'image', media_blob_id: 'invalid-signed-id' }
+                     }
+                   }
+                 }
+               },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to match(/Invalid media upload/)
+          expect(account.conversations.where(contact_inbox_id: whatsapp_contact_inbox.id).count).to eq(0)
+        end
+
+        it 'returns structured validation error when initial message fails model validation' do
+          allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          post "/api/v1/accounts/#{account.id}/conversations",
+               headers: agent.create_new_auth_token,
+               params: {
+                 source_id: contact_inbox.source_id,
+                 message: { content: 'x' * 150_001 }
+               },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          body = response.parsed_body
+          expect(body['message']).to be_present
+          expect(body['attributes']).to be_present
+          expect(account.conversations.where(contact_inbox_id: contact_inbox.id).count).to eq(0)
+        end
+
         it 'calls contact inbox builder if contact_id and inbox_id is present' do
           builder = double
           allow(Rails.configuration.dispatcher).to receive(:dispatch)

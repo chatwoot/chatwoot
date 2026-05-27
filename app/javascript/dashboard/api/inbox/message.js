@@ -2,6 +2,40 @@
 /* global axios */
 import ApiClient from '../ApiClient';
 
+/** Placeholder for empty button slots (multipart JSON); skipped by TemplateProcessorService. */
+const TEMPLATE_BUTTON_PADDING = { type: 'static' };
+
+/**
+ * Multipart FormData cannot represent sparse arrays reliably. Serialize template_params as JSON
+ * (like content_attributes) and densify processed_params.buttons so indices align without '' slots.
+ */
+export const serializeTemplateParamsForMultipart = templateParams => {
+  if (!templateParams || typeof templateParams !== 'object') {
+    return templateParams;
+  }
+
+  const processed = templateParams.processed_params;
+  if (!processed || !Array.isArray(processed.buttons)) {
+    return templateParams;
+  }
+
+  const { buttons } = processed;
+  const denseButtons = Array.from({ length: buttons.length }, (_, index) => {
+    if (index in buttons && buttons[index] != null) {
+      return buttons[index];
+    }
+    return TEMPLATE_BUTTON_PADDING;
+  });
+
+  return {
+    ...templateParams,
+    processed_params: {
+      ...processed,
+      buttons: denseButtons,
+    },
+  };
+};
+
 export const buildCreatePayload = ({
   message,
   isPrivate,
@@ -32,6 +66,12 @@ export const buildCreatePayload = ({
     }
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
+    }
+    if (templateParams) {
+      payload.append(
+        'template_params',
+        JSON.stringify(serializeTemplateParamsForMultipart(templateParams))
+      );
     }
   } else {
     payload = {

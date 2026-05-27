@@ -1,4 +1,7 @@
-import messageAPI, { buildCreatePayload } from '../../inbox/message';
+import messageAPI, {
+  buildCreatePayload,
+  serializeTemplateParamsForMultipart,
+} from '../../inbox/message';
 import ApiClient from '../../ApiClient';
 
 describe('#ConversationAPI', () => {
@@ -46,12 +49,20 @@ describe('#ConversationAPI', () => {
   });
   describe('#buildCreatePayload', () => {
     it('builds form payload if file is available', () => {
+      const templateParams = {
+        name: 'ticket_status_updated',
+        processed_params: {
+          body: { name: 'John' },
+          buttons: [{ type: 'url', parameter: 'track-123' }],
+        },
+      };
       const formPayload = buildCreatePayload({
         message: 'test content',
         echoId: 12,
         isPrivate: true,
         contentAttributes: { in_reply_to: 12 },
         files: [new Blob(['test-content'], { type: 'application/pdf' })],
+        templateParams,
       });
       expect(formPayload).toBeInstanceOf(FormData);
       expect(formPayload.get('content')).toEqual('test content');
@@ -62,6 +73,18 @@ describe('#ConversationAPI', () => {
       expect(formPayload.get('content_attributes')).toEqual(
         '{"in_reply_to":12}'
       );
+      const rawTemplate = formPayload.get('template_params');
+      expect(typeof rawTemplate).toEqual('string');
+      const parsed = JSON.parse(rawTemplate);
+      expect(parsed.name).toEqual('ticket_status_updated');
+      expect(parsed.processed_params.body.name).toEqual('John');
+      expect(parsed.processed_params.buttons[0].type).toEqual('url');
+      expect(parsed.processed_params.buttons[0].parameter).toEqual('track-123');
+      expect(
+        Array.from(formPayload.keys()).some(key =>
+          key.startsWith('template_params[')
+        )
+      ).toBe(false);
     });
 
     it('builds object payload if file is not available', () => {
@@ -82,6 +105,38 @@ describe('#ConversationAPI', () => {
         to_emails: '',
         template_params: undefined,
       });
+    });
+
+    it('multipart template_params uses JSON with dense padded buttons for sparse indices', () => {
+      const buttons = [];
+      buttons[1] = { type: 'url', parameter: 'track-123' };
+
+      const formPayload = buildCreatePayload({
+        message: 'test content',
+        echoId: 12,
+        isPrivate: true,
+        files: [new Blob(['test-content'], { type: 'application/pdf' })],
+        templateParams: {
+          name: 'ticket_status_updated',
+          processed_params: { buttons },
+        },
+      });
+
+      expect(formPayload).toBeInstanceOf(FormData);
+      const parsed = JSON.parse(formPayload.get('template_params'));
+      expect(parsed.processed_params.buttons).toHaveLength(2);
+      expect(parsed.processed_params.buttons[0]).toEqual({ type: 'static' });
+      expect(parsed.processed_params.buttons[1]).toEqual({
+        type: 'url',
+        parameter: 'track-123',
+      });
+    });
+  });
+
+  describe('#serializeTemplateParamsForMultipart', () => {
+    it('returns same object when buttons are absent', () => {
+      const input = { name: 'x', processed_params: { body: { a: '1' } } };
+      expect(serializeTemplateParamsForMultipart(input)).toBe(input);
     });
   });
 });
