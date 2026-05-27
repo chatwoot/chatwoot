@@ -9,6 +9,7 @@ SAML_SETUP_PROC = proc do |env|
   account_id = request.params['account_id'] ||
                env['omniauth.params']&.dig('account_id')
   relay_state = request.params['RelayState'] || ''
+  for_mobile = relay_state.casecmp('mobile').zero?
 
   if account_id
     # Keep SAML request context in OmniAuth env so the callback can be processed
@@ -21,11 +22,13 @@ SAML_SETUP_PROC = proc do |env|
     settings = AccountSamlSettings.find_by(account_id: account_id)
 
     if settings
-      # Carry the relay state in the ACS URL (like account_id) so the mobile
-      # signal survives the cross-site callback POST without relying on the
-      # session cookie or the IdP echoing RelayState back.
+      # Carry the relay state in the ACS URL (like account_id) only for mobile,
+      # so the mobile signal survives the cross-site callback POST without
+      # relying on the session cookie or the IdP echoing RelayState back. Web
+      # logins keep the registered ACS URL untouched so strict IdPs that
+      # validate it exactly are unaffected.
       acs_url = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/omniauth/saml/callback?account_id=#{account_id}"
-      acs_url += "&RelayState=#{ERB::Util.url_encode(relay_state)}" if relay_state.present?
+      acs_url += "&RelayState=#{ERB::Util.url_encode(relay_state)}" if for_mobile
 
       # Configure the strategy options dynamically
       env['omniauth.strategy'].options[:idp_sso_service_url_runtime_params] = { RelayState: :RelayState }
