@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "Nenhum atendente atendeu",
       "MISSED_CALL_DECLINED_BY": "Recusado por {agentName}",
       "CALL_ENDED": "Chamada encerrada",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Ainda não respondido",
       "CALLING": "Chamando…",
       "THEY_ANSWERED": "Eles responderam",
       "YOU_ANSWERED": "Você respondeu",
       "AGENT_ANSWERED": "{agentName} respondeu",
       "JOIN_CALL": "Entrar na chamada",
-      "CALL_BACK": "Retornar chamada"
+      "CALL_BACK": "Retornar chamada",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Mostrar menos"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Ainda não respondido",
       "HANDLED_IN_ANOTHER_TAB": "Sendo atendida em outra aba",
       "REJECT_CALL": "Recusar",
+      "DISMISS_CALL": "Recusar",
       "JOIN_CALL": "Entrar na chamada",
       "END_CALL": "Encerrar chamada",
       "MUTE": "Silenciar microfone",
