@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Panggilan tamat",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Belum dijawab",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "Mereka menjawab",
       "YOU_ANSWERED": "Anda menjawab",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Sertai panggilan",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Selesaikan",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Belum dijawab",
       "HANDLED_IN_ANOTHER_TAB": "Sedang diuruskan di tab lain",
       "REJECT_CALL": "Tolak",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Sertai panggilan",
       "END_CALL": "Tamatkan panggilan",
       "MUTE": "Mute mic",
