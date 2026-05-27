@@ -13,7 +13,17 @@ export class DataManager {
     if (this.db) return this.db;
     const dbName = `cw-store-${this.accountId}`;
     this.db = await openDB(dbName, DATA_VERSION, {
-      upgrade(db) {
+      upgrade(db, oldVersion, _newVersion, tx) {
+        // Flush data carried over from a previous schema version so a
+        // DATA_VERSION bump acts as a global cache reset. oldVersion === 0 on
+        // first install, so fresh devices skip this. Clearing before creating
+        // means we only ever clear stores that pre-existed this upgrade.
+        if (oldVersion > 0) {
+          [...db.objectStoreNames].forEach(name =>
+            tx.objectStore(name).clear()
+          );
+        }
+
         if (!db.objectStoreNames.contains('cache-keys')) {
           db.createObjectStore('cache-keys');
         }
