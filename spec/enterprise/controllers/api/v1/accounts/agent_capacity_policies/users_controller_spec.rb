@@ -18,6 +18,10 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body.first['id']).to eq(user.id)
+        expect(response.parsed_body.first).not_to have_key('access_token')
+        expect(response.parsed_body.first).not_to have_key('read_only_access_token')
+        expect(response.body).not_to include(user.access_token.token)
+        expect(response.body).not_to include(user.read_only_access_token.token)
       end
 
       it 'returns each user only once without duplicates' do
@@ -63,6 +67,10 @@ RSpec.describe 'Agent Capacity Policy Users API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(user.account_users.first.reload.agent_capacity_policy).to eq(agent_capacity_policy)
+        expect(response.parsed_body).not_to have_key('access_token')
+        expect(response.parsed_body).not_to have_key('read_only_access_token')
+        expect(response.body).not_to include(user.access_token.token)
+        expect(response.body).not_to include(user.read_only_access_token.token)
       end
     end
   end
