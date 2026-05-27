@@ -35,6 +35,16 @@ const formatTimeProgress = time => {
   );
 };
 
+const getAudioExtensionFromType = mimeType => {
+  if (mimeType === 'audio/wav') {
+    return 'wav';
+  }
+  if (mimeType === 'audio/mp3') {
+    return 'mp3';
+  }
+  return 'audio';
+};
+
 const initWaveSurfer = () => {
   wavesurfer.value = WaveSurfer.create({
     container: waveformContainer.value,
@@ -64,7 +74,9 @@ const initWaveSurfer = () => {
   record.value.on('record-end', async blob => {
     const audioUrl = URL.createObjectURL(blob);
     const audioBlob = await convertAudio(blob, props.audioRecordFormat);
-    const fileName = `${getUuid()}.mp3`;
+    const fileName = `${getUuid()}.${getAudioExtensionFromType(
+      props.audioRecordFormat
+    )}`;
     const file = new File([audioBlob], fileName, {
       type: props.audioRecordFormat,
     });
