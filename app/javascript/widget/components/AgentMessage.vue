@@ -124,11 +124,17 @@ export default {
       return isASubmittedFormMessage(this.message);
     },
     submittedFormValues() {
+      const items = this.messageContentAttributes.items || [];
       return this.messageContentAttributes.submitted_values.map(
-        submittedValue => ({
-          id: submittedValue.name,
-          content: submittedValue.value,
-        })
+        submittedValue => {
+          const formItem = items.find(i => i.name === submittedValue.name);
+          return {
+            id: submittedValue.name,
+            content: submittedValue.value,
+            type: formItem?.type,
+            fileUrl: submittedValue.file_url,
+          };
+        }
       );
     },
     wrapClass() {
@@ -256,11 +262,28 @@ export default {
 
     <UserMessage v-if="hasRecordedResponse" :message="responseMessage" />
     <div v-if="isASubmittedForm">
-      <UserMessage
+      <template
         v-for="submittedValue in submittedFormValues"
         :key="submittedValue.id"
-        :message="submittedValue"
-      />
+      >
+        <div
+          v-if="submittedValue.type === 'image' && submittedValue.fileUrl"
+          class="user-message-wrap"
+        >
+          <div class="flex justify-end user-message">
+            <div class="message-wrap">
+              <div class="chat-bubble has-attachment user">
+                <ImageBubble
+                  :url="submittedValue.fileUrl"
+                  :thumb="submittedValue.fileUrl"
+                  :readable-time="readableTime"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <UserMessage v-else :message="submittedValue" />
+      </template>
     </div>
   </div>
 </template>

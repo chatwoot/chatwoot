@@ -98,6 +98,7 @@ module Seeders::MessageSeeder
           pattern_error: 'Please fill this field' },
         { name: 'text', placeholder: 'Please enter text', type: 'text', label: 'text', default: 'defaut value', required: 'required',
           pattern: '^[a-zA-Z ]*$', pattern_error: 'Only alphabets are allowed' },
+        { name: 'receipt', label: 'Receipt Image', type: 'image', required: 'required' },
         { name: 'select', label: 'Select Option', type: 'select', options: [{ label: '🌯 Burito', value: 'Burito' },
                                                                             { label: '🍝 Pasta', value: 'Pasta' }] }
       ]

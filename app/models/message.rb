@@ -150,9 +150,18 @@ class Message < ApplicationRecord
       conversation_id: conversation&.display_id,
       conversation: conversation.present? ? conversation_push_event_data : nil
     )
+    data[:content_attributes] = decorated_content_attributes
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
+  end
+
+  def decorated_content_attributes
+    return content_attributes unless form? && submitted_values.present?
+
+    attrs = content_attributes.deep_dup
+    enrich_form_image_urls!(attrs)
+    attrs
   end
 
   def conversation_push_event_data
@@ -284,6 +293,27 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def enrich_form_image_urls!(attrs)
+    items = attrs['items']
+    sv_list = attrs['submitted_values']
+    return if items.blank? || sv_list.blank?
+
+    image_names = items.select { |i| i['type'] == 'image' }.map { |i| i['name'] }.to_set
+    return if image_names.empty?
+
+    sv_list.each do |sv|
+      next unless image_names.include?(sv['name']) && sv['value'].present?
+
+      blob = ActiveStorage::Blob.find_signed(sv['value'])
+      next unless blob
+
+      sv['file_url'] = Rails.application.routes.url_helpers.url_for(blob)
+      sv['content_type'] = blob.content_type
+    rescue ActiveSupport::MessageVerifier::InvalidSignature
+      next
+    end
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages

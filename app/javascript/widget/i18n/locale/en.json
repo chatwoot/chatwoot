@@ -97,8 +97,12 @@
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
+    "UPLOAD_IMAGE": "Choose image",
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Invalid field",
+      "IMAGE_TYPE": "Please select an image file",
+      "IMAGE_REQUIRED": "Image is required",
+      "UPLOAD_FAILED": "Image upload failed, please try again"
     }
   },
   "EMOJI": {

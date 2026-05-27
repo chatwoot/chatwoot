@@ -23,6 +23,8 @@ const formValues = computed(() => {
           title: submittedValue.value,
           value: submittedValue.value,
           label: item?.label,
+          type: item?.type,
+          fileUrl: submittedValue.fileUrl,
         };
       });
     }
@@ -55,7 +57,21 @@ const formValues = computed(() => {
         <dt class="text-n-slate-11 italic mt-2">
           {{ item.label || t('CONVERSATION.RESPONSE') }}
         </dt>
-        <dd>{{ item.title }}</dd>
+        <dd v-if="item.type === 'image' && item.fileUrl">
+          <a
+            :href="item.fileUrl"
+            target="_blank"
+            rel="noreferrer noopener nofollow"
+            class="inline-block mt-1"
+          >
+            <img
+              :src="item.fileUrl"
+              alt=""
+              class="max-w-[200px] max-h-[200px] rounded-lg object-cover"
+            />
+          </a>
+        </dd>
+        <dd v-else>{{ item.title }}</dd>
       </template>
     </dl>
     <div v-else-if="isAWebWidgetInbox" class="my-2 font-medium">
