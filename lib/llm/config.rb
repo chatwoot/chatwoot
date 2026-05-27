@@ -2,12 +2,12 @@ require 'ruby_llm'
 
 module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
+  DEFAULT_UTILITY_MODEL = 'gpt-4.1-nano'.freeze
   DEFAULT_PROVIDER = 'openai'.freeze
+  CUSTOM_PROVIDER = 'custom'.freeze
 
   class << self
-    def initialized?
-      @initialized ||= false
-    end
+    def initialized? = @initialized ||= false
 
     def initialize!
       return if @initialized
@@ -16,9 +16,7 @@ module Llm::Config
       @initialized = true
     end
 
-    def reset!
-      @initialized = false
-    end
+    def reset! = @initialized = false
 
     def with_api_key(api_key, provider: default_provider, api_base: nil)
       initialize!
@@ -29,22 +27,22 @@ module Llm::Config
       yield context
     end
 
-    def default_provider
-      provider_config_value.presence || DEFAULT_PROVIDER
-    end
+    def default_provider = provider_config_value.presence || DEFAULT_PROVIDER
+
+    def captain_utility_model = default_openai_endpoint? ? DEFAULT_UTILITY_MODEL : configured_model.presence || DEFAULT_UTILITY_MODEL
 
     def api_base_for(provider: default_provider, endpoint: api_endpoint)
       return if endpoint.blank?
 
-      normalized_endpoint = endpoint.chomp('/')
-      return "#{normalized_endpoint}/v1" if provider.to_s == 'openai' && normalized_endpoint.exclude?('/v1')
+      normalized_endpoint = endpoint.chomp('/').delete_suffix('/chat/completions')
+      return "#{normalized_endpoint}/v1" if ruby_llm_provider(provider) == DEFAULT_PROVIDER && normalized_endpoint.exclude?('/v1')
 
       normalized_endpoint
     end
 
-    def available_providers
-      RubyLLM::Provider.providers.keys.map(&:to_s).sort
-    end
+    def ruby_llm_provider(provider = default_provider) = provider.to_s == CUSTOM_PROVIDER ? DEFAULT_PROVIDER : provider.to_s
+
+    def available_providers = RubyLLM::Provider.providers.keys.map(&:to_s).sort
 
     def configurable_providers
       providers = available_providers.select do |provider|
@@ -58,17 +56,25 @@ module Llm::Config
     end
 
     def provider_options
-      configurable_providers.index_with do |provider|
-        RubyLLM::Provider.providers[provider.to_sym].name
+      configurable_providers.each_with_object({}) do |provider, options|
+        options[provider] = RubyLLM::Provider.providers[provider.to_sym].name
+        options[CUSTOM_PROVIDER] = 'Custom (OpenAI-compatible)' if provider == DEFAULT_PROVIDER
       end
     end
 
-    def default_openai_endpoint?
-      default_provider == DEFAULT_PROVIDER && default_openai_endpoint_value?
+    def provider_api_base_options
+      configurable_providers.each_with_object({}) do |provider, options|
+        options[provider] = default_api_base_for_provider(provider)
+        options[CUSTOM_PROVIDER] = '' if provider == DEFAULT_PROVIDER
+      end
     end
 
+    def default_openai_endpoint? = default_provider == DEFAULT_PROVIDER && default_openai_endpoint_value?
+
+    def supports_structured_outputs_with_tools? = default_openai_endpoint?
+
     def configure_provider(config, provider:, api_key:, api_base: nil)
-      provider = provider.to_s
+      provider = ruby_llm_provider(provider)
       options = provider_configuration_options(provider)
       api_key_option = :"#{provider}_api_key"
       api_base_option = :"#{provider}_api_base"
@@ -87,30 +93,38 @@ module Llm::Config
       end
     end
 
-    def provider_configuration_options(provider)
-      RubyLLM::Provider.providers[provider.to_sym]&.configuration_options || []
-    end
+    def provider_configuration_options(provider) = RubyLLM::Provider.providers[provider.to_sym]&.configuration_options || []
 
     def set_config_value(config, option, value)
       setter = :"#{option}="
       config.public_send(setter, value) if config.respond_to?(setter)
     end
 
-    def system_api_key
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    def system_api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+
+    def api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
+
+    def configured_model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
+
+    def default_api_base_for_provider(provider)
+      provider = ruby_llm_provider(provider)
+      return if provider_configuration_requirements(provider).include?(:"#{provider}_api_base")
+
+      config = RubyLLM::Configuration.new
+      provider_configuration_requirements(provider).each { |requirement| config.public_send("#{requirement}=", 'dummy') }
+
+      RubyLLM::Provider.providers[provider.to_sym].new(config).api_base
+    rescue StandardError
+      nil
     end
 
-    def api_endpoint
-      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-    end
+    def provider_configuration_requirements(provider) = RubyLLM::Provider.providers[provider.to_sym]&.configuration_requirements || []
 
     def default_openai_endpoint_value?
-      normalized_endpoint = api_endpoint.to_s.chomp('/').delete_suffix('/v1')
+      normalized_endpoint = api_endpoint.to_s.chomp('/').delete_suffix('/chat/completions').delete_suffix('/v1')
       normalized_endpoint.blank? || normalized_endpoint == LlmConstants::OPENAI_API_ENDPOINT
     end
 
-    def provider_config_value
-      InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
-    end
+    def provider_config_value = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
   end
 end

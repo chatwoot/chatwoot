@@ -53,7 +53,7 @@ module Concerns::Agentable
   end
 
   def agent_provider
-    Llm::Config.default_provider
+    Llm::Config.ruby_llm_provider
   end
 
   def agent_supports_provider?
@@ -63,7 +63,7 @@ module Concerns::Agentable
   end
 
   def agent_response_schema
-    Captain::ResponseSchema
+    Captain::ResponseSchema if Llm::Config.supports_structured_outputs_with_tools?
   end
 
   def prompt_context

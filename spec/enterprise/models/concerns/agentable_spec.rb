@@ -59,6 +59,20 @@ RSpec.describe Concerns::Agentable do
       dummy_instance.agent
     end
 
+    it 'uses the OpenAI adapter without response schema for custom providers' do
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
+      allow(mock_provider_config).to receive(:value).and_return('custom')
+
+      expect(Agents::Agent).to receive(:new).with(
+        hash_including(
+          provider: 'openai',
+          response_schema: nil
+        )
+      )
+
+      dummy_instance.agent
+    end
+
     it 'converts nil temperature to 0.0' do
       dummy_instance.temperature = nil
 

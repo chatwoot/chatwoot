@@ -107,7 +107,7 @@ class Integrations::LlmBaseService
     return { error: I18n.t('captain.api_key_missing'), error_code: 401, request_messages: messages } if credential.blank?
 
     Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base) do |context|
-      chat = context.chat(model: model, provider: llm_provider, assume_model_exists: true)
+      chat = context.chat(model: model, provider: Llm::Config.ruby_llm_provider(llm_provider), assume_model_exists: true)
       setup_chat_with_messages(chat, messages)
     end
   rescue StandardError => e

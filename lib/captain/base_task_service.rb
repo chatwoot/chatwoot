@@ -75,10 +75,10 @@ class Captain::BaseTaskService
   end
 
   def build_chat(context, model:, messages:, schema: nil, tools: [])
-    chat = context.chat(model: model, provider: llm_provider, assume_model_exists: true)
+    chat = context.chat(model: model, provider: Llm::Config.ruby_llm_provider(llm_provider), assume_model_exists: true)
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
-    chat.with_schema(schema) if schema
+    chat.with_schema(schema) if schema && use_schema_with_tools?(tools)
 
     if tools.any?
       tools.each { |tool| chat = chat.with_tool(tool) }
@@ -86,6 +86,10 @@ class Captain::BaseTaskService
     end
 
     chat
+  end
+
+  def use_schema_with_tools?(tools)
+    tools.blank? || Llm::Config.supports_structured_outputs_with_tools?
   end
 
   def add_messages_if_needed(chat, conversation_messages)

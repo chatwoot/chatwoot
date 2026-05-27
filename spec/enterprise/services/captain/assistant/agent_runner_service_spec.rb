@@ -217,6 +217,21 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       end
     end
 
+    context 'when agent result contains a provider error' do
+      let(:provider_error) { StandardError.new('response format and function call cannot be combined') }
+      let(:mock_result) { instance_double(Agents::RunResult, output: nil, context: nil, error: provider_error) }
+
+      it 'surfaces the provider error instead of returning blank content' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).to eq({
+                               'response' => 'conversation_handoff',
+                               'reasoning' => 'Error occurred: response format and function call cannot be combined',
+                               'handoff_tool_called' => false
+                             })
+      end
+    end
+
     context 'when an error occurs' do
       let(:error) { StandardError.new('Test error') }
 

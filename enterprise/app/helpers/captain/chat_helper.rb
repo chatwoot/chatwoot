@@ -24,7 +24,7 @@ module Captain::ChatHelper
 
   def build_chat
     llm_chat = chat(model: @model, temperature: temperature)
-    llm_chat = llm_chat.with_params(response_format: { type: 'json_object' })
+    llm_chat = llm_chat.with_params(response_format: { type: 'json_object' }) if Llm::Config.supports_structured_outputs_with_tools?
 
     llm_chat = setup_tools(llm_chat)
     llm_chat = setup_system_instructions(llm_chat)

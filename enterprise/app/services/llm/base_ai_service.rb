@@ -35,7 +35,7 @@ class Llm::BaseAiService
   end
 
   def setup_provider
-    @provider = Llm::Config.default_provider
+    @provider = Llm::Config.ruby_llm_provider
   end
 
   def setup_temperature

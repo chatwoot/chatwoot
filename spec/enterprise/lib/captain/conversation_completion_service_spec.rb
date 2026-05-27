@@ -154,6 +154,41 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
+    context 'with model selection' do
+      before do
+        create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
+        allow(mock_chat).to receive(:ask).and_return(
+          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+        )
+      end
+
+      it 'uses the OpenAI utility model by default' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'gpt-4.1')
+
+        expect(mock_context).to receive(:chat).with(
+          model: 'gpt-4.1-nano',
+          provider: 'openai',
+          assume_model_exists: true
+        ).and_return(mock_chat)
+
+        service.perform
+      end
+
+      it 'uses the configured Captain model for custom providers' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'accounts/fireworks/models/kimi-k2p6')
+
+        expect(mock_context).to receive(:chat).with(
+          model: 'accounts/fireworks/models/kimi-k2p6',
+          provider: 'openai',
+          assume_model_exists: true
+        ).and_return(mock_chat)
+
+        service.perform
+      end
+    end
+
     context 'when customer quota is exhausted' do
       let(:mock_response) do
         instance_double(
