@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "কল শেষ হয়েছে",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "তারা উত্তর দিয়েছে",
       "YOU_ANSWERED": "আপনি উত্তর দিয়েছেন",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "কলে যোগ দিন",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "সমাধান করুন",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
       "HANDLED_IN_ANOTHER_TAB": "অন্য ট্যাবে পরিচালিত হচ্ছে",
       "REJECT_CALL": "প্রত্যাখ্যান করুন",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "কলে যোগ দিন",
       "END_CALL": "কল শেষ করুন",
       "MUTE": "Mute mic",
