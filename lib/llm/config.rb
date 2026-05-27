@@ -70,6 +70,8 @@ module Llm::Config
 
     def supports_structured_outputs_with_tools? = default_openai_endpoint?
 
+    def supports_temperature? = default_openai_endpoint?
+
     def api_key_required?(provider = default_provider)
       provider_configuration_requirements(provider).include?(:"#{provider}_api_key")
     end

@@ -7,9 +7,9 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature.to_f || 0.7,
       response_schema: agent_response_schema
     }
+    agent_attributes[:temperature] = temperature.to_f if Llm::Config.supports_temperature?
     if agent_supports_provider?
       agent_attributes[:provider] = agent_provider
       agent_attributes[:assume_model_exists] = true

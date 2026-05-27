@@ -62,12 +62,10 @@ RSpec.describe Concerns::Agentable do
     it 'omits response schema for non-OpenAI providers' do
       allow(mock_provider_config).to receive(:value).and_return('openrouter')
 
-      expect(Agents::Agent).to receive(:new).with(
-        hash_including(
-          provider: 'openrouter',
-          response_schema: nil
-        )
-      )
+      expect(Agents::Agent).to receive(:new) do |attributes|
+        expect(attributes).to include(provider: 'openrouter', response_schema: nil)
+        expect(attributes).not_to have_key(:temperature)
+      end
 
       dummy_instance.agent
     end

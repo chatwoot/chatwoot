@@ -54,6 +54,22 @@ RSpec.describe Llm::Config do
     end
   end
 
+  describe '.supports_temperature?' do
+    it 'returns true for OpenAI with the default endpoint' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
+
+      expect(described_class.supports_temperature?).to be true
+    end
+
+    it 'returns false for named providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'anthropic')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.anthropic.com')
+
+      expect(described_class.supports_temperature?).to be false
+    end
+  end
+
   describe '.direct_openai_endpoint?' do
     it 'returns true for OpenAI with a blank endpoint' do
       expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: '')).to be true

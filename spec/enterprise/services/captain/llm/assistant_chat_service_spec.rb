@@ -47,6 +47,7 @@ RSpec.describe Captain::Llm::AssistantChatService do
       Llm::Config.reset!
 
       expect(mock_chat).not_to receive(:with_params)
+      expect(mock_chat).not_to receive(:with_temperature)
       allow(mock_chat).to receive(:ask).and_return(instance_double(RubyLLM::Message, content: 'Plain text answer'))
 
       service = described_class.new(assistant: assistant, conversation: conversation)

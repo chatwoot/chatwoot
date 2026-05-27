@@ -16,7 +16,7 @@ class Llm::BaseAiService
   end
 
   def chat(model: @model, temperature: @temperature)
-    RubyLLM.chat(model: model, provider: @provider, assume_model_exists: true).with_temperature(temperature)
+    with_provider_temperature(RubyLLM.chat(model: model, provider: @provider, assume_model_exists: true), temperature)
   end
 
   private
@@ -30,16 +30,21 @@ class Llm::BaseAiService
   end
 
   def with_json_response_format(chat, **params)
-    request_params = params
-    request_params = request_params.merge(response_format: { type: 'json_object' }) if Llm::Config.supports_structured_outputs_with_tools?
+    return chat unless Llm::Config.supports_structured_outputs_with_tools?
 
-    request_params.present? ? chat.with_params(**request_params) : chat
+    chat.with_params(**params, response_format: { type: 'json_object' })
   end
 
   def with_response_schema(chat, schema)
     return chat unless Llm::Config.supports_structured_outputs_with_tools?
 
     chat.with_schema(schema)
+  end
+
+  def with_provider_temperature(chat, temperature)
+    return chat if temperature.nil? || !Llm::Config.supports_temperature?
+
+    chat.with_temperature(temperature)
   end
 
   def setup_model

@@ -52,6 +52,15 @@ RSpec.describe Captain::Onboarding::WebsiteAnalyzerService do
         expect(mock_chat).to receive(:with_temperature).with(0.1).and_return(mock_chat)
         service.analyze
       end
+
+      it 'does not set temperature for providers that do not support it' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'anthropic')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'claude-opus-4-7')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.anthropic.com')
+
+        expect(mock_chat).not_to receive(:with_temperature)
+        described_class.new(website_url).analyze
+      end
     end
 
     context 'when website content fetch raises an error' do
