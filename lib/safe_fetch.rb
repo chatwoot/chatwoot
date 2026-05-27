@@ -22,21 +22,20 @@ module SafeFetch
   class FileTooLargeError < Error; end
   class UnsupportedContentTypeError < Error; end
   class UnsupportedMethodError < Error; end
-end
 
-require_relative 'safe_fetch/request_options'
-require_relative 'safe_fetch/fetcher'
-
-module SafeFetch
   def self.fetch(url, **, &)
     raise ArgumentError, 'block required' unless block_given?
 
-    Fetcher.new(RequestOptions.new(url: url, **)).fetch(&)
+    SafeFetch::Fetcher.new(SafeFetch::RequestOptions.new(url: url, **)).fetch(&)
   rescue SsrfFilter::InvalidUriScheme, URI::InvalidURIError => e
     raise InvalidUrlError, e.message
   rescue SsrfFilter::Error, Resolv::ResolvError => e
     raise UnsafeUrlError, e.message
   rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, OpenSSL::SSL::SSLError => e
     raise FetchError, e.message
+  end
+
+  def self.allow_private_network?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('SAFE_FETCH_ALLOW_PRIVATE_NETWORK', false))
   end
 end

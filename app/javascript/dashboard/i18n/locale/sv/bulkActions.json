@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "Tilldela",
+    "NONE": "None",
+    "CLEAR_SELECTION": "Clear",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Ja",
+    "CANCEL": "Avbryt",
     "SEARCH_INPUT_PLACEHOLDER": "Sök",
     "ASSIGN_AGENT_TOOLTIP": "Tilldela agent",
     "ASSIGN_TEAM_TOOLTIP": "Tilldela team",
@@ -38,6 +43,8 @@
       "NONE": "Inget",
       "NO_TEAMS_AVAILABLE": "There are no teams added to this account yet.",
       "ASSIGN_SELECTED_TEAMS": "Assign selected team.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     }

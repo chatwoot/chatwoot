@@ -187,5 +187,101 @@ RSpec.describe DataImportJob do
           .to change { data_import.reload.status }.from('pending').to('failed')
       end
     end
+
+    context 'when the data contains labels column' do
+      let(:data_with_labels) do
+        [
+          %w[id name email phone_number labels],
+          ['1', 'John Doe', 'john@example.com', '+918080808080', ' Customer , VIP , vip '],
+          ['2', 'Jane Smith', 'jane@example.com', '+918080808081', 'lead'],
+          ['3', 'Bob Wilson', 'bob@example.com', '+918080808082', '']
+        ]
+      end
+      let(:labels_data_import) { create(:data_import, import_file: generate_csv_file(data_with_labels)) }
+
+      before do
+        %w[customer vip lead].each do |title|
+          create(:label, account: labels_data_import.account, title: title)
+        end
+      end
+
+      it 'imports contacts with labels from CSV' do
+        described_class.perform_now(labels_data_import)
+
+        john = Contact.from_email('john@example.com')
+        expect(john).to be_present
+        expect(john.label_list).to contain_exactly('customer', 'vip')
+
+        jane = Contact.from_email('jane@example.com')
+        expect(jane).to be_present
+        expect(jane.label_list).to contain_exactly('lead')
+
+        bob = Contact.from_email('bob@example.com')
+        expect(bob).to be_present
+        expect(bob.label_list).to be_empty
+      end
+
+      it 'dispatches only the contact update event when importing labels for an existing contact' do
+        existing_contact = create(:contact, account: labels_data_import.account, email: 'existing-labeled@example.com', name: 'Old Name')
+        existing_contact.add_labels('customer')
+        data_with_existing_contact = [
+          %w[id name email phone_number labels],
+          ['1', 'Updated Name', existing_contact.email, '+918080808090', 'lead'],
+          ['2', 'New Labeled Contact', 'new-labeled@example.com', '+918080808091', 'customer']
+        ]
+        existing_contact_import = create(:data_import, account: labels_data_import.account,
+                                                       import_file: generate_csv_file(data_with_existing_contact))
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        described_class.perform_now(existing_contact_import)
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          Events::Types::CONTACT_UPDATED,
+          anything,
+          hash_including(contact: have_attributes(id: existing_contact.id))
+        ).once
+        expect(existing_contact.reload.label_list).to contain_exactly('customer', 'lead')
+        expect(labels_data_import.account.contacts.from_email('new-labeled@example.com').label_list).to contain_exactly('customer')
+      end
+
+      it 'merges labels for duplicate contact rows without duplicate taggings' do
+        data_with_duplicate_contact = [
+          %w[id name email phone_number labels],
+          ['1', 'Duplicate User', 'duplicate-labeled@example.com', '+918080808092', 'lead'],
+          ['2', 'Duplicate User', 'duplicate-labeled@example.com', '+918080808092', 'customer,lead']
+        ]
+        duplicate_contact_import = create(:data_import, account: labels_data_import.account,
+                                                        import_file: generate_csv_file(data_with_duplicate_contact))
+
+        described_class.perform_now(duplicate_contact_import)
+
+        contact = labels_data_import.account.contacts.from_email('duplicate-labeled@example.com')
+        lead = ActsAsTaggableOn::Tag.find_by(name: 'lead')
+        expect(contact.label_list).to contain_exactly('customer', 'lead')
+        expect(ActsAsTaggableOn::Tagging.where(tag_id: lead.id, taggable: contact, context: 'labels').count).to eq(1)
+      end
+
+      it 'rejects rows with labels that do not exist in the account before updating contacts' do
+        existing_contact = create(:contact,
+                                  account: labels_data_import.account,
+                                  email: 'existing@example.com',
+                                  phone_number: '+918080808085',
+                                  name: 'Existing Name')
+        data_with_unknown_labels = [
+          %w[id name email phone_number labels],
+          ['1', 'Updated Name', existing_contact.email, '+918080808086', 'vip,unknown_label']
+        ]
+
+        unknown_label_import = create(:data_import, account: labels_data_import.account,
+                                                    import_file: generate_csv_file(data_with_unknown_labels))
+
+        described_class.perform_now(unknown_label_import)
+
+        expect(existing_contact.reload.name).to eq('Existing Name')
+        expect(existing_contact.phone_number).to eq('+918080808085')
+        expect(unknown_label_import.reload.failed_records).to be_attached
+        expect(unknown_label_import.failed_records.download).to include('Unknown labels: unknown_label')
+      end
+    end
   end
 end

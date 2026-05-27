@@ -1,27 +1,26 @@
+import { EditorState, EditorView } from '@chatwoot/prosemirror-schema';
+import { FORMATTING } from 'dashboard/constants/editor';
+import { Schema } from 'prosemirror-model';
 import {
-  findSignatureInBody,
   appendSignature,
-  removeSignature,
-  replaceSignature,
+  calculateMenuPosition,
   cleanSignature,
+  collapseSelection,
   extractTextFromMarkdown,
-  stripUnsupportedMarkdown,
-  insertAtCursor,
   findNodeToInsertImage,
-  setURLWithQueryAndSize,
+  findSignatureInBody,
   getContentNode,
   getFormattingForEditor,
-  getSelectionCoords,
   getMenuAnchor,
-  calculateMenuPosition,
-  stripUnsupportedFormatting,
+  getSelectionCoords,
+  insertAtCursor,
+  removeSignature,
+  replaceSignature,
+  setURLWithQueryAndSize,
   stripInlineBase64Images,
-  collapseSelection,
+  stripUnsupportedFormatting,
+  stripUnsupportedMarkdown,
 } from '../editorHelper';
-import { FORMATTING } from 'dashboard/constants/editor';
-import { EditorState } from '@chatwoot/prosemirror-schema';
-import { EditorView } from '@chatwoot/prosemirror-schema';
-import { Schema } from 'prosemirror-model';
 
 // Define a basic ProseMirror schema
 const schema = new Schema({
@@ -335,6 +334,38 @@ describe('removeSignature', () => {
     expect(removeSignature('This is a test\n\n--', 'This is a signature')).toBe(
       'This is a test\n\n'
     );
+  });
+  it('strips blank-paragraph marker before the delimiter', () => {
+    expect(removeSignature('hey\n\n\\\n--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
+  it('strips multiple consecutive blank-paragraph markers before the delimiter', () => {
+    expect(
+      removeSignature('wewe\n\n\\\n\\\n\\\n--\n\nHello there', 'Hello there')
+    ).toBe('wewe');
+  });
+  it('strips dangling hardbreak when signature shared a paragraph with "--"', () => {
+    expect(removeSignature('hey\n\n--\\\nHello there', 'Hello there')).toBe(
+      'hey\n\n'
+    );
+  });
+  it('preserves trailing backslash in user text when appending', () => {
+    expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(appendSignature('C:\\\n', 'Best\nAgent')).toContain('C:\\');
+    expect(appendSignature('C:\\\n\n', 'Best\nAgent')).toContain('C:\\');
+  });
+  it('preserves trailing backslash in user text when removing', () => {
+    expect(removeSignature('C:\\\n--\n\nBest\nAgent', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(removeSignature('C:\\\n--', 'no matching sig')).toContain('C:\\');
+    expect(removeSignature('C:\\\nBest\\\nAgent', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(removeSignature('notes\n\\\n--', 'no matching sig')).toContain('\\');
   });
 });
 

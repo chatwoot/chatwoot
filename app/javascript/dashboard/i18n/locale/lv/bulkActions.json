@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Vai patiešām vēlaties atsaistīt {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Atgriezties",
     "ASSIGN_LABEL": "Piešķirt",
+    "NONE": "Nav",
+    "CLEAR_SELECTION": "Notīrīt",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Jā",
+    "CANCEL": "Atcelt",
     "SEARCH_INPUT_PLACEHOLDER": "Meklēt",
     "ASSIGN_AGENT_TOOLTIP": "Piešķirt aģentu",
     "ASSIGN_TEAM_TOOLTIP": "Piešķirt komandu",
@@ -38,6 +43,8 @@
       "NONE": "Nav",
       "NO_TEAMS_AVAILABLE": "Šim kontam vēl nav pievienota neviena komanda.",
       "ASSIGN_SELECTED_TEAMS": "Piešķirt izvēlēto komandu.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Komandas ir veiksmīgi piešķirtas.",
       "ASSIGN_FAILED": "Neizdevās piešķirt komandu. Lūdzu mēģiniet vēlreiz."
     }

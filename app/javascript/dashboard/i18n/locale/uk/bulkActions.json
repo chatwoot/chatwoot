@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Ви впевнені, що хочете скасувати призначення {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Повернутися назад",
     "ASSIGN_LABEL": "Призначити",
+    "NONE": "Нічого",
+    "CLEAR_SELECTION": "Очистити",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {n} діалог агенту {agentName}? | Ви впевнені, що хочете призначити {n} діалогів агенту {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Ви впевнені, що хочете відкріпити {n} діалог? | Ви впевнені, що хочете відкріпити {n} діалогів?",
     "YES": "Так",
+    "CANCEL": "Скасувати",
     "SEARCH_INPUT_PLACEHOLDER": "Пошук",
     "ASSIGN_AGENT_TOOLTIP": "Призначити агента",
     "ASSIGN_TEAM_TOOLTIP": "Призначити команду",
@@ -38,6 +43,8 @@
       "NONE": "Нiчого",
       "NO_TEAMS_AVAILABLE": "Цей акаунт ще не доданий до жодної команди.",
       "ASSIGN_SELECTED_TEAMS": "Призначити обрану команду.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Ви впевнені, що хочете призначити {n} діалог команді {teamName}? | Ви впевнені, що хочете призначити {n} діалогів команді {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Ви впевнені, що хочете відкріпити {n} діалог? | Ви впевнені, що хочете відкріпити {n} діалогів?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Не вдалося призначити команду, будь ласка, спробуйте ще раз."
     }

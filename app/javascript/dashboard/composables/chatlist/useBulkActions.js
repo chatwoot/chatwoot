@@ -23,9 +23,15 @@ export function useBulkActions() {
 
   function deSelectConversation(conversationId, inboxId) {
     store.dispatch('bulkActions/removeSelectedConversationIds', conversationId);
-    selectedInboxes.value = selectedInboxes.value.filter(
-      item => item !== inboxId
-    );
+    // Only remove one instance of the inboxId, not all
+    // This handles the case where multiple conversations from the same inbox are selected
+    const index = selectedInboxes.value.indexOf(inboxId);
+    if (index > -1) {
+      selectedInboxes.value = [
+        ...selectedInboxes.value.slice(0, index),
+        ...selectedInboxes.value.slice(index + 1),
+      ];
+    }
   }
 
   function resetBulkActions() {
@@ -102,7 +108,7 @@ export function useBulkActions() {
     }
   }
 
-  // Only used in context menu
+  // Used by both context menu and bulk action bar.
   async function onRemoveLabels(labelsToRemove, conversationId = null) {
     try {
       await store.dispatch('bulkActions/process', {
@@ -113,14 +119,24 @@ export function useBulkActions() {
         },
       });
 
-      useAlert(
-        t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
-          labelName: labelsToRemove[0],
-          conversationId,
-        })
-      );
+      // Context-menu remove should not disturb an existing bulk selection.
+      if (conversationId) {
+        useAlert(
+          t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.SUCCESFUL', {
+            labelName: labelsToRemove[0],
+            conversationId,
+          })
+        );
+      } else {
+        store.dispatch('bulkActions/clearSelectedConversationIds');
+        useAlert(t('BULK_ACTION.LABELS.REMOVE_SUCCESFUL'));
+      }
     } catch (err) {
-      useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED'));
+      useAlert(
+        conversationId
+          ? t('CONVERSATION.CARD_CONTEXT_MENU.API.LABEL_REMOVAL.FAILED')
+          : t('BULK_ACTION.LABELS.REMOVE_FAILED')
+      );
     }
   }
 
@@ -141,6 +157,8 @@ export function useBulkActions() {
   }
 
   async function onUpdateConversations(status, snoozedUntil) {
+    if (selectedConversations.value.length === 0) return;
+
     let conversationIds = selectedConversations.value;
     let skippedCount = 0;
 

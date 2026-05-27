@@ -238,5 +238,37 @@ describe CustomMarkdownRenderer do
         expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
       end
     end
+
+    context 'when captured values contain HTML-special characters' do
+      # CommonMark angle-bracket link destinations `[text](<URL>)` permit characters
+      # like `"` that the embed regex captures would otherwise pass through raw into
+      # attribute values. Captures are HTML-escaped before interpolation so the
+      # substituted value cannot break out of the surrounding attribute context.
+      it 'escapes double quotes in captured YouTube video_id' do
+        markdown = "\n[demo](<https://www.youtube.com/watch?v=x\" onload=\"alert(1)>)\n"
+        output = render_markdown(markdown)
+        expect(output).not_to include('onload="alert(1)"')
+        expect(output).to include('&quot;')
+      end
+
+      it 'leaves legitimate alphanumeric IDs untouched' do
+        output = render_markdown_link('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"')
+      end
+    end
+  end
+
+  describe '#image' do
+    it 'renders width in px with responsive cap and auto height' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=400px)'
+      expect(render_markdown(markdown)).to include(
+        'style="width: 400px; max-width: 100%; height: auto;"'
+      )
+    end
+
+    it 'ignores a non-numeric width' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=auto)'
+      expect(render_markdown(markdown)).not_to include('style=')
+    end
   end
 end

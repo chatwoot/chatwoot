@@ -7,12 +7,16 @@ import {
   ArticleMarkdownTransformer,
   EditorState,
   Selection,
+  imageResizeView,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
   triggerCharacters,
 } from '@chatwoot/prosemirror-schema/src/mentions/plugin';
 import imagePastePlugin from '@chatwoot/prosemirror-schema/src/plugins/image';
+import embedPreviewPlugin from '@chatwoot/prosemirror-schema/src/plugins/embedPreview';
+import trailingParagraphPlugin from '@chatwoot/prosemirror-schema/src/plugins/trailingParagraph';
+import { embeds as markdownEmbeds } from 'dashboard/helper/markdownEmbeds';
 import { toggleMark } from 'prosemirror-commands';
 import { wrapInList } from 'prosemirror-schema-list';
 import { toggleBlockType } from '@chatwoot/prosemirror-schema/src/menu/common';
@@ -77,6 +81,8 @@ export default {
       plugins: [
         imagePastePlugin(this.handleImageUpload),
         this.createSlashPlugin(),
+        embedPreviewPlugin(markdownEmbeds),
+        trailingParagraphPlugin(),
       ],
       isTextSelected: false, // Tracks text selection and prevents unnecessary re-renders on mouse selection
       showSlashMenu: false,
@@ -111,6 +117,12 @@ export default {
     editorView.updateState(state);
     if (this.autofocus) {
       this.focusEditorInputField();
+    }
+  },
+  beforeUnmount() {
+    if (editorView) {
+      editorView.destroy();
+      editorView = null;
     }
   },
   methods: {
@@ -224,6 +236,7 @@ export default {
           const tr = editorView.state.tr.replaceSelectionWith(tableNode);
           editorView.dispatch(tr.scrollIntoView());
         },
+        imageUpload: () => this.openFileBrowser(),
       };
 
       const command = commandMap[actionKey];
@@ -321,6 +334,9 @@ export default {
     createEditorView() {
       editorView = new EditorView(this.$refs.editor, {
         state: state,
+        nodeViews: {
+          image: imageResizeView,
+        },
         dispatchTransaction: tx => {
           state = state.apply(tx);
           editorView.updateState(state);
@@ -487,5 +503,10 @@ export default {
   min-height: 5rem;
   max-height: 7.5rem;
   overflow: auto;
+}
+
+.ProseMirror .cw-embed-preview {
+  max-width: 36rem;
+  margin: 0.5rem 0 1rem;
 }
 </style>
