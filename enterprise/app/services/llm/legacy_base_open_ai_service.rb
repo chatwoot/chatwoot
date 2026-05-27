@@ -18,6 +18,8 @@ class Llm::LegacyBaseOpenAiService
       log_errors: Rails.env.development?
     )
     setup_model
+  rescue Llm::ConfigurationError
+    raise
   rescue StandardError => e
     raise "Failed to initialize OpenAI client: #{e.message}"
   end
