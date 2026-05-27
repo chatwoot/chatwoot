@@ -85,9 +85,12 @@ class Whatsapp::IncomingCallService
     broadcast_incoming(call, sdp_offer)
   end
 
+  # Match strictly on wa_id (== calls[].from): in a batched payload missing this
+  # call's contact entry, borrowing another caller's name would corrupt this
+  # contact, so fall back to the phone number (nil here) instead of contacts.first.
   def caller_profile_name(payload)
     contacts = Array(params[:contacts]).map(&:with_indifferent_access)
-    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s } || contacts.first
+    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s }
     match&.dig(:profile, :name).presence
   end
 
