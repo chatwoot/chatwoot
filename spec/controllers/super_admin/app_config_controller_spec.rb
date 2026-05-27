@@ -139,7 +139,37 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
 
         expect(response).to have_http_status(:found)
         expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
-        expect(flash[:alert]).to eq('Model is required when Provider is Custom')
+        expect(flash[:alert]).to eq('Model is required unless Provider is OpenAI with API Base blank/default')
+      end
+
+      it 'requires a model for named non-OpenAI providers' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_LLM_PROVIDER: 'anthropic',
+            CAPTAIN_OPEN_AI_MODEL: '',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.anthropic.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('Model is required unless Provider is OpenAI with API Base blank/default')
+      end
+
+      it 'requires a model for OpenAI-compatible custom endpoints' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_LLM_PROVIDER: 'openai',
+            CAPTAIN_OPEN_AI_MODEL: '',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.groq.com/openai/v1'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('Model is required unless Provider is OpenAI with API Base blank/default')
       end
 
       it 'requires an API base for providers that need one' do

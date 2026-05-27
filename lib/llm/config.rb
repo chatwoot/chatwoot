@@ -69,7 +69,11 @@ module Llm::Config
       end
     end
 
-    def default_openai_endpoint? = default_provider == DEFAULT_PROVIDER && default_openai_endpoint_value?
+    def direct_openai_endpoint?(provider: default_provider, endpoint: api_endpoint)
+      provider.to_s == DEFAULT_PROVIDER && default_openai_api_base?(endpoint)
+    end
+
+    def default_openai_endpoint? = direct_openai_endpoint?
 
     def supports_structured_outputs_with_tools? = default_openai_endpoint?
 
@@ -120,8 +124,8 @@ module Llm::Config
 
     def provider_configuration_requirements(provider) = RubyLLM::Provider.providers[provider.to_sym]&.configuration_requirements || []
 
-    def default_openai_endpoint_value?
-      normalized_endpoint = api_endpoint.to_s.chomp('/').delete_suffix('/chat/completions').delete_suffix('/v1')
+    def default_openai_api_base?(endpoint)
+      normalized_endpoint = endpoint.to_s.chomp('/').delete_suffix('/chat/completions').delete_suffix('/v1')
       normalized_endpoint.blank? || normalized_endpoint == LlmConstants::OPENAI_API_ENDPOINT
     end
 

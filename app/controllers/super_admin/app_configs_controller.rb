@@ -117,11 +117,20 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     return [] unless @config == 'captain'
 
     provider = normalized_config_value('CAPTAIN_LLM_PROVIDER', app_config['CAPTAIN_LLM_PROVIDER'])
+    endpoint = normalized_config_value('CAPTAIN_OPEN_AI_ENDPOINT', app_config['CAPTAIN_OPEN_AI_ENDPOINT'])
 
     errors = []
-    errors << 'Model is required when Provider is Custom' if provider == Llm::Config::CUSTOM_PROVIDER && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
+    errors << model_required_message if captain_model_required?(provider, endpoint) && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
     errors << api_base_required_message(provider) if api_base_required?(provider) && app_config['CAPTAIN_OPEN_AI_ENDPOINT'].blank?
     errors
+  end
+
+  def captain_model_required?(provider, endpoint)
+    !Llm::Config.direct_openai_endpoint?(provider: provider, endpoint: endpoint)
+  end
+
+  def model_required_message
+    'Model is required unless Provider is OpenAI with API Base blank/default'
   end
 
   def api_base_required?(provider)

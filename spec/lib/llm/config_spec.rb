@@ -61,6 +61,24 @@ RSpec.describe Llm::Config do
     end
   end
 
+  describe '.direct_openai_endpoint?' do
+    it 'returns true for OpenAI with a blank endpoint' do
+      expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: '')).to be true
+    end
+
+    it 'returns true for OpenAI chat completions URLs' do
+      expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: 'https://api.openai.com/v1/chat/completions')).to be true
+    end
+
+    it 'returns false for OpenAI-compatible custom endpoints' do
+      expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: 'https://api.groq.com/openai/v1')).to be false
+    end
+
+    it 'returns false for custom providers' do
+      expect(described_class.direct_openai_endpoint?(provider: 'custom', endpoint: 'https://api.openai.com/v1')).to be false
+    end
+  end
+
   describe '.captain_utility_model' do
     it 'uses gpt-4.1-nano for OpenAI with the default endpoint' do
       set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')

@@ -18,6 +18,7 @@
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
     <% captain_custom_provider = @config == 'captain' && @app_config['CAPTAIN_LLM_PROVIDER'] == Llm::Config::CUSTOM_PROVIDER %>
     <% captain_api_base_required = captain_custom_provider || (@config == 'captain' && @captain_provider_api_bases&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], nil).blank?) %>
+    <% captain_model_required = @config == 'captain' && !Llm::Config.direct_openai_endpoint?(provider: @app_config['CAPTAIN_LLM_PROVIDER'], endpoint: @app_config['CAPTAIN_OPEN_AI_ENDPOINT']) %>
     <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
       <div>
         <% @allowed_configs.each do |key| %>
@@ -79,7 +80,7 @@
                 <%= form.text_field "app_config[#{key}]",
                     value: @app_config[key],
                     id: "app_config_#{key}",
-                    required: (@config == 'captain' && ((key == 'CAPTAIN_OPEN_AI_MODEL' && captain_custom_provider) || (key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required)))
+                    required: (@config == 'captain' && ((key == 'CAPTAIN_OPEN_AI_MODEL' && captain_model_required) || (key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required)))
                 %>
               <% end %>
               <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
@@ -163,7 +164,11 @@
           : providerApiBase;
       }
 
-      captainModel.required = customProviderSelected;
+      const normalizedApiBase = captainApiBase.value.trim().replace(/\/$/, '').replace(/\/chat\/completions$/, '').replace(/\/v1$/, '');
+      const directOpenAISelected = captainProvider.value === '<%= Llm::Config::DEFAULT_PROVIDER %>' &&
+        (!normalizedApiBase || normalizedApiBase === '<%= LlmConstants::OPENAI_API_ENDPOINT %>');
+
+      captainModel.required = !directOpenAISelected;
       captainApiBase.required = apiBaseRequired;
       captainApiBaseLabel.textContent = apiBaseRequired ? 'API Base' : 'API Base (optional)';
 

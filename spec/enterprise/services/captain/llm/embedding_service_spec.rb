@@ -51,6 +51,19 @@ RSpec.describe Captain::Llm::EmbeddingService do
       )
     end
 
+    it 'omits dimensions for legacy embedding models' do
+      create(:installation_config, name: 'CAPTAIN_EMBEDDING_MODEL', value: 'text-embedding-ada-002')
+
+      described_class.new.get_embedding('refund policy')
+
+      expect(context).to have_received(:embed).with(
+        'refund policy',
+        model: 'text-embedding-ada-002',
+        provider: Llm::Config::DEFAULT_PROVIDER,
+        assume_model_exists: true
+      )
+    end
+
     it 'fails clearly when Captain LLM uses another provider without an embedding API key' do
       InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_API_KEY')&.destroy
       allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
