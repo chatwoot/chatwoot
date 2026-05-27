@@ -20,6 +20,7 @@
     "CALL": "Appel",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choisir une boîte de réception vocale"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Identifiant",
       "COUNTRY": "Pays",
       "CITY": "Ville",
+      "COMPANY": "Société",
       "CREATED_AT": "Créé le",
       "LAST_ACTIVITY": "Dernière activité",
       "REFERER_LINK": "Lien de référence",

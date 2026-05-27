@@ -20,6 +20,7 @@
     "CALL": "Chamada",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Identificador",
       "COUNTRY": "País",
       "CITY": "Cidade",
+      "COMPANY": "Empresa",
       "CREATED_AT": "Criada em",
       "LAST_ACTIVITY": "Última atividade",
       "REFERER_LINK": "Link de referência",

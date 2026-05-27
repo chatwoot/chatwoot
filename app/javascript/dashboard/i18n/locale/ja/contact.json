@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "識別子",
       "COUNTRY": "国",
       "CITY": "都市",
+      "COMPANY": "企業名",
       "CREATED_AT": "作成日時",
       "LAST_ACTIVITY": "最終アクティビティ",
       "REFERER_LINK": "参照リンク",

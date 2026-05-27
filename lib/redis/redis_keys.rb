@@ -9,6 +9,28 @@ module Redis::RedisKeys
   # Whether a conversation is muted ?
   CONVERSATION_MUTE_KEY = 'CONVERSATION::%<id>d::MUTED'.freeze
   CONVERSATION_DRAFT_MESSAGE = 'CONVERSATION::%<id>d::DRAFT_MESSAGE'.freeze
+  UNREAD_CONVERSATIONS_ACCOUNT_PREFIX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d'.freeze
+  UNREAD_CONVERSATIONS_BASE_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::BASE'.freeze
+  UNREAD_CONVERSATIONS_ASSIGNMENT_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_BASE_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::BASE'.freeze
+  UNREAD_CONVERSATIONS_ASSIGNMENT_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_INBOX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
 
   ## User Keys
   # SSO Auth Tokens
@@ -43,15 +65,20 @@ module Redis::RedisKeys
   TIKTOK_REFRESH_TOKEN_MUTEX = 'TIKTOK_REFRESH_TOKEN_LOCK::%<channel_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
+  WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
+  CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
 
   ## Auto Assignment Keys
   # Track conversation assignments to agents for rate limiting
   ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::CONVERSATION::%<conversation_id>d'.freeze
   ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
+  # At-most-one AssignmentJob per inbox in-flight (queued or running); further enqueues are skipped
+  AUTO_ASSIGNMENT_IN_FLIGHT_KEY = 'AUTO_ASSIGNMENT_IN_FLIGHT::%<inbox_id>d'.freeze
 
   ## Account Onboarding
   ACCOUNT_ONBOARDING_ENRICHMENT = 'ONBOARDING_ENRICHMENT::%<account_id>d'.freeze
+  HELP_CENTER_GENERATION = 'HELP_CENTER_GENERATION::%<id>s'.freeze
 
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze

@@ -36,15 +36,17 @@ export const FEATURE_FLAGS = {
   CHATWOOT_V4: 'chatwoot_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CHANNEL_TIKTOK: 'channel_tiktok',
+  CHANNEL_VOICE: 'channel_voice',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
   CAPTAIN_CUSTOM_TOOLS: 'custom_tools',
   CAPTAIN_V2: 'captain_integration_v2',
   CAPTAIN_TASKS: 'captain_tasks',
+  CAPTAIN_DOCUMENT_AUTO_SYNC: 'captain_document_auto_sync',
   SAML: 'saml',
-  QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
   ADVANCED_SEARCH: 'advanced_search',
   CONVERSATION_REQUIRED_ATTRIBUTES: 'conversation_required_attributes',
+  CONVERSATION_UNREAD_COUNTS: 'conversation_unread_counts',
 };
 
 export const PREMIUM_FEATURES = [

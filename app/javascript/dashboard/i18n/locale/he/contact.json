@@ -20,6 +20,7 @@
     "CALL": "התקשר",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "בחר תיבת דואר קולי"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "מזהה",
       "COUNTRY": "מדינה",
       "CITY": "עיר",
+      "COMPANY": "חברה",
       "CREATED_AT": "נוצר בזמן",
       "LAST_ACTIVITY": "פעילות אחרונה",
       "REFERER_LINK": "קישור מפנה",

@@ -20,6 +20,7 @@
     "CALL": "通話",
     "CALL_INITIATED": "正在撥打聯絡人電話…",
     "CALL_FAILED": "無法撥打電話，請稍後再試。",
+    "CLICK_TO_EDIT": "點擊以編輯",
     "VOICE_INBOX_PICKER": {
       "TITLE": "選擇語音收件匣"
     },
@@ -287,7 +288,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "聯絡人",
@@ -386,6 +386,7 @@
       "IDENTIFIER": "識別碼",
       "COUNTRY": "國家",
       "CITY": "城市",
+      "COMPANY": "公司",
       "CREATED_AT": "建立時間",
       "LAST_ACTIVITY": "最後活動",
       "REFERER_LINK": "來源連結",
@@ -601,7 +602,6 @@
       "CONFIRM_SINGLE": "刪除聯絡人"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "無法完成搜尋，請重試。"

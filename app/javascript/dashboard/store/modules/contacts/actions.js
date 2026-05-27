@@ -36,7 +36,11 @@ const buildContactFormData = contactParams => {
 
 export const handleContactOperationErrors = error => {
   if (error.response?.status === 422) {
-    throw new DuplicateContactException(error.response.data.attributes);
+    const exception = new DuplicateContactException(
+      error.response.data.attributes
+    );
+    exception.message = error.response.data.message || exception.message;
+    throw exception;
   } else if (error.response?.data?.message) {
     throw new ExceptionWithMessage(error.response.data.message);
   } else {
@@ -308,10 +312,14 @@ export const actions = {
     commit(types.CLEAR_CONTACT_FILTERS);
   },
 
-  initiateCall: async ({ commit }, { contactId, inboxId }) => {
+  initiateCall: async ({ commit }, { contactId, inboxId, conversationId }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true });
     try {
-      const response = await ContactAPI.initiateCall(contactId, inboxId);
+      const response = await ContactAPI.initiateCall(
+        contactId,
+        inboxId,
+        conversationId
+      );
       commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
       return response.data;
     } catch (error) {

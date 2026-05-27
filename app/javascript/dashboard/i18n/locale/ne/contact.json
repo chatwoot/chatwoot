@@ -20,6 +20,7 @@
     "CALL": "कल गर्नुहोस्",
     "CALL_INITIATED": "सम्पर्कलाई कल गर्दै…",
     "CALL_FAILED": "फोन कल सुरु गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "भ्वाइस इन्बक्स छान्नुहोस्"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "पहिचानकर्ता",
       "COUNTRY": "देश",
       "CITY": "सहर",
+      "COMPANY": "कम्पनी",
       "CREATED_AT": "सिर्जना मिति",
       "LAST_ACTIVITY": "अन्तिम क्रियाकलाप",
       "REFERER_LINK": "रेफरर लिंक",
