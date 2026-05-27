@@ -16,6 +16,8 @@
 
 <section class="main-content__body">
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
+    <% captain_custom_provider = @config == 'captain' && @app_config['CAPTAIN_LLM_PROVIDER'] == Llm::Config::CUSTOM_PROVIDER %>
+    <% captain_api_base_required = captain_custom_provider || (@config == 'captain' && @captain_provider_api_bases&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], nil).blank?) %>
     <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
       <div>
         <% @allowed_configs.each do |key| %>
@@ -30,7 +32,9 @@
           <% end %>
           <div class="flex mb-8">
             <div class="field-unit__label">
-              <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
+              <% label_text = @installation_configs[key]&.dig('display_title') || key %>
+              <% label_text = 'API Base' if @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required %>
+              <%= form.label "app_config[#{key}]", label_text, id: (@config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' ? 'captain-api-base-label' : nil) %>
             </div>
             <div class="-mt-2 field-unit__field ">
               <% if @installation_configs[key]&.dig('type') == 'boolean' %>
@@ -68,18 +72,27 @@
                 <%= form.select "app_config[#{key}]",
                   @installation_configs[key]['options'].map { |val, label| [label, val] },
                   { selected: @app_config[key] },
-                  class: "mt-2 border border-slate-100 p-1 rounded-md"
+                  class: "mt-2 border border-slate-100 p-1 rounded-md",
+                  id: "app_config_#{key}"
                 %>
               <% else %>
-                <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
+                <%= form.text_field "app_config[#{key}]",
+                    value: @app_config[key],
+                    id: "app_config_#{key}",
+                    required: (@config == 'captain' && ((key == 'CAPTAIN_OPEN_AI_MODEL' && captain_custom_provider) || (key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required)))
+                %>
               <% end %>
               <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
                 <p class="pt-2 text-xs italic text-slate-400">
-                  Used for embeddings, PDF processing, and audio transcription. If blank, Chatwoot reuses the Captain Model API key only when Provider is OpenAI and API Base is blank/default.
+                  OpenAI key used for FAQs, knowledge search, PDF processing, and audio transcription. Required unless Provider is OpenAI with API Base blank/default, where Chatwoot reuses the Captain Model API key.
                 </p>
               <% elsif @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' %>
-                <p class="pt-2 text-xs italic text-slate-400">
-                  Defaults to https://api.openai.com.
+                <p id="captain-api-base-hint" class="pt-2 text-xs italic text-slate-400">
+                  <% if captain_custom_provider %>
+                    Enter the API base URL only. Example: use https://api.groq.com/openai/v1, not /chat/completions.
+                  <% elsif @app_config['CAPTAIN_LLM_PROVIDER'] == Llm::Config::DEFAULT_PROVIDER && @app_config[key].blank? %>
+                    Defaults to https://api.openai.com.
+                  <% end %>
                 </p>
               <% elsif @config != 'captain' && @installation_configs[key]&.dig('description').present? %>
                 <p class="pt-2 text-xs italic text-slate-400">
@@ -108,7 +121,7 @@
             </p>
 
             <p>
-              If your provider is not listed but exposes an OpenAI-compatible chat completions API, choose OpenAI, enter your custom model, and set API Base to the correct OpenAI-compatible endpoint.
+              If your provider is not listed but exposes an OpenAI-compatible chat completions API, choose Custom, enter your custom model, and set API Base to the correct endpoint. Enter the base URL only; omit /chat/completions.
             </p>
 
             <p>
@@ -116,7 +129,7 @@
             </p>
 
             <p>
-              Embeddings and document features always use OpenAI. Add an OpenAI key in the Embeddings and documents section, even when Captain LLM also uses OpenAI.
+              FAQs, knowledge search, PDF processing, and audio transcription always use OpenAI. Add an OpenAI key in Embeddings and documents unless Provider is OpenAI with API Base blank/default.
             </p>
           </div>
         </aside>
@@ -128,6 +141,47 @@
 <% content_for :javascript do %>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const captainProvider = document.getElementById('app_config_CAPTAIN_LLM_PROVIDER');
+    const captainModel = document.getElementById('app_config_CAPTAIN_OPEN_AI_MODEL');
+    const captainApiBase = document.getElementById('app_config_CAPTAIN_OPEN_AI_ENDPOINT');
+    const captainApiBaseLabel = document.getElementById('captain-api-base-label');
+    const captainApiBaseHint = document.getElementById('captain-api-base-hint');
+    const captainProviderApiBases = <%= raw((@captain_provider_api_bases || {}).to_json) %>;
+    const initialCaptainProvider = captainProvider?.value;
+    const initialCaptainApiBase = captainApiBase?.value;
+
+    const updateCaptainProviderFields = ({ updateApiBase } = { updateApiBase: false }) => {
+      if (!captainProvider || !captainModel || !captainApiBase || !captainApiBaseLabel || !captainApiBaseHint) return;
+
+      const customProviderSelected = captainProvider.value === '<%= Llm::Config::CUSTOM_PROVIDER %>';
+      const providerApiBase = captainProviderApiBases[captainProvider.value] || '';
+      const apiBaseRequired = customProviderSelected || !providerApiBase;
+
+      if (updateApiBase) {
+        captainApiBase.value = customProviderSelected && initialCaptainProvider === captainProvider.value
+          ? initialCaptainApiBase
+          : providerApiBase;
+      }
+
+      captainModel.required = customProviderSelected;
+      captainApiBase.required = apiBaseRequired;
+      captainApiBaseLabel.textContent = apiBaseRequired ? 'API Base' : 'API Base (optional)';
+
+      if (customProviderSelected) {
+        captainApiBaseHint.textContent = 'Enter the API base URL only. Example: use https://api.groq.com/openai/v1, not /chat/completions.';
+      } else if (apiBaseRequired) {
+        captainApiBaseHint.textContent = 'API Base is required for the selected provider.';
+      } else if (captainProvider.value === '<%= Llm::Config::DEFAULT_PROVIDER %>' && !captainApiBase.value) {
+        captainApiBaseHint.textContent = 'Defaults to https://api.openai.com.';
+      } else {
+        captainApiBaseHint.textContent = '';
+      }
+    };
+
+    captainProvider?.addEventListener('change', () => updateCaptainProviderFields({ updateApiBase: true }));
+    captainApiBase?.addEventListener('input', () => updateCaptainProviderFields());
+    updateCaptainProviderFields();
+
     document.querySelectorAll('.toggle-password').forEach(button => {
       button.addEventListener('click', () => {
         const targetId = button.dataset.target;

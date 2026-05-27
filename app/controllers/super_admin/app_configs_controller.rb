@@ -14,18 +14,12 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     end
     populate_captain_provider_options if @config == 'captain'
     apply_captain_defaults if @config == 'captain'
+    apply_captain_api_base_options if @config == 'captain'
   end
 
   def create
-    errors = []
-    params['app_config'].each do |key, value|
-      next unless @allowed_configs.include?(key)
-
-      value = normalized_config_value(key, value)
-      i = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
-      i.value = value
-      errors.concat(i.errors.full_messages) unless i.save
-    end
+    errors = captain_config_errors(params.fetch('app_config', {}))
+    errors = save_app_configs if errors.blank?
 
     if errors.any?
       redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
@@ -96,10 +90,48 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     @app_config['CAPTAIN_LLM_PROVIDER'] = Llm::Config::DEFAULT_PROVIDER if @app_config['CAPTAIN_LLM_PROVIDER'].blank?
   end
 
-  def normalized_config_value(key, value)
-    return value unless @config == 'captain' && value.blank? && key == 'CAPTAIN_LLM_PROVIDER'
+  def apply_captain_api_base_options
+    @captain_provider_api_bases = Llm::Config.provider_api_base_options
+  end
 
-    Llm::Config::DEFAULT_PROVIDER
+  def normalized_config_value(key, value)
+    return value unless @config == 'captain'
+    return Llm::Config::DEFAULT_PROVIDER if value.blank? && key == 'CAPTAIN_LLM_PROVIDER'
+    return Llm::Config.api_base_for(provider: params.dig('app_config', 'CAPTAIN_LLM_PROVIDER'), endpoint: value) if key == 'CAPTAIN_OPEN_AI_ENDPOINT'
+
+    value
+  end
+
+  def save_app_configs
+    params.fetch('app_config', {}).to_unsafe_h.each_with_object([]) do |(key, value), errors|
+      next unless @allowed_configs.include?(key)
+
+      value = normalized_config_value(key, value)
+      installation_config = InstallationConfig.where(name: key).first_or_create(value: value, locked: false)
+      installation_config.value = value
+      errors.concat(installation_config.errors.full_messages) unless installation_config.save
+    end
+  end
+
+  def captain_config_errors(app_config)
+    return [] unless @config == 'captain'
+
+    provider = normalized_config_value('CAPTAIN_LLM_PROVIDER', app_config['CAPTAIN_LLM_PROVIDER'])
+
+    errors = []
+    errors << 'Model is required when Provider is Custom' if provider == Llm::Config::CUSTOM_PROVIDER && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
+    errors << api_base_required_message(provider) if api_base_required?(provider) && app_config['CAPTAIN_OPEN_AI_ENDPOINT'].blank?
+    errors
+  end
+
+  def api_base_required?(provider)
+    provider == Llm::Config::CUSTOM_PROVIDER || Llm::Config.provider_api_base_options[provider].blank?
+  end
+
+  def api_base_required_message(provider)
+    return 'API Base is required when Provider is Custom' if provider == Llm::Config::CUSTOM_PROVIDER
+
+    'API Base is required for the selected Provider'
   end
 end
 
