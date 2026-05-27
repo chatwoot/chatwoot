@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "통화 종료",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "아직 응답하지 않았습니다",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "상대방이 응답했습니다",
       "YOU_ANSWERED": "귀하가 응답했습니다",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "통화 참가",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "아직 응답하지 않았습니다",
       "HANDLED_IN_ANOTHER_TAB": "다른 탭에서 처리 중입니다",
       "REJECT_CALL": "거부",
+      "DISMISS_CALL": "닫기",
       "JOIN_CALL": "통화 참가",
       "END_CALL": "통화 종료",
       "MUTE": "Mute mic",
