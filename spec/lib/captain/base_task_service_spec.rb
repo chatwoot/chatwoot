@@ -160,6 +160,19 @@ RSpec.describe Captain::BaseTaskService do
         expect(Llm::Config).not_to receive(:with_api_key)
         service.send(:make_api_call, model: model, messages: messages)
       end
+
+      it 'allows API-base-only providers without an API key' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'ollama')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'http://localhost:11434')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with(nil, provider: 'ollama', api_base: 'http://localhost:11434')
+          .and_yield(mock_context)
+
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:message]).to eq('Response')
+      end
     end
 
     it 'instruments the LLM call' do

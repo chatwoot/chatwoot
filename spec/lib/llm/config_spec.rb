@@ -128,6 +128,34 @@ RSpec.describe Llm::Config do
     end
   end
 
+  describe '.api_key_required?' do
+    it 'returns true for API-key providers' do
+      expect(described_class.api_key_required?('openai')).to be true
+    end
+
+    it 'returns false for API-base-only providers' do
+      expect(described_class.api_key_required?('ollama')).to be false
+    end
+  end
+
+  describe '.api_base_only_provider_configured?' do
+    it 'returns true when an API-base-only provider has an endpoint' do
+      expect(
+        described_class.api_base_only_provider_configured?(provider: 'ollama', endpoint: 'http://localhost:11434')
+      ).to be true
+    end
+
+    it 'returns false when an API-base-only provider has no endpoint' do
+      expect(described_class.api_base_only_provider_configured?(provider: 'ollama', endpoint: '')).to be false
+    end
+
+    it 'returns false for providers that require API keys' do
+      expect(
+        described_class.api_base_only_provider_configured?(provider: 'openrouter', endpoint: 'https://openrouter.ai/api/v1')
+      ).to be false
+    end
+  end
+
   describe '.configure_provider' do
     it 'ignores provider settings unsupported by the target config object' do
       config = Class.new do

@@ -90,6 +90,7 @@ RSpec.describe Captain::Llm::AssistantActionClassifierService do
         provider: Llm::Config::DEFAULT_PROVIDER,
         assume_model_exists: true
       ).and_return(mock_chat)
+      expect(mock_chat).not_to receive(:with_schema)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
 
       result = service.classify(message_history: message_history, assistant_response: 'Would you like to talk to support?')

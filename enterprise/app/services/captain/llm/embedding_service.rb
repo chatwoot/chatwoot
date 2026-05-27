@@ -19,7 +19,13 @@ class Captain::Llm::EmbeddingService
       validate_api_key!
 
       Llm::Config.with_api_key(@api_key, provider: @embedding_provider, api_base: Llm::OpenAiConfig.api_v1_base) do |context|
-        context.embed(content, **embedding_options(model)).vectors
+        context.embed(
+          content,
+          model: model,
+          provider: @embedding_provider,
+          assume_model_exists: true,
+          dimensions: @embedding_dimensions
+        ).vectors
       end
     end
   rescue Llm::ConfigurationError, EmbeddingsError => e
@@ -36,20 +42,6 @@ class Captain::Llm::EmbeddingService
     return if @api_key.present?
 
     raise Llm::ConfigurationError, 'An OpenAI API key is required for embeddings and document search.'
-  end
-
-  def embedding_options(model)
-    options = {
-      model: model,
-      provider: @embedding_provider,
-      assume_model_exists: true
-    }
-    options[:dimensions] = @embedding_dimensions if supports_dimensions?(model)
-    options
-  end
-
-  def supports_dimensions?(model)
-    model.to_s.start_with?('text-embedding-3-')
   end
 
   def instrumentation_params(content, model)

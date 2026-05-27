@@ -1,5 +1,6 @@
 require 'ruby_llm'
 
+# rubocop:disable Metrics/ModuleLength
 module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
   DEFAULT_UTILITY_MODEL = 'gpt-4.1-nano'.freeze
@@ -77,6 +78,15 @@ module Llm::Config
 
     def supports_structured_outputs_with_tools? = default_openai_endpoint?
 
+    def api_key_required?(provider = default_provider)
+      provider = ruby_llm_provider(provider)
+      provider_configuration_requirements(provider).include?(:"#{provider}_api_key")
+    end
+
+    def api_base_only_provider_configured?(provider: default_provider, endpoint: api_endpoint)
+      !api_key_required?(provider) && api_base_for(provider: provider, endpoint: endpoint).present?
+    end
+
     def configure_provider(config, provider:, api_key:, api_base: nil)
       provider = ruby_llm_provider(provider)
       options = provider_configuration_options(provider)
@@ -132,3 +142,4 @@ module Llm::Config
     def provider_config_value = InstallationConfig.find_by(name: 'CAPTAIN_LLM_PROVIDER')&.value
   end
 end
+# rubocop:enable Metrics/ModuleLength

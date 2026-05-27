@@ -183,7 +183,8 @@ class Integrations::LlmBaseService
 
   def system_llm_credential
     key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    { api_key: key, source: :system } if key.present?
+    return { api_key: key, source: :system } if key.present?
+    return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
   end
 
   def exception_tracking_account

@@ -53,5 +53,19 @@ RSpec.describe Integrations::LlmBaseService do
         request_messages: [{ 'role' => 'user', 'content' => 'Hello' }]
       )
     end
+
+    it 'allows API-base-only providers without an API key' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'ollama')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'http://localhost:11434')
+      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
+
+      expect(Llm::Config).to receive(:with_api_key)
+        .with(nil, provider: 'ollama', api_base: 'http://localhost:11434')
+        .and_raise(error)
+
+      result = service.send(:make_api_call, body)
+
+      expect(result[:error]).to eq('API Error')
+    end
   end
 end

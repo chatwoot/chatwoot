@@ -29,6 +29,19 @@ class Llm::BaseAiService
     response.strip.sub(/\A```(?:\w*)\s*\n?/, '').sub(/\n?\s*```\s*\z/, '').strip
   end
 
+  def with_json_response_format(chat, **params)
+    request_params = params
+    request_params = request_params.merge(response_format: { type: 'json_object' }) if Llm::Config.supports_structured_outputs_with_tools?
+
+    request_params.present? ? chat.with_params(**request_params) : chat
+  end
+
+  def with_response_schema(chat, schema)
+    return chat unless Llm::Config.supports_structured_outputs_with_tools?
+
+    chat.with_schema(schema)
+  end
+
   def setup_model
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
     @model = (config_value.presence || DEFAULT_MODEL)

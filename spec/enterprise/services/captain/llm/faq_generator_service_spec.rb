@@ -36,6 +36,15 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
         service.generate
       end
 
+      it 'does not send JSON response format for custom providers' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'custom')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://api.groq.com/openai')
+
+        expect(mock_chat).not_to receive(:with_params)
+
+        service.generate
+      end
+
       it 'uses SystemPromptsService with the account language' do
         account_language = document.account.locale_english_name
         expect(Captain::Llm::SystemPromptsService).to receive(:faq_generator).with(account_language).at_least(:once).and_call_original

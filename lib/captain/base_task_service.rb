@@ -186,7 +186,8 @@ class Captain::BaseTaskService
   end
 
   def system_llm_credential
-    { api_key: system_api_key, source: :system } if system_api_key.present?
+    return { api_key: system_api_key, source: :system } if system_api_key.present?
+    return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
   end
 
   def openai_hook
