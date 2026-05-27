@@ -127,7 +127,6 @@ const menuItems = computed(() => {
       value: 'sync',
       action: 'sync',
       icon: 'i-lucide-refresh-cw',
-      disabled: props.syncInProgress,
     });
   }
 
