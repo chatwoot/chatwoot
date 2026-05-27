@@ -171,11 +171,13 @@ class Whatsapp::IncomingCallService
     )
   end
 
-  # Ring the assignee if any, else online inbox agents, else the whole account.
+  # Ring the assignee if any, else online inbox agents, else fall back to the
+  # inbox's own agents and account admins. Never the whole-account stream, which
+  # would ring online agents from unrelated inboxes.
   def broadcast_incoming(call, sdp_offer)
     contact = call.contact
     token = call.conversation.assignee&.pubsub_token
-    streams = token ? [token] : (online_agent_streams.presence || account_streams)
+    streams = token ? [token] : (online_agent_streams.presence || fallback_agent_streams)
     broadcast(call, 'voice_call.incoming',
               streams: streams,
               direction: call.direction_label, inbox_id: call.inbox_id,
@@ -185,6 +187,11 @@ class Whatsapp::IncomingCallService
 
   def online_agent_streams
     inbox.available_agents.pluck('users.pubsub_token').compact
+  end
+
+  def fallback_agent_streams
+    user_ids = inbox.member_ids | inbox.account.administrators.ids
+    User.where(id: user_ids).pluck(:pubsub_token).compact
   end
 
   def broadcast(call, event, streams: account_streams, **extra)
