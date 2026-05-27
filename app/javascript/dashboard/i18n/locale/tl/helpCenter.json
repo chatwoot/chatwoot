@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Matagumpay na natanggal ang wika mula sa portal",
           "ERROR_MESSAGE": "Hindi matanggal ang wika mula sa portal. Subukang muli."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -513,6 +525,7 @@
             "PUBLISH": "I-publish",
             "DRAFT": "Burador",
             "ARCHIVE": "I-archive",
+            "TRANSLATE": "Translate",
             "DELETE": "Tanggalin"
           },
           "STATUS": {
@@ -567,6 +580,41 @@
           "TITLE": "Walang artikulo sa kategoryang ito",
           "SUBTITLE": "Lalabas dito ang mga artikulo sa kategoryang ito"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "Translate",
+        "SELECT_ALL": "Piliin lahat ({count})",
+        "SELECTED_COUNT": "{count} napili",
+        "CLEAR_SELECTION": "Tanggalin ang pagpili",
+        "TRANSLATE_BUTTON": "Translate",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "I-publish",
+        "DRAFT": "Burador",
+        "ARCHIVE": "I-archive",
+        "TRANSLATE": "Translate",
+        "DELETE": "Delete",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "Delete",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -644,8 +692,11 @@
         "ARTICLES_COUNT": "{count} artikulo | {count} mga artikulo",
         "CATEGORIES_COUNT": "{count} kategorya | {count} mga kategorya",
         "DEFAULT": "Default",
+        "DRAFT": "Burador",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Gawing default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Tanggalin"
         }
       },
@@ -654,6 +705,13 @@
         "DESCRIPTION": "Piliin ang wikang gagamitin sa artikulong ito. Idadagdag ito sa iyong listahan ng mga pagsasalin, at maaari kang magdagdag pa mamaya.",
         "COMBOBOX": {
           "PLACEHOLDER": "Pumili ng wika..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Nailathala",
+            "DRAFT": "Burador"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Matagumpay na nadagdag ang wika",
@@ -676,7 +734,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Higit pang mga katangian",
         "UNCATEGORIZED": "Walang kategorya",
-        "EDITOR_PLACEHOLDER": "Sumulat ng kahit ano..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Mga katangian ng artikulo",

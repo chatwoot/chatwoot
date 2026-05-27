@@ -20,6 +20,7 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "Identificator",
       "COUNTRY": "Țară",
       "CITY": "Oraș",
+      "COMPANY": "Companie",
       "CREATED_AT": "Creat la",
       "LAST_ACTIVITY": "Ultima activitate",
       "REFERER_LINK": "Link referer",

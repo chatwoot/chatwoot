@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "נדרשת לפחות פעולה אחת"
     },
     "NONE_OPTION": "אין",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "שיחה נוצרה",
       "CONVERSATION_UPDATED": "שיחה עודכנה",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "הקצה לסוכן",
       "ASSIGN_TEAM": "הקצה צוות",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "הסר צוות שהוקצה",
       "ADD_LABEL": "הוסף תווית",
       "REMOVE_LABEL": "הסר תווית",
       "SEND_EMAIL_TO_TEAM": "שלח דוא\"ל לצוות",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "סוג הודעה",
+      "PRIVATE_NOTE": "הערה פרטית",
       "MESSAGE_CONTAINS": "ההודעה מכילה",
       "EMAIL": "דוא\"ל",
       "INBOX": "תיבת דואר נכנס",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "שפת דפדפן",
       "MAIL_SUBJECT": "נושא דוא\"ל",
       "COUNTRY_NAME": "מדינה",
+      "COMPANY_NAME": "חברה",
       "REFERER_LINK": "קישור מפנה",
       "ASSIGNEE_NAME": "מוקצה",
       "TEAM_NAME": "צוות",

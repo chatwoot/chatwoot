@@ -20,6 +20,7 @@
     "CALL": "呼叫",
     "CALL_INITIATED": "正在接通…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
     },
@@ -385,6 +386,7 @@
       "IDENTIFIER": "标识符",
       "COUNTRY": "国家",
       "CITY": "城市",
+      "COMPANY": "公司",
       "CREATED_AT": "创建于",
       "LAST_ACTIVITY": "上次操作",
       "REFERER_LINK": "引用链接",

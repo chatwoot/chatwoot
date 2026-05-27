@@ -449,7 +449,7 @@
       "CANCEL_ANYTIME": "Mund të ndryshosh ose anullosh planin tënd në çdo kohë"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI është në dispozicion vetëm në planet Enterprise.",
       "UPGRADE_PROMPT": "Përmirëso planin tënd për të pasur akses në asistentët tanë, copilot dhe më shumë.",
       "ASK_ADMIN": "Ju lutemi kontaktoni administratorin tuaj për përmirësimin."
     },
@@ -738,6 +738,63 @@
     "DOCUMENTS": {
       "HEADER": "Dokumentet",
       "ADD_NEW": "Krijo një dokument të ri",
+      "SELECTED": "{count} i/e zgjedhur",
+      "SELECT_ALL": "Zgjidh të gjitha ({count})",
+      "UNSELECT_ALL": "Hiq zgjedhjen nga të gjitha ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_SYNC_BUTTON": "Refresh",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Po, fshij të gjitha",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Dështuar"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Page not found",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Pyetje të Shpeshta të lidhura",
         "DESCRIPTION": "Këto Pyetje të Shpeshta janë gjeneruar direkt nga dokumenti."
@@ -781,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Shiko Përgjigjet e Lidhura",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Fshi Dokumentin"
       },
       "EMPTY_STATE": {
         "TITLE": "Nuk ka dokumente në dispozicion",
         "SUBTITLE": "Dokumentet përdoren nga asistenti juaj për të krijuar pyetje të shpeshta. Mund të importoni dokumente për t’i dhënë kontekst asistentit tuaj.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Dokumenti Captain",
           "NOTE": "Një dokument në Captain shërben si një burim njohurish për asistentin. Duke lidhur qendrën tuaj të ndihmës ose udhëzuesit, Captain mund të analizojë përmbajtjen dhe të ofrojë përgjigje të sakta për pyetjet e klientëve."
@@ -795,6 +856,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Mjetet",
       "ADD_NEW": "Krijo një mjet të ri",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Nuk ka mjete të personalizuara në dispozicion",
         "SUBTITLE": "Krijo mjete të personalizuara për të lidhur asistentin tënd me API dhe shërbime të jashtme, duke i mundësuar të marrë të dhëna dhe të kryejë veprime në emrin tënd.",
@@ -825,11 +887,30 @@
         "SUCCESS_MESSAGE": "Mjeti i personalizuar u fshi me sukses",
         "ERROR_MESSAGE": "Dështoi fshirja e mjetit të personalizuar"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Emri i mjetit",
           "PLACEHOLDER": "Kërkimi i porosisë",
-          "ERROR": "Emri i mjetit është i nevojshëm"
+          "ERROR": "Emri i mjetit është i nevojshëm",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Përshkrimi",

@@ -21,6 +21,8 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
+import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
@@ -38,12 +40,16 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
+import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 export default {
   components: {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
+    VoiceConfigurationPage,
+    WhatsappCallingPage,
     CustomerSatisfactionPage,
     FacebookReauthorize,
     GreetingsEditor,
@@ -69,6 +75,7 @@ export default {
     SelectInput,
     AccountHealth,
     Widget,
+    AccessToken,
   },
   mixins: [inboxMixin],
   setup() {
@@ -109,9 +116,33 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
+    isInboundEmailEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.INBOUND_EMAILS
+      );
+    },
+    showContinuityToggle() {
+      if (this.isInboundEmailEnabled) return true;
+      return this.isOnChatwootCloud;
+    },
+    isContinuityDisabled() {
+      return this.isOnChatwootCloud && !this.isInboundEmailEnabled;
+    },
+    continuityDescription() {
+      if (this.isContinuityDisabled) {
+        return this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT'
+        );
+      }
+      return this.$t(
+        'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
+      );
+    },
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
@@ -142,19 +173,17 @@ export default {
         },
       ];
 
-      if (!this.isAVoiceChannel) {
-        visibleToAllChannelTabs = [
-          ...visibleToAllChannelTabs,
-          {
-            key: 'business-hours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-          },
-          {
-            key: 'csat',
-            name: this.$t('INBOX_MGMT.TABS.CSAT'),
-          },
-        ];
-      }
+      visibleToAllChannelTabs = [
+        ...visibleToAllChannelTabs,
+        {
+          key: 'business-hours',
+          name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
+        {
+          key: 'csat',
+          name: this.$t('INBOX_MGMT.TABS.CSAT'),
+        },
+      ];
 
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
@@ -170,7 +199,6 @@ export default {
         this.isATwilioChannel ||
         this.isALineChannel ||
         this.isAPIInbox ||
-        this.isAVoiceChannel ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
         this.shouldShowWhatsAppConfiguration ||
         this.isAWebWidgetInbox
@@ -201,6 +229,41 @@ export default {
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+        ];
+      }
+
+      if (
+        this.isATwilioChannel &&
+        this.inbox.phone_number &&
+        this.inbox.medium === 'sms' &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CHANNEL_VOICE
+        )
+      ) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'voice-configuration',
+            name: this.$t('INBOX_MGMT.TABS.VOICE'),
+          },
+        ];
+      }
+
+      if (
+        this.isAWhatsAppCloudChannel &&
+        this.isEmbeddedSignupWhatsApp &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CHANNEL_VOICE
+        )
+      ) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'calls-configuration',
+            name: this.$t('INBOX_MGMT.TABS.CALLS'),
           },
         ];
       }
@@ -362,6 +425,33 @@ export default {
     this.fetchSharedData();
   },
   methods: {
+    async copyWebhookSecret(value) {
+      await copyTextToClipboard(value);
+      useAlert(
+        this.$t(
+          'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.COPY_SUCCESS'
+        )
+      );
+    },
+    async resetWebhookSecret() {
+      const response = await this.$store.dispatch(
+        'inboxes/resetSecret',
+        this.inbox.id
+      );
+      if (response) {
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.RESET_SUCCESS'
+          )
+        );
+      } else {
+        useAlert(
+          this.$t(
+            'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.RESET_ERROR'
+          )
+        );
+      }
+    },
     fetchSharedData() {
       this.$store.dispatch('agents/get');
       this.$store.dispatch('teams/get');
@@ -512,7 +602,8 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            continuity_via_email: this.continuityViaEmail,
+            continuity_via_email:
+              this.isInboundEmailEnabled && this.continuityViaEmail,
           },
         };
         if (this.avatarFile) {
@@ -715,6 +806,21 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
+              v-if="isAPIInbox && inbox.secret"
+              :label="
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WEBHOOK_SECRET.LABEL'
+                )
+              "
+            >
+              <AccessToken
+                :value="inbox.secret"
+                @on-copy="copyWebhookSecret"
+                @on-reset="resetWebhookSecret"
+              />
+            </SettingsFieldSection>
+
+            <SettingsFieldSection
               v-if="isAWebWidgetInbox"
               :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
             >
@@ -742,7 +848,6 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
-              v-if="!isAVoiceChannel"
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"
               :help-text="$t('INBOX_MGMT.HELP_CENTER.SUB_TEXT')"
             >
@@ -1103,15 +1208,15 @@ export default {
               />
 
               <SettingsToggleSection
-                v-if="isAWebWidgetInbox"
+                v-if="isAWebWidgetInbox && showContinuityToggle"
                 v-model="continuityViaEmail"
                 :header="
                   $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL')
                 "
-                :description="
-                  $t(
-                    'INBOX_MGMT.SETTINGS_POPUP.ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT'
-                  )
+                :description="continuityDescription"
+                :hide-toggle="isContinuityDisabled"
+                :class="
+                  isContinuityDisabled ? 'cursor-not-allowed opacity-50' : ''
                 "
               />
             </SettingsAccordion>
@@ -1169,6 +1274,18 @@ export default {
           :class="isAWebWidgetInbox ? 'max-w-7xl' : 'max-w-4xl'"
         >
           <ConfigurationPage :inbox="inbox" />
+        </div>
+        <div
+          v-if="selectedTabKey === 'voice-configuration'"
+          class="mx-6 max-w-4xl"
+        >
+          <VoiceConfigurationPage :inbox="inbox" />
+        </div>
+        <div
+          v-if="selectedTabKey === 'calls-configuration'"
+          class="mx-6 max-w-4xl"
+        >
+          <WhatsappCallingPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'csat'">
           <CustomerSatisfactionPage :inbox="inbox" />

@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mesaj mövcud deyil",
     "CARD": {
       "SHOW_LABELS": "Etiketləri göstər",
-      "HIDE_LABELS": "Etiketləri gizlədin"
+      "HIDE_LABELS": "Etiketləri gizlədin",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Gələn zəng",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Zəng bitdi",
       "NOT_ANSWERED_YET": "Hələ cavab verilməyib",
       "THEY_ANSWERED": "Onlar cavab verdi",
-      "YOU_ANSWERED": "Siz cavab verdiniz"
+      "YOU_ANSWERED": "Siz cavab verdiniz",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Zəngə qoşul"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Həll et",
@@ -92,6 +95,7 @@
       "OPEN": "Daha çox",
       "CLOSE": "Bağla",
       "DETAILS": "təfərrüatlar",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Gecikdirilib",
       "SNOOZED_UNTIL_TOMORROW": "Sabaha qədər təxirə salındı",
       "SNOOZED_UNTIL_NEXT_WEEK": "Gələn həftəyə qədər təxirə salındı",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Əvvəlki Söhbətlər",
       "MACROS": "Makrolar",
       "LINEAR_ISSUES": "Əlaqəli Linear məsələlər",
-      "SHOPIFY_ORDERS": "Shopify Sifarişləri"
+      "SHOPIFY_ORDERS": "Shopify Sifarişləri",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Sifariş #{id}",

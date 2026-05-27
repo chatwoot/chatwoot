@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Tampilkan label",
-      "HIDE_LABELS": "Sembunyikan label"
+      "HIDE_LABELS": "Sembunyikan label",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
@@ -92,6 +95,7 @@
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
       "DETAILS": "detail",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Ditunda hingga",
       "SNOOZED_UNTIL_TOMORROW": "Ditunda hingga besok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditunda hingga minggu depan",
@@ -194,7 +198,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Berikan copilot perintah tambahan, atau tanyakan hal lain... Tekan enter untuk mengirim tindak lanjut",
       "CLICK_HERE": "Klik di sini untuk memperbarui",
       "WHATSAPP_TEMPLATES": "Templat Whatsapp"
     },
@@ -214,7 +218,7 @@
       "DRAG_DROP": "Seret dan letakkan di sini untuk melampirkan",
       "START_AUDIO_RECORDING": "Mulai merekam audio",
       "STOP_AUDIO_RECORDING": "Berhenti merekam audio",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot sedang berpikir",
       "EMAIL_HEAD": {
         "TO": "KEPADA",
         "ADD_BCC": "Tambahkan bcc",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
       "MACROS": "Makro",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "None",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Cakto te një agjent",
       "ASSIGN_TEAM": "Cakto një ekip",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Hiq ekipin e caktuar",
       "ADD_LABEL": "Shto një etiketë",
       "REMOVE_LABEL": "Hiq një etiketë",
       "SEND_EMAIL_TO_TEAM": "Dërgo një email ekipit",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Lloji i mesazhit",
+      "PRIVATE_NOTE": "Shënim Privat",
       "MESSAGE_CONTAINS": "Mesazhi përmban",
       "EMAIL": "Email",
       "INBOX": "Inbox",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "Browser Language",
       "MAIL_SUBJECT": "Subjekti i emailit",
       "COUNTRY_NAME": "Country",
+      "COMPANY_NAME": "Kompania",
       "REFERER_LINK": "Lidhja e referuesit",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",

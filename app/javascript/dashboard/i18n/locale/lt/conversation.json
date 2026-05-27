@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Pranešimas nepasiekiamas",
     "CARD": {
       "SHOW_LABELS": "Rodyti etiketes",
-      "HIDE_LABELS": "Slėpti etiketes"
+      "HIDE_LABELS": "Slėpti etiketes",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Išspręsti",
@@ -92,6 +95,7 @@
       "OPEN": "Daugiau",
       "CLOSE": "Uždaryti",
       "DETAILS": "smulkesnė informacija",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Atidėta iki",
       "SNOOZED_UNTIL_TOMORROW": "Atidėta iki rytojaus",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atidėta iki kitos savaitės",
@@ -194,7 +198,7 @@
       "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
       "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
-      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
+      "COPILOT_MSG_INPUT": "Duokite copiloto papildomų nurodymų arba klauskite dar ko nors... Paspauskite Enter, kad išsiųstumėte papildomą žinutę",
       "CLICK_HERE": "Spausti čia kad atnaujinti",
       "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
@@ -214,7 +218,7 @@
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
-      "COPILOT_THINKING": "Copilot is thinking",
+      "COPILOT_THINKING": "Copilot galvoja",
       "EMAIL_HEAD": {
         "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Ankstesni pokalbiai",
       "MACROS": "Makrokomandos",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "Peržiūrėti visus",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

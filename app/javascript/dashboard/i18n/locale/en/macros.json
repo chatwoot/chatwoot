@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Edit macro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Macro Visibility",
         "GLOBAL": {
           "LABEL": "Public",
-          "DESCRIPTION": "This macro is available publicly for all agents in this account."
+          "DESCRIPTION": "This macro is available publicly for all agents in this account.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Private",
@@ -93,6 +98,7 @@
       "ASSIGN_AGENT": "Assign an Agent",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
       "MUTE_CONVERSATION": "Mute Conversation",

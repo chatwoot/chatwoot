@@ -24,6 +24,7 @@ class Captain::Assistant::AgentRunnerService
     @conversation = conversation
     @callbacks = callbacks
     @source = source
+    @handoff_tool_called = false
   end
 
   def generate_response(message_history: [])
@@ -98,13 +99,15 @@ class Captain::Assistant::AgentRunnerService
     output = result.output
     response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
     response['agent_name'] = result.context&.dig(:current_agent)
+    response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
   end
 
   def error_response(error_message)
     {
       'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{error_message}"
+      'reasoning' => "Error occurred: #{error_message}",
+      'handoff_tool_called' => @handoff_tool_called
     }
   end
 
@@ -175,16 +178,18 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def add_usage_metadata_callback(runner)
-    return runner unless ChatwootApp.otel_enabled?
-
     handoff_tool_name = Captain::Tools::HandoffTool.new(@assistant).name
 
+    # Tool tracking always runs — process_response in the job consumes the resulting
+    # handoff_tool_called flag regardless of whether OTEL is enabled.
     runner.on_tool_complete do |tool_name, _tool_result, context_wrapper|
       track_handoff_usage(tool_name, handoff_tool_name, context_wrapper)
     end
 
-    runner.on_run_complete do |_agent_name, _result, context_wrapper|
-      write_credits_used_metadata(context_wrapper)
+    if ChatwootApp.otel_enabled?
+      runner.on_run_complete do |_agent_name, _result, context_wrapper|
+        write_credits_used_metadata(context_wrapper)
+      end
     end
     runner
   end
@@ -193,15 +198,17 @@ class Captain::Assistant::AgentRunnerService
     return unless context_wrapper&.context
     return unless tool_name.to_s == handoff_tool_name
 
+    # Mirror the flag onto the instance so error_response can surface it even when
+    # the runner raises before returning a result (the context is unreachable then).
     context_wrapper.context[:captain_v2_handoff_tool_called] = true
+    @handoff_tool_called = true
   end
 
   def write_credits_used_metadata(context_wrapper)
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
     return unless root_span
 
-    credit_used = !context_wrapper.context[:captain_v2_handoff_tool_called]
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), credit_used.to_s)
+    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'credit_used'), @handoff_tool_called ? 'false' : 'true')
   end
 
   def runner

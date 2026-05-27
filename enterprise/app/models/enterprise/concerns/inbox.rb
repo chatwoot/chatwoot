@@ -7,5 +7,6 @@ module Enterprise::Concerns::Inbox
             through: :captain_inbox,
             class_name: 'Captain::Assistant'
     has_many :inbox_capacity_limits, dependent: :destroy
+    has_many :calls, dependent: :destroy_async
   end
 end

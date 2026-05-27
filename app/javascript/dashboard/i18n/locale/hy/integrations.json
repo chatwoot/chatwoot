@@ -738,6 +738,63 @@
     "DOCUMENTS": {
       "HEADER": "Փաստաթղթեր",
       "ADD_NEW": "Ստեղծել նոր փաստաթուղթ",
+      "SELECTED": "{count} ընտրված",
+      "SELECT_ALL": "Ընտրել բոլորը ({count})",
+      "UNSELECT_ALL": "Չընտրել բոլորը ({count})",
+      "BULK_DELETE_BUTTON": "Delete",
+      "BULK_SYNC_BUTTON": "Refresh",
+      "BULK_DELETE": {
+        "TITLE": "Delete documents?",
+        "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
+        "CONFIRM": "Այո, ջնջել բոլորը",
+        "SUCCESS_MESSAGE": "Documents deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Ձախողվել է"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Էջը չի գտնվել",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
+      },
       "RELATED_RESPONSES": {
         "TITLE": "Համապատասխան ՀՏՀ-ներ",
         "DESCRIPTION": "Այս ՀՏՀ-ները ստեղծվել են ուղղակիորեն փաստաթղթից։"
@@ -781,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Դիտել կապված պատասխանները",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Ջնջել փաստաթուղթը"
       },
       "EMPTY_STATE": {
         "TITLE": "Փաստաթղթեր չկան",
         "SUBTITLE": "Փաստաթղթերը օգտագործվում են օգնականի կողմից ՀՏՀ-ներ ստեղծելու համար։ Դուք կարող եք ներմուծել փաստաթղթեր՝ օգնականին տրամադրելու համատեքստ։",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Փաստաթուղթ",
           "NOTE": "Captain-ում փաստաթուղթը ծառայում է որպես գիտելիքների աղբյուր օգնականի համար։ Կապելով ձեր օգնության կենտրոնը կամ ուղեցույցները՝ Captain-ը կարող է վերլուծել բովանդակությունը և տրամադրել ճշգրիտ պատասխաններ հաճախորդների հարցումների համար։"
@@ -795,6 +856,7 @@
     "CUSTOM_TOOLS": {
       "HEADER": "Alat",
       "ADD_NEW": "Cipta alat baru",
+      "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
         "TITLE": "Tiada alat khusus tersedia",
         "SUBTITLE": "Ստեղծեք անհատական գործիքներ՝ ձեր օգնականին արտաքին API-ների և ծառայությունների հետ կապելու համար՝ հնարավորություն տալով նրան ստանալ տվյալներ և կատարել գործողություններ ձեր անունից։",
@@ -825,11 +887,30 @@
         "SUCCESS_MESSAGE": "Alat tersuai berjaya dipadam",
         "ERROR_MESSAGE": "Gagal memadam alat tersuai"
       },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use tools with Captain",
+        "AVAILABLE_ON": "Captain Tools are only available in Business and Enterprise plans. Please upgrade to Business plan to use the feature.",
+        "UPGRADE_PROMPT": "",
+        "UPGRADE_NOW": "Open billing",
+        "CANCEL_ANYTIME": ""
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "Captain Tools are only available in the paid plans.",
+        "UPGRADE_PROMPT": "Please upgrade to a paid plan to use this feature.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      },
+      "TEST": {
+        "BUTTON": "Test connection",
+        "SUCCESS": "Endpoint returned HTTP {status}",
+        "ERROR": "Connection failed",
+        "DISABLED_HINT": "Testing is only available for endpoints without templates or request bodies."
+      },
       "FORM": {
         "TITLE": {
           "LABEL": "Nama Alat",
           "PLACEHOLDER": "Carian Pesanan",
-          "ERROR": "Nama alat diperlukan"
+          "ERROR": "Nama alat diperlukan",
+          "MAX_LENGTH_ERROR": "Tool name must be {max} characters or fewer"
         },
         "DESCRIPTION": {
           "LABEL": "Penerangan",
@@ -991,14 +1072,14 @@
       "HEADER": "Կապված մուտքային արկղեր",
       "ADD_NEW": "Կապել նոր մուտքային արկղ",
       "OPTIONS": {
-        "DISCONNECT": "Կապը قطعել"
+        "DISCONNECT": "Դադարեցնել կապը"
       },
       "DELETE": {
-        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք قطعել մուտքային արկղի կապը։",
+        "TITLE": "Համոզվա՞ծ եք, որ ցանկանում եք դադարեցնել կապը այս նամակապանակի հետ։",
         "DESCRIPTION": "",
         "CONFIRM": "Այո, ջնջել",
-        "SUCCESS_MESSAGE": "Մուտքային արկղի կապը հաջողությամբ قطعվեց։",
-        "ERROR_MESSAGE": "Մուտքային արկղի կապը قطعելիս սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին։"
+        "SUCCESS_MESSAGE": "Նամակապանակի կապը հաջողությամբ դադարեցվեց։",
+        "ERROR_MESSAGE": "Նամակապանակի կապը դադարեցնելու ընթացքում սխալ տեղի ունեցավ, խնդրում ենք փորձել կրկին։"
       },
       "FORM_DESCRIPTION": "Ընտրեք մուտքային արկղը, որը կապվելու է օգնականի հետ։",
       "CREATE": {

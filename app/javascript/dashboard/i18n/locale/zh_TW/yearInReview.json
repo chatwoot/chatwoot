@@ -31,7 +31,7 @@
       }
     },
     "PERSONALITY": {
-      "TITLE": "您的客服人格是",
+      "TITLE": "您的客服風格是",
       "MESSAGES": {
         "SWIFT_HELPER": "您的平均回覆時間為 {time}。比大多數通知還快。",
         "QUICK_RESPONDER": "您的平均回覆時間為 {time}。收件匣幾乎不用等待。",
@@ -53,7 +53,7 @@
     },
     "BANNER": {
       "TITLE": "您的 {year} 年度回顧來了",
-      "BUTTON": "看看您的影響力"
+      "BUTTON": "查看您的影響力"
     },
     "NAVIGATION": {
       "PREVIOUS": "上一頁",

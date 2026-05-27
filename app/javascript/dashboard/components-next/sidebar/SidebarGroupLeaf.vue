@@ -3,6 +3,7 @@ import { isVNode, computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import Policy from 'dashboard/components/policy.vue';
 import { useSidebarContext } from './provider';
+import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -10,6 +11,7 @@ const props = defineProps({
   icon: { type: [String, Object], default: null },
   active: { type: Boolean, default: false },
   component: { type: Function, default: null },
+  badgeCount: { type: [Number, String], default: 0 },
 });
 
 const { resolvePermissions, resolveFeatureFlag } = useSidebarContext();
@@ -39,15 +41,14 @@ const shouldRenderComponent = computed(() => {
       <component
         :is="component"
         v-if="shouldRenderComponent"
-        :label
-        :icon
-        :active
+        v-bind="{ label, icon, active, badgeCount }"
       />
       <template v-else>
         <span v-if="icon" class="size-4 grid place-content-center rounded-full">
           <Icon :icon="icon" class="size-4 inline-block" />
         </span>
         <div class="flex-1 truncate min-w-0 text-sm">{{ label }}</div>
+        <SidebarUnreadBadge :count="badgeCount" />
       </template>
     </component>
   </Policy>
