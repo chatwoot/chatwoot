@@ -86,13 +86,16 @@
       "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
       "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Kõne lõppenud",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Veel vastamata",
       "CALLING": "Calling…",
       "THEY_ANSWERED": "Nad vastasid",
       "YOU_ANSWERED": "Sa vastasid",
       "AGENT_ANSWERED": "{agentName} answered",
       "JOIN_CALL": "Liitu kõnega",
-      "CALL_BACK": "Call back"
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Lahenda",
@@ -312,6 +315,7 @@
       "NOT_ANSWERED_YET": "Veel ei ole vastatud",
       "HANDLED_IN_ANOTHER_TAB": "Käsitletakse teises vahekaardis",
       "REJECT_CALL": "Keeldu",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Liitu kõnega",
       "END_CALL": "Lõpeta kõne",
       "MUTE": "Mute mic",
