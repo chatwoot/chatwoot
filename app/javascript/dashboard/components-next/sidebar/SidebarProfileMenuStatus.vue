@@ -82,18 +82,18 @@ function changeAvailabilityStatus(availability) {
         <div class="flex-grow flex items-center gap-1">
           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
         </div>
-        <DropdownContainer>
+        <DropdownContainer class="shrink-0">
           <template #trigger="{ toggle }">
             <Button
               size="sm"
               color="slate"
               variant="faded"
-              class="min-w-[96px]"
+              class="min-w-max"
               icon="i-lucide-chevron-down"
               trailing-icon
               @click="toggle"
             >
-              <div class="flex gap-1 items-center flex-grow text-sm">
+              <div class="flex gap-1 items-center whitespace-nowrap text-sm">
                 <div class="p-1 flex-shrink-0">
                   <div class="size-2 rounded-sm" :class="activeStatus.color" />
                 </div>
