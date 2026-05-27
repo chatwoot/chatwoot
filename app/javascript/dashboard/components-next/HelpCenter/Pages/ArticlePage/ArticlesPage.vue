@@ -2,6 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { OnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
@@ -18,6 +19,7 @@ import ArticleEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/A
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkTranslateDialog from './BulkTranslateDialog.vue';
 
 const props = defineProps({
@@ -62,6 +64,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 
 const selectedArticleIds = ref(new Set());
 const deleteConfirmDialogRef = ref(null);
+const isCategoryMenuOpen = ref(false);
 
 const { isEnterprise } = useConfig();
 
@@ -221,6 +224,34 @@ const bulkUpdateStatus = async status => {
   }
 };
 
+const categoryMenuItems = computed(() =>
+  props.categories.map(category => ({
+    label: category.name,
+    value: category.id,
+    action: 'move',
+    emoji: category.icon,
+  }))
+);
+
+const handleBulkUpdateCategory = async ({ value }) => {
+  isCategoryMenuOpen.value = false;
+  try {
+    await articlesAPI.bulkUpdateCategory({
+      portalSlug: route.params.portalSlug,
+      articleIds: [...selectedArticleIds.value],
+      categoryId: value,
+    });
+    onBulkActionSuccess(
+      t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.CATEGORY_SUCCESS')
+    );
+  } catch (error) {
+    useAlert(
+      error?.message ||
+        t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.CATEGORY_ERROR')
+    );
+  }
+};
+
 const confirmBulkDelete = () => {
   deleteConfirmDialogRef.value?.open();
 };
@@ -340,6 +371,30 @@ watch(
                   class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
                   @click="bulkUpdateStatus('archived')"
                 />
+                <div v-if="categoryMenuItems.length" class="relative group">
+                  <OnClickOutside @trigger="isCategoryMenuOpen = false">
+                    <Button
+                      sm
+                      faded
+                      slate
+                      icon="i-lucide-folder-input"
+                      :label="
+                        t(
+                          'HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.MOVE_TO_CATEGORY'
+                        )
+                      "
+                      class="[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit"
+                      @click="isCategoryMenuOpen = !isCategoryMenuOpen"
+                    />
+                    <DropdownMenu
+                      v-if="isCategoryMenuOpen"
+                      :menu-items="categoryMenuItems"
+                      show-search
+                      class="right-0 w-48 mt-2 top-full max-h-60"
+                      @action="handleBulkUpdateCategory"
+                    />
+                  </OnClickOutside>
+                </div>
                 <Button
                   v-if="isTranslationAvailable"
                   sm
