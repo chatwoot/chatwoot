@@ -1,4 +1,5 @@
 import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { useCallsStore } from 'dashboard/stores/calls';
 import types from 'dashboard/store/mutation-types';
 
@@ -58,6 +59,10 @@ function extractCallerSnapshot(message) {
   // Snapshot caller info from the message at add-time so the widget can keep
   // rendering it after the user navigates away from a conversation list that
   // had the conversation hydrated (and Vuex evicts it from the store).
+  // Only incoming messages carry the contact as the sender; on outbound calls
+  // the sender is the initiating agent, so skip the snapshot and let the widget
+  // fall back to the conversation's contact (conversation.meta.sender).
+  if (message?.message_type !== MESSAGE_TYPE.INCOMING) return null;
   const sender = message?.sender;
   if (!sender) return null;
   return {
