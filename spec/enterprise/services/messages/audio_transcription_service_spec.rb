@@ -72,7 +72,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
           content_type: 'audio/mpeg'
         )
         allow(service).to receive(:can_transcribe?).and_return(true)
-        allow(attachment.file.blob).to receive(:byte_size).and_return(described_class::WHISPER_BYTE_LIMIT + 1)
+        allow(attachment.file.blob).to receive(:byte_size).and_return(described_class::TRANSCRIPTION_BYTE_LIMIT + 1)
       end
 
       it 'returns an error without calling Whisper' do

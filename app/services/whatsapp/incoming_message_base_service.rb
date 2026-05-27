@@ -67,11 +67,25 @@ class Whatsapp::IncomingMessageBaseService
 
   def create_messages
     message = messages_data.first
+    return create_unsupported_message(message) if message_type == 'unsupported'
+
     log_error(message) && return if error_webhook_event?(message)
 
     process_in_reply_to(message)
 
     message_type == 'contacts' ? create_contact_messages(message) : create_regular_message(message)
+  end
+
+  # WhatsApp delivers messages it cannot render (e.g. coexistence companion-device syncs that
+  # fail with error 131060) as type: unsupported with no content. We still persist a placeholder
+  # so the contact/conversation isn't created "headless" and agents know to check the WhatsApp app.
+  def create_unsupported_message(message)
+    log_error(message) if error_webhook_event?(message)
+    process_in_reply_to(message)
+    create_message(message, source_id: message[:id])
+    @message.content = I18n.t('conversations.messages.whatsapp.unsupported_message')
+    @message.content_attributes = @message.content_attributes.merge(is_unsupported: true)
+    @message.save!
   end
 
   def create_contact_messages(message)

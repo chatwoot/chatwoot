@@ -1,11 +1,12 @@
 class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
-  WHISPER_MODEL = 'whisper-1'.freeze
-  # Whisper's hard limit is 25 MB *decimal* (25_000_000), not binary (25.megabytes
-  # = 26_214_400) — using the binary form leaks the 25.0–26.2 MB range to the API
-  # as 413s. Long audio (~70+ min Opus) keeps the attachment but skips transcription.
-  WHISPER_BYTE_LIMIT = 25_000_000
+  TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe'.freeze
+  # OpenAI's transcription endpoint hard limit is 25 MB *decimal* (25_000_000), not
+  # binary (25.megabytes = 26_214_400) — using the binary form leaks the 25.0–26.2 MB
+  # range to the API as 413s. Long audio (~70+ min Opus) keeps the attachment but skips
+  # transcription.
+  TRANSCRIPTION_BYTE_LIMIT = 25_000_000
 
   attr_reader :attachment, :message, :account
 
@@ -42,7 +43,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     blob = attachment.file&.blob
     return false unless blob
 
-    blob.byte_size > WHISPER_BYTE_LIMIT
+    blob.byte_size > TRANSCRIPTION_BYTE_LIMIT
   end
 
   def fetch_audio_file
@@ -75,12 +76,12 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     transcribed_text = nil
 
     File.open(temp_file_path, 'rb') do |file|
-      # temperature: 0.0 minimises Whisper's hallucinations on silence /
-      # near-silent audio; non-zero values trigger spiraling repeats like
-      # "Oh, dear. Oh, dear. Oh, dear." — well-documented Whisper behaviour.
+      # temperature: 0.0 minimises hallucinations on silence / near-silent
+      # audio; non-zero values trigger spiraling repeats — well-documented
+      # behaviour across OpenAI transcription models.
       response = @client.audio.transcribe(
         parameters: {
-          model: WHISPER_MODEL,
+          model: TRANSCRIPTION_MODEL,
           file: file,
           temperature: 0.0
         }
@@ -97,7 +98,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   def instrumentation_params(file_path)
     {
       span_name: 'llm.messages.audio_transcription',
-      model: WHISPER_MODEL,
+      model: TRANSCRIPTION_MODEL,
       account_id: account&.id,
       feature_name: 'audio_transcription',
       file_path: file_path

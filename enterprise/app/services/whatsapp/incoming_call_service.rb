@@ -73,13 +73,25 @@ class Whatsapp::IncomingCallService
 
   def create_inbound_call(payload)
     sdp_offer = payload.dig(:session, :sdp)
+    extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+    name = caller_profile_name(payload)
+    extra_meta['contact_name'] = name if name.present?
+
     call = Voice::InboundCallBuilder.perform!(
       inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-      provider: :whatsapp,
-      extra_meta: { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
+      provider: :whatsapp, extra_meta: extra_meta
     )
     update_conversation(call)
     broadcast_incoming(call, sdp_offer)
+  end
+
+  # Match strictly on wa_id (== calls[].from): in a batched payload missing this
+  # call's contact entry, borrowing another caller's name would corrupt this
+  # contact, so fall back to the phone number (nil here) instead of contacts.first.
+  def caller_profile_name(payload)
+    contacts = Array(params[:contacts]).map(&:with_indifferent_access)
+    match = contacts.find { |c| c[:wa_id].to_s == payload[:from].to_s }
+    match&.dig(:profile, :name).presence
   end
 
   # `connect` is the WebRTC tunnel-ready signal, not the pickup signal. Apply
@@ -159,15 +171,27 @@ class Whatsapp::IncomingCallService
     )
   end
 
-  # Ring the assignee if assigned; otherwise account-wide so any agent can pick up.
+  # Ring the assignee if any, else online inbox agents, else fall back to the
+  # inbox's own agents and account admins. Never the whole-account stream, which
+  # would ring online agents from unrelated inboxes.
   def broadcast_incoming(call, sdp_offer)
     contact = call.contact
     token = call.conversation.assignee&.pubsub_token
+    streams = token ? [token] : (online_agent_streams.presence || fallback_agent_streams)
     broadcast(call, 'voice_call.incoming',
-              streams: token ? [token] : account_streams,
+              streams: streams,
               direction: call.direction_label, inbox_id: call.inbox_id,
               sdp_offer: sdp_offer, ice_servers: Call.default_ice_servers,
               caller: { name: contact.name, phone: contact.phone_number, avatar: contact.avatar_url })
+  end
+
+  def online_agent_streams
+    inbox.available_agents.pluck('users.pubsub_token').compact
+  end
+
+  def fallback_agent_streams
+    user_ids = inbox.member_ids | inbox.account.administrators.ids
+    User.where(id: user_ids).pluck(:pubsub_token).compact
   end
 
   def broadcast(call, event, streams: account_streams, **extra)

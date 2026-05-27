@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
+import InboxesAPI from 'dashboard/api/inboxes';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import globalConstants from 'dashboard/constants/globals.js';
 import {
@@ -15,6 +16,13 @@ import {
   createMessageHandler,
   isValidBusinessData,
 } from './whatsapp/utils';
+
+const props = defineProps({
+  enableCallingOnComplete: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 const store = useStore();
 const router = useRouter();
@@ -65,11 +73,27 @@ const handleSignupCancellation = () => {
   isAuthenticating.value = false;
 };
 
-const handleSignupSuccess = inboxData => {
-  isProcessing.value = false;
-  isAuthenticating.value = false;
+const enableCallingForInbox = async inboxId => {
+  try {
+    await InboxesAPI.enableWhatsappCalling(inboxId);
+  } catch (_) {
+    useAlert(
+      t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CALLING_ENABLE_FAILED')
+    );
+  }
+};
 
+const handleSignupSuccess = async inboxData => {
   if (inboxData && inboxData.id) {
+    if (props.enableCallingOnComplete) {
+      isProcessing.value = true;
+      processingMessage.value = t(
+        'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ENABLING_CALLING'
+      );
+      await enableCallingForInbox(inboxData.id);
+    }
+    isProcessing.value = false;
+    isAuthenticating.value = false;
     useAlert(t('INBOX_MGMT.FINISH.MESSAGE'));
     router.replace({
       name: 'settings_inboxes_add_agents',
@@ -79,6 +103,8 @@ const handleSignupSuccess = inboxData => {
       },
     });
   } else {
+    isProcessing.value = false;
+    isAuthenticating.value = false;
     useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUCCESS_FALLBACK'));
     router.replace({
       name: 'settings_inbox_list',

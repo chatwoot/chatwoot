@@ -32,6 +32,9 @@ describe Whatsapp::IncomingCallService do
 
   describe 'inbound connect' do
     let(:sdp_offer) { "v=0\r\n...sdp..." }
+    let!(:agent) { create(:user, account: account) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
 
     it 'creates the Call + Conversation + voice_call message and broadcasts voice_call.incoming' do
       allow(ActionCable.server).to receive(:broadcast)
@@ -44,9 +47,15 @@ describe Whatsapp::IncomingCallService do
       expect(call).to have_attributes(provider: 'whatsapp', direction: 'incoming', status: 'ringing',
                                       provider_call_id: provider_call_id)
       expect(call.meta['sdp_offer']).to eq(sdp_offer)
+      # No agent is online, so the call falls back to the inbox's agents (and
+      # account admins) — never the whole-account stream.
       expect(ActionCable.server).to have_received(:broadcast).with(
-        "account_#{account.id}",
+        agent.pubsub_token,
         hash_including(event: 'voice_call.incoming', data: hash_including(sdp_offer: sdp_offer))
+      )
+      expect(ActionCable.server).not_to have_received(:broadcast).with(
+        "account_#{account.id}",
+        hash_including(event: 'voice_call.incoming')
       )
     end
   end
