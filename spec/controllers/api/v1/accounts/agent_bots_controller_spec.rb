@@ -54,6 +54,19 @@ RSpec.describe 'Agent Bot API', type: :request do
         expect(account_bot_response).to include('thumbnail')
       end
     end
+
+    context 'when authenticated via a read-only api_access_token' do
+      it 'lists the bots but redacts their access tokens to prevent write escalation' do
+        get "/api/v1/accounts/#{account.id}/agent_bots",
+            headers: { api_access_token: admin.read_only_access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include(agent_bot.name)
+        expect(response.body).not_to include(agent_bot.access_token.token)
+        expect(response.parsed_body.first).not_to have_key('access_token')
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/agent_bots/:id' do
