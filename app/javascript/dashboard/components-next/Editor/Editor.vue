@@ -5,6 +5,7 @@ import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
+  editorKey: { type: String, default: '' },
   label: { type: String, default: '' },
   placeholder: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: false },
@@ -24,9 +25,10 @@ const props = defineProps({
   allowSignature: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'executeCopilotAction']);
 
 const slots = useSlots();
 
@@ -95,6 +97,7 @@ watch(
       ]"
     >
       <WootEditor
+        :editor-id="editorKey"
         :model-value="modelValue"
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
@@ -106,9 +109,13 @@ watch(
         :allow-signature="allowSignature"
         :send-with-signature="sendWithSignature"
         :channel-type="channelType"
+        :medium="medium"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
+        @execute-copilot-action="
+          (...args) => emit('executeCopilotAction', ...args)
+        "
       />
       <div
         v-if="showCharacterCount || slots.actions"
@@ -135,21 +142,26 @@ watch(
 
 <style lang="scss" scoped>
 .editor-wrapper {
-  ::v-deep {
-    .ProseMirror-menubar-wrapper {
-      .ProseMirror.ProseMirror-woot-style {
-        p {
-          @apply first:mt-0 !important;
-        }
+  :deep(.ProseMirror-menubar-wrapper) {
+    .ProseMirror.ProseMirror-woot-style {
+      p {
+        @apply first:mt-0 !important;
+      }
 
-        .empty-node {
-          @apply m-0 !important;
+      .empty-node {
+        @apply m-0 !important;
 
-          &::before {
-            @apply text-n-slate-11 dark:text-n-slate-11;
-          }
+        &::before {
+          @apply text-n-slate-11 dark:text-n-slate-11;
         }
       }
+    }
+
+    .ProseMirror-menubar {
+      width: fit-content !important;
+      position: relative !important;
+      top: unset !important;
+      @apply ltr:left-[-0.188rem] rtl:right-[-0.188rem] !important;
     }
   }
 }

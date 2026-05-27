@@ -1,4 +1,6 @@
 class AccountDeletionService
+  SOFT_DELETE_EMAIL_DOMAIN = '@chatwoot-deleted.invalid'.freeze
+
   attr_reader :account, :soft_deleted_users
 
   def initialize(account:)
@@ -25,15 +27,11 @@ class AccountDeletionService
 
   def soft_delete_orphaned_users
     account.users.each do |user|
-      # Find all account_users for this user excluding the current account
-      other_accounts = user.account_users.where.not(account_id: account.id).count
+      # Skip users who are still associated with another account.
+      next if user.account_users.where.not(account_id: account.id).exists?
 
-      # If user has no other accounts, soft delete them
-      next unless other_accounts.zero?
-
-      # Soft delete user by appending -deleted.com to email
       original_email = user.email
-      user.email = "#{original_email}-deleted.com"
+      user.email = soft_deleted_email_for(user)
       user.skip_reconfirmation!
       user.save!
 
@@ -46,5 +44,9 @@ class AccountDeletionService
 
       Rails.logger.info("Soft deleted user #{user.id} with email #{original_email}")
     end
+  end
+
+  def soft_deleted_email_for(user)
+    "#{user.id}#{SOFT_DELETE_EMAIL_DOMAIN}"
   end
 end

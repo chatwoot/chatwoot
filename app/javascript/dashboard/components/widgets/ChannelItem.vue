@@ -23,6 +23,10 @@ const hasInstagramConfigured = computed(() => {
   return window.chatwootConfig?.instagramAppId;
 });
 
+const hasTiktokConfigured = computed(() => {
+  return window.chatwootConfig?.tiktokAppId;
+});
+
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -44,8 +48,20 @@ const isActive = computed(() => {
     );
   }
 
+  if (key === 'tiktok') {
+    return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
+  }
+
   if (key === 'voice') {
     return props.enabledFeatures.channel_voice;
+  }
+
+  if (key === 'whatsapp_call') {
+    return (
+      props.enabledFeatures.channel_voice &&
+      !!window.chatwootConfig?.whatsappAppId &&
+      window.chatwootConfig.whatsappAppId !== 'none'
+    );
   }
 
   return [
@@ -57,6 +73,7 @@ const isActive = computed(() => {
     'telegram',
     'line',
     'instagram',
+    'tiktok',
     'voice',
   ].includes(key);
 });
@@ -66,6 +83,17 @@ const isComingSoon = computed(() => {
   // Show "Coming Soon" only if the channel is marked as coming soon
   // and the corresponding feature flag is not enabled yet.
   return ['voice'].includes(key) && !isActive.value;
+});
+
+const isBeta = computed(() => {
+  return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
+});
+
+const hasVoiceBadge = computed(() => {
+  return (
+    ['voice', 'whatsapp_call'].includes(props.channel.key) &&
+    !!props.enabledFeatures.channel_voice
+  );
 });
 
 const onItemClick = () => {
@@ -81,6 +109,8 @@ const onItemClick = () => {
     :description="channel.description"
     :icon="channel.icon"
     :is-coming-soon="isComingSoon"
+    :is-beta="isBeta"
+    :has-voice-badge="hasVoiceBadge"
     :disabled="!isActive"
     @click="onItemClick"
   />

@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Indlæser Samtaler",
     "CANNOT_REPLY": "Du kan ikke svare på grund af",
     "24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
+    "48_HOURS_WINDOW": "48 timers beskedvindue begrænsning",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
     "ASSIGN_TO_ME": "Tildel til mig",
@@ -60,6 +61,7 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
     "SUCCESS_DELETE_MESSAGE": "Besked slettet",
     "FAIL_DELETE_MESSSAGE": "Kunne ikke slette beskeden! Prøv igen",
     "NO_RESPONSE": "Intet svar",
@@ -69,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Vis etiketter",
-      "HIDE_LABELS": "Skjul etiketter"
+      "HIDE_LABELS": "Skjul etiketter",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -80,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Løs",
@@ -90,6 +95,7 @@
       "OPEN": "Mere",
       "CLOSE": "Luk",
       "DETAILS": "detaljer",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Udsat til i morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Udsat indtil næste uge",
@@ -172,6 +178,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Kunne ikke tildele etiket. Prøv venligst igen."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Tildelt team \"{team}\" til samtale-id {conversationId}",
           "FAILED": "Kunne ikke tildele team. Prøv venligst igen."
@@ -184,7 +194,11 @@
       "DISABLE_SIGN_TOOLTIP": "Deaktivér signatur",
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
       "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
+      "COPILOT_MSG_INPUT": "Giv copilot yderligere prompts, eller spørg om noget andet... Tryk enter for at sende opfølgning",
       "CLICK_HERE": "Klik her for at opdatere",
       "WHATSAPP_TEMPLATES": "Whatsapp Skabeloner"
     },
@@ -196,7 +210,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Vis rig teksteditor",
       "TIP_EMOJI_ICON": "Vis emoji-vælger",
       "TIP_ATTACH_ICON": "Vedhæft filer",
       "TIP_AUDIORECORDER_ICON": "Optag lyd",
@@ -205,7 +218,7 @@
       "DRAG_DROP": "Træk og slip her for at vedhæfte",
       "START_AUDIO_RECORDING": "Start lydoptagelse",
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
-      "": "",
+      "COPILOT_THINKING": "Copilot tænker",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Tilføj bcc",
@@ -247,9 +260,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} for vedhæftede filer",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Kunne ikke sende denne besked, prøv igen senere",
     "SENT_BY": "Sendt af:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Kunne ikke sende besked! Prøv igen",
     "TRY_AGAIN": "prøv igen",
     "ASSIGNMENT": {
@@ -275,6 +291,16 @@
     "SIDEBAR": {
       "CONTACT": "Kontakt",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -284,6 +310,7 @@
     "CANCEL": "Annuller",
     "SEND_EMAIL_SUCCESS": "Chatudskriften blev sendt med succes",
     "SEND_EMAIL_ERROR": "Der opstod en fejl. Prøv venligst igen",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Send udskrift til kunden",
       "SEND_TO_AGENT": "Send udskrift til den tildelte agent",
@@ -339,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Tidligere Samtaler",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

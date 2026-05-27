@@ -36,6 +36,7 @@
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
         fbAppId: '<%= @global_config['FB_APP_ID'] %>',
         instagramAppId: '<%= @global_config['INSTAGRAM_APP_ID'] %>',
+        tiktokAppId: '<%= @global_config['TIKTOK_APP_ID'] %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
         googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         allowedLoginMethods: <%= @global_config['ALLOWED_LOGIN_METHODS'].to_json.html_safe %>,
@@ -54,6 +55,7 @@
         <% end %>
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
+        inboxEventsEnabled: '<%= ENV['ENABLE_INBOX_EVENTS'].present? %>',
         selectedLocale: '<%= I18n.locale %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>
@@ -62,10 +64,10 @@
       }
       window.errorLoggingConfig = '<%= ENV.fetch('SENTRY_FRONTEND_DSN', '') || ENV.fetch('SENTRY_DSN', '') %>'
     </script>
-    <% if @global_config['ANALYTICS_TOKEN'].present? %>
+    <% if @global_config['CLOUD_ANALYTICS_TOKEN'].present? %>
     <script>
       window.analyticsConfig = {
-        token: '<%= @global_config['ANALYTICS_TOKEN'] %>',
+        token: '<%= @global_config['CLOUD_ANALYTICS_TOKEN'] %>',
       }
     </script>
     <% end %>

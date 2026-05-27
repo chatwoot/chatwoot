@@ -1,0 +1,34 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Ciao {name}!",
+    "SUBTITLE": "Verifica i seguenti dettagli per favore",
+    "YOUR_DETAILS": "I tuoi dati",
+    "COMPANY_DETAILS": "Dati dell'azienda",
+    "FIELDS": {
+      "EMAIL": "Email",
+      "YOUR_ROLE": "Il tuo Ruolo",
+      "WEBSITE": "Sito Web",
+      "LANGUAGE": "Lingua",
+      "TIMEZONE": "Fuso Orario",
+      "COMPANY_SIZE": "Dimensione Azienda",
+      "INDUSTRY": "Settore",
+      "REFERRAL_SOURCE": "Come ci hai trovati?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Seleziona il tuo ruolo",
+      "ENTER_WEBSITE": "www.example.com",
+      "SELECT_LANGUAGE": "Seleziona lingua",
+      "SELECT_TIMEZONE": "Seleziona fuso orario",
+      "SELECT_COMPANY_SIZE": "Seleziona dimensione azienda",
+      "SELECT_INDUSTRY": "Seleziona settore",
+      "SELECT_REFERRAL_SOURCE": "Seleziona origine"
+    },
+    "EMAIL_VERIFIED": "Email verificata",
+    "SETTING_UP": "Configurazione del tuo account...",
+    "CONTINUE": "Continua",
+    "SAVING": "Salvataggio...",
+    "VALIDATION_ERROR": "Per favore compila tutti i campi obbligatori",
+    "SUCCESS": "Dati salvati correttamente",
+    "ERROR": "Impossibile salvare i dati. Per favore riprova."
+  }
+}

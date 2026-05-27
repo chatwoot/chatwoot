@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Estàs segur de desassignar {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Torna",
     "ASSIGN_LABEL": "Assignar",
+    "NONE": "Ningú",
+    "CLEAR_SELECTION": "Neteja",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Si",
+    "CANCEL": "Cancel·la",
     "SEARCH_INPUT_PLACEHOLDER": "Cercar",
     "ASSIGN_AGENT_TOOLTIP": "Assigna un agent",
     "ASSIGN_TEAM_TOOLTIP": "Assigna un equip",
@@ -22,6 +27,10 @@
       "UPDATE_SUCCESFUL": "L'estat de les converses s'ha actualitzat correctament.",
       "UPDATE_FAILED": "No s'han pogut actualitzar les converses. Torna-ho a provar."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assignar etiquetes",
       "NO_LABELS_FOUND": "No s'han trobat etiquetes",
@@ -34,6 +43,8 @@
       "NONE": "Ningú",
       "NO_TEAMS_AVAILABLE": "Encara no hi ha cap equip afegit a aquest compte.",
       "ASSIGN_SELECTED_TEAMS": "Assigna l'equip seleccionat.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Equips assignats correctament.",
       "ASSIGN_FAILED": "No s'han pogut assignar els equips. Torna-ho a provar."
     }

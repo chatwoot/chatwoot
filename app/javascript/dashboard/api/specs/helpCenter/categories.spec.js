@@ -8,5 +8,6 @@ describe('#BulkActionsAPI', () => {
     expect(categoriesAPI).toHaveProperty('create');
     expect(categoriesAPI).toHaveProperty('update');
     expect(categoriesAPI).toHaveProperty('delete');
+    expect(categoriesAPI).toHaveProperty('reorder');
   });
 });

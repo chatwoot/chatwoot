@@ -39,11 +39,11 @@ class Whatsapp::HealthService
 
   def health_fields
     %w[
+      id
       quality_rating
       messaging_limit_tier
       code_verification_status
       account_mode
-      id
       display_phone_number
       name_status
       verified_name
@@ -68,6 +68,7 @@ class Whatsapp::HealthService
 
   def format_health_response(response)
     {
+      id: response['id'],
       display_phone_number: response['display_phone_number'],
       verified_name: response['verified_name'],
       name_status: response['name_status'],
@@ -75,10 +76,20 @@ class Whatsapp::HealthService
       messaging_limit_tier: response['messaging_limit_tier'],
       account_mode: response['account_mode'],
       code_verification_status: response['code_verification_status'],
+      webhook_configuration: response['webhook_configuration'],
+      expected_webhook_url: build_expected_webhook_url,
       throughput: response['throughput'],
       last_onboarded_time: response['last_onboarded_time'],
       platform_type: response['platform_type'],
+      certificate: response['certificate'],
       business_id: @channel.provider_config['business_account_id']
     }
+  end
+
+  def build_expected_webhook_url
+    frontend_url = ENV.fetch('FRONTEND_URL', nil)
+    return nil if frontend_url.blank?
+
+    "#{frontend_url}/webhooks/whatsapp/#{@channel.phone_number}"
   end
 end

@@ -101,6 +101,15 @@ select:not(.reset-base) {
   background-repeat: no-repeat;
   background-size: 9px 6px;
   font-family: inherit;
+  @apply [color-scheme:light];
+
+  option:not(:disabled) {
+    @apply bg-n-solid-2 text-n-slate-12;
+  }
+}
+
+.dark select:not(.reset-base) {
+  @apply [color-scheme:dark];
 }
 
 p code {

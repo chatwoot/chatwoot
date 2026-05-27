@@ -1,9 +1,9 @@
 class Whatsapp::WebhookSetupService
-  def initialize(channel, waba_id, access_token)
+  def initialize(channel, waba_id = nil, access_token = nil)
     @channel = channel
-    @waba_id = waba_id
-    @access_token = access_token
-    @api_client = Whatsapp::FacebookApiClient.new(access_token)
+    @waba_id = waba_id || channel.provider_config['business_account_id']
+    @access_token = access_token || channel.provider_config['api_key']
+    @api_client = Whatsapp::FacebookApiClient.new(@access_token)
   end
 
   def perform
@@ -15,6 +15,11 @@ class Whatsapp::WebhookSetupService
     register_phone_number if !phone_number_verified? || phone_number_needs_registration?
 
     setup_webhook
+  end
+
+  def register_callback(subscribed_fields: nil)
+    validate_parameters!
+    setup_webhook(subscribed_fields: subscribed_fields)
   end
 
   private
@@ -33,8 +38,6 @@ class Whatsapp::WebhookSetupService
     store_pin(pin)
   rescue StandardError => e
     Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
-    # Continue with webhook setup even if registration fails
-    # This is just a warning, not a blocking error
   end
 
   def fetch_or_create_pin
@@ -52,12 +55,16 @@ class Whatsapp::WebhookSetupService
     @channel.save!
   end
 
-  def setup_webhook
+  def setup_webhook(subscribed_fields: nil)
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
 
-    @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
-
+    args = [@waba_id, callback_url, verify_token]
+    if subscribed_fields
+      @api_client.subscribe_waba_webhook(*args, subscribed_fields: subscribed_fields)
+    else
+      @api_client.subscribe_waba_webhook(*args)
+    end
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"

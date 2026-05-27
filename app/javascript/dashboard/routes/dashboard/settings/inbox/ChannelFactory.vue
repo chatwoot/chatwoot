@@ -7,9 +7,11 @@ import Api from './channels/Api.vue';
 import Email from './channels/Email.vue';
 import Sms from './channels/Sms.vue';
 import Whatsapp from './channels/Whatsapp.vue';
+import WhatsappCall from './channels/WhatsappCall.vue';
 import Line from './channels/Line.vue';
 import Telegram from './channels/Telegram.vue';
 import Instagram from './channels/Instagram.vue';
+import Tiktok from './channels/Tiktok.vue';
 import Voice from './channels/Voice.vue';
 
 const channelViewList = {
@@ -20,9 +22,11 @@ const channelViewList = {
   email: Email,
   sms: Sms,
   whatsapp: Whatsapp,
+  whatsapp_call: WhatsappCall,
   line: Line,
   telegram: Telegram,
   instagram: Instagram,
+  tiktok: Tiktok,
   voice: Voice,
 };
 

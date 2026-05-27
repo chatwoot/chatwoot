@@ -27,7 +27,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     if errors.any?
       redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
     else
-      redirect_to super_admin_settings_path, notice: "App Configs - #{@config.titleize} updated successfully"
+      redirect_to super_admin_settings_path, flash: success_flash
     end
   end
 
@@ -42,19 +42,36 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
       'shopify' => %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET],
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
-      'email' => ['MAILER_INBOUND_EMAIL_DOMAIN'],
+      'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
       'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET],
       'instagram' => %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT],
+      'tiktok' => %w[TIKTOK_APP_ID TIKTOK_APP_SECRET TIKTOK_API_VERSION],
       'whatsapp_embedded' => %w[WHATSAPP_APP_ID WHATSAPP_APP_SECRET WHATSAPP_CONFIGURATION_ID WHATSAPP_API_VERSION],
       'notion' => %w[NOTION_CLIENT_ID NOTION_CLIENT_SECRET],
-      'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN]
+      'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN],
+      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT]
     }
 
     @allowed_configs = mapping.fetch(
       @config,
-      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE]
+      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
     )
+  end
+
+  def success_notice
+    message = "#{@config.titleize} settings updated successfully"
+    return message unless restart_required_config_saved?
+
+    "#{message.delete_suffix('.')}. Restart Chatwoot web and worker processes to apply this change everywhere."
+  end
+
+  def success_flash
+    restart_required_config_saved? ? { success: success_notice } : { notice: success_notice }
+  end
+
+  def restart_required_config_saved?
+    params.fetch('app_config', {}).keys.intersect?(InstallationConfig::RESTART_REQUIRED_CONFIG_KEYS)
   end
 end
 

@@ -1,3 +1,5 @@
+require 'faraday/multipart'
+
 # Telegram Attachment APIs: ref: https://core.telegram.org/bots/api#inputfile
 
 # Media attachments like photos, videos can be clubbed together and sent as a media group
@@ -111,15 +113,31 @@ class Telegram::SendAttachmentsService
 
   def send_file(chat_id, file_path, reply_to_message_id)
     File.open(file_path, 'rb') do |file|
-      HTTParty.post("#{channel.telegram_api_url}/sendDocument",
-                    body: {
-                      chat_id: chat_id,
-                      **business_connection_body,
-                      document: file,
-                      reply_to_message_id: reply_to_message_id
-                    },
-                    multipart: true)
+      file_name = File.basename(file_path)
+      mime_type = Marcel::MimeType.for(name: file_name) || 'application/octet-stream'
+
+      payload = { chat_id: chat_id, document: Faraday::Multipart::FilePart.new(file, mime_type, file_name) }
+      payload[:reply_to_message_id] = reply_to_message_id if reply_to_message_id
+      payload.merge!(business_connection_body)
+
+      response = multipart_post_connection.post("#{channel.telegram_api_url}/sendDocument", payload)
+      parse_faraday_response(response)
     end
+  end
+
+  def multipart_post_connection
+    @multipart_post_connection ||= Faraday.new do |f|
+      f.request :multipart
+      f.options.timeout = 300
+      f.options.open_timeout = 60
+    end
+  end
+
+  def parse_faraday_response(response)
+    parsed = JSON.parse(response.body)
+    OpenStruct.new(success?: response.success?, parsed_response: parsed)
+  rescue JSON::ParserError
+    OpenStruct.new(success?: false, parsed_response: { 'ok' => false, 'error_code' => response.status, 'description' => response.reason_phrase })
   end
 
   def handle_response(response)

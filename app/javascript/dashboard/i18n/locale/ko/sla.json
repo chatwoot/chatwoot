@@ -1,37 +1,46 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
-    "ADD_ACTION": "Add SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
-    "LOADING": "Fetching SLAs",
+    "HEADER": "서비스 수준 계약",
+    "ADD_ACTION": "SLA 추가",
+    "ADD_ACTION_LONG": "새 SLA 정책 생성",
+    "DESCRIPTION": "서비스 수준 계약(SLA)은 팀과 고객 간의 명확한 기대치를 정의하는 계약입니다. 응답 및 해결 시간에 대한 기준을 설정하여 책임성을 위한 프레임워크를 만들고 일관되고 고품질의 경험을 보장합니다.",
+    "LEARN_MORE": "SLA에 대해 자세히 알아보기",
+    "COUNT": "{n}개의 SLA | {n}개의 SLA",
+    "LOADING": "SLA를 불러오는 중",
+    "SEARCH_PLACEHOLDER": "SLA 검색...",
+    "SEARCH": {
+      "NO_RESULTS": "검색과 일치하는 SLA가 없습니다"
+    },
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "SLA를 생성하려면 업그레이드하십시오",
+      "AVAILABLE_ON": "SLA 기능은 Business 및 Enterprise 플랜에서만 사용할 수 있습니다.",
+      "UPGRADE_PROMPT": "팀 관리, 자동화, 사용자 정의 속성 등 고급 기능에 접근하려면 플랜을 업그레이드하십시오.",
+      "UPGRADE_NOW": "지금 업그레이드",
+      "CANCEL_ANYTIME": "언제든지 플랜을 변경하거나 취소할 수 있습니다"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "SLA 기능은 유료 플랜에서만 사용할 수 있습니다.",
+      "UPGRADE_PROMPT": "감사 로그, 에이전트 용량 등 고급 기능에 접근하려면 유료 플랜으로 업그레이드하십시오.",
+      "ASK_ADMIN": "업그레이드에 대해 관리자에게 문의하십시오."
     },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
+      "404": "이 계정에 사용 가능한 SLA가 없습니다.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "영업시간"
+      },
       "EMPTY": {
         "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
+        "DESC_1": "Enterprise 고객이 제기한 즉각적인 대응이 필요한 이슈입니다.",
         "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "DESC_2": "Enterprise 고객이 제기한 신속한 확인이 필요한 이슈입니다."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "영업시간 적용",
+      "BUSINESS_HOURS_OFF": "영업시간 미적용",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "첫 번째 응답 시간 임계값",
+        "NRT": "다음 응답 시간 임계값",
+        "RT": "해결 시간 임계값",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -41,22 +50,22 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
+        "LABEL": "SLA 이름",
+        "PLACEHOLDER": "SLA 이름",
+        "REQUIRED_ERROR": "SLA 이름은 필수입니다",
         "MINIMUM_LENGTH_ERROR": "최소 두글자 이상이여야 합니다",
         "VALID_ERROR": "영어나, 숫자, - 와 _ 만 사용 가능합니다"
       },
       "DESCRIPTION": {
         "LABEL": "내용",
-        "PLACEHOLDER": "SLA for premium customers"
+        "PLACEHOLDER": "프리미엄 고객을 위한 SLA"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time",
+        "LABEL": "첫 번째 응답 시간",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "다음 응답 시간",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
@@ -65,10 +74,10 @@
       },
       "BUSINESS_HOURS": {
         "LABEL": "영업시간",
-        "PLACEHOLDER": "Only during business hours"
+        "PLACEHOLDER": "영업시간 중에만"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "임계값은 0보다 큰 숫자여야 합니다"
       },
       "EDIT": "수정",
       "CREATE": "만들기",
@@ -76,33 +85,33 @@
       "CANCEL": "취소"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "Friendly promises for great service!",
+      "TITLE": "SLA 추가",
+      "DESC": "훌륭한 서비스를 위한 친절한 약속!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
+        "SUCCESS_MESSAGE": "SLA가 성공적으로 추가되었습니다",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "SLA 삭제",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
+        "SUCCESS_MESSAGE": "SLA가 성공적으로 삭제되었습니다",
         "ERROR_MESSAGE": "오류가 발생했습니다. 다시 시도하십시오."
       },
       "CONFIRM": {
         "TITLE": "삭제 확인",
-        "MESSAGE": "Are you sure you want to delete ",
+        "MESSAGE": "정말 삭제하시겠습니까? ",
         "YES": "예, 삭제합니다. ",
         "NO": "아니요, 유지해주세요. "
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
+      "TITLE": "SLA 위반",
       "FRT": "첫 번째 응답 시간",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "NRT": "다음 응답 시간",
+      "RT": "해결 시간",
+      "SHOW_MORE": "{count}개 더 보기",
+      "HIDE": "{count}개 행 숨기기"
     }
   }
 }

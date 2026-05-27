@@ -1,5 +1,7 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
 import Icon from 'next/icon/Icon.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 defineProps({
   title: {
@@ -18,7 +20,17 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isBeta: {
+    type: Boolean,
+    default: false,
+  },
+  hasVoiceBadge: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -30,16 +42,33 @@ defineProps({
       'cursor-not-allowed disabled:opacity-80': isComingSoon,
     }"
   >
-    <div
-      class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
-    >
-      <Icon :icon="icon" class="text-n-slate-10 size-6" />
+    <div class="relative">
+      <div
+        class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
+      >
+        <Icon :icon="icon" class="text-n-slate-10 size-6" />
+      </div>
+      <div
+        v-if="hasVoiceBadge"
+        class="absolute -top-1 ltr:-right-1 rtl:-left-1 flex size-4 items-center justify-center rounded-full bg-n-alpha-2 ring-2 ring-n-solid-1"
+      >
+        <Icon icon="i-lucide-audio-lines" class="text-n-slate-10 size-2.5" />
+      </div>
     </div>
 
     <div class="flex flex-col items-start gap-1.5">
-      <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
-        {{ title }}
-      </h3>
+      <div class="flex items-center gap-2">
+        <h3 class="text-n-slate-12 text-sm text-start font-medium capitalize">
+          {{ title }}
+        </h3>
+        <Label
+          v-if="isBeta && !isComingSoon"
+          v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
+          :label="t('GENERAL.BETA')"
+          color="blue"
+          compact
+        />
+      </div>
       <p class="text-n-slate-11 text-start text-sm">
         {{ description }}
       </p>
@@ -47,10 +76,10 @@ defineProps({
 
     <div
       v-if="isComingSoon"
-      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-background/90 via-n-background/70 to-n-background/95 cursor-not-allowed"
+      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-surface-1/90 via-n-surface-1/70 to-n-surface-1/95 cursor-not-allowed"
     >
       <span class="text-n-slate-12 font-medium text-sm">
-        {{ $t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
+        {{ t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
       </span>
     </div>
   </button>

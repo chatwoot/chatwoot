@@ -28,6 +28,7 @@
       "TYPES": {
         "MEDIA": "Mídia",
         "QUICK_REPLY": "Resposta Rápida",
+        "CALL_TO_ACTION": "Chamada para Ação",
         "TEXT": "Texto"
       }
     },

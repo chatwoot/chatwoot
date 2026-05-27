@@ -8,8 +8,7 @@ describe CaptainListener do
   let(:assistant) { create(:captain_assistant, account: account, config: { feature_memory: true, feature_faq: true }) }
 
   describe '#conversation_resolved' do
-    let(:agent) { create(:user, account: account) }
-    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
     let(:event_name) { :conversation_resolved }
     let(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }

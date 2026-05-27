@@ -121,6 +121,8 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  before_destroy :set_unread_count_deletion_data
+  after_destroy_commit :notify_conversation_deletion
 
   delegate :auto_resolve_after, to: :account
 
@@ -143,7 +145,7 @@ class Conversation < ApplicationRecord
   end
 
   def last_incoming_message
-    messages&.incoming&.last
+    messages.where(account_id: account_id)&.incoming&.last
   end
 
   def toggle_status
@@ -159,12 +161,17 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!
+    update(waiting_since: Time.current) if waiting_since.blank?
     open!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
   def unread_messages
     agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
+  end
+
+  def assignee_unread_messages
+    assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
   end
 
   def unread_incoming_messages
@@ -265,6 +272,12 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def notify_conversation_deletion
+    return if @unread_count_deletion_data.blank?
+
+    Rails.configuration.dispatcher.dispatch(CONVERSATION_DELETED, Time.zone.now, conversation_data: @unread_count_deletion_data)
+  end
+
   def notify_conversation_updation
     return unless previous_changes.keys.present? && allowed_keys?
 
@@ -308,6 +321,17 @@ class Conversation < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
                                                                        changed_attributes: changed_attributes,
                                                                        performed_by: Current.executed_by)
+  end
+
+  def set_unread_count_deletion_data
+    @unread_count_deletion_data = {
+      id: id,
+      account_id: account_id,
+      inbox_id: inbox_id,
+      assignee_id: assignee_id,
+      team_id: team_id,
+      cached_label_list: cached_label_list
+    }
   end
 
   def conversation_status_changed_to_open?

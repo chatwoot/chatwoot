@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe 'Companies API', type: :request do
   let(:account) { create(:account) }
 
+  before { account.enable_features!(:companies) }
+
   describe 'GET /api/v1/accounts/{account.id}/companies' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -80,6 +82,46 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload'].size).to eq(3)
         expect(response_body['payload'].map { |c| c['name'] }).not_to include('Other Account Company')
+      end
+
+      it 'sorts companies by contacts_count in ascending order' do
+        company_with_5 = create(:company, name: 'Company with 5', account: account)
+        company_with_2 = create(:company, name: 'Company with 2', account: account)
+        company_with_10 = create(:company, name: 'Company with 10', account: account)
+        create_list(:contact, 5, company: company_with_5, account: account)
+        create_list(:contact, 2, company: company_with_2, account: account)
+        create_list(:contact, 10, company: company_with_10, account: account)
+
+        get "/api/v1/accounts/#{account.id}/companies",
+            params: { sort: 'contacts_count' },
+            headers: admin.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        company_ids = response_body['payload'].map { |c| c['id'] }
+
+        expect(company_ids.index(company_with_2.id)).to be < company_ids.index(company_with_5.id)
+        expect(company_ids.index(company_with_5.id)).to be < company_ids.index(company_with_10.id)
+      end
+
+      it 'sorts companies by contacts_count in descending order' do
+        company_with_5 = create(:company, name: 'Company with 5', account: account)
+        company_with_2 = create(:company, name: 'Company with 2', account: account)
+        company_with_10 = create(:company, name: 'Company with 10', account: account)
+        create_list(:contact, 5, company: company_with_5, account: account)
+        create_list(:contact, 2, company: company_with_2, account: account)
+        create_list(:contact, 10, company: company_with_10, account: account)
+
+        get "/api/v1/accounts/#{account.id}/companies",
+            params: { sort: '-contacts_count' },
+            headers: admin.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        company_ids = response_body['payload'].map { |c| c['id'] }
+
+        expect(company_ids.index(company_with_10.id)).to be < company_ids.index(company_with_5.id)
+        expect(company_ids.index(company_with_5.id)).to be < company_ids.index(company_with_2.id)
       end
     end
   end
@@ -182,6 +224,17 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload']['name']).to eq(company.name)
         expect(response_body['payload']['id']).to eq(company.id)
       end
+
+      it 'returns company custom attributes' do
+        company.update!(custom_attributes: { 'plan' => 'enterprise' })
+
+        get "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('plan' => 'enterprise')
+      end
     end
   end
 
@@ -261,6 +314,60 @@ RSpec.describe 'Companies API', type: :request do
         response_body = response.parsed_body
         expect(response_body['payload']['name']).to eq('Updated Company Name')
         expect(response_body['payload']['domain']).to eq('updated.com')
+      end
+
+      it 'merges custom attributes without removing existing attributes' do
+        company.update!(custom_attributes: { 'plan' => 'startup', 'region' => 'us' })
+
+        patch "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+              params: { company: { custom_attributes: { 'plan' => 'enterprise' } } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(company.reload.custom_attributes).to eq('plan' => 'enterprise', 'region' => 'us')
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('plan' => 'enterprise', 'region' => 'us')
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/companies/{id}/destroy_custom_attributes' do
+    let(:company) { create(:company, account: account, custom_attributes: { 'plan' => 'enterprise', 'region' => 'us' }) }
+
+    context 'when it is an authenticated user' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      it 'removes selected company custom attributes' do
+        post "/api/v1/accounts/#{account.id}/companies/#{company.id}/destroy_custom_attributes",
+             params: { custom_attributes: ['plan'] },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(company.reload.custom_attributes).to eq('region' => 'us')
+        expect(response.parsed_body['payload']['custom_attributes']).to eq('region' => 'us')
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/companies/{id}/avatar' do
+    let(:company) { create(:company, account: account) }
+
+    context 'when it is an authenticated administrator' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+
+      before do
+        company.avatar.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      end
+
+      it 'deletes the company avatar' do
+        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}/avatar",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:success)
+        expect { company.avatar.attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(response.parsed_body['payload']['avatar_url']).to be_blank
       end
     end
   end

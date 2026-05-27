@@ -1,8 +1,22 @@
 <script setup>
 import LocaleCard from './LocaleCard.vue';
 const locales = [
-  { name: 'English', isDefault: true, articleCount: 29, categoryCount: 5 },
-  { name: 'Spanish', isDefault: false, articleCount: 29, categoryCount: 5 },
+  {
+    name: 'English',
+    code: 'en',
+    isDefault: true,
+    isDraft: false,
+    articleCount: 29,
+    categoryCount: 5,
+  },
+  {
+    name: 'Spanish',
+    code: 'es',
+    isDefault: false,
+    isDraft: true,
+    articleCount: 29,
+    categoryCount: 5,
+  },
 ];
 </script>
 
@@ -19,6 +33,8 @@ const locales = [
           <LocaleCard
             :locale="locale.name"
             :is-default="locale.isDefault"
+            :is-draft="locale.isDraft"
+            :locale-code="locale.code"
             :article-count="locale.articleCount"
             :category-count="locale.categoryCount"
           />

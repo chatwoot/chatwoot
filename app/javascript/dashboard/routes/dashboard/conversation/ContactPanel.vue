@@ -17,6 +17,7 @@ import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
+import SharedFiles from './SharedFiles.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
@@ -297,6 +298,18 @@ onMounted(() => {
               <ContactNotes :contact-id="contactId" />
             </AccordionItem>
           </div>
+          <div v-else-if="element.name === 'shared_files'">
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHARED_FILES')"
+              :is-open="isContactSidebarItemOpen('is_shared_files_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_shared_files_open', value)
+              "
+            >
+              <SharedFiles />
+            </AccordionItem>
+          </div>
         </template>
       </Draggable>
     </div>
@@ -304,21 +317,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .contact--profile {
-    @apply pb-3 border-b border-solid border-n-weak;
-  }
-
-  .conversation--actions .multiselect-wrap--small {
-    .multiselect {
-      @apply box-border pl-6;
-    }
-
-    .multiselect__element {
-      span {
-        @apply w-full;
-      }
-    }
-  }
+:deep(.contact--profile) {
+  @apply pb-3 border-b border-solid border-n-weak;
 }
 </style>

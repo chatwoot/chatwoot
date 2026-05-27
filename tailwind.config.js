@@ -22,7 +22,7 @@ const defaultSansFonts = [
 const tailwindConfig = {
   darkMode: 'class',
   content: [
-    './enterprise/app/views/**/*.html.erb',
+    './enterprise/app/views/**/*.erb',
     './app/javascript/widget/**/*.vue',
     './app/javascript/v3/**/*.vue',
     './app/javascript/dashboard/**/*.vue',
@@ -34,14 +34,21 @@ const tailwindConfig = {
     './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
-    './app/views/**/*.html.erb',
+    './app/views/**/*.erb',
   ],
   theme: {
     extend: {
       fontFamily: {
         sans: defaultSansFonts,
         inter: ['Inter', ...defaultSansFonts],
-        interDisplay: ['Inter Display', ...defaultSansFonts],
+        interDisplay: ['InterDisplay', ...defaultSansFonts],
+      },
+      fontWeight: {
+        420: '420',
+        440: '440',
+        460: '460',
+        520: '520',
+        620: '620',
       },
       typography: {
         bubble: {
@@ -187,6 +194,7 @@ const tailwindConfig = {
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
+      '3xl': '1900px',
     },
     fontSize: {
       ...defaultTheme.fontSize,
@@ -259,6 +267,7 @@ const tailwindConfig = {
           'ph',
           'material-symbols',
           'teenyicons',
+          'fluent',
         ]),
       },
     }),

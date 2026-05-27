@@ -83,6 +83,14 @@ export const getters = {
         return false;
       }
 
+      // Filter out CSAT templates (customer_satisfaction_survey and its versions)
+      if (
+        template.name &&
+        template.name.startsWith('customer_satisfaction_survey')
+      ) {
+        return false;
+      }
+
       // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
       const hasUnsupportedComponents = template.components.some(
         component =>
@@ -165,6 +173,13 @@ export const getters = {
         item.channel_type === INBOX_TYPES.INSTAGRAM
     );
   },
+  getTiktokInboxByBusinessId: $state => businessId => {
+    return $state.records.find(
+      item =>
+        item.business_id === businessId &&
+        item.channel_type === INBOX_TYPES.TIKTOK
+    );
+  },
 };
 
 const sendAnalyticsEvent = channelType => {
@@ -205,9 +220,8 @@ export const actions = {
       sendAnalyticsEvent(channel.type);
       return response.data;
     } catch (error) {
-      const errorMessage = error?.response?.data?.message;
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
-      throw new Error(errorMessage);
+      return throwErrorMessage(error);
     }
   },
   createWebsiteChannel: async ({ commit }, params) => {
@@ -335,6 +349,31 @@ export const actions = {
       await InboxesAPI.syncTemplates(inboxId);
     } catch (error) {
       throw new Error(error);
+    }
+  },
+  createCSATTemplate: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.createCSATTemplate(inboxId, template);
+    return response.data;
+  },
+  getCSATTemplateStatus: async (_, { inboxId }) => {
+    const response = await InboxesAPI.getCSATTemplateStatus(inboxId);
+    return response.data;
+  },
+  analyzeCSATTemplateUtility: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.analyzeCSATTemplateUtility(
+      inboxId,
+      template
+    );
+    return response.data;
+  },
+  resetSecret: async ({ commit }, inboxId) => {
+    try {
+      const response = await InboxesAPI.resetSecret(inboxId);
+      commit(types.default.EDIT_INBOXES, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      return null;
     }
   },
 };

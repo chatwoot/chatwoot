@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'opentelemetry_config'
-require_relative 'llm_instrumentation_constants'
 
 module Integrations::LlmInstrumentationSpans
   include Integrations::LlmInstrumentationConstants
@@ -40,6 +39,7 @@ module Integrations::LlmInstrumentationSpans
 
     tool_name = tool_call.name.to_s
     span = tracer.start_span(format(TOOL_SPAN_NAME, tool_name))
+    span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'tool')
     span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, tool_call.arguments.to_json)
 
     @pending_tool_spans ||= []

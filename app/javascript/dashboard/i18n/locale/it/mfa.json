@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "Autenticazione a Due Fattori",
-    "SUBTITLE": "Proteggi il tuo account con autenticazione basata su TOTP",
+    "SUBTITLE": "Proteggi il tuo account da accessi non autorizzati con l'autenticazione TOTP. Questa aggiunge un ulteriore livello di sicurezza al tuo account.",
     "DESCRIPTION": "Aggiungi un ulteriore livello di sicurezza al tuo account utilizzando una password monouso a tempo (TOTP)",
     "STATUS_TITLE": "Stato dell'Autenticazione",
     "STATUS_DESCRIPTION": "Gestisci le impostazioni di autenticazione a due fattori e i codici di recupero di backup",
@@ -55,6 +55,10 @@
       "PASSWORD": "Password",
       "OTP_CODE": "Codice Di Verifica",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "Codice di Backup",
+      "BACKUP_CODE_PLACEHOLDER": "Inserisci uno dei tuoi codici di backup",
+      "USE_BACKUP_CODE": "Hai perso l'accesso al tuo sistema di autenticazione? Usa un codice di backup",
+      "USE_OTP_CODE": "Usa un codice di verifica dalla tua app di autenticazione",
       "CONFIRM": "Disattiva 2FA",
       "CANCEL": "Annulla",
       "SUCCESS": "L'autenticazione a due fattori è stata disattivata",

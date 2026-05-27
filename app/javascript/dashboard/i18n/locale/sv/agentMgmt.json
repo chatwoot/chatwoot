@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Administratör",
       "AGENT": "Agent"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "Det finns inga agenter kopplade till detta konto",
       "TITLE": "Hantera agenter i ditt team",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
       }
     },
+    "SEARCH_PLACEHOLDER": "Sök efter agenter...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "Inga resultat hittades."
     },
