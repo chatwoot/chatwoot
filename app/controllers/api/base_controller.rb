@@ -6,6 +6,7 @@ class Api::BaseController < ApplicationController
   READ_ONLY_POST_ALLOWLIST = %w[
     api/v1/accounts/conversations#filter
     api/v1/accounts/contacts#filter
+    api/v1/accounts/contact_inboxes#filter
   ].freeze
 
   # GET-shaped endpoints that mutate state and must be blocked for read-only
