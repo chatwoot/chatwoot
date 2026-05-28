@@ -96,6 +96,7 @@
     "REGEX_ERROR": "Please provide a valid input"
   },
   "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "MAXIMUM_ATTACHMENTS_LIMIT": "You can attach up to {MAXIMUM_ATTACHMENTS} files per message",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Invalid field"

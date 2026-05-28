@@ -5,7 +5,10 @@ import {
   checkFileSizeLimit,
   resolveMaximumFileUploadSize,
 } from 'shared/helpers/FileHelper';
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import {
+  ALLOWED_FILE_TYPES,
+  MAXIMUM_ATTACHMENTS,
+} from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
@@ -121,6 +124,15 @@ export default {
             MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
           }),
         });
+      }
+
+      if (validFiles.length > MAXIMUM_ATTACHMENTS) {
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('MAXIMUM_ATTACHMENTS_LIMIT', {
+            MAXIMUM_ATTACHMENTS,
+          }),
+        });
+        return validFiles.slice(0, MAXIMUM_ATTACHMENTS);
       }
 
       return validFiles;
