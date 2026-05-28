@@ -153,6 +153,7 @@ export default {
     ref="upload"
     :size="4096 * 2048"
     :accept="allowedFileTypes"
+    :multiple="true"
     :data="{
       direct_upload_url: '/api/v1/widget/direct_uploads',
       direct_upload: true,
