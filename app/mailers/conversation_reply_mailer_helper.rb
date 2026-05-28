@@ -81,9 +81,9 @@ module ConversationReplyMailerHelper
 
   def smtp_timeout_settings
     {
-      open_timeout: ENV.fetch('SMTP_OPEN_TIMEOUT', 15).to_i,
-      read_timeout: ENV.fetch('SMTP_READ_TIMEOUT', 30).to_i
-    }
+      open_timeout: ENV['SMTP_OPEN_TIMEOUT'].presence || 15,
+      read_timeout: ENV['SMTP_READ_TIMEOUT'].presence || 30
+    }.transform_values(&:to_i)
   end
 
   def email_smtp_enabled?
