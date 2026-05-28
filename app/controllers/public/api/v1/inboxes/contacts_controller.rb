@@ -30,8 +30,9 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   def process_hmac
     return if params[:identifier_hash].blank? && !@inbox_channel.hmac_mandatory
     raise StandardError, 'HMAC failed: Invalid Identifier Hash Provided' unless valid_hmac?
+    raise StandardError, 'HMAC failed: Identifier does not match contact' if hmac_identifier_conflict?
 
-    @contact_inbox.update(hmac_verified: true) if @contact_inbox.present?
+    @contact_inbox.update(hmac_verified: true) if @contact_inbox.present? && hmac_identifier_matches?
   end
 
   def valid_hmac?
@@ -40,6 +41,24 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
       @inbox_channel.hmac_token,
       params[:identifier].to_s
     )
+  end
+
+  # Rejects the request when the selected contact is already bound to a different identifier,
+  # so a valid (identifier, identifier_hash) pair cannot be replayed against another contact.
+  def hmac_identifier_conflict?
+    return false if @contact_inbox.blank?
+
+    contact_identifier = @contact_inbox.contact.identifier.to_s
+    contact_identifier.present? &&
+      !ActiveSupport::SecurityUtils.secure_compare(contact_identifier, params[:identifier].to_s)
+  end
+
+  # Only grants verified trust when the proven identifier matches the contact's own identifier.
+  # A blank contact identifier never grants trust, preventing replay onto anonymous contacts.
+  def hmac_identifier_matches?
+    contact_identifier = @contact_inbox.contact.identifier.to_s
+    contact_identifier.present? &&
+      ActiveSupport::SecurityUtils.secure_compare(contact_identifier, params[:identifier].to_s)
   end
 
   def permitted_params
