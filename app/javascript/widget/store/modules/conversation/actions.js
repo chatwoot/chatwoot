@@ -13,6 +13,7 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import getUuid from 'widget/helpers/uuid';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -84,6 +85,7 @@ export const actions = {
       ? attachmentPayload
       : [attachmentPayload];
     const attachments = attachmentItems.map(({ thumbUrl, fileType }) => ({
+      id: getUuid(),
       thumb_url: thumbUrl,
       data_url: thumbUrl,
       file_type: fileType,
