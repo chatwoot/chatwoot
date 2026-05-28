@@ -56,4 +56,8 @@ class Captain::RewriteService < Captain::BaseTaskService
   def event_name
     operation
   end
+
+  def use_account_openai_hook?
+    openai_hook.present?
+  end
 end
