@@ -48,14 +48,16 @@ const sendAttachment = (
 ) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
-  const { file } = attachment;
+  const attachments = Array.isArray(attachment) ? attachment : [attachment];
 
   const formData = new FormData();
-  if (typeof file === 'string') {
-    formData.append('message[attachments][]', file);
-  } else {
-    formData.append('message[attachments][]', file, file.name);
-  }
+  attachments.forEach(({ file }) => {
+    if (typeof file === 'string') {
+      formData.append('message[attachments][]', file);
+    } else {
+      formData.append('message[attachments][]', file, file.name);
+    }
+  });
 
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
