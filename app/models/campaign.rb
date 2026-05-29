@@ -61,14 +61,22 @@ class Campaign < ApplicationRecord
 
     execute_campaign
   rescue StandardError
-    active! if processing?
+    mark_active! if processing?
     raise
   end
 
+  def mark_active!
+    update_campaign_status!(:active)
+  end
+
   def mark_completed!
-    # The audience send loop has already run; validations must not make the campaign retry and resend.
+    update_campaign_status!(:completed)
+  end
+
+  def update_campaign_status!(status)
+    # The service may already have sent messages or hit stale validations; status recovery must not trigger retries incorrectly.
     # rubocop:disable Rails/SkipsModelValidations
-    update_columns(campaign_status: self.class.campaign_statuses[:completed], updated_at: Time.current)
+    update_columns(campaign_status: self.class.campaign_statuses[status], updated_at: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
   end
 

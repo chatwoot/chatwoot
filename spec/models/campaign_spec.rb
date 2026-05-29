@@ -116,6 +116,22 @@ RSpec.describe Campaign do
         expect(campaign.reload.active?).to be true
       end
 
+      it 'marks the campaign active again without running validations' do
+        sender = create(:user, account: account)
+        campaign.sender = sender
+        campaign.save!
+        sms_service = double
+
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform) do
+          account.account_users.find_by!(user: sender).destroy!
+          raise StandardError, 'provider error'
+        end
+
+        expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
+        expect(campaign.reload.active?).to be true
+      end
+
       it 'marks the campaign completed without running validations' do
         sender = create(:user, account: account)
         campaign.sender = sender
