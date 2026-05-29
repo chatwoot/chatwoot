@@ -10,9 +10,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
+  ALLOWED_PAGE_SIZES = [15, 50, 100, 250, 500].freeze
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
+  before_action :set_page_size, only: [:index, :active, :search, :filter]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
   before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
@@ -130,6 +132,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @current_page = params[:page] || 1
   end
 
+  def set_page_size
+    requested = params[:page_size].to_i
+    @page_size = ALLOWED_PAGE_SIZES.include?(requested) ? requested : RESULTS_PER_PAGE
+  end
+
   def fetch_contacts(contacts)
     # Build includes hash to avoid separate query when contact_inboxes are needed
     includes_hash = { avatar_attachment: [:blob] }
@@ -138,7 +145,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     filtrate(contacts)
       .includes(includes_hash)
       .page(@current_page)
-      .per(RESULTS_PER_PAGE)
+      .per(@page_size)
   end
 
   def fetch_contacts_with_has_more(contacts)
@@ -146,15 +153,15 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
 
     # Calculate offset manually to fetch one extra record for has_more check
-    offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
+    offset = (@current_page.to_i - 1) * @page_size
     results = filtrate(contacts)
               .includes(includes_hash)
               .offset(offset)
-              .limit(RESULTS_PER_PAGE + 1)
+              .limit(@page_size + 1)
               .to_a
 
-    @has_more = results.size > RESULTS_PER_PAGE
-    results = results.first(RESULTS_PER_PAGE) if @has_more
+    @has_more = results.size > @page_size
+    results = results.first(@page_size) if @has_more
     @contacts_count = results.size
     results
   end

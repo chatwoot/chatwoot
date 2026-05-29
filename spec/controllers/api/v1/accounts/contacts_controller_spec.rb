@@ -162,6 +162,39 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['meta']['count']).to eq(2)
         expect(response_body['payload'].pluck('email')).to include(contact_with_label1.email, contact_with_label2.email)
       end
+
+      context 'with page_size parameter' do
+        before { create_list(:contact, 20, :with_email, account: account) }
+
+        it 'returns 15 contacts by default' do
+          get "/api/v1/accounts/#{account.id}/contacts",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to eq(15)
+        end
+
+        it 'returns the requested number of contacts for an allowed page_size' do
+          get "/api/v1/accounts/#{account.id}/contacts",
+              params: { page_size: 50 },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to be <= 50
+        end
+
+        it 'ignores invalid page_size values and falls back to default 15' do
+          get "/api/v1/accounts/#{account.id}/contacts",
+              params: { page_size: 999 },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to eq(15)
+        end
+      end
     end
   end
 
@@ -415,6 +448,32 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response_body['meta']['count']).to eq(1)
         expect(response_body['payload'].length).to eq(1)
       end
+
+      context 'with page_size parameter' do
+        before { create_list(:contact, 20, account: account, name: 'paged_search_contact') }
+
+        it 'uses the requested page_size' do
+          get "/api/v1/accounts/#{account.id}/contacts/search",
+              params: { q: 'paged_search_contact', page_size: 50 },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          response_body = response.parsed_body
+          expect(response_body['payload'].length).to eq(20)
+          expect(response_body['meta']['has_more']).to be(false)
+        end
+
+        it 'falls back to 15 for invalid page_size' do
+          get "/api/v1/accounts/#{account.id}/contacts/search",
+              params: { q: 'paged_search_contact', page_size: 7 },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to eq(15)
+        end
+      end
     end
   end
 
@@ -476,6 +535,38 @@ RSpec.describe 'Contacts API', type: :request do
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.body).to include('Invalid value. The values provided for country_code are invalid"')
+      end
+
+      context 'with page_size parameter' do
+        before do
+          create_list(:contact, 20, :with_email, account: account, additional_attributes: { country_code: 'US' })
+        end
+
+        it 'limits results to the requested page_size' do
+          post "/api/v1/accounts/#{account.id}/contacts/filter",
+               params: {
+                 page_size: 50,
+                 payload: [{ attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] }]
+               },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to eq(22)
+        end
+
+        it 'falls back to 15 for an invalid page_size' do
+          post "/api/v1/accounts/#{account.id}/contacts/filter",
+               params: {
+                 page_size: 3,
+                 payload: [{ attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] }]
+               },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload'].length).to eq(15)
+        end
       end
     end
   end
