@@ -1,4 +1,10 @@
 class Messages::StatusUpdateService
+  STATUS_PRIORITY = {
+    'sent' => 1,
+    'delivered' => 2,
+    'read' => 3
+  }.freeze
+
   attr_reader :message, :status, :external_error
 
   def initialize(message, status, external_error = nil)
@@ -16,19 +22,21 @@ class Messages::StatusUpdateService
   private
 
   def update_message_status
-    # Update status and set external_error only when failed
-    message.update!(
-      status: status,
-      external_error: (status == 'failed' ? external_error : nil)
-    )
+    update_attributes = { status: status }
+    update_attributes[:external_error] = nil unless status == 'failed'
+    update_attributes[:external_error] = external_error if status == 'failed' && !external_error.nil?
+
+    message.update!(update_attributes)
   end
 
   def valid_status_transition?
     return false unless Message.statuses.key?(status)
+    return true if status == 'failed'
 
-    # Don't allow changing from 'read' to 'delivered'
-    return false if message.read? && status == 'delivered'
+    current_priority = STATUS_PRIORITY[message.status]
+    next_priority = STATUS_PRIORITY[status]
+    return true if current_priority.blank? || next_priority.blank?
 
-    true
+    next_priority >= current_priority
   end
 end
