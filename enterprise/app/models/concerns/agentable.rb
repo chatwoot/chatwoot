@@ -7,13 +7,11 @@ module Concerns::Agentable
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
+      provider: agent_provider,
+      assume_model_exists: true,
       response_schema: agent_response_schema
     }
     agent_attributes[:temperature] = temperature.to_f if Llm::Config.supports_temperature?
-    if agent_supports_provider?
-      agent_attributes[:provider] = agent_provider
-      agent_attributes[:assume_model_exists] = true
-    end
 
     Agents::Agent.new(**agent_attributes)
   end
@@ -54,12 +52,6 @@ module Concerns::Agentable
 
   def agent_provider
     Llm::Config.ruby_llm_provider
-  end
-
-  def agent_supports_provider?
-    Agents::Agent.instance_method(:initialize).parameters.any? do |kind, name|
-      %i[key keyreq].include?(kind) && name == :provider
-    end
   end
 
   def agent_response_schema
