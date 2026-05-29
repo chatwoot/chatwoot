@@ -136,6 +136,10 @@ RSpec.describe Llm::Config do
       expect(described_class.api_key_required?('openai')).to be true
     end
 
+    it 'returns true for Azure because this config only supports azure_api_key credentials' do
+      expect(described_class.api_key_required?('azure')).to be true
+    end
+
     it 'returns false for API-base-only providers' do
       expect(described_class.api_key_required?('ollama')).to be false
     end
@@ -181,6 +185,24 @@ RSpec.describe Llm::Config do
 
       expect(config.openrouter_api_key).to eq('test-key')
       expect(config.openrouter_api_base).to eq('https://openrouter.ai/api/v1')
+    end
+
+    it 'configures Azure auth token when provided' do
+      config = Class.new do
+        attr_accessor :azure_api_base, :azure_api_key, :azure_ai_auth_token
+      end.new
+
+      described_class.configure_provider(
+        config,
+        provider: 'azure',
+        api_key: nil,
+        api_base: 'https://example.openai.azure.com',
+        auth_token: 'azure-token'
+      )
+
+      expect(config.azure_api_base).to eq('https://example.openai.azure.com')
+      expect(config.azure_api_key).to be_nil
+      expect(config.azure_ai_auth_token).to eq('azure-token')
     end
   end
 end

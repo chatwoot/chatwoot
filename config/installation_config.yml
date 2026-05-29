@@ -186,6 +186,10 @@
   display_title: 'API Key'
   locked: false
   type: secret
+- name: CAPTAIN_AZURE_AI_AUTH_TOKEN
+  display_title: 'Azure AI Auth Token'
+  locked: false
+  type: secret
 - name: CAPTAIN_LLM_PROVIDER
   display_title: 'Provider'
   value: openai

@@ -33,7 +33,7 @@ RSpec.describe Integrations::LlmBaseService do
       allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect(Llm::Config).to receive(:with_api_key)
-        .with('system-key', provider: 'openrouter', api_base: anything)
+        .with('system-key', provider: 'openrouter', api_base: anything, auth_token: nil)
         .and_raise(error)
 
       service.send(:make_api_call, body)
@@ -60,7 +60,7 @@ RSpec.describe Integrations::LlmBaseService do
       allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect(Llm::Config).to receive(:with_api_key)
-        .with(nil, provider: 'ollama', api_base: 'http://localhost:11434')
+        .with(nil, provider: 'ollama', api_base: 'http://localhost:11434', auth_token: nil)
         .and_raise(error)
 
       result = service.send(:make_api_call, body)

@@ -18,6 +18,7 @@
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
     <% captain_api_base_required = @config == 'captain' && @captain_provider_api_bases&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], nil).blank? %>
     <% captain_model_required = @config == 'captain' && !Llm::Config.direct_openai_endpoint?(provider: @app_config['CAPTAIN_LLM_PROVIDER'], endpoint: @app_config['CAPTAIN_OPEN_AI_ENDPOINT']) %>
+    <% captain_api_key_required = @config == 'captain' && @captain_provider_api_key_requirements&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], false) && captain_model_required %>
     <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
       <div>
         <% @allowed_configs.each do |key| %>
@@ -30,7 +31,9 @@
               <h2 class="text-sm font-medium text-slate-700">Embeddings and documents</h2>
             </div>
           <% end %>
-          <div class="flex mb-8">
+          <% row_classes = ['flex', 'mb-8'] %>
+          <% row_classes << 'hidden' if @config == 'captain' && key == 'CAPTAIN_AZURE_AI_AUTH_TOKEN' && @app_config['CAPTAIN_LLM_PROVIDER'] != Llm::Config::AZURE_PROVIDER %>
+          <div class="<%= row_classes.join(' ') %>" id="<%= @config == 'captain' ? "captain-config-row-#{key}" : nil %>">
             <div class="field-unit__label">
               <% label_text = @installation_configs[key]&.dig('display_title') || key %>
               <% label_text = 'API Base' if @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required %>
@@ -55,7 +58,8 @@
                   <%= form.password_field "app_config[#{key}]",
                       id: "app_config_#{key}",
                       value: @app_config[key],
-                      class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full"
+                      class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full",
+                      required: (@config == 'captain' && key == 'CAPTAIN_OPEN_AI_API_KEY' && captain_api_key_required && @app_config['CAPTAIN_LLM_PROVIDER'] != Llm::Config::AZURE_PROVIDER)
                   %>
                   <button
                     type="button"
@@ -82,7 +86,11 @@
                     required: (@config == 'captain' && ((key == 'CAPTAIN_OPEN_AI_MODEL' && captain_model_required) || (key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required)))
                 %>
               <% end %>
-              <% if @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
+              <% if @config == 'captain' && key == 'CAPTAIN_AZURE_AI_AUTH_TOKEN' %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  Azure only. Enter this token or the API Key above.
+                </p>
+              <% elsif @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
                 <p class="pt-2 text-xs italic text-slate-400">
                   OpenAI key used for FAQs, knowledge search, PDF processing, and audio transcription. Required unless Provider is OpenAI with API Base blank/default, where Chatwoot reuses the Captain Model API key.
                 </p>
@@ -141,13 +149,17 @@
   document.addEventListener('DOMContentLoaded', () => {
     const captainProvider = document.getElementById('app_config_CAPTAIN_LLM_PROVIDER');
     const captainModel = document.getElementById('app_config_CAPTAIN_OPEN_AI_MODEL');
+    const captainApiKey = document.getElementById('app_config_CAPTAIN_OPEN_AI_API_KEY');
+    const captainAzureAuthToken = document.getElementById('app_config_CAPTAIN_AZURE_AI_AUTH_TOKEN');
+    const captainAzureAuthTokenRow = document.getElementById('captain-config-row-CAPTAIN_AZURE_AI_AUTH_TOKEN');
     const captainApiBase = document.getElementById('app_config_CAPTAIN_OPEN_AI_ENDPOINT');
     const captainApiBaseLabel = document.getElementById('captain-api-base-label');
     const captainApiBaseHint = document.getElementById('captain-api-base-hint');
     const captainProviderApiBases = <%= raw((@captain_provider_api_bases || {}).to_json) %>;
+    const captainProviderApiKeyRequirements = <%= raw((@captain_provider_api_key_requirements || {}).to_json) %>;
 
     const updateCaptainProviderFields = ({ updateApiBase } = { updateApiBase: false }) => {
-      if (!captainProvider || !captainModel || !captainApiBase || !captainApiBaseLabel || !captainApiBaseHint) return;
+      if (!captainProvider || !captainModel || !captainApiKey || !captainAzureAuthToken || !captainAzureAuthTokenRow || !captainApiBase || !captainApiBaseLabel || !captainApiBaseHint) return;
 
       const providerApiBase = captainProviderApiBases[captainProvider.value] || '';
       const apiBaseRequired = !providerApiBase;
@@ -159,10 +171,16 @@
       const normalizedApiBase = captainApiBase.value.trim().replace(/\/$/, '').replace(/\/chat\/completions$/, '').replace(/\/v1$/, '');
       const directOpenAISelected = captainProvider.value === '<%= Llm::Config::DEFAULT_PROVIDER %>' &&
         (!normalizedApiBase || normalizedApiBase === '<%= LlmConstants::OPENAI_API_ENDPOINT %>');
+      const azureSelected = captainProvider.value === '<%= Llm::Config::AZURE_PROVIDER %>';
+      const azureCredentialMissing = azureSelected && !captainApiKey.value.trim() && !captainAzureAuthToken.value.trim();
 
       captainModel.required = !directOpenAISelected;
+      captainApiKey.required = Boolean(captainProviderApiKeyRequirements[captainProvider.value]) && !directOpenAISelected && !azureSelected;
       captainApiBase.required = apiBaseRequired;
       captainApiBaseLabel.textContent = apiBaseRequired ? 'API Base' : 'API Base (optional)';
+      captainAzureAuthTokenRow.classList.toggle('hidden', !azureSelected);
+      captainApiKey.setCustomValidity(azureCredentialMissing ? 'Enter API Key or Azure AI Auth Token.' : '');
+      captainAzureAuthToken.setCustomValidity(azureCredentialMissing ? 'Enter API Key or Azure AI Auth Token.' : '');
 
       if (apiBaseRequired) {
         captainApiBaseHint.textContent = 'API Base is required for the selected provider.';
@@ -174,6 +192,8 @@
     };
 
     captainProvider?.addEventListener('change', () => updateCaptainProviderFields({ updateApiBase: true }));
+    captainApiKey?.addEventListener('input', () => updateCaptainProviderFields());
+    captainAzureAuthToken?.addEventListener('input', () => updateCaptainProviderFields());
     captainApiBase?.addEventListener('input', () => updateCaptainProviderFields());
     updateCaptainProviderFields();
 

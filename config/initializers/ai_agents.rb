@@ -4,13 +4,14 @@ require 'agents'
 
 Rails.application.config.after_initialize do
   api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  auth_token = InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
   model = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
   provider = Llm::Config.default_provider
   api_base = Llm::Config.api_base_for(provider: provider)
 
-  if api_key.present? || api_base.present?
+  if api_key.present? || auth_token.present? || api_base.present?
     Agents.configure do |config|
-      Llm::Config.configure_provider(config, provider: provider, api_key: api_key, api_base: api_base)
+      Llm::Config.configure_provider(config, provider: provider, api_key: api_key, api_base: api_base, auth_token: auth_token)
       config.default_model = model
       config.debug = false
     end

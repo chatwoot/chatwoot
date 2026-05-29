@@ -54,6 +54,18 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         expect(response.body).to include('API Base is required for the selected provider.')
       end
 
+      it 'shows Azure auth token field when Azure is selected' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'azure')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://example.openai.azure.com')
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('id="app_config_CAPTAIN_OPEN_AI_API_KEY"')
+        expect(response.body).to include('id="app_config_CAPTAIN_AZURE_AI_AUTH_TOKEN"')
+        expect(response.body).to include('Azure only. Enter this token or the API Key above.')
+      end
+
       it 'shows the OpenAI default hint when OpenAI API Base is blank' do
         set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
         set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
@@ -120,6 +132,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         sign_in(super_admin, scope: :super_admin)
         post '/super_admin/app_config?config=captain', params: {
           app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'anthropic-key',
             CAPTAIN_LLM_PROVIDER: 'anthropic',
             CAPTAIN_OPEN_AI_MODEL: '',
             CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.anthropic.com'
@@ -135,6 +148,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         sign_in(super_admin, scope: :super_admin)
         post '/super_admin/app_config?config=captain', params: {
           app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'openai-key',
             CAPTAIN_LLM_PROVIDER: 'openai',
             CAPTAIN_OPEN_AI_MODEL: '',
             CAPTAIN_OPEN_AI_ENDPOINT: 'https://llm.example.com/v1'
@@ -150,6 +164,7 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         sign_in(super_admin, scope: :super_admin)
         post '/super_admin/app_config?config=captain', params: {
           app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'azure-key',
             CAPTAIN_LLM_PROVIDER: 'azure',
             CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
             CAPTAIN_OPEN_AI_ENDPOINT: ''
@@ -159,6 +174,40 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         expect(response).to have_http_status(:found)
         expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
         expect(flash[:alert]).to eq('API Base is required for the selected Provider')
+      end
+
+      it 'requires an API key or auth token for Azure' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: '',
+            CAPTAIN_AZURE_AI_AUTH_TOKEN: '',
+            CAPTAIN_LLM_PROVIDER: 'azure',
+            CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://example.openai.azure.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('API Key or Azure AI Auth Token is required for Azure')
+      end
+
+      it 'accepts Azure auth token without API key' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: '',
+            CAPTAIN_AZURE_AI_AUTH_TOKEN: 'azure-token',
+            CAPTAIN_LLM_PROVIDER: 'azure',
+            CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://example.openai.azure.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_settings_path)
+        expect(flash[:alert]).to be_blank
       end
     end
   end

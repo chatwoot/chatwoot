@@ -106,7 +106,7 @@ class Integrations::LlmBaseService
     credential = llm_credential
     return { error: I18n.t('captain.api_key_missing'), error_code: 401, request_messages: messages } if credential.blank?
 
-    Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base, auth_token: credential[:auth_token]) do |context|
       chat = context.chat(model: model, provider: Llm::Config.ruby_llm_provider(llm_provider), assume_model_exists: true)
       setup_chat_with_messages(chat, messages)
     end
@@ -183,7 +183,11 @@ class Integrations::LlmBaseService
 
   def system_llm_credential
     key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    return { api_key: key, source: :system } if key.present?
+    auth_token = InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
+    if key.present? || (llm_provider == Llm::Config::AZURE_PROVIDER && auth_token.present?)
+      return { api_key: key, auth_token: auth_token, source: :system }
+    end
+
     return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
   end
 

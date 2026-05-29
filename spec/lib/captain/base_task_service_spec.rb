@@ -166,7 +166,21 @@ RSpec.describe Captain::BaseTaskService do
         set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'http://localhost:11434')
 
         expect(Llm::Config).to receive(:with_api_key)
-          .with(nil, provider: 'ollama', api_base: 'http://localhost:11434')
+          .with(nil, provider: 'ollama', api_base: 'http://localhost:11434', auth_token: nil)
+          .and_yield(mock_context)
+
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:message]).to eq('Response')
+      end
+
+      it 'allows Azure with an auth token instead of an API key' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'azure')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://example.openai.azure.com')
+        set_installation_config('CAPTAIN_AZURE_AI_AUTH_TOKEN', 'azure-token')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with(nil, provider: 'azure', api_base: 'https://example.openai.azure.com', auth_token: 'azure-token')
           .and_yield(mock_context)
 
         result = service.send(:make_api_call, model: model, messages: messages)
@@ -277,7 +291,7 @@ RSpec.describe Captain::BaseTaskService do
       create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
 
       expect(Llm::Config).to receive(:with_api_key)
-        .with('hook-key', provider: 'openai', api_base: anything)
+        .with('hook-key', provider: 'openai', api_base: anything, auth_token: nil)
         .and_raise(error)
       expect(ChatwootExceptionTracker).not_to receive(:new)
 

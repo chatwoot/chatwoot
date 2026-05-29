@@ -4,6 +4,7 @@ module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
   DEFAULT_UTILITY_MODEL = 'gpt-4.1-nano'.freeze
   DEFAULT_PROVIDER = 'openai'.freeze
+  AZURE_PROVIDER = 'azure'.freeze
   OPENAI_CHAT_PARAMS_PROVIDERS = %w[azure openai openrouter].freeze
 
   class << self
@@ -18,10 +19,10 @@ module Llm::Config
 
     def reset! = @initialized = false
 
-    def with_api_key(api_key, provider: default_provider, api_base: nil)
+    def with_api_key(api_key, provider: default_provider, api_base: nil, auth_token: nil)
       initialize!
       context = RubyLLM.context do |config|
-        configure_provider(config, provider: provider, api_key: api_key, api_base: api_base)
+        configure_provider(config, provider: provider, api_key: api_key, api_base: api_base, auth_token: auth_token)
       end
 
       yield context
@@ -55,13 +56,9 @@ module Llm::Config
       providers.sort_by { |provider| provider == DEFAULT_PROVIDER ? '' : provider }
     end
 
-    def provider_options
-      configurable_providers.index_with { |provider| RubyLLM::Provider.providers[provider.to_sym].name }
-    end
+    def provider_options = configurable_providers.index_with { |provider| RubyLLM::Provider.providers[provider.to_sym].name }
 
-    def provider_api_base_options
-      configurable_providers.index_with { |provider| default_api_base_for_provider(provider) }
-    end
+    def provider_api_base_options = configurable_providers.index_with { |provider| default_api_base_for_provider(provider) }
 
     def direct_openai_endpoint?(provider: default_provider, endpoint: api_endpoint)
       provider.to_s == DEFAULT_PROVIDER && default_openai_api_base?(endpoint)
@@ -76,27 +73,29 @@ module Llm::Config
     def supports_openai_chat_params? = OPENAI_CHAT_PARAMS_PROVIDERS.include?(default_provider)
 
     def api_key_required?(provider = default_provider)
-      provider_configuration_requirements(provider).include?(:"#{provider}_api_key")
+      provider = provider.to_s
+      provider_configuration_requirements(provider).include?(:"#{provider}_api_key") || provider == AZURE_PROVIDER
     end
 
     def api_base_only_provider_configured?(provider: default_provider, endpoint: api_endpoint)
       !api_key_required?(provider) && api_base_for(provider: provider, endpoint: endpoint).present?
     end
 
-    def configure_provider(config, provider:, api_key:, api_base: nil)
+    def configure_provider(config, provider:, api_key:, api_base: nil, auth_token: nil)
       options = provider_configuration_options(provider)
       api_key_option = :"#{provider}_api_key"
       api_base_option = :"#{provider}_api_base"
 
       set_config_value(config, api_key_option, api_key) if api_key.present? && options.include?(api_key_option)
       set_config_value(config, api_base_option, api_base) if api_base.present? && options.include?(api_base_option)
+      set_config_value(config, :azure_ai_auth_token, auth_token) if provider.to_s == AZURE_PROVIDER && auth_token.present?
     end
 
     private
 
     def configure_ruby_llm
       RubyLLM.configure do |config|
-        configure_provider(config, provider: default_provider, api_key: system_api_key, api_base: api_base_for)
+        configure_provider(config, provider: default_provider, api_key: system_api_key, api_base: api_base_for, auth_token: system_auth_token)
         config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
         config.logger = Rails.logger
       end
@@ -110,6 +109,8 @@ module Llm::Config
     end
 
     def system_api_key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+
+    def system_auth_token = InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
 
     def api_endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
 

@@ -74,6 +74,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   def captain_config_options
     %w[
       CAPTAIN_OPEN_AI_API_KEY
+      CAPTAIN_AZURE_AI_AUTH_TOKEN
       CAPTAIN_LLM_PROVIDER
       CAPTAIN_OPEN_AI_MODEL
       CAPTAIN_OPEN_AI_ENDPOINT
@@ -93,6 +94,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def apply_captain_api_base_options
     @captain_provider_api_bases = Llm::Config.provider_api_base_options
+    @captain_provider_api_key_requirements = Llm::Config.provider_options.keys.index_with { |provider| Llm::Config.api_key_required?(provider) }
   end
 
   def normalized_config_value(key, value)
@@ -122,10 +124,11 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
     return ['Provider is not supported'] unless provider_supported?(provider)
 
-    errors = []
-    errors << model_required_message if captain_model_required?(provider, endpoint) && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
-    errors << api_base_required_message(provider) if api_base_required?(provider) && app_config['CAPTAIN_OPEN_AI_ENDPOINT'].blank?
-    errors
+    [
+      model_config_error(provider, endpoint, app_config),
+      api_key_config_error(provider, endpoint, app_config),
+      api_base_config_error(provider, app_config)
+    ].compact
   end
 
   def captain_model_required?(provider, endpoint)
@@ -134,6 +137,18 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def model_required_message
     'Model is required unless Provider is OpenAI with API Base blank/default'
+  end
+
+  def model_config_error(provider, endpoint, app_config)
+    model_required_message if captain_model_required?(provider, endpoint) && app_config['CAPTAIN_OPEN_AI_MODEL'].blank?
+  end
+
+  def api_key_config_error(provider, endpoint, app_config)
+    credential_required_message(provider) if captain_credential_required?(provider, endpoint, app_config)
+  end
+
+  def api_base_config_error(provider, app_config)
+    api_base_required_message(provider) if api_base_required?(provider) && app_config['CAPTAIN_OPEN_AI_ENDPOINT'].blank?
   end
 
   def provider_supported?(provider)
@@ -146,6 +161,21 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def api_base_required_message(_provider)
     'API Base is required for the selected Provider'
+  end
+
+  def captain_credential_required?(provider, endpoint, app_config)
+    return false unless Llm::Config.api_key_required?(provider)
+    return false if Llm::Config.direct_openai_endpoint?(provider: provider, endpoint: endpoint)
+
+    return app_config['CAPTAIN_OPEN_AI_API_KEY'].blank? && app_config['CAPTAIN_AZURE_AI_AUTH_TOKEN'].blank? if provider == Llm::Config::AZURE_PROVIDER
+
+    app_config['CAPTAIN_OPEN_AI_API_KEY'].blank?
+  end
+
+  def credential_required_message(provider)
+    return 'API Key or Azure AI Auth Token is required for Azure' if provider == Llm::Config::AZURE_PROVIDER
+
+    'API Key is required for the selected Provider'
   end
 end
 

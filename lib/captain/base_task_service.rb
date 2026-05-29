@@ -60,7 +60,7 @@ class Captain::BaseTaskService
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
     credential = llm_credential
 
-    Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base) do |context|
+    Llm::Config.with_api_key(credential[:api_key], provider: llm_provider, api_base: api_base, auth_token: credential[:auth_token]) do |context|
       chat = build_chat(context, model: model, messages: messages, schema: schema, tools: tools)
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
@@ -186,7 +186,7 @@ class Captain::BaseTaskService
   end
 
   def system_llm_credential
-    return { api_key: system_api_key, source: :system } if system_api_key.present?
+    return { api_key: system_api_key, auth_token: system_auth_token, source: :system } if system_api_key.present? || azure_auth_token_configured?
     return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
   end
 
@@ -196,6 +196,14 @@ class Captain::BaseTaskService
 
   def system_api_key
     @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  end
+
+  def system_auth_token
+    @system_auth_token ||= InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
+  end
+
+  def azure_auth_token_configured?
+    llm_provider == Llm::Config::AZURE_PROVIDER && system_auth_token.present?
   end
 
   def exception_tracking_account
