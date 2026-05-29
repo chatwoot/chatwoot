@@ -104,6 +104,17 @@ RSpec.describe Campaign do
 
         campaign.trigger!
       end
+
+      it 'marks the campaign active again when triggering fails' do
+        campaign.save!
+        sms_service = double
+
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform).and_raise(StandardError, 'provider error')
+
+        expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
+        expect(campaign.reload.active?).to be true
+      end
     end
 
     context 'when SMS campaign' do

@@ -69,10 +69,17 @@ class Campaign < ApplicationRecord
       end
     end
 
-    service_class.new(campaign: self).perform if processing_started
+    run_one_off_campaign(service_class) if processing_started
   end
 
   private
+
+  def run_one_off_campaign(service_class)
+    service_class.new(campaign: self).perform
+  rescue StandardError
+    active! if processing?
+    raise
+  end
 
   def one_off_campaign_service
     case inbox.inbox_type
