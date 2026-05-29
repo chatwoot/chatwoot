@@ -34,7 +34,7 @@ module Integrations::LlmInstrumentationHelpers
   end
 
   def set_request_attributes(span, params)
-    provider = determine_provider(params[:model])
+    provider = params[:provider] || determine_provider(params[:model])
     span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
     span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
     span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]

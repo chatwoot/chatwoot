@@ -7,6 +7,7 @@ class Captain::Llm::AssistantActionClassifierService < Llm::BaseAiService
     super()
     @assistant = assistant
     @conversation = conversation
+    @model = Llm::Config.captain_utility_model
     @temperature = 0.0
   end
 
@@ -17,8 +18,7 @@ class Captain::Llm::AssistantActionClassifierService < Llm::BaseAiService
     )
 
     response = instrument_llm_call(instrumentation_params(user_prompt)) do
-      chat(model: @model, temperature: @temperature)
-        .with_schema(Captain::AssistantActionSchema)
+      with_response_schema(chat(model: @model, temperature: @temperature), Captain::AssistantActionSchema)
         .with_instructions(system_prompt)
         .ask(user_prompt)
     end

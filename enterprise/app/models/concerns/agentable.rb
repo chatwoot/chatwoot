@@ -2,14 +2,18 @@ module Concerns::Agentable
   extend ActiveSupport::Concern
 
   def agent
-    Agents::Agent.new(
+    agent_attributes = {
       name: agent_name,
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature.to_f || 0.7,
+      provider: agent_provider,
+      assume_model_exists: true,
       response_schema: agent_response_schema
-    )
+    }
+    agent_attributes[:temperature] = temperature.to_f if Llm::Config.supports_temperature?
+
+    Agents::Agent.new(**agent_attributes)
   end
 
   def agent_instructions(context = nil)
@@ -46,8 +50,12 @@ module Concerns::Agentable
     InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
   end
 
+  def agent_provider
+    Llm::Config.ruby_llm_provider
+  end
+
   def agent_response_schema
-    Captain::ResponseSchema
+    Captain::ResponseSchema if Llm::Config.supports_structured_outputs_with_tools?
   end
 
   def prompt_context

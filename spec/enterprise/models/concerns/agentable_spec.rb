@@ -33,10 +33,13 @@ RSpec.describe Concerns::Agentable do
   let(:dummy_instance) { dummy_class.new }
   let(:mock_agents_agent) { instance_double(Agents::Agent) }
   let(:mock_installation_config) { instance_double(InstallationConfig, value: 'gpt-4-turbo') }
+  let(:mock_provider_config) { instance_double(InstallationConfig, value: 'openai') }
 
   before do
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
+    allow(InstallationConfig).to receive(:find_by).and_call_original
     allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_MODEL').and_return(mock_installation_config)
+    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_LLM_PROVIDER').and_return(mock_provider_config)
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
 
@@ -47,9 +50,22 @@ RSpec.describe Concerns::Agentable do
         instructions: instance_of(Proc),
         tools: [],
         model: 'gpt-4-turbo',
+        provider: 'openai',
+        assume_model_exists: true,
         temperature: 0.8,
         response_schema: Captain::ResponseSchema
       )
+
+      dummy_instance.agent
+    end
+
+    it 'omits response schema for non-OpenAI providers' do
+      allow(mock_provider_config).to receive(:value).and_return('openrouter')
+
+      expect(Agents::Agent).to receive(:new) do |attributes|
+        expect(attributes).to include(provider: 'openrouter', response_schema: nil)
+        expect(attributes).not_to have_key(:temperature)
+      end
 
       dummy_instance.agent
     end

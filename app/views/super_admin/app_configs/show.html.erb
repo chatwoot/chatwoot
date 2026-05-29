@@ -16,62 +16,130 @@
 
 <section class="main-content__body">
   <%= form_with url: super_admin_app_config_url(config: @config) , method: :post do |form| %>
-    <% @allowed_configs.each do |key| %>
-      <div class="flex mb-8">
-        <div class="field-unit__label">
-          <%= form.label "app_config[#{key}]", @installation_configs[key]&.dig('display_title') || key %>
-        </div>
-        <div class="-mt-2 field-unit__field ">
-          <% if @installation_configs[key]&.dig('type') == 'boolean' %>
-            <%= form.select "app_config[#{key}]",
-              [["True", true], ["False", false]],
-              { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
-              class: "mt-2 border border-slate-100 p-1 rounded-md"
-            %>
-          <% elsif @installation_configs[key]&.dig('type') == 'code' %>
-            <%= form.text_area "app_config[#{key}]",
-                value: @app_config[key],
-                rows: 12,
-                wrap: 'off',
-                class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
-            %>
-          <% elsif @installation_configs[key]&.dig('type') == 'secret' %>
-            <div class="relative">
-              <%= form.password_field "app_config[#{key}]",
-                  id: "app_config_#{key}",
-                  value: @app_config[key],
-                  class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full"
-              %>
-              <button
-                type="button"
-                class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password"
-                data-target="app_config_<%= key %>"
-              >
-                <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 5C5.63636 5 2 12 2 12C2 12 5.63636 19 12 19C18.3636 19 22 12 22 12C22 12 18.3636 5 12 5Z"/>
-                  <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"/>
-                </svg>
-              </button>
+    <% captain_api_base_required = @config == 'captain' && @captain_provider_api_bases&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], nil).blank? %>
+    <% captain_model_required = @config == 'captain' && !Llm::Config.direct_openai_endpoint?(provider: @app_config['CAPTAIN_LLM_PROVIDER'], endpoint: @app_config['CAPTAIN_OPEN_AI_ENDPOINT']) %>
+    <% captain_api_key_required = @config == 'captain' && @captain_provider_api_key_requirements&.fetch(@app_config['CAPTAIN_LLM_PROVIDER'], false) && captain_model_required %>
+    <div class="<%= @config == 'captain' ? 'grid grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_26rem]' : '' %>">
+      <div>
+        <% @allowed_configs.each do |key| %>
+          <% if @config == 'captain' && key == 'CAPTAIN_OPEN_AI_API_KEY' %>
+            <div class="mb-5">
+              <h2 class="text-sm font-medium text-slate-700">Captain Model</h2>
             </div>
-          <% elsif @installation_configs[key]&.dig('type') == 'select' && @installation_configs[key]&.dig('options').present? %>
-            <%= form.select "app_config[#{key}]",
-              @installation_configs[key]['options'].map { |val, label| [label, val] },
-              { selected: @app_config[key] },
-              class: "mt-2 border border-slate-100 p-1 rounded-md"
-            %>
-        <% else %>
-          <%= form.text_field "app_config[#{key}]", value: @app_config[key] %>
-        <% end %>
-          <%if @installation_configs[key]&.dig('description').present? %>
-            <p class="pt-2 text-xs italic text-slate-400">
-              <%= @installation_configs[key]&.dig('description') %>
-            </p>
+          <% elsif @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
+            <div class="mb-5 mt-10">
+              <h2 class="text-sm font-medium text-slate-700">Embeddings and documents</h2>
+            </div>
           <% end %>
+          <% row_classes = ['flex', 'mb-8'] %>
+          <% row_classes << 'hidden' if @config == 'captain' && key == 'CAPTAIN_AZURE_AI_AUTH_TOKEN' && @app_config['CAPTAIN_LLM_PROVIDER'] != Llm::Config::AZURE_PROVIDER %>
+          <div class="<%= row_classes.join(' ') %>" id="<%= @config == 'captain' ? "captain-config-row-#{key}" : nil %>">
+            <div class="field-unit__label">
+              <% label_text = @installation_configs[key]&.dig('display_title') || key %>
+              <% label_text = 'API Base' if @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required %>
+              <%= form.label "app_config[#{key}]", label_text, id: (@config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' ? 'captain-api-base-label' : nil) %>
+            </div>
+            <div class="-mt-2 field-unit__field ">
+              <% if @installation_configs[key]&.dig('type') == 'boolean' %>
+                <%= form.select "app_config[#{key}]",
+                  [["True", true], ["False", false]],
+                  { selected: ActiveModel::Type::Boolean.new.cast(@app_config[key]) },
+                  class: "mt-2 border border-slate-100 p-1 rounded-md"
+                %>
+              <% elsif @installation_configs[key]&.dig('type') == 'code' %>
+                <%= form.text_area "app_config[#{key}]",
+                    value: @app_config[key],
+                    rows: 12,
+                    wrap: 'off',
+                    class: "mt-2 border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll"
+                %>
+              <% elsif @installation_configs[key]&.dig('type') == 'secret' %>
+                <div class="relative">
+                  <%= form.password_field "app_config[#{key}]",
+                      id: "app_config_#{key}",
+                      value: @app_config[key],
+                      class: "mt-2 border border-slate-100 p-1.5 pr-8 rounded-md w-full",
+                      required: (@config == 'captain' && key == 'CAPTAIN_OPEN_AI_API_KEY' && captain_api_key_required && @app_config['CAPTAIN_LLM_PROVIDER'] != Llm::Config::AZURE_PROVIDER)
+                  %>
+                  <button
+                    type="button"
+                    class="absolute reset-base !bg-white top-1/2 !outline-0 !text-n-slate-11 -translate-y-1/2 right-2 p-1 hover:!bg-n-slate-5 rounded-sm toggle-password"
+                    data-target="app_config_<%= key %>"
+                  >
+                    <svg class="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 5C5.63636 5 2 12 2 12C2 12 5.63636 19 12 19C18.3636 19 22 12 22 12C22 12 18.3636 5 12 5Z"/>
+                      <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z"/>
+                    </svg>
+                  </button>
+                </div>
+              <% elsif @installation_configs[key]&.dig('type') == 'select' && @installation_configs[key]&.dig('options').present? %>
+                <%= form.select "app_config[#{key}]",
+                  @installation_configs[key]['options'].map { |val, label| [label, val] },
+                  { selected: @app_config[key] },
+                  class: "mt-2 border border-slate-100 p-1 rounded-md",
+                  id: "app_config_#{key}"
+                %>
+              <% else %>
+                <%= form.text_field "app_config[#{key}]",
+                    value: @app_config[key],
+                    id: "app_config_#{key}",
+                    required: (@config == 'captain' && ((key == 'CAPTAIN_OPEN_AI_MODEL' && captain_model_required) || (key == 'CAPTAIN_OPEN_AI_ENDPOINT' && captain_api_base_required)))
+                %>
+              <% end %>
+              <% if @config == 'captain' && key == 'CAPTAIN_AZURE_AI_AUTH_TOKEN' %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  Azure only. Enter this token or the API Key above.
+                </p>
+              <% elsif @config == 'captain' && key == 'CAPTAIN_EMBEDDING_API_KEY' %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  OpenAI key used for FAQs, knowledge search, PDF processing, and audio transcription. Required unless Provider is OpenAI with API Base blank/default, where Chatwoot reuses the Captain Model API key.
+                </p>
+              <% elsif @config == 'captain' && key == 'CAPTAIN_OPEN_AI_ENDPOINT' %>
+                <p id="captain-api-base-hint" class="pt-2 text-xs italic text-slate-400">
+                  <% if @app_config['CAPTAIN_LLM_PROVIDER'] == Llm::Config::DEFAULT_PROVIDER && @app_config[key].blank? %>
+                    Defaults to https://api.openai.com.
+                  <% end %>
+                </p>
+              <% elsif @config != 'captain' && @installation_configs[key]&.dig('description').present? %>
+                <p class="pt-2 text-xs italic text-slate-400">
+                  <%= @installation_configs[key]&.dig('description') %>
+                </p>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+        <div class="form-actions">
+          <%= form.submit "Submit" %>
         </div>
       </div>
-    <% end %>
-    <div class="form-actions">
-      <%= form.submit "Submit" %>
+
+      <% if @config == 'captain' %>
+        <aside class="self-start border-l border-slate-100 pl-6 text-xs text-slate-500">
+          <h2 class="mb-3 text-sm font-medium text-slate-700">Provider notes</h2>
+
+          <div class="space-y-3 leading-5">
+            <p class="italic">
+              Model quality and prompt adherence are not guaranteed for non-OpenAI models.
+            </p>
+
+            <p>
+              Choose your provider from the list.
+            </p>
+
+            <p>
+              Only RubyLLM providers shown in the dropdown are supported. API Base is prefilled when RubyLLM exposes a default; change it only if the selected provider requires a different endpoint.
+            </p>
+
+            <p>
+              When Provider is OpenAI and you are using OpenAI directly, leave API Base empty. The default OpenAI endpoint will be used.
+            </p>
+
+            <p>
+              FAQs, knowledge search, PDF processing, and audio transcription always use OpenAI. Add an OpenAI key in Embeddings and documents unless Provider is OpenAI with API Base blank/default.
+            </p>
+          </div>
+        </aside>
+      <% end %>
     </div>
   <% end %>
 </section>
@@ -79,6 +147,56 @@
 <% content_for :javascript do %>
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    const captainProvider = document.getElementById('app_config_CAPTAIN_LLM_PROVIDER');
+    const captainModel = document.getElementById('app_config_CAPTAIN_OPEN_AI_MODEL');
+    const captainApiKey = document.getElementById('app_config_CAPTAIN_OPEN_AI_API_KEY');
+    const captainAzureAuthToken = document.getElementById('app_config_CAPTAIN_AZURE_AI_AUTH_TOKEN');
+    const captainAzureAuthTokenRow = document.getElementById('captain-config-row-CAPTAIN_AZURE_AI_AUTH_TOKEN');
+    const captainApiBase = document.getElementById('app_config_CAPTAIN_OPEN_AI_ENDPOINT');
+    const captainApiBaseLabel = document.getElementById('captain-api-base-label');
+    const captainApiBaseHint = document.getElementById('captain-api-base-hint');
+    const captainProviderApiBases = <%= raw((@captain_provider_api_bases || {}).to_json) %>;
+    const captainProviderApiKeyRequirements = <%= raw((@captain_provider_api_key_requirements || {}).to_json) %>;
+
+    const updateCaptainProviderFields = ({ updateApiBase } = { updateApiBase: false }) => {
+      if (!captainProvider || !captainModel || !captainApiKey || !captainAzureAuthToken || !captainAzureAuthTokenRow || !captainApiBase || !captainApiBaseLabel || !captainApiBaseHint) return;
+
+      const providerApiBase = captainProviderApiBases[captainProvider.value] || '';
+      const apiBaseRequired = !providerApiBase;
+
+      if (updateApiBase) {
+        captainApiBase.value = providerApiBase;
+      }
+
+      const normalizedApiBase = captainApiBase.value.trim().replace(/\/$/, '').replace(/\/chat\/completions$/, '').replace(/\/v1$/, '');
+      const directOpenAISelected = captainProvider.value === '<%= Llm::Config::DEFAULT_PROVIDER %>' &&
+        (!normalizedApiBase || normalizedApiBase === '<%= LlmConstants::OPENAI_API_ENDPOINT %>');
+      const azureSelected = captainProvider.value === '<%= Llm::Config::AZURE_PROVIDER %>';
+      const azureCredentialMissing = azureSelected && !captainApiKey.value.trim() && !captainAzureAuthToken.value.trim();
+
+      captainModel.required = !directOpenAISelected;
+      captainApiKey.required = Boolean(captainProviderApiKeyRequirements[captainProvider.value]) && !directOpenAISelected && !azureSelected;
+      captainApiBase.required = apiBaseRequired;
+      captainApiBaseLabel.textContent = apiBaseRequired ? 'API Base' : 'API Base (optional)';
+      captainAzureAuthTokenRow.classList.toggle('hidden', !azureSelected);
+      captainApiKey.setCustomValidity(azureCredentialMissing ? 'Enter API Key or Azure AI Auth Token.' : '');
+      captainAzureAuthToken.setCustomValidity(azureCredentialMissing ? 'Enter API Key or Azure AI Auth Token.' : '');
+
+      if (apiBaseRequired) {
+        captainApiBaseHint.textContent = 'API Base is required for the selected provider.';
+      } else if (captainProvider.value === '<%= Llm::Config::DEFAULT_PROVIDER %>' && !captainApiBase.value) {
+        captainApiBaseHint.textContent = 'Defaults to https://api.openai.com.';
+      } else {
+        captainApiBaseHint.textContent = '';
+      }
+    };
+
+    captainProvider?.addEventListener('change', () => updateCaptainProviderFields({ updateApiBase: true }));
+    captainApiKey?.addEventListener('input', () => updateCaptainProviderFields());
+    captainAzureAuthToken?.addEventListener('input', () => updateCaptainProviderFields());
+    captainApiBase?.addEventListener('input', () => updateCaptainProviderFields());
+    updateCaptainProviderFields();
+
     document.querySelectorAll('.toggle-password').forEach(button => {
       button.addEventListener('click', () => {
         const targetId = button.dataset.target;

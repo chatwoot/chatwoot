@@ -19,6 +19,8 @@ module Captain::ChatResponseHelper
     JSON.parse(content)
   rescue JSON::ParserError => e
     Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error parsing JSON response: #{e.message}"
+    return { 'response' => content } if feature_name == 'assistant' && !Llm::Config.supports_structured_outputs_with_tools?
+
     { 'content' => content }
   end
 

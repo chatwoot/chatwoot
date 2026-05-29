@@ -46,8 +46,6 @@ class Captain::Assistant::AgentRunnerService
   def build_context(message_history)
     conversation_history = message_history.map do |msg|
       content = msg[:content]
-      # Preserve multimodal arrays (with image_url entries) as-is for the runner to restore with attachments.
-      # Only extract text from non-array formats (hashes from agent structured output, plain strings).
       content = extract_text_from_content(content) unless content.is_a?(Array)
 
       {
@@ -85,7 +83,6 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def extract_text_from_content(content)
-    # Handle structured output from agents
     return content[:response] || content['response'] || content.to_s if content.is_a?(Hash)
 
     return content unless content.is_a?(Array)
@@ -96,6 +93,8 @@ class Captain::Assistant::AgentRunnerService
 
   def process_agent_result(result)
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
+    return error_response(result.error.message) if result.respond_to?(:error) && result.error.present?
+
     output = result.output
     response = output.is_a?(Hash) ? output.with_indifferent_access : { 'response' => output.to_s, 'reasoning' => 'Processed by agent' }
     response['agent_name'] = result.context&.dig(:current_agent)
@@ -112,11 +111,7 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_state
-    state = {
-      account_id: @assistant.account_id,
-      assistant_id: @assistant.id,
-      assistant_config: @assistant.config
-    }
+    state = { account_id: @assistant.account_id, assistant_id: @assistant.id, assistant_config: @assistant.config }
     state[:source] = @source if @source.present?
 
     build_conversation_state(state) if @conversation

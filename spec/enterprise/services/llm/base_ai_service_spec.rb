@@ -32,4 +32,56 @@ RSpec.describe Llm::BaseAiService do
       expect(service.send(:sanitize_json_response, input)).to eq('{"key": "value"}')
     end
   end
+
+  describe '#with_json_response_format' do
+    let(:chat) { instance_double(RubyLLM::Chat) }
+
+    it 'adds JSON response format for direct OpenAI' do
+      allow(Llm::Config).to receive(:supports_structured_outputs_with_tools?).and_return(true)
+
+      expect(chat).to receive(:with_params).with(max_tokens: 1000, response_format: { type: 'json_object' }).and_return(chat)
+
+      expect(service.send(:with_json_response_format, chat, max_tokens: 1000)).to eq(chat)
+    end
+
+    it 'keeps OpenAI-compatible params when structured outputs are unsupported' do
+      allow(Llm::Config).to receive(:supports_structured_outputs_with_tools?).and_return(false)
+      allow(Llm::Config).to receive(:supports_openai_chat_params?).and_return(true)
+
+      expect(chat).to receive(:with_params).with(max_tokens: 1000).and_return(chat)
+
+      expect(service.send(:with_json_response_format, chat, max_tokens: 1000)).to eq(chat)
+    end
+
+    it 'does not forward raw params for providers with different payload shapes' do
+      allow(Llm::Config).to receive(:supports_structured_outputs_with_tools?).and_return(false)
+      allow(Llm::Config).to receive(:supports_openai_chat_params?).and_return(false)
+
+      expect(chat).not_to receive(:with_params)
+
+      expect(service.send(:with_json_response_format, chat, max_tokens: 1000)).to eq(chat)
+    end
+  end
+
+  describe '#chat' do
+    let(:chat) { instance_double(RubyLLM::Chat) }
+
+    before do
+      allow(RubyLLM).to receive(:chat).and_return(chat)
+    end
+
+    it 'sets temperature for direct OpenAI' do
+      allow(Llm::Config).to receive(:supports_temperature?).and_return(true)
+      expect(chat).to receive(:with_temperature).with(0.3).and_return(chat)
+
+      expect(service.chat(temperature: 0.3)).to eq(chat)
+    end
+
+    it 'does not set temperature for providers that do not support it' do
+      allow(Llm::Config).to receive(:supports_temperature?).and_return(false)
+      expect(chat).not_to receive(:with_temperature)
+
+      expect(service.chat(temperature: 0.3)).to eq(chat)
+    end
+  end
 end

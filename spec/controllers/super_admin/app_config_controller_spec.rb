@@ -12,13 +12,69 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
     end
 
     context 'when it is an authenticated super admin' do
-      let!(:config) { create(:installation_config, { name: 'FB_APP_ID', value: 'TESTVALUE' }) }
+      let!(:config) { InstallationConfig.find_or_initialize_by(name: 'FB_APP_ID').tap { |record| record.update!(value: 'TESTVALUE') } }
 
       it 'shows the app_config page' do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/app_config?config=facebook'
         expect(response).to have_http_status(:success)
         expect(response.body).to include(config.value)
+      end
+
+      it 'groups Captain model and embedding settings' do
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Captain Model')
+        expect(response.body).to include('Embeddings and documents')
+        expect(response.body).to include('Embedding Model')
+        expect(Llm::Config.provider_options).not_to have_key('custom')
+      end
+
+      it 'includes RubyLLM API base defaults for the provider dropdown' do
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('https://api.openai.com/v1')
+        expect(response.body).to include('https://generativelanguage.googleapis.com/v1beta')
+        expect(response.body).to include('https://openrouter.ai/api/v1')
+      end
+
+      it 'marks API Base as required when the selected provider needs one' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'azure')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('id="app_config_CAPTAIN_OPEN_AI_ENDPOINT"')
+        expect(response.body).to include('required="required"')
+        expect(response.body).to include('API Base is required for the selected provider.')
+      end
+
+      it 'shows Azure auth token field when Azure is selected' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'azure')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://example.openai.azure.com')
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('id="app_config_CAPTAIN_OPEN_AI_API_KEY"')
+        expect(response.body).to include('id="app_config_CAPTAIN_AZURE_AI_AUTH_TOKEN"')
+        expect(response.body).to include('Azure only. Enter this token or the API Key above.')
+      end
+
+      it 'shows the OpenAI default hint when OpenAI API Base is blank' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
+        sign_in(super_admin, scope: :super_admin)
+        get '/super_admin/app_config?config=captain'
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('API Base (optional)')
+        expect(response.body).to include('Defaults to https://api.openai.com.')
       end
     end
   end
@@ -55,6 +111,103 @@ RSpec.describe 'Super Admin Application Config API', type: :request do
         expect(flash[:success]).to be_present
         expect(flash[:alert]).to be_blank
         expect(flash[:notice]).to be_blank
+      end
+
+      it 'rejects unsupported providers' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_LLM_PROVIDER: 'custom',
+            CAPTAIN_OPEN_AI_MODEL: 'accounts/fireworks/models/kimi-k2p6',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://llm.example.com/v1'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('Provider is not supported')
+      end
+
+      it 'requires a model for named non-OpenAI providers' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'anthropic-key',
+            CAPTAIN_LLM_PROVIDER: 'anthropic',
+            CAPTAIN_OPEN_AI_MODEL: '',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://api.anthropic.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('Model is required unless Provider is OpenAI with API Base blank/default')
+      end
+
+      it 'requires a model for OpenAI endpoint overrides' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'openai-key',
+            CAPTAIN_LLM_PROVIDER: 'openai',
+            CAPTAIN_OPEN_AI_MODEL: '',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://llm.example.com/v1'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('Model is required unless Provider is OpenAI with API Base blank/default')
+      end
+
+      it 'requires an API base for providers that need one' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: 'azure-key',
+            CAPTAIN_LLM_PROVIDER: 'azure',
+            CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
+            CAPTAIN_OPEN_AI_ENDPOINT: ''
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('API Base is required for the selected Provider')
+      end
+
+      it 'requires an API key or auth token for Azure' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: '',
+            CAPTAIN_AZURE_AI_AUTH_TOKEN: '',
+            CAPTAIN_LLM_PROVIDER: 'azure',
+            CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://example.openai.azure.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'captain'))
+        expect(flash[:alert]).to eq('API Key or Azure AI Auth Token is required for Azure')
+      end
+
+      it 'accepts Azure auth token without API key' do
+        sign_in(super_admin, scope: :super_admin)
+        post '/super_admin/app_config?config=captain', params: {
+          app_config: {
+            CAPTAIN_OPEN_AI_API_KEY: '',
+            CAPTAIN_AZURE_AI_AUTH_TOKEN: 'azure-token',
+            CAPTAIN_LLM_PROVIDER: 'azure',
+            CAPTAIN_OPEN_AI_MODEL: 'gpt-4.1',
+            CAPTAIN_OPEN_AI_ENDPOINT: 'https://example.openai.azure.com'
+          }
+        }
+
+        expect(response).to have_http_status(:found)
+        expect(response).to redirect_to(super_admin_settings_path)
+        expect(flash[:alert]).to be_blank
       end
     end
   end

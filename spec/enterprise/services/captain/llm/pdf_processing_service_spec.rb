@@ -5,11 +5,8 @@ RSpec.describe Captain::Llm::PdfProcessingService do
   let(:service) { described_class.new(document) }
 
   before do
-    # Mock OpenAI configuration
-    installation_config = instance_double(InstallationConfig, value: 'test-api-key')
-    allow(InstallationConfig).to receive(:find_by!)
-      .with(name: 'CAPTAIN_OPEN_AI_API_KEY')
-      .and_return(installation_config)
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-api-key')
+    create(:installation_config, name: 'CAPTAIN_EMBEDDING_API_KEY', value: 'openai-key')
   end
 
   describe '#process' do

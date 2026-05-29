@@ -61,11 +61,13 @@ module Enterprise::Concerns::Article
   end
 
   def generate_article_search_terms
+    validate_openai_api_key!
+
     messages = [
       { role: 'system', content: article_to_search_terms_prompt },
       { role: 'user', content: "title: #{title} \n description: #{description} \n content: #{content}" }
     ]
-    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', nil)}" }
+    headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{Llm::OpenAiConfig.api_key}" }
     body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
     response = HTTParty.post(openai_api_url, headers: headers, body: body)
@@ -75,9 +77,13 @@ module Enterprise::Concerns::Article
 
   private
 
+  def validate_openai_api_key!
+    return if Llm::OpenAiConfig.api_key.present?
+
+    raise Llm::ConfigurationError, 'An OpenAI API key is required for article search term generation.'
+  end
+
   def openai_api_url
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com/'
-    endpoint = endpoint.chomp('/')
-    "#{endpoint}/v1/chat/completions"
+    Llm::OpenAiConfig.chat_completions_url
   end
 end

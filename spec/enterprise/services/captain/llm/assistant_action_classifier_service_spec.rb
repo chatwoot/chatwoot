@@ -66,15 +66,36 @@ RSpec.describe Captain::Llm::AssistantActionClassifierService do
       )
     end
 
-    it 'uses the configured Captain model' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+    it 'uses the OpenAI utility model by default' do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_MODEL').update!(value: 'gpt-4.1')
 
-      expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-nano').and_return(mock_chat)
+      expect(RubyLLM).to receive(:chat).with(
+        model: 'gpt-4.1-nano',
+        provider: Llm::Config::DEFAULT_PROVIDER,
+        assume_model_exists: true
+      ).and_return(mock_chat)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
 
       result = service.classify(message_history: message_history, assistant_response: 'Would you like to talk to support?')
 
       expect(result).to include('model' => 'gpt-4.1-nano')
+    end
+
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
+
+      expect(RubyLLM).to receive(:chat).with(
+        model: 'openai/gpt-4o-mini',
+        provider: 'openrouter',
+        assume_model_exists: true
+      ).and_return(mock_chat)
+      expect(mock_chat).not_to receive(:with_schema)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      result = service.classify(message_history: message_history, assistant_response: 'Would you like to talk to support?')
+
+      expect(result).to include('model' => 'openai/gpt-4o-mini')
     end
 
     context 'when the assistant has no custom instructions' do

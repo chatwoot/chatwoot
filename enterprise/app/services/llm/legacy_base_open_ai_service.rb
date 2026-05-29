@@ -13,11 +13,13 @@ class Llm::LegacyBaseOpenAiService
 
   def initialize
     @client = OpenAI::Client.new(
-      access_token: InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_API_KEY').value,
-      uri_base: uri_base,
+      access_token: openai_api_key,
+      uri_base: Llm::OpenAiConfig.api_base,
       log_errors: Rails.env.development?
     )
     setup_model
+  rescue Llm::ConfigurationError
+    raise
   rescue StandardError => e
     raise "Failed to initialize OpenAI client: #{e.message}"
   end
@@ -32,9 +34,8 @@ class Llm::LegacyBaseOpenAiService
     response.strip.sub(/\A```(?:\w*)\s*\n?/, '').sub(/\n?\s*```\s*\z/, '').strip
   end
 
-  def uri_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-    endpoint.presence || 'https://api.openai.com/'
+  def openai_api_key
+    Llm::OpenAiConfig.api_key.presence || raise(Llm::ConfigurationError, 'OpenAI API key is required for OpenAI-only Captain features.')
   end
 
   def setup_model

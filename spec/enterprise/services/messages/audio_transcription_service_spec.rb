@@ -9,6 +9,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   before do
     # Create required installation configs
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-api-key' }
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_EMBEDDING_API_KEY') { |config| config.value = 'openai-key' }
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
 
     # Mock usage limits for transcription to be available

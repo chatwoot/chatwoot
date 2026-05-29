@@ -134,7 +134,9 @@ RSpec.describe Captain::ConversationCompletionService do
       end
 
       it 'uses the system API key instead of the account hook key' do
-        expect(Llm::Config).to receive(:with_api_key).with('test-key', api_base: anything).and_yield(mock_context)
+        expect(Llm::Config).to receive(:with_api_key)
+          .with('test-key', provider: 'openai', api_base: anything, auth_token: nil)
+          .and_yield(mock_context)
         allow(mock_chat).to receive(:ask).and_return(
           instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
         )
@@ -151,6 +153,41 @@ RSpec.describe Captain::ConversationCompletionService do
 
         expect(result[:complete]).to be false
         expect(result[:reason]).to eq(I18n.t('captain.api_key_missing'))
+      end
+    end
+
+    context 'with model selection' do
+      before do
+        create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
+        allow(mock_chat).to receive(:ask).and_return(
+          instance_double(RubyLLM::Message, content: { 'complete' => true, 'reason' => 'Done' }, input_tokens: 10, output_tokens: 5)
+        )
+      end
+
+      it 'uses the OpenAI utility model by default' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'gpt-4.1')
+
+        expect(mock_context).to receive(:chat).with(
+          model: 'gpt-4.1-nano',
+          provider: 'openai',
+          assume_model_exists: true
+        ).and_return(mock_chat)
+
+        service.perform
+      end
+
+      it 'uses the configured Captain model for named non-OpenAI providers' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+        set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
+
+        expect(mock_context).to receive(:chat).with(
+          model: 'openai/gpt-4o-mini',
+          provider: 'openrouter',
+          assume_model_exists: true
+        ).and_return(mock_chat)
+
+        service.perform
       end
     end
 

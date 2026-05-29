@@ -160,6 +160,33 @@ RSpec.describe Captain::BaseTaskService do
         expect(Llm::Config).not_to receive(:with_api_key)
         service.send(:make_api_call, model: model, messages: messages)
       end
+
+      it 'allows API-base-only providers without an API key' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'ollama')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'http://localhost:11434')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with(nil, provider: 'ollama', api_base: 'http://localhost:11434', auth_token: nil)
+          .and_yield(mock_context)
+
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:message]).to eq('Response')
+      end
+
+      it 'allows Azure with an auth token instead of an API key' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'azure')
+        set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://example.openai.azure.com')
+        set_installation_config('CAPTAIN_AZURE_AI_AUTH_TOKEN', 'azure-token')
+
+        expect(Llm::Config).to receive(:with_api_key)
+          .with(nil, provider: 'azure', api_base: 'https://example.openai.azure.com', auth_token: 'azure-token')
+          .and_yield(mock_context)
+
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:message]).to eq('Response')
+      end
     end
 
     it 'instruments the LLM call' do
@@ -174,6 +201,25 @@ RSpec.describe Captain::BaseTaskService do
       expect(result[:usage]['prompt_tokens']).to eq(10)
       expect(result[:usage]['completion_tokens']).to eq(20)
       expect(result[:usage]['total_tokens']).to eq(30)
+    end
+
+    it 'keeps the requested task model for OpenAI with the default endpoint' do
+      expect(mock_context).to receive(:chat)
+        .with(model: 'gpt-4.1-nano', provider: 'openai', assume_model_exists: true)
+        .and_return(mock_chat)
+
+      service.send(:make_api_call, model: 'gpt-4.1-nano', messages: messages)
+    end
+
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
+
+      expect(mock_context).to receive(:chat)
+        .with(model: 'openai/gpt-4o-mini', provider: 'openrouter', assume_model_exists: true)
+        .and_return(mock_chat)
+
+      service.send(:make_api_call, model: 'gpt-4.1-nano', messages: messages)
     end
   end
 
@@ -263,7 +309,26 @@ RSpec.describe Captain::BaseTaskService do
     it 'does not track exceptions for account hook failures' do
       create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
 
-      expect(Llm::Config).to receive(:with_api_key).with('hook-key', api_base: anything).and_raise(error)
+      expect(Llm::Config).to receive(:with_api_key)
+        .with('hook-key', provider: 'openai', api_base: anything, auth_token: nil)
+        .and_raise(error)
+      expect(ChatwootExceptionTracker).not_to receive(:new)
+
+      result = service.send(:make_api_call, model: model, messages: messages)
+
+      expect(result[:error]).to eq('API Error')
+      expect(result[:request_messages]).to eq(messages)
+    end
+
+    it 'uses account hook credentials for OpenAI custom endpoints' do
+      InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://llm.example.com/v1')
+      create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'hook-key' })
+
+      expect(Llm::Config).to receive(:with_api_key)
+        .with('hook-key', provider: 'openai', api_base: 'https://llm.example.com/v1', auth_token: nil)
+        .and_raise(error)
       expect(ChatwootExceptionTracker).not_to receive(:new)
 
       result = service.send(:make_api_call, model: model, messages: messages)
@@ -281,6 +346,12 @@ RSpec.describe Captain::BaseTaskService do
 
       it 'uses api key from hook' do
         expect(service.send(:api_key)).to eq('hook-key')
+      end
+
+      it 'uses system api key when Captain LLM provider is not OpenAI' do
+        set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+
+        expect(service.send(:api_key)).to eq('test-key')
       end
     end
 

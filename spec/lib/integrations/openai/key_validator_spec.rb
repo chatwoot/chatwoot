@@ -27,15 +27,12 @@ RSpec.describe Integrations::Openai::KeyValidator do
     expect(described_class.valid?(api_key)).to be true
   end
 
-  it 'routes the probe through the configured endpoint' do
-    custom_url = 'https://proxy.example.com/v1/models'
-    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_ENDPOINT')
-                                                  .and_return(instance_double(InstallationConfig, value: 'https://proxy.example.com/'))
-    stub_request(:get, custom_url).to_return(status: 200)
+  it 'keeps OpenAI integration validation on the OpenAI endpoint' do
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_ENDPOINT', value: 'https://proxy.example.com/')
+    stub_request(:get, probe_url).to_return(status: 200)
 
     described_class.valid?(api_key)
 
-    expect(WebMock).to have_requested(:get, custom_url)
-    expect(WebMock).not_to have_requested(:get, probe_url)
+    expect(WebMock).to have_requested(:get, probe_url)
   end
 end

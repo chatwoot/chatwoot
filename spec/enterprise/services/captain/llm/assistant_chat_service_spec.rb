@@ -41,6 +41,22 @@ RSpec.describe Captain::Llm::AssistantChatService do
     end
   end
 
+  describe 'provider compatibility' do
+    it 'does not request JSON response format for non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      Llm::Config.reset!
+
+      expect(mock_chat).not_to receive(:with_params)
+      expect(mock_chat).not_to receive(:with_temperature)
+      allow(mock_chat).to receive(:ask).and_return(instance_double(RubyLLM::Message, content: 'Plain text answer'))
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      result = service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+
+      expect(result).to include('response' => 'Plain text answer')
+    end
+  end
+
   describe 'image analysis' do
     context 'when user sends a message with an image attachment' do
       let(:message_history) do
