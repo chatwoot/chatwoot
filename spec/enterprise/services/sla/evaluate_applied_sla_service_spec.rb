@@ -191,16 +191,16 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       # Simulate conversation timeline
       # Hit frt
       # incoming message from customer
-      create(:message, conversation: conversation, created_at: 6.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 6.hours.ago, message_type: :incoming)
       # outgoing message from agent within frt
-      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 5.hours.ago, message_type: :outgoing)
 
       # Miss nrt first time
-      create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 4.hours.ago, message_type: :incoming)
       described_class.new(applied_sla: applied_sla).perform
 
       # Miss nrt second time
-      create(:message, conversation: conversation, created_at: 3.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 3.hours.ago, message_type: :incoming)
       described_class.new(applied_sla: applied_sla).perform
 
       # Conversation is resolved missing rt

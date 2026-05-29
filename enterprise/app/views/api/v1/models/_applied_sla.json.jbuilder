@@ -9,3 +9,6 @@ json.sla_first_response_time_threshold resource.sla_policy.first_response_time_t
 json.sla_next_response_time_threshold resource.sla_policy.next_response_time_threshold
 json.sla_only_during_business_hours resource.sla_policy.only_during_business_hours
 json.sla_resolution_time_threshold resource.sla_policy.resolution_time_threshold
+json.sla_frt_due_at resource.frt_due_at
+json.sla_nrt_due_at resource.nrt_due_at
+json.sla_rt_due_at resource.rt_due_at
