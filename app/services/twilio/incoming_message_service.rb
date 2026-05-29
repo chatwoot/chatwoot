@@ -1,4 +1,4 @@
-class Twilio::IncomingMessageService
+class Twilio::IncomingMessageService # rubocop:disable Metrics/ClassLength
   include ::FileTypeHelper
   include ::Twilio::WhatsappIdentifierHelper
 
@@ -15,7 +15,8 @@ class Twilio::IncomingMessageService
       inbox_id: @inbox.id,
       message_type: :incoming,
       sender: @contact,
-      source_id: params[:SmsSid]
+      source_id: params[:SmsSid],
+      content_attributes: referral_attributes
     )
     attach_files
     attach_location if location_message?
@@ -135,6 +136,23 @@ class Twilio::IncomingMessageService
     else
       {}
     end
+  end
+
+  def referral_attributes
+    return {} if params[:ReferralSourceId].blank?
+
+    {
+      referral_source_id: params[:ReferralSourceId],
+      referral_source_type: params[:ReferralSourceType],
+      referral_source_url: params[:ReferralSourceUrl],
+      referral_headline: params[:ReferralHeadline],
+      referral_body: params[:ReferralBody],
+      referral_media_id: params[:ReferralMediaId],
+      referral_media_content_type: params[:ReferralMediaContentType],
+      referral_media_url: params[:ReferralMediaUrl],
+      referral_num_media: params[:ReferralNumMedia],
+      referral_ctwa_clid: params[:ReferralCtwaClid]
+    }
   end
 
   def attach_files
