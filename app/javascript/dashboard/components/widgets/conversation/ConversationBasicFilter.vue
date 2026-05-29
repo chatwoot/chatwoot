@@ -63,6 +63,10 @@ const chatStatusOptions = computed(() => [
 
 const chatSortOptions = computed(() => [
   {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.unread.TEXT'),
+    value: 'unread',
+  },
+  {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_asc.TEXT'),
     value: 'last_activity_at_asc',
   },
