@@ -13,6 +13,12 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
+const validSocialProfileUsername = value =>
+  !value || /^[A-Za-z0-9._-]+$/.test(value);
+
+const validLinkedInUsername = value =>
+  !value || /^[A-Za-z0-9._/-]+$/.test(value);
+
 export default {
   components: {
     NextButton,
@@ -59,6 +65,8 @@ export default {
         linkedin: '',
         github: '',
         telegram: '',
+        instagram: '',
+        tiktok: '',
       },
       socialProfileKeys: [
         { key: 'facebook', prefixURL: 'https://facebook.com/' },
@@ -66,6 +74,7 @@ export default {
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
         { key: 'telegram', prefixURL: 'https://t.me/' },
+        { key: 'instagram', prefixURL: 'https://instagram.com/' },
         { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
       ],
     };
@@ -81,6 +90,15 @@ export default {
     companyName: {},
     phoneNumber: {},
     bio: {},
+    socialProfileUserNames: {
+      facebook: { validSocialProfileUsername },
+      twitter: { validSocialProfileUsername },
+      linkedin: { validLinkedInUsername },
+      github: { validSocialProfileUsername },
+      telegram: { validSocialProfileUsername },
+      instagram: { validSocialProfileUsername },
+      tiktok: { validSocialProfileUsername },
+    },
   },
   computed: {
     parsePhoneNumber() {
@@ -405,18 +423,28 @@ export default {
       <div
         v-for="socialProfile in socialProfileKeys"
         :key="socialProfile.key"
-        class="flex items-stretch w-full mb-4"
+        class="w-full mb-4"
       >
-        <span
-          class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
+        <div class="flex items-stretch w-full">
+          <span
+            class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
+          >
+            {{ socialProfile.prefixURL }}
+          </span>
+          <input
+            v-model="socialProfileUserNames[socialProfile.key]"
+            class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
+            type="text"
+            @input="v$.socialProfileUserNames[socialProfile.key].$touch()"
+            @blur="v$.socialProfileUserNames[socialProfile.key].$touch()"
+          />
+        </div>
+        <p
+          v-if="v$.socialProfileUserNames[socialProfile.key].$error"
+          class="mt-1 text-xs text-red-500"
         >
-          {{ socialProfile.prefixURL }}
-        </span>
-        <input
-          v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
-          type="text"
-        />
+          {{ $t('CONTACT_FORM.ERROR_MESSAGE') }}
+        </p>
       </div>
     </div>
     <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
