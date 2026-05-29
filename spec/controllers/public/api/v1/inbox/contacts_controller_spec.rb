@@ -86,14 +86,16 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(owner_inbox.reload.hmac_verified).to be(true)
     end
 
-    it 'does not verify an anonymous contact inbox when a valid pair is replayed against its source_id' do
-      anonymous_contact = create(:contact, account: api_channel.account)
-      anonymous_inbox = create(:contact_inbox, contact: anonymous_contact, inbox: api_channel.inbox)
+    it 'verifies an API contact created without an identifier when a valid pair is supplied later' do
+      post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts"
 
-      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{anonymous_inbox.source_id}",
+      anonymous_source_id = response.parsed_body['source_id']
+      anonymous_inbox = api_channel.inbox.contact_inboxes.find_by!(source_id: anonymous_source_id)
+
+      get "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{anonymous_source_id}",
           params: { identifier: 'owner-identifier', identifier_hash: valid_owner_hash }
 
-      expect(anonymous_inbox.reload.hmac_verified).to be(false)
+      expect(anonymous_inbox.reload.hmac_verified).to be(true)
     end
   end
 end
