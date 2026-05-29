@@ -72,6 +72,7 @@ class Campaign < ApplicationRecord
   end
 
   def mark_processing!
+    # Multiple scheduler jobs can pick the same active campaign; lock before flipping status to avoid duplicate sends.
     with_lock do
       next if completed? || processing?
 
