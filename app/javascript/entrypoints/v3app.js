@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createI18n } from 'vue-i18n';
+import { directive as onClickaway } from 'vue3-click-away';
 
 import i18nMessages from 'dashboard/i18n';
 import * as Sentry from '@sentry/vue';
@@ -31,6 +32,7 @@ app.use(router);
 // Vue.use(VueRouter);
 // Vue.use(VueI18n);
 // Vue.prototype.$emitter = emitter;
+app.directive('on-clickaway', onClickaway);
 app.component('fluent-icon', FluentIcon);
 
 if (window.errorLoggingConfig) {
