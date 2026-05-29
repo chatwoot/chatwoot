@@ -30,7 +30,6 @@ RSpec.describe Integrations::LlmBaseService do
     it 'uses the system key when Captain LLM provider is not default OpenAI' do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'system-key')
       create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openrouter')
-      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect(Llm::Config).to receive(:with_api_key)
         .with('system-key', provider: 'openrouter', api_base: anything, auth_token: nil)
@@ -41,7 +40,6 @@ RSpec.describe Integrations::LlmBaseService do
 
     it 'returns a clear error when the hook key is ignored and no system key exists' do
       create(:installation_config, name: 'CAPTAIN_LLM_PROVIDER', value: 'openrouter')
-      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect(Llm::Config).not_to receive(:with_api_key)
 
@@ -57,10 +55,22 @@ RSpec.describe Integrations::LlmBaseService do
     it 'allows API-base-only providers without an API key' do
       set_installation_config('CAPTAIN_LLM_PROVIDER', 'ollama')
       set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'http://localhost:11434')
-      allow(Llm::Config).to receive(:default_openai_endpoint?).and_return(false)
 
       expect(Llm::Config).to receive(:with_api_key)
         .with(nil, provider: 'ollama', api_base: 'http://localhost:11434', auth_token: nil)
+        .and_raise(error)
+
+      result = service.send(:make_api_call, body)
+
+      expect(result[:error]).to eq('API Error')
+    end
+
+    it 'uses hook credentials for OpenAI custom endpoints' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://llm.example.com/v1')
+
+      expect(Llm::Config).to receive(:with_api_key)
+        .with('hook-key', provider: 'openai', api_base: 'https://llm.example.com/v1', auth_token: nil)
         .and_raise(error)
 
       result = service.send(:make_api_call, body)

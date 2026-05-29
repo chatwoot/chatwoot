@@ -131,6 +131,31 @@ RSpec.describe Llm::Config do
     end
   end
 
+  describe '.captain_model_for' do
+    it 'keeps the requested task model for OpenAI with the default endpoint' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', '')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'gpt-4.1')
+
+      expect(described_class.captain_model_for('gpt-4.1-nano')).to eq('gpt-4.1-nano')
+    end
+
+    it 'uses the configured Captain model for named non-OpenAI providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'openai/gpt-4o-mini')
+
+      expect(described_class.captain_model_for('gpt-4.1-nano')).to eq('openai/gpt-4o-mini')
+    end
+
+    it 'uses the configured Captain model for OpenAI custom endpoints' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openai')
+      set_installation_config('CAPTAIN_OPEN_AI_ENDPOINT', 'https://llm.example.com/v1')
+      set_installation_config('CAPTAIN_OPEN_AI_MODEL', 'local-model')
+
+      expect(described_class.captain_model_for('gpt-4.1-nano')).to eq('local-model')
+    end
+  end
+
   describe '.api_key_required?' do
     it 'returns true for API-key providers' do
       expect(described_class.api_key_required?('openai')).to be true

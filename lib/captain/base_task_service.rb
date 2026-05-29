@@ -45,6 +45,7 @@ class Captain::BaseTaskService
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
+    model = Llm::Config.captain_model_for(model)
     instrumentation_params = build_instrumentation_params(model, messages)
     instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
@@ -175,35 +176,15 @@ class Captain::BaseTaskService
   end
 
   def llm_credential
-    @llm_credential ||= hook_llm_credential || system_llm_credential
-  end
-
-  def hook_llm_credential
-    return unless Llm::Config.default_openai_endpoint?
-
-    key = openai_hook&.settings&.dig('api_key').presence
-    { api_key: key, source: :hook } if key
+    @llm_credential ||= Llm::CredentialResolver.new(provider: llm_provider, openai_hook: openai_hook).resolve
   end
 
   def system_llm_credential
-    return { api_key: system_api_key, auth_token: system_auth_token, source: :system } if system_api_key.present? || azure_auth_token_configured?
-    return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
+    Llm::CredentialResolver.new(provider: llm_provider).resolve
   end
 
   def openai_hook
     @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
-  end
-
-  def system_api_key
-    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-  end
-
-  def system_auth_token
-    @system_auth_token ||= InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
-  end
-
-  def azure_auth_token_configured?
-    llm_provider == Llm::Config::AZURE_PROVIDER && system_auth_token.present?
   end
 
   def exception_tracking_account

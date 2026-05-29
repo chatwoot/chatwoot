@@ -43,6 +43,8 @@ module Llm::Config
 
     def ruby_llm_provider(provider = default_provider) = provider.to_s
 
+    def captain_model_for(requested_model) = default_openai_endpoint? ? requested_model : configured_model.presence || requested_model
+
     def available_providers = RubyLLM::Provider.providers.keys.map(&:to_s).sort
 
     def configurable_providers

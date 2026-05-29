@@ -93,6 +93,7 @@ class Integrations::LlmBaseService
 
   def make_api_call(body)
     parsed_body = JSON.parse(body)
+    parsed_body['model'] = Llm::Config.captain_model_for(parsed_body['model'])
     instrumentation_params = build_instrumentation_params(parsed_body)
 
     instrument_llm_call(instrumentation_params) do
@@ -171,24 +172,7 @@ class Integrations::LlmBaseService
   end
 
   def llm_credential
-    @llm_credential ||= hook_llm_credential || system_llm_credential
-  end
-
-  def hook_llm_credential
-    return unless Llm::Config.default_openai_endpoint?
-
-    key = hook.settings['api_key'].presence
-    { api_key: key, source: :hook } if key
-  end
-
-  def system_llm_credential
-    key = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
-    auth_token = InstallationConfig.find_by(name: 'CAPTAIN_AZURE_AI_AUTH_TOKEN')&.value
-    if key.present? || (llm_provider == Llm::Config::AZURE_PROVIDER && auth_token.present?)
-      return { api_key: key, auth_token: auth_token, source: :system }
-    end
-
-    return { api_key: nil, source: :system } if Llm::Config.api_base_only_provider_configured?
+    @llm_credential ||= Llm::CredentialResolver.new(provider: llm_provider, openai_hook: hook).resolve
   end
 
   def exception_tracking_account
