@@ -291,6 +291,18 @@ export const IFrameHelper = {
     playAudio: () => {
       window.playAudioAlert();
     },
+
+    resetSession: () => {
+      Cookies.remove('cw_conversation');
+
+      const iframe = IFrameHelper.getAppFrame();
+      iframe.src = IFrameHelper.getUrl({
+        baseUrl: window.$chatwoot.baseUrl,
+        websiteToken: window.$chatwoot.websiteToken,
+      });
+
+      onBubbleClick({ toggleValue: false });
+    },
   },
   pushEvent: eventName => {
     IFrameHelper.sendMessage('push-event', { eventName });
