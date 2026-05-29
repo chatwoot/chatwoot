@@ -12,6 +12,7 @@
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  last_resolved_message_id :integer
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
@@ -115,6 +116,7 @@ class Conversation < ApplicationRecord
   has_many :reporting_events, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
+  before_save :set_last_resolved_message_id
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
@@ -228,12 +230,20 @@ class Conversation < ApplicationRecord
   end
 
   def handle_resolved_status_change
-    # When conversation is resolved, clear waiting_since using update_column to avoid callbacks
+    # When conversation is resolved, clear waiting_since using update_columns to avoid callbacks
     return unless saved_change_to_status? && status == 'resolved'
 
     # rubocop:disable Rails/SkipsModelValidations
-    update_column(:waiting_since, nil)
+    update_columns(waiting_since: nil)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def set_last_resolved_message_id
+    return unless will_save_change_to_status? && resolved?
+
+    # Store the last message that already exists at resolution time.
+    # Captain uses this as a stable boundary because message timestamps only have second-level precision.
+    self.last_resolved_message_id = messages.maximum(:id)
   end
 
   def ensure_snooze_until_reset

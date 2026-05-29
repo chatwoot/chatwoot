@@ -36,7 +36,16 @@ class Captain::Assistant < ApplicationRecord
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
-  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
+  VALID_CONVERSATION_CONTEXT_MODES = %w[default with_resolution_markers since_last_resolution].freeze
+
+  store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name,
+                 :conversation_context
+
+  VALID_CONVERSATION_CONTEXT_MODES.each do |mode|
+    define_method("conversation_context_#{mode}?") do
+      conversation_context_mode == mode
+    end
+  end
 
   validates :name, presence: true
   validates :description, presence: true
@@ -83,6 +92,11 @@ class Captain::Assistant < ApplicationRecord
       created_at: created_at,
       type: 'captain_assistant'
     }
+  end
+
+  def conversation_context_mode
+    mode = config['conversation_context'].presence || 'default'
+    VALID_CONVERSATION_CONTEXT_MODES.include?(mode) ? mode : 'default'
   end
 
   private

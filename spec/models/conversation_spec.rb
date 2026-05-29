@@ -205,7 +205,8 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "Conversation was marked resolved by #{old_assignee.name}" }))
+                              content: "Conversation was marked resolved by #{old_assignee.name}",
+                              content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -228,7 +229,15 @@ RSpec.describe Conversation do
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
-                               content: system_resolved_message })
+                               content: system_resolved_message,
+                               content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
+    end
+
+    it 'updates last_resolved_message_id when marked resolved' do
+      message = create(:message, conversation: conversation)
+
+      expect { conversation.update!(status: :resolved) }
+        .to change { conversation.reload.last_resolved_message_id }.from(nil).to(message.id)
     end
   end
 

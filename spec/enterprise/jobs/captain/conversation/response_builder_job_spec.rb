@@ -45,6 +45,77 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
+      it 'keeps the default message history limited to public chat messages' do
+        create(
+          :message,
+          conversation: conversation,
+          message_type: :activity,
+          content: 'Conversation was marked resolved',
+          content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
+        )
+        create(:message, conversation: conversation, content: 'Private note', message_type: :outgoing, private: true)
+
+        expect(mock_llm_chat_service).to receive(:generate_response).with(
+          message_history: [{ content: 'Hello', role: 'user' }]
+        ).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'includes resolution markers when resolution marker mode is enabled' do
+        assistant.update!(config: { conversation_context: 'with_resolution_markers' })
+        create(
+          :message,
+          conversation: conversation,
+          message_type: :activity,
+          content: 'Conversation was marked resolved',
+          content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
+        )
+        create(:message, conversation: conversation, message_type: :activity, content: 'Assigned to agent')
+        create(:message, conversation: conversation, content: 'Fresh question', message_type: :incoming)
+
+        expect(mock_llm_chat_service).to receive(:generate_response) do |message_history:|
+          expect(message_history).to eq([
+                                          { content: 'Hello', role: 'user' },
+                                          {
+                                            content: Captain::ActivityMessageContextBuilderService::RESOLVED_CONTEXT,
+                                            role: 'assistant'
+                                          },
+                                          { content: 'Fresh question', role: 'user' }
+                                        ])
+          { 'response' => 'Hey, welcome to Captain Specs' }
+        end
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'sends only messages after last_resolved_message_id when strict reset mode is enabled' do
+        assistant.update!(config: { conversation_context: 'since_last_resolution' })
+        conversation.update!(last_resolved_message_id: conversation.messages.incoming.last.id)
+        create(:message, conversation: conversation, content: 'New issue', message_type: :incoming)
+
+        expect(mock_llm_chat_service).to receive(:generate_response).with(
+          message_history: [{ content: 'New issue', role: 'user' }]
+        ).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+
+        described_class.perform_now(conversation, assistant)
+      end
+
+      it 'uses message ids instead of timestamps for the strict reset boundary' do
+        assistant.update!(config: { conversation_context: 'since_last_resolution' })
+        same_second = Time.zone.parse('2026-05-08 12:00:00')
+        old_message = conversation.messages.incoming.last
+        old_message.update!(created_at: same_second)
+        conversation.update!(last_resolved_message_id: old_message.id)
+        create(:message, conversation: conversation, content: 'Immediate new issue', message_type: :incoming, created_at: same_second)
+
+        expect(mock_llm_chat_service).to receive(:generate_response).with(
+          message_history: [{ content: 'Immediate new issue', role: 'user' }]
+        ).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+
+        described_class.perform_now(conversation, assistant)
+      end
+
       it 'increments usage response' do
         described_class.perform_now(conversation, assistant)
         account.reload
