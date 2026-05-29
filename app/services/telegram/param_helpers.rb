@@ -21,6 +21,8 @@ module Telegram::ParamHelpers
   # This is our messages posted via telegram client.
   # Such messages should be outgoing (from us to client)
   def business_message_outgoing?
+    return false if callback_query_params?
+
     business_message? && telegram_params_base_object[:chat][:id] != telegram_params_base_object[:from][:id]
   end
 
@@ -41,6 +43,8 @@ module Telegram::ParamHelpers
   end
 
   def contact_params
+    return callback_query_contact_params if callback_query_params?
+
     if business_message_outgoing?
       telegram_params_base_object[:chat]
     else
@@ -48,7 +52,25 @@ module Telegram::ParamHelpers
     end
   end
 
+  def callback_query_contact_params
+    callback_message_chat = params.dig(:callback_query, :message, :chat)
+    callback_sender = params.dig(:callback_query, :from)
+
+    if business_message?
+      callback_message_chat.presence || callback_sender
+    else
+      callback_sender.presence || callback_message_chat
+    end
+  end
+
   def telegram_params_from_id
+    if callback_query_params?
+      callback_chat_id = params.dig(:callback_query, :message, :chat, :id)
+      return callback_chat_id if business_message? && callback_chat_id.present?
+
+      return params.dig(:callback_query, :from, :id)
+    end
+
     return telegram_params_base_object[:chat][:id] if business_message?
 
     telegram_params_base_object[:from][:id]
