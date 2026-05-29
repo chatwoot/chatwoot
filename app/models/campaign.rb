@@ -56,12 +56,10 @@ class Campaign < ApplicationRecord
 
   def trigger!
     return unless one_off?
-
-    service_class = one_off_campaign_service
-    return unless service_class
+    return if inbox.inbox_type == 'Whatsapp' && !account.feature_enabled?(:whatsapp_campaign)
     return unless mark_processing!
 
-    service_class.new(campaign: self).perform
+    execute_campaign
   rescue StandardError
     active! if processing?
     raise
@@ -77,14 +75,14 @@ class Campaign < ApplicationRecord
     end
   end
 
-  def one_off_campaign_service
+  def execute_campaign
     case inbox.inbox_type
     when 'Twilio SMS'
-      Twilio::OneoffSmsCampaignService
+      Twilio::OneoffSmsCampaignService.new(campaign: self).perform
     when 'Sms'
-      Sms::OneoffSmsCampaignService
+      Sms::OneoffSmsCampaignService.new(campaign: self).perform
     when 'Whatsapp'
-      Whatsapp::OneoffCampaignService if account.feature_enabled?(:whatsapp_campaign)
+      Whatsapp::OneoffCampaignService.new(campaign: self).perform
     end
   end
 
