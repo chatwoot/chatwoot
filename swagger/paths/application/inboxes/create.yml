@@ -40,7 +40,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: api
                 webhook_url: https://example.com/webhook
@@ -53,7 +52,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: email
                 email: support@example.com
@@ -66,7 +64,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: line
                 line_channel_id: '1234567890'
@@ -81,7 +78,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: telegram
                 bot_token: 123456789:telegram-bot-token
@@ -94,7 +90,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: whatsapp
                 phone_number: '+15551234567'
@@ -112,7 +107,6 @@ post:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 type: sms
                 phone_number: '+15551234567'

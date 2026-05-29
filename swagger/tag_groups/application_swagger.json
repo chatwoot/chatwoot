@@ -4030,7 +4030,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "api",
                       "webhook_url": "https://example.com/webhook"
@@ -4046,7 +4045,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "email",
                       "email": "support@example.com"
@@ -4062,7 +4060,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "line",
                       "line_channel_id": "1234567890",
@@ -4080,7 +4077,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "telegram",
                       "bot_token": "123456789:telegram-bot-token"
@@ -4096,7 +4092,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "whatsapp",
                       "phone_number": "+15551234567",
@@ -4118,7 +4113,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "sms",
                       "phone_number": "+15551234567",
@@ -4290,7 +4284,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "webhook_url": "https://example.com/webhook"
                     }
@@ -4305,7 +4298,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "email": "support@example.com",
                       "imap_enabled": true,
@@ -4322,7 +4314,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "line_channel_id": "1234567890",
                       "line_channel_secret": "line-channel-secret",
@@ -4339,7 +4330,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "bot_token": "123456789:telegram-bot-token"
                     }
@@ -4354,7 +4344,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "phone_number": "+15551234567",
                       "provider": "whatsapp_cloud",
@@ -4375,7 +4364,6 @@
                     "enable_auto_assignment": true,
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
-                    "allow_messages_after_resolved": true,
                     "channel": {
                       "phone_number": "+15551234567",
                       "provider_config": {

@@ -80,7 +80,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 webhook_url: https://example.com/webhook
           email:
@@ -92,7 +91,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 email: support@example.com
                 imap_enabled: true
@@ -106,7 +104,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 line_channel_id: '1234567890'
                 line_channel_secret: line-channel-secret
@@ -120,7 +117,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 bot_token: 123456789:telegram-bot-token
           whatsapp:
@@ -132,7 +128,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 phone_number: '+15551234567'
                 provider: whatsapp_cloud
@@ -149,7 +144,6 @@ patch:
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
-              allow_messages_after_resolved: true
               channel:
                 phone_number: '+15551234567'
                 provider_config:
