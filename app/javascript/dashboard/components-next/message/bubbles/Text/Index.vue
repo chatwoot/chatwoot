@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
@@ -8,6 +9,10 @@ import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
+const MAX_CONTENT_LENGTH = 800;
+
+const { t } = useI18n();
+
 const { content, attachments, contentAttributes, messageType } =
   useMessageContext();
 
@@ -15,8 +20,9 @@ const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
 
 const renderOriginal = ref(false);
+const isExpanded = ref(false);
 
-const renderContent = computed(() => {
+const baseContent = computed(() => {
   if (renderOriginal.value) {
     return content.value;
   }
@@ -26,6 +32,24 @@ const renderContent = computed(() => {
   }
 
   return content.value;
+});
+
+const shouldTruncate = computed(() => {
+  return baseContent.value && baseContent.value.length > MAX_CONTENT_LENGTH;
+});
+
+const renderContent = computed(() => {
+  if (!shouldTruncate.value || isExpanded.value) {
+    return baseContent.value;
+  }
+
+  return baseContent.value.slice(0, MAX_CONTENT_LENGTH) + '...';
+});
+
+const toggleText = computed(() => {
+  return isExpanded.value
+    ? t('CONVERSATION.MESSAGE_CONTENT.SHOW_LESS')
+    : t('CONVERSATION.MESSAGE_CONTENT.READ_MORE');
 });
 
 const isTemplate = computed(() => {
@@ -39,6 +63,10 @@ const isEmpty = computed(() => {
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
+
+const toggleExpanded = () => {
+  isExpanded.value = !isExpanded.value;
+};
 </script>
 
 <template>
@@ -48,6 +76,13 @@ const handleSeeOriginal = () => {
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
       <FormattedContent v-if="renderContent" :content="renderContent" />
+      <button
+        v-if="shouldTruncate"
+        class="text-n-brand text-sm font-medium text-left cursor-pointer hover:underline -mt-2"
+        @click="toggleExpanded"
+      >
+        {{ toggleText }}
+      </button>
       <TranslationToggle
         v-if="hasTranslations"
         class="-mt-3"
