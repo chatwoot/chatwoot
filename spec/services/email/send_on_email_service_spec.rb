@@ -42,6 +42,49 @@ describe Email::SendOnEmailService do
       end
     end
 
+    context 'when channel is microsoft' do
+      let(:email_channel) { create(:channel_email, :microsoft_email, account: account) }
+      let(:graph_service) { instance_double(Microsoft::SendMailService) }
+      let(:graph_result) { OpenStruct.new(success: true, message_id: '<test-message-id@example.com>') }
+
+      before do
+        allow(Microsoft::SendMailService).to receive(:new).and_return(graph_service)
+        allow(graph_service).to receive(:perform).and_return(graph_result)
+      end
+
+      it 'sends email via Microsoft Graph API instead of SMTP' do
+        service.perform
+
+        expect(Microsoft::SendMailService).to have_received(:new)
+        expect(graph_service).to have_received(:perform)
+        expect(ConversationReplyMailer).not_to have_received(:with)
+      end
+
+      it 'updates message source id from Graph API result' do
+        service.perform
+
+        expect(message.reload.source_id).to eq('<test-message-id@example.com>')
+      end
+
+      context 'when Graph API fails' do
+        let(:error) { StandardError.new('Microsoft Graph API error (403): Permission denied') }
+
+        before do
+          allow(graph_service).to receive(:perform).and_raise(error)
+          allow(ChatwootExceptionTracker).to receive(:new).and_return(
+            instance_double(ChatwootExceptionTracker, capture_exception: true)
+          )
+        end
+
+        it 'captures the exception and marks message as failed' do
+          service.perform
+
+          expect(message.reload.status).to eq('failed')
+          expect(message.reload.external_error).to eq('Microsoft Graph API error (403): Permission denied')
+        end
+      end
+    end
+
     context 'when message is not email notifiable' do
       let(:message) { create(:message, conversation: conversation, message_type: 'incoming') }
 
