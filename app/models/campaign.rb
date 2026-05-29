@@ -59,26 +59,22 @@ class Campaign < ApplicationRecord
 
     service_class = one_off_campaign_service
     return unless service_class
+    return unless mark_processing!
 
-    processing_started = with_lock do
-      if completed? || processing?
-        false
-      else
-        processing!
-        true
-      end
-    end
-
-    run_one_off_campaign(service_class) if processing_started
-  end
-
-  private
-
-  def run_one_off_campaign(service_class)
     service_class.new(campaign: self).perform
   rescue StandardError
     active! if processing?
     raise
+  end
+
+  private
+
+  def mark_processing!
+    with_lock do
+      next if completed? || processing?
+
+      processing!
+    end
   end
 
   def one_off_campaign_service
