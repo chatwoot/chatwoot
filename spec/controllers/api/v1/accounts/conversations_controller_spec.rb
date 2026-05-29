@@ -835,7 +835,14 @@ RSpec.describe 'Conversations API', type: :request do
       it 'updates even within an hour when there are unread messages' do
         conversation.update!(agent_last_seen_at: 30.minutes.ago)
         # Create a new message after agent_last_seen_at (unread message)
-        create(:message, conversation: conversation, created_at: 5.minutes.ago)
+        create(
+          :message,
+          account: account,
+          inbox: conversation.inbox,
+          conversation: conversation,
+          message_type: :incoming,
+          created_at: 5.minutes.ago
+        )
         initial_last_seen = conversation.agent_last_seen_at
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
@@ -847,10 +854,43 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.agent_last_seen_at).to be > initial_last_seen
       end
 
+      it 'throttles updates within an hour when only outgoing messages are newer than last seen' do
+        conversation.update!(agent_last_seen_at: 30.minutes.ago)
+        create(:message, conversation: conversation, message_type: :outgoing, created_at: 5.minutes.ago)
+        initial_last_seen = conversation.agent_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_last_seen)
+      end
+
+      it 'throttles updates within an hour when only activity messages are newer than last seen' do
+        conversation.update!(agent_last_seen_at: 30.minutes.ago)
+        create(:message, conversation: conversation, message_type: :activity, created_at: 5.minutes.ago)
+        initial_last_seen = conversation.agent_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_last_seen)
+      end
+
       it 'refreshes unread count cache when conversation is marked read' do
         account.enable_features!(:conversation_unread_counts)
         conversation.update!(agent_last_seen_at: 1.hour.ago)
-        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        create(
+          :message,
+          account: account,
+          inbox: conversation.inbox,
+          conversation: conversation,
+          message_type: :incoming,
+          created_at: 5.minutes.ago
+        )
         Conversations::UnreadCounts::Builder.new(account).build_base!
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
@@ -865,7 +905,11 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'updates both if one timestamp is old even when the other is recent' do
-        conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
+        conversation.update!(
+          assignee_id: agent.id,
+          agent_last_seen_at: 2.hours.ago,
+          assignee_last_seen_at: 30.minutes.ago
+        )
         # Ensure all messages are older than assignee_last_seen_at (no unread messages)
         # rubocop:disable Rails/SkipsModelValidations
         conversation.messages.update_all(created_at: 1.hour.ago)
@@ -884,7 +928,11 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'throttles only when both timestamps are recent and no unread messages' do
-        conversation.update!(assignee_id: agent.id, agent_last_seen_at: 30.minutes.ago, assignee_last_seen_at: 30.minutes.ago)
+        conversation.update!(
+          assignee_id: agent.id,
+          agent_last_seen_at: 30.minutes.ago,
+          assignee_last_seen_at: 30.minutes.ago
+        )
         # Ensure all messages are older (no unread messages)
         # rubocop:disable Rails/SkipsModelValidations
         conversation.messages.update_all(created_at: 1.hour.ago)
@@ -899,6 +947,26 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         # Both should remain unchanged (throttled)
+        expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_agent_last_seen)
+        expect(conversation.reload.assignee_last_seen_at).to be_within(1.second).of(initial_assignee_last_seen)
+      end
+
+      it 'throttles assigned conversations when only activity messages are newer than assignee last seen' do
+        conversation.update!(
+          assignee_id: agent.id,
+          agent_last_seen_at: 30.minutes.ago,
+          assignee_last_seen_at: 30.minutes.ago
+        )
+        create(:message, conversation: conversation, message_type: :activity, created_at: 5.minutes.ago)
+
+        initial_agent_last_seen = conversation.agent_last_seen_at
+        initial_assignee_last_seen = conversation.assignee_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
         expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_agent_last_seen)
         expect(conversation.reload.assignee_last_seen_at).to be_within(1.second).of(initial_assignee_last_seen)
       end
