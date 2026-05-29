@@ -10979,7 +10979,7 @@
             "example": "My Business"
           },
           "channel": {
-            "oneOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/inbox_update_web_widget_channel_payload"
               },
@@ -11009,7 +11009,8 @@
         "type": "object",
         "title": "Website channel",
         "required": [
-          "type"
+          "type",
+          "website_url"
         ],
         "properties": {
           "type": {
@@ -11066,7 +11067,8 @@
         "type": "object",
         "title": "Email channel",
         "required": [
-          "type"
+          "type",
+          "email"
         ],
         "properties": {
           "type": {
@@ -11107,7 +11109,10 @@
         "type": "object",
         "title": "LINE channel",
         "required": [
-          "type"
+          "type",
+          "line_channel_id",
+          "line_channel_secret",
+          "line_channel_token"
         ],
         "properties": {
           "type": {
@@ -11138,7 +11143,8 @@
         "type": "object",
         "title": "Telegram channel",
         "required": [
-          "type"
+          "type",
+          "bot_token"
         ],
         "properties": {
           "type": {
@@ -11159,7 +11165,8 @@
         "type": "object",
         "title": "WhatsApp channel",
         "required": [
-          "type"
+          "type",
+          "phone_number"
         ],
         "properties": {
           "type": {
@@ -11196,7 +11203,8 @@
         "type": "object",
         "title": "SMS channel",
         "required": [
-          "type"
+          "type",
+          "phone_number"
         ],
         "properties": {
           "type": {

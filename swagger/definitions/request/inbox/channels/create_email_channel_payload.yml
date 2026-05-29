@@ -2,6 +2,7 @@ type: object
 title: Email channel
 required:
   - type
+  - email
 properties:
   type:
     type: string

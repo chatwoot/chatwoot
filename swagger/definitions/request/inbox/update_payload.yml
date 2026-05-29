@@ -62,7 +62,7 @@ properties:
     description: Business name for outbound email replies. Available for Website and Email inboxes.
     example: 'My Business'
   channel:
-    oneOf:
+    anyOf:
       - $ref: '#/components/schemas/inbox_update_web_widget_channel_payload'
       - $ref: '#/components/schemas/inbox_update_api_channel_payload'
       - $ref: '#/components/schemas/inbox_update_email_channel_payload'

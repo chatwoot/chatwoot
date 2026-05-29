@@ -2,6 +2,7 @@ type: object
 title: WhatsApp channel
 required:
   - type
+  - phone_number
 properties:
   type:
     type: string

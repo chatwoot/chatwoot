@@ -2,6 +2,7 @@ type: object
 title: Telegram channel
 required:
   - type
+  - bot_token
 properties:
   type:
     type: string

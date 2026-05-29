@@ -2,6 +2,9 @@ type: object
 title: LINE channel
 required:
   - type
+  - line_channel_id
+  - line_channel_secret
+  - line_channel_token
 properties:
   type:
     type: string

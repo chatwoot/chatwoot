@@ -2,6 +2,7 @@ type: object
 title: Website channel
 required:
   - type
+  - website_url
 properties:
   type:
     type: string
