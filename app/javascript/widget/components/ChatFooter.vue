@@ -58,8 +58,15 @@ export default {
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
-    ...mapActions('conversationAttributes', ['getAttributes']),
+    ...mapActions('conversation', [
+      'sendMessage',
+      'sendAttachment',
+      'clearConversations',
+    ]),
+    ...mapActions('conversationAttributes', [
+      'getAttributes',
+      'clearConversationAttributes',
+    ]),
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
@@ -80,6 +87,8 @@ export default {
       this.inReplyTo = null;
     },
     startNewConversation() {
+      this.clearConversations();
+      this.clearConversationAttributes();
       this.router.replace({ name: 'prechat-form' });
       IFrameHelper.sendMessage({
         event: 'onEvent',
