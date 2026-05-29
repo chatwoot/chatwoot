@@ -44,7 +44,7 @@ class OauthCallbackController < ApplicationController
 
   def update_channel(channel_email)
     channel_email.update!({
-                            imap_login: users_data['email'], imap_address: imap_address,
+                            imap_login: imap_login_identity, imap_address: imap_address,
                             imap_port: '993', imap_enabled: true,
                             provider: provider_name,
                             provider_config: {
@@ -53,6 +53,13 @@ class OauthCallbackController < ApplicationController
                               expires_on: (Time.current.utc + 1.hour).to_s
                             }
                           })
+  end
+
+  # Identity used as the IMAP/SMTP login (SASL XOAUTH2 `user=` field). Defaults to the
+  # id_token's email claim; providers override when their server requires a different
+  # claim (e.g. Microsoft SMTP requires UPN).
+  def imap_login_identity
+    users_data['email']
   end
 
   def provider_name
