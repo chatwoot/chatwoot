@@ -99,6 +99,19 @@ RSpec.describe Account::ContactsExportJob do
       expect(row['labels']).to eq('vip')
     end
 
+    it 'exports canonical country codes from legacy country data' do
+      legacy_country_contact = create(:contact, account: account, email: 'legacy-country@example.com',
+                                                additional_attributes: { country: 'United States' })
+
+      described_class.perform_now(account.id, user.id, %w[email country_code], {})
+
+      csv_content = account.contacts_export.download.force_encoding('UTF-8').delete_prefix("\xEF\xBB\xBF")
+      csv_data = CSV.parse(csv_content, headers: true)
+      row = csv_data.find { |record| record['email'] == legacy_country_contact.email }
+
+      expect(row['country_code']).to eq('US')
+    end
+
     it 'bulk loads labels while exporting contacts' do
       create(:label, account: account, title: 'vip')
       create(:label, account: account, title: 'support')

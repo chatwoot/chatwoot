@@ -16,6 +16,7 @@ const props = defineProps({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
   additionalAttributes: { type: Object, default: () => ({}) },
+  countryCode: { type: String, default: '' },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
@@ -42,6 +43,7 @@ const getInitialContactData = () => ({
   name: props.name,
   email: props.email,
   phoneNumber: props.phoneNumber,
+  countryCode: props.countryCode,
   additionalAttributes: props.additionalAttributes,
 });
 
@@ -58,12 +60,13 @@ const countriesMap = computed(() => {
 
 const countryDetails = computed(() => {
   const attributes = props.additionalAttributes || {};
-  const { country, countryCode, city } = attributes;
+  const { country, countryCode: additionalCountryCode, city } = attributes;
+  const countryCode = props.countryCode || additionalCountryCode;
 
   if (!country && !countryCode) return null;
 
   const activeCountry =
-    countriesMap.value[country] || countriesMap.value[countryCode];
+    countriesMap.value[countryCode] || countriesMap.value[country];
 
   if (!activeCountry) return null;
 

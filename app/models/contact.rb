@@ -44,6 +44,7 @@
 class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
+  include ContactCountryHelpers
   include Labelable
   include LlmFormattable
 

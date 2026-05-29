@@ -96,6 +96,7 @@ const prepareStateBasedOnProps = () => {
     name = '',
     email: emailAddress,
     phoneNumber,
+    countryCode: contactCountryCode = '',
     additionalAttributes = {},
   } = props.contactData || {};
   const { firstName, lastName } = splitName(name || '');
@@ -122,7 +123,7 @@ const prepareStateBasedOnProps = () => {
     additionalAttributes: {
       description,
       companyName,
-      countryCode,
+      countryCode: contactCountryCode || countryCode,
       country,
       city,
       socialProfiles: {
