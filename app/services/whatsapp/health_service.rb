@@ -4,7 +4,7 @@ class Whatsapp::HealthService
   def initialize(channel)
     @channel = channel
     @access_token = channel.provider_config['api_key']
-    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+    @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v24.0')
   end
 
   def fetch_health_status
