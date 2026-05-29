@@ -53,11 +53,17 @@ export function useContactFilterContext() {
   const labels = useMapGetter('labels/getLabels');
 
   const {
+    operators,
     equalityOperators,
     containmentOperators,
     dateOperators,
     getOperatorTypes,
   } = useOperators();
+
+  const postalCodeOperators = computed(() => [
+    ...containmentOperators.value,
+    operators.value.starts_with,
+  ]);
 
   /**
    * @type {import('vue').ComputedRef<FilterType[]>}
@@ -130,6 +136,46 @@ export function useContactFilterContext() {
       value: CONTACT_ATTRIBUTES.CITY,
       attributeName: t('CONTACTS_LAYOUT.FILTER.CITY'),
       label: t('CONTACTS_LAYOUT.FILTER.CITY'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: containmentOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONTACT_ATTRIBUTES.STATE,
+      value: CONTACT_ATTRIBUTES.STATE,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.STATE'),
+      label: t('CONTACTS_LAYOUT.FILTER.STATE'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: containmentOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONTACT_ATTRIBUTES.POSTAL_CODE,
+      value: CONTACT_ATTRIBUTES.POSTAL_CODE,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.POSTAL_CODE'),
+      label: t('CONTACTS_LAYOUT.FILTER.POSTAL_CODE'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: postalCodeOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONTACT_ATTRIBUTES.ADDRESS_LINE_1,
+      value: CONTACT_ATTRIBUTES.ADDRESS_LINE_1,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.ADDRESS_LINE_1'),
+      label: t('CONTACTS_LAYOUT.FILTER.ADDRESS_LINE_1'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: containmentOperators.value,
+      attributeModel: 'standard',
+    },
+    {
+      attributeKey: CONTACT_ATTRIBUTES.ADDRESS_LINE_2,
+      value: CONTACT_ATTRIBUTES.ADDRESS_LINE_2,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.ADDRESS_LINE_2'),
+      label: t('CONTACTS_LAYOUT.FILTER.ADDRESS_LINE_2'),
       inputType: 'plainText',
       dataType: 'text',
       filterOperators: containmentOperators.value,

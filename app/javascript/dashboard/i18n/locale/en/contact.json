@@ -7,6 +7,7 @@
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
     "LOCATION": "Location",
+    "ADDRESS": "Address",
     "BROWSER_LANGUAGE": "Browser Language",
     "CONVERSATION_TITLE": "Conversation Details",
     "VIEW_PROFILE": "View Profile",
@@ -128,6 +129,23 @@
       "CITY": {
         "PLACEHOLDER": "Enter the city name",
         "LABEL": "City Name"
+      },
+      "ADDRESS_LINE_1": {
+        "PLACEHOLDER": "Enter address line 1",
+        "LABEL": "Address Line 1"
+      },
+      "ADDRESS_LINE_2": {
+        "PLACEHOLDER": "Enter address line 2",
+        "LABEL": "Address Line 2"
+      },
+      "STATE": {
+        "PLACEHOLDER": "Enter the state or region",
+        "LABEL": "State / Region"
+      },
+      "POSTAL_CODE": {
+        "PLACEHOLDER": "Enter the postal code",
+        "LABEL": "Postal Code",
+        "US_INVALID": "Invalid US ZIP code (e.g. 12345 or 12345-6789)"
       },
       "SOCIAL_PROFILES": {
         "FACEBOOK": {
@@ -389,6 +407,10 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Country",
       "CITY": "City",
+      "STATE": "State",
+      "POSTAL_CODE": "Postal code",
+      "ADDRESS_LINE_1": "Address line 1",
+      "ADDRESS_LINE_2": "Address line 2",
       "COMPANY": "Company",
       "CREATED_AT": "Created at",
       "LAST_ACTIVITY": "Last activity",
@@ -433,8 +455,20 @@
             "PLACEHOLDER": "Enter the phone number",
             "DUPLICATE": "This phone number is in use for another contact."
           },
+          "ADDRESS_LINE_1": {
+            "PLACEHOLDER": "Enter address line 1"
+          },
+          "ADDRESS_LINE_2": {
+            "PLACEHOLDER": "Enter address line 2"
+          },
           "CITY": {
             "PLACEHOLDER": "Enter the city name"
+          },
+          "STATE": {
+            "PLACEHOLDER": "Enter the state or region"
+          },
+          "POSTAL_CODE": {
+            "PLACEHOLDER": "Enter the postal code"
           },
           "COUNTRY": {
             "PLACEHOLDER": "Select country"
