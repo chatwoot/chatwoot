@@ -64,4 +64,30 @@ describe('#filterQueryGenerator', () => {
       filterQueryGenerator(testData).payload.every(i => Array.isArray(i.values))
     ).toBe(true);
   });
+
+  it('does not split content values on commas', () => {
+    const input = [
+      {
+        attribute_key: 'content',
+        filter_operator: 'contains',
+        values: 'hello, world',
+        query_operator: null,
+      },
+    ];
+    const result = filterQueryGenerator(input);
+    expect(result.payload[0].values).toEqual(['hello, world']);
+  });
+
+  it('passes content values through unchanged when already an array', () => {
+    const input = [
+      {
+        attribute_key: 'content',
+        filter_operator: 'contains',
+        values: ['hello, world'],
+        query_operator: null,
+      },
+    ];
+    const result = filterQueryGenerator(input);
+    expect(result.payload[0].values).toEqual(['hello, world']);
+  });
 });
