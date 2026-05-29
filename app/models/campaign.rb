@@ -56,7 +56,7 @@ class Campaign < ApplicationRecord
 
   def trigger!
     return unless one_off?
-    return unless one_off_campaign_feature_enabled?
+    return if inbox.inbox_type == 'Whatsapp' && !account.feature_enabled?(:whatsapp_campaign)
     return unless mark_processing!
 
     execute_campaign
@@ -74,10 +74,6 @@ class Campaign < ApplicationRecord
 
   private
 
-  def one_off_campaign_feature_enabled?
-    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
-  end
-
   def mark_processing!
     with_lock do
       next if completed? || processing?
@@ -93,7 +89,7 @@ class Campaign < ApplicationRecord
     when 'Sms'
       Sms::OneoffSmsCampaignService.new(campaign: self).perform
     when 'Whatsapp'
-      Whatsapp::OneoffCampaignService.new(campaign: self).perform
+      Whatsapp::OneoffCampaignService.new(campaign: self).perform if account.feature_enabled?(:whatsapp_campaign)
     end
   end
 
