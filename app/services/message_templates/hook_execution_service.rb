@@ -40,6 +40,8 @@ class MessageTemplates::HookExecutionService
     return false if conversation.campaign.present?
     # should not send if its a tweet message
     return false if conversation.tweet?
+    # should not send for outbound messages
+    return false unless message.incoming?
 
     first_message_from_contact? && inbox.greeting_enabled? && inbox.greeting_message.present?
   end
