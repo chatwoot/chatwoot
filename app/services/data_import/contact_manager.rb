@@ -61,8 +61,19 @@ class DataImport::ContactManager
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
     contact.additional_attributes ||= {}
+    assign_additional_attributes(params, contact)
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+  end
+
+  def assign_additional_attributes(params, contact)
     contact.additional_attributes[:company_name] = params[:company_name] if params[:company_name].present?
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+    assign_country_attributes(params, contact)
+  end
+
+  def assign_country_attributes(params, contact)
+    contact.additional_attributes['country'] = params[:country] if params[:country].present?
+    contact.additional_attributes['country_code'] = params[:country_code] if params[:country_code].present?
+    contact.country_code = params[:country] if params[:country].present?
   end
 end
