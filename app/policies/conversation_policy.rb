@@ -3,6 +3,10 @@ class ConversationPolicy < ApplicationPolicy
     true
   end
 
+  def assign?
+    administrator? || agent_bot? || !account.restrict_conversation_reassignment
+  end
+
   def destroy?
     administrator?
   end
