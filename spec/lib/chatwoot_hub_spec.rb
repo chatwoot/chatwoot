@@ -17,24 +17,34 @@ describe ChatwootHub do
   context 'when fetching sync_with_hub' do
     it 'get latest version from chatwoot hub' do
       version = '1.1.1'
-      allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
+      response_body = { version: version }.to_json
+      mock_response = instance_double(HTTParty::Response, success?: true, body: response_body)
+      allow(HTTParty).to receive(:post).and_return(mock_response)
       expect(described_class.sync_with_hub['version']).to eq version
-      expect(RestClient).to have_received(:post).with(described_class.ping_url, described_class.instance_config
-        .merge(described_class.instance_metrics).to_json, { content_type: :json, accept: :json })
+      expect(HTTParty).to have_received(:post).with(
+        described_class.ping_url,
+        headers: described_class.api_headers,
+        body: described_class.instance_config.merge(described_class.instance_metrics).to_json
+      )
     end
 
     it 'will not send instance metrics when telemetry is disabled' do
       version = '1.1.1'
+      response_body = { version: version }.to_json
+      mock_response = instance_double(HTTParty::Response, success?: true, body: response_body)
       with_modified_env DISABLE_TELEMETRY: 'true' do
-        allow(RestClient).to receive(:post).and_return({ version: version }.to_json)
+        allow(HTTParty).to receive(:post).and_return(mock_response)
         expect(described_class.sync_with_hub['version']).to eq version
-        expect(RestClient).to have_received(:post).with(described_class.ping_url,
-                                                        described_class.instance_config.to_json, { content_type: :json, accept: :json })
+        expect(HTTParty).to have_received(:post).with(
+          described_class.ping_url,
+          headers: described_class.api_headers,
+          body: described_class.instance_config.to_json
+        )
       end
     end
 
     it 'returns nil when chatwoot hub is down' do
-      allow(RestClient).to receive(:post).and_raise(ExceptionList::REST_CLIENT_EXCEPTIONS.sample)
+      allow(HTTParty).to receive(:post).and_raise(SocketError)
       expect(described_class.sync_with_hub).to be_nil
     end
   end
@@ -46,10 +56,13 @@ describe ChatwootHub do
 
     it 'sends info of registration' do
       info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
-      allow(RestClient).to receive(:post)
+      allow(HTTParty).to receive(:post)
       described_class.register_instance(company_name, owner_name, owner_email)
-      expect(RestClient).to have_received(:post).with(described_class.registration_url,
-                                                      info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
+      expect(HTTParty).to have_received(:post).with(
+        described_class.registration_url,
+        headers: described_class.api_headers,
+        body: info.merge(described_class.instance_config).to_json
+      )
     end
   end
 
@@ -59,21 +72,44 @@ describe ChatwootHub do
 
     it 'will send instance events' do
       info = { event_name: event_name, event_data: event_data }
-      allow(RestClient).to receive(:post)
+      allow(HTTParty).to receive(:post)
       described_class.emit_event(event_name, event_data)
-      expect(RestClient).to have_received(:post).with(described_class.events_url,
-                                                      info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
+      expect(HTTParty).to have_received(:post).with(
+        described_class.events_url,
+        headers: described_class.api_headers,
+        body: info.merge(described_class.instance_config).to_json
+      )
     end
 
     it 'will not send instance events when telemetry is disabled' do
       with_modified_env DISABLE_TELEMETRY: 'true' do
         info = { event_name: event_name, event_data: event_data }
-        allow(RestClient).to receive(:post)
+        allow(HTTParty).to receive(:post)
         described_class.emit_event(event_name, event_data)
-        expect(RestClient).not_to have_received(:post)
-          .with(described_class.events_url,
-                info.merge(described_class.instance_config).to_json, { content_type: :json, accept: :json })
+        expect(HTTParty).not_to have_received(:post)
+          .with(
+            described_class.events_url,
+            headers: described_class.api_headers,
+            body: info.merge(described_class.instance_config).to_json
+          )
       end
+    end
+  end
+
+  context 'when sending push notifications' do
+    let(:fcm_options) { { 'token' => 'token-123' } }
+
+    it 'raises for non-2xx responses with the original response attached' do
+      response = instance_double(HTTParty::Response, success?: false, code: 500, body: '{"error":"boom"}')
+      allow(HTTParty).to receive(:post).and_return(response)
+
+      expect do
+        described_class.send_push_with_response(fcm_options)
+      end.to raise_error(RestClient::ExceptionWithResponse) { |error|
+        expect(error.response).to eq(response)
+        expect(error.response.code).to eq(500)
+        expect(error.response.body).to eq('{"error":"boom"}')
+      }
     end
   end
 end

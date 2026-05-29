@@ -1,4 +1,3 @@
-# TODO: lets use HTTParty instead of RestClient
 class ChatwootHub
   DEFAULT_BASE_URL = 'https://hub.2.chatwoot.com'.freeze
 
@@ -82,13 +81,17 @@ class ChatwootHub
     model.last&.id || 0
   end
 
+  def self.api_headers
+    { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
+  end
+
   def self.sync_with_hub
     begin
       info = instance_config
       info = info.merge(instance_metrics) unless ENV['DISABLE_TELEMETRY']
-      response = RestClient.post(ping_url, info.to_json, { content_type: :json, accept: :json })
-      parsed_response = JSON.parse(response)
-    rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+      response = HTTParty.post(ping_url, headers: api_headers, body: info.to_json)
+      parsed_response = JSON.parse(response.body) if response.success?
+    rescue Errno::ECONNREFUSED, SocketError => e
       Rails.logger.error "Exception: #{e.message}"
     rescue StandardError => e
       ChatwootExceptionTracker.new(e).capture_exception
@@ -98,8 +101,8 @@ class ChatwootHub
 
   def self.register_instance(company_name, owner_name, owner_email)
     info = { company_name: company_name, owner_name: owner_name, owner_email: owner_email, subscribed_to_mailers: true }
-    RestClient.post(registration_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+    HTTParty.post(registration_url, headers: api_headers, body: info.merge(instance_config).to_json)
+  rescue Errno::ECONNREFUSED, SocketError => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
@@ -107,7 +110,7 @@ class ChatwootHub
 
   def self.send_push(fcm_options)
     send_push_with_response(fcm_options)
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+  rescue Errno::ECONNREFUSED, SocketError => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
@@ -115,15 +118,18 @@ class ChatwootHub
 
   def self.send_push_with_response(fcm_options)
     info = { fcm_options: fcm_options }
-    RestClient.post(push_notification_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
+    response = HTTParty.post(push_notification_url, headers: api_headers, body: info.merge(instance_config).to_json)
+    return response if response.success?
+
+    raise RestClient::ExceptionWithResponse.new(response), response.body
   end
 
   def self.emit_event(event_name, event_data)
     return if ENV['DISABLE_TELEMETRY']
 
     info = { event_name: event_name, event_data: event_data }
-    RestClient.post(events_url, info.merge(instance_config).to_json, { content_type: :json, accept: :json })
-  rescue *ExceptionList::REST_CLIENT_EXCEPTIONS => e
+    HTTParty.post(events_url, headers: api_headers, body: info.merge(instance_config).to_json)
+  rescue Errno::ECONNREFUSED, SocketError => e
     Rails.logger.error "Exception: #{e.message}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
