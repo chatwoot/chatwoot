@@ -6,6 +6,7 @@ import {
   isAInboxViewRoute,
   isNotificationRoute,
 } from 'dashboard/helper/routeHelpers';
+import { cacheableModels } from 'dashboard/helper/CacheHelper/cacheableModels';
 
 const MAX_DISCONNECT_SECONDS = 10800;
 
@@ -99,14 +100,14 @@ class ReconnectService {
   };
 
   revalidateCaches = async () => {
-    const { label, inbox, team } = await this.store.dispatch(
-      'accounts/getCacheKeys'
+    const keys = (await this.store.dispatch('accounts/getCacheKeys')) || {};
+    await Promise.all(
+      cacheableModels
+        .filter(model => keys[model.name] !== undefined)
+        .map(model =>
+          this.store.dispatch(model.dispatchPath, { newKey: keys[model.name] })
+        )
     );
-    await Promise.all([
-      this.store.dispatch('labels/revalidate', { newKey: label }),
-      this.store.dispatch('inboxes/revalidate', { newKey: inbox }),
-      this.store.dispatch('teams/revalidate', { newKey: team }),
-    ]);
   };
 
   handleRouteSpecificFetch = async () => {

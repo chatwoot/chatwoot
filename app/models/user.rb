@@ -116,8 +116,12 @@ class User < ApplicationRecord
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
+  AGENT_CACHE_RELEVANT_COLUMNS = %w[name email display_name confirmed_at].freeze
+
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
+  after_update_commit :bump_account_user_cache_keys,
+                      if: -> { saved_changes.keys.intersect?(AGENT_CACHE_RELEVANT_COLUMNS) }
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -212,10 +216,18 @@ class User < ApplicationRecord
     super
   end
 
+  def invalidate_avatar_cache
+    bump_account_user_cache_keys
+  end
+
   private
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  def bump_account_user_cache_keys
+    accounts.each { |account| account.update_cache_key('account_user') }
   end
 end
 

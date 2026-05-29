@@ -52,6 +52,9 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
       filename: avatar_file.original_filename,
       content_type: avatar_file.content_type
     )
+
+    # Agent thumbnails are cached separately, and avatar attachments do not dirty user columns.
+    avatarable.invalidate_avatar_cache if avatarable.respond_to?(:invalidate_avatar_cache)
   end
 
   def log_http_error(avatar_url, error)

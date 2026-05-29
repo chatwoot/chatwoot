@@ -44,11 +44,22 @@ export const actions = {
   get: async ({ commit }) => {
     commit(types.default.SET_AGENT_FETCHING_STATUS, true);
     try {
-      const response = await AgentAPI.get();
+      const response = await AgentAPI.get(true);
       commit(types.default.SET_AGENT_FETCHING_STATUS, false);
       commit(types.default.SET_AGENTS, response.data);
     } catch (error) {
       commit(types.default.SET_AGENT_FETCHING_STATUS, false);
+    }
+  },
+  revalidate: async ({ commit }, { newKey }) => {
+    try {
+      const isExistingKeyValid = await AgentAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await AgentAPI.refetchAndCommit(newKey);
+        commit(types.default.SET_AGENTS, response.data);
+      }
+    } catch (error) {
+      // Ignore error
     }
   },
   create: async ({ commit }, agentInfo) => {

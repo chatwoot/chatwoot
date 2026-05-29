@@ -1,11 +1,19 @@
 import axios from 'axios';
 import { actions } from '../../labels';
 import * as types from '../../../mutation-types';
+import LabelsAPI from '../../../../api/labels';
 import labelsList from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+// Clear the IDB-backed cache between tests so each case starts from a known
+// empty state and isn't affected by data persisted by a previous test.
+beforeEach(async () => {
+  await LabelsAPI.dataManager.initDb();
+  await LabelsAPI.dataManager.db.clear(LabelsAPI.cacheModelName);
+});
 
 describe('#actions', () => {
   describe('#get', () => {

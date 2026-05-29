@@ -1,10 +1,25 @@
 /* global axios */
 
-import ApiClient from './ApiClient';
+import CacheEnabledApiClient from './CacheEnabledApiClient';
 
-class Agents extends ApiClient {
+class Agents extends CacheEnabledApiClient {
   constructor() {
     super('agents', { accountScoped: true });
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  get cacheModelName() {
+    return 'account_user';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  extractDataFromResponse(response) {
+    return response.data;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  marshallData(dataToParse) {
+    return { data: dataToParse };
   }
 
   bulkInvite({ emails }) {

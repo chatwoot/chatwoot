@@ -13,11 +13,17 @@ class Api::V1::ProfilesController < Api::BaseController
     @user.assign_attributes(profile_params)
     @user.custom_attributes.merge!(custom_attributes_params)
     @user.save!
+
+    # Profile updates can change cached agent fields, including avatar-backed thumbnails.
+    @user.invalidate_avatar_cache
   end
 
   def avatar
     @user.avatar.attachment.destroy! if @user.avatar.attached?
     @user.reload
+
+    # Agent thumbnails are cached separately, and avatar attachment deletes do not dirty user columns.
+    @user.invalidate_avatar_cache
   end
 
   def auto_offline

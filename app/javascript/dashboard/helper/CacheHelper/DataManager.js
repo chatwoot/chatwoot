@@ -1,9 +1,10 @@
 import { openDB } from 'idb';
 import { DATA_VERSION } from './version';
+import { cacheableModels, cacheableModelNames } from './cacheableModels';
 
 export class DataManager {
   constructor(accountId) {
-    this.modelsToSync = ['inbox', 'label', 'team'];
+    this.modelsToSync = cacheableModelNames;
     this.accountId = accountId;
     this.db = null;
   }
@@ -11,12 +12,26 @@ export class DataManager {
   async initDb() {
     if (this.db) return this.db;
     const dbName = `cw-store-${this.accountId}`;
-    this.db = await openDB(`cw-store-${this.accountId}`, DATA_VERSION, {
-      upgrade(db) {
-        db.createObjectStore('cache-keys');
-        db.createObjectStore('inbox', { keyPath: 'id' });
-        db.createObjectStore('label', { keyPath: 'id' });
-        db.createObjectStore('team', { keyPath: 'id' });
+    this.db = await openDB(dbName, DATA_VERSION, {
+      upgrade(db, oldVersion, _newVersion, tx) {
+        // Flush data carried over from a previous schema version so a
+        // DATA_VERSION bump acts as a global cache reset. oldVersion === 0 on
+        // first install, so fresh devices skip this. Clearing before creating
+        // means we only ever clear stores that pre-existed this upgrade.
+        if (oldVersion > 0) {
+          for (let index = 0; index < db.objectStoreNames.length; index += 1) {
+            tx.objectStore(db.objectStoreNames.item(index)).clear();
+          }
+        }
+
+        if (!db.objectStoreNames.contains('cache-keys')) {
+          db.createObjectStore('cache-keys');
+        }
+        cacheableModels.forEach(model => {
+          if (!db.objectStoreNames.contains(model.name)) {
+            db.createObjectStore(model.name, { keyPath: 'id' });
+          }
+        });
       },
     });
 
@@ -41,7 +56,7 @@ export class DataManager {
   async replace({ modelName, data }) {
     this.validateModel(modelName);
 
-    this.db.clear(modelName);
+    await this.db.clear(modelName);
     return this.push({ modelName, data });
   }
 
@@ -65,9 +80,11 @@ export class DataManager {
   }
 
   async setCacheKeys(cacheKeys) {
-    Object.keys(cacheKeys).forEach(async modelName => {
-      this.db.put('cache-keys', cacheKeys[modelName], modelName);
-    });
+    await Promise.all(
+      Object.entries(cacheKeys).map(([modelName, value]) =>
+        this.db.put('cache-keys', value, modelName)
+      )
+    );
   }
 
   async getCacheKey(modelName) {

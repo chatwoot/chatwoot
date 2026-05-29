@@ -54,6 +54,17 @@ export const actions = {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isFetching: false });
     }
   },
+  revalidate: async ({ commit }, { newKey }) => {
+    try {
+      const isExistingKeyValid = await AttributeAPI.validateCacheKey(newKey);
+      if (!isExistingKeyValid) {
+        const response = await AttributeAPI.refetchAndCommit(newKey);
+        commit(types.SET_CUSTOM_ATTRIBUTE, response.data);
+      }
+    } catch (error) {
+      // Ignore error
+    }
+  },
   create: async function createAttribute({ commit }, attributeObj) {
     commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isCreating: true });
     try {

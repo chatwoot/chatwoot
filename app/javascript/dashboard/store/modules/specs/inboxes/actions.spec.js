@@ -1,11 +1,19 @@
 import axios from 'axios';
 import { actions } from '../../inboxes';
 import * as types from '../../../mutation-types';
+import InboxesAPI from '../../../../api/inboxes';
 import inboxList from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+// Clear the IDB-backed cache between tests so each case starts from a known
+// empty state and isn't affected by data persisted by a previous test.
+beforeEach(async () => {
+  await InboxesAPI.dataManager.initDb();
+  await InboxesAPI.dataManager.db.clear(InboxesAPI.cacheModelName);
+});
 
 describe('#actions', () => {
   describe('#get', () => {

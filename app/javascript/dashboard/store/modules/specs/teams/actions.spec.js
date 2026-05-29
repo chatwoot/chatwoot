@@ -8,11 +8,19 @@ import {
   EDIT_TEAM,
   DELETE_TEAM,
 } from '../../teams/types';
+import TeamsAPI from '../../../../api/teams';
 import teamsList from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+
+// Clear the IDB-backed cache between tests so each case starts from a known
+// empty state and isn't affected by data persisted by a previous test.
+beforeEach(async () => {
+  await TeamsAPI.dataManager.initDb();
+  await TeamsAPI.dataManager.db.clear(TeamsAPI.cacheModelName);
+});
 
 describe('#actions', () => {
   describe('#get', () => {
