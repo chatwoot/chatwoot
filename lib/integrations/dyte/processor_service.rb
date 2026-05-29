@@ -40,7 +40,7 @@ class Integrations::Dyte::ProcessorService
   def avatar_url(user)
     return user.avatar_url if user.avatar_url.present?
 
-    "#{ENV.fetch('FRONTEND_URL', nil)}/integrations/slack/user.png"
+    Cdn.asset_url_or_origin('/integrations/slack/user.png')
   end
 
   def dyte_hook

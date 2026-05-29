@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
 const props = defineProps({
   supportPersonality: {
@@ -10,11 +11,14 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+const assetUrl = useAssetUrl();
 
-const clockImage =
-  '/assets/images/dashboard/year-in-review/fourth-frame-clock.png';
-const doubleQuotesImage =
-  '/assets/images/dashboard/year-in-review/double-quotes.png';
+const clockImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/fourth-frame-clock.png'
+);
+const doubleQuotesImage = assetUrl(
+  '/assets/images/dashboard/year-in-review/double-quotes.png'
+);
 
 const formatResponseTime = seconds => {
   if (seconds < 60) {

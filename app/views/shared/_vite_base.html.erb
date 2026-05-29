@@ -1,0 +1,7 @@
+<%# Resolve Vite's asset base at runtime so the same pre-built image can be
+    pointed at any ASSET_CDN_HOST without rebuilding. Read by Vite's
+    `experimental.renderBuiltUrl` hook in vite.config.ts (#13687). Must
+    precede `vite_client_tag` / `vite_javascript_tag`. Falls back to
+    `/vite/` when ASSET_CDN_HOST is unset. %>
+<% cdn_host = Cdn.host_or_empty %>
+<script>window.__VITE_BASE__ = <%= (cdn_host.empty? ? '/vite/' : "#{cdn_host}/vite/").to_json.html_safe %>;</script>

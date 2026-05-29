@@ -22,6 +22,7 @@ By default, it renders:
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
+  <%= render 'shared/vite_base' %>
   <%= vite_client_tag %>
   <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>

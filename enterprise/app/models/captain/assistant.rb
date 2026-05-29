@@ -116,6 +116,6 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def default_avatar_url
-    "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
+    Cdn.asset_url_or_origin('/assets/images/dashboard/captain/logo.svg')
   end
 end

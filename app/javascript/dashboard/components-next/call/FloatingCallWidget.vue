@@ -10,8 +10,9 @@ import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constant
 import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilityHelper';
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
+import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
-const RINGTONE_URL = '/audio/dashboard/bell.mp3';
+const RINGTONE_URL = useAssetUrl()('/audio/dashboard/bell.mp3');
 
 const route = useRoute();
 const router = useRouter();
