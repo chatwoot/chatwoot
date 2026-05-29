@@ -355,6 +355,111 @@ RSpec.describe 'Conversation Messages API', type: :request do
           expect(message.reload.status).to eq('failed')
           expect(message.reload.external_error).to eq('err123')
         end
+
+        it 'backfills source_id on the message' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { source_id: 'platform-msg-123' }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-123')
+        end
+
+        it 'merges content_attributes without dropping existing keys' do
+          # Pre-existing content_attributes that should survive the merge.
+          message.update!(content_attributes: { external_created_at: 1_700_000_000 })
+
+          # Parent message in the same conversation. Required because
+          # Message#ensure_in_reply_to runs Messages::InReplyToMessageBuilder
+          # which nulls out `in_reply_to_external_id` if no message in the
+          # conversation has a matching `source_id`.
+          create(:message, conversation: conversation, account: account, source_id: 'parent-1')
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content_attributes: { quote_token: 'qt-abc', in_reply_to_external_id: 'parent-1' } },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          ca = message.reload.content_attributes
+          expect(ca['quote_token']).to eq('qt-abc')
+          expect(ca['in_reply_to_external_id']).to eq('parent-1')
+          expect(ca['external_created_at']).to eq(1_700_000_000)
+        end
+
+        it 'deep-merges nested content_attributes without dropping sibling subkeys' do
+          message.update!(
+            content_attributes: { 'email' => { 'from' => 'old@example.com', 'cc' => ['x@example.com'] } }
+          )
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { content_attributes: { email: { from: 'new@example.com' } } },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          email = message.reload.content_attributes['email']
+          expect(email['from']).to eq('new@example.com')
+          # `cc` was not in the patch -- deep_merge must preserve it.
+          expect(email['cc']).to eq(['x@example.com'])
+        end
+
+        it 'fires a single after_update_commit when status and source_id are PATCHed together' do
+          # Two saves would dispatch two `message.updated` events. Spec the
+          # single-write contract by counting calls into the dispatcher hook.
+          dispatcher_calls = 0
+          allow_any_instance_of(Message).to receive(:dispatch_update_event) do |_msg|
+            dispatcher_calls += 1
+          end
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { status: 'sent', source_id: 'platform-msg-combined' },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(dispatcher_calls).to eq(1)
+          expect(message.reload.source_id).to eq('platform-msg-combined')
+          expect(message.reload.status).to eq('sent')
+        end
+
+        it 'does not clear source_id when payload serializes source_id as null' do
+          message.update!(source_id: 'platform-msg-pre-existing')
+
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: { source_id: nil, status: 'sent' },
+             headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-pre-existing')
+        end
+
+        it 'allows backfilling source_id and content_attributes alongside status' do
+          patch api_v1_account_conversation_message_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            id: message.id
+          ), params: {
+            status: 'sent',
+            source_id: 'platform-msg-456',
+            content_attributes: { quote_token: 'qt-xyz' }
+          }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(message.reload.source_id).to eq('platform-msg-456')
+          expect(message.reload.content_attributes['quote_token']).to eq('qt-xyz')
+        end
       end
     end
   end
