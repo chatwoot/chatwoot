@@ -33,7 +33,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
   describe 'on expired token or invalid expiry' do
     before do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
-        body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
+        body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
@@ -65,6 +65,23 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
           expect(new_provider_config['access_token']).to eq(new_tokens[:access_token])
           expect(new_provider_config['refresh_token']).to eq(new_tokens[:refresh_token])
           expect(new_provider_config['expires_on']).to eq(Time.at(new_tokens[:expires_at]).utc.to_s)
+        end
+      end
+    end
+
+    context 'when AZURE_TENANT_ID is configured' do
+      let(:tenant_id) { 'my-tenant-id' }
+
+      before do
+        stub_request(:post, "https://login.microsoftonline.com/#{tenant_id}/oauth2/v2.0/token").with(
+          body: hash_including({ 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] })
+        ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
+      end
+
+      it 'fetches new access token using the tenant-specific endpoint' do
+        with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex, AZURE_TENANT_ID: tenant_id do
+          service = described_class.new(channel: microsoft_channel_with_expired_token)
+          expect(service.access_token).to eq(new_tokens[:access_token])
         end
       end
     end
