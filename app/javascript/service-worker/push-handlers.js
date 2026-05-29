@@ -1,5 +1,6 @@
-/* eslint-disable no-restricted-globals, no-console */
+/* eslint-disable no-restricted-globals */
 /* globals clients */
+
 self.addEventListener('push', event => {
   let notification = event.data && event.data.json();
 
