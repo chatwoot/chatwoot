@@ -83,16 +83,33 @@ const STATUS_CLASSES = computed(() => ({
 
 const showDefaultAvatar = computed(() => !props.src && !props.name);
 
+// Check if string looks like a phone number (e.g., "+44 7123456789", "+44 (0) 7700-900123")
+const isPhoneNumber = str => /^\+[\d\s\-().]+$/.test(str.trim());
+
 const initials = computed(() => {
   if (!props.name) return '';
-  const words = removeEmoji(props.name).split(/\s+/);
-  return words.length === 1
-    ? words[0].charAt(0).toUpperCase()
-    : words
-        .slice(0, 2)
-        .map(word => word.charAt(0))
-        .join('')
-        .toUpperCase();
+  const cleanName = removeEmoji(props.name);
+
+  // For phone numbers, use last 2 digits to avoid confusing initials like "+7"
+  if (isPhoneNumber(cleanName)) {
+    const digits = cleanName.replace(/\D/g, '');
+    return digits.slice(-2) || '#';
+  }
+
+  const words = cleanName.split(/\s+/);
+  if (words.length === 1) {
+    return words[0].charAt(0).toUpperCase();
+  }
+  // If the first word starts with a non-alpha prefix (e.g. "+John"),
+  // keep the prefix and take the next char from the same word ("+J")
+  if (/^[^a-zA-Z]/.test(words[0]) && words[0].length > 1) {
+    return words[0].slice(0, 2);
+  }
+  return words
+    .slice(0, 2)
+    .map(word => word.charAt(0))
+    .join('')
+    .toUpperCase();
 });
 
 const getColorsByNameLength = computed(() => {
