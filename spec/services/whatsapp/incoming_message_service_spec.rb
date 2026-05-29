@@ -649,4 +649,72 @@ describe Whatsapp::IncomingMessageService do
       end
     end
   end
+
+  describe 'race condition: concurrent messages from the same contact' do
+    before do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+    end
+
+    after do
+      Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') do |key|
+        Redis::Alfred.delete(key)
+      end
+    end
+
+    let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+    let(:wa_id) { '5511999990000' }
+
+    let(:image_params) do
+      {
+        'contacts' => [{ 'profile' => { 'name' => 'Race Tester' }, 'wa_id' => wa_id }],
+        'messages' => [{ 'from' => wa_id, 'id' => 'msg-image-001',
+                         'image' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683', 'mime_type' => 'image/jpeg' },
+                         'timestamp' => '1633034394', 'type' => 'image' }]
+      }.with_indifferent_access
+    end
+
+    let(:audio_params) do
+      {
+        'contacts' => [{ 'profile' => { 'name' => 'Race Tester' }, 'wa_id' => wa_id }],
+        'messages' => [{ 'from' => wa_id, 'id' => 'msg-audio-002',
+                         'audio' => { 'id' => 'a2d79e49-9845-5be4-c5b2-fg1d21e794' },
+                         'timestamp' => '1633034395', 'type' => 'audio' }]
+      }.with_indifferent_access
+    end
+
+    it 'creates only one conversation when two different messages arrive for the same contact with no existing conversation' do
+      stub_request(:get, whatsapp_channel.media_url('b1c68f38-8734-4ad3-b4a1-ef0c10d683'))
+        .to_return(status: 200, body: '', headers: { 'Content-Type' => 'image/jpeg' })
+      stub_request(:get, whatsapp_channel.media_url('a2d79e49-9845-5be4-c5b2-fg1d21e794'))
+        .to_return(status: 200, body: '', headers: { 'Content-Type' => 'audio/ogg' })
+
+      described_class.new(inbox: whatsapp_channel.inbox, params: image_params).perform
+      described_class.new(inbox: whatsapp_channel.inbox, params: audio_params).perform
+
+      expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+      expect(whatsapp_channel.inbox.messages.count).to eq(2)
+    end
+
+    it 'acquires a row-level lock on contact_inbox before finding or creating a conversation' do
+      text_params = {
+        'contacts' => [{ 'profile' => { 'name' => 'Race Tester' }, 'wa_id' => wa_id }],
+        'messages' => [{ 'from' => wa_id, 'id' => 'msg-lock-test-001',
+                         'text' => { 'body' => 'lock test' },
+                         'timestamp' => '1633034394', 'type' => 'text' }]
+      }.with_indifferent_access
+
+      service = described_class.new(inbox: whatsapp_channel.inbox, params: text_params)
+      contact_inbox_spy = nil
+
+      allow(service).to receive(:set_conversation).and_wrap_original do |original, *args|
+        contact_inbox_spy = service.instance_variable_get(:@contact_inbox)
+        allow(contact_inbox_spy).to receive(:with_lock).and_call_original
+        original.call(*args)
+      end
+
+      service.perform
+
+      expect(contact_inbox_spy).to have_received(:with_lock)
+    end
+  end
 end
