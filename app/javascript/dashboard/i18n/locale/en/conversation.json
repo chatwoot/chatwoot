@@ -485,5 +485,9 @@
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+  },
+  "MESSAGE": {
+    "READ_MORE": "Read more",
+    "READ_LESS": "Show less"
   }
 }
