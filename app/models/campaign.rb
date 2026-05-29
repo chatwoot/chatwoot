@@ -61,12 +61,8 @@ class Campaign < ApplicationRecord
 
     execute_campaign
   rescue StandardError
-    mark_completed! if processing?
+    completed! if processing?
     raise
-  end
-
-  def mark_completed!
-    completed!
   end
 
   private
