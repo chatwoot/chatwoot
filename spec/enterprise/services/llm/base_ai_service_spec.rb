@@ -44,16 +44,18 @@ RSpec.describe Llm::BaseAiService do
       expect(service.send(:with_json_response_format, chat, max_tokens: 1000)).to eq(chat)
     end
 
-    it 'does not add params when structured outputs are unsupported and no safe params are present' do
+    it 'keeps OpenAI-compatible params when structured outputs are unsupported' do
       allow(Llm::Config).to receive(:supports_structured_outputs_with_tools?).and_return(false)
+      allow(Llm::Config).to receive(:supports_openai_chat_params?).and_return(true)
 
-      expect(chat).not_to receive(:with_params)
+      expect(chat).to receive(:with_params).with(max_tokens: 1000).and_return(chat)
 
-      expect(service.send(:with_json_response_format, chat)).to eq(chat)
+      expect(service.send(:with_json_response_format, chat, max_tokens: 1000)).to eq(chat)
     end
 
-    it 'does not forward raw params when structured outputs are unsupported' do
+    it 'does not forward raw params for providers with different payload shapes' do
       allow(Llm::Config).to receive(:supports_structured_outputs_with_tools?).and_return(false)
+      allow(Llm::Config).to receive(:supports_openai_chat_params?).and_return(false)
 
       expect(chat).not_to receive(:with_params)
 

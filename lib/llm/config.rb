@@ -4,6 +4,7 @@ module Llm::Config
   DEFAULT_MODEL = 'gpt-4.1-mini'.freeze
   DEFAULT_UTILITY_MODEL = 'gpt-4.1-nano'.freeze
   DEFAULT_PROVIDER = 'openai'.freeze
+  OPENAI_CHAT_PARAMS_PROVIDERS = %w[azure openai openrouter].freeze
 
   class << self
     def initialized? = @initialized ||= false
@@ -71,6 +72,8 @@ module Llm::Config
     def supports_structured_outputs_with_tools? = default_openai_endpoint?
 
     def supports_temperature? = default_openai_endpoint?
+
+    def supports_openai_chat_params? = OPENAI_CHAT_PARAMS_PROVIDERS.include?(default_provider)
 
     def api_key_required?(provider = default_provider)
       provider_configuration_requirements(provider).include?(:"#{provider}_api_key")

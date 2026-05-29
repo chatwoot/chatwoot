@@ -70,6 +70,20 @@ RSpec.describe Llm::Config do
     end
   end
 
+  describe '.supports_openai_chat_params?' do
+    it 'returns true for OpenAI-shaped providers' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'openrouter')
+
+      expect(described_class.supports_openai_chat_params?).to be true
+    end
+
+    it 'returns false for providers with different payload shapes' do
+      set_installation_config('CAPTAIN_LLM_PROVIDER', 'gemini')
+
+      expect(described_class.supports_openai_chat_params?).to be false
+    end
+  end
+
   describe '.direct_openai_endpoint?' do
     it 'returns true for OpenAI with a blank endpoint' do
       expect(described_class.direct_openai_endpoint?(provider: 'openai', endpoint: '')).to be true

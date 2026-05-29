@@ -30,9 +30,11 @@ class Llm::BaseAiService
   end
 
   def with_json_response_format(chat, **params)
-    return chat unless Llm::Config.supports_structured_outputs_with_tools?
+    safe_params = openai_chat_params(params)
+    safe_params[:response_format] = { type: 'json_object' } if Llm::Config.supports_structured_outputs_with_tools?
+    return chat if safe_params.blank?
 
-    chat.with_params(**params, response_format: { type: 'json_object' })
+    chat.with_params(**safe_params)
   end
 
   def with_response_schema(chat, schema)
@@ -45,6 +47,12 @@ class Llm::BaseAiService
     return chat if temperature.nil? || !Llm::Config.supports_temperature?
 
     chat.with_temperature(temperature)
+  end
+
+  def openai_chat_params(params)
+    return {} unless Llm::Config.supports_openai_chat_params?
+
+    params.slice(:max_tokens)
   end
 
   def setup_model
