@@ -62,6 +62,10 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
     @llm_credential ||= system_llm_credential
   end
 
+  def counts_toward_usage?
+    false
+  end
+
   def event_name
     'captain.conversation_completion'
   end
