@@ -11,6 +11,7 @@ import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDeta
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
 import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
 
@@ -40,6 +41,7 @@ const CONTACT_TABS_OPTIONS = [
   { key: 'ATTRIBUTES', value: 'attributes' },
   { key: 'HISTORY', value: 'history' },
   { key: 'NOTES', value: 'notes' },
+  { key: 'MEDIA', value: 'media' },
   { key: 'MERGE', value: 'merge' },
 ];
 
@@ -149,8 +151,8 @@ onMounted(() => {
         :selected-contact="selectedContact"
         @go-to-contacts-list="goToContactsList"
       />
-      <template #sidebar>
-        <div class="px-6">
+      <template #sidebarHeader>
+        <div class="px-6 pt-6 pb-3">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"
@@ -158,6 +160,8 @@ onMounted(() => {
             @tab-changed="handleTabChange"
           />
         </div>
+      </template>
+      <template #sidebar>
         <div
           v-if="isFetchingItem"
           class="flex items-center justify-center py-10 text-n-slate-11"
@@ -171,6 +175,7 @@ onMounted(() => {
           />
           <ContactNotes v-if="activeTab === 'notes'" />
           <ContactHistory v-if="activeTab === 'history'" />
+          <ContactMedia v-if="activeTab === 'media'" />
           <ContactMerge
             v-if="activeTab === 'merge'"
             ref="contactMergeRef"

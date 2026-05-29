@@ -438,4 +438,43 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#fetchAttachments', () => {
+    const attachments = [
+      { id: 11, message_id: 21, file_type: 'image' },
+      { id: 12, message_id: 22, file_type: 'file' },
+    ];
+
+    it('fetches and stores attachments on the contact record', async () => {
+      axios.get.mockResolvedValue({ data: { payload: attachments } });
+      const state = { records: { 1: { id: 1 } } };
+      await actions.fetchAttachments({ commit, state }, 1);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true }],
+        [types.SET_CONTACT_ATTACHMENTS, { id: 1, data: attachments }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false }],
+      ]);
+    });
+
+    it('skips the request when attachments are already cached', async () => {
+      const state = {
+        records: { 1: { id: 1, attachments: [{ id: 99 }] } },
+      };
+      await actions.fetchAttachments({ commit, state }, 1);
+      expect(commit).not.toHaveBeenCalled();
+      expect(axios.get).not.toHaveBeenCalled();
+    });
+
+    it('clears the loading flag and rethrows when the API errors', async () => {
+      axios.get.mockRejectedValue(new Error('Network error'));
+      const state = { records: { 1: { id: 1 } } };
+      await expect(
+        actions.fetchAttachments({ commit, state }, 1)
+      ).rejects.toThrow('Network error');
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false }],
+      ]);
+    });
+  });
 });

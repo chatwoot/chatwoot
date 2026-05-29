@@ -78,6 +78,12 @@ export const MEDIA_TYPES = [
   ATTACHMENT_TYPES.IG_REEL,
 ];
 
+export const NON_FILE_TYPES = [
+  ATTACHMENT_TYPES.LOCATION,
+  ATTACHMENT_TYPES.FALLBACK,
+  ATTACHMENT_TYPES.CONTACT,
+];
+
 export const VOICE_CALL_STATUS = {
   IN_PROGRESS: 'in-progress',
   RINGING: 'ringing',

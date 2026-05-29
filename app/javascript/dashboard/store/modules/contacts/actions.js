@@ -114,6 +114,20 @@ export const actions = {
     }
   },
 
+  fetchAttachments: async ({ commit, state }, id) => {
+    if (state.records[id]?.attachments) return;
+    commit(types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true });
+    try {
+      const response = await ContactAPI.getAttachments(id);
+      commit(types.SET_CONTACT_ATTACHMENTS, {
+        id,
+        data: response.data.payload,
+      });
+    } finally {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false });
+    }
+  },
+
   update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
     const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
     const decamelizedContactParams = {

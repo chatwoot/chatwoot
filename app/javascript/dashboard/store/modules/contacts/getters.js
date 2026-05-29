@@ -24,6 +24,7 @@ export const getters = {
       stopPaths: ['custom_attributes'],
     });
   },
+  getContactAttachments: $state => id => $state.records[id]?.attachments || [],
   getMeta: $state => {
     return $state.meta;
   },

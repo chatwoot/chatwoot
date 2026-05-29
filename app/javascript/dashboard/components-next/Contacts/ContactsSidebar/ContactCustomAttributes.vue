@@ -108,7 +108,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
 </script>
 
 <template>
-  <div v-if="hasContactAttributes" class="flex flex-col gap-6 px-6 py-6">
+  <div v-if="hasContactAttributes" class="flex flex-col gap-6 px-6">
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <ContactCustomAttributeItem
         v-for="attribute in usedAttributes"
