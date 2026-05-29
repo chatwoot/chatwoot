@@ -83,6 +83,27 @@ RSpec.describe Campaign do
         campaign.save!
         campaign.trigger!
       end
+
+      it 'marks the campaign as processing before triggering the service' do
+        campaign.save!
+        sms_service = double
+
+        expect(Twilio::OneoffSmsCampaignService).to receive(:new).with(campaign: campaign).and_return(sms_service)
+        expect(sms_service).to receive(:perform) do
+          expect(campaign.reload.processing?).to be true
+        end
+
+        campaign.trigger!
+      end
+
+      it 'does not trigger a processing campaign again' do
+        campaign.save!
+        campaign.processing!
+
+        expect(Twilio::OneoffSmsCampaignService).not_to receive(:new)
+
+        campaign.trigger!
+      end
     end
 
     context 'when SMS campaign' do
@@ -104,6 +125,22 @@ RSpec.describe Campaign do
         expect(sms_service).to receive(:perform)
         campaign.save!
         campaign.trigger!
+      end
+    end
+
+    context 'when WhatsApp campaign feature is disabled' do
+      let(:account) { create(:account) }
+      let(:whatsapp_channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      end
+      let(:campaign) { create(:campaign, account: account, inbox: whatsapp_channel.inbox) }
+
+      it 'does not mark the campaign as processing' do
+        expect(Whatsapp::OneoffCampaignService).not_to receive(:new)
+
+        campaign.trigger!
+
+        expect(campaign.reload.active?).to be true
       end
     end
 
