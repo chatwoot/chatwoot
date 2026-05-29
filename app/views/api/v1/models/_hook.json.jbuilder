@@ -5,5 +5,17 @@ json.inbox resource.inbox&.slice(:id, :name)
 json.account_id resource.account_id
 json.hook_type resource.hook_type
 
-json.settings resource.settings if Current.account_user&.administrator?
-json.reference_id resource.reference_id if Current.account_user&.administrator?
+# fix: Redact sensitive integration secrets to prevent leakage to the frontend (#14042)
+# even for administrators, raw API keys and private keys should not be exposed in the browser.
+if Current.account_user&.administrator?
+  json.settings resource.settings.except(
+    'api_key', 
+    'private_key', 
+    'credentials', 
+    'access_token', 
+    'secret', 
+    'token',
+    'password'
+  )
+  json.reference_id resource.reference_id
+end
