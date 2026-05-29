@@ -170,15 +170,25 @@ class Rack::Attack
   ###-----------Widget API Throttling---------------###
   ###-----------------------------------------------###
 
+  ## Burst protection on widget conversation creation. Keyed on (IP, website_token)
+  ## so distinct widgets behind a shared NAT IP get separate buckets. Independent
+  ## kill switch so it can be toggled without touching the legacy ENABLE_RACK_ATTACK_WIDGET_API.
+  if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_CONVERSATIONS', true))
+    throttle('api/v1/widget/conversations',
+             limit: ENV.fetch('RATE_LIMIT_WIDGET_CONVERSATIONS', '30').to_i,
+             period: 1.minute) do |req|
+      next unless req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
+
+      token = req.params['website_token'].presence ||
+              ActionDispatch::Request.new(req.env).params['website_token'].presence
+      "#{req.ip}:#{token}" if token
+    end
+  end
+
   # Rack attack on widget APIs can be disabled by setting ENABLE_RACK_ATTACK_WIDGET_API to false
   # For clients using the widgets in specific conditions like inside and iframe
   # TODO: Deprecate this feature in future after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
-    ## Prevent Conversation Bombing on Widget APIs ###
-    throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
-      req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
-    end
-
     ## Prevent Contact update Bombing in Widget API ###
     throttle('api/v1/widget/contacts', limit: 60, period: 1.hour) do |req|
       req.ip if req.path_without_extentions == '/api/v1/widget/contacts' && (req.patch? || req.put?)
