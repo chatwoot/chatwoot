@@ -56,7 +56,7 @@ class Campaign < ApplicationRecord
 
   def trigger!
     return unless one_off?
-    return if inbox.inbox_type == 'Whatsapp' && !account.feature_enabled?(:whatsapp_campaign)
+    return unless feature_enabled?
     return unless mark_processing!
 
     execute_campaign
@@ -73,6 +73,10 @@ class Campaign < ApplicationRecord
   end
 
   private
+
+  def feature_enabled?
+    inbox.inbox_type != 'Whatsapp' || account.feature_enabled?(:whatsapp_campaign)
+  end
 
   def mark_processing!
     with_lock do
