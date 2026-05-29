@@ -3897,6 +3897,11 @@
                 "description": "URL at which the widget will be loaded",
                 "example": "https://example.com"
               },
+              "webhook_url": {
+                "type": "string",
+                "description": "Webhook URL for API channel inbox callbacks",
+                "example": "https://example.com/webhook"
+              },
               "welcome_title": {
                 "type": "string",
                 "description": "Welcome title to be displayed on the widget",
@@ -4005,6 +4010,11 @@
                 "type": "string",
                 "description": "URL at which the widget will be loaded",
                 "example": "https://example.com"
+              },
+              "webhook_url": {
+                "type": "string",
+                "description": "Webhook URL for API channel inbox callbacks",
+                "example": "https://example.com/webhook"
               },
               "welcome_title": {
                 "type": "string",
