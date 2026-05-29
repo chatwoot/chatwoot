@@ -337,6 +337,69 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       end.not_to change(Conversation, :count)
     end
 
+    it 'finds channel using normalized Brazil phone number when display_phone_number is missing the 9 digit' do
+      brazil_channel = create(:channel_whatsapp, phone_number: '+5541999887766', provider: 'whatsapp_cloud',
+                                                 sync_templates: false, validate_provider_config: false)
+      wb_params = {
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              metadata: {
+                phone_number_id: brazil_channel.provider_config['phone_number_id'],
+                display_phone_number: '554199887766'
+              }
+            }
+          }]
+        }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: brazil_channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
+    end
+
+    it 'finds channel using normalized Argentina phone number when display_phone_number has extra 9 digit' do
+      argentina_channel = create(:channel_whatsapp, phone_number: '+541112345678', provider: 'whatsapp_cloud',
+                                                    sync_templates: false, validate_provider_config: false)
+      wb_params = {
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              metadata: {
+                phone_number_id: argentina_channel.provider_config['phone_number_id'],
+                display_phone_number: '5491112345678'
+              }
+            }
+          }]
+        }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: argentina_channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
+    end
+
+    it 'finds channel when display_phone_number contains formatting characters' do
+      formatted_channel = create(:channel_whatsapp, phone_number: '+14155552671', provider: 'whatsapp_cloud',
+                                                    sync_templates: false, validate_provider_config: false)
+      wb_params = {
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              metadata: {
+                phone_number_id: formatted_channel.provider_config['phone_number_id'],
+                display_phone_number: '+1 415-555-2671'
+              }
+            }
+          }]
+        }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: formatted_channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
+    end
+
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
