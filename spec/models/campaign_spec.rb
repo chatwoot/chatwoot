@@ -105,7 +105,7 @@ RSpec.describe Campaign do
         campaign.trigger!
       end
 
-      it 'marks the campaign active again when triggering fails' do
+      it 'marks the campaign completed when triggering fails' do
         campaign.save!
         sms_service = double
 
@@ -113,10 +113,10 @@ RSpec.describe Campaign do
         expect(sms_service).to receive(:perform).and_raise(StandardError, 'provider error')
 
         expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
-        expect(campaign.reload.active?).to be true
+        expect(campaign.reload.completed?).to be true
       end
 
-      it 'marks the campaign active again without running validations' do
+      it 'marks the campaign completed on failure without running validations' do
         sender = create(:user, account: account)
         campaign.sender = sender
         campaign.save!
@@ -129,7 +129,7 @@ RSpec.describe Campaign do
         end
 
         expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
-        expect(campaign.reload.active?).to be true
+        expect(campaign.reload.completed?).to be true
       end
 
       it 'marks the campaign completed without running validations' do

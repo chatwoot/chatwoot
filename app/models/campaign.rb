@@ -61,12 +61,8 @@ class Campaign < ApplicationRecord
 
     execute_campaign
   rescue StandardError
-    mark_active! if processing?
+    mark_completed! if processing?
     raise
-  end
-
-  def mark_active!
-    update_campaign_status!(:active)
   end
 
   def mark_completed!
