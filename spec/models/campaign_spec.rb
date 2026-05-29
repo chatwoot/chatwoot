@@ -105,7 +105,7 @@ RSpec.describe Campaign do
         campaign.trigger!
       end
 
-      it 'marks the campaign completed when triggering fails' do
+      it 'keeps the campaign processing when triggering fails' do
         campaign.save!
         sms_service = double
 
@@ -113,7 +113,7 @@ RSpec.describe Campaign do
         expect(sms_service).to receive(:perform).and_raise(StandardError, 'provider error')
 
         expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
-        expect(campaign.reload.completed?).to be true
+        expect(campaign.reload.processing?).to be true
       end
     end
 

@@ -60,9 +60,6 @@ class Campaign < ApplicationRecord
     return unless mark_processing!
 
     execute_campaign
-  rescue StandardError
-    completed! if processing?
-    raise
   end
 
   private
