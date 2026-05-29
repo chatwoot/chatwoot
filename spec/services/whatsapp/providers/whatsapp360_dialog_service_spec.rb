@@ -7,6 +7,47 @@ describe Whatsapp::Providers::Whatsapp360DialogService do
   let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
   let(:whatsapp_response) { { messages: [{ id: 'message_id' }] } }
+  let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
+  let(:message) do
+    create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox)
+  end
+
+  describe '#send_message' do
+    context 'when message has multiple attachments' do
+      it 'sends each attachment as a separate API call and returns the last message id' do
+        attachment1 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment1.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar2.png', content_type: 'image/png')
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .to_return(
+            { status: 200, body: { messages: [{ id: 'message_id_1' }] }.to_json, headers: response_headers },
+            { status: 200, body: { messages: [{ id: 'message_id_2' }] }.to_json, headers: response_headers }
+          )
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id_2'
+        expect(WebMock).to have_requested(:post, 'https://waba.360dialog.io/v1/messages').twice
+      end
+
+      it 'includes caption only on the first attachment' do
+        attachment1 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment1.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar2.png', content_type: 'image/png')
+
+        stub_request(:post, 'https://waba.360dialog.io/v1/messages')
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        service.send_message('+123456789', message)
+
+        expect(WebMock).to have_requested(:post, 'https://waba.360dialog.io/v1/messages')
+          .with(body: hash_including({ image: WebMock::API.hash_including({ caption: message.content }) }))
+          .once
+        expect(WebMock).to have_requested(:post, 'https://waba.360dialog.io/v1/messages').twice
+      end
+    end
+  end
 
   describe '#sync_templates' do
     context 'when called' do

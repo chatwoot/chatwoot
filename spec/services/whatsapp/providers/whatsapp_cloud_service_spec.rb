@@ -91,6 +91,39 @@ describe Whatsapp::Providers::WhatsappCloudService do
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
+
+      it 'sends each attachment as a separate API call and returns the last message id' do
+        attachment1 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment1.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar2.png', content_type: 'image/png')
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .to_return(
+            { status: 200, body: { messages: [{ id: 'message_id_1' }] }.to_json, headers: response_headers },
+            { status: 200, body: { messages: [{ id: 'message_id_2' }] }.to_json, headers: response_headers }
+          )
+
+        expect(service.send_message('+123456789', message)).to eq 'message_id_2'
+        expect(WebMock).to have_requested(:post, 'https://graph.facebook.com/v13.0/123456789/messages').twice
+      end
+
+      it 'includes caption only on the first attachment when multiple attachments are present' do
+        attachment1 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment1.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar2.png', content_type: 'image/png')
+
+        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+        service.send_message('+123456789', message)
+
+        expect(WebMock).to have_requested(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
+          .with(body: hash_including({ image: WebMock::API.hash_including({ caption: message.content }) }))
+          .once
+        expect(WebMock).to have_requested(:post, 'https://graph.facebook.com/v13.0/123456789/messages').twice
+      end
     end
   end
 
