@@ -11,12 +11,29 @@
 #
 
 class CannedResponse < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   validates :content, presence: true
   validates :short_code, presence: true
   validates :account, presence: true
   validates :short_code, uniqueness: { scope: :account_id }
 
   belongs_to :account
+  has_many_attached :files
+
+  def file_base_data
+    files.map do |file|
+      {
+        id: file.id,
+        canned_response_id: id,
+        file_type: file.content_type,
+        account_id: account_id,
+        file_url: url_for(file),
+        blob_id: file.blob_id,
+        filename: file.filename.to_s
+      }
+    end
+  end
 
   scope :order_by_search, lambda { |search|
     short_code_starts_with = sanitize_sql_array(['WHEN short_code ILIKE ? THEN 1', "#{search}%"])
