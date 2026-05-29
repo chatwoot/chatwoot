@@ -272,7 +272,7 @@ zh_CN:
         removed: '%{user_name} 取消了优先级'
       assignee:
         self_assigned: '%{user_name} 自行分配这次会话'
-        assigned: '由 %{user_name} 分配给 %{assignee_name}'
+        assigned: '%{user_name} 将该会话分配给 %{assignee_name}'
         removed: '对话未被 %{user_name} 分配'
       team:
         assigned: '由 %{user_name} 分配给 %{team_name}'
