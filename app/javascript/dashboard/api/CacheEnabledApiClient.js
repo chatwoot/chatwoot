@@ -25,6 +25,13 @@ class CacheEnabledApiClient extends ApiClient {
     return axios.get(this.url);
   }
 
+  async getCacheKeyFromServer() {
+    const response = await axios.get(
+      `/api/v1/accounts/${this.accountIdFromRoute}/cache_keys`
+    );
+    return response.data.cache_keys?.[this.cacheModelName] ?? null;
+  }
+
   // eslint-disable-next-line class-methods-use-this
   extractDataFromResponse(response) {
     return response.data.payload;
@@ -57,10 +64,16 @@ class CacheEnabledApiClient extends ApiClient {
       return this.marshallData(localData);
     }
 
-    // Empty IDB (first load or wiped): seed from network using whatever local
-    // cache key we have (null when never seen). refetchAndCommit handles null.
-    const localKey = await this.dataManager.getCacheKey(this.cacheModelName);
-    return this.refetchAndCommit(localKey);
+    // Empty IDB (first load or wiped): capture the authoritative key before
+    // persisting rows so future boots can revalidate this cached data.
+    let serverKey = null;
+    try {
+      serverKey = await this.getCacheKeyFromServer();
+    } catch {
+      // Ignore error. The network fetch below should still work, and storing
+      // null keeps this cache eligible for boot-time revalidation later.
+    }
+    return this.refetchAndCommit(serverKey);
   }
 
   async refetchAndCommit(newKey = null) {
@@ -77,7 +90,7 @@ class CacheEnabledApiClient extends ApiClient {
       });
 
       await this.dataManager.setCacheKeys({
-        [this.cacheModelName]: newKey,
+        [this.cacheModelName]: newKey === undefined ? null : newKey,
       });
     } catch {
       // Ignore error
@@ -91,8 +104,15 @@ class CacheEnabledApiClient extends ApiClient {
       await this.dataManager.initDb();
     }
 
-    const cachekey = await this.dataManager.getCacheKey(this.cacheModelName);
-    return cacheKeyFromApi === cachekey;
+    const cacheKey = await this.dataManager.getCacheKey(this.cacheModelName);
+    if (cacheKey === undefined) {
+      const localData = await this.dataManager.get({
+        modelName: this.cacheModelName,
+      });
+      return localData.length === 0;
+    }
+
+    return cacheKeyFromApi === cacheKey;
   }
 }
 

@@ -19,9 +19,9 @@ export class DataManager {
         // first install, so fresh devices skip this. Clearing before creating
         // means we only ever clear stores that pre-existed this upgrade.
         if (oldVersion > 0) {
-          [...db.objectStoreNames].forEach(name =>
-            tx.objectStore(name).clear()
-          );
+          for (let index = 0; index < db.objectStoreNames.length; index += 1) {
+            tx.objectStore(db.objectStoreNames.item(index)).clear();
+          }
         }
 
         if (!db.objectStoreNames.contains('cache-keys')) {
