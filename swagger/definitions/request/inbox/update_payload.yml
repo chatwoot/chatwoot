@@ -62,25 +62,11 @@ properties:
     description: Business name for the inbox
     example: 'My Business'
   channel:
-    type: object
-    properties:
-      website_url:
-        type: string
-        description: URL at which the widget will be loaded
-        example: 'https://example.com'
-      webhook_url:
-        type: string
-        description: Webhook URL for API channel inbox callbacks
-        example: 'https://example.com/webhook'
-      welcome_title:
-        type: string
-        description: Welcome title to be displayed on the widget
-        example: 'Welcome to our support'
-      welcome_tagline:
-        type: string
-        description: Welcome tagline to be displayed on the widget
-        example: 'We are here to help you'
-      widget_color:
-        type: string
-        description: A Hex-color string used to customize the widget
-        example: '#FF5733'
+    oneOf:
+      - $ref: '#/components/schemas/inbox_update_web_widget_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_api_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_email_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_line_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_telegram_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_whatsapp_channel_payload'
+      - $ref: '#/components/schemas/inbox_update_sms_channel_payload'

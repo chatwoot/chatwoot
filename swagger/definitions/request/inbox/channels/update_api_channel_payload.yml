@@ -1,0 +1,7 @@
+type: object
+title: API channel settings
+properties:
+  webhook_url:
+    type: string
+    description: Webhook URL for API channel inbox callbacks
+    example: 'https://example.com/webhook'

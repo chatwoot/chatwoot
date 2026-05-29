@@ -1,0 +1,23 @@
+type: object
+title: Email channel settings
+properties:
+  email:
+    type: string
+    description: Email address for the inbox
+    example: support@example.com
+  imap_enabled:
+    type: boolean
+    description: Enable IMAP for inbound emails
+    example: true
+  smtp_enabled:
+    type: boolean
+    description: Enable SMTP for outbound emails
+    example: true
+  provider:
+    type: string
+    description: Email provider
+    example: google
+  verified_for_sending:
+    type: boolean
+    description: Whether the inbox is verified for sending emails
+    example: false

@@ -1,0 +1,13 @@
+type: object
+title: Telegram channel
+required:
+  - type
+properties:
+  type:
+    type: string
+    enum: ['telegram']
+    example: telegram
+  bot_token:
+    type: string
+    description: Telegram bot token
+    example: 123456789:telegram-bot-token

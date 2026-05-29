@@ -4052,46 +4052,39 @@
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "Type of the channel",
-                "enum": [
-                  "web_widget",
-                  "api",
-                  "email",
-                  "line",
-                  "telegram",
-                  "whatsapp",
-                  "sms"
-                ],
-                "example": "web_widget"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inbox_create_web_widget_channel_payload"
               },
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+              {
+                "$ref": "#/components/schemas/inbox_create_api_channel_payload"
               },
-              "webhook_url": {
-                "type": "string",
-                "description": "Webhook URL for API channel inbox callbacks",
-                "example": "https://example.com/webhook"
+              {
+                "$ref": "#/components/schemas/inbox_create_email_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_create_line_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_create_telegram_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_create_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_create_sms_channel_payload"
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "web_widget": "#/components/schemas/inbox_create_web_widget_channel_payload",
+                "api": "#/components/schemas/inbox_create_api_channel_payload",
+                "email": "#/components/schemas/inbox_create_email_channel_payload",
+                "line": "#/components/schemas/inbox_create_line_channel_payload",
+                "telegram": "#/components/schemas/inbox_create_telegram_channel_payload",
+                "whatsapp": "#/components/schemas/inbox_create_whatsapp_channel_payload",
+                "sms": "#/components/schemas/inbox_create_sms_channel_payload"
               }
             }
           }
@@ -4180,33 +4173,394 @@
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inbox_update_web_widget_channel_payload"
               },
-              "webhook_url": {
-                "type": "string",
-                "description": "Webhook URL for API channel inbox callbacks",
-                "example": "https://example.com/webhook"
+              {
+                "$ref": "#/components/schemas/inbox_update_api_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_update_email_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_update_line_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_update_telegram_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_sms_channel_payload"
               }
+            ]
+          }
+        }
+      },
+      "inbox_create_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "web_widget"
+            ],
+            "example": "web_widget"
+          },
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          }
+        }
+      },
+      "inbox_create_api_channel_payload": {
+        "type": "object",
+        "title": "API channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "example": "api"
+          },
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          }
+        }
+      },
+      "inbox_create_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "email"
+            ],
+            "example": "email"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_create_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "line"
+            ],
+            "example": "line"
+          },
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_create_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "telegram"
+            ],
+            "example": "telegram"
+          },
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_create_whatsapp_channel_payload": {
+        "type": "object",
+        "title": "WhatsApp channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "whatsapp"
+            ],
+            "example": "whatsapp"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "WhatsApp phone number",
+            "example": "+15551234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "WhatsApp provider",
+            "enum": [
+              "default",
+              "whatsapp_cloud"
+            ],
+            "example": "whatsapp_cloud"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific WhatsApp configuration",
+            "example": {
+              "api_key": "your-api-key"
+            }
+          }
+        }
+      },
+      "inbox_create_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "sms"
+            ],
+            "example": "sms"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "account_id": "your-account-id",
+              "application_id": "your-application-id"
+            }
+          }
+        }
+      },
+      "inbox_update_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel settings",
+        "properties": {
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          }
+        }
+      },
+      "inbox_update_api_channel_payload": {
+        "type": "object",
+        "title": "API channel settings",
+        "properties": {
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          }
+        }
+      },
+      "inbox_update_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel settings",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_update_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel settings",
+        "properties": {
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_update_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel settings",
+        "properties": {
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_update_whatsapp_channel_payload": {
+        "type": "object",
+        "title": "WhatsApp channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "WhatsApp phone number",
+            "example": "+15551234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "WhatsApp provider",
+            "enum": [
+              "default",
+              "whatsapp_cloud"
+            ],
+            "example": "whatsapp_cloud"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific WhatsApp configuration",
+            "example": {
+              "api_key": "your-api-key",
+              "phone_number_id": "your-phone-number-id",
+              "business_account_id": "your-business-account-id"
+            }
+          }
+        }
+      },
+      "inbox_update_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "api_key": "your-api-key",
+              "api_secret": "your-api-secret",
+              "application_id": "your-application-id",
+              "account_id": "your-account-id"
             }
           }
         }

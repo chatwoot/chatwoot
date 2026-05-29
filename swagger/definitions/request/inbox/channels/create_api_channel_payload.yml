@@ -1,0 +1,13 @@
+type: object
+title: API channel
+required:
+  - type
+properties:
+  type:
+    type: string
+    enum: ['api']
+    example: api
+  webhook_url:
+    type: string
+    description: Webhook URL for API channel inbox callbacks
+    example: 'https://example.com/webhook'

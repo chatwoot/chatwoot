@@ -1,0 +1,19 @@
+type: object
+title: Website channel settings
+properties:
+  website_url:
+    type: string
+    description: URL at which the widget will be loaded
+    example: 'https://example.com'
+  welcome_title:
+    type: string
+    description: Welcome title to be displayed on the widget
+    example: 'Welcome to our support'
+  welcome_tagline:
+    type: string
+    description: Welcome tagline to be displayed on the widget
+    example: 'We are here to help you'
+  widget_color:
+    type: string
+    description: A Hex-color string used to customize the widget
+    example: '#FF5733'

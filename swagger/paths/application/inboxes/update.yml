@@ -55,6 +55,66 @@ patch:
       application/json:
         schema:
           $ref: '#/components/schemas/inbox_update_payload'
+        examples:
+          web_widget:
+            summary: Website inbox settings
+            value:
+              name: Support
+              channel:
+                website_url: https://example.com
+                welcome_title: Welcome to our support
+                welcome_tagline: We are here to help you
+                widget_color: '#FF5733'
+          api:
+            summary: API channel settings
+            value:
+              name: API Inbox
+              channel:
+                webhook_url: https://example.com/webhook
+          email:
+            summary: Email channel settings
+            value:
+              name: Email Inbox
+              channel:
+                email: support@example.com
+                imap_enabled: true
+                smtp_enabled: true
+          line:
+            summary: LINE channel settings
+            value:
+              name: LINE Inbox
+              channel:
+                line_channel_id: '1234567890'
+                line_channel_secret: line-channel-secret
+                line_channel_token: line-channel-token
+          telegram:
+            summary: Telegram channel settings
+            value:
+              name: Telegram Inbox
+              channel:
+                bot_token: 123456789:telegram-bot-token
+          whatsapp:
+            summary: WhatsApp channel settings
+            value:
+              name: WhatsApp Inbox
+              channel:
+                phone_number: '+15551234567'
+                provider: whatsapp_cloud
+                provider_config:
+                  api_key: your-api-key
+                  phone_number_id: your-phone-number-id
+                  business_account_id: your-business-account-id
+          sms:
+            summary: SMS channel settings
+            value:
+              name: SMS Inbox
+              channel:
+                phone_number: '+15551234567'
+                provider_config:
+                  api_key: your-api-key
+                  api_secret: your-api-secret
+                  application_id: your-application-id
+                  account_id: your-account-id
   responses:
     '200':
       description: Success
