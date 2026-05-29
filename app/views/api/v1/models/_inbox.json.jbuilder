@@ -44,7 +44,7 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
@@ -114,8 +114,8 @@ end
 
 ## API Channel Attributes
 if resource.api?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
-  json.secret resource.channel.try(:secret) if Current.account_user&.administrator?
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
+  json.secret resource.channel.try(:secret) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
