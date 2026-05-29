@@ -16,4 +16,14 @@ RSpec.describe InstallationConfig do
       expect(installation_config.value).to be_nil
     end
   end
+
+  describe '.latest_first' do
+    it 'orders editable records by created_at desc without default_scope' do
+      older = create(:installation_config, name: 'OLDER_CONFIG', value: 'old', locked: false, created_at: 2.days.ago)
+      newer = create(:installation_config, name: 'NEWER_CONFIG', value: 'new', locked: false, created_at: 1.day.ago)
+
+      expect(described_class.editable.latest_first.first).to eq(newer)
+      expect(described_class.editable.latest_first.second).to eq(older)
+    end
+  end
 end

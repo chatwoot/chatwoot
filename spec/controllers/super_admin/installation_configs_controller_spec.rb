@@ -26,7 +26,7 @@ RSpec.describe 'Super Admin Installation Config API', type: :request do
 
       it 'shows the installation_configs edit page' do
         sign_in(super_admin, scope: :super_admin)
-        editable_config = InstallationConfig.editable.first
+        editable_config = InstallationConfig.editable.latest_first.first
         get "/super_admin/installation_configs/#{editable_config.id}/edit"
         expect(response).to have_http_status(:success)
       end
