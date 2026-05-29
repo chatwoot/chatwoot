@@ -585,6 +585,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'sitemap.xml', to: 'public/api/v1/sitemaps#index'
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', as: :public_portal_locale
