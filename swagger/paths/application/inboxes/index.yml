@@ -56,6 +56,7 @@ post:
               name: Support
               greeting_enabled: true
               greeting_message: Hello, how can I help you?
+              enable_email_collect: true
               enable_auto_assignment: true
               working_hours_enabled: true
               timezone: America/New_York
