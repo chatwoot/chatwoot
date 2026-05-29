@@ -61,7 +61,8 @@ class Whatsapp::OneoffCampaignService
     processed_template_params = process_liquid_template_params(contact)
     return if processed_template_params.nil?
 
-    send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    sent = send_whatsapp_template_message(to: contact.phone_number, template_params: processed_template_params)
+    log_template_to_conversation(contact, processed_template_params) if sent && campaign.log_to_conversation
   end
 
   def process_audience(audience_labels)
@@ -83,6 +84,54 @@ class Whatsapp::OneoffCampaignService
   rescue StandardError => e
     Rails.logger.error "Failed to process liquid template params for contact #{contact.name}: #{e.message}"
     nil
+  end
+
+  def log_template_to_conversation(contact, processed_template_params)
+    source_id = normalized_source_id(contact.phone_number)
+    contact_inbox = ContactInboxWithContactBuilder.new(
+      source_id: source_id,
+      inbox: inbox,
+      contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
+    ).perform
+
+    conversation = find_or_create_conversation(contact_inbox)
+    create_campaign_message(conversation, processed_template_params)
+  rescue StandardError => e
+    Rails.logger.error "Failed to log template to conversation for #{contact.name}: #{e.message}"
+  end
+
+  def normalized_source_id(phone_number)
+    clean_number = phone_number.delete_prefix('+')
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(clean_number, :cloud)
+  end
+
+  def find_or_create_conversation(contact_inbox)
+    conversation = if inbox.lock_to_single_conversation
+                     contact_inbox.conversations.last
+                   else
+                     contact_inbox.conversations.where.not(status: :resolved).last
+                   end
+    conversation || ::Conversation.create!(
+      account_id: campaign.account_id,
+      inbox_id: inbox.id,
+      contact_id: contact_inbox.contact_id,
+      contact_inbox_id: contact_inbox.id,
+      campaign_id: campaign.id
+    )
+  end
+
+  def create_campaign_message(conversation, processed_template_params)
+    template_name = processed_template_params['name'] || campaign.template_params['name']
+    content = campaign.message.presence || "[WhatsApp Template: #{template_name}]"
+
+    conversation.messages.create!(
+      account_id: campaign.account_id,
+      inbox_id: inbox.id,
+      message_type: :outgoing,
+      content: content,
+      additional_attributes: { campaign_id: campaign.id },
+      content_attributes: { template_name: template_name }
+    )
   end
 
   def send_whatsapp_template_message(to:, template_params:)

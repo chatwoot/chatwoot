@@ -30,6 +30,7 @@ const initialState = {
   templateId: null,
   scheduledAt: null,
   selectedAudience: [],
+  logToConversation: false,
 };
 
 const state = reactive({ ...initialState });
@@ -145,6 +146,7 @@ const prepareCampaignDetails = () => {
     template_params: templateParams,
     inbox_id: state.inboxId,
     scheduled_at: formatToUTCString(state.scheduledAt),
+    log_to_conversation: state.logToConversation,
     audience: state.selectedAudience?.map(id => ({
       id,
       type: 'Label',
@@ -244,6 +246,20 @@ watch(
       :message="formErrors.scheduledAt"
       :message-type="formErrors.scheduledAt ? 'error' : 'info'"
     />
+
+    <label class="flex items-center gap-2 cursor-pointer">
+      <input
+        v-model="state.logToConversation"
+        type="checkbox"
+        class="size-4 rounded border-n-weak text-n-blue-11 focus:ring-n-blue-11"
+      />
+      <span class="text-sm text-n-slate-12">
+        {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.LOG_TO_CONVERSATION.LABEL') }}
+      </span>
+    </label>
+    <p class="-mt-3 ml-6 text-xs text-n-slate-11">
+      {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.LOG_TO_CONVERSATION.INFO') }}
+    </p>
 
     <div class="flex gap-3 justify-between items-center w-full">
       <Button

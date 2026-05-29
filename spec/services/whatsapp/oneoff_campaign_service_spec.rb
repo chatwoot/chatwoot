@@ -223,6 +223,119 @@ describe Whatsapp::OneoffCampaignService do
       end
     end
 
+    context 'when log_to_conversation is enabled' do
+      let!(:campaign_with_log) do
+        create(:campaign, inbox: whatsapp_inbox, account: account,
+                          audience: [{ type: 'Label', id: label1.id }],
+                          template_params: template_params,
+                          log_to_conversation: true)
+      end
+      let(:contact) { create(:contact, :with_phone_number, account: account) }
+
+      before do
+        contact.update_labels([label1.title])
+        allow(whatsapp_channel).to receive(:send_template).and_return({ 'messages' => [{ 'id' => 'msg_123' }] })
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(true) # rubocop:disable RSpec/AnyInstance
+      end
+
+      it 'creates a conversation and message for the contact' do
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .to change(Conversation, :count).by(1)
+          .and change(Message, :count).by(1)
+      end
+
+      it 'stores campaign_id in additional_attributes of the message' do
+        described_class.new(campaign: campaign_with_log).perform
+
+        message = Message.last
+        expect(message.additional_attributes['campaign_id']).to eq(campaign_with_log.id)
+      end
+
+      it 'stores template_name in content_attributes of the message' do
+        described_class.new(campaign: campaign_with_log).perform
+
+        message = Message.last
+        expect(message.content_attributes['template_name']).to eq('ticket_status_updated')
+      end
+
+      it 'uses PhoneNumberNormalizationService for source_id lookup' do
+        normalizer = instance_double(Whatsapp::PhoneNumberNormalizationService)
+        clean_number = contact.phone_number.delete_prefix('+')
+        allow(Whatsapp::PhoneNumberNormalizationService).to receive(:new).with(whatsapp_inbox).and_return(normalizer)
+        allow(normalizer).to receive(:normalize_and_find_contact_by_provider).with(clean_number, :cloud).and_return(clean_number)
+
+        expect(ContactInboxWithContactBuilder).to receive(:new).with(
+          source_id: clean_number,
+          inbox: whatsapp_inbox,
+          contact_attributes: { name: contact.name, phone_number: contact.phone_number, email: contact.email }
+        ).and_call_original
+
+        described_class.new(campaign: campaign_with_log).perform
+      end
+
+      it 'reuses an existing non-resolved conversation' do
+        source_id = contact.phone_number.delete_prefix('+')
+        contact_inbox = ContactInboxWithContactBuilder.new(
+          source_id: source_id,
+          inbox: whatsapp_inbox,
+          contact_attributes: { name: contact.name, phone_number: contact.phone_number }
+        ).perform
+        existing_conversation = create(:conversation, account: account, inbox: whatsapp_inbox,
+                                                      contact: contact, contact_inbox: contact_inbox, status: :pending)
+
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .not_to change(Conversation, :count)
+
+        expect(existing_conversation.messages.last.additional_attributes['campaign_id']).to eq(campaign_with_log.id)
+      end
+
+      it 'reuses resolved conversation when lock_to_single_conversation is enabled' do
+        whatsapp_inbox.update!(lock_to_single_conversation: true)
+        source_id = contact.phone_number.delete_prefix('+')
+        contact_inbox = ContactInboxWithContactBuilder.new(
+          source_id: source_id,
+          inbox: whatsapp_inbox,
+          contact_attributes: { name: contact.name, phone_number: contact.phone_number }
+        ).perform
+        existing_conversation = create(:conversation, account: account, inbox: whatsapp_inbox,
+                                                      contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .not_to change(Conversation, :count)
+
+        expect(existing_conversation.messages.last.additional_attributes['campaign_id']).to eq(campaign_with_log.id)
+      end
+
+      it 'does not log to conversation when send_template fails' do
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(nil) # rubocop:disable RSpec/AnyInstance
+
+        expect { described_class.new(campaign: campaign_with_log).perform }
+          .not_to change(Message, :count)
+      end
+
+      it 'logs error and continues when log_template_to_conversation fails' do
+        allow(ContactInboxWithContactBuilder).to receive(:new).and_raise(StandardError, 'builder error')
+
+        expect(Rails.logger).to receive(:error).with(/Failed to log template to conversation/)
+        allow(Rails.logger).to receive(:info)
+
+        expect { described_class.new(campaign: campaign_with_log).perform }.not_to raise_error
+      end
+    end
+
+    context 'when log_to_conversation is disabled' do
+      it 'does not create a conversation or message' do
+        contact = create(:contact, :with_phone_number, account: account)
+        contact.update_labels([label1.title])
+        campaign.update!(log_to_conversation: false)
+
+        allow_any_instance_of(described_class).to receive(:send_whatsapp_template_message).and_return(true) # rubocop:disable RSpec/AnyInstance
+
+        expect { described_class.new(campaign: campaign).perform }
+          .not_to change(Message, :count)
+      end
+    end
+
     context 'when send_template raises an error' do
       it 'logs error and continues processing remaining contacts' do
         contact_error, contact_success = create_list(:contact, 2, :with_phone_number, account: account)
