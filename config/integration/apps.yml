@@ -55,7 +55,7 @@ openai:
         'validation': '',
       },
     ]
-  visible_properties: ['api_key', 'label_suggestion']
+  visible_properties: ['label_suggestion']
 linear:
   id: linear
   logo: linear.png

@@ -68,7 +68,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         end
       end
 
-      it 'will return sensitive information for openai app for admins' do
+      it 'redacts sensitive openai hook settings even for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_apps_url(account),
             headers: admin.create_new_auth_token,
@@ -77,7 +77,22 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(response).to have_http_status(:success)
 
         app = response.parsed_body['payload'].find { |int_app| int_app['id'] == openai.app.id }
-        expect(app['hooks'].first['settings']).not_to be_nil
+        settings = app['hooks'].first['settings']
+        expect(settings).not_to be_nil
+        expect(settings).not_to have_key('api_key')
+      end
+
+      it 'serializes only the visible settings keys for admins' do
+        hook = create(:integrations_hook, :openai, account: account, settings: { api_key: 'sk-secret', label_suggestion: true })
+        get api_v1_account_integrations_apps_url(account),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+
+        app = response.parsed_body['payload'].find { |int_app| int_app['id'] == hook.app.id }
+        settings = app['hooks'].first['settings']
+        expect(settings).to eq('label_suggestion' => true)
       end
     end
   end
@@ -117,7 +132,7 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(app['hooks'].first['settings']).to be_nil
       end
 
-      it 'will return sensitive information for openai app for admins' do
+      it 'redacts sensitive openai hook settings even for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_app_url(account_id: account.id, id: openai.app.id),
             headers: admin.create_new_auth_token,
@@ -126,7 +141,9 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(response).to have_http_status(:success)
 
         app = response.parsed_body
-        expect(app['hooks'].first['settings']).not_to be_nil
+        settings = app['hooks'].first['settings']
+        expect(settings).not_to be_nil
+        expect(settings).not_to have_key('api_key')
       end
     end
   end
