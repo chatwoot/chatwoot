@@ -1,4 +1,10 @@
-json.access_token resource.access_token.token
+if local_assigns[:include_access_tokens]
+  # Withhold the full-scope token from callers who authenticated with a
+  # read-only token — otherwise GET /api/v1/profile would let a read-only
+  # holder lift the full token and bypass the scope gate entirely.
+  json.access_token resource.access_token&.token unless @access_token&.scope == 'read_only'
+  json.read_only_access_token resource.read_only_access_token&.token
+end
 json.account_id resource.active_account_user&.account_id
 json.available_name resource.available_name
 json.avatar_url resource.avatar_url

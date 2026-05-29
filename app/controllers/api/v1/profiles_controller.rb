@@ -39,7 +39,14 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def reset_access_token
-    @user.access_token.regenerate_token
+    token = AccessToken.create_or_find_by!(owner: @user, scope: 'full')
+    token.regenerate_token
+    @user.reload
+  end
+
+  def reset_read_only_access_token
+    token = AccessToken.create_or_find_by!(owner: @user, scope: 'read_only')
+    token.regenerate_token
     @user.reload
   end
 

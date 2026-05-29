@@ -67,5 +67,17 @@ RSpec.describe 'Contact Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
       end
     end
+
+    context 'when authenticated via a read-only api_access_token' do
+      it 'returns the contact since the filter lookup is read-only' do
+        post "/api/v1/accounts/#{account.id}/contact_inboxes/filter",
+             headers: { api_access_token: admin.read_only_access_token.token },
+             params: { inbox_id: inbox.id, source_id: contact_inbox.source_id },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['id']).to eq(contact.id)
+      end
+    end
   end
 end

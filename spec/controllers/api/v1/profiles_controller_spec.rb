@@ -30,6 +30,46 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['message_signature']).to be_nil
       end
     end
+
+    context 'when authenticated via a full-scope api_access_token' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns both tokens in the response' do
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['access_token']).to eq(agent.access_token.token)
+        expect(json_response['read_only_access_token']).to eq(agent.read_only_access_token.token)
+      end
+    end
+
+    context 'when authenticated via a read-only api_access_token' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'withholds the full-scope token to prevent privilege escalation' do
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.read_only_access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response).not_to have_key('access_token')
+        expect(json_response['read_only_access_token']).to eq(agent.read_only_access_token.token)
+      end
+
+      it 'never echoes the full token under any property name' do
+        full_token = agent.access_token.token
+
+        get '/api/v1/profile',
+            headers: { api_access_token: agent.read_only_access_token.token },
+            as: :json
+
+        expect(response.body).not_to include(full_token)
+      end
+    end
   end
 
   describe 'PUT /api/v1/profile' do

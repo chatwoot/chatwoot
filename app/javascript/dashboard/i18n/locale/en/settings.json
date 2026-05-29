@@ -91,10 +91,33 @@
         "NOTE": "This token can be used if you are building an API based integration",
         "COPY": "Copy",
         "RESET": "Reset",
+        "GENERATE": "Generate",
+        "CREATE": "Create token",
         "CONFIRM_RESET": "Are you sure?",
         "CONFIRM_HINT": "Click again to confirm",
+        "TABLE": {
+          "TOKEN": "Token",
+          "PERMISSION": "Permission"
+        },
+        "EMPTY": {
+          "TITLE": "No tokens yet",
+          "DESCRIPTION": "Create your first access token to start building integrations against the API."
+        },
+        "SCOPES": {
+          "FULL_LABEL": "Full access",
+          "READ_ONLY_LABEL": "Read only"
+        },
+        "LINKS": {
+          "API_REFERENCE": "API Reference",
+          "CLI": "Chatwoot CLI"
+        },
         "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET_ERROR": "Unable to regenerate access token. Please try again",
+        "READ_ONLY_TITLE": "Read-only Access Token",
+        "READ_ONLY_NOTE": "Use this token for integrations that only need to read data. It cannot create, update, or delete anything.",
+        "READ_ONLY_GENERATE_SUCCESS": "Read-only access token generated successfully",
+        "READ_ONLY_RESET_SUCCESS": "Read-only access token regenerated successfully",
+        "READ_ONLY_RESET_ERROR": "Unable to regenerate read-only access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",

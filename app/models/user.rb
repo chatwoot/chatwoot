@@ -84,6 +84,13 @@ class User < ApplicationRecord
   encrypts :otp_secret, deterministic: true
   encrypts :otp_backup_codes
 
+  # A user has exactly two AccessTokens by product contract: the `full` one
+  # from AccessTokenable, plus the `read_only` one declared here. The DB does
+  # not enforce this cap (polymorphic owner_id allows many rows); we rely on
+  # these scoped has_one + after_create pairs to keep the 1+1 invariant.
+  has_one :read_only_access_token, -> { where(scope: 'read_only') },
+          as: :owner, class_name: 'AccessToken', inverse_of: :owner, dependent: :destroy_async
+
   has_many :account_users, dependent: :destroy_async
   has_many :accounts, through: :account_users
   accepts_nested_attributes_for :account_users
@@ -117,6 +124,7 @@ class User < ApplicationRecord
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
+  after_create :create_read_only_access_token
   after_destroy :remove_macros
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
@@ -131,6 +139,10 @@ class User < ApplicationRecord
 
   def set_password_and_uid
     self.uid = email
+  end
+
+  def create_read_only_access_token
+    AccessToken.create!(owner: self, scope: 'read_only')
   end
 
   def assigned_inboxes

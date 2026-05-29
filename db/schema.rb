@@ -24,6 +24,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.string "token"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "scope", default: "full", null: false
+    t.index ["owner_type", "owner_id", "scope"], name: "index_access_tokens_on_owner_and_scope", unique: true
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
   end

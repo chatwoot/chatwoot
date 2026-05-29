@@ -44,7 +44,7 @@ json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
 if resource.web_widget?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
@@ -69,7 +69,7 @@ json.phone_number resource.channel.try(:phone_number)
 json.medium resource.channel.try(:medium) if resource.twilio?
 if resource.twilio?
   json.content_templates resource.channel.try(:content_templates)
-  if Current.account_user&.administrator?
+  if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
     json.auth_token resource.channel.try(:auth_token)
     json.account_sid resource.channel.try(:account_sid)
     json.api_key_sid resource.channel.try(:api_key_sid)
@@ -85,7 +85,7 @@ if resource.email?
   ## IMAP
   if Current.account_user&.administrator?
     json.imap_login resource.channel.try(:imap_login)
-    json.imap_password resource.channel.try(:imap_password)
+    json.imap_password resource.channel.try(:imap_password) if @access_token&.scope != 'read_only'
     json.imap_address resource.channel.try(:imap_address)
     json.imap_port resource.channel.try(:imap_port)
     json.imap_enabled resource.channel.try(:imap_enabled)
@@ -100,7 +100,7 @@ if resource.email?
   ## SMTP
   if Current.account_user&.administrator?
     json.smtp_login resource.channel.try(:smtp_login)
-    json.smtp_password resource.channel.try(:smtp_password)
+    json.smtp_password resource.channel.try(:smtp_password) if @access_token&.scope != 'read_only'
     json.smtp_address resource.channel.try(:smtp_address)
     json.smtp_port resource.channel.try(:smtp_port)
     json.smtp_enabled resource.channel.try(:smtp_enabled)
@@ -114,8 +114,8 @@ end
 
 ## API Channel Attributes
 if resource.api?
-  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
-  json.secret resource.channel.try(:secret) if Current.account_user&.administrator?
+  json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
+  json.secret resource.channel.try(:secret) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
   json.webhook_url resource.channel.try(:webhook_url)
   json.inbox_identifier resource.channel.try(:identifier)
   json.additional_attributes resource.channel.try(:additional_attributes)
@@ -129,7 +129,7 @@ json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)
-  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator?
+  json.provider_config resource.channel.try(:provider_config) if Current.account_user&.administrator? && @access_token&.scope != 'read_only'
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 

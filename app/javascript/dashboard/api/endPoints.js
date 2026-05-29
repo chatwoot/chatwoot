@@ -55,6 +55,10 @@ const endPoints = {
   resetAccessToken: {
     url: '/api/v1/profile/reset_access_token',
   },
+
+  resetReadOnlyAccessToken: {
+    url: '/api/v1/profile/reset_read_only_access_token',
+  },
 };
 
 export default page => {

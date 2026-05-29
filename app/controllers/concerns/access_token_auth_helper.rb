@@ -36,4 +36,15 @@ module AccessTokenAuthHelper
   def agent_bot_accessible?
     BOT_ACCESSIBLE_ENDPOINTS.fetch(params[:controller], []).include?(params[:action])
   end
+
+  # Blocks read-only access tokens from reaching write endpoints that live outside
+  # Api::BaseController (e.g. controllers inheriting from ActiveStorage). Resolves
+  # the token directly since these controllers skip the Api::BaseController chain.
+  def prevent_read_only_access_token!
+    ensure_access_token
+    return unless @access_token&.scope == 'read_only'
+
+    render json: { error: 'This access token is read-only and cannot perform write operations.' },
+           status: :forbidden
+  end
 end
