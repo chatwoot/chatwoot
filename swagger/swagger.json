@@ -5463,6 +5463,12 @@
                   "summary": "Website inbox",
                   "value": {
                     "name": "Support",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "web_widget",
                       "website_url": "https://example.com",
@@ -5476,6 +5482,12 @@
                   "summary": "API channel",
                   "value": {
                     "name": "API Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "api",
                       "webhook_url": "https://example.com/webhook"
@@ -5486,6 +5498,12 @@
                   "summary": "Email channel",
                   "value": {
                     "name": "Email Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "email",
                       "email": "support@example.com"
@@ -5496,6 +5514,12 @@
                   "summary": "LINE channel",
                   "value": {
                     "name": "LINE Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "line",
                       "line_channel_id": "1234567890",
@@ -5508,6 +5532,12 @@
                   "summary": "Telegram channel",
                   "value": {
                     "name": "Telegram Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "telegram",
                       "bot_token": "123456789:telegram-bot-token"
@@ -5518,6 +5548,12 @@
                   "summary": "WhatsApp channel",
                   "value": {
                     "name": "WhatsApp Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "whatsapp",
                       "phone_number": "+15551234567",
@@ -5534,6 +5570,12 @@
                   "summary": "SMS channel",
                   "value": {
                     "name": "SMS Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "type": "sms",
                       "phone_number": "+15551234567",
@@ -5682,6 +5724,12 @@
                   "summary": "Website inbox settings",
                   "value": {
                     "name": "Support",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "website_url": "https://example.com",
                       "welcome_title": "Welcome to our support",
@@ -5694,6 +5742,12 @@
                   "summary": "API channel settings",
                   "value": {
                     "name": "API Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "webhook_url": "https://example.com/webhook"
                     }
@@ -5703,6 +5757,12 @@
                   "summary": "Email channel settings",
                   "value": {
                     "name": "Email Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "email": "support@example.com",
                       "imap_enabled": true,
@@ -5714,6 +5774,12 @@
                   "summary": "LINE channel settings",
                   "value": {
                     "name": "LINE Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "line_channel_id": "1234567890",
                       "line_channel_secret": "line-channel-secret",
@@ -5725,6 +5791,12 @@
                   "summary": "Telegram channel settings",
                   "value": {
                     "name": "Telegram Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "bot_token": "123456789:telegram-bot-token"
                     }
@@ -5734,6 +5806,12 @@
                   "summary": "WhatsApp channel settings",
                   "value": {
                     "name": "WhatsApp Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "phone_number": "+15551234567",
                       "provider": "whatsapp_cloud",
@@ -5749,6 +5827,12 @@
                   "summary": "SMS channel settings",
                   "value": {
                     "name": "SMS Inbox",
+                    "greeting_enabled": true,
+                    "greeting_message": "Hello, how can I help you?",
+                    "enable_auto_assignment": true,
+                    "working_hours_enabled": true,
+                    "timezone": "America/New_York",
+                    "allow_messages_after_resolved": true,
                     "channel": {
                       "phone_number": "+15551234567",
                       "provider_config": {

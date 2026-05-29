@@ -19,6 +19,12 @@ post:
             summary: Website inbox
             value:
               name: Support
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: web_widget
                 website_url: https://example.com
@@ -29,6 +35,12 @@ post:
             summary: API channel
             value:
               name: API Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: api
                 webhook_url: https://example.com/webhook
@@ -36,6 +48,12 @@ post:
             summary: Email channel
             value:
               name: Email Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: email
                 email: support@example.com
@@ -43,6 +61,12 @@ post:
             summary: LINE channel
             value:
               name: LINE Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: line
                 line_channel_id: '1234567890'
@@ -52,6 +76,12 @@ post:
             summary: Telegram channel
             value:
               name: Telegram Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: telegram
                 bot_token: 123456789:telegram-bot-token
@@ -59,6 +89,12 @@ post:
             summary: WhatsApp channel
             value:
               name: WhatsApp Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: whatsapp
                 phone_number: '+15551234567'
@@ -71,6 +107,12 @@ post:
             summary: SMS channel
             value:
               name: SMS Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 type: sms
                 phone_number: '+15551234567'

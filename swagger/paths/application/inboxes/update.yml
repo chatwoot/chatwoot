@@ -60,6 +60,12 @@ patch:
             summary: Website inbox settings
             value:
               name: Support
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 website_url: https://example.com
                 welcome_title: Welcome to our support
@@ -69,12 +75,24 @@ patch:
             summary: API channel settings
             value:
               name: API Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 webhook_url: https://example.com/webhook
           email:
             summary: Email channel settings
             value:
               name: Email Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 email: support@example.com
                 imap_enabled: true
@@ -83,6 +101,12 @@ patch:
             summary: LINE channel settings
             value:
               name: LINE Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 line_channel_id: '1234567890'
                 line_channel_secret: line-channel-secret
@@ -91,12 +115,24 @@ patch:
             summary: Telegram channel settings
             value:
               name: Telegram Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 bot_token: 123456789:telegram-bot-token
           whatsapp:
             summary: WhatsApp channel settings
             value:
               name: WhatsApp Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 phone_number: '+15551234567'
                 provider: whatsapp_cloud
@@ -108,6 +144,12 @@ patch:
             summary: SMS channel settings
             value:
               name: SMS Inbox
+              greeting_enabled: true
+              greeting_message: Hello, how can I help you?
+              enable_auto_assignment: true
+              working_hours_enabled: true
+              timezone: America/New_York
+              allow_messages_after_resolved: true
               channel:
                 phone_number: '+15551234567'
                 provider_config:
