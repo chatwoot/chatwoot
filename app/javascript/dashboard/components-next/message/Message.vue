@@ -4,6 +4,7 @@ import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { emitter } from 'shared/helpers/mitt';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -145,6 +146,7 @@ const showContextMenu = ref(false);
 const { t } = useI18n();
 const route = useRoute();
 const inboxGetter = useMapGetter('inboxes/getInbox');
+const { currentAccount } = useAccount();
 const inbox = computed(() => inboxGetter.value(props.inboxId) || {});
 const { replaceInstallationName } = useBranding();
 
@@ -379,7 +381,8 @@ const contextMenuEnabledOptions = computed(() => {
     delete:
       (hasText || hasAttachments) &&
       !isFailedOrProcessing &&
-      !isMessageDeleted.value,
+      !isMessageDeleted.value &&
+      !currentAccount.value?.settings?.message_deletion_disabled,
     cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
     copyLink: !isFailedOrProcessing,
     translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
