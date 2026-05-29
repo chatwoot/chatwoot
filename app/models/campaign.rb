@@ -65,6 +65,13 @@ class Campaign < ApplicationRecord
     raise
   end
 
+  def mark_completed!
+    # The audience send loop has already run; validations must not make the campaign retry and resend.
+    # rubocop:disable Rails/SkipsModelValidations
+    update_columns(campaign_status: self.class.campaign_statuses[:completed], updated_at: Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   private
 
   def one_off_campaign_feature_enabled?

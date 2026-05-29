@@ -115,6 +115,17 @@ RSpec.describe Campaign do
         expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
         expect(campaign.reload.active?).to be true
       end
+
+      it 'marks the campaign completed without running validations' do
+        sender = create(:user, account: account)
+        campaign.sender = sender
+        campaign.save!
+        account.account_users.find_by!(user: sender).destroy!
+
+        campaign.mark_completed!
+
+        expect(campaign.reload.completed?).to be true
+      end
     end
 
     context 'when SMS campaign' do
