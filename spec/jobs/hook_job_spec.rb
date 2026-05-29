@@ -112,6 +112,29 @@ RSpec.describe HookJob do
     end
   end
 
+  context 'when handleable events like contact.updated for slack' do
+    let(:contact) { create(:contact, account: account) }
+    let(:slack_hook) { create(:integrations_hook, app_id: 'slack', account: account) }
+    let(:changed_attributes) { { 'email' => [nil, 'new@example.com'] } }
+    let(:contact_event_data) { { contact: contact, changed_attributes: changed_attributes } }
+
+    it 'enqueues SendContactUpdateOnSlackJob with the contact, hook, and changed_attributes' do
+      expect(SendContactUpdateOnSlackJob).to receive(:perform_later).with(contact, slack_hook, changed_attributes)
+      described_class.perform_now(slack_hook, 'contact.updated', contact_event_data)
+    end
+
+    it 'forwards an empty hash when changed_attributes is missing from the payload' do
+      expect(SendContactUpdateOnSlackJob).to receive(:perform_later).with(contact, slack_hook, {})
+      described_class.perform_now(slack_hook, 'contact.updated', { contact: contact })
+    end
+
+    it 'does nothing when the hook is disabled' do
+      slack_hook.update!(status: 'disabled')
+      expect(SendContactUpdateOnSlackJob).not_to receive(:perform_later)
+      described_class.perform_now(slack_hook, 'contact.updated', contact_event_data)
+    end
+  end
+
   context 'when processing leadsquared integration' do
     let(:contact) { create(:contact, account: account) }
     let(:conversation) { create(:conversation, account: account, contact: contact) }
