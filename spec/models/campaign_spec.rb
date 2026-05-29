@@ -115,7 +115,6 @@ RSpec.describe Campaign do
         expect { campaign.trigger! }.to raise_error(StandardError, 'provider error')
         expect(campaign.reload.completed?).to be true
       end
-
     end
 
     context 'when SMS campaign' do
