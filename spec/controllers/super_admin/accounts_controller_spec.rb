@@ -32,6 +32,10 @@ RSpec.describe 'Super Admin accounts API', type: :request do
       create(:team, account: account)
     end
 
+    after do
+      Conversations::UnreadCounts::Store.clear_account!(account.id)
+    end
+
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         post "/super_admin/accounts/#{account.id}/reset_cache"
@@ -51,6 +55,21 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
         range = now_timestamp..(now_timestamp + 10)
         expect(account.reload.cache_keys.values.all? { |v| range.cover?(v.to_i) }).to be(true)
+      end
+
+      it 'clears conversation unread count cache' do
+        inbox = account.inboxes.first
+        store = Conversations::UnreadCounts::Store
+        inbox_key = store.inbox_key(account.id, inbox.id)
+        store.mark_base_ready!(account.id)
+        store.add_base_membership(account_id: account.id, inbox_id: inbox.id, label_ids: [], conversation_id: 1)
+
+        sign_in(super_admin, scope: :super_admin)
+        post "/super_admin/accounts/#{account.id}/reset_cache"
+
+        expect(response).to have_http_status(:redirect)
+        expect(store.base_ready?(account.id)).to be(false)
+        expect(store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
       end
     end
   end

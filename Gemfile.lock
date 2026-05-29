@@ -196,6 +196,9 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    cronex (0.15.0)
+      tzinfo
+      unicode (>= 0.4.4.5)
     csv (3.3.0)
     csv-safe (3.3.1)
       csv (~> 3.0)
@@ -298,7 +301,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.1)
+    faraday (2.14.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -336,6 +339,7 @@ GEM
     ffi-compiler (1.0.1)
       ffi (>= 1.0.0)
       rake
+    firecrawl-sdk (1.4.1)
     flag_shih_tzu (0.3.23)
     foreman (0.87.2)
     fugit (1.11.1)
@@ -487,7 +491,7 @@ GEM
     judoscale-sidekiq (1.8.2)
       judoscale-ruby (= 1.8.2)
       sidekiq (>= 5.0)
-    jwt (2.10.1)
+    jwt (2.10.3)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -902,10 +906,11 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
-    sidekiq-cron (1.12.0)
-      fugit (~> 1.8)
+    sidekiq-cron (2.4.0)
+      cronex (>= 0.13.0)
+      fugit (~> 1.8, >= 1.11.1)
       globalid (>= 1.0.1)
-      sidekiq (>= 6)
+      sidekiq (>= 6.5.0)
     sidekiq_alive (2.5.0)
       gserver (~> 0.0.1)
       sidekiq (>= 5, < 9)
@@ -979,6 +984,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.8.2)
+    unicode (0.4.4.5)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
@@ -1074,6 +1080,7 @@ DEPENDENCIES
   faker
   faraday_middleware-aws-sigv4
   fcm
+  firecrawl-sdk (~> 1.0)
   flag_shih_tzu
   foreman
   gemoji
@@ -1095,7 +1102,7 @@ DEPENDENCIES
   json_schemer
   judoscale-rails
   judoscale-sidekiq
-  jwt
+  jwt (~> 2.10, >= 2.10.3)
   kaminari
   koala
   letter_opener
@@ -1155,8 +1162,8 @@ DEPENDENCIES
   sentry-sidekiq (>= 5.19.0)
   shopify_api
   shoulda-matchers
-  sidekiq (>= 7.3.1)
-  sidekiq-cron (>= 1.12.0)
+  sidekiq (~> 7.3, >= 7.3.1)
+  sidekiq-cron (>= 2.4.0)
   sidekiq_alive
   simplecov (>= 0.21)
   simplecov_json_formatter

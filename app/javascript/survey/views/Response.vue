@@ -6,6 +6,7 @@ import Rating from 'survey/components/Rating.vue';
 import Feedback from 'survey/components/Feedback.vue';
 import Banner from 'survey/components/Banner.vue';
 import StarRating from 'shared/components/StarRating.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
@@ -19,6 +20,10 @@ export default {
     Banner,
     Feedback,
     StarRating,
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return { formatMessage };
   },
   data() {
     return {
@@ -76,6 +81,9 @@ export default {
         return this.errorMessage;
       }
       return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
+    },
+    formattedMessageContent() {
+      return this.formatMessage(this.messageContent, false);
     },
   },
   async mounted() {
@@ -167,12 +175,11 @@ export default {
     >
       <div class="w-full px-12 pt-12 pb-6 m-auto my-0">
         <img v-if="logo" :src="logo" alt="Chatwoot logo" class="mb-6 logo" />
-        <p
+        <div
           v-if="!isRatingSubmitted"
-          class="mb-8 text-lg leading-relaxed text-n-slate-12"
-        >
-          {{ messageContent }}
-        </p>
+          v-dompurify-html="formattedMessageContent"
+          class="mb-8 text-lg leading-relaxed text-n-slate-12 prose prose-bubble"
+        />
         <Banner
           v-if="shouldShowBanner"
           :show-success="shouldShowSuccessMessage"

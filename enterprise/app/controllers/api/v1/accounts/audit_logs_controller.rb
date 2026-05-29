@@ -2,7 +2,7 @@ class Api::V1::Accounts::AuditLogsController < Api::V1::Accounts::EnterpriseAcco
   before_action :check_admin_authorization?
   before_action :fetch_audit
 
-  RESULTS_PER_PAGE = 15
+  RESULTS_PER_PAGE = 25
 
   def show
     @audit_logs = @audit_logs.page(params[:page]).per(RESULTS_PER_PAGE)
