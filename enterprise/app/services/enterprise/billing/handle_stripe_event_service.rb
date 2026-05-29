@@ -14,6 +14,8 @@ class Enterprise::Billing::HandleStripeEventService
       process_subscription_updated
     when 'customer.subscription.deleted'
       process_subscription_deleted
+    when 'invoice.paid', 'invoice.payment_succeeded'
+      process_invoice_paid
     else
       Rails.logger.debug { "Unhandled event type: #{event.type}" }
     end
@@ -80,6 +82,12 @@ class Enterprise::Billing::HandleStripeEventService
     end
   end
 
+  def process_invoice_paid
+    return if invoice_account.blank?
+
+    Enterprise::Billing::TrackPaymentAttributionService.new(account: invoice_account, invoice: invoice).perform
+  end
+
   def handle_subscription_credits(plan, previous_usage)
     adjust_captain_credits(previous_usage, new_plan_credits: get_plan_credits(plan['name'])[:responses])
   end
@@ -117,6 +125,10 @@ class Enterprise::Billing::HandleStripeEventService
     @subscription ||= @event.data.object
   end
 
+  def invoice
+    @invoice ||= @event.data.object
+  end
+
   def previous_attributes
     @previous_attributes ||= JSON.parse((@event.data.previous_attributes || {}).to_json)
   end
@@ -138,6 +150,10 @@ class Enterprise::Billing::HandleStripeEventService
 
   def account
     @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+  end
+
+  def invoice_account
+    @invoice_account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", invoice.customer).first
   end
 
   def find_plan(plan_id)

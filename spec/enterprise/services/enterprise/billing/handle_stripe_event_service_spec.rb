@@ -10,25 +10,23 @@ describe Enterprise::Billing::HandleStripeEventService do
 
   before do
     # Create cloud plans configuration
-    create(:installation_config, {
-             name: 'CHATWOOT_CLOUD_PLANS',
-             value: [
-               { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
-               { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] },
-               { 'name' => 'Business', 'product_id' => ['plan_id_business'], 'price_ids' => ['price_business'] },
-               { 'name' => 'Enterprise', 'product_id' => ['plan_id_enterprise'], 'price_ids' => ['price_enterprise'] }
-             ]
-           })
+    InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLANS').first_or_initialize.update!(
+      value: [
+        { 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+        { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] },
+        { 'name' => 'Business', 'product_id' => ['plan_id_business'], 'price_ids' => ['price_business'] },
+        { 'name' => 'Enterprise', 'product_id' => ['plan_id_enterprise'], 'price_ids' => ['price_enterprise'] }
+      ]
+    )
 
-    create(:installation_config, {
-             name: 'CAPTAIN_CLOUD_PLAN_LIMITS',
-             value: {
-               'hacker' => { 'responses' => 0 },
-               'startups' => { 'responses' => 300 },
-               'business' => { 'responses' => 500 },
-               'enterprise' => { 'responses' => 800 }
-             }
-           })
+    InstallationConfig.where(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').first_or_initialize.update!(
+      value: {
+        'hacker' => { 'responses' => 0 },
+        'startups' => { 'responses' => 300 },
+        'business' => { 'responses' => 500 },
+        'enterprise' => { 'responses' => 800 }
+      }
+    )
     # Setup common subscription mocks
     allow(event).to receive(:data).and_return(data)
     allow(data).to receive(:object).and_return(subscription)
@@ -130,6 +128,25 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect(Enterprise::Billing::CreateStripeCustomerService).to have_received(:new)
         .with(account: account)
       expect(customer_service).to have_received(:perform)
+    end
+  end
+
+  describe 'invoice payment handling' do
+    let(:invoice) { instance_double(Stripe::Invoice, customer: 'cus_123') }
+
+    it 'tracks payment attribution on paid invoices' do
+      allow(event).to receive(:type).and_return('invoice.paid')
+      allow(data).to receive(:object).and_return(invoice)
+
+      attribution_service = instance_double(Enterprise::Billing::TrackPaymentAttributionService, perform: true)
+      allow(Enterprise::Billing::TrackPaymentAttributionService)
+        .to receive(:new)
+        .with(account: account, invoice: invoice)
+        .and_return(attribution_service)
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(attribution_service).to have_received(:perform)
     end
   end
 

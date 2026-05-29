@@ -2,11 +2,11 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
   before_action :check_authorization
-  before_action :check_cloud_env, only: [:limits, :toggle_deletion]
+  before_action :check_cloud_env, only: [:checkout, :limits, :toggle_deletion]
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
+      @account.update(custom_attributes: subscription_custom_attributes)
       Enterprise::CreateStripeCustomerJob.perform_later(@account)
     end
     head :no_content
@@ -96,6 +96,19 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def stripe_customer_id
     @account.custom_attributes['stripe_customer_id']
+  end
+
+  def subscription_custom_attributes
+    attributes = @account.custom_attributes.merge('is_creating_customer' => true)
+    attributes['billing_attribution'] = billing_attribution if billing_attribution.present?
+    attributes
+  end
+
+  def billing_attribution
+    {
+      'datafast_visitor_id' => cookies[:datafast_visitor_id],
+      'datafast_session_id' => cookies[:datafast_session_id]
+    }.compact
   end
 
   def mark_for_deletion
