@@ -66,13 +66,9 @@ class Campaign < ApplicationRecord
   end
 
   def mark_completed!
-    update_campaign_status!(:completed)
-  end
-
-  def update_campaign_status!(status)
     # The service may already have sent messages or hit stale validations; status recovery must not trigger retries incorrectly.
     # rubocop:disable Rails/SkipsModelValidations
-    update_columns(campaign_status: self.class.campaign_statuses[status], updated_at: Time.current)
+    update_columns(campaign_status: self.class.campaign_statuses[:completed], updated_at: Time.current)
     # rubocop:enable Rails/SkipsModelValidations
   end
 
