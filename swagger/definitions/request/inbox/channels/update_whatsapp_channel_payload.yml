@@ -1,0 +1,32 @@
+type: object
+title: WhatsApp channel settings
+properties:
+  phone_number:
+    type: string
+    description: WhatsApp phone number
+    example: '+15551234567'
+  provider:
+    type: string
+    description: WhatsApp provider. `default` is supported only for existing deprecated 360dialog setups.
+    enum: ['whatsapp_cloud', 'default']
+    example: whatsapp_cloud
+  provider_config:
+    type: object
+    description: WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.
+    properties:
+      api_key:
+        type: string
+        description: Provider API key
+        example: your-api-key
+      phone_number_id:
+        type: string
+        description: Phone number ID for WhatsApp Cloud
+        example: your-phone-number-id
+      business_account_id:
+        type: string
+        description: Business account ID for WhatsApp Cloud
+        example: your-business-account-id
+    example:
+      api_key: your-api-key
+      phone_number_id: your-phone-number-id
+      business_account_id: your-business-account-id

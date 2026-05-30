@@ -1,0 +1,83 @@
+type: object
+title: Email channel settings
+properties:
+  email:
+    type: string
+    description: Email address for the inbox
+    example: support@example.com
+  imap_enabled:
+    type: boolean
+    description: Enable IMAP for inbound emails
+    example: true
+  imap_login:
+    type: string
+    description: IMAP login username
+    example: support@example.com
+  imap_password:
+    type: string
+    description: IMAP login password
+    example: your-imap-password
+  imap_address:
+    type: string
+    description: IMAP server address
+    example: imap.example.com
+  imap_port:
+    type: integer
+    description: IMAP server port
+    example: 993
+  imap_enable_ssl:
+    type: boolean
+    description: Enable SSL for IMAP
+    example: true
+  imap_authentication:
+    type: string
+    description: IMAP authentication method
+    example: plain
+  smtp_enabled:
+    type: boolean
+    description: Enable SMTP for outbound emails
+    example: true
+  smtp_login:
+    type: string
+    description: SMTP login username
+    example: support@example.com
+  smtp_password:
+    type: string
+    description: SMTP login password
+    example: your-smtp-password
+  smtp_address:
+    type: string
+    description: SMTP server address
+    example: smtp.example.com
+  smtp_port:
+    type: integer
+    description: SMTP server port
+    example: 587
+  smtp_domain:
+    type: string
+    description: SMTP HELO domain
+    example: example.com
+  smtp_enable_starttls_auto:
+    type: boolean
+    description: Automatically enable STARTTLS for SMTP
+    example: true
+  smtp_enable_ssl_tls:
+    type: boolean
+    description: Enable SSL/TLS for SMTP
+    example: false
+  smtp_openssl_verify_mode:
+    type: string
+    description: OpenSSL certificate verification mode for SMTP
+    example: none
+  smtp_authentication:
+    type: string
+    description: SMTP authentication method
+    example: login
+  provider:
+    type: string
+    description: Email provider
+    example: google
+  verified_for_sending:
+    type: boolean
+    description: Whether the inbox is verified for sending emails
+    example: false

@@ -1,0 +1,20 @@
+type: object
+title: SMS channel
+required:
+  - type
+  - phone_number
+properties:
+  type:
+    type: string
+    enum: ['sms']
+    example: sms
+  phone_number:
+    type: string
+    description: SMS phone number
+    example: '+15551234567'
+  provider_config:
+    type: object
+    description: Provider-specific SMS configuration
+    example:
+      account_id: your-account-id
+      application_id: your-application-id
