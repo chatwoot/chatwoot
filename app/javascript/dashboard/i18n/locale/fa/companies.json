@@ -80,7 +80,7 @@
             "DESCRIPTION": "Search for an existing contact and link it to this company.",
             "SEARCH_PLACEHOLDER": "جستجوی مخاطبین...",
             "INITIAL": "Start typing to search contacts.",
-            "EMPTY": "No contacts found.",
+            "EMPTY": "هیچ مخاطبی پیدا نشد.",
             "CONFIRM_TITLE": "Link contact",
             "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
             "COMPANY_LABEL": "شرکت",
