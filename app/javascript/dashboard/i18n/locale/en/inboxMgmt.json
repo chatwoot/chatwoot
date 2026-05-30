@@ -401,11 +401,25 @@
         "API": {
           "ERROR_MESSAGE": "We were not able to save the email channel"
         },
-        "FINISH_MESSAGE": "Your email inbox has been created successfully! You can start forwarding your emails to the address below, or configure SMTP and IMAP credentials to send and receive emails directly.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "SETUP_OPTIONS": {
+          "FORWARDING": {
+            "TITLE": "Email forwarding",
+            "DESCRIPTION": "Use a forwarding address"
+          }
+        },
+        "FETCH_EMAILS_FROM": "Fetch emails from",
+        "IMPORT_OPTIONS": {
+          "TITLE": "Initial import",
+          "ONE_DAY": "Last 1 day",
+          "SEVEN_DAYS": "Last 7 days",
+          "THIRTY_DAYS": "Last 30 days"
+        },
+        "FINISH_MESSAGE_FORWARDING": "Your email inbox is ready. Set up a forwarding rule in your email provider to start receiving conversations in Chatwoot.",
+        "FINISH_MESSAGE_IMAP_SMTP": "Your email inbox is connected. Chatwoot will fetch new emails from your mailbox and use the SMTP settings for replies.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Click here",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "FORWARDING_RULE_HELP": "Use this address as the destination when you create the forwarding rule in your mailbox.",
+        "CONFIGURE_EMAIL_SETTINGS_LINK": "Open email settings",
+        "MANAGE_SMTP_IMAP_TEXT": " to review or update IMAP and SMTP settings."
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Channel",
@@ -520,8 +534,8 @@
         "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Set up your email inbox",
+        "DESCRIPTION": "Connect a provider, use IMAP/SMTP, or forward emails to Chatwoot."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
@@ -795,8 +809,8 @@
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests that cannot be verified will be rejected.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
-      "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "FORWARD_EMAIL_TITLE": "Email forwarding",
+      "FORWARD_EMAIL_SUB_TEXT": "Forward emails from your provider to this address.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
@@ -1017,6 +1031,7 @@
     },
     "IMAP": {
       "TITLE": "IMAP",
+      "CREATE_HELP": "Receive emails from this mailbox.",
       "SUBTITLE": "Set your IMAP details",
       "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
       "UPDATE": "Update IMAP settings",
@@ -1050,11 +1065,12 @@
       "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
-      "TITLE": "SMTP",
-      "SUBTITLE": "Set your SMTP details",
+      "TITLE": "Outgoing email",
+      "CREATE_HELP": "Send replies through this mailbox.",
+      "SUBTITLE": "Send replies using your own email provider.",
       "UPDATE": "Update SMTP settings",
-      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
-      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
+      "TOGGLE_AVAILABILITY": "Send replies via a custom mail server",
+      "TOGGLE_HELP": "Optional. Configure SMTP when replies should be sent through your own email provider.",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP settings updated successfully",
         "ERROR_MESSAGE": "Unable to update SMTP settings"

@@ -399,6 +399,40 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.body).to include('test@test.com')
       end
 
+      it 'creates an email inbox with imap settings and queues the selected import window' do
+        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+
+        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+        allow(imap_connection).to receive(:login)
+        allow(imap_connection).to receive(:disconnect)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/inboxes",
+               headers: admin.create_new_auth_token,
+               params: {
+                 name: 'Support',
+                 imap_fetch_interval: 7,
+                 channel: {
+                   type: 'email',
+                   email: 'support@example.com',
+                   imap_enabled: true,
+                   imap_address: 'imap.example.com',
+                   imap_port: 993,
+                   imap_login: 'support@example.com',
+                   imap_password: 'imap-password',
+                   imap_enable_ssl: true,
+                   imap_authentication: 'login'
+                 }
+               },
+               as: :json
+        end.to have_enqueued_job(Inboxes::FetchImapEmailsJob).with(a_kind_of(Channel::Email), 7)
+
+        expect(response).to have_http_status(:success)
+        channel = Channel::Email.find_by!(email: 'support@example.com')
+        expect(channel.imap_enabled).to be true
+        expect(channel.smtp_enabled).to be false
+      end
+
       it 'creates an api inbox when administrator' do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,

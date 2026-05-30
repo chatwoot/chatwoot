@@ -3,9 +3,12 @@ import { ref, computed } from 'vue';
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
 import Microsoft from './emailChannels/Microsoft.vue';
 import Google from './emailChannels/Google.vue';
+import ImapSmtpOption from './emailChannels/ImapSmtpOption.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
@@ -13,9 +16,20 @@ const provider = ref('');
 
 const getters = useStoreGetters();
 const { t } = useI18n();
+const { currentAccount } = useAccount();
 
 const globalConfig = getters['globalConfig/get'];
 const isAChatwootInstance = getters['globalConfig/isAChatwootInstance'];
+
+const isInboundEmailEnabled = computed(
+  () => currentAccount.value?.features?.[FEATURE_FLAGS.INBOUND_EMAILS]
+);
+
+const isForwardingEnabled = computed(() => {
+  return (
+    isInboundEmailEnabled.value && globalConfig.value.inboundEmailDomainPresent
+  );
+});
 
 const emailProviderList = computed(() => {
   return [
@@ -34,6 +48,16 @@ const emailProviderList = computed(() => {
       icon: 'i-woot-gmail',
     },
     {
+      title: t('INBOX_MGMT.ADD.EMAIL_CHANNEL.SETUP_OPTIONS.FORWARDING.TITLE'),
+      description: t(
+        'INBOX_MGMT.ADD.EMAIL_CHANNEL.SETUP_OPTIONS.FORWARDING.DESCRIPTION'
+      ),
+      isEnabled: isForwardingEnabled.value,
+      key: 'forwarding',
+      icon: 'i-lucide-forward',
+      showWhenDisabled: true,
+    },
+    {
       title: t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS.TITLE'),
       description: t('INBOX_MGMT.EMAIL_PROVIDERS.OTHER_PROVIDERS.DESCRIPTION'),
       isEnabled: true,
@@ -41,6 +65,10 @@ const emailProviderList = computed(() => {
       icon: 'i-woot-mail',
     },
   ].filter(providerConfig => {
+    if (providerConfig.showWhenDisabled) {
+      return true;
+    }
+
     if (isAChatwootInstance.value) {
       return true;
     }
@@ -76,5 +104,6 @@ function onClick(emailProvider) {
   </div>
   <Microsoft v-else-if="provider === 'microsoft'" />
   <Google v-else-if="provider === 'google'" />
-  <ForwardToOption v-else-if="provider === 'other_provider'" />
+  <ForwardToOption v-else-if="provider === 'forwarding'" />
+  <ImapSmtpOption v-else-if="provider === 'other_provider'" />
 </template>
