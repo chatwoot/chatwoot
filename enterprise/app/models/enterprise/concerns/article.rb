@@ -26,13 +26,15 @@ module Enterprise::Concerns::Article
       # if using add the filter block to the below query
       # .filter { |ae| ae.neighbor_distance <= distance_threshold }
 
-      article_ids = ArticleEmbedding.where(article_id: filtered_article_ids)
-                                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-                                    .limit(5)
-                                    .pluck(:article_id)
+      limit = params.key?(:limit) ? params[:limit] : 5
+
+      article_embeddings = ArticleEmbedding.where(article_id: filtered_article_ids)
+                                           .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      article_embeddings = article_embeddings.limit(limit) if limit.present?
+      article_ids = article_embeddings.pluck(:article_id)
 
       # Fetch the articles by the IDs obtained from the nearest neighbors search
-      where(id: article_ids)
+      where(id: article_ids).in_order_of(:id, article_ids)
     end
   end
 
