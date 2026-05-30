@@ -8,11 +8,11 @@ properties:
   provider:
     type: string
     description: WhatsApp provider
-    enum: ['default', 'whatsapp_cloud']
+    enum: ['whatsapp_cloud']
     example: whatsapp_cloud
   provider_config:
     type: object
-    description: Provider-specific WhatsApp configuration
+    description: WhatsApp Cloud provider configuration
     example:
       api_key: your-api-key
       phone_number_id: your-phone-number-id
