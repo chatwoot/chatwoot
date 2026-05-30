@@ -272,8 +272,22 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
   def human_agent_reply?(message)
     return false unless event_name == 'message.created'
     return false if message.additional_attributes&.dig('skip_send_reply')
+    return false if proactive_notification?(message)
 
     message.__send__(:human_response?)
+  end
+
+  # JusMonitoria/campaign deliveries go out as outgoing messages signed by the
+  # assigned agent (sender is a User), so Message#human_response? treats them as
+  # a human takeover and pauses Ana. They are proactive notifications from another
+  # product, not a live human reply, and must NOT trigger Socialwise handoff.
+  # They carry a WhatsApp template payload and use the template/integrations
+  # content types, unlike a human agent typing a plain text reply.
+  def proactive_notification?(message)
+    return true if message.content_type.to_s.in?(%w[template integrations])
+
+    message.content_attributes&.dig('template').present? ||
+      message.additional_attributes&.dig('template_params').present?
   end
 
   def human_handoff_source(message)
