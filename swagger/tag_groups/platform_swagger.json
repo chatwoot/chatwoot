@@ -3994,7 +3994,7 @@
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection. Available for Website inboxes only.",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
@@ -4024,12 +4024,12 @@
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved. Available for Website inboxes only.",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock contact messages to a single active conversation. Available for API, LINE, Telegram, WhatsApp, and SMS channels.",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
@@ -4039,7 +4039,7 @@
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for outbound email replies. Available for Website and Email inboxes.",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -4048,7 +4048,7 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for outbound email replies. Available for Website and Email inboxes.",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {
@@ -4115,7 +4115,7 @@
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection. Available for Website inboxes only.",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
@@ -4145,12 +4145,12 @@
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved. Available for Website inboxes only.",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock contact messages to a single active conversation. Available for API, LINE, Telegram, WhatsApp, and SMS channels.",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
@@ -4160,7 +4160,7 @@
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for outbound email replies. Available for Website and Email inboxes.",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -4169,7 +4169,7 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for outbound email replies. Available for Website and Email inboxes.",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {

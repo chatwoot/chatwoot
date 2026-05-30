@@ -18,7 +18,10 @@ properties:
     example: Hello, how can I help you?
   enable_email_collect:
     type: boolean
-    description: Enable email collection. Available for Website inboxes only.
+    description: |
+      Enable email collection.
+
+      Available for: `Website`
     example: true
   csat_survey_enabled:
     type: boolean
@@ -42,11 +45,17 @@ properties:
     example: 'America/New_York'
   allow_messages_after_resolved:
     type: boolean
-    description: Allow messages after conversation is resolved. Available for Website inboxes only.
+    description: |
+      Allow messages after conversation is resolved.
+
+      Available for: `Website`
     example: true
   lock_to_single_conversation:
     type: boolean
-    description: Lock contact messages to a single active conversation. Available for API, LINE, Telegram, WhatsApp, and SMS channels.
+    description: |
+      Lock contact messages to a single active conversation.
+
+      Available for: `API` `LINE` `Telegram` `WhatsApp` `SMS`
     example: true
   portal_id:
     type: integer
@@ -54,12 +63,18 @@ properties:
     example: 1
   sender_name_type:
     type: string
-    description: Sender name type for outbound email replies. Available for Website and Email inboxes.
+    description: |
+      Sender name type for outbound email replies.
+
+      Available for: `Website` `Email`
     enum: ['friendly', 'professional']
     example: 'friendly'
   business_name:
     type: string
-    description: Business name for outbound email replies. Available for Website and Email inboxes.
+    description: |
+      Business name for outbound email replies.
+
+      Available for: `Website` `Email`
     example: 'My Business'
   channel:
     anyOf:
