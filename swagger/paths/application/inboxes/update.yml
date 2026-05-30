@@ -72,6 +72,14 @@ patch:
                 welcome_title: Welcome to our support
                 welcome_tagline: We are here to help you
                 widget_color: '#FF5733'
+                reply_time: in_a_few_minutes
+                pre_chat_form_enabled: false
+                continuity_via_email: true
+                hmac_mandatory: false
+                selected_feature_flags:
+                  - attachments
+                  - emoji_picker
+                  - end_conversation
           api:
             summary: API channel settings
             value:
@@ -83,6 +91,9 @@ patch:
               timezone: America/New_York
               channel:
                 webhook_url: https://example.com/webhook
+                hmac_mandatory: false
+                additional_attributes:
+                  source: mobile_app
           email:
             summary: Email channel settings
             value:

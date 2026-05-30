@@ -67,6 +67,14 @@ post:
                 welcome_title: Welcome to our support
                 welcome_tagline: We are here to help you
                 widget_color: '#FF5733'
+                reply_time: in_a_few_minutes
+                pre_chat_form_enabled: false
+                continuity_via_email: true
+                hmac_mandatory: false
+                selected_feature_flags:
+                  - attachments
+                  - emoji_picker
+                  - end_conversation
           api:
             summary: API channel
             value:
@@ -79,6 +87,9 @@ post:
               channel:
                 type: api
                 webhook_url: https://example.com/webhook
+                hmac_mandatory: false
+                additional_attributes:
+                  source: mobile_app
           email:
             summary: Email channel
             value:
@@ -91,6 +102,8 @@ post:
               channel:
                 type: email
                 email: support@example.com
+                imap_enabled: false
+                smtp_enabled: false
           line:
             summary: LINE channel
             value:

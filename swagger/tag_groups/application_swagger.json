@@ -4018,7 +4018,16 @@
                       "website_url": "https://example.com",
                       "welcome_title": "Welcome to our support",
                       "welcome_tagline": "We are here to help you",
-                      "widget_color": "#FF5733"
+                      "widget_color": "#FF5733",
+                      "reply_time": "in_a_few_minutes",
+                      "pre_chat_form_enabled": false,
+                      "continuity_via_email": true,
+                      "hmac_mandatory": false,
+                      "selected_feature_flags": [
+                        "attachments",
+                        "emoji_picker",
+                        "end_conversation"
+                      ]
                     }
                   }
                 },
@@ -4033,7 +4042,11 @@
                     "timezone": "America/New_York",
                     "channel": {
                       "type": "api",
-                      "webhook_url": "https://example.com/webhook"
+                      "webhook_url": "https://example.com/webhook",
+                      "hmac_mandatory": false,
+                      "additional_attributes": {
+                        "source": "mobile_app"
+                      }
                     }
                   }
                 },
@@ -4048,7 +4061,9 @@
                     "timezone": "America/New_York",
                     "channel": {
                       "type": "email",
-                      "email": "support@example.com"
+                      "email": "support@example.com",
+                      "imap_enabled": false,
+                      "smtp_enabled": false
                     }
                   }
                 },
@@ -4273,7 +4288,16 @@
                       "website_url": "https://example.com",
                       "welcome_title": "Welcome to our support",
                       "welcome_tagline": "We are here to help you",
-                      "widget_color": "#FF5733"
+                      "widget_color": "#FF5733",
+                      "reply_time": "in_a_few_minutes",
+                      "pre_chat_form_enabled": false,
+                      "continuity_via_email": true,
+                      "hmac_mandatory": false,
+                      "selected_feature_flags": [
+                        "attachments",
+                        "emoji_picker",
+                        "end_conversation"
+                      ]
                     }
                   }
                 },
@@ -4287,7 +4311,11 @@
                     "working_hours_enabled": true,
                     "timezone": "America/New_York",
                     "channel": {
-                      "webhook_url": "https://example.com/webhook"
+                      "webhook_url": "https://example.com/webhook",
+                      "hmac_mandatory": false,
+                      "additional_attributes": {
+                        "source": "mobile_app"
+                      }
                     }
                   }
                 },
@@ -10808,6 +10836,55 @@
             "description": "Enable CSAT survey.",
             "example": true
           },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
+          },
           "enable_auto_assignment": {
             "type": "boolean",
             "description": "Enable Auto Assignment.",
@@ -10929,6 +11006,55 @@
             "description": "Enable CSAT survey.",
             "example": true
           },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
+          },
           "enable_auto_assignment": {
             "type": "boolean",
             "description": "Enable Auto Assignment.",
@@ -11039,6 +11165,72 @@
             "type": "string",
             "description": "A Hex-color string used to customize the widget",
             "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
           }
         }
       },
@@ -11060,6 +11252,18 @@
             "type": "string",
             "description": "Webhook URL for API channel inbox callbacks",
             "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
           }
         }
       },
@@ -11088,10 +11292,85 @@
             "description": "Enable IMAP for inbound emails",
             "example": true
           },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
           "smtp_enabled": {
             "type": "boolean",
             "description": "Enable SMTP for outbound emails",
             "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
           },
           "provider": {
             "type": "string",
@@ -11277,6 +11556,72 @@
             "type": "string",
             "description": "A Hex-color string used to customize the widget",
             "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
           }
         }
       },
@@ -11288,6 +11633,18 @@
             "type": "string",
             "description": "Webhook URL for API channel inbox callbacks",
             "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
           }
         }
       },
@@ -11305,10 +11662,85 @@
             "description": "Enable IMAP for inbound emails",
             "example": true
           },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
           "smtp_enabled": {
             "type": "boolean",
             "description": "Enable SMTP for outbound emails",
             "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
           },
           "provider": {
             "type": "string",

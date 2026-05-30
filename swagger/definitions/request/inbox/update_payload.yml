@@ -27,6 +27,39 @@ properties:
     type: boolean
     description: Enable CSAT survey.
     example: true
+  csat_config:
+    type: object
+    description: CSAT survey configuration.
+    properties:
+      display_type:
+        type: string
+        description: Display style for the CSAT survey.
+        enum: ['emoji', 'star']
+        example: emoji
+      message:
+        type: string
+        description: Message shown with the CSAT survey.
+        example: Please rate your conversation
+      button_text:
+        type: string
+        description: Text shown on the CSAT survey button.
+        example: Please rate us
+      language:
+        type: string
+        description: Language code for the CSAT survey.
+        example: en
+      survey_rules:
+        type: object
+        description: Rules that decide when to show the CSAT survey.
+        properties:
+          operator:
+            type: string
+            example: contains
+          values:
+            type: array
+            items:
+              type: string
+            example: ['billing']
   enable_auto_assignment:
     type: boolean
     description: Enable Auto Assignment.
