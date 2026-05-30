@@ -94,8 +94,8 @@ patch:
               timezone: America/New_York
               channel:
                 email: support@example.com
-                imap_enabled: true
-                smtp_enabled: true
+                imap_enabled: false
+                smtp_enabled: false
           line:
             summary: LINE channel settings
             value:

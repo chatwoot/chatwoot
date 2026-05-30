@@ -3599,7 +3599,9 @@
         "title": "WhatsApp channel",
         "required": [
           "type",
-          "phone_number"
+          "phone_number",
+          "provider",
+          "provider_config"
         ],
         "properties": {
           "type": {
@@ -3626,8 +3628,30 @@
           "provider_config": {
             "type": "object",
             "description": "Provider-specific WhatsApp configuration",
+            "required": [
+              "api_key"
+            ],
+            "properties": {
+              "api_key": {
+                "type": "string",
+                "description": "WhatsApp provider API key",
+                "example": "your-api-key"
+              },
+              "phone_number_id": {
+                "type": "string",
+                "description": "Phone number ID for WhatsApp Cloud",
+                "example": "your-phone-number-id"
+              },
+              "business_account_id": {
+                "type": "string",
+                "description": "Business account ID for WhatsApp Cloud",
+                "example": "your-business-account-id"
+              }
+            },
             "example": {
-              "api_key": "your-api-key"
+              "api_key": "your-api-key",
+              "phone_number_id": "your-phone-number-id",
+              "business_account_id": "your-business-account-id"
             }
           }
         }
