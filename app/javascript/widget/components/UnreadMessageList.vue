@@ -26,9 +26,12 @@ export default {
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    previewMessages() {
+      return this.messages.slice(-3);
+    },
     sender() {
-      const [firstMessage] = this.messages;
-      return firstMessage.sender || {};
+      const [firstMessage] = this.previewMessages;
+      return firstMessage?.sender || {};
     },
     isBackgroundLighter() {
       return isWidgetColorLighter(this.widgetColor);
@@ -51,6 +54,16 @@ export default {
 
       return '';
     },
+    unreadBubbleKey(message, index) {
+      const id = message.id ?? message.campaignId ?? `idx-${index}`;
+      const text = this.getMessageContent(message);
+      const mod = 1_000_000_007;
+      let h = 0;
+      for (let i = 0; i < Math.min(text.length, 256); i += 1) {
+        h = (h * 31 + text.charCodeAt(i)) % mod;
+      }
+      return `${id}-${text.length}-${h}`;
+    },
   },
 };
 </script>
@@ -67,8 +80,8 @@ export default {
     </div>
     <div class="unread-messages">
       <UnreadMessage
-        v-for="(message, index) in messages"
-        :key="message.id"
+        v-for="(message, index) in previewMessages"
+        :key="unreadBubbleKey(message, index)"
         :message-type="message.messageType"
         :message-id="message.id"
         :show-sender="!index"

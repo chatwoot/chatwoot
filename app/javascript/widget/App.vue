@@ -135,11 +135,13 @@ export default {
     },
     setIframeHeight(isFixedHeight) {
       this.$nextTick(() => {
-        const extraHeight = getExtraSpaceToScroll();
-        IFrameHelper.sendMessage({
-          event: 'updateIframeHeight',
-          isFixedHeight,
-          extraHeight,
+        requestAnimationFrame(() => {
+          const extraHeight = getExtraSpaceToScroll();
+          IFrameHelper.sendMessage({
+            event: 'updateIframeHeight',
+            isFixedHeight,
+            extraHeight,
+          });
         });
       });
     },
@@ -219,12 +221,28 @@ export default {
       } else if (
         this.isIFrame &&
         unreadMessageCount > 0 &&
-        !this.isWidgetOpen
+        (!this.isWidgetOpen ||
+          ['unread-messages', 'campaigns'].includes(this.$route.name))
       ) {
-        this.router.replace({ name: 'unread-messages' }).then(() => {
-          this.setIframeHeight(true);
-          IFrameHelper.sendMessage({ event: 'setUnreadMode' });
-        });
+        const applyPreviewChrome = () => {
+          const skipSetUnreadMode =
+            this.$route.name === 'unread-messages' && this.isWidgetOpen;
+          if (!skipSetUnreadMode) {
+            IFrameHelper.sendMessage({ event: 'setUnreadMode' });
+          }
+          this.$nextTick(() => {
+            requestAnimationFrame(() => {
+              this.setIframeHeight(true);
+            });
+          });
+        };
+        if (this.$route.name === 'unread-messages') {
+          applyPreviewChrome();
+        } else {
+          this.router.replace({ name: 'unread-messages' }).then(() => {
+            applyPreviewChrome();
+          });
+        }
         this.handleUnreadNotificationDot();
       }
     },

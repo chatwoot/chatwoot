@@ -189,7 +189,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget--without-bubble {
-  bottom: 20px !important;
+  bottom: 62px !important;
 }
 .woot-widget-holder.woot--hide{
   transform: translateY(40px);
