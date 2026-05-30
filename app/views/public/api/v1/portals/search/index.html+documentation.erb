@@ -3,6 +3,8 @@
 <% end %>
 
 <div class="px-6 md:px-10 py-8 md:py-10">
+  <% pagination_params = params.permit(:query, :locale, :theme, :show_plain_layout) %>
+
   <nav class="flex items-center gap-2 text-sm text-n-slate-11 mb-8 flex-wrap">
     <a
       href="<%= public_portal_locale_path(@portal.slug, @locale) %>"
@@ -41,8 +43,22 @@
       <% end %>
     </div>
 
-    <%= render 'public/api/v1/portals/search/pagination',
-               articles: @articles,
-               link_class: 'px-3 py-2 border border-n-weak text-sm font-medium text-n-slate-11 hover:bg-n-alpha-2' %>
+    <% if @articles.respond_to?(:total_pages) && @articles.total_pages > 1 %>
+      <div class="flex justify-center mt-6">
+        <nav class="inline-flex">
+          <% if @articles.prev_page %>
+            <a href="<%= url_for(pagination_params.merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-n-weak rounded-l-md text-sm font-medium text-n-slate-11 hover:bg-n-alpha-2">
+              <%= I18n.t('public_portal.common.previous') %>
+            </a>
+          <% end %>
+
+          <% if @articles.next_page %>
+            <a href="<%= url_for(pagination_params.merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-n-weak rounded-r-md text-sm font-medium text-n-slate-11 hover:bg-n-alpha-2">
+              <%= I18n.t('public_portal.common.next') %>
+            </a>
+          <% end %>
+        </nav>
+      </div>
+    <% end %>
   <% end %>
 </div>

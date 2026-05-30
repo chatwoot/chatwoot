@@ -7,12 +7,52 @@
 <% if !@is_plain_layout_enabled %>
   <div id="portal-bg" class="bg-white dark:bg-slate-900 shadow-inner">
     <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6">
-      <%= render 'public/api/v1/portals/search/hero', input_class: search_input_class %>
+      <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col">
+        <div class="flex flex-row items-center gap-px mb-6">
+          <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer hover:underline leading-8 font-semibold"
+             href="<%= generate_home_link(@portal.slug, params[:locale], @theme_from_params, @is_plain_layout_enabled) %>">
+            <%= I18n.t('public_portal.common.home') %>
+          </a>
+          <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300">
+            <%= render partial: 'icons/chevron-right' %>
+          </span>
+          <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+            <%= I18n.t('public_portal.search.results') %>
+          </span>
+        </div>
+
+        <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
+          <%= I18n.t('public_portal.search.results_for', query: @query) %>
+        </h1>
+
+        <%= render 'public/api/v1/portals/search/form', input_class: search_input_class %>
+      </div>
     </div>
   </div>
 <% else %>
-  <%= render 'public/api/v1/portals/search/hero', input_class: search_input_class %>
+  <div class="max-w-5xl px-4 md:px-8 mx-auto flex flex-col py-4">
+    <div class="flex flex-row items-center gap-px mb-6">
+      <a class="text-slate-500 dark:text-slate-200 text-sm gap-1 hover:cursor-pointer hover:underline leading-8 font-semibold"
+         href="<%= generate_home_link(@portal.slug, params[:locale], @theme_from_params, @is_plain_layout_enabled) %>">
+        <%= I18n.t('public_portal.common.home') %>
+      </a>
+      <span class="w-4 h-4 [&>svg]:w-3 [&>svg]:h-3 flex items-center justify-center text-xs text-slate-500 dark:text-slate-300">
+        <%= render partial: 'icons/chevron-right' %>
+      </span>
+      <span class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+        <%= I18n.t('public_portal.search.results') %>
+      </span>
+    </div>
+
+    <h1 class="text-3xl font-semibold leading-normal md:tracking-normal md:text-4xl text-slate-900 dark:text-white">
+      <%= I18n.t('public_portal.search.results_for', query: @query) %>
+    </h1>
+
+    <%= render 'public/api/v1/portals/search/form', input_class: search_input_class %>
+  </div>
 <% end %>
+
+<% pagination_params = params.permit(:query, :locale, :theme, :show_plain_layout) %>
 
 <%= render 'public/api/v1/portals/search/search_handler' %>
 
@@ -56,7 +96,23 @@
         </div>
       <% end %>
 
-      <%= render 'public/api/v1/portals/search/pagination', articles: @articles %>
+      <% if @articles.respond_to?(:total_pages) && @articles.total_pages > 1 %>
+        <div class="flex justify-center mt-6">
+          <nav class="inline-flex">
+            <% if @articles.prev_page %>
+              <a href="<%= url_for(pagination_params.merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <%= I18n.t('public_portal.common.previous') %>
+              </a>
+            <% end %>
+
+            <% if @articles.next_page %>
+              <a href="<%= url_for(pagination_params.merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+                <%= I18n.t('public_portal.common.next') %>
+              </a>
+            <% end %>
+          </nav>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </section>
