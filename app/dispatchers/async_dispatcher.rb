@@ -19,7 +19,8 @@ class AsyncDispatcher < BaseDispatcher
       ParticipationListener.instance,
       ReportingEventListener.instance,
       WebhookListener.instance,
-      ContactEmailDetectionListener.instance
+      ContactEmailDetectionListener.instance,
+      SocialwiseFlowListener.instance
     ]
   end
 end

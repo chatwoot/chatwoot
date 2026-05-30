@@ -77,7 +77,7 @@ const isSelected = item => item.key === props.selectedKey;
 
       <div
         v-else
-        class="overflow-hidden rounded-[1.25rem] border border-n-weak bg-white shadow-sm"
+        class="overflow-hidden rounded-[1.25rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <button
           v-for="item in filteredItems"

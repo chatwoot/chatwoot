@@ -763,6 +763,12 @@ end
 - **CORREÇÃO ADICIONAL:** mensagem manual de atendente no evento `message.created` (`outgoing` com `sender_type='User'`) também marca `socialwise_handoff_at` com `socialwise_handoff_by='agent_reply'`, desligando o bot até a conversa ser resolvida.
 - **REGRESSÃO COBERTA:** spec de `ProcessorService` simula a conversa memoizada, a flag gravada por outro job e a resposta humana manual.
 
+### 2026-05-29 - Correção: resolver pela UI/PWA devolve a conversa para a Ana
+- **CAUSA:** o handoff (`socialwise_handoff_at`) só era limpo pela ação `resolve` vinda da plataforma (rodada pelo inbox hook). O hook `socialwise_flow` só assina `message.created`/`message.updated` e é hook de inbox; o evento `conversation.resolved` só é despachado para account hooks. Logo, quando o **humano** resolvia a conversa pela UI/PWA, nada limpava a flag.
+- **SINTOMA:** depois que a flag era marcada (inclusive pelo alerta do JusMonitoria, enviado como mensagem `outgoing` assinada pelo agente → `human_response?` = true), a conversa reabria como `open` (inbox via hook não é `active_bot?`, então não vira `pending`) e `bot_should_respond?` bloqueava a Ana para sempre. Resolver não trazia o bot de volta.
+- **CORREÇÃO:** novo `SocialwiseFlowListener#conversation_resolved` (registrado no `AsyncDispatcher`) limpa `socialwise_handoff_at`/`socialwise_handoff_by` ao resolver qualquer conversa que carregue a flag. Resolver = devolver para o bot. Conversas sem a flag não são tocadas.
+- **PENDÊNCIA OPCIONAL:** o alerta do JusMonitoria ainda marca handoff ao ser enviado (pausa a Ana até o próximo resolve). Avaliar excluir entregas proativas de outro produto (JusMonitoria/campanha) da detecção de handoff do Socialwise.
+
 ### 2026-05-21 - Correção: resposta humana por app nativo também para Ana
 - **CAUSA:** o Socialwise Flow reconhecia handoff manual pelo Chatwit, mas não diferenciava resposta enviada pelo app nativo do Instagram/WhatsApp (`content_attributes.external_echo`).
 - **SINTOMA:** a Ana podia continuar respondendo depois que o humano respondeu fora do Chatwit, gerando conversa duplicada entre app nativo, Chatwit e Socialwise.

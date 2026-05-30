@@ -434,7 +434,7 @@ watch(
         {{ t('MOBILE.ACTIONS.SECTIONS.SETTINGS') }}
       </h3>
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <button
           class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
@@ -531,7 +531,7 @@ watch(
       </div>
 
       <div
-        class="min-h-[4.75rem] rounded-[1.45rem] border border-n-weak bg-white px-4 py-4 shadow-sm"
+        class="min-h-[4.75rem] rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background px-4 py-4 shadow-sm"
       >
         <div v-if="conversationLabels.length" class="flex flex-wrap gap-2">
           <span
@@ -553,7 +553,7 @@ watch(
         {{ t('MOBILE.ACTIONS.SECTIONS.PARTICIPANTS') }}
       </h3>
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <div v-if="conversationParticipants.length">
           <div
@@ -601,7 +601,7 @@ watch(
         {{ t('MOBILE.ACTIONS.SECTIONS.ATTRIBUTES') }}
       </h3>
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white shadow-sm"
+        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <div
           v-for="attribute in formattedConversationAttributes"
