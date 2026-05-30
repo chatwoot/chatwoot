@@ -95,7 +95,7 @@
       "JOIN_CALL": "Join call",
       "CALL_BACK": "Call back",
       "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Show less"
+      "TRANSCRIPT_SHOW_LESS": "نمایش کمتر"
     },
     "HEADER": {
       "RESOLVE_ACTION": "حل شد",
@@ -388,16 +388,16 @@
       "MACROS": "ماکروها",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "پیوست‌ها"
     },
     "SHARED_FILES": {
       "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
+      "DOWNLOAD": "دریافت پرونده",
       "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
       "MEDIA_HEADING": "Media",
-      "FILES_HEADING": "Files",
+      "FILES_HEADING": "پرونده‌ها",
       "VIEW_ALL": "مشاهده همه",
-      "SHOW_LESS": "Show less",
+      "SHOW_LESS": "نمایش کمتر",
       "MORE_COUNT": "+{count}",
       "UNTITLED_FILE": "Untitled file"
     },
