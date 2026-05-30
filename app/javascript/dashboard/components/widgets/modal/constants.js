@@ -92,4 +92,10 @@ export const SHORTCUT_KEYS = [
     displayKeys: [KEYS.ALT, 'M'],
     keySet: ['Alt+KeyM'],
   },
+  {
+    id: 15,
+    label: 'DELETE_NOTIFICATION',
+    displayKeys: ['E'],
+    keySet: ['KeyE'],
+  },
 ];
