@@ -91,10 +91,6 @@ const wasDeclinedByAgent = computed(
     endReason.value === VOICE_CALL_END_REASON.AGENT_REJECTED
 );
 const acceptedByAgentId = computed(() => call.value?.acceptedByAgentId);
-const didCurrentUserAnswer = computed(
-  () =>
-    !!acceptedByAgentId.value && acceptedByAgentId.value === currentUserId.value
-);
 const conversationAssignee = computed(() => {
   const conversation = store.getters.getConversationById?.(
     conversationId?.value
@@ -124,43 +120,48 @@ const durationSeconds = computed(() => {
 
 const formattedDuration = computed(() => formatDuration(durationSeconds.value));
 
+// Agent who handled the call (initiator on outbound, answerer on inbound), taken
+// strictly from the persisted accept fields — never the conversation's current
+// assignee, which would mis-attribute a historical call after a reassignment.
+const handlerName = computed(() => {
+  if (call.value?.acceptedByAgentName) return call.value.acceptedByAgentName;
+  if (!acceptedByAgentId.value) return null;
+  const agent = store.getters['agents/getAgentById'](acceptedByAgentId.value);
+  return agent?.available_name || agent?.name || null;
+});
+
+const handledBy = computed(() =>
+  handlerName.value
+    ? t('CONVERSATION.VOICE_CALL.HANDLED_BY', { agentName: handlerName.value })
+    : null
+);
+
 const labelKey = computed(() => {
   if (LABEL_MAP[status.value]) return LABEL_MAP[status.value];
-  if (status.value === VOICE_CALL_STATUS.RINGING) {
-    return isOutbound.value
-      ? 'CONVERSATION.VOICE_CALL.OUTGOING_CALL'
-      : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
-  }
   if (isFailed.value) {
     return isOutbound.value
       ? 'CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_LABEL'
       : 'CONVERSATION.VOICE_CALL.MISSED_CALL';
   }
-  return 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
+  // RINGING or an as-yet-unknown/initial status: orient purely by direction so an
+  // outbound call never falls through to the "Incoming call" label.
+  return isOutbound.value
+    ? 'CONVERSATION.VOICE_CALL.OUTGOING_CALL'
+    : 'CONVERSATION.VOICE_CALL.INCOMING_CALL';
 });
 
 const subtext = computed(() => {
-  if (status.value === VOICE_CALL_STATUS.RINGING) {
-    return isOutbound.value
-      ? t('CONVERSATION.VOICE_CALL.CALLING')
-      : t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
-  }
+  // Completed: "Handled by {agent} · 0:42" (drops either part when absent).
   if (status.value === VOICE_CALL_STATUS.COMPLETED) {
-    return formattedDuration.value;
+    return [handledBy.value, formattedDuration.value]
+      .filter(Boolean)
+      .join(' · ');
   }
   if (status.value === VOICE_CALL_STATUS.IN_PROGRESS) {
-    if (isOutbound.value) return null;
-    if (didCurrentUserAnswer.value) {
-      return t('CONVERSATION.VOICE_CALL.YOU_ANSWERED');
-    }
-    if (displayAgentName.value) {
-      return t('CONVERSATION.VOICE_CALL.AGENT_ANSWERED', {
-        agentName: displayAgentName.value,
-      });
-    }
-    return null;
+    return handledBy.value;
   }
   if (isFailed.value) {
+    // Missed/failed calls have no handler, so keep the reason rather than "Handled by".
     if (isOutbound.value) {
       return t('CONVERSATION.VOICE_CALL.NO_ANSWER_OUTBOUND_SUBTEXT');
     }
@@ -170,6 +171,10 @@ const subtext = computed(() => {
       });
     }
     return t('CONVERSATION.VOICE_CALL.MISSED_CALL_INBOUND_SUBTEXT');
+  }
+  // RINGING or an as-yet-unknown/initial status.
+  if (isOutbound.value) {
+    return handledBy.value || t('CONVERSATION.VOICE_CALL.CALLING');
   }
   return t('CONVERSATION.VOICE_CALL.NOT_ANSWERED_YET');
 });
