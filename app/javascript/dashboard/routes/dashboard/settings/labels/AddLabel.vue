@@ -27,16 +27,21 @@ export default {
       description: '',
       title: '',
       showOnSidebar: true,
+      parentId: null,
     };
   },
   validations,
   computed: {
     ...mapGetters({
       uiFlags: 'labels/getUIFlags',
+      labels: 'labels/getLabels',
     }),
     labelTitleErrorMessage() {
       const errorMessage = getLabelTitleErrorMessage(this.v$);
       return this.$t(errorMessage);
+    },
+    availableParentLabels() {
+      return this.labels.filter(label => label.depth < 5);
     },
   },
   mounted() {
@@ -54,6 +59,7 @@ export default {
           description: this.description,
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
+          parent_id: this.parentId,
         });
         useAlert(this.$t('LABEL_MGMT.ADD.API.SUCCESS_MESSAGE'));
         this.onClose();
@@ -96,6 +102,27 @@ export default {
         @input="v$.description.$touch"
         @blur="v$.description.$touch"
       />
+
+      <div class="w-full">
+        <label class="block text-sm font-medium text-slate-700 mb-1">
+          {{ $t('LABEL_MGMT.FORM.PARENT.LABEL') }}
+        </label>
+        <select
+          v-model="parentId"
+          class="w-full px-3 py-2 border border-slate-300 rounded-md focus:outline-none"
+        >
+          <option :value="null">
+            {{ $t('LABEL_MGMT.FORM.PARENT.NONE') }}
+          </option>
+          <option
+            v-for="label in availableParentLabels"
+            :key="label.id"
+            :value="label.id"
+          >
+            {{ '  '.repeat(label.depth) + label.title }}
+          </option>
+        </select>
+      </div>
 
       <div class="w-full">
         <label>
