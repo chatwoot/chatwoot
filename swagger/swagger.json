@@ -6487,7 +6487,7 @@
                   "content": "Here is the screenshot",
                   "message_type": "outgoing",
                   "private": false,
-                  "attachments": [
+                  "attachments[]": [
                     "screenshot.png"
                   ]
                 },
@@ -6532,9 +6532,9 @@
                     "description": "Attributes based on the content type",
                     "example": {}
                   },
-                  "attachments": {
+                  "attachments[]": {
                     "type": "array",
-                    "description": "Files to attach to the message. Send each file using the `attachments[]` form field.",
+                    "description": "Files to attach to the message",
                     "items": {
                       "type": "string",
                       "format": "binary"
@@ -6543,7 +6543,7 @@
                 }
               },
               "encoding": {
-                "attachments": {
+                "attachments[]": {
                   "style": "form",
                   "explode": true
                 }
@@ -6555,7 +6555,7 @@
                     "content": "Here is the screenshot",
                     "message_type": "outgoing",
                     "private": false,
-                    "attachments": [
+                    "attachments[]": [
                       "screenshot.png"
                     ]
                   }
