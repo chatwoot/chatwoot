@@ -424,18 +424,18 @@ export default {
           </div>
         </SettingsFieldSection>
       </template>
-      <SettingsFieldSection
-        v-if="isAWhatsAppChannel && !isATwilioChannel"
-        :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
-        :help-text="
-          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
-        "
-      >
-        <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
-          {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
-        </NextButton>
-      </SettingsFieldSection>
     </div>
+    <SettingsFieldSection
+      v-if="isAWhatsAppChannel && !isATwilioChannel"
+      :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
+      :help-text="
+        $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
+      "
+    >
+      <NextButton :disabled="isSyncingTemplates" @click="syncTemplates">
+        {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_BUTTON') }}
+      </NextButton>
+    </SettingsFieldSection>
     <WhatsappReauthorize
       v-if="isEmbeddedSignupWhatsApp"
       ref="whatsappReauth"
