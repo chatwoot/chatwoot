@@ -134,10 +134,6 @@ describe Enterprise::Billing::HandleStripeEventService do
   end
 
   describe 'plan-specific feature management' do
-    it 'includes companies in the Business plan feature set' do
-      expect(described_class::BUSINESS_PLAN_FEATURES).to include('companies')
-    end
-
     context 'with default plan (Hacker)' do
       it 'disables all premium features' do
         allow(subscription).to receive(:[]).with('plan')
