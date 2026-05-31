@@ -425,6 +425,7 @@ export default {
         </SettingsFieldSection>
       </template>
       <SettingsFieldSection
+        v-if="isAWhatsAppChannel && !isATwilioChannel"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_TITLE')"
         :help-text="
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_TEMPLATES_SYNC_SUBHEADER')
