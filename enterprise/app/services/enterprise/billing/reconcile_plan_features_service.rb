@@ -19,7 +19,15 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_voice
   ].freeze
 
-  BUSINESS_PLAN_FEATURES = %w[sla custom_roles csat_review_notes conversation_required_attributes advanced_assignment custom_tools].freeze
+  BUSINESS_PLAN_FEATURES = %w[
+    sla
+    custom_roles
+    csat_review_notes
+    conversation_required_attributes
+    advanced_assignment
+    custom_tools
+    companies
+  ].freeze
   ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding saml].freeze
   PREMIUM_PLAN_FEATURES = (STARTUP_PLAN_FEATURES + BUSINESS_PLAN_FEATURES + ENTERPRISE_PLAN_FEATURES).freeze
 
