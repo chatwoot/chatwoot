@@ -20,6 +20,13 @@ RSpec.describe Article do
       expect(article).not_to be_valid
       expect(article.errors[:content]).to include("can't be blank")
     end
+
+    it 'rejects reserved slugs that collide with help center routes' do
+      article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                title: 'search', slug: 'search', content: 'content')
+      expect(article).not_to be_valid
+      expect(article.errors[:slug]).to include('is reserved')
+    end
   end
 
   describe 'associations' do
