@@ -386,6 +386,7 @@
       "IDENTIFIER": "Κωδικός",
       "COUNTRY": "Χώρα",
       "CITY": "Πόλη",
+      "COMPANY": "Εταιρία",
       "CREATED_AT": "Δημιουργήθηκε στις",
       "LAST_ACTIVITY": "Last activity",
       "REFERER_LINK": "Σύνδεσμος αναφοράς",

@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Վիջեթի կառուցող",
       "BOT_CONFIGURATION": "Բոտի կարգավորումներ",
       "ACCOUNT_HEALTH": "Հաշվի առողջություն",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Ձայն"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Անվճարների նախապատվություններ",
     "WIDGET_FEATURES": "Վիջեթի հնարավորություններ",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Միացնել/անջատել գործակալի անունի ցուցադրումը էլփոստում, եթե անջատված է, կցուցադրվի բիզնեսի անունը",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Միացնել զրույցի շարունակականությունը էլ. փոստով",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Զրույցները կշարունակվեն էլ. փոստով, եթե կոնտակտի էլ. փոստի հասցեն հասանելի է։",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Զրույցների ուղղորդում",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Կարգավորեք զրույցների ստեղծումը գոյություն ունեցող կոնտակտների համար",
       "INBOX_UPDATE_TITLE": "Զամբյուղի կարգավորումներ",
@@ -1000,7 +1011,8 @@
         "LABEL": "Գաղտնաբառ",
         "PLACE_HOLDER": "Գաղտնաբառ"
       },
-      "ENABLE_SSL": "Միացնել SSL"
+      "ENABLE_SSL": "Միացնել SSL",
+      "AUTH_MECHANISM": "Հավաստագրում"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

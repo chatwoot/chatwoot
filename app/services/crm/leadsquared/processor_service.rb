@@ -89,11 +89,19 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     metadata[metadata_key] = activity_id
     store_conversation_metadata(conversation, metadata)
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
-    ChatwootExceptionTracker.new(e, account: @account).capture_exception
-    Rails.logger.error "LeadSquared API error in #{activity_type} activity: #{e.message}"
+    log_activity_error(e, activity_type, conversation, payload: { lead_id: lead_id, activity_code: activity_code, activity_note: activity_note })
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @account).capture_exception
-    Rails.logger.error "Error creating #{activity_type} activity in LeadSquared: #{e.message}"
+    log_activity_error(e, activity_type, conversation)
+  end
+
+  def log_activity_error(error, activity_type, conversation, payload: nil)
+    ChatwootExceptionTracker.new(error, account: @account).capture_exception
+    context = "account_id=#{conversation.account_id}, conversation_display_id=#{conversation.display_id}"
+    if payload
+      context += ", http_status=#{error.code}, prospect_id=#{payload[:lead_id]}, " \
+                 "activity_event=#{payload[:activity_code]}, note_bytes=#{payload[:activity_note].to_s.bytesize}"
+    end
+    Rails.logger.error("LeadSquared #{activity_type} activity failed: #{error.message} (#{context})")
   end
 
   def get_activity_code(key)

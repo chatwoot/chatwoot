@@ -1,0 +1,92 @@
+<% if @article.present? %>
+<script>
+  (function() {
+    let viewTracked = false;
+    const trackView = function() {
+      if (!viewTracked) {
+        viewTracked = true;
+        const img = new Image();
+        img.src = '<%= request.base_url %>/hc/<%= @portal.slug %>/articles/<%= @article.slug %>.png';
+      }
+    };
+
+    const addTrackingListeners = function() {
+      const events = ['mouseenter', 'touchstart', 'focus'];
+      events.forEach(event => {
+        document.body.addEventListener(event, function() {
+          setTimeout(trackView, 5000);
+        }, { once: true });
+      });
+    };
+    addTrackingListeners();
+  })();
+</script>
+<% end %>
+<style>
+html.dark {
+  --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
+  --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
+  --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
+  --dynamic-portal-color: <%= @portal.color %>;
+  --dynamic-portal-color-soft: color-mix(in srgb, <%= @portal.color %> 18%, transparent);
+  --dynamic-portal-color-faint: color-mix(in srgb, <%= @portal.color %> 6%, transparent);
+}
+
+html.light {
+  --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
+  --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
+  --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
+  --dynamic-portal-color: <%= @portal.color %>;
+  --dynamic-portal-color-soft: color-mix(in srgb, <%= @portal.color %> 12%, transparent);
+  --dynamic-portal-color-faint: color-mix(in srgb, <%= @portal.color %> 5%, transparent);
+}
+
+/* Portal background */
+#portal-bg {
+  background: var(--dynamic-portal-bg);
+}
+/* Portal background gradient */
+#portal-bg-gradient {
+  background-image: var(--dynamic-portal-bg-gradient);
+}
+/* Category block item hover color */
+#category-item:hover {
+  background-color: var(--dynamic-hover-bg-color);
+}
+
+/* Header section */
+#header-action-button:hover,
+#toggle-appearance:hover,
+#toggle-theme-button:hover {
+  color: var(--dynamic-hover-color);
+  stroke: var(--dynamic-hover-color);
+}
+#category-block:hover {
+  border-color: var(--dynamic-hover-color);
+}
+#category-block:hover #category-name  {
+  color: var(--dynamic-hover-color);
+}
+</style>
+
+<script>
+  window.portalConfig = {
+    portalSlug: '<%= @portal.slug %>',
+    portalColor: '<%= @portal.color %>',
+    theme: '<%= @theme_from_params %>',
+    customDomain: '<%= @portal.custom_domain %>',
+    hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
+    localeCode: '<%= @locale %>',
+    searchTranslations: {
+      searchPlaceholder: '<%= I18n.t('public_portal.search.search_placeholder') %>',
+      emptyPlaceholder: '<%= I18n.t('public_portal.search.empty_placeholder') %>',
+      loadingPlaceholder: '<%= I18n.t('public_portal.search.loading_placeholder') %>',
+      resultsTitle: '<%= I18n.t('public_portal.search.results_title') %>',
+    },
+    isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
+    tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
+  };
+</script>
+<% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
+<%= @portal.channel_web_widget.web_widget_script.html_safe %>
+<% end %>

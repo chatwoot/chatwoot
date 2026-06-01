@@ -742,12 +742,58 @@
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
       "BULK_DELETE_BUTTON": "Excluir",
+      "BULK_SYNC_BUTTON": "Atualizar",
       "BULK_DELETE": {
         "TITLE": "Excluir documentos?",
         "DESCRIPTION": "Você tem certeza que deseja excluir os documentos selecionados? Esta ação não pode ser desfeita.",
         "CONFIRM": "Sim, excluir todas",
         "SUCCESS_MESSAGE": "Documentos excluídos com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro ao excluir os documentos, por favor novamente."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Atualização enfileirada para 1 documento",
+        "SUCCESS_MESSAGE": "Atualização enfileirada para {count} documentos",
+        "ZERO_MESSAGE": "Nenhum documento selecionado para atualização.",
+        "ERROR_MESSAGE": "Ocorreu um erro ao enfileirar a atualização. Por favor, tente novamente."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Atualização enfileirada. O documento será atualizado em breve.",
+        "ERROR_MESSAGE": "Não foi possível enfileirar a atualização. Por favor, tente novamente."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "Todas as fontes",
+          "WEB": "Páginas da web",
+          "PDF": "PDF's"
+        },
+        "STATUS": {
+          "ANY": "Qualquer status",
+          "UPDATED": "Atualizado",
+          "NEEDS_UPDATE": "Precisa de atualização",
+          "UPDATING": "Atualizando",
+          "FAILED": "Falha"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Atualizado recentemente",
+          "RECENTLY_CREATED": "Criado recentemente"
+        },
+        "SEARCH_PLACEHOLDER": "Pesquisar..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "última atualização em {time}",
+        "SYNCING": "atualizando...",
+        "STALE_SYNC": "atualização travada",
+        "FAILED": "Falha ao sincronizar",
+        "NEVER_SYNCED": "ainda não atualizado"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Página não encontrada",
+        "ACCESS_DENIED": "Acesso negado",
+        "TIMEOUT": "A página demorou muito para responder",
+        "CONTENT_EMPTY": "A página retornou conteúdo vazio",
+        "FETCH_FAILED": "Não foi possível recuperar a página",
+        "SYNC_ERROR": "Erro inesperado",
+        "DEFAULT": "Erro na sincronização"
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQs Relacionadas",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Visualizar Respostas relacionadas",
+        "SYNC_NOW": "Atualizar agora",
+        "RETRY_SYNC": "Tentar atualizar novamente",
         "DELETE_DOCUMENT": "Excluir Documento"
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhum documento disponível",
         "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
+        "FILTERED_TITLE": "Nenhum documento correspondente",
+        "FILTERED_SUBTITLE": "Tente alterar a origem, o status ou o termo de pesquisa.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Documento do Capitão",
           "NOTE": "Um documento no Capitão serve como um recurso de conhecimento para o assistente. Ao conectar sua central de ajuda ou guias, o Capitão pode analisar o conteúdo e fornecer respostas precisas para as dúvidas dos clientes."

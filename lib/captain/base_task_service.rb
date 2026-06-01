@@ -149,6 +149,16 @@ class Captain::BaseTaskService
     account.feature_enabled?('captain_tasks')
   end
 
+  # Extension point consulted by the Enterprise quota wrapper. Subclasses
+  # whose calls run on the operator's key (e.g. internal/onboarding tasks)
+  # should override this to return false. When false, the wrapper neither
+  # blocks the call on an exhausted captain_responses quota nor decrements
+  # it on success — the call participates in the quota system in neither
+  # direction.
+  def counts_toward_usage?
+    true
+  end
+
   def api_key_configured?
     llm_credential.present?
   end

@@ -62,7 +62,8 @@ class HookListener < BaseListener
       'slack' => ['message.created', 'message.updated'],
       'dialogflow' => ['message.created', 'message.updated'],
       'google_translate' => ['message.created'],
-      'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved']
+      'leadsquared' => ['contact.updated', 'conversation.created', 'conversation.resolved'],
+      'linear' => ['message.created']
     }
 
     return false unless supported_events_map.key?(hook.app_id)

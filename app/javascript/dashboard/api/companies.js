@@ -28,6 +28,14 @@ class CompanyAPI extends ApiClient {
     return axios.get(`${this.url}/${id}/contacts?${buildParams({ page })}`);
   }
 
+  listNotes(id) {
+    return axios.get(`${this.url}/${id}/notes`);
+  }
+
+  listConversations(id) {
+    return axios.get(`${this.url}/${id}/conversations`);
+  }
+
   searchContacts(id, query = '', page = 1) {
     const requestURL = `${this.url}/${id}/contacts/search?${buildParams({ q: query, page })}`;
     return axios.get(requestURL);

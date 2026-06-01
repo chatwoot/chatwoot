@@ -742,12 +742,58 @@
       "SELECT_ALL": "அனைத்தையும் தேர்ந்தெடு ({count})",
       "UNSELECT_ALL": "அனைத்தையும் தேர்விலிருந்து நீக்கு ({count})",
       "BULK_DELETE_BUTTON": "Delete",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "ஆம், அனைத்தையும் நீக்கவும்",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Failed"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Page not found",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "சம்பந்தப்பட்ட அடிக்கடி கேட்கப்படும் கேள்விகள்",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "சம்பந்தப்பட்ட பதில்களைப் பார்க்கவும்",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "ஆவணத்தை நீக்கு"
       },
       "EMPTY_STATE": {
         "TITLE": "எந்த ஆவணங்களும் இல்லை",
         "SUBTITLE": "உங்கள் உதவியாளர் அடிக்கடி கேட்கப்படும் கேள்விகளை உருவாக்க ஆவணங்களை பயன்படுத்துகிறது. உதவியாளருக்கு சூழலை வழங்க ஆவணங்களை இறக்குமதி செய்யலாம்.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain ஆவணம்",
           "NOTE": "Captain இல் உள்ள ஆவணம் உதவியாளருக்கு அறிவுத்தளமாக செயல்படுகிறது. உங்கள் உதவி மையம் அல்லது வழிகாட்டிகளை இணைத்து, Captain உள்ளடக்கத்தை பகுப்பாய்வு செய்து வாடிக்கையாளர் கேள்விகளுக்கு துல்லியமான பதில்களை வழங்க முடியும்."

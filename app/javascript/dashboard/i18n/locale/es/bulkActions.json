@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "¿Está seguro de desasignar {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Volver",
     "ASSIGN_LABEL": "Asignar",
+    "NONE": "Ninguna",
+    "CLEAR_SELECTION": "Limpiar",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Si",
+    "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar",
     "ASSIGN_AGENT_TOOLTIP": "Asignar un agente",
     "ASSIGN_TEAM_TOOLTIP": "Asignar equipo",
@@ -38,6 +43,8 @@
       "NONE": "Ninguna",
       "NO_TEAMS_AVAILABLE": "Todavía no hay equipos añadidos a esta cuenta.",
       "ASSIGN_SELECTED_TEAMS": "Asignar equipo seleccionado.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Equipos asignados correctamente.",
       "ASSIGN_FAILED": "Error al asignar equipo, inténtelo de nuevo."
     }

@@ -8,7 +8,10 @@ import Policy from 'dashboard/components/policy.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CompaniesDetailsLayout from 'dashboard/components-next/Companies/CompaniesDetailsLayout.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import CompanyContactsSidebar from 'dashboard/components-next/Companies/CompanyDetail/CompanyContactsSidebar.vue';
+import CompanyHistorySidebar from 'dashboard/components-next/Companies/CompanyDetail/CompanyHistorySidebar.vue';
+import CompanyNotesSidebar from 'dashboard/components-next/Companies/CompanyDetail/CompanyNotesSidebar.vue';
 import CompanyProfileCard from 'dashboard/components-next/Companies/CompanyDetail/CompanyProfileCard.vue';
 import ConfirmCompanyDeleteDialog from 'dashboard/components-next/Companies/CompanyDetail/ConfirmCompanyDeleteDialog.vue';
 import { useCompaniesStore } from 'dashboard/stores/companies';
@@ -20,11 +23,16 @@ const { t } = useI18n();
 
 const confirmDeleteDialogRef = ref(null);
 const selectedCandidate = ref(null);
+const activeSidebarTab = ref('history');
 
 const companyId = computed(() => Number(route.params.companyId));
 const company = computed(() => companiesStore.getRecord(companyId.value));
 const companyContacts = computed(() => companiesStore.companyContacts);
 const companyContactsMeta = computed(() => companiesStore.companyContactsMeta);
+const companyConversations = computed(
+  () => companiesStore.companyConversations || []
+);
+const companyNotes = computed(() => companiesStore.companyNotes || []);
 const contactSearchResults = computed(
   () => companiesStore.contactSearchResults
 );
@@ -32,6 +40,10 @@ const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const isFetchingCompany = computed(() => uiFlags.value.fetchingItem);
 const isFetchingContacts = computed(() => uiFlags.value.fetchingContacts);
+const isFetchingConversations = computed(
+  () => uiFlags.value.fetchingConversations
+);
+const isFetchingNotes = computed(() => uiFlags.value.fetchingNotes);
 const isSearchingContacts = computed(() => uiFlags.value.searchingContacts);
 const isManagingContacts = computed(
   () => uiFlags.value.creatingContact || uiFlags.value.removingContact
@@ -49,6 +61,27 @@ const breadcrumbItems = computed(() => [
     ? [{ label: company.value?.name || t('COMPANIES.UNNAMED') }]
     : []),
 ]);
+
+const SIDEBAR_TABS_OPTIONS = [
+  { key: 'HISTORY', value: 'history' },
+  { key: 'NOTES', value: 'notes' },
+  { key: 'CONTACTS', value: 'contacts' },
+];
+
+const sidebarTabs = computed(() =>
+  SIDEBAR_TABS_OPTIONS.map(tab => ({
+    label: {
+      notes: t('COMPANIES.DETAIL.SIDEBAR.TABS.NOTES'),
+      history: t('COMPANIES.DETAIL.SIDEBAR.TABS.HISTORY'),
+      contacts: `${t('COMPANIES.DETAIL.SIDEBAR.TABS.CONTACTS')} (${Number(companyContactsMeta.value.totalCount || 0)})`,
+    }[tab.value],
+    value: tab.value,
+  }))
+);
+
+const activeSidebarTabIndex = computed(() =>
+  SIDEBAR_TABS_OPTIONS.findIndex(tab => tab.value === activeSidebarTab.value)
+);
 
 const goToCompaniesIndex = () => {
   router.push({
@@ -77,6 +110,19 @@ const openDeleteCompanyDialog = () => {
 
 const clearSelectedCandidate = () => {
   selectedCandidate.value = null;
+};
+
+const loadSidebarTab = tab => {
+  if (!companyId.value) return;
+  if (tab === 'notes') companiesStore.getCompanyNotes(companyId.value);
+  if (tab === 'history') {
+    companiesStore.getCompanyConversations(companyId.value);
+  }
+};
+
+const handleSidebarTabChange = tab => {
+  activeSidebarTab.value = tab.value;
+  loadSidebarTab(tab.value);
 };
 
 const handleContactSearch = async query => {
@@ -143,10 +189,12 @@ watch(
   async id => {
     companiesStore.resetCompanyDetailState();
     clearSelectedCandidate();
+    activeSidebarTab.value = 'history';
     if (!id) return;
     await Promise.allSettled([
       companiesStore.show(id),
       companiesStore.getCompanyContacts(id),
+      companiesStore.getCompanyConversations(id),
     ]);
   },
   { immediate: true }
@@ -207,8 +255,29 @@ onBeforeUnmount(() => {
       </Policy>
     </div>
 
+    <template #sidebarHeader>
+      <div class="px-6 pt-6 pb-3">
+        <TabBar
+          :tabs="sidebarTabs"
+          :initial-active-tab="activeSidebarTabIndex"
+          class="w-full [&>button]:w-full bg-n-alpha-black2"
+          @tab-changed="handleSidebarTabChange"
+        />
+      </div>
+    </template>
     <template v-if="hasCompany" #sidebar>
+      <CompanyNotesSidebar
+        v-if="activeSidebarTab === 'notes'"
+        :notes="companyNotes"
+        :is-loading="isFetchingNotes"
+      />
+      <CompanyHistorySidebar
+        v-if="activeSidebarTab === 'history'"
+        :conversations="companyConversations"
+        :is-loading="isFetchingConversations"
+      />
       <CompanyContactsSidebar
+        v-if="activeSidebarTab === 'contacts'"
         :company="company"
         :contacts="companyContacts"
         :meta="companyContactsMeta"

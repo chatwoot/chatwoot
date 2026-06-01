@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "விட்ஜெட் கட்டுமானி",
       "BOT_CONFIGURATION": "பாட் அமைப்பு",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voice"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "மின்னஞ்சலில் முகவரின் பெயரை காட்ட/மறைக்க இயக்கு, மறைக்கப்பட்டால் வணிகப் பெயர் காட்டப்படும்",
       "ENABLE_CONTINUITY_VIA_EMAIL": "மின்னஞ்சல் மூலம் உரையாடல் தொடர்ச்சியை இயக்கு",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "தொடர்பு மின்னஞ்சல் முகவரி கிடைக்கும் போது உரையாடல்கள் மின்னஞ்சல் வழியாக தொடரும்.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "இன்பாக்ஸ் அமைப்புகள்",
@@ -1000,7 +1011,8 @@
         "LABEL": "பாஸ்வேர்ட்",
         "PLACE_HOLDER": "பாஸ்வேர்ட்"
       },
-      "ENABLE_SSL": "SSL ஐ இயக்கவும்"
+      "ENABLE_SSL": "SSL ஐ இயக்கவும்",
+      "AUTH_MECHANISM": "அங்கீகாரம்"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

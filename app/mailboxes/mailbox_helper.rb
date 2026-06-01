@@ -1,5 +1,6 @@
 module MailboxHelper
   include MailboxInlineAttachmentHelper
+  include ::FileTypeHelper
 
   private
 
@@ -53,11 +54,12 @@ module MailboxHelper
   def process_regular_attachments(attachments)
     Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{processed_mail.message_id}"
     attachments.each do |mail_attachment|
+      blob = mail_attachment[:blob]
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
-        file_type: 'file'
+        file_type: file_type(blob.content_type)
       )
-      attachment.file.attach(mail_attachment[:blob])
+      attachment.file.attach(blob)
     end
   end
 

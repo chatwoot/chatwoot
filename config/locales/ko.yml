@@ -50,6 +50,8 @@ ko:
       email_already_exists: '이미 %{email}로 계정이 등록되어 있습니다'
       invalid_params: '유효하지 않습니다. 가입 정보를 확인하고 다시 시도하십시오'
       failed: 가입에 실패했습니다
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: 배정 정책을 찾을 수 없습니다
     attachments:
@@ -100,6 +102,15 @@ ko:
       reauthorization:
         generic: 'WhatsApp 재인증에 실패했습니다. 다시 시도하십시오.'
         not_supported: '이 유형의 WhatsApp 채널은 재인증을 지원하지 않습니다.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: 네트워크 연결, IMAP 주소를 확인하고 다시 시도하십시오.
@@ -229,6 +240,10 @@ ko:
       deleted: 이 메시지는 삭제되었습니다
       whatsapp:
         list_button_label: '항목 선택'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: '오류 코드: %{error_code}'
     activity:
@@ -273,6 +288,9 @@ ko:
         issue_created: '%{user_name}님이 Linear 이슈 %{issue_id}을(를) 생성했습니다'
         issue_linked: '%{user_name}님이 Linear 이슈 %{issue_id}을(를) 연결했습니다'
         issue_unlinked: '%{user_name}님이 Linear 이슈 %{issue_id}의 연결을 해제했습니다'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: '발신 메시지 제한으로 인해 CSAT 설문이 전송되지 않았습니다'
       auto_resolve:
@@ -337,6 +355,7 @@ ko:
       name: 'Linear'
       short_description: '대화에서 직접 Linear 이슈를 생성하고 연결합니다.'
       description: '대화 창에서 직접 Linear에 이슈를 생성합니다. 또는 기존 Linear 이슈를 연결하여 더 효율적인 이슈 추적 프로세스를 구현할 수 있습니다.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
     notion:
       name: 'Notion'
       short_description: '데이터베이스, 문서 및 페이지를 Captain과 직접 통합합니다.'
@@ -365,6 +384,9 @@ ko:
       limit_exceeded: '문서 한도 초과'
       pdf_format_error: 'PDF 파일이어야 합니다'
       pdf_size_error: '10MB 미만이어야 합니다'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'OpenAI에 PDF 업로드 실패'
       pdf_upload_success: 'file_id: %{file_id}로 PDF가 성공적으로 업로드되었습니다'
       pdf_processing_failed: 'PDF 문서 %{document_id} 처리 실패: %{error}'
@@ -470,6 +492,12 @@ ko:
   agent_capacity_policy:
     inbox_already_assigned: '받은 메시지함이 이미 이 정책에 배정되어 있습니다'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: '이메일이 필요합니다'
       invalid_email_format: '유효하지 않은 이메일 형식'
@@ -478,3 +506,9 @@ ko:
       subject: '%{custom_domain} 설정 완료하기'
     ssl_status:
       custom_domain_not_configured: '사용자 정의 도메인이 구성되지 않았습니다'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

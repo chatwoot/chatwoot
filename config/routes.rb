@@ -54,6 +54,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
+          resource :onboarding, only: [:update]
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
@@ -133,6 +134,7 @@ Rails.application.routes.draw do
             collection do
               get :meta
               get :search
+              get :unread_counts, to: 'conversations/unread_counts#index'
               post :filter
             end
             scope module: :conversations do
@@ -187,6 +189,8 @@ Rails.application.routes.draw do
                   get :search
                 end
               end
+              resources :conversations, only: [:index]
+              resources :notes, only: [:index]
             end
           end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
@@ -207,6 +211,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              get :attachments, to: 'attachments#index'
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
@@ -226,6 +231,21 @@ Rails.application.routes.draw do
             end
           end
           resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
+
+          if ChatwootApp.enterprise?
+            resources :whatsapp_calls, only: [:show] do
+              member do
+                post :accept
+                post :reject
+                post :terminate
+                post :upload_recording
+              end
+              collection do
+                post :initiate
+              end
+            end
+          end
+
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
@@ -242,6 +262,8 @@ Rails.application.routes.draw do
               resource :conference, only: %i[create destroy], controller: 'conference' do
                 get :token, on: :member
               end
+              post :enable_whatsapp_calling, on: :member
+              post :disable_whatsapp_calling, on: :member
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -359,8 +381,6 @@ Rails.application.routes.draw do
               end
             end
           end
-          resources :working_hours, only: [:update]
-
           resources :portals do
             member do
               patch :archive
@@ -375,6 +395,7 @@ Rails.application.routes.draw do
               resource :bulk_actions, only: [] do
                 post :translate
                 patch :update_status
+                patch :update_category
                 delete :delete_articles
               end
             end
@@ -567,13 +588,15 @@ Rails.application.routes.draw do
 
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
-  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'
+  get 'hc/:slug/:locale', to: 'public/api/v1/portals#show', as: :public_portal_locale
   get 'hc/:slug/:locale/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
-  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
+  get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show', as: :public_portal_category
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
   get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
-  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
+  get 'hc/:slug/articles/:article_slug.md', to: 'public/api/v1/portals/articles#show_markdown', as: :public_portal_article_markdown,
+                                            defaults: { format: :md }
+  get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show', as: :public_portal_article
 
   # ----------------------------------------------------------------------
   # Used in mailer templates

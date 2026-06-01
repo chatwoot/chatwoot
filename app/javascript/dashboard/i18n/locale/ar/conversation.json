@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "الرسالة غير متوفرة",
     "CARD": {
       "SHOW_LABELS": "إظهار السمات",
-      "HIDE_LABELS": "إخفاء السمات"
+      "HIDE_LABELS": "إخفاء السمات",
+      "LABELS_COUNT": "{count} علامة"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Call ended",
       "NOT_ANSWERED_YET": "Not answered yet",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "انضم إلى المكالمة"
     },
     "HEADER": {
       "RESOLVE_ACTION": "حل المحادثة",
@@ -92,6 +95,7 @@
       "OPEN": "المزيد",
       "CLOSE": "أغلق",
       "DETAILS": "التفاصيل",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "غفوة حتى",
       "SNOOZED_UNTIL_TOMORROW": "تأجيل حتى الغد",
       "SNOOZED_UNTIL_NEXT_WEEK": "تأجيل حتى الأسبوع القادم",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "المحادثات السابقة",
       "MACROS": "ماكروس",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "عرض الكل",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

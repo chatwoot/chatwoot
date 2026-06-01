@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "小工具建置器",
       "BOT_CONFIGURATION": "機器人設定",
       "ACCOUNT_HEALTH": "帳號健康狀態",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "語音"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "頻道偏好設定",
     "WIDGET_FEATURES": "小工具功能",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "啟用/停用在郵件中顯示客服人員名稱，停用時將顯示企業名稱",
       "ENABLE_CONTINUITY_VIA_EMAIL": "透過電子郵件啟用對話延續",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "若聯絡人有電子郵件地址，對話將透過電子郵件繼續。",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "對話路由",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "設定現有聯絡人的對話建立方式",
       "INBOX_UPDATE_TITLE": "收件匣設定",
@@ -1000,7 +1011,8 @@
         "LABEL": "密碼",
         "PLACE_HOLDER": "密碼"
       },
-      "ENABLE_SSL": "啟用 SSL"
+      "ENABLE_SSL": "啟用 SSL",
+      "AUTH_MECHANISM": "驗證機制"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

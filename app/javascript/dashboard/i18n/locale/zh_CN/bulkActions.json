@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "您确定要取消分配 {conversationCount} 个 {conversationLabel} 吗？",
     "GO_BACK_LABEL": "返回",
     "ASSIGN_LABEL": "分配",
+    "NONE": "啥都没有",
+    "CLEAR_SELECTION": "清除",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "是",
+    "CANCEL": "取消",
     "SEARCH_INPUT_PLACEHOLDER": "搜索",
     "ASSIGN_AGENT_TOOLTIP": "分配客服代表",
     "ASSIGN_TEAM_TOOLTIP": "分配一个团队",
@@ -38,6 +43,8 @@
       "NONE": "啥都没有",
       "NO_TEAMS_AVAILABLE": "此帐户尚未添加团队。",
       "ASSIGN_SELECTED_TEAMS": "分配选定的团队。",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "团队分配成功。",
       "ASSIGN_FAILED": "分配团队失败。请再试一次。"
     }

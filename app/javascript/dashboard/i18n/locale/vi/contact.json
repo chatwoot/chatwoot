@@ -386,6 +386,7 @@
       "IDENTIFIER": "Định danh",
       "COUNTRY": "Quốc gia",
       "CITY": "Tỉnh / Thành phố",
+      "COMPANY": "Công ty",
       "CREATED_AT": "Tạo vào lúc",
       "LAST_ACTIVITY": "Hành động cuối cùng",
       "REFERER_LINK": "Liên kết người giới thiệu",

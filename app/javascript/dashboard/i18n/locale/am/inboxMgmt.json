@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "የዊጅት አሰራር መሣሪያ",
       "BOT_CONFIGURATION": "የቦት ቅንብሮች",
       "ACCOUNT_HEALTH": "የመለያ ጤና",
-      "CSAT": "የደንበኞች ደህንነት ግምገማ (CSAT)"
+      "CSAT": "የደንበኞች ደህንነት ግምገማ (CSAT)",
+      "VOICE": "ድምጽ"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "የቻናል ቅድሚያዎች",
     "WIDGET_FEATURES": "የዊጅት ባህሪያት",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "በኢሜይል ውስጥ የAgent ስም እንዲታይ/እንዳይታይ አርግ፣ ካልተከናወነ የንግድ ስም ይታያል",
       "ENABLE_CONTINUITY_VIA_EMAIL": "በኢሜል የውይይት ቀጥታነት አንቀሳቅስ",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ከኮንታክት ኢሜይል አድራሻ ካለ ውይይቶች በኢሜይል ይቀጥላሉ።",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "የውይይት መላኪያ",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "ለአሁን ያሉ እውቂያዎች ውይይት ፍጠራ ያስተካክሉ",
       "INBOX_UPDATE_TITLE": "የኢንቦክስ ቅንብሮች",
@@ -1000,7 +1011,8 @@
         "LABEL": "የይለፍ ቃል",
         "PLACE_HOLDER": "የይለፍ ቃል"
       },
-      "ENABLE_SSL": "SSL አንቀሳቅስ"
+      "ENABLE_SSL": "SSL አንቀሳቅስ",
+      "AUTH_MECHANISM": "ማረጋገጫ"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

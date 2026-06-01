@@ -525,6 +525,7 @@
             "PUBLISH": "نشر",
             "DRAFT": "مسودة",
             "ARCHIVE": "Archive",
+            "TRANSLATE": "ترجم",
             "DELETE": "حذف"
           },
           "STATUS": {
@@ -579,6 +580,41 @@
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "ترجمة المقالة | ترجمة {count} مقالة",
+        "DESCRIPTION": "ترجمة المقالة المحددة إلى لغة أخرى. | ترجمة المقالات المحددة إلى لغة أخرى.",
+        "LOCALE_LABEL": "اللغة المستهدفة",
+        "LOCALE_PLACEHOLDER": "اختر لغة",
+        "CATEGORY_LABEL": "الفئة المستهدفة",
+        "CATEGORY_PLACEHOLDER": "اختر الفئة",
+        "OPTIONAL": "(اختياري)",
+        "CONFIRM": "ترجم",
+        "SELECT_ALL": "Select all ({count})",
+        "SELECTED_COUNT": "{count} selected",
+        "CLEAR_SELECTION": "Clear selection",
+        "TRANSLATE_BUTTON": "ترجم",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "نشر",
+        "DRAFT": "مسودة",
+        "ARCHIVE": "Archive",
+        "TRANSLATE": "ترجم",
+        "DELETE": "حذف",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "حذف",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {

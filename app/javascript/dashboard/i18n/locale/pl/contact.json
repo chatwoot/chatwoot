@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identyfikator",
       "COUNTRY": "Kraj",
       "CITY": "Miasto",
+      "COMPANY": "Firma",
       "CREATED_AT": "Data utworzenia",
       "LAST_ACTIVITY": "Ostatnia aktywność",
       "REFERER_LINK": "Link odsyłający",

@@ -100,6 +100,41 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(json_response['name']).to eql('test_portal')
         expect(json_response['custom_domain']).to eql('support.chatwoot.dev')
       end
+
+      it 'creates portal when custom_domain is omitted from request body' do
+        portal_params = {
+          portal: {
+            name: 'test_portal_no_domain',
+            slug: 'test_kbase_no_domain'
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals",
+             params: portal_params,
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['name']).to eql('test_portal_no_domain')
+        expect(json_response['custom_domain']).to be_nil
+      end
+
+      it 'creates portal when custom_domain is blank' do
+        portal_params = {
+          portal: {
+            name: 'test_portal_blank_domain',
+            slug: 'test_kbase_blank_domain',
+            custom_domain: ''
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals",
+             params: portal_params,
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['name']).to eql('test_portal_blank_domain')
+        expect(json_response['custom_domain']).to be_blank
+      end
     end
   end
 
@@ -135,7 +170,10 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             'allowed_locales' => [
               { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'en', 'draft' => false },
               { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es', 'draft' => true }
-            ]
+            ],
+            'default_locale' => 'en',
+            'layout' => 'classic',
+            'social_profiles' => {}
           }
         )
       end
@@ -190,6 +228,21 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq('updated_name')
         expect(portal.reload.logo).to be_attached
+      end
+
+      it 'does not allow associating an inbox from another account' do
+        other_account = create(:account)
+        foreign_inbox = create(:inbox, account: other_account)
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}",
+            params: {
+              portal: { name: portal.name },
+              inbox_id: foreign_inbox.id
+            },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:not_found)
+        expect(portal.reload.channel_web_widget_id).to be_nil
       end
 
       it 'clears associated web widget when inbox selection is blank' do

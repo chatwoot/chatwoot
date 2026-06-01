@@ -79,13 +79,13 @@ export default {
     },
     elementBorderStyles(el) {
       if (this.isElementActive(el)) {
-        return 'border-slate-400 dark:border-slate-50 transition-colors duration-200';
+        return 'border-n-portal transition-colors duration-200';
       }
       return 'border-slate-100 dark:border-slate-800';
     },
     elementTextStyles(el) {
       if (this.isElementActive(el)) {
-        return 'text-slate-900 dark:text-slate-25 transition-colors duration-200';
+        return 'text-n-portal transition-colors duration-200';
       }
       return 'text-slate-700 dark:text-slate-100';
     },
@@ -113,7 +113,7 @@ export default {
               <a
                 :href="`#${element.slug}`"
                 data-turbolinks="false"
-                class="font-medium text-sm tracking-[0.28px] cursor-pointer"
+                class="font-medium text-sm cursor-pointer"
                 :class="elementTextStyles(element)"
               >
                 {{ element.title }}

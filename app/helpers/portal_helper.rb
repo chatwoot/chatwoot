@@ -96,4 +96,15 @@ module PortalHelper
 
     colors[username.length % colors.size]
   end
+
+  def format_authors_label(authors)
+    return if authors.blank?
+
+    names = authors.map(&:available_name)
+    return names.to_sentence if names.size <= 3
+
+    I18n.t('public_portal.sidebar.authors_others',
+           names: names.first(2).join(', '),
+           count: authors.size - 2)
+  end
 end

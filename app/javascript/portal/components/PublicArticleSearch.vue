@@ -9,6 +9,17 @@ export default {
     PublicSearchInput,
     SearchSuggestions,
   },
+  props: {
+    size: {
+      type: String,
+      default: 'default',
+      validator: value => ['small', 'default'].includes(value),
+    },
+    showKbd: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ['input', 'blur'],
   data() {
     return {
@@ -36,6 +47,13 @@ export default {
       const { searchTranslations = {} } = window.portalConfig;
       return searchTranslations;
     },
+    kbdLabel() {
+      if (!this.showKbd) return '';
+      const isMac = /Mac|iPhone|iPad|iPod/i.test(
+        navigator.platform || navigator.userAgent
+      );
+      return isMac ? '⌘ K' : 'Ctrl K';
+    },
   },
 
   watch: {
@@ -44,7 +62,12 @@ export default {
     },
   },
 
+  mounted() {
+    if (this.showKbd) document.addEventListener('keydown', this.onKeydown);
+  },
+
   unmounted() {
+    if (this.showKbd) document.removeEventListener('keydown', this.onKeydown);
     clearTimeout(this.typingTimer);
   },
 
@@ -83,6 +106,16 @@ export default {
     clearSearchTerm() {
       this.searchTerm = '';
     },
+    onKeydown(e) {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        if (this.$refs.searchInput) this.$refs.searchInput.focusInput();
+      }
+      if (e.key === 'Escape') {
+        this.closeSearch();
+        if (this.$refs.searchInput) this.$refs.searchInput.blurInput();
+      }
+    },
     async fetchArticlesByQuery() {
       const query = this.normalizedSearchTerm;
       if (!query) {
@@ -112,8 +145,11 @@ export default {
 <template>
   <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
     <PublicSearchInput
+      ref="searchInput"
       :search-term="searchTerm"
       :search-placeholder="searchTranslations.searchPlaceholder"
+      :size="size"
+      :kbd="kbdLabel"
       @update:search-term="onUpdateSearchTerm"
       @focus="openSearch"
     />

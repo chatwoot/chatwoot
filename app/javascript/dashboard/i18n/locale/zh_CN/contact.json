@@ -386,6 +386,7 @@
       "IDENTIFIER": "标识符",
       "COUNTRY": "国家",
       "CITY": "城市",
+      "COMPANY": "公司",
       "CREATED_AT": "创建于",
       "LAST_ACTIVITY": "上次操作",
       "REFERER_LINK": "引用链接",
