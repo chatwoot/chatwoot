@@ -35,10 +35,10 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
     end
 
     it 'sets imap_login from preferred_username when the id_token carries a UPN that differs from email' do
-      upn = 'livetestaccount@capeunionmart.co.za'
-      mailbox = 'LiveTestAccount@cumi.co.za'
+      upn = 'testaccount@primary-domain.example'
+      mailbox = 'TestAccount@mailbox-domain.example'
       response_body = {
-        id_token: JWT.encode({ email: mailbox, preferred_username: upn, name: 'test' }, false),
+        id_token: JWT.encode({ email: mailbox, preferred_username: upn, name: 'test' }, nil, 'none'),
         access_token: SecureRandom.hex(10), token_type: 'Bearer', refresh_token: SecureRandom.hex(10)
       }
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
