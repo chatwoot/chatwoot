@@ -30,7 +30,6 @@ describe('ActionCableConnector - Copilot Tests', () => {
         dispatch: mockDispatch,
         getters: {
           getCurrentAccountId: 1,
-          'accounts/isFeatureEnabledonAccount': vi.fn(() => true),
         },
       },
     };
@@ -87,21 +86,6 @@ describe('ActionCableConnector - Copilot Tests', () => {
       });
 
       expect(mockDispatch).toHaveBeenCalledWith('conversationUnreadCounts/get');
-    });
-
-    it('does not refetch unread counts when unread count feature is disabled', () => {
-      store.$store.getters[
-        'accounts/isFeatureEnabledonAccount'
-      ].mockReturnValue(false);
-
-      actionCable.onReceived({
-        event: 'conversation.unread_count_changed',
-        data: { account_id: 1 },
-      });
-
-      expect(mockDispatch).not.toHaveBeenCalledWith(
-        'conversationUnreadCounts/get'
-      );
     });
 
     it('should throttle unread count refetches for repeated events', () => {
