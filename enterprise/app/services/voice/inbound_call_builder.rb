@@ -59,9 +59,17 @@ class Voice::InboundCallBuilder
   end
 
   def ensure_contact!
-    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
-      record.name = from_number if record.name.blank?
+    contact = account.contacts.find_or_create_by!(phone_number: from_number) do |record|
+      record.name = contact_name.presence || from_number
     end
+    contact.update!(name: contact_name) if contact_name.present? && contact.name == from_number
+    contact
+  end
+
+  # WhatsApp inbound calls carry the caller's profile name in extra_meta; Twilio
+  # calls don't, so contact naming falls back to the phone number.
+  def contact_name
+    extra_meta['contact_name'].presence
   end
 
   # WhatsApp ContactInbox.source_id must be digits-only (the wa_id); Twilio accepts the +.
