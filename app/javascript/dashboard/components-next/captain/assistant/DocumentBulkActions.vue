@@ -25,7 +25,7 @@ const store = useStore();
 const bulkDeleteDialog = ref(null);
 
 const isSyncableDocument = doc =>
-  !doc.pdf_document && doc.status === 'available' && !doc.sync_in_progress;
+  !doc.pdf_document && doc.status === 'available';
 
 const syncableSelectedIds = computed(() => {
   if (!props.selectedIds.size) return [];
