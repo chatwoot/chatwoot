@@ -145,6 +145,34 @@ inbox_create_payload:
   $ref: ./request/inbox/create_payload.yml
 inbox_update_payload:
   $ref: ./request/inbox/update_payload.yml
+inbox_create_web_widget_channel_payload:
+  $ref: ./request/inbox/channels/create_web_widget_channel_payload.yml
+inbox_create_api_channel_payload:
+  $ref: ./request/inbox/channels/create_api_channel_payload.yml
+inbox_create_email_channel_payload:
+  $ref: ./request/inbox/channels/create_email_channel_payload.yml
+inbox_create_line_channel_payload:
+  $ref: ./request/inbox/channels/create_line_channel_payload.yml
+inbox_create_telegram_channel_payload:
+  $ref: ./request/inbox/channels/create_telegram_channel_payload.yml
+inbox_create_whatsapp_channel_payload:
+  $ref: ./request/inbox/channels/create_whatsapp_channel_payload.yml
+inbox_create_sms_channel_payload:
+  $ref: ./request/inbox/channels/create_sms_channel_payload.yml
+inbox_update_web_widget_channel_payload:
+  $ref: ./request/inbox/channels/update_web_widget_channel_payload.yml
+inbox_update_api_channel_payload:
+  $ref: ./request/inbox/channels/update_api_channel_payload.yml
+inbox_update_email_channel_payload:
+  $ref: ./request/inbox/channels/update_email_channel_payload.yml
+inbox_update_line_channel_payload:
+  $ref: ./request/inbox/channels/update_line_channel_payload.yml
+inbox_update_telegram_channel_payload:
+  $ref: ./request/inbox/channels/update_telegram_channel_payload.yml
+inbox_update_whatsapp_channel_payload:
+  $ref: ./request/inbox/channels/update_whatsapp_channel_payload.yml
+inbox_update_sms_channel_payload:
+  $ref: ./request/inbox/channels/update_sms_channel_payload.yml
 
 # Team
 team_create_update_payload:
