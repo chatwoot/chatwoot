@@ -5034,9 +5034,6 @@
                     "screenshot.png"
                   ]
                 },
-                "required": [
-                  "content"
-                ],
                 "properties": {
                   "content": {
                     "type": "string",

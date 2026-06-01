@@ -89,8 +89,6 @@ requestBody:
           private: false
           'attachments[]':
             - screenshot.png
-        required:
-          - content
         properties:
           content:
             type: string
