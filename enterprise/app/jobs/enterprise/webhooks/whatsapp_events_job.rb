@@ -31,10 +31,11 @@ module Enterprise::Webhooks::WhatsappEventsJob
   #     and timer/recorder kick off before the contact actually answers.
   def handle_call_events(channel, params)
     value = params.dig(:entry, 0, :changes, 0, :value) || {}
+    contacts = value[:contacts]
 
     Array(value[:calls]).each do |call_payload|
       with_call_lock(channel, call_payload[:id]) do
-        Whatsapp::IncomingCallService.new(inbox: channel.inbox, params: { calls: [call_payload] }).perform
+        Whatsapp::IncomingCallService.new(inbox: channel.inbox, params: { calls: [call_payload], contacts: contacts }).perform
       end
     end
 
