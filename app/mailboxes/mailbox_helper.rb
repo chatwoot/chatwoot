@@ -90,13 +90,16 @@ module MailboxHelper
   end
 
   def create_contact
+    sender_email = sanitize_mailbox_value(processed_mail.original_sender)
+    message_id = sanitize_mailbox_value(processed_mail.message_id)
+
     @contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: processed_mail.original_sender,
+      source_id: sender_email,
       inbox: @inbox,
       contact_attributes: {
-        name: identify_contact_name,
-        email: processed_mail.original_sender,
-        additional_attributes: { source_id: "email:#{processed_mail.message_id}" }
+        name: sanitize_mailbox_value(identify_contact_name),
+        email: sender_email,
+        additional_attributes: { source_id: "email:#{message_id}" }
       }
     ).perform
 
