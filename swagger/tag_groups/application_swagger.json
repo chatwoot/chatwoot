@@ -192,7 +192,7 @@
                     "per_page": {
                       "type": "integer",
                       "description": "Number of items per page",
-                      "example": 15
+                      "example": 25
                     },
                     "total_entries": {
                       "type": "integer",

@@ -55,6 +55,7 @@ Rails.application.routes.draw do
             resource :contact_merge, only: [:create]
           end
           resource :bulk_actions, only: [:create]
+          resource :onboarding, only: [:update]
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
@@ -395,6 +396,7 @@ Rails.application.routes.draw do
               resource :bulk_actions, only: [] do
                 post :translate
                 patch :update_status
+                patch :update_category
                 delete :delete_articles
               end
             end
