@@ -81,21 +81,12 @@ class ConversationFinder
 
     find_all_conversations
     filter_by_status unless params[:q]
-    # ADICIONE ESTA LINHA:
-    restrict_by_user_teams unless @is_admin
     filter_by_team
     filter_by_labels
     filter_by_query
     filter_by_source_id
   end
 
-  def restrict_by_user_teams
-    # Pega os IDs de todos os times que o usuário logado faz parte
-    user_team_ids = @current_user.teams.pluck(:id)
-    
-    # Filtra as conversas para mostrar apenas as que estão sem time OU nos times do usuário
-    @conversations = @conversations.where(team_id: user_team_ids).or(@conversations.where(team_id: nil))
-  end
   def set_inboxes
     @inbox_ids = if params[:inbox_id]
                    @current_user.assigned_inboxes.where(id: params[:inbox_id])
