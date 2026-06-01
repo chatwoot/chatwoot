@@ -425,7 +425,10 @@ export async function remuxWebmToOgg(webmBlob) {
 
     while (idx < frames.length && packets.length < MAX_FRAMES_PER_PAGE) {
       const pkt = frames[idx];
-      const pktSegs = Math.ceil(pkt.length / 255) || 1;
+      // createOggPage always appends a terminating lacing value, so a packet
+      // spans floor(len/255)+1 segments (including the extra 0 when len is an
+      // exact multiple of 255). Math.ceil would undercount those cases.
+      const pktSegs = Math.floor(pkt.length / 255) + 1;
       if (segs + pktSegs > MAX_SEGMENTS_PER_PAGE && packets.length > 0) break;
 
       packets.push(pkt);
