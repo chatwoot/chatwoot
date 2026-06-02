@@ -413,6 +413,12 @@ ko:
       empty_placeholder: 검색 결과가 없습니다.
       loading_placeholder: 검색중...
       results_title: 검색 결과
+      results: 검색 결과
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 검색
     toc_header: '이 페이지에서'
     sidebar:
       help_center: 도움말 센터
@@ -444,6 +450,8 @@ ko:
       others: 기타
       by: 작성자
       no_articles: 게시물이 없습니다.
+      previous: 이전
+      next: 다음
     article_actions:
       label: Open in
       view_markdown: View as Markdown
