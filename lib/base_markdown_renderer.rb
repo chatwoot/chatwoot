@@ -20,11 +20,20 @@ class BaseMarkdownRenderer < CommonMarker::HtmlRenderer
   # wins when both are set so the agent's most recent intent is honored.
   def extract_image_sizing_style(src)
     query_params = parse_query_params(src)
-    width = query_params['cw_image_width']&.first
-    return "width: #{width}; max-width: 100%; height: auto;" if width.present?
+    width = sanitize_pixel_value(query_params['cw_image_width']&.first)
+    return "width: #{width}; max-width: 100%; height: auto;" if width
 
-    height = query_params['cw_image_height']&.first
-    height.present? ? "height: #{height};" : nil
+    height = sanitize_pixel_value(query_params['cw_image_height']&.first)
+    height ? "height: #{height};" : nil
+  end
+
+  # Only allow a bounded `<digits>px` value so the decoded query param can't
+  # break out of the inline style attribute (HTML attribute injection).
+  def sanitize_pixel_value(raw)
+    return unless raw =~ /\A(\d+)px\z/
+
+    px = Regexp.last_match(1).to_i
+    "#{px}px" if px.between?(1, 2000)
   end
 
   def parse_query_params(url)

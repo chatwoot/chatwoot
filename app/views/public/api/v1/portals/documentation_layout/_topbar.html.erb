@@ -55,7 +55,7 @@
             <% portal.public_locale_codes.each do |code| %>
               <% is_current = code == locale %>
               <a href="/hc/<%= portal.slug %>/<%= code %>/"
-                 data-turbolinks="false"
+                 data-turbo="false"
                  class="flex items-center gap-2.5 px-2.5 py-2 text-sm rounded-md transition <%= is_current ? 'bg-n-portal-soft text-n-portal' : 'text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12' %>">
                 <span class="text-xs font-semibold uppercase min-w-9 text-center text-n-slate-11 bg-n-slate-2 border border-solid border-n-weak rounded px-1.5 py-0.5 flex-shrink-0"><%= code %></span>
                 <span class="flex-1 truncate <%= is_current ? 'font-medium' : '' %>"><%= language_name(code) %></span>
