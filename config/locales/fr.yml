@@ -67,9 +67,6 @@ fr:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
-    conversations:
-      unread_counts:
-        feature_not_enabled: La fonctionnalité de comptage des conversations non lues n'est pas activée pour ce compte
     data_import:
       data_type:
         invalid: Type de données incorrect
