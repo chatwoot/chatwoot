@@ -273,6 +273,23 @@ describe('customViewsHelper', () => {
       };
       expect(generateValuesForEditCustomViews(filter, params)).toEqual('1');
     });
+
+    it('returns fallback contact display value for contact filters', () => {
+      const filter = {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: [123],
+      };
+      const params = {
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+      };
+
+      expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+        id: 123,
+        name: 'Contact #123',
+      });
+    });
   });
 
   describe('#generateCustomAttributesInputType', () => {

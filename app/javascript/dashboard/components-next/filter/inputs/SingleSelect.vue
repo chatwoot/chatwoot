@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { picoSearch } from '@scmmishra/pico-search';
+import { debounce } from '@chatwoot/utils';
 import Icon from 'next/icon/Icon.vue';
 import Button from 'next/button/Button.vue';
 import DropdownContainer from 'next/dropdown-menu/base/DropdownContainer.vue';
@@ -17,11 +18,16 @@ const {
   placeholder,
   placeholderTrailingIcon,
   searchPlaceholder,
+  searchOptions,
   dropdownMaxHeight,
 } = defineProps({
   options: {
     type: Array,
-    required: true,
+    default: () => [],
+  },
+  searchOptions: {
+    type: Function,
+    default: null,
   },
   disableSearch: {
     type: Boolean,
@@ -60,24 +66,82 @@ const selected = defineModel({
 });
 
 const searchTerm = ref('');
+const asyncOptions = ref([]);
+const isSearching = ref(false);
+let controller = null;
+
+const isAsyncSearch = computed(() => !!searchOptions);
+
+const hasOptionId = option =>
+  option && Object.prototype.hasOwnProperty.call(option, 'id');
+
+const selectedValue = computed(() =>
+  Array.isArray(selected.value) ? selected.value[0] : selected.value
+);
+
+const mergeSelectedOption = results => {
+  if (!hasOptionId(selectedValue.value)) return results;
+  return [
+    selectedValue.value,
+    ...results.filter(option => option.id !== selectedValue.value.id),
+  ];
+};
+
+const isAbortError = error =>
+  error?.name === 'AbortError' || error?.name === 'CanceledError';
+
+const performAsyncSearch = async query => {
+  controller?.abort();
+  const trimmedQuery = query.trim();
+
+  if (!trimmedQuery) {
+    asyncOptions.value = hasOptionId(selectedValue.value)
+      ? [selectedValue.value]
+      : [];
+    isSearching.value = false;
+    return;
+  }
+
+  const currentController = new AbortController();
+  controller = currentController;
+  isSearching.value = true;
+
+  try {
+    const results = await searchOptions(trimmedQuery, {
+      signal: currentController.signal,
+    });
+
+    if (currentController.signal.aborted) return;
+    asyncOptions.value = mergeSelectedOption(results);
+  } catch (error) {
+    if (!isAbortError(error)) {
+      asyncOptions.value = hasOptionId(selectedValue.value)
+        ? [selectedValue.value]
+        : [];
+    }
+  } finally {
+    if (!currentController.signal.aborted) isSearching.value = false;
+  }
+};
+
+const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
+
 const searchResults = computed(() => {
-  if (!options) return [];
+  if (isAsyncSearch.value) return asyncOptions.value;
   return picoSearch(options, searchTerm.value, ['name']);
 });
 
 const selectedItem = computed(() => {
-  if (!options) return null;
-  if (!selected.value) return null;
+  const optionToSearch = selectedValue.value;
+  if (!hasOptionId(optionToSearch)) return null;
 
-  // there are cases where the selected value is an array
-  const optionToSearch = Array.isArray(selected.value)
-    ? selected.value[0]
-    : selected.value;
-
-  if (!optionToSearch) return null;
+  const optionList = isAsyncSearch.value ? asyncOptions.value : options;
   // extract the selected item from the options array
   // this ensures that options like icon is also included
-  return options.find(option => option.id === optionToSearch.id);
+  return (
+    optionList.find(option => option.id === optionToSearch.id) ||
+    (isAsyncSearch.value ? optionToSearch : null)
+  );
 });
 
 const toggleSelected = option => {
@@ -94,6 +158,28 @@ const toggleSelected = option => {
     selected.value = optionToToggle;
   }
 };
+
+watch(searchTerm, value => {
+  if (isAsyncSearch.value) debouncedAsyncSearch(value);
+});
+
+watch(
+  selectedValue,
+  value => {
+    if (
+      isAsyncSearch.value &&
+      hasOptionId(value) &&
+      !asyncOptions.value.find(option => option.id === value.id)
+    ) {
+      asyncOptions.value = [value, ...asyncOptions.value];
+    }
+  },
+  { immediate: true }
+);
+
+onBeforeUnmount(() => {
+  controller?.abort();
+});
 </script>
 
 <template>
@@ -137,7 +223,12 @@ const toggleSelected = option => {
         />
       </div>
       <DropdownSection :height="dropdownMaxHeight">
-        <template v-if="searchResults.length">
+        <template v-if="isSearching">
+          <DropdownItem disabled>
+            {{ t('DROPDOWN_MENU.SEARCHING') }}
+          </DropdownItem>
+        </template>
+        <template v-else-if="searchResults.length">
           <DropdownItem
             v-for="option in searchResults"
             :key="option.id"

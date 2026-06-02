@@ -121,7 +121,11 @@ const resetModelOnAttributeKeyChange = newAttributeKey => {
   const newInputType = getInputType(newOperator, filter);
   if (newInputType === 'multiSelect') {
     values.value = [];
-  } else if (['searchSelect', 'booleanSelect'].includes(newInputType)) {
+  } else if (
+    ['searchSelect', 'asyncSearchSelect', 'booleanSelect'].includes(
+      newInputType
+    )
+  ) {
     values.value = {};
   } else {
     values.value = '';
@@ -183,6 +187,14 @@ defineExpose({ validate, resetValidation });
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-64"
+        />
+        <SingleSelect
+          v-else-if="inputType === 'asyncSearchSelect'"
+          v-model="values"
+          :options="[]"
+          :search-options="currentFilter.searchOptions"
+          :search-placeholder="currentFilter.searchPlaceholder"
           dropdown-max-height="max-h-64"
         />
         <SingleSelect
