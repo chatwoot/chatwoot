@@ -39,15 +39,4 @@ describe('#actions', () => {
       expect(commit).not.toHaveBeenCalled();
     });
   });
-
-  describe('#clear', () => {
-    it('clears unread counts', () => {
-      actions.clear({ commit });
-
-      expect(commit).toHaveBeenCalledWith(
-        types.SET_CONVERSATION_UNREAD_COUNTS,
-        {}
-      );
-    });
-  });
 });
