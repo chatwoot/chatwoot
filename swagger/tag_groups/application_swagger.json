@@ -5280,7 +5280,7 @@
         ],
         "operationId": "create-a-new-message-in-a-conversation",
         "summary": "Create New Message",
-        "description": "Create a new message in the conversation.\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
+        "description": "Create a new message in the conversation.\n\nUse `application/json` for text messages and `multipart/form-data` when the\nmessage includes file attachments.\n\n### Multipart attachment request\n\nSend files with the `attachments[]` form field. `curl -F` sets the\n`multipart/form-data` content type and boundary automatically.\n\n```bash\ncurl -X POST \"https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages\" \\\n  -H \"api_access_token: <your-api-token>\" \\\n  -F \"content=Here is the screenshot\" \\\n  -F \"message_type=outgoing\" \\\n  -F \"private=false\" \\\n  -F \"attachments[]=@/path/to/screenshot.png\"\n```\n\n## WhatsApp Template Messages\n\nFor WhatsApp channels, you can send structured template messages using the `template_params` field. \nTemplates must be pre-approved in WhatsApp Business Manager.\n\n### Example Templates\n\n**Text with Image Header:**\n```json\n{\n  \"content\": \"Hi your order 121212 is confirmed. Please wait for further updates\",\n  \"template_params\": {\n    \"name\": \"order_confirmation\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"1\": \"121212\"\n      },\n      \"header\": {\n        \"media_url\": \"https://picsum.photos/200/300\",\n        \"media_type\": \"image\"\n      }\n    }\n  }\n}\n```\n\n**Text with Copy Code Button:**\n```json\n{\n  \"content\": \"Special offer! Get 30% off your next purchase. Use the code below\",\n  \"template_params\": {\n    \"name\": \"discount_coupon\",\n    \"category\": \"MARKETING\",\n    \"language\": \"en\",\n    \"processed_params\": {\n      \"body\": {\n        \"discount_percentage\": \"30\"\n      },\n      \"buttons\": [{\n        \"type\": \"copy_code\",\n        \"parameter\": \"SAVE20\"\n      }]\n    }\n  }\n}\n```\n",
         "security": [
           {
             "userApiKey": []
@@ -5295,6 +5295,86 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/conversation_message_create_payload"
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "description": "Form data payload for creating a message with file attachments.",
+                "example": {
+                  "content": "Here is the screenshot",
+                  "message_type": "outgoing",
+                  "private": false,
+                  "attachments[]": [
+                    "screenshot.png"
+                  ]
+                },
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "The content of the message",
+                    "example": "Here is the screenshot"
+                  },
+                  "message_type": {
+                    "type": "string",
+                    "enum": [
+                      "outgoing",
+                      "incoming"
+                    ],
+                    "description": "The type of the message",
+                    "example": "outgoing"
+                  },
+                  "private": {
+                    "type": "boolean",
+                    "description": "Flag to identify if it is a private note",
+                    "example": false
+                  },
+                  "content_type": {
+                    "type": "string",
+                    "enum": [
+                      "text",
+                      "input_email",
+                      "cards",
+                      "input_select",
+                      "form",
+                      "article"
+                    ],
+                    "description": "Content type of the message",
+                    "example": "text"
+                  },
+                  "content_attributes": {
+                    "type": "object",
+                    "description": "Attributes based on the content type",
+                    "example": {}
+                  },
+                  "attachments[]": {
+                    "type": "array",
+                    "description": "Files to attach to the message",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                }
+              },
+              "encoding": {
+                "attachments[]": {
+                  "style": "form",
+                  "explode": true
+                }
+              },
+              "examples": {
+                "attachment_message": {
+                  "summary": "Message with an attachment",
+                  "value": {
+                    "content": "Here is the screenshot",
+                    "message_type": "outgoing",
+                    "private": false,
+                    "attachments[]": [
+                      "screenshot.png"
+                    ]
+                  }
+                }
               }
             }
           }
