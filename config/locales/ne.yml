@@ -413,6 +413,13 @@ ne:
       empty_placeholder: कुनै परिणाम फेला परेन.
       loading_placeholder: खोज्दै...
       results_title: खोज परिणामहरू
+      results: खोज परिणामहरू
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: खोज्नुहोस्
     toc_header: 'यस पृष्ठमा'
     sidebar:
       help_center: मद्दत केन्द्र
@@ -444,6 +451,8 @@ ne:
       others: others
       by: द्वारा
       no_articles: यहाँ कुनै लेखहरू छैनन्
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
