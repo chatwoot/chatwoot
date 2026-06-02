@@ -70,7 +70,7 @@ RSpec.describe 'TikTok Callbacks', type: :request do
     expect(channel.access_token).to eq(tiktok_access_token)
     expect(channel.refresh_token).to eq(tiktok_refresh_token)
 
-    expect(response).to redirect_to(app_tiktok_inbox_agents_url(account_id: account.id, inbox_id: inbox.id))
+    expect(response).to redirect_to(app_inbox_wizard_agents_url(account_id: account.id, inbox_id: inbox.id))
   end
 
   it 'updates an existing channel and redirects to settings' do
@@ -98,7 +98,7 @@ RSpec.describe 'TikTok Callbacks', type: :request do
     expect(existing_channel.refresh_token).to eq(tiktok_refresh_token)
     expect(inbox.name).to eq('TikTok Display Name')
 
-    expect(response).to redirect_to(app_tiktok_inbox_settings_url(account_id: account.id, inbox_id: inbox.id))
+    expect(response).to redirect_to(app_inbox_wizard_settings_url(account_id: account.id, inbox_id: inbox.id))
   end
 
   it 'redirects to error page when user denies authorization' do

@@ -29,9 +29,9 @@ class Instagram::CallbacksController < ApplicationController
     inbox, already_exists = find_or_create_inbox
 
     if already_exists
-      redirect_to app_instagram_inbox_settings_url(account_id: account_id, inbox_id: inbox.id)
+      redirect_to app_inbox_wizard_settings_url(account_id: account_id, inbox_id: inbox.id)
     else
-      redirect_to app_instagram_inbox_agents_url(account_id: account_id, inbox_id: inbox.id)
+      redirect_to app_inbox_wizard_agents_url(account_id: account_id, inbox_id: inbox.id)
     end
   end
 
