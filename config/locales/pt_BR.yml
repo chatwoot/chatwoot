@@ -417,7 +417,7 @@ pt_BR:
       results_for: "Search Results for '%{query}'"
       no_results: "No results found for '%{query}'"
       found_results:
-        one: Found 1 result
+        one: Um resultado encontrado
         other: 'Found %{count} results'
       submit: Pesquisar
     toc_header: 'Nesta página'
