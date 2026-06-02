@@ -413,6 +413,12 @@ vi:
       empty_placeholder: Không tìm thấy kết quả.
       loading_placeholder: Đang tìm kiếm...
       results_title: Các kết quả tìm kiếm
+      results: Các kết quả tìm kiếm
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: Tìm kiếm
     toc_header: 'Trên trang này'
     sidebar:
       help_center: Help Center
@@ -444,6 +450,8 @@ vi:
       others: others
       by: By
       no_articles: Không tìm thấy bài viết
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
