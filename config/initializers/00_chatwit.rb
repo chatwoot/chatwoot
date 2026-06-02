@@ -152,6 +152,68 @@ module Chatwit::PlatformBot
   end
 end
 
+# Enterprise plan pinning — Chatwit é self-hosted enterprise white-label.
+#
+# O gating (`ChatwootApp.self_hosted_enterprise?` e `ChatwootHub.pricing_plan`)
+# lê INSTALLATION_PRICING_PLAN do InstallationConfig (banco). O ENV de mesmo
+# nome no Dockerfile.enterprise NÃO tem efeito — nenhum desses caminhos lê ENV.
+# Quem gravava 'enterprise' no banco era o entrypoint
+# docker/entrypoints/rails-enterprise.sh, que só roda no compose de produção;
+# o dev (docker-compose.yaml) usa rails.sh e cai no default 'community' do seed.
+#
+# Além disso, o upstream v4.13.0 trouxe Internal::ReconcilePlanConfigService
+# (rodado diariamente pelo CheckNewVersionsJob) que, com plano 'community',
+# DESABILITA as features premium em todas as contas. Fixar o plano em
+# 'enterprise' no boot resolve os dois casos: destrava as features e faz o
+# reconcile retornar cedo (no-op). Telemetria fica OFF, então o plano nunca é
+# sobrescrito pelo hub.
+module Chatwit::EnterprisePlan
+  PREMIUM_FEATURES = %w[disable_branding audit_logs sla captain_integration custom_roles response_bot].freeze
+
+  class << self
+    def ensure!
+      return if Rails.env.test?
+      return unless table_available?
+
+      enable_premium_features! if pin_plan!
+    rescue ActiveRecord::ConnectionNotEstablished
+      Rails.logger.info '[CHATWIT-PLAN] Skipping — database not available'
+    rescue StandardError => e
+      Rails.logger.error "[CHATWIT-PLAN] Error pinning enterprise plan: #{e.message}"
+    end
+
+    private
+
+    def table_available?
+      ActiveRecord::Base.connection.table_exists?('installation_configs')
+    end
+
+    # Returns true if the pricing plan was (re)set to enterprise this run.
+    def pin_plan!
+      flipped = upsert_config('INSTALLATION_PRICING_PLAN', 'enterprise')
+      upsert_config('INSTALLATION_PRICING_PLAN_QUANTITY', '100')
+      GlobalConfig.clear_cache if flipped
+      flipped
+    end
+
+    def upsert_config(name, value)
+      config = InstallationConfig.find_or_initialize_by(name: name)
+      return false if config.value.to_s == value.to_s
+
+      config.value = value
+      config.save!
+      true
+    end
+
+    def enable_premium_features!
+      return unless ActiveRecord::Base.connection.column_exists?(:accounts, :settings)
+
+      Account.find_each { |account| account.enable_features!(*PREMIUM_FEATURES) }
+    end
+  end
+end
+
 Rails.application.config.to_prepare do
   Chatwit::PlatformBot.provision!
+  Chatwit::EnterprisePlan.ensure!
 end
