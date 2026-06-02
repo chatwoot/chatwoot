@@ -111,14 +111,14 @@ const tailwindConfig = {
             ol: {
               paddingInlineStart: '0.625em',
             },
-            'ul li': {
+            'ul > li': {
               margin: '0 0 0.5em 1em',
               listStyleType: 'disc',
               '[dir="rtl"] &': {
                 margin: '0 1em 0.5em 0',
               },
             },
-            'ol li': {
+            'ol > li': {
               margin: '0 0 0.5em 1em',
               listStyleType: 'decimal',
               '[dir="rtl"] &': {
