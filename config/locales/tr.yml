@@ -413,6 +413,13 @@ tr:
       empty_placeholder: Sonuç bulunamadı.
       loading_placeholder: Aranıyor...
       results_title: Arama sonuçları
+      results: Arama Sonucu
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Ara
     toc_header: 'Bu sayfada'
     sidebar:
       help_center: Yardım Merkezi
@@ -444,6 +451,8 @@ tr:
       others: diğerleri
       by: Tarafından
       no_articles: Burada makale bulunmuyor
+      previous: Önceki
+      next: Sonraki
     article_actions:
       label: Open in
       view_markdown: View as Markdown
