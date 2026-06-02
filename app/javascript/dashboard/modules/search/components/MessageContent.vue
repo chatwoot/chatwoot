@@ -104,12 +104,12 @@ const authorText = computed(() => {
 </template>
 
 <style scoped lang="scss">
-.message-content::v-deep p {
+.message-content :deep(p) {
   @apply inline;
   margin: 0;
 }
 
-.message-content::v-deep br {
+.message-content :deep(br) {
   display: none;
 }
 </style>

@@ -95,6 +95,13 @@ const channelList = computed(() => {
     icon: 'i-woot-voice',
   });
 
+  channels.push({
+    key: 'whatsapp_call',
+    title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_CALL.TITLE'),
+    description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP_CALL.DESCRIPTION'),
+    icon: 'i-woot-whatsapp',
+  });
+
   return channels;
 });
 

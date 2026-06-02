@@ -204,8 +204,44 @@ watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
   immediate: true,
 });
 
+const normalizeUnreadCount = count => {
+  const unreadCount = Number(count);
+  return Number.isFinite(unreadCount) && unreadCount > 0 ? unreadCount : 0;
+};
+
+const sortByUnreadCount = (items, labelKey, unreadCountKey) =>
+  items.slice().sort((a, b) => {
+    const unreadCountDiff =
+      normalizeUnreadCount(unreadCountKey(b)) -
+      normalizeUnreadCount(unreadCountKey(a));
+
+    if (unreadCountDiff !== 0) return unreadCountDiff;
+
+    return labelKey(a).localeCompare(labelKey(b));
+  });
+
+const sortedTeams = computed(() =>
+  sortByUnreadCount(
+    teams.value,
+    team => team.name,
+    team => getTeamUnreadCount.value(team.id)
+  )
+);
+
 const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+  sortByUnreadCount(
+    inboxes.value,
+    inbox => inbox.name,
+    inbox => getInboxUnreadCount.value(inbox.id)
+  )
+);
+
+const sortedLabels = computed(() =>
+  sortByUnreadCount(
+    labels.value,
+    label => label.title,
+    label => getLabelUnreadCount.value(label.id)
+  )
 );
 
 const closeMobileSidebar = () => {
@@ -298,7 +334,7 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
           activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
+          children: sortedTeams.value.map(team => ({
             name: `${team.name}-${team.id}`,
             label: team.name,
             badgeCount: getTeamUnreadCount.value(team.id),
@@ -330,7 +366,7 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tag',
           activeOn: ['conversations_through_label'],
-          children: labels.value.map(label => ({
+          children: sortedLabels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
             badgeCount: getLabelUnreadCount.value(label.id),

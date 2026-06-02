@@ -89,7 +89,7 @@ gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
-gem 'jwt'
+gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
@@ -208,6 +208,8 @@ gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
+
+gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
