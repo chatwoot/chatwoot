@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Grabar audio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir el acceso a audio",
       "TIP_AUDIORECORDER_ERROR": "No se pudo abrir el audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Arrastra y suelta aquí para adjuntar",
       "START_AUDIO_RECORDING": "Iniciar grabación de audio",
       "STOP_AUDIO_RECORDING": "Detener grabación de audio",
