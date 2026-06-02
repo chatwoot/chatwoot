@@ -199,9 +199,27 @@
   description: 'The API key used to authenticate requests to OpenAI services for Captain AI.'
   locked: false
   type: secret
+- name: CAPTAIN_GEMINI_API_KEY
+  display_title: 'Gemini API Key (optional)'
+  description: 'Google Gemini API key for Captain AI. Required when a Gemini model is selected below. Get it at https://aistudio.google.com/apikey'
+  locked: false
+  type: secret
 - name: CAPTAIN_OPEN_AI_MODEL
-  display_title: 'OpenAI Model'
-  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4.1-mini'
+  display_title: 'Captain Model'
+  description: 'Model used by Captain AI. Gemini models use the Gemini API key; GPT models use the OpenAI API key. Default: gemini-3.1-flash-lite'
+  type: select
+  options:
+    "gemini-3.1-flash-lite": "Gemini 3.1 Flash Lite (default)"
+    "gemini-3.5-flash": "Gemini 3.5 Flash"
+    "gemini-3.1-pro-preview": "Gemini 3.1 Pro (preview)"
+    "gemini-3-pro-preview": "Gemini 3 Pro (preview)"
+    "gemini-3-flash-preview": "Gemini 3 Flash (preview)"
+    "gemini-2.5-pro": "Gemini 2.5 Pro"
+    "gemini-2.5-flash": "Gemini 2.5 Flash"
+    "gemini-2.5-flash-lite": "Gemini 2.5 Flash Lite"
+    "gpt-5.5": "GPT-5.5"
+    "gpt-5.4-mini": "GPT-5.4 mini"
+    "gpt-4.1-mini": "GPT-4.1 mini"
   locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'OpenAI API Endpoint (optional)'

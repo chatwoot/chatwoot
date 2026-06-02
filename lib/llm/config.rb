@@ -35,6 +35,7 @@ module Llm::Config
       RubyLLM.configure do |config|
         config.openai_api_key = system_api_key if system_api_key.present?
         config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        config.gemini_api_key = gemini_api_key if gemini_api_key.present?
         config.model_registry_file = Rails.root.join('config/llm_models.json').to_s
         config.logger = Rails.logger
       end
@@ -42,6 +43,10 @@ module Llm::Config
 
     def system_api_key
       InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    end
+
+    def gemini_api_key
+      InstallationConfig.find_by(name: 'CAPTAIN_GEMINI_API_KEY')&.value
     end
 
     def openai_endpoint
