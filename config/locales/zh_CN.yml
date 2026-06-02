@@ -413,6 +413,12 @@ zh_CN:
       empty_placeholder: 未找到结果。
       loading_placeholder: 搜索中...
       results_title: 搜索结果
+      results: 搜索结果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 搜索
     toc_header: '在此页面'
     sidebar:
       help_center: 帮助中心
@@ -444,6 +450,8 @@ zh_CN:
       others: 其他
       by: 作者：
       no_articles: 没有文章在这里
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
