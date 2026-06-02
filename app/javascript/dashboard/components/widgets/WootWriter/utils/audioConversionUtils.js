@@ -149,9 +149,11 @@ export const convertAudio = async (inputBlob, outputFormat, bitrate = 128) => {
       audio = inputBlob;
     } else {
       // Browsers that record neither WebM nor OGG (e.g. Safari records
-      // audio/mp4) cannot produce OGG/Opus, which WhatsApp requires for voice
-      // notes. Fail instead of relabeling other codecs as audio/ogg.
-      throw new Error(`Cannot convert ${inputType} to OGG/Opus`);
+      // audio/mp4) cannot produce OGG/Opus. Fall back to MP3 so the recording
+      // still sends as a regular audio message instead of failing. The caller
+      // keys the voice-note flag off the returned blob type, so an MP3 result
+      // is never mislabeled as an OGG/Opus voice note.
+      audio = await convertToMp3(inputBlob, bitrate);
     }
   } else {
     throw new Error('Unsupported output format');
