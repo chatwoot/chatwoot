@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Rekam audio",
       "TIP_AUDIORECORDER_PERMISSION": "Izinkan akses ke audio",
       "TIP_AUDIORECORDER_ERROR": "Tidak dapat membuka audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Seret dan letakkan di sini untuk melampirkan",
       "START_AUDIO_RECORDING": "Mulai merekam audio",
       "STOP_AUDIO_RECORDING": "Berhenti merekam audio",
