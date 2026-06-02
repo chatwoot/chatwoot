@@ -386,6 +386,7 @@
       "IDENTIFIER": "식별자",
       "COUNTRY": "국가",
       "CITY": "도시",
+      "COMPANY": "회사",
       "CREATED_AT": "생성일",
       "LAST_ACTIVITY": "최근 활동",
       "REFERER_LINK": "참조 링크",

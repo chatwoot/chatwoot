@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "ვიჯეტის შემქმნელი",
       "BOT_CONFIGURATION": "ბოტის კონფიგურაცია",
       "ACCOUNT_HEALTH": "ანგარიშის ჯანმრთელობა",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "ხმოვანი"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "არხის პარამეტრები",
     "WIDGET_FEATURES": "ვიჯეტის ფუნქციები",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "ჩართეთ ან გამორთეთ აგენტის სახელის ჩვენება ელფოსტაში, გამორთვის შემთხვევაში გამოჩნდება ბიზნესის სახელი",
       "ENABLE_CONTINUITY_VIA_EMAIL": "შეტყობინებების გაგრძელების ჩართვა ელექტრონული ფოსტის საშუალებით",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "საუბრები გაგრძელდება ელფოსტით, თუ კონტაქტის ელფოსტის მისამართი ხელმისაწვდომია.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "საუბრის მარშრუტიზაცია",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "დააყენეთ საუბრის შექმნა არსებული კონტაქტებისთვის",
       "INBOX_UPDATE_TITLE": "ინბოქსის პარამეტრები",
@@ -1000,7 +1011,8 @@
         "LABEL": "პაროლი",
         "PLACE_HOLDER": "პაროლი"
       },
-      "ENABLE_SSL": "SSL-ის ჩართვა"
+      "ENABLE_SSL": "SSL-ის ჩართვა",
+      "AUTH_MECHANISM": "ავტორიზაცია"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "Tem a certeza que pretende remover a atribuição de {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Voltar",
     "ASSIGN_LABEL": "Atribuir",
+    "NONE": "Nenhuma",
+    "CLEAR_SELECTION": "Limpar",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Sim",
+    "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Procurar",
     "ASSIGN_AGENT_TOOLTIP": "Atribuir agente",
     "ASSIGN_TEAM_TOOLTIP": "Atribuir equipa",
@@ -38,6 +43,8 @@
       "NONE": "Nenhuma",
       "NO_TEAMS_AVAILABLE": "Não há equipas nesta conta.",
       "ASSIGN_SELECTED_TEAMS": "Atribuir equipa selecionada.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Equipas atribuídas.",
       "ASSIGN_FAILED": "Falha ao atribuir equipa. Tente novamente."
     }

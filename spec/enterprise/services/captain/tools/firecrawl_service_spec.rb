@@ -33,7 +33,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       end
 
       it 'raises an error' do
-        expect { described_class.new }.to raise_error(NoMethodError)
+        expect { described_class.new }.to raise_error('Missing API key')
       end
     end
 

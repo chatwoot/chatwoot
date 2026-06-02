@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identificador",
       "COUNTRY": "País",
       "CITY": "Ciutat",
+      "COMPANY": "Companyia",
       "CREATED_AT": "Creat per",
       "LAST_ACTIVITY": "Darrera activitat",
       "REFERER_LINK": "Enllaç de referència",

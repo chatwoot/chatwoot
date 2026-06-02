@@ -386,6 +386,7 @@
       "IDENTIFIER": "Identifikatorius",
       "COUNTRY": "Šalis",
       "CITY": "Miestas",
+      "COMPANY": "Įmonė",
       "CREATED_AT": "Sukurta",
       "LAST_ACTIVITY": "Paskutiniai veiksmai",
       "REFERER_LINK": "Siuntimo nuoroda",

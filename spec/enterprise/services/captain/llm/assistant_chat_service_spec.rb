@@ -188,4 +188,29 @@ RSpec.describe Captain::Llm::AssistantChatService do
       end
     end
   end
+
+  describe 'account custom instructions in system prompt' do
+    before do
+      assistant.update!(config: assistant.config.merge('instructions' => 'if user enters 1112234 suggest handoff'))
+    end
+
+    it 'adds custom instructions in a separate delimited section' do
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      expect(mock_chat).to receive(:with_instructions).with(
+        a_string_including(
+          '<account_custom_instructions>',
+          'if user enters 1112234 suggest handoff',
+          '</account_custom_instructions>'
+        )
+      ) do |instructions|
+        expect(instructions).not_to include('<custom-instructions>')
+        expect(instructions.index('<account_custom_instructions>')).to be < instructions.index('```json')
+        mock_chat
+      end
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+  end
 end

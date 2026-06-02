@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mesej tidak tersedia",
     "CARD": {
       "SHOW_LABELS": "Tunjukkan label",
-      "HIDE_LABELS": "Sembunyikan label"
+      "HIDE_LABELS": "Sembunyikan label",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Panggilan masuk",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "Panggilan tamat",
       "NOT_ANSWERED_YET": "Belum dijawab",
       "THEY_ANSWERED": "Mereka menjawab",
-      "YOU_ANSWERED": "Anda menjawab"
+      "YOU_ANSWERED": "Anda menjawab",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Sertai panggilan"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Selesaikan",
@@ -92,6 +95,7 @@
       "OPEN": "Lagi",
       "CLOSE": "Tutup",
       "DETAILS": "butiran",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Ditangguhkan sehingga",
       "SNOOZED_UNTIL_TOMORROW": "Ditangguhkan sehingga esok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditangguhkan sehingga minggu depan",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "Perbualan Sebelumnya",
       "MACROS": "Makro",
       "LINEAR_ISSUES": "Isu Linear Berkaitan",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

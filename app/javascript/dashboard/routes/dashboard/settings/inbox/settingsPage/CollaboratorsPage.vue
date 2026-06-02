@@ -527,7 +527,7 @@ onMounted(() => {
 
                     <DropdownMenu
                       v-if="showPolicyDropdown"
-                      class="top-full ltr:left-0 rtl:right-0 mt-2 max-w-64 max-h-72 overflow-y-auto"
+                      class="top-full ltr:left-0 rtl:right-0 mt-2 max-w-64 max-h-72"
                       :menu-items="policyMenuItems"
                       :is-searching="isLoadingPolicies"
                       @action="handlePolicyMenuAction"

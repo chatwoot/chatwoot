@@ -386,6 +386,7 @@
       "IDENTIFIER": "Идентификатор",
       "COUNTRY": "Страна",
       "CITY": "Город",
+      "COMPANY": "Компания",
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия",
       "REFERER_LINK": "Ссылка реферера",

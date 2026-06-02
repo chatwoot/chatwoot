@@ -742,12 +742,58 @@
       "SELECT_ALL": "בחר הכל ({count})",
       "UNSELECT_ALL": "בטל בחירת הכל ({count})",
       "BULK_DELETE_BUTTON": "מחק",
+      "BULK_SYNC_BUTTON": "רענן",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "כן, מחק הכל",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "נכשל"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "חיפוש..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "מעדכן...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "דף לא נמצא",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "שאלות נפוצות קשורות",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "הצג תגובות קשורות",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "מחק מסמך"
       },
       "EMPTY_STATE": {
         "TITLE": "אין מסמכים זמינים",
         "SUBTITLE": "מסמכים משמשים את העוזר שלך ליצירת שאלות נפוצות. תוכל לייבא מסמכים כדי לספק הקשר לעוזר שלך.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "מסמך קפטן",
           "NOTE": "מסמך בקפטן משמש כמקור ידע עבור העוזר. על ידי חיבור מרכז העזרה או המדריכים שלך, קפטן יכול לנתח את התוכן ולספק תגובות מדויקות לשאילתות לקוחות."

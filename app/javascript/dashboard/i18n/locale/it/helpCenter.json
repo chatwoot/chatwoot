@@ -525,6 +525,7 @@
             "PUBLISH": "Pubblica",
             "DRAFT": "Bozza",
             "ARCHIVE": "Archivia",
+            "TRANSLATE": "Traduci",
             "DELETE": "Elimina"
           },
           "STATUS": {
@@ -579,6 +580,41 @@
           "TITLE": "Non ci sono articoli in questa categoria",
           "SUBTITLE": "Gli articoli in questa categoria appariranno qui"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Traduci articolo | Traduci {count} articoli",
+        "DESCRIPTION": "Traduci l'articolo selezionato in un'altra lingua. | Traduci gli articoli selezionati in un'altra lingua.",
+        "LOCALE_LABEL": "Lingua di destinazione",
+        "LOCALE_PLACEHOLDER": "Seleziona una lingua",
+        "CATEGORY_LABEL": "Categoria di destinazione",
+        "CATEGORY_PLACEHOLDER": "Seleziona una categoria",
+        "OPTIONAL": "(opzionale)",
+        "CONFIRM": "Traduci",
+        "SELECT_ALL": "Seleziona tutto ({count})",
+        "SELECTED_COUNT": "{count} selezionate",
+        "CLEAR_SELECTION": "Annulla selezione",
+        "TRANSLATE_BUTTON": "Traduci",
+        "CONFIRM_OVERWRITE": "Sovrascrivi e traduci",
+        "DUPLICATE_WARNING": "Esiste già una traduzione per questo articolo nella lingua selezionata. | Esistono già delle traduzioni per {count} articoli nella lingua selezionata.",
+        "DUPLICATE_CONFIRM_HINT": "Clicca Traduci di nuovo per sovrascrivere la traduzione esistente.",
+        "API": {
+          "SUCCESS_MESSAGE": "Traduzione in corso. L'articolo apparirà in bozza una volta pronto.",
+          "ERROR_MESSAGE": "Impossibile avviare la traduzione. Riprova."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Pubblica",
+        "DRAFT": "Bozza",
+        "ARCHIVE": "Archivia",
+        "TRANSLATE": "Traduci",
+        "DELETE": "Elimina",
+        "STATUS_SUCCESS": "Articoli aggiornati correttamente",
+        "STATUS_ERROR": "Impossibile aggiornare gli articoli",
+        "DELETE_CONFIRM_TITLE": "Elimina articolo | Elimina {count} articoli",
+        "DELETE_CONFIRM_DESCRIPTION": "Questo eliminerà definitivamente l'articolo selezionato. Questa azione non può essere annullata. | Questo eliminerà definitivamente {count} articoli selezionati. Questa azione non può essere annullata.",
+        "DELETE_CONFIRM": "Elimina",
+        "DELETE_SUCCESS": "Articoli eliminati correttamente",
+        "DELETE_ERROR": "Impossibile eliminare gli articoli"
       }
     },
     "CATEGORY_PAGE": {

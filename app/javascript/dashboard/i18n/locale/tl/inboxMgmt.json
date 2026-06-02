@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Tagabuo ng widget",
       "BOT_CONFIGURATION": "Pag-configure ng Bot",
       "ACCOUNT_HEALTH": "Kalusugan ng Account",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Boses"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
     },
     "CHANNEL_PREFERENCES": "Mga Kagustuhan sa Channel",
     "WIDGET_FEATURES": "Mga tampok ng widget",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "I-enable/Disable ang pagpapakita ng pangalan ng Ahente sa email, kung naka-disable ipapakita ang pangalan ng negosyo",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Paganahin ang pagpapatuloy ng pag-uusap sa pamamagitan ng email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Magpapatuloy ang mga pag-uusap sa email kung available ang email address ng contact.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Pag-ruta ng Pag-uusap",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "I-configure ang paggawa ng pag-uusap para sa mga umiiral na contact",
       "INBOX_UPDATE_TITLE": "Mga Setting ng Inbox",
@@ -1000,7 +1011,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Paganahin ang SSL"
+      "ENABLE_SSL": "Paganahin ang SSL",
+      "AUTH_MECHANISM": "Authentication"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

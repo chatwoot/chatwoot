@@ -636,7 +636,17 @@
       "WIDGET_BUILDER": "Costruttore Widget",
       "BOT_CONFIGURATION": "Configurazione Bot",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voce"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Abilita Chiamate Vocali",
+        "DESCRIPTION": "Abilita le chiamate vocali su questa inbox. Gli operatori saranno in grado di effettuare e ricevere chiamate."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Le chiamate vocali richiedono credenziali API di Twilio. Queste vengono usate per generare token per le connessioni voce."
+      }
     },
     "CHANNEL_PREFERENCES": "Preferenze Canali",
     "WIDGET_FEATURES": "Funzionalità Widget",
@@ -745,6 +755,7 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "Questa funzione è disponibile sui piani a pagamento. Aggiorna per abilitare la continuità della conversazione via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Routing Conversazioni",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Gestisci come vengono create le conversazioni per i contatti esistenti",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
@@ -1000,7 +1011,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Abilita SSL"
+      "ENABLE_SSL": "Abilita SSL",
+      "AUTH_MECHANISM": "Autenticazione"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

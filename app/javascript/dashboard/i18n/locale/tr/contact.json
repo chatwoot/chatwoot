@@ -386,6 +386,7 @@
       "IDENTIFIER": "Doğrulayıcı",
       "COUNTRY": "Ülke",
       "CITY": "Şehir",
+      "COMPANY": "Şirket",
       "CREATED_AT": "Oluşturma zamanı",
       "LAST_ACTIVITY": "Son etkinlik",
       "REFERER_LINK": "Yönlendiren Bağlantı",

@@ -49,7 +49,11 @@ const rules = computed(() => ({
       props.attribute.regexPattern && {
         regexValidation: value => {
           if (!value) return true;
-          return getRegexp(props.attribute.regexPattern).test(value);
+          try {
+            return getRegexp(props.attribute.regexPattern).test(value);
+          } catch {
+            return false;
+          }
         },
       }),
   },
@@ -187,7 +191,7 @@ const handleInputUpdate = async () => {
         :message="attributeErrorMessage"
         :message-type="hasError ? 'error' : 'info'"
         custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
-        @keyup.enter="handleInputUpdate"
+        @enter="handleInputUpdate"
       />
       <Button
         icon="i-lucide-check"

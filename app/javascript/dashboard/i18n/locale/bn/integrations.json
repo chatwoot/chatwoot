@@ -742,12 +742,58 @@
       "SELECT_ALL": "সব নির্বাচন করুন ({count})",
       "UNSELECT_ALL": "সব নির্বাচন বাতিল করুন ({count})",
       "BULK_DELETE_BUTTON": "মুছে ফেলুন",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "হ্যাঁ, সব মুছে ফেলুন",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "ব্যর্থ"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "পৃষ্ঠা খুঁজে পাওয়া যায়নি",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "সম্পর্কিত FAQ",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "সম্পর্কিত উত্তরসমূহ দেখুন",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "নথি মুছে ফেলুন"
       },
       "EMPTY_STATE": {
         "TITLE": "কোনো ডকুমেন্ট উপলব্ধ নেই।",
         "SUBTITLE": "ডকুমেন্টগুলি আপনার সহকারীকে FAQ তৈরি করতে ব্যবহৃত হয়। আপনি আপনার সহকারীর জন্য প্রাসঙ্গিকতা দিতে ডকুমেন্ট আমদানি করতে পারেন।",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "ক্যাপ্টেন ডকুমেন্ট",
           "NOTE": "ক্যাপ্টেনে একটি ডকুমেন্ট সহকারী জন্য জ্ঞান সম্পদ হিসেবে কাজ করে। আপনার হেল্প সেন্টার বা গাইড সংযুক্ত করে, ক্যাপ্টেন বিষয়বস্তু বিশ্লেষণ করতে পারে এবং গ্রাহকের প্রশ্নের জন্য সঠিক উত্তর প্রদান করে।"

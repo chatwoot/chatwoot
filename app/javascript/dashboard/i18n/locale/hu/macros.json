@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Hiba történt a makró törlése közben. Kérlek próbáld újra később"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Makró szerkesztése",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Makró láthatósága",
         "GLOBAL": {
           "LABEL": "Nyilvános",
-          "DESCRIPTION": "Ez a makró nyilvánosan elérhető minden ügynök számára ebben a fiókban."
+          "DESCRIPTION": "Ez a makró nyilvánosan elérhető minden ügynök számára ebben a fiókban.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Privát",

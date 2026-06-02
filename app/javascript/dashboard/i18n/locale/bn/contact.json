@@ -386,6 +386,7 @@
       "IDENTIFIER": "আইডেন্টিফায়ার",
       "COUNTRY": "দেশ",
       "CITY": "শহর",
+      "COMPANY": "কোম্পানি",
       "CREATED_AT": "তৈরি হয়েছে",
       "LAST_ACTIVITY": "সর্বশেষ কার্যকলাপ",
       "REFERER_LINK": "রেফারার লিঙ্ক",

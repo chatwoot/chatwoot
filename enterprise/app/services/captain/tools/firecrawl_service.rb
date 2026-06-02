@@ -2,9 +2,14 @@ class Captain::Tools::FirecrawlService
   BASE_URL = 'https://api.firecrawl.dev/v1'.freeze
   FIRECRAWL_EXCLUDE_TAGS = %w[iframe .sidebar .cookie-banner [role=navigation] [role=banner] [role=contentinfo]].freeze
 
+  def self.configured?
+    InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')&.value
+                      .present?
+  end
+
   def initialize
     @api_key = InstallationConfig.find_by!(name: 'CAPTAIN_FIRECRAWL_API_KEY').value
-    raise 'Missing API key' if @api_key.empty?
+    raise 'Missing API key' if @api_key.blank?
   end
 
   def perform(url, webhook_url, crawl_limit = 10)

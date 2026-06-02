@@ -386,6 +386,7 @@
       "IDENTIFIER": "識別子",
       "COUNTRY": "国",
       "CITY": "都市",
+      "COMPANY": "企業名",
       "CREATED_AT": "作成日時",
       "LAST_ACTIVITY": "最終アクティビティ",
       "REFERER_LINK": "参照リンク",

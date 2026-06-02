@@ -27,7 +27,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     if errors.any?
       redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
     else
-      redirect_to super_admin_settings_path, notice: "App Configs - #{@config.titleize} updated successfully"
+      redirect_to super_admin_settings_path, flash: success_flash
     end
   end
 
@@ -57,6 +57,21 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       @config,
       %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
     )
+  end
+
+  def success_notice
+    message = "#{@config.titleize} settings updated successfully"
+    return message unless restart_required_config_saved?
+
+    "#{message.delete_suffix('.')}. Restart Chatwoot web and worker processes to apply this change everywhere."
+  end
+
+  def success_flash
+    restart_required_config_saved? ? { success: success_notice } : { notice: success_notice }
+  end
+
+  def restart_required_config_saved?
+    params.fetch('app_config', {}).keys.intersect?(InstallationConfig::RESTART_REQUIRED_CONFIG_KEYS)
   end
 end
 

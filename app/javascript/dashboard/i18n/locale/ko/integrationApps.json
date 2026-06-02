@@ -46,6 +46,7 @@
           "PLACEHOLDER": "받은 메시지함 선택"
         },
         "SUBMIT": "만들기",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "취소"
       },
       "API": {

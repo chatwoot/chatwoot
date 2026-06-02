@@ -68,7 +68,7 @@ class TwilioVoiceClient extends EventTarget {
     this.inboxId = null;
   }
 
-  async joinClientCall({ to, conversationId }) {
+  async joinClientCall({ to, conversationId, callSid }) {
     if (!this.device || !this.initialized || !to) return null;
     if (this.activeConnection) return this.activeConnection;
 
@@ -76,6 +76,7 @@ class TwilioVoiceClient extends EventTarget {
       To: to,
       is_agent: 'true',
       conversation_id: conversationId,
+      call_sid: callSid,
     };
 
     const connection = await this.device.connect({ params });

@@ -6,7 +6,12 @@
     "UNASSIGN_CONFIRMATION_LABEL": "您確定要取消指派 {conversationCount} 個{conversationLabel}嗎？",
     "GO_BACK_LABEL": "返回",
     "ASSIGN_LABEL": "指派",
+    "NONE": "無",
+    "CLEAR_SELECTION": "清除",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "是",
+    "CANCEL": "取消",
     "SEARCH_INPUT_PLACEHOLDER": "搜尋",
     "ASSIGN_AGENT_TOOLTIP": "指派客服",
     "ASSIGN_TEAM_TOOLTIP": "指派團隊",
@@ -38,6 +43,8 @@
       "NONE": "無",
       "NO_TEAMS_AVAILABLE": "此帳戶尚未新增任何團隊。",
       "ASSIGN_SELECTED_TEAMS": "指派已選團隊。",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "團隊指派成功。",
       "ASSIGN_FAILED": "指派團隊失敗，請再試一次。"
     }

@@ -177,7 +177,7 @@ describe Whatsapp::FacebookApiClient do
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { override_callback_uri: callback_url, verify_token: verify_token,
-                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
+                    subscribed_fields: %w[messages smb_message_echoes calls] }.to_json
           )
           .to_return(
             status: 200,
@@ -224,7 +224,7 @@ describe Whatsapp::FacebookApiClient do
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { override_callback_uri: callback_url, verify_token: verify_token,
-                    subscribed_fields: %w[messages smb_message_echoes] }.to_json
+                    subscribed_fields: %w[messages smb_message_echoes calls] }.to_json
           )
           .to_return(status: 400, body: { error: 'Webhook callback override failed' }.to_json)
       end

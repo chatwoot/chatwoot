@@ -742,12 +742,58 @@
       "SELECT_ALL": "全选 ({count})",
       "UNSELECT_ALL": "取消全选({count})",
       "BULK_DELETE_BUTTON": "删除",
+      "BULK_SYNC_BUTTON": "刷新",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "是，全部删除",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "失败"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "搜索……"
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "更新中……",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "页面不存在",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "相关常见问题",
@@ -792,11 +838,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "查看相关常见问题",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "删除文档"
       },
       "EMPTY_STATE": {
         "TITLE": "没有可用的文档",
         "SUBTITLE": "文档用于为您的助手生成常见问题。您可以导入文档以为您的助手提供上下文。",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 文档",
           "NOTE": "在 Captain 中的文档作为助理的知识资源。通过连接您的帮助中心或指南，Captain 可以分析内容并为客户询问提供准确的回答。"

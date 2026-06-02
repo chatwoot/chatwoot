@@ -38,6 +38,9 @@ class Account < ApplicationRecord
   }.freeze
 
   validates :name, presence: true
+  # `domain` is the inbound email domain used to construct reply addresses
+  # (see `inbound_email_domain`). Do not repurpose it for a website or any
+  # non-mail-related domain.
   validates :domain, length: { maximum: 100 }
   validates_with JsonSchemaValidator,
                  schema: SETTINGS_PARAMS_SCHEMA,
@@ -165,10 +168,19 @@ class Account < ApplicationRecord
     Redis::Alfred.exists?(enrichment_key) ? 'enrichment' : step
   end
 
+  def reset_cache_keys
+    super
+    clear_unread_conversation_counts_cache
+  end
+
   private
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(ACCOUNT_CREATED, Time.zone.now, account: self)
+  end
+
+  def clear_unread_conversation_counts_cache
+    ::Conversations::UnreadCounts::Store.clear_account!(id)
   end
 
   trigger.after(:insert).for_each(:row) do

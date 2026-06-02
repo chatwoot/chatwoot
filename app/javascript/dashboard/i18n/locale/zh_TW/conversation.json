@@ -71,7 +71,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "訊息無法使用",
     "CARD": {
       "SHOW_LABELS": "顯示標籤",
-      "HIDE_LABELS": "隱藏標籤"
+      "HIDE_LABELS": "隱藏標籤",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "來電",
@@ -82,7 +83,9 @@
       "CALL_ENDED": "通話結束",
       "NOT_ANSWERED_YET": "尚未接聽",
       "THEY_ANSWERED": "對方已接聽",
-      "YOU_ANSWERED": "您已接聽"
+      "YOU_ANSWERED": "您已接聽",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "加入通話"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決",
@@ -92,6 +95,7 @@
       "OPEN": "更多",
       "CLOSE": "關閉",
       "DETAILS": "詳情",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "延後至",
       "SNOOZED_UNTIL_TOMORROW": "延後至明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "延後至下週",
@@ -362,7 +366,19 @@
       "PREVIOUS_CONVERSATION": "先前的對話",
       "MACROS": "巨集",
       "LINEAR_ISSUES": "已連結的 Linear 議題",
-      "SHOPIFY_ORDERS": "Shopify 訂單"
+      "SHOPIFY_ORDERS": "Shopify 訂單",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "媒體",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "查看全部",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "訂單 #{id}",
