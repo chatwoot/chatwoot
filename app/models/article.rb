@@ -56,7 +56,7 @@ class Article < ApplicationRecord
   before_validation :ensure_locale_in_article
 
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
-  RESERVED_SLUGS = %w[search].freeze
+  RESERVED_SLUGS = %w[search articles categories].freeze
 
   validates :account_id, presence: true
   validates :author_id, presence: true

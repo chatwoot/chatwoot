@@ -22,10 +22,12 @@ RSpec.describe Article do
     end
 
     it 'rejects reserved slugs that collide with help center routes' do
-      article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
-                                title: 'search', slug: 'search', content: 'content')
-      expect(article).not_to be_valid
-      expect(article.errors[:slug]).to include('is reserved')
+      Article::RESERVED_SLUGS.each do |reserved_slug|
+        article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                  title: reserved_slug, slug: reserved_slug, content: 'content')
+        expect(article).not_to be_valid
+        expect(article.errors[:slug]).to include('is reserved')
+      end
     end
   end
 
