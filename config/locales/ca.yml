@@ -413,6 +413,13 @@ ca:
       empty_placeholder: No s'ha trobat agents.
       loading_placeholder: S'està cercant...
       results_title: Resultats de la cerca
+      results: Resultats de la cerca
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Cercar
     toc_header: 'En aquesta pàgina'
     sidebar:
       help_center: Centre d'ajuda
@@ -444,6 +451,8 @@ ca:
       others: altres
       by: Per
       no_articles: No hi ha articles aquí
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
