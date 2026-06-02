@@ -81,9 +81,6 @@ en:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
-    conversations:
-      unread_counts:
-        feature_not_enabled: Conversation unread counts feature not enabled for this account
     data_import:
       data_type:
         invalid: Invalid data type
@@ -430,6 +427,13 @@ en:
       empty_placeholder: No results found.
       loading_placeholder: Searching...
       results_title: Search results
+      results: Search Results
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Search
     toc_header: 'On this page'
     sidebar:
       help_center: Help Center
@@ -461,6 +465,8 @@ en:
       others: others
       by: By
       no_articles: There are no articles here
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
