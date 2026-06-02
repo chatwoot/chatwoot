@@ -14,7 +14,9 @@ export const routes = [
     path: frontendURL('accounts/:accountId/synapseos/dashboard'),
     name: 'synapseos_dashboard',
     component: DashboardPage,
-    meta: { permissions: ['administrator'] },
+    // synapseos_dashboard_viewer: gerentes liberados via ENV SYNAPSEOS_DASHBOARD_VIEWERS
+    // (veem KPIs sem ser admin). Demais views seguem admin-only.
+    meta: { permissions: ['administrator', 'synapseos_dashboard_viewer'] },
   },
   {
     path: frontendURL('accounts/:accountId/synapseos/pipeline'),

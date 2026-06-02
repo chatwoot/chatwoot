@@ -54,7 +54,19 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    perms = administrator? ? ['administrator'] : ['agent']
+    perms << 'synapseos_dashboard_viewer' if synapseos_dashboard_viewer?
+    perms
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: libera o Dashboard de KPIs pra e-mails específicos
+  # (gerentes) sem conceder admin. Lista em ENV SYNAPSEOS_DASHBOARD_VIEWERS
+  # (e-mails separados por vírgula). Trocar quem vê = editar a env + restart.
+  def synapseos_dashboard_viewer?
+    return false if administrator?
+
+    viewers = ENV.fetch('SYNAPSEOS_DASHBOARD_VIEWERS', '').split(',').map { |e| e.strip.downcase }.reject(&:empty?)
+    viewers.include?(user&.email.to_s.downcase)
   end
 
   def push_event_data
