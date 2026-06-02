@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "音声を録音",
       "TIP_AUDIORECORDER_PERMISSION": "音声アクセスを許可",
       "TIP_AUDIORECORDER_ERROR": "音声を開けませんでした",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "添付するにはここにドラッグ＆ドロップ",
       "START_AUDIO_RECORDING": "音声録音を開始",
       "STOP_AUDIO_RECORDING": "音声録音を停止",
