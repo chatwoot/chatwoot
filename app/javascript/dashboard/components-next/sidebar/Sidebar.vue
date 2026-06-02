@@ -61,20 +61,8 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
-const hasConversationUnreadCounts = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    accountId.value,
-    FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
-  );
-});
-
-const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
+const fetchConversationUnreadCounts = currentAccountId => {
   if (!currentAccountId) return;
-
-  if (!isEnabled) {
-    store.dispatch('conversationUnreadCounts/clear');
-    return;
-  }
 
   store.dispatch('conversationUnreadCounts/get');
 };
@@ -200,7 +188,7 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
-watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
+watch(accountId, fetchConversationUnreadCounts, {
   immediate: true,
 });
 
