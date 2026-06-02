@@ -9,9 +9,34 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     @embed_regexes ||= config.transform_values { |embed_config| Regexp.new(embed_config['regex']) }
   end
 
+  # Matches columnResizing({ cellMinWidth: 50 }) in @chatwoot/prosemirror-schema
+  # so cells without an explicit colwidth render the same minimum here as in the editor.
+  TABLE_CELL_MIN_WIDTH_PX = 50
+  COLWIDTHS_COMMENT = /<!--cw-colwidths:([\d,]+)-->/
+
+  # The article editor serializes column widths as a `<!--cw-colwidths:...-->` HTML
+  # comment immediately before each resized table. Capture it (emitting nothing) so the
+  # next `table` can size itself; any other raw HTML keeps its default rendering.
+  def html(node)
+    match = node.string_content.match(COLWIDTHS_COMMENT)
+    return super unless match
+
+    @pending_colwidths = match[1].split(',').map(&:to_i)
+  end
+
   def table(node)
-    out('<div class="tableWrapper">')
-    super
+    widths = @pending_colwidths
+    @pending_colwidths = nil
+
+    if sized_widths?(widths)
+      # Wrapper hugs the sized table so the bordered card doesn't trail empty space;
+      # max-width keeps a wide table within the container (it scrolls via overflow-x).
+      out(%(<div class="tableWrapper" style="width: #{total_width(widths)}px; max-width: 100%;">))
+      out(inject_table_sizing(capture_html { super(node) }, widths))
+    else
+      out('<div class="tableWrapper">')
+      super
+    end
     out('</div>')
   end
 
@@ -46,6 +71,49 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   end
 
   private
+
+  def sized_widths?(widths)
+    widths.is_a?(Array) && widths.any? { |w| w.to_i.positive? }
+  end
+
+  # Let the gem render the whole table, then splice a <colgroup> and sizing style
+  # into the opening <table> tag. Delegating the row/cell/tbody/alignment markup to
+  # super keeps this working across commonmarker upgrades.
+  # `!important` overrides the portal's `[&_table]:!min-w-full` Tailwind rule.
+  def inject_table_sizing(html, widths)
+    opening = %(<table style="#{table_sizing_style(widths)}">\n#{colgroup_html(widths)})
+    html.sub(/<table[^>]*>\n?/, opening)
+  end
+
+  # Capture everything `super` writes by swapping the renderer's output buffer.
+  def capture_html
+    original = @stream
+    @stream = StringIO.new(+'')
+    yield
+    @stream.string
+  ensure
+    @stream = original
+  end
+
+  # Total table width: each column's saved width, or the cell min for unsized ones.
+  def total_width(widths)
+    widths.sum { |w| w.to_i.positive? ? w.to_i : TABLE_CELL_MIN_WIDTH_PX }
+  end
+
+  # `min-width` (not just `width`) is needed so a saved width narrower than the
+  # container still wins over the portal's `[&_table]:!min-w-full` (min-width:100%
+  # !important) — width alone loses to that rule and the table stretches full-width.
+  def table_sizing_style(widths)
+    total = total_width(widths)
+    return "table-layout: fixed; min-width: #{total}px !important;" unless widths.all? { |w| w.to_i.positive? }
+
+    "table-layout: fixed; width: #{total}px !important; min-width: #{total}px !important;"
+  end
+
+  def colgroup_html(widths)
+    cols = widths.map { |w| w.to_i.positive? ? %(<col style="width: #{w.to_i}px;">) : '<col>' }
+    "<colgroup>#{cols.join}</colgroup>\n"
+  end
 
   def extract_image_width(src)
     query = URI.parse(src).query
