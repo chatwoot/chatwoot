@@ -19,8 +19,9 @@
   help_url: https://chwt.app/hc/fb
 - name: conversation_unread_counts
   display_name: Conversation Unread Counts
-  enabled: false
+  enabled: true
   chatwoot_internal: true
+  deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
   enabled: false
