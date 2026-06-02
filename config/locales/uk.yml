@@ -413,6 +413,15 @@ uk:
       empty_placeholder: Результатів не знайдено.
       loading_placeholder: Шукаємо...
       results_title: Результати пошуку
+      results: Результати пошуку
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Пошук
     toc_header: 'На цій сторінці'
     sidebar:
       help_center: Довідковий центр
@@ -444,6 +453,8 @@ uk:
       others: інші
       by: Від
       no_articles: Тут немає статей
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
