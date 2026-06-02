@@ -413,6 +413,14 @@ ro:
       empty_placeholder: Niciun rezultat găsit.
       loading_placeholder: In căutare...
       results_title: Rezultate căutare pentru
+      results: Rezultate căutare
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Caută
     toc_header: 'Pe această pagină'
     sidebar:
       help_center: Asistenta
@@ -444,6 +452,8 @@ ro:
       others: others
       by: By
       no_articles: Nu există articole aici
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
