@@ -413,6 +413,15 @@ ru:
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+      results: Результаты поиска
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Поиск
     toc_header: 'На этой странице'
     sidebar:
       help_center: Центр поддержки
@@ -444,6 +453,8 @@ ru:
       others: другие
       by: От
       no_articles: Здесь нет статей
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
