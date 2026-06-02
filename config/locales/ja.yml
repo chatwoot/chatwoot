@@ -413,6 +413,12 @@ ja:
       empty_placeholder: 該当結果が見つかりませんでした。
       loading_placeholder: 検索中...
       results_title: 検索結果
+      results: 検索結果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 検索
     toc_header: 'このページで'
     sidebar:
       help_center: ヘルプセンター
@@ -444,6 +450,8 @@ ja:
       others: その他
       by: 作成者
       no_articles: ここには記事がありません
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
