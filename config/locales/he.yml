@@ -413,6 +413,15 @@ he:
       empty_placeholder: לא נמצאו תוצאות.
       loading_placeholder: מחפש...
       results_title: תוצאות חיפוש
+      results: תוצאות חיפוש
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        two: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: חפש
     toc_header: 'בעמוד זה'
     sidebar:
       help_center: מרכז עזרה
@@ -444,6 +453,8 @@ he:
       others: אחרים
       by: על ידי
       no_articles: אין כאן מאמרים
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
