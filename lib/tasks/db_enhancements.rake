@@ -29,3 +29,10 @@ db_namespace = namespace :db do
     end
   end
 end
+
+# CHATWIT: blinda a edição Enterprise (plano + features premium) ao final de
+# todo prepare de DB. A task chatwit:enterprise_guard é definida em
+# lib/tasks/chatwit_enterprise.rake (carregado antes deste arquivo).
+Rake::Task['db:chatwoot_prepare'].enhance do
+  Rake::Task['chatwit:enterprise_guard'].invoke
+end

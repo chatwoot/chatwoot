@@ -4,6 +4,14 @@ set -x
 
 echo "🚀 Initializing Chatwoot Enterprise Edition..."
 
+# Chatwit: DISABLE_ENTERPRISE com QUALQUER string (inclusive "false") é TRUTHY em
+# Ruby e desliga a edição Enterprise inteira (lib/chatwoot_app.rb#enterprise?).
+# Removemos a env quando o valor é "falsey", para o Ruby cair no fallback que
+# detecta a pasta enterprise/ e manter o Enterprise ligado.
+case "$(printf '%s' "${DISABLE_ENTERPRISE:-}" | tr '[:upper:]' '[:lower:]')" in
+  ""|false|0|no|off) unset DISABLE_ENTERPRISE; echo "🔓 DISABLE_ENTERPRISE sanitizada (Enterprise mantido ligado)." ;;
+esac
+
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*
