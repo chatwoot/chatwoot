@@ -413,6 +413,15 @@ lt:
       empty_placeholder: Nieko nerasta.
       loading_placeholder: Ieškoma...
       results_title: Paieškos rezultatai
+      results: Rezultatų Paieška
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Ieškoti
     toc_header: 'Šitame puslapyje'
     sidebar:
       help_center: Palaikymo centras
@@ -444,6 +453,8 @@ lt:
       others: kiti
       by: Autorius
       no_articles: Čia nėra straipsnių
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
