@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Įrašyti audio",
       "TIP_AUDIORECORDER_PERMISSION": "Leisti prieiti prie audio",
       "TIP_AUDIORECORDER_ERROR": "Nepavyko atidaryti audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
