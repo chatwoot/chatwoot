@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "अडियो रेकर्ड गर्नुहोस्",
       "TIP_AUDIORECORDER_PERMISSION": "अडियो पहुँच अनुमति दिनुहोस्",
       "TIP_AUDIORECORDER_ERROR": "अडियो खोल्न सकिएन",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "यहाँ तान्नुहोस् र छोड्नुहोस् संलग्न गर्न",
       "START_AUDIO_RECORDING": "अडियो रेकर्डिङ सुरु गर्नुहोस्",
       "STOP_AUDIO_RECORDING": "अडियो रेकर्डिङ रोक्नुहोस्",
