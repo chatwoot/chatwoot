@@ -125,7 +125,7 @@ const tailwindConfig = {
               paddingInlineStart: '1.5em',
               textIndent: '-1.5em',
             },
-            'li > p': {
+            'li > p:first-child': {
               display: 'inline',
             },
             blockquote: {

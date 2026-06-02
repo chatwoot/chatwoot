@@ -45,7 +45,7 @@ body {
     padding-inline-start: 1.5em;
     text-indent: -1.5em;
 
-    > p {
+    > p:first-child {
       @apply inline;
     }
   }
