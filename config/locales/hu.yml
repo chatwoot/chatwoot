@@ -413,6 +413,13 @@ hu:
       empty_placeholder: Nincs találat.
       loading_placeholder: Keresés...
       results_title: Keresés eredménye
+      results: Keresés eredménye
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Keresés
     toc_header: 'Ezen az oldalon'
     sidebar:
       help_center: Súgóközpont
@@ -444,6 +451,8 @@ hu:
       others: egyebek
       by: Által
       no_articles: Nincsenek bejegyzések
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
