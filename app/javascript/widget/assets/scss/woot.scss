@@ -33,14 +33,25 @@ body {
 }
 
 .message-content {
+  // Markers look `outside` (at the list edge, text hanging beside/under) but are
+  // technically `inside` + a negative text-indent, so a long ordered number
+  // flows rightward and stays within the bubble instead of overflowing. The
+  // per-item padding also supplies the nesting indent (logical props = RTL-safe).
   ul {
-    list-style: disc;
-    @apply ltr:pl-3 rtl:pr-3;
+    @apply list-disc list-inside;
   }
 
   ol {
-    list-style: decimal;
-    @apply ltr:pl-4 rtl:pr-4;
+    @apply list-decimal list-inside;
+  }
+
+  li {
+    padding-inline-start: 1.5em;
+    text-indent: -1.5em;
+
+    > p {
+      @apply inline;
+    }
   }
 }
 
