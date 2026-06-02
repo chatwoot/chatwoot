@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Audio opnemen",
       "TIP_AUDIORECORDER_PERMISSION": "Sta toegang tot audio toe",
       "TIP_AUDIORECORDER_ERROR": "Geluid kon niet worden geopend",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Sleep hierheen om toe te voegen",
       "START_AUDIO_RECORDING": "Start audio-opname",
       "STOP_AUDIO_RECORDING": "Stop audio-opname",
