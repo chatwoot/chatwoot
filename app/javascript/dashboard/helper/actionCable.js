@@ -13,7 +13,6 @@ import {
 } from 'dashboard/composables/useWhatsappCallSession';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
@@ -172,21 +171,8 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   fetchConversationUnreadCounts = () => {
-    if (!this.isConversationUnreadCountsEnabled()) return;
-
     this.lastUnreadCountsFetchAt = Date.now();
     this.app.$store.dispatch('conversationUnreadCounts/get');
-  };
-
-  isConversationUnreadCountsEnabled = () => {
-    const accountId = this.app.$store.getters.getCurrentAccountId;
-    const isFeatureEnabled =
-      this.app.$store.getters['accounts/isFeatureEnabledonAccount'];
-
-    return isFeatureEnabled?.(
-      accountId,
-      FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
-    );
   };
 
   onTypingOn = ({ conversation, user }) => {
