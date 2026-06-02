@@ -57,15 +57,23 @@ class Messages::MessageBuilder
         file: uploaded_attachment
       )
 
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
-      attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true) if @is_voice_message
+      attachment.file_type = attachment_file_type(uploaded_attachment)
+      tag_voice_message(attachment)
     end
+  end
+
+  def attachment_file_type(uploaded_attachment)
+    if uploaded_attachment.is_a?(String)
+      file_type_by_signed_id(uploaded_attachment)
+    else
+      file_type(uploaded_attachment&.content_type)
+    end
+  end
+
+  def tag_voice_message(attachment)
+    return unless @is_voice_message && attachment.file_type == 'audio'
+
+    attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
   end
 
   def process_emails

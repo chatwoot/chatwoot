@@ -148,6 +148,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   # for voice messages. Normalize so the download URL serves the correct
   # Content-Type header. No-op when the frontend already uploads as audio/ogg.
   def normalize_opus_content_type(attachment)
+    return unless attachment.meta&.dig('is_voice_message')
     return unless attachment.file.attached?
 
     blob = attachment.file.blob
