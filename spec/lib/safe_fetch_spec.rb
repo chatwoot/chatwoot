@@ -205,6 +205,50 @@ RSpec.describe SafeFetch do
           expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
         end
       end
+
+      it 'allows private IP literals when private network access is enabled' do
+        private_url = 'http://192.168.3.21/image.png'
+        allow(Resolv).to receive(:getaddresses).with('192.168.3.21').and_return(['192.168.3.21'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(private_url) { nil } }.not_to raise_error
+        end
+      end
+
+      it 'allows private hostnames when private network access is enabled' do
+        private_url = 'http://internal-webhook-service/image.png'
+        allow(Resolv).to receive(:getaddresses).with('internal-webhook-service').and_return(['10.0.0.5'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(private_url) { nil } }.not_to raise_error
+        end
+      end
+
+      it 'allows redirects to private hostnames when private network access is enabled' do
+        redirect_url = 'http://example.com/redirect.png'
+        private_url = 'http://private.example.com/image.png'
+        allow(Resolv).to receive(:getaddresses).with('private.example.com').and_return(['10.0.0.5'])
+        stub_request(:get, redirect_url).to_return(status: 302, headers: { 'Location' => private_url })
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(redirect_url) { nil } }.not_to raise_error
+        end
+      end
     end
 
     context 'with content-type allowlist' do

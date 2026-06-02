@@ -71,6 +71,7 @@ RSpec.configure do |config|
   config.include FileUploadHelpers
   config.include CsvSpecHelpers
   config.include InstagramSpecHelpers
+  config.include ConversationsUnreadCountsHelpers
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActionCable::TestHelper

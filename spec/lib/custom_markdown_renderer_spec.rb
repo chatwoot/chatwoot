@@ -257,4 +257,18 @@ describe CustomMarkdownRenderer do
       end
     end
   end
+
+  describe '#image' do
+    it 'renders width in px with responsive cap and auto height' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=400px)'
+      expect(render_markdown(markdown)).to include(
+        'style="width: 400px; max-width: 100%; height: auto;"'
+      )
+    end
+
+    it 'ignores a non-numeric width' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=auto)'
+      expect(render_markdown(markdown)).not_to include('style=')
+    end
+  end
 end
