@@ -413,6 +413,13 @@ fr:
       empty_placeholder: Aucun résultat trouvé.
       loading_placeholder: Recherche en cours...
       results_title: Résultats de recherche
+      results: Résultats de recherche
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Rechercher
     toc_header: 'Sur cette page'
     sidebar:
       help_center: Centre d'aide
@@ -444,6 +451,8 @@ fr:
       others: autres
       by: Par
       no_articles: Il n'y a pas d'articles ici
+      previous: Previous
+      next: Suivant
     article_actions:
       label: Ouvrir dans
       view_markdown: Voir en Markdown
