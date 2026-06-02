@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "오디오 녹음",
       "TIP_AUDIORECORDER_PERMISSION": "오디오 접근 허용",
       "TIP_AUDIORECORDER_ERROR": "오디오를 열 수 없습니다",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "여기에 드래그 앤 드롭하여 첨부하십시오",
       "START_AUDIO_RECORDING": "오디오 녹음 시작",
       "STOP_AUDIO_RECORDING": "오디오 녹음 중지",
