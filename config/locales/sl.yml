@@ -413,6 +413,15 @@ sl:
       empty_placeholder: Ni rezultatov.
       loading_placeholder: Iskanje ...
       results_title: Rezultati iskanja
+      results: Search Results
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        two: 'Found %{count} results'
+        few: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Išči
     toc_header: 'Na tej strani'
     sidebar:
       help_center: Pomoč
@@ -444,6 +453,8 @@ sl:
       others: ostali
       by: Od
       no_articles: Tukaj ni člankov
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
