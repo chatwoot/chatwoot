@@ -301,7 +301,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.1)
+    faraday (2.14.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -491,7 +491,7 @@ GEM
     judoscale-sidekiq (1.8.2)
       judoscale-ruby (= 1.8.2)
       sidekiq (>= 5.0)
-    jwt (2.10.1)
+    jwt (2.10.3)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -1102,7 +1102,7 @@ DEPENDENCIES
   json_schemer
   judoscale-rails
   judoscale-sidekiq
-  jwt
+  jwt (~> 2.10, >= 2.10.3)
   kaminari
   koala
   letter_opener

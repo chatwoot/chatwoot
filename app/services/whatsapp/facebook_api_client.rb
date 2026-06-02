@@ -60,14 +60,16 @@ class Whatsapp::FacebookApiClient
     data['code_verification_status'] == 'VERIFIED'
   end
 
-  def subscribe_waba_webhook(waba_id, callback_url, verify_token)
+  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes calls].freeze
+
+  def subscribe_waba_webhook(waba_id, callback_url, verify_token, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
     # Step 1: Subscribe app to WABA first (required before override)
     # Meta requires the app to be subscribed before using override_callback_uri
     # See: https://github.com/chatwoot/chatwoot/issues/13097
     subscribe_app_to_waba(waba_id)
 
     # Step 2: Override callback URL for this specific WABA
-    override_waba_callback(waba_id, callback_url, verify_token)
+    override_waba_callback(waba_id, callback_url, verify_token, subscribed_fields: subscribed_fields)
   end
 
   def subscribe_app_to_waba(waba_id)
@@ -79,14 +81,14 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'App subscription to WABA failed')
   end
 
-  def override_waba_callback(waba_id, callback_url, verify_token)
+  def override_waba_callback(waba_id, callback_url, verify_token, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
     response = HTTParty.post(
       "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
       headers: request_headers,
       body: {
         override_callback_uri: callback_url,
         verify_token: verify_token,
-        subscribed_fields: %w[messages smb_message_echoes calls]
+        subscribed_fields: subscribed_fields
       }.to_json
     )
 

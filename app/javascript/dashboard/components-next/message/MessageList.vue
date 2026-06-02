@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps, computed, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import Message from './Message.vue';
 import { MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';

@@ -5,12 +5,14 @@ class AutoAssignment::AssignmentService
     return 0 unless inbox.auto_assignment_v2_enabled?
     return 0 unless inbox.enable_auto_assignment?
 
-    assigned_count = 0
+    conversations = unassigned_conversations(limit).to_a
+    return 0 if conversations.empty?
+    return 0 if inbox.available_agents.empty?
 
-    unassigned_conversations(limit).each do |conversation|
+    assigned_count = 0
+    conversations.each do |conversation|
       assigned_count += 1 if perform_for_conversation(conversation)
     end
-
     assigned_count
   end
 

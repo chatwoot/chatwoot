@@ -116,6 +116,7 @@ class Call < ApplicationRecord
       direction: direction,
       status: display_status,
       duration_seconds: duration_seconds,
+      end_reason: end_reason,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
       accepted_by_agent_name: accepted_by_agent&.available_name,
