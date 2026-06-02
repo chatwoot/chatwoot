@@ -413,6 +413,13 @@ hy:
       empty_placeholder: Արդյունքներ չեն գտնվել։
       loading_placeholder: Որոնում...
       results_title: Որոնման արդյունքներ
+      results: Որոնման արդյունքներ
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Որոնել
     toc_header: 'Այս էջում'
     sidebar:
       help_center: Օգնության կենտրոն
@@ -444,6 +451,8 @@ hy:
       others: այլք
       by: Ըստ
       no_articles: Այստեղ հոդվածներ չկան
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
