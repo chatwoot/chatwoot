@@ -413,6 +413,12 @@ zh_TW:
       empty_placeholder: 查無結果。
       loading_placeholder: 搜尋中...
       results_title: 搜尋結果
+      results: 搜尋結果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 搜尋
     toc_header: '本頁內容'
     sidebar:
       help_center: 幫助中心
@@ -444,6 +450,8 @@ zh_TW:
       others: 其他
       by: 作者：
       no_articles: 這裡還沒有文章
+      previous: 上一頁
+      next: 下一頁
     article_actions:
       label: Open in
       view_markdown: View as Markdown
