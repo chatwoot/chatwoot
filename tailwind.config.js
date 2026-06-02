@@ -128,6 +128,9 @@ const tailwindConfig = {
             'li > p:first-child': {
               display: 'inline',
             },
+            'li > *': {
+              textIndent: '0',
+            },
             blockquote: {
               color: 'rgb(var(--slate-11))',
               borderLeft: `4px solid rgb(var(--black-alpha-1))`,

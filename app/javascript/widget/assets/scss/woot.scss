@@ -48,6 +48,10 @@ body {
     > p:first-child {
       @apply inline;
     }
+
+    > * {
+      text-indent: 0;
+    }
   }
 }
 
