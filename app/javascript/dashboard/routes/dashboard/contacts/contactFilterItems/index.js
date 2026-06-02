@@ -1,5 +1,6 @@
 import {
   OPERATOR_TYPES_1,
+  OPERATOR_TYPES_2,
   OPERATOR_TYPES_3,
   OPERATOR_TYPES_5,
 } from 'dashboard/components/widgets/FilterInput/FilterOperatorTypes.js';
@@ -53,6 +54,14 @@ const filterTypes = [
     attribute_type: 'standard',
   },
   {
+    attributeKey: 'company_name',
+    attributeI18nKey: 'COMPANY',
+    inputType: 'plain_text',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_3,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'created_at',
     attributeI18nKey: 'CREATED_AT',
     inputType: 'date',
@@ -82,6 +91,14 @@ const filterTypes = [
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
+    attributeKey: 'labels',
+    attributeI18nKey: 'LABELS',
+    inputType: 'multi_select',
+    dataType: 'text',
+    filterOperators: OPERATOR_TYPES_2,
     attributeModel: 'standard',
   },
 ];
@@ -116,6 +133,10 @@ export const filterAttributeGroups = [
         i18nKey: 'CITY',
       },
       {
+        key: 'company_name',
+        i18nKey: 'COMPANY',
+      },
+      {
         key: 'created_at',
         i18nKey: 'CREATED_AT',
       },
@@ -126,6 +147,10 @@ export const filterAttributeGroups = [
       {
         key: 'blocked',
         i18nKey: 'BLOCKED',
+      },
+      {
+        key: 'labels',
+        i18nKey: 'LABELS',
       },
     ],
   },

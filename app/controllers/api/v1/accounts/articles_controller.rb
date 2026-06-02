@@ -22,9 +22,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   def edit; end
 
   def create
-    @article = @portal.articles.create!(article_params)
+    params_with_defaults = article_params
+    params_with_defaults[:status] ||= :draft
+    @article = @portal.articles.create!(params_with_defaults)
     @article.associate_root_article(article_params[:associated_article_id])
-    @article.draft!
     render json: { error: @article.errors.messages }, status: :unprocessable_entity and return unless @article.valid?
   end
 
@@ -39,7 +40,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def reorder
-    Article.update_positions(params[:positions_hash])
+    Article.update_positions(portal: @portal, positions_hash: params[:positions_hash])
     head :ok
   end
 
@@ -68,7 +69,7 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def article_params
     params.require(:article).permit(
-      :title, :slug, :position, :content, :description, :position, :category_id, :author_id, :associated_article_id, :status,
+      :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
       :locale, meta: [:title,
                       :description,
                       { tags: [] }]

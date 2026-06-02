@@ -19,7 +19,6 @@ const FONT_SIZE_OPTIONS = {
   DEFAULT: '16px',
   LARGE: '18px',
   LARGER: '20px',
-  EXTRA_LARGE: '22px',
 };
 
 /**
@@ -78,8 +77,8 @@ export const useFontSize = () => {
    * Font size options for select dropdown
    * @type {Array<{value: string, label: string}>}
    */
-  const fontSizeOptions = FONT_SIZE_NAMES.map(name =>
-    createFontSizeOption(t, name)
+  const fontSizeOptions = computed(() =>
+    FONT_SIZE_NAMES.map(name => createFontSizeOption(t, name))
   );
 
   /**

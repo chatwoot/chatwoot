@@ -15,14 +15,28 @@
 #  index_installation_configs_on_name_and_created_at  (name,created_at) UNIQUE
 #
 class InstallationConfig < ApplicationRecord
+  CAPTAIN_LLM_CONFIG_KEYS = %w[
+    CAPTAIN_OPEN_AI_API_KEY
+    CAPTAIN_OPEN_AI_ENDPOINT
+    CAPTAIN_OPEN_AI_MODEL
+  ].freeze
+
+  RESTART_REQUIRED_CONFIG_KEYS = (CAPTAIN_LLM_CONFIG_KEYS + %w[
+    LANGFUSE_BASE_URL
+    LANGFUSE_PUBLIC_KEY
+    LANGFUSE_SECRET_KEY
+    OTEL_PROVIDER
+  ]).freeze
+
   # https://stackoverflow.com/questions/72970170/upgrading-to-rails-6-1-6-1-causes-psychdisallowedclass-tried-to-load-unspecif
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
   # FIX ME : fixes breakage of installation config. we need to migrate.
   # Fix configuration in application.rb
-  serialize :serialized_value, ActiveSupport::HashWithIndifferentAccess
+  serialize :serialized_value, coder: YAML, type: ActiveSupport::HashWithIndifferentAccess, default: {}.with_indifferent_access
 
   before_validation :set_lock
   validates :name, presence: true
+  validate :saml_sso_users_check, if: -> { name == 'ENABLE_SAML_SSO_LOGIN' }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -49,5 +63,12 @@ class InstallationConfig < ApplicationRecord
 
   def clear_cache
     GlobalConfig.clear_cache
+  end
+
+  def saml_sso_users_check
+    return unless value == false || value == 'false'
+    return unless User.exists?(provider: 'saml')
+
+    errors.add(:base, 'Cannot disable SAML SSO login while users are using SAML authentication')
   end
 end

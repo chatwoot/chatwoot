@@ -45,7 +45,7 @@
       "FALSE": "Falso"
     },
     "ATTRIBUTES": {
-      "STATUS": "Situação",
+      "STATUS": "Status",
       "ASSIGNEE_NAME": "Agente atribuído",
       "INBOX_NAME": "Caixa de Entrada",
       "TEAM_NAME": "Nome do Time",

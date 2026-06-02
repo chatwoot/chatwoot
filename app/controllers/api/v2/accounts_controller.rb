@@ -58,7 +58,7 @@ class Api::V2::AccountsController < Api::BaseController
   end
 
   def check_signup_enabled
-    raise ActionController::RoutingError, 'Not Found' if GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false') == 'false'
+    raise ActionController::RoutingError, 'Not Found' unless GlobalConfigService.account_signup_enabled?
   end
 
   def validate_captcha

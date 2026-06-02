@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "送信できませんでした。もう一度お試しください"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "離席中"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "オンライン",
-    "OFFLINE": "留守中"
+    "OFFLINE": "留守中",
+    "BACK_AS_SOON_AS_POSSIBLE": "間もなく対応再開"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "通常数分以内にご返信します。",
     "IN_A_FEW_HOURS": "通常数時間以内にご返信します。",
     "IN_A_DAY": "通常数日以内にご返信します。",
-    "BACK_IN": "オンラインに戻ります"
+    "BACK_IN_HOURS": "{n}時間後に対応再開 | {n}時間後に対応再開",
+    "BACK_IN_MINUTES": "{time}分後に対応再開",
+    "BACK_AT_TIME": "{time}に対応再開",
+    "BACK_ON_DAY": "{day}曜日に対応再開",
+    "BACK_TOMORROW": "翌日に対応再開",
+    "BACK_IN_SOME_TIME": "間もなく対応再開"
   },
   "DAY_NAMES": {
     "SUNDAY": "日",

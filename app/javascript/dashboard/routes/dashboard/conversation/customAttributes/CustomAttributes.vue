@@ -76,21 +76,14 @@ const toggleButtonText = computed(() =>
 const filteredCustomAttributes = computed(() =>
   attributes.value.map(attribute => {
     // Check if the attribute key exists in customAttributes
-    const hasValue = Object.hasOwnProperty.call(
-      customAttributes.value,
-      attribute.attribute_key
-    );
-    const isCheckbox = attribute.attribute_display_type === 'checkbox';
-    const defaultValue = isCheckbox ? false : '';
+    const hasValue = attribute.attribute_key in customAttributes.value;
 
     return {
       ...attribute,
       type: 'custom_attribute',
       key: attribute.attribute_key,
-      // Set value from customAttributes if it exists, otherwise use default value
-      value: hasValue
-        ? customAttributes.value[attribute.attribute_key]
-        : defaultValue,
+      // Set value from customAttributes if it exists, otherwise use ''
+      value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
   })
 );
@@ -215,7 +208,7 @@ const onUpdate = async (key, value) => {
     } else {
       store.dispatch('contacts/update', {
         id: props.contactId,
-        custom_attributes: updatedAttributes,
+        customAttributes: updatedAttributes,
       });
     }
     useAlert(t('CUSTOM_ATTRIBUTES.FORM.UPDATE.SUCCESS'));
@@ -258,8 +251,8 @@ onMounted(() => {
 });
 
 const evenClass = [
-  '[&>*:nth-child(odd)]:!bg-n-background [&>*:nth-child(even)]:!bg-n-slate-2',
-  'dark:[&>*:nth-child(odd)]:!bg-n-background dark:[&>*:nth-child(even)]:!bg-n-solid-1',
+  '[&>*:nth-child(odd)]:!bg-n-surface-1 [&>*:nth-child(even)]:!bg-n-slate-1',
+  'dark:[&>*:nth-child(odd)]:!bg-n-surface-2 dark:[&>*:nth-child(even)]:!bg-n-surface-1',
 ];
 </script>
 

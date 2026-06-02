@@ -8,7 +8,7 @@ export const DEFAULT_MESSAGE_CREATED_CONDITION = [
   },
 ];
 
-export const DEFAULT_CONVERSATION_OPENED_CONDITION = [
+export const DEFAULT_CONVERSATION_CONDITION = [
   {
     attribute_key: 'browser_language',
     filter_operator: 'equal_to',
@@ -38,11 +38,13 @@ export const DEFAULT_ACTIONS = [
 export const MESSAGE_CONDITION_VALUES = [
   {
     id: 'incoming',
-    name: 'Incoming Message',
+    name: 'Incoming',
+    i18nKey: 'INCOMING',
   },
   {
     id: 'outgoing',
-    name: 'Outgoing Message',
+    name: 'Outgoing',
+    i18nKey: 'OUTGOING',
   },
 ];
 
@@ -50,21 +52,26 @@ export const PRIORITY_CONDITION_VALUES = [
   {
     id: 'nil',
     name: 'None',
+    i18nKey: 'NONE',
   },
   {
     id: 'low',
     name: 'Low',
+    i18nKey: 'LOW',
   },
   {
     id: 'medium',
     name: 'Medium',
+    i18nKey: 'MEDIUM',
   },
   {
     id: 'high',
     name: 'High',
+    i18nKey: 'HIGH',
   },
   {
     id: 'urgent',
     name: 'Urgent',
+    i18nKey: 'URGENT',
   },
 ];

@@ -2,18 +2,65 @@ tags:
   - Messages
 operationId: list-all-messages
 summary: Get messages
+security:
+  - userApiKey: []
 description: List all messages of a conversation
-responses:
-  200:
-    description: Success
+parameters:
+  - name: after
+    in: query
     schema:
-      type: array
-      description: Array of messages
-      items:
-        allOf:
-          - $ref: '#/definitions/generic_id'
-          - $ref: '#/definitions/message'
-  404:
+      type: integer
+    description: Fetch messages after the message with this ID. Returns up to 100 messages in ascending order.
+  - name: before
+    in: query
+    schema:
+      type: integer
+    description: Fetch messages before the message with this ID. Returns up to 20 messages in ascending order.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            meta:
+              type: object
+              properties:
+                labels:
+                  type: array
+                  items:
+                    type: string
+                additional_attributes:
+                  type: object
+                contact:
+                  $ref: '#/components/schemas/contact'
+                assignee:
+                  $ref: '#/components/schemas/agent'
+                agent_last_seen_at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+                assignee_last_seen_at:
+                  type:
+                    - string
+                    - 'null'
+                  format: date-time
+            payload:
+              type: array
+              description: Array of messages
+              items:
+                $ref: '#/components/schemas/message'
+  '404':
     description: Conversation not found
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

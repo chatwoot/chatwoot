@@ -4,6 +4,7 @@ import CampaignsPageRouteView from './pages/CampaignsPageRouteView.vue';
 import LiveChatCampaignsPage from './pages/LiveChatCampaignsPage.vue';
 import SMSCampaignsPage from './pages/SMSCampaignsPage.vue';
 import BulkSMS from './pages/BulkSMS.vue';
+import WhatsAppCampaignsPage from './pages/WhatsAppCampaignsPage.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const meta = {
@@ -54,9 +55,18 @@ const campaignsRoutes = {
         },
         {
           path: 'bulk_sms',
-          name: 'campaigns_sms_index',
+          name: 'campaigns_bulk_sms_index',
           meta,
           component: BulkSMS,
+        },
+        {
+          path: 'whatsapp',
+          name: 'campaigns_whatsapp_index',
+          meta: {
+            ...meta,
+            featureFlag: FEATURE_FLAGS.WHATSAPP_CAMPAIGNS,
+          },
+          component: WhatsAppCampaignsPage,
         },
       ],
     },

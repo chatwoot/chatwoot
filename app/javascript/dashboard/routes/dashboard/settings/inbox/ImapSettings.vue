@@ -1,15 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import SettingsSection from 'dashboard/components/SettingsSection.vue';
+import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
 
 export default {
   components: {
-    SettingsSection,
+    SettingsFieldSection,
     NextButton,
+    SingleSelectDropdown,
   },
   props: {
     inbox: {
@@ -28,6 +30,12 @@ export default {
       login: '',
       password: '',
       isSSLEnabled: true,
+      authMechanism: 'plain',
+      authMechanisms: [
+        { key: 1, value: 'plain' },
+        { key: 2, value: 'login' },
+        { key: 3, value: 'cram-md5' },
+      ],
     };
   },
   validations: {
@@ -56,6 +64,7 @@ export default {
         imap_login,
         imap_password,
         imap_enable_ssl,
+        imap_authentication,
       } = this.inbox;
       this.isIMAPEnabled = imap_enabled;
       this.address = imap_address;
@@ -63,6 +72,7 @@ export default {
       this.login = imap_login;
       this.password = imap_password;
       this.isSSLEnabled = imap_enable_ssl;
+      this.authMechanism = imap_authentication || 'plain';
     },
     async updateInbox() {
       try {
@@ -77,6 +87,7 @@ export default {
             imap_login: this.login,
             imap_password: this.password,
             imap_enable_ssl: this.isSSLEnabled,
+            imap_authentication: this.authMechanism,
           },
         };
 
@@ -90,80 +101,88 @@ export default {
         useAlert(error.message);
       }
     },
+    handleAuthMechanismChange(mode) {
+      this.authMechanism = mode;
+    },
   },
 };
 </script>
 
 <template>
-  <div class="mx-8">
-    <SettingsSection
-      :title="$t('INBOX_MGMT.IMAP.TITLE')"
-      :sub-title="$t('INBOX_MGMT.IMAP.SUBTITLE')"
-      :note="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
-    >
-      <form @submit.prevent="updateInbox">
-        <label for="toggle-imap-enable">
+  <SettingsFieldSection
+    :label="$t('INBOX_MGMT.IMAP.TITLE')"
+    :help-text="$t('INBOX_MGMT.IMAP.NOTE_TEXT')"
+    class="[&>div]:!items-start [&>div>label]:mt-1 mb-4"
+  >
+    <form @submit.prevent="updateInbox">
+      <label for="toggle-imap-enable">
+        <input
+          v-model="isIMAPEnabled"
+          type="checkbox"
+          class="ltr:mr-1 rtl:ml-1"
+          name="toggle-imap-enable"
+        />
+        {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
+      </label>
+      <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
+      <div v-if="isIMAPEnabled" class="mb-6">
+        <woot-input
+          v-model="address"
+          :class="{ error: v$.address.$error }"
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
+          :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
+          @blur="v$.address.$touch"
+        />
+        <woot-input
+          v-model="port"
+          type="number"
+          :class="{ error: v$.port.$error }"
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
+          :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
+          @blur="v$.port.$touch"
+        />
+        <woot-input
+          v-model="login"
+          :class="{ error: v$.login.$error }"
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
+          :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
+          @blur="v$.login.$touch"
+        />
+        <woot-input
+          v-model="password"
+          :class="{ error: v$.password.$error }"
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
+          :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
+          type="password"
+          @blur="v$.password.$touch"
+        />
+        <label for="toggle-enable-ssl">
           <input
-            v-model="isIMAPEnabled"
+            v-model="isSSLEnabled"
             type="checkbox"
             class="ltr:mr-2 rtl:ml-2"
-            name="toggle-imap-enable"
+            name="toggle-enable-ssl"
           />
-          {{ $t('INBOX_MGMT.IMAP.TOGGLE_AVAILABILITY') }}
+          {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
         </label>
-        <p>{{ $t('INBOX_MGMT.IMAP.TOGGLE_HELP') }}</p>
-        <div v-if="isIMAPEnabled" class="mb-6">
-          <woot-input
-            v-model="address"
-            :class="{ error: v$.address.$error }"
-            class="max-w-[75%] w-full"
-            :label="$t('INBOX_MGMT.IMAP.ADDRESS.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.ADDRESS.PLACE_HOLDER')"
-            @blur="v$.address.$touch"
-          />
-          <woot-input
-            v-model="port"
-            type="number"
-            :class="{ error: v$.port.$error }"
-            class="max-w-[75%] w-full"
-            :label="$t('INBOX_MGMT.IMAP.PORT.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.PORT.PLACE_HOLDER')"
-            @blur="v$.port.$touch"
-          />
-          <woot-input
-            v-model="login"
-            :class="{ error: v$.login.$error }"
-            class="max-w-[75%] w-full"
-            :label="$t('INBOX_MGMT.IMAP.LOGIN.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.LOGIN.PLACE_HOLDER')"
-            @blur="v$.login.$touch"
-          />
-          <woot-input
-            v-model="password"
-            :class="{ error: v$.password.$error }"
-            class="max-w-[75%] w-full"
-            :label="$t('INBOX_MGMT.IMAP.PASSWORD.LABEL')"
-            :placeholder="$t('INBOX_MGMT.IMAP.PASSWORD.PLACE_HOLDER')"
-            type="password"
-            @blur="v$.password.$touch"
-          />
-          <label for="toggle-enable-ssl">
-            <input
-              v-model="isSSLEnabled"
-              type="checkbox"
-              class="ltr:mr-2 rtl:ml-2"
-              name="toggle-enable-ssl"
-            />
-            {{ $t('INBOX_MGMT.IMAP.ENABLE_SSL') }}
-          </label>
-        </div>
-        <NextButton
-          type="submit"
-          :label="$t('INBOX_MGMT.IMAP.UPDATE')"
-          :is-loading="uiFlags.isUpdatingIMAP"
-          :disabled="(v$.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
+        <SingleSelectDropdown
+          class="w-full"
+          :label="$t('INBOX_MGMT.IMAP.AUTH_MECHANISM')"
+          :selected="authMechanism"
+          :options="authMechanisms"
+          :action="handleAuthMechanismChange"
         />
-      </form>
-    </SettingsSection>
-  </div>
+      </div>
+      <NextButton
+        type="submit"
+        :label="$t('INBOX_MGMT.IMAP.UPDATE')"
+        :is-loading="uiFlags.isUpdatingIMAP"
+        :disabled="(v$.$invalid && isIMAPEnabled) || uiFlags.isUpdatingIMAP"
+      />
+    </form>
+  </SettingsFieldSection>
 </template>

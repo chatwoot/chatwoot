@@ -53,47 +53,17 @@ as well as a link to its edit page.
         <% end %>
       </fieldset>
     <% end %>
+
+    <dt class="attribute-label" id="mfa_enabled">MFA</dt>
+    <dd class="attribute-data attribute-data--string">
+      <% mfa_enabled = page.resource.mfa_enabled? %>
+      <span class="<%= mfa_enabled ? 'bg-green-100/70 text-green-800' : 'bg-slate-100 text-slate-700' %> inline-flex items-center px-2 h-4 leading-4 rounded-xl text-xxs font-medium">
+        <%= mfa_enabled ? 'Enabled' : 'Disabled' %>
+      </span>
+    </dd>
   </dl>
 </section>
 
-<section class="main-content__body">
-  <% account_user_page = Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
-  <%= form_for([namespace, account_user_page.resource], html: { class: "form" }) do |f| %>
-  <% if account_user_page.resource.errors.any? %>
-    <div id="error_explanation">
-      <h2>
-        <%= t(
-          "administrate.form.errors",
-          pluralized_errors: pluralize(account_user_page.resource.errors.count, t("administrate.form.error")),
-          resource_name: display_resource_name(account_user_page.resource_name)
-        ) %>
-      </h2>
-
-      <ul>
-        <% account_user_page.resource.errors.full_messages.each do |message| %>
-          <li class="flash-error"><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <% account_user_page.attributes.each do |title, attributes| -%>
-    <% attributes.each do |attribute| %>
-      <% if attribute.name == "user" %>
-        <%= f.hidden_field('user_id', value: page.resource.id) %>
-      <% else %>
-      <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
-        <%= render_field attribute, f: f %>
-      </div>
-      <% end %>
-    <% end %>  
-  <% end -%>
-
-  <div class="form-actions">
-    <%= f.submit %>
-  </div>
-<% end %>
-
-</section>
+<%= render 'super_admin/shared/account_user_form', page: page, namespace: namespace, resource_type: 'user' %>
 
 <%= render partial: "impersonate", locals: {page: page} %>

@@ -40,6 +40,24 @@ RSpec.describe Telegram::SendAttachmentsService do
       end
     end
 
+    context 'when this is business chat' do
+      before do
+        message.conversation.update!(additional_attributes: { 'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+      end
+
+      it 'sends all types of attachments in seperate groups and returns the last successful message ID from the batch' do
+        attach_files(message)
+        service.perform
+        expect(a_request(:post, "#{telegram_api_url}/sendMediaGroup")
+          .with { |req| req.body =~ /business_connection_id.+eooW3KF5WB5HxTD7T826/m })
+          .to have_been_made.times(2)
+
+        expect(a_request(:post, "#{telegram_api_url}/sendDocument")
+          .with { |req| req.body =~ /business_connection_id.+eooW3KF5WB5HxTD7T826/m })
+          .to have_been_made.once
+      end
+    end
+
     context 'when all attachments are photo and video' do
       before do
         2.times { attach_file_to_message(message, 'image', 'sample.png', 'image/png') }

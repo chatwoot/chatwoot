@@ -84,28 +84,20 @@ const findCategoryFromSlug = slug => {
   return categories.value?.find(category => category.slug === slug);
 };
 
-const assignCategoryFromSlug = slug => {
-  const categoryFromSlug = findCategoryFromSlug(slug);
-  if (categoryFromSlug) {
-    selectedCategoryId.value = categoryFromSlug.id;
-    return categoryFromSlug;
-  }
-  return null;
-};
-
 const selectedCategory = computed(() => {
   if (isNewArticle.value) {
+    if (selectedCategoryId.value) {
+      return (
+        categories.value?.find(c => c.id === selectedCategoryId.value) || null
+      );
+    }
     if (categorySlugFromRoute.value) {
-      const categoryFromSlug = assignCategoryFromSlug(
+      const categoryFromSlug = findCategoryFromSlug(
         categorySlugFromRoute.value
       );
       if (categoryFromSlug) return categoryFromSlug;
     }
-    return selectedCategoryId.value
-      ? categories.value.find(
-          category => category.id === selectedCategoryId.value
-        )
-      : categories.value[0] || null;
+    return categories.value?.[0] || null;
   }
   return categories.value.find(
     category => category.id === props.article?.category?.id
@@ -201,12 +193,12 @@ onMounted(() => {
           v-if="openAgentsList && hasAgentList"
           :menu-items="agentList"
           show-search
-          class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-60"
+          class="z-[100] w-48 mt-2 ltr:left-0 rtl:right-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
     </div>
-    <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
+    <div class="w-px h-3 bg-n-weak" />
     <div class="relative">
       <OnClickOutside @trigger="openCategoryList = false">
         <Button
@@ -233,13 +225,13 @@ onMounted(() => {
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
           show-search
-          class="w-48 mt-2 z-[100] overflow-y-auto left-0 top-full max-h-60"
+          class="w-48 mt-2 z-[100] left-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
     </div>
 
-    <div class="w-px h-3 bg-slate-50 dark:bg-slate-800" />
+    <div class="w-px h-3 bg-n-weak" />
     <div class="relative">
       <OnClickOutside @trigger="openProperties = false">
         <Button

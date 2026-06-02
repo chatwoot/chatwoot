@@ -36,7 +36,7 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
-        expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['status']).to eql('published')
         expect(json_response['payload']['position']).to be(3)
       end
 
@@ -59,8 +59,28 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload']['title']).to eql('MyTitle')
-        expect(json_response['payload']['status']).to eql('draft')
+        expect(json_response['payload']['status']).to eql('published')
         expect(json_response['payload']['position']).to be(3)
+      end
+
+      it 'creates article as draft when status is not provided' do
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'DraftTitle',
+            slug: 'draft-title',
+            content: 'This is my draft content.',
+            author_id: agent.id
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles",
+             params: article_params,
+             headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['payload']['title']).to eql('DraftTitle')
+        expect(json_response['payload']['status']).to eql('draft')
       end
 
       it 'associate to the root article' do
@@ -168,6 +188,38 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:success)
         deleted_article = Article.find_by(id: article.id)
         expect(deleted_article).to be_nil
+      end
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/articles/reorder' do
+    let!(:article_2) do
+      create(:article, category: category, portal: portal, account_id: account.id, author_id: agent.id, position: 20)
+    end
+    let(:positions_hash) do
+      {
+        article.id => 20,
+        article_2.id => 10
+      }
+    end
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash }
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      it 'reorders articles' do
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/reorder",
+             params: { positions_hash: positions_hash },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(article.reload.position).to eq(20)
+        expect(article_2.reload.position).to eq(10)
       end
     end
   end

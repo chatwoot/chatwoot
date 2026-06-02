@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 const state = {
   allConversations: [],
@@ -22,6 +23,10 @@ const state = {
   syncConversationsMessages: {},
   conversationFilters: {},
   copilotAssistant: {},
+};
+
+const getConversationById = _state => conversationId => {
+  return _state.allConversations.find(c => c.id === conversationId);
 };
 
 // mutations
@@ -58,14 +63,18 @@ export const mutations = {
     _state.allConversations = [];
     _state.selectedChatId = null;
   },
-  [types.SET_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.allMessagesLoaded = true;
+  [types.SET_ALL_MESSAGES_LOADED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.allMessagesLoaded = true;
+    }
   },
 
-  [types.CLEAR_ALL_MESSAGES_LOADED](_state) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.allMessagesLoaded = false;
+  [types.CLEAR_ALL_MESSAGES_LOADED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.allMessagesLoaded = false;
+    }
   },
   [types.CLEAR_CURRENT_CHAT_WINDOW](_state) {
     _state.selectedChatId = null;
@@ -78,15 +87,19 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    const attachments = _state.attachments[id] || [];
-
-    attachments.push(...data);
-    _state.attachments[id] = [...attachments];
+    _state.attachments[id] = [...data];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
     if (!chat) return;
     chat.messages = data;
+  },
+
+  [types.SET_CHAT_DATA_FETCHED](_state, conversationId) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.dataFetched = true;
+    }
   },
 
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
@@ -95,9 +108,11 @@ export const mutations = {
     }
   },
 
-  [types.ASSIGN_AGENT](_state, assignee) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.meta.assignee = assignee;
+  [types.ASSIGN_AGENT](_state, { conversationId, assignee }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.meta.assignee = assignee;
+    }
   },
 
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
@@ -119,9 +134,19 @@ export const mutations = {
     chat.priority = priority;
   },
 
-  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.custom_attributes = custom_attributes;
+  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](
+    _state,
+    { conversationId, customAttributes }
+  ) {
+    const conversation = _state.allConversations.find(
+      c => c.id === conversationId
+    );
+    if (conversation) {
+      conversation.custom_attributes = {
+        ...conversation.custom_attributes,
+        ...customAttributes,
+      };
+    }
   },
 
   [types.CHANGE_CONVERSATION_STATUS](
@@ -197,14 +222,22 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
   },
 
   [types.ADD_CONVERSATION](_state, conversation) {
-    _state.allConversations.push(conversation);
+    const exists = _state.allConversations.some(c => c.id === conversation.id);
+    if (!exists) {
+      _state.allConversations.push(conversation);
+    }
+  },
+
+  [types.DELETE_CONVERSATION](_state, conversationId) {
+    _state.allConversations = _state.allConversations.filter(
+      c => c.id !== conversationId
+    );
   },
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
@@ -222,11 +255,14 @@ export const mutations = {
       const { messages, ...updates } = conversation;
       allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
-      _state.allConversations.push(conversation);
+      const { conversationType } = _state.conversationFilters || {};
+      const { MENTION, PARTICIPATING } = wootConstants.CONVERSATION_TYPE;
+      if (![MENTION, PARTICIPATING].includes(conversationType)) {
+        _state.allConversations.push(conversation);
+      }
     }
   },
 
@@ -258,8 +294,10 @@ export const mutations = {
 
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
-    const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    chat.meta.assignee = payload.assignee;
+    const chat = getConversationById(_state)(payload.id);
+    if (chat) {
+      chat.meta.assignee = payload.assignee;
+    }
   },
 
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {
@@ -267,6 +305,23 @@ export const mutations = {
     if (chat) {
       chat.meta.sender = payload;
     }
+  },
+
+  [types.UPDATE_MESSAGE_CALL_STATUS](
+    _state,
+    { conversationId, callStatus, callSid }
+  ) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    const message = (chat.messages || []).find(
+      m =>
+        m.content_type === CONTENT_TYPES.VOICE_CALL &&
+        m.call?.provider_call_id === callSid
+    );
+    if (!message?.call) return;
+
+    message.call = { ...message.call, status: callStatus };
   },
 
   [types.SET_ACTIVE_INBOX](_state, inboxId) {

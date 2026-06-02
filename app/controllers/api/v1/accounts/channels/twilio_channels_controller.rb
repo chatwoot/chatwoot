@@ -1,3 +1,6 @@
+# TODO : Move this to inboxes controller and deprecate this controller
+# No need to retain this controller as we could handle everything centrally in inboxes controller
+
 class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts::BaseController
   before_action :authorize_request
 
@@ -61,7 +64,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
 
   def permitted_params
     params.require(:twilio_channel).permit(
-      :account_id, :messaging_service_sid, :phone_number, :account_sid, :auth_token, :name, :medium, :api_key_sid
+      :messaging_service_sid, :phone_number, :account_sid, :auth_token, :name, :medium, :api_key_sid
     )
   end
 end

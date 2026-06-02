@@ -138,8 +138,40 @@ describe CustomMarkdownRenderer do
 
       it 'wraps iframe in responsive container' do
         output = render_markdown_link(arcade_url)
-        expect(output).to include('position: relative; padding-bottom: 62.5%; height: 0;')
+        expect(output).to include('position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;')
         expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
+    context 'when link is an Arcade tab URL' do
+      let(:arcade_tab_url) { 'https://app.arcade.software/share/ARCADE_TAB_ID?embed_mobile=tab' }
+
+      it 'renders an iframe with Arcade tab embed code' do
+        output = render_markdown_link(arcade_tab_url)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_TAB_ID?embed&embed_mobile=tab"')
+      end
+
+      it 'supports additional query params after embed_mobile' do
+        url = 'https://app.arcade.software/share/ARCADE_TAB_ID?foo=bar&embed_mobile=tab?user_id=1'
+        output = render_markdown_link(url)
+        expect(output).to include('src="https://app.arcade.software/embed/ARCADE_TAB_ID?embed&embed_mobile=tab"')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(arcade_tab_url)
+        expect(output).to include('position: relative; padding-bottom: calc(62.793% + 41px); height: 0px; width: 100%;')
+        expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
+    context 'when link is a wistia URL' do
+      let(:wistia_url) { 'https://chatwoot.wistia.com/medias/kjwjeq6f9i' }
+
+      it 'renders a custom element with Wistia embed code' do
+        output = render_markdown_link(wistia_url)
+        expect(output).to include('<script src="https://fast.wistia.com/player.js" async></script>')
+        expect(output).to include('<wistia-player')
+        expect(output).to include('media-id="kjwjeq6f9i"')
       end
     end
 
@@ -150,6 +182,93 @@ describe CustomMarkdownRenderer do
         expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
         expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
       end
+    end
+
+    context 'when link is a GuideJar embed URL' do
+      let(:guidejar_url) { 'https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA' }
+
+      it 'renders an iframe with GuideJar embed code' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('src="https://www.guidejar.com/embed/i2qMQRp26rtRxpZczmaA?type=1&controls=on"')
+        expect(output).to include('allowfullscreen')
+      end
+    end
+
+    context 'when link is a GuideJar guides URL' do
+      let(:guidejar_url) { 'https://guidejar.com/guides/d6a6fdc2-4812-4777-897e-ec1b0c64238f' }
+
+      it 'renders an iframe with GuideJar embed code' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('src="https://www.guidejar.com/embed/d6a6fdc2-4812-4777-897e-ec1b0c64238f?type=1&controls=on"')
+        expect(output).to include('allowfullscreen')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(guidejar_url)
+        expect(output).to include('position: relative; padding-bottom: 62.5%; height: 0;')
+        expect(output).to include('position: absolute; top: 0; left: 0; width: 100%; height: 100%;')
+      end
+    end
+
+    context 'when link is a Bunny.net iframe URL' do
+      let(:bunny_url) { 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c' }
+
+      it 'renders an iframe with Bunny embed code' do
+        output = render_markdown_link(bunny_url)
+        expect(output).to include('src="https://player.mediadelivery.net/embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c?autoplay=false&loop=false&muted=false&preload=true&responsive=true"')
+        expect(output).to include('allowfullscreen')
+        expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
+      end
+
+      it 'wraps iframe in responsive container' do
+        output = render_markdown_link(bunny_url)
+        expect(output).to include('position: relative; padding-top: 56.25%;')
+        expect(output).to include('position: absolute; top: 0; height: 100%; width: 100%;')
+      end
+    end
+
+    context 'when link is a Bunny.net player URL' do
+      let(:bunny_url) { 'https://player.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c' }
+
+      it 'renders an iframe with Bunny embed code' do
+        output = render_markdown_link(bunny_url)
+        expect(output).to include('embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c')
+        expect(output).to include('autoplay=false&loop=false&muted=false&preload=true&responsive=true')
+        expect(output).to include('allowfullscreen')
+        expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
+      end
+    end
+
+    context 'when captured values contain HTML-special characters' do
+      # CommonMark angle-bracket link destinations `[text](<URL>)` permit characters
+      # like `"` that the embed regex captures would otherwise pass through raw into
+      # attribute values. Captures are HTML-escaped before interpolation so the
+      # substituted value cannot break out of the surrounding attribute context.
+      it 'escapes double quotes in captured YouTube video_id' do
+        markdown = "\n[demo](<https://www.youtube.com/watch?v=x\" onload=\"alert(1)>)\n"
+        output = render_markdown(markdown)
+        expect(output).not_to include('onload="alert(1)"')
+        expect(output).to include('&quot;')
+      end
+
+      it 'leaves legitimate alphanumeric IDs untouched' do
+        output = render_markdown_link('https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"')
+      end
+    end
+  end
+
+  describe '#image' do
+    it 'renders width in px with responsive cap and auto height' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=400px)'
+      expect(render_markdown(markdown)).to include(
+        'style="width: 400px; max-width: 100%; height: auto;"'
+      )
+    end
+
+    it 'ignores a non-numeric width' do
+      markdown = '![Sample](https://example.com/image.jpg?cw_image_width=auto)'
+      expect(render_markdown(markdown)).not_to include('style=')
     end
   end
 end

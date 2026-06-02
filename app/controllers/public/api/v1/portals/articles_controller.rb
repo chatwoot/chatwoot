@@ -1,19 +1,51 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
-  before_action :ensure_custom_domain_request, only: [:show, :index]
+  before_action :ensure_custom_domain_request, only: [:show, :index, :show_markdown]
   before_action :portal
-  before_action :set_category, except: [:index, :show]
-  before_action :set_article, only: [:show]
+  before_action :set_portal_layout
+  before_action :set_view_variant
+  before_action :ensure_portal_feature_enabled
+  before_action :set_category, except: [:index, :show, :tracking_pixel]
+  before_action :set_article, only: [:show, :show_markdown]
   layout 'portal'
 
   def index
+    @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)
+
+    @articles = @articles.where(locale: permitted_params[:locale]) if permitted_params[:locale].present?
+
     @articles_count = @articles.count
+
     search_articles
     order_by_sort_param
     limit_results
   end
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
+    @parsed_content = render_article_content(@article.content.to_s)
+  end
+
+  def show_markdown
+    return head :not_found unless @article&.published?
+
+    render plain: @article.content.to_s, content_type: 'text/markdown; charset=utf-8'
+  end
+
+  def tracking_pixel
+    @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+    return head :not_found unless @article
+
+    @article.increment_view_count if @article.published?
+
+    # Serve the 1x1 tracking pixel with 24-hour private cache
+    # Private cache bypasses CDN but allows browser caching to prevent duplicate views from same user
+    expires_in 24.hours, public: false
+    response.headers['Content-Type'] = 'image/png'
+
+    pixel_path = Rails.public_path.join('assets/images/tracking-pixel.png')
+    send_file pixel_path, type: 'image/png', disposition: 'inline'
+  end
 
   private
 
@@ -39,8 +71,6 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @article.increment_view_count if @article.published?
-    @parsed_content = render_article_content(@article.content)
   end
 
   def set_category
@@ -53,7 +83,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def list_params
-    params.permit(:query, :locale, :sort, :status, :page, :per_page)
+    @list_params ||= params.permit(:query, :locale, :sort, :status, :page, :per_page).tap do |permitted|
+      permitted[:query] = permitted[:query].to_s.strip.presence
+    end
   end
 
   def permitted_params

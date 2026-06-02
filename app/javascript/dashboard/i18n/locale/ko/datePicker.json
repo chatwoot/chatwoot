@@ -1,19 +1,24 @@
 {
   "DATE_PICKER": {
-    "APPLY_BUTTON": "Apply",
-    "CLEAR_BUTTON": "Clear",
+    "PREVIOUS_PERIOD": "이전 기간",
+    "NEXT_PERIOD": "다음 기간",
+    "WEEK_NUMBER": "{weekNumber}주차",
+    "APPLY_BUTTON": "적용",
+    "CLEAR_BUTTON": "초기화",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "시작 날짜",
+      "END": "종료 날짜"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "날짜 범위",
       "LAST_7_DAYS": "지난 7일",
       "LAST_30_DAYS": "지난 30일",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "지난 3개월",
+      "LAST_6_MONTHS": "지난 6개월",
+      "LAST_YEAR": "지난 1년",
+      "THIS_WEEK": "이번 주",
+      "MONTH_TO_DATE": "이번 달",
+      "CUSTOM_RANGE": "사용자 지정 날짜 범위"
     }
   }
 }

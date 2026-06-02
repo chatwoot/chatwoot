@@ -1,0 +1,18 @@
+# Current Conversation Context
+- Conversation ID: {{ conversation.display_id }}
+- Contact ID: {{ conversation.contact_id }}
+- Status: {{ conversation.status }}
+- Priority: {{ conversation.priority || "None" }}
+{% if conversation.label_list.size > 0 -%}
+- Labels: {{ conversation.label_list | join: ", " }}
+{% endif -%}
+{% if conversation.custom_attributes -%}
+  {% for attribute in conversation.custom_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+  {% endfor -%}
+{% endif -%}
+{% if conversation.additional_attributes -%}
+  {% for attribute in conversation.additional_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+  {% endfor -%}
+{% endif -%}

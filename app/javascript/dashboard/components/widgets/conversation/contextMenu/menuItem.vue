@@ -1,27 +1,21 @@
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-export default {
-  components: {
-    Thumbnail,
+<script setup>
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
+defineProps({
+  option: {
+    type: Object,
+    default: () => {},
   },
-  props: {
-    option: {
-      type: Object,
-      default: () => {},
-    },
-    variant: {
-      type: String,
-      default: 'default',
-    },
+  variant: {
+    type: String,
+    default: 'default',
   },
-};
+});
 </script>
 
 <template>
-  <div
-    class="menu text-slate-800 dark:text-slate-100 min-h-7 min-w-0"
-    role="button"
-  >
+  <div class="menu text-n-slate-12 min-h-7 min-w-0" role="button">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"
@@ -29,27 +23,34 @@ export default {
       class="flex-shrink-0"
     />
     <span
-      v-if="variant === 'label' && option.color"
+      v-if="
+        (variant === 'label' || variant === 'label-assigned') && option.color
+      "
       class="label-pill flex-shrink-0"
       :style="{ backgroundColor: option.color }"
     />
-    <Thumbnail
+    <Avatar
       v-if="variant === 'agent'"
-      :username="option.label"
+      :name="option.label"
       :src="option.thumbnail"
-      :status="option.status"
-      size="20px"
+      :status="option.status === 'online' ? option.status : null"
+      :size="20"
       class="flex-shrink-0"
     />
     <p class="menu-label truncate min-w-0 flex-1">
       {{ option.label }}
     </p>
+    <Icon
+      v-if="variant === 'label-assigned'"
+      icon="i-lucide-check"
+      class="flex-shrink-0 size-3.5 mr-1"
+    />
   </div>
 </template>
 
 <style scoped lang="scss">
 .menu {
-  width: calc(var(--space-mega) * 2);
+  width: calc(6.25rem * 2);
   @apply flex items-center flex-nowrap p-1 rounded-md overflow-hidden cursor-pointer;
 
   .menu-label {
@@ -57,7 +58,7 @@ export default {
   }
 
   &:hover {
-    @apply bg-n-brand text-white dark:text-slate-50;
+    @apply bg-n-brand text-white;
   }
 }
 

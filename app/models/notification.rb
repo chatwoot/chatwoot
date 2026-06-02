@@ -19,6 +19,7 @@
 #
 # Indexes
 #
+#  idx_notifications_performance                   (user_id,account_id,snoozed_until,read_at)
 #  index_notifications_on_account_id               (account_id)
 #  index_notifications_on_last_activity_at         (last_activity_at)
 #  index_notifications_on_user_id                  (user_id)
@@ -179,7 +180,17 @@ class Notification < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(NOTIFICATION_DELETED, Time.zone.now, notification: self)
+    # Pass serialized data instead of ActiveRecord object to avoid DeserializationError
+    # when the async EventDispatcherJob runs after the notification has been deleted
+    Rails.configuration.dispatcher.dispatch(
+      NOTIFICATION_DELETED,
+      Time.zone.now,
+      notification_data: {
+        id: id,
+        user_id: user_id,
+        account_id: account_id
+      }
+    )
   end
 
   def set_last_activity_at

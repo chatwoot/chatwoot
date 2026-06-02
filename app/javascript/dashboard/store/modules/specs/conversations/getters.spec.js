@@ -183,6 +183,73 @@ describe('#getters', () => {
       ]);
     });
   });
+  describe('#getParticipatingChats', () => {
+    const conversationList = [
+      { id: 1, inbox_id: 2, status: 1, meta: { assignee: { id: 1 } } },
+      { id: 2, inbox_id: 2, status: 1, meta: {} },
+      { id: 3, inbox_id: 3, status: 1, meta: { assignee: { id: 2 } } },
+    ];
+
+    it('returns all conversations when watchers are not loaded', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': () => undefined,
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+
+    it('filters out conversation when watchers loaded and user not participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 2) return [{ id: 3 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual([conversationList[0], conversationList[2]]);
+    });
+
+    it('keeps conversation when watchers loaded and user is participating', () => {
+      const state = {
+        allConversations: conversationList,
+        participatingConversationIds: {},
+      };
+      const rootGetters = {
+        getCurrentUser: { id: 1 },
+        'conversationWatchers/getByConversationId': id => {
+          if (id === 1) return [{ id: 1 }, { id: 2 }];
+          return undefined;
+        },
+      };
+      const result = getters.getParticipatingChats(
+        state,
+        {},
+        {},
+        rootGetters
+      )({ status: 1 });
+      expect(result).toEqual(conversationList);
+    });
+  });
   describe('#getConversationById', () => {
     it('get conversations based on id', () => {
       const state = {
@@ -261,6 +328,31 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getSelectedChatAttachmentsLoaded', () => {
+    it('returns true when attachments have been fetched for the selected chat', () => {
+      const state = { selectedChatId: 1, attachments: { 1: [] } };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns true when the fetched attachment list is non-empty', () => {
+      const state = {
+        selectedChatId: 1,
+        attachments: { 1: [{ id: 1, file_name: 'test' }] },
+      };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns false when attachments have not been fetched yet', () => {
+      const state = { selectedChatId: 1, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
+    });
+
+    it('returns false when no chat is selected', () => {
+      const state = { selectedChatId: null, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
+    });
+  });
+
   describe('#getContextMenuChatId', () => {
     it('returns the context menu chat id', () => {
       const state = { contextMenuChatId: 1 };
@@ -323,6 +415,310 @@ describe('#getters', () => {
         name: 'Assistant',
         description: 'Assistant description',
       });
+    });
+  });
+
+  describe('#getFilteredConversations', () => {
+    const mockConversations = [
+      {
+        id: 1,
+        status: 'open',
+        meta: { assignee: { id: 1 } },
+        last_activity_at: 1000,
+      },
+      {
+        id: 2,
+        status: 'open',
+        meta: {},
+        last_activity_at: 2000,
+      },
+      {
+        id: 3,
+        status: 'resolved',
+        meta: { assignee: { id: 2 } },
+        last_activity_at: 3000,
+      },
+    ];
+
+    const mockRootGetters = {
+      getCurrentUser: {
+        id: 1,
+        accounts: [{ id: 1, role: 'agent', permissions: [] }],
+      },
+      getCurrentAccountId: 1,
+    };
+
+    it('filters conversations based on role permissions for administrator', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [{ id: 1, role: 'administrator', permissions: [] }],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
+    });
+
+    it('filters conversations based on role permissions for agent', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [{ id: 1, role: 'agent', permissions: [] }],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
+    });
+
+    it('filters conversations for custom role with conversation_manage permission', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: ['conversation_manage'],
+            },
+          ],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
+    });
+
+    it('filters conversations for custom role with conversation_unassigned_manage permission', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: ['conversation_unassigned_manage'],
+            },
+          ],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      // Should include conversation assigned to user (id: 1) and unassigned conversation
+      expect(result).toEqual([mockConversations[1], mockConversations[0]]);
+    });
+
+    it('filters conversations for custom role with conversation_participating_manage permission', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: ['conversation_participating_manage'],
+            },
+          ],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      // Should only include conversation assigned to user (id: 1)
+      expect(result).toEqual([mockConversations[0]]);
+    });
+
+    it('filters conversations for custom role with no permissions', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: [],
+            },
+          ],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      // Should return empty array as user has no permissions
+      expect(result).toEqual([]);
+    });
+
+    it('applies filters and role permissions together', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+            query_operator: 'and',
+          },
+        ],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [
+            {
+              id: 1,
+              custom_role_id: 5,
+              permissions: ['conversation_participating_manage'],
+            },
+          ],
+        },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      // Should only include open conversation assigned to user (id: 1)
+      expect(result).toEqual([mockConversations[0]]);
+    });
+
+    it('returns empty array when no conversations match filters', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+            query_operator: 'and',
+          },
+        ],
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        mockRootGetters
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('sorts filtered conversations according to chatSortFilter', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_asc',
+        appliedFilters: [],
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        mockRootGetters
+      );
+
+      expect(result).toEqual([
+        mockConversations[0],
+        mockConversations[1],
+        mockConversations[2],
+      ]);
     });
   });
 });

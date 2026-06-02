@@ -45,10 +45,15 @@ export function useAccount() {
     };
   };
 
-  const updateAccount = async data => {
+  const updateAccount = async (data, options) => {
     await store.dispatch('accounts/update', {
       ...data,
+      options,
     });
+  };
+
+  const finishOnboarding = async data => {
+    await store.dispatch('accounts/finishOnboarding', data);
   };
 
   return {
@@ -60,5 +65,6 @@ export function useAccount() {
     isCloudFeatureEnabled,
     isOnChatwootCloud,
     updateAccount,
+    finishOnboarding,
   };
 }

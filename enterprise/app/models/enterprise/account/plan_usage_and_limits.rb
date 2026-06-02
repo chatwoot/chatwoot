@@ -1,4 +1,4 @@
-module Enterprise::Account::PlanUsageAndLimits
+module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleLength
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
@@ -16,20 +16,26 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
 
   def reset_response_usage
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
-    save
+    update_custom_attribute(CAPTAIN_RESPONSES_USAGE, 0)
   end
 
   def update_document_usage
-    # this will ensure that the document count is always accurate
-    custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
-    save
+    update_custom_attribute(CAPTAIN_DOCUMENTS_USAGE, captain_documents.count)
+  end
+
+  def email_transcript_enabled?
+    default_plan = InstallationConfig.find_by(name: 'CHATWOOT_CLOUD_PLANS')&.value&.first
+    return true if default_plan.blank?
+
+    plan_name.present? && plan_name != default_plan['name']
+  end
+
+  def email_rate_limit
+    account_limit || plan_email_limit || global_limit || default_limit
   end
 
   def subscribed_features
@@ -66,6 +72,16 @@ module Enterprise::Account::PlanUsageAndLimits
       current_available: (total_count - consumed).clamp(0, total_count),
       consumed: consumed
     }
+  end
+
+  def plan_email_limit
+    config = InstallationConfig.find_by(name: 'ACCOUNT_EMAILS_PLAN_LIMITS')&.value
+    return nil if config.blank? || plan_name.blank?
+
+    parsed = config.is_a?(String) ? JSON.parse(config) : config
+    parsed[plan_name.downcase]&.to_i
+  rescue StandardError
+    nil
   end
 
   def default_captain_limits
@@ -109,6 +125,27 @@ module Enterprise::Account::PlanUsageAndLimits
     ChatwootApp.max_limit
   end
 
+  # Atomic jsonb_set to avoid clobbering concurrent writes to other custom_attributes keys.
+  # Goes through Account relation (rather than raw connection) so shard routing is respected.
+  # rubocop:disable Rails/SkipsModelValidations
+  def update_custom_attribute(key, value)
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], :value::jsonb)",
+                                       { key: key, value: value.to_json }
+                                     ])
+    custom_attributes[key] = value
+  end
+
+  def increment_custom_attribute(key)
+    Account.where(id: id).update_all([
+                                       "custom_attributes = jsonb_set(COALESCE(custom_attributes, '{}'), ARRAY[:key], " \
+                                       '(COALESCE((custom_attributes ->> :key)::int, 0) + 1)::text::jsonb)',
+                                       { key: key }
+                                     ])
+    custom_attributes[key] = custom_attributes[key].to_i + 1
+  end
+  # rubocop:enable Rails/SkipsModelValidations
+
   def validate_limit_keys
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
     self[:limits] = {} if self[:limits].blank?
@@ -119,7 +156,8 @@ module Enterprise::Account::PlanUsageAndLimits
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' }
+        'captain_documents' => { 'type': 'number' },
+        'emails' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

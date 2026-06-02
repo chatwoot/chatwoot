@@ -3,46 +3,55 @@ post:
     - Messages
   operationId: conversationNewMessageAttachment
   summary: Create New Message Attachment
-  description: Create an attachment message. Refer to this discussion if you have any further doubts. https://github.com/chatwoot/chatwoot/discussions/1809#discussioncomment-1211845
-  consumes:
-    - multipart/form-data
+  description: Create an attachment message.
   security:
     - userApiKey: []
-    - agentBotApiKey: []
   parameters:
-    - $ref: '#/parameters/account_id'
-    - $ref: '#/parameters/conversation_id'
-      required: true
-    - in: formData
-      name: content
-      type: string
-      description: The content of the message
-      required: true
-    - in: formData
-      name: message_type
-      type: string
-      enum: ['outgoing', 'incoming']
-    - in: formData
-      name: private
-      type: boolean
-      description: Flag to identify if it is a private note
-    - in: formData
-      name: attachments[]
-      type: array
-      description: The files to be uploaded.
-      items:
-        type: string
-        format: binary
-
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/conversation_id'
+  requestBody:
+    required: true
+    content:
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - content
+          properties:
+            content:
+              type: string
+              description: The content of the message
+            message_type:
+              type: string
+              enum: ['outgoing', 'incoming']
+            private:
+              type: boolean
+              description: Flag to identify if it is a private note
+            attachments:
+              type: array
+              description: The files to be uploaded.
+              items:
+                type: string
+                format: binary
 
   responses:
-    200:
+    '200':
       description: Success
-      schema:
-        allOf:
-          - $ref: '#/definitions/generic_id'
-          - $ref: '#/definitions/message'
-    404:
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/generic_id'
+              - $ref: '#/components/schemas/message'
+    '404':
       description: Conversation not found
-    403:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
       description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

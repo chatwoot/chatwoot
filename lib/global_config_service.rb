@@ -1,6 +1,6 @@
 class GlobalConfigService
   def self.load(config_key, default_value)
-    config = ENV.fetch(config_key) { GlobalConfig.get(config_key)[config_key] }
+    config = GlobalConfig.get(config_key)[config_key]
     return config if config.present?
 
     # To support migrating existing instance relying on env variables
@@ -13,5 +13,9 @@ class GlobalConfigService
     # To clear a nil value that might have been cached in the previous call
     GlobalConfig.clear_cache
     i.value
+  end
+
+  def self.account_signup_enabled?
+    load('ENABLE_ACCOUNT_SIGNUP', 'false').to_s != 'false'
   end
 end

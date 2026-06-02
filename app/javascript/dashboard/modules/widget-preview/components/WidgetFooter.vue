@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 
 const props = defineProps({
@@ -27,24 +27,24 @@ const getStatusText = computed(() => {
   <div class="relative flex flex-col w-full px-4">
     <div
       v-if="config.isDefaultScreen"
-      class="p-4 bg-white rounded-md shadow-sm dark:bg-slate-700"
+      class="p-4 rounded-md shadow-sm bg-n-background dark:bg-n-solid-2"
     >
       <div class="flex items-center justify-between">
         <div>
           <div
-            class="text-sm font-medium leading-4 text-slate-700 dark:text-slate-50"
+            class="text-sm font-medium leading-4 text-n-slate-12 dark:text-n-slate-50"
           >
             {{ getStatusText }}
           </div>
-          <div class="mt-1 text-xs text-slate-500 dark:text-slate-100">
+          <div class="mt-1 text-xs text-n-slate-11">
             {{ config.replyTime }}
           </div>
         </div>
-        <Thumbnail username="C" size="34px" />
+        <Avatar name="C" :size="34" rounded-full />
       </div>
       <button
         v-if="config.isDefaultScreen"
-        class="inline-flex items-center justify-between px-2 py-1 mt-1 -ml-2 font-medium leading-6 bg-transparent rounded-md text-slate-800 dark:bg-transparent dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
+        class="inline-flex items-center justify-between px-2 py-1 mt-1 -ml-2 font-medium leading-6 bg-transparent rounded-md text-n-slate-12 dark:bg-transparent"
         :style="{ color: config.color }"
       >
         <span class="pr-2 text-xs">
@@ -59,8 +59,8 @@ const getStatusText = computed(() => {
     </div>
     <div
       v-else
-      class="flex items-center h-10 bg-white rounded-md dark:bg-slate-700"
-      :class="{ 'ring-2 ring-woot-500 dark:ring-woot-400': isInputFocused }"
+      class="flex items-center h-10 bg-white rounded-md dark:!bg-n-slate-3"
+      :class="{ 'ring-2 ring-n-brand dark:ring-n-brand': isInputFocused }"
     >
       <ResizableTextArea
         id="chat-input"
@@ -68,7 +68,7 @@ const getStatusText = computed(() => {
         :placeholder="
           $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.CHAT_INPUT_PLACEHOLDER')
         "
-        class="flex-grow !bg-white border-0 outline-none !outline-0 border-none h-8 text-sm dark:!bg-slate-700 pb-0 !pt-1.5 resize-none px-3 !mb-0 focus:outline-none rounded-md"
+        class="flex-grow !bg-white border-0 outline-none !outline-0 border-none h-8 text-sm dark:!bg-n-slate-3 pb-0 !pt-1.5 resize-none px-3 !mb-0 focus:outline-none rounded-md"
         @focus="isInputFocused = true"
         @blur="isInputFocused = false"
       />

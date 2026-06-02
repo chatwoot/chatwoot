@@ -1,0 +1,5 @@
+type: object
+properties:
+  payload:
+    description: A single portal object (for show/update endpoints)
+    $ref: '#/components/schemas/portal_item' 

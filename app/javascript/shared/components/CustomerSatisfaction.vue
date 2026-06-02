@@ -1,14 +1,17 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import { CSAT_RATINGS } from 'shared/constants/messages';
+import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import StarRating from 'shared/components/StarRating.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
+    StarRating,
   },
   props: {
     messageContentAttributes: {
@@ -19,6 +22,18 @@ export default {
       type: Number,
       required: true,
     },
+    displayType: {
+      type: String,
+      default: CSAT_DISPLAY_TYPES.EMOJI,
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return { formatMessage };
   },
   data() {
     return {
@@ -39,7 +54,9 @@ export default {
         ?.feedback_message;
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      if (!(this.selectedRating && this.feedback)) return true;
+      if (this.isUpdating) return true;
+      return false;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -47,7 +64,16 @@ export default {
     title() {
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
-        : this.$t('CSAT.TITLE');
+        : this.message || this.$t('CSAT.TITLE');
+    },
+    formattedTitle() {
+      return this.formatMessage(this.title, false);
+    },
+    isEmojiType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
+    },
+    isStarType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.STAR;
     },
   },
 
@@ -63,14 +89,16 @@ export default {
 
   methods: {
     buttonClass(rating) {
+      const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: this.isRatingSubmitted },
-        { hover: this.isRatingSubmitted },
+        { disabled: isLocked },
+        { hover: isLocked },
         'emoji-button',
       ];
     },
     async onSubmit() {
+      if (this.isUpdating) return;
       this.isUpdating = true;
       try {
         await this.$store.dispatch('message/update', {
@@ -88,8 +116,15 @@ export default {
         this.isUpdating = false;
       }
     },
+
     selectRating(rating) {
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating.value;
+      this.onSubmit();
+    },
+    selectStarRating(value) {
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
+      this.selectedRating = value;
       this.onSubmit();
     },
   },
@@ -101,10 +136,11 @@ export default {
     class="customer-satisfaction w-full bg-n-background dark:bg-n-solid-3 shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] rounded-lg inline-block leading-[1.5] mt-1 border-t-2 border-t-n-brand border-solid"
     :style="{ borderColor: widgetColor }"
   >
-    <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
-      {{ title }}
-    </h6>
-    <div class="ratings flex justify-around py-5 px-4">
+    <h6
+      v-dompurify-html="formattedTitle"
+      class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center prose prose-bubble"
+    />
+    <div v-if="isEmojiType" class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -114,6 +150,12 @@ export default {
         {{ rating.emoji }}
       </button>
     </div>
+    <StarRating
+      v-else-if="isStarType"
+      :selected-rating="selectedRating"
+      :is-disabled="isFeedbackSubmitted || isUpdating"
+      @select-rating="selectStarRating"
+    />
     <form
       v-if="!isFeedbackSubmitted"
       class="feedback-form flex"

@@ -27,6 +27,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         body = JSON.parse(response.body, symbolize_names: true)
         expect(body[:data][:meta][:all_count]).to eq(1)
         expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
@@ -100,6 +101,61 @@ RSpec.describe 'Conversations API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/conversations/unread_counts' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:visible_inbox) { create(:inbox, account: account) }
+      let(:hidden_inbox) { create(:inbox, account: account) }
+      let(:label) { create(:label, account: account, title: 'billing', show_on_sidebar: true) }
+      let(:team) { create(:team, account: account, allow_auto_assign: false) }
+
+      before do
+        create(:inbox_member, user: agent, inbox: visible_inbox)
+        create(:team_member, user: agent, team: team)
+      end
+
+      after do
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
+      it 'returns unread conversation counts scoped to the signed-in user' do
+        create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title])
+        create_unread_conversation(account: account, inbox: hidden_inbox, labels: [label.title])
+
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to eq(
+          'inboxes' => { visible_inbox.id.to_s => 1 },
+          'labels' => { label.id.to_s => 1 },
+          'teams' => {}
+        )
+      end
+
+      it 'returns unread team conversation counts scoped to the signed-in user' do
+        create_unread_conversation(account: account, inbox: visible_inbox, team: team)
+        create_unread_conversation(account: account, inbox: hidden_inbox, team: team)
+
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['teams']).to eq(team.id.to_s => 1)
+      end
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/search' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -165,6 +221,7 @@ RSpec.describe 'Conversations API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data.count).to eq(2)
       end
@@ -234,6 +291,7 @@ RSpec.describe 'Conversations API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(conversation.display_id)
       end
 
@@ -282,6 +340,7 @@ RSpec.describe 'Conversations API', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:priority]).to eq('high')
       end
 
@@ -330,6 +389,7 @@ RSpec.describe 'Conversations API', type: :request do
       context 'when it is an authenticated user who has access to the inbox' do
         before do
           create(:inbox_member, user: agent, inbox: inbox)
+          create(:team_member, user: agent, team: team)
         end
 
         it 'creates a new conversation' do
@@ -341,6 +401,7 @@ RSpec.describe 'Conversations API', type: :request do
                as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
           response_data = JSON.parse(response.body, symbolize_names: true)
           expect(response_data[:additional_attributes]).to eq(additional_attributes)
         end
@@ -448,9 +509,11 @@ RSpec.describe 'Conversations API', type: :request do
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: agent.create_new_auth_token,
+             params: { status: 'open' },
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(conversation.reload.status).to eq('open')
       end
 
@@ -646,6 +709,37 @@ RSpec.describe 'Conversations API', type: :request do
           .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent, is_private: true })
       end
     end
+
+    context 'when it is an authenticated bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      it 'toggles the conversation typing status' do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: { api_access_token: agent_bot.access_token.token },
+             params: { typing_status: 'on', is_private: false },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Conversation::CONVERSATION_TYPING_ON, kind_of(Time), { conversation: conversation, user: agent_bot, is_private: false })
+      end
+    end
+
+    context 'when it is an authenticated platform app token' do
+      let(:platform_app) { create(:platform_app) }
+
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_typing_status",
+             headers: { api_access_token: platform_app.access_token.token },
+             params: { typing_status: 'on', is_private: false },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/:id/update_last_seen' do
@@ -667,6 +761,8 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'updates last seen' do
+        conversation.update!(agent_last_seen_at: nil)
+
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              as: :json
@@ -676,7 +772,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'updates assignee last seen' do
-        conversation.update!(assignee_id: agent.id)
+        conversation.update!(assignee_id: agent.id, agent_last_seen_at: nil)
 
         expect(conversation.reload.assignee_last_seen_at).to be_nil
 
@@ -686,6 +782,109 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee_last_seen_at).not_to be_nil
+      end
+
+      it 'marks unread notifications as read when updating last seen' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+        notification = create(:notification, account: account, user: agent, primary_actor: conversation, read_at: nil)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(notification.reload.read_at).to be_present
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'notification.updated',
+          kind_of(Time),
+          hash_including(notification: have_attributes(id: notification.id))
+        )
+      end
+
+      it 'throttles updates within an hour when there are no unread messages' do
+        conversation.update!(agent_last_seen_at: 30.minutes.ago)
+        # Ensure all messages are older than agent_last_seen_at (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
+        conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+        initial_last_seen = conversation.agent_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_last_seen)
+      end
+
+      it 'updates even within an hour when there are unread messages' do
+        conversation.update!(agent_last_seen_at: 30.minutes.ago)
+        # Create a new message after agent_last_seen_at (unread message)
+        create(:message, conversation: conversation, created_at: 5.minutes.ago)
+        initial_last_seen = conversation.agent_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.agent_last_seen_at).not_to be_within(1.second).of(initial_last_seen)
+        expect(conversation.reload.agent_last_seen_at).to be > initial_last_seen
+      end
+
+      it 'refreshes unread count cache when conversation is marked read' do
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        Conversations::UnreadCounts::Builder.new(account).build_base!
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        inbox_key = Conversations::UnreadCounts::Store.inbox_key(account.id, conversation.inbox_id)
+        expect(response).to have_http_status(:success)
+        expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
+      ensure
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
+      it 'updates both if one timestamp is old even when the other is recent' do
+        conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
+        # Ensure all messages are older than assignee_last_seen_at (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
+        conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
+        initial_agent_last_seen = conversation.agent_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        # Both should be updated because agent_last_seen_at is old
+        expect(conversation.reload.agent_last_seen_at).to be > initial_agent_last_seen
+        expect(conversation.reload.assignee_last_seen_at).to be > initial_agent_last_seen
+      end
+
+      it 'throttles only when both timestamps are recent and no unread messages' do
+        conversation.update!(assignee_id: agent.id, agent_last_seen_at: 30.minutes.ago, assignee_last_seen_at: 30.minutes.ago)
+        # Ensure all messages are older (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
+        conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
+        initial_agent_last_seen = conversation.agent_last_seen_at
+        initial_assignee_last_seen = conversation.assignee_last_seen_at
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        # Both should remain unchanged (throttled)
+        expect(conversation.reload.agent_last_seen_at).to be_within(1.second).of(initial_agent_last_seen)
+        expect(conversation.reload.assignee_last_seen_at).to be_within(1.second).of(initial_assignee_last_seen)
       end
     end
   end
@@ -718,6 +917,21 @@ RSpec.describe 'Conversations API', type: :request do
         last_seen_at = conversation.messages.incoming.last.created_at - 1.second
         expect(conversation.reload.agent_last_seen_at).to eq(last_seen_at)
         expect(conversation.reload.assignee_last_seen_at).to eq(last_seen_at)
+      end
+
+      it 'refreshes unread count cache when conversation is marked unread' do
+        conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
+        Conversations::UnreadCounts::Builder.new(account).build_base!
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        inbox_key = Conversations::UnreadCounts::Store.inbox_key(account.id, conversation.inbox_id)
+        expect(response).to have_http_status(:success)
+        expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
+      ensure
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
     end
   end
@@ -843,9 +1057,30 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'updates last seen' do
+      it 'updates custom attributes' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
              headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).not_to be_nil
+        expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+
+    context 'when it is a bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:custom_attributes) { { bot_id: 1001, flow_name: 'support_flow', step: 'greeting' } }
+      let(:valid_params) { { custom_attributes: custom_attributes } }
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
+      end
+
+      it 'updates custom attributes' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: { api_access_token: agent_bot.access_token.token },
              params: valid_params,
              as: :json
 
@@ -890,6 +1125,8 @@ RSpec.describe 'Conversations API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
+        attachment = conversation.messages.last.attachments.first
+        expect(response_body['payload'].first['id']).to eq(attachment.id)
         expect(response_body['payload'].first['file_type']).to eq('image')
         expect(response_body['payload'].first['sender']['id']).to eq(conversation.messages.last.sender.id)
       end
@@ -902,6 +1139,65 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
         expect(response_body['payload'].length).to eq(1)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:id' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:administrator) { create(:user, account: account, role: :administrator) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        response_body = response.parsed_body
+        expect(response_body['error']).to eq('You are not authorized to do this action')
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      before do
+        create(:inbox_member, user: administrator, inbox: conversation.inbox)
+      end
+
+      it 'successfully deletes the conversation' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'can delete conversations from inboxes without direct access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(other_conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
       end
     end
   end

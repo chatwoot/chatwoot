@@ -39,13 +39,19 @@ export default {
 
 <template>
   <div
-    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-white dark:bg-slate-900"
+    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-n-background"
   >
     <div class="flex flex-col w-full gap-1">
-      <div v-if="isLoading" class="empty-state-message">
+      <div
+        v-if="isLoading"
+        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+      >
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.SEARCH_LOADER') }}
       </div>
-      <div v-else-if="showNoResults" class="empty-state-message">
+      <div
+        v-else-if="showNoResults"
+        class="text-center flex items-center justify-center px-4 py-8 text-n-slate-10 text-sm"
+      >
         {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.NO_RESULT') }}
       </div>
       <template v-else>
@@ -65,9 +71,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-.empty-state-message {
-  @apply text-center flex items-center justify-center px-4 py-8 text-slate-500 text-sm;
-}
-</style>

@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Шаблон Twilio",
+      "SUBTITLE": "Выберите шаблон Twilio, который вы хотите отправлять",
+      "TEMPLATE_SELECTED_SUBTITLE": "Настройка шаблона: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Найти шаблоны",
+      "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
+      "NO_CONTENT": "Нет содержимого",
+      "HEADER": "Заголовок",
+      "BODY": "Основной текст",
+      "FOOTER": "Нижний текст",
+      "BUTTONS": "Кнопки",
+      "CATEGORY": "Категория",
+      "MEDIA_CONTENT": "Медиа",
+      "MEDIA_CONTENT_FALLBACK": "медиа",
+      "NO_TEMPLATES_AVAILABLE": "Шаблоны Twilio недоступны. Нажмите \"Обновить\" для синхронизации шаблонов из Twilio.",
+      "REFRESH_BUTTON": "Обновить шаблоны",
+      "REFRESH_SUCCESS": "Обновление шаблонов запущено. Обновление может занять несколько минут.",
+      "REFRESH_ERROR": "Не удалось обновить шаблоны. Попробуйте ещё раз.",
+      "LABELS": {
+        "LANGUAGE": "Язык",
+        "TEMPLATE_BODY": "Тело шаблона",
+        "CATEGORY": "Категория"
+      },
+      "TYPES": {
+        "MEDIA": "Медиа",
+        "QUICK_REPLY": "Быстрый ответ",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Текст"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Переменные",
+      "LANGUAGE": "Язык",
+      "CATEGORY": "Категория",
+      "VARIABLE_PLACEHOLDER": "Введите значение {variable}",
+      "GO_BACK_LABEL": "Вернуться",
+      "SEND_MESSAGE_LABEL": "Отправить сообщение",
+      "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой",
+      "MEDIA_HEADER_LABEL": "{type} Заголовок",
+      "MEDIA_URL_LABEL": "Введите URL медиа",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Назад",
+      "SEND_MESSAGE_BUTTON": "Отправить сообщение"
+    }
+  }
+}

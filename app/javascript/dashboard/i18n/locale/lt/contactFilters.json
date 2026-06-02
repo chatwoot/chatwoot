@@ -48,7 +48,8 @@
       "CREATED_AT": "Sukūrimo data",
       "LAST_ACTIVITY": "Paskutiniai veiksmai",
       "REFERER_LINK": "Rekomendacijos nuoroda",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "LABELS": "Etiketės"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standartinis Filtras",

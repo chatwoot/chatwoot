@@ -1,0 +1,81 @@
+require 'rails_helper'
+
+RSpec.describe CsatTemplateUtilityAnalysisService do
+  let(:account) { build_stubbed(:account) }
+  let(:inbox) { build_stubbed(:inbox) }
+  let(:llm_service) { instance_double(Captain::CsatUtilityAnalysisService) }
+
+  before do
+    allow(Captain::CsatUtilityAnalysisService).to receive(:new).and_return(llm_service)
+    allow(llm_service).to receive(:perform).and_return({ error: 'LLM unavailable' })
+  end
+
+  describe '#perform' do
+    context 'when message is utility-compatible' do
+      it 'returns likely utility classification and keeps original message' do
+        message = 'Your support request has been closed. If you still need help, reply to this message.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_UTILITY')
+        expect(result[:optimized_message]).to eq(message)
+        expect(result.keys).to contain_exactly(:classification, :optimized_message)
+      end
+    end
+
+    context 'when message contains marketing intent' do
+      it 'returns likely marketing classification with utility-safe rewrite' do
+        message = 'Please rate us and check out our special offer with a discount.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+        expect(result[:optimized_message]).to include('support request')
+        expect(result[:optimized_message]).to include('reply to this message')
+        expect(result.keys).to contain_exactly(:classification, :optimized_message)
+      end
+    end
+
+    context 'when language is non-English and fallback rewrite is used' do
+      it 'returns English rewrite content' do
+        message = 'Tu caso está cerrado. Califícanos y no te pierdas nuestra oferta.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'es').perform
+
+        expect(result[:optimized_message]).to include('Your support request has been closed.')
+        expect(result[:optimized_message]).to include('If you still need help')
+      end
+    end
+
+    context 'when llm returns inconsistent marketing classification' do
+      it 'keeps likely marketing classification' do
+        allow(llm_service).to receive(:perform).and_return({
+                                                             classification: 'LIKELY_MARKETING',
+                                                             optimized_message: 'Your support request has been closed.'
+                                                           })
+
+        message = "Your case is closed. Don't miss our limited-time premium offer. Rate us below."
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+      end
+    end
+
+    context 'when rules classify as marketing' do
+      it 'short-circuits without calling llm' do
+        expect(llm_service).not_to receive(:perform)
+
+        message = 'Your request is closed. Special offer: subscribe now and save.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+      end
+    end
+
+    context 'when rules classify as marketing for plural promo terms' do
+      it 'keeps likely marketing classification from baseline rules' do
+        message = 'Thanks for contacting us. Rate us and check out our new plans with special discounts.'
+        result = described_class.new(account: account, inbox: inbox, message: message, language: 'en').perform
+
+        expect(result[:classification]).to eq('LIKELY_MARKETING')
+      end
+    end
+  end
+end

@@ -11,6 +11,7 @@ class ConversationFinder
     'priority_desc' => %w[sort_on_priority desc],
     'waiting_since_asc' => %w[sort_on_waiting_since asc],
     'waiting_since_desc' => %w[sort_on_waiting_since desc],
+    'priority_desc_created_at_asc' => %w[sort_on_priority_created_at desc],
 
     # To be removed in v3.5.0
     'latest' => %w[sort_on_last_activity_at desc],
@@ -55,6 +56,22 @@ class ConversationFinder
     }
   end
 
+  def perform_meta_only
+    set_up
+
+    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    assigned_count = all_count - unassigned_count
+
+    {
+      count: {
+        mine_count: mine_count,
+        assigned_count: assigned_count,
+        unassigned_count: unassigned_count,
+        all_count: all_count
+      }
+    }
+  end
+
   private
 
   def set_up
@@ -88,7 +105,10 @@ class ConversationFinder
 
   def find_conversation_by_inbox
     @conversations = current_account.conversations
-    @conversations = @conversations.where(inbox_id: @inbox_ids) unless params[:inbox_id].blank? && @is_admin
+
+    return unless params[:inbox_id]
+
+    @conversations = @conversations.where(inbox_id: @inbox_ids)
   end
 
   def find_all_conversations

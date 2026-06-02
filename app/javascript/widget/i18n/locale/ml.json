@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "അയയ്‌ക്കാനായില്ല, വീണ്ടും ശ്രമിക്കുക"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Not available"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "ഞങ്ങൾ ഓൺലൈനിലാണ്",
-    "OFFLINE": "ഞങ്ങൾ ഇപ്പോൾ അകലെയാണ്"
+    "OFFLINE": "ഞങ്ങൾ ഇപ്പോൾ അകലെയാണ്",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "സാധാരണയായി കുറച്ച് മിനിറ്റിനുള്ളിൽ മറുപടി നൽകുന്നു",
     "IN_A_FEW_HOURS": "സാധാരണയായി കുറച്ച് മണിക്കൂറിനുള്ളിൽ മറുപടി നൽകുന്നു",
     "IN_A_DAY": "സാധാരണയായി ഒരു ദിവസത്തിൽ മറുപടി നൽകുന്നു",
-    "BACK_IN": "We will be back online"
+    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
+    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
+    "BACK_AT_TIME": "We will be back online at {time}",
+    "BACK_ON_DAY": "We will be back online on {day}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",
