@@ -413,6 +413,13 @@ fa:
       empty_placeholder: نتیجه‌ای یافت نشد.
       loading_placeholder: در حال جستجو...
       results_title: نتایج جستجو
+      results: نتایج جستجو
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: جستجو
     toc_header: 'در این صفحه'
     sidebar:
       help_center: مرکز راهنما
@@ -444,6 +451,8 @@ fa:
       others: دیگران
       by: توسط
       no_articles: هنوز هیچ مقاله‌ای در اینجا وجود ندارد
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
