@@ -38,6 +38,11 @@ module Chatwoot
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
+    # CUSTOMIZAÇÃO_SYNAPSEOS: instalação pt-BR (Brasil). Default em PT garante que
+    # e-mails transacionais (assunto do convite/confirmação, reset de senha) e
+    # qualquer i18n sem locale explícito saiam em português, não inglês.
+    config.i18n.default_locale = :pt_BR
+
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('enterprise/lib')
     config.eager_load_paths << Rails.root.join('enterprise/listeners')
