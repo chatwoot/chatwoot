@@ -3,6 +3,7 @@ import { getters } from '../../conversationUnreadCounts';
 describe('#getters', () => {
   it('returns inbox unread count by id', () => {
     const state = {
+      allCount: 0,
       inboxes: { 1: 2 },
       labels: {},
       teams: {},
@@ -15,6 +16,7 @@ describe('#getters', () => {
 
   it('returns label unread count by id', () => {
     const state = {
+      allCount: 0,
       inboxes: {},
       labels: { 3: 4 },
       teams: {},
@@ -27,6 +29,7 @@ describe('#getters', () => {
 
   it('returns team unread count by id', () => {
     const state = {
+      allCount: 0,
       inboxes: {},
       labels: {},
       teams: { 5: 6 },
@@ -37,8 +40,20 @@ describe('#getters', () => {
     expect(getters.getTeamUnreadCount(state)(6)).toBe(0);
   });
 
+  it('returns all unread count', () => {
+    const state = {
+      allCount: 7,
+      inboxes: {},
+      labels: {},
+      teams: {},
+    };
+
+    expect(getters.getAllUnreadCount(state)).toBe(7);
+  });
+
   it('returns unread count maps', () => {
     const state = {
+      allCount: 0,
       inboxes: { 1: 2 },
       labels: { 3: 4 },
       teams: { 5: 6 },
