@@ -231,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Εγγραφή ήχου",
       "TIP_AUDIORECORDER_PERMISSION": "Να επιτρέπεται η πρόσβαση στον ήχο",
       "TIP_AUDIORECORDER_ERROR": "Αδυναμία ανοίγματος ήχου",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
       "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
