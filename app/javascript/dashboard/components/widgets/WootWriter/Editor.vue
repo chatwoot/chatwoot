@@ -602,40 +602,28 @@ const allowsInlineImagePaste = computed(
       props.channelType === INBOX_TYPES.WEB)
 );
 
-// Shift+Cmd/Ctrl+V: read the clipboard and, if it holds an image, upload it
-// inline. Only when the editor itself is focused (the binding is document-wide,
-// so we must not preventDefault paste in unrelated inputs) and only on
-// email/website reply channels, which support inline images. We preventDefault
-// upfront (so ReplyBox's onPaste doesn't also attach the image), then fall back
-// to a plain-text paste when the clipboard holds no image.
-async function pasteInlineImageFromClipboard(event) {
+// Shift+Cmd/Ctrl+V on email/website: upload a clipboard image inline. This
+// gesture's native paste event carries no image, so clipboard.read() is the
+// only way to get the bytes. No preventDefault: text still pastes natively.
+async function pasteInlineImageFromClipboard() {
   if (!editorView?.hasFocus()) return;
   if (!allowsInlineImagePaste.value || !navigator.clipboard?.read) return;
-  event.preventDefault();
   try {
     const items = await navigator.clipboard.read();
-    const item = items.find(clipboardItem =>
-      clipboardItem.types.some(type => INLINE_IMAGE_PASTE_TYPES.includes(type))
+    const imageItem = items.find(item =>
+      item.types.some(type => INLINE_IMAGE_PASTE_TYPES.includes(type))
     );
-    const imageType = item?.types.find(type =>
+    if (!imageItem) return;
+    const imageType = imageItem.types.find(type =>
       INLINE_IMAGE_PASTE_TYPES.includes(type)
     );
-    if (imageType) {
-      const blob = await item.getType(imageType);
-      uploadImageIfWithinSizeLimit(
-        new File([blob], 'pasted-image', { type: imageType })
-      );
-      return;
-    }
-    const textItem = items.find(clipboardItem =>
-      clipboardItem.types.includes('text/plain')
+    const blob = await imageItem.getType(imageType);
+    uploadImageIfWithinSizeLimit(
+      new File([blob], 'pasted-image', { type: imageType })
     );
-    if (textItem) {
-      const text = await (await textItem.getType('text/plain')).text();
-      if (text) editorView.dispatch(editorView.state.tr.insertText(text));
-    }
   } catch (error) {
-    // Clipboard read unavailable or permission denied — no-op.
+    // clipboard-read denied/unfocused (NotAllowedError): image can't be read.
+    // Text paste is unaffected — ProseMirror handles it from the native event.
   }
 }
 
