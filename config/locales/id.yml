@@ -413,6 +413,12 @@ id:
       empty_placeholder: Tidak ada hasil ditemukan.
       loading_placeholder: Sedang mencari...
       results_title: Hasil pencarian
+      results: Hasil Pencarian
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: Cari
     toc_header: 'Di halaman ini'
     sidebar:
       help_center: Pusat Bantuan
@@ -444,6 +450,8 @@ id:
       others: others
       by: By
       no_articles: Tidak ada artikel di sini
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
