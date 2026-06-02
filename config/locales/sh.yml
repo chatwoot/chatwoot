@@ -413,6 +413,15 @@ sh:
       empty_placeholder: Nema pronađenih rezultata.
       loading_placeholder: Pretraga...
       results_title: Rezultati pretrage
+      results: Rezultati pretrage
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Pretraži
     toc_header: 'On this page'
     sidebar:
       help_center: Centar za pomoć
@@ -444,6 +453,8 @@ sh:
       others: others
       by: By
       no_articles: There are no articles here
+      previous: Previous
+      next: Next
     article_actions:
       label: Open in
       view_markdown: View as Markdown
