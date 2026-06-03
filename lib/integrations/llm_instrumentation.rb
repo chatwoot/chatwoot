@@ -29,16 +29,18 @@ module Integrations::LlmInstrumentation
 
     result = nil
     executed = false
-    tracer.in_span(params[:span_name]) do |span|
-      set_metadata_attributes(span, params)
+    with_propagated_langfuse_attributes(params) do
+      tracer.in_span(params[:span_name]) do |span|
+        set_metadata_attributes(span, params)
 
-      # By default, the input and output of a trace are set from the root observation
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
-      result = yield
-      executed = true
-      span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
-      set_error_attributes(span, result) if result.is_a?(Hash)
-      result
+        # By default, the input and output of a trace are set from the root observation
+        span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, params[:messages].to_json)
+        result = yield
+        executed = true
+        span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, result.to_json)
+        set_error_attributes(span, result) if result.is_a?(Hash)
+        result
+      end
     end
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
@@ -51,6 +53,7 @@ module Integrations::LlmInstrumentation
     return yield unless ChatwootApp.otel_enabled?
 
     tracer.in_span(format(TOOL_SPAN_NAME, tool_name)) do |span|
+      apply_current_langfuse_attributes(span)
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_TYPE, 'tool')
       span.set_attribute(ATTR_LANGFUSE_OBSERVATION_INPUT, arguments.to_json)
       result = yield
