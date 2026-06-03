@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "Meta ilə autentifikasiya olunur",
           "WAITING_FOR_BUSINESS_INFO": "Zəhmət olmasa Meta pəncərəsində biznes quraşdırmasını tamamlayın...",
           "PROCESSING": "WhatsApp Biznes Hesabınızı quraşdırırıq",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK yüklənir...",
           "CANCELLED": "WhatsApp Qeydiyyatı ləğv edildi",
           "SUCCESS_TITLE": "WhatsApp Biznes Hesabı Qoşuldu!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "Autentifikasiya tamamlanmadı. Zəhmət olmasa prosesi yenidən başladın.",
           "SUCCESS_FALLBACK": "WhatsApp Biznes Hesabı uğurla konfiqurasiya edildi",
           "MANUAL_FALLBACK": "Əgər nömrəniz artıq WhatsApp Business Platformasına (API) qoşulubsa və ya texnoloji təminatçı olaraq öz nömrənizi əlavə edirsinizsə, zəhmət olmasa {link} prosesindən istifadə edin",
-          "MANUAL_LINK_TEXT": "əl ilə qurma prosesi"
+          "MANUAL_LINK_TEXT": "əl ilə qurma prosesi",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsApp kanalını yadda saxlaya bilmədik"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Müştərilərinizi WhatsApp-da dəstəkləyin"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Elektron Poçt",
@@ -637,7 +643,8 @@
       "BOT_CONFIGURATION": "Bot Konfiqurasiyası",
       "ACCOUNT_HEALTH": "Hesabın sağlamlığı",
       "CSAT": "CSAT",
-      "VOICE": "Səs"
+      "VOICE": "Səs",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +653,26 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },
     "CHANNEL_PREFERENCES": "Kanal üstünlükləri",
@@ -800,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Mövcud şablonlarınızı yeniləmək üçün WhatsApp-dan mesaj şablonlarını əl ilə sinxronlaşdırın.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Şablonları sinxronlaşdır",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Şablonların sinxronizasiyası uğurla başlandı. Yenilənməsi bir neçə dəqiqə çəkə bilər.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Pre Chat Form Parametrlərini Yeniləyin"
     },
     "HELP_CENTER": {

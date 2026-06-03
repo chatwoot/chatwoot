@@ -11,6 +11,7 @@ RSpec.describe Conversations::UnreadCounts::Listener do
   end
 
   it 'refreshes unread counts when an incoming message is created' do
+    account.enable_features!(:conversation_unread_counts)
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
 
@@ -23,6 +24,17 @@ RSpec.describe Conversations::UnreadCounts::Listener do
   it 'ignores outgoing message creation' do
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
+
+    listener.message_created(event)
+
+    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+  end
+
+  it 'ignores incoming message creation when conversation unread counts are disabled' do
+    message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming)
+    event = Events::Base.new('message.created', Time.zone.now, message: message)
+
+    expect(message).not_to receive(:conversation)
 
     listener.message_created(event)
 
@@ -78,6 +90,7 @@ RSpec.describe Conversations::UnreadCounts::Listener do
   end
 
   it 'removes unread count memberships when a conversation is deleted' do
+    account.enable_features!(:conversation_unread_counts)
     label = create(:label, account: account)
     team = create(:team, account: account)
     assignee = create(:user, account: account)
