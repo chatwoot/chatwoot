@@ -51,7 +51,8 @@ class Captain::Tools::FirecrawlService
     {
       onlyMainContent: true,
       formats: ['markdown'],
-      excludeTags: FIRECRAWL_EXCLUDE_TAGS
+      excludeTags: FIRECRAWL_EXCLUDE_TAGS,
+      maxAge: 0
     }
   end
 
