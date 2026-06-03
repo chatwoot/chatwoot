@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "தொடர்பு உருவாக்கப்பட்டது",
             "CONTACT_UPDATED": "தொடர்பு புதுப்பிக்கப்பட்டது",
             "CONVERSATION_TYPING_ON": "உரையாடல் தட்டச்சு செய்கிறது",
-            "CONVERSATION_TYPING_OFF": "உரையாடல் தட்டச்சு நிறுத்தப்பட்டது"
+            "CONVERSATION_TYPING_OFF": "உரையாடல் தட்டச்சு நிறுத்தப்பட்டது",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {

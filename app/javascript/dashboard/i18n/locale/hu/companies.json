@@ -23,80 +23,80 @@
     "UNNAMED": "Unnamed Company",
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "ACTIONS": {
-      "CREATE": "Add company"
+      "CREATE": "Cég létrehozása"
     },
     "CREATE": {
-      "TITLE": "Add company details",
+      "TITLE": "Cég létrehozása",
       "ACTIONS": {
-        "SAVE": "Add company"
+        "SAVE": "Cég létrehozása"
       },
       "MESSAGES": {
-        "SUCCESS": "Company created.",
-        "ERROR": "Could not create the company."
+        "SUCCESS": "A cég sikeresen létrehozva.",
+        "ERROR": "Nem sikerült létrehozni a céget."
       }
     },
     "DETAIL": {
-      "LOADING": "Loading company details...",
+      "LOADING": "Cég részleteinek betöltése...",
       "EMPTY_STATE": {
-        "TITLE": "Company not found",
-        "SUBTITLE": "This company may have been removed or is no longer available in this account."
+        "TITLE": "Cég nem található",
+        "SUBTITLE": "Ez a cég lehet, hogy eltávolításra került, vagy már nem elérhető ebben a fiókban."
       },
       "SIDEBAR": {
         "TABS": {
-          "ATTRIBUTES": "Attributes",
+          "ATTRIBUTES": "Tulajdonságok",
           "CONTACTS": "Kontaktok",
-          "HISTORY": "History",
+          "HISTORY": "Előzmények",
           "NOTES": "Megjegyzések"
         }
       },
       "HISTORY": {
-        "EMPTY": "No conversations found for this company's contacts yet."
+        "EMPTY": "Nincsenek beszélgetések a cég ügyfeleihez kapcsolódóan."
       },
       "NOTES": {
-        "EMPTY": "No notes found for this company's contacts yet."
+        "EMPTY": "Nincsenek megjegyzések a cég ügyfeleihez kapcsolódóan."
       },
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Tulajdonságok keresése...",
-        "EMPTY_STATE": "There are no company custom attributes configured yet.",
-        "NO_ATTRIBUTES": "No matching attributes found.",
-        "UNUSED_ATTRIBUTES": "{count} unused attribute | {count} unused attributes",
+        "EMPTY_STATE": "A cégnek még nincsenek egyedi tulajdonságai.",
+        "NO_ATTRIBUTES": "Nincs találat a tulajdonságok között.",
+        "UNUSED_ATTRIBUTES": "{count} nem használt tulajdonság | {count} nem használt tulajdonság",
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company attribute updated.",
-          "UPDATE_ERROR": "Could not update company attribute.",
-          "DELETE_SUCCESS": "Company attribute removed.",
-          "DELETE_ERROR": "Could not remove company attribute."
+          "UPDATE_SUCCESS": "Cég tulajdonsága frissítve.",
+          "UPDATE_ERROR": "Nem sikerült frissíteni a cég tulajdonságát.",
+          "DELETE_SUCCESS": "Cég tulajdonsága eltávolítva.",
+          "DELETE_ERROR": "Nem sikerült eltávolítani a cég tulajdonságát."
         }
       },
       "CONTACTS": {
         "LOADING": "Kontaktok betöltése...",
-        "EMPTY": "No contacts are linked to this company yet.",
-        "UNNAMED_CONTACT": "Unnamed contact",
+        "EMPTY": "Ehhez a céghez még nincsenek ügyfelek kapcsolva.",
+        "UNNAMED_CONTACT": "Név nélküli ügyfél",
         "ACTIONS": {
-          "ADD": "Add contact",
-          "REMOVE": "Remove contact"
+          "ADD": "Ügyfél hozzáadása",
+          "REMOVE": "Ügyfél eltávolítása"
         },
         "DIALOGS": {
           "ADD": {
-            "DESCRIPTION": "Search for an existing contact and link it to this company.",
-            "SEARCH_PLACEHOLDER": "Search contacts...",
-            "INITIAL": "Start typing to search contacts.",
-            "EMPTY": "No contacts found.",
-            "CONFIRM_TITLE": "Link contact",
-            "CONFIRM_DESCRIPTION": "Confirm the company and contact before linking them.",
+            "DESCRIPTION": "Keress a meglévő ügyfelek között, és csatold őket ehhez a céghez.",
+            "SEARCH_PLACEHOLDER": "Ügyfelek keresése...",
+            "INITIAL": "Kezdj el gépelni az ügyfelek kereséséhez.",
+            "EMPTY": "Nem találhatók ügyfelek.",
+            "CONFIRM_TITLE": "Ügyfél csatolása",
+            "CONFIRM_DESCRIPTION": "Erősítsd meg a cég és az ügyfél csatolását.",
             "COMPANY_LABEL": "Cég",
             "CONTACT_LABEL": "Kontakt",
-            "CURRENT_COMPANY": "Currently linked to {companyName}",
-            "ADD": "Link contact",
+            "CURRENT_COMPANY": "Jelenlegi cég: {companyName}",
+            "ADD": "Csatolás",
             "CANCEL": "Mégse"
           }
         },
         "MESSAGES": {
-          "ADD_SUCCESS": "Contact linked to company.",
-          "ADD_ERROR": "Could not link contact to company.",
-          "REASSIGN_SUCCESS": "Contact reassigned to company.",
-          "REASSIGN_ERROR": "Could not reassign contact to company.",
-          "REMOVE_SUCCESS": "Contact removed from company.",
-          "REMOVE_ERROR": "Could not remove contact from company."
+          "ADD_SUCCESS": "Ügyfél csatolva a céghez.",
+          "ADD_ERROR": "Nem sikerült csatolni az ügyfelet a céghez.",
+          "REASSIGN_SUCCESS": "Ügyfél újra hozzárendelve a céghez.",
+          "REASSIGN_ERROR": "Nem sikerült újra hozzárendelni az ügyfelet a céghez.",
+          "REMOVE_SUCCESS": "Ügyfél eltávolítva a cégtől.",
+          "REMOVE_ERROR": "Nem sikerült eltávolítani az ügyfelet a cégtől."
         }
       },
       "AVATAR": {
@@ -104,19 +104,19 @@
         "UPLOAD_SUCCESS": "Company avatar updated.",
         "UPLOAD_ERROR": "Could not update the company avatar.",
         "DELETE_SUCCESS": "Company avatar removed.",
-        "DELETE_ERROR": "Could not remove the company avatar."
+        "DELETE_ERROR": "Nem sikerült eltávolítani a cég profilképét."
       },
       "PROFILE": {
-        "TITLE": "Edit company details",
-        "CREATED_AT": "Created {date}",
-        "LAST_ACTIVE": "Last active {date}",
-        "DESCRIPTION_PLACEHOLDER": "Add a short description for this company",
+        "TITLE": "Cég részleteinek szerkesztése",
+        "CREATED_AT": "Létrehozás dátuma: {date}",
+        "LAST_ACTIVE": "Utolsó aktivitás: {date}",
+        "DESCRIPTION_PLACEHOLDER": "Adj hozzá egy rövid leírást ehhez a céghez",
         "ACTIONS": {
-          "SAVE": "Update company"
+          "SAVE": "Cég frissítése"
         },
         "MESSAGES": {
-          "UPDATE_SUCCESS": "Company updated.",
-          "UPDATE_ERROR": "Could not update the company."
+          "UPDATE_SUCCESS": "Cég frissítve.",
+          "UPDATE_ERROR": "Nem sikerült frissíteni a céget."
         },
         "FIELDS": {
           "NAME": "Név",
@@ -124,16 +124,16 @@
         }
       },
       "DELETE": {
-        "SECTION_TITLE": "Danger zone",
-        "SECTION_DESCRIPTION": "Delete this company and unlink its contacts. The contacts will remain in the account.",
-        "BUTTON": "Delete company",
-        "TITLE": "Delete company?",
-        "DESCRIPTION": "This will remove the company and unlink all associated contacts. Contacts themselves will be preserved.",
-        "DESCRIPTION_WITH_NAME": "This will remove {companyName} and unlink all associated contacts. Contacts themselves will be preserved.",
-        "CONFIRM": "Delete company",
+        "SECTION_TITLE": "Veszélyzóna",
+        "SECTION_DESCRIPTION": "Töröld ezt a céget, és válaszd le a kapcsolódó ügyfeleket. Az ügyfelek megmaradnak a fiókban.",
+        "BUTTON": "Cég törlése",
+        "TITLE": "Cég törlése?",
+        "DESCRIPTION": "Ez eltávolítja a céget, és leválaszt minden kapcsolódó ügyfelet. Az ügyfelek megmaradnak.",
+        "DESCRIPTION_WITH_NAME": "Ez eltávolítja a '{companyName}' céget, és leválaszt minden kapcsolódó ügyfelet. Az ügyfelek megmaradnak.",
+        "CONFIRM": "Cég törlése",
         "MESSAGES": {
-          "SUCCESS": "Company deleted.",
-          "ERROR": "Could not delete the company."
+          "SUCCESS": "Cég törölve.",
+          "ERROR": "Nem sikerült törölni a céget."
         }
       }
     },

@@ -88,6 +88,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "Elaborazione",
           "COMPLETED": "Completata",
           "SCHEDULED": "Programmata"
         },
@@ -146,6 +147,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "Elaborazione",
           "COMPLETED": "Completata",
           "SCHEDULED": "Programmata"
         },
