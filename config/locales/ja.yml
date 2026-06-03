@@ -241,6 +241,7 @@ ja:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,29 @@ ja:
       empty_placeholder: 該当結果が見つかりませんでした。
       loading_placeholder: 検索中...
       results_title: 検索結果
+      results: 検索結果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 検索
     toc_header: 'このページで'
+    sidebar:
+      help_center: ヘルプセンター
+      categories: カテゴリー
+      language: 言語
+      theme: Theme
+      open_sidebar: サイドバーを開く
+      close_sidebar: サイドバーを閉じる
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: ここで記事を検索するか、以下のカテゴリを参照してください。
     common:
@@ -427,12 +450,21 @@ ja:
       others: その他
       by: 作成者
       no_articles: ここには記事がありません
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: 作成
     header:
       go_to_homepage: ウェブサイト
       visit_website: Visit website
       appearance:
+        title: 外観
         system: システム
         light: ライト
         dark: ダーク

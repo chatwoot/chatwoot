@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Contato criado",
             "CONTACT_UPDATED": "Contato atualizado",
             "CONVERSATION_TYPING_ON": "Status de Digitação ativado",
-            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
+            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado",
+            "INBOX_UPDATED": "Caixa de entrada atualizada"
           }
         },
         "NAME": {

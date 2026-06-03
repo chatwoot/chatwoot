@@ -241,6 +241,7 @@ de:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,30 @@ de:
       empty_placeholder: Keine Ergebnisse gefunden.
       loading_placeholder: Suchen...
       results_title: Suchergebnisse
+      results: Suchergebnisse
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Suchen
     toc_header: 'Auf dieser Seite'
+    sidebar:
+      help_center: Hilfezentrum
+      categories: Kategorien
+      language: Sprache
+      theme: Theme
+      open_sidebar: Seitenleiste öffnen
+      close_sidebar: Seitenleiste schließen
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Suchen Sie hier nach den Artikeln oder stöbern Sie in den unten stehenden Kategorien.
     common:
@@ -427,12 +451,21 @@ de:
       others: andere
       by: Von
       no_articles: Keine Artikel vorhanden
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Erstellt mit
     header:
       go_to_homepage: Webseite
       visit_website: Visit website
       appearance:
+        title: Darstellung
         system: System
         light: Hell
         dark: Dunkel
