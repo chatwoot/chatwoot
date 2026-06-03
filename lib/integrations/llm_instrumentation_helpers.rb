@@ -62,7 +62,7 @@ module Integrations::LlmInstrumentationHelpers
 
     attrs[ATTR_LANGFUSE_USER_ID] = params[:account_id].to_s if params[:account_id]
     attrs[ATTR_LANGFUSE_SESSION_ID] = session_id if session_id.present?
-    attrs[ATTR_LANGFUSE_TAGS] = [params[:feature_name]].to_json
+    attrs[ATTR_LANGFUSE_TAGS] = [params[:feature_name]].to_json if params[:feature_name].present?
 
     return attrs unless params[:metadata].is_a?(Hash)
 

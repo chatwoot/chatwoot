@@ -298,6 +298,34 @@ RSpec.describe Integrations::LlmInstrumentation do
           expect(nested_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'translate_query')
         end
 
+        it 'propagates session metadata to nested embedding spans' do
+          root_span = instance_double(OpenTelemetry::Trace::Span)
+          embedding_span = instance_double(OpenTelemetry::Trace::Span)
+          embedding_instance = test_class.new
+          embedding_params = {
+            span_name: 'llm.captain.embedding',
+            account_id: 123,
+            feature_name: 'embedding',
+            model: 'text-embedding-3-small',
+            input: 'search result'
+          }
+          allow(root_span).to receive(:set_attribute)
+          allow(embedding_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(embedding_instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).with('llm.test').and_yield(root_span)
+          allow(mock_tracer).to receive(:in_span).with('llm.captain.embedding').and_yield(embedding_span)
+
+          instance.instrument_agent_session(params) do
+            embedding_instance.instrument_embedding_call(embedding_params) { [0.1, 0.2, 0.3] }
+          end
+
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["embedding"]')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'embedding')
+        end
+
         # Regression test for Langfuse double-counting bug.
         # Setting gen_ai.request.model on parent spans causes Langfuse to classify them as
         # GENERATIONs instead of SPANs, resulting in cost being counted multiple times

@@ -99,23 +99,6 @@ module Integrations::LlmInstrumentation
     end
   end
 
-  def instrument_with_span(span_name, params, &)
-    result = nil
-    executed = false
-    tracer.in_span(span_name) do |span|
-      track_result = lambda do |r|
-        executed = true
-        result = r
-      end
-      yield(span, track_result)
-    end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
-    raise unless executed
-
-    result
-  end
-
   private
 
   def resolve_account(params)
