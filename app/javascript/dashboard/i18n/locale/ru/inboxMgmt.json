@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "Аутентификация с помощью Meta",
           "WAITING_FOR_BUSINESS_INFO": "Пожалуйста, завершите настройку бизнеса в окне Meta...",
           "PROCESSING": "Настройте свой WhatsApp Business аккаунт",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Загрузка Facebook SDK...",
           "CANCELLED": "Регистрация WhatsApp была отменена",
           "SUCCESS_TITLE": "Аккаунт WhatsApp Business был подключен!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "Аутентификация не завершена. Пожалуйста, перезапустите процесс.",
           "SUCCESS_FALLBACK": "Аккаунт WhatsApp Business был успешно настроен",
           "MANUAL_FALLBACK": "Если ваш номер уже подключен к WhatsApp Business Platform (API), или, если вы используете технологический провайдер, используйте ссылку {link} ",
-          "MANUAL_LINK_TEXT": "для ручной настройки"
+          "MANUAL_LINK_TEXT": "для ручной настройки",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "Не удалось сохранить канал WhatsApp"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Поддержка ваших клиентов через WhatsApp"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp звонок",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -637,7 +643,8 @@
       "BOT_CONFIGURATION": "Конфигурация бота",
       "ACCOUNT_HEALTH": "Здоровье аккаунта",
       "CSAT": "CSAT",
-      "VOICE": "Голосовая связь"
+      "VOICE": "Голосовая связь",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +653,26 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Голосовой вызов требует учетные данные Twilio API Key. Они используются для генерации токенов для голосовых подключений агентов."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "Мы хотели бы позвонить Вам по поводу Вашего разговора."
       }
     },
     "CHANNEL_PREFERENCES": "Настройки канала",
@@ -800,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Вручную синхронизируйте шаблоны сообщений из WhatsApp, чтобы обновить доступные шаблоны.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Синхронизировать шаблоны",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Синхронизация шаблонов успешно запущена. Обновление может занять несколько минут.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Обновить настройки формы для чата"
     },
     "HELP_CENTER": {

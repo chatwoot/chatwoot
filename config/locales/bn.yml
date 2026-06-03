@@ -241,6 +241,7 @@ bn:
       whatsapp:
         list_button_label: 'একটি আইটেম নির্বাচন করুন'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,30 @@ bn:
       empty_placeholder: কোনো ফলাফল পাওয়া যায়নি।.
       loading_placeholder: অনুসন্ধান চলছে...
       results_title: অনুসন্ধানের ফলাফল
+      results: অনুসন্ধান ফলাফল
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: অনুসন্ধান
     toc_header: 'এই পাতায়'
+    sidebar:
+      help_center: সহায়তা কেন্দ্র
+      categories: বিভাগসমূহ
+      language: Language
+      theme: Theme
+      open_sidebar: সাইডবার খুলুন
+      close_sidebar: সাইডবার বন্ধ করুন
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: এখানে প্রবন্ধগুলি খুঁজুন অথবা নিচের বিভাগগুলো ব্রাউজ করুন।.
     common:
@@ -427,12 +451,21 @@ bn:
       others: অন্যান্যরা
       by: দ্বারা
       no_articles: এখানে কোনো প্রবন্ধ নেই
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: নির্মিত
     header:
       go_to_homepage: ওয়েবসাইট
       visit_website: ওয়েবসাইট দেখুন
       appearance:
+        title: Appearance
         system: সিস্টেম
         light: হালকা
         dark: গাঢ়
