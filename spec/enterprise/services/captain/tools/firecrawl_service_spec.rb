@@ -60,7 +60,8 @@ RSpec.describe Captain::Tools::FirecrawlService do
         scrapeOptions: {
           onlyMainContent: true,
           formats: ['markdown'],
-          excludeTags: Captain::Tools::FirecrawlService::FIRECRAWL_EXCLUDE_TAGS
+          excludeTags: Captain::Tools::FirecrawlService::FIRECRAWL_EXCLUDE_TAGS,
+          maxAge: 0
         }
       }.to_json
     end
