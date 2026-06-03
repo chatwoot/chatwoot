@@ -12,7 +12,7 @@ import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilit
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
 
-const RINGTONE_URL = '/audio/dashboard/bell.mp3';
+const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
 
 const route = useRoute();
 const router = useRouter();
