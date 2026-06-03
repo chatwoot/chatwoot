@@ -61,8 +61,20 @@ const hasAdvancedAssignment = computed(() => {
   );
 });
 
-const fetchConversationUnreadCounts = currentAccountId => {
+const hasConversationUnreadCounts = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+  );
+});
+
+const fetchConversationUnreadCounts = ([currentAccountId, isEnabled]) => {
   if (!currentAccountId) return;
+
+  if (!isEnabled) {
+    store.dispatch('conversationUnreadCounts/clear');
+    return;
+  }
 
   store.dispatch('conversationUnreadCounts/get');
 };
@@ -188,7 +200,7 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
 });
 
-watch(accountId, fetchConversationUnreadCounts, {
+watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
   immediate: true,
 });
 

@@ -241,6 +241,7 @@ ro:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,31 @@ ro:
       empty_placeholder: Niciun rezultat găsit.
       loading_placeholder: In căutare...
       results_title: Rezultate căutare pentru
+      results: Rezultate căutare
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Caută
     toc_header: 'Pe această pagină'
+    sidebar:
+      help_center: Asistenta
+      categories: Categorii
+      language: Limbă
+      theme: Theme
+      open_sidebar: Deschideți bara laterală
+      close_sidebar: Închideți bara laterală
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Căutați articolele aici sau răsfoiți categoriile de mai jos.
     common:
@@ -427,12 +452,21 @@ ro:
       others: others
       by: By
       no_articles: Nu există articole aici
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Realizat cu
     header:
       go_to_homepage: Website
       visit_website: Visit website
       appearance:
+        title: Appearance
         system: Sistem
         light: Light
         dark: Dark

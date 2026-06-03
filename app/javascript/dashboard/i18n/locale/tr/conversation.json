@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Bu mesaj desteklenmiyor. Bu mesajı Facebook Messenger uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Bu mesaj desteklenmiyor. Bu mesajı Instagram uygulamasında görüntüleyebilirsiniz.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Mesaj başarıyla silindi",
     "FAIL_DELETE_MESSSAGE": "Mesaj silinemiyor. Tekrar deneyin",
     "NO_RESPONSE": "Cevap Yok",
@@ -79,13 +80,22 @@
       "OUTGOING_CALL": "Giden arama",
       "CALL_IN_PROGRESS": "Arama devam ediyor",
       "NO_ANSWER": "Yanıt yok",
+      "NO_ANSWER_OUTBOUND_LABEL": "Yanıt yok",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Cevapsız arama",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Arama sona erdi",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Onlar yanıtladı",
       "YOU_ANSWERED": "Siz yanıtladınız",
       "AGENT_ANSWERED": "{agentName} answered",
-      "JOIN_CALL": "Join call"
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
@@ -100,6 +110,12 @@
       "SNOOZED_UNTIL_TOMORROW": "yarına ertelendi",
       "SNOOZED_UNTIL_NEXT_WEEK": "Önümüzdeki haftaya ertelendi",
       "SNOOZED_UNTIL_NEXT_REPLY": "Bir sonraki yanıta kadar ertelendi",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -215,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Ses kaydet",
       "TIP_AUDIORECORDER_PERMISSION": "Mikrofon erişimine izin ver",
       "TIP_AUDIORECORDER_ERROR": "Mikrofon açılamadı",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Eklemek için buraya sürükleyip bırakın",
       "START_AUDIO_RECORDING": "Ses kaydına başla",
       "STOP_AUDIO_RECORDING": "Ses kaydını durdur",
@@ -299,8 +316,13 @@
       "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Kapat",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
