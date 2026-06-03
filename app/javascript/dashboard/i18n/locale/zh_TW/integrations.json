@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "聯絡人已建立",
             "CONTACT_UPDATED": "聯絡人已更新",
             "CONVERSATION_TYPING_ON": "對話正在輸入",
-            "CONVERSATION_TYPING_OFF": "對話停止輸入"
+            "CONVERSATION_TYPING_OFF": "對話停止輸入",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {

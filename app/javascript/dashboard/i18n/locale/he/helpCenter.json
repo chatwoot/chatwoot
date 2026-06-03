@@ -607,9 +607,12 @@
         "DRAFT": "טיוטה",
         "ARCHIVE": "ארכיון",
         "TRANSLATE": "תרגום",
+        "MOVE_TO_CATEGORY": "קטגוריה",
         "DELETE": "מחק",
         "STATUS_SUCCESS": "Articles updated successfully",
         "STATUS_ERROR": "Failed to update articles",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
         "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
         "DELETE_CONFIRM": "מחק",
@@ -865,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "ערוך הגדרה"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "מראה",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "הסר"
+        },
+        "SAVE": "שמור שינויים"
       },
       "API": {
         "CREATE_PORTAL": {
