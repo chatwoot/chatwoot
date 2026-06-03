@@ -3,7 +3,7 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
   before_action :fetch_lead, only: [:show, :update]
 
   def index
-    @leads = scope.order(created_at: :desc).limit(params[:limit].to_i.positive? ? params[:limit].to_i : 100)
+    @leads = scope.includes(:conversation).order(created_at: :desc).limit(params[:limit].to_i.positive? ? params[:limit].to_i : 100)
   end
 
   def show; end
@@ -22,7 +22,8 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
   # retorna o lead com o pipeline_stage atual. Evita uma chamada extra na
   # listagem + filtro client-side.
   def by_conversation
-    @lead = scope.find_by(conversation_id: params[:conversation_id])
+    conv = resolve_conversation(params[:conversation_id])
+    @lead = conv && scope.find_by(conversation_id: conv.id)
     return render(json: { error: 'lead not found for conversation' }, status: :not_found) unless @lead
 
     render :show
@@ -39,8 +40,7 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
     conv_id = params[:conversation_id]
     return render(json: { error: 'conversation_id is required' }, status: :unprocessable_entity) if conv_id.blank?
 
-    conv = ::Conversation.find_by(account_id: Current.account.id, id: conv_id) ||
-           ::Conversation.find_by(account_id: Current.account.id, display_id: conv_id)
+    conv = resolve_conversation(conv_id)
     return render(json: { error: 'conversation not found' }, status: :not_found) if conv.nil?
 
     stage = nil
@@ -66,6 +66,17 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
   end
 
   private
+
+  # n8n/Chatwoot webhooks sempre passam display_id (convenção pública do
+  # Chatwoot). Resolvemos display_id PRIMEIRO; fallback p/ id interno só pra
+  # chamadas legadas. Evita a colisão display×interno (ex: display 336 do
+  # Marco batia no interno 336 do Almir).
+  def resolve_conversation(id)
+    return nil if id.blank?
+
+    ::Conversation.find_by(account_id: Current.account.id, display_id: id) ||
+      ::Conversation.find_by(account_id: Current.account.id, id: id)
+  end
 
   def scope
     ::Synapseos::Lead.where(account_id: Current.account.id)

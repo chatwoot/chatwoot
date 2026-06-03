@@ -1,6 +1,7 @@
 json.id lead.id
 json.account_id lead.account_id
 json.conversation_id lead.conversation_id
+json.conversation_display_id lead.conversation&.display_id
 json.contact_id lead.contact_id
 json.assignee_id lead.assignee_id
 json.pipeline_stage_id lead.pipeline_stage_id

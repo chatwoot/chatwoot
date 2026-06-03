@@ -155,12 +155,15 @@ const deleteStage = async stage => {
 };
 
 const openConversation = lead => {
-  if (!lead.conversation_id) return;
+  // rota do Chatwoot usa display_id; conversation_id é o id interno e abriria
+  // a conversa errada (bug display×interno).
+  const convDisplayId = lead.conversation_display_id || lead.conversation_id;
+  if (!convDisplayId) return;
   router.push({
     name: 'inbox_conversation',
     params: {
       accountId: accountId.value,
-      conversation_id: lead.conversation_id,
+      conversation_id: convDisplayId,
     },
   });
 };
@@ -401,12 +404,12 @@ onMounted(fetchPipeline);
                 {{ formatAmount(element.deal.amount) }}
               </div>
               <div
-                v-if="element.conversation_id"
+                v-if="element.conversation_display_id || element.conversation_id"
                 class="text-[11px] text-s-muted mt-1"
               >
                 {{
                   t('SYNAPSEOS.PIPELINE.CONV_ID', {
-                    id: element.conversation_id,
+                    id: element.conversation_display_id || element.conversation_id,
                   })
                 }}
               </div>
