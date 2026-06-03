@@ -42,6 +42,7 @@ class Portal < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
+  validates :color, format: { with: /\A#(?:\h{3}|\h{6})\z/ }, allow_blank: true
   validate :config_json_format
 
   scope :active, -> { where(archived: false) }
