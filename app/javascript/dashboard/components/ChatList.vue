@@ -90,7 +90,8 @@ const virtualListRef = ref(null);
 
 provide('contextMenuElementTarget', virtualListRef);
 
-const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
+// CUSTOMIZAÇÃO_SYNAPSEOS: aba "Todos" como default (era "Minhas")
+const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ALL);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
