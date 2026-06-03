@@ -144,7 +144,7 @@ RSpec.describe Integrations::LlmInstrumentation do
 
         expect(mock_span).to have_received(:set_attribute).with('langfuse.user.id', '123')
         expect(mock_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
-        expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["reply_suggestion"]')
+        expect(mock_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['reply_suggestion'])
         expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.user_id', '123')
         expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
         expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'reply_suggestion')
@@ -293,7 +293,7 @@ RSpec.describe Integrations::LlmInstrumentation do
           end
 
           expect(nested_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
-          expect(nested_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["translate_query"]')
+          expect(nested_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['translate_query'])
           expect(nested_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
           expect(nested_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'translate_query')
         end
@@ -321,7 +321,7 @@ RSpec.describe Integrations::LlmInstrumentation do
           end
 
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.session.id', '123_456')
-          expect(embedding_span).to have_received(:set_attribute).with('langfuse.trace.tags', '["embedding"]')
+          expect(embedding_span).to have_received(:set_attribute).with('langfuse.trace.tags', ['embedding'])
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.session_id', '123_456')
           expect(embedding_span).to have_received(:set_attribute).with('langfuse.observation.metadata.feature_name', 'embedding')
         end
