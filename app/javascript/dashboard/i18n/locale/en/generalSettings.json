@@ -104,6 +104,15 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "DELETED_MESSAGE_CONTENT": {
+        "TITLE": "Deleted message content",
+        "NOTE": "Show original content of messages deleted by customers on WhatsApp.",
+        "NOTICE": "This message was deleted by the sender",
+        "API": {
+          "SUCCESS": "Deleted message content settings updated successfully",
+          "ERROR": "Failed to update deleted message content settings"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",

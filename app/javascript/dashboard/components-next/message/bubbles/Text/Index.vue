@@ -36,6 +36,13 @@ const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
 
+const isDeletedContentPreserved = computed(() => {
+  return (
+    contentAttributes.value?.deletedContentPreserved ||
+    contentAttributes.value?.deleted_content_preserved
+  );
+});
+
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
@@ -44,6 +51,12 @@ const handleSeeOriginal = () => {
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="text">
     <div class="gap-3 flex flex-col">
+      <span
+        v-if="isDeletedContentPreserved"
+        class="text-xs font-medium text-n-slate-11"
+      >
+        {{ $t('GENERAL_SETTINGS.FORM.DELETED_MESSAGE_CONTENT.NOTICE') }}
+      </span>
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
