@@ -656,7 +656,7 @@
       },
       "INBOUND": {
         "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "When off, calls from customers to this number are ignored — no ringing, no conversation is created. Agents can still place outgoing calls."
+        "DESCRIPTION": "Let customers call this number. When turned off, incoming calls are declined automatically — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
       }
     },
     "WHATSAPP_CALLING": {
@@ -667,7 +667,7 @@
       "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "INBOUND": {
         "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "When off, calls from customers to this number are ignored — no ringing, no conversation is created. Agents can still place outgoing calls."
+        "DESCRIPTION": "Let customers call this WhatsApp business number. When turned off, incoming calls are ignored — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
       },
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
