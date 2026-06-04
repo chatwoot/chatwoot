@@ -11,9 +11,9 @@ describe UserDrop do
       expect(subject.first_name).to eq 'John'
     end
 
-    it 'returns the single word as first name when name has only one word' do
+    it 'returns nil when name has only one word' do
       user.update!(name: 'John')
-      expect(subject.first_name).to eq 'John'
+      expect(subject.first_name).to be_nil
     end
 
     it('return the capitalized first name') do
