@@ -44,6 +44,8 @@ export default {
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
       isSettingDefaults: false,
+      signature: '',
+      isUpdatingSignature: false,
     };
   },
   validations: {
@@ -83,6 +85,7 @@ export default {
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
+      this.signature = this.inbox.additional_attributes?.signature || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
       });
@@ -180,8 +183,27 @@ export default {
         );
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateSignature() {
+      this.isUpdatingSignature = true;
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            additional_attributes: {
+              ...this.inbox.additional_attributes,
+              signature: this.signature,
+            },
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       } finally {
-        this.isSyncingTemplates = false;
+        this.isUpdatingSignature = false;
       }
     },
   },
@@ -189,7 +211,8 @@ export default {
 </script>
 
 <template>
-  <div v-if="isATwilioChannel">
+  <div class="space-y-6">
+    <div v-if="isATwilioChannel">
     <SettingsFieldSection
       :label="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :help-text="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
@@ -441,6 +464,31 @@ export default {
       :inbox="inbox"
       class="hidden"
     />
+    </div>
+    <div class="mt-6 border-t border-n-slate-3 pt-6">
+      <SettingsToggleSection
+        :header="$t('INBOX_MGMT.SETTINGS_POPUP.SIGNATURE.TITLE')"
+        :description="$t('INBOX_MGMT.SETTINGS_POPUP.SIGNATURE.DESCRIPTION')"
+        hide-toggle
+      >
+        <template #editor>
+          <TextArea
+            v-model="signature"
+            :placeholder="$t('INBOX_MGMT.SETTINGS_POPUP.SIGNATURE.PLACEHOLDER')"
+            auto-height
+            resize
+            class="w-full [&>div]:!bg-transparent [&>div]:!border-none [&>div]:!border-0 [&>div]:px-0 [&>div]:pb-0 [&>div]:pt-0"
+          />
+          <div class="mt-3 flex justify-end">
+            <NextButton
+              :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+              :is-loading="isUpdatingSignature"
+              @click="updateSignature"
+            />
+          </div>
+        </template>
+      </SettingsToggleSection>
+    </div>
   </div>
 </template>
 

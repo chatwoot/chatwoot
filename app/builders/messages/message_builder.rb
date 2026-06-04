@@ -140,11 +140,17 @@ class Messages::MessageBuilder
   end
 
   def message_params
+    content = @params[:content]
+    if message_type == 'outgoing' && !@private && content.present? && @conversation.inbox.additional_attributes&.dig('signature').present?
+      signature = @conversation.inbox.additional_attributes['signature']
+      content = "#{content}\n\n#{signature}"
+    end
+
     {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
-      content: @params[:content],
+      content: content,
       private: @private,
       sender: sender,
       content_type: @params[:content_type],
