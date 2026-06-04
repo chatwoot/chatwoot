@@ -14,6 +14,14 @@
 class MutexApplicationJob < ApplicationJob
   class LockAcquisitionError < StandardError; end
 
+  def self.retry_on_lock_conflict(wait:, attempts:, on_exhaustion: :raise)
+    retry_on LockAcquisitionError, wait: wait, attempts: attempts do |job, error|
+      raise error if on_exhaustion == :raise
+
+      job.public_send(on_exhaustion, *job.arguments)
+    end
+  end
+
   def with_lock(lock_key, timeout = Redis::LockManager::LOCK_TIMEOUT)
     lock_manager = Redis::LockManager.new
 
