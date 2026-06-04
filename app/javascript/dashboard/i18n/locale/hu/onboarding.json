@@ -1,34 +1,34 @@
 {
   "ONBOARDING_NEXT": {
-    "GREETING": "Hello {name}!",
-    "SUBTITLE": "Please review the following details",
-    "YOUR_DETAILS": "Your details",
-    "COMPANY_DETAILS": "Company details",
+    "GREETING": "Szia {name}!",
+    "SUBTITLE": "Ellenőrizd az alábbi adatokat",
+    "YOUR_DETAILS": "Adataid",
+    "COMPANY_DETAILS": "Cégadatok",
     "FIELDS": {
       "EMAIL": "E-mail",
-      "YOUR_ROLE": "Your Role",
+      "YOUR_ROLE": "Szerepköröd",
       "WEBSITE": "Honlap",
       "LANGUAGE": "Nyelv",
       "TIMEZONE": "Időzóna",
-      "COMPANY_SIZE": "Company Size",
-      "INDUSTRY": "Industry",
-      "REFERRAL_SOURCE": "Where did you find us?"
+      "COMPANY_SIZE": "Cégméret",
+      "INDUSTRY": "Iparág",
+      "REFERRAL_SOURCE": "Hol találtál ránk?"
     },
     "PLACEHOLDERS": {
-      "SELECT_ROLE": "Select your role",
+      "SELECT_ROLE": "Válassz szerepkört",
       "ENTER_WEBSITE": "www.example.com",
-      "SELECT_LANGUAGE": "Select language",
+      "SELECT_LANGUAGE": "Válassz nyelvet",
       "SELECT_TIMEZONE": "Időzóna kiválasztása",
-      "SELECT_COMPANY_SIZE": "Select company size",
-      "SELECT_INDUSTRY": "Select industry",
-      "SELECT_REFERRAL_SOURCE": "Select source"
+      "SELECT_COMPANY_SIZE": "Válassz cégméretet",
+      "SELECT_INDUSTRY": "Válassz iparágat",
+      "SELECT_REFERRAL_SOURCE": "Válassz forrást"
     },
-    "EMAIL_VERIFIED": "Email verified",
-    "SETTING_UP": "Setting up your account...",
-    "CONTINUE": "Continue",
+    "EMAIL_VERIFIED": "E-mail cím megerősítve",
+    "SETTING_UP": "A fiókod beállítása...",
+    "CONTINUE": "Folytatás",
     "SAVING": "Mentés...",
-    "VALIDATION_ERROR": "Please fill in all required fields",
-    "SUCCESS": "Details saved successfully",
-    "ERROR": "Could not save details. Please try again."
+    "VALIDATION_ERROR": "Töltsd ki az összes kötelező mezőt",
+    "SUCCESS": "Az adatok sikeresen mentve",
+    "ERROR": "Nem sikerült menteni az adatokat. Próbáld újra."
   }
 }

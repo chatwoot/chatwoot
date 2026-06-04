@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Nalikha ang kontak",
             "CONTACT_UPDATED": "Na-update ang contact",
             "CONVERSATION_TYPING_ON": "Nagsusulat sa Pag-uusap On",
-            "CONVERSATION_TYPING_OFF": "Nagsusulat sa Pag-uusap Off"
+            "CONVERSATION_TYPING_OFF": "Nagsusulat sa Pag-uusap Off",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
