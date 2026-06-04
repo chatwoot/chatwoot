@@ -197,9 +197,9 @@ const channelIcon = computed(() => {
                 ? $t('CONVERSATION.VOICE_WIDGET.END_CALL')
                 : $t('CONVERSATION.VOICE_WIDGET.REJECT_CALL')
             "
-            icon="i-ph-phone-x-bold"
+            icon="i-ph-phone-bold"
             ruby
-            class="!rounded-full rotate-[134deg]"
+            class="!rounded-full rotate-[135deg]"
             @click="isOngoing ? $emit('end') : $emit('reject')"
           />
         </div>

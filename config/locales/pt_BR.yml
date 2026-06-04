@@ -110,7 +110,7 @@ pt_BR:
         contact_phone_required: 'Número de telefone do contato é obrigatório'
         permission_request_failed: 'Falha ao enviar solicitação de permissão de chamada'
     openai:
-      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
+      invalid_api_key: 'A chave da API da OpenAI é inválida ou revogada. Por favor, verifique sua chave no seu painel da OpenAI.'
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -241,6 +241,7 @@ pt_BR:
       whatsapp:
         list_button_label: 'Escolha um item'
         call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
+        unsupported_message: 'Esta mensagem não está disponível.'
       voice_call:
         twilio: 'Chamada de Voz'
         whatsapp: 'Chamada do WhatsApp'
@@ -412,6 +413,13 @@ pt_BR:
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+      results: Resultados da Pesquisa
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Um resultado encontrado
+        other: 'Found %{count} results'
+      submit: Pesquisar
     toc_header: 'Nesta página'
     sidebar:
       help_center: Central de Ajuda
@@ -427,8 +435,8 @@ pt_BR:
       popular_articles: Artigos populares
       popular_articles_subtitle: O que outras pessoas estão lendo agora.
       popular_label: 'Tópicos populares:'
-      authors_others: "%{names} e mais %{count}"
-      primary_nav: Navegação principal
+      authors_others: "%{names} e %{count} outros"
+      primary_nav: Primário
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:
@@ -443,6 +451,8 @@ pt_BR:
       others: outros
       by: Por
       no_articles: Não há artigos aqui
+      previous: Anterior
+      next: Próximo
     article_actions:
       label: Abrir em
       view_markdown: Ver como Markdown
@@ -455,6 +465,7 @@ pt_BR:
       go_to_homepage: Site
       visit_website: Visite o site
       appearance:
+        title: Tema
         system: Sistema
         light: Claro
         dark: Escuro

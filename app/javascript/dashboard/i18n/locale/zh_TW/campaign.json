@@ -88,6 +88,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "處理中",
           "COMPLETED": "已完成",
           "SCHEDULED": "已排程"
         },
@@ -146,6 +147,7 @@
       },
       "CARD": {
         "STATUS": {
+          "PROCESSING": "處理中",
           "COMPLETED": "已完成",
           "SCHEDULED": "已排程"
         },

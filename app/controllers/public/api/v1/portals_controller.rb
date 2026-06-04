@@ -9,7 +9,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   layout 'portal'
 
   def show
-    @og_image_url = helpers.set_og_image_url('', @portal.header_text)
+    @og_image_url = helpers.set_og_image_url('', @portal.localized_value('header_text', @locale))
   end
 
   def sitemap
