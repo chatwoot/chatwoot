@@ -44,6 +44,7 @@ module Synapseos
       lead_rescued
       private_note_added
       sales_alert_dispatched
+      sales_alert_approved
       lead_blocked
     ].freeze
 

@@ -18,26 +18,28 @@ module Synapseos
     end
 
     def recent_events
-      # ATIVIDADE RECENTE — somente últimos alertas de venda (sales_alert_
-      # dispatched) no PERÍODO selecionado. Mesmo escopo do KPI "Elisa →
-      # Atendimento Humano" pra que a lista e o contador sejam consistentes
-      # (lista com items ⇒ KPI > 0). Inclui nome do contato + modelo de
-      # interesse. Ordenado por created_at desc, limite 10.
+      # ATIVIDADE RECENTE — somente alertas APROVADOS no Slack
+      # (sales_alert_approved), criados pelo webhook de aprovação. Deduplica
+      # por conversa (1 por conversa, o mais recente). O NOME vem do
+      # metadata['nome'] capturado no momento da aprovação — NÃO da associação
+      # conversation (que resolve por id interno e colide com display_id).
       ::Synapseos::CrmEvent
-        .where(account_id: @account.id, event_type: 'sales_alert_dispatched', created_at: @range)
-        .where.not(conversation_id: nil)
-        .includes(conversation: :contact)
+        .where(account_id: @account.id, event_type: 'sales_alert_approved', created_at: @range)
         .order(created_at: :desc)
-        .limit(10)
+        .limit(50)
+        .group_by { |e| e.conversation_id || "ev-#{e.id}" }
+        .map { |_cid, evs| evs.first }
+        .sort_by { |e| -e.created_at.to_i }
+        .first(10)
         .map do |e|
-          contact = e.conversation&.contact
+          meta = e.metadata.is_a?(Hash) ? e.metadata : {}
           {
             id: e.id,
             event_type: e.event_type,
             conversation_id: e.conversation_id,
-            contact_name: contact&.name.presence || e.metadata['nome'] || '—',
-            modelo_interesse: e.metadata.is_a?(Hash) ? (e.metadata['modelo_interesse'] || 'a definir') : 'a definir',
-            tipo: e.metadata.is_a?(Hash) ? e.metadata['tipo'] : nil,
+            contact_name: meta['nome'].presence || '—',
+            modelo_interesse: meta['modelo_interesse'] || 'a definir',
+            tipo: meta['tipo'],
             metadata: e.metadata,
             created_at: e.created_at,
           }
