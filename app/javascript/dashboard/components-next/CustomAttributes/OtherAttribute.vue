@@ -191,7 +191,7 @@ const handleInputUpdate = async () => {
         :message="attributeErrorMessage"
         :message-type="hasError ? 'error' : 'info'"
         custom-input-class="h-8 ltr:rounded-r-none rtl:rounded-l-none"
-        @keyup.enter="handleInputUpdate"
+        @enter="handleInputUpdate"
       />
       <Button
         icon="i-lucide-check"

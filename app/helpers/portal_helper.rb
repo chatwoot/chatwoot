@@ -45,9 +45,16 @@ module PortalHelper
     theme.present? && theme != 'system' ? "?theme=#{theme}" : ''
   end
 
+  def portal_query_string(theme, is_plain_layout_enabled)
+    query_params = {}
+    query_params[:theme] = theme if theme.present? && theme != 'system'
+    query_params[:show_plain_layout] = true if is_plain_layout_enabled
+    query_params.present? ? "?#{query_params.to_query}" : ''
+  end
+
   def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{portal_locale}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/#{portal_locale}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/#{portal_locale}"
     end
@@ -61,7 +68,7 @@ module PortalHelper
     is_plain_layout_enabled = params[:is_plain_layout_enabled]
 
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
     end
@@ -69,7 +76,7 @@ module PortalHelper
 
   def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/articles/#{article_slug}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/articles/#{article_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/articles/#{article_slug}"
     end
@@ -95,5 +102,16 @@ module PortalHelper
     return colors.sample if username.blank?
 
     colors[username.length % colors.size]
+  end
+
+  def format_authors_label(authors)
+    return if authors.blank?
+
+    names = authors.map(&:available_name)
+    return names.to_sentence if names.size <= 3
+
+    I18n.t('public_portal.sidebar.authors_others',
+           names: names.first(2).join(', '),
+           count: authors.size - 2)
   end
 end

@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "میٹا کے ساتھ تصدیق ہو رہی ہے",
           "WAITING_FOR_BUSINESS_INFO": "براہ کرم میٹا ونڈو میں بزنس سیٹ اپ مکمل کریں...",
           "PROCESSING": "آپ کا واٹس ایپ بزنس اکاؤنٹ سیٹ اپ کیا جا رہا ہے",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK لوڈ ہو رہا ہے...",
           "CANCELLED": "واٹس ایپ سائن اپ منسوخ کر دیا گیا",
           "SUCCESS_TITLE": "واٹس ایپ بزنس اکاؤنٹ کنیکٹ ہو گیا!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "تصدیق مکمل نہیں ہوئی۔ براہ کرم عمل دوبارہ شروع کریں۔",
           "SUCCESS_FALLBACK": "واٹس ایپ بزنس اکاؤنٹ کامیابی سے ترتیب دیا گیا ہے",
           "MANUAL_FALLBACK": "اگر آپ کا نمبر پہلے ہی واٹس ایپ بزنس پلیٹ فارم (API) سے منسلک ہے، یا اگر آپ ایک ٹیک فراہم کنندہ ہیں جو اپنا نمبر آن بورڈ کر رہے ہیں، تو براہ کرم {link} فلو استعمال کریں",
-          "MANUAL_LINK_TEXT": "دستی سیٹ اپ کا عمل"
+          "MANUAL_LINK_TEXT": "دستی سیٹ اپ کا عمل",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "ہم WhatsApp چینل محفوظ کرنے میں ناکام رہے"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "واٹس ایپ",
             "DESCRIPTION": "اپنے صارفین کی واٹس ایپ پر مدد کریں"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "ای میل",
@@ -636,7 +642,38 @@
       "WIDGET_BUILDER": "ویجیٹ بلڈر",
       "BOT_CONFIGURATION": "بوٹ کی ترتیب",
       "ACCOUNT_HEALTH": "اکاؤنٹ کی صحت",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "وائس",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
+      }
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -745,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "ای میل میں ایجنٹ کا نام دکھانے کو فعال/غیر فعال کریں، اگر غیر فعال ہو تو کاروباری نام دکھایا جائے گا",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ای میل کے ذریعے گفتگو کی تسلسل کو فعال کریں",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر رابطہ ای میل پتہ دستیاب ہو تو گفتگو ای میل کے ذریعے جاری رہے گی۔",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "ان باکس کی ترتیبات",
@@ -789,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "اپنے دستیاب ٹیمپلیٹس کو اپ ڈیٹ کرنے کے لیے واٹس ایپ سے میسج ٹیمپلیٹس کو دستی طور پر ہم آہنگ کریں۔",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "ٹیمپلیٹس کو ہم آہنگ کریں",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "ٹیمپلیٹس کی ہم آہنگی کامیابی سے شروع ہو گئی ہے۔ اپ ڈیٹ ہونے میں چند منٹ لگ سکتے ہیں۔",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "پری چیٹ فارم کی ترتیبات کو اپ ڈیٹ کریں"
     },
     "HELP_CENTER": {
@@ -1000,7 +1042,8 @@
         "LABEL": "پاس ورڈ",
         "PLACE_HOLDER": "پاس ورڈ"
       },
-      "ENABLE_SSL": "SSL کو فعال کریں"
+      "ENABLE_SSL": "SSL کو فعال کریں",
+      "AUTH_MECHANISM": "تصدیق"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

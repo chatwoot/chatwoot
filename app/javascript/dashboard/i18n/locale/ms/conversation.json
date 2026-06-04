@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Mesej ini tidak disokong. Anda boleh melihat mesej ini di aplikasi TikTok.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Mesej berjaya dipadam",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat memadam mesej! Sila cuba lagi",
     "NO_RESPONSE": "Tiada respons",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mesej tidak tersedia",
     "CARD": {
       "SHOW_LABELS": "Tunjukkan label",
-      "HIDE_LABELS": "Sembunyikan label"
+      "HIDE_LABELS": "Sembunyikan label",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Panggilan masuk",
       "OUTGOING_CALL": "Panggilan keluar",
       "CALL_IN_PROGRESS": "Panggilan sedang berlangsung",
       "NO_ANSWER": "Tiada jawapan",
+      "NO_ANSWER_OUTBOUND_LABEL": "Tiada jawapan",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Panggilan terlepas",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Panggilan tamat",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Belum dijawab",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Mereka menjawab",
-      "YOU_ANSWERED": "Anda menjawab"
+      "YOU_ANSWERED": "Anda menjawab",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Sertai panggilan",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Selesaikan",
@@ -92,10 +105,17 @@
       "OPEN": "Lagi",
       "CLOSE": "Tutup",
       "DETAILS": "butiran",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Ditangguhkan sehingga",
       "SNOOZED_UNTIL_TOMORROW": "Ditangguhkan sehingga esok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditangguhkan sehingga minggu depan",
       "SNOOZED_UNTIL_NEXT_REPLY": "Ditangguhkan sehingga balasan seterusnya",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Rakam audio",
       "TIP_AUDIORECORDER_PERMISSION": "Benarkan akses ke audio",
       "TIP_AUDIORECORDER_ERROR": "Tidak dapat membuka audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Seret dan lepaskan di sini untuk melampirkan",
       "START_AUDIO_RECORDING": "Mula rakaman audio",
       "STOP_AUDIO_RECORDING": "Hentikan rakaman audio",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "Belum dijawab",
       "HANDLED_IN_ANOTHER_TAB": "Sedang diuruskan di tab lain",
       "REJECT_CALL": "Tolak",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Sertai panggilan",
-      "END_CALL": "Tamatkan panggilan"
+      "END_CALL": "Tamatkan panggilan",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Perbualan Sebelumnya",
       "MACROS": "Makro",
       "LINEAR_ISSUES": "Isu Linear Berkaitan",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

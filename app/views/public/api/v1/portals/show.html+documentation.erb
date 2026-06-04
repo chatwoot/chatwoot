@@ -1,0 +1,34 @@
+<%= render 'public/api/v1/portals/documentation_layout/hero', portal: @portal, popular_topics: @popular_topics %>
+
+<section class="px-6 md:px-10 py-8 md:py-10">
+  <%= render 'public/api/v1/portals/documentation_layout/section_header',
+             title: I18n.t('public_portal.sidebar.browse_by_topic'),
+             subtitle: I18n.t('public_portal.sidebar.browse_by_topic_subtitle') %>
+
+  <% if @visible_categories.empty? %>
+    <%= render 'public/api/v1/portals/documentation_layout/empty_state' %>
+  <% else %>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% @visible_categories.each do |category| %>
+        <%= render 'public/api/v1/portals/documentation_layout/category_card',
+                   portal: @portal,
+                   category: category,
+                   contributors: @category_contributors[category.id] %>
+      <% end %>
+    </div>
+  <% end %>
+</section>
+
+<% if @featured.any? %>
+  <section class="px-6 md:px-10 py-8 md:py-10 border-t border-n-weak">
+    <%= render 'public/api/v1/portals/documentation_layout/section_header',
+               title: I18n.t('public_portal.sidebar.popular_articles'),
+               subtitle: I18n.t('public_portal.sidebar.popular_articles_subtitle'),
+               subtitle_class: 'mt-1.5 text-base text-n-slate-11' %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% @featured.each do |article| %>
+        <%= render 'public/api/v1/portals/documentation_layout/article_card', portal: @portal, article: article %>
+      <% end %>
+    </div>
+  </section>
+<% end %>

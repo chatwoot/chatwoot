@@ -46,6 +46,7 @@
           "PLACEHOLDER": "เลือกกล่องข้อความ"
         },
         "SUBMIT": "สร้าง",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "ยกเลิก"
       },
       "API": {
