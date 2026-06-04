@@ -75,6 +75,15 @@ RSpec.describe Portal do
 
           expect(portal).not_to be_valid
         end
+
+        it 'drops the override for a locale once it becomes the default' do
+          portal.update!(config: { allowed_locales: %w[en es], default_locale: 'en',
+                                   locale_translations: { 'es' => { 'name' => 'Centro' } } })
+
+          portal.update!(config: { allowed_locales: %w[en es], default_locale: 'es' })
+
+          expect(portal.config['locale_translations']).to eq({})
+        end
       end
     end
   end
@@ -99,10 +108,10 @@ RSpec.describe Portal do
       expect(portal.localized_value('name', 'fr')).to eq('Help Center')
     end
 
-    it 'falls back to the default locale override when the requested locale is missing' do
-      portal.update!(config: portal.config.merge('default_locale' => 'es'))
+    it 'serves the base column for the default locale even if an override existed before promotion' do
+      portal.update!(config: { allowed_locales: %w[en es], default_locale: 'es' })
 
-      expect(portal.localized_value('name', 'fr')).to eq('Centro de ayuda')
+      expect(portal.localized_value('name', 'es')).to eq('Help Center')
     end
 
     it 'uses the default locale when no locale is given' do

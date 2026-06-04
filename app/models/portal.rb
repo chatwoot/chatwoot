@@ -101,13 +101,11 @@ class Portal < ApplicationRecord
     localized_value('page_title', locale).presence || localized_value('name', locale)
   end
 
-  # Resolves a portal level field for a locale, falling back to the default
-  # locale override and finally to the base column when an override is missing.
+  # Resolves a portal level field for a locale, falling back to the base column
+  # (which holds the default locale's values) when the locale has no override.
   def localized_value(field, locale = default_locale)
     translations = config_value('locale_translations') || {}
-    translations.dig(locale.to_s, field).presence ||
-      translations.dig(default_locale, field).presence ||
-      self[field]
+    translations.dig(locale.to_s, field).presence || self[field]
   end
 
   def layout
@@ -125,6 +123,9 @@ class Portal < ApplicationRecord
     config['allowed_locales'] = allowed_locale_codes
     config['default_locale'] = default_locale
     config['draft_locales'] = draft_locale_codes
+    # The default locale is always served from the base portal fields, so it
+    # must never carry an override (e.g. when an overridden locale is promoted).
+    config['locale_translations'].delete(default_locale) if config['locale_translations'].is_a?(Hash)
   end
 
   def validate_config
