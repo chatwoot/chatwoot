@@ -21,6 +21,7 @@ module PortalConfigSchema
       'default_locale' => { 'type' => %w[string null] },
       'draft_locales' => { 'type' => %w[array null], 'items' => { 'type' => 'string' } },
       'layout' => { 'type' => %w[string null], 'enum' => ['classic', 'documentation', nil] },
+      # TODO: unused reserved key; remove with a migration that scrubs it from existing portals' config
       'website_token' => { 'type' => %w[string null] },
       'social_profiles' => { 'type' => %w[object null] },
       'locale_translations' => {

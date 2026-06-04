@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -22,9 +22,12 @@ const name = ref('');
 const pageTitle = ref('');
 const headerText = ref('');
 
+const localeTranslations = computed(
+  () => props.portal?.config?.locale_translations || {}
+);
+
 const openForLocale = localeCode => {
-  const existing =
-    props.portal?.config?.locale_translations?.[localeCode] || {};
+  const existing = localeTranslations.value[localeCode] || {};
   activeLocale.value = localeCode;
   name.value = existing.name || '';
   pageTitle.value = existing.page_title || '';
@@ -33,7 +36,7 @@ const openForLocale = localeCode => {
 };
 
 const onConfirm = async () => {
-  const translations = { ...(props.portal?.config?.locale_translations || {}) };
+  const translations = { ...localeTranslations.value };
   const fields = {};
   if (name.value.trim()) fields.name = name.value.trim();
   if (pageTitle.value.trim()) fields.page_title = pageTitle.value.trim();

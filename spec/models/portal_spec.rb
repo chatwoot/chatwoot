@@ -60,6 +60,79 @@ RSpec.describe Portal do
         portal.update(custom_domain: '')
         expect(portal.custom_domain).to be_nil
       end
+
+      context 'with locale_translations' do
+        it 'allows valid locale translations' do
+          portal.update(config: { allowed_locales: %w[en es], default_locale: 'en',
+                                  locale_translations: { 'es' => { 'name' => 'Centro', 'page_title' => 'Título', 'header_text' => 'Hola' } } })
+
+          expect(portal).to be_valid
+        end
+
+        it 'rejects unknown fields within a locale translation' do
+          portal.update(config: { allowed_locales: %w[en es], default_locale: 'en',
+                                  locale_translations: { 'es' => { 'tagline' => 'nope' } } })
+
+          expect(portal).not_to be_valid
+        end
+      end
+    end
+  end
+
+  describe '#localized_value' do
+    let!(:account) { create(:account) }
+    let!(:portal) do
+      create(:portal, account_id: account.id, name: 'Help Center', page_title: 'Help Center | Acme',
+                      config: { allowed_locales: %w[en es], default_locale: 'en',
+                                locale_translations: { 'es' => { 'name' => 'Centro de ayuda' } } })
+    end
+
+    it 'returns the override for the requested locale' do
+      expect(portal.localized_value('name', 'es')).to eq('Centro de ayuda')
+    end
+
+    it 'falls back to the base column when the locale has no override for the field' do
+      expect(portal.localized_value('page_title', 'es')).to eq('Help Center | Acme')
+    end
+
+    it 'falls back to the base column when the locale has no overrides at all' do
+      expect(portal.localized_value('name', 'fr')).to eq('Help Center')
+    end
+
+    it 'falls back to the default locale override when the requested locale is missing' do
+      portal.update!(config: portal.config.merge('default_locale' => 'es'))
+
+      expect(portal.localized_value('name', 'fr')).to eq('Centro de ayuda')
+    end
+
+    it 'uses the default locale when no locale is given' do
+      expect(portal.localized_value('name')).to eq('Help Center')
+    end
+  end
+
+  describe '#display_title' do
+    let!(:account) { create(:account) }
+
+    it 'prefers the localized page_title' do
+      portal = create(:portal, account_id: account.id, name: 'Help Center', page_title: 'Help Center | Acme',
+                               config: { allowed_locales: %w[en es], default_locale: 'en',
+                                         locale_translations: { 'es' => { 'page_title' => 'Centro | Acme' } } })
+
+      expect(portal.display_title('es')).to eq('Centro | Acme')
+    end
+
+    it 'falls back to the localized name when no page_title is set' do
+      portal = create(:portal, account_id: account.id, name: 'Help Center',
+                               config: { allowed_locales: %w[en es], default_locale: 'en',
+                                         locale_translations: { 'es' => { 'name' => 'Centro de ayuda' } } })
+
+      expect(portal.display_title('es')).to eq('Centro de ayuda')
+    end
+
+    it 'uses the base values for the default locale' do
+      portal = create(:portal, account_id: account.id, name: 'Help Center', page_title: 'Help Center | Acme')
+
+      expect(portal.display_title).to eq('Help Center | Acme')
     end
   end
 end

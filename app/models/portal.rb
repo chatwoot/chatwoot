@@ -52,6 +52,7 @@ class Portal < ApplicationRecord
 
   scope :active, -> { where(archived: false) }
 
+  # TODO: 'website_token' is an unused reserved key; remove with a migration that scrubs it from existing portals' config
   CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout locale_translations].freeze
 
   def file_base_data
