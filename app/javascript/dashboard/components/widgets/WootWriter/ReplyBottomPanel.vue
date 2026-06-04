@@ -11,10 +11,22 @@ import VideoCallButton from '../VideoCallButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import DropdownContainer from 'dashboard/components-next/dropdown-menu/base/DropdownContainer.vue';
+import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
+import DropdownSection from 'dashboard/components-next/dropdown-menu/base/DropdownSection.vue';
+import DropdownItem from 'dashboard/components-next/dropdown-menu/base/DropdownItem.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton },
+  components: {
+    NextButton,
+    FileUpload,
+    VideoCallButton,
+    DropdownContainer,
+    DropdownBody,
+    DropdownSection,
+    DropdownItem,
+  },
   mixins: [inboxMixin],
   props: {
     isNote: {
@@ -125,12 +137,17 @@ export default {
       type: Boolean,
       default: false,
     },
+    showScheduleOptions: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'toggleInsertArticle',
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
+    'scheduleMessage',
   ],
   setup(props) {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -271,6 +288,9 @@ export default {
     toggleInsertArticle() {
       this.$emit('toggleInsertArticle');
     },
+    openScheduleModal() {
+      this.$emit('scheduleMessage');
+    },
   },
 };
 </script>
@@ -397,7 +417,42 @@ export default {
       />
     </div>
     <div class="right-wrap">
+      <div v-if="showScheduleOptions && !isNote" class="flex">
+        <NextButton
+          :label="sendButtonText"
+          type="submit"
+          sm
+          blue
+          :disabled="isSendDisabled"
+          class="flex-shrink-0 !rounded-r-none"
+          @click="onSend"
+        />
+        <DropdownContainer>
+          <template #trigger="{ toggle, isOpen }">
+            <NextButton
+              type="button"
+              sm
+              blue
+              icon="i-ph-caret-down"
+              :disabled="isSendDisabled"
+              class="flex-shrink-0 !rounded-l-none !border-l border-l-white/20 !px-1.5"
+              :class="{ 'bg-n-blue-11': isOpen }"
+              @click="toggle"
+            />
+          </template>
+          <DropdownBody class="bottom-11 -right-8 min-w-48 z-50" strong>
+            <DropdownSection>
+              <DropdownItem
+                icon="i-ph-clock"
+                :label="$t('SCHEDULED_MESSAGES.MODAL.SCHEDULE_LABEL')"
+                @click="openScheduleModal"
+              />
+            </DropdownSection>
+          </DropdownBody>
+        </DropdownContainer>
+      </div>
       <NextButton
+        v-else
         :label="sendButtonText"
         type="submit"
         sm

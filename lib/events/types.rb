@@ -61,4 +61,14 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # scheduled message events
+  SCHEDULED_MESSAGE_CREATED = 'scheduled_message.created'
+  SCHEDULED_MESSAGE_UPDATED = 'scheduled_message.updated'
+  SCHEDULED_MESSAGE_DELETED = 'scheduled_message.deleted'
+
+  # recurring scheduled message events
+  RECURRING_SCHEDULED_MESSAGE_CREATED = 'recurring_scheduled_message.created'
+  RECURRING_SCHEDULED_MESSAGE_UPDATED = 'recurring_scheduled_message.updated'
 end
+

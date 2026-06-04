@@ -1,0 +1,40 @@
+{
+  "WEBPHONE": {
+    "CALL": "Ligar",
+    "TERMINATE": "Finalizada",
+    "ACCEPT_ELSEWHERE": "Aceito por outro usuário",
+    "REJECT_ELSEWHERE": "Rejeitado por outro usuário",
+    "CONNECT_CALLING": "Ligando",
+    "CALLING": "Chamando",
+    "VOICE_CALL": "Chamada de voz",
+    "IN_PROGRESS": "Em progresso",
+    "ACTIVE": "Ativa",
+    "MUTE": "Desativar microphone",
+    "UNMUTE": "Ativar microphone",
+    "TURN_ON_VIDEO": "Ativar video",
+    "TURN_OFF_VIDEO": "Desativar video",
+    "NUMPAD": "Teclado",
+    "TRANSFER": "Transferir",
+    "UNKNOWN": "Desconhecido",
+    "ALL_INSTANCE_BUSY": "Todas as linhas estão ocupadas",
+    "CONTACT_INVALID": "Contato não existe no Whatsapp",
+    "CALL_LIMIT": "Limite de ligações diários atingido",
+    "ERROR_TO_MADE_CALL": "Ocorreu um erro ao tentar ligar",
+    "CONNECTION_FAILED": "Falha na conexão",
+    "REJECTED": "Rejeitada",
+    "PERMISSIONS": {
+      "TITLE": "Ativar microfone",
+      "DESCRIPTION": "Permita o acesso ao microfone para receber e realizar chamadas de voz.",
+      "ALLOW": "Permitir acesso",
+      "NOT_NOW": "Agora nao",
+      "ERROR": "Nao foi possivel acessar o microfone. Libere a permissao no navegador."
+    },
+    "AUDIO_PLAYBACK": {
+      "TITLE": "Ativar audio do navegador",
+      "DESCRIPTION": "Clique em permitir para liberar o audio das chamadas.",
+      "ALLOW": "Ativar audio",
+      "NOT_NOW": "Agora nao",
+      "ERROR": "Nao foi possivel reproduzir o audio. Libere a permissao do navegador."
+    }
+  }
+}

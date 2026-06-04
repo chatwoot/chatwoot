@@ -1,0 +1,11 @@
+{
+  "KANBAN": {
+    "PAYWALL": {
+      "TITLE": "Faça upgrade para usar o Kanban",
+      "DESCRIPTION": "O recurso Kanban requer uma assinatura Chatwoot Pro fazer.ai.",
+      "UPGRADE_PROMPT": "Assine o Chatwoot Pro fazer.ai para acessar funis Kanban, gerenciamento de tarefas e automação de fluxo de trabalho.",
+      "NON_ADMIN_MESSAGE": "O recurso Kanban não está disponível no seu plano atual. Entre em contato com o administrador para fazer o upgrade.",
+      "UPGRADE_NOW": "Fazer upgrade"
+    }
+  }
+}

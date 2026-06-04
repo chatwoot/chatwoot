@@ -54,7 +54,12 @@ export const buildConversationList = (
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
   context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
+  context.dispatch('conversationStats/set', {
+    ...metaData,
+    requested_assignee_type: requestPayload.assigneeType,
+    requested_conversation_type: requestPayload.conversationType,
+    requested_inbox_channel_type: requestPayload.inboxChannelType,
+  });
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
     conversationList

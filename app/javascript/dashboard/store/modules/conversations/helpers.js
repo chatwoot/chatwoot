@@ -7,8 +7,26 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
-export const filterByStatus = (chatStatus, filterStatus) =>
-  filterStatus === 'all' ? true : chatStatus === filterStatus;
+const STATUS_ENUM = {
+  0: 'open',
+  1: 'resolved',
+  2: 'pending',
+  3: 'snoozed',
+};
+
+const normalizeStatus = value => {
+  if (typeof value === 'number') {
+    return STATUS_ENUM[value] || value;
+  }
+  return (value || '').toString();
+};
+
+export const filterByStatus = (chatStatus, filterStatus) => {
+  if (filterStatus === 'all') {
+    return true;
+  }
+  return normalizeStatus(chatStatus) === normalizeStatus(filterStatus);
+};
 
 export const filterByInbox = (shouldFilter, inboxId, chatInboxId) => {
   const isOnInbox = Number(inboxId) === chatInboxId;
@@ -35,8 +53,45 @@ export const filterByUnattended = (
     : shouldFilter;
 };
 
+const filterByInternal = (
+  shouldFilter,
+  conversationType,
+  conversation = {}
+) => {
+  const inbox = conversation.inbox || {};
+  const metaInbox = conversation.meta?.inbox || {};
+  const channelType =
+    inbox.channel_type ||
+    metaInbox.channel_type ||
+    conversation.meta?.channel ||
+    conversation.channel ||
+    conversation.channel_type ||
+    conversation.channelType;
+
+  if (!channelType) {
+    return shouldFilter;
+  }
+
+  const isInternalConversation = channelType === 'Channel::Internal';
+
+  if (conversationType === 'internal') {
+    return isInternalConversation && shouldFilter;
+  }
+
+  return !isInternalConversation && shouldFilter;
+};
+
+const filterByGroups = (shouldFilter, assigneeType, conversation = {}) => {
+  if (assigneeType !== 'groups') {
+    return shouldFilter;
+  }
+
+  return !!conversation.group && shouldFilter;
+};
+
 export const applyPageFilters = (conversation, filters) => {
-  const { inboxId, status, labels = [], teamId, conversationType } = filters;
+  const { assigneeType, inboxId, status, labels = [], teamId, conversationType } =
+    filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
@@ -47,7 +102,6 @@ export const applyPageFilters = (conversation, filters) => {
   } = conversation;
   const team = meta.team || {};
   const { id: chatTeamId } = team;
-
   let shouldFilter = filterByStatus(chatStatus, status);
   shouldFilter = filterByInbox(shouldFilter, inboxId, chatInboxId);
   shouldFilter = filterByTeam(shouldFilter, teamId, chatTeamId);
@@ -58,6 +112,8 @@ export const applyPageFilters = (conversation, filters) => {
     firstReplyOn,
     waitingSince
   );
+  shouldFilter = filterByInternal(shouldFilter, conversationType, conversation);
+  shouldFilter = filterByGroups(shouldFilter, assigneeType, conversation);
 
   return shouldFilter;
 };

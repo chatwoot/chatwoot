@@ -2,53 +2,65 @@
 #
 # Table name: conversations
 #
-#  id                     :integer          not null, primary key
-#  additional_attributes  :jsonb
-#  agent_last_seen_at     :datetime
-#  assignee_last_seen_at  :datetime
-#  cached_label_list      :text
-#  contact_last_seen_at   :datetime
-#  custom_attributes      :jsonb
-#  first_reply_created_at :datetime
-#  identifier             :string
-#  last_activity_at       :datetime         not null
-#  priority               :integer
-#  snoozed_until          :datetime
-#  status                 :integer          default("open"), not null
-#  uuid                   :uuid             not null
-#  waiting_since          :datetime
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#  account_id             :integer          not null
-#  assignee_agent_bot_id  :bigint
-#  assignee_id            :integer
-#  campaign_id            :bigint
-#  contact_id             :bigint
-#  contact_inbox_id       :bigint
-#  display_id             :integer          not null
-#  inbox_id               :integer          not null
-#  sla_policy_id          :bigint
-#  team_id                :bigint
+#  id                        :integer          not null, primary key
+#  additional_attributes     :jsonb
+#  agent_last_seen_at        :datetime
+#  assignee_last_seen_at     :datetime
+#  cached_label_list         :text
+#  contact_last_seen_at      :datetime
+#  custom_attributes         :jsonb
+#  first_reply_created_at    :datetime
+#  group                     :boolean          default(FALSE), not null
+#  group_contacts_synced_at  :datetime
+#  group_created_at_external :datetime
+#  group_description         :text
+#  group_invite_link         :string
+#  group_join_approval_mode  :string
+#  group_session_admin       :boolean          default(FALSE), not null
+#  group_suspended           :boolean          default(FALSE), not null
+#  group_title               :string
+#  identifier                :string
+#  last_activity_at          :datetime         not null
+#  priority                  :integer
+#  snoozed_until             :datetime
+#  status                    :integer          default("open"), not null
+#  uuid                      :uuid             not null
+#  waiting_since             :datetime
+#  created_at                :datetime         not null
+#  updated_at                :datetime         not null
+#  account_id                :integer          not null
+#  assignee_agent_bot_id     :bigint
+#  assignee_id               :integer
+#  campaign_id               :bigint
+#  contact_id                :bigint
+#  contact_inbox_id          :bigint
+#  display_id                :integer          not null
+#  group_source_id           :string
+#  inbox_id                  :integer          not null
+#  sla_policy_id             :bigint
+#  team_id                   :bigint
 #
 # Indexes
 #
-#  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
-#  index_conversations_on_account_id                  (account_id)
-#  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
-#  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
-#  index_conversations_on_campaign_id                 (campaign_id)
-#  index_conversations_on_contact_id                  (contact_id)
-#  index_conversations_on_contact_inbox_id            (contact_inbox_id)
-#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
-#  index_conversations_on_id_and_account_id           (account_id,id)
-#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
-#  index_conversations_on_inbox_id                    (inbox_id)
-#  index_conversations_on_priority                    (priority)
-#  index_conversations_on_status_and_account_id       (status,account_id)
-#  index_conversations_on_status_and_priority         (status,priority)
-#  index_conversations_on_team_id                     (team_id)
-#  index_conversations_on_uuid                        (uuid) UNIQUE
-#  index_conversations_on_waiting_since               (waiting_since)
+#  conv_acid_inbid_stat_asgnid_idx                      (account_id,inbox_id,status,assignee_id)
+#  index_conversations_on_account_id                    (account_id)
+#  index_conversations_on_account_id_and_display_id     (account_id,display_id) UNIQUE
+#  index_conversations_on_assignee_id_and_account_id    (assignee_id,account_id)
+#  index_conversations_on_campaign_id                   (campaign_id)
+#  index_conversations_on_contact_id                    (contact_id)
+#  index_conversations_on_contact_inbox_id              (contact_inbox_id)
+#  index_conversations_on_first_reply_created_at        (first_reply_created_at)
+#  index_conversations_on_group                         (group)
+#  index_conversations_on_id_and_account_id             (account_id,id)
+#  index_conversations_on_identifier_and_account_id     (identifier,account_id)
+#  index_conversations_on_inbox_id                      (inbox_id)
+#  index_conversations_on_inbox_id_and_group_source_id  (inbox_id,group_source_id) UNIQUE WHERE (group_source_id IS NOT NULL)
+#  index_conversations_on_priority                      (priority)
+#  index_conversations_on_status_and_account_id         (status,account_id)
+#  index_conversations_on_status_and_priority           (status,priority)
+#  index_conversations_on_team_id                       (team_id)
+#  index_conversations_on_uuid                          (uuid) UNIQUE
+#  index_conversations_on_waiting_since                 (waiting_since)
 #
 
 class Conversation < ApplicationRecord
@@ -89,6 +101,8 @@ class Conversation < ApplicationRecord
 
     open.where('last_activity_at < ?', Time.now.utc - auto_resolve_after.minutes)
   }
+  scope :group_conversations, -> { where(group: true) }
+  scope :non_group_conversations, -> { where(group: false) }
 
   scope :last_user_message_at, lambda {
     joins(
@@ -113,6 +127,10 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
+  has_many :recurring_scheduled_messages, dependent: :destroy_async
+  has_many :scheduled_messages, dependent: :destroy_async
+  has_many :group_contacts, dependent: :destroy_async
+  has_many :additional_contacts, through: :group_contacts, source: :contact
 
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
@@ -176,6 +194,30 @@ class Conversation < ApplicationRecord
 
   def unread_incoming_messages
     unread_messages.where(account_id: account_id).incoming.last(10)
+  end
+
+  def includes_contact?(target_contact)
+    return false if target_contact.blank?
+    return true if contact_id == target_contact.id
+
+    group_contacts.exists?(contact_id: target_contact.id)
+  end
+
+  def group_member_count
+    count = group_contacts.count
+    return count if primary_contact_is_group?
+
+    count + (contact_id.present? ? 1 : 0)
+  end
+
+  def primary_contact_is_group?
+    return false unless group?
+
+    primary_identifiers = [contact_inbox&.source_id, contact&.email].compact
+    primary_identifiers.any? do |identifier|
+      identifier = identifier.to_s
+      identifier == group_source_id || identifier.end_with?('@g.us')
+    end
   end
 
   def cached_label_list_array

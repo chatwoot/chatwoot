@@ -1,9 +1,12 @@
 export default {
   GRAVATAR_URL: 'https://www.gravatar.com/avatar/',
   ASSIGNEE_TYPE: {
+    WAITING: 'waiting',
     ME: 'me',
     UNASSIGNED: 'unassigned',
     ALL: 'all',
+    GROUPS: 'groups',
+    INTERNAL: 'internal',
   },
   STATUS_TYPE: {
     OPEN: 'open',

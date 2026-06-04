@@ -1,7 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { applyRoleFilter } from '../helpers';
+import { applyPageFilters, applyRoleFilter } from '../helpers';
 
 describe('Conversation Helpers', () => {
+  describe('#applyPageFilters', () => {
+    const defaultFilters = {
+      assigneeType: 'groups',
+      status: 'open',
+      labels: [],
+    };
+
+    it('keeps only group conversations on the groups tab', () => {
+      expect(
+        applyPageFilters({ status: 'open', group: true }, defaultFilters)
+      ).toBe(true);
+      expect(
+        applyPageFilters({ status: 'open', group: false }, defaultFilters)
+      ).toBe(false);
+    });
+  });
+
   describe('#applyRoleFilter', () => {
     // Test data for conversations
     const conversationWithAssignee = {

@@ -50,7 +50,7 @@ class Account < ApplicationRecord
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
-  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :show_deleted_message_content
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
@@ -68,6 +68,7 @@ class Account < ApplicationRecord
   has_many :campaigns, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
+  has_many :comment_posts, dependent: :destroy_async
   has_many :contacts, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
@@ -89,6 +90,8 @@ class Account < ApplicationRecord
   has_many :notification_settings, dependent: :destroy_async
   has_many :notifications, dependent: :destroy_async
   has_many :portals, dependent: :destroy_async, class_name: '::Portal'
+  has_many :recurring_scheduled_messages, dependent: :destroy_async
+  has_many :scheduled_messages, dependent: :destroy_async
   has_many :sms_channels, dependent: :destroy_async, class_name: '::Channel::Sms'
   has_many :teams, dependent: :destroy_async
   has_many :telegram_channels, dependent: :destroy_async, class_name: '::Channel::Telegram'

@@ -16,7 +16,6 @@ import * as Sentry from '@sentry/vue';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
-  syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
@@ -24,7 +23,7 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   // We have two cases
   // 1. Messages that fail from the UI itself (due to large attachments or a failed network):
   //    In this case, the message will have a status of failed but no external error. So we need to create that message again
-  // 2. Messages sent from Chatwoot but failed to deliver to the customer for some reason (user blocking or client system down):
+  // 2. Messages sent from ViperChat but failed to deliver to the customer for some reason (user blocking or client system down):
   //    In this case, the message will have a status of failed and an external error. So we need to retry that message
   const { content_attributes: contentAttributes, status } = pendingMessage;
   const externalError = contentAttributes?.external_error ?? '';
@@ -107,10 +106,21 @@ const actions = {
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
     let attachments = [];
+    let meta = null;
 
     try {
-      const { data } = await ConversationApi.getAllAttachments(conversationId);
-      attachments = data.payload;
+      const { data } = await ConversationApi.getAllAttachments(
+        conversationId,
+        1
+      );
+      attachments = data.payload || [];
+      if (data.meta) {
+        meta = {
+          page: 1,
+          totalCount: data.meta?.total_count ?? attachments.length,
+          pageSize: attachments.length,
+        };
+      }
     } catch (error) {
       // in case of error, log the error and continue
       Sentry.setContext('Conversation', {
@@ -118,12 +128,99 @@ const actions = {
       });
       Sentry.captureException(error);
     } finally {
-      // we run the commit even if the request fails
-      // this ensures that the `attachment` variable is always present on chat
       commit(types.SET_ALL_ATTACHMENTS, {
         id: conversationId,
         data: attachments,
       });
+      if (meta) {
+        commit(types.SET_ATTACHMENTS_META, {
+          id: conversationId,
+          data: meta,
+        });
+      }
+    }
+  },
+
+  loadMoreAttachments: async ({ state, commit }, conversationId) => {
+    const existingAttachments = state.attachments[conversationId] || [];
+    const meta = state.attachmentsMeta[conversationId] || {};
+    const nextPage = (meta.page || 1) + 1;
+
+    if (meta.totalCount && existingAttachments.length >= meta.totalCount) {
+      return 0;
+    }
+
+    try {
+      const { data } = await ConversationApi.getAllAttachments(
+        conversationId,
+        nextPage
+      );
+      const batch = data.payload || [];
+      const combined = [
+        ...existingAttachments,
+        ...batch.filter(
+          item =>
+            !existingAttachments.some(
+              existing => existing.id === item.id && existing.id !== undefined
+            )
+        ),
+      ];
+
+      commit(types.SET_ALL_ATTACHMENTS, {
+        id: conversationId,
+        data: combined,
+      });
+      commit(types.SET_ATTACHMENTS_META, {
+        id: conversationId,
+        data: {
+          totalCount:
+            data.meta?.total_count ?? meta.totalCount ?? combined.length,
+          page: nextPage,
+          pageSize: batch.length,
+        },
+      });
+
+      return batch.length;
+    } catch (error) {
+      Sentry.setContext('Conversation', {
+        id: conversationId,
+      });
+      Sentry.captureException(error);
+      throw error;
+    }
+  },
+
+  deleteConversationAttachments: async (
+    { commit },
+    { conversationId, attachmentIds = [], deleteAll = false }
+  ) => {
+    const payload = deleteAll
+      ? { delete_all: true }
+      : { attachment_ids: attachmentIds };
+
+    try {
+      const { data } = await ConversationApi.deleteAttachments(
+        conversationId,
+        payload
+      );
+
+      if (deleteAll) {
+        commit(types.CLEAR_CONVERSATION_ATTACHMENTS, { id: conversationId });
+      } else {
+        commit(types.DELETE_CONVERSATION_ATTACHMENTS_BY_ID, {
+          id: conversationId,
+          attachmentIds,
+          removedCount: data.count,
+        });
+      }
+
+      return data;
+    } catch (error) {
+      Sentry.setContext('Conversation', {
+        id: conversationId,
+      });
+      Sentry.captureException(error);
+      throw error;
     }
   },
 
@@ -244,7 +341,7 @@ const actions = {
   },
 
   toggleStatus: async (
-    { commit },
+    { commit, dispatch, state },
     { conversationId, status, snoozedUntil = null, customAttributes = null }
   ) => {
     try {
@@ -277,6 +374,9 @@ const actions = {
         status: updatedStatus,
         snoozedUntil: updatedSnoozedUntil,
       });
+      dispatch('conversationStats/get', state.conversationFilters || {}, {
+        root: true,
+      });
     } catch (error) {
       // Handle error
     }
@@ -287,7 +387,7 @@ const actions = {
     dispatch('sendMessageWithData', pendingMessage);
   },
 
-  sendMessageWithData: async ({ commit }, pendingMessage) => {
+  sendMessageWithData: async ({ commit, dispatch, state }, pendingMessage) => {
     const { conversation_id: conversationId, id } = pendingMessage;
     try {
       commit(types.ADD_MESSAGE, {
@@ -305,6 +405,12 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      if (state.conversationFilters?.assigneeType === 'waiting') {
+        dispatch('conversationStats/get', state.conversationFilters, {
+          root: true,
+        });
+        dispatch('fetchAllConversations');
+      }
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -320,6 +426,21 @@ const actions = {
     }
   },
 
+  sendMessageReaction: async (
+    { commit },
+    { conversationId, messageId, emoji }
+  ) => {
+    const { data } = await MessageApi.react(conversationId, messageId, emoji);
+    commit(types.ADD_MESSAGE, data);
+    return data;
+  },
+
+  editMessage: async ({ commit }, { conversationId, messageId, content }) => {
+    const { data } = await MessageApi.edit(conversationId, messageId, content);
+    commit(types.ADD_MESSAGE, data);
+    return data;
+  },
+
   addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
@@ -329,21 +450,12 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
-    handleVoiceCallCreated(
-      message,
-      rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
-    );
+    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
   },
 
   updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
-    handleVoiceCallUpdated(
-      commit,
-      message,
-      rootGetters?.getCurrentUserID,
-      rootGetters?.getCurrentUserAvailability
-    );
+    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
   },
 
   deleteMessage: async function deleteLabels(
@@ -403,18 +515,19 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch, rootGetters }, conversation) {
-    const sender = conversation.meta?.sender;
+  updateConversation({ commit, dispatch }, conversation) {
+    const {
+      meta: { sender },
+    } = conversation;
 
     commit(types.UPDATE_CONVERSATION, conversation);
-    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,
       data: conversation.labels,
     });
 
-    if (sender) dispatch('contacts/setContact', sender);
+    dispatch('contacts/setContact', sender);
   },
 
   updateConversationLastActivity(

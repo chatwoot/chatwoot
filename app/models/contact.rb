@@ -7,6 +7,7 @@
 #  id                    :integer          not null, primary key
 #  additional_attributes :jsonb
 #  blocked               :boolean          default(FALSE), not null
+#  bsuid                 :string
 #  contact_type          :integer          default("visitor")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
@@ -18,6 +19,7 @@
 #  middle_name           :string           default("")
 #  name                  :string           default("")
 #  phone_number          :string
+#  whatsapp_username     :string
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
@@ -26,8 +28,10 @@
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_bsuid                (account_id,bsuid) UNIQUE WHERE (bsuid IS NOT NULL)
 #  index_contacts_on_account_id_and_contact_type         (account_id,contact_type)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
+#  index_contacts_on_account_id_and_whatsapp_username    (account_id,whatsapp_username) WHERE (whatsapp_username IS NOT NULL)
 #  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_company_id                          (company_id)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
@@ -48,12 +52,14 @@ class Contact < ApplicationRecord
   include LlmFormattable
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
-                    format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
+  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false }
+  validate :email_format_with_lid
+  validates :bsuid, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') },
+            brazilian_number: true
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -158,6 +164,8 @@ class Contact < ApplicationRecord
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
+      bsuid: bsuid,
+      whatsapp_username: whatsapp_username,
       type: 'contact'
     }
   end
@@ -174,14 +182,16 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      bsuid: bsuid,
+      whatsapp_username: whatsapp_username
     }
   end
 
   def self.resolved_contacts(use_crm_v2: false)
     return where(contact_type: 'lead') if use_crm_v2
 
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> '' OR contacts.bsuid <> ''")
   end
 
   def discard_invalid_attrs
@@ -210,12 +220,34 @@ class Contact < ApplicationRecord
   def email_format
     return if email.blank?
 
+    return if whatsapp_identifier_email?
+
     self.email = email_was unless email.match(Devise.email_regexp)
   end
 
   def prepare_contact_attributes
     prepare_email_attribute
+    prepare_uno_identity_attributes
     prepare_jsonb_attributes
+  end
+
+  def prepare_uno_identity_attributes
+    self.bsuid = bsuid.presence
+    self.whatsapp_username = whatsapp_username.presence
+  end
+
+  def email_format_with_lid
+    return if email.blank?
+
+    return if whatsapp_identifier_email?
+
+    return if email.match?(Devise.email_regexp)
+
+    errors.add(:email, I18n.t('errors.contacts.email.invalid'))
+  end
+
+  def whatsapp_identifier_email?
+    email&.end_with?('@lid') || email&.end_with?('@g.us')
   end
 
   def prepare_email_attribute

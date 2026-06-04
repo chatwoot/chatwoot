@@ -1,7 +1,11 @@
 <script>
 import { ref, provide, useTemplateRef } from 'vue';
 import { useElementSize } from '@vueuse/core';
+
+import MessageApi from '../../../api/inbox/message';
+
 // composable
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
@@ -9,8 +13,10 @@ import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
+import ForwardMessagesModal from './ForwardMessagesModal.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
 
 // stores and apis
@@ -39,21 +45,34 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
+    Banner,
+    Button,
+    ConversationLabelSuggestion,
+    ForwardMessagesModal,
     MessageList,
     ReplyBox,
-    Banner,
-    ConversationLabelSuggestion,
-    Spinner,
     ResizableEditorWrapper,
+    Spinner,
   },
   mixins: [inboxMixin],
   setup() {
+    const isPopOutReplyBox = ref(false);
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
     const messagesViewRef = useTemplateRef('messagesViewRef');
     const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
     const { height: topBannerHeight } = useElementSize(topBannerRef);
+
+    const keyboardEvents = {
+      Escape: {
+        action: () => {
+          isPopOutReplyBox.value = false;
+        },
+      },
+    };
+
+    useKeyboardEvents(keyboardEvents);
 
     const {
       captainTasksEnabled,
@@ -64,6 +83,7 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
+      isPopOutReplyBox,
       captainTasksEnabled,
       getLabelSuggestions,
       isLabelSuggestionFeatureEnabled,
@@ -84,6 +104,11 @@ export default {
       isProgrammaticScroll: false,
       messageSentSinceOpened: false,
       labelSuggestions: [],
+      forwardSelection: {
+        isActive: false,
+        selectedMessageIds: [],
+      },
+      showForwardModal: false,
     };
   },
 
@@ -93,6 +118,7 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       currentAccountId: 'getCurrentAccountId',
+      globalConfig: 'globalConfig/get',
     }),
     isOpen() {
       return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
@@ -172,7 +198,7 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel && !this.isAUnoapiChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
       if (this.isAPIInbox) {
@@ -210,7 +236,7 @@ export default {
     },
     replyWindowLinkText() {
       if (
-        this.isAWhatsAppChannel ||
+        (this.isAWhatsAppChannel && !this.isAUnoapiChannel) ||
         this.isAFacebookInbox ||
         this.isAnInstagramChannel
       ) {
@@ -244,6 +270,24 @@ export default {
 
       return { incoming, outgoing };
     },
+    isForwardSelectionActive() {
+      return this.forwardSelection.isActive;
+    },
+    forwardSelectedMessages() {
+      if (!this.forwardSelection.isActive) {
+        return [];
+      }
+      const selectedIds = this.forwardSelection.selectedMessageIds;
+      if (!selectedIds.length) {
+        return [];
+      }
+      return this.getMessages.filter(message =>
+        selectedIds.includes(message.id)
+      );
+    },
+    forwardSelectionCount() {
+      return this.forwardSelection.selectedMessageIds.length;
+    },
   },
 
   watch: {
@@ -254,7 +298,6 @@ export default {
       this.fetchAllAttachmentsFromCurrentChat();
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
-      this.resetReplyEditorHeight();
     },
   },
 
@@ -265,6 +308,7 @@ export default {
     emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
       this.messageSentSinceOpened = true;
     });
+    emitter.on(BUS_EVENTS.FORWARD_MESSAGES, this.onForwardMessagesStart);
   },
 
   mounted() {
@@ -325,6 +369,7 @@ export default {
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.FORWARD_MESSAGES, this.onForwardMessagesStart);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -338,6 +383,52 @@ export default {
         }
       });
       this.makeMessagesRead();
+    },
+    onForwardMessagesStart({ messageId } = {}) {
+      if (!messageId) {
+        return;
+      }
+      this.forwardSelection.isActive = true;
+      this.forwardSelection.selectedMessageIds = [messageId];
+    },
+    toggleForwardSelection(messageId) {
+      if (!this.forwardSelection.isActive) {
+        return;
+      }
+      const selectedIds = this.forwardSelection.selectedMessageIds;
+      const index = selectedIds.indexOf(messageId);
+      if (index === -1) {
+        selectedIds.push(messageId);
+      } else {
+        selectedIds.splice(index, 1);
+      }
+      if (!selectedIds.length) {
+        this.cancelForwardSelection();
+      }
+    },
+    cancelForwardSelection() {
+      this.forwardSelection.isActive = false;
+      this.forwardSelection.selectedMessageIds = [];
+      this.showForwardModal = false;
+    },
+    openForwardModal() {
+      if (!this.forwardSelection.selectedMessageIds.length) {
+        return;
+      }
+      this.showForwardModal = true;
+    },
+    onForwardCompleted(conversation) {
+      this.cancelForwardSelection();
+      if (!conversation || !conversation.id) {
+        return;
+      }
+      this.$router.push({
+        name: 'inbox_conversation',
+        params: {
+          accountId: this.currentAccountId,
+          conversation_id: conversation.id,
+        },
+      });
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -438,6 +529,30 @@ export default {
       const payload = useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
+
+    async getInReplyToMessage(parentMessage) {
+      if (!parentMessage) return {};
+      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
+      if (!inReplyToMessageId) return {};
+      let replyToMessage = this.currentChat?.messages.find(message => {
+        if (message.id === inReplyToMessageId) {
+          return true;
+        }
+        return false;
+      });
+      if (!replyToMessage) {
+        const params = {
+          conversationId: this.currentChat.id,
+          after: inReplyToMessageId - 1,
+          before: inReplyToMessageId + 1,
+        };
+        const {
+          data: { payload },
+        } = await MessageApi.getPreviousMessages(params);
+        replyToMessage = payload[0];
+      }
+      return replyToMessage;
+    },
     toggleReplyEditorSize() {
       this.resizableEditorWrapperRef?.toggleEditorExpand?.();
     },
@@ -469,6 +584,42 @@ export default {
         :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
       />
     </div>
+    <ForwardMessagesModal
+      v-if="isForwardSelectionActive"
+      v-model:show="showForwardModal"
+      :selected-messages="forwardSelectedMessages"
+      :conversation-id="currentChat.id"
+      @forwarded="onForwardCompleted"
+      @close="cancelForwardSelection"
+    />
+    <div
+      v-if="isForwardSelectionActive"
+      class="flex items-center justify-between mx-2 mt-2 mb-1 rounded-lg bg-n-alpha-2 px-3 py-2"
+    >
+      <p class="m-0 text-xs font-medium text-n-slate-12">
+        {{
+          $t('CONVERSATION.FORWARD_MESSAGES.SELECTED_COUNT', {
+            count: forwardSelectionCount,
+          })
+        }}
+      </p>
+      <div class="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          color="slate"
+          size="xs"
+          :label="$t('CONVERSATION.FORWARD_MESSAGES.CANCEL')"
+          @click="cancelForwardSelection"
+        />
+        <Button
+          color="blue"
+          size="xs"
+          :disabled="forwardSelectionCount === 0"
+          :label="$t('CONVERSATION.FORWARD_MESSAGES.ACTION_LABEL')"
+          @click="openForwardModal"
+        />
+      </div>
+    </div>
     <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
@@ -476,8 +627,12 @@ export default {
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
+      :style="globalConfig.conversationStyleCss"
       :messages="getMessages"
+      :is-forward-selection-active="isForwardSelectionActive"
+      :forward-selected-message-ids="forwardSelection.selectedMessageIds"
       @retry="handleMessageRetry"
+      @toggle-forward-selection="toggleForwardSelection"
     >
       <template #beforeAll>
         <transition name="slide-up">
@@ -510,7 +665,13 @@ export default {
         />
       </template>
     </MessageList>
-    <div class="flex relative flex-col bg-n-surface-1">
+    <div
+      class="flex relative flex-col"
+      :class="{
+        'modal-mask': isPopOutReplyBox,
+        'bg-n-surface-1': !isPopOutReplyBox,
+      }"
+    >
       <div
         v-if="isAnyoneTyping"
         class="absolute flex items-center w-full h-0 -top-7"
@@ -530,8 +691,44 @@ export default {
         ref="resizableEditorWrapperRef"
         :container-height="Math.max(0, containerHeight - topBannerHeight)"
       >
-        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
+        <ReplyBox
+          :pop-out-reply-box="isPopOutReplyBox"
+          @toggle-editor-size="toggleReplyEditorSize"
+          @update:pop-out-reply-box="isPopOutReplyBox = $event"
+        />
       </ResizableEditorWrapper>
     </div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.modal-mask {
+  @apply fixed;
+
+  &::v-deep {
+    .ProseMirror-woot-style {
+      @apply max-h-[25rem];
+    }
+
+    .reply-box {
+      @apply border border-n-weak max-w-[75rem] w-[70%];
+
+      &.is-private {
+        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
+      }
+    }
+
+    .reply-box .reply-box__top {
+      @apply relative min-h-[27.5rem];
+    }
+
+    .reply-box__top .input {
+      @apply min-h-[27.5rem];
+    }
+
+    .emoji-dialog {
+      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
+    }
+  }
+}
+</style>

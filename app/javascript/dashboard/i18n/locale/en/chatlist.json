@@ -15,9 +15,12 @@
     },
     "FILTER_ALL": "All",
     "ASSIGNEE_TYPE_TABS": {
+      "waiting": "Waiting",
       "me": "Mine",
       "unassigned": "Unassigned",
-      "all": "All"
+      "all": "All",
+      "groups": "Groups",
+      "internal": "Internal Chat"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {

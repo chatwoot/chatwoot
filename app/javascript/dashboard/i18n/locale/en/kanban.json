@@ -1,0 +1,11 @@
+{
+  "KANBAN": {
+    "PAYWALL": {
+      "TITLE": "Upgrade to use Kanban",
+      "DESCRIPTION": "The Kanban feature requires a fazer.ai Chatwoot Pro subscription.",
+      "UPGRADE_PROMPT": "Subscribe to fazer.ai Chatwoot Pro to access Kanban funnels, task management, and workflow automation.",
+      "NON_ADMIN_MESSAGE": "The Kanban feature is not available on your current plan. Please reach out to your administrator to upgrade.",
+      "UPGRADE_NOW": "Upgrade now"
+    }
+  }
+}

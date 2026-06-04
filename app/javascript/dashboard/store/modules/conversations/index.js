@@ -11,6 +11,7 @@ import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 const state = {
   allConversations: [],
   attachments: {},
+  attachmentsMeta: {},
   listLoadingStatus: true,
   chatStatusFilter: wootConstants.STATUS_TYPE.OPEN,
   chatSortFilter: wootConstants.SORT_BY_TYPE.LATEST,
@@ -62,6 +63,8 @@ export const mutations = {
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
     _state.selectedChatId = null;
+    _state.attachments = {};
+    _state.attachmentsMeta = {};
   },
   [types.SET_ALL_MESSAGES_LOADED](_state, conversationId) {
     const chat = getConversationById(_state)(conversationId);
@@ -88,6 +91,10 @@ export const mutations = {
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
     _state.attachments[id] = [...data];
+  },
+  [types.SET_ATTACHMENTS_META](_state, { id, data }) {
+    const previous = _state.attachmentsMeta[id] || {};
+    _state.attachmentsMeta[id] = { ...previous, ...data };
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -178,6 +185,13 @@ export const mutations = {
       return;
     }
 
+    if (!_state.attachments) {
+      _state.attachments = {};
+    }
+    if (!_state.attachmentsMeta) {
+      _state.attachmentsMeta = {};
+    }
+
     const id = message.conversation_id;
     const existingAttachments = _state.attachments[id] || [];
 
@@ -191,18 +205,81 @@ export const mutations = {
 
     // replace the attachments in the store
     _state.attachments[id] = [...existingAttachments, ...attachmentsToAdd];
+
+    const meta = _state.attachmentsMeta[id];
+    if (meta && attachmentsToAdd.length) {
+      _state.attachmentsMeta[id] = {
+        ...meta,
+        totalCount:
+          (meta.totalCount || existingAttachments.length) + attachmentsToAdd.length,
+      };
+    }
   },
 
   [types.DELETE_CONVERSATION_ATTACHMENTS](_state, message) {
     if (message.status !== MESSAGE_STATUS.SENT) return;
 
+    if (!_state.attachments) {
+      _state.attachments = {};
+    }
+    if (!_state.attachmentsMeta) {
+      _state.attachmentsMeta = {};
+    }
+
     const { conversation_id: id } = message;
     const existingAttachments = _state.attachments[id] || [];
     if (!existingAttachments.length) return;
 
-    _state.attachments[id] = existingAttachments.filter(attachment => {
+    const filteredAttachments = existingAttachments.filter(attachment => {
       return attachment.message_id !== message.id;
     });
+
+    _state.attachments[id] = filteredAttachments;
+
+    const meta = _state.attachmentsMeta[id];
+    if (meta) {
+      const removedCount = existingAttachments.length - filteredAttachments.length;
+      const nextTotal =
+        (meta.totalCount || existingAttachments.length) - removedCount;
+      _state.attachmentsMeta[id] = {
+        ...meta,
+        totalCount: nextTotal < 0 ? 0 : nextTotal,
+      };
+    }
+  },
+  [types.CLEAR_CONVERSATION_ATTACHMENTS](_state, { id }) {
+    _state.attachments[id] = [];
+    const meta = _state.attachmentsMeta[id];
+    if (meta) {
+      _state.attachmentsMeta[id] = { ...meta, totalCount: 0 };
+    }
+  },
+  [types.DELETE_CONVERSATION_ATTACHMENTS_BY_ID](
+    _state,
+    { id, attachmentIds, removedCount }
+  ) {
+    const existingAttachments = _state.attachments[id] || [];
+    if (!existingAttachments.length) return;
+
+    const idsToRemove = new Set(attachmentIds || []);
+    const filteredAttachments = existingAttachments.filter(
+      attachment => !idsToRemove.has(attachment.id)
+    );
+
+    _state.attachments[id] = filteredAttachments;
+
+    const meta = _state.attachmentsMeta[id];
+    if (meta) {
+      const fallbackRemoved =
+        existingAttachments.length - filteredAttachments.length;
+      const nextTotal =
+        (meta.totalCount || existingAttachments.length) -
+        (removedCount || fallbackRemoved);
+      _state.attachmentsMeta[id] = {
+        ...meta,
+        totalCount: nextTotal < 0 ? 0 : nextTotal,
+      };
+    }
   },
 
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
@@ -307,21 +384,34 @@ export const mutations = {
     }
   },
 
-  [types.UPDATE_MESSAGE_CALL_STATUS](
+  [types.UPDATE_CONVERSATION_CALL_STATUS](
     _state,
-    { conversationId, callStatus, callSid }
+    { conversationId, callStatus }
   ) {
     const chat = getConversationById(_state)(conversationId);
     if (!chat) return;
 
-    const message = (chat.messages || []).find(
-      m =>
-        m.content_type === CONTENT_TYPES.VOICE_CALL &&
-        m.call?.provider_call_id === callSid
-    );
-    if (!message?.call) return;
+    chat.additional_attributes = {
+      ...chat.additional_attributes,
+      call_status: callStatus,
+    };
+  },
 
-    message.call = { ...message.call, status: callStatus };
+  [types.UPDATE_MESSAGE_CALL_STATUS](_state, { conversationId, callStatus }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    const lastCall = (chat.messages || []).findLast(
+      m => m.content_type === CONTENT_TYPES.VOICE_CALL
+    );
+
+    if (!lastCall) return;
+
+    lastCall.content_attributes ??= {};
+    lastCall.content_attributes.data = {
+      ...lastCall.content_attributes.data,
+      status: callStatus,
+    };
   },
 
   [types.SET_ACTIVE_INBOX](_state, inboxId) {
