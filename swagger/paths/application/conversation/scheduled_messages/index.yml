@@ -1,0 +1,38 @@
+tags:
+  - Scheduled Messages
+operationId: list-scheduled-messages
+summary: List Scheduled Messages
+security:
+  - userApiKey: []
+description: List all scheduled messages for a conversation
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            payload:
+              type: array
+              description: Array of scheduled messages
+              items:
+                $ref: '#/components/schemas/scheduled_message'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
