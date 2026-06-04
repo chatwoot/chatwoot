@@ -188,9 +188,13 @@ module Synapseos
       ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: stage.id).count
     end
 
+    # Disparos feitos no MÊS corrente = contatos distintos que receberam ao
+    # menos uma mensagem outgoing no mês (mesma métrica de `shoots_period`,
+    # mas fixa no mês — não reage ao filtro). NÃO conta leads importados:
+    # "disparo feito" = mensagem efetivamente enviada.
     def shoots_month_count
       month_range = Time.current.beginning_of_month..Time.current
-      ::Synapseos::Lead.where(account_id: @account.id, created_at: month_range).count
+      outgoing_distinct_contacts(month_range)
     end
 
     def deals_scope
