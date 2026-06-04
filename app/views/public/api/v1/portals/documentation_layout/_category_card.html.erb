@@ -1,0 +1,24 @@
+<%# locals: (portal:, category:, contributors: []) %>
+<% contributors = Array(contributors) %>
+<a href="<%= public_portal_category_path(portal.slug, category.locale, category.slug) %>"
+   class="group relative flex flex-col p-5 rounded-xl border border-solid border-n-weak hover:border-n-portal hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+  <span class="flex-shrink-0 w-11 h-11 flex items-center justify-center text-2xl rounded-xl bg-n-slate-2 border border-solid border-n-weak">
+    <%= category.icon.presence || '📁' %>
+  </span>
+  <h3 class="mt-4 text-lg font-620 tracking-tight text-n-slate-12 group-hover:text-n-portal transition"><%= category.name %></h3>
+  <% if category.description.present? %>
+    <p class="mt-1.5 text-sm leading-relaxed text-n-slate-11"><%= category.description %></p>
+  <% end %>
+  <div class="mt-auto pt-5 flex items-center justify-between">
+    <% if contributors.any? %>
+      <%= render 'public/api/v1/portals/documentation_layout/avatar_group',
+                 users: contributors, size: :sm, overlap: '-ml-1.5' %>
+    <% else %>
+      <span></span>
+    <% end %>
+    <span class="inline-flex items-center gap-1 text-sm font-medium text-n-slate-11 group-hover:text-n-portal transition">
+      <%= I18n.t('public_portal.sidebar.browse') %>
+      <span class="i-lucide-arrow-right size-3.5 group-hover:translate-x-0.5 transition-transform" aria-hidden="true"></span>
+    </span>
+  </div>
+</a>

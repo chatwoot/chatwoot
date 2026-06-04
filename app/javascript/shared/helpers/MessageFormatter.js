@@ -1,28 +1,37 @@
+import MarkdownIt from 'markdown-it';
 import mila from 'markdown-it-link-attributes';
 import mentionPlugin from './markdownIt/link';
-import MarkdownIt from 'markdown-it';
 
-const setImageHeight = inlineToken => {
+const setImageSizing = inlineToken => {
   const imgSrc = inlineToken.attrGet('src');
   if (!imgSrc) return;
   const url = new URL(imgSrc);
+  const width = url.searchParams.get('cw_image_width');
+  if (width) {
+    inlineToken.attrSet(
+      'style',
+      `width: ${width}; max-width: 100%; height: auto;`
+    );
+    return;
+  }
   const height = url.searchParams.get('cw_image_height');
-  if (!height) return;
-  inlineToken.attrSet('style', `height: ${height};`);
+  if (height) inlineToken.attrSet('style', `height: ${height};`);
 };
 
 const processInlineToken = blockToken => {
   blockToken.children.forEach(inlineToken => {
     if (inlineToken.type === 'image') {
-      setImageHeight(inlineToken);
+      setImageSizing(inlineToken);
     }
   });
 };
 
 const imgResizeManager = md => {
-  // Custom rule for image resize in markdown
-  // If the image url has a query param cw_image_height, then add a style attribute to the image
-  md.core.ruler.after('inline', 'add-image-height', state => {
+  // If the image URL carries a cw_image_width or cw_image_height query param,
+  // add an inline style attribute so the rendered <img> respects the agent's
+  // resize choice. Width takes precedence (HC drag-resize); height is kept for
+  // legacy messages and the message-signature use case.
+  md.core.ruler.after('inline', 'add-image-sizing', state => {
     state.tokens.forEach(blockToken => {
       if (blockToken.type === 'inline') {
         processInlineToken(blockToken);
@@ -42,6 +51,7 @@ const createMarkdownInstance = (linkify = true) => {
     quotes: '\u201c\u201d\u2018\u2019',
     maxNesting: 20,
   })
+    .disable(['lheading'])
     .use(mentionPlugin)
     .use(imgResizeManager)
     .use(mila, {

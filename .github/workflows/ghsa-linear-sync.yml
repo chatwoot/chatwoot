@@ -1,0 +1,29 @@
+name: Sync GHSA advisories to Linear
+
+on:
+  schedule:
+    - cron: '0 4 * * *'  # daily at 09:30 IST
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests==2.32.3
+      - name: Sync advisories
+        env:
+          GHSA_READ_TOKEN: ${{ secrets.GHSA_READ_TOKEN }}
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+          LINEAR_TEAM_ID: ${{ secrets.LINEAR_TEAM_ID }}
+          LINEAR_PROJECT_ID: ${{ secrets.LINEAR_PROJECT_ID }}
+          LINEAR_LABEL_ID: ${{ secrets.LINEAR_LABEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: python3 .github/scripts/ghsa_linear_sync.py

@@ -61,5 +61,18 @@ export default createStore({
       });
       return response;
     },
+
+    handleBulkSync: async function handleBulkSync({ dispatch }, { ids }) {
+      const response = await dispatch('processBulkAction', {
+        type: 'AssistantDocument',
+        actionType: 'sync',
+        ids,
+      });
+
+      await dispatch('captainDocuments/markSyncing', response.ids || [], {
+        root: true,
+      });
+      return response;
+    },
   }),
 });

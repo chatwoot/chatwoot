@@ -1,0 +1,34 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Szia {name}!",
+    "SUBTITLE": "Ellenőrizd az alábbi adatokat",
+    "YOUR_DETAILS": "Adataid",
+    "COMPANY_DETAILS": "Cégadatok",
+    "FIELDS": {
+      "EMAIL": "E-mail",
+      "YOUR_ROLE": "Szerepköröd",
+      "WEBSITE": "Honlap",
+      "LANGUAGE": "Nyelv",
+      "TIMEZONE": "Időzóna",
+      "COMPANY_SIZE": "Cégméret",
+      "INDUSTRY": "Iparág",
+      "REFERRAL_SOURCE": "Hol találtál ránk?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Válassz szerepkört",
+      "ENTER_WEBSITE": "www.example.com",
+      "SELECT_LANGUAGE": "Válassz nyelvet",
+      "SELECT_TIMEZONE": "Időzóna kiválasztása",
+      "SELECT_COMPANY_SIZE": "Válassz cégméretet",
+      "SELECT_INDUSTRY": "Válassz iparágat",
+      "SELECT_REFERRAL_SOURCE": "Válassz forrást"
+    },
+    "EMAIL_VERIFIED": "E-mail cím megerősítve",
+    "SETTING_UP": "A fiókod beállítása...",
+    "CONTINUE": "Folytatás",
+    "SAVING": "Mentés...",
+    "VALIDATION_ERROR": "Töltsd ki az összes kötelező mezőt",
+    "SUCCESS": "Az adatok sikeresen mentve",
+    "ERROR": "Nem sikerült menteni az adatokat. Próbáld újra."
+  }
+}

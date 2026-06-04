@@ -14,6 +14,7 @@ export const FORMATTING = {
       'link',
       'bulletList',
       'orderedList',
+      'imageUpload',
       'undo',
       'redo',
     ],
@@ -30,6 +31,7 @@ export const FORMATTING = {
       'strike',
       'bulletList',
       'orderedList',
+      'imageUpload',
       'undo',
       'redo',
     ],
@@ -108,11 +110,6 @@ export const FORMATTING = {
       'undo',
       'redo',
     ],
-  },
-  'Channel::Voice': {
-    marks: [],
-    nodes: [],
-    menu: [],
   },
   'Channel::Tiktok': {
     marks: [],
@@ -266,25 +263,5 @@ export const MARKDOWN_PATTERNS = [
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
       { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
     ],
-  },
-];
-
-// Editor image resize options for Message Editor
-export const MESSAGE_EDITOR_IMAGE_RESIZES = [
-  {
-    name: 'Small',
-    height: '24px',
-  },
-  {
-    name: 'Medium',
-    height: '48px',
-  },
-  {
-    name: 'Large',
-    height: '72px',
-  },
-  {
-    name: 'Original Size',
-    height: 'auto',
   },
 ];

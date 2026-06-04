@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "See sõnum ei ole toetatud. Sa saad seda vaadata Facebook Messenger rakenduses.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "See sõnum ei ole toetatud. Sa saad seda vaadata Instagram rakenduses.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "See sõnum ei ole toetatud. Sa saad seda vaadata TikTok rakenduses.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Sõnum kustutati edukalt",
     "FAIL_DELETE_MESSSAGE": "Sõnumit ei õnnestunud kustutada! Proovi uuesti",
     "NO_RESPONSE": "Vastust pole",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Sõnum pole saadaval",
     "CARD": {
       "SHOW_LABELS": "Näita silte",
-      "HIDE_LABELS": "Peida sildid"
+      "HIDE_LABELS": "Peida sildid",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Sissetulev kõne",
       "OUTGOING_CALL": "Väljaminev kõne",
       "CALL_IN_PROGRESS": "Kõne käib",
       "NO_ANSWER": "Vastamata",
+      "NO_ANSWER_OUTBOUND_LABEL": "Vastamata",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Vastamata kõne",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Kõne lõppenud",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Veel vastamata",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Nad vastasid",
-      "YOU_ANSWERED": "Sa vastasid"
+      "YOU_ANSWERED": "Sa vastasid",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Liitu kõnega",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Lahenda",
@@ -92,10 +105,17 @@
       "OPEN": "Rohkem",
       "CLOSE": "Sulge",
       "DETAILS": "üksikasjad",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Vaigistatud kuni",
       "SNOOZED_UNTIL_TOMORROW": "Edasilükatud homseni",
       "SNOOZED_UNTIL_NEXT_WEEK": "Edasilükatud järgmise nädalani",
       "SNOOZED_UNTIL_NEXT_REPLY": "Edasilükatud järgmise vastuseni",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Salvesta heli",
       "TIP_AUDIORECORDER_PERMISSION": "Luba juurdepääs helile",
       "TIP_AUDIORECORDER_ERROR": "Heli avamine ebaõnnestus",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Lohista siia manusena lisamiseks",
       "START_AUDIO_RECORDING": "Alusta heli salvestamist",
       "STOP_AUDIO_RECORDING": "Peata heli salvestamine",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "Veel ei ole vastatud",
       "HANDLED_IN_ANOTHER_TAB": "Käsitletakse teises vahekaardis",
       "REJECT_CALL": "Keeldu",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Liitu kõnega",
-      "END_CALL": "Lõpeta kõne"
+      "END_CALL": "Lõpeta kõne",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Eelnevad vestlused",
       "MACROS": "Makrod",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Tellimus #{id}",

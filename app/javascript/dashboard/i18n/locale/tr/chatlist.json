@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Alıntı Yapılan Mesajı Gizle",
     "SHOW_QUOTED_TEXT": "Alıntı Yapılan Mesajı Göster",
     "MESSAGE_READ": "Oku",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

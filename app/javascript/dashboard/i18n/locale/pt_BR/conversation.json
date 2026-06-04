@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "Esta mensagem não é compatível. Você pode visualizá-la no aplicativo do TikTok.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Esta mensagem não é suportada. Você pode visualizar esta mensagem no aplicativo do WhatsApp.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
     "FAIL_DELETE_MESSSAGE": "Não foi possível excluir a mensagem! Tente novamente",
     "NO_RESPONSE": "Sem resposta",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Mensagem não disponível",
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
-      "HIDE_LABELS": "Ocultar as etiquetas"
+      "HIDE_LABELS": "Ocultar as etiquetas",
+      "LABELS_COUNT": "{count} etiquetas"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Chamada recebida",
       "OUTGOING_CALL": "Chamada realizada",
       "CALL_IN_PROGRESS": "Chamada em andamento",
       "NO_ANSWER": "Sem resposta",
+      "NO_ANSWER_OUTBOUND_LABEL": "Sem resposta",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "O contato não atendeu",
       "MISSED_CALL": "Chamada perdida",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Nenhum atendente atendeu",
+      "MISSED_CALL_DECLINED_BY": "Recusado por {agentName}",
       "CALL_ENDED": "Chamada encerrada",
+      "HANDLED_BY": "Atendido por {agentName}",
       "NOT_ANSWERED_YET": "Ainda não respondido",
+      "CALLING": "Chamando…",
       "THEY_ANSWERED": "Eles responderam",
-      "YOU_ANSWERED": "Você respondeu"
+      "YOU_ANSWERED": "Você respondeu",
+      "AGENT_ANSWERED": "{agentName} respondeu",
+      "JOIN_CALL": "Entrar na chamada",
+      "CALL_BACK": "Retornar chamada",
+      "TRANSCRIPT_SHOW_MORE": "Ver mais",
+      "TRANSCRIPT_SHOW_LESS": "Mostrar menos"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -92,10 +105,17 @@
       "OPEN": "Mais",
       "CLOSE": "Fechar",
       "DETAILS": "detalhes",
+      "COPY_ID_SUCCESS": "ID da conversa copiado para área de transferência",
       "SNOOZED_UNTIL": "Adiar até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana",
       "SNOOZED_UNTIL_NEXT_REPLY": "Adiado até a próxima resposta",
+      "WHATSAPP_CALL": "Iniciar chamada no WhatsApp",
+      "WHATSAPP_CALL_FAILED": "Não foi possível iniciar a chamada no WhatsApp.",
+      "VOICE_CALL": "Iniciar chamada",
+      "VOICE_CALL_FAILED": "Não foi possível iniciar a chamada.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitação de permissão de chamada enviada ao contato. Tente novamente após a aceitação.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Uma solicitação de permissão de chamada já foi enviada recentemente. Tente novamente após o contato aceitar.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "Gravar áudio",
       "TIP_AUDIORECORDER_PERMISSION": "Permitir acesso ao áudio",
       "TIP_AUDIORECORDER_ERROR": "Não foi possível abrir o áudio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Arraste e solte aqui para anexar",
       "START_AUDIO_RECORDING": "Iniciar gravação de áudio",
       "STOP_AUDIO_RECORDING": "Parar gravação de áudio",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "Ainda não respondido",
       "HANDLED_IN_ANOTHER_TAB": "Sendo atendida em outra aba",
       "REJECT_CALL": "Recusar",
+      "DISMISS_CALL": "Recusar",
       "JOIN_CALL": "Entrar na chamada",
-      "END_CALL": "Encerrar chamada"
+      "END_CALL": "Encerrar chamada",
+      "MUTE": "Silenciar microfone",
+      "UNMUTE": "Desilenciar microfone",
+      "VIEW_CHAT_HISTORY": "Ver histórico da conversa",
+      "GO_TO_CONVERSATION": "Ir para a conversa"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Problemas do Linear vinculados",
-      "SHOPIFY_ORDERS": "Pedidos do Shopify"
+      "SHOPIFY_ORDERS": "Pedidos do Shopify",
+      "SHARED_FILES": "Anexos"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "Nenhum anexo ainda",
+      "DOWNLOAD": "Baixar arquivo",
+      "DOWNLOAD_ERROR": "Não foi possível baixar o arquivo. Por favor, tente novamente.",
+      "MEDIA_HEADING": "Mídia",
+      "FILES_HEADING": "Arquivos",
+      "VIEW_ALL": "Visualizar tudo",
+      "SHOW_LESS": "Mostrar menos",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Arquivo sem nome"
     },
     "SHOPIFY": {
       "ORDER_ID": "Pedido #{id}",

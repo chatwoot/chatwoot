@@ -46,6 +46,7 @@
           "PLACEHOLDER": "受信トレイを選択"
         },
         "SUBMIT": "作成",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "キャンセル"
       },
       "API": {
