@@ -93,7 +93,8 @@
         "CONVERSION_RATE": "Taxa de conversão",
         "DEALS_WON_HINT": "Leads na coluna \"Ganho\" da pipeline",
         "CONVERSION_RATE_HINT": "% dos disparos feitos que geraram alerta de venda",
-        "BOT_TAKEOVERS_HINT": "Quantidade de alertas enviados ao time"
+        "BOT_TAKEOVERS_HINT": "Quantidade de alertas enviados ao time",
+        "SHOOTS_MONTH_HINT": "Mês corrente (não reage ao filtro)"
       },
       "CHART": {
         "TITLE": "Atividade diária",

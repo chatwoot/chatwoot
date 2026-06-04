@@ -106,6 +106,15 @@ const primaryKpis = computed(() => {
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
+    // Disparos no mês corrente — NÃO reage ao filtro de período da tela
+    // (diferente de SHOOTS_PERIOD, que respeita 7d/30d/90d).
+    {
+      key: 'shoots_month',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_MONTH'),
+      value: formatNumber(k.shoots_month),
+      hint: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_MONTH_HINT'),
+      valueClass: 'text-s-primary',
+    },
     {
       key: 'bot_takeovers',
       label: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS'),
@@ -381,9 +390,9 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <!-- OPERATIONAL STRIP: 3 indicadores de operação, inline -->
+      <!-- OPERATIONAL STRIP: indicadores de operação, inline -->
       <section
-        class="grid grid-cols-3 divide-x divide-s-border bg-s-subtle/50 border-b border-s-border"
+        class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-s-border bg-s-subtle/50 border-b border-s-border"
       >
         <div
           v-for="op in operationalCards"

@@ -93,7 +93,8 @@
         "CONVERSION_RATE": "Conversion rate",
         "DEALS_WON_HINT": "Leads in the pipeline \"Won\" column",
         "CONVERSION_RATE_HINT": "% of outreach that generated a sales alert",
-        "BOT_TAKEOVERS_HINT": "Number of alerts sent to the team"
+        "BOT_TAKEOVERS_HINT": "Number of alerts sent to the team",
+        "SHOOTS_MONTH_HINT": "Current month (not affected by the filter)"
       },
       "CHART": {
         "TITLE": "Daily activity",
