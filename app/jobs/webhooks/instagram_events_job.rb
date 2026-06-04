@@ -1,6 +1,6 @@
 class Webhooks::InstagramEventsJob < MutexApplicationJob
   queue_as :default
-  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
+  retry_on_lock_conflict wait: 1.second, attempts: 8, on_exhaustion: :process_without_lock
 
   # @return [Array] We will support further events like reaction or seen in future
   SUPPORTED_EVENTS = [:message, :read].freeze
@@ -12,6 +12,11 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     with_lock(key) do
       process_entries(entries)
     end
+  end
+
+  def process_without_lock(entries)
+    Rails.logger.warn("[#{self.class.name}] Processing without lock after lock retry exhaustion")
+    process_entries(entries)
   end
 
   # https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
