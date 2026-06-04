@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Conversa",
-      "CONTACT": "Contacte"
+      "CONTACT": "Contacte",
+      "COMPANY": "Companyia"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Llista",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Atributs personalitzats",
       "CONVERSATION": "Conversa",
-      "CONTACT": "Contacte"
+      "CONTACT": "Contacte",
+      "COMPANY": "Companyia"
     },
     "LIST": {
       "TABLE_HEADER": {

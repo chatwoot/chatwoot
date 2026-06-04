@@ -5,6 +5,8 @@ RSpec.describe Integrations::App do
   let(:app) { apps.find(id: app_name) }
   let(:account) { create(:account) }
 
+  before { allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true) }
+
   describe '#name' do
     let(:app_name) { 'slack' }
 

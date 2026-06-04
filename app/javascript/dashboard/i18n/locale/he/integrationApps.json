@@ -46,6 +46,7 @@
           "PLACEHOLDER": "בחר תיבת דואר"
         },
         "SUBMIT": "צור",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "ביטול"
       },
       "API": {

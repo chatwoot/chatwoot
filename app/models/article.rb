@@ -55,10 +55,14 @@ class Article < ApplicationRecord
   before_validation :ensure_article_slug
   before_validation :ensure_locale_in_article
 
+  # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
+  RESERVED_SLUGS = %w[search articles categories].freeze
+
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
   validates :content, presence: true, if: :published?
+  validates :slug, exclusion: { in: RESERVED_SLUGS }
 
   # ensuring that the position is always set correctly
   before_create :add_position_to_article

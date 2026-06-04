@@ -12,10 +12,10 @@ class VoiceAPI extends ApiClient {
     return ContactsAPI.initiateCall(contactId, inboxId).then(r => r.data);
   }
 
-  leaveConference(inboxId, conversationId) {
+  leaveConference({ inboxId, conversationId, callSid }) {
     return axios
       .delete(`${this.baseUrl()}/inboxes/${inboxId}/conference`, {
-        params: { conversation_id: conversationId },
+        params: { conversation_id: conversationId, call_sid: callSid },
       })
       .then(r => r.data);
   }

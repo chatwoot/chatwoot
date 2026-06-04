@@ -136,6 +136,16 @@ export function useContactFilterContext() {
       attributeModel: 'standard',
     },
     {
+      attributeKey: CONTACT_ATTRIBUTES.COMPANY_NAME,
+      value: CONTACT_ATTRIBUTES.COMPANY_NAME,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.COMPANY'),
+      label: t('CONTACTS_LAYOUT.FILTER.COMPANY'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: containmentOperators.value,
+      attributeModel: 'standard',
+    },
+    {
       attributeKey: CONTACT_ATTRIBUTES.CREATED_AT,
       value: CONTACT_ATTRIBUTES.CREATED_AT,
       attributeName: t('CONTACTS_LAYOUT.FILTER.CREATED_AT'),

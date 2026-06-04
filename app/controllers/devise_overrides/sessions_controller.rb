@@ -25,6 +25,14 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   private
 
+  def render_create_error_not_confirmed
+    render_error(
+      :unauthorized,
+      I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
+      error_code: 'user_not_confirmed'
+    )
+  end
+
   def find_user_for_authentication
     return nil unless params[:email].present? && params[:password].present?
 
