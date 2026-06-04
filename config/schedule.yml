@@ -74,3 +74,17 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# executed every minute to trigger scheduled messages
+trigger_scheduled_messages_job:
+  cron: '*/1 * * * *'
+  class: 'ScheduledMessages::TriggerScheduledMessagesJob'
+  queue: scheduled_jobs
+
+# executed daily at 0200 UTC to maintain premium licensing configuration
+check_uno_premium_features_job:
+  cron: '0 2 * * *'
+  class: 'Internal::CheckUnoPremiumFeaturesJob'
+  queue: scheduled_jobs
+
+
