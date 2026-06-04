@@ -94,7 +94,12 @@ module Synapseos
     # Pega 1 alerta por conversa (o mais recente) pra evitar dupla contagem.
     # Defensivo contra metadata mal formado (não-numérico, ausente).
     def sales_alert_revenue(scope)
-      latest_per_conv = scope.select('DISTINCT ON (conversation_id) conversation_id, metadata, created_at')
+      # Exclui eventos órfãos (conversation_id nulo): não são atribuíveis a
+      # uma conversa e o DISTINCT ON colapsaria todos num único grupo nulo,
+      # contando 1 preço fantasma. Alinha com `deals_won`/`bot_takeovers`,
+      # que usam COUNT(DISTINCT conversation_id) — o qual já ignora nulos.
+      latest_per_conv = scope.where.not(conversation_id: nil)
+                             .select('DISTINCT ON (conversation_id) conversation_id, metadata, created_at')
                              .order('conversation_id, created_at DESC')
       latest_per_conv.sum do |ev|
         meta = ev.metadata.is_a?(Hash) ? ev.metadata : {}
