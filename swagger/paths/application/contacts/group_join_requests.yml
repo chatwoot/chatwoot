@@ -1,0 +1,38 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+
+get:
+  tags:
+    - Groups
+  operationId: contact-group-join-requests-list
+  summary: List Group Join Requests
+  description: Retrieves the list of pending join requests for the WhatsApp group.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              payload:
+                type: array
+                items:
+                  type: object
+                  description: A pending join request from the provider
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

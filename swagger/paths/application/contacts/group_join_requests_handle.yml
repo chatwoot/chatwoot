@@ -1,0 +1,47 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+
+post:
+  tags:
+    - Groups
+  operationId: contact-group-join-requests-handle
+  summary: Handle Group Join Requests
+  description: Approves or rejects pending join requests for the WhatsApp group.
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - participants
+            - request_action
+          properties:
+            participants:
+              type: array
+              description: List of participant JIDs or phone numbers to approve/reject
+              items:
+                type: string
+            request_action:
+              type: string
+              enum: ['approve', 'reject']
+              description: Action to take on the join requests
+  responses:
+    '200':
+      description: Join requests handled successfully
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

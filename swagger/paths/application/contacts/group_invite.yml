@@ -1,0 +1,39 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+
+get:
+  tags:
+    - Groups
+  operationId: contact-group-invite-show
+  summary: Get Group Invite Link
+  description: Retrieves the current invite code and full invite URL for the WhatsApp group.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              invite_code:
+                type: string
+                description: The group invite code
+              invite_url:
+                type: string
+                description: Full WhatsApp invite URL (https://chat.whatsapp.com/{code})
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

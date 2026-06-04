@@ -1,0 +1,55 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the group contact
+
+patch:
+  tags:
+    - Groups
+  operationId: contact-group-metadata-update
+  summary: Update Group Metadata
+  description: Updates the group subject and/or description via the WhatsApp provider. At least one of subject or description must be provided.
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            subject:
+              type: string
+              description: New group subject (name)
+            description:
+              type: string
+              description: New group description
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: ID of the contact
+              name:
+                type: string
+                description: Updated name of the contact
+              additional_attributes:
+                type: object
+                description: Additional attributes of the contact
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

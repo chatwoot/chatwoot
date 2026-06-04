@@ -1,0 +1,108 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+
+post:
+  tags:
+    - Contacts
+  operationId: contact-sync-group
+  summary: Sync Group
+  description: Syncs group information for a group contact. Triggers a sync with the channel provider (e.g., WhatsApp) to update group metadata and members across all open/pending conversations. The contact must be a group contact with a valid identifier.
+  security:
+    - userApiKey: []
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              payload:
+                type: object
+                properties:
+                  id:
+                    type: number
+                    description: ID of the contact
+                  name:
+                    type: string
+                    description: Name of the contact
+                  email:
+                    type: string
+                    description: Email of the contact
+                  phone_number:
+                    type: string
+                    description: Phone number of the contact
+                  identifier:
+                    type: string
+                    description: Identifier of the contact
+                  thumbnail:
+                    type: string
+                    description: Thumbnail URL of the contact
+                  custom_attributes:
+                    type: object
+                    description: Custom attributes of the contact
+                  contact_inboxes:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/contact_inboxes'
+                  group_members:
+                    type: array
+                    description: List of group members from the most recent open/pending group conversation
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                          description: ID of the group member record
+                        role:
+                          type: string
+                          enum: ['member', 'admin']
+                          description: Role of the member in the group
+                        is_active:
+                          type: boolean
+                          description: Whether the member is currently active in the group
+                        contact:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                              description: ID of the member contact
+                            name:
+                              type: string
+                              description: Name of the member contact
+                            phone_number:
+                              type: string
+                              description: Phone number of the member contact
+                            identifier:
+                              type: string
+                              description: Identifier of the member contact
+    '400':
+      description: Bad request — contact is not a group, has no identifier, or no supported inbox found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '500':
+      description: Internal server error — channel provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

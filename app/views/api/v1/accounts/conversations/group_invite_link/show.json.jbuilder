@@ -1,0 +1,1 @@
+json.invite_link @conversation.group_invite_link

@@ -1,0 +1,93 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+
+get:
+  tags:
+    - Groups
+  operationId: contact-group-members-list
+  summary: List Group Members
+  description: Lists all active group members for a group contact, with pagination. The inbox's own member is pinned to the top of the first page.
+  security:
+    - userApiKey: []
+  parameters:
+    - name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number
+    - name: per_page
+      in: query
+      schema:
+        type: integer
+        default: 10
+      description: Number of members per page
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              payload:
+                type: array
+                items:
+                  $ref: '#/components/schemas/group_member'
+              meta:
+                type: object
+                properties:
+                  total_count:
+                    type: integer
+                    description: Total number of active members
+                  page:
+                    type: integer
+                  per_page:
+                    type: integer
+                  inbox_phone_number:
+                    type: string
+                    description: Phone number of the inbox (channel)
+    '401':
+      description: Unauthorized
+    '404':
+      description: Contact not found
+
+post:
+  tags:
+    - Groups
+  operationId: contact-group-members-add
+  summary: Add Group Members
+  description: Adds new participants to the WhatsApp group. Expects an array of phone numbers (E.164 format without the + prefix).
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - participants
+          properties:
+            participants:
+              type: array
+              description: Phone numbers to add (e.g. ["5511999999999"])
+              items:
+                type: string
+  responses:
+    '200':
+      description: Members added successfully
+    '401':
+      description: Unauthorized
+    '422':
+      description: Provider unavailable
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

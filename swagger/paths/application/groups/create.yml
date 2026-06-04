@@ -1,0 +1,55 @@
+tags:
+  - Groups
+operationId: create-group
+summary: Create Group
+description: Creates a new WhatsApp group via the channel provider. The authenticated user must have access to the specified inbox.
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - inbox_id
+          - subject
+          - participants
+        properties:
+          inbox_id:
+            type: number
+            description: ID of the inbox (WhatsApp channel) to create the group in
+          subject:
+            type: string
+            description: Subject (name) for the new group
+          participants:
+            type: array
+            description: Phone numbers of initial group participants (E.164 format without +)
+            items:
+              type: string
+responses:
+  '200':
+    description: Group created successfully
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            group_jid:
+              type: string
+              description: The JID of the newly created group
+            subject:
+              type: string
+              description: Subject of the created group
+  '403':
+    description: Forbidden — user does not have access to the inbox
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Provider unavailable
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
