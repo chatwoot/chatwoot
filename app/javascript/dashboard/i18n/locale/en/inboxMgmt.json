@@ -653,6 +653,10 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      },
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "When off, calls from customers to this number are ignored — no ringing, no conversation is created. Agents can still place outgoing calls."
       }
     },
     "WHATSAPP_CALLING": {
@@ -661,6 +665,10 @@
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
       "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "INBOUND": {
+        "LABEL": "Allow incoming calls",
+        "DESCRIPTION": "When off, calls from customers to this number are ignored — no ringing, no conversation is created. Agents can still place outgoing calls."
+      },
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."

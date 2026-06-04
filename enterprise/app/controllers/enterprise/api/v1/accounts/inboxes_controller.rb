@@ -59,8 +59,12 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
   def get_channel_attributes(channel_type)
     attrs = super
-    attrs += [:voice_enabled, :api_key_sid, :api_key_secret] if channel_type == 'Channel::TwilioSms' && @inbox&.channel&.medium == 'sms'
+    attrs += twilio_sms_voice_attrs if channel_type == 'Channel::TwilioSms' && @inbox&.channel&.medium == 'sms'
     attrs
+  end
+
+  def twilio_sms_voice_attrs
+    [:voice_enabled, :api_key_sid, :api_key_secret, { provider_config: {} }]
   end
 
   def create_voice_channel

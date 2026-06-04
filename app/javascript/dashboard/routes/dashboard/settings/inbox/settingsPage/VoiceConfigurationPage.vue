@@ -4,6 +4,7 @@ import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFie
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 export default {
   components: {
@@ -11,6 +12,7 @@ export default {
     SettingsToggleSection,
     NextInput,
     NextButton,
+    Spinner,
   },
   props: {
     inbox: {
@@ -21,9 +23,11 @@ export default {
   data() {
     return {
       voiceEnabled: this.inbox.voice_enabled || false,
+      inboundCallsEnabled: this.inbox.inbound_calls_enabled !== false,
       apiKeySid: this.inbox.api_key_sid || '',
       apiKeySecret: '',
       isUpdating: false,
+      isTogglingInbound: false,
     };
   },
   computed: {
@@ -62,8 +66,35 @@ export default {
     'inbox.api_key_sid'(val) {
       this.apiKeySid = val || '';
     },
+    'inbox.inbound_calls_enabled'(val) {
+      this.inboundCallsEnabled = val !== false;
+    },
   },
   methods: {
+    async handleInboundToggle(newValue) {
+      if (this.isTogglingInbound) return;
+      const previousValue = this.inboundCallsEnabled;
+      this.inboundCallsEnabled = newValue;
+      this.isTogglingInbound = true;
+      try {
+        await this.$store.dispatch('inboxes/updateInbox', {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...this.inbox.provider_config,
+              inbound_calls_enabled: newValue,
+            },
+          },
+        });
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (_) {
+        this.inboundCallsEnabled = previousValue;
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isTogglingInbound = false;
+      }
+    },
     async updateVoiceSettings() {
       this.isUpdating = true;
       try {
@@ -121,6 +152,24 @@ export default {
           $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
         "
       />
+    </div>
+
+    <div
+      v-if="inbox.voice_enabled"
+      class="relative"
+      :class="{ 'pointer-events-none opacity-60': isTogglingInbound }"
+    >
+      <SettingsToggleSection
+        :model-value="inboundCallsEnabled"
+        :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.LABEL')"
+        :description="$t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.DESCRIPTION')"
+        :hide-toggle="isTogglingInbound"
+        @update:model-value="handleInboundToggle"
+      >
+        <template v-if="isTogglingInbound" #hiddenToggle>
+          <Spinner class="size-4 text-n-slate-11" />
+        </template>
+      </SettingsToggleSection>
     </div>
 
     <div v-if="inbox.voice_enabled && inbox.voice_call_webhook_url">
