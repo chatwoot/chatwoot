@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
     },
     "NONE_OPTION": "Ninguna",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversación creada",
       "CONVERSATION_UPDATED": "Conversación actualizada",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Idioma del navegador",
       "MAIL_SUBJECT": "Asunto de Email",
       "COUNTRY_NAME": "País",
+      "COMPANY_NAME": "Empresa",
       "REFERER_LINK": "Enlace de referencia",
       "ASSIGNEE_NAME": "Asignado a",
       "TEAM_NAME": "Equipo",

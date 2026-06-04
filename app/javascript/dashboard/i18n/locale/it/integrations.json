@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Contatto creato",
             "CONTACT_UPDATED": "Contatto aggiornato",
             "CONVERSATION_TYPING_ON": "Digitazione conversazione attiva",
-            "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva"
+            "CONVERSATION_TYPING_OFF": "Digitazione conversazione disattiva",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
@@ -742,12 +743,58 @@
       "SELECT_ALL": "Seleziona tutto ({count})",
       "UNSELECT_ALL": "Deseleziona tutto ({count})",
       "BULK_DELETE_BUTTON": "Elimina",
+      "BULK_SYNC_BUTTON": "Aggiorna",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
         "CONFIRM": "Sì, elimina tutte",
         "SUCCESS_MESSAGE": "Documents deleted successfully",
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Riaggiornamento in coda per 1 documento",
+        "SUCCESS_MESSAGE": "Riaggiornamento in coda per {count} documenti",
+        "ZERO_MESSAGE": "Nessun documento contrassegnato per il riaggiornamento.",
+        "ERROR_MESSAGE": "Si è verificato un errore nella coda di riaggiornamento, riprova."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Riaggiornamento in coda. Il documento verrà aggiornato a breve.",
+        "ERROR_MESSAGE": "Impossibile avviare la coda di riaggiornamento, riprova."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "Tutte le fonti",
+          "WEB": "Pagine web",
+          "PDF": "PDF"
+        },
+        "STATUS": {
+          "ANY": "Tutti gli stati",
+          "UPDATED": "Aggiornato",
+          "NEEDS_UPDATE": "Richiede aggiornamento",
+          "UPDATING": "Aggiornamento in corso",
+          "FAILED": "Non Riuscito"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Aggiornato di recente",
+          "RECENTLY_CREATED": "Creato di recente"
+        },
+        "SEARCH_PLACEHOLDER": "Cerca..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "ultimo aggiornamento {time}",
+        "SYNCING": "aggiornamento...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Sincronizzazione fallita",
+        "NEVER_SYNCED": "non ancora aggiornato"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Pagina non trovata",
+        "ACCESS_DENIED": "Accesso negato",
+        "TIMEOUT": "La pagina ha impiegato troppo tempo per rispondere",
+        "CONTENT_EMPTY": "La pagina ha restituito contenuto vuoto",
+        "FETCH_FAILED": "Impossibile recuperare la pagina",
+        "SYNC_ERROR": "Errore imprevisto",
+        "DEFAULT": "Errore di sincronizzazione"
       },
       "RELATED_RESPONSES": {
         "TITLE": "FAQ Correlate",
@@ -792,11 +839,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Visualizza FAQ Correlate",
+        "SYNC_NOW": "Aggiorna ora",
+        "RETRY_SYNC": "Riprova ad aggiornare",
         "DELETE_DOCUMENT": "Elimina Documento"
       },
       "EMPTY_STATE": {
         "TITLE": "Nessun documento disponibile",
         "SUBTITLE": "I documenti sono utilizzati dal tuo assistente per generare FAQ. Puoi importare documenti per fornire contesto al tuo assistente.",
+        "FILTERED_TITLE": "Nessun documento corrispondente",
+        "FILTERED_SUBTITLE": "Prova a cambiare fonte, stato o chiave di ricerca.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Documento Captain",
           "NOTE": "Un documento in Captain serve come risorsa di knowledge base per l'assistente. Collegando documenti help center e guide, Captain può analizzare il contenuto e fornire risposte accurate per le richieste dei clienti."

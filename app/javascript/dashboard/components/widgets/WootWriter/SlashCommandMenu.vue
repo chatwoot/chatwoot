@@ -61,6 +61,12 @@ const EDITOR_ACTIONS = [
     menuKey: 'insertTable',
   },
   {
+    value: 'imageUpload',
+    labelKey: 'SLASH_COMMANDS.IMAGE',
+    icon: 'i-lucide-image',
+    menuKey: 'imageUpload',
+  },
+  {
     value: 'strike',
     labelKey: 'SLASH_COMMANDS.STRIKETHROUGH',
     icon: 'i-lucide-strikethrough',

@@ -89,7 +89,7 @@ gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
-gem 'jwt'
+gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
@@ -133,9 +133,9 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq', '~> 7.3', '>= 7.3.1'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.12.0'
+gem 'sidekiq-cron', '>= 2.4.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
 
@@ -195,10 +195,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.9.1'
+gem 'ai-agents', '>= 0.10.0'
 
 # TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm', '>= 1.8.2'
+gem 'ruby_llm', '>= 1.14.1'
 gem 'ruby_llm-schema'
 
 gem 'cld3', '~> 3.7'
@@ -208,6 +208,8 @@ gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
+
+gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

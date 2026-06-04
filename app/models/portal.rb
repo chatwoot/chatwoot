@@ -42,11 +42,12 @@ class Portal < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
   validates :custom_domain, uniqueness: true, allow_nil: true
+  validates :color, format: { with: /\A#(?:\h{3}|\h{6})\z/ }, allow_blank: true
   validate :config_json_format
 
   scope :active, -> { where(archived: false) }
 
-  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token].freeze
+  CONFIG_JSON_KEYS = %w[allowed_locales default_locale draft_locales website_token social_profiles layout].freeze
 
   def file_base_data
     {
@@ -94,15 +95,23 @@ class Portal < ApplicationRecord
     page_title.presence || name
   end
 
+  def layout
+    config_value('layout').presence || 'classic'
+  end
+
+  def social_profiles
+    config_value('social_profiles') || {}
+  end
+
   private
 
   def config_json_format
-    self.config = (config || {}).deep_stringify_keys
+    self.config = persisted_config.merge((config || {}).deep_stringify_keys)
     config['allowed_locales'] = allowed_locale_codes
     config['default_locale'] = default_locale
     config['draft_locales'] = draft_locale_codes
     denied_keys = config.keys - CONFIG_JSON_KEYS
-    errors.add(:cofig, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
+    errors.add(:config, "in portal on #{denied_keys.join(',')} is not supported.") if denied_keys.any?
     errors.add(:config, 'default locale cannot be drafted.') if draft_locale?(default_locale)
   end
 

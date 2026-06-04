@@ -17,15 +17,12 @@ module Api::V1::InboxesHelper
   def validate_imap(channel_data)
     return unless channel_data.key?('imap_enabled') && channel_data[:imap_enabled]
 
-    Mail.defaults do
-      retriever_method :imap, { address: channel_data[:imap_address],
-                                port: channel_data[:imap_port],
-                                user_name: channel_data[:imap_login],
-                                password: channel_data[:imap_password],
-                                enable_ssl: channel_data[:imap_enable_ssl] }
-    end
+    # Validate the user-selected auth mechanism before opening the connection.
+    authentication = Imap::Authentication.validate_user_configurable!(channel_data[:imap_authentication])
 
-    check_imap_connection(channel_data)
+    # Use the same auth adapter as the fetch service so LOGIN uses the IMAP LOGIN command,
+    # not SASL AUTH=LOGIN.
+    check_imap_connection(channel_data, authentication)
   end
 
   def validate_smtp(channel_data)
@@ -37,8 +34,8 @@ module Api::V1::InboxesHelper
     check_smtp_connection(channel_data, smtp)
   end
 
-  def check_imap_connection(channel_data)
-    Mail.connection {} # rubocop:disable:block
+  def check_imap_connection(channel_data, authentication)
+    imap = open_imap_connection(channel_data, authentication)
   rescue SocketError => e
     raise StandardError, I18n.t('errors.inboxes.imap.socket_error')
   rescue Net::IMAP::NoResponseError => e
@@ -53,7 +50,18 @@ module Api::V1::InboxesHelper
   rescue StandardError => e
     raise StandardError, e.message
   ensure
+    imap.disconnect if imap.present? && !imap.disconnected?
     Rails.logger.error "[Api::V1::InboxesHelper] check_imap_connection failed with #{e.message}" if e.present?
+  end
+
+  def open_imap_connection(channel_data, authentication)
+    imap = build_imap_connection(channel_data)
+    Imap::Authentication.authenticate!(imap, authentication, channel_data[:imap_login], channel_data[:imap_password])
+    imap
+  end
+
+  def build_imap_connection(channel_data)
+    Net::IMAP.new(channel_data[:imap_address], port: channel_data[:imap_port], ssl: channel_data[:imap_enable_ssl])
   end
 
   def check_smtp_connection(channel_data, smtp)

@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "هنگام حذف ماکرو خطایی رخ داد. لطفا بعدا دوباره امتحان کنید"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "ویرایش ماکرو",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "دید ماکرو",
         "GLOBAL": {
           "LABEL": "عمومی",
-          "DESCRIPTION": "این ماکرو به صورت عمومی برای همه نمایندگان این حساب در دسترس است."
+          "DESCRIPTION": "این ماکرو به صورت عمومی برای همه نمایندگان این حساب در دسترس است.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "خصوصی",

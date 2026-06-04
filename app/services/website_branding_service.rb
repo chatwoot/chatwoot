@@ -1,3 +1,5 @@
+require 'resolv'
+
 class WebsiteBrandingService
   include SocialLinkParser
 
@@ -24,7 +26,8 @@ class WebsiteBrandingService
                           colors: extract_colors(doc),
                           logos: extract_logos(doc),
                           socials: build_socials(links),
-                          email: @email
+                          email: @email,
+                          email_provider: detect_email_provider
                         })
   rescue StandardError => e
     Rails.logger.error "[WebsiteBranding] #{e.message}"
@@ -103,6 +106,37 @@ class WebsiteBrandingService
     URI.join(@url, url).to_s
   rescue URI::InvalidURIError
     nil
+  end
+
+  GOOGLE_MX_DOMAINS = %w[google.com googlemail.com].freeze
+  MICROSOFT_MX_DOMAINS = %w[outlook.com].freeze
+
+  # Probes the domain's MX records to infer the mailbox provider, returning
+  # 'google' or 'microsoft' (matching Channel::Email#provider) or nil when unknown.
+  def detect_email_provider
+    hosts = mx_records
+    return 'google' if mx_hosted_by?(hosts, GOOGLE_MX_DOMAINS)
+    return 'microsoft' if mx_hosted_by?(hosts, MICROSOFT_MX_DOMAINS)
+
+    nil
+  end
+
+  # Matches on the registrable domain of the MX host (anchored on a label
+  # boundary) so lookalikes like "notgoogle.com" don't get misclassified.
+  def mx_hosted_by?(hosts, provider_domains)
+    hosts.any? do |host|
+      provider_domains.any? { |domain| host == domain || host.end_with?(".#{domain}") }
+    end
+  end
+
+  def mx_records
+    Resolv::DNS.open do |resolver|
+      resolver.timeouts = 5
+      resolver.getresources(@domain, Resolv::DNS::Resource::IN::MX).map { |record| record.exchange.to_s.downcase }
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WebsiteBranding] MX probe failed for #{@domain}: #{e.message}"
+    []
   end
 end
 
