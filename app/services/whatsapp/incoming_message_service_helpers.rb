@@ -82,4 +82,13 @@ module Whatsapp::IncomingMessageServiceHelpers
 
     Whatsapp::MessageDedupLock.new(messages_data.first[:id]).acquire!
   end
+
+  # Click-to-WhatsApp (CTWA) ads attach a `referral` object to the very
+  # first inbound message.
+  # We extract and save it inside Message#content_attributes['referral'] so downstream
+  # consumers know which ad context brought the customer in.
+  def process_referral(message)
+    referral = message['referral']
+    @referral = referral.is_a?(Hash) ? referral.deep_dup : nil
+  end
 end

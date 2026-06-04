@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 
 import MessageMeta from '../MessageMeta.vue';
+import AdReferralCard from '../AdReferralCard.vue';
 
 import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
@@ -9,14 +10,20 @@ import { useI18n } from 'vue-i18n';
 
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
+import { MESSAGE_TYPES, MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
 const props = defineProps({
   hideMeta: { type: Boolean, default: false },
 });
 
-const { variant, orientation, inReplyTo, shouldGroupWithNext } =
-  useMessageContext();
+const {
+  variant,
+  orientation,
+  inReplyTo,
+  shouldGroupWithNext,
+  contentAttributes,
+  messageType,
+} = useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
@@ -91,6 +98,27 @@ const replyToPreview = computed(() => {
 
   return t('CONVERSATION.REPLY_MESSAGE_NOT_FOUND');
 });
+
+// Surface the Click-to-WhatsApp ad referral block (persisted by
+// Whatsapp::IncomingMessageBaseService#process_referral) on the very
+// first inbound bubble of an ad-originated conversation. Outbound and
+// activity messages never carry a referral, so we gate by message type
+// to keep the contract narrow.
+const adReferral = computed(() => {
+  if (messageType.value !== MESSAGE_TYPES.INCOMING) return null;
+  const referral = contentAttributes.value?.referral;
+  if (!referral || typeof referral !== 'object') return null;
+  const hasIdentifyingField =
+    referral.headline ||
+    referral.body ||
+    referral.source_url ||
+    referral.source_id ||
+    referral.image_url ||
+    referral.image ||
+    referral.media_url ||
+    referral.thumbnail_url;
+  return hasIdentifyingField ? referral : null;
+});
 </script>
 
 <template>
@@ -113,6 +141,7 @@ const replyToPreview = computed(() => {
         class="prose prose-bubble line-clamp-2"
       />
     </div>
+    <AdReferralCard v-if="adReferral" :referral="adReferral" />
     <slot />
     <MessageMeta
       v-if="shouldShowMeta"
