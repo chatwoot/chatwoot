@@ -179,11 +179,14 @@ const disableLocaleMenuItems = menuItems =>
 
 export const buildLocaleMenuItems = ({ isDefault, isDraft }) => {
   if (isDefault) {
-    return disableLocaleMenuItems([
-      LOCALE_MENU_ITEMS.makeDefault,
-      LOCALE_MENU_ITEMS.moveToDraft,
-      LOCALE_MENU_ITEMS.delete,
-    ]);
+    return [
+      ...disableLocaleMenuItems([
+        LOCALE_MENU_ITEMS.makeDefault,
+        LOCALE_MENU_ITEMS.moveToDraft,
+      ]),
+      LOCALE_MENU_ITEMS.customizeContent,
+      ...disableLocaleMenuItems([LOCALE_MENU_ITEMS.delete]),
+    ];
   }
 
   if (isDraft) {
