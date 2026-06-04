@@ -20,6 +20,8 @@
     "CALL": "Telefono",
     "CALL_INITIATED": "Duke thirrur kontaktin…",
     "CALL_FAILED": "Nuk mund të fillohet thirrja. Ju lutemi provoni përsëri.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Zgjidhni një inbox të zërit"
@@ -583,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Cakto Etiketa",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etiketat u caktuan me sukses.",
     "ASSIGN_LABELS_FAILED": "Dështoi caktimi i etiketave",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Zgjidhni etiketat që dëshironi të shtoni te kontaktet e zgjedhura.",
     "NO_LABELS_FOUND": "Nuk ka etiketa të disponueshme ende.",
     "SELECTED_COUNT": "{count} i/e zgjedhur",

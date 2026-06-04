@@ -20,6 +20,8 @@
     "CALL": "Tawagan",
     "CALL_INITIATED": "Tinutawagan ang kontak…",
     "CALL_FAILED": "Hindi masimulan ang tawag. Pakisubukang muli.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Pumili ng voice inbox"
@@ -583,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Magtalaga ng mga label",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Matagumpay na naitalaga ang mga label.",
     "ASSIGN_LABELS_FAILED": "Nabigong italaga ang mga label",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Piliin ang mga label na nais mong idagdag sa mga napiling contact.",
     "NO_LABELS_FOUND": "Walang magagamit na mga label pa.",
     "SELECTED_COUNT": "{count} napili",

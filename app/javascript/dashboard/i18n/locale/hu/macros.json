@@ -71,7 +71,7 @@
           "LABEL": "Nyilvános",
           "DESCRIPTION": "Ez a makró nyilvánosan elérhető minden ügynök számára ebben a fiókban.",
           "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
-          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
+          "EDIT_DISABLED_DESCRIPTION": "Csak adminisztrátorok tudnak publikus makrókat szerkeszteni."
         },
         "PERSONAL": {
           "LABEL": "Privát",
