@@ -89,7 +89,9 @@ module Synapseos
         # human_rescues mantido por backcompat; frontend não exibe mais.
         human_rescues: events_of('human_rescue').count,
         ai_responses: messages.where(sender_type: 'AgentBot').count,
-        appointments: events_of('appointment_confirmed').count,
+        # Agendamentos = leads na coluna "Aguardando visita" da pipeline
+        # (fonte de verdade do consultor), não eventos appointment_confirmed.
+        appointments: aguardando_visita_leads_count,
         conversion_rate: conversion_rate,
       }
     end
@@ -176,6 +178,14 @@ module Synapseos
       return 0 if won_ids.empty?
 
       ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: won_ids).count
+    end
+
+    # Agendamentos = leads atualmente na coluna "Aguardando visita".
+    def aguardando_visita_leads_count
+      stage = ::Synapseos::PipelineStage.find_by(account_id: @account.id, slug: 'aguardando_visita')
+      return 0 unless stage
+
+      ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: stage.id).count
     end
 
     def shoots_month_count
