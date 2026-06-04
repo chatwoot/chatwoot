@@ -137,6 +137,7 @@ Rails.application.routes.draw do
               get :search
               get :unread_counts, to: 'conversations/unread_counts#index'
               post :filter
+              post :groups, to: 'conversations/groups#create'
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy, :update] do
@@ -145,11 +146,25 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
+              resources :scheduled_messages, only: [:index, :create, :update, :destroy]
+              resources :recurring_scheduled_messages, only: [:index, :create, :update, :destroy]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resources :group_contacts, only: [:index, :create] do
+                delete :destroy, on: :collection
+              end
+              resource :group, only: [:show, :update], controller: :group do
+                post :sync
+                resource :invite_link, only: [:show], controller: :group_invite_link do
+                  post :reset
+                end
+                resources :join_requests, only: [:index, :create], controller: :group_join_requests do
+                  delete :destroy, on: :collection
+                end
+              end
             end
             member do
               post :mute
@@ -406,10 +421,26 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
+
+          # Omni-AI Comments Page proxy
+          scope module: :omni_ai do
+            get  'omni_ai/comments_page/stats',                    to: 'comments_proxy#stats'
+            get  'omni_ai/comments_page/by-post',                  to: 'comments_proxy#by_post'
+            get  'omni_ai/comments_page/post/:post_id',            to: 'comments_proxy#post_comments'
+            get  'omni_ai/comments_page/post-info/:post_id',       to: 'comments_proxy#post_info'
+            get  'omni_ai/comments_page/commenter/:commenter_id',  to: 'comments_proxy#commenter_history'
+            put  'omni_ai/comments_page/:id/reply',                to: 'comments_proxy#reply'
+            post 'omni_ai/comments_page/:comment_id/dm',           to: 'comments_proxy#send_dm'
+            get  'omni_ai/comments_page',                          to: 'comments_proxy#index'
+          end
         end
       end
       # end of account scoped api routes
       # ----------------------------------
+
+      post 'omni_ai/comment_reply', to: 'omni_ai/comment_replies#create'
+      post 'omni_ai/private_reply', to: 'omni_ai/private_replies#create'
+      get  'omni_ai/post_info',     to: 'omni_ai/post_info#show'
 
       namespace :integrations do
         resources :webhooks, only: [:create]
