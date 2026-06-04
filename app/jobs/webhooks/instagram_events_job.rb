@@ -6,8 +6,9 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   # the same IG contact can create duplicate conversations.
   #
   # ActiveJob retries are not FIFO, so a longer retry window does not preserve message
-  # order. After a few bumps, process without the lock instead of dropping the webhook.
-  retry_on_lock_conflict wait: 1.second, attempts: 3, on_exhaustion: :process_without_lock
+  # order. Use deterministic backoff so the final attempt happens after the 3s lock TTL,
+  # then process without the lock instead of dropping the webhook.
+  retry_on_lock_conflict wait: ->(executions) { executions.seconds }, attempts: 3, on_exhaustion: :process_without_lock
 
   # @return [Array] We will support further events like reaction or seen in future
   SUPPORTED_EVENTS = [:message, :read].freeze
