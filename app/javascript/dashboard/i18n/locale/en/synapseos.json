@@ -90,7 +90,10 @@
         "HUMAN_RESCUES": "Human → Elisa rescues",
         "AI_RESPONSES": "AI responses",
         "APPOINTMENTS": "Appointments",
-        "CONVERSION_RATE": "Conversion rate"
+        "CONVERSION_RATE": "Conversion rate",
+        "DEALS_WON_HINT": "Leads in the pipeline \"Won\" column",
+        "CONVERSION_RATE_HINT": "% of outreach that generated a sales alert",
+        "BOT_TAKEOVERS_HINT": "Number of alerts sent to the team"
       },
       "CHART": {
         "TITLE": "Daily activity",

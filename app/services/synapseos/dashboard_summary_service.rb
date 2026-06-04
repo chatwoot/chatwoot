@@ -61,7 +61,9 @@ module Synapseos
         # Negócios ganhos = alertas únicos de venda no período. Cada alerta
         # = oportunidade qualificada passada ao time. Cliente quer ver isso
         # como métrica principal (não o legacy `won_deals.count`).
-        deals_won: unique_alert_convs,
+        # Negócios ganhos = leads na coluna "ganho" da pipeline (stage_type
+        # 'won', ex: 'venda'). Fonte de verdade do consultor, não os alertas.
+        deals_won: won_stage_leads_count,
         # Negócios perdidos = leads que bloquearam contato (recusa explícita).
         # n8n handler cria event lead_blocked quando audi_block_lead dispara.
         deals_lost: events_of('lead_blocked').distinct.count('conversation_id'),
@@ -164,6 +166,16 @@ module Synapseos
 
     def leads_scope
       ::Synapseos::Lead.where(account_id: @account.id, created_at: @range)
+    end
+
+    # Negócios ganhos = leads atualmente em qualquer stage do tipo 'won'
+    # (coluna "ganho" da pipeline). Contagem corrente (não filtra período),
+    # pois o pipeline é fonte de verdade do estado atual.
+    def won_stage_leads_count
+      won_ids = ::Synapseos::PipelineStage.where(account_id: @account.id, stage_type: 'won').pluck(:id)
+      return 0 if won_ids.empty?
+
+      ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: won_ids).count
     end
 
     def shoots_month_count

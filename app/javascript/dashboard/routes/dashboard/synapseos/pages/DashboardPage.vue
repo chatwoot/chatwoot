@@ -68,12 +68,12 @@ const primaryKpis = computed(() => {
       icon: 'i-lucide-zap',
       tone: 'brand',
     },
-    // Negócios ganhos = quantidade de alertas únicos enviados ao time
-    // (cada conversa = 1 oportunidade qualificada).
+    // Negócios ganhos = leads na coluna "Ganho" da pipeline (stage_type 'won').
     {
       key: 'deals_won',
       label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_WON'),
       value: formatNumber(k.deals_won),
+      hint: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_WON_HINT'),
       icon: 'i-lucide-trophy',
       tone: 'success',
     },
@@ -90,58 +90,19 @@ const primaryKpis = computed(() => {
       key: 'conversion_rate',
       label: t('SYNAPSEOS.DASHBOARD.KPI.CONVERSION_RATE'),
       value: formatPercent(k.conversion_rate),
+      hint: t('SYNAPSEOS.DASHBOARD.KPI.CONVERSION_RATE_HINT'),
       icon: 'i-lucide-trending-up',
       tone: 'brand',
     },
   ];
 });
 
-const secondaryKpis = computed(() => {
-  const k = summary.value?.kpis || {};
-  return [
-    {
-      key: 'leads',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.LEADS'),
-      value: formatNumber(k.leads),
-      icon: 'i-lucide-target',
-      tone: 'brand',
-    },
-    {
-      key: 'messages_received',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_RECEIVED'),
-      value: formatNumber(k.messages_received),
-      icon: 'i-lucide-message-square',
-      tone: 'neutral',
-    },
-    {
-      key: 'messages_sent',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.MESSAGES_SENT'),
-      value: formatNumber(k.messages_sent),
-      icon: 'i-lucide-send',
-      tone: 'neutral',
-    },
-    {
-      key: 'ai_responses',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.AI_RESPONSES'),
-      value: formatNumber(k.ai_responses),
-      icon: 'i-lucide-sparkles',
-      tone: 'brand',
-    },
-    {
-      key: 'appointments',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.APPOINTMENTS'),
-      value: formatNumber(k.appointments),
-      icon: 'i-lucide-calendar-check',
-      tone: 'warning',
-    },
-  ];
-});
-
-// Operacionais — só 2 cards agora:
-// - BOT → ATENDIMENTO HUMANO (alertas únicos disparados ao time)
-// - DEALS_LOST: clientes que recusaram contato (lead_blocked events)
-// Removido HUMAN_RESCUES (era "humano devolveu pro bot" — métrica
-// confusa que não agregava insight de produto).
+// Operacionais (dash executivo — 3 cards):
+// - ELISA → ATENDIMENTO HUMANO: qtd de alertas enviados ao time.
+// - NEGÓCIOS PERDIDOS: clientes que recusaram contato (lead_blocked).
+// - AGENDAMENTOS: visitas confirmadas.
+// Removidos do dash executivo (não são métricas de negócio): Leads,
+// Mensagens recebidas/enviadas, Respostas da IA.
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
@@ -149,6 +110,7 @@ const operationalCards = computed(() => {
       key: 'bot_takeovers',
       label: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS'),
       value: formatNumber(k.bot_takeovers),
+      hint: t('SYNAPSEOS.DASHBOARD.KPI.BOT_TAKEOVERS_HINT'),
       valueClass: 'text-s-warning-text',
     },
     {
@@ -156,6 +118,12 @@ const operationalCards = computed(() => {
       label: t('SYNAPSEOS.DASHBOARD.KPI.DEALS_LOST'),
       value: formatNumber(k.deals_lost),
       valueClass: 'text-s-primary',
+    },
+    {
+      key: 'appointments',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.APPOINTMENTS'),
+      value: formatNumber(k.appointments),
+      valueClass: 'text-s-secondary',
     },
   ];
 });
@@ -404,31 +372,12 @@ onBeforeUnmount(() => {
           >
             {{ kpi.value }}
           </div>
-        </div>
-      </section>
-
-      <!-- SECONDARY STRIP: 4 KPIs auxiliares, mesmo pattern mais compacto -->
-      <section
-        class="grid grid-cols-2 lg:grid-cols-4 divide-x divide-s-border bg-s-surface/60 border-b border-s-border"
-      >
-        <div
-          v-for="kpi in secondaryKpis"
-          :key="kpi.key"
-          class="px-4 md:px-6 py-3 flex items-center justify-between gap-3 min-w-0"
-        >
-          <div class="flex flex-col min-w-0">
-            <span
-              class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate"
-            >
-              {{ kpi.label }}
-            </span>
-            <span
-              class="text-lg font-semibold text-s-secondary tabular-nums leading-tight truncate"
-            >
-              {{ kpi.value }}
-            </span>
-          </div>
-          <span class="size-4 shrink-0 text-s-muted" :class="[kpi.icon]" />
+          <p
+            v-if="kpi.hint"
+            class="text-[10px] text-s-muted leading-snug"
+          >
+            {{ kpi.hint }}
+          </p>
         </div>
       </section>
 
@@ -441,13 +390,21 @@ onBeforeUnmount(() => {
           :key="op.key"
           class="px-4 md:px-6 py-2.5 flex items-center justify-between gap-2 min-w-0"
         >
+          <div class="flex flex-col min-w-0">
+            <span
+              class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate"
+            >
+              {{ op.label }}
+            </span>
+            <span
+              v-if="op.hint"
+              class="text-[10px] text-s-muted/80 leading-snug truncate"
+            >
+              {{ op.hint }}
+            </span>
+          </div>
           <span
-            class="text-[10px] font-semibold uppercase tracking-wider text-s-muted truncate"
-          >
-            {{ op.label }}
-          </span>
-          <span
-            class="text-sm font-semibold tabular-nums"
+            class="text-sm font-semibold tabular-nums shrink-0"
             :class="[op.valueClass]"
           >
             {{ op.value }}
