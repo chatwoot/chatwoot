@@ -1,15 +1,16 @@
 class Voice::OutboundCallBuilder
   attr_reader :account, :inbox, :user, :contact
 
-  def self.perform!(account:, inbox:, user:, contact:)
-    new(account: account, inbox: inbox, user: user, contact: contact).perform!
+  def self.perform!(account:, inbox:, user:, contact:, conversation: nil)
+    new(account: account, inbox: inbox, user: user, contact: contact, conversation: conversation).perform!
   end
 
-  def initialize(account:, inbox:, user:, contact:)
+  def initialize(account:, inbox:, user:, contact:, conversation: nil)
     @account = account
     @inbox = inbox
     @user = user
     @contact = contact
+    @existing_conversation = conversation
   end
 
   def perform!
@@ -18,7 +19,7 @@ class Voice::OutboundCallBuilder
 
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
-      conversation = create_conversation!(contact_inbox)
+      conversation = @existing_conversation || create_conversation!(contact_inbox)
       call_sid = initiate_call!
       call = create_call!(conversation, call_sid)
       message = Voice::CallMessageBuilder.new(call).perform!

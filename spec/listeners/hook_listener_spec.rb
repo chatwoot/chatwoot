@@ -84,6 +84,13 @@ describe HookListener do
 
         listener.message_created(event)
       end
+
+      it 'enqueues the job for linear' do
+        hook = create(:integrations_hook, :linear, account: account)
+        expect(HookJob).to receive(:perform_later).with(hook, event_name, message: message, previous_changes: nil)
+
+        listener.message_created(event)
+      end
     end
 
     context 'with disabled hook' do

@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "Autenticazione con Meta",
           "WAITING_FOR_BUSINESS_INFO": "Completa la configurazione aziendale nella finestra Meta...",
           "PROCESSING": "Configurazione del tuo account WhatsApp Business",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Caricamento del Facebook SDK...",
           "CANCELLED": "Registrazione WhatsApp annullata",
           "SUCCESS_TITLE": "Account WhatsApp Business connesso!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "Autenticazione non completata. Riavvia il processo.",
           "SUCCESS_FALLBACK": "Account WhatsApp Business è stato configurato con successo",
           "MANUAL_FALLBACK": "Se il tuo numero è già connesso alla WhatsApp Business Platform (API), o se sei un provider tecnologico, si prega di utilizzare il {link}",
-          "MANUAL_LINK_TEXT": "flow di registrazione manuale"
+          "MANUAL_LINK_TEXT": "flow di registrazione manuale",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "Impossibile salvare il canale WhatsApp"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Supporta i tuoi clienti su WhatsApp"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "Chiamata WhatsApp",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -636,7 +642,38 @@
       "WIDGET_BUILDER": "Costruttore Widget",
       "BOT_CONFIGURATION": "Configurazione Bot",
       "ACCOUNT_HEALTH": "Account Health",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "Voce",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Abilita Chiamate Vocali",
+        "DESCRIPTION": "Abilita le chiamate vocali su questa inbox. Gli operatori saranno in grado di effettuare e ricevere chiamate."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Le chiamate vocali richiedono credenziali API di Twilio. Queste vengono usate per generare token per le connessioni voce."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "Vorremmo chiamarti riguardo alla tua conversazione."
+      }
     },
     "CHANNEL_PREFERENCES": "Preferenze Canali",
     "WIDGET_FEATURES": "Funzionalità Widget",
@@ -745,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "Abilita/Disabilita la visualizzazione del nome dell'Operatore nelle email. Se disabilitato, verrà mostrato il nome dell'azienda",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "Questa funzione è disponibile sui piani a pagamento. Aggiorna per abilitare la continuità della conversazione via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Routing Conversazioni",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Gestisci come vengono create le conversazioni per i contatti esistenti",
       "INBOX_UPDATE_TITLE": "Impostazioni Inbox",
@@ -789,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Sincronizza manualmente i modelli di messaggi da WhatsApp per aggiornare i modelli disponibili.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sincronizza Modelli",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sincronizzazione modelli iniziata. Potrebbe volerci qualche minuto per aggiornare.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Aggiorna le Impostazioni del Modulo Pre Chat"
     },
     "HELP_CENTER": {
@@ -1000,7 +1042,8 @@
         "LABEL": "Password",
         "PLACE_HOLDER": "Password"
       },
-      "ENABLE_SSL": "Abilita SSL"
+      "ENABLE_SSL": "Abilita SSL",
+      "AUTH_MECHANISM": "Autenticazione"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
