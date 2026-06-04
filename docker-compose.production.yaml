@@ -57,7 +57,20 @@ services:
     ports:
       - '127.0.0.1:6379:6379'
 
+  unoapi:
+    image: clairton/unoapi-cloud:latest
+    platform: linux/amd64
+    restart: always
+    environment:
+      - PORT=9876
+      - UNOAPI_AUTH_TOKEN=${UNOAPI_API_KEY}
+    ports:
+      - '127.0.0.1:9876:9876'
+    volumes:
+      - unoapi_data:/app/data
+
 volumes:
   storage_data:
   postgres_data:
   redis_data:
+  unoapi_data:
