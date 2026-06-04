@@ -21,6 +21,20 @@ module Enterprise::Api::V1::Accounts::InboxesController
     render_could_not_create_error(e.message)
   end
 
+  # Toggles only the inbound-calls flag in provider_config. Saved with validate: false
+  # so WhatsApp's remote credential re-check (validate_provider_config) can't reject a
+  # simple toggle, mirroring enable_voice_calling!.
+  def set_inbound_calls
+    channel = @inbox.channel
+    channel.provider_config = (channel.provider_config || {}).merge(
+      'inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled])
+    )
+    channel.save!(validate: false)
+    head :ok
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
   def ee_inbox_attributes
     [auto_assignment_config: [:max_assignment_limit]]
   end
@@ -59,12 +73,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
   def get_channel_attributes(channel_type)
     attrs = super
-    attrs += twilio_sms_voice_attrs if channel_type == 'Channel::TwilioSms' && @inbox&.channel&.medium == 'sms'
+    attrs += [:voice_enabled, :api_key_sid, :api_key_secret] if channel_type == 'Channel::TwilioSms' && @inbox&.channel&.medium == 'sms'
     attrs
-  end
-
-  def twilio_sms_voice_attrs
-    [:voice_enabled, :api_key_sid, :api_key_secret, { provider_config: {} }]
   end
 
   def create_voice_channel

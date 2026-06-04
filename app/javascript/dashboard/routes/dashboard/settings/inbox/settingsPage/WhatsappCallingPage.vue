@@ -58,16 +58,8 @@ export default {
       this.inboundCallsEnabled = newValue;
       this.isTogglingInbound = true;
       try {
-        await this.$store.dispatch('inboxes/updateInbox', {
-          id: this.inbox.id,
-          formData: false,
-          channel: {
-            provider_config: {
-              ...this.inbox.provider_config,
-              inbound_calls_enabled: newValue,
-            },
-          },
-        });
+        await InboxesAPI.setInboundCalls(this.inbox.id, newValue);
+        await this.$store.dispatch('inboxes/get', this.inbox.id);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (_) {
         this.inboundCallsEnabled = previousValue;
