@@ -89,22 +89,27 @@ describe('PortalHelper', () => {
       );
     });
 
-    it('returns publish and delete actions for draft locales', () => {
+    it('returns publish, customize, and delete actions for draft locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: true,
         }).map(({ action }) => action)
-      ).toEqual(['publish-locale', 'delete']);
+      ).toEqual(['publish-locale', 'customize-content', 'delete']);
     });
 
-    it('returns default, draft, and delete actions for live locales', () => {
+    it('returns default, draft, customize, and delete actions for live locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: false,
         }).map(({ action }) => action)
-      ).toEqual(['change-default', 'move-to-draft', 'delete']);
+      ).toEqual([
+        'change-default',
+        'move-to-draft',
+        'customize-content',
+        'delete',
+      ]);
     });
   });
 });
