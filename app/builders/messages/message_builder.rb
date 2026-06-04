@@ -140,11 +140,12 @@ class Messages::MessageBuilder
   end
 
   def message_params
-    content = @params[:content]
-    if message_type == 'outgoing' && !@private && content.present? && @conversation.inbox.additional_attributes&.dig('signature').present?
-      signature = @conversation.inbox.additional_attributes['signature']
-      content = "#{content}\n\n#{signature}"
-    end
+    content = Plus::MessageSignatureAppender.call(
+      content: @params[:content],
+      conversation: @conversation,
+      message_type: message_type,
+      private_message: @private
+    )
 
     {
       account_id: @conversation.account_id,

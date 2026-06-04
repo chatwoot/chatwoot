@@ -22,6 +22,66 @@ describe Messages::MessageBuilder do
     end
   end
 
+  describe 'message signature appending' do
+    before do
+      conversation.inbox.define_singleton_method(:additional_attributes) { { 'signature' => 'Best regards' } }
+    end
+
+    it 'appends the inbox signature to outgoing public messages' do
+      message = message_builder
+
+      expect(message.content).to eq "test\n\nBest regards"
+    end
+
+    context 'when the message is private' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           private: true
+                                         })
+      end
+
+      it 'does not append the inbox signature' do
+        message = message_builder
+
+        expect(message.content).to eq 'test'
+      end
+    end
+
+    context 'when the message is incoming' do
+      let(:channel_api) { create(:channel_api, account: account) }
+      let(:conversation) { create(:conversation, inbox: channel_api.inbox, account: account) }
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: 'test',
+                                           message_type: 'incoming'
+                                         })
+      end
+
+      before do
+        conversation.inbox.define_singleton_method(:additional_attributes) { { 'signature' => 'Best regards' } }
+      end
+
+      it 'does not append the inbox signature' do
+        message = message_builder
+
+        expect(message.content).to eq 'test'
+      end
+    end
+
+    context 'when the inbox has no signature' do
+      before do
+        conversation.inbox.define_singleton_method(:additional_attributes) { {} }
+      end
+
+      it 'does not append the inbox signature' do
+        message = message_builder
+
+        expect(message.content).to eq 'test'
+      end
+    end
+  end
+
   describe '#content_attributes' do
     context 'when content_attributes is a JSON string' do
       let(:params) do
