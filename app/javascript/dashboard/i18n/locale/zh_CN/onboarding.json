@@ -1,34 +1,34 @@
 {
   "ONBOARDING_NEXT": {
-    "GREETING": "Hello {name}!",
-    "SUBTITLE": "Please review the following details",
-    "YOUR_DETAILS": "Your details",
-    "COMPANY_DETAILS": "Company details",
+    "GREETING": "你好，{name}！",
+    "SUBTITLE": "请检查以下信息",
+    "YOUR_DETAILS": "您的信息",
+    "COMPANY_DETAILS": "公司信息",
     "FIELDS": {
-      "EMAIL": "Email",
-      "YOUR_ROLE": "Your Role",
+      "EMAIL": "电子邮件",
+      "YOUR_ROLE": "您的角色",
       "WEBSITE": "网站",
       "LANGUAGE": "语言",
       "TIMEZONE": "时区",
-      "COMPANY_SIZE": "Company Size",
-      "INDUSTRY": "Industry",
-      "REFERRAL_SOURCE": "Where did you find us?"
+      "COMPANY_SIZE": "公司规模",
+      "INDUSTRY": "行业",
+      "REFERRAL_SOURCE": "您是如何找到我们的？"
     },
     "PLACEHOLDERS": {
-      "SELECT_ROLE": "Select your role",
+      "SELECT_ROLE": "请选择您的角色",
       "ENTER_WEBSITE": "www.example.com",
-      "SELECT_LANGUAGE": "Select language",
+      "SELECT_LANGUAGE": "请选择语言",
       "SELECT_TIMEZONE": "选择时区",
-      "SELECT_COMPANY_SIZE": "Select company size",
-      "SELECT_INDUSTRY": "Select industry",
-      "SELECT_REFERRAL_SOURCE": "Select source"
+      "SELECT_COMPANY_SIZE": "请选择公司规模",
+      "SELECT_INDUSTRY": "请选择行业",
+      "SELECT_REFERRAL_SOURCE": "请选择来源"
     },
-    "EMAIL_VERIFIED": "Email verified",
-    "SETTING_UP": "Setting up your account...",
-    "CONTINUE": "Continue",
+    "EMAIL_VERIFIED": "邮箱已验证",
+    "SETTING_UP": "正在设置您的账户...",
+    "CONTINUE": "继续",
     "SAVING": "保存中...",
-    "VALIDATION_ERROR": "Please fill in all required fields",
-    "SUCCESS": "Details saved successfully",
-    "ERROR": "Could not save details. Please try again."
+    "VALIDATION_ERROR": "请填写所有必填字段",
+    "SUCCESS": "信息保存成功",
+    "ERROR": "无法保存信息，请重试。"
   }
 }

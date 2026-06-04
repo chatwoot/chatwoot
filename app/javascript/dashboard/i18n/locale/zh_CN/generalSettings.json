@@ -182,7 +182,7 @@
   },
   "COMMAND_BAR": {
     "SEARCH_PLACEHOLDER": "搜索或跳转到",
-    "SNOOZE_PLACEHOLDER": "Type a time e.g. tomorrow, 2 hours, next friday, jan 15...",
+    "SNOOZE_PLACEHOLDER": "输入时间，例如：明天、2小时后、下周五、1月15日...",
     "SECTIONS": {
       "GENERAL": "一般",
       "REPORTS": "报告",

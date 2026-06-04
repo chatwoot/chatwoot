@@ -3,9 +3,9 @@
     "FETCHING": "正在获取集成",
     "NO_HOOK_CONFIGURED": "此账户中未配置任何 {integrationId} 集成。",
     "HEADER": "应用程序",
-    "COUNT": "{n} integration | {n} integrations",
+    "COUNT": "{n} 个集成",
     "SEARCH_PLACEHOLDER": "搜索……",
-    "NO_RESULTS": "No results found matching your search",
+    "NO_RESULTS": "未找到符合搜索条件的结果",
     "STATUS": {
       "ENABLED": "已启用",
       "DISABLED": "已禁用"
@@ -46,7 +46,7 @@
           "PLACEHOLDER": "选择收件箱"
         },
         "SUBMIT": "创建",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "正在通过 OpenAI 验证...",
         "CANCEL": "取消"
       },
       "API": {

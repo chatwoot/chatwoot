@@ -4,9 +4,9 @@
     "LOADING_EDITOR": "正在加载编辑器...",
     "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
     "LEARN_MORE": "了解客服机器人",
-    "COUNT": "{n} bot | {n} bots",
-    "SEARCH_PLACEHOLDER": "Search bots...",
-    "NO_RESULTS": "No bots found matching your search",
+    "COUNT": "{n} 个机器人",
+    "SEARCH_PLACEHOLDER": "搜索机器人...",
+    "NO_RESULTS": "未找到符合搜索条件的机器人",
     "GLOBAL_BOT": "系统级机器人",
     "GLOBAL_BOT_BADGE": "系统",
     "AVATAR": {
@@ -64,14 +64,14 @@
       }
     },
     "SECRET": {
-      "LABEL": "Webhook Secret",
-      "COPY": "Copy secret to clipboard",
-      "COPY_SUCCESS": "Secret copied to clipboard",
-      "TOGGLE": "Toggle secret visibility",
-      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
-      "DONE": "Done",
-      "RESET_SUCCESS": "Webhook secret regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+      "LABEL": "Webhook 密钥",
+      "COPY": "复制密钥到剪贴板",
+      "COPY_SUCCESS": "密钥已复制到剪贴板",
+      "TOGGLE": "切换密钥可见性",
+      "CREATED_DESC": "使用下方密钥验证 Webhook 签名。请立即复制，您也可以稍后在机器人设置中找到它。",
+      "DONE": "完成",
+      "RESET_SUCCESS": "Webhook 密钥已成功重新生成",
+      "RESET_ERROR": "无法重新生成 Webhook 密钥，请重试"
     },
     "ACCESS_TOKEN": {
       "TITLE": "访问令牌",
