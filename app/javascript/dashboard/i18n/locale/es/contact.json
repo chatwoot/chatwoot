@@ -20,6 +20,9 @@
     "CALL": "Llamar",
     "CALL_INITIATED": "Llamando al contacto…",
     "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Seleccionar un buzón de entrada"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Idenrificador",
       "COUNTRY": "País",
       "CITY": "Ciudad",
+      "COMPANY": "Empresa",
       "CREATED_AT": "Creado el",
       "LAST_ACTIVITY": "Última actividad",
       "REFERER_LINK": "Enlace de referencia",
@@ -456,6 +460,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Agregar Instagram"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Añadir TikTok"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
       "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Cargar más"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Asignar etiquetas",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "No hay bandejas de entrada disponibles para iniciar una conversación con este contacto.",
       "CONTACT_SELECTOR": {
         "LABEL": "Para:",
-        "TAG_INPUT_PLACEHOLDER": "Buscar un contacto con nombre, correo electrónico o número de teléfono",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Creando contacto..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "Asunto :",
         "SUBJECT_PLACEHOLDER": "Introduzca el asunto de correo electrónico aquí",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Buscar un contacto con su dirección de correo electrónico",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Buscar un contacto con su dirección de correo electrónico",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

@@ -1,796 +1,923 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "መገለጫ ቅንብሮች",
+    "TITLE": "መገለጫ ቅንብሮች",
+    "BTN_TEXT": "መገለጫ አዘምን",
+    "DELETE_AVATAR": "አቫታር ሰርዝ",
+    "AVATAR_DELETE_SUCCESS": "አቫታሩ በተሳካ ሁኔታ ተሰርዟል",
+    "AVATAR_DELETE_FAILED": "አቫታር ሲሰረዝ ስህተት አለ፣ እባክዎ እንደገና ይሞክሩ",
+    "UPDATE_SUCCESS": "መገለጫዎ በተሳካ ሁኔታ ተሻሽሏል",
+    "PASSWORD_UPDATE_SUCCESS": "የይለፍ ቃልዎ በተሳካ ሁኔታ ተቀይሯል",
+    "AFTER_EMAIL_CHANGED": "መገለጫዎ በተሳካ ሁኔታ ተሻሽሏል፣ እባክዎ እንደገና ይግቡ ምክንያቱም የግባት መረጃዎችዎ ተቀየሩ።",
     "FORM": {
-      "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "PICTURE": "የመገለጫ ፎቶ",
+      "AVATAR": "የመገለጫ ምስል",
+      "ERROR": "እባክዎ የቅጽ ስህተቶችን ያስተካክሉ",
+      "REMOVE_IMAGE": "አስወግድ",
+      "UPLOAD_IMAGE": "ምስል አስገባ",
+      "UPDATE_IMAGE": "ምስል አዘምን",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "መገለጫ",
+        "NOTE": "ኢሜይል አድራሻዎ መለያዎ ነው እና ለመግባት ይጠቀማል።."
       },
       "SEND_MESSAGE": {
-        "TITLE": "Hotkey to send messages",
-        "NOTE": "You can select a hotkey (either Enter or Cmd/Ctrl+Enter) based on your preference of writing.",
-        "UPDATE_SUCCESS": "Your settings have been updated successfully",
+        "TITLE": "መልእክቶችን ለማስተላለፍ አስቸኳይ ቁልፍ",
+        "NOTE": "በመጻፍ ላይ የምትወዱትን መሠረት በመምረጥ ሙሉ ቁልፍ (Enter ወይም Cmd/Ctrl+Enter) ማስተካከል ይችላሉ።.",
+        "UPDATE_SUCCESS": "ቅንብሮችዎ በተሳካ ሁኔታ ተሻሽለዋል",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Send messages by pressing Enter key instead of clicking the send button."
+            "HEADING": "አስገባ (↵)",
+            "CONTENT": "በመላክ አዝራር ላይ መጫን በመክፈት ከሆነ በEnter ቁልፍ መልእክቶችን ላክ።."
           },
           "CMD_ENTER_KEY": {
-            "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Send messages by pressing Cmd/Ctrl + enter key instead of clicking the send button."
+            "HEADING": "Cmd/Ctrl + አስገባ (⌘ + ↵)",
+            "CONTENT": "በመላክ አዝራር ላይ መጫን በመክፈት ከሆነ Cmd/Ctrl + Enter ቁልፍ በመጫን መልእክቶችን ላክ።."
           }
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "ቅርጸ ተነሳሽ",
+        "NOTE": "የChatwoot ዳሽቦርድዎን ቅርጸ ተነሳሽነት ያስተካክሉ።.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "የፊደል መጠን",
+          "NOTE": "በዳሽቦርድ ዙሪያ የጽሑፍ መጠንን በሚወዱበት መሠረት ያስተካክሉ።.",
+          "UPDATE_SUCCESS": "የፊደል ቅንብሮችዎ በተሳካ ሁኔታ ተሻሽለዋል",
+          "UPDATE_ERROR": "ቅንብሮችን ማሻሻል ላይ ስህተት አለ፣ እባክዎ እንደገና ይሞክሩ",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
-            "DEFAULT": "Default",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "SMALLER": "ትንሽ",
+            "SMALL": "ትንሽ ትንሽ",
+            "DEFAULT": "ነባሪ",
+            "LARGE": "ትልቅ",
+            "LARGER": "ከፍተኛ",
+            "EXTRA_LARGE": "በጣም ትልቅ"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "ተመራጭ ቋንቋ",
+          "NOTE": "የምትጠቀሙበትን ቋንቋ ይምረጡ።.",
+          "UPDATE_SUCCESS": "የቋንቋ ቅንብሮችዎ በተሳካ ሁኔታ ተሻሽለዋል",
+          "UPDATE_ERROR": "በቋንቋ ቅንብሮች ማሻሻያ ላይ ስህተት አለ፣ እባክዎ እንደገና ይሞክሩ",
+          "USE_ACCOUNT_DEFAULT": "የአካውንት ነባሪ ቋንቋ ይጠቀሙ"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "TITLE": "የግል መልእክት ፊርማ",
+        "NOTE": "ከማንኛውም ኢንቦክስ የምትላኩት ሁሉ መልእክት መጨረሻ ላይ የሚታይ በተለየ የመልእክት ፊርማ ይፍጠሩ። በቀጥታ ውይይት፣ ኢሜይል እና API ኢንቦክሶች ውስጥ የሚደገፍ የመስመር ላይ ምስል ማካተት ደግሞ ትችላላችሁ።.",
+        "BTN_TEXT": "የመልእክት ፊርማ አስቀምጥ",
+        "API_ERROR": "ፊርማውን ማስቀመጥ አልተቻለም! እንደገና ይሞክሩ",
+        "API_SUCCESS": "ፊርማው በተሳካ ሁኔታ ተቀምጧል",
+        "IMAGE_UPLOAD_ERROR": "ምስሉን ማስገባት አልተቻለም! እባክዎ እንደገና ይሞክሩ",
+        "IMAGE_UPLOAD_SUCCESS": "ምስሉ በተሳካ ሁኔታ ታክሏል። እባክዎ ማስቀመጫ ለማስቀመጥ ላይ ይጫኑ",
+        "IMAGE_UPLOAD_SIZE_ERROR": "የምስል መጠን ከ{size}MB በታች መሆን አለበት",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "የመልእክት ፊርማ",
+        "ERROR": "የመልእክት ፊርማ አይባዶ ሊሆን አይችልም",
+        "PLACEHOLDER": "የግል መልእክት ፊርማዎን እዚህ አስገባ።."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "የይለፍ ቃል",
+        "NOTE": "የይለፍ ቃልዎን ማዘመን በብዙ መሣሪያዎች ውስጥ መግባቶችዎን ያስቀድማል።.",
+        "BTN_TEXT": "የይለፍ ቃል ቀይር"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "ደህንነት",
+        "NOTE": "ለመለያዎ ተጨማሪ የደህንነት ባለስልጣናት ያስተዳድሩ።.",
+        "MFA_BUTTON": "ሁለት-አምስት ማረጋገጫ ያስተካክሉ"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
-        "COPY": "Copy",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "TITLE": "የመዳረሻ ቶክን",
+        "NOTE": "ይህ ቶክን ከAPI በመሠረት የተደረገ አንደኛ አገናኝ ሲሆን ሊጠቀምበት ይችላል",
+        "COPY": "ቅዳ",
+        "RESET": "እንደገና ማስጀመር",
+        "CONFIRM_RESET": "እርግጠኛ ነህ?",
+        "CONFIRM_HINT": "ለማረጋገጥ እንደገና ጠቅ ያድርጉ",
+        "RESET_SUCCESS": "የመዳረሻ ቶክን በተሳካ ሁኔታ ተመልሷል",
+        "RESET_ERROR": "የመዳረሻ ቶክን ማስመለስ አልተቻለም። እባክዎ እንደገና ይሞክሩ"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "የድምፅ ማስጠንቀቂያዎች",
+        "NOTE": "አዲስ መልእክቶችና ውይይቶች ለማስጠንቀቂያ በዳሽቦርድ ውስጥ የድምፅ ማስጠንቀቂያዎችን አንቀሳቅሱ።.",
+        "PLAY": "ድምፅ አስተዋውቅ",
         "ALERT_TYPES": {
-          "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "NONE": "የለም",
+          "MINE": "የተመደቡ",
+          "ALL": "ሁሉም",
+          "ASSIGNED": "ለእኔ የተመደቡ ውይይቶች",
+          "UNASSIGNED": "ያልተመደቡ ውይይቶች",
+          "NOTME": "ለሌሎች የተመደቡ ክፍተቶች የተከፈቱ ውይይቶች"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "አንድም አማራጭ አልምረጡም፣ የድምፅ ማስጠንቀቂያ አትቀበሉም።.",
+          "ASSIGNED": "ለእርስዎ የተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።.",
+          "UNASSIGNED": "ለማንኛውም ያልተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።.",
+          "NOTME": "ለሌሎች የተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።.",
+          "ASSIGNED+UNASSIGNED": "ለየእርስዎ የተመደቡ ውይይቶችና ለማንኛውም ያልተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።.",
+          "ASSIGNED+NOTME": "ለእርስዎ እና ለሌሎች የተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ፣ ነገር ግን ለማንኛውም ያልተመደቡ አይደሉም።.",
+          "NOTME+UNASSIGNED": "ለማንኛውም ያልተመደቡ ውይይቶችና ለሌሎች የተመደቡ ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።.",
+          "ASSIGNED+NOTME+UNASSIGNED": "ለሁሉም ውይይቶች ማስጠንቀቂያዎችን ትቀበላላችሁ።."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "ለውይይቶች የሚሰጡ ማስጠንቀቂያ ክስተቶች",
+          "NONE": "የለም",
+          "ASSIGNED": "የተመደቡ ውይይቶች",
+          "ALL_CONVERSATIONS": "ሁሉም ውይይቶች"
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "የማስጠንቀቂያ ድምፅ፡:"
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "የማስጠንቀቂያ ሁኔታዎች፡:",
+          "CONDITION_ONE": "ከአሳሽ መስኮት በተጠቃሚ አይሆን ብቻ የድምፅ ማስጠንቀቂያዎችን ላክ",
+          "CONDITION_TWO": "እስከ ሁሉም የተመደቡ ውይይቶች እንደተነበቡ ድረስ በ30 ሰከንድ ያህል ማስጠንቀቂያዎችን ላክ"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "SOUND_PERMISSION_ERROR": "በአሳሽዎ ውስጥ ኦቶፕሌይ ተከልክሏል። ማስጠንቀቂያዎችን በራስሰር ለማድረግ በአሳሽዎ ቅንብሮች ውስጥ የድምፅ ፈቃድ አንቀሳቅሱ ወይም ገፅታውን ያገናኙ።.",
+        "READ_MORE": "ተጨማሪ ንባብ"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "TITLE": "የኢሜይል ማስታወቂያዎች",
+        "NOTE": "እዚህ የኢሜይል ማስታወቂያ ቅንብሮችዎን ያዘምኑ",
+        "CONVERSATION_ASSIGNMENT": "ስለ ተመደበኝ ውይይት ኢሜይል ማስታወቂያዎችን ላክ",
+        "CONVERSATION_CREATION": "ስለ አዲስ ውይይት ኢሜይል ማስታወቂያዎችን ላክ",
+        "CONVERSATION_MENTION": "በውይይት ላይ ሲጠራህ ኢሜይል ማስታወቂያዎችን ላክ",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ስለ ተመደበኝ ውይይት አዲስ መልእክት ሲፈጠር ኢሜይል ማስታወቂያዎችን ላክ",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "በተሳታፊ ውይይት ውስጥ አዲስ መልእክት ሲፈጠር የኢሜል ማስታወቂያዎችን ላክ",
+        "SLA_MISSED_FIRST_RESPONSE": "በውይይት ውስጥ የመጀመሪያ ምላሽ SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ",
+        "SLA_MISSED_NEXT_RESPONSE": "በውይይት ውስጥ የቀጣዩ ምላሽ SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ",
+        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የኢሜል ማስታወቂያዎችን ላክ"
       },
       "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
+        "TITLE": "የማስታወቂያ ቅንብሮች",
+        "TYPE_TITLE": "የማስታወቂያ አይነት",
+        "EMAIL": "ኢሜል",
+        "PUSH": "ፑሽ ማስታወቂያ",
         "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "CONVERSATION_CREATED": "አዲስ ውይይት ተፈጥሯል",
+          "CONVERSATION_ASSIGNED": "ውይይት ወደ እርስዎ ተመደበ",
+          "CONVERSATION_MENTION": "በውይይት ውስጥ ተጠቃሚ ተጠቅመዋል",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "በተመደቡ ውይይት ውስጥ አዲስ መልእክት ተፈጥሯል",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "በተሳታፊ ውይይት ውስጥ አዲስ መልእክት ተፈጥሯል",
+          "SLA_MISSED_FIRST_RESPONSE": "ውይይት የመጀመሪያ ምላሽ SLA አልተጠበቀም",
+          "SLA_MISSED_NEXT_RESPONSE": "ውይይት የቀጣዩ ምላሽ SLA አልተጠበቀም",
+          "SLA_MISSED_RESOLUTION": "ውይይት የመፍታት ስርዓት SLA አልተጠበቀም"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "ለአሳሽ በሚሰጥዎት አሳሽ ማስታወቂያዎች እንዲቀበሉ ፑሽ ማስታወቂያዎችን አንቀሳቅስ"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "የማስታወቂያ ቅንብሮችዎ በተሳካ ሁኔታ ተሻሽለዋል",
+        "UPDATE_ERROR": "ቅንብሮችን ማዘመን ላይ ስህተት አለ፣ እባክዎ እንደገና ይሞክሩ"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "TITLE": "የፓሽ ማስታወቂያዎች",
+        "NOTE": "እዚህ የፓሽ ማስታወቂያ ቅንብሮችዎን ያዘምኑ",
+        "CONVERSATION_ASSIGNMENT": "ስለ ተመደበኝ ውይይት ፓሽ ማስታወቂያዎችን ላክ",
+        "CONVERSATION_CREATION": "ስለ አዲስ ውይይት ፓሽ ማስታወቂያዎችን ላክ",
+        "CONVERSATION_MENTION": "በውይይት ላይ ሲጠራህ ፓሽ ማስታወቂያዎችን ላክ",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "ስለ ተመደበኝ ውይይት አዲስ መልእክት ሲፈጠር ፓሽ ማስታወቂያዎችን ላክ",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "በተሳታፊ ውይይት ውስጥ አዲስ መልእክት ሲፈጠር የፑሽ ማስታወቂያዎችን ላክ",
+        "HAS_ENABLED_PUSH": "ለዚህ አሳሽ አሳሽ ፓሽ አንቀሳቅሷል።.",
+        "REQUEST_PUSH": "ፓሽ ማስታወቂያዎችን አንቀሳቅስ",
+        "SLA_MISSED_FIRST_RESPONSE": "በውይይት ውስጥ የመጀመሪያ ምላሽ SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ",
+        "SLA_MISSED_NEXT_RESPONSE": "በውይይት ውስጥ የቀጣዩ ምላሽ SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ",
+        "SLA_MISSED_RESOLUTION": "በውይይት ውስጥ የመፍታት ስርዓት SLA ሲጎድል የፑሽ ማስታወቂያዎችን ላክ"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "የመገለጫ ምስል"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "ሙሉ ስምዎ",
+        "ERROR": "እባክዎ ትክክለኛ ሙሉ ስም ያስገቡ",
+        "PLACEHOLDER": "እባክዎ ሙሉ ስምዎን ያስገቡ"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "የሚታይ ስም",
+        "ERROR": "እባክዎ ትክክለኛ የሚታይ ስም ያስገቡ",
+        "PLACEHOLDER": "እባክዎ የሚታይ ስም ያስገቡ፣ ይህ በውይይቶች ውስጥ ይታያል"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "እገኝነት",
         "STATUS": {
-          "ONLINE": "Online",
-          "BUSY": "Busy",
-          "OFFLINE": "Offline"
+          "ONLINE": "በመስመር ላይ",
+          "BUSY": "ተጨንቋል",
+          "OFFLINE": "ኦፍላይን"
         },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "SET_AVAILABILITY_SUCCESS": "እድል በተሳካ ሁኔታ ተቀመጠ",
+        "SET_AVAILABILITY_ERROR": "እድል ማቅረብ አልተቻለም፣ እባክዎ እንደገና ይሞክሩ",
+        "IMPERSONATING_ERROR": "ተጠቃሚ ሲወክል እንደምትገኙ መቀየር አይቻልም"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "የእርስዎ ኢሜይል አድራሻ",
+        "ERROR": "እባክዎ ትክክለኛ ኢሜይል አድራሻ ያስገቡ",
+        "PLACEHOLDER": "እባክዎ ኢሜይል አድራሻዎን ያስገቡ፣ ይህ በውይይቶች ውስጥ ይታያል"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "የአሁኑ የይለፍ ቃል",
+        "ERROR": "እባክዎ የአሁኑን የይለፍ ቃል ያስገቡ",
+        "PLACEHOLDER": "እባክዎ የአሁኑን የይለፍ ቃል ያስገቡ"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "አዲስ የይለፍ ቃል",
+        "ERROR": "እባክዎ 6 ወይም ከዚያ በላይ የሆነ የይለፍ ቃል ያስገቡ",
+        "PLACEHOLDER": "እባክዎ አዲስ የይለፍ ቃል ያስገቡ"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "አዲሱን የይለፍ ቃል አረጋግጥ",
+        "ERROR": "የይለፍ ቃል አረጋግጥ ከየይለፍ ቃል ጋር መሳሰሉ አለበት",
+        "PLACEHOLDER": "እባክዎ አዲሱን የይለፍ ቃል ደግሞ ያስገቡ"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
-    "PROFILE_SETTINGS": "Profile settings",
-    "YEAR_IN_REVIEW": "Year in Review",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "CHANGE_AVAILABILITY_STATUS": "ቀይር",
+    "CHANGE_ACCOUNTS": "መለወጥ መለያ",
+    "SWITCH_ACCOUNT": "መለወጥ አካውንት",
+    "CONTACT_SUPPORT": "ወደ ድጋፍ ይገናኙ",
+    "SELECTOR_SUBTITLE": "ከታች ያሉት ዝርዝሮች መካከል አካውንት ይምረጡ",
+    "PROFILE_SETTINGS": "የመገለጫ ቅንብሮች",
+    "YEAR_IN_REVIEW": "ዓመት በእይታ",
+    "KEYBOARD_SHORTCUTS": "የኪቦርድ አጭር መንገዶች",
+    "APPEARANCE": "መልእክት መቀየሪያ",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin ኮንሶል",
+    "DOCS": "ሰነዶችን አንብብ",
+    "CHANGELOG": "የለውጥ መዝገብ",
+    "LOGOUT": "ውጣ"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "TRIAL_MESSAGE": "የቀረው የሙከራ ቀናት።.",
+    "TRAIL_BUTTON": "አሁን ግዢ",
+    "DELETED_USER": "የተሰረዘ ተጠቃሚ",
+    "EMAIL_VERIFICATION_PENDING": "እርስዎ ኢሜይል አድራሻዎን እስካልማረኩ ይመስላል። እባክዎ ለማረጋገጫ ኢሜይል ኢንቦክስዎን ይፈትሹ።.",
+    "RESEND_VERIFICATION_MAIL": "የማረጋገጫ ኢሜል እንደገና ላክ",
+    "EMAIL_VERIFICATION_SENT": "የማረጋገጫ ኢሜይል ተልኳል። እባክዎ ኢንቦክስዎን ይፈትሹ።.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "መለያ ተሰርዟል",
+      "MESSAGE": "መለያዎ ተሰናክሏል። ለተጨማሪ መረጃ እባክዎ ወደ ድጋፍ ቡድን ይደውሉ።."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "መለያ አልተገኘም",
+      "MESSAGE_CLOUD": "አሁን በማንኛውም መለያ አካል አይደሉም። ይህ ስህተት እንደሆነ አስባለዎት እባክዎ ወደ ድጋፍ ቡድናችን ይደውሉ።.",
+      "MESSAGE_SELF_HOSTED": "አሁን በማንኛውም መለያ አካል አይደሉም። እባክዎ ወደ አስተዳደር ተገናኝ።.",
+      "LOGOUT": "ውጣ"
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "BUTTON_TEXT": "ቅዳ",
+      "CODEPEN": "በCodePen ይክፈቱ",
+      "COPY_SUCCESSFUL": "ወደ ክሊፖርድ ተቀይሯል"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "ተጨማሪ አሳይ",
+      "SHOW_LESS": "ትንሽ አሳይ"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "DOWNLOAD": "አውርድ",
+      "UPLOADING": "በማስገባት ላይ...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "ይህ ታሪክ ከአሁን በኋላ አይገኝም።.",
+      "INSTAGRAM_STORY_REPLY": "ለታሪክዎ መልሰዋል፡:"
     },
     "LOCATION_BUBBLE": {
-      "SEE_ON_MAP": "See on map"
+      "SEE_ON_MAP": "በካርታ ይመልከቱ"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "አስገባ"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "ይህ ምስል ከአሁን በኋላ አይገኝም።.",
+      "LOADING_FAILED": "መጫን አልተሳካም"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "በማረጋገጥ ላይ...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "ኢንቦክስ አክል"
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
-    "ACTIVE": "Active",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
-    "CAPTAIN_INBOXES": "Inboxes",
-    "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
-    "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "NO_ITEMS": "ንጥሎች የሉም",
+    "CURRENTLY_VIEWING_ACCOUNT": "አሁን ታያለህ፡:",
+    "SWITCH": "ቀይር",
+    "INBOX_VIEW": "የኢንቦክስ እይታ",
+    "CONVERSATIONS": "ውይይቶች",
+    "INBOX": "የእኔ ጥቅል ሰንድ",
+    "ALL_CONVERSATIONS": "ሁሉም ውይይቶች",
+    "MENTIONED_CONVERSATIONS": "ተጠቃሚ ማስታወሻዎች",
+    "PARTICIPATING_CONVERSATIONS": "ተሳታፊ",
+    "UNATTENDED_CONVERSATIONS": "ያልተጠበቀ",
+    "REPORTS": "ሪፖርቶች",
+    "SETTINGS": "ቅንብሮች",
+    "CONTACTS": "እውቂያዎች",
+    "ACTIVE": "ንቁ",
+    "COMPANIES": "ኩባንያዎች",
+    "ALL_COMPANIES": "ሁሉም ኩባንያዎች",
+    "CAPTAIN": "ካፕቴን",
+    "CAPTAIN_ASSISTANTS": "እርዳታ አገልጋዮች",
+    "CAPTAIN_DOCUMENTS": "ሰነዶች",
+    "CAPTAIN_RESPONSES": "ተደጋጋሚ ጥያቄዎች",
+    "CAPTAIN_TOOLS": "መሣሪያዎች",
+    "CAPTAIN_SCENARIOS": "ሁኔታዎች",
+    "CAPTAIN_PLAYGROUND": "መጫወቻ ቦታ",
+    "CAPTAIN_INBOXES": "ኢንቦክሶች",
+    "CAPTAIN_SETTINGS": "ቅንብሮች",
+    "HOME": "መነሻ",
+    "AGENTS": "ወኪሎች",
+    "AGENT_BOTS": "ቦቶች",
+    "AUDIT_LOGS": "የአዲስ ምዝገባ መዝገቦች",
+    "INBOXES": "ኢንቦክሶች",
+    "NOTIFICATIONS": "ማስታወቂያዎች",
+    "CANNED_RESPONSES": "ተዘጋጅቷ የሆነ መልስ",
+    "INTEGRATIONS": "አካባቢዎች",
+    "PROFILE_SETTINGS": "የመገለጫ ቅንብሮች",
+    "ACCOUNT_SETTINGS": "የመለያ ቅንብሮች",
+    "APPLICATIONS": "መተግበሪያዎች",
+    "LABELS": "መለያዎች",
+    "CUSTOM_ATTRIBUTES": "ብለይ ባለባት ባህሪያት",
+    "AUTOMATION": "ማስኬድ",
+    "MACROS": "ማክሮዎች",
+    "TEAMS": "ቡድኖች",
+    "BILLING": "ክፍያ",
+    "CUSTOM_VIEWS_FOLDER": "ፎልደሮች",
+    "CUSTOM_VIEWS_SEGMENTS": "ክፍሎች",
+    "ALL_CONTACTS": "ሁሉም እውቂያዎች",
+    "TAGGED_WITH": "በዚህ ተለይተዋል",
+    "NEW_LABEL": "አዲስ መለያ",
+    "NEW_TEAM": "አዲስ ቡድን",
+    "NEW_INBOX": "አዲስ ጣቢያ",
+    "REPORTS_CONVERSATION": "ውይይቶች",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
-    "SMS": "SMS",
+    "LIVE_CHAT": "ቀጥታ ውይይት",
+    "SMS": "ኤስኤምኤስ",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "የዘመናዊ ማስታወቂያዎች",
+    "ONGOING": "በሂደት ላይ",
+    "ONE_OFF": "አንድ ጊዜ ብቻ",
     "REPORTS_SLA": "SLA",
-    "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
-    "SET_YOUR_AVAILABILITY": "Set your availability",
+    "REPORTS_BOT": "ቦት",
+    "REPORTS_AGENT": "ወኪሎች",
+    "REPORTS_LABEL": "መለያዎች",
+    "REPORTS_INBOX": "ጣቢያ",
+    "REPORTS_TEAM": "ቡድን",
+    "AGENT_ASSIGNMENT": "የወኪል መሰጠት",
+    "SET_AVAILABILITY_TITLE": "ራስህን እንደ ማን ያውቅ",
+    "SET_YOUR_AVAILABILITY": "እንደምትገኙ ያስቀመጡ",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "CUSTOM_ROLES": "ብለይ ሚናዎች",
+    "BETA": "ቤታ",
+    "REPORTS_OVERVIEW": "አጠቃላይ እይታ",
+    "REAUTHORIZE": "የኢንቦክስ ግንኙነትዎ ተዘርግቷል፣ እባክዎ እንደገና ይገናኙ\n ለመቀጠል መልእክቶችን ለመቀበልና ለመላክ",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
-      "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "TITLE": "የእርዳታ ማዕከል",
+      "ARTICLES": "ሰነዶች",
+      "CATEGORIES": "ምድቦች",
+      "LOCALES": "ቋንቋዎች",
+      "SETTINGS": "ቅንብሮች"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "ቻናሎች",
     "SET_AUTO_OFFLINE": {
-      "TEXT": "Mark offline automatically",
-      "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "TEXT": "ራስሰር ኦፍላይን አስመልክት",
+      "INFO_TEXT": "ሲስተሙ እርስዎን በመተግበሪያው ወይም በዳሽቦርድ ሳትጠቀሙ ራስሰር እንዲሆኑ ያደርጉ።.",
+      "INFO_SHORT": "ሲስተሙ ሲሳለቅ ራስሰር እንዲሆኑ ያደርጉ።."
     },
-    "DOCS": "Read docs",
-    "SECURITY": "Security"
+    "DOCS": "ሰነዶችን አንብቡ",
+    "SECURITY": "ደህንነት",
+    "CAPTAIN_AI": "ካፕቴን",
+    "CONVERSATION_WORKFLOW": "የውይይት ስርዓት"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "የCaptain ቅንብሮች",
+    "DESCRIPTION": "ለCaptain የAI ሞዴሎችና ባለስልጣናት ያስተካክሉ። Captain በክሬዲት መሠረት ክፍያ ያደርጋል፣ ለእያንዳንዱ እርምጃ በሞዴሉ መሠረት ክሬዲቶች ይከፈላሉ።.",
+    "LOADING": "የCaptain ቅንብር እየጫነ ነው...",
+    "LINK_TEXT": "ስለ Captain ክሬዲቶች ተጨማሪ ያውቁ",
+    "NOT_ENABLED": "Captain ለመለያዎ አልተነሳሳም። ለCaptain ባለስልጣናት ባለስልጣናት እቅድዎን ያሻሽሉ።.",
+    "MODEL_CONFIG": {
+      "TITLE": "የሞዴል ቅንብር",
+      "DESCRIPTION": "ለተለያዩ ባለስልጣናት AI ሞዴሎችን ይምረጡ።.",
+      "SELECT_MODEL": "ሞዴል ይምረጡ",
+      "CREDITS_PER_MESSAGE": "{credits} ክሬዲት/መልእክት",
+      "COMING_SOON": "በቅርብ ይመጣል",
+      "EDITOR": {
+        "TITLE": "የአርታዕት ባህሪያት",
+        "DESCRIPTION": "በመልእክት አርታዕትዎ ውስጥ ብልህ አዘጋጅ፣ የሰውነት ስህተት ማስተካከያዎች፣ የድምፅ ማስተካከያዎችና የይዘት ማሻሻያ ያቀርባል።."
+      },
+      "ASSISTANT": {
+        "TITLE": "አገልጋይ",
+        "DESCRIPTION": "ለደንበኞች ግንኙነቶች ራስ-ሰር መልሶች፣ የውይይት ማጠቃለያዎችና ብልህ የመልስ ምክሮችን ያቀርባል።."
+      },
+      "COPILOT": {
+        "TITLE": "ኮ-ፓይሎት",
+        "DESCRIPTION": "በውይይቶች ወቅት በሕይወት የሚከናወኑ የሁኔታ ምክሮች፣ የእውቀት ቤት ምክሮችና ቀድሞ የተሰጡ እይታዎችን ያቀርባል።."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "ባህሪያት",
+      "DESCRIPTION": "የAI ኃይል ያላቸውን ባለስልጣናት አብራሪዎችን አንቀሳቅሱ ወይም ዝጋ።.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "የድምጽ ትርጉም",
+        "DESCRIPTION": "የድምፅ መልእክቶችና የጥሪ መዝገቦችን በራስሰር ወደ ሊቀ መለኪያ ጽሑፍ ይቀይሩ።."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "የእርዳታ ማዕከል ፍለጋ መደበኛ እና መረጃ ማውጫ",
+        "DESCRIPTION": "በእርዳታ ማዕከል ጽሑፍ ውስጥ ለማስፈለጊያ ፍለጋ ለማድረግ AI ይጠቀሙ።."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "የመለያ ምክር",
+        "DESCRIPTION": "በውይይት ውስጥ በይዘት ትንተናና በሁኔታ በመሠረት ተዛማጅ ሌብሎችና መለያዎችን በራስሰር ይጠቅሙ።.",
+        "MODEL_TITLE": "የመለያ ምክር ሞዴል",
+        "MODEL_DESCRIPTION": "ለውይይቶች ትንተናና ለተስማሚ መለያዎች ለማቅረብ የሚጠቀሙትን AI ሞዴል ይምረጡ"
+      }
+    },
+    "API": {
+      "SUCCESS": "የCaptain ቅንብሮች በተሳካ ሁኔታ ተሻሽለዋል።.",
+      "ERROR": "የCaptain ቅንብሮችን ማሻሻያ አልተሳካም። እባክዎ እንደገና ይሞክሩ።."
+    }
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Billing",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "ክፍያ",
+    "DESCRIPTION": "እዚህ ምዝገባዎን ያስተዳድሩ፣ እቅድዎን ያሻሽሉ እና ለቡድንዎ ተጨማሪ ያግኙ።.",
     "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "TITLE": "የአሁኑ እቅድ",
+      "PLAN_NOTE": "አሁን በ**{plan}** እቅድ እና በ**{quantity}** ፈቃዶች ተመዝግበዋል",
+      "SEAT_COUNT": "የቦታ ብዛት",
+      "RENEWS_ON": "በዚህ ቀን ይደገፋል"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "ዋጋዎችን እይ",
     "MANAGE_SUBSCRIPTION": {
-      "TITLE": "Manage your subscription",
-      "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "TITLE": "እቅድዎን አስተዳደር",
+      "DESCRIPTION": "ያለፉትን የክፍያ ቅጾችዎን ይመልከቱ፣ የክፍያ ዝርዝሮችዎን ያርትዙ ወይም ምዝገባዎን ይቋረጡ።.",
+      "BUTTON_TXT": "ወደ ክፍያ መድረክ ሂድ"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "TITLE": "ካፕቴን",
+      "DESCRIPTION": "ለCaptain AI አጠቃቀምና ክሬዲቶችን ያስተዳድሩ።.",
+      "BUTTON_TXT": "ተጨማሪ ክሬዲቶች ግዙ",
+      "DOCUMENTS": "ሰነዶች",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
-      "REFRESH_CREDITS": "Refresh"
+      "UPGRADE": "Captain በነፃ እቅድ ላይ አይገኝም፣ አሁን ያሻሽሉ እና ለአስስታንት፣ ኮፓይሎት እና ሌሎች ያግኙ።.",
+      "REFRESH_CREDITS": "አዘምን"
     },
     "CHAT_WITH_US": {
-      "TITLE": "Need help?",
-      "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
-      "BUTTON_TXT": "Chat with us"
+      "TITLE": "እርዳታ ይፈልጋሉ?",
+      "DESCRIPTION": "በክፍያ ጉዳዮች ተጋግሞ ነዎት? እኛ እንረዳለን።.",
+      "BUTTON_TXT": "ከእኛ ጋር ይወያዩ"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "NO_BILLING_USER": "የክፍያ መለያዎ እየተቀየረ ነው። እባክዎ ገፅታውን ያዘምኑ እና እንደገና ይሞክሩ።.",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
-      "NOTE_TITLE": "Note:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
-      "CANCEL": "Cancel",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "BUY_CREDITS": "ተጨማሪ ክሬዲቶች ግዛ",
+      "MODAL_TITLE": "AI ክሬዲቶች ግዛ",
+      "MODAL_DESCRIPTION": "Captain AI ለተጨማሪ ክሬዲቶች ግዛ.",
+      "CREDITS": "ክሬዲቶች",
+      "ONE_TIME": "አንድ ጊዜ",
+      "POPULAR": "በጣም ተወዳጅ",
+      "NOTE_TITLE": "ማስታወሻ:",
+      "NOTE_DESCRIPTION": "ክሬዲቶች በአንድ ጊዜ ይጨምራሉ እና በ<b>6</b> ወራት ውስጥ ይሟሉ። ክሬዲቶችን ለመጠቀም ንብረት ያለው ስብስብ አለበት። የተገዙ ክሬዲቶች ከወርሃዊ እቅድዎ ክሬዲቶች በኋላ ይበዛሉ።",
+      "CANCEL": "ሰርዝ",
+      "PURCHASE": "ክሬዲቶችን ግዛ",
+      "LOADING": "አማራጮች እየጫኑ ነው...",
+      "FETCH_ERROR": "የክሬዲት አማራጮችን ማስገባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።.",
+      "PURCHASE_ERROR": "ግዢውን ማካሄድ አልተሳካም። እባክዎ እንደገና ይሞክሩ።.",
+      "PURCHASE_SUCCESS": "በተሳካ ሁኔታ {credits} ክሬዲቶች ወደ አካውንትዎ ተጨምሯል",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
-        "GO_BACK": "Go Back",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "TITLE": "ግዢውን አረጋግጥ",
+        "DESCRIPTION": "ለ{amount} {credits} ክሬዲቶች ማግዘት እየተዘጋጀ ነዎት።.",
+        "INSTANT_DEDUCTION_NOTE": "የተቀመጠው ካርድዎ በማረጋገጫ ጊዜ በአስቸኳይ ይከፈላል።.",
+        "GO_BACK": "ተመለስ",
+        "CONFIRM_PURCHASE": "ግዢውን አረጋግጥ"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "ደህንነት",
+    "DESCRIPTION": "የመለያዎን ደህንነት ቅንብሮች ያስተዳድሩ።.",
+    "LINK_TEXT": "ስለ SAML SSO ተጨማሪ ያውቁ",
+    "SAML_DISABLED_MESSAGE": "SAML SSO አሁን ተሰናክሏል። እባክዎ ይህን ባለስልጣንዎን ለማንቀሳቀስ ያነጋግሩ።.",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "ለመለያዎ SAML አንድ ምስል መግቢያ ያስተካክሉ። ተጠቃሚዎች በኢሜይል/የይለፍ ቃል መጠቀም በመክለት በመለያ አቅራቢዎ ይማረካሉ።.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - ይህን አድራሻ በIdP ውስጥ እንደ SAML መልሶች መድረሻ ያስተካክሉ"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "የSAML ማረጋገጫ ጥያቶች ይላካሉበት አድራሻ",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "በPEM ቅርጸ ተከታታይ የሚፈረስ ፊርማ ሰነድ",
+        "HELP": "ከመለያ አቅራቢዎ የሚሰጥ ህዝብ ፊርማ ሰነድ ለSAML መልሶች ማረጋገጥ ይጠቅማል",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "እጅ ማስረጃ",
+        "TOOLTIP": "የማረጋገጫ ማስታወቂያ - በIdP ቅንብርዎ ውስጥ ማረጋገጫውን ለማረጋገጥ ይጠቀሙበት"
       },
-      "COPY_SUCCESS": "Copied to clipboard",
+      "COPY_SUCCESS": "ወደ ክሊፕቦርድ ተቀይሯል",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "LABEL": "SP አካል መለያ",
+        "HELP": "ለዚህ መተግበሪያ እንደ አገልግሎት አቅራቢ የተለየ መለያ (ራስሰር የተፈጠረ) ነው።.",
+        "TOOLTIP": "እንደ Service Provider ለChatwoot የተለየ መለያ - በIdP ቅንብርዎ ውስጥ ይህን ያስተካክሉ"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "የመለያ አቅራቢ አካል መለያ",
+        "HELP": "ለመለያ አቅራቢዎ የተለየ መለያ (ብዙውን ጊዜ በIdP ቅንብር ውስጥ ይገኛል)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "የSAML ቅንብሮችን ያዘምኑ",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "የSAML ቅንብሮች በተሳካ ሁኔታ ተዘምኗል",
+        "ERROR": "የSAML ቅንብሮችን ማዘመን አልተሳካም",
+        "ERROR_LOADING": "የSAML ቅንብሮችን ማስገባት አልተሳካም",
+        "DISABLED": "የSAML ቅንብሮች በተሳካ ሁኔታ ተሰናክሏል"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, የመለያ አቅራቢ አካል መለያ, እና ፊርማ አስፈላጊ መስኮች ናቸው",
+        "SSO_URL_ERROR": "እባክዎ ትክክለኛ የSSO URL ያስገቡ",
+        "CERTIFICATE_ERROR": "ፊርማ አስፈላጊ ነው",
+        "IDP_ENTITY_ID_ERROR": "የመለያ አቅራቢ አካል መለያ አስፈላጊ ነው"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "የSAML SSO ባለስልጣን ባለስልጣናት እቅዶች ውስጥ ብቻ ይገኛል።.",
+        "UPGRADE_PROMPT": "ለSAML አንድ ምስል መግቢያና ሌሎች የደህንነት ባለስልጣናት ባለስልጣናት ባለስልጣን እቅድ ያሻሽሉ።.",
+        "ASK_ADMIN": "እባክዎ ለማሻሻያ ወደ አስተዳደር ተገናኝ።."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "SAML SSO ለማንቀሳቀስ ይሻሉ",
+        "AVAILABLE_ON": "የSAML SSO ባለስልጣን ባለስልጣናት እቅዶች ውስጥ ብቻ ይገኛል።.",
+        "UPGRADE_PROMPT": "ለSAML አንድ ምስል መግቢያና ሌሎች የተሻለ ባለስልጣናት ባለስልጣናት እቅድ ያሻሽሉ።.",
+        "UPGRADE_NOW": "አሁን ይሻሉ",
+        "CANCEL_ANYTIME": "እቅድዎን በማንኛውም ጊዜ መቀየር ወይም መሰረዝ ይችላሉ"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "የSAML አባላት ማቀናበሪያ",
+        "DESCRIPTION": "የሚከተሉት የአባላት ማቀናበሪያዎች በመለያ አቅራቢዎ ውስጥ መቅነት አለበት"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "የአገልግሎት አቅራቢ መረጃ",
+        "TOOLTIP": "እነዚህን እሴቶች ቅድሚያ በመለያ አቅራቢዎ ውስጥ ለSAML ግንኙነት ያስተካክሉ"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "የውይይት ስርዓቶች",
+        "DESCRIPTION": "ለውይይት መፍትሄ ህጎችና የሚያስፈልጉ መስኮች ያስተካክሉ።."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "በመፍትሄ ላይ የሚያስፈልጉ መለኪያዎች",
+      "DESCRIPTION": "ሲያስተካክሉ ወኪሎች እነዚህን ባህሪያት ካላሉ እንዲሙሉ ይጠይቃሉ።.",
+      "NO_ATTRIBUTES": "እስካሁን መለኪያዎች አልተጨመሩም",
+      "ADD": {
+        "TITLE": "መለኪያዎችን አክል",
+        "SEARCH_PLACEHOLDER": "መለኪያዎችን ፈልግ"
+      },
+      "SAVE": {
+        "SUCCESS": "የሚያስፈልጉ መለኪያዎች ተሻሽለዋል",
+        "ERROR": "የሚያስፈልጉ መለኪያዎችን ማሻሻያ አልተሳካም፣ እባክህ እንደገና ይሞክሩ"
+      },
+      "MODAL": {
+        "TITLE": "ውይይት አስተካክል",
+        "DESCRIPTION": "እባክህ ይህን ውይይት ከማስተካከል በፊት የተለያዩ ባለሙያ መለኪያዎችን ይሙሉ",
+        "ACTIONS": {
+          "RESOLVE": "ውይይት አስተካክል",
+          "CANCEL": "ሰርዝ"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "ማስታወሻ ጻፍ...",
+          "NUMBER": "ቁጥር አስገባ",
+          "LINK": "አገናኝ አክል",
+          "DATE": "ቀን ምረጥ",
+          "LIST": "አማራጭ ይምረጡ"
+        },
+        "CHECKBOX": {
+          "YES": "አዎ",
+          "NO": "አይ"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "ለሚያስፈልጉ መለኪያዎች እቅድዎን ከፍ አድርጉ",
+        "AVAILABLE_ON": "የሚያስፈልጉ የውይይት ባህሪያት ባለስልጣንና ኢንተርፕራይዝ እቅዶች ላይ ይገኛል።.",
+        "UPGRADE_PROMPT": "ወደ እቅድዎ ያሻሽሉ እና ከውይይት መፍትሄ በፊት ወኪሎች የሚያስፈልጉትን ባህሪያት እንዲሙሉ ያደርጉ።.",
+        "UPGRADE_NOW": "አሁን ያሻሽሉ",
+        "CANCEL_ANYTIME": "እቅድዎን በማንኛውም ጊዜ ማሻሻል ወይም ማሰረዝ ይችላሉ"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "የሚያስፈልጉ የውይይት ባህሪያት በክፍያ እቅዶች ላይ ይገኛል።.",
+        "UPGRADE_PROMPT": "ወደ ክፍያ እቅድ ያሻሽሉ እና ከውይይት መፍትሄ በፊት የሚያስፈልጉትን ባህሪያት እንዲጠብቁ ያደርጉ።.",
+        "ASK_ADMIN": "እባክዎ ለማሻሻያ ወደ አስተዳደር ተገናኝ።."
       }
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "እንደሆነ! ማንኛውም Chatwoot መለያ አልተገኘም። እባክዎ ለመቀጠል አዲስ መለያ ይፍጠሩ።.",
+    "NEW_ACCOUNT": "አዲስ አካውንት",
+    "SELECTOR_SUBTITLE": "አዲስ አካውንት ፍጠር",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "አካውንት በተሳካ ሁኔታ ተፈጥሯል",
+      "EXIST_MESSAGE": "አካውንት አስቀድሞ አለ",
+      "ERROR_MESSAGE": "ከWoot አገልግሎት አልተገናኘም፣ እባክዎ በኋላ ደግመው ይሞክሩ"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "LABEL": "የኩባንያ ስም",
+        "PLACEHOLDER": "ዌይን ኢንተርፕራይዞች"
       },
-      "SUBMIT": "Submit",
-      "CANCEL": "Cancel"
+      "SUBMIT": "አስገባ",
+      "CANCEL": "ሰርዝ"
     }
   },
   "KEYBOARD_SHORTCUTS": {
-    "TOGGLE_MODAL": "View all shortcuts",
+    "TOGGLE_MODAL": "ሁሉንም አጭር መንገዶች ይመልከቱ",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "ውይይት ክፈት",
+      "RESOLVE_AND_NEXT": "ፍቺ አድርግ እና ወደ ቀጣይ እንቅስቃሴ ሂድ",
+      "NAVIGATE_DROPDOWN": "የዝርዝር ንጥሎችን አስተዋውቅ",
+      "RESOLVE_CONVERSATION": "ውይይት ፍቺ አድርግ",
+      "GO_TO_CONVERSATION_DASHBOARD": "ወደ ውይይት ዳሽቦርድ ሂድ",
+      "ADD_ATTACHMENT": "አባሪ አክል",
+      "GO_TO_CONTACTS_DASHBOARD": "ወደ እውቂያዎች ዳሽቦርድ ሂድ",
+      "TOGGLE_SIDEBAR": "አጠገብ መስቀል አለው",
+      "GO_TO_REPORTS_SIDEBAR": "ወደ ሪፖርቶች አጠገብ ሂድ",
+      "MOVE_TO_NEXT_TAB": "በውይይት ዝርዝር ውስጥ ወደ ቀጣይ ትር እንቅስቃሴ አድርግ",
+      "GO_TO_SETTINGS": "ወደ ቅንብሮች ሂድ",
+      "SWITCH_TO_PRIVATE_NOTE": "ወደ ግል ማስታወሻ ቀይር",
+      "SWITCH_TO_REPLY": "ወደ ምላሽ ቀይር",
+      "TOGGLE_SNOOZE_DROPDOWN": "የስኑዝ ዝርዝር አለው"
     }
   },
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "የወኪል መሰጠት",
+        "DESCRIPTION": "የሥራ መጠን በተገቢ ሁኔታ ለመቆጣጠርና ውይይቶችን በኢንቦክሶችና ወኪሎች እንደ ሚያስፈልጋቸው ለማስመሰያ ፖሊሲዎችን ውሰዱ። እዚህ ተጨማሪ ያማሩ"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "የመሰጠት ፖሊሲ",
+        "DESCRIPTION": "በኢንቦክሶች ውስጥ ውይይቶች እንዴት እንደሚመደቡ ያስተዳድሩ።.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
-          "Add inboxes to a policy - one policy per inbox"
+          "በውይይቶች በተኩል ወይም በተገኝ ኃይል መሰጠት",
+          "ማንኛውም ወኪል እንዳይጭነቅ የፍትህ ስርዓቶችን ያክሉ",
+          "ኢንቦክሶችን ወደ ፖሊሲ ያክሉ - አንድ ፖሊሲ ለአንድ ኢንቦክስ"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "የወኪል ኃይል ፖሊሲ",
+        "DESCRIPTION": "ለወኪሎች የሥራ ጭነትን ያስተዳድሩ።.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
-          "Add agents to a policy - one policy per agent"
+          "በኢንቦክስ ውስጥ ከፍተኛ የሆነ ውይይት ብዛት ውሰዱ",
+          "በመለያዎችና በጊዜ መሠረት ልዩ ልዩ ሁኔታዎች ያፍሩ",
+          "ወኪሎችን ወደ ፖሊሲ ያክሉ - አንድ ፖሊሲ ለአንድ ወኪል"
         ]
       }
     },
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "የመሰጠት ፖሊሲ",
+          "CREATE_POLICY": "አዲስ ፖሊሲ"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
-          "ACTIVE": "Active",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
-          "EDIT": "Edit"
+          "ORDER": "ትዕዛዝ",
+          "PRIORITY": "ቅደም ተከተል",
+          "ACTIVE": "ንቁ",
+          "INACTIVE": "ያልተነሳ",
+          "POPOVER": "ተጨማሪ የተላከ ሳጥኖች",
+          "EDIT": "አርትዕ"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "የማንደሪያ ፖሊሲዎች አልተገኙም"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "የማንደሪያ ፖሊሲ ፍጠር"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "ፖሊሲ ፍጠር",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "የማንደሪያ ፖሊሲ በተሳካ ሁኔታ ተፈጥሯል",
+          "ERROR_MESSAGE": "የማንደሪያ ፖሊሲ ማፍሰስ አልተሳካም",
+          "INBOX_LINKED": "ኢንቦክሱ ወደ ፖሊሲው ተጣራ"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "የማንደሪያ ፖሊሲ አርትዕ"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "ፖሊሲ አዘምን",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "ሳጥን አክል",
+          "DESCRIPTION": "{inboxName} ኢንቦክስ ከሌላ ፖሊሲ ጋር አስተሳሰብ አለው። ወደዚህ ፖሊሲ ለማስተላለፍ እርግጠኛ ነዎት? ከሌላው ፖሊሲ ይተወላል።.",
+          "CONFIRM_BUTTON_LABEL": "ቀጥል",
+          "CANCEL_BUTTON_LABEL": "ሰርዝ"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "ኢንቦክሱን ወደ ፖሊሲ ያጣሩ",
+          "DESCRIPTION": "ይህን ኢንቦክስ ወደ የሥራ መደብ ፖሊሲ ማጣራት ይፈልጋሉ?",
+          "LINK_BUTTON": "ኢንቦክሱን ያጣሩ",
+          "CANCEL_BUTTON": "ይዝጉ"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "የማንደሪያ ፖሊሲ በተሳካ ሁኔታ ተሻሽሏል",
+          "ERROR_MESSAGE": "የማንደሪያ ፖሊሲ ማሻሻያ አልተሳካም"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "ሳጥን ወደ ፖሊሲ በተሳካ ሁኔታ ታክሏል",
+            "ERROR_MESSAGE": "ሳጥን ወደ ፖሊሲ ማክለት አልተሳካም"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "ሳጥን ከፖሊሲ በተሳካ ሁኔታ ተሰርዟል",
+            "ERROR_MESSAGE": "ሳጥን ከፖሊሲ ማስወገድ አልተሳካም"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "የፖሊሲ ስም፡:",
+          "PLACEHOLDER": "የፖሊሲ ስም አስገባ"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "መግለጫ፡:",
+          "PLACEHOLDER": "መግለጫ አስገባ"
         },
         "STATUS": {
-          "LABEL": "Status:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "LABEL": "ሁኔታ፡:",
+          "PLACEHOLDER": "ሁኔታ ይምረጡ",
+          "ACTIVE": "ፖሊሲ ንቁ ነው",
+          "INACTIVE": "ፖሊሲ ያልተነሳ ነው"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "የማንደሪያ ቅደም ተከተል",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "ዙር ዙር",
+            "DESCRIPTION": "ውይይቶችን በተመካከለ ሁኔታ በወኪሎች መካከል ያስመድቡ።."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "ተመካከለ",
+            "DESCRIPTION": "ውይይቶችን በአሁን ያለው ክምችት መሠረት ያስመድቡ።.",
+            "PREMIUM_MESSAGE": "ለተመካከለ ምድብ እና የወኪል ክምችት አስተዳደር ለማግኘት ያሻሽሉ።.",
+            "PREMIUM_BADGE": "ፕሪሚየም"
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "የማንደሪያ ቅደም ተከተል",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "በጥንታዊነት የተፈጠረ",
+            "DESCRIPTION": "የመጀመሪያ የተፈጠረው ውይይት የመጀመሪያ ይመደብ።."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "በጥቂት ጊዜ የተጠበቀ",
+            "DESCRIPTION": "በጥቂት ጊዜ የቆየው ውይይት የመጀመሪያ ይመደብ።."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "የፍትህ እኩል ስርዓት ፖሊሲ",
+          "DESCRIPTION": "በአንድ የጊዜ መስክ ውስጥ ለአንድ ወኪል ሊመደቡ የሚችሉትን ከፍተኛ የውይይት ብዛት ያስቀመጡ እና አንድ ወኪል ከፍተኛ ጭነት እንዳይደርስበት ያስተካክሉ። ይህ የሚጠየቀው መስክ በነባሪ ሁኔታ በሰዓት 100 ውይይቶች ይሆናል።.",
+          "INPUT_MAX": "ከፍተኛ ያድርጉ",
+          "DURATION": "በእያንዳንዱ የወኪል ውይይቶች በ"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "ተጨማሪ የተላከ ሳጥኖች",
+          "DESCRIPTION": "ለዚህ ፖሊሲ የሚሰሩ ኢንቦክሶችን ያክሉ።.",
+          "ADD_BUTTON": "ሳጥን አክል",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "ሳጥኖችን ለመጨመር ፈልግና ምረጥ",
+            "ADD_BUTTON": "አክል"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "ለዚህ ፖሊሲ ሳጥኖች አልተጨመሩም፣ መጀመር የሚፈልጉትን ሳጥን ያክሉ",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "ሳጥን በተሳካ ሁኔታ ወደ ፖሊሲ ታክሏል",
+            "ERROR_MESSAGE": "ሳጥን ወደ ፖሊሲ ማክለት አልተሳካም"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "የማንደሪያ ፖሊሲ በተሳካ ሁኔታ ተሰርዟል",
+        "ERROR_MESSAGE": "የማንደሪያ ፖሊሲ ማጥፋት አልተሳካም"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "የወኪል ኃይል",
+          "CREATE_POLICY": "አዲስ ፖሊሲ"
         },
         "CARD": {
-          "POPOVER": "Added agents",
-          "EDIT": "Edit"
+          "POPOVER": "ተጨማሪ ወኪሎች",
+          "EDIT": "አርትዕ"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "የወኪል ኃይል ፖሊሲዎች አልተገኙም"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "የወኪል ኃይል ፖሊሲ ፍጠር"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "ፖሊሲ ፍጠር",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "የወኪል ኃይል ፖሊሲ በተሳካ ሁኔታ ተፈጥሯል",
+          "ERROR_MESSAGE": "የወኪል ኃይል ፖሊሲ ማፍሰስ አልተሳካም"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "የወኪል ኃይል ፖሊሲ አርትዕ"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "ፖሊሲ አዘምን",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
-          "CANCEL_BUTTON_LABEL": "Cancel"
+          "TITLE": "ወኪል አክል",
+          "DESCRIPTION": "{agentName} ከሌላ ፖሊሲ ጋር አስተሳሰብ አለው። ወደዚህ ፖሊሲ ለማስተላለፍ እርግጠኛ ነዎት? ከሌላው ፖሊሲ ይተወላል።.",
+          "CONFIRM_BUTTON_LABEL": "ቀጥል",
+          "CANCEL_BUTTON_LABEL": "ሰርዝ"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "የወኪል ኃይል ፖሊሲ በተሳካ ሁኔታ ተሻሽሏል",
+          "ERROR_MESSAGE": "የወኪል ኃይል ፖሊሲ ማሻሻያ አልተሳካም"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "ወኪል ወደ ፖሊሲ በተሳካ ሁኔታ ታክሏል",
+            "ERROR_MESSAGE": "ወኪል ወደ ፖሊሲ ማክለት አልተሳካም"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "ወኪል ከፖሊሲ በተሳካ ሁኔታ ተሰርዟል",
+            "ERROR_MESSAGE": "ከፖሊሲው የወኪሉን ማስወገድ አልተሳካም"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "የኢንቦክስ ገደብ በተሳካ ሁኔታ ታክሏል",
+            "ERROR_MESSAGE": "የኢንቦክስ ገደብ ማክሰኞ አልተሳካም"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "የኢንቦክስ ገደብ በተሳካ ሁኔታ ተሻሽሏል",
+            "ERROR_MESSAGE": "የኢንቦክስ ገደብ ማሻሻያ አልተሳካም"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "የኢንቦክስ ገደብ በተሳካ ሁኔታ ተሰርዟል",
+            "ERROR_MESSAGE": "የኢንቦክስ ገደብ ማስወገድ አልተሳካም"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "የፖሊሲ ስም፡:",
+          "PLACEHOLDER": "የፖሊሲውን ስም ያስገቡ"
         },
         "DESCRIPTION": {
-          "LABEL": "Description:",
-          "PLACEHOLDER": "Enter description"
+          "LABEL": "መግለጫ፡:",
+          "PLACEHOLDER": "መግለጫ ያስገቡ"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "የኢንቦክስ ክልል አገዛዝ",
+          "ADD_BUTTON": "ኢንቦክስ ያክሉ",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "ኢንቦክስ ይምረጡ",
+            "MAX_CONVERSATIONS": "ከፍተኛ ውይይቶች",
+            "SET_LIMIT": "ክልል ያድርጉ"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "የኢንቦክስ ክልል አልተደረገም"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "የማስወገድ ህጎች",
+          "DESCRIPTION": "የሚከተሉትን ሁኔታዎች የሚያሟሉ ውይይቶች ወኪሉን አይቀርቡም",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "በተለይ ሌብሎች የተሰየሙ ውይይቶችን አስወግዱ",
+            "ADD_TAG": "ሌብል ያክሉ",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "ሌብሎችን ለመጨመር ይፈልጉና ይምረጡ"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "ለዚህ ፖሊሲ ምንም መለያዎች አልተጨመሩም።."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "ከተወሰነ ጊዜ በላይ ያሉ ውይይቶችን አስወግዱ",
+            "PLACEHOLDER": "ጊዜ ያድርጉ"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "የተመደቡ ወኪሎች",
+          "DESCRIPTION": "ለዚህ ፖሊሲ የሚሰሩ ወኪሎችን ያክሉ።.",
+          "ADD_BUTTON": "ወኪል ያክሉ",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
-            "ADD_BUTTON": "Add"
+            "SEARCH_PLACEHOLDER": "ወኪሎችን ለመጨመር ይፈልጉና ይምረጡ",
+            "ADD_BUTTON": "አክል"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "ወኪሎች አልተከለከሉም",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "ወኪሉ በተሳካ ሁኔታ ወደ ፖሊሲው ተከልክሏል",
+            "ERROR_MESSAGE": "ወኪሉን ወደ ፖሊሲ ማክለት አልተሳካም"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "የወኪል ኃይል ፖሊሲ በተሳካ ሁኔታ ተሰርዟል",
+        "ERROR_MESSAGE": "የወኪል ኃይል ፖሊሲ ማጥፋት አልተሳካም"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
-      "CONFIRM_BUTTON_LABEL": "Delete",
-      "CANCEL_BUTTON_LABEL": "Cancel"
+      "TITLE": "ፖሊሲ ሰርዝ",
+      "DESCRIPTION": "ይህን ፖሊሲ ማጥፋት እንደምትፈልጉ እርግጠኛ ነዎት? ይህ እርምጃ አይተካልም።.",
+      "CONFIRM_BUTTON_LABEL": "ሰርዝ",
+      "CANCEL_BUTTON_LABEL": "ሰርዝ"
     }
   }
 }

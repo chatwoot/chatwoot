@@ -1,68 +1,68 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "All results",
+      "ALL": "모든 결과",
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
       "MESSAGES": "메시지",
-      "ARTICLES": "Articles"
+      "ARTICLES": "문서"
     },
     "SECTION": {
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
       "MESSAGES": "메시지",
-      "ARTICLES": "Articles"
+      "ARTICLES": "문서"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Searching",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "RECENT_SEARCHES": "Recent searches",
-    "CLEAR_ALL": "Clear all",
-    "MOST_RECENT": "Most recent",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "VIEW_MORE": "더 보기",
+    "LOAD_MORE": "더 불러오기",
+    "SEARCHING_DATA": "검색 중",
+    "LOADING_DATA": "로딩 중",
+    "EMPTY_STATE": "'{query}' 검색어에 대한 {item}을(를) 찾을 수 없습니다",
+    "EMPTY_STATE_FULL": "'{query}' 검색어에 대한 결과를 찾을 수 없습니다",
+    "PLACEHOLDER_KEYBINDING": "/ 로 포커스",
+    "INPUT_PLACEHOLDER": "검색하려면 3자 이상 입력하십시오",
+    "RECENT_SEARCHES": "최근 검색",
+    "CLEAR_ALL": "모두 지우기",
+    "MOST_RECENT": "최근",
+    "EMPTY_STATE_DEFAULT": "더 나은 검색 결과를 위해 대화 ID, 이메일, 전화번호, 메시지로 검색하십시오. ",
     "BOT_LABEL": "봇",
-    "READ_MORE": "Read more",
-    "READ_LESS": "Read less",
-    "WROTE": "wrote:",
-    "FROM": "From",
+    "READ_MORE": "더 읽기",
+    "READ_LESS": "접기",
+    "WROTE": "작성:",
+    "FROM": "보낸 사람",
     "EMAIL": "이메일",
-    "EMAIL_SUBJECT": "Subject",
-    "PRIVATE": "Private note",
-    "TRANSCRIPT": "Transcript",
-    "CREATED_AT": "created {time}",
-    "UPDATED_AT": "updated {time}",
+    "EMAIL_SUBJECT": "제목",
+    "PRIVATE": "비공개 메모",
+    "TRANSCRIPT": "대화 내용",
+    "CREATED_AT": "{time}에 생성됨",
+    "UPDATED_AT": "{time}에 업데이트됨",
     "SORT_BY": {
-      "RELEVANCE": "Relevance"
+      "RELEVANCE": "관련도"
     },
     "DATE_RANGE": {
       "LAST_7_DAYS": "지난 7일",
       "LAST_30_DAYS": "지난 30일",
       "LAST_60_DAYS": "지난 60일",
       "LAST_90_DAYS": "지난 90일",
-      "CUSTOM_RANGE": "Custom range:",
-      "CREATED_BETWEEN": "Created between",
-      "AND": "and",
-      "APPLY": "Apply",
-      "BEFORE_DATE": "Before {date}",
-      "AFTER_DATE": "After {date}",
-      "TIME_RANGE": "Filter by time",
-      "CLEAR_FILTER": "Clear filter"
+      "CUSTOM_RANGE": "사용자 지정 범위:",
+      "CREATED_BETWEEN": "생성 기간",
+      "AND": "~",
+      "APPLY": "적용",
+      "BEFORE_DATE": "{date} 이전",
+      "AFTER_DATE": "{date} 이후",
+      "TIME_RANGE": "기간별 필터",
+      "CLEAR_FILTER": "필터 지우기"
     },
     "FILTERS": {
-      "FILTER_MESSAGE": "Filter messages by:",
-      "FROM": "Sender",
+      "FILTER_MESSAGE": "메시지 필터 기준:",
+      "FROM": "발신자",
       "IN": "받은 메시지함",
       "AGENTS": "에이전트",
       "CONTACTS": "연락처",
       "INBOXES": "받은 메시지함",
-      "NO_AGENTS": "에이전트를 찾을 수 없음",
-      "NO_CONTACTS": "Start by searching to see results",
-      "NO_INBOXES": "No inboxes found"
+      "NO_AGENTS": "에이전트를 찾을 수 없습니다",
+      "NO_CONTACTS": "검색을 시작하여 결과를 확인하십시오",
+      "NO_INBOXES": "받은 메시지함을 찾을 수 없습니다"
     }
   }
 }

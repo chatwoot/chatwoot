@@ -98,6 +98,17 @@ const handleAction = ({ action, id, category: categoryData }) => {
     deleteCategory(categoryData);
   }
 };
+
+const reorderCategories = async reorderedGroup => {
+  try {
+    await store.dispatch('categories/reorder', {
+      portalSlug: route.params.portalSlug,
+      reorderedGroup,
+    });
+  } catch {
+    useAlert(t('HELP_CENTER.REORDER_CATEGORY.API.ERROR_MESSAGE'));
+  }
+};
 </script>
 
 <template>
@@ -122,6 +133,7 @@ const handleAction = ({ action, id, category: categoryData }) => {
         :categories="categories"
         @click="openCategoryArticles"
         @action="handleAction"
+        @reorder="reorderCategories"
       />
       <CategoryEmptyState
         v-else

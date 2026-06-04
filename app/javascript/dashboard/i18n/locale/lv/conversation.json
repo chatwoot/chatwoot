@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "Šis ziņojums netiek atbalstīts. Šo ziņojumu varat apskatīt Facebook/Instagram lietotnē.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Šis ziņojums netiek atbalstīts. Šo ziņojumu Jūs varat apskatīt lietotnē Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Ziņojums veiksmīgi izdzēsts",
     "FAIL_DELETE_MESSSAGE": "Nevarēja izdzēst ziņojumu! Mēģiniet vēlreiz",
     "NO_RESPONSE": "Nav atbildes",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Ziņa nav pieejama",
     "CARD": {
       "SHOW_LABELS": "Rādīt etiķetes",
-      "HIDE_LABELS": "Slēpt etiķetes"
+      "HIDE_LABELS": "Slēpt etiķetes",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
+      "NO_ANSWER_OUTBOUND_LABEL": "No answer",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Missed call",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Call ended",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
@@ -91,10 +105,17 @@
       "OPEN": "Papildu",
       "CLOSE": "Aizvērt",
       "DETAILS": "detalizēta informācija",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Atlikts līdz",
       "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai",
       "SNOOZED_UNTIL_NEXT_REPLY": "Atlikts līdz nākamajai atbildei",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "Sarunai ar id {conversationId} piešķirta etiķete #{labelName}",
           "FAILED": "Nevarēja piešķirt etiķeti. Lūdzu, mēģiniet vēlreiz."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Sarunai ar id {conversationId} tika piešķirta komanda \"{team}\"",
           "FAILED": "Nevarēja piešķirt komandu. Lūdzu, mēģiniet vēlreiz."
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "Atspējot parakstu",
       "MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Sāciet ar '/' lai izvēlētos sagatavotu atbildi.",
       "PRIVATE_MSG_INPUT": "Shift + Enter, lai pārietu uz jaunu rindu. Ziņojums būs redzams tikai Aģentiem",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Ziņojuma paraksts nav nokonfigurēts. Lūdzu, nokonfigurējiet to profila iestatījumos.",
+      "COPILOT_MSG_INPUT": "Dodiet copilota papildu ierosinājumus vai uzdodiet jebko citu... Nospiediet Enter, lai nosūtītu turpinājumu",
       "CLICK_HERE": "Noklikšķiniet šeit, lai atjauninātu",
       "WHATSAPP_TEMPLATES": "WhatsApp Veidnes"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
       "TIP_AUDIORECORDER_PERMISSION": "Atļaut piekļuvi pie audio",
       "TIP_AUDIORECORDER_ERROR": "Nevarēja atvērt audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Velciet un nometiet šeit, lai pievienotu",
       "START_AUDIO_RECORDING": "Sākt audio ierakstīšanu",
       "STOP_AUDIO_RECORDING": "Apturēt audio ierakstīšanu",
-      "": "",
+      "COPILOT_THINKING": "Copilot domā",
       "EMAIL_HEAD": {
         "TO": "KAM",
         "ADD_BCC": "Pievienot bcc",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
     "SENT_BY": "Sūtīja:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
     "TRY_AGAIN": "mēģināt vēlreiz",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Atcelt",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "Atcelt",
     "SEND_EMAIL_SUCCESS": "Sarunas transkripts tika veiksmīgi nosūtīts",
     "SEND_EMAIL_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Nosūtīt transkriptu klientam",
       "SEND_TO_AGENT": "Nosūtīt transkriptu piešķirtajam aģentam",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "Apskatīt visu",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

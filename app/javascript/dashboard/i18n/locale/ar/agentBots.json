@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "جار جلب المحرر...",
     "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
+    "COUNT": "{n} bot | {n} bots",
+    "SEARCH_PLACEHOLDER": "Search bots...",
+    "NO_RESULTS": "No bots found matching your search",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "النظام",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "جار جلب الروبوتات...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
-        "URL": "رابط Webhook"
+        "URL": "رابط Webhook",
+        "ACTIONS": "الإجراءات"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "تم تحديث الروبوت بنجاح.",
         "ERROR_MESSAGE": "تعذر تحديث الروبوت. يرجى المحاولة مرة أخرى."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copy secret to clipboard",
+      "COPY_SUCCESS": "Secret copied to clipboard",
+      "TOGGLE": "Toggle secret visibility",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "Done",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
     },
     "ACCESS_TOKEN": {
       "TITLE": "رمز المصادقة",

@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook/Instagram-App sehen.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Facebook-Messenger-App sehen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Diese Nachricht wird nicht unterstützt. Sie können diese Nachricht in der Instagram-App sehen.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Nachricht erfolgreich gelöscht",
     "FAIL_DELETE_MESSSAGE": "Nachricht konnte nicht gelöscht werden! Versuchen Sie es erneut",
     "NO_RESPONSE": "Keine Antwort",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Nachricht nicht verfügbar",
     "CARD": {
       "SHOW_LABELS": "Labels anzeigen",
-      "HIDE_LABELS": "Labels ausblenden"
+      "HIDE_LABELS": "Labels ausblenden",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Eingehender Anruf",
       "OUTGOING_CALL": "Ausgehender Anruf",
       "CALL_IN_PROGRESS": "Anruf läuft",
       "NO_ANSWER": "Keine Antwort",
+      "NO_ANSWER_OUTBOUND_LABEL": "Keine Antwort",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Entgangener Anruf",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Anruf beendet",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Noch nicht beantwortet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "Sie antworteten",
-      "YOU_ANSWERED": "Sie haben beantwortet"
+      "YOU_ANSWERED": "Sie haben beantwortet",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -91,10 +105,17 @@
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Stummschalten bis",
       "SNOOZED_UNTIL_TOMORROW": "Schlummern bis morgen",
       "SNOOZED_UNTIL_NEXT_WEEK": "Schlummern bis nächste Woche",
       "SNOOZED_UNTIL_NEXT_REPLY": "Schlummern bis zur nächsten Antwort",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "Label #{labelName} der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Label konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Das Team\"{team}\" wurde der Konversations-ID {conversationId} zugewiesen",
           "FAILED": "Team konnte nicht zugewiesen werden. Bitte versuche es erneut."
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "Signatur deaktivieren",
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
+      "COPILOT_MSG_INPUT": "Geben Sie Copilot zusätzliche Aufforderungen oder fragen Sie etwas anderes ... Drücken Sie Enter, um eine Folgefrage zu senden",
       "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
       "WHATSAPP_TEMPLATES": "WhatsApp-Vorlagen"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "Audio aufzeichnen",
       "TIP_AUDIORECORDER_PERMISSION": "Zugriff auf Audio zulassen",
       "TIP_AUDIORECORDER_ERROR": "Audio konnte nicht geöffnet werden",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Zum Anhängen hierher ziehen und ablegen",
       "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
       "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
-      "": "",
+      "COPILOT_THINKING": "Copilot denkt",
       "EMAIL_HEAD": {
         "TO": "An",
         "ADD_BCC": "BCC hinzufügen",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Unterhaltung erfolgreich gelöscht",
     "FAIL_DELETE_CONVERSATION": "Unterhaltung konnte nicht gelöscht werden! Erneut versuchen",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Nachricht konnte nicht gesendet werden! Versuchen Sie es noch einmal",
     "TRY_AGAIN": "neu versuchen",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "Noch nicht beantwortet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Verwerfen",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "Abbrechen",
     "SEND_EMAIL_SUCCESS": "Das Chat-Protokoll wurde erfolgreich gesendet",
     "SEND_EMAIL_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Das Transkript an den Kunden senden",
       "SEND_TO_AGENT": "Transkript an den zugewiesenen Agenten senden",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Vorherige Konversationen",
       "MACROS": "Makros",
       "LINEAR_ISSUES": "Verknüpfte lineare Probleme",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "Alle anzeigen",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

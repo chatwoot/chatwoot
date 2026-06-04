@@ -106,6 +106,10 @@ select {
   &[disabled] {
     @apply field-disabled;
   }
+
+  option:not(:disabled) {
+    @apply bg-n-solid-2 text-n-slate-12;
+  }
 }
 
 // Textarea

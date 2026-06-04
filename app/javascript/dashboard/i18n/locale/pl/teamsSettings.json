@@ -5,6 +5,9 @@
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
     "LEARN_MORE": "Learn more about teams",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Szukaj zespołów...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "Na tym koncie nie ma żadnych zespołów.",
       "EDIT_TEAM": "Edytuj zespół",
@@ -64,8 +67,8 @@
       "ERROR_MESSAGE": "Nie udało się zapisać szczegółów zespołu. Spróbuj ponownie."
     },
     "AGENTS": {
-      "AGENT": "AGENT",
-      "EMAIL": "EMAIL",
+      "AGENT": "Agent",
+      "EMAIL": "E-mail",
       "BUTTON_TEXT": "Dodaj agentów",
       "ADD_AGENTS": "Dodaj agenta do swojego zespołu...",
       "SELECT": "wybierz",

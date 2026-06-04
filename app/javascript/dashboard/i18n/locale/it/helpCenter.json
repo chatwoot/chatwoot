@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Lingua rimossa dal portale con successo",
           "ERROR_MESSAGE": "Impossibile rimuovere la lingua dal portale. Riprova."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Articolo eliminato con successo",
         "ERROR_MESSAGE": "Errore durante l'eliminazione dell'articolo"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare gli articoli. Riprova."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Impossibile riordinare le categorie. Riprova."
       }
     },
     "CREATE_ARTICLE": {
@@ -503,6 +525,7 @@
             "PUBLISH": "Pubblica",
             "DRAFT": "Bozza",
             "ARCHIVE": "Archivia",
+            "TRANSLATE": "Traduci",
             "DELETE": "Elimina"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "Non ci sono articoli in questa categoria",
           "SUBTITLE": "Gli articoli in questa categoria appariranno qui"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Traduci articolo | Traduci {count} articoli",
+        "DESCRIPTION": "Traduci l'articolo selezionato in un'altra lingua. | Traduci gli articoli selezionati in un'altra lingua.",
+        "LOCALE_LABEL": "Lingua di destinazione",
+        "LOCALE_PLACEHOLDER": "Seleziona una lingua",
+        "CATEGORY_LABEL": "Categoria di destinazione",
+        "CATEGORY_PLACEHOLDER": "Seleziona una categoria",
+        "OPTIONAL": "(opzionale)",
+        "CONFIRM": "Traduci",
+        "SELECT_ALL": "Seleziona tutto ({count})",
+        "SELECTED_COUNT": "{count} selezionate",
+        "CLEAR_SELECTION": "Annulla selezione",
+        "TRANSLATE_BUTTON": "Traduci",
+        "CONFIRM_OVERWRITE": "Sovrascrivi e traduci",
+        "DUPLICATE_WARNING": "Esiste già una traduzione per questo articolo nella lingua selezionata. | Esistono già delle traduzioni per {count} articoli nella lingua selezionata.",
+        "DUPLICATE_CONFIRM_HINT": "Clicca Traduci di nuovo per sovrascrivere la traduzione esistente.",
+        "API": {
+          "SUCCESS_MESSAGE": "Traduzione in corso. L'articolo apparirà in bozza una volta pronto.",
+          "ERROR_MESSAGE": "Impossibile avviare la traduzione. Riprova."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Pubblica",
+        "DRAFT": "Bozza",
+        "ARCHIVE": "Archivia",
+        "TRANSLATE": "Traduci",
+        "MOVE_TO_CATEGORY": "Categoria",
+        "DELETE": "Elimina",
+        "STATUS_SUCCESS": "Articoli aggiornati correttamente",
+        "STATUS_ERROR": "Impossibile aggiornare gli articoli",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Elimina articolo | Elimina {count} articoli",
+        "DELETE_CONFIRM_DESCRIPTION": "Questo eliminerà definitivamente l'articolo selezionato. Questa azione non può essere annullata. | Questo eliminerà definitivamente {count} articoli selezionati. Questa azione non può essere annullata.",
+        "DELETE_CONFIRM": "Elimina",
+        "DELETE_SUCCESS": "Articoli eliminati correttamente",
+        "DELETE_ERROR": "Impossibile eliminare gli articoli"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} articolo | {count} articoli",
         "CATEGORIES_COUNT": "{count} categoria | {count} categorie",
         "DEFAULT": "Predefinito",
+        "DRAFT": "Bozza",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Imposta predefinito",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Elimina"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "Seleziona la lingua in cui questo articolo verrà scritto. Questo sarà aggiunto alla tua lista di traduzioni e puoi aggiungerne di più in seguito.",
         "COMBOBOX": {
           "PLACEHOLDER": "Seleziona lingua..."
+        },
+        "STATUS": {
+          "LABEL": "Stato",
+          "OPTIONS": {
+            "LIVE": "Pubblicato",
+            "DRAFT": "Bozza"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Lingua aggiunta con successo",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Modifica configurazione"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Aspetto",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Rimuovi"
+        },
+        "SAVE": "Salva modifiche"
       },
       "API": {
         "CREATE_PORTAL": {

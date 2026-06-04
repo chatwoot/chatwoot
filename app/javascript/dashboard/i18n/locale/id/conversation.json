@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Pesan berhasil dihapus",
     "FAIL_DELETE_MESSSAGE": "Tidak dapat menghapus pesan! Coba lagi",
     "NO_RESPONSE": "Tidak ada respon",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Tampilkan label",
-      "HIDE_LABELS": "Sembunyikan label"
+      "HIDE_LABELS": "Sembunyikan label",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
+      "NO_ANSWER_OUTBOUND_LABEL": "No answer",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Missed call",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Call ended",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
@@ -91,10 +105,17 @@
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
       "DETAILS": "detail",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Ditunda hingga",
       "SNOOZED_UNTIL_TOMORROW": "Ditunda hingga besok",
       "SNOOZED_UNTIL_NEXT_WEEK": "Ditunda hingga minggu depan",
       "SNOOZED_UNTIL_NEXT_REPLY": "Ditunda hingga balasan selanjutnya",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Tidak dapat menugaskan label. Silakan coba lagi."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Tim \"{team}\" ditugaskan ke id percakapan {conversationId}",
           "FAILED": "Tidak dapat menugaskan tim. Silakan coba lagi."
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "Nonaktifkan tanda tangan",
       "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
+      "COPILOT_MSG_INPUT": "Berikan copilot perintah tambahan, atau tanyakan hal lain... Tekan enter untuk mengirim tindak lanjut",
       "CLICK_HERE": "Klik di sini untuk memperbarui",
       "WHATSAPP_TEMPLATES": "Templat Whatsapp"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "Rekam audio",
       "TIP_AUDIORECORDER_PERMISSION": "Izinkan akses ke audio",
       "TIP_AUDIORECORDER_ERROR": "Tidak dapat membuka audio",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Seret dan letakkan di sini untuk melampirkan",
       "START_AUDIO_RECORDING": "Mulai merekam audio",
       "STOP_AUDIO_RECORDING": "Berhenti merekam audio",
-      "": "",
+      "COPILOT_THINKING": "Copilot sedang berpikir",
       "EMAIL_HEAD": {
         "TO": "KEPADA",
         "ADD_BCC": "Tambahkan bcc",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Lampiran melebihi batas ukuran {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Tidak dapat mengirim pesan ini, mohon coba lagi nanti",
     "SENT_BY": "Dikirim oleh:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Tidak dapat mengirim pesan! Coba lagi",
     "TRY_AGAIN": "coba lagi",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Tutup",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "Batalkan",
     "SEND_EMAIL_SUCCESS": "Transkrip percakapan berhasil terkirim",
     "SEND_EMAIL_ERROR": "Terjadi kesalahan, mohon coba lagi",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Kirim transkrip ke pelanggan",
       "SEND_TO_AGENT": "Kirim transkrip dari agen yang ditugaskan",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
       "MACROS": "Makro",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

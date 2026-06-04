@@ -6,156 +6,156 @@
       "CREATE_PORTAL_BUTTON": "Create Portal"
     },
     "HEADER": {
-      "FILTER": "Filter by",
-      "SORT": "Sort by",
-      "LOCALE": "Locale",
-      "SETTINGS_BUTTON": "Settings",
-      "NEW_BUTTON": "New Article",
+      "FILTER": "Filtrlə",
+      "SORT": "Sırala",
+      "LOCALE": "Dil",
+      "SETTINGS_BUTTON": "Ayarlar",
+      "NEW_BUTTON": "Yeni Məqalə",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Published",
-        "DRAFT": "Draft",
-        "ARCHIVED": "Archived"
+        "PUBLISHED": "Yayımlanıb",
+        "DRAFT": "Qaralama",
+        "ARCHIVED": "Arxivlənib"
       },
       "TITLES": {
-        "ALL_ARTICLES": "All Articles",
-        "MINE": "My Articles",
-        "DRAFT": "Draft Articles",
-        "ARCHIVED": "Archived Articles"
+        "ALL_ARTICLES": "Bütün Məqalələr",
+        "MINE": "Mənim Məqalələrim",
+        "DRAFT": "Qaralama Məqalələr",
+        "ARCHIVED": "Arxivləşdirilmiş Məqalələr"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Dili seçin",
+        "PLACEHOLDER": "Dili seçin",
+        "NO_RESULT": "Dil tapılmadı",
+        "SEARCH_PLACEHOLDER": "Dil axtarışı"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "All Articles",
-      "PUBLISH_BUTTON": "Publish",
-      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
-      "PREVIEW": "Preview",
-      "ADD_TRANSLATION": "Add translation",
-      "OPEN_SIDEBAR": "Open sidebar",
-      "CLOSE_SIDEBAR": "Close sidebar",
-      "SAVING": "Saving...",
-      "SAVED": "Saved"
+      "ALL_ARTICLES": "Bütün məqalələr",
+      "PUBLISH_BUTTON": "Yayımla",
+      "MOVE_TO_ARCHIVE_BUTTON": "Arxivə köçür",
+      "PREVIEW": "Önizləmə",
+      "ADD_TRANSLATION": "Tərcümə əlavə et",
+      "OPEN_SIDEBAR": "Yan paneli aç",
+      "CLOSE_SIDEBAR": "Yan paneli bağla",
+      "SAVING": "Yadda saxlanılır...",
+      "SAVED": "Yadda saxlanıldı"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
-        "TITLE": "Upload image",
-        "UPLOADING": "Uploading...",
-        "SUCCESS": "Image uploaded successfully",
-        "ERROR": "Error while uploading image",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
-        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
+        "TITLE": "Şəkil yüklə",
+        "UPLOADING": "Yüklənir...",
+        "SUCCESS": "Şəkil uğurla yükləndi",
+        "ERROR": "Şəkil yüklənərkən xəta baş verdi",
+        "UN_AUTHORIZED_ERROR": "Şəkilləri yükləmək üçün icazəniz yoxdur",
+        "ERROR_FILE_SIZE": "Şəkilin ölçüsü {size}MB-dən az olmalıdır",
+        "ERROR_FILE_FORMAT": "Şəkil formatı jpg, jpeg və ya png olmalıdır",
+        "ERROR_FILE_DIMENSIONS": "Şəkilin ölçüləri 2000 x 2000-dən az olmalıdır"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Article Settings",
+      "TITLE": "Məqalə parametrləri",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Category",
-          "TITLE": "Select category",
-          "PLACEHOLDER": "Select category",
-          "NO_RESULT": "No category found",
-          "SEARCH_PLACEHOLDER": "Search category"
+          "LABEL": "Kateqoriya",
+          "TITLE": "Kateqoriya seçin",
+          "PLACEHOLDER": "Kateqoriya seçin",
+          "NO_RESULT": "Heç bir kateqoriya tapılmadı",
+          "SEARCH_PLACEHOLDER": "Kateqoriya axtar"
         },
         "AUTHOR": {
-          "LABEL": "Author",
-          "TITLE": "Select author",
-          "PLACEHOLDER": "Select author",
-          "NO_RESULT": "No authors found",
-          "SEARCH_PLACEHOLDER": "Search author"
+          "LABEL": "Müəllif",
+          "TITLE": "Müəllif seçin",
+          "PLACEHOLDER": "Müəllifi seçin",
+          "NO_RESULT": "Müəllif tapılmadı",
+          "SEARCH_PLACEHOLDER": "Müəllifi axtar"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
-          "PLACEHOLDER": "Add a meta title"
+          "LABEL": "Meta başlıq",
+          "PLACEHOLDER": "Meta başlıq əlavə edin"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
-          "PLACEHOLDER": "Add your meta description for better SEO results..."
+          "LABEL": "Meta təsviri",
+          "PLACEHOLDER": "Daha yaxşı SEO nəticələri üçün meta təsvir əlavə edin..."
         },
         "META_TAGS": {
-          "LABEL": "Meta tags",
-          "PLACEHOLDER": "Add meta tags separated by comma..."
+          "LABEL": "Meta teqlər",
+          "PLACEHOLDER": "Vergüllə ayrılmış meta teqlər əlavə edin..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Archive article",
-        "DELETE": "Delete article"
+        "ARCHIVE": "Məqaləni arxivləşdir",
+        "DELETE": "Məqaləni sil"
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
+      "UNCATEGORIZED": "Kateqoriyasız",
       "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "EMPTY_TEXT": "Cavablara əlavə etmək üçün məqalələri axtarın.",
+      "SEARCH_LOADER": "Axtarılır...",
+      "INSERT_ARTICLE": "Daxil et",
+      "NO_RESULT": "Məqalə tapılmadı",
+      "COPY_LINK": "Məqalə linkini panoya kopyala",
+      "OPEN_LINK": "Məqaləni yeni nişanda aç",
+      "PREVIEW_LINK": "Məqaləyə önizləmə baxışı"
     },
     "PORTAL": {
-      "HEADER": "Portals",
-      "DEFAULT": "Default",
-      "NEW_BUTTON": "New Portal",
-      "ACTIVE_BADGE": "active",
-      "CHOOSE_LOCALE_LABEL": "Choose a locale",
-      "LOADING_MESSAGE": "Loading portals...",
-      "ARTICLES_LABEL": "articles",
-      "NO_PORTALS_MESSAGE": "There are no available portals",
-      "ADD_NEW_LOCALE": "Add a new locale",
+      "HEADER": "Portallar",
+      "DEFAULT": "Defolt",
+      "NEW_BUTTON": "Yeni Portal",
+      "ACTIVE_BADGE": "aktiv",
+      "CHOOSE_LOCALE_LABEL": "Bir dil seçin",
+      "LOADING_MESSAGE": "Portallar yüklənir...",
+      "ARTICLES_LABEL": "məqalələr",
+      "NO_PORTALS_MESSAGE": "Mövcud portal yoxdur",
+      "ADD_NEW_LOCALE": "Yeni dil əlavə et",
       "POPOVER": {
-        "TITLE": "Portals",
-        "PORTAL_SETTINGS": "Portal settings",
-        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
-        "CANCEL_BUTTON_LABEL": "Cancel",
-        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
+        "TITLE": "Portallar",
+        "PORTAL_SETTINGS": "Portal parametrləri",
+        "SUBTITLE": "Bir neçə portalınız var və hər portal üçün fərqli dillər seçə bilərsiniz.",
+        "CANCEL_BUTTON_LABEL": "Ləğv et",
+        "CHOOSE_LOCALE_BUTTON": "Dil seçin"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "articles",
-            "ADD": "Add locale",
-            "VISIT": "Visit site",
-            "SETTINGS": "Settings",
-            "DELETE": "Delete"
+            "COUNT_LABEL": "məqalələr",
+            "ADD": "Dil əlavə et",
+            "VISIT": "Sayta bax",
+            "SETTINGS": "Parametrlər",
+            "DELETE": "Sil"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Portal Configurations",
+            "TITLE": "Portal Konfiqurasiyaları",
             "ITEMS": {
-              "NAME": "Name",
-              "DOMAIN": "Custom domain",
+              "NAME": "Ad",
+              "DOMAIN": "Xüsusi domen",
               "SLUG": "Slug",
-              "TITLE": "Portal title",
-              "THEME": "Theme color",
-              "SUB_TEXT": "Portal sub text"
+              "TITLE": "Portal başlığı",
+              "THEME": "Tema rəngi",
+              "SUB_TEXT": "Portal alt mətni"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Available locales",
+            "TITLE": "Mövcud dillər",
             "TABLE": {
-              "NAME": "Locale name",
-              "CODE": "Locale code",
-              "ARTICLE_COUNT": "No. of articles",
-              "CATEGORIES": "No. of categories",
-              "SWAP": "Swap",
-              "DELETE": "Delete",
-              "DEFAULT_LOCALE": "Default"
+              "NAME": "Dil adı",
+              "CODE": "Dil kodu",
+              "ARTICLE_COUNT": "Məqalələrin sayı",
+              "CATEGORIES": "Kateqoriyaların sayı",
+              "SWAP": "Dəyişdir",
+              "DELETE": "Sil",
+              "DEFAULT_LOCALE": "Əsas"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Delete portal",
-          "MESSAGE": "Are you sure you want to delete this portal",
-          "YES": "Yes, delete portal",
-          "NO": "No, keep portal",
+          "TITLE": "Portalı sil",
+          "MESSAGE": "Bu portalı silmək istədiyinizə əminsiniz",
+          "YES": "Bəli, portalı sil",
+          "NO": "Xeyr, portalı saxla",
           "API": {
-            "DELETE_SUCCESS": "Portal deleted successfully",
-            "DELETE_ERROR": "Error while deleting portal"
+            "DELETE_SUCCESS": "Portal uğurla silindi",
+            "DELETE_ERROR": "Portal silinərkən xəta baş verdi"
           }
         },
         "SEND_CNAME_INSTRUCTIONS": {
@@ -166,192 +166,204 @@
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit portal",
+        "HEADER_TEXT": "Portalı redaktə et",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Basic information"
+            "TITLE": "Əsas məlumat"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Portal customization"
+            "TITLE": "Portal fərdiləşdirilməsi"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Categories"
+            "TITLE": "Kateqoriyalar"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Locales"
+            "TITLE": "Dillər"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Categories in",
-          "NEW_CATEGORY": "New category",
+          "TITLE": "Kateqoriyalar",
+          "NEW_CATEGORY": "Yeni kateqoriya",
           "TABLE": {
-            "NAME": "Name",
-            "DESCRIPTION": "Description",
-            "LOCALE": "Locale",
-            "ARTICLE_COUNT": "No. of articles",
+            "NAME": "Ad",
+            "DESCRIPTION": "Təsvir",
+            "LOCALE": "Dil",
+            "ARTICLE_COUNT": "Məqalələrin sayı",
             "ACTION_BUTTON": {
-              "EDIT": "Edit category",
-              "DELETE": "Delete category"
+              "EDIT": "Kateqoriyanı redaktə et",
+              "DELETE": "Kateqoriyanı sil"
             },
-            "EMPTY_TEXT": "No categories found"
+            "EMPTY_TEXT": "Kateqoriyalar tapılmadı"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Update basic settings"
+          "BUTTON_TEXT": "Əsas parametrləri yenilə"
         }
       },
       "ADD": {
         "CREATE_FLOW": {
           "BASIC": {
-            "TITLE": "Help center information",
-            "BODY": "Basic information about portal"
+            "TITLE": "Kömək mərkəzi məlumatları",
+            "BODY": "Portal haqqında əsas məlumat"
           },
           "CUSTOMIZATION": {
-            "TITLE": "Help center customization",
-            "BODY": "Customize portal"
+            "TITLE": "Kömək mərkəzinin fərdiləşdirilməsi",
+            "BODY": "Portalı fərdiləşdirin"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
+            "TITLE": "Budur! 🎉",
             "BODY": "You're all set!"
           }
         },
         "CREATE_FLOW_PAGE": {
-          "BACK_BUTTON": "Back",
+          "BACK_BUTTON": "Geri",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Create Portal",
-            "TITLE": "Help center information",
-            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
+            "HEADER": "Portal yarat",
+            "TITLE": "Kömək mərkəzi məlumatları",
+            "CREATE_BASIC_SETTING_BUTTON": "Portalun əsas parametrlərini yarat"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Portal customisation",
-            "TITLE": "Help center customization",
-            "UPDATE_PORTAL_BUTTON": "Update portal settings"
+            "HEADER": "Portal fərdiləşdirilməsi",
+            "TITLE": "Kömək mərkəzinin fərdiləşdirilməsi",
+            "UPDATE_PORTAL_BUTTON": "Portal parametrlərini yenilə"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila!🎉 You're all set up!",
-            "MESSAGE": "You can now see this created portal on your all portals page.",
-            "FINISH": "Go to all portals page"
+            "TITLE": "Voila!🎉 Hər şey hazırdır!",
+            "MESSAGE": "İndi bu yaradılmış portala bütün portallar səhifənizdən baxa bilərsiniz.",
+            "FINISH": "Bütün portallar səhifəsinə keç"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Upload logo",
-          "HELP_TEXT": "This logo will be displayed on the portal header.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "Loqonu yüklə",
+          "HELP_TEXT": "Bu logo portal başlığında göstəriləcək.",
+          "IMAGE_UPLOAD_SUCCESS": "Loqo uğurla yükləndi",
+          "IMAGE_UPLOAD_ERROR": "Loqo uğurla silindi",
+          "IMAGE_DELETE_ERROR": "Loqo silinərkən xəta baş verdi"
         },
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Portal name",
-          "HELP_TEXT": "The name will be used in the public facing portal internally.",
-          "ERROR": "Name is required"
+          "LABEL": "Ad",
+          "PLACEHOLDER": "Portal adı",
+          "HELP_TEXT": "Ad daxili olaraq ictimai portalda istifadə olunacaq.",
+          "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug for urls",
-          "ERROR": "Slug is required"
+          "PLACEHOLDER": "Portal slug URL-lər üçün",
+          "ERROR": "Slug tələb olunur"
         },
         "DOMAIN": {
-          "LABEL": "Custom Domain",
-          "PLACEHOLDER": "Portal custom domain",
+          "LABEL": "Xüsusi domen",
+          "PLACEHOLDER": "Portalun xüsusi domeni",
           "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Enter a valid domain URL"
+          "ERROR": "Etibarlı domen URL-si daxil edin"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home Page Link",
-          "PLACEHOLDER": "Portal home page link",
+          "LABEL": "Ana səhifə linki",
+          "PLACEHOLDER": "Portalun ana səhifə linki",
           "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Enter a valid home page URL"
+          "ERROR": "Etibarlı ana səhifə URL-si daxil edin"
         },
         "THEME_COLOR": {
-          "LABEL": "Portal theme color",
-          "HELP_TEXT": "This color will show as the theme color for the portal."
+          "LABEL": "Portal tema rəngi",
+          "HELP_TEXT": "Bu rəng portal üçün tema rəngi kimi göstəriləcək."
         },
         "PAGE_TITLE": {
-          "LABEL": "Page Title",
-          "PLACEHOLDER": "Portal page title",
-          "HELP_TEXT": "The page title will be used in the public facing portal.",
-          "ERROR": "Page title is required"
+          "LABEL": "Səhifə Başlığı",
+          "PLACEHOLDER": "Portal səhifəsinin başlığı",
+          "HELP_TEXT": "Səhifənin başlığı ictimai portalda istifadə olunacaq.",
+          "ERROR": "Səhifə başlığı tələb olunur"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header Text",
-          "PLACEHOLDER": "Portal header text",
-          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
-          "ERROR": "Portal header text is required"
+          "LABEL": "Başlıq Mətn",
+          "PLACEHOLDER": "Portal başlıq mətni",
+          "HELP_TEXT": "Portal başlıq mətni ictimai portalda istifadə olunacaq.",
+          "ERROR": "Portal başlıq mətni tələb olunur"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
-          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal uğurla yaradıldı.",
+          "ERROR_MESSAGE_FOR_BASIC": "Portal yaradıla bilmədi. Yenidən cəhd edin.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal uğurla yeniləndi.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Portal yenilənə bilmədi. Yenidən cəhd edin."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Add a new locale",
-        "SUB_TITLE": "This adds a new locale to your available translation list.",
+        "TITLE": "Yeni dil əlavə et",
+        "SUB_TITLE": "Bu, mövcud tərcümə siyahınıza yeni bir dil əlavə edir.",
         "PORTAL": "Portal",
         "LOCALE": {
-          "LABEL": "Locale",
-          "PLACEHOLDER": "Choose a locale",
-          "ERROR": "Locale is required"
+          "LABEL": "Dil",
+          "PLACEHOLDER": "Dil seçin",
+          "ERROR": "Dil tələb olunur"
         },
         "BUTTONS": {
-          "CREATE": "Create locale",
-          "CANCEL": "Cancel"
+          "CREATE": "Dili yarat",
+          "CANCEL": "Ləğv et"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale added successfully",
-          "ERROR_MESSAGE": "Unable to add locale. Try again."
+          "SUCCESS_MESSAGE": "Dil uğurla əlavə edildi",
+          "ERROR_MESSAGE": "Dil əlavə etmək mümkün olmadı. Yenidən cəhd edin."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Default locale updated successfully",
-          "ERROR_MESSAGE": "Unable to update default locale. Try again."
+          "SUCCESS_MESSAGE": "Əsas dil uğurla yeniləndi",
+          "ERROR_MESSAGE": "Əsas dili yeniləmək mümkün olmadı. Yenidən cəhd edin."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
-          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
+          "SUCCESS_MESSAGE": "Dil portaldan uğurla silindi",
+          "ERROR_MESSAGE": "Dili portaldan silmək mümkün olmadı. Yenidən cəhd edin."
+        }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Loading articles...",
-      "404": "No articles matches your search 🔍",
-      "NO_ARTICLES": "There are no available articles",
+      "LOADING_MESSAGE": "Məqalələr yüklənir...",
+      "404": "Axtarışınıza uyğun məqalə tapılmadı 🔍",
+      "NO_ARTICLES": "Mövcud məqalə yoxdur",
       "HEADERS": {
-        "TITLE": "Title",
-        "CATEGORY": "Category",
-        "READ_COUNT": "Views",
-        "STATUS": "Status",
-        "LAST_EDITED": "Last edited"
+        "TITLE": "Başlıq",
+        "CATEGORY": "Kateqoriya",
+        "READ_COUNT": "Baxışlar",
+        "STATUS": "Vəziyyət",
+        "LAST_EDITED": "Son redaktə"
       },
       "COLUMNS": {
-        "BY": "by",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "tərəfindən",
+        "AUTHOR_NOT_AVAILABLE": "Müəllif mövcud deyil"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Loading article...",
-      "TITLE_PLACEHOLDER": "Article title goes here",
-      "CONTENT_PLACEHOLDER": "Write your article here",
+      "LOADING": "Məqalə yüklənir...",
+      "TITLE_PLACEHOLDER": "Məqalənin başlığı buraya yazılır",
+      "CONTENT_PLACEHOLDER": "Məqalənizi buraya yazın",
       "API": {
-        "ERROR": "Error while saving article"
+        "ERROR": "Məqalə yadda saxlanarkən xəta baş verdi"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Error while publishing article",
-        "SUCCESS": "Article published successfully"
+        "ERROR": "Məqalə yayımlanarkən xəta baş verdi",
+        "SUCCESS": "Məqalə uğurla dərc olundu"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Error while archiving article",
-        "SUCCESS": "Article archived successfully"
+        "ERROR": "Məqalə arxivlənərkən xəta baş verdi",
+        "SUCCESS": "Məqalə uğurla arxivləndi"
       }
     },
     "DRAFT_ARTICLE": {
@@ -363,138 +375,148 @@
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
-          "TITLE": "Confirm Deletion",
-          "MESSAGE": "Are you sure to delete the article?",
-          "YES": "Yes, Delete",
-          "NO": "No, Keep it"
+          "TITLE": "Silinməni təsdiqləyin",
+          "MESSAGE": "Məqaləni silmək istədiyinizə əminsiniz?",
+          "YES": "Bəli, sil",
+          "NO": "Xeyr, Saxla"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Article deleted successfully",
-        "ERROR_MESSAGE": "Error while deleting article"
+        "SUCCESS_MESSAGE": "Məqalə uğurla silindi",
+        "ERROR_MESSAGE": "Məqaləni silərkən xəta baş verdi"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
+      "ERROR_MESSAGE": "Zəhmət olmasa məqalənin başlığını və məzmununu əlavə edin, yalnız bundan sonra parametrləri yeniləyə bilərsiniz"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Search for articles"
+        "PLACEHOLDER": "Məqalələrdə axtarış"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Create a category",
-        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
+        "TITLE": "Kateqoriya yaradın",
+        "SUB_TITLE": "Kateqoriya, məqalələri kateqoriyalara ayırmaq üçün ictimai portalda istifadə olunacaq.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Dil",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "Ad",
+          "PLACEHOLDER": "Kateqoriya adı",
+          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalara ayırmaq üçün ictimai portalda istifadə olunacaq.",
+          "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "URL-lər üçün kateqoriya slug-u",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug tələb olunur"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Təsvir",
+          "PLACEHOLDER": "Kateqoriya haqqında qısa təsvir verin.",
+          "ERROR": "Təsvir tələb olunur"
         },
         "BUTTONS": {
-          "CREATE": "Create category",
-          "CANCEL": "Cancel"
+          "CREATE": "Kateqoriya yarat",
+          "CANCEL": "Ləğv et"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category created successfully",
-          "ERROR_MESSAGE": "Unable to create category"
+          "SUCCESS_MESSAGE": "Kateqoriya uğurla yaradıldı",
+          "ERROR_MESSAGE": "Kateqoriya yaratmaq mümkün olmadı"
         }
       },
       "EDIT": {
-        "TITLE": "Edit a category",
-        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
+        "TITLE": "Kateqoriyanı redaktə et",
+        "SUB_TITLE": "Kateqoriyanın redaktəsi ictimai portalda kateqoriyanı yeniləyəcək.",
         "PORTAL": "Portal",
-        "LOCALE": "Locale",
+        "LOCALE": "Dil",
         "NAME": {
-          "LABEL": "Name",
-          "PLACEHOLDER": "Category name",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
-          "ERROR": "Name is required"
+          "LABEL": "Ad",
+          "PLACEHOLDER": "Kateqoriya adı",
+          "HELP_TEXT": "Kateqoriya adı və ikonu məqalələri kateqoriyalara ayırmaq üçün ictimai portalda istifadə olunacaq.",
+          "ERROR": "Ad tələb olunur"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Category slug for urls",
+          "PLACEHOLDER": "URL-lər üçün kateqoriya slug-u",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug is required"
+          "ERROR": "Slug tələb olunur"
         },
         "DESCRIPTION": {
-          "LABEL": "Description",
-          "PLACEHOLDER": "Give a short description about the category.",
-          "ERROR": "Description is required"
+          "LABEL": "Təsvir",
+          "PLACEHOLDER": "Kateqoriya haqqında qısa təsvir verin.",
+          "ERROR": "Təsvir tələb olunur"
         },
         "BUTTONS": {
-          "CREATE": "Update category",
-          "CANCEL": "Cancel"
+          "CREATE": "Kateqoriyanı yenilə",
+          "CANCEL": "Ləğv et"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Category updated successfully",
-          "ERROR_MESSAGE": "Unable to update category"
+          "SUCCESS_MESSAGE": "Kateqoriya uğurla yeniləndi",
+          "ERROR_MESSAGE": "Kateqoriyanı yeniləmək mümkün olmadı"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Category deleted successfully",
-          "ERROR_MESSAGE": "Unable to delete category"
+          "SUCCESS_MESSAGE": "Kateqoriya uğurla silindi",
+          "ERROR_MESSAGE": "Kateqoriyanı silmək mümkün olmadı"
         }
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
-      "SEARCH_BUTTON": "Search",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
-      "CANCEL": "Close",
-      "BACK": "Back",
-      "BACK_RESULTS": "Back to results"
+      "TITLE": "Məqalələrdə axtarış edin",
+      "PLACEHOLDER": "Məqalələrdə axtarış edin",
+      "NO_RESULT": "Məqalə tapılmadı",
+      "SEARCHING": "Axtarılır...",
+      "SEARCH_BUTTON": "Axtar",
+      "INSERT_ARTICLE": "Link əlavə et",
+      "IFRAME_ERROR": "URL boş və ya düzgün deyil. Məzmun göstərilə bilmir.",
+      "OPEN_ARTICLE_SEARCH": "Kömək Mərkəzindən məqalə əlavə et",
+      "SUCCESS_ARTICLE_INSERTED": "Məqalə uğurla əlavə edildi",
+      "PREVIEW_LINK": "Məqaləni önizləyin",
+      "CANCEL": "Bağla",
+      "BACK": "Geri",
+      "BACK_RESULTS": "Nəticələrə qayıdın"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "TITLE": "Kömək Mərkəzi",
+      "DESCRIPTION": "İstifadəçi dostu özünə xidmət portalları yaradın. İstifadəçilərinizə məqalələrə daxil olmaq və 24/7 dəstək almaqda kömək edin. Bu funksiyanı aktivləşdirmək üçün abunəliyinizi yüksəldin.",
+      "SELF_HOSTED_DESCRIPTION": "İstifadəçi dostu özünə xidmət portalları yaradın. İstifadəçilərinizə məqalələrə daxil olmaq və 24/7 dəstək almaqda kömək edin. Zəhmət olmasa, bu funksiyanı aktivləşdirmək üçün administratorunuzla əlaqə saxlayın.",
       "BUTTON": {
-        "LEARN_MORE": "Learn more",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "Ətraflı öyrən",
+        "UPGRADE": "Yenilə"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Çoxsaylı portallar",
+          "DESCRIPTION": "Eyni hesabdan istifadə edərək müxtəlif məhsullar üçün çoxsaylı kömək mərkəzi portalları yaradın."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Dil variantlarının tam dəstəyi",
+          "DESCRIPTION": "Portalı öz dilinizə uyğunlaşdırın. Bütün dil variantlarını dəstəkləyirik və hər məqalə üçün tərcümələrə imkan veririk."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "SEO-ya uyğun dizayn",
+          "DESCRIPTION": "Meta teqlərinizi fərdiləşdirərək axtarış motorlarında görünürlüğünüzü SEO dostu səhifələrimizlə artırın."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Tam API dəstəyi",
+          "DESCRIPTION": "Portaldan üçüncü tərəf ön çərçivələri ilə başsız CMS kimi istifadə etmək üçün API-lərimizdən yararlanın."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "Yüklənir...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
@@ -503,6 +525,7 @@
             "PUBLISH": "Publish",
             "DRAFT": "Draft",
             "ARCHIVE": "Archive",
+            "TRANSLATE": "Tərcümə et",
             "DELETE": "Delete"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "Tərcümə et",
+        "SELECT_ALL": "Hamısını seç ({count})",
+        "SELECTED_COUNT": "{count} seçildi",
+        "CLEAR_SELECTION": "Clear selection",
+        "TRANSLATE_BUTTON": "Tərcümə et",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Yayımla",
+        "DRAFT": "Qaralama",
+        "ARCHIVE": "Archive",
+        "TRANSLATE": "Tərcümə et",
+        "MOVE_TO_CATEGORY": "Category",
+        "DELETE": "Delete",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "Delete",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
         "DEFAULT": "Default",
+        "DRAFT": "Qaralama",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Delete"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
         "COMBOBOX": {
           "PLACEHOLDER": "Select locale..."
+        },
+        "STATUS": {
+          "LABEL": "Status",
+          "OPTIONS": {
+            "LIVE": "Yayımlanıb",
+            "DRAFT": "Qaralama"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Locale added successfully",
@@ -666,7 +737,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Appearance",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Sil"
+        },
+        "SAVE": "Save changes"
       },
       "API": {
         "CREATE_PORTAL": {

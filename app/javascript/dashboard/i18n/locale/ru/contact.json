@@ -18,8 +18,11 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Вызов контакта…",
+    "CALL_FAILED": "Не удалось начать вызов. Повторите попытку.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Идентификатор",
       "COUNTRY": "Страна",
       "CITY": "Город",
+      "COMPANY": "Компания",
       "CREATED_AT": "Дата создания",
       "LAST_ACTIVITY": "Последние действия",
       "REFERER_LINK": "Ссылка реферера",
@@ -457,8 +461,11 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Добавить Instagram"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Добавить Telegram"
+          },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Добавить TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Добавить LinkedIn"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
       "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "В данный момент нет активных контактов 🌙"
-    }
+    },
+    "LOAD_MORE": "Загрузить ещё"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Назначить метки",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Метки успешно назначены.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "Выбрано {count}",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "Нет доступных входящих для начала разговора с этим контактом.",
       "CONTACT_SELECTOR": {
         "LABEL": "Кому:",
-        "TAG_INPUT_PLACEHOLDER": "Поиск контакта с именем, email или номером телефона",
+        "TAG_INPUT_PLACEHOLDER": "Введите не менее 2 символов для поиска по имени, электронной почте или номеру телефона",
         "CONTACT_CREATING": "Создание контакта..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "Тема :",
         "SUBJECT_PLACEHOLDER": "Введите тему email",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Поиск контакта с email адресом",
+        "CC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Поиск контакта с email адресом",
+        "BCC_PLACEHOLDER": "Введите не менее 2 символов для поиска по электронной почте",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

@@ -3,8 +3,11 @@
     "HEADER": "Forhåndslagde svar",
     "LEARN_MORE": "Lær mer om standard svar",
     "DESCRIPTION": "Forbudte svar er forhåndskrevne svarmaler som hjelper deg raskt å svare på en samtale. Agenter kan skrive inn '/'-tegnet etterfulgt av en kortkode for å sette inn et standard svar under en samtale. ",
+    "COUNT": "{n} canned response | {n} canned responses",
     "HEADER_BTN_TXT": "Legge til standard svar",
     "LOADING": "Henter standard svar...",
+    "SEARCH_PLACEHOLDER": "Search canned responses...",
+    "NO_RESULTS": "No canned responses found matching your search",
     "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen.",
     "LIST": {
       "404": "Det er ingen forhåndslagde svar tilgjengelig i denne kontoen.",

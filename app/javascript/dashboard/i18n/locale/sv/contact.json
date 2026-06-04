@@ -20,6 +20,9 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Country",
       "CITY": "City",
+      "COMPANY": "Företag",
       "CREATED_AT": "Skapad den",
       "LAST_ACTIVITY": "Senaste aktivitet",
       "REFERER_LINK": "Referer link",
@@ -456,6 +460,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "Inga kontakter matchar din sökning 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "Till:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "Ämne :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

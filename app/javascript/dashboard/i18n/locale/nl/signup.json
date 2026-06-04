@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Nieuw account aanmaken",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Registreren",
     "TESTIMONIAL_HEADER": "Er is maar één stap nodig om vooruit te komen",
     "TESTIMONIAL_CONTENT": "U bent één stap verwijderd van het communiceren met uw klanten, ze te behouden en nieuwe te vinden.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
     },
     "SUBMIT": "Account aanmaken",
-    "HAVE_AN_ACCOUNT": "Heeft u al een account?"
+    "HAVE_AN_ACCOUNT": "Heeft u al een account?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Resend verification email",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

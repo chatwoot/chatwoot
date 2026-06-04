@@ -68,6 +68,7 @@ export const shortTimestamp = (time, withAgo = false) => {
   const suffix = withAgo ? ' ago' : '';
   const timeMappings = {
     'less than a minute ago': 'now',
+    'in less than a minute': 'now',
     'a minute ago': `1m${suffix}`,
     'an hour ago': `1h${suffix}`,
     'a day ago': `1d${suffix}`,
@@ -91,6 +92,29 @@ export const shortTimestamp = (time, withAgo = false) => {
     .replace(' year ago', `y${suffix}`)
     .replace(' years ago', `y${suffix}`);
   return convertToShortTime;
+};
+
+/**
+ * Formats a duration in seconds into mm:ss or hh:mm:ss.
+ * @param {number|string} durationInSeconds - Duration in seconds.
+ * @returns {string} Formatted duration string. Empty string for invalid input.
+ */
+export const formatDuration = durationInSeconds => {
+  if (durationInSeconds === null || durationInSeconds === undefined) return '';
+
+  const totalSeconds = Number(durationInSeconds);
+  if (Number.isNaN(totalSeconds) || totalSeconds < 0) return '';
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const mm = minutes.toString().padStart(2, '0');
+  const ss = seconds.toString().padStart(2, '0');
+  if (hours > 0) {
+    return `${hours.toString().padStart(2, '0')}:${mm}:${ss}`;
+  }
+  return `${mm}:${ss}`;
 };
 
 /**

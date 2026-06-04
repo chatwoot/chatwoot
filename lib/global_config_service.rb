@@ -14,4 +14,8 @@ class GlobalConfigService
     GlobalConfig.clear_cache
     i.value
   end
+
+  def self.account_signup_enabled?
+    load('ENABLE_ACCOUNT_SIGNUP', 'false').to_s != 'false'
+  end
 end

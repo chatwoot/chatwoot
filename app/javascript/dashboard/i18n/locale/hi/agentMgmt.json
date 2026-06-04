@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agent"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "There are no agents associated to this account",
       "TITLE": "Manage agents in your team",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
+    "SEARCH_PLACEHOLDER": "Search agents...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "No results found."
     },

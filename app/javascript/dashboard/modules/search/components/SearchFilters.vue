@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineModel } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import SearchDateRangeSelector from './SearchDateRangeSelector.vue';
 import SearchContactAgentSelector from './SearchContactAgentSelector.vue';

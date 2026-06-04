@@ -1,24 +1,24 @@
 {
   "PROFILE_SETTINGS": {
-    "LINK": "Profile Settings",
-    "TITLE": "Profile Settings",
-    "BTN_TEXT": "Update Profile",
-    "DELETE_AVATAR": "Delete Avatar",
-    "AVATAR_DELETE_SUCCESS": "Avatar has been deleted successfully",
-    "AVATAR_DELETE_FAILED": "There is an error while deleting avatar, please try again",
-    "UPDATE_SUCCESS": "Your profile has been updated successfully",
-    "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
-    "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "LINK": "პროფილის პარამეტრები",
+    "TITLE": "პროფილის პარამეტრები",
+    "BTN_TEXT": "პროფილის განახლება",
+    "DELETE_AVATAR": "ავატარის წაშლა",
+    "AVATAR_DELETE_SUCCESS": "ავატარი წარმატებით წაიშალა",
+    "AVATAR_DELETE_FAILED": "ავატარის წაშლისას მოხდა შეცდომა, გთხოვთ, სცადეთ თავიდან",
+    "UPDATE_SUCCESS": "თქვენი პროფილი წარმატებით განახლდა",
+    "PASSWORD_UPDATE_SUCCESS": "თქვენი პაროლი წარმატებით შეიცვალა",
+    "AFTER_EMAIL_CHANGED": "თქვენი პროფილი წარმატებით განახლდა, გთხოვთ, ხელახლა შეხვიდეთ სისტემაში, რადგან თქვენი შესვლის მონაცემები შეიცვალა",
     "FORM": {
       "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
-      "ERROR": "Please fix form errors",
-      "REMOVE_IMAGE": "Remove",
-      "UPLOAD_IMAGE": "Upload image",
-      "UPDATE_IMAGE": "Update image",
+      "AVATAR": "პროფილის სურათი",
+      "ERROR": "გთხოვთ, გამოასწორეთ ფორმის შეცდომები",
+      "REMOVE_IMAGE": "წაშლა",
+      "UPLOAD_IMAGE": "სურათის ატვირთვა",
+      "UPDATE_IMAGE": "სურათის განახლება",
       "PROFILE_SECTION": {
-        "TITLE": "Profile",
-        "NOTE": "Your email address is your identity and is used to log in."
+        "TITLE": "პროფილი",
+        "NOTE": "თქვენი ელფოსტა თქვენი იდენტიფიკატორია და გამოიყენება შესასვლელად."
       },
       "SEND_MESSAGE": {
         "TITLE": "Hotkey to send messages",
@@ -61,24 +61,25 @@
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
-        "TITLE": "Personal message signature",
+        "TITLE": "პირადი შეტყობინების ხელმოწერა",
         "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
-        "BTN_TEXT": "Save message signature",
-        "API_ERROR": "Couldn't save signature! Try again",
-        "API_SUCCESS": "Signature saved successfully",
+        "BTN_TEXT": "შეტყობინების ხელმოწერის შენახვა",
+        "API_ERROR": "ხელმოწერა ვერ შენახა! სცადეთ თავიდან",
+        "API_SUCCESS": "ხელმოწერა წარმატებით შენახულია",
         "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
         "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Image size should be less than {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
-        "LABEL": "Message Signature",
-        "ERROR": "Message Signature cannot be empty",
-        "PLACEHOLDER": "Insert your personal message signature here."
+        "LABEL": "მესიჯის ხელმოწერა",
+        "ERROR": "მესიჯის ხელმოწერა არ შეიძლება იყოს ცარიელი",
+        "PLACEHOLDER": "ჩაწერეთ თქვენი პირადი მესიჯის ხელმოწერა აქ."
       },
       "PASSWORD_SECTION": {
-        "TITLE": "Password",
-        "NOTE": "Updating your password would reset your logins in multiple devices.",
-        "BTN_TEXT": "Change password"
+        "TITLE": "პაროლი",
+        "NOTE": "პაროლის განახლება ყველა მოწყობილობაზე გამოგასვლევინებთ სისტემიდან.",
+        "BTN_TEXT": "პაროლის შეცვლა"
       },
       "SECURITY_SECTION": {
         "TITLE": "უსაფრთხოება",
@@ -86,8 +87,8 @@
         "MFA_BUTTON": "ორფაქტორიანი ავთენტიფიკაციის მართვა"
       },
       "ACCESS_TOKEN": {
-        "TITLE": "Access Token",
-        "NOTE": "This token can be used if you are building an API based integration",
+        "TITLE": "წვდომის ტოკენი",
+        "NOTE": "ეს ტოკენი გამოიყენება, თუ API ინტეგრაციას ქმნით",
         "COPY": "Copy",
         "RESET": "Reset",
         "CONFIRM_RESET": "დარწმუნებული ხართ?",
@@ -135,12 +136,12 @@
         "READ_MORE": "Read more"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
-        "TITLE": "Email Notifications",
-        "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
+        "TITLE": "ელფოსტის შეტყობინებები",
+        "NOTE": "აქ შეგიძლიათ შეცვალოთ ელფოსტის შეტყობინებების პარამეტრები",
+        "CONVERSATION_ASSIGNMENT": "გამოგიგზავნოთ ელფოსტის შეტყობინება, როცა საუბარი ჩემზე გადანაწილდება",
+        "CONVERSATION_CREATION": "გამოგიგზავნოთ ელფოსტის შეტყობინება, როცა ახალი საუბარი შეიქმნება",
+        "CONVERSATION_MENTION": "გაგზავნეთ ელ. ფოსტის შეტყობინებები, როდესაც საუბარში მოხსენიებთ",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "გაგზავნეთ ელ. ფოსტის შეტყობინებები, როდესაც ახალი შეტყობინება იქმნება დანიშნულ საუბარში",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
@@ -164,38 +165,38 @@
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "UPDATE_SUCCESS": "შეტყობინებების პარამეტრები წარმატებით განახლდა",
+        "UPDATE_ERROR": "პარამეტრების განახლებისას მოხდა შეცდომა, სცადეთ თავიდან"
       },
       "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
+        "TITLE": "Push შეტყობინებები",
+        "NOTE": "აქ შეცვალეთ push-შეტყობინებების პარამეტრები",
+        "CONVERSATION_ASSIGNMENT": "გამოგიგზავნოთ push-შეტყობინება, როცა საუბარი ჩემზე გადანაწილდება",
+        "CONVERSATION_CREATION": "გამოგიგზავნოთ push-შეტყობინება, როცა ახალი საუბარი შეიქმნება",
+        "CONVERSATION_MENTION": "გაგზავნეთ push შეტყობინებები, როდესაც საუბარში მოხსენიებთ",
+        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "გაგზავნეთ push შეტყობინებები, როდესაც ახალი შეტყობინება იქმნება დანიშნულ საუბარში",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
+        "HAS_ENABLED_PUSH": "ამ ბრაუზერში push-შეტყობინებები ჩართული გაქვთ.",
+        "REQUEST_PUSH": "ჩართეთ push-შეტყობინებები",
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+        "LABEL": "პროფილის სურათი"
       },
       "NAME": {
-        "LABEL": "Your full name",
-        "ERROR": "Please enter a valid full name",
-        "PLACEHOLDER": "Please enter your full name"
+        "LABEL": "თქვენი სრული სახელი",
+        "ERROR": "გთხოვთ, შეიყვანეთ ვალიდური სრული სახელი",
+        "PLACEHOLDER": "გთხოვთ, შეიყვანეთ თქვენი სრული სახელი"
       },
       "DISPLAY_NAME": {
-        "LABEL": "Display name",
-        "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "LABEL": "გამოსახულების სახელი",
+        "ERROR": "გთხოვთ, შეიყვანეთ ვალიდური გამოსახულების სახელი",
+        "PLACEHOLDER": "გთხოვთ, შეიყვანეთ გამოსახულების სახელი, რომელიც გამოჩნდება საუბრებში"
       },
       "AVAILABILITY": {
-        "LABEL": "Availability",
+        "LABEL": "ხელმისაწვდომობა",
         "STATUS": {
           "ONLINE": "Online",
           "BUSY": "Busy",
@@ -206,33 +207,33 @@
         "IMPERSONATING_ERROR": "მომხმარებლის სახელით მოქმედებისას ხელმისაწვდომობის შეცვლა შეუძლებელია"
       },
       "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        "LABEL": "თქვენი ელფოსტის მისამართი",
+        "ERROR": "გთხოვთ, შეიყვანეთ სწორი ელფოსტის მისამართი",
+        "PLACEHOLDER": "შეიყვანეთ თქვენი ელფოსტის მისამართი, ის გამოჩნდება საუბარში"
       },
       "CURRENT_PASSWORD": {
-        "LABEL": "Current password",
-        "ERROR": "Please enter the current password",
-        "PLACEHOLDER": "Please enter the current password"
+        "LABEL": "მიმდინარე პაროლი",
+        "ERROR": "გთხოვთ, შეიყვანეთ მიმდინარე პაროლი",
+        "PLACEHOLDER": "გთხოვთ, შეიყვანეთ მიმდინარე პაროლი"
       },
       "PASSWORD": {
-        "LABEL": "New password",
-        "ERROR": "Please enter a password of length 6 or more",
-        "PLACEHOLDER": "Please enter a new password"
+        "LABEL": "ახალი პაროლი",
+        "ERROR": "შეიყვანეთ პაროლი მინიმუმ 6 სიმბოლოთი",
+        "PLACEHOLDER": "შეიყვანეთ ახალი პაროლი"
       },
       "PASSWORD_CONFIRMATION": {
-        "LABEL": "Confirm new password",
-        "ERROR": "Confirm password should match the password",
-        "PLACEHOLDER": "Please re-enter your new password"
+        "LABEL": "დაადასტურეთ ახალი პაროლი",
+        "ERROR": "პაროლის დადასტურება უნდა ემთხვეოდეს პაროლს",
+        "PLACEHOLDER": "გთხოვთ, ხელახლა შეიყვანეთ ახალი პაროლი"
       }
     }
   },
   "SIDEBAR_ITEMS": {
-    "CHANGE_AVAILABILITY_STATUS": "Change",
+    "CHANGE_AVAILABILITY_STATUS": "შეცვლა",
     "CHANGE_ACCOUNTS": "Switch account",
     "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
-    "SELECTOR_SUBTITLE": "Select an account from the following list",
+    "SELECTOR_SUBTITLE": "აირჩიეთ ანგარიში სიიდან",
     "PROFILE_SETTINGS": "Profile settings",
     "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
@@ -243,9 +244,9 @@
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
-    "TRIAL_MESSAGE": "days trial remaining.",
-    "TRAIL_BUTTON": "Buy Now",
-    "DELETED_USER": "Deleted User",
+    "TRIAL_MESSAGE": "დღე დარჩა საცდელი ვერსიიდან.",
+    "TRAIL_BUTTON": "შეიძინეთ",
+    "DELETED_USER": "წაშლილი მომხმარებელი",
     "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
@@ -262,50 +263,51 @@
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Copy",
+      "BUTTON_TEXT": "კოპირება",
       "CODEPEN": "Open in CodePen",
       "COPY_SUCCESSFUL": "Code copied to clipboard successfully"
     },
     "SHOW_MORE_BLOCK": {
-      "SHOW_MORE": "Show More",
-      "SHOW_LESS": "Show Less"
+      "SHOW_MORE": "მეტი ნახვა",
+      "SHOW_LESS": "ნაკლები ნახვა"
     },
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available."
+      "DOWNLOAD": "გადმოწერა",
+      "UPLOADING": "იტვირთება...",
+      "INSTAGRAM_STORY_UNAVAILABLE": "This story is no longer available.",
+      "INSTAGRAM_STORY_REPLY": "Replied to your story:"
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "See on map"
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "გაგზავნა"
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "This image is no longer available.",
       "LOADING_FAILED": "Loading failed"
     }
   },
-  "CONFIRM_EMAIL": "Verifying...",
+  "CONFIRM_EMAIL": "დადასტურება...",
   "SETTINGS": {
     "INBOXES": {
-      "NEW_INBOX": "Add Inbox"
+      "NEW_INBOX": "ინბოქსის დამატება"
     }
   },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
-    "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
-    "SWITCH": "Switch",
+    "CURRENTLY_VIEWING_ACCOUNT": "ამჟამად ნახვა:",
+    "SWITCH": "გადართვა",
     "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Conversations",
+    "CONVERSATIONS": "საუბრები",
     "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "All Conversations",
-    "MENTIONED_CONVERSATIONS": "Mentions",
+    "ALL_CONVERSATIONS": "ყველა საუბარი",
+    "MENTIONED_CONVERSATIONS": "შეხსენებები",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
-    "REPORTS": "Reports",
-    "SETTINGS": "Settings",
-    "CONTACTS": "Contacts",
+    "REPORTS": "ანგარიშები",
+    "SETTINGS": "პარამეტრები",
+    "CONTACTS": "კონტაქტები",
     "ACTIVE": "Active",
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
@@ -318,51 +320,51 @@
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Inboxes",
     "CAPTAIN_SETTINGS": "Settings",
-    "HOME": "Home",
-    "AGENTS": "Agents",
+    "HOME": "მთავარი",
+    "AGENTS": "აგენტები",
     "AGENT_BOTS": "Bots",
     "AUDIT_LOGS": "Audit Logs",
-    "INBOXES": "Inboxes",
-    "NOTIFICATIONS": "Notifications",
-    "CANNED_RESPONSES": "Canned Responses",
-    "INTEGRATIONS": "Integrations",
-    "PROFILE_SETTINGS": "Profile Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "APPLICATIONS": "Applications",
-    "LABELS": "Labels",
-    "CUSTOM_ATTRIBUTES": "Custom Attributes",
-    "AUTOMATION": "Automation",
+    "INBOXES": "ინბოქსები",
+    "NOTIFICATIONS": "შეტყობინებები",
+    "CANNED_RESPONSES": "შენახული პასუხები",
+    "INTEGRATIONS": "ინტეგრაციები",
+    "PROFILE_SETTINGS": "პროფილის პარამეტრები",
+    "ACCOUNT_SETTINGS": "ანგარიშის პარამეტრები",
+    "APPLICATIONS": "აპლიკაციები",
+    "LABELS": "ჭდეები",
+    "CUSTOM_ATTRIBUTES": "მორგებული ატრიბუტები",
+    "AUTOMATION": "ავტომატიზაცია",
     "MACROS": "Macros",
-    "TEAMS": "Teams",
-    "BILLING": "Billing",
-    "CUSTOM_VIEWS_FOLDER": "Folders",
-    "CUSTOM_VIEWS_SEGMENTS": "Segments",
-    "ALL_CONTACTS": "All Contacts",
-    "TAGGED_WITH": "Tagged with",
-    "NEW_LABEL": "New label",
-    "NEW_TEAM": "New team",
-    "NEW_INBOX": "New inbox",
-    "REPORTS_CONVERSATION": "Conversations",
+    "TEAMS": "გუნდები",
+    "BILLING": "გადახდები",
+    "CUSTOM_VIEWS_FOLDER": "ფოლდერები",
+    "CUSTOM_VIEWS_SEGMENTS": "სეგმენტები",
+    "ALL_CONTACTS": "ყველა კონტაქტი",
+    "TAGGED_WITH": "ნიშნულია შემდეგით",
+    "NEW_LABEL": "ახალი ლეიბლი",
+    "NEW_TEAM": "ახალი გუნდი",
+    "NEW_INBOX": "ახალი ინბოქსი",
+    "REPORTS_CONVERSATION": "საუბრები",
     "CSAT": "CSAT",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
-    "CAMPAIGNS": "Campaigns",
-    "ONGOING": "Ongoing",
-    "ONE_OFF": "One off",
+    "CAMPAIGNS": "კამპანიები",
+    "ONGOING": "მიმდინარე",
+    "ONE_OFF": "ერთჯერადი",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Agents",
-    "REPORTS_LABEL": "Labels",
-    "REPORTS_INBOX": "Inbox",
-    "REPORTS_TEAM": "Team",
+    "REPORTS_AGENT": "მომხმარებლები",
+    "REPORTS_LABEL": "ლეიბლები",
+    "REPORTS_INBOX": "ინბოქსი",
+    "REPORTS_TEAM": "გუნდია",
     "AGENT_ASSIGNMENT": "აგენტების მინიჭება",
-    "SET_AVAILABILITY_TITLE": "Set yourself as",
+    "SET_AVAILABILITY_TITLE": "დააყენეთ თავი როგორც",
     "SET_YOUR_AVAILABILITY": "Set your availability",
     "SLA": "SLA",
     "CUSTOM_ROLES": "Custom Roles",
-    "BETA": "Beta",
-    "REPORTS_OVERVIEW": "Overview",
+    "BETA": "ბეტა",
+    "REPORTS_OVERVIEW": "მიმოხილვა",
     "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Help Center",
@@ -378,7 +380,57 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs",
-    "SECURITY": "უსაფრთხოება"
+    "SECURITY": "უსაფრთხოება",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Captain Settings",
+    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
+    "LOADING": "Loading Captain configuration...",
+    "LINK_TEXT": "Learn more about Captain Credits",
+    "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
+    "MODEL_CONFIG": {
+      "TITLE": "Model Configuration",
+      "DESCRIPTION": "Select AI models for different features.",
+      "SELECT_MODEL": "Select model",
+      "CREDITS_PER_MESSAGE": "{credits} credit/message",
+      "COMING_SOON": "Coming soon",
+      "EDITOR": {
+        "TITLE": "Editor Features",
+        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistant",
+        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Features",
+      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Audio Transcription",
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Help Center Search Indexing",
+        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Label Suggestion",
+        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
+        "MODEL_TITLE": "Label Suggestion Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain settings updated successfully.",
+      "ERROR": "Failed to update Captain settings. Please try again."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
@@ -506,41 +558,93 @@
       }
     }
   },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Conversation Workflows",
+        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributes required on resolution",
+      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
+      "ADD": {
+        "TITLE": "Add Attributes",
+        "SEARCH_PLACEHOLDER": "Search attributes"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
+      },
+      "MODAL": {
+        "TITLE": "Resolve conversation",
+        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "ACTIONS": {
+          "RESOLVE": "Resolve conversation",
+          "CANCEL": "Cancel"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Write a note...",
+          "NUMBER": "Enter a number",
+          "LINK": "Add a link",
+          "DATE": "Pick a date",
+          "LIST": "Select an option"
+        },
+        "CHECKBOX": {
+          "YES": "Yes",
+          "NO": "No"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use required attributes",
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      }
+    }
+  },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
-    "NEW_ACCOUNT": "New Account",
-    "SELECTOR_SUBTITLE": "Create a new account",
+    "NO_ACCOUNT_WARNING": "უი! ვერ ვიპოვეთ არცერთი Chatwoot ანგარიში. გთხოვთ, შექმნათ ახალი ანგარიში გაგრძელებისთვის.",
+    "NEW_ACCOUNT": "ახალი ანგარიში",
+    "SELECTOR_SUBTITLE": "ახალი ანგარიშის შექმნა",
     "API": {
-      "SUCCESS_MESSAGE": "Account created successfully",
-      "EXIST_MESSAGE": "Account already exists",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "SUCCESS_MESSAGE": "ანგარიში წარმატებით შეიქმნა",
+      "EXIST_MESSAGE": "ანგარიში უკვე არსებობს",
+      "ERROR_MESSAGE": "ვერ მოხერხდა Woot Server-თან დაკავშირება, სცადეთ მოგვიანებით"
     },
     "FORM": {
       "NAME": {
         "LABEL": "Company Name",
-        "PLACEHOLDER": "Wayne Enterprises"
+        "PLACEHOLDER": "უეინის საწარმოები"
       },
-      "SUBMIT": "Submit",
+      "SUBMIT": "გაგზავნა",
       "CANCEL": "Cancel"
     }
   },
   "KEYBOARD_SHORTCUTS": {
     "TOGGLE_MODAL": "View all shortcuts",
     "TITLE": {
-      "OPEN_CONVERSATION": "Open conversation",
-      "RESOLVE_AND_NEXT": "Resolve and move to next",
-      "NAVIGATE_DROPDOWN": "Navigate dropdown items",
-      "RESOLVE_CONVERSATION": "Resolve Conversation",
-      "GO_TO_CONVERSATION_DASHBOARD": "Go to Conversation Dashboard",
-      "ADD_ATTACHMENT": "Add Attachment",
-      "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
-      "TOGGLE_SIDEBAR": "Toggle Sidebar",
-      "GO_TO_REPORTS_SIDEBAR": "Go to Reports sidebar",
-      "MOVE_TO_NEXT_TAB": "Move to next tab in conversation list",
-      "GO_TO_SETTINGS": "Go to Settings",
-      "SWITCH_TO_PRIVATE_NOTE": "Switch to Private Note",
-      "SWITCH_TO_REPLY": "Switch to Reply",
-      "TOGGLE_SNOOZE_DROPDOWN": "Toggle snooze dropdown"
+      "OPEN_CONVERSATION": "გაახილეთ საუბარი",
+      "RESOLVE_AND_NEXT": "გადაჭრა და გადასვლა შემდეგზე",
+      "NAVIGATE_DROPDOWN": "გადაიარეთ ჩამოსაშლელი ელემენტები",
+      "RESOLVE_CONVERSATION": "შეასრულეთ საუბრის დასრულება",
+      "GO_TO_CONVERSATION_DASHBOARD": "გადადი საუბრის დაფაზე",
+      "ADD_ATTACHMENT": "დამატება დანართი",
+      "GO_TO_CONTACTS_DASHBOARD": "გადადი კონტაქტების დაფაზე",
+      "TOGGLE_SIDEBAR": "გვერდითი პანელის გადართვა",
+      "GO_TO_REPORTS_SIDEBAR": "გადადი ანგარიშების გვერდით პანელზე",
+      "MOVE_TO_NEXT_TAB": "გადადი შემდეგ ჩანართზე საუბრის სიაში",
+      "GO_TO_SETTINGS": "გადადი პარამეტრებზე",
+      "SWITCH_TO_PRIVATE_NOTE": "გადართე პირად ჩანაწერზე",
+      "SWITCH_TO_REPLY": "პასუხზე გადართვა",
+      "TOGGLE_SNOOZE_DROPDOWN": "დროებით შეჩერების ჩამოსაშლელი მენიუს გადართვა"
     }
   },
   "ASSIGNMENT_POLICY": {
@@ -591,7 +695,8 @@
         "CREATE_BUTTON": "პოლიტიკის შექმნა",
         "API": {
           "SUCCESS_MESSAGE": "მინიჭების პოლიტიკა წარმატებით შეიქმნა",
-          "ERROR_MESSAGE": "მინიჭების პოლიტიკის შექმნა ვერ მოხერხდა"
+          "ERROR_MESSAGE": "მინიჭების პოლიტიკის შექმნა ვერ მოხერხდა",
+          "INBOX_LINKED": "Inbox has been linked to the policy"
         }
       },
       "EDIT": {
@@ -604,6 +709,12 @@
           "DESCRIPTION": "{inboxName} ინბოქსი უკვე დაკავშირებულია სხვა პოლიტიკასთან. დარწმუნებული ხართ, რომ გსურთ მისი მიბმა ამ პოლიტიკაზე? ის სხვა პოლიტიკიდან მოეხსნება.",
           "CONFIRM_BUTTON_LABEL": "გაგრძელება",
           "CANCEL_BUTTON_LABEL": "Cancel"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Link inbox to policy",
+          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
+          "LINK_BUTTON": "Link inbox",
+          "CANCEL_BUTTON": "Skip"
         },
         "API": {
           "SUCCESS_MESSAGE": "მინიჭების პოლიტიკა წარმატებით განახლდა",
@@ -643,7 +754,9 @@
           },
           "BALANCED": {
             "LABEL": "დაბალანსებული",
-            "DESCRIPTION": "საუბრები მიენიჭება ხელმისაწვდომი ტევადობის მიხედვით."
+            "DESCRIPTION": "საუბრები მიენიჭება ხელმისაწვდომი ტევადობის მიხედვით.",
+            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -728,6 +841,20 @@
           "REMOVE": {
             "SUCCESS_MESSAGE": "აგენტის პოლიტიკიდან წაშლა წარმატებით შესრულდა",
             "ERROR_MESSAGE": "აგენტის პოლიტიკიდან წაშლა ვერ მოხერხდა"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox limit added successfully",
+            "ERROR_MESSAGE": "Failed to add inbox limit"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
+            "ERROR_MESSAGE": "Failed to update inbox limit"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
+            "ERROR_MESSAGE": "Failed to delete inbox limit"
           }
         }
       },

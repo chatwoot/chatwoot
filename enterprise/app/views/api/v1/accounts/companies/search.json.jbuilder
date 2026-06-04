@@ -5,6 +5,6 @@ end
 
 json.payload do
   json.array! @companies do |company|
-    json.partial! 'company', company: company
+    json.partial! 'api/v1/models/company', formats: [:json], resource: company
   end
 end

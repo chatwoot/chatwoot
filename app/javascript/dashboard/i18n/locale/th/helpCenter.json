@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Locale removed from portal successfully",
           "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Article deleted successfully",
         "ERROR_MESSAGE": "Error while deleting article"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -503,6 +525,7 @@
             "PUBLISH": "Publish",
             "DRAFT": "โครงร่าง",
             "ARCHIVE": "Archive",
+            "TRANSLATE": "Translate",
             "DELETE": "ลบ"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "Translate",
+        "SELECT_ALL": "Select all ({count})",
+        "SELECTED_COUNT": "{count} selected",
+        "CLEAR_SELECTION": "Clear selection",
+        "TRANSLATE_BUTTON": "Translate",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Publish",
+        "DRAFT": "โครงร่าง",
+        "ARCHIVE": "Archive",
+        "TRANSLATE": "Translate",
+        "MOVE_TO_CATEGORY": "Category",
+        "DELETE": "ลบ",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "ลบ",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
         "DEFAULT": "Default",
+        "DRAFT": "โครงร่าง",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "ลบ"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
         "COMBOBOX": {
           "PLACEHOLDER": "Select locale..."
+        },
+        "STATUS": {
+          "LABEL": "สถานะ",
+          "OPTIONS": {
+            "LIVE": "Published",
+            "DRAFT": "โครงร่าง"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Locale added successfully",
@@ -666,7 +737,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
         "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Appearance",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "ลบรูปภาพ"
+        },
+        "SAVE": "Save changes"
       },
       "API": {
         "CREATE_PORTAL": {

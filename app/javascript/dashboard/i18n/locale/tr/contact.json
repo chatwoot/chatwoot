@@ -20,6 +20,9 @@
     "CALL": "Ara",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Sesli gelen kutusu seçin"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Doğrulayıcı",
       "COUNTRY": "Ülke",
       "CITY": "Şehir",
+      "COMPANY": "Şirket",
       "CREATED_AT": "Oluşturma zamanı",
       "LAST_ACTIVITY": "Son etkinlik",
       "REFERER_LINK": "Yönlendiren Bağlantı",
@@ -457,8 +461,11 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagram ekle"
           },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Telegram Ekle"
+          },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "TikTok Ekle"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "LinkedIn ekle"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "Aramanızla eşleşen kişi bulunamadı 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Şu anda aktif kişi yok 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etiketler başarıyla atandı.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kime:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "İsim, e-posta veya telefon numarası ile arama yapmak için en az 2 karakter girin",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "Konu :",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Kopya:",
-        "CC_PLACEHOLDER": "Search for a contact with their email address",
+        "CC_PLACEHOLDER": "E-posta ile arama yapmak için en az 2 karakter girin",
         "BCC_LABEL": "Gizli Kopya:",
-        "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "BCC_PLACEHOLDER": "E-posta ile arama yapmak için en az 2 karakter girin",
         "BCC_BUTTON": "Gizli Kopya"
       },
       "MESSAGE_EDITOR": {

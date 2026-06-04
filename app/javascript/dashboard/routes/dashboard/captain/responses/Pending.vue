@@ -297,7 +297,7 @@ onMounted(() => {
         }"
         @bulk-delete="bulkDeleteDialog.dialogRef.open()"
       >
-        <template #secondary-actions>
+        <template #secondaryActions>
           <Button
             :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
             sm
@@ -361,7 +361,7 @@ onMounted(() => {
       v-if="bulkSelectedIds"
       ref="bulkDeleteDialog"
       :bulk-ids="bulkSelectedIds"
-      type="Responses"
+      type="AssistantResponse"
       @delete-success="onBulkDeleteSuccess"
     />
 

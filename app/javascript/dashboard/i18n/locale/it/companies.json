@@ -7,7 +7,8 @@
         "NAME": "Nome",
         "DOMAIN": "Dominio",
         "CREATED_AT": "Creata alle",
-        "CONTACTS_COUNT": "Contacts count"
+        "LAST_ACTIVITY_AT": "Ultima attività",
+        "CONTACTS_COUNT": "Numero contatti"
       }
     },
     "ORDER": {
@@ -21,6 +22,121 @@
     "LOADING": "Caricamento aziende...",
     "UNNAMED": "Azienda Senza Nome",
     "CONTACTS_COUNT": "{n} contatto | {n} contatti",
+    "ACTIONS": {
+      "CREATE": "Aggiungi azienda"
+    },
+    "CREATE": {
+      "TITLE": "Aggiungi dettagli azienda",
+      "ACTIONS": {
+        "SAVE": "Aggiungi azienda"
+      },
+      "MESSAGES": {
+        "SUCCESS": "Azienda creata.",
+        "ERROR": "Impossibile creare l'azienda."
+      }
+    },
+    "DETAIL": {
+      "LOADING": "Caricamento dettagli dell'azienda...",
+      "EMPTY_STATE": {
+        "TITLE": "Azienda non trovata",
+        "SUBTITLE": "Questa azienda potrebbe essere stata rimossa o non è più disponibile in questo account."
+      },
+      "SIDEBAR": {
+        "TABS": {
+          "ATTRIBUTES": "Attributi",
+          "CONTACTS": "Contatti",
+          "HISTORY": "Cronologia",
+          "NOTES": "Note"
+        }
+      },
+      "HISTORY": {
+        "EMPTY": "Nessuna conversazione trovata per i contatti di questa azienda."
+      },
+      "NOTES": {
+        "EMPTY": "Nessuna nota trovata per i contatti di questa azienda."
+      },
+      "ATTRIBUTES": {
+        "SEARCH_PLACEHOLDER": "Cerca attributi...",
+        "EMPTY_STATE": "Non ci sono ancora attributi personalizzati per le aziende configurati.",
+        "NO_ATTRIBUTES": "Nessun attributo corrispondente trovato.",
+        "UNUSED_ATTRIBUTES": "{count} attributo inutilizzato | {count} attributi inutilizzati",
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Attributo azienda aggiornato.",
+          "UPDATE_ERROR": "Impossibile aggiornare l'attributo azienda.",
+          "DELETE_SUCCESS": "Attributo azienda rimosso.",
+          "DELETE_ERROR": "Impossibile rimuovere l'attributo azienda."
+        }
+      },
+      "CONTACTS": {
+        "LOADING": "Caricamento contatti...",
+        "EMPTY": "Nessun contatto è ancora collegato a questa azienda.",
+        "UNNAMED_CONTACT": "Contatto senza nome",
+        "ACTIONS": {
+          "ADD": "Aggiungi contatto",
+          "REMOVE": "Rimuovi contatto"
+        },
+        "DIALOGS": {
+          "ADD": {
+            "DESCRIPTION": "Cerca un contatto esistente e collegalo a questa azienda.",
+            "SEARCH_PLACEHOLDER": "Cerca contatti...",
+            "INITIAL": "Inizia a digitare per cercare i contatti.",
+            "EMPTY": "Nessun contatto trovato.",
+            "CONFIRM_TITLE": "Collega contatto",
+            "CONFIRM_DESCRIPTION": "Confermare l'azienda e il contatto prima di collegarli.",
+            "COMPANY_LABEL": "Azienda",
+            "CONTACT_LABEL": "Contatto",
+            "CURRENT_COMPANY": "Attualmente collegato a {companyName}",
+            "ADD": "Collega contatto",
+            "CANCEL": "Annulla"
+          }
+        },
+        "MESSAGES": {
+          "ADD_SUCCESS": "Contatto collegato all'azienda.",
+          "ADD_ERROR": "Impossibile collegare il contatto all'azienda.",
+          "REASSIGN_SUCCESS": "Contatto riassegnato all'azienda.",
+          "REASSIGN_ERROR": "Impossibile riassegnare il contatto all'azienda.",
+          "REMOVE_SUCCESS": "Contatto rimosso dall'azienda.",
+          "REMOVE_ERROR": "Impossibile rimuovere il contatto dall'azienda."
+        }
+      },
+      "AVATAR": {
+        "UPDATING": "Aggiornamento avatar azienda...",
+        "UPLOAD_SUCCESS": "Avatar dell'azienda aggiornato.",
+        "UPLOAD_ERROR": "Impossibile aggiornare l'avatar dell'azienda.",
+        "DELETE_SUCCESS": "Avatar dell'azienda rimosso.",
+        "DELETE_ERROR": "Impossibile rimuovere l'avatar dell'azienda."
+      },
+      "PROFILE": {
+        "TITLE": "Modifica dettagli azienda",
+        "CREATED_AT": "Creato {date}",
+        "LAST_ACTIVE": "Ultima attività {date}",
+        "DESCRIPTION_PLACEHOLDER": "Aggiungi una breve descrizione per questa azienda",
+        "ACTIONS": {
+          "SAVE": "Aggiorna azienda"
+        },
+        "MESSAGES": {
+          "UPDATE_SUCCESS": "Azienda aggiornata.",
+          "UPDATE_ERROR": "Impossibile aggiornare l'azienda."
+        },
+        "FIELDS": {
+          "NAME": "Nome",
+          "DOMAIN": "Dominio"
+        }
+      },
+      "DELETE": {
+        "SECTION_TITLE": "Zona pericolosa",
+        "SECTION_DESCRIPTION": "Elimina questa azienda e scollega i suoi contatti. I contatti rimarranno nell'account.",
+        "BUTTON": "Elimina azienda",
+        "TITLE": "Eliminare l'azienda?",
+        "DESCRIPTION": "Questo rimuoverà l'azienda e scollegherà tutti i contatti associati. I contatti stessi verranno conservati.",
+        "DESCRIPTION_WITH_NAME": "Questo rimuoverà {companyName} e scollegherà tutti i contatti associati. I contatti stessi verranno conservati.",
+        "CONFIRM": "Elimina azienda",
+        "MESSAGES": {
+          "SUCCESS": "Azienda eliminata.",
+          "ERROR": "Impossibile eliminare l'azienda."
+        }
+      }
+    },
     "EMPTY_STATE": {
       "TITLE": "Nessuna azienda trovata"
     }

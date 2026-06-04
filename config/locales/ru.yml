@@ -28,13 +28,17 @@ ru:
       invalid_email: 'Пожалуйста, введите действительный адрес электронной почты'
       authentication_failed: 'Ошибка аутентификации. Пожалуйста, проверьте ваши учетные данные и повторите попытку.'
   messages:
-    reset_password_success: Круто! Запрос на сброс пароля удался. Проверьте почту для получения инструкций.
-    reset_password_failure: Ой! Мы не смогли найти пользователя с указанным email.
+    reset_password: Запрос на сброс пароля удался. Если адрес почты существует, то на него будет отправлено письмо с инструкциями.
     reset_password_saml_user: Эта учетная запись использует SAML-аутентификацию. Сброс пароля недоступен. Пожалуйста, обратитесь к администратору.
     login_saml_user: Эта учетная запись использует SAML аутентификацию. Пожалуйста, войдите через SAML провайдера вашей организации.
     saml_not_available: SAML аутентификация не доступна в этой установке.
     inbox_deletetion_response: Ваш запрос на удаление входящих сообщений будет обработан через некоторое время.
   errors:
+    account:
+      reporting_timezone:
+        invalid: неверный часовой пояс
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: не должен быть пустым
     webhook:
@@ -46,13 +50,23 @@ ru:
       email_already_exists: 'Вы уже зарегистрировались для учётной записи с %{email}'
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
+    voice:
+      call_already_accepted: '%{agent_name} уже обрабатывает вызов.'
     assignment_policy:
       not_found: Политика назначения не найдена
     attachments:
-      invalid: Invalid attachment
+      invalid: Недопустимое вложение
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
-      sso_not_enabled: SAML SSO is not enabled for this installation
+      sso_not_enabled: SSO SAML не включен для этой установки
     data_import:
       data_type:
         invalid: Недопустимый тип данных
@@ -72,7 +86,7 @@ ru:
         query_missing: Specify search string with parameter q
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: 'Поиск ограничен последними %{days} днями'
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
@@ -88,6 +102,15 @@ ru:
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
+      calls:
+        not_enabled: 'Вызов не включен для этого входящего сообщения'
+        no_recording: 'Файл записи не указан'
+        no_message: 'Звонок не имеет связанных сообщений'
+        sdp_offer_required: 'Необходимо указать sdp_offer'
+        contact_phone_required: 'Требуется номер телефона контакта'
+        permission_request_failed: 'Не удалось отправить запрос на разрешение вызова'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -95,6 +118,11 @@ ru:
         host_unreachable_error: Хост недоступен. Проверьте адрес IMAP, порт IMAP и повторите попытку.
         connection_timed_out_error: Время ожидания соединения для %{address}:%{port} истекло
         connection_closed_error: Соединение закрыто.
+      smtp:
+        authentication_error: Ошибка аутентификации SMTP. Пожалуйста, проверьте ваши учетные данные.
+        connection_error: Не удалось подключиться к SMTP серверу. Пожалуйста, проверьте адрес сервера и порт.
+        ssl_error: Ошибка SSL/TLS. Проверьте настройки шифрования.
+        smtp_error: Ошибка SMTP-сервера. Проверьте настройки и повторите попытку.
       validations:
         name: Не должен начинаться или заканчиваться символами, и у него Не должно быть < > / \ @ символов.
     custom_filters:
@@ -104,6 +132,7 @@ ru:
       invalid_query_operator: Оператор запроса должен быть "AND" или "OR".
       invalid_value: Недопустимое значение. Значения, предоставленные для %{attribute_name} являются недопустимыми
     custom_attribute_definition:
+      attribute_key_format: must only contain letters, numbers, underscores, hyphens, and dots
       key_conflict: Предоставленный ключ не разрешён, так как он может конфликтовать со стандартными атрибутами.
     mfa:
       already_enabled: MFA уже включен
@@ -114,12 +143,14 @@ ru:
       invalid_credentials: Неверные учетные данные или проверочный код
       feature_unavailable: Функция MFA недоступна. Пожалуйста, настройте ключи шифрования.
     topup:
-      credits_required: Credits amount is required
-      invalid_credits: Invalid credits amount
-      invalid_option: Invalid topup option
-      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      credits_required: Необходимо ввести сумму кредитов
+      invalid_credits: Неверная сумма кредитов
+      invalid_option: Некорректный параметр пополнения
+      plan_not_eligible: Пополнение доступно только для платных планов. Пожалуйста, сначала обновите свой тарифный план.
+      stripe_customer_not_configured: Stripe клиент не настроен
+      no_payment_method: Способы оплаты не найдены. Пожалуйста, добавьте способ оплаты перед совершением покупки.
+    reports:
+      date_range_too_long: Диапазон дат не может превышать 6 месяцев
   profile:
     mfa:
       enabled: MFA успешно включен
@@ -156,6 +187,14 @@ ru:
       avg_resolution_time: Среднее время завершения
       resolution_count: Количество завершенных
       avg_customer_waiting_time: Среднее время ожидания клиента
+    conversation_csv:
+      conversations_count: Диалоги
+      incoming_messages_count: Входящие сообщения
+      outgoing_messages_count: Исходящие сообщения
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+      resolution_count: Количество завершенных
+      avg_customer_waiting_time: Среднее время ожидания клиента
     conversation_traffic_csv:
       timezone: Часовой пояс
     sla_csv:
@@ -178,6 +217,7 @@ ru:
         rating: Оценка
         feedback: Комментарий к отзыву
         recorded_at: Дата записи
+        review_notes: Просмотреть заметки
   notifications:
     notification_title:
       conversation_creation: 'В %{inbox_name} создана беседа (#%{display_id})'
@@ -195,17 +235,26 @@ ru:
     messages:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
-      instagram_shared_story_content: 'Shared story'
-      instagram_shared_post_content: 'Shared post'
+      instagram_shared_story_content: 'Общая история'
+      instagram_shared_post_content: 'Общая запись'
       deleted: Это сообщение было удалено
       whatsapp:
         list_button_label: 'Выберите элемент'
+        call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Голосовой звонок'
+        whatsapp: 'WhatsApp звонок'
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
       captain:
         resolved: 'Диалог был решен %{user_name} из-за бездействия'
+        resolved_with_reason: 'Conversation was marked resolved by %{user_name} (%{reason})'
+        resolved_by_tool: 'Диалог был завершен %{user_name} с причиной: %{reason}'
         open: 'Диалог был открыт %{user_name}'
+        open_with_reason: 'Conversation was marked open by %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Разговор был открыт автоматически после ответа агента'
       agent_bot:
         error_moved_to_open: 'Диалог был открыт системой из-за ошибки бота агента.'
       status:
@@ -240,6 +289,9 @@ ru:
         issue_created: 'Линейная задача %{issue_id} была создана %{user_name}'
         issue_linked: 'Линейная задача %{issue_id} была связана с %{user_name}'
         issue_unlinked: 'Линейная задача %{issue_id} была отвязана от %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Отправлен запрос на разрешение на звонок %{contact_name}.'
+        permission_granted: '%{contact_name} принял запрос на разрешение звонка.'
       csat:
         not_sent_due_to_messaging_window: 'Опрос CSAT не отправлен из-за ограничений исходящих сообщений'
       auto_resolve:
@@ -304,6 +356,7 @@ ru:
       name: 'Linear'
       short_description: 'Создать и связать Линейные задачи непосредственно из диалогов.'
       description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
+      attachment_link_title: 'Разговор (#%{conversation_id}) с %{name}'
     notion:
       name: 'Notion'
       short_description: 'Интеграция баз данных, документов и страниц напрямую с Captain.'
@@ -320,6 +373,9 @@ ru:
     copilot_message_required: Необходимо ввести сообщение
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
+    upgrade: 'Улучшите свой план, чтобы включить Captain AI'
+    disabled: 'Captain AI отключён для этого аккаунта.'
+    api_key_missing: 'API ключ Captain AI не настроен.'
     copilot:
       using_tool: 'Использование инструмента %{function_name}'
       completed_tool_call: 'Вызов инструмента %{function_name}'
@@ -329,6 +385,9 @@ ru:
       limit_exceeded: 'Превышен лимит документов'
       pdf_format_error: 'должен быть PDF файлом'
       pdf_size_error: 'должно быть меньше 10МБ'
+      sync_not_supported_for_pdf: 'Синхронизация не поддерживается для PDF документов'
+      sync_only_available_documents: 'Синхронизация доступна только для обрабатываемых документов'
+      sync_already_in_progress: 'Синхронизация документов уже выполняется'
       pdf_upload_failed: 'Не удалось загрузить PDF в OpenAI'
       pdf_upload_success: 'PDF успешно загружен с file_id: %{file_id}'
       pdf_processing_failed: 'Не удалось обработать PDF документ %{document_id}: %{error}'
@@ -347,13 +406,39 @@ ru:
       page_processing_error: 'Ошибка при обработке страниц %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Невозможно сгенерировать уникальный slug после 5 попыток'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+      results: Результаты поиска
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Поиск
     toc_header: 'На этой странице'
+    sidebar:
+      help_center: Центр поддержки
+      categories: Категории
+      language: Язык
+      theme: Theme
+      open_sidebar: Открыть боковую панель
+      close_sidebar: Закрыть боковую панель
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
@@ -368,12 +453,21 @@ ru:
       others: другие
       by: От
       no_articles: Здесь нет статей
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Сделано с
     header:
       go_to_homepage: Сайт
       visit_website: Посетить сайт
       appearance:
+        title: Образец
         system: Система
         light: Светлая
         dark: Тёмная
@@ -383,6 +477,10 @@ ru:
       title: Страница не найдена
       description: Мы не смогли найти запрашиваемую вами страницу.
       back_to_home: Перейти на главную страницу
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Имя
@@ -413,6 +511,9 @@ ru:
       few: '%{count} секунд'
       many: '%{count} секунд'
       other: '%{count} секунд'
+  auto_assignment:
+    default_policy_name: 'Политика по умолчанию'
+    policy_actor: 'Система автоматизации через %{policy_name}'
   automation:
     system_name: 'Система автоматизации'
   crm:
@@ -438,6 +539,12 @@ ru:
   agent_capacity_policy:
     inbox_already_assigned: 'Входящие уже были назначены на эту политику'
   portals:
+    articles:
+      captain_not_available: 'Перевод требует включения Captain для этой учетной записи'
+      locale_not_available: 'Язык не доступен на этом портале'
+      category_not_found: 'Категория не найдена в этом портале'
+      no_articles_found: 'Нет статей для обработки'
+      invalid_status: 'Неверное значение статуса'
     send_instructions:
       email_required: 'Необходимо указать Email'
       invalid_email_format: 'Неправильный формат email'
@@ -446,3 +553,9 @@ ru:
       subject: 'Завершить настройку %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Пользовательский домен не настроен'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Пользователь не найден.'
+      no_subscriptions_to_test: 'Выберите хотя бы одну подписку для тестирования.'
+      no_subscriptions_to_delete: 'Выберите хотя бы одну подписку для удаления.'
+      subscriptions_deleted: "Подписка %{count} удалена. Устройство (устройства) пользователя будет перерегистрироваться при следующем запуске."

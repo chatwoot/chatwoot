@@ -31,6 +31,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(conversation.messages.count).to eq(1)
         expect(conversation.messages.first.content).to eq(params[:content])
       end
@@ -182,6 +183,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact][:id]).to eq(conversation.contact_id)
       end
     end

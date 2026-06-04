@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "このメッセージはサポートされていません。Facebook / Instagram で表示できます。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "このメッセージはサポートされていません。Facebook Messengerでこのメッセージを表示できます。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "このメッセージはサポートされていません。このメッセージは Instagram で表示できます。",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "メッセージの削除に成功",
     "FAIL_DELETE_MESSSAGE": "メッセージを削除できませんでした！もう一度お試しください",
     "NO_RESPONSE": "返信なし",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "メッセージは利用できません",
     "CARD": {
       "SHOW_LABELS": "ラベルを表示",
-      "HIDE_LABELS": "ラベルを隠す"
+      "HIDE_LABELS": "ラベルを隠す",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
+      "NO_ANSWER_OUTBOUND_LABEL": "No answer",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Missed call",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Call ended",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決する",
@@ -91,10 +105,17 @@
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "次の時間までスヌーズ",
       "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズしました",
       "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ",
       "SNOOZED_UNTIL_NEXT_REPLY": "次の返信までうたた寝。",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "会話ID {conversationId} に ラベル #{labelName} を割り当てました",
           "FAILED": "ラベルを割り当てることができませんでした。もう一度やり直してください。"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "会話ID {conversationId} に \"{team}\" チームを割り当てました",
           "FAILED": "チームを割り当てることができませんでした。もう一度お試しください。"
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "署名を無効化",
       "MSG_INPUT": "Shift + Enter で新しい行を作成します。「/」で開始すると、定型文回答を選択できます。",
       "PRIVATE_MSG_INPUT": "Shift + Enter で新しい行を作成します。これは担当者にのみ表示されます。",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "メッセージ署名が構成されていません。プロフィール設定で構成してください。",
+      "COPILOT_MSG_INPUT": "Copilot に追加のプロンプトを送るか、ほかの質問をしてください… Enter キーでフォローアップを送信",
       "CLICK_HERE": "ここをクリックして更新",
       "WHATSAPP_TEMPLATES": "Whatsapp テンプレート"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "音声を録音",
       "TIP_AUDIORECORDER_PERMISSION": "音声アクセスを許可",
       "TIP_AUDIORECORDER_ERROR": "音声を開けませんでした",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "添付するにはここにドラッグ＆ドロップ",
       "START_AUDIO_RECORDING": "音声録音を開始",
       "STOP_AUDIO_RECORDING": "音声録音を停止",
-      "": "",
+      "COPILOT_THINKING": "Copilotが考え中",
       "EMAIL_HEAD": {
         "TO": "宛先",
         "ADD_BCC": "Bcc を追加",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ファイルが {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB の添付ファイル制限を超えています",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "このメッセージを送信できません。後でもう一度お試しください",
     "SENT_BY": "送信者：",
     "BOT": "ボット",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "メッセージを送信できませんでした！再試行してください",
     "TRY_AGAIN": "再試行",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "閉じる",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "キャンセル",
     "SEND_EMAIL_SUCCESS": "チャットの記録は正常に送信されました",
     "SEND_EMAIL_ERROR": "エラーが発生しました。もう一度お試しください。",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "顧客に会話の記録を転送する",
       "SEND_TO_AGENT": "担当者に記録を送信する",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "以前の会話",
       "MACROS": "マクロ",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "すべて表示",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

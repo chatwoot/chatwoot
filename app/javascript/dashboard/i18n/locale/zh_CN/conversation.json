@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "不支持此消息。您可以在 Facebook Messenger 应用上查看此消息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "不支持此消息。您可以在 Instagram 应用上查看此消息。",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "已成功删除消息",
     "FAIL_DELETE_MESSSAGE": "无法删除消息，请重试！",
     "NO_RESPONSE": "无响应",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "消息不可用",
     "CARD": {
       "SHOW_LABELS": "显示标签",
-      "HIDE_LABELS": "隐藏标签"
+      "HIDE_LABELS": "隐藏标签",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "来电",
       "OUTGOING_CALL": "已拨出电话",
       "CALL_IN_PROGRESS": "呼叫进行中",
       "NO_ANSWER": "无应答",
+      "NO_ANSWER_OUTBOUND_LABEL": "无应答",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "未接来电",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "通话结束",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "尚未回复",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "对方已回复",
-      "YOU_ANSWERED": "你已回复"
+      "YOU_ANSWERED": "你已回复",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -91,10 +105,17 @@
       "OPEN": "详细信息",
       "CLOSE": "关闭",
       "DETAILS": "详情",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "推迟到",
       "SNOOZED_UNTIL_TOMORROW": "推迟到明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "推迟到下周",
       "SNOOZED_UNTIL_NEXT_REPLY": "推迟至下一个回复",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "第一响应时间 {status}",
         "NRT": "净响应时间 {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "已为对话 Id {conversationId} 分配标签 #{labelName}",
           "FAILED": "无法分配标签。请再试。"
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "将团队 \"{team}\" 分配给对话 ID {conversationId}",
           "FAILED": "无法分配团队。请重试。"
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "禁用签名",
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
+      "COPILOT_MSG_INPUT": "为 Copilot 提供额外提示，或提问其他内容… 按 Enter 发送跟进",
       "CLICK_HERE": "点击此处更新",
       "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "录制音频",
       "TIP_AUDIORECORDER_PERMISSION": "允许访问音频",
       "TIP_AUDIORECORDER_ERROR": "无法打开音频",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
-      "": "",
+      "COPILOT_THINKING": "Copilot 正在思考",
       "EMAIL_HEAD": {
         "TO": "发给",
         "ADD_BCC": "添加密送",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "对话成功删除",
     "FAIL_DELETE_CONVERSATION": "无法删除对话！请重试",
     "FILE_SIZE_LIMIT": "文件超过了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "无法发送消息，请重试！",
     "TRY_AGAIN": "重试",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "尚未回复",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "取消",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "取消操作",
     "SEND_EMAIL_SUCCESS": "对话记录已成功发送",
     "SEND_EMAIL_ERROR": "出错了，请重试",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "发送对话记录给客户",
       "SEND_TO_AGENT": "发送对话记录给指定的代理",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "上一次对话",
       "MACROS": "宏",
       "LINEAR_ISSUES": "已链接的 Linear 问题",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "媒体",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "查看全部",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

@@ -20,6 +20,9 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "識別子",
       "COUNTRY": "国",
       "CITY": "都市",
+      "COMPANY": "企業名",
       "CREATED_AT": "作成日時",
       "LAST_ACTIVITY": "最終アクティビティ",
       "REFERER_LINK": "参照リンク",
@@ -456,6 +460,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagramを追加"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
       "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "さらに読み込む"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "ラベルが正常に割り当てられました。",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "この連絡先と会話を開始するための利用可能なインボックスがありません。",
       "CONTACT_SELECTOR": {
         "LABEL": "宛先:",
-        "TAG_INPUT_PLACEHOLDER": "名前、メールアドレス、または電話番号で連絡先を検索",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "連絡先を作成中..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "件名 :",
         "SUBJECT_PLACEHOLDER": "メールの件名を入力",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "メールアドレスで連絡先を検索",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

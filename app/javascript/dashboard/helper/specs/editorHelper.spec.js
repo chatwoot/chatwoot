@@ -1,25 +1,25 @@
+import { EditorState, EditorView } from '@chatwoot/prosemirror-schema';
+import { FORMATTING } from 'dashboard/constants/editor';
+import { Schema } from 'prosemirror-model';
 import {
-  findSignatureInBody,
   appendSignature,
-  removeSignature,
-  replaceSignature,
+  calculateMenuPosition,
   cleanSignature,
+  collapseSelection,
   extractTextFromMarkdown,
-  stripUnsupportedMarkdown,
-  insertAtCursor,
   findNodeToInsertImage,
-  setURLWithQueryAndSize,
+  findSignatureInBody,
   getContentNode,
   getFormattingForEditor,
-  getSelectionCoords,
   getMenuAnchor,
-  calculateMenuPosition,
+  getSelectionCoords,
+  insertAtCursor,
+  removeSignature,
+  replaceSignature,
+  stripInlineBase64Images,
   stripUnsupportedFormatting,
+  stripUnsupportedMarkdown,
 } from '../editorHelper';
-import { FORMATTING } from 'dashboard/constants/editor';
-import { EditorState } from '@chatwoot/prosemirror-schema';
-import { EditorView } from '@chatwoot/prosemirror-schema';
-import { Schema } from 'prosemirror-model';
 
 // Define a basic ProseMirror schema
 const schema = new Schema({
@@ -334,6 +334,38 @@ describe('removeSignature', () => {
       'This is a test\n\n'
     );
   });
+  it('strips blank-paragraph marker before the delimiter', () => {
+    expect(removeSignature('hey\n\n\\\n--\n\nHello there', 'Hello there')).toBe(
+      'hey'
+    );
+  });
+  it('strips multiple consecutive blank-paragraph markers before the delimiter', () => {
+    expect(
+      removeSignature('wewe\n\n\\\n\\\n\\\n--\n\nHello there', 'Hello there')
+    ).toBe('wewe');
+  });
+  it('strips dangling hardbreak when signature shared a paragraph with "--"', () => {
+    expect(removeSignature('hey\n\n--\\\nHello there', 'Hello there')).toBe(
+      'hey\n\n'
+    );
+  });
+  it('preserves trailing backslash in user text when appending', () => {
+    expect(appendSignature('The path is C:\\', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(appendSignature('C:\\\n', 'Best\nAgent')).toContain('C:\\');
+    expect(appendSignature('C:\\\n\n', 'Best\nAgent')).toContain('C:\\');
+  });
+  it('preserves trailing backslash in user text when removing', () => {
+    expect(removeSignature('C:\\\n--\n\nBest\nAgent', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(removeSignature('C:\\\n--', 'no matching sig')).toContain('C:\\');
+    expect(removeSignature('C:\\\nBest\\\nAgent', 'Best\nAgent')).toContain(
+      'C:\\'
+    );
+    expect(removeSignature('notes\n\\\n--', 'no matching sig')).toContain('\\');
+  });
 });
 
 describe('removeSignature with stripped signature', () => {
@@ -420,6 +452,67 @@ describe('extractTextFromMarkdown', () => {
     const expected =
       "Hello World\nThis is a bold text with a link.\nHere's an image:\nList item 1\nList item 2\nItalic text";
     expect(extractTextFromMarkdown(markdown)).toEqual(expected);
+  });
+});
+
+describe('stripInlineBase64Images', () => {
+  it('removes markdown data:image base64 images and sets hasInlineImages', () => {
+    const content =
+      'Hello\n![x](data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAE)\nWorld';
+    const { sanitizedContent, hasInlineImages } =
+      stripInlineBase64Images(content);
+
+    expect(hasInlineImages).toBe(true);
+    expect(sanitizedContent).not.toContain('data:image/png;base64');
+    expect(sanitizedContent).toContain('Hello');
+    expect(sanitizedContent).toContain('World');
+  });
+
+  it('leaves hosted image markdown unchanged', () => {
+    const content = '![](https://example.com/logo.png)';
+    const { sanitizedContent, hasInlineImages } =
+      stripInlineBase64Images(content);
+
+    expect(hasInlineImages).toBe(false);
+    expect(sanitizedContent).toBe(content);
+  });
+
+  it('returns empty hasInlineImages for empty input', () => {
+    expect(stripInlineBase64Images('')).toEqual({
+      sanitizedContent: '',
+      hasInlineImages: false,
+    });
+  });
+});
+
+describe('collapseSelection', () => {
+  it('collapses a text range to a cursor at its head', () => {
+    const editorView = new EditorView(document.body, {
+      state: createEditorState('Hello world'),
+    });
+
+    // Build a TextSelection via the initial selection's constructor (avoids
+    // importing prosemirror-state, which isn't a direct dep).
+    const { doc, selection } = editorView.state;
+    editorView.dispatch(
+      editorView.state.tr.setSelection(selection.constructor.create(doc, 1, 6))
+    );
+    expect(editorView.state.selection.empty).toBe(false);
+
+    collapseSelection(editorView);
+
+    expect(editorView.state.selection.empty).toBe(true);
+    expect(editorView.state.selection.head).toBe(6);
+  });
+
+  it('leaves an already-collapsed selection as a cursor', () => {
+    const editorView = new EditorView(document.body, {
+      state: createEditorState('Hi'),
+    });
+
+    collapseSelection(editorView);
+
+    expect(editorView.state.selection.empty).toBe(true);
   });
 });
 
@@ -556,71 +649,6 @@ describe('findNodeToInsertImage', () => {
     expect(result.node.type.name).toBe('image');
     expect(result.node.attrs.src).toBe('image-url');
     expect(result.pos).toBe(1);
-  });
-});
-
-describe('setURLWithQueryAndSize', () => {
-  let selectedNode;
-  let editorView;
-
-  beforeEach(() => {
-    selectedNode = {
-      setAttribute: vi.fn(),
-    };
-
-    const tr = {
-      setNodeMarkup: vi.fn().mockReturnValue({
-        docChanged: true,
-      }),
-    };
-
-    const state = {
-      selection: { from: 0 },
-      tr,
-    };
-
-    editorView = {
-      state,
-      dispatch: vi.fn(),
-    };
-  });
-
-  it('updates the URL with the given size and updates the editor view', () => {
-    const size = { height: '20px' };
-
-    setURLWithQueryAndSize(selectedNode, size, editorView);
-
-    // Check if the editor view is updated
-    expect(editorView.dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('updates the URL with the given size and updates the editor view with original size', () => {
-    const size = { height: 'auto' };
-
-    setURLWithQueryAndSize(selectedNode, size, editorView);
-
-    // Check if the editor view is updated
-    expect(editorView.dispatch).toHaveBeenCalledTimes(1);
-  });
-
-  it('does not update the editor view if the document has not changed', () => {
-    editorView.state.tr.setNodeMarkup = vi.fn().mockReturnValue({
-      docChanged: false,
-    });
-
-    const size = { height: '20px' };
-
-    setURLWithQueryAndSize(selectedNode, size, editorView);
-
-    // Check if the editor view dispatch was not called
-    expect(editorView.dispatch).not.toHaveBeenCalled();
-  });
-
-  it('does not perform any operations if selectedNode is not provided', () => {
-    setURLWithQueryAndSize(null, { height: '20px' }, editorView);
-
-    // Ensure the dispatch method wasn't called
-    expect(editorView.dispatch).not.toHaveBeenCalled();
   });
 });
 

@@ -1,12 +1,12 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversaciones seleccionadas",
-    "AGENT_SELECT_LABEL": "Seleccionar agente",
-    "ASSIGN_CONFIRMATION_LABEL": "¿Está seguro que desea asignar {conversationCount} {conversationLabel} a",
-    "UNASSIGN_CONFIRMATION_LABEL": "¿Está seguro de desasignar {conversationCount} {conversationLabel}?",
-    "GO_BACK_LABEL": "Volver",
-    "ASSIGN_LABEL": "Asignar",
+    "NONE": "Ninguna",
+    "CLEAR_SELECTION": "Limpiar",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Si",
+    "CANCEL": "Cancelar",
     "SEARCH_INPUT_PLACEHOLDER": "Buscar",
     "ASSIGN_AGENT_TOOLTIP": "Asignar un agente",
     "ASSIGN_TEAM_TOOLTIP": "Asignar equipo",
@@ -15,25 +15,30 @@
     "RESOLVE_SUCCESFUL": "Conversaciones resueltas con éxito.",
     "RESOLVE_FAILED": "Error al resolver las conversaciones, inténtelo de nuevo.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Las conversaciones visibles en esta página sólo están seleccionadas.",
-    "AGENT_LIST_LOADING": "Cargando agentes",
     "UPDATE": {
       "CHANGE_STATUS": "Cambiar estado",
       "SNOOZE_UNTIL": "Posponer",
       "UPDATE_SUCCESFUL": "El estado de la conversación se actualizó con éxito.",
       "UPDATE_FAILED": "No se han podido actualizar las conversaciones. Inténtalo de nuevo."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "No se pueden resolver las conversaciones debido a la falta de atributos requeridos",
+      "PARTIAL_SUCCESS": "Algunas conversaciones requieren atributos obligatorios antes de resolverse y se omitieron"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Asignar etiqueta",
-      "NO_LABELS_FOUND": "No se encontraron etiquetas",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Asignar etiquetas seleccionadas",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiquetas asignadas correctamente.",
-      "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo."
+      "ASSIGN_FAILED": "Error al asignar etiquetas, inténtalo de nuevo.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Seleccionar equipo",
       "NONE": "Ninguna",
-      "NO_TEAMS_AVAILABLE": "Todavía no hay equipos añadidos a esta cuenta.",
-      "ASSIGN_SELECTED_TEAMS": "Asignar equipo seleccionado.",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Equipos asignados correctamente.",
       "ASSIGN_FAILED": "Error al asignar equipo, inténtelo de nuevo."
     }
