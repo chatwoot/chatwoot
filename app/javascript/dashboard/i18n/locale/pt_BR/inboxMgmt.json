@@ -247,6 +247,8 @@
           "WHATSAPP_CLOUD": "Cloud do WhatsApp",
           "WHATSAPP_CLOUD_DESC": "Configuração rápida via Meta",
           "TWILIO_DESC": "Conectar através de credenciais Twilio",
+          "UNOAPI": "UnoAPI",
+          "UNOAPI_DESC": "Conectar através de credenciais UnoAPI",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
@@ -282,7 +284,8 @@
           "LABEL": "Chave da API",
           "SUBTITLE": "Configure a chave API do WhatsApp.",
           "PLACEHOLDER": "Chave da API",
-          "ERROR": "Por favor, insira um valor válido."
+          "ERROR": "Por favor, insira um valor válido.",
+          "REPLACE_CONFIRM": "Já existe um token. Deseja substituí-lo?"
         },
         "API_CALLBACK": {
           "TITLE": "URL de callback",
