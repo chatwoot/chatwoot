@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一個動作"
     },
     "NONE_OPTION": "無",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "對話已建立",
       "CONVERSATION_UPDATED": "對話已更新",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "瀏覽器語言",
       "MAIL_SUBJECT": "郵件主旨",
       "COUNTRY_NAME": "國家",
+      "COMPANY_NAME": "公司",
       "REFERER_LINK": "來源連結",
       "ASSIGNEE_NAME": "負責人",
       "TEAM_NAME": "團隊",

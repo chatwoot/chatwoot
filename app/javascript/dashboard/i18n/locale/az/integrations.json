@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Əlaqə yaradıldı",
             "CONTACT_UPDATED": "Əlaqə yeniləndi",
             "CONVERSATION_TYPING_ON": "Söhbət Yazılır",
-            "CONVERSATION_TYPING_OFF": "Söhbət Yazması Söndürülüb"
+            "CONVERSATION_TYPING_OFF": "Söhbət Yazması Söndürülüb",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
@@ -742,12 +743,58 @@
       "SELECT_ALL": "Hamısını seç ({count})",
       "UNSELECT_ALL": "Hamısını seçmə ({count})",
       "BULK_DELETE_BUTTON": "Sil",
+      "BULK_SYNC_BUTTON": "Refresh",
       "BULK_DELETE": {
         "TITLE": "Sənədlər silinsin?",
         "DESCRIPTION": "Seçilmiş sənədləri silmək istədiyinizə əminsiniz? Bu əməliyyat geri qaytarıla bilməz.",
         "CONFIRM": "Bəli, hamısını sil",
         "SUCCESS_MESSAGE": "Sənədlər uğurla silindi",
         "ERROR_MESSAGE": "Sənədlər silinərkən xəta baş verdi, yenidən cəhd edin."
+      },
+      "BULK_SYNC": {
+        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
+        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
+        "ZERO_MESSAGE": "No documents marked for refresh.",
+        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+      },
+      "SYNC": {
+        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
+        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+      },
+      "FILTERS": {
+        "SOURCE": {
+          "ALL": "All sources",
+          "WEB": "Web pages",
+          "PDF": "PDFs"
+        },
+        "STATUS": {
+          "ANY": "Any status",
+          "UPDATED": "Updated",
+          "NEEDS_UPDATE": "Needs update",
+          "UPDATING": "Updating",
+          "FAILED": "Failed"
+        },
+        "SORT": {
+          "RECENTLY_UPDATED": "Recently updated",
+          "RECENTLY_CREATED": "Recently created"
+        },
+        "SEARCH_PLACEHOLDER": "Search..."
+      },
+      "SYNC_STATUS": {
+        "SYNCED": "last updated {time}",
+        "SYNCING": "updating...",
+        "STALE_SYNC": "update stalled",
+        "FAILED": "Failed to sync",
+        "NEVER_SYNCED": "not updated yet"
+      },
+      "SYNC_ERRORS": {
+        "NOT_FOUND": "Page not found",
+        "ACCESS_DENIED": "Access denied",
+        "TIMEOUT": "Page took too long to respond",
+        "CONTENT_EMPTY": "Page returned empty content",
+        "FETCH_FAILED": "Could not fetch page",
+        "SYNC_ERROR": "Unexpected error",
+        "DEFAULT": "Sync error"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Əlaqəli FAQ-lar",
@@ -792,11 +839,15 @@
       },
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "Əlaqəli cavablara bax",
+        "SYNC_NOW": "Refresh now",
+        "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Sənədi sil"
       },
       "EMPTY_STATE": {
         "TITLE": "Sənəd yoxdur",
         "SUBTITLE": "Sənədlər assistentiniz tərəfindən FAQ-lar yaratmaq üçün istifadə olunur. Assistentinizə kontekst vermək üçün sənədləri əlavə edə bilərsiniz.",
+        "FILTERED_TITLE": "No matching documents",
+        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Sənəd",
           "NOTE": "Captain-da sənəd assistent üçün bilik mənbəyi rolunu oynayır. Kömək mərkəzinizi və ya təlimatları bağlayaraq, Captain məzmunu analiz edə və müştəri sorğuları üçün dəqiq cavablar verə bilər."

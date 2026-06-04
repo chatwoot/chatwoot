@@ -33,7 +33,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       end
 
       it 'raises an error' do
-        expect { described_class.new }.to raise_error(NoMethodError)
+        expect { described_class.new }.to raise_error('Missing API key')
       end
     end
 
@@ -53,14 +53,15 @@ RSpec.describe Captain::Tools::FirecrawlService do
     let(:expected_payload) do
       {
         url: url,
-        maxDepth: 50,
-        ignoreSitemap: false,
+        maxDiscoveryDepth: 50,
+        sitemap: 'include',
         limit: crawl_limit,
-        webhook: webhook_url,
+        webhook: { url: webhook_url },
         scrapeOptions: {
-          onlyMainContent: false,
+          onlyMainContent: true,
           formats: ['markdown'],
-          excludeTags: ['iframe']
+          excludeTags: Captain::Tools::FirecrawlService::FIRECRAWL_EXCLUDE_TAGS,
+          maxAge: 0
         }
       }.to_json
     end
@@ -74,7 +75,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
     context 'when the API call is successful' do
       before do
-        stub_request(:post, 'https://api.firecrawl.dev/v1/crawl')
+        stub_request(:post, 'https://api.firecrawl.dev/v2/crawl')
           .with(
             body: expected_payload,
             headers: expected_headers
@@ -85,7 +86,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       it 'makes a POST request with correct parameters' do
         service.perform(url, webhook_url, crawl_limit)
 
-        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v1/crawl')
+        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v2/crawl')
           .with(
             body: expected_payload,
             headers: expected_headers
@@ -95,7 +96,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       it 'uses default crawl limit when not specified' do
         default_payload = expected_payload.gsub(crawl_limit.to_s, '10')
 
-        stub_request(:post, 'https://api.firecrawl.dev/v1/crawl')
+        stub_request(:post, 'https://api.firecrawl.dev/v2/crawl')
           .with(
             body: default_payload,
             headers: expected_headers
@@ -104,7 +105,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
         service.perform(url, webhook_url)
 
-        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v1/crawl')
+        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v2/crawl')
           .with(
             body: default_payload,
             headers: expected_headers
@@ -114,7 +115,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
     context 'when the API call fails' do
       before do
-        stub_request(:post, 'https://api.firecrawl.dev/v1/crawl')
+        stub_request(:post, 'https://api.firecrawl.dev/v2/crawl')
           .to_raise(StandardError.new('Connection failed'))
       end
 
@@ -126,14 +127,14 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
     context 'when the API returns an error response' do
       before do
-        stub_request(:post, 'https://api.firecrawl.dev/v1/crawl')
+        stub_request(:post, 'https://api.firecrawl.dev/v2/crawl')
           .to_return(status: 422, body: '{"error": "Invalid URL"}')
       end
 
       it 'makes the request but does not raise an error' do
         expect { service.perform(url, webhook_url, crawl_limit) }.not_to raise_error
 
-        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v1/crawl')
+        expect(WebMock).to have_requested(:post, 'https://api.firecrawl.dev/v2/crawl')
           .with(
             body: expected_payload,
             headers: expected_headers

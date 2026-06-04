@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "Dzēšot makro radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "Rediģēt makro",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "Makro Redzamība",
         "GLOBAL": {
           "LABEL": "Publisks",
-          "DESCRIPTION": "Šis makro ir publiski pieejams visiem šī konta aģentiem."
+          "DESCRIPTION": "Šis makro ir publiski pieejams visiem šī konta aģentiem.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "Privāts",

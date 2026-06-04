@@ -231,4 +231,68 @@ describe ActionCableListener do
       listener.conversation_updated(event)
     end
   end
+
+  describe '#conversation_unread_count_changed' do
+    let(:event_name) { :'conversation.unread_count_changed' }
+    let!(:agent_without_inbox_access) { create(:user, account: account, role: :agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    before do
+      account.enable_features!(:conversation_unread_counts)
+    end
+
+    it 'sends a lightweight refresh event to inbox agents and admins' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'does not broadcast unread count refresh to agents outside the inbox' do
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later).with(
+        array_including(agent_without_inbox_access.pubsub_token),
+        anything,
+        anything
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'does not broadcast when conversation unread counts feature is disabled' do
+      account.disable_features!(:conversation_unread_counts)
+
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later)
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'supports deleted conversation data' do
+      event = Events::Base.new(
+        event_name,
+        Time.zone.now,
+        conversation_data: {
+          id: conversation.id,
+          account_id: account.id,
+          inbox_id: conversation.inbox_id
+        }
+      )
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+  end
 end

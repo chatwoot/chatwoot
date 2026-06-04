@@ -57,4 +57,46 @@ describe('#mutations', () => {
       );
     });
   });
+  describe('#RESET_ONBOARDING', () => {
+    it('removes onboarding_step from the targeted account', () => {
+      const state = {
+        currentUser: {
+          id: 1,
+          account_id: 1,
+          accounts: [
+            {
+              id: 1,
+              onboarding_step: 'account_details',
+              role: 'administrator',
+            },
+          ],
+        },
+      };
+      mutations[types.RESET_ONBOARDING](state, 1);
+      expect(state.currentUser.accounts[0]).not.toHaveProperty(
+        'onboarding_step'
+      );
+      expect(state.currentUser.accounts[0].role).toEqual('administrator');
+    });
+
+    it('targets the route account, not currentUser.account_id', () => {
+      const state = {
+        currentUser: {
+          id: 1,
+          account_id: 1,
+          accounts: [
+            { id: 1, onboarding_step: 'account_details' },
+            { id: 2, onboarding_step: 'account_details' },
+          ],
+        },
+      };
+      mutations[types.RESET_ONBOARDING](state, 2);
+      expect(state.currentUser.accounts[0].onboarding_step).toEqual(
+        'account_details'
+      );
+      expect(state.currentUser.accounts[1]).not.toHaveProperty(
+        'onboarding_step'
+      );
+    });
+  });
 });

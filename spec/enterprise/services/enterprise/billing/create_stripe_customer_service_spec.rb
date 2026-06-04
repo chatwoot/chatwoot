@@ -145,10 +145,10 @@ describe Enterprise::Billing::CreateStripeCustomerService do
         account.update!(custom_attributes: { stripe_customer_id: stripe_customer_id })
       end
 
-      context 'when customer has active subscriptions' do
+      context 'when customer has an active non-default subscription' do
         before do
           allow(Stripe::Subscription).to receive(:list).and_return(subscriptions_list)
-          allow(subscriptions_list).to receive(:data).and_return(['subscription'])
+          allow(subscriptions_list).to receive(:data).and_return([{ 'plan' => { 'id' => 'price_paid_plan' } }])
           allow(Stripe::Subscription).to receive(:create)
         end
 

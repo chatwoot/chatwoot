@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Ocultar Texto Citado",
     "SHOW_QUOTED_TEXT": "Mostrar Texto Citado",
     "MESSAGE_READ": "Lida",
-    "SENDING": "Enviando"
+    "SENDING": "Enviando",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

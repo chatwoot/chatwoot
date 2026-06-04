@@ -328,6 +328,31 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getSelectedChatAttachmentsLoaded', () => {
+    it('returns true when attachments have been fetched for the selected chat', () => {
+      const state = { selectedChatId: 1, attachments: { 1: [] } };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns true when the fetched attachment list is non-empty', () => {
+      const state = {
+        selectedChatId: 1,
+        attachments: { 1: [{ id: 1, file_name: 'test' }] },
+      };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(true);
+    });
+
+    it('returns false when attachments have not been fetched yet', () => {
+      const state = { selectedChatId: 1, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
+    });
+
+    it('returns false when no chat is selected', () => {
+      const state = { selectedChatId: null, attachments: {} };
+      expect(getters.getSelectedChatAttachmentsLoaded(state)).toBe(false);
+    });
+  });
+
   describe('#getContextMenuChatId', () => {
     it('returns the context menu chat id', () => {
       const state = { contextMenuChatId: 1 };

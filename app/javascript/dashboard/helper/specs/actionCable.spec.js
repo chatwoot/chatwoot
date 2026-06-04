@@ -1,4 +1,4 @@
-import { describe, it, beforeEach, expect, vi } from 'vitest';
+import { describe, it, beforeEach, afterEach, expect, vi } from 'vitest';
 import ActionCableConnector from '../actionCable';
 
 vi.mock('shared/helpers/mitt', () => ({
@@ -30,11 +30,16 @@ describe('ActionCableConnector - Copilot Tests', () => {
         dispatch: mockDispatch,
         getters: {
           getCurrentAccountId: 1,
+          'accounts/isFeatureEnabledonAccount': vi.fn(() => true),
         },
       },
     };
 
     actionCable = ActionCableConnector.init(store.$store, 'test-token');
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
   describe('copilot event handlers', () => {
     it('should register the copilot.message.created event handler', () => {
@@ -62,6 +67,97 @@ describe('ActionCableConnector - Copilot Tests', () => {
         'copilotMessages/upsert',
         copilotData
       );
+    });
+  });
+
+  describe('conversation unread count event handlers', () => {
+    it('should register the conversation.unread_count_changed event handler', () => {
+      expect(Object.keys(actionCable.events)).toContain(
+        'conversation.unread_count_changed'
+      );
+      expect(actionCable.events['conversation.unread_count_changed']).toBe(
+        actionCable.onConversationUnreadCountChanged
+      );
+    });
+
+    it('should refetch unread counts when unread count changes', () => {
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith('conversationUnreadCounts/get');
+    });
+
+    it('does not refetch unread counts when unread count feature is disabled', () => {
+      store.$store.getters[
+        'accounts/isFeatureEnabledonAccount'
+      ].mockReturnValue(false);
+
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).not.toHaveBeenCalledWith(
+        'conversationUnreadCounts/get'
+      );
+    });
+
+    it('should throttle unread count refetches for repeated events', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(4999);
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
+
+      vi.advanceTimersByTime(1);
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+      expect(mockDispatch).toHaveBeenLastCalledWith(
+        'conversationUnreadCounts/get'
+      );
+    });
+
+    it('clears pending unread count refetch before immediate refetch', () => {
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      vi.advanceTimersByTime(1000);
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      vi.setSystemTime(new Date('2026-01-01T00:00:06Z'));
+      actionCable.onReceived({
+        event: 'conversation.unread_count_changed',
+        data: { account_id: 1 },
+      });
+
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
+
+      vi.advanceTimersByTime(4000);
+      expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
   });
 });
