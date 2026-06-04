@@ -1,6 +1,13 @@
 class Webhooks::InstagramEventsJob < MutexApplicationJob
   queue_as :default
-  retry_on_lock_conflict wait: 1.second, attempts: 8, on_exhaustion: :process_without_lock
+  # This lock is only a short race dampener for first-message conversation creation.
+  # ContactInbox creation is already protected by a unique index, but conversation
+  # lookup is `find active conversation || create`, so concurrent first messages from
+  # the same IG contact can create duplicate conversations.
+  #
+  # ActiveJob retries are not FIFO, so a longer retry window does not preserve message
+  # order. After a few bumps, process without the lock instead of dropping the webhook.
+  retry_on_lock_conflict wait: 1.second, attempts: 3, on_exhaustion: :process_without_lock
 
   # @return [Array] We will support further events like reaction or seen in future
   SUPPORTED_EVENTS = [:message, :read].freeze
@@ -9,7 +16,10 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
     @entries = entries
 
     key = format(::Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: contact_instagram_id, ig_account_id: ig_account_id)
-    with_lock(key) do
+    # Keep the lock TTL just long enough for the first job to fetch profile data and
+    # create the contact/conversation. A longer TTL would add user-visible latency for
+    # hot contacts without giving us ordering guarantees.
+    with_lock(key, 3.seconds) do
       process_entries(entries)
     end
   end
