@@ -582,39 +582,42 @@
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
+        "TITLE": "Bejegyzés lefordítása | {count} bejegyzés lefordítása",
+        "DESCRIPTION": "Fordítsd le a kiválasztott bejegyzést egy másik nyelvre. | Fordítsd le a kiválasztott bejegyzéseket egy másik nyelvre.",
+        "LOCALE_LABEL": "Célnyelv",
+        "LOCALE_PLACEHOLDER": "Válassz nyelvet",
+        "CATEGORY_LABEL": "Célkategória",
+        "CATEGORY_PLACEHOLDER": "Válassz kategóriát",
+        "OPTIONAL": "(opcionális)",
         "CONFIRM": "Fordítás",
-        "SELECT_ALL": "Select all ({count})",
-        "SELECTED_COUNT": "{count} selected",
-        "CLEAR_SELECTION": "Clear selection",
+        "SELECT_ALL": "Összes kijelölése ({count})",
+        "SELECTED_COUNT": "{count} kijelölve",
+        "CLEAR_SELECTION": "Kijelölés törlése",
         "TRANSLATE_BUTTON": "Fordítás",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "CONFIRM_OVERWRITE": "Felülírás és lefordítás",
+        "DUPLICATE_WARNING": "Ehhez a bejegyzéshez már létezik fordítás a kiválasztott nyelven. | {count} bejegyzéshez már létezik fordítás a kiválasztott nyelven.",
+        "DUPLICATE_CONFIRM_HINT": "Kattints a 'Lefordítás' gombra ismét a meglévő fordítás felülírásához.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "A fordítás folyamatban van. A bejegyzés elkészülés után piszkozatként fog megjelenni.",
+          "ERROR_MESSAGE": "Nem sikerült elindítani a fordítást. Kérlek, próbáld újra."
         }
       },
       "BULK_ACTIONS": {
         "PUBLISH": "Publikálás",
         "DRAFT": "Vázlat",
-        "ARCHIVE": "Archive",
+        "ARCHIVE": "Archiválás",
         "TRANSLATE": "Fordítás",
+        "MOVE_TO_CATEGORY": "Kategória",
         "DELETE": "Törlés",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SUCCESS": "A bejegyzések sikeresen frissítve",
+        "STATUS_ERROR": "Nem sikerült frissíteni a bejegyzéseket",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Bejegyzés törlése | {count} bejegyzés törlése",
+        "DELETE_CONFIRM_DESCRIPTION": "Ez véglegesen törli a kiválasztott bejegyzést. Ez a művelet nem vonható vissza. | Ez véglegesen törli a kijelölt {count} bejegyzést. Ez a művelet nem vonható vissza.",
         "DELETE_CONFIRM": "Törlés",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "A bejegyzések sikeresen törölve",
+        "DELETE_ERROR": "Nem sikerült törölni a bejegyzéseket"
       }
     },
     "CATEGORY_PAGE": {
@@ -865,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Megjelenés",
+        "DESCRIPTION": "Válaszd ki az elrendezést, amely a legjobban megfelel a céljaidnak.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Klasszikus",
+            "DESCRIPTION": "Barátságos kezdőlap kereséssel és kiemelt témákkal."
+          },
+          "SIDEBAR": {
+            "TITLE": "Dokumentáció",
+            "DESCRIPTION": "Egymás melletti navigáció, amely minden útmutatót egy kattintásnyira tart."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Közösségi hivatkozások",
+          "DESCRIPTION": "Add meg az egyes hálózatok felhasználónevét, és a súgóközpont elkészíti a teljes hivatkozást. A dokumentációs elrendezés láblécében jelenik meg.",
+          "PLACEHOLDER": "felhasználónév",
+          "ADD": "Közösségi hivatkozás hozzáadása",
+          "REMOVE": "Eltávolítás"
+        },
+        "SAVE": "Módosítások mentése"
       },
       "API": {
         "CREATE_PORTAL": {

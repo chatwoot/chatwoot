@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
@@ -12,7 +13,7 @@ import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
 import { useAssetUrl } from 'shared/composables/useAssetUrl';
 
-const RINGTONE_URL = useAssetUrl()('/audio/dashboard/bell.mp3');
+const RINGTONE_URL = useAssetUrl()('/audio/dashboard/ringtone.mp3');
 
 const route = useRoute();
 const router = useRouter();
@@ -30,8 +31,8 @@ const {
   formattedCallDuration,
 } = useCallSession();
 
-// Mute is currently WhatsApp-only — Twilio calls are mediated server-side and
-// don't expose a mic track on the browser side.
+// Mute routes by provider: WhatsApp toggles the local mic track, Twilio uses
+// the Voice SDK connection's native mute. Both surface the same button.
 const isMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
@@ -64,7 +65,11 @@ const stackedCardState = call =>
 
 const toggleMute = () => {
   isMuted.value = !isMuted.value;
-  setWhatsappCallMuted(isMuted.value);
+  if (isWhatsappActive.value) {
+    setWhatsappCallMuted(isMuted.value);
+  } else {
+    TwilioVoiceClient.setMuted(isMuted.value);
+  }
 };
 
 watch(hasActiveCall, active => {
@@ -257,7 +262,7 @@ onBeforeUnmount(stopRingtone);
       :call-info="getCallInfo(activeCall || primaryIncomingCall)"
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
-      :show-mute="hasActiveCall && isWhatsappActive"
+      :show-mute="hasActiveCall"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
