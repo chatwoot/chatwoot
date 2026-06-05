@@ -7,10 +7,24 @@ import Chart from 'primevue/chart';
 import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import LiveReports from '../../settings/reports/LiveReports.vue';
 
 const { t } = useI18n();
 const route = useRoute();
+
+// Popup de detalhes do alerta (clique em ÚLTIMOS ALERTAS).
+const alertDialog = ref(null);
+const selectedAlert = ref(null);
+const openAlert = event => {
+  selectedAlert.value = event;
+  alertDialog.value?.open();
+};
+const selectedAlertConversationUrl = computed(() => {
+  const cid = selectedAlert.value?.conversation_id;
+  if (!cid) return null;
+  return `/app/accounts/${route.params.accountId}/conversations/${cid}`;
+});
 
 const periodOptions = [
   { label: '7d', value: 7 },
@@ -489,7 +503,11 @@ onBeforeUnmount(() => {
             <li
               v-for="event in recentEvents"
               :key="event.id"
-              class="flex items-start gap-3 px-5 py-3 hover:bg-s-subtle/50 transition-colors"
+              class="flex items-start gap-3 px-5 py-3 hover:bg-s-subtle/50 transition-colors cursor-pointer"
+              role="button"
+              tabindex="0"
+              @click="openAlert(event)"
+              @keydown.enter="openAlert(event)"
             >
               <span
                 :class="[
@@ -529,5 +547,50 @@ onBeforeUnmount(() => {
     <div v-else-if="activeTab === 'reports'" class="p-4 md:p-6">
       <LiveReports />
     </div>
+
+    <!-- Popup de detalhes do alerta -->
+    <Dialog
+      ref="alertDialog"
+      :title="t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.TITLE')"
+      :show-confirm-button="false"
+      :cancel-button-label="t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.CLOSE')"
+    >
+      <div v-if="selectedAlert" class="flex flex-col gap-3 text-sm">
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted">
+            {{ t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.CLIENT') }}
+          </span>
+          <span class="text-s-primary font-medium">{{ selectedAlert.contact_name || '—' }}</span>
+        </div>
+        <div class="flex flex-col gap-0.5">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted">
+            {{ t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.INTEREST') }}
+          </span>
+          <span class="text-s-primary">🚗 {{ selectedAlert.modelo_interesse || 'a definir' }}</span>
+        </div>
+        <div v-if="selectedAlert.tipo" class="flex flex-col gap-0.5">
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted">
+            {{ t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.REASON') }}
+          </span>
+          <span class="text-s-primary">{{ selectedAlert.tipo }}</span>
+        </div>
+        <div
+          v-if="selectedAlert.metadata && selectedAlert.metadata.observacoes"
+          class="flex flex-col gap-0.5"
+        >
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-s-muted">
+            {{ t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.NOTES') }}
+          </span>
+          <span class="text-s-secondary whitespace-pre-line">{{ selectedAlert.metadata.observacoes }}</span>
+        </div>
+        <a
+          v-if="selectedAlertConversationUrl"
+          :href="selectedAlertConversationUrl"
+          class="text-s-accent-600 hover:underline text-xs font-semibold mt-1"
+        >
+          {{ t('SYNAPSEOS.DASHBOARD.ALERT_DETAILS.OPEN_CONVERSATION') }} →
+        </a>
+      </div>
+    </Dialog>
   </div>
 </template>

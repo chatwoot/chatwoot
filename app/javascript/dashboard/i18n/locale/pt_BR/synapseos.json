@@ -103,6 +103,15 @@
         "AI_RESPONSES": "Respostas da IA",
         "BOT_TAKEOVERS": "Transferências da Elisa"
       },
+      "ALERT_DETAILS": {
+        "TITLE": "Detalhes do alerta",
+        "CLOSE": "Fechar",
+        "CLIENT": "Cliente",
+        "INTEREST": "Interesse",
+        "REASON": "Motivo",
+        "NOTES": "Observações",
+        "OPEN_CONVERSATION": "Abrir conversa"
+      },
       "RECENT_EVENTS": {
         "TITLE": "Últimos alertas",
         "EMPTY": "Nenhum alerta de venda ainda."

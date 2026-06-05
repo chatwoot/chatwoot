@@ -107,6 +107,15 @@
         "TITLE": "Latest alerts",
         "EMPTY": "No sales alerts yet."
       },
+      "ALERT_DETAILS": {
+        "TITLE": "Alert details",
+        "CLOSE": "Close",
+        "CLIENT": "Client",
+        "INTEREST": "Interest",
+        "REASON": "Reason",
+        "NOTES": "Notes",
+        "OPEN_CONVERSATION": "Open conversation"
+      },
       "EVENT_TYPE": {
         "LEAD_CREATED": "Lead created",
         "LEAD_QUALIFIED": "Lead qualified",

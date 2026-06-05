@@ -232,9 +232,8 @@ const menuItems = computed(() => {
         'conversation_through_inbox',
         'conversations_through_label',
       ],
-      getterKeys: {
-        count: 'notifications/getUnreadCount',
-      },
+      // CUSTOMIZAÇÃO_SYNAPSEOS: badge de não-lidos removido (cliente não usa o
+      // contador; o "1" fixo incomodava). Sem getterKeys.count = sem badge.
     },
     // CUSTOMIZAÇÃO_SYNAPSEOS: Synapse OS — itens top-level da sidebar
     {
