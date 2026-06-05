@@ -3,14 +3,18 @@ class Messages::StatusUpdateService
 
   def initialize(message, status, external_error = nil)
     @message = message
-    @status = status
+    @status = status.to_s
     @external_error = external_error
   end
 
   def perform
-    return false unless valid_status_transition?
+    # Lock the row and re-check the transition inside the lock so concurrent
+    # webhook workers can't race past the forward-only guard.
+    message.with_lock do
+      next false unless valid_status_transition?
 
-    update_message_status
+      update_message_status
+    end
   end
 
   private
