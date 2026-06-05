@@ -1,5 +1,7 @@
 <script setup>
+import { ref } from 'vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
+import LocaleContentDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/LocaleContentDialog.vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -22,6 +24,8 @@ const store = useStore();
 const { t } = useI18n();
 const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
+
+const contentDialogRef = ref(null);
 
 const isLocaleDefault = code => {
   return props.portal?.meta?.default_locale === code;
@@ -148,6 +152,8 @@ const handleAction = ({ action }, localeCode) => {
     moveLocaleToDraft({ localeCode: localeCode });
   } else if (action === 'publish-locale') {
     publishLocale({ localeCode: localeCode });
+  } else if (action === 'customize-content') {
+    contentDialogRef.value.openForLocale(localeCode);
   } else if (action === 'delete') {
     deletePortalLocale({ localeCode: localeCode });
   }
@@ -167,5 +173,6 @@ const handleAction = ({ action }, localeCode) => {
       :category-count="locale.categoriesCount || 0"
       @action="handleAction($event, locale.code)"
     />
+    <LocaleContentDialog ref="contentDialogRef" :portal="portal" />
   </ul>
 </template>
