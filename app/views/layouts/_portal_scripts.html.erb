@@ -89,5 +89,9 @@ html.light {
   };
 </script>
 <% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
+<script>
+  window.chatwootSettings = window.chatwootSettings || {};
+  window.chatwootSettings.locale = '<%= @locale %>';
+</script>
 <%= @portal.channel_web_widget.web_widget_script.html_safe %>
 <% end %>

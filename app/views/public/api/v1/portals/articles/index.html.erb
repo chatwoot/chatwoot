@@ -6,7 +6,7 @@
 			  class="leading-8 text-slate-800 hover:underline"
 		      href="<%= generate_home_link(@portal.slug, @category.present? ? @category.slug : '', @theme_from_params, @is_plain_layout_enabled) %>"
 			>
-				<%= @portal.name %> <%= I18n.t('public_portal.common.home') %>
+				<%= @portal.localized_value('name', @locale) %> <%= I18n.t('public_portal.common.home') %>
 			</a>
 		<span>/</span>
 		<span>/</span>

@@ -159,6 +159,13 @@ export const LOCALE_MENU_ITEMS = {
     value: 'publish',
     icon: 'i-lucide-eye',
   },
+  customizeContent: {
+    label:
+      'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.CUSTOMIZE_CONTENT',
+    action: 'customize-content',
+    value: 'customize-content',
+    icon: 'i-lucide-pencil',
+  },
   delete: {
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE',
     action: 'delete',
@@ -172,20 +179,28 @@ const disableLocaleMenuItems = menuItems =>
 
 export const buildLocaleMenuItems = ({ isDefault, isDraft }) => {
   if (isDefault) {
-    return disableLocaleMenuItems([
-      LOCALE_MENU_ITEMS.makeDefault,
-      LOCALE_MENU_ITEMS.moveToDraft,
-      LOCALE_MENU_ITEMS.delete,
-    ]);
+    return [
+      ...disableLocaleMenuItems([
+        LOCALE_MENU_ITEMS.makeDefault,
+        LOCALE_MENU_ITEMS.moveToDraft,
+      ]),
+      LOCALE_MENU_ITEMS.customizeContent,
+      ...disableLocaleMenuItems([LOCALE_MENU_ITEMS.delete]),
+    ];
   }
 
   if (isDraft) {
-    return [LOCALE_MENU_ITEMS.publishLocale, LOCALE_MENU_ITEMS.delete];
+    return [
+      LOCALE_MENU_ITEMS.publishLocale,
+      LOCALE_MENU_ITEMS.customizeContent,
+      LOCALE_MENU_ITEMS.delete,
+    ];
   }
 
   return [
     LOCALE_MENU_ITEMS.makeDefault,
     LOCALE_MENU_ITEMS.moveToDraft,
+    LOCALE_MENU_ITEMS.customizeContent,
     LOCALE_MENU_ITEMS.delete,
   ];
 };
