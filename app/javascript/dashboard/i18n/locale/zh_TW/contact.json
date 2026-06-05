@@ -20,6 +20,8 @@
     "CALL": "通話",
     "CALL_INITIATED": "正在撥打聯絡人電話…",
     "CALL_FAILED": "無法撥打電話，請稍後再試。",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "點擊以編輯",
     "VOICE_INBOX_PICKER": {
       "TITLE": "選擇語音收件匣"
@@ -583,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "指派標籤",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "標籤已成功指派。",
     "ASSIGN_LABELS_FAILED": "指派標籤失敗",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "選擇您要新增到所選聯絡人的標籤。",
     "NO_LABELS_FOUND": "尚無可用的標籤。",
     "SELECTED_COUNT": "已選取 {count} 個",

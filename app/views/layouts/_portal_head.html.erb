@@ -1,6 +1,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1">
-<meta name="turbolinks-cache-control" content="no-cache">
+<meta name="turbo-cache-control" content="no-cache">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <%= vite_client_tag %>
@@ -16,7 +16,7 @@
 <% if content_for?(:head) %>
   <%= yield(:head) %>
 <% else %>
-  <title><%= @portal.display_title %></title>
+  <title><%= @portal.display_title(@locale) %></title>
 <% end %>
 
 <% if @portal.logo.present? %>

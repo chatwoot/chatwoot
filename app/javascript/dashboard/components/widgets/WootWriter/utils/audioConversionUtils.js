@@ -1,5 +1,7 @@
 import lamejs from '@breezystack/lamejs';
 
+import { remuxWebmToOgg } from './webmOpusToOgg';
+
 const writeString = (view, offset, string) => {
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < string.length; i++) {
@@ -139,6 +141,20 @@ export const convertAudio = async (inputBlob, outputFormat, bitrate = 128) => {
     audio = await convertToWav(inputBlob);
   } else if (outputFormat === 'audio/mp3') {
     audio = await convertToMp3(inputBlob, bitrate);
+  } else if (outputFormat === 'audio/ogg') {
+    const inputType = inputBlob.type.split(';')[0].trim();
+    if (inputType === 'audio/webm' || inputType === 'video/webm') {
+      audio = await remuxWebmToOgg(inputBlob);
+    } else if (inputType === 'audio/ogg') {
+      audio = inputBlob;
+    } else {
+      // Browsers that record neither WebM nor OGG (e.g. Safari records
+      // audio/mp4) cannot produce OGG/Opus. Fall back to MP3 so the recording
+      // still sends as a regular audio message instead of failing. The caller
+      // keys the voice-note flag off the returned blob type, so an MP3 result
+      // is never mislabeled as an OGG/Opus voice note.
+      audio = await convertToMp3(inputBlob, bitrate);
+    }
   } else {
     throw new Error('Unsupported output format');
   }
