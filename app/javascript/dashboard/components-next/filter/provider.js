@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
-import ContactAPI from 'dashboard/api/contacts';
+import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import {
   buildAttributesFilterTypes,
   CONVERSATION_ATTRIBUTES,
@@ -69,19 +69,25 @@ export function useConversationFilterContext() {
     getOperatorTypes,
   } = useOperators();
 
+  const searchContacts = createContactSearcher();
+
   const contactOptionName = contact =>
     contact.name ||
     contact.email ||
-    contact.phone_number ||
+    contact.phoneNumber ||
     contact.identifier ||
     t('FILTER.CONTACT_FALLBACK', { id: contact.id });
 
-  const searchContactOptions = async (query, { signal } = {}) => {
-    const {
-      data: { payload = [] },
-    } = await ContactAPI.search(query, 1, 'name', '', { signal });
+  const searchContactOptions = async query => {
+    const contacts = await searchContacts(query, {
+      skipMinLength: true,
+      reachableOnly: false,
+    });
 
-    return payload.map(contact => ({
+    // null means the request was aborted (a newer search is in-flight)
+    if (contacts === null) return null;
+
+    return contacts.map(contact => ({
       id: contact.id,
       name: contactOptionName(contact),
     }));

@@ -198,7 +198,6 @@ describe('useConversationFilterContext', () => {
   });
 
   it('uses the existing contact search API for contact filter options', async () => {
-    const signal = new AbortController().signal;
     ContactAPI.search.mockResolvedValue({
       data: {
         payload: [
@@ -213,10 +212,10 @@ describe('useConversationFilterContext', () => {
     const contactFilter = filterTypes.value.find(
       filter => filter.attributeKey === CONVERSATION_ATTRIBUTES.CONTACT_ID
     );
-    const options = await contactFilter.searchOptions('jane', { signal });
+    const options = await contactFilter.searchOptions('jane');
 
     expect(ContactAPI.search).toHaveBeenCalledWith('jane', 1, 'name', '', {
-      signal,
+      signal: expect.any(AbortSignal),
     });
     expect(options).toEqual([
       { id: 1, name: 'Jane Doe' },

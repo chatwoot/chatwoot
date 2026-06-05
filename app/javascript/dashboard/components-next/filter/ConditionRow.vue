@@ -192,7 +192,6 @@ defineExpose({ validate, resetValidation });
         <SingleSelect
           v-else-if="inputType === 'asyncSearchSelect'"
           v-model="values"
-          :options="[]"
           :search-options="currentFilter.searchOptions"
           :search-placeholder="currentFilter.searchPlaceholder"
           dropdown-max-height="max-h-64"

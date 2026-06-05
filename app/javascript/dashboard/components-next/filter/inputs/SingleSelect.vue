@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { picoSearch } from '@scmmishra/pico-search';
 import { debounce } from '@chatwoot/utils';
@@ -14,17 +14,19 @@ const {
   options,
   disableSearch,
   disableDeselect,
+  searchOptions,
   placeholderIcon,
   placeholder,
   placeholderTrailingIcon,
   searchPlaceholder,
-  searchOptions,
   dropdownMaxHeight,
 } = defineProps({
   options: {
     type: Array,
     default: () => [],
   },
+  // async alternative to `options` — must abort stale searches internally
+  // and return null for them (e.g. createContactSearcher)
   searchOptions: {
     type: Function,
     default: null,
@@ -65,82 +67,57 @@ const selected = defineModel({
   required: true,
 });
 
+const isAsyncSearch = computed(() => !!searchOptions);
+
 const searchTerm = ref('');
 const asyncOptions = ref([]);
 const isSearching = ref(false);
-let controller = null;
-
-const isAsyncSearch = computed(() => !!searchOptions);
-
-const hasOptionId = option =>
-  option && Object.prototype.hasOwnProperty.call(option, 'id');
-
-const selectedValue = computed(() =>
-  Array.isArray(selected.value) ? selected.value[0] : selected.value
-);
-
-const mergeSelectedOption = results => {
-  if (!hasOptionId(selectedValue.value)) return results;
-  return [
-    selectedValue.value,
-    ...results.filter(option => option.id !== selectedValue.value.id),
-  ];
-};
-
-const isAbortError = error =>
-  error?.name === 'AbortError' || error?.name === 'CanceledError';
 
 const performAsyncSearch = async query => {
-  controller?.abort();
-  const trimmedQuery = query.trim();
-
-  if (!trimmedQuery) {
-    asyncOptions.value = hasOptionId(selectedValue.value)
-      ? [selectedValue.value]
-      : [];
-    isSearching.value = false;
-    return;
-  }
-
-  const currentController = new AbortController();
-  controller = currentController;
-  isSearching.value = true;
-
   try {
-    const results = await searchOptions(trimmedQuery, {
-      signal: currentController.signal,
-    });
-
-    if (currentController.signal.aborted) return;
-    asyncOptions.value = mergeSelectedOption(results);
-  } catch (error) {
-    if (!isAbortError(error)) {
-      asyncOptions.value = hasOptionId(selectedValue.value)
-        ? [selectedValue.value]
-        : [];
-    }
-  } finally {
-    if (!currentController.signal.aborted) isSearching.value = false;
+    const results = await searchOptions(query);
+    // null means the request was aborted in favour of a newer one
+    if (results === null) return;
+    asyncOptions.value = results;
+  } catch {
+    asyncOptions.value = [];
   }
+  isSearching.value = false;
 };
 
 const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
 
+const onSearchInput = query => {
+  if (!isAsyncSearch.value) return;
+  isSearching.value = !!query.trim();
+  debouncedAsyncSearch(query);
+};
+
 const searchResults = computed(() => {
   if (isAsyncSearch.value) return asyncOptions.value;
+  if (!options) return [];
   return picoSearch(options, searchTerm.value, ['name']);
 });
 
 const selectedItem = computed(() => {
-  const optionToSearch = selectedValue.value;
-  if (!hasOptionId(optionToSearch)) return null;
+  if (!options) return null;
+  if (!selected.value) return null;
 
-  const optionList = isAsyncSearch.value ? asyncOptions.value : options;
+  // there are cases where the selected value is an array
+  const optionToSearch = Array.isArray(selected.value)
+    ? selected.value[0]
+    : selected.value;
+
+  if (!optionToSearch) return null;
   // extract the selected item from the options array
   // this ensures that options like icon is also included
+  const optionList = isAsyncSearch.value ? asyncOptions.value : options;
   return (
     optionList.find(option => option.id === optionToSearch.id) ||
-    (isAsyncSearch.value ? optionToSearch : null)
+    // async results may not include the selected option, fall back to it
+    (isAsyncSearch.value && optionToSearch.id !== undefined
+      ? optionToSearch
+      : null)
   );
 });
 
@@ -158,28 +135,6 @@ const toggleSelected = option => {
     selected.value = optionToToggle;
   }
 };
-
-watch(searchTerm, value => {
-  if (isAsyncSearch.value) debouncedAsyncSearch(value);
-});
-
-watch(
-  selectedValue,
-  value => {
-    if (
-      isAsyncSearch.value &&
-      hasOptionId(value) &&
-      !asyncOptions.value.find(option => option.id === value.id)
-    ) {
-      asyncOptions.value = [value, ...asyncOptions.value];
-    }
-  },
-  { immediate: true }
-);
-
-onBeforeUnmount(() => {
-  controller?.abort();
-});
 </script>
 
 <template>
@@ -220,6 +175,7 @@ onBeforeUnmount(() => {
           autofocus
           class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
           :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
+          @input="onSearchInput($event.target.value)"
         />
       </div>
       <DropdownSection :height="dropdownMaxHeight">
