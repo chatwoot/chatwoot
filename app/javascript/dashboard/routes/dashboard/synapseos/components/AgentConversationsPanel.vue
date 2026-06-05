@@ -87,7 +87,7 @@ onBeforeUnmount(() => {
           {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.COUNT', { n: conversations.length }) }}
         </span>
       </div>
-      <SynapseButton size="sm" variant="ghost" icon="i-lucide-x" @click="emit('close')">
+      <SynapseButton size="sm" variant="ghost" icon="i-lucide-x" class="shrink-0" @click="emit('close')">
         {{ t('SYNAPSEOS.LIVE_AGENTS.PANEL.CLOSE') }}
       </SynapseButton>
     </div>

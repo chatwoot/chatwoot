@@ -213,8 +213,8 @@ onBeforeUnmount(() => {
       </span>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4">
-      <SynapseCard padding="none">
+    <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-4 items-start">
+      <SynapseCard padding="none" class="min-w-0 overflow-x-auto">
         <DataTable
           :value="filteredAgents"
           :loading="loading"
@@ -255,7 +255,7 @@ onBeforeUnmount(() => {
             sortable
           >
             <template #body="{ data }">
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-3 min-w-0 max-w-[280px]">
                 <img
                   v-if="data.thumbnail"
                   :src="data.thumbnail"
@@ -340,7 +340,7 @@ onBeforeUnmount(() => {
         </DataTable>
       </SynapseCard>
 
-      <div v-if="selectedAgent">
+      <div v-if="selectedAgent" class="min-w-0">
         <AgentConversationsPanel
           :agent="selectedAgent"
           @close="selectedAgent = null"
@@ -349,7 +349,7 @@ onBeforeUnmount(() => {
       <SynapseCard
         v-else
         padding="none"
-        class="hidden lg:flex items-center justify-center min-h-[300px]"
+        class="hidden lg:flex items-center justify-center min-h-[300px] min-w-0"
       >
         <SynapseEmptyState
           icon="i-lucide-mouse-pointer-click"
