@@ -8,7 +8,6 @@ import SynapseStatusPill from 'next/synapseos/SynapseStatusPill.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseEmptyState from 'next/synapseos/SynapseEmptyState.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import LiveReports from '../../settings/reports/LiveReports.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -32,9 +31,10 @@ const periodOptions = [
   { label: '90d', value: 90 },
 ];
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: aba "Relatórios ao vivo" ocultada (cliente não usa
+// no dash executivo). Só Visão geral.
 const tabs = computed(() => [
   { key: 'overview', label: t('SYNAPSEOS.DASHBOARD.TABS.OVERVIEW') },
-  { key: 'reports', label: t('SYNAPSEOS.DASHBOARD.TABS.REPORTS') },
 ]);
 const activeTab = ref('overview');
 
@@ -355,7 +355,10 @@ onBeforeUnmount(() => {
       </div>
     </header>
 
-    <nav class="px-4 md:px-6 flex gap-5 border-b border-s-border">
+    <nav
+      v-if="tabs.length > 1"
+      class="px-4 md:px-6 flex gap-5 border-b border-s-border"
+    >
       <button
         v-for="tab in tabs"
         :key="tab.key"
@@ -543,10 +546,6 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </template>
-
-    <div v-else-if="activeTab === 'reports'" class="p-4 md:p-6">
-      <LiveReports />
-    </div>
 
     <!-- Popup de detalhes do alerta -->
     <Dialog

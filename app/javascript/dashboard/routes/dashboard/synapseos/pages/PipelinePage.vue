@@ -9,10 +9,13 @@ import Select from 'primevue/select';
 import SynapseButton from 'next/synapseos/SynapseButton.vue';
 import SynapseBadge from 'next/synapseos/SynapseBadge.vue';
 import SynapseDialog from 'next/synapseos/SynapseDialog.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+// Botão Templates só pra administradores.
+const { isAdmin } = useAdmin();
 
 const stages = ref([]);
 const leads = ref([]);
@@ -237,6 +240,7 @@ onMounted(fetchPipeline);
       </div>
       <div class="flex gap-2 shrink-0">
         <SynapseButton
+          v-if="isAdmin"
           variant="outline"
           icon="i-lucide-layout-template"
           @click="openTemplates"
