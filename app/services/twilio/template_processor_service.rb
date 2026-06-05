@@ -13,13 +13,31 @@ class Twilio::TemplateProcessorService
 
   private
 
-  def find_template
-    channel.content_templates&.dig('templates')&.find do |template|
-      template['friendly_name'] == template_params['name'] &&
-        template['language'] == (template_params['language'] || 'en') &&
-        template['status'] == 'approved'
-    end
+def find_template
+  templates = channel.content_templates&.dig('templates')
+  return nil if templates.blank?
+
+  # Prefer the exact content_sid when the caller provided it. Twilio allows
+  # multiple Content templates to share the same friendly_name (the SID is the
+  # real identifier), so resolving only by name can pick the wrong template
+  # and send the wrong body/variables. See find_template_by_name.
+  if template_params['content_sid'].present?
+    exact = templates.find { |template| template['content_sid'] == template_params['content_sid'] }
+    return exact if exact
   end
+
+  find_template_by_name(templates)
+end
+
+# Fallback for callers that only send the template name (no content_sid).
+# Picks the first approved template matching name + language.
+def find_template_by_name(templates)
+  templates.find do |template|
+    template['friendly_name'] == template_params['name'] &&
+      template['language'] == (template_params['language'] || 'en') &&
+      template['status'] == 'approved'
+  end
+end
 
   def build_content_variables(template)
     case template['template_type']
