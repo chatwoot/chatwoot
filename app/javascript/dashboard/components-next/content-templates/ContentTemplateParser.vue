@@ -133,7 +133,7 @@ const sendMessage = () => {
   v$.value.$touch();
   if (v$.value.$invalid || isFormInvalid.value) return;
 
-  const { friendly_name, language } = props.template;
+  const { friendly_name, language, content_sid } = props.template;
 
   // Process parameters and extract filename from media URL if needed
   const processedParameters = { ...processedParams.value };
@@ -153,6 +153,7 @@ const sendMessage = () => {
     message: renderedTemplate.value,
     templateParams: {
       name: friendly_name,
+      content_sid,
       language,
       processed_params: processedParameters,
     },
