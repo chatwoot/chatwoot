@@ -200,11 +200,15 @@ const assigneeTabItems = computed(() => {
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  )
+    .map(({ key, count: countKey }) => ({
+      key,
+      name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
+      count: conversationStats.value[countKey] || 0,
+    }))
+    // CUSTOMIZAÇÃO_SYNAPSEOS: oculta a aba "Não atribuídos" — só Minhas + Todos
+    // (default = Todos). Cliente não usa o filtro de não-atribuídos.
+    .filter(item => item.key !== 'unassigned');
 });
 
 const showAssigneeInConversationCard = computed(() => {
