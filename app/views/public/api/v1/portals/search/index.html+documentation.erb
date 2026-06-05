@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.name %></title>
+  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.localized_value('name', @locale) %></title>
 <% end %>
 
 <div class="px-6 md:px-10 py-8 md:py-10">
