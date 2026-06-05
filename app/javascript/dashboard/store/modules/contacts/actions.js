@@ -312,10 +312,14 @@ export const actions = {
     commit(types.CLEAR_CONTACT_FILTERS);
   },
 
-  initiateCall: async ({ commit }, { contactId, inboxId }) => {
+  initiateCall: async ({ commit }, { contactId, inboxId, conversationId }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true });
     try {
-      const response = await ContactAPI.initiateCall(contactId, inboxId);
+      const response = await ContactAPI.initiateCall(
+        contactId,
+        inboxId,
+        conversationId
+      );
       commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
       return response.data;
     } catch (error) {

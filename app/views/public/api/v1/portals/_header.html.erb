@@ -5,7 +5,7 @@
         <% if @portal.logo.present? %>
           <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
         <% end %>
-        <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.name %></span>
+        <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>
     </div>
 
@@ -106,7 +106,7 @@
         <% if @portal.logo.present? %>
           <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
         <% end %>
-         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.name %></span>
+         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.localized_value('name', @locale) %></span>
       </a>
 
       <!-- Mobile Menu Component -->

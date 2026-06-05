@@ -4,6 +4,7 @@
 #
 #  id                             :bigint           not null, primary key
 #  account_sid                    :string           not null
+#  api_key_secret                 :string
 #  api_key_sid                    :string
 #  auth_token                     :string           not null
 #  content_templates              :jsonb
@@ -11,6 +12,8 @@
 #  medium                         :integer          default("sms")
 #  messaging_service_sid          :string
 #  phone_number                   :string
+#  twiml_app_sid                  :string
+#  voice_enabled                  :boolean          default(FALSE), not null
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
 #  account_id                     :integer          not null
@@ -58,8 +61,6 @@ class Channel::TwilioSms < ApplicationRecord
     client.messages.create(**params)
   end
 
-  private
-
   def client
     if api_key_sid.present?
       Twilio::REST::Client.new(api_key_sid, auth_token, account_sid)
@@ -67,6 +68,8 @@ class Channel::TwilioSms < ApplicationRecord
       Twilio::REST::Client.new(account_sid, auth_token)
     end
   end
+
+  private
 
   def send_message_from
     if messaging_service_sid?
@@ -76,3 +79,5 @@ class Channel::TwilioSms < ApplicationRecord
     end
   end
 end
+
+Channel::TwilioSms.prepend_mod_with('Channel::TwilioSms')

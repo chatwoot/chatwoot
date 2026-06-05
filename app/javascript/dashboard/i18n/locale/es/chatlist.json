@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
     "MESSAGE_READ": "Leído",
-    "SENDING": "Enviando"
+    "SENDING": "Enviando",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

@@ -55,6 +55,7 @@ RSpec.describe SlaEvent, type: :model do
     before do
       # to ensure notifications are not sent to other users
       create(:user, account: account)
+      create(:inbox_member, inbox: inbox, user: assignee)
       create(:inbox_member, inbox: inbox, user: participant)
       create(:conversation_participant, conversation: conversation, user: participant)
     end

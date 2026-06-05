@@ -33,6 +33,13 @@ describe('#MessageFormatter', () => {
 <h2>tool</h2>`
       );
     });
+
+    it('should not render a setext heading when text is followed by "--"', () => {
+      const message = 'hy\n\n\\\n\\-\\-\n\nHello there';
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toMatch('<h2>');
+      expect(result).not.toMatch('<h1>');
+    });
   });
 
   describe('content with image and has "cw_image_height" query at the end of URL', () => {

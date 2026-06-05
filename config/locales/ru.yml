@@ -50,6 +50,8 @@ ru:
       email_already_exists: 'Вы уже зарегистрировались для учётной записи с %{email}'
       invalid_params: 'Неверно, проверьте параметры регистрации и повторите попытку'
       failed: Ошибка регистрации
+    voice:
+      call_already_accepted: '%{agent_name} уже обрабатывает вызов.'
     assignment_policy:
       not_found: Политика назначения не найдена
     attachments:
@@ -100,6 +102,15 @@ ru:
       reauthorization:
         generic: 'Не удалось повторно авторизовать WhatsApp. Пожалуйста, попробуйте еще раз.'
         not_supported: 'Повторная авторизация не поддерживается для данного типа канала WhatsApp.'
+      calls:
+        not_enabled: 'Вызов не включен для этого входящего сообщения'
+        no_recording: 'Файл записи не указан'
+        no_message: 'Звонок не имеет связанных сообщений'
+        sdp_offer_required: 'Необходимо указать sdp_offer'
+        contact_phone_required: 'Требуется номер телефона контакта'
+        permission_request_failed: 'Не удалось отправить запрос на разрешение вызова'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Пожалуйста, проверьте сетевое подключение, адрес IMAP и повторите попытку.
@@ -229,6 +240,11 @@ ru:
       deleted: Это сообщение было удалено
       whatsapp:
         list_button_label: 'Выберите элемент'
+        call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Голосовой звонок'
+        whatsapp: 'WhatsApp звонок'
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
@@ -273,6 +289,9 @@ ru:
         issue_created: 'Линейная задача %{issue_id} была создана %{user_name}'
         issue_linked: 'Линейная задача %{issue_id} была связана с %{user_name}'
         issue_unlinked: 'Линейная задача %{issue_id} была отвязана от %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Отправлен запрос на разрешение на звонок %{contact_name}.'
+        permission_granted: '%{contact_name} принял запрос на разрешение звонка.'
       csat:
         not_sent_due_to_messaging_window: 'Опрос CSAT не отправлен из-за ограничений исходящих сообщений'
       auto_resolve:
@@ -337,6 +356,7 @@ ru:
       name: 'Linear'
       short_description: 'Создать и связать Линейные задачи непосредственно из диалогов.'
       description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
+      attachment_link_title: 'Разговор (#%{conversation_id}) с %{name}'
     notion:
       name: 'Notion'
       short_description: 'Интеграция баз данных, документов и страниц напрямую с Captain.'
@@ -365,6 +385,9 @@ ru:
       limit_exceeded: 'Превышен лимит документов'
       pdf_format_error: 'должен быть PDF файлом'
       pdf_size_error: 'должно быть меньше 10МБ'
+      sync_not_supported_for_pdf: 'Синхронизация не поддерживается для PDF документов'
+      sync_only_available_documents: 'Синхронизация доступна только для обрабатываемых документов'
+      sync_already_in_progress: 'Синхронизация документов уже выполняется'
       pdf_upload_failed: 'Не удалось загрузить PDF в OpenAI'
       pdf_upload_success: 'PDF успешно загружен с file_id: %{file_id}'
       pdf_processing_failed: 'Не удалось обработать PDF документ %{document_id}: %{error}'
@@ -390,7 +413,32 @@ ru:
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+      results: Результаты поиска
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Поиск
     toc_header: 'На этой странице'
+    sidebar:
+      help_center: Центр поддержки
+      categories: Категории
+      language: Язык
+      theme: Theme
+      open_sidebar: Открыть боковую панель
+      close_sidebar: Закрыть боковую панель
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
@@ -405,12 +453,21 @@ ru:
       others: другие
       by: От
       no_articles: Здесь нет статей
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Сделано с
     header:
       go_to_homepage: Сайт
       visit_website: Посетить сайт
       appearance:
+        title: Образец
         system: Система
         light: Светлая
         dark: Тёмная
@@ -482,6 +539,12 @@ ru:
   agent_capacity_policy:
     inbox_already_assigned: 'Входящие уже были назначены на эту политику'
   portals:
+    articles:
+      captain_not_available: 'Перевод требует включения Captain для этой учетной записи'
+      locale_not_available: 'Язык не доступен на этом портале'
+      category_not_found: 'Категория не найдена в этом портале'
+      no_articles_found: 'Нет статей для обработки'
+      invalid_status: 'Неверное значение статуса'
     send_instructions:
       email_required: 'Необходимо указать Email'
       invalid_email_format: 'Неправильный формат email'
@@ -490,3 +553,9 @@ ru:
       subject: 'Завершить настройку %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Пользовательский домен не настроен'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Пользователь не найден.'
+      no_subscriptions_to_test: 'Выберите хотя бы одну подписку для тестирования.'
+      no_subscriptions_to_delete: 'Выберите хотя бы одну подписку для удаления.'
+      subscriptions_deleted: "Подписка %{count} удалена. Устройство (устройства) пользователя будет перерегистрироваться при следующем запуске."
