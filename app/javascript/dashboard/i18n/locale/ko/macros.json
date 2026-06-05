@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "매크로를 삭제하는 중 오류가 발생했습니다. 나중에 다시 시도해 주십시오."
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "매크로 수정",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "매크로 공개 범위",
         "GLOBAL": {
           "LABEL": "공개",
-          "DESCRIPTION": "이 매크로는 이 계정의 모든 에이전트에게 공개됩니다."
+          "DESCRIPTION": "이 매크로는 이 계정의 모든 에이전트에게 공개됩니다.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "비공개",

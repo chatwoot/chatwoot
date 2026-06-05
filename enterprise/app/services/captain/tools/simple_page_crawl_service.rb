@@ -1,9 +1,14 @@
 class Captain::Tools::SimplePageCrawlService
-  attr_reader :external_link
+  attr_reader :external_link, :status_code
 
   def initialize(external_link)
     @external_link = external_link
-    @doc = Nokogiri::HTML(HTTParty.get(external_link).body)
+    @parser = Captain::Tools::HtmlPageParser.new(fetch_body)
+    @doc = @parser.doc
+  end
+
+  def success?
+    status_code.to_i.between?(200, 299)
   end
 
   def page_links
@@ -11,12 +16,11 @@ class Captain::Tools::SimplePageCrawlService
   end
 
   def page_title
-    title_element = @doc.at_xpath('//title')
-    title_element&.text&.strip
+    @parser.title
   end
 
-  def body_text_content
-    ReverseMarkdown.convert @doc.at_xpath('//body'), unknown_tags: :bypass, github_flavored: true
+  def body_markdown
+    @parser.body_markdown
   end
 
   def meta_description
@@ -34,6 +38,21 @@ class Captain::Tools::SimplePageCrawlService
   end
 
   private
+
+  def fetch_body
+    body = ''
+    SafeFetch.fetch(external_link, validate_content_type: false) do |result|
+      body = result.tempfile.read
+    end
+    @status_code = 200
+    body
+  rescue SafeFetch::HttpError => e
+    @status_code = e.message.to_i
+    ''
+  rescue SafeFetch::Error
+    @status_code = nil
+    ''
+  end
 
   def sitemap?
     @external_link.end_with?('.xml')

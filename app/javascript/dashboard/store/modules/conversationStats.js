@@ -25,7 +25,7 @@ const fetchMetaData = async (commit, params) => {
   }
 };
 
-const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 1500);
+const debouncedFetchMetaData = debounce(fetchMetaData, 500, false, 2000);
 const longDebouncedFetchMetaData = debounce(fetchMetaData, 5000, false, 10000);
 const superLongDebouncedFetchMetaData = debounce(
   fetchMetaData,
@@ -36,7 +36,7 @@ const superLongDebouncedFetchMetaData = debounce(
 
 export const actions = {
   get: async ({ commit, state: $state }, params) => {
-    if ($state.allCount > 5000) {
+    if ($state.allCount > 2000) {
       superLongDebouncedFetchMetaData(commit, params);
     } else if ($state.allCount > 100) {
       longDebouncedFetchMetaData(commit, params);

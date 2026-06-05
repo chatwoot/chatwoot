@@ -4,15 +4,17 @@ class Enterprise::Billing::CreateStripeCustomerService
   DEFAULT_QUANTITY = 2
 
   def perform
-    return if existing_subscription?
+    active_sub = active_subscription
+    return false if active_sub && !default_plan_subscription?(active_sub)
 
     customer_id = prepare_customer_id
-    subscription = Stripe::Subscription.create(customer: customer_id, items: [{ price: price_id, quantity: default_quantity }])
+    subscription = active_sub || Stripe::Subscription.create(customer: customer_id, items: [{ price: price_id, quantity: default_quantity }])
     custom_attributes = build_custom_attributes(customer_id, subscription)
     custom_attributes.except!('is_creating_customer')
 
     account.update!(custom_attributes: custom_attributes)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    true
   end
 
   private
@@ -44,18 +46,21 @@ class Enterprise::Billing::CreateStripeCustomerService
     price_ids.first
   end
 
-  def existing_subscription?
+  def active_subscription
     stripe_customer_id = account.custom_attributes['stripe_customer_id']
-    return false if stripe_customer_id.blank?
+    return nil if stripe_customer_id.blank?
 
-    subscriptions = Stripe::Subscription.list(
+    Stripe::Subscription.list(
       {
         customer: stripe_customer_id,
         status: 'active',
         limit: 1
       }
-    )
-    subscriptions.data.present?
+    ).data.first
+  end
+
+  def default_plan_subscription?(subscription)
+    default_plan['price_ids'].include?(subscription['plan']['id'])
   end
 
   def build_custom_attributes(customer_id, subscription)

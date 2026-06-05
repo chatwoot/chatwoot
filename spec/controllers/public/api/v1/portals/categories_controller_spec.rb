@@ -11,12 +11,13 @@ RSpec.describe 'Public Categories API', type: :request do
   end
 
   describe 'GET /public/api/v1/portals/:portal_slug/categories' do
-    it 'Fetch all categories in the portal' do
+    it 'redirects to the locale home page' do
       category = portal.categories.first
 
       get "/hc/#{portal.slug}/#{category.locale}/categories"
 
-      expect(response).to have_http_status(:success)
+      expect(response).to have_http_status(:moved_permanently)
+      expect(response).to redirect_to("/hc/#{portal.slug}/#{category.locale}")
     end
   end
 
