@@ -268,11 +268,13 @@ onBeforeUnmount(() => {
                 >
                   {{ data.name?.[0]?.toUpperCase() || '?' }}
                 </div>
-                <div class="flex flex-col">
-                  <span class="text-sm font-medium text-s-primary">{{
+                <div class="flex flex-col min-w-0">
+                  <span class="text-sm font-semibold !text-s-primary truncate">{{
                     data.name
                   }}</span>
-                  <span class="text-xs text-s-muted">{{ data.email }}</span>
+                  <span class="text-xs !text-s-secondary truncate">{{
+                    data.email
+                  }}</span>
                 </div>
               </div>
             </template>
