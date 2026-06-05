@@ -65,6 +65,10 @@ const {
 
 const emit = defineEmits(['search']);
 
+// the input is re-inserted on every dropdown open (v-if),
+// where the native autofocus attribute is ignored so focus it via a directive instead
+const vFocus = { mounted: el => el.focus() };
+
 const { t } = useI18n();
 const selected = defineModel({
   type: Object,
@@ -149,7 +153,7 @@ const toggleSelected = option => {
         <Icon class="absolute size-4 left-2 top-2" icon="i-lucide-search" />
         <input
           v-model="searchTerm"
-          autofocus
+          v-focus
           class="p-1.5 pl-8 text-n-slate-11 bg-n-alpha-1 rounded-lg w-full"
           :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
           @input="emit('search', $event.target.value)"

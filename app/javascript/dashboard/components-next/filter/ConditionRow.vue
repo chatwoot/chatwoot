@@ -130,8 +130,10 @@ const performAsyncSearch = async query => {
 const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
 
 const onAsyncSearch = query => {
+  const hasQuery = !!query.trim();
   lastSearchQuery.value = query;
-  isSearching.value = !!query.trim();
+  if (!hasQuery) asyncOptions.value = [];
+  isSearching.value = hasQuery;
   debouncedAsyncSearch(query);
 };
 
