@@ -37,6 +37,8 @@ fr:
     account:
       reporting_timezone:
         invalid: is not a valid timezone
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: Ne peut être vide
     webhook:
@@ -48,10 +50,20 @@ fr:
       email_already_exists: 'Vous avez déjà créé un compte avec %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: L'inscription a échoué
+    voice:
+      call_already_accepted: '%{agent_name} traite déjà l''appel.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+    upload:
+      missing_input: 'No file or URL provided'
+      invalid_url: 'Invalid URL provided'
+      fetch_failed: 'Failed to fetch file from URL'
+      fetch_failed_with_message: 'Failed to fetch file from URL: %{message}'
+      file_too_large: 'File exceeds the maximum allowed size'
+      unsupported_content_type: 'File type not supported (only images and videos are allowed)'
+      unexpected: 'An unexpected error occurred'
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -90,6 +102,15 @@ fr:
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer est requis'
+        contact_phone_required: 'Le numéro de téléphone du contact est requis'
+        permission_request_failed: 'Échec de l''envoi de la demande d''autorisation d''appel'
+    openai:
+      invalid_api_key: 'La clé API OpenAI est invalide ou révoquée. Veuillez vérifier votre clé dans votre tableau de bord OpenAI.'
     inboxes:
       imap:
         socket_error: Veuillez vérifier la connexion, l'adresse IMAP et réessayez.
@@ -219,6 +240,11 @@ fr:
       deleted: Ce message a été supprimé
       whatsapp:
         list_button_label: 'Choose an item'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Appel vocal'
+        whatsapp: 'Appel WhatsApp'
       delivery_status:
         error_code: 'Code d''erreur : %{error_code}'
     activity:
@@ -263,6 +289,9 @@ fr:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      whatsapp_call:
+        permission_requested: 'A envoyé une demande d''autorisation d''appel à %{contact_name}.'
+        permission_granted: '%{contact_name} a accepté la demande d''autorisation d''appel.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -327,6 +356,7 @@ fr:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) avec %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
@@ -355,6 +385,9 @@ fr:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'La synchronisation du document est déjà en cours'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
@@ -380,7 +413,30 @@ fr:
       empty_placeholder: Aucun résultat trouvé.
       loading_placeholder: Recherche en cours...
       results_title: Résultats de recherche
+      results: Résultats de recherche
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Rechercher
     toc_header: 'Sur cette page'
+    sidebar:
+      help_center: Centre d'aide
+      categories: Catégories
+      language: Langue
+      theme: Thème
+      open_sidebar: Ouvrir la barre latérale
+      close_sidebar: Fermer la barre latérale
+      browse: Parcourir
+      back_to_category: Retour à %{name}
+      browse_by_topic: Parcourir par sujet
+      browse_by_topic_subtitle: Trouvez des guides, des tutoriels et des réponses organisés par catégorie.
+      popular_articles: Articles populaires
+      popular_articles_subtitle: Ce que les autres lisent en ce moment.
+      popular_label: 'Sujets populaires :'
+      authors_others: "%{names} et %{count} autres"
+      primary_nav: Navigation principale
     hero:
       sub_title: Recherchez les articles ici ou parcourez les catégories ci-dessous.
     common:
@@ -395,12 +451,21 @@ fr:
       others: autres
       by: Par
       no_articles: Il n'y a pas d'articles ici
+      previous: Précédent
+      next: Suivant
+    article_actions:
+      label: Ouvrir dans
+      view_markdown: Voir en Markdown
+      open_in_chatgpt: Ouvrir dans ChatGPT
+      open_in_claude: Ouvrir dans Claude
+      llm_prompt: "Lis l'article suivant et aide-moi à le comprendre : %{url}"
     footer:
       made_with: Réalisé avec
     header:
       go_to_homepage: Site internet
       visit_website: Visit website
       appearance:
+        title: Apparence
         system: Système
         light: Clair
         dark: Sombre
@@ -464,6 +529,12 @@ fr:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Catégorie introuvable dans ce portail'
+      no_articles_found: 'Aucun article à traiter'
+      invalid_status: 'Valeur de statut invalide'
     send_instructions:
       email_required: 'L''e-mail est requis'
       invalid_email_format: 'Invalid email format'
@@ -472,3 +543,9 @@ fr:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Utilisateur introuvable.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

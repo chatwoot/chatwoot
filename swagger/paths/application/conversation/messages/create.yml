@@ -4,6 +4,23 @@ operationId: create-a-new-message-in-a-conversation
 summary: Create New Message
 description: |
   Create a new message in the conversation.
+
+  Use `application/json` for text messages and `multipart/form-data` when the
+  message includes file attachments.
+
+  ### Multipart attachment request
+
+  Send files with the `attachments[]` form field. `curl -F` sets the
+  `multipart/form-data` content type and boundary automatically.
+
+  ```bash
+  curl -X POST "https://app.chatwoot.com/api/v1/accounts/{account_id}/conversations/{conversation_id}/messages" \
+    -H "api_access_token: <your-api-token>" \
+    -F "content=Here is the screenshot" \
+    -F "message_type=outgoing" \
+    -F "private=false" \
+    -F "attachments[]=@/path/to/screenshot.png"
+  ```
   
   ## WhatsApp Template Messages
   
@@ -62,6 +79,58 @@ requestBody:
     application/json:
       schema:
         $ref: '#/components/schemas/conversation_message_create_payload'
+    multipart/form-data:
+      schema:
+        type: object
+        description: Form data payload for creating a message with file attachments.
+        example:
+          content: Here is the screenshot
+          message_type: outgoing
+          private: false
+          'attachments[]':
+            - screenshot.png
+        properties:
+          content:
+            type: string
+            description: The content of the message
+            example: Here is the screenshot
+          message_type:
+            type: string
+            enum: ['outgoing', 'incoming']
+            description: The type of the message
+            example: outgoing
+          private:
+            type: boolean
+            description: Flag to identify if it is a private note
+            example: false
+          content_type:
+            type: string
+            enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
+            description: Content type of the message
+            example: text
+          content_attributes:
+            type: object
+            description: Attributes based on the content type
+            example: {}
+          'attachments[]':
+            type: array
+            description: Files to attach to the message
+            items:
+              type: string
+              format: binary
+      encoding:
+        'attachments[]':
+          style: form
+          explode: true
+      examples:
+        attachment_message:
+          summary: Message with an attachment
+          value:
+            content: Here is the screenshot
+            message_type: outgoing
+            private: false
+            'attachments[]':
+              - screenshot.png
 responses:
   '200':
     description: Success

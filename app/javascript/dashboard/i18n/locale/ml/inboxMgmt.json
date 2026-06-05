@@ -86,6 +86,14 @@
           "PLACEHOLDER": "ദയവായി നിങ്ങളുടെ വെബ്‌ഹുക്ക് URL നൽകുക",
           "ERROR": "ദയവായി സാധുവായ ഒരു യുആർഎൽ നൽകുക"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തുക",
+          "COPY_SUCCESS": "രഹസ്യം ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി",
+          "TOGGLE": "രഹസ്യ ദൃശ്യത ടോഗിൾ ചെയ്യുക",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "വെബ്സൈറ്റ് ഡൊമെയ്ൻ",
           "PLACEHOLDER": "നിങ്ങളുടെ വെബ്‌സൈറ്റ് ഡൊമെയ്ൻ നൽകുക (ഉദാ: punnyalan.com)"
@@ -300,6 +308,7 @@
           "AUTH_PROCESSING": "Meta-യുമായി പ്രാമാണീകരിക്കുന്നു",
           "WAITING_FOR_BUSINESS_INFO": "ദയവായി Meta വിൻഡോയിൽ ബിസിനസ് ക്രമീകരണം പൂർത്തിയാക്കുക...",
           "PROCESSING": "നിങ്ങളുടെ WhatsApp ബിസിനസ് അക്കൗണ്ട് ക്രമീകരിക്കുന്നു",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK ലോഡിംഗ്...",
           "CANCELLED": "WhatsApp സൈൻഅപ്പ് റദ്ദാക്കി",
           "SUCCESS_TITLE": "WhatsApp ബിസിനസ് അക്കൗണ്ട് ബന്ധിപ്പിച്ചു!",
@@ -309,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "അധികാരപത്രം പൂർത്തിയാക്കിയിട്ടില്ല. ദയവായി പ്രക്രിയ വീണ്ടും ആരംഭിക്കുക.",
           "SUCCESS_FALLBACK": "WhatsApp ബിസിനസ് അക്കൗണ്ട് വിജയകരമായി ക്രമീകരിച്ചു",
           "MANUAL_FALLBACK": "നിങ്ങളുടെ നമ്പർ ഇതിനകം WhatsApp ബിസിനസ് പ്ലാറ്റ്ഫോം (API) യുമായി ബന്ധിപ്പിച്ചിട്ടുണ്ടെങ്കിൽ, അല്ലെങ്കിൽ നിങ്ങൾ ഒരു ടെക് പ്രൊവൈഡറായി നിങ്ങളുടെ സ്വന്തം നമ്പർ ഓൺബോർഡ് ചെയ്യുകയാണെങ്കിൽ, ദയവായി {link} ഫ്ലോ ഉപയോഗിക്കുക",
-          "MANUAL_LINK_TEXT": "മാനുവൽ സെറ്റപ്പ് ഫ്ലോ"
+          "MANUAL_LINK_TEXT": "മാനുവൽ സെറ്റപ്പ് ഫ്ലോ",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "ഞങ്ങൾ WhatsApp ചാനൽ സേവ് ചെയ്യാൻ കഴിഞ്ഞില്ല"
@@ -456,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "WhatsApp-ൽ നിങ്ങളുടെ ഉപഭോക്താക്കളെ പിന്തുണയ്ക്കുക"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "ഇമെയിൽ",
@@ -628,7 +642,38 @@
       "WIDGET_BUILDER": "വിഡ്ജറ്റ് നിർമ്മാതാവ്",
       "BOT_CONFIGURATION": "ബോട്ട് ക്രമീകരണം",
       "ACCOUNT_HEALTH": "അക്കൗണ്ട് ആരോഗ്യ നില",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "വോയ്സ്",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
+      }
     },
     "CHANNEL_PREFERENCES": "ചാനൽ മുൻഗണനകൾ",
     "WIDGET_FEATURES": "വിഡ്ജറ്റ് സവിശേഷതകൾ",
@@ -737,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "ഇമെയിലിൽ ഏജന്റിന്റെ പേര് കാണിക്കുന്നതിനെ സജ്ജമാക്കുക/അസജ്ജമാക്കുക, അസജ്ജമാക്കിയാൽ ബിസിനസ് പേര് കാണിക്കും",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ബന്ധപ്പെടാനുള്ള ഇമെയിൽ വിലാസം ലഭ്യമാണെങ്കിൽ സംഭാഷണങ്ങൾ ഇമെയിൽ വഴി തുടരും.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "സംഭാഷണ റൂട്ടിംഗ്",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "ഇതിനകം ഉള്ള കോൺടാക്റ്റുകൾക്കായി സംഭാഷണം സൃഷ്ടിക്കൽ ക്രമീകരിക്കുക",
       "INBOX_UPDATE_TITLE": "ഇൻബോക്സ് ക്രമീകരണങ്ങൾ",
@@ -781,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "നിങ്ങളുടെ ലഭ്യമായ ടെംപ്ലേറ്റുകൾ അപ്ഡേറ്റ് ചെയ്യാൻ WhatsApp-ൽ നിന്ന് സന്ദേശ ടെംപ്ലേറ്റുകൾ മാനുവലായി സമന്വയിപ്പിക്കുക.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "ടെംപ്ലേറ്റുകൾ സമന്വയിപ്പിക്കുക",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "ടെംപ്ലേറ്റുകൾ സമന്വയം വിജയകരമായി ആരംഭിച്ചു. അപ്ഡേറ്റ് ചെയ്യാൻ കുറച്ച് മിനിറ്റുകൾ എടുക്കാം.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "പ്രീ ചാറ്റ് ഫോമിന്റെ ക്രമീകരണങ്ങൾ അപ്ഡേറ്റ് ചെയ്യുക"
     },
     "HELP_CENTER": {
@@ -992,7 +1042,8 @@
         "LABEL": "പാസ്‌വേഡ്",
         "PLACE_HOLDER": "പാസ്‌വേഡ്"
       },
-      "ENABLE_SSL": "SSL സജീവമാക്കുക"
+      "ENABLE_SSL": "SSL സജീവമാക്കുക",
+      "AUTH_MECHANISM": "പ്രാമാണീകരണം"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

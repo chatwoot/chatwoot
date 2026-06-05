@@ -68,7 +68,8 @@
         "API_SUCCESS": "署名が正常に保存されました",
         "IMAGE_UPLOAD_ERROR": "画像をアップロードできませんでした。もう一度お試しください。",
         "IMAGE_UPLOAD_SUCCESS": "画像が正常に追加されました。保存をクリックして署名を保存してください。",
-        "IMAGE_UPLOAD_SIZE_ERROR": "画像サイズは{size}MB未満である必要があります"
+        "IMAGE_UPLOAD_SIZE_ERROR": "画像サイズは{size}MB未満である必要があります",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "メッセージ署名",

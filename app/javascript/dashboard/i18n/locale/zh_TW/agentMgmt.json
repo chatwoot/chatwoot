@@ -18,7 +18,7 @@
       "EMAIL": "電子郵件",
       "STATUS": "狀態",
       "ACTIONS": "操作",
-      "VERIFIED": "已驗證",
+      "VERIFIED": "已認證",
       "VERIFICATION_PENDING": "待驗證",
       "AVAILABLE_CUSTOM_ROLE": "可用的自訂角色權限"
     },
@@ -57,8 +57,8 @@
       "CONFIRM": {
         "TITLE": "確認刪除",
         "MESSAGE": "您確定要刪除嗎？",
-        "YES": "是，刪除",
-        "NO": "不，保留"
+        "YES": "是，刪除 ",
+        "NO": "不，保留 "
       }
     },
     "EDIT": {
@@ -87,11 +87,11 @@
       "BUTTON_TEXT": "編輯",
       "CANCEL_BUTTON_TEXT": "取消",
       "API": {
-        "SUCCESS_MESSAGE": "客服資訊更新成功",
+        "SUCCESS_MESSAGE": "更新客服資訊成功",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "重設密碼",
+        "ADMIN_RESET_BUTTON": "重置密碼",
         "ADMIN_SUCCESS_MESSAGE": "一封包含重設密碼說明的電子郵件已傳送給客服",
         "SUCCESS_MESSAGE": "客服密碼重設成功",
         "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"

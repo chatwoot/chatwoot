@@ -20,6 +20,9 @@
     "CALL": "ደውል",
     "CALL_INITIATED": "ለእውነተኛው እውቀት መደወል እየተከናወነ ነው…",
     "CALL_FAILED": "ጥሪውን መጀመር አልቻልንም። እባክዎ ደግመው ይሞክሩ።.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "የድምፅ ኢንቦክስ ይምረጡ"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "መለያ",
       "COUNTRY": "አገር",
       "CITY": "ከተማ",
+      "COMPANY": "ኩባንያ",
       "CREATED_AT": "ተፈጥሯል በ",
       "LAST_ACTIVITY": "መጨረሻ እንቅስቃሴ",
       "REFERER_LINK": "የመግቢያ አገናኝ አገናኝ",
@@ -581,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "መለያዎችን መሰጠት",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "መለያዎች በተሳካ ሁኔታ ተመዝግበዋል።.",
     "ASSIGN_LABELS_FAILED": "መለያዎችን ማስመዝገብ አልተሳካም",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "ለተመረጡት እውነተኛዎች የሚያክሉትን መለያዎች ይምረጡ።.",
     "NO_LABELS_FOUND": "እስካሁን መለያዎች አልተገኙም።.",
     "SELECTED_COUNT": "{count} ተመርጧል",

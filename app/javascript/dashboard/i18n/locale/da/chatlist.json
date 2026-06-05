@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Skjul Citeret Tekst",
     "SHOW_QUOTED_TEXT": "Vis Citeret Tekst",
     "MESSAGE_READ": "Læst",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

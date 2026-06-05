@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "Impossibile aggiornare il bot. Riprova."
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copia secret negli appunti",
+      "COPY_SUCCESS": "Secret copiato negli appunti",
+      "TOGGLE": "Cambia visibilità secret",
+      "CREATED_DESC": "Usa il secret qui sotto per verificare le signature dei webhook. Per favore copialo ora, puoi anche trovarlo in seguito nelle impostazioni del bot.",
+      "DONE": "Fatto",
+      "RESET_SUCCESS": "Webhook secret rigenerato con successo",
+      "RESET_ERROR": "Impossibile rigenerare il webhook secret. Riprova"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "Token di Accesso",
       "DESCRIPTION": "Copia il token di accesso e salvalo in un luogo sicuro",

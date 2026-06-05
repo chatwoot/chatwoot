@@ -79,7 +79,12 @@ class Enterprise::Billing::TopupCheckoutService
   def finalize_and_pay(invoice_id)
     Stripe::Invoice.finalize_invoice(invoice_id, { auto_advance: false })
     invoice = Stripe::Invoice.retrieve(invoice_id)
-    Stripe::Invoice.pay(invoice_id) unless invoice.status == 'paid'
+    return if invoice.status == 'paid'
+
+    Stripe::Invoice.pay(invoice_id)
+  rescue Stripe::CardError
+    Stripe::Invoice.void_invoice(invoice_id)
+    raise
   end
 
   def fulfill_credits(credits, topup_option)

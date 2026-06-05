@@ -20,6 +20,9 @@
     "CALL": "Զանգ",
     "CALL_INITIATED": "Զանգը սկսվում է…",
     "CALL_FAILED": "Չհաջողվեց սկսել զանգը։ Խնդրում ենք փորձել կրկին։",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Ընտրեք ձայնային մուտքագրման արկղը"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Նույնացուցիչ",
       "COUNTRY": "Երկիր",
       "CITY": "Քաղաք",
+      "COMPANY": "Ընկերություն",
       "CREATED_AT": "Ստեղծվել է",
       "LAST_ACTIVITY": "Վերջին ակտիվություն",
       "REFERER_LINK": "Հղման հասցե",
@@ -581,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Նշումներ նշանակել",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Նշումները հաջողությամբ նշանակվեցին։",
     "ASSIGN_LABELS_FAILED": "Հնարավոր չեղավ նշանակել պիտակները",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "Դեռ պիտակներ չկան։",
     "SELECTED_COUNT": "{count} ընտրված",

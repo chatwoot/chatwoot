@@ -7,14 +7,12 @@ SAML_SETUP_PROC = proc do |env|
 
   # Extract account_id from various sources
   account_id = request.params['account_id'] ||
-               request.session[:saml_account_id] ||
                env['omniauth.params']&.dig('account_id')
   relay_state = request.params['RelayState'] || ''
 
   if account_id
-    # Store in session and omniauth params for callback
-    request.session[:saml_account_id] = account_id
-    request.session[:saml_relay_state] = relay_state
+    # Keep SAML request context in OmniAuth env so the callback can be processed
+    # without depending on the Rails session cookie.
     env['omniauth.params'] ||= {}
     env['omniauth.params']['account_id'] = account_id
     env['omniauth.params']['RelayState'] = relay_state

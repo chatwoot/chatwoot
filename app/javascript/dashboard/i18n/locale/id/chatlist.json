@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Sembunyikan Teks yang Dikutip",
     "SHOW_QUOTED_TEXT": "Tampilkan Teks yang Dikutip",
     "MESSAGE_READ": "Dibaca",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

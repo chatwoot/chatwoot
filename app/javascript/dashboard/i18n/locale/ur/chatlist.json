@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "اقتباس شدہ متن کو چھپائیں۔",
     "SHOW_QUOTED_TEXT": "اقتباس شدہ متن دکھائیں۔",
     "MESSAGE_READ": "پڑھیں",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

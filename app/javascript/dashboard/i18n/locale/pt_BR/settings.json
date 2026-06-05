@@ -68,7 +68,8 @@
         "API_SUCCESS": "Assinatura salva com sucesso",
         "IMAGE_UPLOAD_ERROR": "Não foi possível fazer o upload da imagem! Tente novamente",
         "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada com sucesso. Por favor clique em salvar para salvar a assinatura",
-        "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser menor que {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser menor que {size}MB",
+        "INLINE_IMAGE_WARNING": "Imagens incorporadas coladas foram removidas. Por favor, use o botão enviar imagem para adicionar imagens à sua assinatura."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Assinatura da mensagem",

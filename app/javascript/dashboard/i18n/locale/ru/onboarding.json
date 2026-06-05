@@ -1,0 +1,34 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Привет, {name}!",
+    "SUBTITLE": "Пожалуйста, ознакомьтесь со следующими подробностями",
+    "YOUR_DETAILS": "Ваши данные",
+    "COMPANY_DETAILS": "Информация о компании",
+    "FIELDS": {
+      "EMAIL": "Email",
+      "YOUR_ROLE": "Ваша роль",
+      "WEBSITE": "Сайт",
+      "LANGUAGE": "Язык",
+      "TIMEZONE": "Часовой пояс",
+      "COMPANY_SIZE": "Размер компании",
+      "INDUSTRY": "Индустрия",
+      "REFERRAL_SOURCE": "Где вы нас нашли?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Выберите Вашу роль",
+      "ENTER_WEBSITE": "www.example.com",
+      "SELECT_LANGUAGE": "Выберите язык",
+      "SELECT_TIMEZONE": "Выберите часовой пояс",
+      "SELECT_COMPANY_SIZE": "Выбрать размер компании",
+      "SELECT_INDUSTRY": "Выберите отрасль",
+      "SELECT_REFERRAL_SOURCE": "Выбор источника"
+    },
+    "EMAIL_VERIFIED": "Email подтверждён",
+    "SETTING_UP": "Настройка аккаунта...",
+    "CONTINUE": "Продолжить",
+    "SAVING": "Сохранение...",
+    "VALIDATION_ERROR": "Пожалуйста, заполните все обязательные поля",
+    "SUCCESS": "Данные успешно сохранены",
+    "ERROR": "Не удалось сохранить детали. Пожалуйста, попробуйте еще раз."
+  }
+}
