@@ -25,10 +25,20 @@ class Conversations::MessageWindowService
     when 'Channel::Tiktok'
       tiktok_messaging_window
     when 'Channel::Whatsapp'
-      MESSAGING_WINDOW_24_HOURS
+      whatsapp_messaging_window
     when 'Channel::TwilioSms'
       twilio_messaging_window
     end
+  end
+
+  # APIs não-oficiais de WhatsApp (ex: Avisa) NÃO têm a janela de 24h do
+  # WhatsApp Cloud oficial — pode responder a qualquer momento. Sem isso, o
+  # Chatwoot mostra indevidamente o banner vermelho de "restrição de janela
+  # de 24h" (que só vale pra API oficial).
+  def whatsapp_messaging_window
+    return nil if @conversation.inbox.channel.provider == 'avisa'
+
+    MESSAGING_WINDOW_24_HOURS
   end
 
   def last_message_in_messaging_window?(time)
