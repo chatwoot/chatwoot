@@ -1,6 +1,7 @@
 <script setup>
 import { computed, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from '@chatwoot/utils';
 import Button from 'next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
@@ -109,6 +110,31 @@ const inputFieldType = computed(() => {
   return 'text';
 });
 
+const asyncOptions = ref([]);
+const isSearching = ref(false);
+const lastSearchQuery = ref('');
+
+const performAsyncSearch = async query => {
+  let results;
+  try {
+    results = await currentFilter.value.searchOptions(query);
+  } catch {
+    results = [];
+  }
+  // skip aborted (null) or stale responses — a newer search owns the UI
+  if (results === null || query !== lastSearchQuery.value) return;
+  asyncOptions.value = results;
+  isSearching.value = false;
+};
+
+const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
+
+const onAsyncSearch = query => {
+  lastSearchQuery.value = query;
+  isSearching.value = !!query.trim();
+  debouncedAsyncSearch(query);
+};
+
 const resetModelOnAttributeKeyChange = newAttributeKey => {
   /**
    * Resets the filter values and operator when the attribute key changes. This ensures that
@@ -130,6 +156,7 @@ const resetModelOnAttributeKeyChange = newAttributeKey => {
   } else {
     values.value = '';
   }
+  asyncOptions.value = [];
   filterOperator.value = newOperator.value;
 };
 
@@ -192,9 +219,12 @@ defineExpose({ validate, resetValidation });
         <SingleSelect
           v-else-if="inputType === 'asyncSearchSelect'"
           v-model="values"
-          :search-options="currentFilter.searchOptions"
+          async-search
+          :options="asyncOptions"
+          :is-searching="isSearching"
           :search-placeholder="currentFilter.searchPlaceholder"
           dropdown-max-height="max-h-64"
+          @search="onAsyncSearch"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
