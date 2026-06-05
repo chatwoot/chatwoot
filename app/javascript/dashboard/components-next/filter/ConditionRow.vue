@@ -121,9 +121,10 @@ const performAsyncSearch = async query => {
   } catch {
     results = [];
   }
-  // skip aborted (null) or stale responses — a newer search owns the UI
-  if (results === null || query !== lastSearchQuery.value) return;
-  asyncOptions.value = results;
+  // skip stale responses — a newer search in this row owns the UI
+  if (query !== lastSearchQuery.value) return;
+  // null means another row's search aborted ours, reset instead of staying stuck on the searching state
+  if (results !== null) asyncOptions.value = results;
   isSearching.value = false;
 };
 
