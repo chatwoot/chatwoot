@@ -50,6 +50,8 @@ sr-Latn:
       email_already_exists: 'Već ste registrovali nalog sa %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Registracija nije uspela
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: Assignment policy not found
     attachments:
@@ -100,6 +102,15 @@ sr-Latn:
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Molim vas proverite vezu sa mrežom, IMAP adresu i pokušajte ponovo.
@@ -229,6 +240,11 @@ sr-Latn:
       deleted: Poruka je obrisana
       whatsapp:
         list_button_label: 'Choose an item'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -273,6 +289,9 @@ sr-Latn:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
@@ -337,6 +356,7 @@ sr-Latn:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
@@ -365,6 +385,9 @@ sr-Latn:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
       pdf_size_error: 'must be less than 10MB'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'Failed to upload PDF to OpenAI'
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
@@ -390,7 +413,31 @@ sr-Latn:
       empty_placeholder: Ništa nije pronađeno.
       loading_placeholder: Searching...
       results_title: Search results
+      results: Rezultat pretrage
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Traži
     toc_header: 'On this page'
+    sidebar:
+      help_center: Help Center
+      categories: Categories
+      language: Jezik
+      theme: Theme
+      open_sidebar: Otvorite bočnu traku
+      close_sidebar: Zatvorite bočnu traku
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Search for the articles here or browse the categories below.
     common:
@@ -405,12 +452,21 @@ sr-Latn:
       others: others
       by: By
       no_articles: There are no articles here
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Made with
     header:
       go_to_homepage: Website
       visit_website: Visit website
       appearance:
+        title: Appearance
         system: System
         light: Light
         dark: Dark
@@ -478,6 +534,12 @@ sr-Latn:
   agent_capacity_policy:
     inbox_already_assigned: 'Inbox has already been assigned to this policy'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'Email is required'
       invalid_email_format: 'Invalid email format'
@@ -486,3 +548,9 @@ sr-Latn:
       subject: 'Finish setting up %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

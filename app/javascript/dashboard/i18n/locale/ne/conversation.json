@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Facebook Messenger एपमा हेर्न सक्नुहुन्छ।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "यो सन्देश समर्थन गरिएको छैन। तपाईं यो सन्देश Instagram एपमा हेर्न सक्नुहुन्छ।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "यो सन्देश समर्थन गरिएको छैन। तपाईंले यो सन्देश TikTok एपमा हेर्न सक्नुहुन्छ।",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "सन्देश सफलतापूर्वक मेटाइयो",
     "FAIL_DELETE_MESSSAGE": "सन्देश मेटाउन सकिएन! फेरि प्रयास गर्नुहोस्",
     "NO_RESPONSE": "कुनै प्रतिक्रिया छैन",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "सन्देश उपलब्ध छैन",
     "CARD": {
       "SHOW_LABELS": "लेबलहरू देखाउनुहोस्",
-      "HIDE_LABELS": "लेबलहरू लुकाउनुहोस्"
+      "HIDE_LABELS": "लेबलहरू लुकाउनुहोस्",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "आउँदै गरेको कल",
       "OUTGOING_CALL": "जाने कल",
       "CALL_IN_PROGRESS": "कल जारी छ",
       "NO_ANSWER": "उत्तर छैन",
+      "NO_ANSWER_OUTBOUND_LABEL": "उत्तर छैन",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "छुटेको कल",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "कल समाप्त भयो",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "उनीहरूले जवाफ दिए",
-      "YOU_ANSWERED": "तपाईंले जवाफ दिनुभयो"
+      "YOU_ANSWERED": "तपाईंले जवाफ दिनुभयो",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "कलमा सामेल हुनुहोस्",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "समाधान गर्नुहोस्",
@@ -92,10 +105,17 @@
       "OPEN": "थप",
       "CLOSE": "बन्दा गार्नुहोस्",
       "DETAILS": "विवरणहरू",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "यस मितिसम्म सुस्काइयो",
       "SNOOZED_UNTIL_TOMORROW": "भोलिसम्म सुताइएको",
       "SNOOZED_UNTIL_NEXT_WEEK": "अर्को हप्ता सम्म सुताइएको",
       "SNOOZED_UNTIL_NEXT_REPLY": "अर्को जवाफ सम्म सुताइएको",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "अडियो रेकर्ड गर्नुहोस्",
       "TIP_AUDIORECORDER_PERMISSION": "अडियो पहुँच अनुमति दिनुहोस्",
       "TIP_AUDIORECORDER_ERROR": "अडियो खोल्न सकिएन",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "यहाँ तान्नुहोस् र छोड्नुहोस् संलग्न गर्न",
       "START_AUDIO_RECORDING": "अडियो रेकर्डिङ सुरु गर्नुहोस्",
       "STOP_AUDIO_RECORDING": "अडियो रेकर्डिङ रोक्नुहोस्",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "अझै जवाफ दिइएको छैन",
       "HANDLED_IN_ANOTHER_TAB": "अर्को ट्याबमा ह्यान्डल भइरहेको छ",
       "REJECT_CALL": "अस्वीकार गर्नुहोस्",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "कलमा सामेल हुनुहोस्",
-      "END_CALL": "कल समाप्त गर्नुहोस्"
+      "END_CALL": "कल समाप्त गर्नुहोस्",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "अघिल्ला कुराकानीहरू",
       "MACROS": "म्याक्रोहरू",
       "LINEAR_ISSUES": "लिङ्क गरिएका Linear समस्याहरू",
-      "SHOPIFY_ORDERS": "Shopify अर्डरहरू"
+      "SHOPIFY_ORDERS": "Shopify अर्डरहरू",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "View all",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "अर्डर #{id}",

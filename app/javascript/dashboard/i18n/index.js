@@ -7,6 +7,7 @@ import de from './locale/de';
 import el from './locale/el';
 import en from './locale/en';
 import es from './locale/es';
+import et from './locale/et';
 import fa from './locale/fa';
 import fi from './locale/fi';
 import fr from './locale/fr';
@@ -49,6 +50,7 @@ export default {
   el,
   en,
   es,
+  et,
   fa,
   fi,
   fr,

@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Κανένα",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
       "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Χώρα",
+      "COMPANY_NAME": "Εταιρία",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Ομάδα",

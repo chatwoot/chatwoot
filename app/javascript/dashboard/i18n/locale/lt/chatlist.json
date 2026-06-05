@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Slėpti cituojamą tekstą",
     "SHOW_QUOTED_TEXT": "Rodyti cituojamą tekstą",
     "MESSAGE_READ": "Skaityti",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

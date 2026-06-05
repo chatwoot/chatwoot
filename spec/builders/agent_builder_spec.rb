@@ -56,7 +56,7 @@ RSpec.describe AgentBuilder, type: :model do
 
       it 'creates a user with default values' do
         user = agent_builder.perform
-        expect(user.name).to eq('')
+        expect(user.name).to eq(email.split('@').first)
         expect(AccountUser.find_by(user: user).role).to eq('agent')
       end
     end
