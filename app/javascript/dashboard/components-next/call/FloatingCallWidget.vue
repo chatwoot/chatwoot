@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { useCallSession } from 'dashboard/composables/useCallSession';
 import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
+import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
 import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
@@ -11,7 +12,7 @@ import WindowVisibilityHelper from 'dashboard/helper/AudioAlerts/WindowVisibilit
 import CallCard from 'dashboard/components-next/call/CallCard.vue';
 import countriesList from 'shared/constants/countries.js';
 
-const RINGTONE_URL = '/audio/dashboard/bell.mp3';
+const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
 
 const route = useRoute();
 const router = useRouter();
@@ -25,11 +26,12 @@ const {
   joinCall,
   endCall: endCallSession,
   rejectIncomingCall,
+  dismissCall,
   formattedCallDuration,
 } = useCallSession();
 
-// Mute is currently WhatsApp-only — Twilio calls are mediated server-side and
-// don't expose a mic track on the browser side.
+// Mute routes by provider: WhatsApp toggles the local mic track, Twilio uses
+// the Voice SDK connection's native mute. Both surface the same button.
 const isMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
@@ -51,9 +53,22 @@ const mainCardState = computed(() => {
     : VOICE_CALL_DIRECTION.INCOMING;
 });
 
+// Stacked cards are always non-active (ringing) calls, so reflect each call's
+// real direction. An outbound call must render as OUTGOING — otherwise it shows
+// the incoming-only dismiss (✕) control and the agent could drop it locally
+// without terminating, leaving the customer ringing with no widget to end it.
+const stackedCardState = call =>
+  call?.callDirection === VOICE_CALL_DIRECTION.OUTBOUND
+    ? VOICE_CALL_DIRECTION.OUTGOING
+    : VOICE_CALL_DIRECTION.INCOMING;
+
 const toggleMute = () => {
   isMuted.value = !isMuted.value;
-  setWhatsappCallMuted(isMuted.value);
+  if (isWhatsappActive.value) {
+    setWhatsappCallMuted(isMuted.value);
+  } else {
+    TwilioVoiceClient.setMuted(isMuted.value);
+  }
 };
 
 watch(hasActiveCall, active => {
@@ -230,10 +245,11 @@ onBeforeUnmount(stopRingtone);
       v-for="call in stackedIncomingCalls"
       :key="call.callSid"
       :call="call"
-      :state="VOICE_CALL_DIRECTION.INCOMING"
+      :state="stackedCardState(call)"
       :call-info="getCallInfo(call)"
       @accept="handleJoinCall(call)"
       @reject="rejectIncomingCall(call.callSid)"
+      @dismiss="dismissCall(call.callSid)"
       @go-to-conversation="goToConversation(call)"
     />
 
@@ -245,9 +261,10 @@ onBeforeUnmount(stopRingtone);
       :call-info="getCallInfo(activeCall || primaryIncomingCall)"
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
-      :show-mute="hasActiveCall && isWhatsappActive"
+      :show-mute="hasActiveCall"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
+      @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"

@@ -206,7 +206,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
 
-      it 'ignores type unsupported and does not create ghost conversation' do
+      it 'stores type unsupported as a placeholder message so the conversation is not headless' do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
@@ -217,9 +217,12 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
-        expect(Contact.count).to eq(0)
-        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(Contact.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('This message is unavailable.')
+        expect(message.content_attributes['is_unsupported']).to be(true)
       end
     end
 
@@ -377,6 +380,32 @@ describe Whatsapp::IncomingMessageService do
         expect(location_attachment.coordinates_lat).to eq(37.7893768)
         expect(location_attachment.coordinates_long).to eq(-122.3895553)
         expect(location_attachment.external_url).to eq('http://location_url.test')
+      end
+
+      it 'truncates long fallback titles to avoid dropping location messages' do
+        long_place_name = [
+          'Gremi de Fusters, 33, Edificio VIP Asima, Piso 2, Local 2, Norte',
+          '07009 Poligon industrial de Son Castello, Illes Balears, Espana'
+        ].join(', ')
+        source_id = 'wamid.long-location-fallback-title'
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => source_id,
+                           'location' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                                           :address => long_place_name,
+                                           :latitude => 37.7893768,
+                                           :longitude => -122.3895553,
+                                           :name => long_place_name,
+                                           :url => 'http://location_url.test' },
+                           'timestamp' => '1633034394', 'type' => 'location' }]
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }
+          .to change { Message.where(source_id: source_id).count }.from(0).to(1)
+
+        location_attachment = Message.find_by!(source_id: source_id).attachments.first
+        expect(location_attachment.fallback_title).to eq("#{long_place_name}, #{long_place_name}".first(255))
+        expect(location_attachment.fallback_title.length).to eq(255)
       end
     end
 

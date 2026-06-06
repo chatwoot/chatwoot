@@ -301,7 +301,7 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.1)
+    faraday (2.14.2)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -491,7 +491,7 @@ GEM
     judoscale-sidekiq (1.8.2)
       judoscale-ruby (= 1.8.2)
       sidekiq (>= 5.0)
-    jwt (2.10.1)
+    jwt (2.10.3)
       base64
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
@@ -996,11 +996,13 @@ GEM
       activemodel (>= 3.2)
       mail (~> 2.5)
     version_gem (1.1.4)
-    vite_rails (3.0.17)
-      railties (>= 5.1, < 8)
+    vite_rails (3.10.0)
+      railties (>= 5.1, < 9)
       vite_ruby (~> 3.0, >= 3.2.2)
-    vite_ruby (3.8.0)
+    vite_ruby (3.10.2)
       dry-cli (>= 0.7, < 2)
+      logger (~> 1.6)
+      mutex_m
       rack-proxy (~> 0.6, >= 0.6.1)
       zeitwerk (~> 2.2)
     warden (1.2.9)
@@ -1102,7 +1104,7 @@ DEPENDENCIES
   json_schemer
   judoscale-rails
   judoscale-sidekiq
-  jwt
+  jwt (~> 2.10, >= 2.10.3)
   kaminari
   koala
   letter_opener

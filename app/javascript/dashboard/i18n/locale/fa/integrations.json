@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "مخاطب ایجاد شد",
             "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {
