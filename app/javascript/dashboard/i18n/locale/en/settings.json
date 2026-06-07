@@ -305,6 +305,7 @@
     "SYNAPSEOS_LIVE_AGENTS": "Live Agents",
     "SYNAPSEOS_LIVE_DASHBOARD": "Realtime",
     "SYNAPSEOS_AGENT_METRICS": "Agent Metrics",
+    "SYNAPSEOS_PLATFORM": "Platform",
     "CONVERSATIONS": "Conversations",
     "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "All Conversations",

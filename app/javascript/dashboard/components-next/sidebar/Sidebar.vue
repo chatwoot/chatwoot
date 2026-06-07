@@ -49,6 +49,19 @@ const { t } = useI18n();
 // administradores. Agents não veem — esses são setup técnico de operação.
 const { isAdmin } = useAdmin();
 
+// CUSTOMIZAÇÃO_SYNAPSEOS: atalho admin pro painel agentic (a "plataforma"),
+// reaproveitando o login do Chatwoot — passa o access_token do usuário no
+// fragmento (#cwsso=), que o painel troca por uma sessão (SSO). Só admin.
+const currentUser = useMapGetter('getCurrentUser');
+const SYNAPSEOS_PANEL_URL = 'https://painel.dexidigital.com.br';
+const openPlatform = () => {
+  const token = currentUser.value?.access_token;
+  const url = token
+    ? `${SYNAPSEOS_PANEL_URL}/#cwsso=${encodeURIComponent(token)}`
+    : SYNAPSEOS_PANEL_URL;
+  window.open(url, '_blank', 'noopener,noreferrer');
+};
+
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
@@ -607,6 +620,20 @@ const menuItems = computed(() => {
           isEffectivelyCollapsed
         "
       />
+      <button
+        v-if="isAdmin"
+        type="button"
+        :title="t('SIDEBAR.SYNAPSEOS_PLATFORM')"
+        class="flex gap-2 items-center px-3 h-9 rounded-lg border border-white/10 bg-white/[0.06] text-s-on-dark-muted hover:bg-white/10 hover:text-s-on-dark transition-colors"
+        :class="isEffectivelyCollapsed ? 'justify-center w-9 px-0' : 'w-[calc(100%-1rem)] mx-2'"
+        @click="openPlatform"
+      >
+        <span class="flex-shrink-0 i-lucide-layout-grid size-4" />
+        <span v-if="!isEffectivelyCollapsed" class="flex-grow text-start text-sm">
+          {{ t('SIDEBAR.SYNAPSEOS_PLATFORM') }}
+        </span>
+        <span v-if="!isEffectivelyCollapsed" class="flex-shrink-0 i-lucide-external-link size-3.5 opacity-60" />
+      </button>
       <div
         class="px-2 py-2 flex-shrink-0 flex w-full z-50 gap-2 items-center border-t border-white/10"
         :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
