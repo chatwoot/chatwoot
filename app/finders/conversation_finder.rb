@@ -184,11 +184,21 @@ class ConversationFinder
   end
 
   def set_count_for_all_conversations
-    @conversations.pick(
+    return legacy_count_for_all_conversations if @conversations.limit_value || @conversations.offset_value || @conversations.eager_loading?
+
+    @conversations.unscope(:order).pick(
       Arel.sql("COUNT(*) FILTER (WHERE assignee_id = #{current_user.id})"),
       Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
       Arel.sql('COUNT(*)')
     )
+  end
+
+  def legacy_count_for_all_conversations
+    [
+      @conversations.assigned_to(current_user).count,
+      @conversations.unassigned.count,
+      @conversations.count
+    ]
   end
 
   def current_page
