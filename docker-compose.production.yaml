@@ -2,9 +2,7 @@ version: '3'
 
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    image: chatwoot/chatwoot:latest
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
@@ -12,7 +10,6 @@ services:
   rails:
     <<: *base
     depends_on:
-      - postgres
       - redis
     environment:
       - NODE_ENV=production
@@ -25,7 +22,6 @@ services:
   sidekiq:
     <<: *base
     depends_on:
-      - postgres
       - redis
     environment:
       - NODE_ENV=production
@@ -33,16 +29,6 @@ services:
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:alpine
@@ -54,5 +40,4 @@ services:
 
 volumes:
   storage_data:
-  postgres_data:
   redis_data:
