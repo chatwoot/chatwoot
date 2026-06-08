@@ -16,6 +16,11 @@ class Conversations::EventDataPresenter < SimpleDelegator
     }
   end
 
+  # Like #push_data but with message text normalized for external integrations (webhooks).
+  def webhook_data
+    push_data.merge(account: account.webhook_data)
+  end
+
   private
 
   def push_messages

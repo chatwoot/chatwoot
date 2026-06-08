@@ -68,7 +68,7 @@ class WebhookListener < BaseListener
 
   def inbox_created(event)
     inbox, account = extract_inbox_and_account(event)
-    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).push_data
+    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).webhook_data
     payload = inbox_webhook_data.merge(event: __method__.to_s)
     deliver_account_webhooks(payload, account)
   end
@@ -78,7 +78,7 @@ class WebhookListener < BaseListener
     changed_attributes = extract_changed_attributes(event)
     return if changed_attributes.blank?
 
-    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).push_data
+    inbox_webhook_data = Inbox::EventDataPresenter.new(inbox).webhook_data
     payload = inbox_webhook_data.merge(event: __method__.to_s, changed_attributes: changed_attributes)
     deliver_account_webhooks(payload, account)
   end

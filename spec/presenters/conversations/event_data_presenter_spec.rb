@@ -44,4 +44,9 @@ RSpec.describe Conversations::EventDataPresenter do
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
   end
+  describe '#webhook_data' do
+    it 'includes account details for webhook consumers' do
+      expect(presenter.webhook_data[:account]).to eq(conversation.account.webhook_data)
+    end
+  end
 end
