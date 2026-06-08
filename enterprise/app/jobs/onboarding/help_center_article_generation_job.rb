@@ -89,7 +89,7 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   def enqueue_writer_jobs(account_id:, portal_id:, user_id:, generation_id:, articles:)
     articles.each do |article|
       Onboarding::HelpCenterArticleWriterJob.perform_later(
-        account_id, portal_id, user_id, generation_id, { article: article }
+        account_id, portal_id, user_id, generation_id, article
       )
     end
   end

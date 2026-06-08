@@ -9,14 +9,12 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
     job.send(:on_writer_failure, error)
   end
 
-  def perform(account_id, portal_id, user_id, generation_id, article_payload)
-    user = User.find(user_id)
-    payload = article_payload.with_indifferent_access
+  def perform(account_id, portal_id, user_id, generation_id, article)
     Onboarding::HelpCenterArticleBuilder.new(
       account: Account.find(account_id),
       portal: Portal.find(portal_id),
-      user: user,
-      article: payload[:article]
+      user: User.find(user_id),
+      article: article
     ).perform
 
     finalize(generation_id: generation_id)
@@ -25,14 +23,9 @@ class Onboarding::HelpCenterArticleWriterJob < ApplicationJob
   private
 
   def on_writer_failure(error)
-    generation_id = failure_context
+    generation_id = arguments[3]
     Rails.logger.warn "[HelpCenterWriterJob] gen=#{generation_id} failed: #{error.class} #{error.message}"
     finalize(generation_id: generation_id)
-  end
-
-  def failure_context
-    _account_id, _portal_id, _user_id, generation_id = arguments
-    generation_id
   end
 
   def finalize(generation_id:)
