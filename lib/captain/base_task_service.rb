@@ -167,7 +167,11 @@ class Captain::BaseTaskService
   end
 
   def llm_credential
-    @llm_credential ||= use_account_openai_hook? ? hook_llm_credential : system_llm_credential
+    @llm_credential ||= if use_account_openai_hook?
+                          hook_llm_credential || system_llm_credential
+                        else
+                          system_llm_credential
+                        end
   end
 
   def use_account_openai_hook?

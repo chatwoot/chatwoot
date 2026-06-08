@@ -88,7 +88,7 @@ class Captain::LabelSuggestionService < Captain::BaseTaskService
   end
 
   def use_account_openai_hook?
-    openai_hook.present?
+    true
   end
 
   def build_follow_up_context?

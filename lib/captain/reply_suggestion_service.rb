@@ -39,7 +39,7 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   end
 
   def use_account_openai_hook?
-    openai_hook.present?
+    true
   end
 end
 
