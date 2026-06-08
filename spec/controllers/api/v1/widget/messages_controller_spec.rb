@@ -187,6 +187,38 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.reload.resolved?).to be(true)
       end
 
+      it 'creates a new conversation instead of reopening a resolved one when lock_to_single_conversation is false' do
+        conversation.resolved!
+
+        message_params = { content: 'retry message', timestamp: Time.current }
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.to change(contact.conversations, :count).by(1)
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.resolved?).to be(true)
+        expect(contact.conversations.last.open?).to be(true)
+      end
+
+      it 'reopens resolved conversation and posts message when lock_to_single_conversation is true' do
+        web_widget.inbox.update!(lock_to_single_conversation: true)
+        conversation.resolved!
+
+        message_params = { content: 'retry message', timestamp: Time.current }
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(contact.conversations, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.open?).to be(true)
+      end
+
       it 'does not create resolved activity messages when snoozed conversation is opened' do
         conversation.snoozed!
 

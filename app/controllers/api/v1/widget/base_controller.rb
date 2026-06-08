@@ -17,7 +17,11 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def conversation
-    @conversation ||= conversations.last
+    @conversation ||= if @web_widget.inbox.lock_to_single_conversation?
+                        conversations.last
+                      else
+                        conversations.where.not(status: :resolved).last
+                      end
   end
 
   def create_conversation
