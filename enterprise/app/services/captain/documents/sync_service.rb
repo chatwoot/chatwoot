@@ -15,10 +15,7 @@ class Captain::Documents::SyncService
     @document.update!(sync_step: 'fetching')
     result = Captain::Documents::SinglePageFetcher.new(@document.external_link).fetch
 
-    unless result.success
-      mark_failed(result.error_code)
-      raise_for_error_code(result.error_code)
-    end
+    handle_fetch_error(result.error_code) unless result.success
 
     @document.update!(sync_step: 'comparing')
     new_fingerprint = compute_fingerprint(result.content)
@@ -75,8 +72,11 @@ class Captain::Documents::SyncService
     )
   end
 
-  def raise_for_error_code(error_code)
-    raise PermanentSyncError, error_code if PERMANENT_ERROR_CODES.include?(error_code)
+  def handle_fetch_error(error_code)
+    if PERMANENT_ERROR_CODES.include?(error_code)
+      mark_failed(error_code)
+      raise PermanentSyncError, error_code
+    end
 
     raise TransientSyncError, error_code
   end

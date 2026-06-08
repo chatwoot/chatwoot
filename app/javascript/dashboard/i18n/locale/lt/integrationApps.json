@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Pasirinkti gautų laiškų aplanką"
         },
         "SUBMIT": "Sukurti",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Atšaukti"
       },
       "API": {

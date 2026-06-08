@@ -37,6 +37,10 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   def event_name
     'reply_suggestion'
   end
+
+  def use_account_openai_hook?
+    true
+  end
 end
 
 Captain::ReplySuggestionService.prepend_mod_with('Captain::ReplySuggestionService')

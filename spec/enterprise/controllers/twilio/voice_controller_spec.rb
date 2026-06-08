@@ -32,7 +32,6 @@ RSpec.describe 'Twilio::VoiceController', type: :request do
       call.update!(conference_sid: call.default_conference_sid)
 
       expect(Voice::InboundCallBuilder).to receive(:perform!).with(
-        account: account,
         inbox: inbox,
         from_number: from_number,
         call_sid: call_sid
