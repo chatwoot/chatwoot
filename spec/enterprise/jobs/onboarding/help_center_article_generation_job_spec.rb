@@ -53,11 +53,9 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
             admin.id,
             generation_id,
             hash_including(
-              'article' => hash_including(
-                'title' => 'Hello',
-                'urls' => ['https://x.test/a'],
-                'category_id' => portal.categories.first.id
-              )
+              'title' => 'Hello',
+              'urls' => ['https://x.test/a'],
+              'category_id' => portal.categories.first.id
             )
           )
         )
@@ -83,7 +81,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       writer_jobs = enqueued_jobs.select { |job| job['job_class'] == Onboarding::HelpCenterArticleWriterJob.name }
       expect(writer_jobs.size).to eq(1)
       expect(writer_jobs.first['arguments']).to include(
-        hash_including('article' => hash_including('title' => 'Valid'))
+        hash_including('title' => 'Valid')
       )
     end
   end
@@ -106,7 +104,7 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       writer_jobs = enqueued_jobs.select { |job| job['job_class'] == Onboarding::HelpCenterArticleWriterJob.name }
       expect(writer_jobs.size).to eq(1)
       expect(writer_jobs.first['arguments']).to include(
-        hash_including('article' => hash_including('title' => 'Approved', 'urls' => ['https://x.test/a']))
+        hash_including('title' => 'Approved', 'urls' => ['https://x.test/a'])
       )
       expect(Onboarding::HelpCenterGenerationState.current(generation_id)).to include('total' => '1')
     end

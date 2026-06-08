@@ -6,8 +6,7 @@ RSpec.describe Onboarding::HelpCenterArticleWriterJob do
   let!(:admin) { create(:user, account: account, role: :administrator) }
   let(:generation_id) { 'generation-123' }
   let(:article_spec) { { 'urls' => ['https://x.test/a'], 'title' => 'A', 'category_id' => nil } }
-  let(:article_payload) { { 'article' => article_spec } }
-  let(:job_args) { [account.id, portal.id, admin.id, generation_id, article_payload] }
+  let(:job_args) { [account.id, portal.id, admin.id, generation_id, article_spec] }
   let(:state_key) { Onboarding::HelpCenterGenerationState.key(generation_id) }
 
   before do
