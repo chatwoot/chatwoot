@@ -76,8 +76,8 @@ class Onboarding::HelpCenterCreationService
     return if homepage_link.blank?
 
     generation_id = SecureRandom.uuid
-    @account.update!(custom_attributes: @account.custom_attributes.merge('help_center_generation_id' => generation_id))
     Onboarding::HelpCenterArticleGenerationJob.perform_later(@account.id, portal.id, @user.id, generation_id)
+    @account.update!(custom_attributes: @account.custom_attributes.merge('help_center_generation_id' => generation_id))
   rescue StandardError => e
     Rails.logger.error "[HelpCenterCreation] Failed to enqueue article generation for account #{@account.id}: #{e.class} - #{e.message}"
   end
