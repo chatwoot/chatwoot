@@ -170,19 +170,4 @@ RSpec.describe Onboarding::HelpCenterArticleGenerationJob do
       expect(state['skip_reason']).to include('firecrawl exhausted')
     end
   end
-
-  describe 'broadcasts' do
-    it 'broadcasts generation_completed with status: skipped on CurationSkipped' do
-      curator = instance_double(Onboarding::HelpCenterCurator)
-      allow(curator).to receive(:perform).and_raise(
-        Onboarding::HelpCenterErrors::CurationSkipped, 'no website url'
-      )
-      allow(Onboarding::HelpCenterCurator).to receive(:new).and_return(curator)
-
-      payload = hash_including(generation_id: generation_id, status: 'skipped', skip_reason: 'no website url')
-      expect { described_class.perform_now(*job_args) }
-        .to have_enqueued_job(ActionCableBroadcastJob)
-        .with([admin.pubsub_token], 'help_center.generation_completed', payload)
-    end
-  end
 end

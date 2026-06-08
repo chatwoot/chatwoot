@@ -111,4 +111,74 @@ RSpec.describe 'Onboarding API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/onboarding/help_center_generation' do
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation", as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as an agent (non-admin)' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation",
+            headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when no help center generation has started' do
+      it 'returns not_started with zero counts' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation",
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to include(
+          'generation_id' => nil,
+          'state' => nil,
+          'articles_count' => 0,
+          'categories_count' => 0
+        )
+      end
+    end
+
+    context 'when help center generation is in progress' do
+      let(:generation_id) { 'generation-123' }
+      let!(:portal) { create(:portal, account_id: account.id) }
+      let!(:category) { create(:category, portal: portal, account_id: account.id) }
+
+      before do
+        account.update!(custom_attributes: { 'help_center_generation_id' => generation_id })
+        create(:article, portal: portal, category: category, account_id: account.id, author_id: admin.id)
+        Onboarding::HelpCenterGenerationState.start(generation_id, total: 3)
+        Onboarding::HelpCenterGenerationState.record_article_finished(generation_id)
+      end
+
+      after do
+        Redis::Alfred.delete(Onboarding::HelpCenterGenerationState.key(generation_id))
+      end
+
+      it 'returns Redis state and help center counts' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation",
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to include(
+          'generation_id' => generation_id,
+          'articles_count' => 1,
+          'categories_count' => 1
+        )
+        expect(response.parsed_body['state']).to include(
+          'status' => 'generating',
+          'finished' => '1',
+          'total' => '3'
+        )
+      end
+    end
+  end
 end
