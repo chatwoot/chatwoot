@@ -245,12 +245,26 @@ class Whatsapp::IncomingMessageAvisaService
     )
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: respeita lock_to_single_conversation das inboxes de
+  # agente (Alice/Angela). Sem isso, a 1ª resposta do cliente racha do histórico:
+  # o backfill/disparo deixa a conversa `resolved`, e o filtro open/pending/snoozed
+  # ignorava ela -> criava conversa nova. Com lock ligado, reusa a última conversa
+  # do contato (qualquer status) e reabre se estava resolved — igual ao
+  # ConversationBuilder nativo. Sem lock, mantém o filtro de status anterior.
   def find_or_create_conversation(contact_inbox)
-    conversation = contact_inbox.conversations
-                                .where(status: %w[open pending snoozed])
-                                .order(created_at: :desc)
-                                .first
-    return conversation if conversation
+    if inbox.lock_to_single_conversation
+      existing = contact_inbox.conversations.order(created_at: :desc).first
+      if existing
+        existing.update!(status: :open) if existing.resolved?
+        return existing
+      end
+    else
+      conversation = contact_inbox.conversations
+                                  .where(status: %w[open pending snoozed])
+                                  .order(created_at: :desc)
+                                  .first
+      return conversation if conversation
+    end
 
     Conversation.create!(
       account_id: inbox.account_id,
