@@ -56,6 +56,60 @@ RSpec.describe Voice::OutboundCallBuilder do
       expect(call.conversation.additional_attributes).not_to include('call_status', 'call_direction', 'agent_id', 'conference_sid')
     end
 
+    it 'reuses an existing open conversation for the contact' do
+      contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox, source_id: contact.phone_number)
+      existing_conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox)
+
+      call = nil
+      expect do
+        call = described_class.perform!(
+          account: account,
+          inbox: inbox,
+          user: user,
+          contact: contact
+        )
+      end.to change(Call, :count).by(1).and not_change(account.conversations, :count)
+
+      expect(call.conversation).to eq(existing_conversation)
+      expect(existing_conversation.messages.voice_calls.last.call).to eq(call)
+    end
+
+    it 'reuses and reopens the last conversation when the inbox is locked to a single conversation' do
+      inbox.update!(lock_to_single_conversation: true)
+      contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox, source_id: contact.phone_number)
+      existing_conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+      call = nil
+      expect do
+        call = described_class.perform!(
+          account: account,
+          inbox: inbox,
+          user: user,
+          contact: contact
+        )
+      end.to change(Call, :count).by(1).and not_change(account.conversations, :count)
+
+      expect(call.conversation).to eq(existing_conversation)
+      expect(existing_conversation.reload).to be_open
+    end
+
+    it 'creates a new conversation when the last conversation is resolved and the inbox is not locked' do
+      contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox, source_id: contact.phone_number)
+      create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: contact_inbox, status: :resolved)
+
+      call = nil
+      expect do
+        call = described_class.perform!(
+          account: account,
+          inbox: inbox,
+          user: user,
+          contact: contact
+        )
+      end.to change(account.conversations, :count).by(1).and change(Call, :count).by(1)
+
+      expect(call.conversation).to be_open
+    end
+
     it 'raises an error when contact is missing a phone number' do
       contact.update!(phone_number: nil)
 
