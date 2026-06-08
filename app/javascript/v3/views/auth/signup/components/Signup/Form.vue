@@ -142,7 +142,10 @@ const onCaptchaError = () => {
           :has-error="v$.credentials.password.$error"
           :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
           @focus="isPasswordFocused = true"
-          @blur="isPasswordFocused = false; v$.credentials.password.$touch()"
+          @blur="
+            isPasswordFocused = false;
+            v$.credentials.password.$touch();
+          "
         />
         <Transition
           enter-active-class="transition duration-200 ease-out origin-left"
