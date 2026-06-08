@@ -72,7 +72,8 @@ describe Facebook::SendOnFacebookService do
         described_class.new(message: message).perform
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
-                                                      message: { text: message.content }
+                                                      message: { text: message.content },
+                                                      messaging_type: 'RESPONSE'
                                                     }, { page_id: facebook_channel.page_id })
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
@@ -83,15 +84,16 @@ describe Facebook::SendOnFacebookService do
                                                             url: 'url1'
                                                           }
                                                         }
-                                                      }
+                                                      },
+                                                      messaging_type: 'RESPONSE'
                                                     }, { page_id: facebook_channel.page_id })
       end
 
-      it 'does not include MESSAGE_TAG by default so Facebook treats it as a standard RESPONSE' do
+      it 'sends as a standard RESPONSE without a tag by default' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         described_class.new(message: message).perform
         expect(bot).to have_received(:deliver).with(
-          hash_excluding(:messaging_type, :tag),
+          hash_including(messaging_type: 'RESPONSE').and(hash_excluding(:tag)),
           { page_id: facebook_channel.page_id }
         )
       end
@@ -205,7 +207,8 @@ describe Facebook::SendOnFacebookService do
                                                           { content_type: 'text', payload: 'text 1', title: 'text 1' },
                                                           { content_type: 'text', payload: 'text 2', title: 'text 2' }
                                                         ]
-                                                      }
+                                                      },
+                                                      messaging_type: 'RESPONSE'
                                                     }, { page_id: facebook_channel.page_id })
       end
     end
