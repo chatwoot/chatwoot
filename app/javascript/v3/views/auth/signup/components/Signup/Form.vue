@@ -140,7 +140,7 @@ const onCaptchaError = () => {
           :label="$t('LOGIN.PASSWORD.LABEL')"
           :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
           :has-error="v$.credentials.password.$error"
-          :error-message="'Password must contain at least 6 characters, including uppercase, lowercase, and a number.'"
+          :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
           @focus="isPasswordFocused = true"
           @blur="
             isPasswordFocused = false;
