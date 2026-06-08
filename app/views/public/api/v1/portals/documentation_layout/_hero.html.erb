@@ -5,7 +5,7 @@
   <div class="relative w-full px-6 md:px-10 py-12 md:py-16">
     <div class="max-w-2xl">
       <h1 class="text-4xl md:text-5xl leading-tight font-620 tracking-tight text-n-slate-12 text-balance">
-        <%= portal.header_text.presence || 'How can we help?' %>
+        <%= portal.localized_value('header_text', @locale).presence || 'How can we help?' %>
       </h1>
       <p class="mt-4 text-lg leading-normal text-n-slate-11 text-pretty">
         <%= I18n.t('public_portal.hero.sub_title') %>

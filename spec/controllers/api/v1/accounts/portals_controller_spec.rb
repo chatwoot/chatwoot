@@ -173,7 +173,8 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
             ],
             'default_locale' => 'en',
             'layout' => 'classic',
-            'social_profiles' => {}
+            'social_profiles' => {},
+            'locale_translations' => {}
           }
         )
       end

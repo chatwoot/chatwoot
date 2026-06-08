@@ -11,7 +11,7 @@
       <% if portal.logo.present? %>
         <img src="<%= url_for(portal.logo) %>" class="w-8 h-8 rounded-full" draggable="false" />
       <% end %>
-      <span class="text-base font-semibold tracking-tight text-n-slate-12 truncate"><%= portal.name %></span>
+      <span class="text-base font-semibold tracking-tight text-n-slate-12 truncate"><%= portal.localized_value('name', locale) %></span>
       <span class="hidden sm:inline-block w-px h-5 bg-n-weak mx-1"></span>
       <span class="hidden sm:inline-block text-sm font-medium text-n-slate-11 truncate"><%= I18n.t('public_portal.sidebar.help_center') %></span>
     </a>
