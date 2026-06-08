@@ -29,9 +29,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     @pending_colwidths = nil
 
     if sized_widths?(widths)
-      # Wrapper hugs the sized table so the bordered card doesn't trail empty space;
-      # max-width keeps a wide table within the container (it scrolls via overflow-x).
-      out(%(<div class="tableWrapper" style="width: #{total_width(widths)}px; max-width: 100%;">))
+      out(table_wrapper_open(widths))
       out(inject_table_sizing(capture_html { super(node) }, widths))
     else
       out('<div class="tableWrapper">')
@@ -76,6 +74,18 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     widths.is_a?(Array) && widths.any? { |w| w.to_i.positive? }
   end
 
+  def fully_sized?(widths)
+    widths.all? { |w| w.to_i.positive? }
+  end
+
+  # Fully-sized tables hug their exact width so the card doesn't trail empty space;
+  # partial tables stay a plain full-width card so flexible columns can expand.
+  def table_wrapper_open(widths)
+    return '<div class="tableWrapper">' unless fully_sized?(widths)
+
+    %(<div class="tableWrapper" style="width: #{total_width(widths)}px; max-width: 100%;">)
+  end
+
   # Let the gem render the whole table, then splice a <colgroup> and sizing style
   # into the opening <table> tag. Delegating the row/cell/tbody/alignment markup to
   # super keeps this working across commonmarker upgrades.
@@ -100,12 +110,12 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     widths.sum { |w| w.to_i.positive? ? w.to_i : TABLE_CELL_MIN_WIDTH_PX }
   end
 
-  # `min-width` (not just `width`) is needed so a saved width narrower than the
-  # container still wins over the portal's `[&_table]:!min-w-full` (min-width:100%
-  # !important) — width alone loses to that rule and the table stretches full-width.
+  # Fully sized → lock to the exact total (min-width too, so a narrow saved width
+  # beats the portal's `[&_table]:!min-w-full`). Partial → `max(100%, total)` fills
+  # the container (flexible columns) yet scrolls when the sized columns exceed it.
   def table_sizing_style(widths)
     total = total_width(widths)
-    return "table-layout: fixed; min-width: #{total}px !important;" unless widths.all? { |w| w.to_i.positive? }
+    return "table-layout: fixed; min-width: max(100%, #{total}px) !important;" unless fully_sized?(widths)
 
     "table-layout: fixed; width: #{total}px !important; min-width: #{total}px !important;"
   end

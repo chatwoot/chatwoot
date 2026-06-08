@@ -284,10 +284,14 @@ describe CustomMarkdownRenderer do
     end
 
     context 'when only some columns have a saved width' do
-      it 'uses min-width and leaves unsized columns flexible' do
+      it 'fills the container so unsized columns stay flexible, floored at the sized total' do
         output = render_table("<!--cw-colwidths:150,0-->\n#{plain_table}")
-        expect(output).to include('table-layout: fixed; min-width: 200px !important;')
+        # max(100%, 200px): fills the container (flexible) but scrolls if the sized columns exceed it.
+        expect(output).to include('table-layout: fixed; min-width: max(100%, 200px) !important;')
         expect(output).to include('<colgroup><col style="width: 150px;"><col></colgroup>')
+        # No exact-width lock on the wrapper or table — the table must be free to expand.
+        expect(output).to include('<div class="tableWrapper"><table')
+        expect(output).not_to include('width: 200px !important')
       end
     end
 
