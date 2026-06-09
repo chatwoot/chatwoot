@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viari — Painel Lateral no Chatwoot</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Inter, system-ui, sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; }
+  h1 { font-size: 18px; font-weight: 700; color: #f8fafc; margin-bottom: 6px; }
+  .subtitle { font-size: 13px; color: #94a3b8; margin-bottom: 24px; }
+
+  /* Layout */
+  .layout { display: flex; gap: 24px; align-items: flex-start; }
+  .chatwoot-shell { width: 340px; background: #1e293b; border-radius: 12px; overflow: hidden; border: 1px solid #334155; flex-shrink: 0; }
+  .explanation { flex: 1; }
+
+  /* Chatwoot shell */
+  .chat-topbar { background: #0f172a; padding: 10px 14px; font-size: 12px; color: #94a3b8; border-bottom: 1px solid #334155; display: flex; align-items: center; gap: 8px; }
+  .chat-topbar strong { color: #f1f5f9; font-size: 13px; }
+  .avatar { width: 28px; height: 28px; border-radius: 50%; background: #1D9E75; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: white; flex-shrink: 0; }
+
+  /* Viari panel */
+  .viari-panel { background: #f8fffe; color: #0D2B2A; }
+
+  .viari-header {
+    background: #0D2B2A;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+  .viari-header-left { display: flex; align-items: center; gap: 8px; }
+  .viari-logo { font-size: 16px; }
+  .viari-title { font-size: 13px; font-weight: 700; color: #5DCAA5; }
+  .viari-badge { background: #1D9E75; color: #E1F5EE; font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
+  .viari-chevron { color: #5DCAA5; font-size: 12px; }
+
+  /* Journey bar */
+  .journey { padding: 10px 14px 0; background: #E1F5EE; }
+  .journey-label { font-size: 9px; font-weight: 700; color: #0F6E56; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .journey-steps { display: flex; align-items: center; gap: 0; margin-bottom: 10px; }
+  .step { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .step-dot { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; position: relative; z-index: 1; }
+  .step-dot.done { background: #1D9E75; color: white; }
+  .step-dot.current { background: #EF9F27; color: white; box-shadow: 0 0 0 3px rgba(239,159,39,0.3); }
+  .step-dot.todo { background: #5DCAA5; color: #0D2B2A; opacity: 0.4; }
+  .step-label { font-size: 8px; color: #0F6E56; margin-top: 3px; text-align: center; font-weight: 600; white-space: nowrap; }
+  .step-label.current { color: #EF9F27; font-weight: 700; }
+  .step-line { flex: 1; height: 2px; background: #5DCAA5; opacity: 0.3; margin-bottom: 12px; }
+  .step-line.done { background: #1D9E75; opacity: 1; }
+
+  /* Labels CRM */
+  .crm-labels { padding: 6px 14px 8px; background: #E1F5EE; border-bottom: 1px solid #b2dfd0; }
+  .crm-label-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .crm-tag { font-size: 9px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+  .crm-tag.green { background: #1D9E75; color: white; }
+  .crm-tag.yellow { background: #EF9F27; color: #0D2B2A; }
+  .crm-tag.teal { background: #5DCAA5; color: #0D2B2A; }
+  .crm-label-hint { font-size: 9px; color: #0F6E56; }
+
+  /* Tabs */
+  .viari-tabs { display: flex; border-bottom: 1px solid #b2dfd0; background: white; }
+  .viari-tab { padding: 8px 12px; font-size: 11px; font-weight: 600; color: #0F6E56; cursor: pointer; opacity: 0.5; }
+  .viari-tab.active { color: #1D9E75; border-bottom: 2px solid #1D9E75; opacity: 1; }
+
+  /* Tab content */
+  .tab-content { padding: 10px 12px; background: white; }
+  .card-item { border: 1px solid #b2dfd0; border-radius: 8px; padding: 10px; margin-bottom: 8px; border-left: 3px solid #1D9E75; }
+  .card-item.yellow { border-left-color: #EF9F27; }
+  .card-title { font-size: 12px; font-weight: 700; color: #0D2B2A; }
+  .card-sub { font-size: 10px; color: #0F6E56; margin-top: 2px; }
+  .card-row { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+  .status-pill { font-size: 9px; padding: 2px 7px; border-radius: 10px; font-weight: 700; }
+  .status-pill.green { background: #E1F5EE; color: #0F6E56; }
+  .status-pill.yellow { background: #FEF3C7; color: #92400E; }
+  .card-value { font-size: 12px; font-weight: 700; color: #0D2B2A; }
+
+  .new-quote-btn {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    background: #1D9E75;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  /* Explanation cards */
+  .exp-section { margin-bottom: 20px; }
+  .exp-title { font-size: 14px; font-weight: 700; color: #5DCAA5; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .exp-item { background: #1e293b; border-radius: 8px; padding: 10px 14px; margin-bottom: 8px; border-left: 3px solid #1D9E75; }
+  .exp-item h4 { font-size: 12px; font-weight: 700; color: #f1f5f9; margin-bottom: 3px; }
+  .exp-item p { font-size: 11px; color: #94a3b8; line-height: 1.5; }
+  .exp-item.yellow { border-left-color: #EF9F27; }
+  .exp-item.teal { border-left-color: #5DCAA5; }
+
+  .label-map { background: #1e293b; border-radius: 8px; padding: 12px 14px; }
+  .label-map-title { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+  .label-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 11px; }
+  .label-trigger { color: #94a3b8; flex: 1; }
+  .arrow { color: #5DCAA5; }
+  .label-tag { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+  .lt-teal { background: #1D9E75; color: white; }
+  .lt-yellow { background: #EF9F27; color: #0D2B2A; }
+  .lt-green { background: #22c55e; color: white; }
+  .lt-blue { background: #6366f1; color: white; }
+  .lt-red { background: #ef4444; color: white; }
+  .lt-gray { background: #475569; color: white; }
+</style>
+</head>
+<body>
+
+<h1>Painel lateral Viari — Design com identidade da marca</h1>
+<p class="subtitle">Cores do Viari (teal/verde-noite), jornada do cliente e etiquetas automáticas de CRM</p>
+
+<div class="layout">
+
+  <!-- Chatwoot shell com o painel -->
+  <div>
+    <div style="font-size:11px; color:#64748b; margin-bottom:8px; text-align:center;">↓ Como aparece no Chatwoot</div>
+    <div class="chatwoot-shell">
+      <div class="chat-topbar">
+        <div class="avatar">EM</div>
+        <div>
+          <strong>Emilce Ramirez</strong><br>
+          +55 21 99772-4635
+        </div>
+      </div>
+
+      <div class="viari-panel">
+        <!-- Header accordion -->
+        <div class="viari-header">
+          <div class="viari-header-left">
+            <span class="viari-logo">🏖️</span>
+            <span class="viari-title">Viari</span>
+            <span class="viari-badge">✓ Vinculado</span>
+          </div>
+          <span class="viari-chevron">▾</span>
+        </div>
+
+        <!-- Journey bar -->
+        <div class="journey">
+          <div class="journey-label">Jornada do cliente</div>
+          <div class="journey-steps">
+            <div class="step">
+              <div class="step-dot done">✓</div>
+              <div class="step-label">Contato</div>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step">
+              <div class="step-dot done">✓</div>
+              <div class="step-label">Orçamento</div>
+            </div>
+            <div class="step-line done"></div>
+            <div class="step">
+              <div class="step-dot current">●</div>
+              <div class="step-label current">Sinal</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-dot todo">○</div>
+              <div class="step-label">Reserva</div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+              <div class="step-dot todo">○</div>
+              <div class="step-label">Embarque</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Labels CRM -->
+        <div class="crm-labels">
+          <div class="crm-label-row">
+            <span style="font-size:9px; color:#0F6E56; margin-right:2px;">🏷️ Labels:</span>
+            <span class="crm-tag green">orçamento-aprovado</span>
+            <span class="crm-tag yellow">aguardando-sinal</span>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="viari-tabs">
+          <div class="viari-tab active">Reservas</div>
+          <div class="viari-tab">Orçamentos</div>
+          <div class="viari-tab">Pagamentos</div>
+        </div>
+
+        <!-- Tab content: Reservas -->
+        <div class="tab-content">
+          <div class="card-item">
+            <div class="card-title">Descoberta Dupla</div>
+            <div class="card-sub">15/06/2025 · 09h · 3 ADT + 1 INF</div>
+            <div class="card-row">
+              <span class="status-pill green">confirmada</span>
+              <span class="card-value">R$ 540,00</span>
+            </div>
+          </div>
+          <div class="card-item yellow">
+            <div class="card-title">Rota Pitinga</div>
+            <div class="card-sub">16/06/2025 · 08h · 3 ADT + 1 INF</div>
+            <div class="card-row">
+              <span class="status-pill yellow">pendente</span>
+              <span class="card-value">R$ 325,00</span>
+            </div>
+          </div>
+          <button class="new-quote-btn">＋ Novo orçamento</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Explanation -->
+  <div class="explanation">
+
+    <div class="exp-section">
+      <div class="exp-title">🎨 Design do Viari no Chatwoot</div>
+      <div class="exp-item">
+        <h4>Cores e identidade mantidas</h4>
+        <p>Verde-noite (#0D2B2A) no header, teal-aventura (#1D9E75) nos elementos ativos, sol-poente (#EF9F27) para estados de atenção — exatamente a paleta do Viari.</p>
+      </div>
+      <div class="exp-item teal">
+        <h4>Jornada visual do cliente</h4>
+        <p>Barra de progresso mostra em qual etapa o cliente está: Contato → Orçamento → Sinal → Reserva → Embarque. Atualiza automaticamente conforme os dados mudam no Viari.</p>
+      </div>
+    </div>
+
+    <div class="exp-section">
+      <div class="exp-title">🏷️ Etiquetas automáticas de CRM</div>
+      <div class="label-map">
+        <div class="label-map-title">Evento no Viari → Label no Chatwoot</div>
+        <div class="label-row">
+          <span class="label-trigger">Cliente criado/vinculado</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-teal">viari-vinculado</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Orçamento enviado</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-yellow">orçamento-enviado</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Orçamento aprovado</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-green">orçamento-aprovado</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Sinal pendente</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-yellow">aguardando-sinal</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Reserva confirmada</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-green">reserva-confirmada</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Pagamento completo</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-blue">pago-completo</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Orçamento expirado/recusado</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-red">orçamento-perdido</span>
+        </div>
+        <div class="label-row">
+          <span class="label-trigger">Passeio concluído</span>
+          <span class="arrow">→</span>
+          <span class="label-tag lt-gray">concluído</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="exp-section">
+      <div class="exp-item yellow">
+        <h4>💡 Como os labels funcionam</h4>
+        <p>Ao carregar o painel, o Chatwoot consulta o Viari e aplica automaticamente as labels correspondentes ao status atual. Labels antigas são substituídas pelas novas conforme a jornada avança — a conversa sempre reflete o estágio real do cliente.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

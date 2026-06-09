@@ -1,0 +1,118 @@
+<h2>Painel lateral — dados do cliente no Viari</h2>
+<p class="subtitle">Aparece no accordion do ContactPanel, abaixo dos dados do contato. Clique para selecionar o layout que preferir.</p>
+
+<div class="split">
+  <div class="mockup" style="flex:1">
+    <div class="mockup-header">Opção 1 — Abas no topo</div>
+    <div class="mockup-body" style="padding:0; font-size:12px; min-height:340px;">
+
+      <!-- Viari accordion header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#1e293b; border-bottom:1px solid #334155;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:14px;">🏖️</span>
+          <span style="font-weight:600; color:#f1f5f9; font-size:13px;">Viari</span>
+          <span style="background:#22c55e; color:#fff; font-size:10px; padding:1px 6px; border-radius:10px;">Vinculado</span>
+        </div>
+        <span style="color:#94a3b8; font-size:11px;">↕</span>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex; border-bottom:1px solid #334155; background:#0f172a;">
+        <div style="padding:8px 12px; font-size:11px; color:#6366f1; border-bottom:2px solid #6366f1; font-weight:600;">Reservas</div>
+        <div style="padding:8px 12px; font-size:11px; color:#94a3b8;">Orçamentos</div>
+        <div style="padding:8px 12px; font-size:11px; color:#94a3b8;">Pagamentos</div>
+      </div>
+
+      <!-- Reservas tab content -->
+      <div style="padding:10px 12px; background:#0f172a; color:#e2e8f0;">
+        <div style="background:#1e293b; border-radius:6px; padding:10px; margin-bottom:8px; border-left:3px solid #22c55e;">
+          <div style="font-weight:600; font-size:12px; color:#f1f5f9;">Descoberta Dupla</div>
+          <div style="color:#94a3b8; font-size:11px; margin-top:2px;">15/06/2025 • 3 ADT + 1 INF</div>
+          <div style="display:flex; justify-content:space-between; margin-top:6px;">
+            <span style="color:#22c55e; font-size:11px; font-weight:600;">confirmada</span>
+            <span style="color:#f1f5f9; font-size:11px; font-weight:600;">R$ 540,00</span>
+          </div>
+        </div>
+        <div style="background:#1e293b; border-radius:6px; padding:10px; margin-bottom:8px; border-left:3px solid #f59e0b;">
+          <div style="font-weight:600; font-size:12px; color:#f1f5f9;">Rota Pitinga</div>
+          <div style="color:#94a3b8; font-size:11px; margin-top:2px;">16/06/2025 • 3 ADT + 1 INF</div>
+          <div style="display:flex; justify-content:space-between; margin-top:6px;">
+            <span style="color:#f59e0b; font-size:11px; font-weight:600;">pendente</span>
+            <span style="color:#f1f5f9; font-size:11px; font-weight:600;">R$ 325,00</span>
+          </div>
+        </div>
+        <div style="text-align:center; margin-top:4px;">
+          <span style="color:#6366f1; font-size:11px; cursor:pointer;">+ Novo orçamento</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="mockup" style="flex:1">
+    <div class="mockup-header">Opção 2 — Seções empilhadas (sem abas)</div>
+    <div class="mockup-body" style="padding:0; font-size:12px; min-height:340px;">
+
+      <!-- Viari accordion header -->
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:10px 12px; background:#1e293b; border-bottom:1px solid #334155;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:14px;">🏖️</span>
+          <span style="font-weight:600; color:#f1f5f9; font-size:13px;">Viari</span>
+          <span style="background:#22c55e; color:#fff; font-size:10px; padding:1px 6px; border-radius:10px;">Vinculado</span>
+        </div>
+        <button style="background:#6366f1; color:#fff; border:none; border-radius:4px; padding:3px 8px; font-size:10px; cursor:pointer;">+ Orçamento</button>
+      </div>
+
+      <div style="padding:10px 12px; background:#0f172a; color:#e2e8f0;">
+        <!-- Reservas section -->
+        <div style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;">Reservas recentes</div>
+        <div style="background:#1e293b; border-radius:6px; padding:8px 10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:11px; font-weight:600; color:#f1f5f9;">Descoberta Dupla</div>
+            <div style="font-size:10px; color:#94a3b8;">15/06 • 3 ADT + 1 INF</div>
+          </div>
+          <span style="color:#22c55e; font-size:10px; font-weight:600;">confirmada</span>
+        </div>
+
+        <!-- Orçamentos section -->
+        <div style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; margin-top:10px;">Orçamentos</div>
+        <div style="background:#1e293b; border-radius:6px; padding:8px 10px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:11px; font-weight:600; color:#f1f5f9;">ORC-2025-0042</div>
+            <div style="font-size:10px; color:#94a3b8;">3 passeios • R$ 1.440,00</div>
+          </div>
+          <span style="color:#f59e0b; font-size:10px; font-weight:600;">enviado</span>
+        </div>
+
+        <!-- Pagamentos section -->
+        <div style="font-size:10px; font-weight:700; color:#94a3b8; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; margin-top:10px;">Pagamentos</div>
+        <div style="background:#1e293b; border-radius:6px; padding:8px 10px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:11px; font-weight:600; color:#f1f5f9;">Sinal PIX</div>
+            <div style="font-size:10px; color:#94a3b8;">10/06/2025 • ORC-0042</div>
+          </div>
+          <span style="color:#22c55e; font-size:11px; font-weight:600;">R$ 504,00</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="options" style="margin-top: 20px;">
+  <div class="option" data-choice="tabs" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>Abas no topo</h3>
+      <p>Mais organizado quando há muito dado. Cada aba carrega sob demanda.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="sections" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Seções empilhadas</h3>
+      <p>Tudo visível de uma vez, sem clicar. Botão "+ Orçamento" sempre visível.</p>
+    </div>
+  </div>
+</div>
+</content>

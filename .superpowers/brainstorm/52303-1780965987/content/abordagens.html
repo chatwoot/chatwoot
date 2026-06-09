@@ -1,0 +1,91 @@
+<h2>Como integrar Viari ↔ Chatwoot?</h2>
+<p class="subtitle">3 abordagens arquiteturais — cada uma com trade-offs diferentes</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Plugin Nativo (recomendado)</h3>
+      <p>Segue o padrão da integração Shopify já existente no Chatwoot. Tudo dentro do Chatwoot: painel lateral com abas, modal de orçamento em Vue, Rails como proxy para a API do Viari.</p>
+      <br>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Prós</h4>
+          <ul>
+            <li>UX completamente integrada — sem sair do Chatwoot</li>
+            <li>Segue padrão já testado (Shopify/Linear)</li>
+            <li>API key armazenada de forma segura no Rails</li>
+            <li>Sem CORS — Rails proxia tudo</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Contras</h4>
+          <ul>
+            <li>Modal de orçamento completo é o maior esforço</li>
+            <li>Precisa de API REST no Viari (a ser criada)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Dashboard App (iFrame)</h3>
+      <p>Usa o recurso "Dashboard Apps" nativo do Chatwoot para embutir uma página do Viari num iframe dentro do Chatwoot. O Viari renderiza seu próprio formulário de orçamento.</p>
+      <br>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Prós</h4>
+          <ul>
+            <li>Reutiliza toda a UI do Viari</li>
+            <li>Menos código no Chatwoot</li>
+            <li>Formulário de orçamento já existe no Viari</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Contras</h4>
+          <ul>
+            <li>iFrame — visual genérico, sem integração com tema Chatwoot</li>
+            <li>Autenticação no iframe é mais complexa (token por conversa)</li>
+            <li>Não cola o texto automático na conversa facilmente</li>
+            <li>Painel lateral não tem abas nativas para dados do cliente</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Híbrido</h3>
+      <p>Painel lateral nativo (abas de reservas/orçamentos/pagamentos) + botão que abre o Viari em nova aba com o cliente já pré-selecionado para criar o orçamento lá.</p>
+      <br>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Prós</h4>
+          <ul>
+            <li>Mais simples de implementar</li>
+            <li>Modal de orçamento fica no Viari (já existe)</li>
+            <li>Sidebar nativo integra bem</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Contras</h4>
+          <ul>
+            <li>Troca de aba para criar orçamento — menos fluido</li>
+            <li>Texto do WhatsApp não cola automático no chat</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:24px; padding:16px; background: rgba(99,102,241,0.08); border-radius:8px; border-left: 3px solid #6366f1;">
+  <p class="label">Recomendação</p>
+  <p><strong>Opção A</strong> entrega a experiência completa que você descreveu: sync automático do cliente, painel com abas, modal completo e texto colado na conversa. É mais trabalho, mas é a abordagem certa para o fluxo que você quer.</p>
+</div>
+</content>

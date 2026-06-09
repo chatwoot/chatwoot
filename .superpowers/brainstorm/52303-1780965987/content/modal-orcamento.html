@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modal de Orçamento — Viari no Chatwoot</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Inter, system-ui, sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; }
+h1 { font-size: 18px; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
+.subtitle { font-size: 13px; color: #94a3b8; margin-bottom: 24px; }
+
+/* Modal wrapper */
+.modal-bg { background: rgba(0,0,0,0.6); border-radius: 12px; padding: 20px; display: flex; justify-content: center; }
+.modal { background: white; border-radius: 12px; width: 680px; overflow: hidden; color: #0D2B2A; box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+
+/* Modal header */
+.modal-header {
+  background: #0D2B2A;
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-header-left { display: flex; align-items: center; gap: 10px; }
+.modal-title { font-size: 15px; font-weight: 700; color: #5DCAA5; }
+.modal-client { font-size: 11px; color: #94a3b8; }
+.modal-close { color: #5DCAA5; font-size: 18px; cursor: pointer; background: none; border: none; }
+
+/* Steps nav */
+.steps-nav { background: #E1F5EE; padding: 10px 20px; display: flex; gap: 0; align-items: center; }
+.step-nav-item { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; color: #0F6E56; opacity: 0.4; }
+.step-nav-item.active { opacity: 1; color: #1D9E75; }
+.step-nav-item.done { opacity: 0.7; color: #0F6E56; }
+.step-num { width: 20px; height: 20px; border-radius: 50%; background: #5DCAA5; color: #0D2B2A; font-size: 10px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.step-nav-item.active .step-num { background: #1D9E75; color: white; }
+.step-nav-item.done .step-num { background: #0F6E56; color: white; }
+.step-sep { flex: 1; height: 1px; background: #5DCAA5; opacity: 0.4; margin: 0 8px; }
+
+/* Content area */
+.modal-body { padding: 18px 20px; max-height: 480px; overflow-y: auto; }
+
+/* Form rows */
+.form-row { display: flex; gap: 12px; margin-bottom: 14px; }
+.form-group { flex: 1; }
+.form-group.half { flex: 0 0 calc(50% - 6px); }
+.form-group.third { flex: 0 0 calc(33% - 8px); }
+label { font-size: 10px; font-weight: 700; color: #0F6E56; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 4px; }
+.form-control { width: 100%; padding: 7px 10px; border: 1px solid #b2dfd0; border-radius: 6px; font-size: 12px; color: #0D2B2A; background: #f8fffe; outline: none; }
+.form-control:focus { border-color: #1D9E75; }
+.form-control[readonly] { background: #E1F5EE; color: #0F6E56; font-weight: 600; }
+
+/* Section divider */
+.section-divider { font-size: 11px; font-weight: 700; color: #0F6E56; text-transform: uppercase; letter-spacing: 0.06em; padding: 8px 0 6px; border-bottom: 2px solid #E1F5EE; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+.add-item-btn { background: #1D9E75; color: white; border: none; border-radius: 5px; padding: 3px 10px; font-size: 10px; font-weight: 700; cursor: pointer; }
+
+/* Item card */
+.item-card { background: #f8fffe; border: 1px solid #b2dfd0; border-radius: 8px; padding: 12px; margin-bottom: 10px; position: relative; border-left: 3px solid #1D9E75; }
+.item-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.item-num { font-size: 10px; font-weight: 800; color: #1D9E75; }
+.remove-btn { background: #fee2e2; color: #ef4444; border: none; border-radius: 4px; padding: 2px 7px; font-size: 10px; cursor: pointer; }
+
+/* PAX grid */
+.pax-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 6px; }
+.pax-cell { text-align: center; }
+.pax-label { font-size: 9px; font-weight: 700; color: #0F6E56; display: block; margin-bottom: 3px; }
+.pax-input { width: 100%; padding: 5px 4px; border: 1px solid #b2dfd0; border-radius: 5px; font-size: 12px; text-align: center; color: #0D2B2A; background: white; }
+.pax-price { font-size: 9px; color: #94a3b8; text-align: center; margin-top: 2px; }
+
+/* Totals */
+.totals-box { background: #E1F5EE; border-radius: 8px; padding: 12px 14px; margin-top: 14px; }
+.total-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: #0F6E56; margin-bottom: 4px; }
+.total-row.main { font-size: 14px; font-weight: 800; color: #0D2B2A; border-top: 1px solid #b2dfd0; padding-top: 8px; margin-top: 4px; }
+.total-row.pix { color: #1D9E75; font-weight: 700; }
+.sinal-highlight { background: #EF9F27; color: #0D2B2A; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; }
+
+/* Footer */
+.modal-footer { padding: 12px 20px; background: #f8fffe; border-top: 1px solid #b2dfd0; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.btn { padding: 8px 18px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; cursor: pointer; }
+.btn-ghost { background: transparent; color: #0F6E56; border: 1px solid #b2dfd0; }
+.btn-primary { background: #1D9E75; color: white; }
+.btn-primary:hover { background: #0F6E56; }
+.footer-note { font-size: 10px; color: #94a3b8; }
+
+/* Whatsapp preview */
+.wa-preview { background: #0D2B2A; border-radius: 10px; padding: 14px; margin-top: 14px; }
+.wa-title { font-size: 10px; font-weight: 700; color: #5DCAA5; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.wa-text { font-size: 11px; color: #E1F5EE; line-height: 1.7; white-space: pre-wrap; font-family: monospace; }
+.wa-action { margin-top: 10px; display: flex; gap: 8px; }
+.wa-btn { padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 700; border: none; cursor: pointer; }
+.wa-btn-copy { background: #1D9E75; color: white; }
+.wa-btn-send { background: #25D366; color: white; }
+</style>
+</head>
+<body>
+
+<h1>Modal de criação de orçamento</h1>
+<p class="subtitle">Fluxo em 3 etapas dentro de um modal no Chatwoot — sem sair da conversa</p>
+
+<div style="margin-bottom: 20px; background: #1e293b; border-radius: 8px; padding: 12px 16px; font-size: 12px; color: #94a3b8; display: flex; gap: 20px; flex-wrap: wrap;">
+  <span>📋 <strong style="color:#f1f5f9">Etapa 1</strong> — Dados gerais (cliente, período, canal, validade)</span>
+  <span style="color:#475569">→</span>
+  <span>🛒 <strong style="color:#f1f5f9">Etapa 2</strong> — Itens do orçamento (produtos, datas, PAX, preços automáticos)</span>
+  <span style="color:#475569">→</span>
+  <span>✅ <strong style="color:#f1f5f9">Etapa 3</strong> — Revisão + texto WhatsApp gerado automaticamente</span>
+</div>
+
+<!-- ETAPA 2 mostrada pois é a mais complexa -->
+<div class="modal-bg">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="modal-header-left">
+        <span style="font-size:18px;">🏖️</span>
+        <div>
+          <div class="modal-title">Novo Orçamento</div>
+          <div class="modal-client">Emilce Ramirez · +55 21 99772-4635</div>
+        </div>
+      </div>
+      <button class="modal-close">✕</button>
+    </div>
+
+    <!-- Steps -->
+    <div class="steps-nav">
+      <div class="step-nav-item done">
+        <div class="step-num">✓</div>
+        Dados gerais
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-nav-item active">
+        <div class="step-num">2</div>
+        Produtos
+      </div>
+      <div class="step-sep"></div>
+      <div class="step-nav-item">
+        <div class="step-num">3</div>
+        Revisão
+      </div>
+    </div>
+
+    <!-- Body: Etapa 2 - Produtos -->
+    <div class="modal-body">
+
+      <!-- Info do período (vindo da etapa 1) -->
+      <div style="background:#E1F5EE; border-radius:6px; padding:8px 12px; margin-bottom:14px; font-size:11px; color:#0F6E56; display:flex; gap:16px;">
+        <span>📅 <strong>Período:</strong> 15/06 – 17/06/2025</span>
+        <span>🏪 <strong>Canal:</strong> WhatsApp</span>
+        <span>⏳ <strong>Validade:</strong> 12/06/2025</span>
+      </div>
+
+      <div class="section-divider">
+        Itens do orçamento
+        <button class="add-item-btn">＋ Adicionar produto</button>
+      </div>
+
+      <!-- Item 1 -->
+      <div class="item-card">
+        <div class="item-card-header">
+          <span class="item-num">ITEM 1</span>
+          <button class="remove-btn">✕ remover</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Produto</label>
+            <select class="form-control">
+              <option selected>Descoberta Dupla</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label>Data / Agenda</label>
+            <select class="form-control">
+              <option selected>15/06/2025 · 09h · 12 vagas</option>
+            </select>
+          </div>
+        </div>
+        <label>Passageiros por faixa etária</label>
+        <div class="pax-grid">
+          <div class="pax-cell">
+            <span class="pax-label">ADT</span>
+            <input type="number" value="3" class="pax-input">
+            <div class="pax-price">R$ 135</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">CHD</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">R$ 100</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">INF</span>
+            <input type="number" value="1" class="pax-input">
+            <div class="pax-price">R$ 100</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">SEN</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">R$ 115</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">FREE</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">—</div>
+          </div>
+        </div>
+        <div style="text-align:right; margin-top:8px; font-size:12px; font-weight:700; color:#1D9E75;">Subtotal: R$ 505,00</div>
+      </div>
+
+      <!-- Item 2 -->
+      <div class="item-card">
+        <div class="item-card-header">
+          <span class="item-num">ITEM 2</span>
+          <button class="remove-btn">✕ remover</button>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Produto</label>
+            <select class="form-control">
+              <option selected>Rota Pitinga</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label>Data / Agenda</label>
+            <select class="form-control">
+              <option selected>16/06/2025 · 08h · 8 vagas</option>
+            </select>
+          </div>
+        </div>
+        <label>Passageiros por faixa etária</label>
+        <div class="pax-grid">
+          <div class="pax-cell">
+            <span class="pax-label">ADT</span>
+            <input type="number" value="3" class="pax-input">
+            <div class="pax-price">R$ 85</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">CHD</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">R$ 70</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">INF</span>
+            <input type="number" value="1" class="pax-input">
+            <div class="pax-price">R$ 70</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">SEN</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">R$ 75</div>
+          </div>
+          <div class="pax-cell">
+            <span class="pax-label">FREE</span>
+            <input type="number" value="0" class="pax-input">
+            <div class="pax-price">—</div>
+          </div>
+        </div>
+        <div style="text-align:right; margin-top:8px; font-size:12px; font-weight:700; color:#1D9E75;">Subtotal: R$ 325,00</div>
+      </div>
+
+      <!-- Totals -->
+      <div class="totals-box">
+        <div class="total-row"><span>Subtotal bruto</span><span>R$ 1.440,00</span></div>
+        <div class="total-row"><span>Desconto PIX (30%)</span><span style="color:#1D9E75">− R$ 60,00</span></div>
+        <div class="total-row main"><span>Total cartão</span><span>R$ 1.440,00</span></div>
+        <div class="total-row pix"><span>Total PIX</span><span>R$ 1.380,00</span></div>
+        <div style="margin-top:10px; display:flex; gap:8px; font-size:11px;">
+          <span class="sinal-highlight">Sinal (35%): R$ 504,00</span>
+          <span style="color:#0F6E56; align-self:center;">→ Acerto no 1° passeio: R$ 936,00</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="btn btn-ghost">← Voltar</button>
+      <span class="footer-note">Preços carregados automaticamente das tarifas vigentes no Viari</span>
+      <button class="btn btn-primary">Revisar →</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Etapa 3 preview -->
+<div style="margin-top: 24px;">
+  <div style="font-size: 13px; font-weight: 700; color: #5DCAA5; margin-bottom: 12px;">Etapa 3 — Revisão e texto gerado para WhatsApp</div>
+  <div class="modal-bg" style="padding: 0; background: transparent;">
+    <div class="modal" style="width:680px;">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <span style="font-size:18px;">🏖️</span>
+          <div>
+            <div class="modal-title">Revisão do Orçamento</div>
+            <div class="modal-client">ORC-2025-0043 · Emilce Ramirez</div>
+          </div>
+        </div>
+      </div>
+      <div class="steps-nav">
+        <div class="step-nav-item done"><div class="step-num">✓</div>Dados gerais</div>
+        <div class="step-sep"></div>
+        <div class="step-nav-item done"><div class="step-num">✓</div>Produtos</div>
+        <div class="step-sep"></div>
+        <div class="step-nav-item active"><div class="step-num">3</div>Revisão</div>
+      </div>
+      <div class="modal-body">
+        <div class="wa-preview">
+          <div class="wa-title">📱 Texto gerado — será colado na conversa automaticamente</div>
+          <div class="wa-text">🏠 Orçamento dos passeios:
+Nome: Emilce
+📞 Telefone: +55 21 99772-4635
+
+1° - Descoberta Dupla ADT | R$ 135 | Pax: 3
+2° - Descoberta Dupla INF | R$ 100 | Pax: 1
+3° - Rota Pitinga ADT | R$ 85 | Pax: 3
+4° - Rota Pitinga INF | R$ 70 | Pax: 1
+
+💳 Cartão em até 6x s/ juros
+Preço Total no Cartão: R$ 1.440,00
+Sinal para reserva de vagas (PIX): R$ 504,00
+Valor a acertar no dia do 1° passeio: R$ 936,00
+
+✅ PIX
+Preço Total no Pix: R$ 1.380,00
+Sinal para reserva de vagas (PIX): R$ 504,00
+Valor a acertar no dia do 1° passeio: R$ 876,00</div>
+          <div class="wa-action">
+            <button class="wa-btn wa-btn-send">✉️ Criar e colar na conversa</button>
+            <button class="wa-btn wa-btn-copy" style="background:#1e293b; color:#5DCAA5;">📋 Só copiar texto</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-ghost">← Editar produtos</button>
+        <button class="btn btn-primary" style="background:#25D366;">✓ Confirmar e enviar para conversa</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
