@@ -95,12 +95,17 @@ export default {
     },
   },
   watch: {
-    currentAccount: {
-      immediate: true,
-      handler() {
+    'currentAccount.id'(id) {
+      if (id) {
         this.initializeAccount();
-      },
+      }
     },
+  },
+  mounted() {
+    // Account already in the store (navigated in): seed immediately.
+    if (this.currentAccount.id) {
+      this.initializeAccount();
+    }
   },
   methods: {
     async initializeAccount() {
