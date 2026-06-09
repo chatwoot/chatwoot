@@ -94,8 +94,13 @@ export default {
       return this.getAccount(this.accountId) || {};
     },
   },
-  mounted() {
-    this.initializeAccount();
+  watch: {
+    currentAccount: {
+      immediate: true,
+      handler() {
+        this.initializeAccount();
+      },
+    },
   },
   methods: {
     async initializeAccount() {
