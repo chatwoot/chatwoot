@@ -64,9 +64,11 @@ module Synapseos
         # Negócios ganhos = leads na coluna "ganho" da pipeline (stage_type
         # 'won', ex: 'venda'). Fonte de verdade do consultor, não os alertas.
         deals_won: won_stage_leads_count,
-        # Negócios perdidos = leads que bloquearam contato (recusa explícita).
-        # n8n handler cria event lead_blocked quando audi_block_lead dispara.
-        deals_lost: events_of('lead_blocked').distinct.count('conversation_id'),
+        # Negócios perdidos = leads na coluna "perdido" da pipeline (stage_type
+        # 'lost', ex: 'encerrado'). Simétrico com deals_won e MESMA fonte que a
+        # pipeline mostra — antes contava events lead_blocked (histórico) e
+        # divergia da coluna Perdidos.
+        deals_lost: lost_stage_leads_count,
         # Receita potencial = somatório de preco_brl_a_partir armazenado no
         # metadata do sales_alert_dispatched. n8n handler busca preço via
         # audi_knowledge_query e grava no event metadata.
@@ -178,6 +180,15 @@ module Synapseos
       return 0 if won_ids.empty?
 
       ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: won_ids).count
+    end
+
+    # Negócios perdidos = leads na coluna "perdido" da pipeline (stage_type
+    # 'lost'). Mesma fonte que a coluna Perdidos do board — simétrico ao won.
+    def lost_stage_leads_count
+      lost_ids = ::Synapseos::PipelineStage.where(account_id: @account.id, stage_type: 'lost').pluck(:id)
+      return 0 if lost_ids.empty?
+
+      ::Synapseos::Lead.where(account_id: @account.id, pipeline_stage_id: lost_ids).count
     end
 
     # Agendamentos = leads atualmente na coluna "Aguardando visita".

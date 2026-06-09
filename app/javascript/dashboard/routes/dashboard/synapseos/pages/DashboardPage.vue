@@ -113,7 +113,7 @@ const primaryKpis = computed(() => {
 
 // Operacionais (dash executivo — 3 cards):
 // - ELISA → ATENDIMENTO HUMANO: qtd de alertas enviados ao time.
-// - NEGÓCIOS PERDIDOS: clientes que recusaram contato (lead_blocked).
+// - NEGÓCIOS PERDIDOS: leads na coluna "perdido" da pipeline (stage_type lost).
 // - AGENDAMENTOS: visitas confirmadas.
 // Removidos do dash executivo (não são métricas de negócio): Leads,
 // Mensagens recebidas/enviadas, Respostas da IA.
