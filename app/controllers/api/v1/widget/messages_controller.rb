@@ -43,10 +43,11 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
+    last = conversations.last
     @conversation = if @web_widget.inbox.lock_to_single_conversation? || @contact.blocked?
-                      conversations.last
+                      last
                     else
-                      conversations.where.not(status: :resolved).last
+                      last unless last&.resolved?
                     end
     return if @conversation.present?
 
