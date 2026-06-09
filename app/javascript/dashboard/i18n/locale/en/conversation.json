@@ -429,6 +429,9 @@
       "NOT_LINKED": "Customer not found in Viari",
       "LINKED": "Linked",
       "NEW_QUOTE": "New quote",
+      "NEW_QUOTE_BTN": "+ New quote",
+      "BRAND_NAME": "Viari",
+      "ICON": "🏖️",
       "OPEN_IN_VIARI": "Open in Viari",
       "TABS": {
         "RESERVAS": "Reservations",
@@ -446,6 +449,9 @@
         "SINAL": "Deposit",
         "RESERVA": "Reservation",
         "EMBARQUE": "Departure"
+      },
+      "JOURNEY_BAR": {
+        "TITLE": "Customer journey"
       },
       "MODAL": {
         "TITLE": "New Quote",
