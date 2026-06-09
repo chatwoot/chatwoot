@@ -22,6 +22,7 @@ import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import ViariPanel from 'dashboard/components/widgets/conversation/viari/ViariPanel.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 
@@ -53,6 +54,15 @@ const shopifyIntegration = useFunctionGetter(
 
 const isShopifyFeatureEnabled = computed(
   () => shopifyIntegration.value.enabled
+);
+
+const viariIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'viari'
+);
+
+const isViariEnabled = computed(() =>
+  Boolean(viariIntegration.value?.hooks?.length)
 );
 
 const { isCloudFeatureEnabled } = useAccount();
@@ -128,6 +138,7 @@ onMounted(() => {
   store.dispatch('attributes/get', 0);
   // Load integrations to ensure linear integration state is available
   store.dispatch('integrations/get', 'linear');
+  store.dispatch('integrations/get', 'viari');
 });
 </script>
 
@@ -284,6 +295,21 @@ onMounted(() => {
               "
             >
               <ShopifyOrdersList :contact-id="contactId" />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'viari_panel' && isViariEnabled">
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.VIARI_PANEL')"
+              :is-open="isContactSidebarItemOpen('is_viari_panel_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_viari_panel_open', value)
+              "
+            >
+              <ViariPanel
+                :contact-id="contact.id"
+                :conversation-id="conversationId"
+              />
             </AccordionItem>
           </div>
           <div v-else-if="element.name === 'contact_notes'">
