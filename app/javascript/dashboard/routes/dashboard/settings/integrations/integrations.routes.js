@@ -9,6 +9,7 @@ import Slack from './Slack.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import Viari from './Viari.vue';
 
 export default {
   routes: [
@@ -87,6 +88,14 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ error: route.query.error }),
+        },
+        {
+          path: 'viari',
+          name: 'settings_integrations_viari',
+          component: Viari,
+          meta: {
+            permissions: ['administrator'],
+          },
         },
         {
           path: ':integration_id',
