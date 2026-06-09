@@ -433,6 +433,10 @@
       "BRAND_NAME": "Viari",
       "ICON": "🏖️",
       "OPEN_IN_VIARI": "Open in Viari",
+      "OPEN_LINK_ICON": "↗",
+      "SEPARATOR": " · ",
+      "PIX_LABEL": "PIX",
+      "PRODUCTS_SUFFIX": "product(s)",
       "TABS": {
         "RESERVAS": "Reservations",
         "ORCAMENTOS": "Quotes",
