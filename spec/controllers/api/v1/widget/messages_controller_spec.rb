@@ -178,10 +178,12 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         conversation.mute!
 
         message_params = { content: 'hello world', timestamp: Time.current }
-        post api_v1_widget_messages_url,
-             params: { website_token: web_widget.website_token, message: message_params },
-             headers: { 'X-Auth-Token' => token },
-             as: :json
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(contact.conversations, :count)
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to be(true)
