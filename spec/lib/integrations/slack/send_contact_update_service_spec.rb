@@ -69,6 +69,17 @@ describe Integrations::Slack::SendContactUpdateService do
     end
   end
 
+  context 'when a conversation identifier is not a Slack thread timestamp' do
+    let(:changed_attributes) { { 'email' => [nil, 'new@example.com'] } }
+
+    it 'skips conversations whose identifier comes from another channel (e.g. a Twilio call SID)' do
+      slack_conversation.update!(identifier: 'CA9f2cb8d9876f1a23b45c6789d0ef1234')
+
+      expect(slack_client).not_to receive(:chat_postMessage)
+      service.perform
+    end
+  end
+
   context 'when the conversation is resolved' do
     let(:changed_attributes) { { 'email' => [nil, 'new@example.com'] } }
 

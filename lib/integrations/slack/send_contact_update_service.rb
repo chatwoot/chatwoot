@@ -1,4 +1,9 @@
 class Integrations::Slack::SendContactUpdateService
+  # Conversations linked to a Slack thread store the Slack message `ts`
+  # (e.g. "1693292344.123456") in `identifier`; other channels reuse the same
+  # column for non-Slack values such as Twilio call SIDs.
+  SLACK_THREAD_TS_FORMAT = '^\d+\.\d+$'.freeze
+
   pattr_initialize [:contact!, :hook!, :changed_attributes!]
 
   def perform
@@ -15,12 +20,10 @@ class Integrations::Slack::SendContactUpdateService
   def active_conversations_with_slack_integration
     @active_conversations_with_slack_integration ||= contact.conversations
                                                             .where(status: %w[open pending])
-                                                            .where.not(identifier: [nil, ''])
+                                                            .where('conversations.identifier ~ ?', SLACK_THREAD_TS_FORMAT)
   end
 
   def send_contact_update_to_slack(conversation)
-    return if conversation.identifier.blank?
-
     slack_client.chat_postMessage(
       channel: hook.reference_id,
       text: contact_update_message,
