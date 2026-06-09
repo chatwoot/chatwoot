@@ -4,15 +4,29 @@ class Integrations::Slack::SendContactUpdateService
   # column for non-Slack values such as Twilio call SIDs.
   SLACK_THREAD_TS_FORMAT = '^\d+\.\d+$'.freeze
 
+  # Errors that mean every subsequent post would fail the same way, so the
+  # hook is disabled and the conversation loop aborted.
+  FATAL_SLACK_ERRORS = [
+    Slack::Web::Api::Errors::IsArchived,
+    Slack::Web::Api::Errors::AccountInactive,
+    Slack::Web::Api::Errors::MissingScope,
+    Slack::Web::Api::Errors::InvalidAuth,
+    Slack::Web::Api::Errors::ChannelNotFound,
+    Slack::Web::Api::Errors::NotInChannel
+  ].freeze
+
   pattr_initialize [:contact!, :hook!, :changed_attributes!]
 
   def perform
     return if contact.email.blank?
-    return unless active_conversations_with_slack_integration.any?
 
     active_conversations_with_slack_integration.each do |conversation|
       send_contact_update_to_slack(conversation)
     end
+  rescue *FATAL_SLACK_ERRORS => e
+    Rails.logger.error e
+    hook.prompt_reauthorization!
+    hook.disable
   end
 
   private
@@ -30,24 +44,21 @@ class Integrations::Slack::SendContactUpdateService
       thread_ts: conversation.identifier,
       unfurl_links: false
     )
-  rescue Slack::Web::Api::Errors::IsArchived, Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope,
-         Slack::Web::Api::Errors::InvalidAuth,
-         Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
-    Rails.logger.error e
-    hook.prompt_reauthorization!
-    hook.disable
+  rescue *FATAL_SLACK_ERRORS
+    raise
   rescue Slack::Web::Api::Errors::SlackError => e
     Rails.logger.error "Failed to send contact update to Slack: #{e.message}"
   end
 
   def contact_update_message
-    old_email = changed_attributes['email'][0]
-    new_email = changed_attributes['email'][1]
+    @contact_update_message ||= begin
+      old_email, new_email = changed_attributes['email']
 
-    if old_email.present?
-      "📧 Contact email updated: #{old_email} → #{new_email}"
-    else
-      "📧 Contact email added: #{new_email}"
+      if old_email.present?
+        "📧 Contact email updated: #{old_email} → #{new_email}"
+      else
+        "📧 Contact email added: #{new_email}"
+      end
     end
   end
 

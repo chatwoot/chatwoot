@@ -29,8 +29,16 @@ class HookJob < MutexApplicationJob
     when 'message.updated'
       send_slack_message_updated(hook, event_data[:message], event_data[:previous_changes])
     when 'contact.updated'
-      ::SendContactUpdateOnSlackJob.perform_later(event_data[:contact], hook, event_data[:changed_attributes] || {})
+      send_slack_contact_updated(hook, event_data[:contact], event_data[:changed_attributes])
     end
+  end
+
+  def send_slack_contact_updated(hook, contact, changed_attributes)
+    # contact.updated fires on every contact touch (e.g. last_activity_at on each
+    # message), so gate on an email change before enqueuing.
+    return unless changed_attributes&.key?('email')
+
+    ::SendContactUpdateOnSlackJob.perform_later(contact, hook, changed_attributes)
   end
 
   def send_slack_message_created(hook, message)

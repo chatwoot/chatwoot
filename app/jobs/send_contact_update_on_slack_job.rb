@@ -1,9 +1,7 @@
 class SendContactUpdateOnSlackJob < ApplicationJob
   queue_as :low
 
-  def perform(contact, hook, changed_attributes = {})
-    return unless changed_attributes.key?('email')
-
+  def perform(contact, hook, changed_attributes)
     Integrations::Slack::SendContactUpdateService.new(
       contact: contact,
       hook: hook,

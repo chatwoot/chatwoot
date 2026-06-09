@@ -116,9 +116,15 @@ RSpec.describe HookJob do
       described_class.perform_now(slack_hook, 'contact.updated', contact_event_data)
     end
 
-    it 'forwards an empty hash when changed_attributes is missing from the payload' do
-      expect(SendContactUpdateOnSlackJob).to receive(:perform_later).with(contact, slack_hook, {})
+    it 'does not enqueue when changed_attributes is missing from the payload' do
+      expect(SendContactUpdateOnSlackJob).not_to receive(:perform_later)
       described_class.perform_now(slack_hook, 'contact.updated', { contact: contact })
+    end
+
+    it 'does not enqueue when the update did not touch the email' do
+      expect(SendContactUpdateOnSlackJob).not_to receive(:perform_later)
+      described_class.perform_now(slack_hook, 'contact.updated',
+                                  { contact: contact, changed_attributes: { 'last_activity_at' => [nil, Time.zone.now] } })
     end
 
     it 'does nothing when the hook is disabled' do

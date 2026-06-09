@@ -111,12 +111,40 @@ describe Integrations::Slack::SendContactUpdateService do
   context 'when Slack returns an auth error' do
     let(:changed_attributes) { { 'email' => [nil, 'new@example.com'] } }
 
-    it 'disables the hook and prompts reauthorization' do
+    before do
+      create(:conversation, account: account, inbox: inbox, contact: contact, identifier: '99999.1111', status: :pending)
       allow(slack_client).to receive(:chat_postMessage).and_raise(Slack::Web::Api::Errors::InvalidAuth.new('invalid_auth'))
       allow(hook).to receive(:prompt_reauthorization!)
+    end
 
+    it 'disables the hook and prompts reauthorization' do
       expect { service.perform }.to change { hook.reload.disabled? }.from(false).to(true)
       expect(hook).to have_received(:prompt_reauthorization!)
+    end
+
+    it 'aborts after the first failure instead of repeating it for every conversation' do
+      service.perform
+
+      expect(slack_client).to have_received(:chat_postMessage).once
+      expect(hook).to have_received(:prompt_reauthorization!).once
+    end
+  end
+
+  context 'when Slack returns a transient error' do
+    let(:changed_attributes) { { 'email' => [nil, 'new@example.com'] } }
+
+    it 'continues posting to the remaining conversations' do
+      create(:conversation, account: account, inbox: inbox, contact: contact, identifier: '99999.1111', status: :pending)
+      call_count = 0
+      allow(slack_client).to receive(:chat_postMessage) do
+        call_count += 1
+        raise Slack::Web::Api::Errors::SlackError, 'rate_limited' if call_count == 1
+      end
+
+      service.perform
+
+      expect(slack_client).to have_received(:chat_postMessage).twice
+      expect(hook.reload.disabled?).to be(false)
     end
   end
 end
