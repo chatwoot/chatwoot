@@ -8,9 +8,7 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
 
     viari_cliente_id = contact.additional_attributes&.dig('viari_cliente_id')
 
-    if viari_cliente_id
-      return render json: { encontrado: true, clienteId: viari_cliente_id }
-    end
+    return render json: { encontrado: true, clienteId: viari_cliente_id } if viari_cliente_id
 
     query = {}
     query[:telefone] = contact.phone_number if contact.phone_number.present?
@@ -127,7 +125,10 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
   def viari_get(path, query = {})
     uri = URI("#{api_url}#{path}")
     uri.query = URI.encode_www_form(query.reject { |_, v| v.nil? }) if query.any?
-    response = Net::HTTP.get_response(uri, viari_headers)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = uri.scheme == 'https'
+    request = Net::HTTP::Get.new(uri.request_uri, viari_headers)
+    response = http.request(request)
     JSON.parse(response.body, symbolize_names: true)
   rescue StandardError => e
     raise "Viari API error: #{e.message}"
