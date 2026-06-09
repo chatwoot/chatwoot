@@ -138,11 +138,6 @@ export default {
       this.handleClose();
     },
     openDeleteModal() {
-      if (!this.canDeleteOnChannel) {
-        useAlert(this.$t('CONVERSATION.DELETE_NOT_SUPPORTED'));
-        this.handleClose();
-        return;
-      }
       this.handleClose();
       this.showDeleteModal = true;
     },
@@ -252,9 +247,9 @@ export default {
           variant="icon"
           @click.stop="showCannedResponseModal"
         />
-        <hr v-if="enabledOptions['delete']" />
+        <hr v-if="enabledOptions['delete'] && canDeleteOnChannel" />
         <MenuItem
-          v-if="enabledOptions['delete']"
+          v-if="enabledOptions['delete'] && canDeleteOnChannel"
           :option="{
             icon: 'delete',
             label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
