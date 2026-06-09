@@ -16,8 +16,11 @@ const fmt = new Intl.NumberFormat('pt-BR', {
 
 const produtos = ref([]);
 
+let itemIdCounter = 0;
 function newItem() {
+  itemIdCounter += 1;
   return {
+    _id: itemIdCounter,
     produtoId: '',
     agendaId: '',
     agendas: [],
@@ -168,7 +171,7 @@ onMounted(async () => {
       <!-- Each item -->
       <div
         v-for="(item, idx) in itens"
-        :key="idx"
+        :key="item._id"
         class="rounded-lg border border-[#b2dfd0] bg-[#f8fffe] p-3 flex flex-col gap-3"
       >
         <!-- Item header -->
