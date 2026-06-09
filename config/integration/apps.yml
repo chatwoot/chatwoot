@@ -317,3 +317,21 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+
+viari:
+  id: viari
+  logo: viari.png
+  i18n_key: viari
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'api_url': { 'type': 'string' },
+          'api_key': { 'type': 'string' },
+        },
+      'required': ['api_url', 'api_key'],
+      'additionalProperties': false,
+    }

@@ -390,6 +390,7 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
+      "VIARI_PANEL": "Viari",
       "SHARED_FILES": "Attachments"
     },
     "SHARED_FILES": {
@@ -420,6 +421,62 @@
         "FULFILLED": "Fulfilled",
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
         "UNFULFILLED": "Unfulfilled"
+      }
+    },
+    "VIARI": {
+      "LOADING": "Loading Viari data...",
+      "ERROR": "Error loading Viari data",
+      "NOT_LINKED": "Customer not found in Viari",
+      "LINKED": "Linked",
+      "NEW_QUOTE": "New quote",
+      "OPEN_IN_VIARI": "Open in Viari",
+      "TABS": {
+        "RESERVAS": "Reservations",
+        "ORCAMENTOS": "Quotes",
+        "PAGAMENTOS": "Payments"
+      },
+      "EMPTY": {
+        "RESERVAS": "No reservations found",
+        "ORCAMENTOS": "No quotes found",
+        "PAGAMENTOS": "No payments found"
+      },
+      "JOURNEY": {
+        "CONTATO": "Contact",
+        "ORCAMENTO": "Quote",
+        "SINAL": "Deposit",
+        "RESERVA": "Reservation",
+        "EMBARQUE": "Departure"
+      },
+      "MODAL": {
+        "TITLE": "New Quote",
+        "STEP1_TITLE": "General data",
+        "STEP2_TITLE": "Products",
+        "STEP3_TITLE": "Review",
+        "CLIENT_LABEL": "Client",
+        "PERIOD_LABEL": "Period",
+        "CANAL_LABEL": "Sales channel",
+        "VALIDITY_LABEL": "Validity",
+        "SINAL_LABEL": "Deposit %",
+        "DISCOUNT_LABEL": "Discount (R$)",
+        "OBS_LABEL": "Internal notes",
+        "MSG_LABEL": "Message for client",
+        "ADD_ITEM": "Add product",
+        "PRODUCT_LABEL": "Product",
+        "AGENDA_LABEL": "Date / Schedule",
+        "PAX_LABEL": "Passengers by age group",
+        "SUBTOTAL": "Subtotal",
+        "TOTAL_CARTAO": "Total card",
+        "TOTAL_PIX": "Total PIX",
+        "SINAL_VALUE": "Deposit",
+        "ACERTO": "Balance on 1st tour",
+        "WHATSAPP_PREVIEW": "Generated text — will be pasted into conversation",
+        "CONFIRM": "Confirm and paste into conversation",
+        "COPY_TEXT": "Just copy text",
+        "BACK": "Back",
+        "NEXT": "Next",
+        "CREATING": "Creating quote...",
+        "SUCCESS": "Quote created! Text pasted into conversation.",
+        "ERROR": "Error creating quote."
       }
     }
   },
