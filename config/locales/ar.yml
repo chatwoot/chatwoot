@@ -241,6 +241,7 @@ ar:
       whatsapp:
         list_button_label: 'اختر عنصر'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,6 +413,17 @@ ar:
       empty_placeholder: لم يتم العثور على النتائج.
       loading_placeholder: جاري البحث...
       results_title: نتائج البحث
+      results: نتائج البحث
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        zero: 'Found %{count} results'
+        one: Found 1 result
+        two: 'Found %{count} results'
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: بحث
     toc_header: 'في هذه الصفحة'
     sidebar:
       help_center: مركز المساعدة
@@ -443,6 +455,8 @@ ar:
       others: الآخرين
       by: بواسطة
       no_articles: لا توجد مقالات
+      previous: السابق
+      next: التالي
     article_actions:
       label: فتح في
       view_markdown: عرض كـ Markdown
@@ -455,6 +469,7 @@ ar:
       go_to_homepage: الموقع الإلكتروني
       visit_website: Visit website
       appearance:
+        title: المظهر
         system: النظام
         light: فاتح
         dark: مظلم

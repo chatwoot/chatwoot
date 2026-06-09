@@ -63,4 +63,8 @@ class Captain::CsatUtilityAnalysisService < Captain::BaseTaskService
   def event_name
     'csat_utility_analysis'
   end
+
+  def use_account_openai_hook?
+    true
+  end
 end

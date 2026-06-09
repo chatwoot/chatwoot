@@ -45,11 +45,11 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   end
 
   def original_sender_email
-    @processed_mail.original_sender&.downcase
+    sanitize_mailbox_value(@processed_mail.original_sender)&.downcase
   end
 
   def identify_contact_name
-    @processed_mail.sender_name || @processed_mail.from.first.split('@').first
+    sanitize_mailbox_value(@processed_mail.sender_name || @processed_mail.from.first.split('@').first)
   end
 
   def build_conversation
@@ -63,7 +63,7 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
         in_reply_to: in_reply_to,
         source: 'email',
         auto_reply: @processed_mail.auto_reply?,
-        mail_subject: @processed_mail.subject,
+        mail_subject: sanitize_mailbox_value(@processed_mail.subject),
         initiated_at: {
           timestamp: Time.now.utc
         }
@@ -72,7 +72,7 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   end
 
   def in_reply_to
-    mail['In-Reply-To'].try(:value)
+    sanitize_mailbox_value(mail['In-Reply-To'].try(:value))
   end
 
   def find_conversation_by_in_reply_to

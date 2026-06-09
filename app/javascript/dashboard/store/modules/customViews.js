@@ -15,6 +15,12 @@ const FILTER_KEYS = {
   [VIEW_TYPES.CONTACT]: VIEW_TYPES.CONTACT,
 };
 
+// a folder's contact_id filter stores only the id, extract it so the
+// contact can be fetched and its name shown in the edit folder modal
+const getFolderContactId = folder =>
+  folder?.query?.payload?.find(filter => filter.attribute_key === 'contact_id')
+    ?.values?.[0];
+
 export const state = {
   [VIEW_TYPES.CONVERSATION]: {
     records: [],
@@ -46,6 +52,9 @@ export const getters = {
   },
   getActiveConversationFolder(_state) {
     return _state.activeConversationFolder;
+  },
+  getActiveFolderContactId(_state) {
+    return getFolderContactId(_state.activeConversationFolder);
   },
 };
 
@@ -104,8 +113,11 @@ export const actions = {
       commit(types.SET_CUSTOM_VIEW_UI_FLAG, { isDeleting: false });
     }
   },
-  setActiveConversationFolder({ commit }, data) {
+  setActiveConversationFolder({ commit, dispatch }, data) {
     commit(types.SET_ACTIVE_CONVERSATION_FOLDER, data);
+    // prefetch the contact of a contact filter so the UI can show its name
+    const contactId = getFolderContactId(data);
+    if (contactId) dispatch('contacts/show', { id: contactId }, { root: true });
   },
 };
 
