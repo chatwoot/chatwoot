@@ -67,6 +67,40 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'when new conversation email contains null bytes' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:null_byte_mail) { create_inbound_email_from_mail(from: 'sender@example.com', to: email_channel.email, subject: 'Hello') }
+      let(:mail_with_null_bytes) do
+        Mail.new.tap do |mail|
+          mail.from = 'sender@example.com'
+          mail.to = email_channel.email
+          mail.subject = "Hello\u0000"
+          mail.message_id = "message\u0000@example.com"
+          mail['In-Reply-To'] = "source\u0000@example.com"
+          mail.references = ["reference\u0000@example.com"]
+          mail.content_type = 'text/plain'
+          mail.body = "Body\u0000 text"
+        end
+      end
+
+      before do
+        allow(null_byte_mail).to receive(:mail).and_return(mail_with_null_bytes)
+      end
+
+      it 'creates sanitized conversation and message records' do
+        expect { described_class.receive null_byte_mail }.to change(Conversation, :count).by(1)
+
+        conversation = Conversation.last
+        message = conversation.messages.last
+
+        expect(conversation.additional_attributes['in_reply_to']).to eq('source@example.com')
+        expect(conversation.additional_attributes['mail_subject']).to eq('Hello')
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
+
     context 'with inline attachments' do
       let(:mail_with_inline_images) { create_inbound_email_from_fixture('mail_with_inline_images.eml') }
       let(:described_subject) { described_class.receive mail_with_inline_images }
