@@ -2,9 +2,7 @@ version: '3'
 
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    image: ghcr.io/xaandmenezes/chatwoot-roteiros:latest
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
