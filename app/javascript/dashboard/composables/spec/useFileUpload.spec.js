@@ -12,7 +12,11 @@ vi.mock('dashboard/composables', () => ({
 }));
 vi.mock('vue-i18n');
 vi.mock('activestorage');
-vi.mock('shared/helpers/FileHelper');
+vi.mock('shared/helpers/FileHelper', () => ({
+  checkFileSizeLimit: vi.fn(),
+  resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
+  DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
+}));
 vi.mock('@chatwoot/utils');
 
 describe('useFileUpload', () => {
@@ -36,7 +40,9 @@ describe('useFileUpload', () => {
         getCurrentAccountId: { value: '123' },
         getCurrentUser: { value: { access_token: 'test-token' } },
         getSelectedChat: { value: { id: '456' } },
-        'globalConfig/get': { value: { directUploadsEnabled: true } },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: true, maximumFileUploadSize: 40 },
+        },
       };
       return getterMap[getter];
     });
@@ -86,7 +92,9 @@ describe('useFileUpload', () => {
         getCurrentAccountId: { value: '123' },
         getCurrentUser: { value: { access_token: 'test-token' } },
         getSelectedChat: { value: { id: '456' } },
-        'globalConfig/get': { value: { directUploadsEnabled: false } },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: false, maximumFileUploadSize: 40 },
+        },
       };
       return getterMap[getter];
     });

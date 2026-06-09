@@ -62,7 +62,7 @@ const confirmDeletion = () => {
 
 <template>
   <div
-    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow gap-6"
+    class="flex flex-col items-start justify-between lg:flex-row lg:items-center p-6 outline outline-n-container outline-1 bg-n-card rounded-xl gap-6"
   >
     <div
       class="flex items-start lg:items-center justify-start flex-1 m-0 gap-6 flex-col lg:flex-row"
@@ -78,10 +78,10 @@ const confirmDeletion = () => {
         />
       </div>
       <div>
-        <h3 class="mb-1 text-xl font-medium text-n-slate-12">
+        <h3 class="mb-1 text-heading-1 text-n-slate-12">
           {{ integrationName }}
         </h3>
-        <p class="text-n-slate-11 text-sm leading-6">
+        <p class="text-n-slate-11 text-body-main">
           {{ replaceInstallationName(integrationDescription) }}
         </p>
       </div>

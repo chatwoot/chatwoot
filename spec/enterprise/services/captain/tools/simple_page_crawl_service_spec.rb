@@ -36,6 +36,31 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
   end
 
+  describe '#success?' do
+    context 'when the fetch succeeds' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(status: 200, body: '<html><head><title>Example Page</title></head></html>')
+      end
+
+      it 'returns true' do
+        expect(service.success?).to be(true)
+        expect(service.status_code).to eq(200)
+      end
+    end
+
+    context 'when the fetch returns a non-success response' do
+      before do
+        stub_request(:get, base_url).to_return(status: 404, body: 'Not found')
+      end
+
+      it 'returns false and exposes the status code' do
+        expect(service.success?).to be(false)
+        expect(service.status_code).to eq(404)
+      end
+    end
+  end
+
   describe '#page_links' do
     context 'with HTML page' do
       let(:html_content) do
@@ -95,7 +120,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
   end
 
-  describe '#body_text_content' do
+  describe '#body_markdown' do
     let(:html_content) do
       <<~HTML
         <html>
@@ -117,12 +142,71 @@ RSpec.describe Captain::Tools::SimplePageCrawlService do
     end
 
     it 'converts body content to markdown' do
-      expect(service.body_text_content).to eq("# Main Title\n\nConverted markdown")
+      expect(service.body_markdown).to eq("# Main Title\n\nConverted markdown")
       expect(ReverseMarkdown).to have_received(:convert).with(
         kind_of(Nokogiri::XML::Element),
         unknown_tags: :bypass,
         github_flavored: true
       )
+    end
+  end
+
+  describe '#meta_description' do
+    context 'when meta description exists' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><meta name="description" content="This is a test page description"></head></html>')
+      end
+
+      it 'returns the meta description content' do
+        expect(service.meta_description).to eq('This is a test page description')
+      end
+    end
+
+    context 'when meta description does not exist' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><title>Test</title></head></html>')
+      end
+
+      it 'returns nil' do
+        expect(service.meta_description).to be_nil
+      end
+    end
+  end
+
+  describe '#favicon_url' do
+    context 'when favicon exists with relative URL' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><link rel="icon" href="/favicon.ico"></head></html>')
+      end
+
+      it 'returns the resolved absolute favicon URL' do
+        expect(service.favicon_url).to eq('https://example.com/favicon.ico')
+      end
+    end
+
+    context 'when favicon exists with absolute URL' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><link rel="icon" href="https://cdn.example.com/favicon.ico"></head></html>')
+      end
+
+      it 'returns the absolute favicon URL' do
+        expect(service.favicon_url).to eq('https://cdn.example.com/favicon.ico')
+      end
+    end
+
+    context 'when favicon does not exist' do
+      before do
+        stub_request(:get, base_url)
+          .to_return(body: '<html><head><title>Test</title></head></html>')
+      end
+
+      it 'returns nil' do
+        expect(service.favicon_url).to be_nil
+      end
     end
   end
 end

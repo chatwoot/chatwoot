@@ -117,6 +117,26 @@ describe Messages::MentionService do
 
         expect(conversation.conversation_participants.map(&:user_id)).to include(first_agent.id)
       end
+
+      it 'adds the mentioned user as a participant before generating the notification' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hi (mention://user/#{first_agent.id}/#{first_agent.name})",
+          private: true
+        )
+
+        participant_user_ids_when_notified = nil
+        allow(NotificationBuilder).to receive(:new) do |**_kwargs|
+          participant_user_ids_when_notified = conversation.conversation_participants.reload.map(&:user_id)
+          builder
+        end
+
+        described_class.new(message: message).perform
+
+        expect(participant_user_ids_when_notified).to include(first_agent.id)
+      end
     end
 
     context 'when message contains multiple user mentions' do
@@ -161,6 +181,36 @@ describe Messages::MentionService do
           contain_exactly(first_agent.id.to_s, second_agent.id.to_s),
           conversation.id,
           account.id
+        )
+      end
+    end
+
+    context 'when the message sender mentions themselves' do
+      it 'skips the sender notification while notifying other mentioned users' do
+        message = build(
+          :message,
+          conversation: conversation,
+          account: account,
+          content: "hey (mention://user/#{first_agent.id}/#{first_agent.name}) and (mention://user/#{second_agent.id}/#{second_agent.name})",
+          private: true,
+          sender: first_agent
+        )
+
+        described_class.new(message: message).perform
+
+        expect(NotificationBuilder).not_to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: second_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
         )
       end
     end

@@ -20,8 +20,16 @@ const { t } = useI18n();
     }"
   >
     <header class="grid grid-cols-4">
-      <div class="col-span-3">
-        <h4 class="text-lg font-medium text-n-slate-12 flex items-center gap-2">
+      <div
+        v-if="
+          title || beta || $slots.title || description || $slots.description
+        "
+        class="col-span-3"
+      >
+        <h4
+          v-if="title || beta || $slots.title"
+          class="text-heading-2 text-n-slate-12 flex items-center gap-2"
+        >
           <slot name="title">{{ title }}</slot>
           <div
             v-if="beta"
@@ -31,7 +39,10 @@ const { t } = useI18n();
             {{ t('GENERAL.BETA') }}
           </div>
         </h4>
-        <p class="text-n-slate-11 text-sm mt-2">
+        <p
+          v-if="description || $slots.description"
+          class="text-n-slate-11 text-body-main mt-2"
+        >
           <slot name="description">{{ description }}</slot>
         </p>
       </div>

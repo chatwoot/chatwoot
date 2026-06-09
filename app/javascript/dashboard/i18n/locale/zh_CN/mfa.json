@@ -1,7 +1,7 @@
 {
   "MFA_SETTINGS": {
     "TITLE": "两步验证",
-    "SUBTITLE": "使用TOTP身份验证来保护您的帐户",
+    "SUBTITLE": "Protect your account from unauthorized access with TOTP-based authentication. This adds an extra layer of security to your account.",
     "DESCRIPTION": "使用基于时间的一次性密码(TOTP)为您的帐户添加额外的一层安全保护",
     "STATUS_TITLE": "验证状态",
     "STATUS_DESCRIPTION": "管理您的二步验证设置和备份码",
@@ -55,6 +55,10 @@
       "PASSWORD": "密码",
       "OTP_CODE": "验证码",
       "OTP_CODE_PLACEHOLDER": "000000",
+      "BACKUP_CODE": "备份代码",
+      "BACKUP_CODE_PLACEHOLDER": "输入您的备份代码",
+      "USE_BACKUP_CODE": "Lost access to your authenticator? Use a backup code instead",
+      "USE_OTP_CODE": "Use a verification code from your authenticator app",
       "CONFIRM": "禁用两步验证",
       "CANCEL": "取消",
       "SUCCESS": "两步验证已禁用",

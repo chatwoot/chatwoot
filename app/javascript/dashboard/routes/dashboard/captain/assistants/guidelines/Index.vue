@@ -10,7 +10,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
-import SettingsPageLayout from 'dashboard/components-next/captain/SettingsPageLayout.vue';
+import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
 import SuggestedRules from 'dashboard/components-next/captain/assistant/SuggestedRules.vue';
 import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
@@ -23,31 +23,28 @@ const route = useRoute();
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
 
-const assistantId = route.params.assistantId;
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
+const assistantId = computed(() => Number(route.params.assistantId));
 const isFetching = computed(() => uiFlags.value.fetchingItem);
 const assistant = computed(() =>
-  store.getters['captainAssistants/getRecord'](Number(assistantId))
+  store.getters['captainAssistants/getRecord'](assistantId.value)
 );
 
 const searchQuery = ref('');
 const newInlineRule = ref('');
 const newDialogRule = ref('');
 
-const breadcrumbItems = computed(() => {
-  return [
-    {
-      label: t('CAPTAIN.ASSISTANTS.SETTINGS.BREADCRUMB.ASSISTANT'),
-      routeName: 'captain_assistants_index',
-    },
-    { label: assistant.value?.name, routeName: 'captain_assistants_edit' },
-    { label: t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE') },
-  ];
-});
-
 const guidelinesContent = computed(
   () => assistant.value?.response_guidelines || []
 );
+
+const backUrl = computed(() => ({
+  name: 'captain_assistants_settings_index',
+  params: {
+    accountId: route.params.accountId,
+    assistantId: assistantId.value,
+  },
+}));
 
 const displayGuidelines = computed(() =>
   guidelinesContent.value.map((c, idx) => ({ id: idx, content: c }))
@@ -119,7 +116,7 @@ const selectedCountLabel = computed(() => {
 
 const saveGuidelines = async list => {
   await store.dispatch('captainAssistants/update', {
-    id: assistantId,
+    id: assistantId.value,
     assistant: { response_guidelines: list },
   });
 };
@@ -183,9 +180,13 @@ const addAllExample = async () => {
 </script>
 
 <template>
-  <SettingsPageLayout
-    :breadcrumb-items="breadcrumbItems"
+  <PageLayout
+    :header-title="$t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
     :is-fetching="isFetching"
+    :back-url="backUrl"
+    :show-know-more="false"
+    :show-pagination-footer="false"
+    :show-assistant-switcher="false"
   >
     <template #body>
       <SettingsHeader
@@ -321,5 +322,5 @@ const addAllExample = async () => {
         />
       </div>
     </template>
-  </SettingsPageLayout>
+  </PageLayout>
 </template>

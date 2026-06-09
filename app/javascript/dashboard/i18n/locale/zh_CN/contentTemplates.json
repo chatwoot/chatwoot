@@ -28,6 +28,7 @@
       "TYPES": {
         "MEDIA": "媒体",
         "QUICK_REPLY": "快速回复",
+        "CALL_TO_ACTION": "Call to Action",
         "TEXT": "文本"
       }
     },

@@ -53,6 +53,10 @@ export default {
       type: String,
       default: null,
     },
+    conversationLabels: {
+      type: Array,
+      default: () => [],
+    },
     conversationUrl: {
       type: String,
       default: '',
@@ -70,6 +74,7 @@ export default {
     'assignAgent',
     'assignTeam',
     'assignLabel',
+    'removeLabel',
     'deleteConversation',
     'close',
   ],
@@ -334,8 +339,16 @@ export default {
           v-for="label in labels"
           :key="label.id"
           :option="generateMenuLabelConfig(label, 'label')"
-          variant="label"
-          @click.stop="$emit('assignLabel', label)"
+          :variant="
+            conversationLabels.includes(label.title)
+              ? 'label-assigned'
+              : 'label'
+          "
+          @click.stop="
+            conversationLabels.includes(label.title)
+              ? $emit('removeLabel', label)
+              : $emit('assignLabel', label)
+          "
         />
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu

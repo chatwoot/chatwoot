@@ -83,6 +83,27 @@ RSpec.describe AutomationRules::ConditionsFilterService do
         end
       end
 
+      context 'when filtering private notes' do
+        before do
+          rule.conditions = [
+            { 'values': [true], 'attribute_key': 'private_note', 'query_operator': nil, 'filter_operator': 'equal_to' }
+          ]
+          rule.save
+        end
+
+        it 'will return true when the message is a private note' do
+          message.update!(private: true)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(true)
+        end
+
+        it 'will return false when the message is not a private note' do
+          message.update!(private: false)
+
+          expect(described_class.new(rule, conversation, { message: message, changed_attributes: {} }).perform).to be(false)
+        end
+      end
+
       context 'when filter_operator is on processed_message_content' do
         before do
           rule.conditions = [
@@ -213,6 +234,26 @@ RSpec.describe AutomationRules::ConditionsFilterService do
           conversation.update_labels([])
           expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
         end
+      end
+    end
+
+    context 'when conditions based on contact country_code' do
+      before do
+        conversation.update(additional_attributes: { country_code: 'US' })
+        conversation.contact.update(additional_attributes: { country_code: 'IN' })
+        rule.conditions = [
+          { 'values': ['IN'], 'attribute_key': 'country_code', 'query_operator': nil, 'filter_operator': 'equal_to' }
+        ]
+        rule.save
+      end
+
+      it 'matches against the contact additional_attributes' do
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(true)
+      end
+
+      it 'returns false when the contact country_code does not match' do
+        conversation.contact.update(additional_attributes: { country_code: 'GB' })
+        expect(described_class.new(rule, conversation, { changed_attributes: {} }).perform).to be(false)
       end
     end
   end

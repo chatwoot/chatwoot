@@ -99,7 +99,7 @@ export default {
 </script>
 
 <template>
-  <InboxReconnectionRequired class="mx-8 mt-5" @reauthorize="startLogin" />
+  <InboxReconnectionRequired class="mx-6" @reauthorize="startLogin" />
 </template>
 
 <style lang="scss" scoped>

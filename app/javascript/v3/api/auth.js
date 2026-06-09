@@ -2,9 +2,13 @@ import {
   setAuthCredentials,
   throwErrorMessage,
   clearLocalStorageOnLogout,
+  parseAPIErrorResponse,
 } from 'dashboard/store/utils/api';
 import wootAPI from './apiClient';
-import { getLoginRedirectURL } from '../helpers/AuthHelper';
+import {
+  getLoginRedirectURL,
+  getCredentialsFromEmail,
+} from '../helpers/AuthHelper';
 
 export const login = async ({
   ssoAccountId,
@@ -39,26 +43,34 @@ export const login = async ({
         mfaToken: error.response.data.mfa_token,
       };
     }
-    throwErrorMessage(error);
-    return null;
+    const loginError = new Error(parseAPIErrorResponse(error));
+    loginError.errorCode = error.response?.data?.error_code;
+    throw loginError;
   }
 };
 
 export const register = async creds => {
   try {
+    const { fullName, accountName } = getCredentialsFromEmail(creds.email);
     const response = await wootAPI.post('api/v1/accounts.json', {
-      account_name: creds.accountName.trim(),
-      user_full_name: creds.fullName.trim(),
+      account_name: accountName,
+      user_full_name: fullName,
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
-    setAuthCredentials(response);
     return response.data;
   } catch (error) {
     throwErrorMessage(error);
   }
   return null;
+};
+
+export const resendConfirmation = async ({ email, hCaptchaClientResponse }) => {
+  return wootAPI.post('resend_confirmation', {
+    email,
+    h_captcha_client_response: hCaptchaClientResponse,
+  });
 };
 
 export const verifyPasswordToken = async ({ confirmationToken }) => {

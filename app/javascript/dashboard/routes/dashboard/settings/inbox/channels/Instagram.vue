@@ -1,63 +1,46 @@
-<script>
-import { useVuelidate } from '@vuelidate/core';
-import { useAccount } from 'dashboard/composables/useAccount';
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import instagramClient from 'dashboard/api/channel/instagramClient';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  setup() {
-    const { accountId } = useAccount();
-    return {
-      accountId,
-      v$: useVuelidate(),
-    };
-  },
-  data() {
-    return {
-      isCreating: false,
-      hasError: false,
-      errorStateMessage: '',
-      errorStateDescription: '',
-      isRequestingAuthorization: false,
-    };
-  },
+const { t } = useI18n();
 
-  mounted() {
-    const urlParams = new URLSearchParams(window.location.search);
-    //  TODO: Handle error type
-    // const errorType = urlParams.get('error_type');
-    const errorCode = urlParams.get('code');
-    const errorMessage = urlParams.get('error_message');
+const hasError = ref(false);
+const errorStateMessage = ref('');
+const errorStateDescription = ref('');
+const isRequestingAuthorization = ref(false);
 
-    if (errorMessage) {
-      this.hasError = true;
-      if (errorCode === '400') {
-        this.errorStateMessage = errorMessage;
-        this.errorStateDescription = this.$t(
-          'INBOX_MGMT.ADD.INSTAGRAM.ERROR_AUTH'
-        );
-      } else {
-        this.errorStateMessage = this.$t(
-          'INBOX_MGMT.ADD.INSTAGRAM.ERROR_MESSAGE'
-        );
-        this.errorStateDescription = errorMessage;
-      }
+onMounted(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  //  TODO: Handle error type
+  // const errorType = urlParams.get('error_type');
+  const errorCode = urlParams.get('code');
+  const errorMessage = urlParams.get('error_message');
+
+  if (errorMessage) {
+    hasError.value = true;
+    if (errorCode === '400') {
+      errorStateMessage.value = errorMessage;
+      errorStateDescription.value = t('INBOX_MGMT.ADD.INSTAGRAM.ERROR_AUTH');
+    } else {
+      errorStateMessage.value = t('INBOX_MGMT.ADD.INSTAGRAM.ERROR_MESSAGE');
+      errorStateDescription.value = errorMessage;
     }
-    // User need to remove the error params from the url to avoid the error to be shown again after page reload, so that user can try again
-    const cleanURL = window.location.pathname;
-    window.history.replaceState({}, document.title, cleanURL);
-  },
+  }
+  // User need to remove the error params from the url to avoid the error to be shown again after page reload, so that user can try again
+  const cleanURL = window.location.pathname;
+  window.history.replaceState({}, document.title, cleanURL);
+});
 
-  methods: {
-    async requestAuthorization() {
-      this.isRequestingAuthorization = true;
-      const response = await instagramClient.generateAuthorization();
-      const {
-        data: { url },
-      } = response;
+const requestAuthorization = async () => {
+  isRequestingAuthorization.value = true;
+  const response = await instagramClient.generateAuthorization();
+  const {
+    data: { url },
+  } = response;
 
-      window.location.href = url;
-    },
-  },
+  window.location.href = url;
 };
 </script>
 
@@ -81,38 +64,15 @@ export default {
         <p class="py-6 text-sm text-n-slate-11">
           {{ $t('INBOX_MGMT.ADD.INSTAGRAM.HELP') }}
         </p>
-        <button
-          class="flex items-center justify-center px-8 py-3.5 gap-2 text-white rounded-full bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45] hover:shadow-lg transition-all duration-300 min-w-[240px] overflow-hidden"
+        <Button
+          class="text-white !rounded-full !px-6 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#FCAF45]"
+          lg
+          icon="i-ri-instagram-line"
           :disabled="isRequestingAuthorization"
+          :is-loading="isRequestingAuthorization"
+          :label="$t('INBOX_MGMT.ADD.INSTAGRAM.CONTINUE_WITH_INSTAGRAM')"
           @click="requestAuthorization()"
-        >
-          <span class="i-ri-instagram-line size-5" />
-          <span class="text-base font-medium">
-            {{ $t('INBOX_MGMT.ADD.INSTAGRAM.CONTINUE_WITH_INSTAGRAM') }}
-          </span>
-          <span v-if="isRequestingAuthorization" class="ml-2">
-            <svg
-              class="w-5 h-5 animate-spin"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                class="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                stroke-width="4"
-              />
-              <path
-                class="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              />
-            </svg>
-          </span>
-        </button>
+        />
       </div>
     </div>
   </div>

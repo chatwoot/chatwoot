@@ -62,10 +62,27 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
-  def media_url(media_id, phone_number_id = nil)
-    url = "#{api_base_path}/v13.0/#{media_id}"
-    url += "?phone_number_id=#{phone_number_id}" if phone_number_id
-    url
+  def create_csat_template(template_config)
+    csat_template_service.create_template(template_config)
+  end
+
+  def delete_csat_template(template_name = nil)
+    template_name ||= CsatTemplateNameService.csat_template_name(whatsapp_channel.inbox.id)
+    csat_template_service.delete_template(template_name)
+  end
+
+  def get_template_status(template_name)
+    csat_template_service.get_template_status(template_name)
+  end
+
+  def media_url(media_id)
+    "#{api_base_path}/v13.0/#{media_id}"
+  end
+
+  private
+
+  def csat_template_service
+    @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
   end
 
   def api_base_path
@@ -73,8 +90,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   # TODO: See if we can unify the API versions and for both paths and make it consistent with out facebook app API versions
-  def phone_id_path
-    "#{api_base_path}/v13.0/#{whatsapp_channel.provider_config['phone_number_id']}"
+  def phone_id_path(version = 'v13.0')
+    "#{api_base_path}/#{version}/#{whatsapp_channel.provider_config['phone_number_id']}"
   end
 
   def business_account_path
@@ -99,14 +116,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
+    normalize_opus_content_type(attachment)
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    type_content = {
-      'link': attachment.download_url
-    }
-    type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
-    type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content = build_attachment_content(type, attachment, message)
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      "#{phone_id_path('v24.0')}/messages",
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
@@ -123,6 +137,33 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def error_message(response)
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     response.parsed_response&.dig('error', 'message')
+  end
+
+  def voice_message?(type, attachment)
+    type == 'audio' && attachment.meta&.dig('is_voice_message') && attachment.file.content_type == 'audio/ogg'
+  end
+
+  # Marcel gem may re-detect OGG/Opus files as audio/opus after ActiveStorage
+  # blob attachment, but WhatsApp Cloud API requires audio/ogg content type
+  # for voice messages. Normalize so the download URL serves the correct
+  # Content-Type header. No-op when the frontend already uploads as audio/ogg.
+  def normalize_opus_content_type(attachment)
+    return unless attachment.file.attached?
+
+    blob = attachment.file.blob
+    return unless blob.content_type == 'audio/opus'
+
+    return if blob.update(content_type: 'audio/ogg')
+
+    Rails.logger.error("Failed to normalize blob #{blob.id} content_type from audio/opus to audio/ogg")
+  end
+
+  def build_attachment_content(type, attachment, message)
+    type_content = { 'link' => attachment.download_url }
+    type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
+    type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content['voice'] = true if voice_message?(type, attachment)
+    type_content
   end
 
   def template_body_parameters(template_info)
@@ -188,3 +229,5 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 end
+
+Whatsapp::Providers::WhatsappCloudService.prepend_mod_with('Whatsapp::Providers::WhatsappCloudService')

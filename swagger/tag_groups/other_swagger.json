@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.4",
+  "openapi": "3.1.0",
   "info": {
     "title": "Chatwoot",
     "description": "This is the API documentation for Chatwoot server.",
@@ -373,18 +373,24 @@
             "description": "Total number of articles"
           },
           "archived_articles_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of archived articles"
           },
           "published_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of published articles"
           },
           "draft_articles_count": {
-            "type": "integer",
-            "nullable": true,
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "Number of draft articles"
           },
           "categories_count": {
@@ -678,7 +684,10 @@
             "description": "Whether the conversation is muted"
           },
           "snoozed_until": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the conversation will be unmuted"
           },
           "status": {
@@ -699,11 +708,14 @@
             "description": "The time at which conversation was updated"
           },
           "timestamp": {
-            "type": "string",
+            "type": "number",
             "description": "The time at which conversation was created"
           },
           "first_reply_created_at": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the first reply was created"
           },
           "unread_count": {
@@ -711,22 +723,39 @@
             "description": "The number of unread messages"
           },
           "last_non_activity_message": {
-            "$ref": "#/components/schemas/message"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/message"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The last non activity message"
           },
           "last_activity_at": {
             "type": "number",
             "description": "The last activity at of the conversation"
           },
           "priority": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The priority of the conversation"
           },
           "waiting_since": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The time at which the conversation was waiting"
           },
           "sla_policy_id": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The ID of the SLA policy"
           },
           "applied_sla": {
@@ -770,7 +799,8 @@
             "enum": [
               0,
               1,
-              2
+              2,
+              3
             ],
             "description": "The type of the message"
           },
@@ -779,7 +809,10 @@
             "description": "The time at which message was created"
           },
           "updated_at": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "string"
+            ],
             "description": "The time at which message was updated"
           },
           "private": {
@@ -787,26 +820,46 @@
             "description": "The flags which shows whether the message is private or not"
           },
           "status": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
               "sent",
               "delivered",
               "read",
-              "failed"
+              "failed",
+              null
             ],
             "description": "The status of the message"
           },
           "source_id": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The source ID of the message"
           },
           "content_type": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
-              "form"
+              "form",
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call",
+              null
             ],
             "description": "The type of the template message"
           },
@@ -815,16 +868,24 @@
             "description": "The content attributes for each content_type"
           },
           "sender_type": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "enum": [
-              "contact",
-              "agent",
-              "agent_bot"
+              "Contact",
+              "User",
+              "AgentBot",
+              "Captain::Assistant",
+              null
             ],
             "description": "The type of the sender"
           },
           "sender_id": {
-            "type": "number",
+            "type": [
+              "number",
+              "null"
+            ],
             "description": "The ID of the sender"
           },
           "external_source_ids": {
@@ -836,19 +897,31 @@
             "description": "The additional attributes of the message"
           },
           "processed_message_content": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The processed message content"
           },
           "sentiment": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The sentiment of the message"
           },
           "conversation": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The conversation object"
           },
           "attachment": {
-            "type": "object",
+            "type": [
+              "object",
+              "null"
+            ],
             "description": "The file object attached to the image"
           },
           "sender": {
@@ -879,12 +952,16 @@
             "type": "boolean"
           },
           "display_name": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "message_signature": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "email": {
             "type": "string"
@@ -893,7 +970,10 @@
             "type": "string"
           },
           "inviter_id": {
-            "type": "number"
+            "type": [
+              "number",
+              "null"
+            ]
           },
           "name": {
             "type": "string"
@@ -918,8 +998,10 @@
             "type": "string"
           },
           "type": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           },
           "custom_attributes": {
             "type": "object",
@@ -940,7 +1022,10 @@
                   "type": "string"
                 },
                 "active_at": {
-                  "type": "string",
+                  "type": [
+                    "string",
+                    "null"
+                  ],
                   "format": "date-time"
                 },
                 "role": {
@@ -966,12 +1051,16 @@
                   "type": "boolean"
                 },
                 "custom_role_id": {
-                  "type": "number",
-                  "nullable": true
+                  "type": [
+                    "number",
+                    "null"
+                  ]
                 },
                 "custom_role": {
-                  "type": "object",
-                  "nullable": true
+                  "type": [
+                    "object",
+                    "null"
+                  ]
                 }
               }
             }
@@ -990,15 +1079,16 @@
           "availability_status": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent computed by Chatwoot."
+            "readOnly": true,
+            "description": "The effective availability status of the agent, derived from the configured availability, auto-offline setting, and current presence. To update an agent's configured availability, use the availability field in create or update requests."
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away."
+            "description": "Whether the agent is automatically marked offline when they are away."
           },
           "confirmed": {
             "type": "boolean",
@@ -1029,7 +1119,10 @@
             "description": "The thumbnail of the agent"
           },
           "custom_role_id": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "description": "The custom role id of the agent"
           }
         }
@@ -1074,11 +1167,17 @@
             "description": "Script used to load the website widget"
           },
           "welcome_title": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Welcome title to be displayed on the widget"
           },
           "welcome_tagline": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Welcome tagline to be displayed on the widget"
           },
           "greeting_enabled": {
@@ -1086,7 +1185,10 @@
             "description": "The flag which shows whether greeting is enabled"
           },
           "greeting_message": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "A greeting message when the user starts the conversation"
           },
           "channel_id": {
@@ -1110,7 +1212,10 @@
             "description": "Configuration settings for auto assignment"
           },
           "out_of_office_message": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Message to show when agents are out of office"
           },
           "working_hours": {
@@ -1128,19 +1233,31 @@
                   "description": "Whether the inbox is closed for the entire day"
                 },
                 "open_hour": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Hour when inbox opens (0-23)"
                 },
                 "open_minutes": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Minutes of the hour when inbox opens (0-59)"
                 },
                 "close_hour": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Hour when inbox closes (0-23)"
                 },
                 "close_minutes": {
-                  "type": "number",
+                  "type": [
+                    "number",
+                    "null"
+                  ],
                   "description": "Minutes of the hour when inbox closes (0-59)"
                 },
                 "open_all_day": {
@@ -1155,7 +1272,10 @@
             "description": "Timezone configuration for the inbox"
           },
           "callback_webhook_url": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Webhook URL for callbacks"
           },
           "allow_messages_after_resolved": {
@@ -1171,7 +1291,10 @@
             "description": "Type of sender name to display (e.g., friendly)"
           },
           "business_name": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Business name associated with the inbox"
           },
           "hmac_mandatory": {
@@ -1179,19 +1302,31 @@
             "description": "Whether HMAC verification is mandatory"
           },
           "selected_feature_flags": {
-            "type": "object",
-            "description": "Selected feature flags for the inbox"
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "Selected feature flags for the inbox",
+            "items": {
+              "type": "string"
+            }
           },
           "reply_time": {
             "type": "string",
             "description": "Expected reply time"
           },
           "messaging_service_sid": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Messaging service SID for SMS providers"
           },
           "phone_number": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Phone number associated with the inbox"
           },
           "medium": {
@@ -1199,7 +1334,10 @@
             "description": "Medium of communication (e.g., sms, email)"
           },
           "provider": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Provider of the channel"
           }
         }
@@ -1349,6 +1487,10 @@
             "type": "string",
             "description": "The url to which the events will be send"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -1361,10 +1503,17 @@
                 "contact_updated",
                 "message_created",
                 "message_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The list of subscribed events"
+          },
+          "secret": {
+            "type": "string",
+            "nullable": true,
+            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available."
           },
           "account_id": {
             "type": "number",
@@ -1430,10 +1579,7 @@
             "description": "Cache keys for the account"
           },
           "features": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
+            "type": "object",
             "description": "Enabled features for the account"
           },
           "settings": {
@@ -1459,19 +1605,31 @@
             "description": "Custom attributes of the account",
             "properties": {
               "plan_name": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription plan name"
               },
               "subscribed_quantity": {
-                "type": "number",
+                "type": [
+                  "number",
+                  "null"
+                ],
                 "description": "Subscribed quantity"
               },
               "subscription_status": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Subscription status"
               },
               "subscription_ends_on": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "format": "date",
                 "description": "Subscription end date"
               },
@@ -1517,7 +1675,10 @@
             "type": "object",
             "properties": {
               "latest_chatwoot_version": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Latest version of Chatwoot available",
                 "example": "3.0.0"
               },
@@ -1578,7 +1739,10 @@
             "description": "The name of the team"
           },
           "description": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "The description about the team"
           },
           "allow_auto_assign": {
@@ -1592,6 +1756,31 @@
           "is_member": {
             "type": "boolean",
             "description": "This field shows whether the current user is a part of the team"
+          }
+        }
+      },
+      "label": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the label"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the label"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the label"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for the label"
+          },
+          "show_on_sidebar": {
+            "type": "boolean",
+            "description": "Whether the label should appear in the sidebar"
           }
         }
       },
@@ -1721,8 +1910,10 @@
             "description": "Version number of the audit log entry"
           },
           "comment": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Optional comment associated with the audit log entry"
           },
           "request_uuid": {
@@ -1734,8 +1925,10 @@
             "description": "Unix timestamp when the audit log entry was created"
           },
           "remote_address": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "IP address from which the action was performed"
           }
         }
@@ -1752,16 +1945,160 @@
             "description": "The session identifier of the contact"
           },
           "name": {
-            "type": "string",
-            "description": "Name of the contact"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the contact when available"
           },
           "email": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Email of the contact"
+          },
+          "phone_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Phone number of the contact"
           },
           "pubsub_token": {
             "type": "string",
             "description": "The token to be used to connect to chatwoot websocket"
+          }
+        }
+      },
+      "public_contact_record": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Full serialized contact record returned when the public API renders a Contact model directly.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the contact"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the contact when available"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email of the contact"
+          },
+          "phone_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Phone number of the contact"
+          },
+          "identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Identifier of the contact"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the contact is blocked"
+          },
+          "additional_attributes": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Additional attributes of the contact when present"
+          },
+          "custom_attributes": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Custom attributes of the contact when present"
+          },
+          "contact_type": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Contact type of the contact when available"
+          },
+          "country_code": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Country code of the contact"
+          },
+          "last_activity_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Last activity timestamp of the contact in ISO 8601 format"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Created timestamp of the contact in ISO 8601 format"
+          },
+          "updated_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Updated timestamp of the contact in ISO 8601 format"
+          },
+          "last_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Last name of the contact"
+          },
+          "middle_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Middle name of the contact"
+          },
+          "location": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Location of the contact"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Account id of the contact"
+          },
+          "company_id": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Company id of the contact"
+          },
+          "label_list": {
+            "type": "array",
+            "description": "Labels applied to the contact",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },
@@ -1772,20 +2109,41 @@
             "type": "integer",
             "description": "Id of the conversation"
           },
-          "inbox_id": {
+          "uuid": {
             "type": "string",
+            "description": "UUID of the conversation"
+          },
+          "inbox_id": {
+            "type": "integer",
             "description": "The inbox id of the conversation"
+          },
+          "contact_last_seen_at": {
+            "type": "integer",
+            "description": "Timestamp of when the contact last seen the conversation (Unix timestamp)"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending",
+              "snoozed"
+            ],
+            "description": "The status of the conversation"
+          },
+          "agent_last_seen_at": {
+            "type": "integer",
+            "description": "Timestamp of when the agent last seen the conversation (Unix timestamp)"
           },
           "messages": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/message"
+              "$ref": "#/components/schemas/public_message"
             },
             "description": "Messages in the conversation"
           },
           "contact": {
-            "type": "object",
-            "description": "The contact information associated to the conversation"
+            "$ref": "#/components/schemas/public_contact_record"
           }
         }
       },
@@ -1793,43 +2151,245 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string",
+            "type": "integer",
             "description": "Id of the message"
           },
           "content": {
-            "type": "string",
-            "description": "Text content of the message"
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Text content of the message. Can be null for attachment-only messages."
           },
           "message_type": {
-            "type": "string",
-            "description": "Denotes the message type"
+            "type": "integer",
+            "description": "Denotes the message type. Possible values: 0 (incoming), 1 (outgoing), 2 (activity), 3 (template)"
           },
           "content_type": {
             "type": "string",
             "description": "Content type of the message"
           },
           "content_attributes": {
-            "type": "string",
+            "type": "object",
             "description": "Additional content attributes of the message"
           },
           "created_at": {
-            "type": "string",
-            "description": "Created at time stamp of the message"
+            "type": "integer",
+            "description": "Created at Unix timestamp of the message"
           },
           "conversation_id": {
-            "type": "string",
-            "description": "Conversation Id of the message"
+            "type": "integer",
+            "description": "Display Id of the conversation the message belongs to"
           },
           "attachments": {
             "type": "array",
+            "description": "Attachments if any",
             "items": {
-              "type": "object"
-            },
-            "description": "Attachments if any"
+              "$ref": "#/components/schemas/public_message_attachment"
+            }
           },
           "sender": {
+            "$ref": "#/components/schemas/public_message_sender"
+          }
+        }
+      },
+      "public_message_attachment": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Attachment payload. Available fields vary by attachment file_type.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the attachment"
+          },
+          "message_id": {
+            "type": "integer",
+            "description": "Id of the parent message"
+          },
+          "file_type": {
+            "type": "string",
+            "enum": [
+              "image",
+              "audio",
+              "video",
+              "file",
+              "location",
+              "fallback",
+              "share",
+              "story_mention",
+              "contact",
+              "ig_reel",
+              "ig_post",
+              "ig_story",
+              "embed"
+            ],
+            "description": "Type of the attached file"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Id of the account"
+          },
+          "extension": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "File extension"
+          },
+          "data_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "URL of the file. Can be null when an attachment variant has no external URL."
+          },
+          "thumb_url": {
+            "type": "string",
+            "description": "URL of the file thumbnail"
+          },
+          "file_size": {
+            "type": "integer",
+            "description": "File size in bytes"
+          },
+          "width": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Width of the attachment when available"
+          },
+          "height": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Height of the attachment when available"
+          },
+          "coordinates_lat": {
+            "type": "number",
+            "description": "Latitude for location attachments"
+          },
+          "coordinates_long": {
+            "type": "number",
+            "description": "Longitude for location attachments"
+          },
+          "fallback_title": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Fallback title for location, fallback, and contact attachments when available"
+          },
+          "meta": {
             "type": "object",
-            "description": "Details of the sender"
+            "description": "Metadata for contact attachments"
+          },
+          "transcribed_text": {
+            "type": "string",
+            "description": "Transcribed text for audio attachments"
+          }
+        }
+      },
+      "public_message_sender": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Polymorphic sender payload returned by push_event_data. Available fields vary by sender type.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the sender"
+          },
+          "name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Name of the sender when available"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "Avatar URL of the sender. Present for senders of type user, agent_bot, and captain_assistant. Not present for contact senders (use thumbnail instead)."
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "Avatar/thumbnail URL of the sender. Contact senders use this field; user senders may also include it."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "contact",
+              "user",
+              "agent_bot",
+              "captain_assistant"
+            ],
+            "description": "Type of the sender"
+          },
+          "available_name": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Display name for user senders"
+          },
+          "availability_status": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Availability status for user senders"
+          },
+          "email": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Email of the sender when the sender is a contact"
+          },
+          "phone_number": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Phone number of the sender when the sender is a contact"
+          },
+          "identifier": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Identifier of the sender when the sender is a contact"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the sender is blocked when the sender is a contact"
+          },
+          "additional_attributes": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Additional attributes when the sender is a contact and available"
+          },
+          "custom_attributes": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "Custom attributes when the sender is a contact and available"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Description when the sender is a captain assistant"
+          },
+          "created_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Created timestamp in ISO 8601 format when the sender is a captain assistant"
           }
         }
       },
@@ -1971,22 +2531,28 @@
             "example": "support@example.com"
           },
           "auto_resolve_after": {
-            "type": "integer",
+            "type": [
+              "integer",
+              "null"
+            ],
             "minimum": 10,
             "maximum": 1439856,
-            "nullable": true,
             "description": "Auto resolve conversations after specified minutes",
             "example": 1440
           },
           "auto_resolve_message": {
-            "type": "string",
-            "nullable": true,
+            "type": [
+              "string",
+              "null"
+            ],
             "description": "Message to send when auto resolving",
             "example": "This conversation has been automatically resolved due to inactivity"
           },
           "auto_resolve_ignore_waiting": {
-            "type": "boolean",
-            "nullable": true,
+            "type": [
+              "boolean",
+              "null"
+            ],
             "description": "Whether to ignore waiting conversations for auto resolve",
             "example": false
           },
@@ -2224,19 +2790,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability setting of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
@@ -2256,19 +2822,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
@@ -2390,8 +2956,7 @@
       "conversation_create_payload": {
         "type": "object",
         "required": [
-          "source_id",
-          "inbox_id"
+          "source_id"
         ],
         "properties": {
           "source_id": {
@@ -2648,72 +3213,121 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the inbox",
+            "description": "The name of the inbox.",
             "example": "Support"
           },
           "avatar": {
             "type": "string",
             "format": "binary",
-            "description": "Image file for avatar"
+            "description": "Image file for avatar."
           },
           "greeting_enabled": {
             "type": "boolean",
-            "description": "Enable greeting message",
+            "description": "Enable greeting message.",
             "example": true
           },
           "greeting_message": {
             "type": "string",
-            "description": "Greeting message to be displayed on the widget",
+            "description": "Greeting message to send when greeting messages are enabled.",
             "example": "Hello, how can I help you?"
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
             "type": "boolean",
-            "description": "Enable CSAT survey",
+            "description": "Enable CSAT survey.",
             "example": true
+          },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
           },
           "enable_auto_assignment": {
             "type": "boolean",
-            "description": "Enable Auto Assignment",
+            "description": "Enable Auto Assignment.",
             "example": true
           },
           "working_hours_enabled": {
             "type": "boolean",
-            "description": "Enable working hours",
+            "description": "Enable working hours.",
             "example": true
           },
           "out_of_office_message": {
             "type": "string",
-            "description": "Out of office message to be displayed on the widget",
+            "description": "Out of office message to send outside working hours.",
             "example": "We are currently out of office. Please leave a message and we will get back to you."
           },
           "timezone": {
             "type": "string",
-            "description": "Timezone of the inbox",
+            "description": "Timezone of the inbox.",
             "example": "America/New_York"
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock to single conversation",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
             "type": "integer",
-            "description": "Id of the help center portal to attach to the inbox",
+            "description": "Id of the help center portal to attach to the inbox.",
             "example": 1
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for the inbox",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -2722,45 +3336,43 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for the inbox",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "Type of the channel",
-                "enum": [
-                  "web_widget",
-                  "api",
-                  "email",
-                  "line",
-                  "telegram",
-                  "whatsapp",
-                  "sms"
-                ],
-                "example": "web_widget"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inbox_create_web_widget_channel_payload"
               },
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+              {
+                "$ref": "#/components/schemas/inbox_create_api_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_create_email_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_create_line_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_create_telegram_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_create_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_create_sms_channel_payload"
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "web_widget": "#/components/schemas/inbox_create_web_widget_channel_payload",
+                "api": "#/components/schemas/inbox_create_api_channel_payload",
+                "email": "#/components/schemas/inbox_create_email_channel_payload",
+                "line": "#/components/schemas/inbox_create_line_channel_payload",
+                "telegram": "#/components/schemas/inbox_create_telegram_channel_payload",
+                "whatsapp": "#/components/schemas/inbox_create_whatsapp_channel_payload",
+                "sms": "#/components/schemas/inbox_create_sms_channel_payload"
               }
             }
           }
@@ -2771,72 +3383,121 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the inbox",
+            "description": "The name of the inbox.",
             "example": "Support"
           },
           "avatar": {
             "type": "string",
             "format": "binary",
-            "description": "Image file for avatar"
+            "description": "Image file for avatar."
           },
           "greeting_enabled": {
             "type": "boolean",
-            "description": "Enable greeting message",
+            "description": "Enable greeting message.",
             "example": true
           },
           "greeting_message": {
             "type": "string",
-            "description": "Greeting message to be displayed on the widget",
+            "description": "Greeting message to send when greeting messages are enabled.",
             "example": "Hello, how can I help you?"
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
             "type": "boolean",
-            "description": "Enable CSAT survey",
+            "description": "Enable CSAT survey.",
             "example": true
+          },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
           },
           "enable_auto_assignment": {
             "type": "boolean",
-            "description": "Enable Auto Assignment",
+            "description": "Enable Auto Assignment.",
             "example": true
           },
           "working_hours_enabled": {
             "type": "boolean",
-            "description": "Enable working hours",
+            "description": "Enable working hours.",
             "example": true
           },
           "out_of_office_message": {
             "type": "string",
-            "description": "Out of office message to be displayed on the widget",
+            "description": "Out of office message to send outside working hours.",
             "example": "We are currently out of office. Please leave a message and we will get back to you."
           },
           "timezone": {
             "type": "string",
-            "description": "Timezone of the inbox",
+            "description": "Timezone of the inbox.",
             "example": "America/New_York"
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock to single conversation",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
             "type": "integer",
-            "description": "Id of the help center portal to attach to the inbox",
+            "description": "Id of the help center portal to attach to the inbox.",
             "example": 1
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for the inbox",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -2845,32 +3506,808 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for the inbox",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/inbox_update_web_widget_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_update_api_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_update_email_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_update_line_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_telegram_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_sms_channel_payload"
               }
+            ]
+          }
+        }
+      },
+      "inbox_create_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel",
+        "required": [
+          "type",
+          "website_url"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "web_widget"
+            ],
+            "example": "web_widget"
+          },
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
+          }
+        }
+      },
+      "inbox_create_api_channel_payload": {
+        "type": "object",
+        "title": "API channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "example": "api"
+          },
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
+          }
+        }
+      },
+      "inbox_create_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel",
+        "required": [
+          "type",
+          "email"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "email"
+            ],
+            "example": "email"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_create_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel",
+        "required": [
+          "type",
+          "line_channel_id",
+          "line_channel_secret",
+          "line_channel_token"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "line"
+            ],
+            "example": "line"
+          },
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_create_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel",
+        "required": [
+          "type",
+          "bot_token"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "telegram"
+            ],
+            "example": "telegram"
+          },
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_create_whatsapp_channel_payload": {
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "WhatsApp Cloud channel",
+            "required": [
+              "type",
+              "phone_number",
+              "provider",
+              "provider_config"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "whatsapp"
+                ],
+                "example": "whatsapp"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "WhatsApp phone number",
+                "example": "+15551234567"
+              },
+              "provider": {
+                "type": "string",
+                "description": "WhatsApp provider",
+                "enum": [
+                  "whatsapp_cloud"
+                ],
+                "example": "whatsapp_cloud"
+              },
+              "provider_config": {
+                "type": "object",
+                "description": "WhatsApp Cloud provider configuration",
+                "required": [
+                  "api_key",
+                  "phone_number_id",
+                  "business_account_id"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "WhatsApp Cloud API key",
+                    "example": "your-api-key"
+                  },
+                  "phone_number_id": {
+                    "type": "string",
+                    "description": "Phone number ID for WhatsApp Cloud",
+                    "example": "your-phone-number-id"
+                  },
+                  "business_account_id": {
+                    "type": "string",
+                    "description": "Business account ID for WhatsApp Cloud",
+                    "example": "your-business-account-id"
+                  }
+                },
+                "example": {
+                  "api_key": "your-api-key",
+                  "phone_number_id": "your-phone-number-id",
+                  "business_account_id": "your-business-account-id"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "Legacy 360dialog WhatsApp channel",
+            "deprecated": true,
+            "required": [
+              "type",
+              "phone_number",
+              "provider_config"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "whatsapp"
+                ],
+                "example": "whatsapp"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "WhatsApp phone number",
+                "example": "+15551234567"
+              },
+              "provider": {
+                "type": "string",
+                "description": "Legacy 360dialog provider. Omit this field or use `default` only for existing deprecated 360dialog setups.",
+                "enum": [
+                  "default"
+                ],
+                "deprecated": true,
+                "example": "default"
+              },
+              "provider_config": {
+                "type": "object",
+                "description": "Legacy 360dialog provider configuration",
+                "required": [
+                  "api_key"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "360dialog API key",
+                    "example": "your-api-key"
+                  }
+                },
+                "example": {
+                  "api_key": "your-api-key"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "inbox_create_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel",
+        "required": [
+          "type",
+          "phone_number"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "sms"
+            ],
+            "example": "sms"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "account_id": "your-account-id",
+              "application_id": "your-application-id"
+            }
+          }
+        }
+      },
+      "inbox_update_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel settings",
+        "properties": {
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
+          }
+        }
+      },
+      "inbox_update_api_channel_payload": {
+        "type": "object",
+        "title": "API channel settings",
+        "properties": {
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
+          }
+        }
+      },
+      "inbox_update_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel settings",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_update_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel settings",
+        "properties": {
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_update_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel settings",
+        "properties": {
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_update_whatsapp_channel_payload": {
+        "type": "object",
+        "title": "WhatsApp channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "WhatsApp phone number",
+            "example": "+15551234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "WhatsApp provider. `default` is supported only for existing deprecated 360dialog setups.",
+            "enum": [
+              "whatsapp_cloud",
+              "default"
+            ],
+            "example": "whatsapp_cloud"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "properties": {
+              "api_key": {
+                "type": "string",
+                "description": "Provider API key",
+                "example": "your-api-key"
+              },
+              "phone_number_id": {
+                "type": "string",
+                "description": "Phone number ID for WhatsApp Cloud",
+                "example": "your-phone-number-id"
+              },
+              "business_account_id": {
+                "type": "string",
+                "description": "Business account ID for WhatsApp Cloud",
+                "example": "your-business-account-id"
+              }
+            },
+            "example": {
+              "api_key": "your-api-key",
+              "phone_number_id": "your-phone-number-id",
+              "business_account_id": "your-business-account-id"
+            }
+          }
+        }
+      },
+      "inbox_update_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "api_key": "your-api-key",
+              "api_secret": "your-api-secret",
+              "application_id": "your-application-id",
+              "account_id": "your-account-id"
             }
           }
         }
@@ -2891,6 +4328,31 @@
           "allow_auto_assign": {
             "type": "boolean",
             "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
+            "example": true
+          }
+        }
+      },
+      "label_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The label title",
+            "example": "support"
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description for the label",
+            "example": "Conversations that need support follow-up"
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex color code for the label",
+            "example": "#1f93ff"
+          },
+          "show_on_sidebar": {
+            "type": "boolean",
+            "description": "Whether the label should appear in the sidebar",
             "example": true
           }
         }
@@ -2928,6 +4390,10 @@
             "description": "The url where the events should be sent",
             "example": "https://example.com/webhook"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -2940,7 +4406,9 @@
                 "message_updated",
                 "contact_created",
                 "contact_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The events you want to subscribe to.",
@@ -3394,7 +4862,10 @@
                           "description": "The availability status of the sender"
                         },
                         "email": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The email of the sender"
                         },
                         "id": {
@@ -3406,7 +4877,10 @@
                           "description": "The name of the sender"
                         },
                         "phone_number": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The phone number of the sender"
                         },
                         "blocked": {
@@ -3414,11 +4888,17 @@
                           "description": "Whether the sender is blocked"
                         },
                         "identifier": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "The identifier of the sender"
                         },
                         "thumbnail": {
-                          "type": "string",
+                          "type": [
+                            "string",
+                            "null"
+                          ],
                           "description": "Avatar URL of the contact"
                         },
                         "custom_attributes": {
@@ -3525,7 +5005,10 @@
                                   "description": "The availability status of the sender"
                                 },
                                 "email": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The email of the sender"
                                 },
                                 "id": {
@@ -3537,7 +5020,10 @@
                                   "description": "The name of the sender"
                                 },
                                 "phone_number": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The phone number of the sender"
                                 },
                                 "blocked": {
@@ -3545,11 +5031,17 @@
                                   "description": "Whether the sender is blocked"
                                 },
                                 "identifier": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "The identifier of the sender"
                                 },
                                 "thumbnail": {
-                                  "type": "string",
+                                  "type": [
+                                    "string",
+                                    "null"
+                                  ],
                                   "description": "Avatar URL of the contact"
                                 },
                                 "custom_attributes": {
@@ -3612,7 +5104,10 @@
                         "description": "The availability status of the sender"
                       },
                       "email": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The email of the sender"
                       },
                       "id": {
@@ -3624,7 +5119,10 @@
                         "description": "The name of the sender"
                       },
                       "phone_number": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The phone number of the sender"
                       },
                       "blocked": {
@@ -3632,11 +5130,17 @@
                         "description": "Whether the sender is blocked"
                       },
                       "identifier": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "The identifier of the sender"
                       },
                       "thumbnail": {
-                        "type": "string",
+                        "type": [
+                          "string",
+                          "null"
+                        ],
                         "description": "Avatar URL of the contact"
                       },
                       "custom_attributes": {
@@ -3785,6 +5289,399 @@
           }
         }
       },
+      "channel_summary": {
+        "type": "object",
+        "description": "Channel summary report containing conversation counts grouped by channel type and status. Available in version 4.10.0+.",
+        "additionalProperties": {
+          "type": "object",
+          "description": "Conversation statistics for a specific channel type (e.g., Channel::WebWidget, Channel::Api)",
+          "properties": {
+            "open": {
+              "type": "number",
+              "description": "Number of open conversations"
+            },
+            "resolved": {
+              "type": "number",
+              "description": "Number of resolved conversations"
+            },
+            "pending": {
+              "type": "number",
+              "description": "Number of pending conversations"
+            },
+            "snoozed": {
+              "type": "number",
+              "description": "Number of snoozed conversations"
+            },
+            "total": {
+              "type": "number",
+              "description": "Total number of conversations"
+            }
+          }
+        },
+        "example": {
+          "Channel::WebWidget": {
+            "open": 10,
+            "resolved": 20,
+            "pending": 5,
+            "snoozed": 2,
+            "total": 37
+          },
+          "Channel::Api": {
+            "open": 5,
+            "resolved": 15,
+            "pending": 3,
+            "snoozed": 1,
+            "total": 24
+          }
+        }
+      },
+      "first_response_time_distribution": {
+        "type": "object",
+        "description": "First response time distribution report grouped by channel type. Shows the count of conversations with first response times in different time buckets.",
+        "additionalProperties": {
+          "type": "object",
+          "description": "First response time distribution for a specific channel type (e.g., Channel::WebWidget, Channel::Api)",
+          "properties": {
+            "0-1h": {
+              "type": "number",
+              "description": "Number of conversations with first response time less than 1 hour"
+            },
+            "1-4h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 1-4 hours"
+            },
+            "4-8h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 4-8 hours"
+            },
+            "8-24h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 8-24 hours"
+            },
+            "24h+": {
+              "type": "number",
+              "description": "Number of conversations with first response time greater than 24 hours"
+            }
+          }
+        },
+        "example": {
+          "Channel::WebWidget": {
+            "0-1h": 150,
+            "1-4h": 80,
+            "4-8h": 45,
+            "8-24h": 30,
+            "24h+": 15
+          },
+          "Channel::Api": {
+            "0-1h": 75,
+            "1-4h": 40,
+            "4-8h": 20,
+            "8-24h": 10,
+            "24h+": 5
+          }
+        }
+      },
+      "inbox_label_matrix": {
+        "type": "object",
+        "description": "Inbox-label matrix report showing the count of conversations for each inbox-label combination.",
+        "properties": {
+          "inboxes": {
+            "type": "array",
+            "description": "List of inboxes included in the report",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "The inbox ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The inbox name"
+                }
+              }
+            }
+          },
+          "labels": {
+            "type": "array",
+            "description": "List of labels included in the report",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "The label ID"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "The label title"
+                }
+              }
+            }
+          },
+          "matrix": {
+            "type": "array",
+            "description": "2D array where matrix[i][j] represents the count of conversations in inboxes[i] with labels[j]",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "example": {
+          "inboxes": [
+            {
+              "id": 1,
+              "name": "Website Chat"
+            },
+            {
+              "id": 2,
+              "name": "Email Support"
+            }
+          ],
+          "labels": [
+            {
+              "id": 1,
+              "title": "bug"
+            },
+            {
+              "id": 2,
+              "title": "feature-request"
+            },
+            {
+              "id": 3,
+              "title": "urgent"
+            }
+          ],
+          "matrix": [
+            [
+              10,
+              5,
+              3
+            ],
+            [
+              8,
+              12,
+              2
+            ]
+          ]
+        }
+      },
+      "outgoing_messages_count": {
+        "type": "array",
+        "description": "Outgoing messages count report grouped by entity (agent, team, inbox, or label).",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The ID of the grouped entity (agent, team, inbox, or label)."
+            },
+            "name": {
+              "type": "string",
+              "description": "The name of the grouped entity."
+            },
+            "outgoing_messages_count": {
+              "type": "number",
+              "description": "The total number of outgoing messages for this entity in the given time range."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "name": "Agent One",
+            "outgoing_messages_count": 42
+          },
+          {
+            "id": 2,
+            "name": "Agent Two",
+            "outgoing_messages_count": 18
+          }
+        ]
+      },
+      "inbox_summary": {
+        "type": "array",
+        "description": "Inbox summary report containing conversation statistics grouped by inbox.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The inbox ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations created in the inbox during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved in the inbox during the date range"
+            },
+            "avg_resolution_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 150,
+            "resolved_conversations_count": 120,
+            "avg_resolution_time": 3600,
+            "avg_first_response_time": 300,
+            "avg_reply_time": 600
+          },
+          {
+            "id": 2,
+            "conversations_count": 75,
+            "resolved_conversations_count": 60,
+            "avg_resolution_time": 1800,
+            "avg_first_response_time": 180,
+            "avg_reply_time": 420
+          }
+        ]
+      },
+      "agent_summary": {
+        "type": "array",
+        "description": "Agent summary report containing conversation statistics grouped by agent.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The agent (user) ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations assigned to the agent during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved by the agent during the date range"
+            },
+            "avg_resolution_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 150,
+            "resolved_conversations_count": 120,
+            "avg_resolution_time": 3600,
+            "avg_first_response_time": 300,
+            "avg_reply_time": 600
+          },
+          {
+            "id": 2,
+            "conversations_count": 75,
+            "resolved_conversations_count": 60,
+            "avg_resolution_time": 1800,
+            "avg_first_response_time": 180,
+            "avg_reply_time": 420
+          }
+        ]
+      },
+      "team_summary": {
+        "type": "array",
+        "description": "Team summary report containing conversation statistics grouped by team.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The team ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations assigned to the team during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved by the team during the date range"
+            },
+            "avg_resolution_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 250,
+            "resolved_conversations_count": 200,
+            "avg_resolution_time": 2800,
+            "avg_first_response_time": 240,
+            "avg_reply_time": 500
+          },
+          {
+            "id": 2,
+            "conversations_count": 180,
+            "resolved_conversations_count": 150,
+            "avg_resolution_time": 2400,
+            "avg_first_response_time": 200,
+            "avg_reply_time": 450
+          }
+        ]
+      },
       "contact_detail": {
         "type": "object",
         "properties": {
@@ -3801,7 +5698,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {
@@ -3823,18 +5723,22 @@
             "description": "The ID of the contact"
           },
           "identifier": {
-            "type": "string",
-            "description": "The identifier of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The identifier of the contact"
           },
           "name": {
             "type": "string",
             "description": "The name of the contact"
           },
           "phone_number": {
-            "type": "string",
-            "description": "The phone number of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The phone number of the contact"
           },
           "thumbnail": {
             "type": "string",
@@ -3886,10 +5790,18 @@
             "type": "string",
             "enum": [
               "text",
+              "input_text",
+              "input_textarea",
+              "input_email",
               "input_select",
               "cards",
               "form",
-              "input_csat"
+              "article",
+              "incoming_email",
+              "input_csat",
+              "integrations",
+              "sticker",
+              "voice_call"
             ],
             "description": "The type of the message content"
           },
@@ -3908,11 +5820,20 @@
             "description": "The content attributes for each content_type",
             "properties": {
               "in_reply_to": {
-                "type": "string",
-                "description": "ID of the message this is replying to",
-                "nullable": true
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "ID of the message this is replying to"
               }
             }
+          },
+          "echo_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The echo ID of the message, used for deduplication"
           },
           "created_at": {
             "type": "integer",
@@ -3923,12 +5844,63 @@
             "description": "The flag which shows whether the message is private or not"
           },
           "source_id": {
-            "type": "string",
-            "description": "The source ID of the message",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The source ID of the message"
           },
           "sender": {
             "$ref": "#/components/schemas/contact_detail"
+          },
+          "attachments": {
+            "type": "array",
+            "description": "The list of attachments associated with the message",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "The ID of the attachment"
+                },
+                "message_id": {
+                  "type": "number",
+                  "description": "The ID of the message"
+                },
+                "file_type": {
+                  "type": "string",
+                  "enum": [
+                    "image",
+                    "video",
+                    "audio",
+                    "file",
+                    "location",
+                    "fallback",
+                    "share",
+                    "story_mention",
+                    "contact",
+                    "ig_reel"
+                  ],
+                  "description": "The type of the attached file"
+                },
+                "account_id": {
+                  "type": "number",
+                  "description": "The ID of the account"
+                },
+                "data_url": {
+                  "type": "string",
+                  "description": "The URL of the attached file"
+                },
+                "thumb_url": {
+                  "type": "string",
+                  "description": "The thumbnail URL of the attached file"
+                },
+                "file_size": {
+                  "type": "number",
+                  "description": "The size of the attached file in bytes"
+                }
+              }
+            }
           }
         }
       },
@@ -3997,15 +5969,28 @@
           "contact": {
             "$ref": "#/components/schemas/contact_detail"
           },
-          "agent_last_seen_at": {
-            "type": "string",
-            "description": "Timestamp when the agent last saw the conversation",
+          "assignee": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/agent"
+              }
+            ],
+            "description": "The agent assigned to the conversation",
             "nullable": true
           },
+          "agent_last_seen_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Timestamp when the agent last saw the conversation"
+          },
           "assignee_last_seen_at": {
-            "type": "string",
-            "description": "Timestamp when the assignee last saw the conversation",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Timestamp when the assignee last saw the conversation"
           }
         }
       },
@@ -4032,7 +6017,10 @@
             "description": "Total number of contacts"
           },
           "current_page": {
-            "type": "string",
+            "type": [
+              "string",
+              "integer"
+            ],
             "description": "Current page number"
           }
         }
@@ -4068,9 +6056,11 @@
                 "description": "Type of channel"
               },
               "provider": {
-                "type": "string",
-                "description": "Provider of the inbox",
-                "nullable": true
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "description": "Provider of the inbox"
               }
             }
           }
@@ -4092,7 +6082,10 @@
                 "description": "Country of the contact"
               },
               "country_code": {
-                "type": "string",
+                "type": [
+                  "string",
+                  "null"
+                ],
                 "description": "Country code of the contact"
               },
               "created_at_ip": {
@@ -4110,9 +6103,11 @@
             ]
           },
           "email": {
-            "type": "string",
-            "description": "The email address of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The email address of the contact"
           },
           "id": {
             "type": "integer",
@@ -4123,18 +6118,22 @@
             "description": "The name of the contact"
           },
           "phone_number": {
-            "type": "string",
-            "description": "The phone number of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The phone number of the contact"
           },
           "blocked": {
             "type": "boolean",
             "description": "Whether the contact is blocked"
           },
           "identifier": {
-            "type": "string",
-            "description": "The identifier of the contact",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The identifier of the contact"
           },
           "thumbnail": {
             "type": "string",
@@ -4145,9 +6144,11 @@
             "description": "The custom attributes of the contact"
           },
           "last_activity_at": {
-            "type": "integer",
-            "description": "Timestamp of last activity",
-            "nullable": true
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "Timestamp of last activity"
           },
           "created_at": {
             "type": "integer",
@@ -4229,9 +6230,11 @@
             "description": "Status of the message"
           },
           "source_id": {
-            "type": "string",
-            "description": "Source ID of the message",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Source ID of the message"
           },
           "content_type": {
             "type": "string",
@@ -4242,14 +6245,18 @@
             "description": "Attributes of the content"
           },
           "sender_type": {
-            "type": "string",
-            "description": "Type of the sender",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Type of the sender"
           },
           "sender_id": {
-            "type": "integer",
-            "description": "ID of the sender",
-            "nullable": true
+            "type": [
+              "integer",
+              "null"
+            ],
+            "description": "ID of the sender"
           },
           "external_source_ids": {
             "type": "object",
@@ -4260,9 +6267,11 @@
             "description": "Additional attributes of the message"
           },
           "processed_message_content": {
-            "type": "string",
-            "description": "Processed message content",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Processed message content"
           },
           "sentiment": {
             "type": "object",
@@ -4273,9 +6282,11 @@
             "description": "Conversation details",
             "properties": {
               "assignee_id": {
-                "type": "integer",
-                "description": "ID of the assignee",
-                "nullable": true
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "description": "ID of the assignee"
               },
               "unread_count": {
                 "type": "integer",
@@ -4361,7 +6372,10 @@
                               "description": "The availability status of the sender"
                             },
                             "email": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The email of the sender"
                             },
                             "id": {
@@ -4373,7 +6387,10 @@
                               "description": "The name of the sender"
                             },
                             "phone_number": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The phone number of the sender"
                             },
                             "blocked": {
@@ -4381,11 +6398,17 @@
                               "description": "Whether the sender is blocked"
                             },
                             "identifier": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "The identifier of the sender"
                             },
                             "thumbnail": {
-                              "type": "string",
+                              "type": [
+                                "string",
+                                "null"
+                              ],
                               "description": "Avatar URL of the contact"
                             },
                             "custom_attributes": {
@@ -4432,6 +6455,106 @@
               "$ref": "#/components/schemas/contact_inbox"
             },
             "description": "List of contactable inboxes for the contact"
+          }
+        }
+      },
+      "reporting_event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the reporting event"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event (e.g., first_response, resolution, reply_time)"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds"
+          },
+          "value_in_business_hours": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds, calculated only for business hours"
+          },
+          "event_start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event started"
+          },
+          "event_end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event ended"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "ID of the account"
+          },
+          "conversation_id": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "ID of the conversation"
+          },
+          "inbox_id": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "ID of the inbox"
+          },
+          "user_id": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "ID of the user/agent"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was last updated"
+          }
+        }
+      },
+      "reporting_event_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of reporting events"
+          },
+          "current_page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Total number of pages"
+          }
+        }
+      },
+      "reporting_events_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/reporting_event_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/reporting_event"
+            },
+            "description": "List of reporting events"
           }
         }
       }
@@ -4689,6 +6812,7 @@
         "Custom Filters",
         "Inboxes",
         "Integrations",
+        "Labels",
         "Messages",
         "Profile",
         "Reports",

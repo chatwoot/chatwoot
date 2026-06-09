@@ -1,4 +1,6 @@
 module ConversationReplyMailerHelper
+  include ConversationReplyMailerAttachmentHelper
+
   def prepare_mail(cc_bcc_enabled)
     @options = {
       to: to_emails,
@@ -27,34 +29,6 @@ module ConversationReplyMailerHelper
     mail(@options)
   end
 
-  def process_attachments_as_files_for_email_reply
-    # Attachment processing for direct email replies (when replying to a single message)
-    #
-    # How attachments are handled:
-    # 1. Total file size (<20MB): Added directly to the email as proper attachments
-    # 2. Total file size (>20MB): Added to @large_attachments to be displayed as links in the email
-
-    @options[:attachments] = []
-    @large_attachments = []
-    current_total_size = 0
-
-    @message.attachments.each do |attachment|
-      raw_data = attachment.file.download
-      attachment_name = attachment.file.filename.to_s
-      file_size = raw_data.bytesize
-
-      # Attach files directly until we hit 20MB total
-      # After reaching 20MB, send remaining files as links
-      if current_total_size + file_size <= 20.megabytes
-        mail.attachments[attachment_name] = raw_data
-        @options[:attachments] << { name: attachment_name }
-        current_total_size += file_size
-      else
-        @large_attachments << attachment
-      end
-    end
-  end
-
   private
 
   def oauth_smtp_settings
@@ -80,8 +54,7 @@ module ConversationReplyMailerHelper
       tls: false,
       enable_starttls_auto: true,
       openssl_verify_mode: 'none',
-      open_timeout: 15,
-      read_timeout: 15,
+      **smtp_timeout_settings,
       authentication: 'xoauth2'
     }
   end
@@ -98,6 +71,7 @@ module ConversationReplyMailerHelper
       tls: @channel.smtp_enable_ssl_tls,
       enable_starttls_auto: @channel.smtp_enable_starttls_auto,
       openssl_verify_mode: @channel.smtp_openssl_verify_mode,
+      **smtp_timeout_settings,
       authentication: @channel.smtp_authentication
     }
 
@@ -105,28 +79,35 @@ module ConversationReplyMailerHelper
     @options[:delivery_method_options] = smtp_settings
   end
 
-  def email_smtp_enabled
+  def smtp_timeout_settings
+    {
+      open_timeout: ENV['SMTP_OPEN_TIMEOUT'].presence || 15,
+      read_timeout: ENV['SMTP_READ_TIMEOUT'].presence || 30
+    }.transform_values(&:to_i)
+  end
+
+  def email_smtp_enabled?
     @inbox.inbox_type == 'Email' && @channel.smtp_enabled
   end
 
-  def email_imap_enabled
+  def email_imap_enabled?
     @inbox.inbox_type == 'Email' && @channel.imap_enabled
   end
 
-  def email_oauth_enabled
+  def email_oauth_enabled?
     @inbox.inbox_type == 'Email' && (@channel.microsoft? || @channel.google?)
   end
 
   def email_from
     return Email::FromBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
 
-    email_oauth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
+    email_oauth_enabled? || email_smtp_enabled? ? channel_email_with_name : from_email_with_name
   end
 
   def email_reply_to
     return Email::ReplyToBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
 
-    email_imap_enabled ? @channel.email : reply_email
+    email_imap_enabled? ? @channel.email : reply_email
   end
 
   # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to

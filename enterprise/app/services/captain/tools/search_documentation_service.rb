@@ -1,30 +1,19 @@
-class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseService
-  def name
+class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
+  def self.name
     'search_documentation'
   end
+  description 'Search and retrieve documentation from knowledge base'
 
-  def description
-    'Search and retrieve documentation from knowledge base'
-  end
+  param :query, desc: 'Search Query', required: true
 
-  def parameters
-    {
-      type: 'object',
-      properties: {
-        search_query: {
-          type: 'string',
-          description: 'The search query to look up in the documentation.'
-        }
-      },
-      required: ['search_query']
-    }
-  end
-
-  def execute(arguments)
-    query = arguments['search_query']
+  def execute(query:)
     Rails.logger.info { "#{self.class.name}: #{query}" }
 
-    responses = assistant.responses.approved.search(query)
+    translated_query = Captain::Llm::TranslateQueryService
+                       .new(account: assistant.account)
+                       .translate(query, target_language: assistant.account.locale_english_name)
+
+    responses = assistant.responses.approved.search(translated_query)
 
     return 'No FAQs found for the given query' if responses.empty?
 

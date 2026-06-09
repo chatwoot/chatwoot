@@ -30,6 +30,14 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
 
         create(
           :message,
+          :bot_message,
+          conversation: conversation,
+          message_type: 'outgoing',
+          content: 'Thanks for reaching out, an agent will reach out to you soon'
+        )
+
+        create(
+          :message,
           conversation: conversation,
           message_type: 'outgoing',
           content: 'How can I assist you today?'
@@ -40,7 +48,8 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
           "Channel: #{conversation.inbox.channel.name}",
           'Message History:',
           'User: Hello, I need help',
-          'Support agent: How can I assist you today?',
+          'Bot: Thanks for reaching out, an agent will reach out to you soon',
+          'Support Agent: How can I assist you today?',
           ''
         ].join("\n")
 

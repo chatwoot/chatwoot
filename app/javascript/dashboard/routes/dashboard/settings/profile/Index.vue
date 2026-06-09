@@ -13,14 +13,15 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
 import UserLanguageSelect from './UserLanguageSelect.vue';
-import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
-import FormSection from 'dashboard/components/FormSection.vue';
+import SectionLayout from '../account/components/SectionLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
 import Policy from 'dashboard/components/policy.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -29,18 +30,19 @@ import {
 export default {
   components: {
     MessageSignature,
-    FormSection,
+    SectionLayout,
     FontSize,
     UserLanguageSelect,
     UserProfilePicture,
     Policy,
     UserBasicDetails,
-    HotKeyCard,
+    RadioCard,
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
     MfaSettingsCard,
+    BaseSettingsHeader,
   },
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
@@ -203,26 +205,27 @@ export default {
 </script>
 
 <template>
-  <div class="grid py-16 px-5 font-inter mx-auto gap-16 sm:max-w-screen-md">
-    <div class="flex flex-col gap-6">
-      <h2 class="text-2xl font-medium text-n-slate-12">
-        {{ $t('PROFILE_SETTINGS.TITLE') }}
-      </h2>
-      <UserProfilePicture
-        :src="avatarUrl"
-        :name="name"
-        @change="updateProfilePicture"
-        @delete="deleteProfilePicture"
-      />
-      <UserBasicDetails
-        :name="name"
-        :display-name="displayName"
-        :email="email"
-        :email-enabled="!globalConfig.disableUserProfileUpdate"
-        @update-user="updateProfile"
-      />
-    </div>
-    <FormSection
+  <div class="grid max-w-2xl ltr:mr-auto rtl:ml-auto">
+    <BaseSettingsHeader :title="$t('PROFILE_SETTINGS.TITLE')" description="" />
+    <SectionLayout title="" description="" class="!pt-0">
+      <div class="flex flex-col gap-6">
+        <UserProfilePicture
+          :src="avatarUrl"
+          :name="name"
+          @change="updateProfilePicture"
+          @delete="deleteProfilePicture"
+        />
+        <UserBasicDetails
+          :name="name"
+          :display-name="displayName"
+          :email="email"
+          :email-enabled="!globalConfig.disableUserProfileUpdate"
+          @update-user="updateProfile"
+        />
+      </div>
+    </SectionLayout>
+    <SectionLayout
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.TITLE')"
       :description="
         replaceInstallationName(
@@ -230,22 +233,25 @@ export default {
         )
       "
     >
-      <FontSize
-        :value="currentFontSize"
-        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
-        :description="
-          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
-        "
-        @change="updateFontSize"
-      />
-      <UserLanguageSelect
-        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
-        :description="
-          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
-        "
-      />
-    </FormSection>
-    <FormSection
+      <div class="flex flex-col gap-6 items-start">
+        <FontSize
+          :value="currentFontSize"
+          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.TITLE')"
+          :description="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
+          "
+          @change="updateFontSize"
+        />
+        <UserLanguageSelect
+          :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+          :description="
+            $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+          "
+        />
+      </div>
+    </SectionLayout>
+    <SectionLayout
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')"
     >
@@ -253,65 +259,76 @@ export default {
         :message-signature="messageSignature"
         @update-signature="updateSignature"
       />
-    </FormSection>
-    <FormSection
+    </SectionLayout>
+    <SectionLayout
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
     >
       <div
         class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
       >
-        <button
+        <RadioCard
           v-for="hotKey in hotKeys"
+          :id="hotKey.key"
           :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
-          :class="
-            isEditorHotKeyEnabled(hotKey.key)
-              ? 'outline-n-brand/30'
-              : 'outline-n-weak'
-          "
+          :label="hotKey.title"
+          :description="hotKey.description"
+          :is-active="isEditorHotKeyEnabled(hotKey.key)"
+          class="sm:flex-1"
+          @select="toggleHotKey"
         >
-          <HotKeyCard
-            :key="hotKey.title"
-            :title="hotKey.title"
-            :description="hotKey.description"
-            :light-image="hotKey.lightImage"
-            :dark-image="hotKey.darkImage"
-            :active="isEditorHotKeyEnabled(hotKey.key)"
-            @click="toggleHotKey(hotKey.key)"
+          <img
+            :src="hotKey.lightImage"
+            :alt="`Light themed image for ${hotKey.title}`"
+            class="block object-cover w-full dark:hidden"
           />
-        </button>
+          <img
+            :src="hotKey.darkImage"
+            :alt="`Dark themed image for ${hotKey.title}`"
+            class="hidden object-cover w-full dark:block"
+          />
+        </RadioCard>
       </div>
-    </FormSection>
-    <FormSection
+    </SectionLayout>
+    <SectionLayout
       v-if="!globalConfig.disableUserProfileUpdate"
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')"
+      description=""
     >
       <ChangePassword />
-    </FormSection>
-    <FormSection
+    </SectionLayout>
+    <SectionLayout
       v-if="isMfaEnabled"
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
       <MfaSettingsCard />
-    </FormSection>
+    </SectionLayout>
     <Policy :permissions="audioNotificationPermissions">
-      <FormSection
+      <SectionLayout
+        with-border
         :title="$t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.TITLE')"
         :description="
           $t('PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.NOTE')
         "
       >
         <AudioNotifications />
-      </FormSection>
+      </SectionLayout>
     </Policy>
     <Policy :permissions="notificationPermissions">
-      <FormSection :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')">
+      <SectionLayout
+        with-border
+        :title="$t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.TITLE')"
+        description=""
+      >
         <NotificationPreferences />
-      </FormSection>
+      </SectionLayout>
     </Policy>
-    <FormSection
+    <SectionLayout
+      with-border
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
       :description="
         replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
@@ -322,6 +339,6 @@ export default {
         @on-copy="onCopyToken"
         @on-reset="resetAccessToken"
       />
-    </FormSection>
+    </SectionLayout>
   </div>
 </template>

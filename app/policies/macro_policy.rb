@@ -12,11 +12,15 @@ class MacroPolicy < ApplicationPolicy
   end
 
   def update?
-    author? || (@account_user.administrator? && @record.global?)
+    return @account_user.administrator? if @record.global?
+
+    author?
   end
 
   def destroy?
-    author? || orphan_record?
+    return @account_user.administrator? if @record.global?
+
+    author?
   end
 
   def execute?
@@ -27,11 +31,5 @@ class MacroPolicy < ApplicationPolicy
 
   def author?
     @record.created_by == @account_user.user
-  end
-
-  def orphan_record?
-    return @account_user.administrator? if @record.created_by.nil? && @record.global?
-
-    false
   end
 end

@@ -40,6 +40,15 @@ describe('#URL Helpers', () => {
         '/app/accounts/1/custom_view/1'
       );
     });
+
+    it('should return url to participating conversations', () => {
+      expect(
+        conversationListPageURL({
+          accountId: 1,
+          conversationType: 'participating',
+        })
+      ).toBe('/app/accounts/1/participating/conversations');
+    });
   });
   describe('conversationUrl', () => {
     it('should return direct conversation URL if activeInbox is nil', () => {

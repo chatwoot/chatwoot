@@ -1,49 +1,57 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "계정 만들기",
+    "GET_STARTED": "Chatwoot 시작하기",
     "TITLE": "회원가입",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TESTIMONIAL_HEADER": "앞으로 나아가기 위한 단 한 걸음",
+    "TESTIMONIAL_CONTENT": "고객과 소통하고, 유지하고, 새로운 고객을 찾는 것은 한 걸음이면 됩니다.",
+    "TERMS_ACCEPT": "계정을 생성하면 <a href=\"https://www.chatwoot.com/terms\">이용약관</a> 및 <a href=\"https://www.chatwoot.com/privacy-policy\">개인정보 처리방침</a>에 동의하는 것입니다",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Google로 가입"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. eg: Wayne Enterprises",
-      "ERROR": "Company name is too short"
+      "LABEL": "회사 이름",
+      "PLACEHOLDER": "회사 이름을 입력하십시오. 예: Wayne Enterprises",
+      "ERROR": "회사 이름이 너무 짧습니다."
     },
     "FULL_NAME": {
       "LABEL": "전체 이름",
-      "PLACEHOLDER": "전체 이름을 입력합니다. 예: Taeyeon Kim",
-      "ERROR": "계정 이름이 너무 짧음"
+      "PLACEHOLDER": "전체 이름을 입력하십시오. 예: Taeyeon Kim",
+      "ERROR": "전체 이름이 너무 짧습니다."
     },
     "EMAIL": {
       "LABEL": "회사 이메일",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address"
+      "PLACEHOLDER": "회사 이메일 주소를 입력하십시오. 예: bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "유효한 회사 이메일 주소를 입력하십시오."
     },
     "PASSWORD": {
       "LABEL": "비밀번호",
       "PLACEHOLDER": "비밀번호",
-      "ERROR": "비밀번호가 너무 짧음",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "ERROR": "비밀번호가 너무 짧습니다.",
+      "IS_INVALID_PASSWORD": "비밀번호에는 최소 대문자 1개, 소문자 1개, 숫자 1개, 특수문자 1개가 포함되어야 합니다.",
+      "REQUIREMENTS_LENGTH": "최소 6자 이상",
+      "REQUIREMENTS_UPPERCASE": "최소 대문자 1개",
+      "REQUIREMENTS_LOWERCASE": "최소 소문자 1개",
+      "REQUIREMENTS_NUMBER": "최소 숫자 1개",
+      "REQUIREMENTS_SPECIAL": "최소 특수문자 1개"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "비밀번호 확인",
       "PLACEHOLDER": "비밀번호 확인",
-      "ERROR": "비밀번호가 일치하지 않음."
+      "ERROR": "비밀번호가 일치하지 않습니다."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Woot Server에 연결할 수 없음. 나중에 다시 시도하십시오."
+      "SUCCESS_MESSAGE": "회원가입이 완료되었습니다",
+      "ERROR_MESSAGE": "Chatwoot 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
     },
-    "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "이미 계정이 있습니까?"
+    "SUBMIT": "계정 만들기",
+    "HAVE_AN_ACCOUNT": "이미 계정이 있으십니까?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "인증 이메일 다시 보내기",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

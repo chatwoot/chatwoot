@@ -15,7 +15,7 @@ export default {
 
 <template>
   <div class="border-b border-solid border-n-weak/60">
-    <div class="max-w-6xl w-full mx-auto pt-4 pb-0 px-8">
+    <div class="max-w-7xl w-full mx-auto pt-4 pb-0 px-6">
       <h2 class="text-2xl text-n-slate-12 mb-1 font-medium">
         {{ headerTitle }}
       </h2>

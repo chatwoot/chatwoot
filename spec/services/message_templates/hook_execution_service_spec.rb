@@ -15,7 +15,7 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::Greeting).to receive(:new)
 
       # described class gets called in message after commit
-      create(:message, conversation: conversation, message_type: 'activity', content: 'Conversation marked resolved!!')
+      create(:message, conversation: conversation, account: conversation.account, message_type: 'activity', content: 'Conversation marked resolved!!')
 
       expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
       expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
@@ -36,7 +36,7 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::Greeting).to receive(:new)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
 
       expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
       expect(MessageTemplates::Template::EmailCollect).to have_received(:new).with(conversation: message.conversation)
@@ -54,7 +54,7 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
       allow(greeting_service).to receive(:perform).and_return(true)
 
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
       expect(MessageTemplates::Template::Greeting).not_to have_received(:new).with(conversation: message.conversation)
     end
   end
@@ -75,7 +75,7 @@ describe MessageTemplates::HookExecutionService do
       allow(greeting_service).to receive(:perform).and_return(true)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
 
       expect(MessageTemplates::Template::Greeting).to have_received(:new).with(conversation: message.conversation)
       expect(greeting_service).to have_received(:perform)
@@ -90,7 +90,7 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
 
       expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
     end
@@ -105,9 +105,43 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
 
       expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new).with(conversation: message.conversation)
+    end
+  end
+
+  context 'when conversation has a campaign' do
+    let(:campaign) { create(:campaign) }
+
+    it 'does not call ::MessageTemplates::Template::Greeting on campaign conversations' do
+      contact = create(:contact, email: nil)
+      conversation = create(:conversation, contact: contact, campaign: campaign)
+      conversation.inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message', enable_email_collect: false)
+
+      greeting_service = double
+      allow(MessageTemplates::Template::Greeting).to receive(:new).and_return(greeting_service)
+      allow(greeting_service).to receive(:perform).and_return(true)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+    end
+
+    it 'does not call ::MessageTemplates::Template::OutOfOffice on campaign conversations' do
+      contact = create(:contact)
+      conversation = create(:conversation, contact: contact, campaign: campaign)
+
+      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+
+      out_of_office_service = double
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+      allow(out_of_office_service).to receive(:perform).and_return(true)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
     end
   end
 
@@ -117,7 +151,7 @@ describe MessageTemplates::HookExecutionService do
       conversation = create(:conversation, contact: contact)
       conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
 
-      message = create(:message, conversation: conversation, content_type: :incoming_email)
+      message = create(:message, conversation: conversation, account: conversation.account, content_type: :incoming_email)
       message.content_attributes = { email: { auto_reply: true } }
       message.save!
 
@@ -154,7 +188,7 @@ describe MessageTemplates::HookExecutionService do
       allow(out_of_office_service).to receive(:perform).and_return(true)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
 
       expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: message.conversation)
       expect(out_of_office_service).to have_received(:perform)
@@ -168,13 +202,13 @@ describe MessageTemplates::HookExecutionService do
         conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
         conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
-        create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
+        create(:message, conversation: conversation, account: conversation.account, message_type: :outgoing, created_at: 2.minutes.ago)
 
         out_of_office_service = double
         allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
         allow(out_of_office_service).to receive(:perform).and_return(true)
 
-        create(:message, conversation: conversation)
+        create(:message, conversation: conversation, account: conversation.account)
 
         expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
         expect(out_of_office_service).not_to have_received(:perform)
@@ -187,13 +221,13 @@ describe MessageTemplates::HookExecutionService do
         conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
         conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
-        create(:message, conversation: conversation, private: true, message_type: :outgoing, created_at: 2.minutes.ago)
+        create(:message, conversation: conversation, account: conversation.account, private: true, message_type: :outgoing, created_at: 2.minutes.ago)
 
         out_of_office_service = double
         allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
         allow(out_of_office_service).to receive(:perform).and_return(true)
 
-        create(:message, conversation: conversation)
+        create(:message, conversation: conversation, account: conversation.account)
 
         expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: conversation)
         expect(out_of_office_service).to have_received(:perform)
@@ -213,7 +247,7 @@ describe MessageTemplates::HookExecutionService do
       allow(out_of_office_service).to receive(:perform).and_return(true)
 
       # described class gets called in message after commit
-      message = create(:message, conversation: conversation, message_type: 'outgoing')
+      message = create(:message, conversation: conversation, account: conversation.account, message_type: 'outgoing')
 
       expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new).with(conversation: message.conversation)
       expect(out_of_office_service).not_to have_received(:perform)
@@ -231,7 +265,7 @@ describe MessageTemplates::HookExecutionService do
       allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
       allow(out_of_office_service).to receive(:perform).and_return(false)
 
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, account: conversation.account)
       expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new).with(conversation: message.conversation)
       expect(out_of_office_service).not_to receive(:perform)
     end

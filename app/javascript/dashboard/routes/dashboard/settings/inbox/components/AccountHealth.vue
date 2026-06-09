@@ -10,7 +10,13 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  isRegisteringWebhook: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['registerWebhook']);
 
 const { t } = useI18n();
 
@@ -133,21 +139,43 @@ const formatModeDisplay = mode =>
 const getModeStatusTextColor = mode => MODE_COLORS[mode] || 'text-n-slate-12';
 
 const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
+
+const showWebhookSection = computed(
+  () => props.healthData?.webhook_configuration !== undefined
+);
+
+const webhookUrl = computed(
+  () =>
+    props.healthData?.webhook_configuration?.whatsapp_business_account ||
+    props.healthData?.webhook_configuration?.application
+);
+
+const webhookConfigured = computed(() => !!webhookUrl.value);
+
+const webhookUrlMismatch = computed(
+  () =>
+    webhookConfigured.value &&
+    webhookUrl.value !== props.healthData?.expected_webhook_url
+);
+
+const handleRegisterWebhook = () => {
+  emit('registerWebhook');
+};
 </script>
 
 <template>
-  <div class="gap-4 pt-8 mx-8">
+  <div class="gap-4 mx-6">
     <div
-      class="px-5 py-5 space-y-6 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
+      class="px-5 py-5 space-y-6 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak bg-n-solid-2"
     >
       <div
         class="flex flex-col gap-5 justify-between items-start w-full md:flex-row"
       >
         <div>
-          <span class="text-base font-medium text-n-slate-12">
+          <span class="text-heading-3 text-n-slate-12">
             {{ t('INBOX_MGMT.ACCOUNT_HEALTH.TITLE') }}
           </span>
-          <p class="mt-1 text-sm text-n-slate-11">
+          <p class="mt-1 text-body-main text-n-slate-11">
             {{ t('INBOX_MGMT.ACCOUNT_HEALTH.DESCRIPTION') }}
           </p>
         </div>
@@ -169,7 +197,7 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
           class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
         >
           <div class="flex gap-2 items-center">
-            <span class="text-sm font-medium text-n-slate-11">
+            <span class="text-body-main font-medium text-n-slate-11">
               {{ item.label }}
             </span>
             <Icon
@@ -181,34 +209,83 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
           <div class="flex items-center">
             <span
               v-if="item.type === 'quality'"
-              class="inline-flex items-center px-2 py-0.5 min-h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              class="inline-flex items-center px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2"
               :class="getQualityRatingTextColor(item.value)"
             >
               {{ item.value }}
             </span>
             <span
               v-else-if="item.type === 'status'"
-              class="inline-flex items-center px-2 py-0.5 min-h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              class="inline-flex items-center px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2"
               :class="getStatusTextColor(item.value)"
             >
               {{ formatStatusDisplay(item.value) }}
             </span>
             <span
               v-else-if="item.type === 'mode'"
-              class="inline-flex items-center px-2 py-0.5 min-h-6 text-xs font-medium rounded-md bg-n-alpha-2"
+              class="inline-flex items-center px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2"
               :class="getModeStatusTextColor(item.value)"
             >
               {{ formatModeDisplay(item.value) }}
             </span>
             <span
               v-else-if="item.type === 'tier'"
-              class="text-sm font-medium text-n-slate-12"
+              class="text-label text-n-slate-12"
             >
               {{ formatTierDisplay(item.value) }}
             </span>
-            <span v-else class="text-sm font-medium text-n-slate-12">{{
+            <span v-else class="text-label text-n-slate-12">{{
               item.value
             }}</span>
+          </div>
+        </div>
+
+        <!-- Webhook configuration card -->
+        <div
+          v-if="showWebhookSection"
+          class="flex flex-col gap-2 p-4 rounded-lg border border-n-weak bg-n-solid-1"
+        >
+          <div class="flex gap-2 items-center">
+            <span class="text-body-main font-medium text-n-slate-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.TITLE') }}
+            </span>
+            <Icon
+              v-tooltip.top="t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.DESCRIPTION')"
+              icon="i-lucide-info"
+              class="flex-shrink-0 w-4 h-4 cursor-help text-n-slate-9"
+            />
+          </div>
+          <div class="flex items-center justify-between gap-3">
+            <span
+              v-if="webhookConfigured && !webhookUrlMismatch"
+              class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2 text-n-teal-11"
+            >
+              <Icon icon="i-lucide-check-circle" class="w-3.5 h-3.5" />
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.CONFIGURED_SUCCESS') }}
+            </span>
+            <span
+              v-else
+              class="inline-flex items-center gap-1.5 px-2 py-0.5 min-h-6 text-label-small rounded-md bg-n-alpha-2 text-n-amber-11"
+            >
+              <Icon icon="i-lucide-alert-triangle" class="w-3.5 h-3.5" />
+              {{
+                webhookUrlMismatch
+                  ? t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.URL_MISMATCH')
+                  : t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.ACTION_REQUIRED')
+              }}
+            </span>
+            <ButtonV4
+              v-if="!webhookConfigured || webhookUrlMismatch"
+              sm
+              solid
+              blue
+              :loading="isRegisteringWebhook"
+              :disabled="isRegisteringWebhook"
+              class="flex-shrink-0"
+              @click="handleRegisterWebhook"
+            >
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.WEBHOOK.REGISTER_BUTTON') }}
+            </ButtonV4>
           </div>
         </div>
       </div>
@@ -219,7 +296,9 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
         >
           <div>
             <Icon icon="i-lucide-activity" class="mb-2 w-8 h-8" />
-            <p class="text-sm">{{ t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA') }}</p>
+            <p class="text-body-main text-n-slate-11">
+              {{ t('INBOX_MGMT.ACCOUNT_HEALTH.NO_DATA') }}
+            </p>
           </div>
         </div>
       </div>

@@ -47,6 +47,14 @@ const filterTypes = [
     attributeModel: 'standard',
   },
   {
+    attributeKey: 'contact_id',
+    attributeI18nKey: 'CONTACT',
+    inputType: 'search_select',
+    dataType: 'number',
+    filterOperators: OPERATOR_TYPES_1,
+    attributeModel: 'standard',
+  },
+  {
     attributeKey: 'display_id',
     attributeI18nKey: 'CONVERSATION_IDENTIFIER',
     inputType: 'plain_text',
@@ -73,14 +81,6 @@ const filterTypes = [
   {
     attributeKey: 'browser_language',
     attributeI18nKey: 'BROWSER_LANGUAGE',
-    inputType: 'search_select',
-    dataType: 'text',
-    filterOperators: OPERATOR_TYPES_1,
-    attributeModel: 'additional',
-  },
-  {
-    attributeKey: 'country_code',
-    attributeI18nKey: 'COUNTRY_NAME',
     inputType: 'search_select',
     dataType: 'text',
     filterOperators: OPERATOR_TYPES_1,
@@ -142,6 +142,10 @@ export const filterAttributeGroups = [
         i18nKey: 'TEAM_NAME',
       },
       {
+        key: 'contact_id',
+        i18nKey: 'CONTACT',
+      },
+      {
         key: 'display_id',
         i18nKey: 'CONVERSATION_IDENTIFIER',
       },
@@ -170,10 +174,6 @@ export const filterAttributeGroups = [
       {
         key: 'browser_language',
         i18nKey: 'BROWSER_LANGUAGE',
-      },
-      {
-        key: 'country_code',
-        i18nKey: 'COUNTRY_NAME',
       },
       {
         key: 'referer',

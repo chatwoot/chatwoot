@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
-import configMixin from '../mixins/configMixin';
+import { useAttachments } from '../composables/useAttachments';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
@@ -18,7 +18,6 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -28,6 +27,18 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const {
+      canHandleAttachments,
+      shouldShowEmojiPicker,
+      hasEmojiPickerEnabled,
+    } = useAttachments();
+    return {
+      canHandleAttachments,
+      shouldShowEmojiPicker,
+      hasEmojiPickerEnabled,
+    };
   },
   data() {
     return {
@@ -41,15 +52,10 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
       shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
-      return (
-        this.shouldShowFilePicker &&
-        this.hasAttachmentsEnabled &&
-        this.userInput.length === 0
-      );
+      return this.canHandleAttachments && this.userInput.length === 0;
     },
     showSendButton() {
       return this.userInput.length > 0;
@@ -124,7 +130,7 @@ export default {
   <div
     class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
     :class="{
-      '!shadow-n-brand dark:!shadow-n-brand': isFocused,
+      '!shadow-[var(--widget-color,#2781f6)]': isFocused,
       '!shadow-n-strong dark:!shadow-n-strong': !isFocused,
     }"
     @keydown.esc="hideEmojiPicker"

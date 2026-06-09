@@ -3,22 +3,22 @@
     "MODAL": {
       "TITLE": "Шаблоны Whatsapp",
       "SUBTITLE": "Выберите шаблон whatsapp, который вы хотите отправить",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TEMPLATE_SELECTED_SUBTITLE": "Настройка шаблона: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Найти шаблоны",
       "NO_TEMPLATES_FOUND": "Не найдено шаблонов для",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Заголовок",
+      "BODY": "Основной текст",
+      "FOOTER": "Нижний текст",
+      "BUTTONS": "Кнопки",
       "CATEGORY": "Категория",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Медиа",
+      "MEDIA_CONTENT_FALLBACK": "медиа",
+      "NO_TEMPLATES_AVAILABLE": "Шаблоны WhatsApp недоступны. Нажмите кнопку \"Обновить\", чтобы синхронизировать шаблоны из WhatsApp.",
+      "REFRESH_BUTTON": "Обновить шаблоны",
+      "REFRESH_SUCCESS": "Обновление шаблонов запущено. Обновление может занять несколько минут.",
+      "REFRESH_ERROR": "Не удалось обновить шаблоны. Попробуйте ещё раз.",
       "LABELS": {
         "LANGUAGE": "Язык",
         "TEMPLATE_BODY": "Тело шаблона",
@@ -33,15 +33,15 @@
       "GO_BACK_LABEL": "Вернуться",
       "SEND_MESSAGE_LABEL": "Отправить сообщение",
       "FORM_ERROR_MESSAGE": "Пожалуйста, заполните все переменные перед отправкой",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "MEDIA_HEADER_LABEL": "{type} Заголовок",
+      "OTP_CODE": "Введите 4-8 цифр OTP",
+      "EXPIRY_MINUTES": "Введите срок действия в минутах",
+      "BUTTON_PARAMETERS": "Параметры кнопки",
+      "BUTTON_LABEL": "Кнопка {index}",
+      "COUPON_CODE": "Введите код купона (не более 15 символов)",
+      "MEDIA_URL_LABEL": "Введите {type} URL",
+      "DOCUMENT_NAME_PLACEHOLDER": "Введите имя файла документа (например, Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Введите параметр кнопки"
     }
   }
 }

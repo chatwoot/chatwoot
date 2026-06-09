@@ -1,7 +1,11 @@
 import axios from 'axios';
-import { actions } from '../../customViews';
 import * as types from '../../../mutation-types';
-import { customViewList, updateCustomViewList } from './fixtures';
+import { actions } from '../../customViews';
+import {
+  contactFilterView,
+  customViewList,
+  updateCustomViewList,
+} from './fixtures';
 
 const commit = vi.fn();
 global.axios = axios;
@@ -105,6 +109,28 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.default.SET_ACTIVE_CONVERSATION_FOLDER, customViewList[0]],
       ]);
+    });
+
+    it('prefetches the contact of a contact filter', async () => {
+      const dispatch = vi.fn();
+      await actions.setActiveConversationFolder(
+        { commit, dispatch },
+        contactFilterView
+      );
+      expect(dispatch).toHaveBeenCalledWith(
+        'contacts/show',
+        { id: 42 },
+        { root: true }
+      );
+    });
+
+    it('does not prefetch without a contact filter', async () => {
+      const dispatch = vi.fn();
+      await actions.setActiveConversationFolder(
+        { commit, dispatch },
+        customViewList[0]
+      );
+      expect(dispatch).not.toHaveBeenCalled();
     });
   });
 });

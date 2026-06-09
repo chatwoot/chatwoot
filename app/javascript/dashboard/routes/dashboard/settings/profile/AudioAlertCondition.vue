@@ -19,9 +19,7 @@ const onChange = (id, value) => {
 
 <template>
   <div>
-    <label
-      class="flex justify-between pb-1 text-sm font-medium leading-6 text-n-slate-12"
-    >
+    <label class="flex justify-between pb-1 text-heading-3 text-n-slate-12">
       {{ label }}
     </label>
     <div class="flex flex-col gap-3 mt-2">
@@ -37,7 +35,7 @@ const onChange = (id, value) => {
           @update="onChange"
         />
         <label
-          class="text-sm font-normal text-n-slate-12"
+          class="text-body-main text-n-slate-12"
           :for="`checkbox-condition-${item.value}`"
         >
           {{ item.label }}

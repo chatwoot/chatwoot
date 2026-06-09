@@ -3,7 +3,7 @@
     "TITLE": "Accedi a Chatwoot",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "example{'@'}companyname.com",
+      "PLACEHOLDER": "esempio{'@'}nomeazienda.com",
       "ERROR": "Inserisci un indirizzo email valido"
     },
     "PASSWORD": {
@@ -12,29 +12,29 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Accesso riuscito",
-      "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi",
-      "UNAUTH": "Nome utente / Password errati. Riprova"
+      "ERROR_MESSAGE": "Impossibile connettersi al server Woot. Riprova.",
+      "UNAUTH": "Nome utente o password errati. Riprova."
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Accedi tramite Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Utilizza il tuo indirizzo email aziendale per effettuare il login",
+      "NO_ACCOUNT_FOUND": "Non siamo riusciti a trovare un account per il tuo indirizzo email."
     },
     "FORGOT_PASSWORD": "Password dimenticata?",
     "CREATE_NEW_ACCOUNT": "Crea un nuovo account",
     "SUBMIT": "Accedi",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "Accedi tramite SSO",
+      "TITLE": "Avvia Single Sign-on (SSO)",
+      "SUBTITLE": "Inserisci la tua email di lavoro per accedere alla tua organizzazione",
+      "BACK_TO_LOGIN": "Accedi tramite Password",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "Email di Lavoro",
+        "PLACEHOLDER": "Inserisci la tua email di lavoro"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "Prosegui con SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "Autenticazione SSO fallita. Verifica le credenziali e riprova."
       }
     }
   }

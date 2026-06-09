@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 
 defineProps({
   isMobileSidebarOpen: {
@@ -38,21 +39,24 @@ const toggleSidebar = () => {
   <div
     v-if="!isConversationRoute"
     id="mobile-sidebar-launcher"
-    class="fixed bottom-4 ltr:left-4 rtl:right-4 z-40 transition-transform duration-200 ease-in-out block md:hidden"
+    class="fixed bottom-4 ltr:left-4 rtl:right-4 z-40 transition-transform duration-200 ease-out block md:hidden"
     :class="[
       {
         'ltr:translate-x-48 rtl:-translate-x-48': isMobileSidebarOpen,
       },
     ]"
   >
-    <div class="rounded-full bg-n-alpha-2 p-1">
+    <ButtonGroup
+      class="rounded-full bg-n-alpha-2 backdrop-blur-lg p-1 shadow hover:shadow-md"
+    >
       <Button
         icon="i-lucide-menu"
-        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl"
+        no-animation
+        class="!rounded-full !bg-n-solid-3 dark:!bg-n-alpha-2 !text-n-slate-12 text-xl transition-all duration-200 ease-out hover:brightness-110"
         lg
         @click="toggleSidebar"
       />
-    </div>
+    </ButtonGroup>
   </div>
   <template v-else />
 </template>

@@ -55,6 +55,22 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     end
   end
 
+  def topup_checkout
+    return render json: { error: I18n.t('errors.topup.credits_required') }, status: :unprocessable_entity if params[:credits].blank?
+
+    service = Enterprise::Billing::TopupCheckoutService.new(account: @account)
+    result = service.create_checkout_session(credits: params[:credits].to_i)
+
+    @account.reload
+    render json: result.merge(
+      id: @account.id,
+      limits: @account.limits,
+      custom_attributes: @account.custom_attributes
+    )
+  rescue Enterprise::Billing::TopupCheckoutService::Error, Stripe::StripeError => e
+    render_could_not_create_error(e.message)
+  end
+
   private
 
   def check_cloud_env
@@ -86,6 +102,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     reason = 'manual_deletion'
 
     if @account.mark_for_deletion(reason)
+      cancel_cloud_subscriptions_for_deletion
+
       render json: { message: 'Account marked for deletion' }, status: :ok
     else
       render json: { message: @account.errors.full_messages.join(', ') }, status: :unprocessable_entity
@@ -107,6 +125,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   def create_stripe_billing_session(customer_id)
     session = Enterprise::Billing::CreateSessionService.new.create_session(customer_id)
     render_redirect_url(session.url)
+  end
+
+  def cancel_cloud_subscriptions_for_deletion
+    Enterprise::Billing::CancelCloudSubscriptionsService.new(account: @account).perform
+  rescue Stripe::StripeError => e
+    Rails.logger.warn("Failed to cancel cloud subscriptions for account #{@account.id}: #{e.class} - #{e.message}")
   end
 
   def render_redirect_url(redirect_url)

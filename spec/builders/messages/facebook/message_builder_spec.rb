@@ -59,6 +59,126 @@ describe Messages::Facebook::MessageBuilder do
       expect(contact.name).to eq(default_name)
     end
 
+    it 'marks echo messages as external echo messages' do
+      allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+      allow(fb_object).to receive(:get_object).and_return(
+        {
+          first_name: 'Jane',
+          last_name: 'Dae',
+          account_id: facebook_channel.inbox.account_id,
+          profile_pic: 'https://chatwoot-assets.local/sample.png'
+        }.with_indifferent_access
+      )
+
+      echo_message_object = {
+        messaging: {
+          sender: { id: facebook_channel.page_id },
+          recipient: { id: '3383290475046708' },
+          message: { mid: 'm_echo_1', text: 'Echo testing', is_echo: true, app_id: '263902037430900' }
+        }
+      }.to_json
+      echo_message = Integrations::Facebook::MessageParser.new(echo_message_object)
+
+      described_class.new(echo_message, facebook_channel.inbox, outgoing_echo: true).perform
+
+      message = facebook_channel.inbox.messages.find_by(source_id: 'm_echo_1')
+      expect(message).to be_present
+      expect(message.message_type).to eq('outgoing')
+      expect(message.sender).to be_nil
+      expect(message.status).to eq('delivered')
+      expect(message.content_attributes['external_echo']).to be true
+    end
+
+    context 'when message contains a reel attachment' do
+      let(:reel_message_object) do
+        {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            timestamp: 1_772_452_164_516,
+            message: {
+              mid: 'm_reel_test',
+              attachments: [
+                {
+                  type: 'reel',
+                  payload: {
+                    url: 'https://www.facebook.com/reel/123456',
+                    title: 'Test Reel Title',
+                    reel_video_id: 123_456
+                  }
+                }
+              ]
+            }
+          }
+        }.to_json
+      end
+      let(:reel_message) { Integrations::Facebook::MessageParser.new(reel_message_object) }
+
+      before do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+      end
+
+      it 'creates an ig_reel attachment without downloading the file' do
+        expect(Down).not_to receive(:download)
+        described_class.new(reel_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_reel_test')
+        expect(message).to be_present
+        expect(message.attachments.first.file_type).to eq('ig_reel')
+        expect(message.attachments.first.external_url).to eq('https://www.facebook.com/reel/123456')
+        expect(message.attachments.first.file.attached?).to be false
+      end
+
+      it 'sets the reel URL as message content' do
+        described_class.new(reel_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_reel_test')
+        expect(message.content).to eq('https://www.facebook.com/reel/123456')
+      end
+    end
+
+    [
+      {
+        source_id: 'm_fallback_test',
+        attachment: { type: 'fallback', title: 'Shared link', url: 'https://www.example.com/shared-link' },
+        title: 'Shared link',
+        url: 'https://www.example.com/shared-link'
+      },
+      {
+        source_id: 'm_share_test',
+        attachment: { type: 'share', title: 'Shared Facebook post', payload: { url: 'https://www.facebook.com/example/posts/123' } },
+        title: 'Shared Facebook post',
+        url: 'https://www.facebook.com/example/posts/123'
+      }
+    ].each do |message_data|
+      it "stores #{message_data[:attachment][:type]} attachments as fallback links" do
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+        )
+        expect(Down).not_to receive(:download)
+
+        message_object = {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            message: { mid: message_data[:source_id], attachments: [message_data[:attachment]] }
+          }
+        }.to_json
+        message = Integrations::Facebook::MessageParser.new(message_object)
+
+        described_class.new(message, facebook_channel.inbox).perform
+
+        attachment = facebook_channel.inbox.messages.find_by(source_id: message_data[:source_id]).attachments.first
+        expect(attachment.file_type).to eq('fallback')
+        expect(attachment.fallback_title).to eq(message_data[:title])
+        expect(attachment.external_url).to eq(message_data[:url])
+      end
+    end
+
     context 'when lock to single conversation' do
       subject(:mocked_message_builder) do
         described_class.new(mocked_incoming_fb_text_message, facebook_channel.inbox).perform

@@ -37,6 +37,7 @@ module Chatwoot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+    config.rails_i18n.enabled_modules = [:pluralization]
 
     config.eager_load_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('enterprise/lib')
@@ -75,7 +76,11 @@ module Chatwoot
       config.active_record.encryption.primary_key = ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY']
       config.active_record.encryption.deterministic_key = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY', nil)
       config.active_record.encryption.key_derivation_salt = ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT', nil)
+      # TODO: Remove once encryption is mandatory and legacy plaintext is migrated.
       config.active_record.encryption.support_unencrypted_data = true
+      # Extend deterministic queries so they match both encrypted and plaintext rows
+      config.active_record.encryption.extend_queries = true
+      # Store a per-row key reference to support future key rotation
       config.active_record.encryption.store_key_references = true
     end
   end
@@ -94,6 +99,8 @@ module Chatwoot
   end
 
   def self.encryption_configured?
+    # TODO: Once Active Record encryption keys are mandatory (target 3-4 releases out),
+    # remove this guard and assume encryption is always enabled.
     # Check if proper encryption keys are configured
     # MFA/2FA features should only be enabled when proper keys are set
     ENV['ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY'].present? &&

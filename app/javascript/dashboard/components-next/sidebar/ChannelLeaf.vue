@@ -2,12 +2,14 @@
 import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
+import SidebarUnreadBadge from './SidebarUnreadBadge.vue';
 
 const props = defineProps({
   label: {
     type: String,
     required: true,
   },
+  // eslint-disable-next-line vue/no-unused-properties
   active: {
     type: Boolean,
     default: false,
@@ -15,6 +17,10 @@ const props = defineProps({
   inbox: {
     type: Object,
     required: true,
+  },
+  badgeCount: {
+    type: [Number, String],
+    default: 0,
   },
 });
 
@@ -24,13 +30,11 @@ const reauthorizationRequired = computed(() => {
 </script>
 
 <template>
-  <span
-    class="size-5 grid place-content-center rounded-full bg-n-alpha-2"
-    :class="{ 'bg-n-solid-blue': active }"
-  >
-    <ChannelIcon :inbox="inbox" class="size-3" />
+  <span class="size-4 grid place-content-center rounded-full">
+    <ChannelIcon :inbox="inbox" class="size-4" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ label }}</div>
+  <SidebarUnreadBadge :count="badgeCount" />
   <div
     v-if="reauthorizationRequired"
     v-tooltip.top-end="$t('SIDEBAR.REAUTHORIZE')"

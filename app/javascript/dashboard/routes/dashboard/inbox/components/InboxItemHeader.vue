@@ -69,6 +69,8 @@ export default {
     onCmdSnoozeNotification(snoozeType) {
       if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
         this.showCustomSnoozeModal = true;
+      } else if (typeof snoozeType === 'number') {
+        this.snoozeNotification(snoozeType);
       } else {
         const snoozedUntil = findSnoozeTime(snoozeType) || null;
         this.snoozeNotification(snoozedUntil);
@@ -109,7 +111,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full gap-2 border-b px-3 h-12 rtl:border-r border-n-weak flex-shrink-0"
+    class="flex items-center justify-between w-full gap-2 border-b px-3 h-12 rtl:border-r border-n-weak flex-shrink-0 bg-n-surface-1"
   >
     <div class="flex items-center gap-4">
       <BackButton

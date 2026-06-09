@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  voiceEnabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 const getters = useStoreGetters();
 const { t } = useI18n();
@@ -29,7 +33,7 @@ const i18nMap = {
   'Channel::Line': 'LINE',
   'Channel::Api': 'API',
   'Channel::Instagram': 'INSTAGRAM',
-  'Channel::Voice': 'VOICE',
+  'Channel::Tiktok': 'TIKTOK',
 };
 
 const twilioChannelName = () => {
@@ -44,6 +48,9 @@ const readableChannelName = computed(() => {
     return globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
   }
   if (props.channelType === 'Channel::TwilioSms') {
+    if (props.voiceEnabled) {
+      return t('INBOX_MGMT.CHANNELS.VOICE');
+    }
     return twilioChannelName();
   }
   return t(`INBOX_MGMT.CHANNELS.${i18nMap[props.channelType]}`);

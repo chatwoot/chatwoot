@@ -11,6 +11,10 @@ class Captain::CustomToolPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def test?
+    @account_user.administrator?
+  end
+
   def update?
     @account_user.administrator?
   end

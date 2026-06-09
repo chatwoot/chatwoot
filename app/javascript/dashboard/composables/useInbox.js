@@ -1,7 +1,11 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import {
+  INBOX_TYPES,
+  isVoiceCallEnabled,
+  getVoiceCallProvider,
+} from 'dashboard/helper/inbox';
 
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
@@ -17,6 +21,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.TIKTOK,
     INBOX_TYPES.API,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
@@ -24,6 +29,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.TWITTER,
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
+    INBOX_TYPES.TIKTOK,
     INBOX_TYPES.API,
   ],
 };
@@ -128,9 +134,13 @@ export const useInbox = (inboxId = null) => {
     return channelType.value === INBOX_TYPES.INSTAGRAM;
   });
 
-  const isAVoiceChannel = computed(() => {
-    return channelType.value === INBOX_TYPES.VOICE;
+  const isATiktokChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.TIKTOK;
   });
+
+  const voiceCallEnabled = computed(() => isVoiceCallEnabled(inbox.value));
+
+  const voiceCallProvider = computed(() => getVoiceCallProvider(inbox.value));
 
   return {
     inbox,
@@ -149,6 +159,8 @@ export const useInbox = (inboxId = null) => {
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
-    isAVoiceChannel,
+    isATiktokChannel,
+    voiceCallEnabled,
+    voiceCallProvider,
   };
 };

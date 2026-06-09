@@ -1,4 +1,5 @@
 import { parseBoolean } from '@chatwoot/utils';
+import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
 
 const {
   API_CHANNEL_NAME: apiChannelName,
@@ -11,6 +12,7 @@ const {
   DIRECT_UPLOADS_ENABLED: directUploadsEnabled,
   DISPLAY_MANIFEST: displayManifest,
   GIT_SHA: gitSha,
+  MAXIMUM_FILE_UPLOAD_SIZE: maximumFileUploadSize,
   HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
@@ -22,6 +24,7 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  ACTIVE_PLATFORM_BANNERS: activePlatformBanners,
 } = window.globalConfig || {};
 
 const state = {
@@ -37,6 +40,7 @@ const state = {
   disableUserProfileUpdate: parseBoolean(disableUserProfileUpdate),
   displayManifest,
   gitSha,
+  maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,
   installationName,
   logo,
@@ -46,6 +50,7 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  activePlatformBanners: activePlatformBanners || [],
 };
 
 export const getters = {
