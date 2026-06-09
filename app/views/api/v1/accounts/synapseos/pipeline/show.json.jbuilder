@@ -8,6 +8,9 @@ json.leads @leads do |lead|
   json.status lead.status
   json.source lead.source
   json.conversation_id lead.conversation_id
+  # rota do Chatwoot usa display_id; conversation_id é o id interno. Expor o
+  # display pro board abrir o chat certo (PipelinePage usa conversation_display_id).
+  json.conversation_display_id lead.conversation&.display_id
   json.created_at lead.created_at
   json.updated_at lead.updated_at
   contact = lead.contact || lead.conversation&.contact
