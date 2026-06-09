@@ -123,7 +123,7 @@ RSpec.describe SamlUserBuilder do
           expect do
             builder.perform
           rescue StandardError => e
-            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed'
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to change(AccountUser, :count)
           expect(existing_user.reload.accounts).not_to include(account)
         end
@@ -132,7 +132,7 @@ RSpec.describe SamlUserBuilder do
           expect do
             builder.perform
           rescue StandardError => e
-            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed'
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to(change { existing_user.reload.provider })
         end
       end
