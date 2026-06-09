@@ -71,7 +71,7 @@ const handleConfirm = async () => {
     emit('created');
     emit('close');
   } catch {
-    createError.value = 'CONVERSATION_SIDEBAR.VIARI.MODAL.ERROR';
+    createError.value = t('CONVERSATION_SIDEBAR.VIARI.MODAL.ERROR');
   } finally {
     isCreating.value = false;
   }
