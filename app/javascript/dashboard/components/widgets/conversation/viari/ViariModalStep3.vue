@@ -41,11 +41,11 @@ const previewTexto = computed(() => {
   const pax = itens.reduce(
     (sum, item) =>
       sum +
-      item.qtdAdt +
-      item.qtdChd +
-      item.qtdInf +
-      item.qtdSen +
-      item.qtdFree,
+      (item.qtdAdt ?? 0) +
+      (item.qtdChd ?? 0) +
+      (item.qtdInf ?? 0) +
+      (item.qtdSen ?? 0) +
+      (item.qtdFree ?? 0),
     0
   );
   return [
@@ -106,11 +106,8 @@ const previewTexto = computed(() => {
       >
         {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.WHATSAPP_PREVIEW') }}
       </div>
-      <pre
-        class="text-[11px] whitespace-pre-wrap font-mono text-[#E1F5EE] leading-relaxed"
-      >
-        {{ previewTexto }}
-      </pre>
+      <!-- prettier-ignore -->
+      <pre class="text-[11px] whitespace-pre-wrap font-mono text-[#E1F5EE] leading-relaxed">{{ previewTexto }}</pre>
       <p class="text-[10px] mt-2 text-[#5DCAA5] opacity-70">
         {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.WHATSAPP_NOTE') }}
       </p>
@@ -124,14 +121,14 @@ const previewTexto = computed(() => {
     <!-- Buttons -->
     <div class="flex justify-between pt-3 border-t border-[#b2dfd0]">
       <button
-        class="px-4 py-2 rounded text-sm font-bold border border-[#b2dfd0] text-[#0F6E56]"
+        class="px-4 py-2 rounded text-sm font-bold border border-[#b2dfd0] text-[#0F6E56] disabled:opacity-50 disabled:cursor-not-allowed"
         :disabled="isCreating"
         @click="emit('back')"
       >
         {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.BACK') }}
       </button>
       <button
-        class="px-4 py-2 rounded text-sm font-bold text-white bg-[#25D366] flex items-center gap-2 disabled:opacity-50"
+        class="px-4 py-2 rounded text-sm font-bold text-white bg-[#25D366] flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         :disabled="isCreating"
         @click="emit('confirm')"
       >
