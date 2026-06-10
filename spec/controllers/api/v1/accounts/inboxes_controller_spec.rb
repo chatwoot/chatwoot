@@ -100,6 +100,35 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
+      it 'returns reauthorization_required for embedded signup whatsapp channel when reauth required' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
+                                                     validate_provider_config: false)
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['reauthorization_required']).to be(true)
+      end
+
+      it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
+                                                     validate_provider_config: false)
+        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual'))
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['reauthorization_required']).to be(false)
+      end
+
       it 'returns the inbox if assigned inbox is assigned as agent' do
         create(:inbox_member, user: agent, inbox: inbox)
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
