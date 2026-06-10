@@ -89,3 +89,16 @@ context-mode upgrade   # configures Claude Code hooks
 context-mode index docs/ --source omni-chat-ai:docs --project .
 context-mode doctor    # all checks should pass
 ```
+
+## Context hygiene — overload & hallucination risk
+
+The model **cannot** self-measure its own token usage; the harness is the source of truth. A
+project statusline (`.claude/statusline-context.sh`, wired in `.claude/settings.json`) shows live
+`ctx NN%`, and a `PreCompact` hook warns on auto-compaction. Behave accordingly:
+- **Green (<70%)** — normal. Still prefer `ctx_*` routing for large outputs.
+- **Yellow (70–84%)** — wrap up the current sub-task, avoid pulling large raw data into context,
+  lean on `ctx_search`/`ctx_batch_execute`.
+- **Red (≥85% or `exceeds_200k`)** — tell the user proactively, recommend `/compact` or a fresh
+  session, and on resume `ctx_search` the `compaction` and `decision` sources before continuing.
+- Run `/context` anytime for the precise breakdown. After any compaction, re-confirm critical
+  facts (order ids, KeyCRM fields, decisions) rather than trusting summarized detail.

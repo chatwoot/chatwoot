@@ -4,3 +4,9 @@ __pycache__/
 .venv/
 .ruff_cache/
 .pytest_cache/
+
+# Track the project Claude Code workspace (agents, commands, settings, hooks) —
+# overrides the repo-root `.claude/` ignore. Keep personal/local files out.
+!.claude/
+!.claude/**
+.claude/settings.local.json
