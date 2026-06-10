@@ -12,8 +12,6 @@ class Webhooks::LineEventsJob < MutexApplicationJob
     with_lock(key, 5.minutes) do
       Line::IncomingMessageService.new(inbox: @channel.inbox, params: @params['line'].with_indifferent_access).perform
     end
-  rescue LockAcquisitionError
-    Rails.logger.error "Lock failed for line channel - #{@params[:line_channel_id]}"
   end
 
   private
