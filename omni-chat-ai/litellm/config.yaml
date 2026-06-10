@@ -1,0 +1,29 @@
+# LiteLLM model gateway — provider-agnostic routing.
+# Claude is the primary brain; add OpenAI / OpenRouter / local as fallbacks without
+# touching the agent code. The agent only ever calls the alias `claude-primary`.
+
+model_list:
+  - model_name: claude-primary
+    litellm_params:
+      model: anthropic/claude-opus-4-8
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  - model_name: claude-fast
+    litellm_params:
+      model: anthropic/claude-sonnet-4-6
+      api_key: os.environ/ANTHROPIC_API_KEY
+
+  # Optional fallback — only used if Anthropic is unavailable.
+  - model_name: openai-fallback
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+litellm_settings:
+  drop_params: true
+  num_retries: 2
+  # If claude-primary fails, transparently retry on these.
+  fallbacks: [{ "claude-primary": ["claude-fast", "openai-fallback"] }]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY

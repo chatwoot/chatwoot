@@ -1,0 +1,26 @@
+[project]
+name = "omni-chat-ai-service"
+version = "0.1.0"
+description = "Multi-agent AI service for the Omni-Chat-AI unified chat panel (Chatwoot agent-bot)"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "httpx>=0.27",
+    "pydantic>=2.9",
+    "pydantic-settings>=2.5",
+    "pydantic-ai>=1.0",
+    "langgraph>=0.2",            # MIT library only — do NOT add langgraph-api (Elastic License)
+    "langfuse>=2.50",
+    "qdrant-client>=1.12",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.24", "ruff>=0.7"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"

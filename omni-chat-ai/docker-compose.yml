@@ -1,0 +1,138 @@
+# OMNI-CHAT-AI — full local stack
+# `docker compose up -d` brings up Chatwoot (UI/inbox), the AI agent service,
+# LiteLLM (model gateway), Langfuse (eval/observability), Qdrant (RAG), and infra.
+# This is a development/reference compose. Harden secrets & resources for production.
+
+name: omni-chat-ai
+
+x-env: &default-env
+  RAILS_ENV: production
+  NODE_ENV: production
+
+services:
+  # ---------------------------------------------------------------- infra
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-chatwoot}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-chatwoot}
+      POSTGRES_DB: ${POSTGRES_DB:-chatwoot_production}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chatwoot}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis}"]
+    volumes:
+      - redis_data:/data
+
+  # ---------------------------------------------------------------- chatwoot (Unified Chat Panel)
+  chatwoot:
+    image: chatwoot/chatwoot:latest
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+    env_file: .env
+    environment:
+      <<: *default-env
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+    ports:
+      - "3000:3000"
+
+  chatwoot_worker:
+    image: chatwoot/chatwoot:latest
+    entrypoint: docker/entrypoints/rails.sh
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    env_file: .env
+    environment:
+      <<: *default-env
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_started }
+
+  # ---------------------------------------------------------------- model gateway (no OpenAI lock-in)
+  litellm:
+    image: ghcr.io/berriai/litellm:main-latest
+    command: ["--config", "/app/config.yaml", "--port", "4000"]
+    volumes:
+      - ./litellm/config.yaml:/app/config.yaml:ro
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-omni-local}
+    ports:
+      - "4000:4000"
+
+  # ---------------------------------------------------------------- AI agent service (your IP)
+  ai-service:
+    build: ./ai-service
+    env_file: .env
+    environment:
+      LITELLM_BASE_URL: http://litellm:4000
+      LANGFUSE_HOST: http://langfuse:3000
+      QDRANT_URL: http://qdrant:6333
+    depends_on:
+      - litellm
+      - chatwoot
+      - qdrant
+    ports:
+      - "8080:8080"
+
+  # ---------------------------------------------------------------- RAG vector store
+  qdrant:
+    image: qdrant/qdrant:latest
+    volumes:
+      - qdrant_data:/qdrant/storage
+    ports:
+      - "6333:6333"
+
+  # ---------------------------------------------------------------- observability + eval + self-learning
+  langfuse:
+    image: langfuse/langfuse:3
+    depends_on:
+      postgres: { condition: service_healthy }
+      clickhouse: { condition: service_started }
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-chatwoot}:${POSTGRES_PASSWORD:-chatwoot}@postgres:5432/langfuse
+      CLICKHOUSE_URL: http://clickhouse:8123
+      CLICKHOUSE_MIGRATION_URL: clickhouse://clickhouse:9000
+      CLICKHOUSE_USER: default
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
+      NEXTAUTH_URL: http://localhost:3001
+      NEXTAUTH_SECRET: ${LANGFUSE_NEXTAUTH_SECRET:-changeme}
+      SALT: ${LANGFUSE_SALT:-changeme}
+      ENCRYPTION_KEY: ${LANGFUSE_ENCRYPTION_KEY:-0000000000000000000000000000000000000000000000000000000000000000}
+    ports:
+      - "3001:3000"
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24
+    environment:
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
+    volumes:
+      - clickhouse_data:/var/lib/clickhouse
+
+  # ---------------------------------------------------------------- channel connectors (personal accounts)
+  # Evolution API for a personal WhatsApp number (Baileys). Personal Viber/Telegram go through
+  # the managed E-Chat.tech bridge (external) → Chatwoot API channel; see docs/knowledge/channels.md.
+  evolution-api:
+    image: atendai/evolution-api:latest
+    environment:
+      AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:-evo-local}
+    volumes:
+      - evolution_data:/evolution/instances
+    ports:
+      - "8081:8080"
+
+volumes:
+  pg_data:
+  redis_data:
+  qdrant_data:
+  clickhouse_data:
+  evolution_data:
