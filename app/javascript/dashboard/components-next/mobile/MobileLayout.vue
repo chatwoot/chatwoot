@@ -118,7 +118,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col w-full h-full bg-n-surface-1 touch-manipulation">
+  <div
+    class="flex flex-col w-full h-full bg-n-surface-1 touch-manipulation [-webkit-tap-highlight-color:transparent]"
+  >
     <div class="relative flex-1 overflow-hidden">
       <!-- Layer 0: Tab content (always rendered, sits behind chat) -->
       <div

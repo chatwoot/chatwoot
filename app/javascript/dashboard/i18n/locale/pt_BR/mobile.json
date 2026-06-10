@@ -31,7 +31,13 @@
         "ATTRIBUTES": "Atributos"
       },
       "STATUS": {
-        "OPEN": "Open"
+        "OPEN": "Aberta",
+        "PENDING": "Pendente",
+        "SNOOZE": "Adiar",
+        "RESOLVE": "Resolver"
+      },
+      "PRIORITY": {
+        "NONE": "Sem prioridade"
       },
       "CTA": {
         "CHANGE": "Alterar",
