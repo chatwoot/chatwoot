@@ -32,7 +32,7 @@ import wootConstants from 'dashboard/constants/globals';
 const emit = defineEmits(['openConversation']);
 const store = useStore();
 const { t } = useI18n();
-const { medium } = useHaptics();
+const { medium, success } = useHaptics();
 const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const swipeOpenRowId = ref(null);
@@ -193,6 +193,11 @@ const toggleConversationStatus = async (
   }
 
   await store.dispatch('toggleStatus', payload);
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    success();
+  } else {
+    medium();
+  }
   useAlert(t('CONVERSATION.CHANGE_STATUS'));
 };
 

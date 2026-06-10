@@ -23,7 +23,7 @@ const props = defineProps({
 
 const store = useStore();
 const { t } = useI18n();
-const { medium } = useHaptics();
+const { medium, success } = useHaptics();
 const { checkMissingAttributes } = useConversationRequiredAttributes();
 const currentChat = useMapGetter('getSelectedChat');
 
@@ -75,21 +75,21 @@ const statusCards = computed(() => [
   {
     key: wootConstants.STATUS_TYPE.PENDING,
     icon: 'i-lucide-circle-dot-dashed',
-    label: t('MOBILE.STATUS_SHEET.OPTIONS.PENDING'),
+    label: t('MOBILE.ACTIONS.STATUS.PENDING'),
     containerClass: 'bg-n-amber-3 border-n-amber-7',
     iconClass: 'text-n-amber-10',
   },
   {
     key: wootConstants.STATUS_TYPE.SNOOZED,
     icon: 'i-lucide-moon-star',
-    label: t('MOBILE.STATUS_SHEET.OPTIONS.SNOOZED'),
+    label: t('MOBILE.ACTIONS.STATUS.SNOOZE'),
     containerClass: 'bg-n-indigo-3 border-n-indigo-7',
     iconClass: 'text-n-indigo-10',
   },
   {
     key: wootConstants.STATUS_TYPE.RESOLVED,
     icon: 'i-lucide-check-check',
-    label: t('MOBILE.STATUS_SHEET.OPTIONS.RESOLVED'),
+    label: t('MOBILE.ACTIONS.STATUS.RESOLVE'),
     containerClass: 'bg-n-teal-3 border-n-teal-7',
     iconClass: 'text-n-teal-10',
   },
@@ -257,7 +257,11 @@ const updateStatus = async (status, customAttributes = null) => {
   if (customAttributes) payload.customAttributes = customAttributes;
 
   await store.dispatch('toggleStatus', payload);
-  medium();
+  if (status === wootConstants.STATUS_TYPE.RESOLVED) {
+    success();
+  } else {
+    medium();
+  }
   useAlert(t('CONVERSATION.CHANGE_STATUS'));
 };
 
@@ -408,7 +412,7 @@ watch(
         <button
           v-for="card in statusCards"
           :key="card.key"
-          class="relative overflow-hidden rounded-[1.4rem] border px-2 pb-4 pt-7 shadow-sm transition-transform active:scale-[0.98]"
+          class="relative flex min-w-0 flex-col items-center overflow-hidden rounded-2xl border px-1 pb-3.5 pt-5 shadow-sm transition-transform duration-150 active:scale-[0.96]"
           :class="[
             card.containerClass,
             conversation?.status === card.key
@@ -418,10 +422,10 @@ watch(
           @click="handleStatusChange(card.key)"
         >
           <span class="block text-center" :class="card.iconClass">
-            <span class="mx-auto block size-8" :class="card.icon" />
+            <span class="mx-auto block size-7" :class="card.icon" />
           </span>
           <span
-            class="mt-5 block text-center text-[0.95rem] font-medium text-n-slate-12"
+            class="mt-3 block w-full break-words px-0.5 text-center text-[13px] font-medium leading-tight text-n-slate-12"
           >
             {{ card.label }}
           </span>
@@ -429,12 +433,9 @@ watch(
       </div>
     </section>
 
-    <section class="px-4 pt-9">
-      <h3 class="mb-3 text-lg font-medium text-n-slate-10">
-        {{ t('MOBILE.ACTIONS.SECTIONS.SETTINGS') }}
-      </h3>
+    <section class="px-4 pt-6">
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
+        class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <button
           class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
@@ -503,7 +504,7 @@ watch(
                   ? t(
                       `CONVERSATION.PRIORITY.OPTIONS.${currentPriority.toUpperCase()}`
                     )
-                  : t('CONVERSATION.PRIORITY.OPTIONS.NONE')
+                  : t('MOBILE.ACTIONS.PRIORITY.NONE')
               }}
             </p>
           </div>
@@ -515,9 +516,9 @@ watch(
       </div>
     </section>
 
-    <section class="px-4 pt-9">
-      <div class="mb-3 flex items-center justify-between gap-3">
-        <h3 class="text-lg font-medium text-n-slate-10">
+    <section class="px-4 pt-7">
+      <div class="mb-2 flex items-center justify-between gap-3">
+        <h3 class="text-[13px] font-medium text-n-slate-10">
           {{ t('MOBILE.ACTIONS.SECTIONS.LABELS') }}
         </h3>
         <Button
@@ -531,7 +532,7 @@ watch(
       </div>
 
       <div
-        class="min-h-[4.75rem] rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background px-4 py-4 shadow-sm"
+        class="min-h-[4.75rem] rounded-2xl border border-n-weak bg-white dark:bg-n-background px-4 py-4 shadow-sm"
       >
         <div v-if="conversationLabels.length" class="flex flex-wrap gap-2">
           <span
@@ -548,12 +549,12 @@ watch(
       </div>
     </section>
 
-    <section class="px-4 pt-9">
-      <h3 class="mb-3 text-lg font-medium text-n-slate-10">
+    <section class="px-4 pt-7">
+      <h3 class="mb-2 text-[13px] font-medium text-n-slate-10">
         {{ t('MOBILE.ACTIONS.SECTIONS.PARTICIPANTS') }}
       </h3>
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
+        class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <div v-if="conversationParticipants.length">
           <div
@@ -596,12 +597,12 @@ watch(
       </div>
     </section>
 
-    <section class="px-4 pt-9">
-      <h3 class="mb-3 text-lg font-medium text-n-slate-10">
+    <section class="px-4 pt-7">
+      <h3 class="mb-2 text-[13px] font-medium text-n-slate-10">
         {{ t('MOBILE.ACTIONS.SECTIONS.ATTRIBUTES') }}
       </h3>
       <div
-        class="overflow-hidden rounded-[1.45rem] border border-n-weak bg-white dark:bg-n-background shadow-sm"
+        class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <div
           v-for="attribute in formattedConversationAttributes"

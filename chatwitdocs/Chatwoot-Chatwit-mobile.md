@@ -223,6 +223,24 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-10 — iOS Haptics via Taptic Engine + Conversation Actions Native Parity
+
+Problem observed in the mobile PWA on iPhone:
+
+- `useHaptics.js` relied exclusively on `navigator.vibrate`, which iOS Safari does not implement — no haptic ever fired on iPhones, including when resolving a conversation.
+- The status cards in `MobileConversationActionsView.vue` reused the long list-filter labels (`Pendentes`, `Adiadas`, `Resolvidas`) at 15px inside ~64px-wide cards, causing the text to overflow and clip.
+- Section headers and card radii diverged from the native Chatwoot iOS app (oversized `text-lg` headers, extra "Configurações" heading above the first card group).
+
+Implemented:
+
+- `composables/useHaptics.js` now falls back to the only web path into the Taptic Engine on iOS (17.4+): toggling a hidden native `<input type="checkbox" switch>` via `label.click()` inside the user gesture, the same approach as the `ios-haptics` package. Android/Chromium keeps the Vibration API. New API mirrors UIKit generators: `light`/`medium`/`heavy` (impact), `selection`, `success`/`error` (notification, emulated with pulse bursts on iOS).
+- Resolving a conversation now fires the `success` notification haptic (double pulse) both in `MobileConversationActionsView.vue` and in the status sheet flow of `MobileConversationList.vue`; other status changes keep `medium`.
+- Status cards redesigned for native parity: dedicated short action labels (`MOBILE.ACTIONS.STATUS.OPEN/PENDING/SNOOZE/RESOLVE` — pt_BR `Aberta/Pendente/Adiar/Resolver`), 13px `leading-tight break-words` typography that can no longer overflow, `rounded-2xl` radius, tighter padding, springier `active:scale-[0.96]` press.
+- Section headers reduced to small gray labels (13px) and the redundant heading above the assignee/team/priority card removed, matching the native app layout. Priority empty state now uses `MOBILE.ACTIONS.PRIORITY.NONE` ("No Priority Added" / "Sem prioridade").
+- `MobileLayout.vue` root now sets `-webkit-tap-highlight-color: transparent` (inherited), removing Safari's gray tap flash across the whole mobile module for a native feel.
+
+Desktop remains untouched; all changes live in `components-next/mobile/`, `composables/useHaptics.js` (mobile-only consumer) and `locale/en|pt_BR/mobile.json`.
+
 ### 2026-05-06 — Mobile Conversation List and Audio Playback Fix
 
 Problem observed in the mobile PWA:
