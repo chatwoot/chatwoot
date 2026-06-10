@@ -51,3 +51,41 @@ tools (KeyCRM, RAG) via LiteLLM→Claude; traced/evaluated in Langfuse.
 ## Subagents & workflows
 - `.claude/agents/` — specialized subagents (integration, agent-dev, eval, channel, docs).
 - `.claude/commands/` — slash-command workflows (`/new-agent`, `/add-channel`, `/eval-run`, `/new-adr`).
+
+## context-mode — context window protection (MANDATORY routing)
+
+context-mode MCP is active. Follow these rules to avoid flooding context with raw data.
+
+### Think in Code — MANDATORY
+Analyze/count/filter/compare/search/parse data → `ctx_execute(language, code)`, log only the answer.
+Do NOT read raw data into context. Pure JavaScript (Node.js built-ins only). One script replaces ten tool calls.
+
+### BLOCKED
+- `curl`/`wget` — use `ctx_fetch_and_index(url, source)` or `ctx_execute("javascript", "fetch(...)")`
+- Inline HTTP (`fetch(`, `requests.get(`) — route through `ctx_execute`
+- Raw `WebFetch` — use `ctx_fetch_and_index(url, source)` then `ctx_search(queries)`
+
+### REDIRECTED
+- **Bash >20 lines** — use `ctx_batch_execute(commands, queries)` or `ctx_execute("shell", code)`
+- **Read for analysis** — use `ctx_execute_file(path, language, code)`; Read is only for editing
+
+### Tool priority
+0. **MEMORY**: `ctx_search(sort: "timeline")` — check prior context on resume before asking user
+1. **GATHER**: `ctx_batch_execute(commands, queries)` — one call replaces 30+
+2. **SEARCH**: `ctx_search(queries: ["q1", "q2"])` — array of questions, one call
+3. **PROCESS**: `ctx_execute(language, code)` | `ctx_execute_file(path, language, code)`
+4. **WEB**: `ctx_fetch_and_index(url, source)` → `ctx_search(queries)`
+5. **INDEX**: `ctx_index(content, source)` — store for later retrieval
+
+### On resume
+Search BEFORE asking the user what we were doing:
+- `ctx_search(queries: ["summary"], source: "compaction", sort: "timeline")`
+- `ctx_search(queries: ["decision"], source: "decision")`
+
+### Setup (new developer)
+```bash
+npm install -g context-mode@latest
+context-mode upgrade   # configures Claude Code hooks
+context-mode index docs/ --source omni-chat-ai:docs --project .
+context-mode doctor    # all checks should pass
+```
