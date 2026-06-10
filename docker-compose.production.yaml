@@ -1,6 +1,7 @@
 services:
   base: &base
     image: ghcr.io/xaandmenezes/chatwoot-roteiros:latest
+    pull_policy: always
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage

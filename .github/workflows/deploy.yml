@@ -36,11 +36,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
-      - name: Trigger Dokploy redeploy
-        run: |
-          BODY=$(curl -s -w "\nHTTP_STATUS:%{http_code}" -X POST \
-            "https://dev.portoseguroroteiros.com.br/api/deploy/compose/_iF93asMvWdvK2DRZGL5H")
-          STATUS=$(echo "$BODY" | grep "HTTP_STATUS:" | cut -d: -f2)
-          echo "Dokploy response: $STATUS"
-          echo "$BODY" | grep -v "HTTP_STATUS:"
-          [ "$STATUS" = "200" ] || [ "$STATUS" = "201" ] || exit 1
