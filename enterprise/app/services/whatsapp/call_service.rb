@@ -10,6 +10,8 @@ class Whatsapp::CallService
       transition_to_in_progress!
       update_message_status('in_progress')
       update_conversation_call_status(call.display_status)
+      # Assign last so the assignee change is the conversation's final save and its activity message fires.
+      claim_conversation_for_agent
       broadcast(:accepted, accepted_by_agent_id: agent.id)
     end
     call
@@ -56,7 +58,6 @@ class Whatsapp::CallService
     forward_answer_to_meta!
     call.update!(status: 'in_progress', accepted_by_agent_id: agent.id, started_at: Time.current,
                  meta: (call.meta || {}).merge('sdp_answer' => sdp_answer))
-    claim_conversation_for_agent
   end
 
   def forward_answer_to_meta!
