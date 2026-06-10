@@ -15,6 +15,8 @@ const fmt = new Intl.NumberFormat('pt-BR', {
 });
 
 const produtos = ref([]);
+const localSinal = ref(props.initialData.percentualSinal ?? 35);
+const localDesconto = ref(props.initialData.descontoManual ?? 0);
 
 let itemIdCounter = 0;
 function newItem() {
@@ -72,7 +74,7 @@ const onAgendaChange = async item => {
   try {
     const r = await ViariAPI.getTarifas(
       item.produtoId,
-      null,
+      props.initialData.grupoTarifaId ?? null,
       agenda.dataAgenda.substring(0, 10)
     );
     item.tarifas = r.data.itens ?? [];
@@ -98,19 +100,13 @@ const subtotalItem = item =>
 const totalCartao = computed(() =>
   itens.value.reduce((sum, item) => sum + subtotalItem(item), 0)
 );
-const totalPix = computed(
-  () => totalCartao.value - (props.initialData.descontoManual ?? 0)
-);
+const totalPix = computed(() => totalCartao.value - (localDesconto.value ?? 0));
 const valorSinal = computed(
   () =>
-    Math.round(
-      totalPix.value * ((props.initialData.percentualSinal ?? 35) / 100) * 100
-    ) / 100
+    Math.round(totalPix.value * ((localSinal.value ?? 35) / 100) * 100) / 100
 );
 const acerto = computed(() => totalPix.value - valorSinal.value);
-const sinalPctDisplay = computed(
-  () => `(${props.initialData.percentualSinal ?? 35}%)`
-);
+const sinalPctDisplay = computed(() => `(${localSinal.value ?? 35}%)`);
 
 const addItem = () => itens.value.push(newItem());
 const removeItem = idx => {
@@ -120,16 +116,19 @@ const removeItem = idx => {
 const handleNext = () => {
   const valid = itens.value.every(item => item.produtoId && item.agendaId);
   if (!valid) return;
-  const payload = itens.value.map(item => ({
-    produtoId: item.produtoId,
-    agendaId: item.agendaId,
-    qtdAdt: item.qtdAdt,
-    qtdChd: item.qtdChd,
-    qtdInf: item.qtdInf,
-    qtdSen: item.qtdSen,
-    qtdFree: item.qtdFree,
-  }));
-  emit('next', payload);
+  emit('next', {
+    itens: itens.value.map(item => ({
+      produtoId: item.produtoId,
+      agendaId: item.agendaId,
+      qtdAdt: item.qtdAdt,
+      qtdChd: item.qtdChd,
+      qtdInf: item.qtdInf,
+      qtdSen: item.qtdSen,
+      qtdFree: item.qtdFree,
+    })),
+    percentualSinal: localSinal.value,
+    descontoManual: localDesconto.value,
+  });
 };
 
 onMounted(async () => {
@@ -231,8 +230,8 @@ onMounted(async () => {
             </option>
             <option v-for="a in item.agendas" :key="a.id" :value="a.id">
               {{
-                a.nome
-                  ? `${fmtDate(a.dataAgenda)} - ${a.nome}`
+                a.horario
+                  ? `${fmtDate(a.dataAgenda)} - ${a.horario}`
                   : fmtDate(a.dataAgenda)
               }}
             </option>
@@ -286,6 +285,37 @@ onMounted(async () => {
             {{ fmt.format(subtotalItem(item)) }}
           </span>
         </div>
+      </div>
+    </div>
+
+    <!-- Deposit & Discount -->
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label
+          class="block text-[10px] font-bold uppercase tracking-wide mb-1 text-[#0F6E56]"
+        >
+          {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.SINAL_LABEL') }}
+        </label>
+        <input
+          v-model.number="localSinal"
+          type="number"
+          min="0"
+          max="100"
+          class="w-full px-3 py-1.5 text-sm rounded border border-[#b2dfd0] bg-[#f8fffe] text-[#0D2B2A]"
+        />
+      </div>
+      <div>
+        <label
+          class="block text-[10px] font-bold uppercase tracking-wide mb-1 text-[#0F6E56]"
+        >
+          {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.DISCOUNT_LABEL') }}
+        </label>
+        <input
+          v-model.number="localDesconto"
+          type="number"
+          min="0"
+          class="w-full px-3 py-1.5 text-sm rounded border border-[#b2dfd0] bg-[#f8fffe] text-[#0D2B2A]"
+        />
       </div>
     </div>
 

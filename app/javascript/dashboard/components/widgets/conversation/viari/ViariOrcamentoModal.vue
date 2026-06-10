@@ -25,6 +25,7 @@ const createError = ref('');
 
 const formData = ref({
   canalVendaId: '',
+  grupoTarifaId: null,
   periodoInicio: '',
   periodoFim: '',
   dataValidade: '',
@@ -46,8 +47,10 @@ const handleStep1Next = data => {
   currentStep.value = 2;
 };
 
-const handleStep2Next = itens => {
+const handleStep2Next = ({ itens, percentualSinal, descontoManual }) => {
   formData.value.itens = itens;
+  formData.value.percentualSinal = percentualSinal;
+  formData.value.descontoManual = descontoManual;
   currentStep.value = 3;
 };
 

@@ -9,17 +9,25 @@ const props = defineProps({
 const emit = defineEmits(['next']);
 
 const canais = ref([]);
+const errors = ref({});
+
+function todayStr() {
+  return new Date().toISOString().substring(0, 10);
+}
+function plus30Str() {
+  const d = new Date();
+  d.setDate(d.getDate() + 30);
+  return d.toISOString().substring(0, 10);
+}
+
 const form = ref({
   canalVendaId: props.initialData.canalVendaId ?? '',
-  periodoInicio: props.initialData.periodoInicio ?? '',
-  periodoFim: props.initialData.periodoFim ?? '',
-  dataValidade: props.initialData.dataValidade ?? '',
-  percentualSinal: props.initialData.percentualSinal ?? 35,
-  descontoManual: props.initialData.descontoManual ?? 0,
+  periodoInicio: props.initialData.periodoInicio || todayStr(),
+  periodoFim: props.initialData.periodoFim || plus30Str(),
+  dataValidade: props.initialData.dataValidade || plus30Str(),
   obsInternas: props.initialData.obsInternas ?? '',
   msgCliente: props.initialData.msgCliente ?? '',
 });
-const errors = ref({});
 
 const validate = () => {
   errors.value = {};
@@ -30,7 +38,9 @@ const validate = () => {
 };
 
 const handleNext = () => {
-  if (validate()) emit('next', { ...form.value });
+  if (!validate()) return;
+  const canal = canais.value.find(c => c.id === form.value.canalVendaId);
+  emit('next', { ...form.value, grupoTarifaId: canal?.grupoTarifaId ?? null });
 };
 
 onMounted(async () => {
@@ -118,37 +128,6 @@ onMounted(async () => {
             {{ c.nome }}
           </option>
         </select>
-      </div>
-
-      <!-- Deposit % -->
-      <div>
-        <label
-          class="block text-[10px] font-bold uppercase tracking-wide mb-1 text-[#0F6E56]"
-        >
-          {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.SINAL_LABEL') }}
-        </label>
-        <input
-          v-model.number="form.percentualSinal"
-          type="number"
-          min="0"
-          max="100"
-          class="w-full px-3 py-1.5 text-sm rounded border border-[#b2dfd0] bg-[#f8fffe] text-[#0D2B2A]"
-        />
-      </div>
-
-      <!-- Discount -->
-      <div>
-        <label
-          class="block text-[10px] font-bold uppercase tracking-wide mb-1 text-[#0F6E56]"
-        >
-          {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.DISCOUNT_LABEL') }}
-        </label>
-        <input
-          v-model.number="form.descontoManual"
-          type="number"
-          min="0"
-          class="w-full px-3 py-1.5 text-sm rounded border border-[#b2dfd0] bg-[#f8fffe] text-[#0D2B2A]"
-        />
       </div>
 
       <!-- Internal notes -->
