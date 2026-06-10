@@ -4,17 +4,8 @@ import InboxReconnectionRequired from '../components/InboxReconnectionRequired.v
 import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
+import { buildFacebookLoginScopes } from 'dashboard/helper/facebookScopes';
 import * as Sentry from '@sentry/vue';
-
-const FACEBOOK_PAGE_SCOPES = [
-  'pages_manage_metadata',
-  'business_management',
-  'pages_messaging',
-  'pages_show_list',
-  'pages_read_engagement',
-];
-
-const INSTAGRAM_SCOPES = ['instagram_basic', 'instagram_manage_messages'];
 
 export default {
   components: {
@@ -31,11 +22,9 @@ export default {
       return this.inbox.id;
     },
     facebookLoginScopes() {
-      const scopes = [...FACEBOOK_PAGE_SCOPES];
-      if (this.inbox.instagram_id) {
-        scopes.push(...INSTAGRAM_SCOPES);
-      }
-      return scopes.join(',');
+      return buildFacebookLoginScopes({
+        includeInstagramScopes: !!this.inbox.instagram_id,
+      });
     },
   },
   mounted() {
