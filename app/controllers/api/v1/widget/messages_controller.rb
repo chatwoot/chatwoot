@@ -43,16 +43,22 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def set_conversation
-    last = conversations.last
-    @conversation = if @web_widget.inbox.lock_to_single_conversation? || @contact.blocked?
-                      last
-                    else
-                      last unless last&.resolved?
-                    end
+    @conversation = reusable_conversation
     return if @conversation.present?
 
     @conversation = create_conversation
     apply_labels if permitted_params[:labels].present?
+  end
+
+  def reusable_conversation
+    last = conversations.last
+    return last if @web_widget.inbox.lock_to_single_conversation? || @contact.blocked?
+    # Reopening a resolved conversation on message create is expected product behavior
+    # when the inbox allows messages after resolution; only the disallowed case
+    # (e.g. retry of a failed message) must not touch the resolved conversation.
+    return last if @web_widget.inbox.allow_messages_after_resolved?
+
+    last unless last&.resolved?
   end
 
   def apply_labels

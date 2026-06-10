@@ -189,7 +189,8 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(conversation.reload.resolved?).to be(true)
       end
 
-      it 'creates a new conversation instead of reopening a resolved one when lock_to_single_conversation is false' do
+      it 'creates a new conversation instead of reopening a resolved one when messages after resolved are not allowed' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
         conversation.resolved!
 
         message_params = { content: 'retry message', timestamp: Time.current }
@@ -205,7 +206,23 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(contact.conversations.last.open?).to be(true)
       end
 
+      it 'reopens the resolved conversation when messages after resolved are allowed' do
+        conversation.resolved!
+
+        message_params = { content: 'hello again', timestamp: Time.current }
+        expect do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end.not_to change(contact.conversations, :count)
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.open?).to be(true)
+      end
+
       it 'does not use an older open conversation when the latest conversation is resolved' do
+        web_widget.inbox.update!(allow_messages_after_resolved: false)
         # conversation (from let) is the older open one; create a newer resolved on top of it
         create(:conversation, contact: contact, account: account,
                               inbox: web_widget.inbox, contact_inbox: contact_inbox,
