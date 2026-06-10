@@ -37,14 +37,15 @@ const itens = ref(
   props.initialData.itens?.length ? props.initialData.itens : [newItem()]
 );
 
-const fmtDate = d =>
-  d
-    ? new Date(d + 'T00:00:00').toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
-    : '';
+const fmtDate = d => {
+  if (!d) return '';
+  const datePart = d.substring(0, 10);
+  return new Date(`${datePart}T00:00:00`).toLocaleDateString('pt-BR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+};
 
 const onProdutoChange = async item => {
   item.agendaId = '';
@@ -72,7 +73,7 @@ const onAgendaChange = async item => {
     const r = await ViariAPI.getTarifas(
       item.produtoId,
       null,
-      agenda.dataAgenda
+      agenda.dataAgenda.substring(0, 10)
     );
     item.tarifas = r.data.itens ?? [];
   } catch {
