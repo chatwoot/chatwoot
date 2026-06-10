@@ -8,7 +8,15 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
 
     viari_cliente_id = contact.additional_attributes&.dig('viari_cliente_id')
 
-    return render json: { encontrado: true, clienteId: viari_cliente_id } if viari_cliente_id
+    if viari_cliente_id
+      begin
+        # Fetch full customer data (statusJornada, nome, etc.) from Viari
+        return render json: viari_get("/api/viari/clientes/#{viari_cliente_id}")
+      rescue StandardError
+        # Fallback: return minimal structure compatible with frontend expectations
+        return render json: { encontrado: true, cliente: { id: viari_cliente_id } }
+      end
+    end
 
     query = {}
     query[:telefone] = contact.phone_number if contact.phone_number.present?
@@ -64,19 +72,19 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
   end
 
   def create_orcamento
-    render json: viari_post('/api/viari/orcamentos', params.except(:account_id, :format).permit!.to_h)
+    render json: viari_post('/api/viari/orcamentos', viari_payload)
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def create_reserva
-    render json: viari_post('/api/viari/reservas', params.except(:account_id, :format).permit!.to_h)
+    render json: viari_post('/api/viari/reservas', viari_payload)
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def create_pagamento
-    render json: viari_post('/api/viari/pagamentos', params.except(:account_id, :format).permit!.to_h)
+    render json: viari_post('/api/viari/pagamentos', viari_payload)
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -110,6 +118,10 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
   def viari_cliente_id
     @contact&.additional_attributes&.dig('viari_cliente_id') ||
       (render(json: { error: 'Contact not linked to Viari' }, status: :unprocessable_entity) && nil)
+  end
+
+  def viari_payload
+    params.except(:account_id, :format, :controller, :action).permit!.to_h
   end
 
   def persist_viari_id(contact, id)

@@ -29,7 +29,10 @@ const tabsRefreshKey = ref(0);
 const statusJornada = computed(
   () => clienteData.value?.cliente?.statusJornada ?? 'contato'
 );
-const viariClienteId = computed(() => clienteData.value?.cliente?.id ?? null);
+// Support both { cliente: { id } } (new) and { clienteId } (legacy) response formats
+const viariClienteId = computed(
+  () => clienteData.value?.cliente?.id ?? clienteData.value?.clienteId ?? null
+);
 
 const VIARI_LABELS = [
   'viari-vinculado',
