@@ -22,7 +22,7 @@ namespace :chatwit do
       next
     end
 
-    premium_features = %w[disable_branding audit_logs sla captain_integration custom_roles response_bot].freeze
+    premium_features = %w[disable_branding audit_logs sla captain_integration custom_roles].freeze
 
     pin = lambda do |name, value|
       cfg = InstallationConfig.find_or_initialize_by(name: name)

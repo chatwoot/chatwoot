@@ -84,8 +84,7 @@ bundle exec rails runner "
           'audit_logs', 
           'sla',
           'captain_integration',
-          'custom_roles',
-          'response_bot'
+          'custom_roles'
         ]
         
         account.enable_features!(*enterprise_features)

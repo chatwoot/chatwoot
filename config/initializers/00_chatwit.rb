@@ -168,7 +168,7 @@ end
 # reconcile retornar cedo (no-op). Telemetria fica OFF, então o plano nunca é
 # sobrescrito pelo hub.
 module Chatwit::EnterprisePlan
-  PREMIUM_FEATURES = %w[disable_branding audit_logs sla captain_integration custom_roles response_bot].freeze
+  PREMIUM_FEATURES = %w[disable_branding audit_logs sla captain_integration custom_roles].freeze
 
   class << self
     def ensure!
