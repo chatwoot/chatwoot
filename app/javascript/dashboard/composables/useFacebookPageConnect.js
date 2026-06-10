@@ -6,7 +6,7 @@ import { setupFacebookSdk } from 'dashboard/routes/dashboard/settings/inbox/chan
 // Page-management + messaging scopes required to list pages and create a
 // Channel::FacebookPage inbox (mirrors the standalone settings flow).
 const FB_PAGE_SCOPES =
-  'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages';
+  'pages_manage_metadata,business_management,pages_messaging,pages_show_list,pages_read_engagement';
 
 // Headless half of the Facebook Page connect flow: load the Meta SDK, run
 // FB.login for page scopes, and fetch the user's pages. The caller owns the

@@ -6,6 +6,16 @@ import { useAlert } from 'dashboard/composables';
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import * as Sentry from '@sentry/vue';
 
+const FACEBOOK_PAGE_SCOPES = [
+  'pages_manage_metadata',
+  'business_management',
+  'pages_messaging',
+  'pages_show_list',
+  'pages_read_engagement',
+];
+
+const INSTAGRAM_SCOPES = ['instagram_basic', 'instagram_manage_messages'];
+
 export default {
   components: {
     InboxReconnectionRequired,
@@ -19,6 +29,13 @@ export default {
   computed: {
     inboxId() {
       return this.inbox.id;
+    },
+    facebookLoginScopes() {
+      const scopes = [...FACEBOOK_PAGE_SCOPES];
+      if (this.inbox.instagram_id) {
+        scopes.push(...INSTAGRAM_SCOPES);
+      }
+      return scopes.join(',');
     },
   },
   mounted() {
@@ -77,8 +94,7 @@ export default {
           }
         },
         {
-          scope:
-            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
+          scope: this.facebookLoginScopes,
           auth_type: 'reauthorize',
         }
       );
