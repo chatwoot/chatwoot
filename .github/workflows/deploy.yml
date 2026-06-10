@@ -38,5 +38,7 @@ jobs:
 
       - name: Trigger Dokploy redeploy
         run: |
-          curl -s -o /dev/null -w "%{http_code}" \
-            "https://dev.portoseguroroteiros.com.br/api/deploy/compose/_iF93asMvWdvK2DRZGL5H"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" -X POST \
+            "https://dev.portoseguroroteiros.com.br/api/deploy/compose/_iF93asMvWdvK2DRZGL5H")
+          echo "Dokploy response: $STATUS"
+          [ "$STATUS" = "200" ] || [ "$STATUS" = "201" ] || exit 1
