@@ -7,15 +7,15 @@ from __future__ import annotations
 
 from pydantic import BaseModel
 from pydantic_ai import Agent
-from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from ..config import settings
 from ..tools import keycrm
 
-# LiteLLM speaks the OpenAI-compatible protocol, so we point Pydantic AI's OpenAI model
-# at the gateway base URL. Swapping providers is a config change, not a code change.
-_model = OpenAIModel(
+# LiteLLM serves an OpenAI-compatible API, so we point Pydantic AI's OpenAIChatModel at the
+# gateway base URL. Swapping providers is a config change (litellm/config.yaml), not a code change.
+_model = OpenAIChatModel(
     settings.agent_model,
     provider=OpenAIProvider(
         base_url=f"{settings.litellm_base_url}/v1",

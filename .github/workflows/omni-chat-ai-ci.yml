@@ -1,0 +1,27 @@
+# CI for the Omni-Chat-AI subproject only (scoped by path so it never touches Chatwoot core CI).
+name: omni-chat-ai-ci
+
+on:
+  push:
+    branches: ["**"]
+    paths: ["omni-chat-ai/**"]
+  pull_request:
+    paths: ["omni-chat-ai/**"]
+
+jobs:
+  ai-service:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: omni-chat-ai/ai-service
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Set up Python
+        run: uv python install 3.12
+      - name: Install (with dev extras)
+        run: uv pip install --system -e ".[dev]"
+      - name: Lint
+        run: ruff check .
+      - name: Test
+        run: pytest -q
