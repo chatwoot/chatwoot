@@ -41,8 +41,10 @@ const handleConfirm = async () => {
     });
     emit('created', { tipo: form.value.tipo });
     emit('close');
-  } catch {
-    error.value = t('CONVERSATION_SIDEBAR.VIARI.PAGAMENTO_MODAL.ERROR');
+  } catch (e) {
+    error.value =
+      e.response?.data?.error ||
+      t('CONVERSATION_SIDEBAR.VIARI.PAGAMENTO_MODAL.ERROR');
   } finally {
     isCreating.value = false;
   }

@@ -85,13 +85,21 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
   end
 
   def create_reserva
-    render json: viari_post('/api/viari/reservas', viari_payload)
+    cliente_id = params[:clienteId]
+    return render json: { error: 'clienteId required' }, status: :unprocessable_entity unless cliente_id.present?
+
+    body = params.except(:account_id, :format, :controller, :action, :clienteId).permit!.to_h
+    render json: viari_post("/api/viari/clientes/#{cliente_id}/reservas", body)
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def create_pagamento
-    render json: viari_post('/api/viari/pagamentos', viari_payload)
+    cliente_id = params[:clienteId]
+    return render json: { error: 'clienteId required' }, status: :unprocessable_entity unless cliente_id.present?
+
+    body = params.except(:account_id, :format, :controller, :action, :clienteId).permit!.to_h
+    render json: viari_post("/api/viari/clientes/#{cliente_id}/pagamentos", body)
   rescue StandardError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
@@ -172,7 +180,13 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
     request = Net::HTTP::Post.new(uri.path, viari_headers)
     request.body = body.to_json
     response = http.request(request)
-    JSON.parse(response.body, symbolize_names: true)
+    parsed = JSON.parse(response.body, symbolize_names: true)
+    return parsed if response.is_a?(Net::HTTPSuccess)
+
+    error_msg = parsed[:message] || parsed[:error] || parsed[:mensagem] || response.body.first(400)
+    raise error_msg.to_s
+  rescue JSON::ParserError
+    raise "Viari #{response&.code}: #{response&.body&.first(400)}"
   rescue StandardError => e
     raise "Viari API error: #{e.message}"
   end

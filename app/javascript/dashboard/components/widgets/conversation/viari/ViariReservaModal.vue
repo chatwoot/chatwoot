@@ -32,8 +32,10 @@ const handleConfirm = async () => {
     });
     emit('created');
     emit('close');
-  } catch {
-    error.value = t('CONVERSATION_SIDEBAR.VIARI.RESERVA_MODAL.ERROR');
+  } catch (e) {
+    error.value =
+      e.response?.data?.error ||
+      t('CONVERSATION_SIDEBAR.VIARI.RESERVA_MODAL.ERROR');
   } finally {
     isCreating.value = false;
   }
