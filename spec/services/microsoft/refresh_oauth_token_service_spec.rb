@@ -82,7 +82,7 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
 
         expect do
           described_class.new(channel: microsoft_channel).access_token
-        end.to raise_error(OAuth2::Error, /A refresh_token is not available/)
+        end.to raise_error(RuntimeError, 'A refresh_token is not available')
       end
     end
   end
