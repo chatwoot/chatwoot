@@ -5,6 +5,12 @@ const props = defineProps({
   reserva: { type: Object, required: true },
 });
 
+const emit = defineEmits(['create-pagamento']);
+
+const canCreatePagamento = computed(() =>
+  ['pendente', 'confirmada'].includes(props.reserva.status)
+);
+
 // Tailwind bg + text class pairs for each status badge
 const STATUS_CLASSES = {
   confirmada: 'bg-[#1D9E75]/10 text-[#1D9E75]',
@@ -77,6 +83,14 @@ const statusClasses = computed(
       <span class="font-bold text-[#0D2B2A]">{{
         fmt.format(reserva.valorTotal)
       }}</span>
+    </div>
+    <div v-if="canCreatePagamento" class="mt-2 flex justify-end">
+      <button
+        class="text-[10px] font-bold px-2.5 py-1 rounded bg-[#1D9E75] text-white hover:bg-[#0F6E56]"
+        @click.stop="emit('create-pagamento', reserva)"
+      >
+        {{ $t('CONVERSATION_SIDEBAR.VIARI.PAGAMENTO_MODAL.CREATE_BTN') }}
+      </button>
     </div>
   </div>
 </template>

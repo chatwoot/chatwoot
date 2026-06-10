@@ -392,6 +392,8 @@ Rails.application.routes.draw do
                 get :tarifas
                 get :canais_venda
                 post :create_orcamento
+                post :create_reserva
+                post :create_pagamento
                 get 'texto_whatsapp/:orcamento_id', action: :texto_whatsapp
               end
             end

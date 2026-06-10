@@ -1,9 +1,11 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useFunctionGetter } from 'dashboard/composables/store';
 import ViariJourneyBar from './ViariJourneyBar.vue';
 import ViariTabs from './ViariTabs.vue';
 import ViariOrcamentoModal from './ViariOrcamentoModal.vue';
+import ViariReservaModal from './ViariReservaModal.vue';
+import ViariPagamentoModal from './ViariPagamentoModal.vue';
 import ViariAPI from 'dashboard/api/integrations/viari';
 
 const props = defineProps({
@@ -12,11 +14,17 @@ const props = defineProps({
 });
 
 const store = useStore();
+const contact = useFunctionGetter('contacts/getContact', props.contactId);
 
 const loading = ref(true);
 const error = ref('');
 const clienteData = ref(null);
 const showModal = ref(false);
+const showReservaModal = ref(false);
+const showPagamentoModal = ref(false);
+const activeOrcamento = ref(null);
+const activeReserva = ref(null);
+const tabsRefreshKey = ref(0);
 
 const statusJornada = computed(
   () => clienteData.value?.cliente?.statusJornada ?? 'contato'
@@ -69,7 +77,6 @@ const loadCustomer = async () => {
   try {
     const response = await ViariAPI.getCustomer(props.contactId);
     clienteData.value = response.data;
-    await applyLabels(statusJornada.value);
   } catch (e) {
     error.value = e.response?.data?.error || 'error';
   } finally {
@@ -77,9 +84,40 @@ const loadCustomer = async () => {
   }
 };
 
+const onOrcamentoCriado = async () => {
+  await loadCustomer();
+  await applyLabels('orcamento');
+  tabsRefreshKey.value += 1;
+};
+
+const onCreateReserva = orcamento => {
+  activeOrcamento.value = orcamento;
+  showReservaModal.value = true;
+};
+
+const onReservaCriada = async () => {
+  await loadCustomer();
+  await applyLabels('sinal');
+  tabsRefreshKey.value += 1;
+};
+
+const onCreatePagamento = reserva => {
+  activeReserva.value = reserva;
+  showPagamentoModal.value = true;
+};
+
+const onPagamentoCriado = async ({ tipo }) => {
+  await loadCustomer();
+  await applyLabels(tipo === 'sinal' ? 'reserva' : 'pago');
+  tabsRefreshKey.value += 1;
+};
+
 watch(
   () => props.contactId,
-  () => loadCustomer(),
+  async () => {
+    await loadCustomer();
+    await applyLabels(statusJornada.value);
+  },
   { immediate: true }
 );
 </script>
@@ -129,17 +167,43 @@ watch(
     <!-- Content -->
     <template v-else>
       <ViariJourneyBar :status="statusJornada" />
-      <ViariTabs :contact-id="contactId" :viari-cliente-id="viariClienteId" />
+      <ViariTabs
+        :key="tabsRefreshKey"
+        :contact-id="contactId"
+        :viari-cliente-id="viariClienteId"
+        @create-reserva="onCreateReserva"
+        @create-pagamento="onCreatePagamento"
+      />
     </template>
 
-    <!-- Modal -->
+    <!-- Orcamento modal -->
     <ViariOrcamentoModal
       v-if="showModal"
       :contact-id="contactId"
       :viari-cliente-id="viariClienteId"
       :conversation-id="conversationId"
       @close="showModal = false"
-      @created="loadCustomer"
+      @created="onOrcamentoCriado"
+    />
+
+    <!-- Reserva modal -->
+    <ViariReservaModal
+      v-if="showReservaModal && activeOrcamento"
+      :orcamento="activeOrcamento"
+      :viari-cliente-id="viariClienteId"
+      :contact="contact"
+      @close="showReservaModal = false"
+      @created="onReservaCriada"
+    />
+
+    <!-- Pagamento modal -->
+    <ViariPagamentoModal
+      v-if="showPagamentoModal && activeReserva"
+      :reserva="activeReserva"
+      :viari-cliente-id="viariClienteId"
+      :contact="contact"
+      @close="showPagamentoModal = false"
+      @created="onPagamentoCriado"
     />
   </div>
 </template>

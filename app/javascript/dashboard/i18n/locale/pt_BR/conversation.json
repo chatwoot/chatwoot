@@ -478,6 +478,36 @@
         "PRODUCTS_COUNT": "Produtos",
         "WHATSAPP_NOTE": "Texto final com valores exatos será gerado pelo Viari na confirmação.",
         "DISCOUNT_DISPLAY": "Desconto"
+      },
+      "RESERVA_MODAL": {
+        "TITLE": "Nova Reserva",
+        "ORCAMENTO_REF": "Orçamento de referência",
+        "CARTAO_LABEL": "Cartão",
+        "OBS_LABEL": "Observações internas",
+        "CONFIRM": "Confirmar Reserva",
+        "CREATING": "Criando reserva...",
+        "ERROR": "Erro ao criar reserva.",
+        "CREATE_BTN": "Criar Reserva"
+      },
+      "PAGAMENTO_MODAL": {
+        "TITLE": "Registrar Pagamento",
+        "RESERVA_REF": "Reserva de referência",
+        "TIPO_LABEL": "Tipo de pagamento",
+        "TIPO_SINAL": "Sinal (entrada)",
+        "TIPO_ACERTO": "Acerto (saldo restante)",
+        "FORMA_LABEL": "Forma de pagamento",
+        "FORMA_PIX": "PIX",
+        "FORMA_CARTAO": "Cartão de crédito",
+        "FORMA_DINHEIRO": "Dinheiro",
+        "FORMA_BOLETO": "Boleto",
+        "FORMA_TRANSFERENCIA": "Transferência",
+        "VALOR_LABEL": "Valor (R$)",
+        "DATA_LABEL": "Data do pagamento",
+        "OBS_LABEL": "Observações",
+        "CONFIRM": "Registrar Pagamento",
+        "CREATING": "Registrando...",
+        "ERROR": "Erro ao registrar pagamento.",
+        "CREATE_BTN": "Registrar Pagamento"
       }
     },
     "SHOPIFY": {

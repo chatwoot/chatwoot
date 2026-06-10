@@ -5,6 +5,12 @@ const props = defineProps({
   orcamento: { type: Object, required: true },
 });
 
+const emit = defineEmits(['create-reserva']);
+
+const canCreateReserva = computed(() =>
+  ['enviado', 'visualizado', 'aprovado'].includes(props.orcamento.status)
+);
+
 // Tailwind bg + text class pairs for each status badge
 const STATUS_CLASSES = {
   rascunho: 'bg-slate-100 text-slate-400',
@@ -72,6 +78,14 @@ const statusClasses = computed(
           {{ fmt.format(orcamento.totalPix) }}
         </div>
       </div>
+    </div>
+    <div v-if="canCreateReserva" class="mt-2 flex justify-end">
+      <button
+        class="text-[10px] font-bold px-2.5 py-1 rounded bg-[#1D9E75] text-white hover:bg-[#0F6E56]"
+        @click.stop="emit('create-reserva', orcamento)"
+      >
+        {{ $t('CONVERSATION_SIDEBAR.VIARI.RESERVA_MODAL.CREATE_BTN') }}
+      </button>
     </div>
   </div>
 </template>

@@ -11,6 +11,8 @@ const props = defineProps({
   viariClienteId: { type: String, default: null },
 });
 
+const emit = defineEmits(['create-reserva', 'create-pagamento']);
+
 const { t } = useI18n();
 
 const activeTab = ref('reservas');
@@ -84,6 +86,7 @@ watch(
             v-for="item in data.reservas"
             :key="item.id"
             :reserva="item"
+            @create-pagamento="emit('create-pagamento', $event)"
           />
         </template>
         <template v-else-if="activeTab === 'orcamentos'">
@@ -91,6 +94,7 @@ watch(
             v-for="item in data.orcamentos"
             :key="item.id"
             :orcamento="item"
+            @create-reserva="emit('create-reserva', $event)"
           />
         </template>
         <template v-else-if="activeTab === 'pagamentos'">

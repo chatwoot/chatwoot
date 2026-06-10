@@ -54,6 +54,14 @@ class ViariAPI extends ApiClient {
     return axios.post(`${this.url}/create_orcamento`, payload);
   }
 
+  criarReserva(payload) {
+    return axios.post(`${this.url}/create_reserva`, payload);
+  }
+
+  criarPagamento(payload) {
+    return axios.post(`${this.url}/create_pagamento`, payload);
+  }
+
   getTextoWhatsapp(orcamentoId) {
     return axios.get(`${this.url}/texto_whatsapp/${orcamentoId}`);
   }

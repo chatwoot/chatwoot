@@ -69,6 +69,18 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def create_reserva
+    render json: viari_post('/api/viari/reservas', params.except(:account_id, :format).permit!.to_h)
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
+  def create_pagamento
+    render json: viari_post('/api/viari/pagamentos', params.except(:account_id, :format).permit!.to_h)
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   def texto_whatsapp
     render json: viari_get("/api/viari/orcamentos/#{params[:orcamento_id]}/texto-whatsapp")
   end

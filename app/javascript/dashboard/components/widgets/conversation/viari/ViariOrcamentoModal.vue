@@ -67,6 +67,9 @@ const handleConfirm = async () => {
       ...formData.value,
     });
     const textoWhatsapp = response.data?.textoWhatsapp ?? '';
+    if (textoWhatsapp) {
+      navigator.clipboard.writeText(textoWhatsapp).catch(() => {});
+    }
     store.dispatch('draftMessages/set', {
       key: `draft-${props.conversationId}-REPLY`,
       message: textoWhatsapp,
