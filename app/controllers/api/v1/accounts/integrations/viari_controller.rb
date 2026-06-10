@@ -22,17 +22,24 @@ class Api::V1::Accounts::Integrations::ViariController < Api::V1::Accounts::Base
     query[:telefone] = contact.phone_number if contact.phone_number.present?
     query[:email] = contact.email if contact.email.present?
 
-    response = viari_get('/api/viari/clientes/buscar', query)
-
-    if response[:encontrado]
-      persist_viari_id(contact, response.dig(:cliente, :id))
-      return render json: response
+    if query.any?
+      begin
+        response = viari_get('/api/viari/clientes/buscar', query)
+        if response[:encontrado]
+          persist_viari_id(contact, response.dig(:cliente, :id))
+          return render json: response
+        end
+      rescue StandardError
+        # buscar failed or client not found — proceed to create
+      end
     end
 
     body = { nome: contact.name, telefone: contact.phone_number, email: contact.email }.compact
     created = viari_post('/api/viari/clientes', body)
     persist_viari_id(contact, created.dig(:cliente, :id))
     render json: created
+  rescue StandardError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def reservas

@@ -116,10 +116,21 @@ const removeItem = idx => {
 const handleNext = () => {
   const valid = itens.value.every(item => item.produtoId && item.agendaId);
   if (!valid) return;
+  const sinalPct = (localSinal.value ?? 35) / 100;
+  const cartao = totalCartao.value;
+  const pix = totalPix.value;
+  const sinalC = Math.round(cartao * sinalPct * 100) / 100;
+  const sinalP = Math.round(pix * sinalPct * 100) / 100;
   emit('next', {
     itens: itens.value.map(item => ({
       produtoId: item.produtoId,
+      produtoNome:
+        produtos.value.find(p => p.id === item.produtoId)?.nome ?? '',
       agendaId: item.agendaId,
+      precoAdt: getPreco(item, 'ADT'),
+      precoChd: getPreco(item, 'CHD'),
+      precoInf: getPreco(item, 'INF'),
+      precoSen: getPreco(item, 'SEN'),
       qtdAdt: item.qtdAdt,
       qtdChd: item.qtdChd,
       qtdInf: item.qtdInf,
@@ -128,6 +139,12 @@ const handleNext = () => {
     })),
     percentualSinal: localSinal.value,
     descontoManual: localDesconto.value,
+    totalCartao: cartao,
+    totalPix: pix,
+    sinalCartao: sinalC,
+    sinalPix: sinalP,
+    acertoCartao: cartao - sinalC,
+    acertoPix: pix - sinalP,
   });
 };
 

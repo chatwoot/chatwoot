@@ -36,6 +36,65 @@ const formData = ref({
   itens: [],
 });
 
+const displayTotals = ref({
+  totalCartao: 0,
+  totalPix: 0,
+  sinalCartao: 0,
+  sinalPix: 0,
+  acertoCartao: 0,
+  acertoPix: 0,
+});
+
+const fmt = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+});
+
+const buildWhatsAppText = (contactObj, itens, totals) => {
+  let ordinal = 1;
+  const linhas = [];
+  itens.forEach(item => {
+    [
+      { tipo: 'ADT', qtd: item.qtdAdt ?? 0, preco: item.precoAdt },
+      { tipo: 'CHD', qtd: item.qtdChd ?? 0, preco: item.precoChd },
+      { tipo: 'INF', qtd: item.qtdInf ?? 0, preco: item.precoInf },
+      { tipo: 'SEN', qtd: item.qtdSen ?? 0, preco: item.precoSen },
+    ].forEach(({ tipo, qtd, preco }) => {
+      if (qtd > 0 && preco != null) {
+        linhas.push(
+          `${ordinal}° - ${item.produtoNome ?? ''} ${tipo} | ${fmt.format(preco)} | Pax: ${qtd}`
+        );
+        ordinal += 1;
+      }
+    });
+  });
+  return [
+    '🏠 Orçamento dos passeios:',
+    `Nome: ${contactObj?.name ?? ''}`,
+    `📞 Telefone: ${contactObj?.phone_number ?? ''}`,
+    '',
+    ...linhas,
+    '',
+    '💳 Cartão em até 6x s/ juros',
+    `Preço Total no Cartão: ${fmt.format(totals.totalCartao)}`,
+    `Sinal para reserva de vagas (PIX): ${fmt.format(totals.sinalCartao)}`,
+    `Valor a acertar no dia do 1° passeio: ${fmt.format(totals.acertoCartao)}`,
+    'ㅤ',
+    '✅ PIX',
+    `Preço Total no Pix: ${fmt.format(totals.totalPix)}`,
+    `Sinal para reserva de vagas (PIX): ${fmt.format(totals.sinalPix)}`,
+    `Valor a acertar no dia do 1° passeio: ${fmt.format(totals.acertoPix)}`,
+  ].join('\n');
+};
+
+const previewText = computed(() =>
+  buildWhatsAppText(
+    contact.value,
+    formData.value.itens ?? [],
+    displayTotals.value
+  )
+);
+
 const stepTitles = computed(() => [
   t('CONVERSATION_SIDEBAR.VIARI.MODAL.STEP1_TITLE'),
   t('CONVERSATION_SIDEBAR.VIARI.MODAL.STEP2_TITLE'),
@@ -47,10 +106,25 @@ const handleStep1Next = data => {
   currentStep.value = 2;
 };
 
-const handleStep2Next = ({ itens, percentualSinal, descontoManual }) => {
-  formData.value.itens = itens;
-  formData.value.percentualSinal = percentualSinal;
-  formData.value.descontoManual = descontoManual;
+const handleStep2Next = data => {
+  const {
+    totalCartao,
+    totalPix,
+    sinalCartao,
+    sinalPix,
+    acertoCartao,
+    acertoPix,
+    ...rest
+  } = data;
+  Object.assign(formData.value, rest);
+  displayTotals.value = {
+    totalCartao,
+    totalPix,
+    sinalCartao,
+    sinalPix,
+    acertoCartao,
+    acertoPix,
+  };
   currentStep.value = 3;
 };
 
@@ -62,11 +136,35 @@ const handleConfirm = async () => {
   isCreating.value = true;
   createError.value = '';
   try {
+    const apiItens = formData.value.itens.map(
+      // eslint-disable-next-line no-unused-vars
+      ({ produtoNome, precoAdt, precoChd, precoInf, precoSen, ...apiFields }) =>
+        apiFields
+    );
     const response = await ViariAPI.criarOrcamento({
       clienteId: props.viariClienteId,
       ...formData.value,
+      itens: apiItens,
     });
-    const textoWhatsapp = response.data?.textoWhatsapp ?? '';
+
+    let textoWhatsapp = response.data?.textoWhatsapp ?? '';
+
+    if (!textoWhatsapp) {
+      const orcamentoId = response.data?.orcamento?.id ?? response.data?.id;
+      if (orcamentoId) {
+        try {
+          const r = await ViariAPI.getTextoWhatsapp(orcamentoId);
+          textoWhatsapp = r.data?.texto ?? r.data?.textoWhatsapp ?? '';
+        } catch {
+          // fallback to locally generated text
+        }
+      }
+    }
+
+    if (!textoWhatsapp) {
+      textoWhatsapp = previewText.value;
+    }
+
     if (textoWhatsapp) {
       navigator.clipboard.writeText(textoWhatsapp).catch(() => {});
     }
@@ -190,6 +288,7 @@ const handleConfirm = async () => {
         <ViariModalStep3
           v-else-if="currentStep === 3"
           :form-data="formData"
+          :preview-text="previewText"
           :is-creating="isCreating"
           :create-error="createError"
           @confirm="handleConfirm"

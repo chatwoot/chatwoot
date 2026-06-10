@@ -4,6 +4,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   formData: { type: Object, required: true },
+  previewText: { type: String, default: '' },
   isCreating: { type: Boolean, default: false },
   createError: { type: String, default: '' },
 });
@@ -36,24 +37,7 @@ const descontoValue = computed(() => fmt.format(props.formData.descontoManual));
 
 const productCount = computed(() => props.formData.itens?.length ?? 0);
 
-const previewTexto = computed(() => {
-  const itens = props.formData.itens ?? [];
-  const pax = itens.reduce(
-    (sum, item) =>
-      sum +
-      (item.qtdAdt ?? 0) +
-      (item.qtdChd ?? 0) +
-      (item.qtdInf ?? 0) +
-      (item.qtdSen ?? 0) +
-      (item.qtdFree ?? 0),
-    0
-  );
-  return [
-    `${itens.length} produto(s) • ${pax} pax`,
-    `Período: ${fmtDate(props.formData.periodoInicio)} – ${fmtDate(props.formData.periodoFim)}`,
-    `Sinal: ${props.formData.percentualSinal}%`,
-  ].join('\n');
-});
+const previewTexto = computed(() => props.previewText);
 </script>
 
 <template>
@@ -108,9 +92,6 @@ const previewTexto = computed(() => {
       </div>
       <!-- prettier-ignore -->
       <pre class="text-[11px] whitespace-pre-wrap font-mono text-[#E1F5EE] leading-relaxed">{{ previewTexto }}</pre>
-      <p class="text-[10px] mt-2 text-[#5DCAA5] opacity-70">
-        {{ $t('CONVERSATION_SIDEBAR.VIARI.MODAL.WHATSAPP_NOTE') }}
-      </p>
     </div>
 
     <!-- Error -->

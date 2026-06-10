@@ -47,6 +47,9 @@ onMounted(async () => {
   try {
     const r = await ViariAPI.getCanaisVenda();
     canais.value = r.data.canais ?? [];
+    if (!form.value.canalVendaId && canais.value.length > 0) {
+      form.value.canalVendaId = canais.value[0].id;
+    }
   } catch {
     // canal is optional
   }
