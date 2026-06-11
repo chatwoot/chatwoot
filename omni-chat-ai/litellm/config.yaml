@@ -22,6 +22,10 @@ model_list:
 litellm_settings:
   drop_params: true
   num_retries: 2
+  # Emit every LLM call (latency, tokens, cost) to Langfuse so traces have real spans to
+  # evaluate. Reads LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY / LANGFUSE_HOST from the env.
+  success_callback: ["langfuse"]
+  failure_callback: ["langfuse"]
   # If claude-primary fails, transparently retry on these.
   fallbacks: [{ "claude-primary": ["claude-fast", "openai-fallback"] }]
 

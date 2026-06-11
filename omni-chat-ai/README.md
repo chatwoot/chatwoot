@@ -50,5 +50,8 @@ omni-chat-ai/
 └── .claude/                # subagents + slash-command workflows
 ```
 
-> Status: scaffold (P1). The AI service ships a working webhook + one Support agent + KeyCRM
-> tool + Chatwoot handoff. Extend specialists and channels via the `.claude/commands/`.
+> Status: P0-hardened scaffold. The AI service ships a working webhook (HMAC + pending-status
+> guard + dedup + background processing + error→handoff fail-safe), one Support agent with
+> multi-turn memory and language matching, a cached KeyCRM tool, and a clean Chatwoot handoff
+> (customer-facing line + private summary). LLM calls are traced to Langfuse via LiteLLM.
+> Extend specialists and channels via the `.claude/commands/`.

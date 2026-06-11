@@ -10,3 +10,6 @@ __pycache__/
 !.claude/
 !.claude/**
 .claude/settings.local.json
+
+# editable-install build metadata
+*.egg-info/

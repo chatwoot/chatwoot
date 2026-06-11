@@ -19,6 +19,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-chatwoot_production}
     volumes:
       - pg_data:/var/lib/postgresql/data
+      # Creates the separate `langfuse` database on first init (Langfuse won't boot without it).
+      - ./postgres/init-langfuse.sh:/docker-entrypoint-initdb.d/init-langfuse.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chatwoot}"]
       interval: 10s
@@ -33,7 +35,7 @@ services:
 
   # ---------------------------------------------------------------- chatwoot (Unified Chat Panel)
   chatwoot:
-    image: chatwoot/chatwoot:latest
+    image: chatwoot/chatwoot:v4.14.2
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
     env_file: .env
@@ -46,7 +48,7 @@ services:
       - "3000:3000"
 
   chatwoot_worker:
-    image: chatwoot/chatwoot:latest
+    image: chatwoot/chatwoot:v4.14.2
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
     env_file: .env
@@ -58,7 +60,7 @@ services:
 
   # ---------------------------------------------------------------- model gateway (no OpenAI lock-in)
   litellm:
-    image: ghcr.io/berriai/litellm:main-latest
+    image: ghcr.io/berriai/litellm:main-stable
     command: ["--config", "/app/config.yaml", "--port", "4000"]
     volumes:
       - ./litellm/config.yaml:/app/config.yaml:ro
@@ -66,6 +68,10 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-omni-local}
+      # Forward LLM telemetry to Langfuse (see success_callback in litellm/config.yaml).
+      LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
+      LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
+      LANGFUSE_HOST: http://langfuse:3000
     ports:
       - "4000:4000"
 
@@ -86,7 +92,7 @@ services:
 
   # ---------------------------------------------------------------- RAG vector store
   qdrant:
-    image: qdrant/qdrant:latest
+    image: qdrant/qdrant:v1.18.2
     volumes:
       - qdrant_data:/qdrant/storage
     ports:
@@ -122,7 +128,7 @@ services:
   # Evolution API for a personal WhatsApp number (Baileys). Personal Viber/Telegram go through
   # the managed E-Chat.tech bridge (external) → Chatwoot API channel; see docs/knowledge/channels.md.
   evolution-api:
-    image: atendai/evolution-api:latest
+    image: atendai/evolution-api:v2.2.3
     environment:
       AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:-evo-local}
     volumes:

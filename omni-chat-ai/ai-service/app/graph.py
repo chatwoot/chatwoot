@@ -13,7 +13,7 @@ from typing import TypedDict
 from langgraph.graph import END, StateGraph
 
 from . import chatwoot
-from .agents.support import support_agent
+from .agents.support import support_agent, to_message_history
 
 
 class ConvState(TypedDict, total=False):
@@ -30,7 +30,15 @@ async def route(state: ConvState) -> str:
 
 
 async def support_node(state: ConvState) -> ConvState:
-    result = await support_agent.run(state["user_message"])
+    history = await chatwoot.fetch_history(state["conversation_id"])
+    # The current message is already persisted in Chatwoot; drop it from history so the agent
+    # doesn't see it twice (once as history, once as the prompt).
+    if history and history[-1]["incoming"] and history[-1]["content"] == state["user_message"]:
+        history = history[:-1]
+    result = await support_agent.run(
+        state["user_message"],
+        message_history=to_message_history(history),
+    )
     out = result.output
     return {
         **state,
