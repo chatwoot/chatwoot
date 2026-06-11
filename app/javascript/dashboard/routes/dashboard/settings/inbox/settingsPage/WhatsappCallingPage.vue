@@ -145,8 +145,10 @@ export default {
       >
         <SettingsToggleSection
           :model-value="inboundCallsEnabled"
-          :header="$t('INBOX_MGMT.WHATSAPP_CALLING.INBOUND.LABEL')"
-          :description="$t('INBOX_MGMT.WHATSAPP_CALLING.INBOUND.DESCRIPTION')"
+          :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.LABEL')"
+          :description="
+            $t('INBOX_MGMT.VOICE_CONFIGURATION.INBOUND.DESCRIPTION')
+          "
           :hide-toggle="isTogglingInbound"
           @update:model-value="handleInboundToggle"
         >

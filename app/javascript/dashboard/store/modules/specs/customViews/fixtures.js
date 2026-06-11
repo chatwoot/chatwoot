@@ -15,6 +15,21 @@ export const contactViewList = [
   },
 ];
 
+export const contactFilterView = {
+  name: 'Contact view',
+  filter_type: 0,
+  query: {
+    payload: [
+      {
+        attribute_key: 'contact_id',
+        filter_operator: 'equal_to',
+        values: [42],
+        query_operator: null,
+      },
+    ],
+  },
+};
+
 export const customViewList = [
   {
     name: 'Custom view',
