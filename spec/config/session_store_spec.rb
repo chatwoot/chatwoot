@@ -10,9 +10,8 @@ describe 'Session Store Configuration' do
     expect(Rails.application.config.session_store).to eq(ActionDispatch::Session::CookieStore)
   end
 
-  it 'sets the session key from environment variable with default fallback' do
-    expected_key = ENV.fetch('SESSION_COOKIE_KEY', '_chatwoot_session')
-    expect(session_options[:key]).to eq(expected_key)
+  it 'sets the session key' do
+    expect(session_options[:key]).to eq('_chatwoot_session')
   end
 
   it 'sets same_site to lax' do
