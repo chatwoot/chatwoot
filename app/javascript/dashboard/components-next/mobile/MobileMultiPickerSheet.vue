@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import MobileBottomSheet from './MobileBottomSheet.vue';
+import { vHapticTap } from './hapticTap';
 
 const props = defineProps({
   open: {
@@ -107,6 +108,7 @@ const toggleItem = key => {
         <button
           v-for="item in filteredItems"
           :key="item.key"
+          v-haptic-tap
           class="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors active:bg-n-alpha-2"
           :class="{ 'border-t border-n-weak': item !== filteredItems[0] }"
           @click="toggleItem(item.key)"
@@ -146,6 +148,7 @@ const toggleItem = key => {
       </div>
 
       <Button
+        v-haptic-tap
         :label="applyLabel"
         class="w-full"
         @click="emit('apply', localSelectedKeys)"

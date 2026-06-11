@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { vHapticTap } from './hapticTap';
 
 defineProps({
   activeTab: {
@@ -53,6 +54,7 @@ const onTabClick = tabId => {
     <button
       v-for="tab in tabs"
       :key="tab.id"
+      v-haptic-tap
       class="flex flex-col flex-1 items-center justify-center gap-0.5 py-2 transition-colors duration-150 relative"
       :class="
         activeTab === tab.id

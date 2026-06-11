@@ -224,6 +224,16 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Haptics via Trusted-Tap Switch Overlay (patch do iOS 26.5)
+
+A Apple **patcheou no iOS 26.5** o truque do toggle programático: `label.click()` em `<input type="checkbox" switch>` não dispara mais o Taptic Engine ([ios-haptics](https://github.com/tijnjh/ios-haptics) documenta "iOS 17.4 até 26.4"). O haptic do switch agora só dispara quando o **tap real do usuário** aterrissa diretamente no controle (clique trusted). `navigator.vibrate` segue inexistente no Safari 26. Por isso o PWA ficou mudo em aparelhos atualizados, enquanto o app nativo (UIKit) vibra normalmente.
+
+- **Nova diretiva `v-haptic-tap`** (`components-next/mobile/hapticTap.js`): injeta um `<input type="checkbox" switch>` transparente (absolute/inset-0/opacity-0, `aria-hidden`, `tabindex=-1`) dentro do elemento tocável. O tap físico do usuário toggla o switch → haptic do sistema (estilo tap de teclado) → o clique borbulha para o handler normal do botão. No-op onde existe Vibration API (Android). Hosts `disabled` têm o toggle cancelado para não dar feedback tátil em controle morto.
+- **`useHaptics.js`**: ao receber um tap trusted no overlay, a diretiva chama `notifyTrustedHapticTap()`; o burst programático do mesmo gesto é suprimido (janela de 400ms) para não duplicar haptic em iOS ≤ 26.4. O caminho programático permanece para iOS 17.4–26.4 e para feedback **dirigido por gesto** (threshold de swipe, pull-to-refresh, drag do pager), onde nenhum tap real atinge um switch — nesses casos, em iOS ≥ 26.5 degrada silenciosamente (limitação da plataforma, sem workaround conhecido).
+- **Aplicado em:** tabs do `MobileBottomTabBar`, status cards e todas as linhas de ação do `MobileConversationActionsView` (assignee/team/priority/add label/participants/mute/share), botões de swipe revelados do `MobileSwipeableRow` (cobre listas de conversas e inbox), opções dos sheets (`MobileConversationStatusSheet`, `MobileActionPickerSheet`, `MobileMultiPickerSheet` + botão aplicar) e botão enviar do `MobileReplyBox`.
+
+Desktop intocado: diretiva e usos vivem só em `components-next/mobile/`; `useHaptics.js` é consumido apenas pelo módulo mobile.
+
 ### 2026-06-11 — Native List Assembly Animation, Gesture-Synchronous Haptics, Mute & Share
 
 Native-parity pass replicating the official app's loading feel and fixing iOS haptics that never fired on real devices:

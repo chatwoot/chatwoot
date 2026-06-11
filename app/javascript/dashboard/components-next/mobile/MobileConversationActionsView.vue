@@ -8,6 +8,7 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { vHapticTap } from './hapticTap';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
@@ -452,6 +453,7 @@ watch(
         <button
           v-for="card in statusCards"
           :key="card.key"
+          v-haptic-tap
           class="relative flex min-w-0 flex-col items-center overflow-hidden rounded-2xl border px-1 pb-3.5 pt-5 shadow-sm transition-transform duration-150 active:scale-[0.96]"
           :class="[
             card.containerClass,
@@ -478,6 +480,7 @@ watch(
         class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showAssigneeSheet = true"
         >
@@ -501,6 +504,7 @@ watch(
         </button>
 
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showTeamSheet = true"
         >
@@ -525,6 +529,7 @@ watch(
         </button>
 
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
           @click="showPrioritySheet = true"
         >
@@ -562,6 +567,7 @@ watch(
           {{ t('MOBILE.ACTIONS.SECTIONS.LABELS') }}
         </h3>
         <Button
+          v-haptic-tap
           :label="t('MOBILE.ACTIONS.CTA.ADD_LABEL')"
           color="blue"
           variant="faded"
@@ -622,6 +628,7 @@ watch(
         </p>
 
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-blue-2"
           @click="showParticipantsSheet = true"
         >
@@ -673,6 +680,7 @@ watch(
         class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
       >
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
           @click="handleMuteToggle"
         >
@@ -697,6 +705,7 @@ watch(
         </button>
 
         <button
+          v-haptic-tap
           class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
           @click="handleShareConversation"
         >

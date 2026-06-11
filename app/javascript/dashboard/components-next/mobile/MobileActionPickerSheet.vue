@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import MobileBottomSheet from './MobileBottomSheet.vue';
+import { vHapticTap } from './hapticTap';
 
 const props = defineProps({
   open: {
@@ -82,6 +83,7 @@ const isSelected = item => item.key === props.selectedKey;
         <button
           v-for="item in filteredItems"
           :key="item.key"
+          v-haptic-tap
           class="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors active:bg-n-alpha-2"
           :class="{ 'border-t border-n-weak': item !== filteredItems[0] }"
           @click="emit('select', item)"

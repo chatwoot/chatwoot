@@ -3,6 +3,7 @@
 > **Status:** Vivo (atualizar a cada entrega)
 > **Última revisão:** 2026-06-11
 > **Doc principal:** `chatwitdocs/Chatwoot-Chatwit-mobile.md` (regras de isolamento, arquitetura, changelog)
+> **Plano de execução:** `chatwitdocs/mobile-roadmap-execution-plan.md` (lotes A–H, tasks com arquivos/stores exatos)
 
 Este documento consolida a auditoria de paridade entre o app nativo oficial (React Native, referência em `chatwitdocs/chatwoot-mobile-app/`) e o PWA do Chatwit, e define o roadmap para deixar o PWA **igual ou melhor** que o app nativo.
 
@@ -26,9 +27,12 @@ Coberto e em produção:
 
 ### Fundamento técnico — haptics no iOS (base Apple/WebKit)
 
-- O iOS **não implementa** a Vibration API (`navigator.vibrate`). O único caminho web para o Taptic Engine é o **switch control** do Safari/iOS 17.4+ (`<input type="checkbox" switch>`): alternar o checkbox dispara o haptic do sistema.
-- O toggle precisa ocorrer **dentro de transient user activation** (modelo de ativação do HTML spec implementado pelo WebKit). A ativação **expira após um `await`** — por isso todo haptic do módulo dispara no momento do toque, nunca após a resposta da API.
-- Implementação central em `dashboard/composables/useHaptics.js` (switch persistente no `document.body`, bursts curtos emulando `UINotificationFeedbackGenerator`). Requisito do aparelho: iOS 17.4+, Ajustes → Sons e Tato → Resposta Háptica ativa.
+- O iOS **não implementa** a Vibration API (`navigator.vibrate`), inclusive no Safari 26. O único caminho web para o Taptic Engine é o **switch control** do Safari/iOS 17.4+ (`<input type="checkbox" switch>`).
+- **iOS 26.5 patcheou o toggle programático**: `label.click()` via script não dispara mais o haptic. Só um **tap trusted do usuário que aterrissa fisicamente no switch** continua disparando. Consequência arquitetural: haptic de **tap** usa a diretiva `v-haptic-tap` (`components-next/mobile/hapticTap.js`) — um switch transparente sobreposto ao elemento tocável; o tap real toggla o switch (haptic do sistema) e o clique borbulha para o handler normal.
+- O caminho programático (`useHaptics.js`, switch oculto no `document.body`, bursts emulando `UINotificationFeedbackGenerator`) permanece para **iOS 17.4–26.4** e para feedback **de gesto** (threshold de swipe, pull-to-refresh) — que em iOS ≥ 26.5 degrada silenciosamente, sem workaround conhecido. Dentro de transient user activation, sempre no momento do toque (a ativação expira após `await`).
+- A diretiva chama `notifyTrustedHapticTap()` no tap trusted; o burst programático do mesmo gesto é suprimido (400ms) para não duplicar em iOS ≤ 26.4. No Android, `navigator.vibrate` cobre tudo e o overlay é no-op.
+- Requisito do aparelho: iOS 17.4+, Ajustes → Sons e Tato → Resposta Háptica ativa.
+- **Regra para novos componentes mobile:** toda superfície tocável que mereça feedback tátil recebe `v-haptic-tap` no elemento nativo (`<button>`/raiz de componente single-root) **e** mantém a chamada `useHaptics()` no handler (cobre Android).
 
 ---
 
@@ -81,5 +85,5 @@ Capacidades da plataforma web que o PWA pode ter e que aproximam — ou superam 
 
 1. Zero regressão desktop (testar em ≥ 768px); código novo só em `components-next/mobile/` + composables de consumo mobile.
 2. Store/action/composable desktop identificado e reutilizado (apontar no PR qual).
-3. Haptics no gesto (nunca após `await`); i18n em `en`/`pt`/`pt_BR`; Tailwind only.
+3. Haptics: `v-haptic-tap` em toda superfície tocável nova + chamada `useHaptics()` no handler (nunca após `await`); i18n em `en`/`pt`/`pt_BR`; Tailwind only.
 4. Entrada no changelog de `Chatwoot-Chatwit-mobile.md` ao concluir.

@@ -1,13 +1,15 @@
 const canVibrate = () =>
   typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function';
 
-// iOS Safari has no Vibration API. The only way to reach the Taptic Engine
-// from the web is the native HTML switch control (Safari/iOS 17.4+, see the
-// WebKit 17.4 release notes): toggling an `<input type="checkbox" switch>`
-// fires the system switch haptic. The toggle MUST happen synchronously inside
-// a user gesture — transient user activation expires after an `await`, so
-// callers fire haptics at tap time, never after a network round-trip.
-// On platforms without the switch attribute the toggle is a silent no-op.
+// iOS Safari has no Vibration API. Until iOS 26.4 the workaround was toggling
+// a hidden `<input type="checkbox" switch>` (Safari/iOS 17.4+) from script,
+// which fired the system switch haptic. iOS 26.5 patched programmatic
+// toggles: only a trusted user tap landing directly on a switch control still
+// reaches the Taptic Engine. Tap-driven surfaces therefore overlay a
+// transparent switch via the `vHapticTap` directive
+// (components-next/mobile/hapticTap.js); the programmatic path below remains
+// for iOS 17.4-26.4 and for gesture-driven feedback (swipe thresholds,
+// pull-to-refresh), where no real tap hits a switch.
 let switchLabel = null;
 const ensureSwitchElement = () => {
   if (switchLabel?.isConnected) return switchLabel;
@@ -32,6 +34,17 @@ const tapticPulse = () => {
   }
 };
 
+// Set by vHapticTap when a trusted tap toggles an overlay switch: the system
+// haptic already fired for that interaction, so the programmatic burst is
+// skipped to avoid double feedback on iOS <= 26.4 (on 26.5+ the burst is a
+// silent no-op anyway).
+let trustedTapTimestamp = -Infinity;
+export const notifyTrustedHapticTap = () => {
+  trustedTapTimestamp = performance.now();
+};
+const trustedTapHandledHaptic = () =>
+  performance.now() - trustedTapTimestamp < 400;
+
 // iOS exposes a single pulse intensity, so stronger feedback styles are
 // emulated with multiple pulses, mirroring UIKit's notification haptics.
 // Pulses are kept inside a short window so WebKit still treats the queued
@@ -49,6 +62,7 @@ const haptic = (pattern, { pulses = 1, interval = 120 } = {}) => {
     navigator.vibrate(pattern);
     return;
   }
+  if (trustedTapHandledHaptic()) return;
   tapticBurst(pulses, interval);
 };
 

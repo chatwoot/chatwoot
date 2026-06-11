@@ -1,5 +1,6 @@
 <script setup>
 import MobileBottomSheet from './MobileBottomSheet.vue';
+import { vHapticTap } from './hapticTap';
 
 defineProps({
   open: {
@@ -42,6 +43,7 @@ const statusOptions = [
       <button
         v-for="option in statusOptions"
         :key="option.key"
+        v-haptic-tap
         class="flex w-full items-center gap-3 px-5 py-4 text-left active:bg-n-alpha-2"
         @click="emit('select', option.key)"
       >

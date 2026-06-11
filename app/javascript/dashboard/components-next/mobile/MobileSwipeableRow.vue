@@ -1,6 +1,7 @@
 <script setup>
 import { ref, inject, watch, computed } from 'vue';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { vHapticTap } from './hapticTap';
 
 const props = defineProps({
   rowId: {
@@ -176,6 +177,7 @@ const onLeftActionClick = actionKey => {
       <button
         v-for="action in leftActions"
         :key="action.key"
+        v-haptic-tap
         class="flex flex-col items-center justify-center w-[72px] text-white text-xs font-medium gap-1"
         :class="action.color"
         :tabindex="areLeftActionsHidden ? -1 : 0"
@@ -196,6 +198,7 @@ const onLeftActionClick = actionKey => {
       <button
         v-for="action in actions"
         :key="action.key"
+        v-haptic-tap
         class="flex flex-col items-center justify-center w-[72px] text-white text-xs font-medium gap-1"
         :class="action.color"
         :tabindex="areRightActionsHidden ? -1 : 0"

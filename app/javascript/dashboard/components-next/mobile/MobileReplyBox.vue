@@ -16,6 +16,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { vHapticTap } from './hapticTap';
 import WhatsappTemplates from 'dashboard/components/widgets/conversation/WhatsappTemplates/Modal.vue';
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 
@@ -565,6 +566,7 @@ onBeforeUnmount(() => {
       <!-- Send button (when has content, including recorded audio) -->
       <button
         v-if="hasContent && !isEditorDisabled"
+        v-haptic-tap
         class="flex items-center justify-center w-9 h-9 flex-shrink-0 rounded-full mb-0.5 transition-colors"
         :class="
           effectivePrivate
