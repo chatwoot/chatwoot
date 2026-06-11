@@ -224,6 +224,17 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Lote A do roadmap: badge no ícone, filtro de inbox, câmera e shortcuts
+
+Primeira leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`):
+
+- **Badge de não lidas no ícone do app (item 12).** `components-next/mobile/useAppBadge.js` espelha o getter `notifications/getUnreadCount` em `navigator.setAppBadge`/`clearAppBadge` (iOS 16.4+ PWA instalado, Android/Chrome); montado no `MobileLayout.vue`. Com o app fechado, `public/sw.js` mantém o badge como contagem das notificações ainda na tela (`registration.getNotifications()`) após cada `push`/`notificationclick`.
+- **Filtro por inbox na lista (item 6).** `MobileFilterSheet.vue` ganhou a seção Inbox (chips "Todas as caixas" + uma por inbox via `inboxes/getInboxes`, exibida só com 2+ inboxes). `MobileConversationList.vue` propaga `inboxId` em `setChatListFilters`/`updateChatListFilters` (vira `inbox_id` na API, mesmo contrato do desktop) e despacha `setActiveInbox` para o guard de websocket usado pelas views de inbox do desktop. Chaves `MOBILE.FILTER_SHEET.INBOX*` em `en`/`pt`/`pt_BR`.
+- **Captura direta de câmera no composer (item 19).** Botão de câmera no `MobileReplyBox.vue` abrindo `<input type="file" accept="image/*" capture="environment">`; o arquivo cai no MESMO `onFileChange` do anexo normal (DirectUpload/FileReader). Chave `MOBILE.CHAT.TAKE_PHOTO`.
+- **Atalhos do ícone (item 16).** `manifest.json` ganhou `shortcuts` (Conversas/Inbox → `/?mobile_tab=...`, Android long-press; iOS ignora). `components-next/mobile/mobileDeepLink.js` captura o param no load do módulo (antes dos redirects de boot do router descartarem a query) e `MobileLayout.vue` aplica via `router.replace` na tab correspondente.
+
+Haptics: chips de inbox e botão de câmera com `v-haptic-tap` + haptic síncrono no handler. Desktop intocado — mudanças em `components-next/mobile/`, `locale/*/mobile.json`, e adições puramente aditivas em `public/sw.js`/`public/manifest.json` (push e instalação seguem idênticos).
+
 ### 2026-06-11 — Haptics via Trusted-Tap Switch Overlay (patch do iOS 26.5)
 
 A Apple **patcheou no iOS 26.5** o truque do toggle programático: `label.click()` em `<input type="checkbox" switch>` não dispara mais o Taptic Engine ([ios-haptics](https://github.com/tijnjh/ios-haptics) documenta "iOS 17.4 até 26.4"). O haptic do switch agora só dispara quando o **tap real do usuário** aterrissa diretamente no controle (clique trusted). `navigator.vibrate` segue inexistente no Safari 26. Por isso o PWA ficou mudo em aparelhos atualizados, enquanto o app nativo (UIKit) vibra normalmente.

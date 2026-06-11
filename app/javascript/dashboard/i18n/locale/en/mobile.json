@@ -21,7 +21,8 @@
       "BACK": "Back",
       "TYPE_MESSAGE": "Type a message",
       "PRIVATE_PLACEHOLDER": "Visible only to agents",
-      "USE_TEMPLATE": "Use template to reply"
+      "USE_TEMPLATE": "Use template to reply",
+      "TAKE_PHOTO": "Take a photo"
     },
     "ACTIONS": {
       "SECTIONS": {
@@ -115,7 +116,9 @@
       "ASSIGNEE": "Assignee type",
       "SORT_BY": "Sort by",
       "APPLY": "Apply filters",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "INBOX": "Inbox",
+      "INBOX_ALL": "All inboxes"
     },
     "STATUS_SHEET": {
       "TITLE": "Change status",

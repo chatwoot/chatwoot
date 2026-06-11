@@ -1,7 +1,10 @@
 <script setup>
 import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 import MobileBottomSheet from './MobileBottomSheet.vue';
+import { vHapticTap } from './hapticTap';
 
 const props = defineProps({
   status: {
@@ -16,14 +19,27 @@ const props = defineProps({
     type: String,
     default: 'last_activity_at_desc',
   },
+  inboxId: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const emit = defineEmits(['apply', 'close']);
 const { t } = useI18n();
+const { selection } = useHaptics();
+
+const inboxes = useMapGetter('inboxes/getInboxes');
 
 const selectedStatus = ref(props.status);
 const selectedAssignee = ref(props.assigneeType);
 const selectedSort = ref(props.sortBy);
+const selectedInboxId = ref(props.inboxId);
+
+const onInboxSelect = inboxId => {
+  selection();
+  selectedInboxId.value = inboxId;
+};
 
 const statusOptions = [
   { key: 'open', label: 'Open' },
@@ -52,6 +68,7 @@ const onApply = () => {
     status: selectedStatus.value,
     assigneeType: selectedAssignee.value,
     sortBy: selectedSort.value,
+    inboxId: selectedInboxId.value,
   });
 };
 
@@ -59,6 +76,7 @@ const onReset = () => {
   selectedStatus.value = 'open';
   selectedAssignee.value = 'me';
   selectedSort.value = 'last_activity_at_desc';
+  selectedInboxId.value = 0;
 };
 </script>
 
@@ -111,6 +129,43 @@ const onReset = () => {
           @click="selectedAssignee = opt.key"
         >
           {{ opt.label }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Inbox -->
+    <div v-if="inboxes.length > 1" class="mb-4">
+      <span
+        class="text-xs font-medium text-n-slate-10 uppercase tracking-wider mb-2 block"
+      >
+        {{ t('MOBILE.FILTER_SHEET.INBOX') }}
+      </span>
+      <div class="flex flex-wrap gap-2">
+        <button
+          v-haptic-tap
+          class="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors"
+          :class="
+            selectedInboxId === 0
+              ? 'border-n-brand bg-n-brand/10 text-n-brand'
+              : 'border-n-weak text-n-slate-11 active:bg-n-alpha-1'
+          "
+          @click="onInboxSelect(0)"
+        >
+          {{ t('MOBILE.FILTER_SHEET.INBOX_ALL') }}
+        </button>
+        <button
+          v-for="inbox in inboxes"
+          :key="inbox.id"
+          v-haptic-tap
+          class="px-3 py-1.5 rounded-full text-sm font-medium border transition-colors max-w-full truncate"
+          :class="
+            selectedInboxId === inbox.id
+              ? 'border-n-brand bg-n-brand/10 text-n-brand'
+              : 'border-n-weak text-n-slate-11 active:bg-n-alpha-1'
+          "
+          @click="onInboxSelect(inbox.id)"
+        >
+          {{ inbox.name }}
         </button>
       </div>
     </div>
