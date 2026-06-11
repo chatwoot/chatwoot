@@ -46,6 +46,15 @@
       "purpose": "any maskable"
     }
   ],
+  "share_target": {
+    "action": "/?mobile_share=1",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
   "shortcuts": [
     {
       "name": "Conversas",

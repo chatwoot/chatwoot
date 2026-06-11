@@ -1,9 +1,17 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useAppBadge } from './useAppBadge';
 import { consumeMobileTabDeepLink } from './mobileDeepLink';
+import {
+  consumeMobileShareText,
+  setShareComposerPrefill,
+} from './mobileShareTarget';
+import MobileActionPickerSheet from './MobileActionPickerSheet.vue';
 import MobileBottomTabBar from './MobileBottomTabBar.vue';
 import MobileInboxView from './MobileInboxView.vue';
 import MobileConversationList from './MobileConversationList.vue';
@@ -12,11 +20,47 @@ import MobileSettingsView from './MobileSettingsView.vue';
 
 const route = useRoute();
 const router = useRouter();
+const { t } = useI18n();
 const { accountScopedRoute } = useAccount();
+const { selection } = useHaptics();
 
 useAppBadge();
 
 const activeTab = ref(1);
+
+// Web Share Target (Android): texto compartilhado aguardando escolha de conversa.
+const shareText = ref(null);
+
+const allConversations = useMapGetter('getAllConversations');
+
+const shareTargetItems = computed(() => {
+  return [...allConversations.value]
+    .sort((a, b) => (b.last_activity_at || 0) - (a.last_activity_at || 0))
+    .slice(0, 20)
+    .map(chat => {
+      const sender = chat.meta?.sender || {};
+      return {
+        key: chat.id,
+        label: sender.name || t('MOBILE.SHARE_TARGET.UNNAMED'),
+        name: sender.name,
+        avatar: sender.thumbnail,
+        description: chat.last_non_activity_message?.content || '',
+      };
+    });
+});
+
+const onShareSelect = item => {
+  selection();
+  setShareComposerPrefill(shareText.value);
+  shareText.value = null;
+  router.push(
+    accountScopedRoute(
+      'inbox_conversation',
+      { conversation_id: item.key },
+      { focus_reply: '1' }
+    )
+  );
+};
 
 const INBOX_ROUTES = ['inbox_view', 'inbox_view_conversation'];
 
@@ -124,6 +168,13 @@ onMounted(() => {
   if (deepLinkRoute) {
     router.replace(accountScopedRoute(deepLinkRoute));
   }
+
+  // Share target: abre a tab Conversas com o sheet "Compartilhar em...".
+  const sharedText = consumeMobileShareText();
+  if (sharedText) {
+    shareText.value = sharedText;
+    router.replace(accountScopedRoute('home'));
+  }
 });
 
 onUnmounted(() => {
@@ -175,6 +226,16 @@ onUnmounted(() => {
       v-show="!isInChatView || isChatSwiping"
       :active-tab="activeTab"
       @change="onTabChange"
+    />
+    <!-- Web Share Target (Android): escolher conversa para o conteúdo compartilhado -->
+    <MobileActionPickerSheet
+      :open="!!shareText"
+      :title="t('MOBILE.SHARE_TARGET.TITLE')"
+      :items="shareTargetItems"
+      :search-placeholder="t('MOBILE.SHARE_TARGET.SEARCH')"
+      :empty-text="t('MOBILE.SHARE_TARGET.EMPTY')"
+      @close="shareText = null"
+      @select="onShareSelect"
     />
   </div>
 </template>

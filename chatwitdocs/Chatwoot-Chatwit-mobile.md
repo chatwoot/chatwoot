@@ -224,6 +224,17 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Lote H do roadmap: share target Android (compartilhar PARA o Chatwit)
+
+Item 17 do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`):
+
+- **`share_target` no `public/manifest.json`** (GET com `title`/`text`/`url` — texto/URL no MVP; arquivos exigiriam POST + handler no SW, fora do happy path). Android passa a listar o Chatwit no share sheet de outros apps; iOS/desktop ignoram o campo silenciosamente.
+- **Captura do share:** novo `components-next/mobile/mobileShareTarget.js` captura `?mobile_share=1&title&text&url` no load do módulo (mesmo racional do `mobileDeepLink.js`: os redirects de boot do router descartam a query antes do `MobileLayout` montar) e expõe `consumeMobileShareText()` + ponte de prefill (`setShareComposerPrefill`/`consumeShareComposerPrefill`).
+- **Sheet "Compartilhar em...":** `MobileLayout.vue` consome o share no mount, vai para a tab Conversas e abre o `MobileActionPickerSheet` **existente** (busca, avatar e `v-haptic-tap` já embutidos) listando as 20 conversas mais recentes do getter `getAllConversations` (ordenadas por `last_activity_at`). Sem componente novo de UI.
+- **Prefill sem envio automático:** ao escolher a conversa (`selection()` síncrono no handler), navega com `?focus_reply=1` e o `MobileChatView.vue` anexa o texto compartilhado ao emit `FOCUS_REPLY_BOX` já existente — o `MobileReplyBox` já suportava `payload.prefill`, zero mudança no composer.
+
+Chaves `MOBILE.SHARE_TARGET.*` em `en`/`pt`/`pt_BR`; desktop intocado (manifest é plataforma-neutro e o restante vive em `components-next/mobile/`). Item 17 marcado como entregue no roadmap.
+
 ### 2026-06-11 — Lote C do roadmap: detalhes do contato + labels do contato
 
 Terceira leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`), itens 3 e 9:

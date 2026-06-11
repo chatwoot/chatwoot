@@ -298,9 +298,9 @@ export const useAppBadge = () => {
 **Files:**
 - Modify: `public/manifest.json` (share_target), `MobileLayout.vue` (rota de recepção)
 
-- [ ] **Step 1:** manifest: `"share_target": { "action": "/?mobile_share=1", "method": "GET", "params": { "title": "title", "text": "text", "url": "url" } }` (GET/texto no MVP; arquivos exigem method POST + SW — fase posterior se houver demanda).
-- [ ] **Step 2:** `MobileLayout.vue`: ao montar com `mobile_share=1`, abrir a tab Conversas com um sheet "Compartilhar em..." que lista conversas recentes; ao escolher, prefill do composer com o texto/URL compartilhado (sem envio automático). `v-haptic-tap` nas linhas; i18n `MOBILE.SHARE_TARGET.*`.
-- [ ] **Step 3:** validar em Android (share de outro app lista o Chatwit); iOS/desktop sem efeito; changelog; commit `feat(mobile): Android share target into conversations`.
+- [x] **Step 1:** manifest: `"share_target": { "action": "/?mobile_share=1", "method": "GET", "params": { "title": "title", "text": "text", "url": "url" } }` (GET/texto no MVP; arquivos exigem method POST + SW — fase posterior se houver demanda).
+- [x] **Step 2:** `MobileLayout.vue`: ao montar com `mobile_share=1`, abrir a tab Conversas com um sheet "Compartilhar em..." que lista conversas recentes; ao escolher, prefill do composer com o texto/URL compartilhado (sem envio automático). `v-haptic-tap` nas linhas; i18n `MOBILE.SHARE_TARGET.*`.
+- [x] **Step 3:** validar em Android (share de outro app lista o Chatwit); iOS/desktop sem efeito; changelog; commit `feat(mobile): Android share target into conversations`.
 
 ---
 

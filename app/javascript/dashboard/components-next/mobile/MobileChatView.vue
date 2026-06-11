@@ -9,6 +9,7 @@ import { useSwipeBack } from 'dashboard/composables/useSwipeBack';
 import { useKeyboardResize } from 'dashboard/composables/useKeyboardResize';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { consumeShareComposerPrefill } from './mobileShareTarget';
 
 import MobileChatHeader from './MobileChatHeader.vue';
 import MobileConversationActionsView from './MobileConversationActionsView.vue';
@@ -316,6 +317,7 @@ const consumeFocusReplyParam = () => {
 
   emitter.emit(BUS_EVENTS.FOCUS_REPLY_BOX, {
     conversationId: props.conversationId,
+    prefill: consumeShareComposerPrefill() || undefined,
   });
 };
 

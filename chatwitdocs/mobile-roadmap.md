@@ -68,7 +68,7 @@ Capacidades da plataforma web que o PWA pode ter e que aproximam — ou superam 
 | 14 | **Shell offline + cache** | SW precache (Workbox ou manual) | App abre instantâneo e mostra últimas conversas sem rede; elimina tela branca em rede ruim | M/G |
 | 15 | **Fila offline de envio** | Background Sync API (Android); fallback retry em memória no iOS | Mensagem enviada sem rede sai quando a conexão volta | M |
 | 16 | **Atalhos do ícone** ✅ 2026-06-11 | `manifest.shortcuts` — Android (iOS ignora) | Long-press no ícone → "Conversas", "Inbox" | P |
-| 17 | **Compartilhar PARA o Chatwit** | `manifest.share_target` — Android (iOS não suporta) | Compartilhar foto/arquivo de outro app direto para uma conversa | M |
+| 17 | **Compartilhar PARA o Chatwit** ✅ 2026-06-11 | `manifest.share_target` — Android (iOS não suporta) | Compartilhar texto/URL de outro app direto para uma conversa (GET/texto no MVP; arquivos exigem POST + SW) | M |
 | 18 | **Transições de página nativas** | View Transitions API — Safari 18+/Chrome | Transição suave lista↔chat↔ações, sensação de navegação nativa | M |
 | 19 | **Captura direta de câmera** ✅ 2026-06-11 | `<input capture="environment">` | Botão "tirar foto" no composer abrindo a câmera direto | P |
 

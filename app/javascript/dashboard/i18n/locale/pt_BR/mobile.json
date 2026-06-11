@@ -178,6 +178,12 @@
       "UPDATED": "Contato atualizado",
       "LABELS_UPDATED": "Labels do contato atualizadas",
       "UPDATE_ERROR": "Não foi possível atualizar o contato"
+    },
+    "SHARE_TARGET": {
+      "TITLE": "Compartilhar em...",
+      "SEARCH": "Buscar conversa...",
+      "EMPTY": "Nenhuma conversa recente",
+      "UNNAMED": "Contato sem nome"
     }
   }
 }
