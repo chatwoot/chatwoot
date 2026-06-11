@@ -45,7 +45,7 @@ Coberto e em produção:
 | 3 | **Detalhes do contato (tela/modal)** | `ContactDetailsScreen.tsx` | `ContactPanel.vue`, stores `contacts`, `contactLabels` | M | Alto — hoje o PWA mostra só o mínimo do remetente |
 | 4 | **Lightbox de imagens (fullscreen + zoom)** | `ImageBubble.ios.tsx` | galeria/preview existente do desktop (components-next message) | M | Alto — hoje imagem abre fora do app, quebra a imersão |
 | 5 | **Snooze com horário customizado** | `ConversationBasicActions.tsx` | `snoozeHelpers.js` (`findSnoozeTime` já aceita opções) | P/M | Médio — hoje só "até próxima resposta" |
-| 6 | **Filtro por inbox na lista** | `InboxFilters.tsx` | store `inboxes` (getter já usado na lista) | P | Médio — multi-inbox sofre sem isso |
+| 6 | **Filtro por inbox na lista** ✅ 2026-06-11 | `InboxFilters.tsx` | store `inboxes` (getter já usado na lista) | P | Médio — multi-inbox sofre sem isso |
 
 ## Fase 2 — Paridade complementar
 
@@ -63,14 +63,14 @@ Capacidades da plataforma web que o PWA pode ter e que aproximam — ou superam 
 
 | # | Capability | API / Suporte | O que entrega | Esforço |
 |---|-----------|---------------|----------------|---------|
-| 12 | **Badge no ícone do app** | `navigator.setAppBadge()` — iOS 16.4+ (PWA instalado) e Android/Chrome | Contador de não lidas no ícone da home screen, igual app nativo. Atualizar no push (SW) e ao ler conversas | P |
+| 12 | **Badge no ícone do app** ✅ 2026-06-11 | `navigator.setAppBadge()` — iOS 16.4+ (PWA instalado) e Android/Chrome | Contador de não lidas no ícone da home screen, igual app nativo. Atualizar no push (SW) e ao ler conversas | P |
 | 13 | **Ações nos push notifications** | `Notification.actions` — Android/Chrome (iOS ignora) | Botões "Resolver"/"Responder" direto na notificação | M |
 | 14 | **Shell offline + cache** | SW precache (Workbox ou manual) | App abre instantâneo e mostra últimas conversas sem rede; elimina tela branca em rede ruim | M/G |
 | 15 | **Fila offline de envio** | Background Sync API (Android); fallback retry em memória no iOS | Mensagem enviada sem rede sai quando a conexão volta | M |
-| 16 | **Atalhos do ícone** | `manifest.shortcuts` — Android (iOS ignora) | Long-press no ícone → "Não atribuídas", "Inbox", "Nova conversa" | P |
+| 16 | **Atalhos do ícone** ✅ 2026-06-11 | `manifest.shortcuts` — Android (iOS ignora) | Long-press no ícone → "Conversas", "Inbox" | P |
 | 17 | **Compartilhar PARA o Chatwit** | `manifest.share_target` — Android (iOS não suporta) | Compartilhar foto/arquivo de outro app direto para uma conversa | M |
 | 18 | **Transições de página nativas** | View Transitions API — Safari 18+/Chrome | Transição suave lista↔chat↔ações, sensação de navegação nativa | M |
-| 19 | **Captura direta de câmera** | `<input capture="environment">` | Botão "tirar foto" no composer abrindo a câmera direto | P |
+| 19 | **Captura direta de câmera** ✅ 2026-06-11 | `<input capture="environment">` | Botão "tirar foto" no composer abrindo a câmera direto | P |
 
 > Itens 12–19 não existem no app RN da mesma forma (badge/push existem lá via APNs/FCM; aqui entregamos via web platform sem Firebase, mantendo a regra VAPID-only).
 

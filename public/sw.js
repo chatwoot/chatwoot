@@ -342,6 +342,23 @@ const performMarkRead = async data => {
   }
 };
 
+// App icon badge while the app is closed: the open app mirrors the store's
+// unread count (useAppBadge.js); here the best-effort proxy is the number of
+// notifications still on screen. iOS 16.4+ (installed PWA) and Android.
+const updateAppBadge = async () => {
+  if (!self.navigator || !('setAppBadge' in self.navigator)) return;
+  try {
+    const notifications = await self.registration.getNotifications();
+    const count = notifications.filter(
+      notif => notif.tag !== REPLY_FAILURE_TAG
+    ).length;
+    if (count > 0) await self.navigator.setAppBadge(count);
+    else await self.navigator.clearAppBadge();
+  } catch (err) {
+    // badge is best-effort only
+  }
+};
+
 self.addEventListener('install', () => {
   self.skipWaiting();
 });
@@ -387,6 +404,7 @@ self.addEventListener('push', event => {
 
       rememberNotification(notificationKey);
       await self.registration.showNotification(payload.title, options);
+      await updateAppBadge();
     })()
   );
 });
@@ -446,12 +464,14 @@ self.addEventListener('notificationclick', event => {
   notification.close();
 
   if (action === NOTIFICATION_ACTIONS.REPLY) {
-    event.waitUntil(handleReplyAction(notification, reply));
+    event.waitUntil(
+      handleReplyAction(notification, reply).then(updateAppBadge)
+    );
     return;
   }
 
   if (action === NOTIFICATION_ACTIONS.MARK_READ) {
-    event.waitUntil(handleMarkReadAction(notification));
+    event.waitUntil(handleMarkReadAction(notification).then(updateAppBadge));
     return;
   }
 
@@ -459,5 +479,5 @@ self.addEventListener('notificationclick', event => {
     notification.data,
     NOTIFICATION_ACTIONS.OPEN
   );
-  event.waitUntil(focusOrOpenWindow(targetUrl));
+  event.waitUntil(focusOrOpenWindow(targetUrl).then(updateAppBadge));
 });

@@ -45,5 +45,17 @@
       "density": "4.0",
       "purpose": "any maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "Conversas",
+      "url": "/?mobile_tab=conversations",
+      "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Inbox",
+      "url": "/?mobile_tab=inbox",
+      "icons": [{ "src": "/android-icon-96x96.png", "sizes": "96x96" }]
+    }
   ]
 }

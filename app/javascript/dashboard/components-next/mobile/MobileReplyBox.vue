@@ -22,13 +22,14 @@ import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder
 
 const store = useStore();
 const { t } = useI18n();
-const { success } = useHaptics();
+const { success, light } = useHaptics();
 
 const message = ref('');
 const isPrivate = ref(false);
 const isFocused = ref(false);
 const attachedFiles = ref([]);
 const fileInput = ref(null);
+const cameraInput = ref(null);
 const textareaRef = ref(null);
 
 // Audio recorder state
@@ -250,6 +251,11 @@ const onAttachClick = () => {
   fileInput.value?.click();
 };
 
+const onCameraClick = () => {
+  light();
+  cameraInput.value?.click();
+};
+
 const onFileChange = async e => {
   const files = Array.from(e.target.files);
   if (!files.length) return;
@@ -461,6 +467,31 @@ onBeforeUnmount(() => {
           <line x1="5" y1="12" x2="19" y2="12" />
         </svg>
       </button>
+      <!-- Camera capture button (normal mode) -->
+      <button
+        v-if="!isEditorDisabled && !showAudioRecorderEditor"
+        v-haptic-tap
+        class="flex items-center justify-center w-9 h-9 flex-shrink-0 text-n-slate-11 hover:text-n-slate-12 mb-0.5"
+        :aria-label="t('MOBILE.CHAT.TAKE_PHOTO')"
+        @click="onCameraClick"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"
+          />
+          <circle cx="12" cy="13" r="3" />
+        </svg>
+      </button>
       <!-- Cancel recording button (shown when recorder is open) -->
       <button
         v-else
@@ -486,6 +517,14 @@ onBeforeUnmount(() => {
         ref="fileInput"
         type="file"
         multiple
+        class="hidden"
+        @change="onFileChange"
+      />
+      <input
+        ref="cameraInput"
+        type="file"
+        accept="image/*"
+        capture="environment"
         class="hidden"
         @change="onFileChange"
       />

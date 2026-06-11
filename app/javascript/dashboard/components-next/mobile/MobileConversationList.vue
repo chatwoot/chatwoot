@@ -50,6 +50,8 @@ const resolveAttributesModalRef = ref(null);
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
+// 0 = todas as inboxes (sem filtro)
+const activeInboxId = ref(0);
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentAccountId = useMapGetter('auth/getCurrentAccountId');
@@ -114,6 +116,7 @@ const conversationFilters = computed(() => ({
   assigneeType: activeAssigneeTab.value,
   status: activeStatus.value,
   sortBy: activeSortBy.value,
+  inboxId: activeInboxId.value || undefined,
 }));
 
 const fetchConversations = ({ preserveRecords = false } = {}) => {
@@ -123,11 +126,15 @@ const fetchConversations = ({ preserveRecords = false } = {}) => {
     store.dispatch('emptyAllConversations');
   }
 
+  // setActiveInbox keeps websocket-added conversations consistent with the
+  // fetched scope (same guard desktop inbox views rely on).
+  store.dispatch('setActiveInbox', activeInboxId.value || null);
   store.dispatch('setChatListFilters', {
     assigneeType: activeAssigneeTab.value,
     status: activeStatus.value,
     page: 1,
     sortBy: activeSortBy.value,
+    inboxId: activeInboxId.value || undefined,
   });
   return store.dispatch('fetchAllConversations');
 };
@@ -140,6 +147,7 @@ const loadMoreConversations = () => {
     status: activeStatus.value,
     page: currentPage.value + 1,
     sortBy: activeSortBy.value,
+    inboxId: activeInboxId.value || undefined,
   });
   store.dispatch('fetchAllConversations');
 };
@@ -333,6 +341,7 @@ const onFilterApply = filters => {
   if (filters.status) activeStatus.value = filters.status;
   if (filters.assigneeType) activeAssigneeTab.value = filters.assigneeType;
   if (filters.sortBy) activeSortBy.value = filters.sortBy;
+  if (filters.inboxId !== undefined) activeInboxId.value = filters.inboxId;
   showFilterSheet.value = false;
   fetchConversations();
 };
@@ -434,6 +443,7 @@ watch(conversationFilters, newFilters => {
       :status="activeStatus"
       :assignee-type="activeAssigneeTab"
       :sort-by="activeSortBy"
+      :inbox-id="activeInboxId"
       @apply="onFilterApply"
       @close="showFilterSheet = false"
     />

@@ -2,6 +2,8 @@
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useAppBadge } from './useAppBadge';
+import { consumeMobileTabDeepLink } from './mobileDeepLink';
 import MobileBottomTabBar from './MobileBottomTabBar.vue';
 import MobileInboxView from './MobileInboxView.vue';
 import MobileConversationList from './MobileConversationList.vue';
@@ -11,6 +13,8 @@ import MobileSettingsView from './MobileSettingsView.vue';
 const route = useRoute();
 const router = useRouter();
 const { accountScopedRoute } = useAccount();
+
+useAppBadge();
 
 const activeTab = ref(1);
 
@@ -104,9 +108,21 @@ const onPageShow = event => {
   }
 };
 
+// Rotas-alvo dos atalhos do ícone (manifest shortcuts, Android long-press).
+const DEEP_LINK_ROUTES = {
+  inbox: 'inbox_view',
+  conversations: 'home',
+  settings: 'general_settings_index',
+};
+
 onMounted(() => {
   if (isStandalone) {
     window.addEventListener('pageshow', onPageShow);
+  }
+
+  const deepLinkRoute = DEEP_LINK_ROUTES[consumeMobileTabDeepLink()];
+  if (deepLinkRoute) {
+    router.replace(accountScopedRoute(deepLinkRoute));
   }
 });
 
