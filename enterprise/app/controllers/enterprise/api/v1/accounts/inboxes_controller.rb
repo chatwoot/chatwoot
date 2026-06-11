@@ -35,6 +35,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
       'inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled])
     )
     channel.save!(validate: false)
+    @inbox.update_account_cache # bump inbox cache key so the cached inbox list refetches the new flag
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
