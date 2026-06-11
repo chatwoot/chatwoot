@@ -126,6 +126,16 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('help center table colwidth marker', () => {
+    it('strips the internal colwidths marker from rendered output', () => {
+      const message =
+        '<!--cw-colwidths:120,200-->\n| A | B |\n| --- | --- |\n| 1 | 2 |';
+      const formatter = new MessageFormatter(message);
+      expect(formatter.formattedMessage).not.toContain('cw-colwidths');
+      expect(formatter.plainText).not.toContain('cw-colwidths');
+    });
+  });
+
   describe('#sanitize', () => {
     it('sanitizes markup and removes all unnecessary elements', () => {
       const message =

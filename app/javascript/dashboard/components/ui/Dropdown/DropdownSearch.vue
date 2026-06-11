@@ -1,5 +1,4 @@
 <script setup>
-import { defineEmits, defineModel } from 'vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 defineProps({

@@ -76,7 +76,7 @@ gem 'faraday_middleware-aws-sigv4'
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
-gem 'puma'
+gem 'puma', '~> 7.2', '>= 7.2.1'
 gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
@@ -89,7 +89,7 @@ gem 'rails-i18n', '~> 7.0'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
-gem 'jwt'
+gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
@@ -133,9 +133,9 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq', '~> 7.3', '>= 7.3.1'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.12.0'
+gem 'sidekiq-cron', '>= 2.4.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
 
@@ -208,6 +208,8 @@ gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
+
+gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################

@@ -1,8 +1,36 @@
+import { ref } from 'vue';
+import ContactAPI from 'dashboard/api/contacts';
+import { useMapGetter } from 'dashboard/composables/store.js';
+import { useConversationFilterContext } from '../provider';
 import {
+  CONVERSATION_ATTRIBUTES,
   getCustomAttributeInputType,
   buildAttributesFilterTypes,
   replaceUnderscoreWithSpace,
 } from './filterHelper';
+
+vi.mock('dashboard/api/contacts', () => ({
+  default: {
+    search: vi.fn(),
+  },
+}));
+
+vi.mock('dashboard/composables/store.js', () => ({
+  useMapGetter: vi.fn(),
+}));
+
+vi.mock('next/icon/provider', () => ({
+  useChannelIcon: () => ref('i-test-channel'),
+}));
+
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: (key, params = {}) => {
+      if (key === 'FILTER.CONTACT_FALLBACK') return `Contact #${params.id}`;
+      return key;
+    },
+  }),
+}));
 
 describe('filterHelper', () => {
   describe('getCustomAttributeInputType', () => {
@@ -133,5 +161,66 @@ describe('filterHelper', () => {
     it('returns empty string if input is null', () => {
       expect(replaceUnderscoreWithSpace(null)).toBe('');
     });
+  });
+});
+
+const storeValues = {
+  'attributes/getConversationAttributes': ref([]),
+  'labels/getLabels': ref([]),
+  'agents/getAgents': ref([]),
+  'inboxes/getInboxes': ref([]),
+  'teams/getTeams': ref([]),
+  'campaigns/getAllCampaigns': ref([]),
+};
+
+describe('useConversationFilterContext', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+    useMapGetter.mockImplementation(key => storeValues[key] || ref([]));
+  });
+
+  it('exposes contact as an async searchable conversation filter', () => {
+    const { filterTypes } = useConversationFilterContext();
+    const contactFilter = filterTypes.value.find(
+      filter => filter.attributeKey === CONVERSATION_ATTRIBUTES.CONTACT_ID
+    );
+
+    expect(contactFilter).toMatchObject({
+      attributeKey: 'contact_id',
+      label: 'FILTER.ATTRIBUTES.CONTACT',
+      inputType: 'asyncSearchSelect',
+      dataType: 'number',
+      attributeModel: 'standard',
+    });
+    expect(
+      contactFilter.filterOperators.map(operator => operator.value)
+    ).toEqual(['equal_to', 'not_equal_to']);
+  });
+
+  it('uses the existing contact search API for contact filter options', async () => {
+    ContactAPI.search.mockResolvedValue({
+      data: {
+        payload: [
+          { id: 1, name: 'Jane Doe' },
+          { id: 2, email: 'alex@example.com' },
+          { id: 3 },
+        ],
+      },
+    });
+
+    const { filterTypes } = useConversationFilterContext();
+    const contactFilter = filterTypes.value.find(
+      filter => filter.attributeKey === CONVERSATION_ATTRIBUTES.CONTACT_ID
+    );
+    const options = await contactFilter.searchOptions('jane');
+
+    expect(ContactAPI.search).toHaveBeenCalledWith('jane', 1, 'name', '', {
+      signal: expect.any(AbortSignal),
+    });
+    expect(options).toEqual([
+      { id: 1, name: 'Jane Doe' },
+      { id: 2, name: 'alex@example.com' },
+      { id: 3, name: 'Contact #3' },
+    ]);
   });
 });

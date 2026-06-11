@@ -1,26 +1,16 @@
 module MailboxHelper
   include MailboxInlineAttachmentHelper
+  include MailboxSanitizer
+  include ::FileTypeHelper
 
   private
 
   def create_message
     Rails.logger.info "[MailboxHelper] Creating message #{processed_mail.message_id}"
-    return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
+    source_id = sanitize_mailbox_value(processed_mail.message_id)
+    return if @conversation.messages.find_by(source_id: source_id).present?
 
-    @message = @conversation.messages.create!(
-      account_id: @conversation.account_id,
-      sender: @conversation.contact,
-      content: mail_content&.truncate(150_000),
-      inbox_id: @conversation.inbox_id,
-      message_type: 'incoming',
-      content_type: 'incoming_email',
-      source_id: processed_mail.message_id,
-      content_attributes: {
-        email: processed_mail.serialized_data,
-        cc_email: processed_mail.cc,
-        bcc_email: processed_mail.bcc
-      }
-    )
+    @message = @conversation.messages.create!(sanitized_message_attributes(source_id))
   end
 
   def add_attachments_to_message
@@ -53,11 +43,12 @@ module MailboxHelper
   def process_regular_attachments(attachments)
     Rails.logger.info "[MailboxHelper] Processing regular attachments for message with ID: #{processed_mail.message_id}"
     attachments.each do |mail_attachment|
+      blob = mail_attachment[:blob]
       attachment = @message.attachments.new(
         account_id: @conversation.account_id,
-        file_type: 'file'
+        file_type: file_type(blob.content_type)
       )
-      attachment.file.attach(mail_attachment[:blob])
+      attachment.file.attach(blob)
     end
   end
 
@@ -99,13 +90,16 @@ module MailboxHelper
   end
 
   def create_contact
+    sender_email = sanitize_mailbox_value(processed_mail.original_sender)
+    message_id = sanitize_mailbox_value(processed_mail.message_id)
+
     @contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: processed_mail.original_sender,
+      source_id: sender_email,
       inbox: @inbox,
       contact_attributes: {
-        name: identify_contact_name,
-        email: processed_mail.original_sender,
-        additional_attributes: { source_id: "email:#{processed_mail.message_id}" }
+        name: sanitize_mailbox_value(identify_contact_name),
+        email: sender_email,
+        additional_attributes: { source_id: "email:#{message_id}" }
       }
     ).perform
 

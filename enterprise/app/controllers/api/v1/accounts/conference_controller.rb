@@ -27,7 +27,10 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def destroy
     call = resolve_call!
+    rejecting = agent_rejecting_before_pickup?(call)
+    # Tear down provider side first so a teardown failure leaves the call repairable.
     Voice::Provider::Twilio::ConferenceService.new(call: call).end_conference
+    finalize_as_agent_reject!(call) if rejecting
     render json: { status: 'success', id: call.conversation.display_id }
   end
 
@@ -58,5 +61,22 @@ class Api::V1::Accounts::ConferenceController < Api::V1::Accounts::BaseControlle
 
   def render_call_already_accepted(error)
     render json: { error: error.message }, status: :conflict
+  end
+
+  # A hangup before pickup is treated as an agent rejection, matching WhatsApp.
+  def agent_rejecting_before_pickup?(call)
+    call.ringing? && call.accepted_by_agent_id.nil?
+  end
+
+  def finalize_as_agent_reject!(call)
+    # Re-check under a row lock: a webhook may have accepted/completed the call
+    # while end_conference was in flight, so don't force agent_rejected on stale state.
+    rejected = call.with_lock do
+      next false unless agent_rejecting_before_pickup?(call)
+
+      call.update!(status: 'failed', end_reason: 'agent_rejected', accepted_by_agent_id: Current.user.id)
+      true
+    end
+    Voice::CallMessageBuilder.new(call).update_status!(status: 'failed', agent: Current.user) if rejected
   end
 end

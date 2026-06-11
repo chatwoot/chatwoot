@@ -1,6 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
+import OnboardingAPI from '../../api/onboarding';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
@@ -81,6 +82,15 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
       throw new Error(error);
+    }
+  },
+  finishOnboarding: async ({ commit }, payload) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      const response = await OnboardingAPI.update(payload);
+      commit(types.default.EDIT_ACCOUNT, response.data);
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     }
   },
   delete: async ({ commit }, { id }) => {
