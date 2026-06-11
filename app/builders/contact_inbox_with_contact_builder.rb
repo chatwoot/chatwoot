@@ -3,8 +3,6 @@
 # for contact inbox logic it uses the contact inbox builder
 
 class ContactInboxWithContactBuilder
-  MAX_CONTACT_NAME_LENGTH = 255
-
   pattr_initialize [:inbox!, :contact_attributes!, :source_id, :hmac_verified]
 
   def perform
@@ -63,7 +61,7 @@ class ContactInboxWithContactBuilder
 
   def contact_name
     name = contact_attributes[:name] || ::Haikunator.haikunate(1000)
-    name.truncate(MAX_CONTACT_NAME_LENGTH, omission: '')
+    name.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH, omission: '')
   end
 
   def find_contact

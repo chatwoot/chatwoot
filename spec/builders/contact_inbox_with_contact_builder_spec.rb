@@ -51,7 +51,7 @@ describe ContactInboxWithContactBuilder do
         }
       ).perform
 
-      expect(contact_inbox.contact.name).to eq(long_name.first(described_class::MAX_CONTACT_NAME_LENGTH))
+      expect(contact_inbox.contact.name).to eq(long_name.first(ApplicationRecord::MAX_STRING_COLUMN_LENGTH))
     end
 
     it 'doesnot create contact if it already exist with identifier' do
