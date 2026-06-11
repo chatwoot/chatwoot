@@ -141,7 +141,6 @@ const handleUpdateCompany = async () => {
         :src="avatarSource"
         :size="72"
         :allow-upload="!isAvatarBusy"
-        rounded-full
         hide-offline-status
         @upload="handleAvatarUpload"
         @delete="handleAvatarDelete"

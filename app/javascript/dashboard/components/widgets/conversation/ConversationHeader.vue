@@ -124,7 +124,6 @@ const copyConversationId = async () => {
         :size="32"
         :status="currentContact.availability_status"
         hide-offline-status
-        rounded-full
       />
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"

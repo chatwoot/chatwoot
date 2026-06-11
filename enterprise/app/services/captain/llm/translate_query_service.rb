@@ -32,6 +32,10 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
     @llm_credential ||= system_llm_credential
   end
 
+  def counts_toward_usage?
+    false
+  end
+
   def query_in_target_language?(query)
     detector = CLD3::NNetLanguageIdentifier.new(0, 1000)
     result = detector.find_language(query)
