@@ -69,9 +69,11 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       end
 
       it 'enables inbound calls on a WhatsApp inbox without re-validating provider config' do
+        account.enable_features('channel_voice')
+        account.save!
         channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
                                             validate_provider_config: false, sync_templates: false)
-        channel.update!(provider_config: channel.provider_config.merge('inbound_calls_enabled' => false))
+        channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true, 'inbound_calls_enabled' => false))
 
         post "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_inbound_calls",
              headers: admin.create_new_auth_token,
