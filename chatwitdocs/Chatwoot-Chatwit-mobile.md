@@ -4,6 +4,7 @@
 > **Date:** 2026-03-14
 > **Base:** Chatwoot 4.10.1
 > **Tipo:** Customização exclusiva do fork Chatwit — não existe no Chatwoot upstream
+> **Roadmap:** `chatwitdocs/mobile-roadmap.md` — auditoria de paridade vs app nativo + fases de evolução
 
 ---
 
