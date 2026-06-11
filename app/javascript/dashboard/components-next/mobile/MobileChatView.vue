@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useWindowSize } from '@vueuse/core';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useSwipeBack } from 'dashboard/composables/useSwipeBack';
 import { useKeyboardResize } from 'dashboard/composables/useKeyboardResize';
@@ -11,6 +12,7 @@ import { emitter } from 'shared/helpers/mitt';
 
 import MobileChatHeader from './MobileChatHeader.vue';
 import MobileConversationActionsView from './MobileConversationActionsView.vue';
+import MobileContactDetailsView from './MobileContactDetailsView.vue';
 import MobileReplyBox from './MobileReplyBox.vue';
 import MessagesView from 'dashboard/components/widgets/conversation/MessagesView.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -24,6 +26,8 @@ const props = defineProps({
 
 const emit = defineEmits(['back', 'swipeProgress', 'swipeEnd']);
 const store = useStore();
+const route = useRoute();
+const router = useRouter();
 const { width: windowWidth } = useWindowSize();
 const { light, medium } = useHaptics();
 
@@ -79,6 +83,30 @@ const allConversations = useMapGetter('getAllConversations');
 const chatLoaded = computed(() => {
   return currentChat.value && currentChat.value.id === props.conversationId;
 });
+
+const { accountScopedRoute } = useAccount();
+
+const showContactDetails = ref(false);
+const contactDetailsId = ref(null);
+
+const onOpenContact = contactId => {
+  contactDetailsId.value = contactId;
+  showContactDetails.value = true;
+};
+
+const closeContactDetails = () => {
+  showContactDetails.value = false;
+};
+
+const onOpenContactConversation = conversationId => {
+  closeContactDetails();
+  if (conversationId === props.conversationId) return;
+  router.push(
+    accountScopedRoute('inbox_conversation', {
+      conversation_id: conversationId,
+    })
+  );
+};
 
 const contactName = computed(() => {
   if (!chatLoaded.value) return '';
@@ -274,9 +302,6 @@ const onPanelTouchCancel = () => {
   panelThresholdReached = false;
 };
 
-const route = useRoute();
-const router = useRouter();
-
 const consumeFocusReplyParam = () => {
   if (!route?.query) return;
   const focusReply = route.query.focus_reply;
@@ -310,6 +335,7 @@ watch(
   () => props.conversationId,
   () => {
     closeActionsPanel();
+    closeContactDetails();
     setActiveChat().then(() => consumeFocusReplyParam());
   }
 );
@@ -318,7 +344,7 @@ watch(
 <template>
   <div
     ref="chatRootRef"
-    class="flex flex-col w-full h-full bg-n-surface-1"
+    class="relative flex flex-col w-full h-full bg-n-surface-1"
     :class="{
       'transition-all duration-[250ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)]':
         !isSwiping && swipeOffset > 0,
@@ -401,10 +427,29 @@ watch(
           <MobileConversationActionsView
             v-if="chatLoaded"
             :conversation-id="conversationId"
+            @open-contact="onOpenContact"
           />
         </div>
       </div>
     </div>
+
+    <!-- Contact details (slide-in page over the chat) -->
+    <Transition
+      enter-active-class="transition-transform duration-300 ease-out"
+      enter-from-class="translate-x-full"
+      enter-to-class="translate-x-0"
+      leave-active-class="transition-transform duration-200 ease-in"
+      leave-from-class="translate-x-0"
+      leave-to-class="translate-x-full"
+    >
+      <MobileContactDetailsView
+        v-if="showContactDetails && contactDetailsId"
+        :contact-id="contactDetailsId"
+        class="absolute inset-0 z-30"
+        @back="closeContactDetails"
+        @open-conversation="onOpenContactConversation"
+      />
+    </Transition>
   </div>
 </template>
 

@@ -155,6 +155,29 @@
       "NEXT_WEEK": "Until next week",
       "CUSTOM": "Pick date and time",
       "CONFIRM": "Snooze"
+    },
+    "CONTACT": {
+      "TITLE": "Contact",
+      "VIEW": "View",
+      "BACK": "Back",
+      "EDIT": "Edit contact",
+      "NAME": "Name",
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "SAVE": "Save",
+      "CALL": "Call",
+      "SEND_EMAIL": "Send email",
+      "INFO": "Information",
+      "COMPANY": "Company",
+      "LOCATION": "Location",
+      "LABELS": "Contact labels",
+      "NO_LABELS": "No labels added",
+      "CONVERSATIONS": "Previous conversations",
+      "NO_CONVERSATIONS": "No previous conversations",
+      "ATTACHMENT": "Attachment",
+      "UPDATED": "Contact updated",
+      "LABELS_UPDATED": "Contact labels updated",
+      "UPDATE_ERROR": "Could not update the contact"
     }
   }
 }

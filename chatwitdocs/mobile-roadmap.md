@@ -42,7 +42,7 @@ Coberto e em produção:
 |---|---------|---------------|---------------------------|---------|---------|
 | 1 | **@Menções em notas privadas** | `MentionUser.tsx` + mentions-input | `ReplyBox.vue` (fluxo de mention existente), store `agents` | M | Alto — colaboração entre agentes |
 | 2 | **Busca de mensagens/conversas** | header de busca do ConversationScreen | store `conversationSearch` | M/G | Alto — achar conversa antiga no celular |
-| 3 | **Detalhes do contato (tela/modal)** | `ContactDetailsScreen.tsx` | `ContactPanel.vue`, stores `contacts`, `contactLabels` | M | Alto — hoje o PWA mostra só o mínimo do remetente |
+| 3 | **Detalhes do contato (tela/modal)** ✅ 2026-06-11 | `ContactDetailsScreen.tsx` | `ContactPanel.vue`, stores `contacts`, `contactLabels` | M | Alto — hoje o PWA mostra só o mínimo do remetente |
 | 4 | **Lightbox de imagens (fullscreen + zoom)** ✅ 2026-06-11 | `ImageBubble.ios.tsx` | galeria/preview existente do desktop (components-next message) | M | Alto — hoje imagem abre fora do app, quebra a imersão |
 | 5 | **Snooze com horário customizado** ✅ 2026-06-11 | `ConversationBasicActions.tsx` | `snoozeHelpers.js` (`findSnoozeTime` já aceita opções) | P/M | Médio — hoje só "até próxima resposta" |
 | 6 | **Filtro por inbox na lista** ✅ 2026-06-11 | `InboxFilters.tsx` | store `inboxes` (getter já usado na lista) | P | Médio — multi-inbox sofre sem isso |
@@ -53,7 +53,7 @@ Coberto e em produção:
 |---|---------|---------------|---------------------------|---------|---------|
 | 7 | Execução de macros | `MacrosList.tsx` | store `macros` (`macros/get`, run) | P/M | Médio — power users |
 | 8 | Preferências de notificação | `NotificationPreferences.tsx` | `NotificationPreferences.vue` + API existente | M | Médio |
-| 9 | Labels do contato (além da conversa) | `ContactLabelActions.tsx` | store `contactLabels` | P | Baixo/Médio |
+| 9 | Labels do contato (além da conversa) ✅ 2026-06-11 | `ContactLabelActions.tsx` | store `contactLabels` | P | Baixo/Médio |
 | 10 | Transcript por e-mail | — (desktop only) | `sendEmailTranscript` action | P | Baixo |
 | 11 | Read receipts completos (READ p/ WhatsApp) | `DeliveryStatus.tsx` | status já presente no payload da mensagem | P | Baixo/Médio |
 

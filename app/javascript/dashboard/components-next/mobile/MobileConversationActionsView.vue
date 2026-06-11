@@ -24,6 +24,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['openContact']);
+
 const store = useStore();
 const { t } = useI18n();
 const { medium, success } = useHaptics();
@@ -62,6 +64,17 @@ const conversationParticipants = computed(
 );
 const agents = computed(() => store.getters['agents/getAgents'] || []);
 const teams = computed(() => store.getters['teams/getTeams'] || []);
+
+const contactSender = computed(() => conversation.value?.meta?.sender || null);
+const contactSubtitle = computed(
+  () => contactSender.value?.phone_number || contactSender.value?.email || ''
+);
+
+const handleOpenContact = () => {
+  if (!contactSender.value?.id) return;
+  medium();
+  emit('openContact', contactSender.value.id);
+};
 
 const currentAssignee = computed(
   () => conversation.value?.meta?.assignee || null
@@ -462,6 +475,33 @@ watch(
   <div
     class="min-h-full bg-n-surface-1 pb-[calc(24px+env(safe-area-inset-bottom))]"
   >
+    <section v-if="contactSender" class="px-4 pt-4">
+      <button
+        v-haptic-tap
+        class="flex w-full items-center gap-3 rounded-2xl border border-n-weak bg-white dark:bg-n-background px-4 py-3 text-left shadow-sm active:bg-n-alpha-2"
+        @click="handleOpenContact"
+      >
+        <Avatar
+          :src="contactSender.thumbnail || ''"
+          :name="contactSender.name || ''"
+          :size="44"
+          class="shrink-0"
+        />
+        <div class="min-w-0 flex-1">
+          <p class="truncate text-base font-semibold text-n-slate-12">
+            {{ contactSender.name }}
+          </p>
+          <p v-if="contactSubtitle" class="truncate text-sm text-n-slate-10">
+            {{ contactSubtitle }}
+          </p>
+        </div>
+        <span class="text-sm text-n-slate-10">
+          {{ t('MOBILE.CONTACT.VIEW') }}
+        </span>
+        <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
+      </button>
+    </section>
+
     <section class="px-4 pt-5">
       <div class="grid grid-cols-4 gap-3">
         <button

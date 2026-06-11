@@ -224,6 +224,16 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Lote C do roadmap: detalhes do contato + labels do contato
+
+Terceira leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`), itens 3 e 9:
+
+- **Tela de detalhes do contato (item 3).** Novo `MobileContactDetailsView.vue` (página slide-in sobre o chat, registrada no `MobileChatView.vue` com `Transition` translate-x): hero com avatar/nome + ações rápidas ligar/e-mail (`tel:`/`mailto:`), card de informações (telefone, e-mail, empresa, localização via `additional_attributes`), edição mínima (nome/e-mail/telefone) em bottom sheet, e **conversas anteriores** do contato com navegação direta. Stores desktop conectados: `contacts/show`, `contacts/update`, `contacts/getContact`, `contactConversations/get`/`getContactConversation` (mesmos do `ContactPanel.vue`).
+- **Labels do contato (item 9).** Seção de labels na mesma tela reusando `MobileMultiPickerSheet` (opções de `labels/getLabels`, seleção de `contactLabels/getContactLabels`) e aplicando via `contactLabels/update` — fluxo idêntico ao desktop.
+- **Entrada:** novo card do contato no topo do `MobileConversationActionsView.vue` (avatar + nome + telefone/e-mail + "Ver"), emitindo `openContact` para o chat abrir a página.
+
+Haptics em todas as superfícies novas (`v-haptic-tap` + haptic síncrono); chaves `MOBILE.CONTACT.*` em `en`/`pt`/`pt_BR`; desktop intocado (tudo em `components-next/mobile/`).
+
 ### 2026-06-11 — Lote B do roadmap: lightbox touch e snooze customizado
 
 Segunda leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`):

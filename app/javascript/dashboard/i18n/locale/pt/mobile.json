@@ -149,6 +149,29 @@
       "NEXT_WEEK": "Até a próxima semana",
       "CUSTOM": "Escolher data e hora",
       "CONFIRM": "Adiar"
+    },
+    "CONTACT": {
+      "TITLE": "Contato",
+      "VIEW": "Ver",
+      "BACK": "Voltar",
+      "EDIT": "Editar contato",
+      "NAME": "Nome",
+      "EMAIL": "E-mail",
+      "PHONE": "Telefone",
+      "SAVE": "Salvar",
+      "CALL": "Ligar",
+      "SEND_EMAIL": "Enviar e-mail",
+      "INFO": "Informações",
+      "COMPANY": "Empresa",
+      "LOCATION": "Localização",
+      "LABELS": "Labels do contato",
+      "NO_LABELS": "Nenhuma label adicionada",
+      "CONVERSATIONS": "Conversas anteriores",
+      "NO_CONVERSATIONS": "Nenhuma conversa anterior",
+      "ATTACHMENT": "Anexo",
+      "UPDATED": "Contato atualizado",
+      "LABELS_UPDATED": "Labels do contato atualizadas",
+      "UPDATE_ERROR": "Não foi possível atualizar o contato"
     }
   }
 }
