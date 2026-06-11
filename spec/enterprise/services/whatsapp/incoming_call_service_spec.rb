@@ -30,6 +30,17 @@ describe Whatsapp::IncomingCallService do
     end
   end
 
+  context 'when inbound calls are disabled on the channel' do
+    it 'ignores the inbound call without creating a Call or Conversation' do
+      channel.provider_config = channel.provider_config.merge('inbound_calls_enabled' => false)
+      channel.save!
+
+      params = call_payload(event: 'connect', session: { sdp: "v=0\r\n...sdp...", sdp_type: 'offer' })
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to not_change(Call, :count).and not_change(Conversation, :count)
+    end
+  end
+
   describe 'inbound connect' do
     let(:sdp_offer) { "v=0\r\n...sdp..." }
     let!(:agent) { create(:user, account: account) }
