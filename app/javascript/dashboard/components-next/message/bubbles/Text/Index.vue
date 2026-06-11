@@ -3,18 +3,42 @@ import { computed, ref } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
+import TemplateButtons from './TemplateButtons.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
+import { useFunctionGetter } from 'dashboard/composables/store';
+import { findComponentByType, COMPONENT_TYPES } from 'dashboard/helper/templateHelper';
 
-const { content, attachments, contentAttributes, messageType } =
+const { content, attachments, contentAttributes, messageType, inboxId } =
   useMessageContext();
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
 
 const renderOriginal = ref(false);
+
+const whatsAppTemplates = useFunctionGetter(
+  'inboxes/getFilteredWhatsAppTemplates',
+  inboxId
+);
+
+const getTemplateButtons = computed(() => {
+  if (!isTemplate.value || !contentAttributes.value?.template_params?.name) {
+    return [];
+  }
+
+  const templateName = contentAttributes.value.template_params.name;
+  const template = whatsAppTemplates.value.find(t => t.name === templateName);
+
+  if (!template) {
+    return [];
+  }
+
+  const buttonComponent = findComponentByType(template, COMPONENT_TYPES.BUTTONS);
+  return buttonComponent?.buttons || [];
+});
 
 const renderContent = computed(() => {
   if (renderOriginal.value) {
@@ -62,6 +86,7 @@ const handleSeeOriginal = () => {
         >
           {{ contentAttributes.submittedEmail }}
         </div>
+        <TemplateButtons v-if="getTemplateButtons.length" :buttons="getTemplateButtons" />
       </template>
     </div>
   </BaseBubble>
