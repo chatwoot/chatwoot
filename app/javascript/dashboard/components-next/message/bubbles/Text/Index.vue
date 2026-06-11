@@ -9,7 +9,10 @@ import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 import { useFunctionGetter } from 'dashboard/composables/store';
-import { findComponentByType, COMPONENT_TYPES } from 'dashboard/helper/templateHelper';
+import {
+  findComponentByType,
+  COMPONENT_TYPES,
+} from 'dashboard/helper/templateHelper';
 
 const { content, attachments, contentAttributes, messageType, inboxId } =
   useMessageContext();
@@ -24,20 +27,33 @@ const whatsAppTemplates = useFunctionGetter(
   inboxId
 );
 
-const getTemplateButtons = computed(() => {
-  if (!isTemplate.value || !contentAttributes.value?.template_params?.name) {
+// A WhatsApp template message keeps its template metadata in
+// `template_params` regardless of whether the builder stored it as a
+// TEMPLATE or a plain OUTGOING message (templates sent from the composer are
+// outgoing). We key on the presence of those params, and match the inbox
+// template by name AND language so localized variants render the right
+// buttons.
+const templateButtons = computed(() => {
+  const params = contentAttributes.value?.template_params;
+  if (!params?.name) {
     return [];
   }
 
-  const templateName = contentAttributes.value.template_params.name;
-  const template = whatsAppTemplates.value.find(t => t.name === templateName);
+  const template = whatsAppTemplates.value.find(candidate => {
+    if (candidate.name !== params.name) {
+      return false;
+    }
+    if (params.language && candidate.language) {
+      return candidate.language.toLowerCase() === params.language.toLowerCase();
+    }
+    return true;
+  });
 
-  if (!template) {
-    return [];
-  }
+  const buttonComponent = template
+    ? findComponentByType(template, COMPONENT_TYPES.BUTTONS)
+    : null;
 
-  const buttonComponent = findComponentByType(template, COMPONENT_TYPES.BUTTONS);
-  return buttonComponent?.buttons || [];
+  return buttonComponent?.buttons ?? [];
 });
 
 const renderContent = computed(() => {
@@ -86,8 +102,11 @@ const handleSeeOriginal = () => {
         >
           {{ contentAttributes.submittedEmail }}
         </div>
-        <TemplateButtons v-if="getTemplateButtons.length" :buttons="getTemplateButtons" />
       </template>
+      <TemplateButtons
+        v-if="templateButtons.length"
+        :buttons="templateButtons"
+      />
     </div>
   </BaseBubble>
 </template>

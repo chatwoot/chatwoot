@@ -46,7 +46,7 @@ describe Whatsapp::TemplateProcessorService do
       expect(action[:action][:flow_token]).to include("chatwoot_#{conversation.display_id}_")
     end
 
-    it 'does not duplicate the component when one is already provided for that index' do
+    it 'keeps a single flow component and preserves a caller-supplied token' do
       _name, _namespace, _lang, components = process(
         flow_template,
         {
@@ -60,6 +60,11 @@ describe Whatsapp::TemplateProcessorService do
 
       flow_components = components.select { |c| c[:type] == 'button' && c[:index] == 0 }
       expect(flow_components.size).to eq(1)
+      # The caller token must round-trip as an action/flow_token payload,
+      # not a text parameter (otherwise Meta rejects it with 131009).
+      parameter = flow_components.first[:parameters].first
+      expect(parameter[:type]).to eq('action')
+      expect(parameter[:action][:flow_token]).to eq('custom_token')
     end
   end
 

@@ -1,7 +1,7 @@
 <script setup>
 import Icon from 'next/icon/Icon.vue';
 
-const props = defineProps({
+defineProps({
   buttons: {
     type: Array,
     default: () => [],
