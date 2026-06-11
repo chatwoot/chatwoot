@@ -1,10 +1,6 @@
 module Enterprise::Api::V1::Accounts::InboxesController
   extend ActiveSupport::Concern
 
-  included do
-    before_action :ensure_inbound_calls_supported, only: [:set_inbound_calls]
-  end
-
   def inbox_attributes
     super + ee_inbox_attributes
   end
@@ -30,8 +26,10 @@ module Enterprise::Api::V1::Accounts::InboxesController
   # Toggles only the inbound-calls flag in provider_config. Saved with validate: false
   # so WhatsApp's remote credential re-check (validate_provider_config) can't reject a
   # simple toggle, mirroring enable_voice_calling!. Voice support (WhatsApp calling or
-  # Twilio voice) is guarded by the ensure_inbound_calls_supported before_action.
+  # Twilio voice) is guarded inline by ensure_inbound_calls_supported.
   def set_inbound_calls
+    return unless ensure_inbound_calls_supported
+
     channel = @inbox.channel
     channel.provider_config = (channel.provider_config || {}).merge(
       'inbound_calls_enabled' => ActiveModel::Type::Boolean.new.cast(params[:inbound_calls_enabled])
