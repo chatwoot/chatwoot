@@ -7,6 +7,7 @@ import {
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import countries from 'shared/constants/countries.js';
+import usStates from 'shared/constants/usStates.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -40,6 +41,7 @@ export default {
   data() {
     return {
       countries: countries,
+      usStates: usStates,
       companyName: '',
       description: '',
       email: '',
@@ -52,7 +54,11 @@ export default {
         id: '',
         name: '',
       },
+      addressLine1: '',
+      addressLine2: '',
       city: '',
+      state: '',
+      postalCode: '',
       socialProfileUserNames: {
         facebook: '',
         twitter: '',
@@ -83,6 +89,17 @@ export default {
     bio: {},
   },
   computed: {
+    isUsCountry() {
+      return this.country.id === 'US';
+    },
+    usStateOptions() {
+      return this.usStates.map(s => ({ value: s.id, label: s.name }));
+    },
+    isUsPostalInvalid() {
+      if (!this.isUsCountry) return false;
+      if (!this.postalCode) return false;
+      return !/^\d{5}(-\d{4})?$/.test(this.postalCode);
+    },
     parsePhoneNumber() {
       return parsePhoneNumber(this.phoneNumber);
     },
@@ -171,7 +188,11 @@ export default {
           additionalAttributes.country ||
           this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
       };
+      this.addressLine1 = additionalAttributes.address_line_1 || '';
+      this.addressLine2 = additionalAttributes.address_line_2 || '';
       this.city = additionalAttributes.city || '';
+      this.state = additionalAttributes.state || '';
+      this.postalCode = additionalAttributes.postal_code || '';
       this.description = additionalAttributes.description || '';
       this.avatarUrl = this.contact.thumbnail || '';
       const {
@@ -211,7 +232,11 @@ export default {
             this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY')
               ? ''
               : this.country.name,
+          address_line_1: this.addressLine1,
+          address_line_2: this.addressLine2,
           city: this.city,
+          state: this.state,
+          postal_code: this.postalCode,
           social_profiles: this.socialProfileUserNames,
         },
       };
@@ -394,11 +419,52 @@ export default {
       />
     </div>
     <woot-input
+      v-model="addressLine1"
+      class="w-full"
+      :label="$t('CONTACT_FORM.FORM.ADDRESS_LINE_1.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.ADDRESS_LINE_1.PLACEHOLDER')"
+    />
+    <woot-input
+      v-model="addressLine2"
+      class="w-full"
+      :label="$t('CONTACT_FORM.FORM.ADDRESS_LINE_2.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.ADDRESS_LINE_2.PLACEHOLDER')"
+    />
+    <woot-input
       v-model="city"
       class="w-full"
       :label="$t('CONTACT_FORM.FORM.CITY.LABEL')"
       :placeholder="$t('CONTACT_FORM.FORM.CITY.PLACEHOLDER')"
     />
+    <div v-if="isUsCountry" class="w-full mb-4">
+      <label>
+        {{ $t('CONTACT_FORM.FORM.STATE.LABEL') }}
+      </label>
+      <ComboBox
+        :model-value="state"
+        :options="usStateOptions"
+        class="[&>div>button]:!bg-n-alpha-black2"
+        :placeholder="$t('CONTACT_FORM.FORM.STATE.PLACEHOLDER')"
+        @update:model-value="value => (state = value)"
+      />
+    </div>
+    <woot-input
+      v-else
+      v-model="state"
+      class="w-full"
+      :label="$t('CONTACT_FORM.FORM.STATE.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.STATE.PLACEHOLDER')"
+    />
+    <woot-input
+      v-model="postalCode"
+      class="w-full"
+      :class="{ error: isUsPostalInvalid }"
+      :label="$t('CONTACT_FORM.FORM.POSTAL_CODE.LABEL')"
+      :placeholder="$t('CONTACT_FORM.FORM.POSTAL_CODE.PLACEHOLDER')"
+    />
+    <span v-if="isUsPostalInvalid" class="message">
+      {{ $t('CONTACT_FORM.FORM.POSTAL_CODE.US_INVALID') }}
+    </span>
 
     <div class="w-full">
       <label>{{ $t('CONTACTS_PAGE.LIST.TABLE_HEADER.SOCIAL_PROFILES') }}</label>

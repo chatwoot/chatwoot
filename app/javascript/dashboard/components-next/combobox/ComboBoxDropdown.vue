@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -29,7 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select', 'search']);
+const emit = defineEmits(['select', 'search', 'close']);
 
 const { t } = useI18n();
 
@@ -39,6 +39,8 @@ const searchValue = defineModel('searchValue', {
 });
 
 const searchInput = ref(null);
+const optionRefs = ref([]);
+const activeIndex = ref(0);
 
 const isSelected = option => {
   if (Array.isArray(props.selectedValues)) {
@@ -51,6 +53,48 @@ const onInputSearch = event => {
   searchValue.value = event.target.value;
   emit('search', event.target.value);
 };
+
+const scrollActiveIntoView = () => {
+  nextTick(() => {
+    optionRefs.value[activeIndex.value]?.scrollIntoView({ block: 'nearest' });
+  });
+};
+
+const onKeydown = event => {
+  const total = props.options.length;
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    if (!total) return;
+    activeIndex.value = (activeIndex.value + 1) % total;
+    scrollActiveIntoView();
+  } else if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    if (!total) return;
+    activeIndex.value = (activeIndex.value - 1 + total) % total;
+    scrollActiveIntoView();
+  } else if (event.key === 'Enter') {
+    event.preventDefault();
+    const option = props.options[activeIndex.value];
+    if (option) emit('select', option);
+  } else if (event.key === 'Escape') {
+    event.preventDefault();
+    emit('close');
+  }
+};
+
+watch(
+  () => props.options,
+  () => {
+    activeIndex.value = 0;
+  }
+);
+
+watch(
+  () => props.open,
+  isOpen => {
+    if (isOpen) activeIndex.value = 0;
+  }
+);
 
 defineExpose({
   focus: () => searchInput.value?.focus(),
@@ -71,6 +115,7 @@ defineExpose({
         :placeholder="searchPlaceholder || t('COMBOBOX.SEARCH_PLACEHOLDER')"
         class="reset-base w-full py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-t-md bg-n-solid-1 text-n-slate-12"
         @input="onInputSearch"
+        @keydown="onKeydown"
       />
     </div>
     <ul
@@ -81,13 +126,16 @@ defineExpose({
       <li
         v-for="(option, index) in options"
         :key="`${option.value}-${index}`"
+        :ref="el => (optionRefs[index] = el)"
         class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm transition-colors duration-150 cursor-pointer hover:bg-n-alpha-2"
         :class="{
           'bg-n-alpha-2': isSelected(option),
+          'bg-n-alpha-3': index === activeIndex,
         }"
         role="option"
         :aria-selected="isSelected(option)"
         @click="emit('select', option)"
+        @mouseenter="activeIndex = index"
       >
         <span
           :class="{

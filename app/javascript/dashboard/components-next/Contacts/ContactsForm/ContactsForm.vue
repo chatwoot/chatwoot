@@ -4,7 +4,9 @@ import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
+import parsePhoneNumber from 'libphonenumber-js';
 import countries from 'shared/constants/countries.js';
+import usStates from 'shared/constants/usStates.js';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -34,11 +36,17 @@ const FORM_CONFIG = {
   LAST_NAME: { field: 'lastName' },
   EMAIL_ADDRESS: { field: 'email' },
   PHONE_NUMBER: { field: 'phoneNumber' },
-  CITY: { field: 'additionalAttributes.city' },
   COUNTRY: { field: 'additionalAttributes.countryCode' },
-  BIO: { field: 'additionalAttributes.description' },
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
+  ADDRESS_LINE_1: { field: 'additionalAttributes.addressLine1' },
+  ADDRESS_LINE_2: { field: 'additionalAttributes.addressLine2' },
+  CITY: { field: 'additionalAttributes.city' },
+  STATE: { field: 'additionalAttributes.state' },
+  POSTAL_CODE: { field: 'additionalAttributes.postalCode' },
+  BIO: { field: 'additionalAttributes.description' },
 };
+
+const US_POSTAL_CODE_REGEX = /^\d{5}(-\d{4})?$/;
 
 const SOCIAL_CONFIG = {
   LINKEDIN: 'i-ri-linkedin-box-fill',
@@ -62,7 +70,11 @@ const defaultState = {
     companyName: '',
     countryCode: '',
     country: '',
+    addressLine1: '',
+    addressLine2: '',
     city: '',
+    state: '',
+    postalCode: '',
     socialProfiles: {
       facebook: '',
       github: '',
@@ -104,7 +116,11 @@ const prepareStateBasedOnProps = () => {
     companyName = '',
     countryCode = '',
     country = '',
+    addressLine1 = '',
+    addressLine2 = '',
     city = '',
+    state: addressState = '',
+    postalCode = '',
     socialTelegramUserName = '',
     socialProfiles = {},
   } = additionalAttributes || {};
@@ -124,7 +140,11 @@ const prepareStateBasedOnProps = () => {
       companyName,
       countryCode,
       country,
+      addressLine1,
+      addressLine2,
       city,
+      state: addressState,
+      postalCode,
       socialProfiles: {
         ...socialProfiles,
         telegram: telegramUsername,
@@ -136,6 +156,20 @@ const prepareStateBasedOnProps = () => {
 const countryOptions = computed(() =>
   countries.map(({ name, id }) => ({ label: name, value: id }))
 );
+
+const usStateOptions = computed(() =>
+  usStates.map(({ name, id }) => ({ label: name, value: id }))
+);
+
+const isUsCountry = computed(
+  () => state.additionalAttributes.countryCode === 'US'
+);
+
+const isUsPostalInvalid = computed(() => {
+  if (!isUsCountry.value) return false;
+  const postal = state.additionalAttributes.postalCode;
+  return !!postal && !US_POSTAL_CODE_REGEX.test(postal);
+});
 
 const editDetailsForm = computed(() =>
   Object.keys(FORM_CONFIG).map(key => ({
@@ -210,6 +244,7 @@ const getFormBinding = key => {
 };
 
 const getMessageType = key => {
+  if (key === 'POSTAL_CODE' && isUsPostalInvalid.value) return 'error';
   return isValidationField(key) && v$.value[getValidationKey(key)]?.$error
     ? 'error'
     : 'info';
@@ -218,6 +253,14 @@ const getMessageType = key => {
 const handleCountrySelection = value => {
   const selectedCountry = countries.find(option => option.id === value);
   state.additionalAttributes.country = selectedCountry?.name || '';
+  if (value !== 'US') {
+    state.additionalAttributes.state = '';
+  }
+  emit('update', state);
+};
+
+const handleStateSelection = value => {
+  state.additionalAttributes.state = value;
   emit('update', state);
 };
 
@@ -235,6 +278,21 @@ watch(
     if (id) prepareStateBasedOnProps();
   },
   { immediate: true }
+);
+
+watch(
+  () => state.phoneNumber,
+  phoneNumber => {
+    if (!phoneNumber) return;
+    if (state.additionalAttributes.countryCode) return;
+    const parsed = parsePhoneNumber(phoneNumber);
+    const inferred = parsed?.country;
+    if (!inferred) return;
+    state.additionalAttributes.countryCode = inferred;
+    const match = countries.find(c => c.id === inferred);
+    state.additionalAttributes.country = match?.name || '';
+    emit('update', state);
+  }
 );
 
 // Expose state to parent component for avatar upload
@@ -266,6 +324,19 @@ defineExpose({
               '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
             }"
             @update:model-value="handleCountrySelection"
+          />
+          <ComboBox
+            v-else-if="item.key === 'STATE' && isUsCountry"
+            v-model="state.additionalAttributes.state"
+            :options="usStateOptions"
+            :placeholder="item.placeholder"
+            class="[&>div>button]:h-8"
+            :class="{
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
+                !isDetailsView,
+              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+            }"
+            @update:model-value="handleStateSelection"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"
