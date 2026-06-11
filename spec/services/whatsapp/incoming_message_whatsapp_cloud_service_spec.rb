@@ -91,7 +91,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         attachment = whatsapp_channel.inbox.messages.first.attachments.first
         expect(attachment.file.filename.to_s).to eq('Currículum café.pdf')
-      end
+        expect(attachment.file.content_type).to eq('application/pdf')
     end
 
     context 'when invalid attachment message params' do
