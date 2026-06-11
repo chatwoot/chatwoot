@@ -224,6 +224,15 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Lote B do roadmap: lightbox touch e snooze customizado
+
+Segunda leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`):
+
+- **Lightbox de imagens com gestos touch (item 4).** A bolha de imagem do components-next já abria o `GalleryView` desktop in-app; o gap era ergonomia. Novo composable `dashboard/composables/useGalleryTouchGestures.js` (pinch para zoom via `onZoom` do `useImageZoom`, swipe horizontal para navegar entre imagens, swipe-down para fechar — bloqueados enquanto o zoom > 1). Wiring mínimo no `GalleryView.vue`: handlers touch no container central (inertes em desktop/mouse) + ajustes **somente responsivos** com breakpoint `sm:` (em telas < 640px: esconde trilhos laterais de navegação, botões de zoom/rotate e nome do arquivo, liberando a largura toda para a imagem). Desktop ≥ 768px renderiza exatamente como antes.
+- **Snooze com horário customizado (item 5).** Novo `MobileSnoozeSheet.vue` conectando os MESMOS helpers do desktop (`findSnoozeTime`, `snoozedReopenTime` de `helper/snoozeHelpers.js`, referência `CustomSnoozeModal.vue`): presets "Até a próxima resposta", "Daqui a 1 hora", "Até amanhã", "Até a próxima semana" (com horário de reabertura calculado ao lado) + `<input type="datetime-local">` nativo para data/hora livre. Plugado nos dois pontos que antes fixavam "até a próxima resposta": card Snooze do `MobileConversationActionsView.vue` e opção Adiar do status sheet da lista (`MobileConversationList.vue`), ambos despachando o `toggleStatus` existente com o `snoozedUntil` escolhido. Chaves `MOBILE.SNOOZE.*` em `en`/`pt`/`pt_BR`.
+
+Haptics: presets e confirmar com `v-haptic-tap` + `medium()` síncrono. Itens 4 e 5 do roadmap marcados como entregues.
+
 ### 2026-06-11 — Lote A do roadmap: badge no ícone, filtro de inbox, câmera e shortcuts
 
 Primeira leva do plano de execução (`chatwitdocs/mobile-roadmap-execution-plan.md`):

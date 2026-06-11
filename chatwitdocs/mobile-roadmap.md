@@ -43,8 +43,8 @@ Coberto e em produção:
 | 1 | **@Menções em notas privadas** | `MentionUser.tsx` + mentions-input | `ReplyBox.vue` (fluxo de mention existente), store `agents` | M | Alto — colaboração entre agentes |
 | 2 | **Busca de mensagens/conversas** | header de busca do ConversationScreen | store `conversationSearch` | M/G | Alto — achar conversa antiga no celular |
 | 3 | **Detalhes do contato (tela/modal)** | `ContactDetailsScreen.tsx` | `ContactPanel.vue`, stores `contacts`, `contactLabels` | M | Alto — hoje o PWA mostra só o mínimo do remetente |
-| 4 | **Lightbox de imagens (fullscreen + zoom)** | `ImageBubble.ios.tsx` | galeria/preview existente do desktop (components-next message) | M | Alto — hoje imagem abre fora do app, quebra a imersão |
-| 5 | **Snooze com horário customizado** | `ConversationBasicActions.tsx` | `snoozeHelpers.js` (`findSnoozeTime` já aceita opções) | P/M | Médio — hoje só "até próxima resposta" |
+| 4 | **Lightbox de imagens (fullscreen + zoom)** ✅ 2026-06-11 | `ImageBubble.ios.tsx` | galeria/preview existente do desktop (components-next message) | M | Alto — hoje imagem abre fora do app, quebra a imersão |
+| 5 | **Snooze com horário customizado** ✅ 2026-06-11 | `ConversationBasicActions.tsx` | `snoozeHelpers.js` (`findSnoozeTime` já aceita opções) | P/M | Médio — hoje só "até próxima resposta" |
 | 6 | **Filtro por inbox na lista** ✅ 2026-06-11 | `InboxFilters.tsx` | store `inboxes` (getter já usado na lista) | P | Médio — multi-inbox sofre sem isso |
 
 ## Fase 2 — Paridade complementar

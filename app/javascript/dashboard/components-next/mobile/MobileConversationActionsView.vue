@@ -10,12 +10,12 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 import { vHapticTap } from './hapticTap';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import wootConstants from 'dashboard/constants/globals';
 import MobileActionPickerSheet from './MobileActionPickerSheet.vue';
 import MobileMultiPickerSheet from './MobileMultiPickerSheet.vue';
+import MobileSnoozeSheet from './MobileSnoozeSheet.vue';
 
 const props = defineProps({
   conversationId: {
@@ -33,6 +33,7 @@ const currentAccountId = useMapGetter('auth/getCurrentAccountId');
 
 const resolveAttributesModalRef = ref(null);
 const showAssigneeSheet = ref(false);
+const showSnoozeSheet = ref(false);
 const showTeamSheet = ref(false);
 const showPrioritySheet = ref(false);
 const showLabelsSheet = ref(false);
@@ -248,14 +249,16 @@ const formattedConversationAttributes = computed(() => {
   );
 });
 
-const updateStatus = async (status, customAttributes = null) => {
+const updateStatus = async (
+  status,
+  customAttributes = null,
+  snoozedUntil = null
+) => {
   const payload = {
     conversationId: props.conversationId,
     status,
     snoozedUntil:
-      status === wootConstants.STATUS_TYPE.SNOOZED
-        ? findSnoozeTime(wootConstants.SNOOZE_OPTIONS.UNTIL_NEXT_REPLY) || null
-        : null,
+      status === wootConstants.STATUS_TYPE.SNOOZED ? snoozedUntil : null,
   };
 
   if (customAttributes) payload.customAttributes = customAttributes;
@@ -273,6 +276,12 @@ const updateStatus = async (status, customAttributes = null) => {
 
 const handleStatusChange = async status => {
   if (!conversation.value || conversation.value.status === status) return;
+
+  if (status === wootConstants.STATUS_TYPE.SNOOZED) {
+    medium();
+    showSnoozeSheet.value = true;
+    return;
+  }
 
   if (status !== wootConstants.STATUS_TYPE.RESOLVED) {
     await updateStatus(status);
@@ -293,6 +302,11 @@ const handleStatusChange = async status => {
   }
 
   await updateStatus(status);
+};
+
+const handleSnoozeSelect = async ({ snoozedUntil }) => {
+  showSnoozeSheet.value = false;
+  await updateStatus(wootConstants.STATUS_TYPE.SNOOZED, null, snoozedUntil);
 };
 
 const handleResolveWithAttributes = async ({ attributes, context }) => {
@@ -780,6 +794,12 @@ watch(
       :apply-label="t('MOBILE.ACTIONS.CTA.APPLY')"
       @close="showParticipantsSheet = false"
       @apply="handleParticipantsApply"
+    />
+
+    <MobileSnoozeSheet
+      :open="showSnoozeSheet"
+      @close="showSnoozeSheet = false"
+      @select="handleSnoozeSelect"
     />
 
     <ConversationResolveAttributesModal

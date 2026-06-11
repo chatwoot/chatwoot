@@ -9,7 +9,6 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useStaggeredEnter } from 'dashboard/composables/useStaggeredEnter';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 import {
   getUserPermissions,
@@ -25,6 +24,7 @@ import IntersectionObserver from 'dashboard/components/IntersectionObserver.vue'
 import MobileConversationHeader from './MobileConversationHeader.vue';
 import MobileFilterSheet from './MobileFilterSheet.vue';
 import MobileConversationStatusSheet from './MobileConversationStatusSheet.vue';
+import MobileSnoozeSheet from './MobileSnoozeSheet.vue';
 import MobilePullToRefresh from './MobilePullToRefresh.vue';
 import MobileSwipeableRow from './MobileSwipeableRow.vue';
 
@@ -45,6 +45,8 @@ const isPullRefreshing = ref(false);
 const showFilterSheet = ref(false);
 const showStatusSheet = ref(false);
 const selectedConversation = ref(null);
+const showSnoozeSheet = ref(false);
+const snoozeTarget = ref(null);
 const resolveAttributesModalRef = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
@@ -286,6 +288,18 @@ const handleResolveWithAttributes = ({ attributes, context }) => {
   );
 };
 
+const onSnoozeSelect = async ({ snoozedUntil }) => {
+  const chat = snoozeTarget.value;
+  showSnoozeSheet.value = false;
+  snoozeTarget.value = null;
+  if (!chat) return;
+  await toggleConversationStatus(
+    chat.id,
+    wootConstants.STATUS_TYPE.SNOOZED,
+    snoozedUntil
+  );
+};
+
 const onStatusSelect = async status => {
   const currentConversation = selectedConversation.value;
 
@@ -299,11 +313,8 @@ const onStatusSelect = async status => {
   }
 
   if (status === wootConstants.STATUS_TYPE.SNOOZED) {
-    await toggleConversationStatus(
-      currentConversation.id,
-      status,
-      findSnoozeTime(wootConstants.SNOOZE_OPTIONS.UNTIL_NEXT_REPLY) || null
-    );
+    snoozeTarget.value = currentConversation;
+    showSnoozeSheet.value = true;
     return;
   }
 
@@ -451,6 +462,11 @@ watch(conversationFilters, newFilters => {
       :open="showStatusSheet"
       @close="closeStatusSheet"
       @select="onStatusSelect"
+    />
+    <MobileSnoozeSheet
+      :open="showSnoozeSheet"
+      @close="showSnoozeSheet = false"
+      @select="onSnoozeSelect"
     />
     <ConversationResolveAttributesModal
       ref="resolveAttributesModalRef"

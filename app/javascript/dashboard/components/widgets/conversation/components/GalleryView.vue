@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useImageZoom } from 'dashboard/composables/useImageZoom';
+import { useGalleryTouchGestures } from 'dashboard/composables/useGalleryTouchGestures';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 
@@ -49,6 +50,7 @@ const activeImageIndex = ref(
 const imageRef = useTemplateRef('imageRef');
 
 const {
+  zoomScale,
   imageWrapperStyle,
   imageStyle,
   onRotate,
@@ -161,6 +163,24 @@ const keyboardEvents = {
 
 useKeyboardEvents(keyboardEvents);
 
+// Touch ergonomics for small screens (pinch zoom, swipe nav, swipe-down to
+// close); no-ops on mouse-driven sessions.
+const { onTouchStart, onTouchMove, onTouchEnd } = useGalleryTouchGestures({
+  zoomBy: delta => onZoom(delta),
+  zoomScale,
+  next: () =>
+    onClickChangeAttachment(
+      props.allAttachments[activeImageIndex.value + 1],
+      activeImageIndex.value + 1
+    ),
+  prev: () =>
+    onClickChangeAttachment(
+      props.allAttachments[activeImageIndex.value - 1],
+      activeImageIndex.value - 1
+    ),
+  close: onClose,
+});
+
 onMounted(() => {
   setImageAndVideoSrc(props.attachment);
 });
@@ -184,7 +204,7 @@ onMounted(() => {
         >
           <div
             v-if="senderDetails"
-            class="flex items-center min-w-[15rem] shrink-0"
+            class="flex items-center min-w-0 shrink sm:min-w-[15rem] sm:shrink-0"
           >
             <Avatar
               v-if="senderDetails.avatar"
@@ -211,7 +231,7 @@ onMounted(() => {
           </div>
 
           <div
-            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
+            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12 hidden sm:block"
           >
             <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
           </div>
@@ -222,6 +242,7 @@ onMounted(() => {
               icon="i-lucide-zoom-in"
               slate
               ghost
+              class="hidden sm:inline-flex"
               @click="onZoom(0.1)"
             />
             <NextButton
@@ -229,6 +250,7 @@ onMounted(() => {
               icon="i-lucide-zoom-out"
               slate
               ghost
+              class="hidden sm:inline-flex"
               @click="onZoom(-0.1)"
             />
             <NextButton
@@ -236,6 +258,7 @@ onMounted(() => {
               icon="i-lucide-rotate-ccw"
               slate
               ghost
+              class="hidden sm:inline-flex"
               @click="onRotate('counter-clockwise')"
             />
             <NextButton
@@ -243,6 +266,7 @@ onMounted(() => {
               icon="i-lucide-rotate-cw"
               slate
               ghost
+              class="hidden sm:inline-flex"
               @click="onRotate('clockwise')"
             />
             <NextButton
@@ -258,7 +282,7 @@ onMounted(() => {
         </header>
 
         <main class="flex items-stretch flex-1 h-full overflow-hidden">
-          <div class="flex items-center justify-center w-16 shrink-0">
+          <div class="hidden sm:flex items-center justify-center w-16 shrink-0">
             <NextButton
               v-if="hasMoreThanOneAttachment"
               icon="ltr:i-lucide-chevron-left rtl:i-lucide-chevron-right"
@@ -276,7 +300,12 @@ onMounted(() => {
             />
           </div>
 
-          <div class="flex-1 flex items-center justify-center overflow-hidden">
+          <div
+            class="flex-1 flex items-center justify-center overflow-hidden"
+            @touchstart="onTouchStart"
+            @touchmove="onTouchMove"
+            @touchend="onTouchEnd"
+          >
             <div
               v-if="isImage"
               :style="imageWrapperStyle"
@@ -324,7 +353,7 @@ onMounted(() => {
             </audio>
           </div>
 
-          <div class="flex items-center justify-center w-16 shrink-0">
+          <div class="hidden sm:flex items-center justify-center w-16 shrink-0">
             <NextButton
               v-if="hasMoreThanOneAttachment"
               icon="ltr:i-lucide-chevron-right rtl:i-lucide-chevron-left"

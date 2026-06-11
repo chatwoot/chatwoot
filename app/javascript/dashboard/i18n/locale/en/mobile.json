@@ -146,6 +146,15 @@
       "DENIED_HELP": "To enable notifications, go to your browser or device settings and allow notifications for this site.",
       "IOS_INSTALL_REQUIRED": "Add to Home Screen first to receive notifications",
       "UPDATE_ERROR": "Could not update push notifications"
+    },
+    "SNOOZE": {
+      "TITLE": "Snooze until",
+      "NEXT_REPLY": "Until next reply",
+      "AN_HOUR": "An hour from now",
+      "TOMORROW": "Until tomorrow",
+      "NEXT_WEEK": "Until next week",
+      "CUSTOM": "Pick date and time",
+      "CONFIRM": "Snooze"
     }
   }
 }

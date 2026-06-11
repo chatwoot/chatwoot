@@ -140,6 +140,15 @@
       "DENIED_HELP": "Para ativar notificações, vá às configurações do navegador ou dispositivo e permita notificações para este site.",
       "IOS_INSTALL_REQUIRED": "Adicione à Tela de Início primeiro para receber notificações",
       "UPDATE_ERROR": "Não foi possível atualizar as notificações push"
+    },
+    "SNOOZE": {
+      "TITLE": "Adiar até",
+      "NEXT_REPLY": "Até a próxima resposta",
+      "AN_HOUR": "Daqui a 1 hora",
+      "TOMORROW": "Até amanhã",
+      "NEXT_WEEK": "Até a próxima semana",
+      "CUSTOM": "Escolher data e hora",
+      "CONFIRM": "Adiar"
     }
   }
 }
