@@ -179,9 +179,11 @@ const onSend = async () => {
     );
   }
 
+  // Haptic fires at tap time: iOS drops the Taptic switch trick once the
+  // user activation expires across an await.
+  success();
   try {
     await store.dispatch('createPendingMessageAndSend', messagePayload);
-    success();
     emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     message.value = '';
     attachedFiles.value = [];
@@ -331,12 +333,12 @@ const openWhatsappTemplateModal = () => {
 };
 
 const onSendWhatsAppReply = async messagePayload => {
+  success();
   try {
     await store.dispatch('createPendingMessageAndSend', {
       conversationId: currentChat.value.id,
       ...messagePayload,
     });
-    success();
     emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
     showWhatsAppTemplatesModal.value = false;
   } catch (error) {

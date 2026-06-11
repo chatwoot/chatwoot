@@ -28,7 +28,8 @@
         "SETTINGS": "Configurações",
         "LABELS": "Labels",
         "PARTICIPANTS": "Participantes",
-        "ATTRIBUTES": "Atributos"
+        "ATTRIBUTES": "Atributos",
+        "MORE": "Mais ações"
       },
       "STATUS": {
         "OPEN": "Aberta",
@@ -85,6 +86,12 @@
         "PRIORITY": "Nenhuma prioridade encontrada",
         "LABELS": "Nenhuma label encontrada",
         "PARTICIPANTS": "Nenhum participante encontrado"
+      },
+      "MORE": {
+        "MUTE": "Silenciar conversa",
+        "UNMUTE": "Reativar notificações",
+        "SHARE": "Compartilhar link da conversa",
+        "LINK_COPIED": "Link da conversa copiado"
       }
     },
     "SETTINGS": {
@@ -121,9 +128,9 @@
     "SWIPE": {
       "STATUS": "Status",
       "MARK_READ": "Lido",
-      "MARK_UNREAD": "N\u00e3o lido",
+      "MARK_UNREAD": "Não lido",
       "MARKED_READ": "Conversa marcada como lida",
-      "MARKED_UNREAD": "Conversa marcada como n\u00e3o lida",
+      "MARKED_UNREAD": "Conversa marcada como não lida",
       "DELETE": "Excluir",
       "CONFIRM_DELETE": "Tem certeza de que deseja excluir esta conversa?"
     },

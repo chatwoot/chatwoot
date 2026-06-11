@@ -223,6 +223,16 @@ All under `app/javascript/dashboard/components-next/mobile/`:
 
 ## Changelog
 
+### 2026-06-11 — Native List Assembly Animation, Gesture-Synchronous Haptics, Mute & Share
+
+Native-parity pass replicating the official app's loading feel and fixing iOS haptics that never fired on real devices:
+
+- **iOS haptics fired after `await` never reached the Taptic Engine.** Safari requires the hidden-switch toggle (`<input type="checkbox" switch>`, iOS 17.4+) to run inside transient user activation, which expires across a network `await`. Every mobile call site (`toggleStatus` resolve/status flows in `MobileConversationList.vue` and `MobileConversationActionsView.vue`, assignee/team/priority/labels/participants sheets, both send paths in `MobileReplyBox.vue`) now fires the haptic synchronously at tap time, before dispatching. `useHaptics.js` also appends a persistent hidden switch to `document.body` (the proven variant; previously a throwaway element in `document.head`) and reuses it across pulses.
+- **List "assembly" animation (native `LinearTransition.springify()` parity).** New `composables/useStaggeredEnter.js` provides batch-relative stagger delays for `<TransitionGroup>` enter hooks. `MobileConversationList.vue` and `MobileInboxView.vue` wrap their rows in `<TransitionGroup appear>` with Tailwind-only classes: staggered fade/slide/scale enter (`cubic-bezier(0.34,1.56,0.64,1)` back-out spring), FLIP `move-class` so rows spring into place on reorder/insert (new message bumps a conversation to the top with a spring, like the native FlashList), and `!absolute` leave so siblings close the gap smoothly when a row is resolved/removed.
+- **Mute/unmute + native share (parity gaps from the official app).** New "More actions" section in `MobileConversationActionsView.vue` connecting the existing desktop store actions `muteConversation`/`unmuteConversation` (same `CONTACT_PANEL.*MUTED_SUCCESS` toasts as desktop `MoreActions.vue`) and a conversation link share built from the desktop `conversationUrl`/`frontendURL` helpers — `navigator.share` opens the iOS native share sheet, with `copyTextToClipboard` fallback (`MOBILE.ACTIONS.MORE.*` keys in `en`, `pt`, `pt_BR`).
+
+Desktop remains untouched: changes live in `components-next/mobile/`, the two mobile-only composables, and `locale/*/mobile.json`.
+
 ### 2026-06-10 — iOS Haptics via Taptic Engine + Conversation Actions Native Parity
 
 Problem observed in the mobile PWA on iPhone:

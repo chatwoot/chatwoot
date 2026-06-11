@@ -8,6 +8,7 @@ import {
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { useStaggeredEnter } from 'dashboard/composables/useStaggeredEnter';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 import {
@@ -33,6 +34,7 @@ const emit = defineEmits(['openConversation']);
 const store = useStore();
 const { t } = useI18n();
 const { medium, success } = useHaptics();
+const { beforeEnter, afterEnter, enterCancelled } = useStaggeredEnter();
 const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const swipeOpenRowId = ref(null);
@@ -192,12 +194,14 @@ const toggleConversationStatus = async (
     payload.customAttributes = customAttributes;
   }
 
-  await store.dispatch('toggleStatus', payload);
+  // Haptic fires at tap time: iOS drops the Taptic switch trick once the
+  // user activation expires across an await.
   if (status === wootConstants.STATUS_TYPE.RESOLVED) {
     success();
   } else {
     medium();
   }
+  await store.dispatch('toggleStatus', payload);
   useAlert(t('CONVERSATION.CHANGE_STATUS'));
 };
 
@@ -363,7 +367,7 @@ watch(conversationFilters, newFilters => {
       <div
         ref="listRef"
         data-mobile-pull-scroll
-        class="flex-1 overflow-y-auto overscroll-y-contain px-2"
+        class="relative flex-1 overflow-y-auto overscroll-y-contain px-2"
       >
         <div
           v-if="chatListLoading"
@@ -378,29 +382,42 @@ watch(conversationFilters, newFilters => {
           {{ t('MOBILE.CONVERSATIONS.NO_CONVERSATIONS') }}
         </div>
         <template v-else>
-          <MobileSwipeableRow
-            v-for="chat in chatLists"
-            :key="chat.id"
-            :row-id="chat.id"
-            :actions="getSwipeActions(chat)"
-            :left-actions="getLeftSwipeActions(chat)"
-            class="mb-0.5"
-            @action="onSwipeAction(chat, $event)"
-            @left-action="onLeftSwipeAction(chat, $event)"
+          <TransitionGroup
+            appear
+            enter-from-class="opacity-0 translate-y-4 scale-[0.97]"
+            enter-active-class="transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            enter-to-class="opacity-100 translate-y-0 scale-100"
+            move-class="transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            leave-active-class="transition-all duration-200 ease-in !absolute left-2 right-2"
+            leave-to-class="opacity-0 scale-95"
+            @before-enter="beforeEnter"
+            @after-enter="afterEnter"
+            @enter-cancelled="enterCancelled"
           >
-            <ConversationCard
-              :chat="chat"
-              :current-contact="getCurrentContact(chat)"
-              :assignee="getAssignee(chat)"
-              :inbox="getInbox(chat)"
-              :show-assignee="
-                activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
-              "
-              :show-inbox-name="showInboxName"
-              class="rounded-lg"
-              @click="onConversationClick(chat)"
-            />
-          </MobileSwipeableRow>
+            <MobileSwipeableRow
+              v-for="chat in chatLists"
+              :key="chat.id"
+              :row-id="chat.id"
+              :actions="getSwipeActions(chat)"
+              :left-actions="getLeftSwipeActions(chat)"
+              class="mb-0.5"
+              @action="onSwipeAction(chat, $event)"
+              @left-action="onLeftSwipeAction(chat, $event)"
+            >
+              <ConversationCard
+                :chat="chat"
+                :current-contact="getCurrentContact(chat)"
+                :assignee="getAssignee(chat)"
+                :inbox="getInbox(chat)"
+                :show-assignee="
+                  activeAssigneeTab === wootConstants.ASSIGNEE_TYPE.ALL
+                "
+                :show-inbox-name="showInboxName"
+                class="rounded-lg"
+                @click="onConversationClick(chat)"
+              />
+            </MobileSwipeableRow>
+          </TransitionGroup>
           <div v-if="listLoadingMore" class="flex justify-center py-4">
             <Spinner class="text-n-brand" />
           </div>

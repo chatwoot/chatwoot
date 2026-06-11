@@ -28,7 +28,8 @@
         "SETTINGS": "Settings",
         "LABELS": "Labels",
         "PARTICIPANTS": "Participants",
-        "ATTRIBUTES": "Attributes"
+        "ATTRIBUTES": "Attributes",
+        "MORE": "More actions"
       },
       "STATUS": {
         "OPEN": "Open",
@@ -85,6 +86,12 @@
         "PRIORITY": "No priorities found",
         "LABELS": "No labels found",
         "PARTICIPANTS": "No participants found"
+      },
+      "MORE": {
+        "MUTE": "Mute conversation",
+        "UNMUTE": "Unmute conversation",
+        "SHARE": "Share conversation link",
+        "LINK_COPIED": "Conversation link copied"
       }
     },
     "SETTINGS": {

@@ -10,6 +10,8 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useHaptics } from 'dashboard/composables/useHaptics';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
+import { conversationUrl, frontendURL } from 'dashboard/helper/URLHelper';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import wootConstants from 'dashboard/constants/globals';
 import MobileActionPickerSheet from './MobileActionPickerSheet.vue';
 import MobileMultiPickerSheet from './MobileMultiPickerSheet.vue';
@@ -26,6 +28,7 @@ const { t } = useI18n();
 const { medium, success } = useHaptics();
 const { checkMissingAttributes } = useConversationRequiredAttributes();
 const currentChat = useMapGetter('getSelectedChat');
+const currentAccountId = useMapGetter('auth/getCurrentAccountId');
 
 const resolveAttributesModalRef = ref(null);
 const showAssigneeSheet = ref(false);
@@ -256,12 +259,14 @@ const updateStatus = async (status, customAttributes = null) => {
 
   if (customAttributes) payload.customAttributes = customAttributes;
 
-  await store.dispatch('toggleStatus', payload);
+  // Haptic fires at tap time: iOS drops the Taptic switch trick once the
+  // user activation expires across an await.
   if (status === wootConstants.STATUS_TYPE.RESOLVED) {
     success();
   } else {
     medium();
   }
+  await store.dispatch('toggleStatus', payload);
   useAlert(t('CONVERSATION.CHANGE_STATUS'));
 };
 
@@ -302,6 +307,7 @@ const handleAssigneeSelect = async item => {
     ? agents.value.find(agent => agent.id === item.value) || null
     : null;
 
+  medium();
   store.dispatch('setCurrentChatAssignee', {
     conversationId: props.conversationId,
     assignee,
@@ -310,7 +316,6 @@ const handleAssigneeSelect = async item => {
     conversationId: props.conversationId,
     agentId: item.value,
   });
-  medium();
   useAlert(t('CONVERSATION.CHANGE_AGENT'));
   showAssigneeSheet.value = false;
 };
@@ -320,6 +325,7 @@ const handleTeamSelect = async item => {
     ? teams.value.find(entry => entry.id === item.value) || null
     : null;
 
+  medium();
   store.dispatch('setCurrentChatTeam', {
     conversationId: props.conversationId,
     team,
@@ -328,12 +334,12 @@ const handleTeamSelect = async item => {
     conversationId: props.conversationId,
     teamId: item.value,
   });
-  medium();
   useAlert(t('CONVERSATION.CHANGE_TEAM'));
   showTeamSheet.value = false;
 };
 
 const handlePrioritySelect = async item => {
+  medium();
   store.dispatch('setCurrentChatPriority', {
     conversationId: props.conversationId,
     priority: item.value,
@@ -342,7 +348,6 @@ const handlePrioritySelect = async item => {
     conversationId: props.conversationId,
     priority: item.value,
   });
-  medium();
   useAlert(
     t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.SUCCESSFUL', {
       priority: item.label,
@@ -353,11 +358,11 @@ const handlePrioritySelect = async item => {
 };
 
 const handleLabelsApply = async selectedKeys => {
+  medium();
   await store.dispatch('conversationLabels/update', {
     conversationId: props.conversationId,
     labels: selectedKeys,
   });
-  medium();
   useAlert(t('CONVERSATION.ASSIGN_LABEL_SUCCESFUL'));
   showLabelsSheet.value = false;
 };
@@ -365,12 +370,12 @@ const handleLabelsApply = async selectedKeys => {
 const handleParticipantsApply = async selectedKeys => {
   let alertMessage = t('CONVERSATION_PARTICIPANTS.API.SUCCESS_MESSAGE');
 
+  medium();
   try {
     await store.dispatch('conversationWatchers/update', {
       conversationId: props.conversationId,
       userIds: selectedKeys,
     });
-    medium();
   } catch (error) {
     alertMessage =
       error?.message || t('CONVERSATION_PARTICIPANTS.API.ERROR_MESSAGE');
@@ -382,6 +387,41 @@ const handleParticipantsApply = async selectedKeys => {
   store.dispatch('conversationWatchers/show', {
     conversationId: props.conversationId,
   });
+};
+
+const isMuted = computed(() => Boolean(conversation.value?.muted));
+
+const handleMuteToggle = async () => {
+  medium();
+  if (isMuted.value) {
+    await store.dispatch('unmuteConversation', props.conversationId);
+    useAlert(t('CONTACT_PANEL.UNMUTED_SUCCESS'));
+  } else {
+    await store.dispatch('muteConversation', props.conversationId);
+    useAlert(t('CONTACT_PANEL.MUTED_SUCCESS'));
+  }
+};
+
+const handleShareConversation = async () => {
+  medium();
+  const url = `${window.location.origin}${frontendURL(
+    conversationUrl({
+      accountId: currentAccountId.value,
+      id: props.conversationId,
+    })
+  )}`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ url });
+    } catch {
+      // user dismissed the native share sheet
+    }
+    return;
+  }
+
+  await copyTextToClipboard(url);
+  useAlert(t('MOBILE.ACTIONS.MORE.LINK_COPIED'));
 };
 
 const refreshConversationSideData = () => {
@@ -622,6 +662,56 @@ watch(
             </span>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="px-4 pt-7">
+      <h3 class="mb-2 text-[13px] font-medium text-n-slate-10">
+        {{ t('MOBILE.ACTIONS.SECTIONS.MORE') }}
+      </h3>
+      <div
+        class="overflow-hidden rounded-2xl border border-n-weak bg-white dark:bg-n-background shadow-sm"
+      >
+        <button
+          class="flex w-full items-center gap-3 px-4 py-3 text-left active:bg-n-alpha-2"
+          @click="handleMuteToggle"
+        >
+          <span
+            class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11"
+          >
+            <span
+              class="size-5"
+              :class="isMuted ? 'i-lucide-bell' : 'i-lucide-bell-off'"
+            />
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-n-slate-12">
+              {{
+                isMuted
+                  ? t('MOBILE.ACTIONS.MORE.UNMUTE')
+                  : t('MOBILE.ACTIONS.MORE.MUTE')
+              }}
+            </p>
+          </div>
+          <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
+        </button>
+
+        <button
+          class="flex w-full items-center gap-3 border-t border-n-weak px-4 py-3 text-left active:bg-n-alpha-2"
+          @click="handleShareConversation"
+        >
+          <span
+            class="flex size-9 shrink-0 items-center justify-center rounded-full bg-n-surface-2 text-n-slate-11"
+          >
+            <span class="i-lucide-share size-5" />
+          </span>
+          <div class="min-w-0 flex-1">
+            <p class="truncate text-sm font-medium text-n-slate-12">
+              {{ t('MOBILE.ACTIONS.MORE.SHARE') }}
+            </p>
+          </div>
+          <span class="i-lucide-chevron-right size-4 text-n-slate-9" />
+        </button>
       </div>
     </section>
 

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useHaptics } from 'dashboard/composables/useHaptics';
+import { useStaggeredEnter } from 'dashboard/composables/useStaggeredEnter';
 
 import InboxCard from 'dashboard/components-next/Inbox/InboxCard.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -18,6 +19,7 @@ const emit = defineEmits(['openConversation']);
 const store = useStore();
 const { t } = useI18n();
 const { medium } = useHaptics();
+const { beforeEnter, afterEnter, enterCancelled } = useStaggeredEnter();
 
 const swipeOpenRowId = ref(null);
 provide('swipeOpenRowId', swipeOpenRowId);
@@ -181,7 +183,7 @@ onMounted(() => {
       <div
         ref="listRef"
         data-mobile-pull-scroll
-        class="flex-1 overflow-y-auto overscroll-y-contain px-2"
+        class="relative flex-1 overflow-y-auto overscroll-y-contain px-2"
       >
         <div
           v-if="showInitialLoader"
@@ -196,21 +198,34 @@ onMounted(() => {
           {{ t('MOBILE.INBOX.NO_NOTIFICATIONS') }}
         </div>
         <template v-else>
-          <MobileSwipeableRow
-            v-for="item in notifications"
-            :key="item.id"
-            :row-id="item.id"
-            :actions="inboxSwipeActions"
-            class="mb-0.5"
-            @action="onSwipeAction(item, $event)"
+          <TransitionGroup
+            appear
+            enter-from-class="opacity-0 translate-y-4 scale-[0.97]"
+            enter-active-class="transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            enter-to-class="opacity-100 translate-y-0 scale-100"
+            move-class="transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            leave-active-class="transition-all duration-200 ease-in !absolute left-2 right-2"
+            leave-to-class="opacity-0 scale-95"
+            @before-enter="beforeEnter"
+            @after-enter="afterEnter"
+            @enter-cancelled="enterCancelled"
           >
-            <InboxCard
-              :inbox-item="item"
-              :state-inbox="stateInbox(item.primaryActor?.inboxId)"
-              class="rounded-lg"
-              @click="openConversation(item)"
-            />
-          </MobileSwipeableRow>
+            <MobileSwipeableRow
+              v-for="item in notifications"
+              :key="item.id"
+              :row-id="item.id"
+              :actions="inboxSwipeActions"
+              class="mb-0.5"
+              @action="onSwipeAction(item, $event)"
+            >
+              <InboxCard
+                :inbox-item="item"
+                :state-inbox="stateInbox(item.primaryActor?.inboxId)"
+                class="rounded-lg"
+                @click="openConversation(item)"
+              />
+            </MobileSwipeableRow>
+          </TransitionGroup>
           <div v-if="showPaginationLoader" class="flex justify-center py-4">
             <Spinner class="text-n-brand" />
           </div>
