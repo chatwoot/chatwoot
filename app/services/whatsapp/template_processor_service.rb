@@ -45,6 +45,7 @@ class Whatsapp::TemplateProcessorService
     components.concat(process_body_components(processed_params, template))
     components.concat(process_footer_components(processed_params))
     components.concat(process_button_components(processed_params))
+    components.concat(process_flow_button_components(template, components))
 
     @template_params = components
   end
@@ -122,6 +123,37 @@ class Whatsapp::TemplateProcessorService
     end
 
     button_params.compact
+  end
+
+  # Templates containing FLOW buttons require a button component carrying a
+  # flow_token at send time — without it Meta rejects the message with error
+  # 131009 ("Parameter value is not valid"), which made flow templates
+  # impossible to send from the dashboard. We append the component
+  # automatically from the template definition, so no UI changes are needed.
+  # https://developers.facebook.com/docs/whatsapp/flows/guides/sendingaflow#templates
+  def process_flow_button_components(template, existing_components)
+    template_buttons = (template['components'] || []).select { |c| c['type'] == 'BUTTONS' }
+                                                     .flat_map { |c| c['buttons'] || [] }
+    template_buttons.each_with_index.filter_map do |button, index|
+      next unless button['type'].to_s.casecmp('FLOW').zero?
+      # Respect an explicit component if the caller already provided one for this index.
+      next if existing_components.any? { |c| c[:type] == 'button' && c[:index] == index }
+
+      {
+        type: 'button',
+        sub_type: 'flow',
+        index: index,
+        parameters: [{ type: 'action', action: { flow_token: flow_button_token } }]
+      }
+    end
+  end
+
+  # Unique, opaque token echoed back by Meta in the flow response (nfm_reply) —
+  # embedding the conversation id lets flow endpoints correlate completions
+  # with the originating conversation.
+  def flow_button_token
+    conversation_id = message&.conversation&.display_id
+    "chatwoot_#{conversation_id || 'na'}_#{(Time.now.to_f * 1000).to_i}"
   end
 
   def parameter_builder
