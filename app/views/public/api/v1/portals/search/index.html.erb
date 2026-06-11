@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.name %></title>
+  <title><%= I18n.t('public_portal.search.results_for', query: @query) %> | <%= @portal.localized_value('name', @locale) %></title>
 <% end %>
 
 <% search_input_class = 'w-full px-4 py-3 border border-slate-200 dark:border-slate-700 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent' %>
