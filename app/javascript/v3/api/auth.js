@@ -2,6 +2,7 @@ import {
   setAuthCredentials,
   throwErrorMessage,
   clearLocalStorageOnLogout,
+  parseAPIErrorResponse,
 } from 'dashboard/store/utils/api';
 import wootAPI from './apiClient';
 import {
@@ -42,8 +43,9 @@ export const login = async ({
         mfaToken: error.response.data.mfa_token,
       };
     }
-    throwErrorMessage(error);
-    return null;
+    const loginError = new Error(parseAPIErrorResponse(error));
+    loginError.errorCode = error.response?.data?.error_code;
+    throw loginError;
   }
 };
 

@@ -20,6 +20,8 @@
     "CALL": "Chiama",
     "CALL_INITIATED": "Chiamando il contatto…",
     "CALL_FAILED": "Impossibile avviare la chiamata. Riprova.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Clicca per modificare",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Scegli una inbox vocale"
@@ -386,6 +388,7 @@
       "IDENTIFIER": "Identificatore",
       "COUNTRY": "Paese",
       "CITY": "Città",
+      "COMPANY": "Azienda",
       "CREATED_AT": "Data creazione",
       "LAST_ACTIVITY": "Ultima attività",
       "REFERER_LINK": "Link referente",
@@ -582,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assegna Etichette",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etichette assegnate correttamente.",
     "ASSIGN_LABELS_FAILED": "Assegnazione delle etichette non riuscita",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Selezionare le etichette da aggiungere ai contatti selezionati.",
     "NO_LABELS_FOUND": "Nessuna etichetta disponibile.",
     "SELECTED_COUNT": "{count} selezionate",

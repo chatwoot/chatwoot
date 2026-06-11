@@ -44,11 +44,19 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[reaction ephemeral unsupported request_welcome].include?(message_type)
+    %w[reaction ephemeral request_welcome].include?(message_type)
   end
 
   def processed_waid(waid)
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
+  end
+
+  def whatsapp_phone_number(identifier)
+    identifier = identifier.to_s
+    return if identifier.blank?
+    return unless identifier.match?(/\A\d{1,15}\z/)
+
+    identifier
   end
 
   def error_webhook_event?(message)

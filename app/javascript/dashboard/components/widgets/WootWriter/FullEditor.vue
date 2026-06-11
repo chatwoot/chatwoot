@@ -7,6 +7,7 @@ import {
   ArticleMarkdownTransformer,
   EditorState,
   Selection,
+  imageResizeView,
 } from '@chatwoot/prosemirror-schema';
 import {
   suggestionsPlugin,
@@ -235,6 +236,7 @@ export default {
           const tr = editorView.state.tr.replaceSelectionWith(tableNode);
           editorView.dispatch(tr.scrollIntoView());
         },
+        imageUpload: () => this.openFileBrowser(),
       };
 
       const command = commandMap[actionKey];
@@ -332,6 +334,9 @@ export default {
     createEditorView() {
       editorView = new EditorView(this.$refs.editor, {
         state: state,
+        nodeViews: {
+          image: imageResizeView,
+        },
         dispatchTransaction: tx => {
           state = state.apply(tx);
           editorView.updateState(state);

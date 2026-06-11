@@ -100,6 +100,35 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:id]).to eq(inbox.id)
       end
 
+      it 'returns reauthorization_required for embedded signup whatsapp channel when reauth required' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
+                                                     validate_provider_config: false)
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['reauthorization_required']).to be(true)
+      end
+
+      it 'does not flag reauthorization_required for manual whatsapp channel even when reauth required' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', sync_templates: false,
+                                                     validate_provider_config: false)
+        whatsapp_channel.update!(provider_config: whatsapp_channel.provider_config.merge('source' => 'manual'))
+        whatsapp_inbox = create(:inbox, channel: whatsapp_channel, account: account)
+        whatsapp_channel.prompt_reauthorization!
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['reauthorization_required']).to be(false)
+      end
+
       it 'returns the inbox if assigned inbox is assigned as agent' do
         create(:inbox_member, user: agent, inbox: inbox)
         get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
@@ -568,8 +597,10 @@ RSpec.describe 'Inboxes API', type: :request do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
 
-        imap_connection = double
-        allow(Mail).to receive(:connection).and_return(imap_connection)
+        imap_connection = instance_double(Net::IMAP, disconnected?: false)
+        allow(Net::IMAP).to receive(:new).and_return(imap_connection)
+        allow(imap_connection).to receive(:login)
+        allow(imap_connection).to receive(:disconnect)
 
         patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
               headers: admin.create_new_auth_token,
@@ -578,7 +609,8 @@ RSpec.describe 'Inboxes API', type: :request do
                   imap_enabled: true,
                   imap_address: 'imap.gmail.com',
                   imap_port: 993,
-                  imap_login: 'imaptest@gmail.com'
+                  imap_login: 'imaptest@gmail.com',
+                  imap_authentication: 'login'
                 }
               },
               as: :json
@@ -587,6 +619,7 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.imap_enabled).to be true
         expect(email_channel.reload.imap_address).to eq('imap.gmail.com')
         expect(email_channel.reload.imap_port).to eq(993)
+        expect(email_channel.reload.imap_authentication).to eq('login')
       end
 
       it 'updates avatar when administrator' do
@@ -1003,6 +1036,19 @@ RSpec.describe 'Inboxes API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'does not allow binding an agent bot from another account' do
+        other_account = create(:account)
+        foreign_bot = create(:agent_bot, account: other_account)
+
+        post "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}/set_agent_bot",
+             headers: admin.create_new_auth_token,
+             params: { agent_bot: foreign_bot.id },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(inbox.reload.agent_bot).to be_nil
       end
     end
   end

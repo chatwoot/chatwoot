@@ -53,6 +53,10 @@ class SafeFetch::RequestOptions
     @validate_content_type
   end
 
+  def resolver
+    SsrfFilter::DEFAULT_RESOLVER
+  end
+
   private
 
   def default_max_bytes
