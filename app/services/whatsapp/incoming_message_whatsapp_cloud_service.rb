@@ -20,24 +20,10 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     return unless url_response.success?
 
     downloaded_file = Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
-    return downloaded_file if attachment_payload[:filename].blank?
-
-    tempfile_with_original_filename(downloaded_file, attachment_payload[:filename])
-  end
-
-  def tempfile_with_original_filename(downloaded_file, filename)
-    tempfile = Tempfile.new(
-      [
-        File.basename(filename, '.*'),
-        File.extname(filename)
-      ]
-    )
-
-    FileUtils.cp(downloaded_file.path, tempfile.path)
-
-    tempfile.define_singleton_method(:content_type) { downloaded_file.content_type }
-    tempfile.define_singleton_method(:original_filename) { filename }
-
-    tempfile
+    # WhatsApp Cloud sends the original filename in the payload; preserve it so accented
+    # names keep their correct extension instead of relying on the mangled remote metadata.
+    filename = attachment_payload[:filename]
+    downloaded_file.define_singleton_method(:original_filename) { filename } if filename.present?
+    downloaded_file
   end
 end
