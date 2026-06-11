@@ -1,4 +1,10 @@
 module Enterprise::Api::V1::Accounts::InboxesController
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :ensure_whatsapp_calling_supported, only: [:set_inbound_calls]
+  end
+
   def inbox_attributes
     super + ee_inbox_attributes
   end
@@ -23,7 +29,8 @@ module Enterprise::Api::V1::Accounts::InboxesController
 
   # Toggles only the inbound-calls flag in provider_config. Saved with validate: false
   # so WhatsApp's remote credential re-check (validate_provider_config) can't reject a
-  # simple toggle, mirroring enable_voice_calling!.
+  # simple toggle, mirroring enable_voice_calling!. Voice support is guarded by the
+  # ensure_whatsapp_calling_supported before_action.
   def set_inbound_calls
     channel = @inbox.channel
     channel.provider_config = (channel.provider_config || {}).merge(

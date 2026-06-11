@@ -665,10 +665,6 @@
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
       "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
-      "INBOUND": {
-        "LABEL": "Allow incoming calls",
-        "DESCRIPTION": "Let customers call this WhatsApp business number. When turned off, incoming calls are ignored — agents aren't notified and no conversation is created. Agents can still place outgoing calls."
-      },
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
