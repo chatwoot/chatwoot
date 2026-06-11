@@ -19,8 +19,11 @@ class Conversations::UnreadCounts::Counter
     ensure_base_cache!
     ensure_assignment_cache! if assignment_mode?
 
+    inbox_counts = unread_inbox_counts
+
     {
-      inboxes: unread_inbox_counts,
+      all_count: inbox_counts.values.sum,
+      inboxes: inbox_counts,
       labels: unread_label_counts,
       teams: unread_team_counts
     }
@@ -191,7 +194,7 @@ class Conversations::UnreadCounts::Counter
   end
 
   def empty_counts
-    { inboxes: {}, labels: {}, teams: {} }
+    { all_count: 0, inboxes: {}, labels: {}, teams: {} }
   end
 
   def store
