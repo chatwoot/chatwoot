@@ -72,6 +72,12 @@ class Whatsapp::IncomingCallService
   end
 
   def create_inbound_call(payload)
+    unless inbox.channel.inbound_calls_enabled?
+      Rails.logger.info "[WHATSAPP CALL] Inbound calls disabled for inbox #{inbox.id}; rejecting call #{payload[:id]}"
+      inbox.channel.provider_service.reject_call(payload[:id])
+      return
+    end
+
     sdp_offer = payload.dig(:session, :sdp)
     extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
     name = caller_profile_name(payload)
