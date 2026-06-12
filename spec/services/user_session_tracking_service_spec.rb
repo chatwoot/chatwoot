@@ -11,10 +11,6 @@ RSpec.describe UserSessionTrackingService do
     )
   end
   let(:service) { described_class.new(user: user, request: request, client_id: client_id) }
-  let(:geo_result) { OpenStruct.new(city: 'Mountain View', country: 'United States', country_code: 'US') }
-  let(:ip_lookup) { instance_double(IpLookupService, perform: geo_result) }
-
-  before { allow(IpLookupService).to receive(:new).and_return(ip_lookup) }
 
   describe '#create_or_update!' do
     it 'creates a new UserSession with the right client_id and timestamps' do
@@ -25,16 +21,23 @@ RSpec.describe UserSessionTrackingService do
       expect(session.last_activity_at).to be_within(1.second).of(Time.current)
     end
 
-    it 'populates request, browser, and geo metadata on the new session', :aggregate_failures do
+    it 'populates request and browser metadata synchronously', :aggregate_failures do
       service.create_or_update!
 
       session = user.user_sessions.last
       expect(session.ip_address).to eq('8.8.8.8')
       expect(session.browser_name).to eq('Safari')
       expect(session.platform_name).to eq('macOS')
-      expect(session.city).to eq('Mountain View')
-      expect(session.country).to eq('United States')
-      expect(session.country_code).to eq('US')
+    end
+
+    it 'does not call IpLookupService synchronously' do
+      expect(IpLookupService).not_to receive(:new)
+
+      service.create_or_update!
+    end
+
+    it 'enqueues UserSessionIpLookupJob to backfill geo data' do
+      expect { service.create_or_update! }.to have_enqueued_job(UserSessionIpLookupJob)
     end
 
     it 'updates an existing session when client_id matches' do
@@ -43,17 +46,6 @@ RSpec.describe UserSessionTrackingService do
       expect { service.create_or_update! }.not_to change(user.user_sessions, :count)
       expect(existing.reload.ip_address).to eq('8.8.8.8')
       expect(existing.last_activity_at).to be_within(1.second).of(Time.current)
-    end
-
-    it 'handles missing geo data gracefully' do
-      allow(ip_lookup).to receive(:perform).and_return(nil)
-
-      service.create_or_update!
-
-      session = user.user_sessions.last
-      expect(session.city).to be_nil
-      expect(session.country).to be_nil
-      expect(session.country_code).to be_nil
     end
   end
 

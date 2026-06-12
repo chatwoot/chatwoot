@@ -10,6 +10,7 @@ class UserSessionTrackingService
     session.assign_attributes(session_attributes)
     session.last_activity_at = Time.current
     session.save!
+    UserSessionIpLookupJob.perform_later(session) if session.ip_address.present?
     session
   end
 
@@ -24,7 +25,6 @@ class UserSessionTrackingService
 
   def session_attributes
     browser = Browser.new(@request.user_agent)
-    location = IpLookupService.new.perform(@request.remote_ip)
 
     {
       ip_address: @request.remote_ip,
@@ -33,10 +33,7 @@ class UserSessionTrackingService
       browser_version: browser.full_version,
       device_name: browser.device.name,
       platform_name: browser.platform.name,
-      platform_version: browser.platform.version,
-      city: location&.city,
-      country: location&.country,
-      country_code: location&.country_code
+      platform_version: browser.platform.version
     }
   end
 end
