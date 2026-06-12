@@ -1,5 +1,6 @@
 class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::BaseController
   before_action :set_reusable_attachment, only: [:show, :update, :destroy]
+  before_action :check_authorization, only: [:update, :destroy]
 
   def index
     @reusable_attachments = Current.account.reusable_attachments.order(created_at: :desc).with_attached_file
@@ -8,7 +9,7 @@ class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::Base
   def show; end
 
   def create
-    @reusable_attachment = Current.account.reusable_attachments.new(reusable_attachment_params)
+    @reusable_attachment = Current.account.reusable_attachments.new(reusable_attachment_params.merge(created_by_id: current_user.id))
 
     if @reusable_attachment.save
       render json: @reusable_attachment.as_json, status: :created
@@ -34,6 +35,10 @@ class Api::V1::Accounts::ReusableAttachmentsController < Api::V1::Accounts::Base
 
   def set_reusable_attachment
     @reusable_attachment = Current.account.reusable_attachments.find(params[:id])
+  end
+
+  def check_authorization
+    authorize(@reusable_attachment)
   end
 
   def reusable_attachment_params

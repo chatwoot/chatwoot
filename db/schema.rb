@@ -1179,6 +1179,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.bigint "account_id", null: false
     t.string "name", null: false
     t.integer "file_type", default: 0, null: false
+    t.bigint "created_by_id"
     t.string "extension"
     t.text "description"
     t.datetime "created_at", null: false

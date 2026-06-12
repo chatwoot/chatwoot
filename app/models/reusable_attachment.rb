@@ -2,18 +2,29 @@
 #
 # Table name: reusable_attachments
 #
-#  id          :bigint           not null, primary key
-#  account_id  :bigint           not null
-#  name        :string           not null
-#  file_type   :integer          default(0), not null
-#  extension   :string
-#  description :text
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id            :bigint           not null, primary key
+#  description   :text
+#  extension     :string
+#  file_type     :integer          default("image"), not null
+#  name          :string           not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  account_id    :bigint           not null
+#  created_by_id :bigint
+#
+# Indexes
+#
+#  index_reusable_attachments_on_account_id           (account_id)
+#  index_reusable_attachments_on_account_id_and_name  (account_id,name)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
 #
 
 class ReusableAttachment < ApplicationRecord
   belongs_to :account
+  belongs_to :created_by, class_name: 'User', optional: true
   # dependent: false prevents purging shared blobs on destroy.
   # Blobs used in message attachments must not be purged when the reusable handle is deleted.
   # Note: blobs never referenced by a message will remain in storage after destroy.

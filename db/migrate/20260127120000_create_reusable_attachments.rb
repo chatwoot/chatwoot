@@ -4,6 +4,7 @@ class CreateReusableAttachments < ActiveRecord::Migration[7.0]
       t.references :account, null: false, foreign_key: { on_delete: :cascade }, index: true
       t.string :name, null: false
       t.integer :file_type, default: 0, null: false
+      t.bigint :created_by_id
       t.string :extension
       t.text :description
 
