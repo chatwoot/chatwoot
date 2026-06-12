@@ -69,18 +69,20 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
-  # Enables voice: turns calling on at Meta (idempotent), sets calling_enabled,
-  # then re-registers webhooks so the `calls` field is subscribed. Raises on Meta
-  # failure. Saved with validate: false to skip validate_provider_config's remote
-  # credential re-check, which could spuriously fail and desync the flag from Meta.
+  # Enables voice: turns calling on at Meta (idempotent), then re-registers webhooks
+  # with the in-memory calling_enabled flag so the `calls` field is subscribed. The
+  # flag is persisted only after registration succeeds, so a webhook failure can't
+  # leave the inbox reporting voice_enabled? while the WABA isn't subscribed to calls.
+  # Saved with validate: false to skip validate_provider_config's remote credential
+  # re-check, which could spuriously fail and desync the flag from Meta.
   def enable_voice_calling!
     raise 'WhatsApp calling requires a whatsapp_cloud inbox' unless voice_calling_supported?
     raise 'WhatsApp calling requires the channel_voice feature' unless account.feature_enabled?('channel_voice')
 
     provider_service.update_calling_status('ENABLED')
     self.provider_config = provider_config.merge('calling_enabled' => true)
-    save!(validate: false)
     webhook_setup_service.register_callback
+    save!(validate: false)
   end
 
   # Disables voice: unsets calling_enabled (gates the call subsystem) and re-registers
