@@ -175,6 +175,9 @@ useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+const allUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getAllUnreadCount'
+);
 const getInboxUnreadCount = useMapGetter(
   'conversationUnreadCounts/getInboxUnreadCount'
 );
@@ -297,6 +300,7 @@ const menuItems = computed(() => {
         {
           name: 'All',
           label: t('SIDEBAR.ALL_CONVERSATIONS'),
+          badgeCount: allUnreadCount.value,
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },

@@ -49,6 +49,11 @@ class Channel::Whatsapp < ApplicationRecord
       account.feature_enabled?('channel_voice')
   end
 
+  # Mutes only the incoming side of calling; default on, so only an explicit false disables inbound.
+  def inbound_calls_enabled?
+    provider_config['inbound_calls_enabled'] != false
+  end
+
   # Whether this inbox can do WhatsApp calling at all. Meta's Calling API is
   # reachable by any whatsapp_cloud inbox, so 360dialog inboxes can't be toggled
   # on even though calling_enabled would persist.

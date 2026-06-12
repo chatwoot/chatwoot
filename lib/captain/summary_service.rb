@@ -24,4 +24,8 @@ class Captain::SummaryService < Captain::BaseTaskService
   def event_name
     'summarize'
   end
+
+  def use_account_openai_hook?
+    true
+  end
 end
