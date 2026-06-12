@@ -60,7 +60,7 @@ class Whatsapp::FacebookApiClient
     data['code_verification_status'] == 'VERIFIED'
   end
 
-  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes calls].freeze
+  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
 
   def subscribe_waba_webhook(waba_id, callback_url, verify_token, subscribed_fields: WEBHOOK_DEFAULT_FIELDS)
     # Step 1: Subscribe app to WABA first (required before override)

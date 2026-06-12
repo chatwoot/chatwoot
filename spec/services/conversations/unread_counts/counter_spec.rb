@@ -62,6 +62,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: agent).perform
 
     expect(result).to eq(
+      all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 1 },
       teams: { visible_team.id.to_s => 1 }
@@ -75,6 +76,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: admin).perform
 
     expect(result).to eq(
+      all_count: 2,
       inboxes: { visible_inbox.id.to_s => 1, hidden_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 2 },
       teams: { visible_team.id.to_s => 2 }
@@ -87,6 +89,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     result = described_class.new(account: account, user: agent).perform
 
     expect(result).to eq(
+      all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: {},
       teams: { visible_team.id.to_s => 1 }
