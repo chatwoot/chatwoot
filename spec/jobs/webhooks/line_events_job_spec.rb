@@ -46,7 +46,7 @@ RSpec.describe Webhooks::LineEventsJob do
 
       job_instance.perform(params: params, post_body: post_body, signature: signature)
 
-      expect(job_instance).to have_received(:with_lock).with(lock_key, 5.minutes)
+      expect(job_instance).to have_received(:with_lock).with(lock_key, 10.seconds)
       expect(process_service).to have_received(:perform)
     end
   end
