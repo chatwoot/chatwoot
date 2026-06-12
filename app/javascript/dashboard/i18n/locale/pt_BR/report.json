@@ -513,7 +513,7 @@
         "TOOLTIP": "Número total de respostas enviadas pelo bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Tempo de resolução",
+        "LABEL": "Taxa de resolução",
         "TOOLTIP": "Número total de conversas resolvidas pelo bot / número total de conversas manipuladas pelo bot * 100"
       },
       "HANDOFF_RATE": {
