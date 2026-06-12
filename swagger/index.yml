@@ -49,6 +49,8 @@ tags:
     description: Agent management APIs
   - name: Canned Responses
     description: Pre-defined responses for common queries
+  - name: Reusable Attachments
+    description: Pre-uploaded files reusable across messages
   - name: Contacts
     description: Contact management APIs
   - name: Contact Labels
@@ -105,6 +107,7 @@ x-tagGroups:
       - Agents
       - Audit Logs
       - Canned Responses
+      - Reusable Attachments
       - Contacts
       - Contact Labels
       - Conversation Assignments
