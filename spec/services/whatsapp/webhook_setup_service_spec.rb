@@ -290,8 +290,8 @@ describe Whatsapp::WebhookSetupService do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token', subscribed_fields: %w[messages
-                                                                                                                                    smb_message_echoes])
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token',
+                  subscribed_fields: %w[messages smb_message_echoes])
           service_reauth.perform
         end
       end
