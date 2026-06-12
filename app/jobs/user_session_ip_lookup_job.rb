@@ -1,5 +1,5 @@
 class UserSessionIpLookupJob < ApplicationJob
-  queue_as :default
+  queue_as :low
 
   def perform(session)
     return if session.ip_address.blank?
