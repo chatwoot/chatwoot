@@ -69,8 +69,10 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
-  # Enables voice: turns calling on at Meta (idempotent), subscribes the `calls`
-  # webhook field, and sets calling_enabled. Raises on Meta failure.
+  # Enables voice: turns calling on at Meta (idempotent), then re-registers webhooks
+  # with the in-memory calling_enabled flag so the `calls` field is subscribed. The
+  # flag is persisted only after registration succeeds, so a webhook failure can't
+  # leave the inbox reporting voice_enabled? while the WABA isn't subscribed to calls.
   # Saved with validate: false to skip validate_provider_config's remote credential
   # re-check, which could spuriously fail and desync the flag from Meta.
   def enable_voice_calling!
@@ -78,21 +80,21 @@ class Channel::Whatsapp < ApplicationRecord
     raise 'WhatsApp calling requires the channel_voice feature' unless account.feature_enabled?('channel_voice')
 
     provider_service.update_calling_status('ENABLED')
-    webhook_setup_service.register_callback
     self.provider_config = provider_config.merge('calling_enabled' => true)
+    webhook_setup_service.register_callback
     save!(validate: false)
   end
 
-  # Disables voice: unsets calling_enabled (gates the call subsystem) and drops
-  # `calls` from the webhook subscription (best-effort, so a Meta outage can't
-  # trap admins). Leaves Meta's WABA calling.status untouched.
+  # Disables voice: unsets calling_enabled (gates the call subsystem) and re-registers
+  # webhooks, which drops `calls` from the subscription (best-effort, so a Meta outage
+  # can't trap admins). Leaves Meta's WABA calling.status untouched.
   def disable_voice_calling!
     raise 'WhatsApp calling requires a whatsapp_cloud inbox' unless voice_calling_supported?
 
     self.provider_config = provider_config.merge('calling_enabled' => false)
     save!(validate: false)
     begin
-      webhook_setup_service.register_callback(subscribed_fields: %w[messages smb_message_echoes])
+      webhook_setup_service.register_callback
     rescue StandardError => e
       Rails.logger.warn "[WHATSAPP CALL] disable webhook re-subscribe failed: #{e.message}"
     end
