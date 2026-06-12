@@ -111,4 +111,40 @@ RSpec.describe 'Onboarding API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/onboarding/help_center_generation' do
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation", as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as an agent (non-admin)' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation",
+            headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when no help center generation has started' do
+      it 'returns not_started with zero counts' do
+        get "/api/v1/accounts/#{account.id}/onboarding/help_center_generation",
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to include(
+          'generation_id' => nil,
+          'state' => nil,
+          'articles_count' => 0,
+          'categories_count' => 0
+        )
+      end
+    end
+  end
 end
