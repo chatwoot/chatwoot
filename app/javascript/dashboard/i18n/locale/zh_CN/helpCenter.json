@@ -700,7 +700,25 @@
           "MAKE_DEFAULT": "设为默认",
           "MOVE_TO_DRAFT": "移至草稿",
           "PUBLISH_LOCALE": "发布语言环境",
+          "CUSTOMIZE_CONTENT": "本地化内容",
           "DELETE": "删除"
+        }
+      },
+      "CONTENT_DIALOG": {
+        "TITLE": "本地化内容",
+        "DESCRIPTION": "设置此语言环境专用的内容。留空的项目将回退到默认语言环境。",
+        "NAME": {
+          "LABEL": "名称"
+        },
+        "PAGE_TITLE": {
+          "LABEL": "页面标题"
+        },
+        "HEADER_TEXT": {
+          "LABEL": "页眉文本"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "语言环境内容更新成功",
+          "ERROR_MESSAGE": "无法更新语言环境内容，请重试。"
         }
       },
       "ADD_LOCALE_DIALOG": {

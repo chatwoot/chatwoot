@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "正在通过 Meta 进行身份验证",
           "WAITING_FOR_BUSINESS_INFO": "请在 Meta 窗口中完成业务设置...",
           "PROCESSING": "正在设置您的 WhatsApp Business 账户",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
+          "ENABLING_CALLING": "正在为您的号码启用 WhatsApp 通话…",
           "LOADING_SDK": "加载 Facebook SDK...",
           "CANCELLED": "WhatsApp 注册已取消",
           "SUCCESS_TITLE": "WhatsApp Business 账户已连接！",
@@ -319,7 +319,7 @@
           "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "手动设置流程",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "您的 WhatsApp 收件箱已就绪，但无法启用语音通话：此号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后在收件箱的“通话”设置中启用通话。"
         },
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
@@ -468,7 +468,7 @@
             "DESCRIPTION": "在 WhatsApp 上回应您的客户"
           },
           "WHATSAPP_CALL": {
-            "TITLE": "WhatsApp Call",
+            "TITLE": "WhatsApp 通话",
             "DESCRIPTION": "在您的 WhatsApp 号码上接听语音通话"
           },
           "EMAIL": {
@@ -660,14 +660,14 @@
         "LABEL": "启用 WhatsApp 通话",
         "DESCRIPTION": "允许客服在此收件箱上接听和拨打 WhatsApp Cloud 通话。客户可以直接从 WhatsApp 拨打此商业号码。"
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "无法为此号码启用语音通话：该号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后重试。",
       "PHONE_NUMBER": {
         "LABEL": "商业电话号码",
         "HELP_TEXT": "客户将拨打的 WhatsApp 号码。"
       },
       "HOW_IT_WORKS": {
         "LABEL": "工作原理",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "通话通过客服浏览器与 Meta 之间的点对点连接进行，无需额外凭据。请确保客服浏览器已授予本站麦克风权限。"
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "通话权限请求消息",

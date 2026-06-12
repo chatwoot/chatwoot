@@ -233,6 +233,7 @@
       "TIP_AUDIORECORDER_ERROR": "无法打开音频",
       "AUDIO_CONVERSION_FAILED": "音频转换失败，请重试。",
       "DRAG_DROP": "拖放到此处添加附件",
+      "IMAGE_UPLOAD_SUCCESS": "图片上传成功",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
       "COPILOT_THINKING": "Copilot 正在思考",
