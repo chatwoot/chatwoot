@@ -1,6 +1,6 @@
 class Webhooks::LineEventsJob < MutexApplicationJob
   queue_as :default
-  retry_on LockAcquisitionError, wait: 1.second, attempts: 8
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 8
 
   def perform(params: {}, signature: '', post_body: '')
     @params = params
@@ -9,7 +9,7 @@ class Webhooks::LineEventsJob < MutexApplicationJob
 
     key = format(::Redis::Alfred::LINE_MESSAGE_MUTEX, line_channel_id: @params[:line_channel_id])
 
-    with_lock(key, 5.minutes) do
+    with_lock(key, 10.seconds) do
       Line::IncomingMessageService.new(inbox: @channel.inbox, params: @params['line'].with_indifferent_access).perform
     end
   end
