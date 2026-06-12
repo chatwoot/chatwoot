@@ -147,7 +147,7 @@ class Whatsapp::IncomingMessageBaseService
 
   def attach_location
     location = messages_data.first['location']
-    location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
+    location_name = (location['name'] ? "#{location['name']}, #{location['address']}" : '').first(255)
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),

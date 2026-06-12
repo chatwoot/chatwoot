@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_04_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -557,6 +557,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.boolean "voice_enabled", default: false, null: false
     t.string "twiml_app_sid"
     t.string "api_key_secret"
+    t.jsonb "provider_config", default: {}
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true

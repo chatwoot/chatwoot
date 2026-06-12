@@ -54,7 +54,9 @@ export const useCallsStore = defineStore('calls', {
         return;
       }
 
-      this.calls.push({
+      // Prepend so the newest call surfaces as the primary card (incomingCalls[0])
+      // and older calls drop into the stack below it.
+      this.calls.unshift({
         ...callData,
         isActive: false,
       });

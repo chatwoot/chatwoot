@@ -14,7 +14,7 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
   def find
     return nil if mail.in_reply_to.blank?
 
-    in_reply_to_addresses = Array.wrap(mail.in_reply_to)
+    in_reply_to_addresses = sanitize_mailbox_value(Array.wrap(mail.in_reply_to))
 
     in_reply_to_addresses.each do |in_reply_to|
       # Try extracting UUID from patterns

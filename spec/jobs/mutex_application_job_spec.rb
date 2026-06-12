@@ -55,4 +55,57 @@ RSpec.describe MutexApplicationJob do
       end.to raise_error(StandardError)
     end
   end
+
+  describe '.retry_on_lock_conflict' do
+    let(:job_class) do
+      Class.new(MutexApplicationJob) do
+        retry_on_lock_conflict wait: 1.second, attempts: 1, on_exhaustion: :process_without_lock
+
+        attr_reader :fallback_args
+
+        def perform(lock_key, _payload)
+          with_lock(lock_key) { raise 'lock should not be acquired' }
+        end
+
+        def process_without_lock(lock_key, payload)
+          @fallback_args = [lock_key, payload]
+        end
+      end
+    end
+
+    let(:payload) { { 'message' => 'hello' } }
+
+    before do
+      stub_const('LockConflictTestJob', job_class)
+    end
+
+    it 'runs the configured handler with the original job arguments when lock retries are exhausted' do
+      allow(lock_manager).to receive(:lock).with(lock_key, Redis::LockManager::LOCK_TIMEOUT).and_return(false)
+
+      job = job_class.new(lock_key, payload)
+
+      expect { job.perform_now }.not_to raise_error
+      expect(job.fallback_args).to eq([lock_key, payload])
+    end
+
+    context 'without an exhaustion handler' do
+      let(:job_class) do
+        Class.new(MutexApplicationJob) do
+          retry_on_lock_conflict wait: 1.second, attempts: 1
+
+          def perform(lock_key)
+            with_lock(lock_key) { raise 'lock should not be acquired' }
+          end
+        end
+      end
+
+      it 'raises the lock acquisition error when retries are exhausted' do
+        allow(lock_manager).to receive(:lock).with(lock_key, Redis::LockManager::LOCK_TIMEOUT).and_return(false)
+
+        expect do
+          job_class.perform_now(lock_key)
+        end.to raise_error(StandardError) { |error| expect(error.class.name).to eq('MutexApplicationJob::LockAcquisitionError') }
+      end
+    end
+  end
 end

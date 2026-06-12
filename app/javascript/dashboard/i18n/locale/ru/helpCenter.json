@@ -607,9 +607,12 @@
         "DRAFT": "Черновик",
         "ARCHIVE": "Архив",
         "TRANSLATE": "Перевести",
+        "MOVE_TO_CATEGORY": "Категория",
         "DELETE": "Удалить",
         "STATUS_SUCCESS": "Статьи успешно обновлены",
         "STATUS_ERROR": "Ошибка обновления статей",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Удаление статьи | Удалить статьи {count}",
         "DELETE_CONFIRM_DESCRIPTION": "Это действие будет окончательно удалено выбранной статьи. Это действие не может быть отменено. | Это действие будет окончательно удалено {count} выбранных статей. Это действие нельзя отменить.",
         "DELETE_CONFIRM": "Удалить",
@@ -865,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Изменить конфигурацию"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Образец",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Удалить"
+        },
+        "SAVE": "Сохранить изменения"
       },
       "API": {
         "CREATE_PORTAL": {
