@@ -102,7 +102,15 @@ describe('#mutations', () => {
       });
     });
 
-    it('drops preserved contact_inboxes when identifying addresses change', () => {
+    it('drops only email-channel contact_inboxes when the email changes', () => {
+      const apiInbox = {
+        source_id: 'uuid-api-1',
+        inbox: { id: 3, channel_type: 'Channel::Api' },
+      };
+      const whatsappInbox = {
+        source_id: '10000000000',
+        inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+      };
       const state = {
         records: {
           1: {
@@ -110,7 +118,14 @@ describe('#mutations', () => {
             name: 'contact1',
             email: 'alice@old.com',
             phone_number: '+10000000000',
-            contact_inboxes: [{ source_id: 'alice@old.com', inbox: { id: 1 } }],
+            contact_inboxes: [
+              {
+                source_id: 'alice@old.com',
+                inbox: { id: 1, channel_type: 'Channel::Email' },
+              },
+              whatsappInbox,
+              apiInbox,
+            ],
           },
         },
       };
@@ -120,8 +135,49 @@ describe('#mutations', () => {
         email: 'alice@new.com',
         phone_number: '+10000000000',
       });
-      expect(state.records[1].contact_inboxes).toBeUndefined();
+      // the email-channel entry points at the stale address and is dropped;
+      // phone-derived and API entries are unaffected by the email change
+      expect(state.records[1].contact_inboxes).toEqual([
+        whatsappInbox,
+        apiInbox,
+      ]);
       expect(state.records[1].email).toEqual('alice@new.com');
+    });
+
+    it('drops phone-channel contact_inboxes when the phone number changes', () => {
+      const emailInbox = {
+        source_id: 'alice@example.com',
+        inbox: { id: 1, channel_type: 'Channel::Email' },
+      };
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [
+              emailInbox,
+              {
+                source_id: '10000000000',
+                inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+              },
+              {
+                // Twilio WhatsApp source_ids embed the phone with the `+`
+                source_id: 'whatsapp:+10000000000',
+                inbox: { id: 4, channel_type: 'Channel::TwilioSms' },
+              },
+            ],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: 'alice@example.com',
+        phone_number: '+19999999999',
+      });
+      expect(state.records[1].contact_inboxes).toEqual([emailInbox]);
     });
   });
 

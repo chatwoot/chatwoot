@@ -60,20 +60,38 @@ export const mutations = {
   [types.EDIT_CONTACT]: ($state, data) => {
     // Websocket `contact.updated` payloads don't include `contact_inboxes`;
     // preserve them from the existing record so the new conversation modal
-    // doesn't lose the list of contactable inboxes. Contactable inboxes are
-    // derived from the contact's current email/phone_number, so only carry
-    // them over when those identifying addresses are unchanged — otherwise
-    // drop them rather than risk composing to a stale address.
+    // doesn't lose the list of contactable inboxes. Channels that derive
+    // their source_id from an identifying address (email / phone number)
+    // are dropped when that address changes — their entries would point at
+    // the stale address; other channels (API, web widget, …) are kept.
+    const EMAIL_CHANNELS = ['Channel::Email'];
+    const PHONE_CHANNELS = [
+      'Channel::Whatsapp',
+      'Channel::Sms',
+      'Channel::TwilioSms',
+    ];
     const existingContact = $state.records[data.id] || {};
-    const addressesUnchanged =
-      data.email === existingContact.email &&
-      data.phone_number === existingContact.phone_number;
-    $state.records[data.id] = {
-      ...data,
-      contact_inboxes:
-        data.contact_inboxes ||
-        (addressesUnchanged ? existingContact.contact_inboxes : undefined),
-    };
+    let contactInboxes = data.contact_inboxes;
+    if (!contactInboxes && existingContact.contact_inboxes) {
+      const staleChannels = [];
+      if (existingContact.email && data.email !== existingContact.email) {
+        staleChannels.push(...EMAIL_CHANNELS);
+      }
+      if (
+        existingContact.phone_number &&
+        data.phone_number !== existingContact.phone_number
+      ) {
+        staleChannels.push(...PHONE_CHANNELS);
+      }
+      contactInboxes = existingContact.contact_inboxes.filter(
+        contactInbox => !staleChannels.includes(contactInbox.inbox?.channel_type)
+      );
+    }
+    const record = { ...data };
+    if (contactInboxes !== undefined) {
+      record.contact_inboxes = contactInboxes;
+    }
+    $state.records[data.id] = record;
   },
 
   [types.DELETE_CONTACT]: ($state, id) => {
