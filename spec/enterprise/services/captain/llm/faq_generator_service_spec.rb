@@ -53,13 +53,26 @@ RSpec.describe Captain::Llm::FaqGeneratorService do
     end
 
     context 'when LLM API fails' do
-      before do
+      before { allow(Rails.logger).to receive(:error) }
+
+      it 'returns empty array and logs the error for RubyLLM errors' do
         allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))
-        allow(Rails.logger).to receive(:error)
+
+        expect(Rails.logger).to receive(:error).with('LLM API Error: API Error')
+        expect(service.generate).to eq([])
       end
 
-      it 'returns empty array and logs the error' do
-        expect(Rails.logger).to receive(:error).with('LLM API Error: API Error')
+      it 'returns empty array and logs the error for Faraday timeout errors' do
+        allow(mock_chat).to receive(:ask).and_raise(Faraday::TimeoutError.new('execution expired'))
+
+        expect(Rails.logger).to receive(:error).with('LLM API Error (transport): execution expired')
+        expect(service.generate).to eq([])
+      end
+
+      it 'returns empty array and logs the error for Faraday connection errors' do
+        allow(mock_chat).to receive(:ask).and_raise(Faraday::ConnectionFailed.new('connection failed'))
+
+        expect(Rails.logger).to receive(:error).with('LLM API Error (transport): connection failed')
         expect(service.generate).to eq([])
       end
     end
