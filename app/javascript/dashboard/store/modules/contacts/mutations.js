@@ -1,6 +1,16 @@
 import types from '../../mutation-types';
 import * as Sentry from '@sentry/vue';
 
+// Channels whose contact_inbox source_id derives from an identifying address
+// of the contact (see Contacts::ContactableInboxesService and
+// ContactInboxBuilder): their entries go stale when that address changes.
+const EMAIL_CHANNELS = ['Channel::Email'];
+const PHONE_CHANNELS = [
+  'Channel::Whatsapp',
+  'Channel::Sms',
+  'Channel::TwilioSms',
+];
+
 export const mutations = {
   [types.SET_CONTACT_UI_FLAG]($state, data) {
     $state.uiFlags = {
@@ -60,16 +70,11 @@ export const mutations = {
   [types.EDIT_CONTACT]: ($state, data) => {
     // Websocket `contact.updated` payloads don't include `contact_inboxes`;
     // preserve them from the existing record so the new conversation modal
-    // doesn't lose the list of contactable inboxes. Channels that derive
-    // their source_id from an identifying address (email / phone number)
-    // are dropped when that address changes — their entries would point at
-    // the stale address; other channels (API, web widget, …) are kept.
-    const EMAIL_CHANNELS = ['Channel::Email'];
-    const PHONE_CHANNELS = [
-      'Channel::Whatsapp',
-      'Channel::Sms',
-      'Channel::TwilioSms',
-    ];
+    // doesn't lose the list of contactable inboxes. When the payload omits
+    // them and an identifying address changed, the channels deriving their
+    // source_id from that address are dropped (their entries would point at
+    // the stale address) while other channels (API, web widget, …) are
+    // kept. Payloads that do carry contact_inboxes are taken as-is.
     const existingContact = $state.records[data.id] || {};
     let contactInboxes = data.contact_inboxes;
     if (!contactInboxes && existingContact.contact_inboxes) {
@@ -91,7 +96,8 @@ export const mutations = {
         staleChannels.push(...PHONE_CHANNELS);
       }
       contactInboxes = existingContact.contact_inboxes.filter(
-        contactInbox => !staleChannels.includes(contactInbox.inbox?.channel_type)
+        contactInbox =>
+          !staleChannels.includes(contactInbox.inbox?.channel_type)
       );
     }
     const record = { ...data };
