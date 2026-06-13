@@ -73,11 +73,18 @@ export const mutations = {
     const existingContact = $state.records[data.id] || {};
     let contactInboxes = data.contact_inboxes;
     if (!contactInboxes && existingContact.contact_inboxes) {
+      // An address only counts as changed when the payload carries the field
+      // and a previous value is known — payloads that omit it say nothing.
       const staleChannels = [];
-      if (existingContact.email && data.email !== existingContact.email) {
+      if (
+        data.email !== undefined &&
+        existingContact.email &&
+        data.email !== existingContact.email
+      ) {
         staleChannels.push(...EMAIL_CHANNELS);
       }
       if (
+        data.phone_number !== undefined &&
         existingContact.phone_number &&
         data.phone_number !== existingContact.phone_number
       ) {

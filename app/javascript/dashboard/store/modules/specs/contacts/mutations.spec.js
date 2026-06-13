@@ -102,6 +102,33 @@ describe('#mutations', () => {
       });
     });
 
+    it('keeps address-derived contact_inboxes when the payload omits the identifier fields', () => {
+      const contactInboxes = [
+        {
+          source_id: 'alice@example.com',
+          inbox: { id: 1, channel_type: 'Channel::Email' },
+        },
+        {
+          source_id: '10000000000',
+          inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+        },
+      ];
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: contactInboxes,
+          },
+        },
+      };
+      // name-only partial update: no email/phone_number keys in the payload
+      mutations[types.EDIT_CONTACT](state, { id: 1, name: 'contact2' });
+      expect(state.records[1].contact_inboxes).toEqual(contactInboxes);
+    });
+
     it('drops only email-channel contact_inboxes when the email changes', () => {
       const apiInbox = {
         source_id: 'uuid-api-1',
