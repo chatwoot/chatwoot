@@ -244,6 +244,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    it('should match conversation with equal_to operator for contact_id', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: { id: 42, name: 'Jane Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match conversation with saved contact_id filter values', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: [42],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     // Standard attribute tests - priority
     it('should match conversation with equal_to operator for priority', () => {
       const conversation = { priority: 'urgent' };
@@ -414,6 +440,40 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Multi-label equal_to uses OR semantics to mirror the backend SQL `tag_id IN (...)`:
+    // a conversation matches if ANY of the filter labels is on it.
+    it('should match conversation with equal_to operator when any of multiple filter labels is present', () => {
+      const conversation = { labels: ['support'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with equal_to operator when none of multiple filter labels is present', () => {
+      const conversation = { labels: ['new'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
     it('should match conversation with is_present operator for labels', () => {

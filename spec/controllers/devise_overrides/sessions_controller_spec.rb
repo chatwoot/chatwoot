@@ -163,4 +163,21 @@ RSpec.describe DeviseOverrides::SessionsController, type: :controller do
       expect(response).to redirect_to('/frontend/app/login?error=access-denied')
     end
   end
+
+  describe 'session tracking' do
+    let(:user) { create(:user, password: 'Test@123456') }
+    let(:browser_ua) { 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2.1 Safari/605.1.15' }
+
+    context 'with a successful login' do
+      before { request.env['HTTP_USER_AGENT'] = browser_ua }
+
+      it 'creates a UserSession row for the new client_id' do
+        expect { post :create, params: { email: user.email, password: 'Test@123456' } }.to change(user.user_sessions, :count).by(1)
+
+        session = user.user_sessions.last
+        expect(session.browser_name).to eq('Safari')
+        expect(session.platform_name).to eq('macOS')
+      end
+    end
+  end
 end

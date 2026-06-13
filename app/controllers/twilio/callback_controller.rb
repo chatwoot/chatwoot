@@ -31,7 +31,11 @@ class Twilio::CallbackController < ApplicationController
       :Latitude,
       :Longitude,
       :MessageType,
-      :ProfileName
+      :ProfileName,
+      :ExternalUserId,
+      :ParentExternalUserId,
+      :ProfileUsername,
+      :Username
     )
   end
 end

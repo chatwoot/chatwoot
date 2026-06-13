@@ -20,6 +20,8 @@
     "CALL": "통화",
     "CALL_INITIATED": "연락처에 전화 거는 중...",
     "CALL_FAILED": "통화를 시작할 수 없습니다. 다시 시도하십시오.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "음성 받은 메시지함 선택"
@@ -386,6 +388,7 @@
       "IDENTIFIER": "식별자",
       "COUNTRY": "국가",
       "CITY": "도시",
+      "COMPANY": "회사",
       "CREATED_AT": "생성일",
       "LAST_ACTIVITY": "최근 활동",
       "REFERER_LINK": "참조 링크",
@@ -582,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "라벨 배정",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "라벨이 성공적으로 배정되었습니다.",
     "ASSIGN_LABELS_FAILED": "라벨 배정에 실패했습니다",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "선택한 연락처에 추가할 라벨을 선택하십시오.",
     "NO_LABELS_FOUND": "사용 가능한 라벨이 없습니다.",
     "SELECTED_COUNT": "{count}개 선택됨",

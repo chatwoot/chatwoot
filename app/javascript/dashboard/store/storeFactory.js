@@ -134,10 +134,13 @@ export const createVuexStore = options => {
  * @returns {Function} Pinia store composable
  */
 export const createPiniaStore = options => {
-  const { name, API, actions, getters } = options;
+  const { name, API, actions, getters, state } = options;
 
   return defineStore(name.toLowerCase(), {
-    state: createInitialState,
+    state: () => ({
+      ...createInitialState(),
+      ...(state ? state() : {}),
+    }),
 
     getters: {
       ...createGetters(),

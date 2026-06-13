@@ -1,0 +1,34 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Bonjour {name} !",
+    "SUBTITLE": "Veuillez vérifier les informations suivantes",
+    "YOUR_DETAILS": "Vos informations",
+    "COMPANY_DETAILS": "Company details",
+    "FIELDS": {
+      "EMAIL": "Courriel",
+      "YOUR_ROLE": "Votre rôle",
+      "WEBSITE": "Site internet",
+      "LANGUAGE": "Langue",
+      "TIMEZONE": "Fuseau horaire",
+      "COMPANY_SIZE": "Taille de l'entreprise",
+      "INDUSTRY": "Secteur d'activité",
+      "REFERRAL_SOURCE": "Where did you find us?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Sélectionnez votre rôle",
+      "ENTER_WEBSITE": "www.exemple.fr",
+      "SELECT_LANGUAGE": "Sélectionner la langue",
+      "SELECT_TIMEZONE": "Sélectionnez le fuseau horaire",
+      "SELECT_COMPANY_SIZE": "Sélectionnez la taille de l'entreprise",
+      "SELECT_INDUSTRY": "Sélectionnez un secteur d'activité",
+      "SELECT_REFERRAL_SOURCE": "Select source"
+    },
+    "EMAIL_VERIFIED": "Email verified",
+    "SETTING_UP": "Setting up your account...",
+    "CONTINUE": "Continue",
+    "SAVING": "Enregistrement en cours...",
+    "VALIDATION_ERROR": "Please fill in all required fields",
+    "SUCCESS": "Les informations ont été enregistrées avec succès",
+    "ERROR": "Could not save details. Please try again."
+  }
+}

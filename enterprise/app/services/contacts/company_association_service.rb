@@ -9,6 +9,7 @@ class Contacts::CompanyAssociationService
       contact.update_column(:company_id, company.id)
       Company.increment_counter(:contacts_count, company.id)
       # rubocop:enable Rails/SkipsModelValidations
+      company.record_activity_at!(contact.last_activity_at) if contact.last_activity_at.present?
     end
     company
   end

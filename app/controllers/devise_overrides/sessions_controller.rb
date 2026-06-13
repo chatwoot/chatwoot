@@ -20,10 +20,19 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_success
+    track_user_session
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
   private
+
+  def render_create_error_not_confirmed
+    render_error(
+      :unauthorized,
+      I18n.t('devise_token_auth.sessions.not_confirmed', email: @resource.email),
+      error_code: 'user_not_confirmed'
+    )
+  end
 
   def find_user_for_authentication
     return nil unless params[:email].present? && params[:password].present?
@@ -105,6 +114,19 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_mfa_error(message_key, status = :bad_request)
     render json: { error: I18n.t(message_key) }, status: status
+  end
+
+  def track_user_session
+    client_id = @token&.try(:client) || response.headers['client']
+    return unless client_id.present? && @resource.present?
+
+    UserSessionTrackingService.new(
+      user: @resource,
+      request: request,
+      client_id: client_id
+    ).create_or_update!
+  rescue StandardError => e
+    Rails.logger.warn "Session tracking failed: #{e.message}"
   end
 end
 

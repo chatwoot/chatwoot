@@ -59,11 +59,17 @@ class Whatsapp::WebhookSetupService
     callback_url = build_callback_url
     verify_token = @channel.provider_config['webhook_verify_token']
 
-    @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token)
-
+    @api_client.subscribe_waba_webhook(@waba_id, callback_url, verify_token, subscribed_fields: subscribed_fields)
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Webhook setup failed: #{e.message}")
     raise "Webhook setup failed: #{e.message}"
+  end
+
+  # Subscribe to `calls` only when voice calling is enabled on the inbox
+  def subscribed_fields
+    fields = %w[messages smb_message_echoes]
+    fields << 'calls' if @channel.provider_config['calling_enabled']
+    fields
   end
 
   def build_callback_url

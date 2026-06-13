@@ -20,6 +20,8 @@
     "CALL": "कल गर्नुहोस्",
     "CALL_INITIATED": "सम्पर्कलाई कल गर्दै…",
     "CALL_FAILED": "फोन कल सुरु गर्न सकिएन। कृपया फेरि प्रयास गर्नुहोस्।",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "भ्वाइस इन्बक्स छान्नुहोस्"
@@ -386,6 +388,7 @@
       "IDENTIFIER": "पहिचानकर्ता",
       "COUNTRY": "देश",
       "CITY": "सहर",
+      "COMPANY": "कम्पनी",
       "CREATED_AT": "सिर्जना मिति",
       "LAST_ACTIVITY": "अन्तिम क्रियाकलाप",
       "REFERER_LINK": "रेफरर लिंक",
@@ -582,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "लेबलहरू तोक्नुहोस्",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "लेबलहरू सफलतापूर्वक असाइन गरियो।",
     "ASSIGN_LABELS_FAILED": "लेबलहरू तोक्न असफल भयो",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "चयनित सम्पर्कहरूमा थप्न चाहनुभएको लेबलहरू छान्नुहोस्।",
     "NO_LABELS_FOUND": "अहिलेसम्म कुनै लेबलहरू उपलब्ध छैनन्।",
     "SELECTED_COUNT": "{count} चयन गरियो",
