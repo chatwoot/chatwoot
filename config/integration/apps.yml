@@ -6,6 +6,7 @@
 # hook_type: ( account / inbox )
 # feature_flag: (string) feature flag to enable/disable the integration
 # allow_multiple_hooks: whether multiple hooks can be created for the integration
+# visible_properties: hook setting keys safe to return in API responses and show in the UI
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
 ########################################################
@@ -314,7 +315,6 @@ leadsquared:
     ]
   visible_properties:
     [
-      'access_key',
       'endpoint_url',
       'enable_conversation_activity',
       'enable_transcript_activity',

@@ -31,7 +31,7 @@ class Integrations::App
   end
 
   def visible_properties
-    params[:visible_properties] || []
+    Array(params[:visible_properties]).map(&:to_s)
   end
 
   # There is no way to get the account_id from the linear callback
