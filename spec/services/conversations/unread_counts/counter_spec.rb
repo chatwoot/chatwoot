@@ -73,6 +73,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { visible_team.id.to_s => 1 },
       mentions_count: 0,
       participating_count: 0,
+      unattended_count: 1,
       folders: {}
     )
   end
@@ -90,6 +91,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { visible_team.id.to_s => 2 },
       mentions_count: 0,
       participating_count: 0,
+      unattended_count: 2,
       folders: {}
     )
   end
@@ -106,11 +108,12 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { visible_team.id.to_s => 1 },
       mentions_count: 0,
       participating_count: 0,
+      unattended_count: 1,
       folders: {}
     )
   end
 
-  it 'returns mention, participating, and valid folder unread counts for the user' do
+  it 'returns mention, participating, unattended, and valid folder unread counts for the user' do
     mentioned_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
     participating_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
     resolved_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
@@ -125,6 +128,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     expect(result[:mentions_count]).to eq(1)
     expect(result[:participating_count]).to eq(1)
+    expect(result[:unattended_count]).to eq(2)
     expect(result[:folders]).to eq(valid_folder.id.to_s => 1)
     expect(result[:folders]).not_to have_key(invalid_folder.id.to_s)
     expect(store.filters_ready?(account.id, agent.id)).to be(true)

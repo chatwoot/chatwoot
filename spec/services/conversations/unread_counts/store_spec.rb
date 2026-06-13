@@ -53,6 +53,9 @@ RSpec.describe Conversations::UnreadCounts::Store do
       expect(described_class.user_participating_key(account_id, user_id)).to eq(
         'UNREAD_CONVERSATIONS::V1::ACCOUNT::1::USER::4::PARTICIPATING'
       )
+      expect(described_class.user_unattended_key(account_id, user_id)).to eq(
+        'UNREAD_CONVERSATIONS::V1::ACCOUNT::1::USER::4::UNATTENDED'
+      )
       expect(described_class.user_folder_key(account_id, user_id, 7)).to eq(
         'UNREAD_CONVERSATIONS::V1::ACCOUNT::1::USER::4::FOLDER::7'
       )
@@ -174,8 +177,11 @@ RSpec.describe Conversations::UnreadCounts::Store do
       described_class.add_filter_memberships(
         account_id: account_id,
         user_id: user_id,
-        mentions: [conversation_id],
-        participating: [conversation_id],
+        filters: {
+          mentions: [conversation_id],
+          participating: [conversation_id],
+          unattended: [conversation_id]
+        },
         folders: { 7 => [conversation_id] }
       )
       described_class.mark_filters_ready!(account_id, user_id)
@@ -183,6 +189,7 @@ RSpec.describe Conversations::UnreadCounts::Store do
       expect(described_class.counts_for_keys(user_filter_keys)).to eq(
         described_class.user_mentions_key(account_id, user_id) => 1,
         described_class.user_participating_key(account_id, user_id) => 1,
+        described_class.user_unattended_key(account_id, user_id) => 1,
         described_class.user_folder_key(account_id, user_id, 7) => 1
       )
       expect(user_filter_keys.map { |key| ttl_for(key) }).to all(be_within(5).of(Conversations::UnreadCounts::SET_TTL))
@@ -215,8 +222,11 @@ RSpec.describe Conversations::UnreadCounts::Store do
       described_class.add_filter_memberships(
         account_id: account_id,
         user_id: user_id,
-        mentions: [conversation_id],
-        participating: [],
+        filters: {
+          mentions: [conversation_id],
+          participating: [],
+          unattended: []
+        },
         folders: {}
       )
 
@@ -251,6 +261,7 @@ RSpec.describe Conversations::UnreadCounts::Store do
     [
       described_class.user_mentions_key(account_id, user_id),
       described_class.user_participating_key(account_id, user_id),
+      described_class.user_unattended_key(account_id, user_id),
       described_class.user_folder_key(account_id, user_id, 7)
     ]
   end

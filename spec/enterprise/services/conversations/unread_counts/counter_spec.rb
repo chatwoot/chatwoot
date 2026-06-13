@@ -33,6 +33,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { team.id.to_s => 2 },
       mentions_count: 0,
       participating_count: 0,
+      unattended_count: 2,
       folders: {}
     )
     expect(store.assignment_ready?(account.id)).to be(false)
@@ -53,6 +54,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { team.id.to_s => 2 },
       mentions_count: 0,
       participating_count: 0,
+      unattended_count: 2,
       folders: {}
     )
     expect(store.assignment_ready?(account.id)).to be(true)
@@ -74,6 +76,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       teams: { team.id.to_s => 1 },
       mentions_count: 0,
       participating_count: 1,
+      unattended_count: 1,
       folders: {}
     )
     expect(store.assignment_ready?(account.id)).to be(true)
@@ -85,7 +88,16 @@ RSpec.describe Conversations::UnreadCounts::Counter do
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result).to eq(all_count: 0, inboxes: {}, labels: {}, teams: {}, mentions_count: 0, participating_count: 0, folders: {})
+    expect(result).to eq(
+      all_count: 0,
+      inboxes: {},
+      labels: {},
+      teams: {},
+      mentions_count: 0,
+      participating_count: 0,
+      unattended_count: 0,
+      folders: {}
+    )
     expect(store.base_ready?(account.id)).to be(false)
     expect(store.assignment_ready?(account.id)).to be(false)
   end

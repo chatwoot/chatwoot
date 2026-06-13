@@ -33,6 +33,7 @@ class Conversations::UnreadCounts::Counter
       teams: unread_team_counts,
       mentions_count: filter_counts[:mentions_count],
       participating_count: filter_counts[:participating_count],
+      unattended_count: filter_counts[:unattended_count],
       folders: filter_counts[:folders]
     }
   end
@@ -195,7 +196,7 @@ class Conversations::UnreadCounts::Counter
   end
 
   def empty_counts
-    { all_count: 0, inboxes: {}, labels: {}, teams: {}, mentions_count: 0, participating_count: 0, folders: {} }
+    { all_count: 0, inboxes: {}, labels: {}, teams: {}, mentions_count: 0, participating_count: 0, unattended_count: 0, folders: {} }
   end
 
   def store

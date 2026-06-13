@@ -147,11 +147,12 @@ RSpec.describe 'Conversations API', type: :request do
             'teams' => {},
             'mentions_count' => 0,
             'participating_count' => 0,
+            'unattended_count' => 1,
             'folders' => {}
           )
         end
 
-        it 'returns unread counts for mentions, participating conversations, and folders' do
+        it 'returns unread counts for mentions, participating conversations, unattended conversations, and folders' do
           mentioned_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
           participating_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
           resolved_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
@@ -177,6 +178,7 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response.parsed_body['payload']).to include(
             'mentions_count' => 1,
             'participating_count' => 1,
+            'unattended_count' => 2,
             'folders' => { custom_filter.id.to_s => 1 }
           )
         end

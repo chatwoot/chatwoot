@@ -23,8 +23,9 @@ describe('#mutations', () => {
         },
         mentions_count: '8',
         participating_count: 9,
+        unattended_count: '10',
         folders: {
-          10: '11',
+          11: '12',
           12: 0,
         },
       });
@@ -36,7 +37,8 @@ describe('#mutations', () => {
         teams: { 6: 7 },
         mentionsCount: 8,
         participatingCount: 9,
-        folders: { 10: 11 },
+        unattendedCount: 10,
+        folders: { 11: 12 },
       });
     });
 
@@ -48,6 +50,7 @@ describe('#mutations', () => {
         teams: { 6: 7 },
         mentionsCount: 8,
         participatingCount: 9,
+        unattendedCount: 10,
         folders: { 10: 11 },
       };
 
@@ -60,6 +63,7 @@ describe('#mutations', () => {
         teams: {},
         mentionsCount: 0,
         participatingCount: 0,
+        unattendedCount: 0,
         folders: {},
       });
     });

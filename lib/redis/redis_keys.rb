@@ -39,6 +39,8 @@ module Redis::RedisKeys
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::MENTIONS'.freeze
   UNREAD_CONVERSATIONS_USER_PARTICIPATING =
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::PARTICIPATING'.freeze
+  UNREAD_CONVERSATIONS_USER_UNATTENDED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::UNATTENDED'.freeze
   UNREAD_CONVERSATIONS_USER_FOLDER =
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::FOLDER::%<custom_filter_id>d'.freeze
 

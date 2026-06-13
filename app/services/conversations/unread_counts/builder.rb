@@ -35,8 +35,11 @@ class Conversations::UnreadCounts::Builder
     store.add_filter_memberships(
       account_id: account.id,
       user_id: user.id,
-      mentions: mentioned_unread_conversation_ids(user),
-      participating: participating_unread_conversation_ids(user),
+      filters: {
+        mentions: mentioned_unread_conversation_ids(user),
+        participating: participating_unread_conversation_ids(user),
+        unattended: unattended_unread_conversation_ids(user)
+      },
       folders: folder_unread_conversation_ids(user)
     )
     store.mark_filters_ready!(account.id, user.id)
@@ -72,6 +75,12 @@ class Conversations::UnreadCounts::Builder
     unread_conversations(open_only: true)
       .joins(:conversation_participants)
       .where(conversation_participants: { account_id: account.id, user_id: user.id })
+      .pluck(:id)
+  end
+
+  def unattended_unread_conversation_ids(user)
+    visible_unread_conversations(user, open_only: true)
+      .unattended
       .pluck(:id)
   end
 

@@ -99,6 +99,27 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.user_participating_key(account.id, assignee.id))).to contain_exactly(participating_conversation.id.to_s)
     end
 
+    it 'stores visible unread open unattended conversations' do
+      no_first_reply_conversation = create_unread_conversation(account: account, inbox: inbox)
+      waiting_conversation = create_unread_conversation(account: account, inbox: inbox)
+      attended_conversation = create_unread_conversation(account: account, inbox: inbox)
+      inaccessible_conversation = create_unread_conversation(account: account, inbox: create(:inbox, account: account))
+      resolved_conversation = create_unread_conversation(account: account, inbox: inbox)
+      create_read_conversation
+
+      waiting_conversation.update!(first_reply_created_at: 5.minutes.ago)
+      attended_conversation.update!(first_reply_created_at: 5.minutes.ago, waiting_since: nil)
+      inaccessible_conversation.update!(first_reply_created_at: nil)
+      resolved_conversation.update!(status: :resolved)
+
+      described_class.new(account).build_filters_for!(assignee)
+
+      expect(redis_set_members(store.user_unattended_key(account.id, assignee.id))).to contain_exactly(
+        no_first_reply_conversation.id.to_s,
+        waiting_conversation.id.to_s
+      )
+    end
+
     it 'stores folder memberships using the saved filter status conditions' do
       resolved_conversation = create_unread_conversation(account: account, inbox: inbox)
       resolved_conversation.update!(status: :resolved)

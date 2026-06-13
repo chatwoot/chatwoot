@@ -193,6 +193,9 @@ const mentionsUnreadCount = useMapGetter(
 const participatingUnreadCount = useMapGetter(
   'conversationUnreadCounts/getParticipatingUnreadCount'
 );
+const unattendedUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getUnattendedUnreadCount'
+);
 const getFolderUnreadCount = useMapGetter(
   'conversationUnreadCounts/getFolderUnreadCount'
 );
@@ -330,6 +333,7 @@ const menuItems = computed(() => {
         {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
+          badgeCount: unattendedUnreadCount.value,
           label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
           to: accountScopedRoute('conversation_unattended'),
         },

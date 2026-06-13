@@ -15,10 +15,11 @@ module Conversations::UnreadCounts::UserFilterStore
     delete_matching("#{user_filter_prefix(account_id, user_id)}::*")
   end
 
-  def add_filter_memberships(account_id:, user_id:, mentions:, participating:, folders:)
+  def add_filter_memberships(account_id:, user_id:, filters:, folders:)
     memberships = {
-      user_mentions_key(account_id, user_id) => mentions,
-      user_participating_key(account_id, user_id) => participating
+      user_mentions_key(account_id, user_id) => filters[:mentions],
+      user_participating_key(account_id, user_id) => filters[:participating],
+      user_unattended_key(account_id, user_id) => filters[:unattended]
     }
     folders.each do |custom_filter_id, conversation_ids|
       memberships[user_folder_key(account_id, user_id, custom_filter_id)] = conversation_ids

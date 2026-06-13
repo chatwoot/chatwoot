@@ -8,6 +8,7 @@ module Conversations::UnreadCounts::FilterCounter
     {
       mentions_count: counts_by_key[keys[:mentions]].to_i,
       participating_count: counts_by_key[keys[:participating]].to_i,
+      unattended_count: counts_by_key[keys[:unattended]].to_i,
       folders: folder_counts(counts_by_key)
     }
   end
@@ -15,7 +16,8 @@ module Conversations::UnreadCounts::FilterCounter
   def user_filter_keys
     {
       mentions: store.user_mentions_key(account.id, user.id),
-      participating: store.user_participating_key(account.id, user.id)
+      participating: store.user_participating_key(account.id, user.id),
+      unattended: store.user_unattended_key(account.id, user.id)
     }
   end
 

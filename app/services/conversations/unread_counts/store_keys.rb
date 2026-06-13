@@ -49,6 +49,10 @@ module Conversations::UnreadCounts::StoreKeys
     format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_PARTICIPATING, account_id: account_id, user_id: user_id)
   end
 
+  def user_unattended_key(account_id, user_id)
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_UNATTENDED, account_id: account_id, user_id: user_id)
+  end
+
   def user_folder_key(account_id, user_id, custom_filter_id)
     format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_FOLDER, account_id: account_id, user_id: user_id, custom_filter_id: custom_filter_id)
   end
