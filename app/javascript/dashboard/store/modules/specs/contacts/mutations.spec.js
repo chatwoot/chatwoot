@@ -101,6 +101,28 @@ describe('#mutations', () => {
         1: { id: 1, name: 'contact2', contact_inboxes: newContactInboxes },
       });
     });
+
+    it('drops preserved contact_inboxes when identifying addresses change', () => {
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@old.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [{ source_id: 'alice@old.com', inbox: { id: 1 } }],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: 'alice@new.com',
+        phone_number: '+10000000000',
+      });
+      expect(state.records[1].contact_inboxes).toBeUndefined();
+      expect(state.records[1].email).toEqual('alice@new.com');
+    });
   });
 
   describe('#SET_CONTACT_FILTERS', () => {

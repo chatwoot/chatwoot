@@ -60,11 +60,19 @@ export const mutations = {
   [types.EDIT_CONTACT]: ($state, data) => {
     // Websocket `contact.updated` payloads don't include `contact_inboxes`;
     // preserve them from the existing record so the new conversation modal
-    // doesn't lose the list of contactable inboxes.
+    // doesn't lose the list of contactable inboxes. Contactable inboxes are
+    // derived from the contact's current email/phone_number, so only carry
+    // them over when those identifying addresses are unchanged — otherwise
+    // drop them rather than risk composing to a stale address.
     const existingContact = $state.records[data.id] || {};
+    const addressesUnchanged =
+      data.email === existingContact.email &&
+      data.phone_number === existingContact.phone_number;
     $state.records[data.id] = {
       ...data,
-      contact_inboxes: data.contact_inboxes || existingContact.contact_inboxes,
+      contact_inboxes:
+        data.contact_inboxes ||
+        (addressesUnchanged ? existingContact.contact_inboxes : undefined),
     };
   },
 
