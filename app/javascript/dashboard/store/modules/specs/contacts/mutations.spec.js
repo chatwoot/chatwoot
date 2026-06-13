@@ -63,6 +63,44 @@ describe('#mutations', () => {
         1: { id: 1, name: 'contact2', email: 'contact2@chatwoot.com' },
       });
     });
+
+    it('preserves contact_inboxes when payload does not include them', () => {
+      const contactInboxes = [{ source_id: 'source-1', inbox: { id: 1 } }];
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: contactInboxes,
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, { id: 1, name: 'contact2' });
+      expect(state.records).toEqual({
+        1: { id: 1, name: 'contact2', contact_inboxes: contactInboxes },
+      });
+    });
+
+    it('uses contact_inboxes from the payload when present', () => {
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: [{ source_id: 'source-1', inbox: { id: 1 } }],
+          },
+        },
+      };
+      const newContactInboxes = [{ source_id: 'source-2', inbox: { id: 2 } }];
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact2',
+        contact_inboxes: newContactInboxes,
+      });
+      expect(state.records).toEqual({
+        1: { id: 1, name: 'contact2', contact_inboxes: newContactInboxes },
+      });
+    });
   });
 
   describe('#SET_CONTACT_FILTERS', () => {
