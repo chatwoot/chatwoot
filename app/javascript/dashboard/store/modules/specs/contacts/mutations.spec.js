@@ -206,6 +206,55 @@ describe('#mutations', () => {
       });
       expect(state.records[1].contact_inboxes).toEqual([emailInbox]);
     });
+
+    it('drops email-channel contact_inboxes when the email is cleared', () => {
+      const whatsappInbox = {
+        source_id: '10000000000',
+        inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+      };
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [
+              {
+                source_id: 'alice@example.com',
+                inbox: { id: 1, channel_type: 'Channel::Email' },
+              },
+              whatsappInbox,
+            ],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: null,
+        phone_number: '+10000000000',
+      });
+      expect(state.records[1].contact_inboxes).toEqual([whatsappInbox]);
+    });
+
+    it('respects an explicit empty contact_inboxes array from the payload', () => {
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: [{ source_id: 'source-1', inbox: { id: 1 } }],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact2',
+        contact_inboxes: [],
+      });
+      expect(state.records[1].contact_inboxes).toEqual([]);
+    });
   });
 
   describe('#SET_CONTACT_FILTERS', () => {
