@@ -141,6 +141,7 @@ RSpec.describe 'Conversations API', type: :request do
 
           expect(response).to have_http_status(:success)
           expect(response.parsed_body['payload']).to eq(
+            'all_count' => 1,
             'inboxes' => { visible_inbox.id.to_s => 1 },
             'labels' => { label.id.to_s => 1 },
             'teams' => {}

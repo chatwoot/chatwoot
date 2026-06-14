@@ -258,6 +258,59 @@ describe CustomMarkdownRenderer do
     end
   end
 
+  describe '#table' do
+    def render_table(markdown)
+      doc = CommonMarker.render_doc(markdown, :DEFAULT, [:table])
+      described_class.new.render(doc)
+    end
+
+    let(:plain_table) { "| A | B |\n| --- | --- |\n| 1 | 2 |\n" }
+
+    it 'renders a table without column widths when no marker is present' do
+      output = render_table(plain_table)
+      expect(output).to include('<div class="tableWrapper"><table>')
+      expect(output).not_to include('colgroup')
+      expect(output).not_to include('cw-colwidths')
+    end
+
+    context 'when every column has a saved width' do
+      it 'lays the table out at the total width with a sized colgroup' do
+        output = render_table("<!--cw-colwidths:120,200-->\n#{plain_table}")
+        # Wrapper hugs the table; min-width is set alongside width so a narrow saved width beats min-w-full.
+        expect(output).to include('<div class="tableWrapper" style="width: 320px; max-width: 100%;">')
+        expect(output).to include('<table style="table-layout: fixed; width: 320px !important; min-width: 320px !important;">')
+        expect(output).to include('<colgroup><col style="width: 120px;"><col style="width: 200px;"></colgroup>')
+      end
+    end
+
+    context 'when only some columns have a saved width' do
+      it 'fills the container so unsized columns stay flexible, floored at the sized total' do
+        output = render_table("<!--cw-colwidths:150,0-->\n#{plain_table}")
+        # max(100%, 200px): fills the container (flexible) but scrolls if the sized columns exceed it.
+        expect(output).to include('table-layout: fixed; min-width: max(100%, 200px) !important;')
+        expect(output).to include('<colgroup><col style="width: 150px;"><col></colgroup>')
+        # No exact-width lock on the wrapper or table — the table must be free to expand.
+        expect(output).to include('<div class="tableWrapper"><table')
+        expect(output).not_to include('width: 200px !important')
+      end
+    end
+
+    it 'associates each marker with the table that follows it' do
+      markdown = "#{plain_table}\n<!--cw-colwidths:150,250-->\n| P | Q |\n| --- | --- |\n| a | b |\n"
+      output = render_table(markdown)
+
+      # First table has no marker and stays unsized; the marker applies to the second table.
+      expect(output).to include('<div class="tableWrapper"><table>')
+      expect(output).to include('width: 400px !important;')
+      expect(output).to include('<col style="width: 250px;">')
+      expect(output.scan('colgroup').length).to eq(2)
+    end
+
+    it 'does not emit the marker comment into the rendered html' do
+      expect(render_table("<!--cw-colwidths:120,200-->\n#{plain_table}")).not_to include('cw-colwidths')
+    end
+  end
+
   describe '#image' do
     it 'renders width in px with responsive cap and auto height' do
       markdown = '![Sample](https://example.com/image.jpg?cw_image_width=400px)'

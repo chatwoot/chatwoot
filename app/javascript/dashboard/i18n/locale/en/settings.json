@@ -86,6 +86,17 @@
         "NOTE": "Manage additional security features for your account.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Access Token",
         "NOTE": "This token can be used if you are building an API based integration",

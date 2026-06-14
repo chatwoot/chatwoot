@@ -20,6 +20,7 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
   end
 
   def render_create_success
+    track_user_session
     render partial: 'devise/auth', formats: [:json], locals: { resource: @resource }
   end
 
@@ -113,6 +114,19 @@ class DeviseOverrides::SessionsController < DeviseTokenAuth::SessionsController
 
   def render_mfa_error(message_key, status = :bad_request)
     render json: { error: I18n.t(message_key) }, status: status
+  end
+
+  def track_user_session
+    client_id = @token&.try(:client) || response.headers['client']
+    return unless client_id.present? && @resource.present?
+
+    UserSessionTrackingService.new(
+      user: @resource,
+      request: request,
+      client_id: client_id
+    ).create_or_update!
+  rescue StandardError => e
+    Rails.logger.warn "Session tracking failed: #{e.message}"
   end
 end
 

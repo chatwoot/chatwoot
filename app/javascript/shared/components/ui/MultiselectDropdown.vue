@@ -1,5 +1,5 @@
 <script setup>
-import { computed, defineEmits } from 'vue';
+import { computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
 

@@ -20,6 +20,8 @@
     "CALL": "Pokliči",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Klica ni bilo mogoče začeti. Poskusite znova.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Izberi glasovni predal"
@@ -583,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Dodeli oznake",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Oznake so bile uspešno dodeljene.",
     "ASSIGN_LABELS_FAILED": "Dodeljevanje oznak ni uspelo",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Izberite oznake, ki jih želite dodati izbranim stikom.",
     "NO_LABELS_FOUND": "Še ni na voljo nobenih oznak.",
     "SELECTED_COUNT": "{count} izbranih",

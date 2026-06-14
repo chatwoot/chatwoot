@@ -175,6 +175,9 @@ useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
+const allUnreadCount = useMapGetter(
+  'conversationUnreadCounts/getAllUnreadCount'
+);
 const getInboxUnreadCount = useMapGetter(
   'conversationUnreadCounts/getInboxUnreadCount'
 );
@@ -204,8 +207,44 @@ watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
   immediate: true,
 });
 
+const normalizeUnreadCount = count => {
+  const unreadCount = Number(count);
+  return Number.isFinite(unreadCount) && unreadCount > 0 ? unreadCount : 0;
+};
+
+const sortByUnreadCount = (items, labelKey, unreadCountKey) =>
+  items.slice().sort((a, b) => {
+    const unreadCountDiff =
+      normalizeUnreadCount(unreadCountKey(b)) -
+      normalizeUnreadCount(unreadCountKey(a));
+
+    if (unreadCountDiff !== 0) return unreadCountDiff;
+
+    return labelKey(a).localeCompare(labelKey(b));
+  });
+
+const sortedTeams = computed(() =>
+  sortByUnreadCount(
+    teams.value,
+    team => team.name,
+    team => getTeamUnreadCount.value(team.id)
+  )
+);
+
 const sortedInboxes = computed(() =>
-  inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+  sortByUnreadCount(
+    inboxes.value,
+    inbox => inbox.name,
+    inbox => getInboxUnreadCount.value(inbox.id)
+  )
+);
+
+const sortedLabels = computed(() =>
+  sortByUnreadCount(
+    labels.value,
+    label => label.title,
+    label => getLabelUnreadCount.value(label.id)
+  )
 );
 
 const closeMobileSidebar = () => {
@@ -261,18 +300,22 @@ const menuItems = computed(() => {
         {
           name: 'All',
           label: t('SIDEBAR.ALL_CONVERSATIONS'),
+          icon: 'i-lucide-inbox',
+          badgeCount: allUnreadCount.value,
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },
         {
           name: 'Mentions',
           label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
+          icon: 'i-lucide-at-sign',
           activeOn: ['conversation_through_mentions'],
           to: accountScopedRoute('conversation_mentions'),
         },
         {
           name: 'Participating',
           label: t('SIDEBAR.PARTICIPATING_CONVERSATIONS'),
+          icon: 'i-lucide-user-round-check',
           activeOn: ['conversation_through_participating'],
           to: accountScopedRoute('conversation_participating'),
         },
@@ -280,6 +323,7 @@ const menuItems = computed(() => {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
           label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
+          icon: 'i-lucide-clock-alert',
           to: accountScopedRoute('conversation_unattended'),
         },
         {
@@ -287,6 +331,8 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CUSTOM_VIEWS_FOLDER'),
           icon: 'i-lucide-folder',
           activeOn: ['conversations_through_folders'],
+          collapsible: true,
+          showTreeLine: true,
           children: conversationCustomViews.value.map(view => ({
             name: `${view.name}-${view.id}`,
             label: view.name,
@@ -298,7 +344,9 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.TEAMS'),
           icon: 'i-lucide-users',
           activeOn: ['conversations_through_team'],
-          children: teams.value.map(team => ({
+          collapsible: true,
+          showTreeLine: true,
+          children: sortedTeams.value.map(team => ({
             name: `${team.name}-${team.id}`,
             label: team.name,
             badgeCount: getTeamUnreadCount.value(team.id),
@@ -310,6 +358,8 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.CHANNELS'),
           icon: 'i-lucide-mailbox',
           activeOn: ['conversation_through_inbox'],
+          collapsible: true,
+          showTreeLine: true,
           children: sortedInboxes.value.map(inbox => ({
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
@@ -330,7 +380,9 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.LABELS'),
           icon: 'i-lucide-tag',
           activeOn: ['conversations_through_label'],
-          children: labels.value.map(label => ({
+          collapsible: true,
+          showTreeLine: true,
+          children: sortedLabels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
             badgeCount: getLabelUnreadCount.value(label.id),
@@ -441,6 +493,8 @@ const menuItems = computed(() => {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
+          collapsible: true,
+          showTreeLine: true,
           children: contactCustomViews.value.map(view => ({
             name: `${view.name}-${view.id}`,
             label: view.name,
@@ -459,6 +513,8 @@ const menuItems = computed(() => {
           name: 'Tagged With',
           icon: 'i-lucide-tag',
           label: t('SIDEBAR.TAGGED_WITH'),
+          collapsible: true,
+          showTreeLine: true,
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
