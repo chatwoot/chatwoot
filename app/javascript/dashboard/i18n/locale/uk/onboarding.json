@@ -1,0 +1,34 @@
+{
+  "ONBOARDING_NEXT": {
+    "GREETING": "Hello {name}!",
+    "SUBTITLE": "Please review the following details",
+    "YOUR_DETAILS": "Your details",
+    "COMPANY_DETAILS": "Company details",
+    "FIELDS": {
+      "EMAIL": "Email",
+      "YOUR_ROLE": "Your Role",
+      "WEBSITE": "Вебсайт",
+      "LANGUAGE": "Мова",
+      "TIMEZONE": "Timezone",
+      "COMPANY_SIZE": "Company Size",
+      "INDUSTRY": "Industry",
+      "REFERRAL_SOURCE": "Where did you find us?"
+    },
+    "PLACEHOLDERS": {
+      "SELECT_ROLE": "Select your role",
+      "ENTER_WEBSITE": "www.example.com",
+      "SELECT_LANGUAGE": "Select language",
+      "SELECT_TIMEZONE": "Обрати часовий пояс",
+      "SELECT_COMPANY_SIZE": "Select company size",
+      "SELECT_INDUSTRY": "Select industry",
+      "SELECT_REFERRAL_SOURCE": "Select source"
+    },
+    "EMAIL_VERIFIED": "Email verified",
+    "SETTING_UP": "Setting up your account...",
+    "CONTINUE": "Continue",
+    "SAVING": "Збереження...",
+    "VALIDATION_ERROR": "Please fill in all required fields",
+    "SUCCESS": "Details saved successfully",
+    "ERROR": "Could not save details. Please try again."
+  }
+}

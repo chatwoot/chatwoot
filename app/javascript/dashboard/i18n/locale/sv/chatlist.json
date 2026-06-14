@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Dölj citerad text",
     "SHOW_QUOTED_TEXT": "Visa citerad text",
     "MESSAGE_READ": "Read",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

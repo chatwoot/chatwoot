@@ -99,19 +99,38 @@ const handleWindowBlur = () => {
   closeActivePopover();
 };
 
-const accessibleItems = computed(() => {
+const hasAccessibleSubChildren = child => {
+  return child.children?.some(
+    subChild => subChild.to && isAllowed(subChild.to)
+  );
+};
+
+const visibleChildren = computed(() => {
   if (!hasChildren.value) return [];
+
   return props.children.filter(child => {
-    // If a item has no link, it means it's just a subgroup header
-    // So we don't need to check for permissions here, because there's nothing to
-    // access here anyway
+    if (child.children) return hasAccessibleSubChildren(child);
+
     return child.to && isAllowed(child.to);
   });
 });
 
-const hasAccessibleChildren = computed(() => {
-  return accessibleItems.value.length > 0;
+const accessibleItems = computed(() => {
+  if (!hasChildren.value) return [];
+
+  return visibleChildren.value
+    .flatMap(child => child.children || child)
+    .filter(child => child.to && isAllowed(child.to));
 });
+
+const hasAccessibleChildren = computed(() => {
+  return visibleChildren.value.length > 0;
+});
+
+const isLastVisibleChild = child => {
+  const lastChild = visibleChildren.value[visibleChildren.value.length - 1];
+  return lastChild === child;
+};
 
 const isActive = computed(() => {
   if (props.to) {
@@ -274,14 +293,18 @@ watch(
       <ul
         v-if="hasChildren"
         v-show="isExpanded || hasActiveChild"
-        class="grid m-0 list-none sidebar-group-children min-w-0"
+        class="grid m-0 list-none min-w-0"
       >
-        <template v-for="child in children" :key="child.name">
+        <template v-for="child in visibleChildren" :key="child.name">
           <SidebarSubGroup
             v-if="child.children"
+            :name="`${name}:${child.name}`"
             :label="child.label"
             :icon="child.icon"
             :children="child.children"
+            :collapsible="child.collapsible"
+            :show-tree-line="child.showTreeLine"
+            :end-tree-line="child.showTreeLine && isLastVisibleChild(child)"
             :is-expanded="isExpanded"
             :active-child="activeChild"
           />
@@ -299,59 +322,3 @@ watch(
     </template>
   </Policy>
 </template>
-
-<style>
-.sidebar-group-children .child-item::before {
-  content: '';
-  position: absolute;
-  width: 0.125rem;
-  /* 0.5px */
-  height: 100%;
-}
-
-.sidebar-group-children .child-item:first-child::before {
-  border-radius: 4px 4px 0 0;
-}
-
-/* This selects the last child in a group */
-/* https://codepen.io/scmmishra/pen/yLmKNLW */
-.sidebar-group-children > .child-item:last-child::before,
-.sidebar-group-children
-  > *:last-child
-  > *:last-child
-  > .child-item:last-child::before {
-  height: 20%;
-}
-
-.sidebar-group-children > .child-item:last-child::after,
-.sidebar-group-children
-  > *:last-child
-  > *:last-child
-  > .child-item:last-child::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 12px;
-  bottom: calc(50% - 2px);
-  border-bottom-width: 0.125rem;
-  border-left-width: 0.125rem;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-radius: 0 0 0 4px;
-  left: 0;
-}
-
-#app[dir='rtl'] .sidebar-group-children > .child-item:last-child::after,
-#app[dir='rtl']
-  .sidebar-group-children
-  > *:last-child
-  > *:last-child
-  > .child-item:last-child::after {
-  right: 0;
-  border-bottom-width: 0.125rem;
-  border-right-width: 0.125rem;
-  border-left-width: 0px;
-  border-top-width: 0px;
-  border-radius: 0 0 4px 0px;
-}
-</style>

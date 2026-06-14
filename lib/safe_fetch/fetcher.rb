@@ -29,18 +29,20 @@ class SafeFetch::Fetcher
   end
 
   def stream_response(tempfile)
-    response = nil
     bytes_written = 0
 
-    SsrfFilter.public_send(options.method, options.url, **options.request_options) do |res|
-      response = res
+    perform_request do |res|
       next unless res.is_a?(Net::HTTPSuccess)
 
       validate_content_type!(res['content-type'])
       bytes_written = write_response_body(res, tempfile, bytes_written)
     end
+  end
 
-    response
+  def perform_request(&)
+    return SafeFetch::PrivateNetworkRequest.new(options).perform(&) if SafeFetch.allow_private_network?
+
+    SsrfFilter.public_send(options.method, options.url, **options.request_options, &)
   end
 
   def validate_content_type!(content_type)

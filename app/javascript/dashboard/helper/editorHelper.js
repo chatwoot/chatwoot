@@ -1,14 +1,14 @@
 import {
-  messageSchema,
-  MessageMarkdownTransformer,
   MessageMarkdownSerializer,
+  MessageMarkdownTransformer,
+  messageSchema,
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
-import camelcaseKeys from 'camelcase-keys';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -378,31 +378,6 @@ export const findNodeToInsertImage = (editorState, fileUrl) => {
     pos: selection.from + needsNewLine,
   };
 };
-
-/**
- * Set URL with query and size.
- *
- * @param {Object} selectedImageNode - The current selected node.
- * @param {Object} size - The size to set.
- * @param {Object} editorView - The editor view.
- */
-export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
-  if (selectedImageNode) {
-    // Create and apply the transaction
-    const tr = editorView.state.tr.setNodeMarkup(
-      editorView.state.selection.from,
-      null,
-      {
-        src: selectedImageNode.src,
-        height: size.height,
-      }
-    );
-
-    if (tr.docChanged) {
-      editorView.dispatch(tr);
-    }
-  }
-}
 
 /**
  * Strips unsupported markdown formatting from content based on the editor schema.

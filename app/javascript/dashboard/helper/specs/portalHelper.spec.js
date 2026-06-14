@@ -74,37 +74,40 @@ describe('PortalHelper', () => {
   });
 
   describe('buildLocaleMenuItems', () => {
-    it('returns disabled actions for the default locale', () => {
+    it('disables other actions but keeps customize enabled for the default locale', () => {
+      const items = buildLocaleMenuItems({ isDefault: true, isDraft: false });
+      const customize = items.find(item => item.action === 'customize-content');
+
+      expect(customize).toBeTruthy();
+      expect(customize.disabled).toBeFalsy();
       expect(
-        buildLocaleMenuItems({
-          isDefault: true,
-          isDraft: false,
-        })
-      ).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({ action: 'change-default', disabled: true }),
-          expect.objectContaining({ action: 'move-to-draft', disabled: true }),
-          expect.objectContaining({ action: 'delete', disabled: true }),
-        ])
-      );
+        items
+          .filter(item => item.action !== 'customize-content')
+          .every(item => item.disabled)
+      ).toBe(true);
     });
 
-    it('returns publish and delete actions for draft locales', () => {
+    it('returns publish, customize, and delete actions for draft locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: true,
         }).map(({ action }) => action)
-      ).toEqual(['publish-locale', 'delete']);
+      ).toEqual(['publish-locale', 'customize-content', 'delete']);
     });
 
-    it('returns default, draft, and delete actions for live locales', () => {
+    it('returns default, draft, customize, and delete actions for live locales', () => {
       expect(
         buildLocaleMenuItems({
           isDefault: false,
           isDraft: false,
         }).map(({ action }) => action)
-      ).toEqual(['change-default', 'move-to-draft', 'delete']);
+      ).toEqual([
+        'change-default',
+        'move-to-draft',
+        'customize-content',
+        'delete',
+      ]);
     });
   });
 });

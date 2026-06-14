@@ -23,6 +23,8 @@
 class Company < ApplicationRecord
   include Avatarable
 
+  ACTIVITY_ROLLUP_INTERVAL = 5.minutes
+
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
@@ -57,6 +59,12 @@ class Company < ApplicationRecord
       )
     )
   }
+
+  def record_activity_at!(activity_at)
+    return if last_activity_at.present? && last_activity_at > activity_at - ACTIVITY_ROLLUP_INTERVAL
+
+    update!(last_activity_at: activity_at)
+  end
 
   private
 

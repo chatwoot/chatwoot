@@ -36,11 +36,6 @@ describe Whatsapp::EmbeddedSignupService do
         .with(params[:waba_id], params[:phone_number_id], access_token).and_return(phone_service)
       allow(phone_service).to receive(:perform).and_return(phone_info)
 
-      validation_service = instance_double(Whatsapp::TokenValidationService)
-      allow(Whatsapp::TokenValidationService).to receive(:new)
-        .with(access_token, params[:waba_id]).and_return(validation_service)
-      allow(validation_service).to receive(:perform)
-
       channel_creation = instance_double(Whatsapp::ChannelCreationService)
       allow(Whatsapp::ChannelCreationService).to receive(:new)
         .with(account, { waba_id: params[:waba_id], business_name: 'Test Business' }, phone_info, access_token)
