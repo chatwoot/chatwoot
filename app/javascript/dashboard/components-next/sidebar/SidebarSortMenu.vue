@@ -154,7 +154,7 @@ onBeforeUnmount(clearCloseTimer);
 <template>
   <div
     ref="triggerRef"
-    class="relative invisible flex-shrink-0 opacity-0 pointer-events-none transition-opacity duration-150 group-hover/sidebar-section:visible group-hover/sidebar-section:opacity-100 group-hover/sidebar-section:pointer-events-auto max-md:visible max-md:opacity-100 max-md:pointer-events-auto"
+    class="relative invisible flex-shrink-0 opacity-0 pointer-events-none transition-opacity duration-150 group-hover/sidebar-section:visible group-hover/sidebar-section:opacity-100 group-hover/sidebar-section:pointer-events-auto"
     :class="{ '!visible !opacity-100 !pointer-events-auto': isOpen }"
     @mouseenter="openMenu"
     @mouseleave="scheduleClose"
