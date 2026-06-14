@@ -63,6 +63,198 @@ describe('#mutations', () => {
         1: { id: 1, name: 'contact2', email: 'contact2@chatwoot.com' },
       });
     });
+
+    it('preserves contact_inboxes when payload does not include them', () => {
+      const contactInboxes = [{ source_id: 'source-1', inbox: { id: 1 } }];
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: contactInboxes,
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, { id: 1, name: 'contact2' });
+      expect(state.records).toEqual({
+        1: { id: 1, name: 'contact2', contact_inboxes: contactInboxes },
+      });
+    });
+
+    it('uses contact_inboxes from the payload when present', () => {
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: [{ source_id: 'source-1', inbox: { id: 1 } }],
+          },
+        },
+      };
+      const newContactInboxes = [{ source_id: 'source-2', inbox: { id: 2 } }];
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact2',
+        contact_inboxes: newContactInboxes,
+      });
+      expect(state.records).toEqual({
+        1: { id: 1, name: 'contact2', contact_inboxes: newContactInboxes },
+      });
+    });
+
+    it('keeps address-derived contact_inboxes when the payload omits the identifier fields', () => {
+      const contactInboxes = [
+        {
+          source_id: 'alice@example.com',
+          inbox: { id: 1, channel_type: 'Channel::Email' },
+        },
+        {
+          source_id: '10000000000',
+          inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+        },
+      ];
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: contactInboxes,
+          },
+        },
+      };
+      // name-only partial update: no email/phone_number keys in the payload
+      mutations[types.EDIT_CONTACT](state, { id: 1, name: 'contact2' });
+      expect(state.records[1].contact_inboxes).toEqual(contactInboxes);
+    });
+
+    it('drops only email-channel contact_inboxes when the email changes', () => {
+      const apiInbox = {
+        source_id: 'uuid-api-1',
+        inbox: { id: 3, channel_type: 'Channel::Api' },
+      };
+      const whatsappInbox = {
+        source_id: '10000000000',
+        inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+      };
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@old.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [
+              {
+                source_id: 'alice@old.com',
+                inbox: { id: 1, channel_type: 'Channel::Email' },
+              },
+              whatsappInbox,
+              apiInbox,
+            ],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: 'alice@new.com',
+        phone_number: '+10000000000',
+      });
+      // the email-channel entry points at the stale address and is dropped;
+      // phone-derived and API entries are unaffected by the email change
+      expect(state.records[1].contact_inboxes).toEqual([
+        whatsappInbox,
+        apiInbox,
+      ]);
+      expect(state.records[1].email).toEqual('alice@new.com');
+    });
+
+    it('drops phone-channel contact_inboxes when the phone number changes', () => {
+      const emailInbox = {
+        source_id: 'alice@example.com',
+        inbox: { id: 1, channel_type: 'Channel::Email' },
+      };
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [
+              emailInbox,
+              {
+                source_id: '10000000000',
+                inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+              },
+              {
+                // Twilio WhatsApp source_ids embed the phone with the `+`
+                source_id: 'whatsapp:+10000000000',
+                inbox: { id: 4, channel_type: 'Channel::TwilioSms' },
+              },
+            ],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: 'alice@example.com',
+        phone_number: '+19999999999',
+      });
+      expect(state.records[1].contact_inboxes).toEqual([emailInbox]);
+    });
+
+    it('drops email-channel contact_inboxes when the email is cleared', () => {
+      const whatsappInbox = {
+        source_id: '10000000000',
+        inbox: { id: 2, channel_type: 'Channel::Whatsapp' },
+      };
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            email: 'alice@example.com',
+            phone_number: '+10000000000',
+            contact_inboxes: [
+              {
+                source_id: 'alice@example.com',
+                inbox: { id: 1, channel_type: 'Channel::Email' },
+              },
+              whatsappInbox,
+            ],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact1',
+        email: null,
+        phone_number: '+10000000000',
+      });
+      expect(state.records[1].contact_inboxes).toEqual([whatsappInbox]);
+    });
+
+    it('respects an explicit empty contact_inboxes array from the payload', () => {
+      const state = {
+        records: {
+          1: {
+            id: 1,
+            name: 'contact1',
+            contact_inboxes: [{ source_id: 'source-1', inbox: { id: 1 } }],
+          },
+        },
+      };
+      mutations[types.EDIT_CONTACT](state, {
+        id: 1,
+        name: 'contact2',
+        contact_inboxes: [],
+      });
+      expect(state.records[1].contact_inboxes).toEqual([]);
+    });
   });
 
   describe('#SET_CONTACT_FILTERS', () => {
