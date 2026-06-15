@@ -78,9 +78,6 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
-  scope :unread, lambda {
-    where(unread_messages_count_arel.gt(0))
-  }
   scope :sort_on_unread, lambda { |_direction|
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
   }
