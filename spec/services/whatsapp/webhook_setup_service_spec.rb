@@ -43,7 +43,7 @@ describe Whatsapp::WebhookSetupService do
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
         allow(channel).to receive(:save!)
       end
 
@@ -51,7 +51,8 @@ describe Whatsapp::WebhookSetupService do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token', subscribed_fields: %w[messages
+                                                                                                                                smb_message_echoes])
           service.perform
         end
       end
@@ -65,14 +66,15 @@ describe Whatsapp::WebhookSetupService do
                                                                             throughput: { level: 'APPLICABLE' }
                                                                           })
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
       end
 
       it 'does NOT register phone, but sets up webhook' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token', subscribed_fields: %w[messages
+                                                                                                                                smb_message_echoes])
           service.perform
         end
       end
@@ -88,7 +90,7 @@ describe Whatsapp::WebhookSetupService do
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
         allow(channel).to receive(:save!)
       end
 
@@ -96,7 +98,8 @@ describe Whatsapp::WebhookSetupService do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token', subscribed_fields: %w[messages
+                                                                                                                                smb_message_echoes])
           service.perform
         end
       end
@@ -112,7 +115,7 @@ describe Whatsapp::WebhookSetupService do
         allow(SecureRandom).to receive(:random_number).with(900_000).and_return(123_456)
         allow(api_client).to receive(:register_phone_number).with('123456789', 223_456)
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
         allow(channel).to receive(:save!)
       end
 
@@ -120,7 +123,8 @@ describe Whatsapp::WebhookSetupService do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:register_phone_number).with('123456789', 223_456)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token')
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token', subscribed_fields: %w[messages
+                                                                                                                                smb_message_echoes])
           service.perform
         end
       end
@@ -279,14 +283,15 @@ describe Whatsapp::WebhookSetupService do
                                                                             throughput: { level: 'APPLICABLE' }
                                                                           })
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'existing_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'existing_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
       end
 
       it 'successfully reauthorizes with new access token' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).not_to receive(:register_phone_number)
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token')
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'existing_verify_token',
+                  subscribed_fields: %w[messages smb_message_echoes])
           service_reauth.perform
         end
       end
@@ -294,7 +299,7 @@ describe Whatsapp::WebhookSetupService do
       it 'uses the existing webhook verify token during reauthorization' do
         with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
           expect(api_client).to receive(:subscribe_waba_webhook)
-            .with(waba_id, anything, 'existing_verify_token')
+            .with(waba_id, anything, 'existing_verify_token', subscribed_fields: %w[messages smb_message_echoes])
           service_reauth.perform
         end
       end
@@ -308,7 +313,7 @@ describe Whatsapp::WebhookSetupService do
                                                                             throughput: { level: 'APPLICABLE' }
                                                                           })
         allow(api_client).to receive(:subscribe_waba_webhook)
-          .with(waba_id, anything, 'test_verify_token').and_return({ 'success' => true })
+          .with(waba_id, anything, 'test_verify_token', subscribed_fields: %w[messages smb_message_echoes]).and_return({ 'success' => true })
       end
 
       it 'completes successfully without errors' do
