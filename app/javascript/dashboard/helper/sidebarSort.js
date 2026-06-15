@@ -47,6 +47,11 @@ export const SIDEBAR_SORT_OPTIONS_BY_SECTION = Object.freeze({
   ],
 });
 
+const UNREAD_COUNT_SORT_OPTIONS = [
+  SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+  SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC,
+];
+
 export const DEFAULT_SIDEBAR_SORT_PREFERENCES = Object.freeze({
   [SIDEBAR_SORT_SECTIONS.FOLDERS]: SIDEBAR_SORT_KEYS.CREATED_DESC,
   [SIDEBAR_SORT_SECTIONS.TEAMS]: SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
@@ -56,6 +61,34 @@ export const DEFAULT_SIDEBAR_SORT_PREFERENCES = Object.freeze({
 
 export const isValidSidebarSort = (section, sortBy) => {
   return SIDEBAR_SORT_OPTIONS_BY_SECTION[section]?.includes(sortBy);
+};
+
+const isUnreadCountSort = sortBy => UNREAD_COUNT_SORT_OPTIONS.includes(sortBy);
+
+export const getSidebarSortOptions = (
+  section,
+  { hasUnreadCounts = true } = {}
+) => {
+  const options = SIDEBAR_SORT_OPTIONS_BY_SECTION[section] || [];
+
+  if (hasUnreadCounts) return options;
+
+  return options.filter(option => !isUnreadCountSort(option));
+};
+
+export const resolveSidebarSort = (
+  section,
+  sortBy,
+  { hasUnreadCounts = true } = {}
+) => {
+  const options = getSidebarSortOptions(section, { hasUnreadCounts });
+
+  if (options.includes(sortBy)) return sortBy;
+  if (!hasUnreadCounts && isUnreadCountSort(sortBy)) {
+    return SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC;
+  }
+
+  return options[0] || SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC;
 };
 
 export const normalizeSidebarSortPreferences = (preferences = {}) => {

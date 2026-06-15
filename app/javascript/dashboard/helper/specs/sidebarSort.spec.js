@@ -2,7 +2,9 @@ import {
   DEFAULT_SIDEBAR_SORT_PREFERENCES,
   SIDEBAR_SORT_KEYS,
   SIDEBAR_SORT_SECTIONS,
+  getSidebarSortOptions,
   normalizeSidebarSortPreferences,
+  resolveSidebarSort,
   sortSidebarItems,
 } from '../sidebarSort';
 
@@ -156,5 +158,48 @@ describe('#normalizeSidebarSortPreferences', () => {
     expect(normalizeSidebarSortPreferences(null)).toEqual(
       DEFAULT_SIDEBAR_SORT_PREFERENCES
     );
+  });
+});
+
+describe('#getSidebarSortOptions', () => {
+  it('keeps unread count options when unread counts are enabled', () => {
+    const options = getSidebarSortOptions(SIDEBAR_SORT_SECTIONS.TEAMS, {
+      hasUnreadCounts: true,
+    });
+
+    expect(options).toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC);
+    expect(options).toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC);
+  });
+
+  it('removes unread count options when unread counts are disabled', () => {
+    const options = getSidebarSortOptions(SIDEBAR_SORT_SECTIONS.TEAMS, {
+      hasUnreadCounts: false,
+    });
+
+    expect(options).not.toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC);
+    expect(options).not.toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC);
+    expect(options).toContain(SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC);
+  });
+});
+
+describe('#resolveSidebarSort', () => {
+  it('keeps unread count sort when unread counts are enabled', () => {
+    const sortBy = resolveSidebarSort(
+      SIDEBAR_SORT_SECTIONS.TEAMS,
+      SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+      { hasUnreadCounts: true }
+    );
+
+    expect(sortBy).toBe(SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC);
+  });
+
+  it('falls back to alphabetical sort when unread counts are disabled', () => {
+    const sortBy = resolveSidebarSort(
+      SIDEBAR_SORT_SECTIONS.TEAMS,
+      SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+      { hasUnreadCounts: false }
+    );
+
+    expect(sortBy).toBe(SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC);
   });
 });

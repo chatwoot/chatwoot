@@ -22,8 +22,9 @@ import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import {
-  SIDEBAR_SORT_OPTIONS_BY_SECTION,
   SIDEBAR_SORT_SECTIONS,
+  getSidebarSortOptions,
+  resolveSidebarSort,
   sortSidebarItems,
 } from 'dashboard/helper/sidebarSort';
 
@@ -225,7 +226,15 @@ watch([accountId, currentUserId], fetchSidebarSortPreferences, {
   immediate: true,
 });
 
-const getSortForSection = section => getSidebarSectionSort.value(section);
+const getSortOptionsForSection = section =>
+  getSidebarSortOptions(section, {
+    hasUnreadCounts: hasConversationUnreadCounts.value,
+  });
+
+const getSortForSection = section =>
+  resolveSidebarSort(section, getSidebarSectionSort.value(section), {
+    hasUnreadCounts: hasConversationUnreadCounts.value,
+  });
 
 const updateSortPreference = (section, sortBy) => {
   store.dispatch('sidebarSortPreferences/setSectionSort', {
@@ -235,7 +244,7 @@ const updateSortPreference = (section, sortBy) => {
 };
 
 const buildSortConfig = section => ({
-  sortOptions: SIDEBAR_SORT_OPTIONS_BY_SECTION[section],
+  sortOptions: getSortOptionsForSection(section),
   activeSort: getSortForSection(section),
   onSortChange: sortBy => updateSortPreference(section, sortBy),
 });
