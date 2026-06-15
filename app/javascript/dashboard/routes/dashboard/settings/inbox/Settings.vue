@@ -508,7 +508,8 @@ export default {
         const response = await InboxHealthAPI.getHealthStatus(this.inbox.id);
         this.healthData = response.data;
       } catch (error) {
-        this.healthError = error.message || 'Failed to fetch health data';
+        this.healthError =
+          error.message || this.$t('INBOX_MGMT.ACCOUNT_HEALTH.FETCH_ERROR');
       } finally {
         this.isLoadingHealth = false;
       }

@@ -68,6 +68,7 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
+        "SIGN_IN": "Sign in with Twitter",
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
         "TWEETS": {
@@ -316,6 +317,8 @@
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "APP_ID_REQUIRED": "WhatsApp App ID is required",
+          "CONFIGURATION_ID_REQUIRED": "WhatsApp Configuration ID is required",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
@@ -686,6 +689,7 @@
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
       "NO_DATA": "Health data is not available",
+      "FETCH_ERROR": "Failed to fetch health data",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Display phone number",
@@ -1015,7 +1019,24 @@
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
-        "CHOOSE": "Choose"
+        "CHOOSE": "Choose",
+        "NAMES": {
+          "SUNDAY": "Sunday",
+          "MONDAY": "Monday",
+          "TUESDAY": "Tuesday",
+          "WEDNESDAY": "Wednesday",
+          "THURSDAY": "Thursday",
+          "FRIDAY": "Friday",
+          "SATURDAY": "Saturday"
+        }
+      },
+      "PERIOD": {
+        "AM": "AM",
+        "PM": "PM"
+      },
+      "DURATION": {
+        "HOURS": "{count}h",
+        "MINUTES": "{count}m"
       },
       "ALL_DAY": "All-Day"
     },

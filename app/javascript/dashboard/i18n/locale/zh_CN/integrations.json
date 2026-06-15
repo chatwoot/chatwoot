@@ -36,7 +36,7 @@
         "COPY": "复制密钥到剪贴板",
         "COPY_SUCCESS": "密钥已复制到剪贴板",
         "TOGGLE": "切换密钥可见性",
-        "CREATED_DESC": "Your webhook has been created. Use the secret below to verify webhook signatures. Please copy it now — you can also find it later in the webhook edit form.",
+        "CREATED_DESC": "Webhook 已创建。请使用下方密钥验证 Webhook 签名并立即复制；之后也可以在 Webhook 编辑表单中找到它。",
         "DONE": "完成"
       },
       "COUNT": "{n} 个 Webhook",
@@ -550,15 +550,15 @@
         },
         "CONTROL_ITEMS": {
           "TITLE": "有趣的功能",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "DESCRIPTION": "进一步控制助手的行为，通过“查询护栏 → 场景 → 输出”的流程直观配置助手。",
           "OPTIONS": {
             "GUARDRAILS": {
               "TITLE": "护栏",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "DESCRIPTION": "限定助手可回答的问题类型，避免回答超出范围或偏离主题的问题。"
             },
             "RESPONSE_GUIDELINES": {
               "TITLE": "回复指南",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "DESCRIPTION": "定义助手回复的语气和结构，例如清晰友好、简短直接或详细正式。"
             }
           }
         },
@@ -583,7 +583,7 @@
       },
       "GUARDRAILS": {
         "TITLE": "护栏",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "DESCRIPTION": "限定助手可回答的问题类型，避免回答超出范围或偏离主题的问题。",
         "BULK_ACTION": {
           "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
@@ -628,7 +628,7 @@
       },
       "RESPONSE_GUIDELINES": {
         "TITLE": "回复指南",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "DESCRIPTION": "定义助手回复的语气和结构，例如清晰友好、简短直接或详细正式。",
         "BULK_ACTION": {
           "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
@@ -673,7 +673,7 @@
       },
       "SCENARIOS": {
         "TITLE": "场景",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "DESCRIPTION": "为助手提供场景上下文，例如用户遇到困难时如何处理，或收到退款请求时如何回应。",
         "BULK_ACTION": {
           "SELECTED": "已选择 {count} 项",
           "SELECT_ALL": "全选 ({count})",
@@ -976,7 +976,7 @@
         },
         "RESPONSE_TEMPLATE": {
           "LABEL": "响应模板（可选）",
-          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+          "PLACEHOLDER": "订单 {'{{'} order_id {'}}'} 状态：{'{{'} status {'}}'}"
         },
         "ERRORS": {
           "PARAM_NAME_REQUIRED": "参数名称是必填项"

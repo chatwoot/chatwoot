@@ -110,10 +110,14 @@ const startEmbeddedSignup = authCode => {
 const handleLoginAndReauthorize = async () => {
   // Validate required configuration
   if (!whatsappAppId.value) {
-    throw new Error('WhatsApp App ID is required');
+    throw new Error(
+      t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.APP_ID_REQUIRED')
+    );
   }
   if (!whatsappConfigurationId.value) {
-    throw new Error('WhatsApp Configuration ID is required');
+    throw new Error(
+      t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CONFIGURATION_ID_REQUIRED')
+    );
   }
 
   try {

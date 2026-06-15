@@ -8,7 +8,7 @@
     "NO_RESULTS": "未找到符合搜索条件的收件箱",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "您的 WhatsApp Business 注册尚未完成。重新连接前，请在 Meta Business Manager 中检查显示名称状态。",
     "COMPLETE_REGISTRATION": "完成注册",
     "LIST": {
       "404": "此账户没有收件箱。"
@@ -68,6 +68,7 @@
         "ERROR_AUTH": "连接 TikTok 时出错，请重试"
       },
       "TWITTER": {
+        "SIGN_IN": "使用 Twitter 登录",
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
         "ERROR_MESSAGE": "连接 Twitter 时出现错误，请重试",
         "TWEETS": {
@@ -316,8 +317,10 @@
           "INVALID_BUSINESS_DATA": "从 Facebook 收到的业务数据无效，请重试。",
           "SIGNUP_ERROR": "注册时发生错误",
           "AUTH_NOT_COMPLETED": "身份验证未完成，请重新开始流程。",
+          "APP_ID_REQUIRED": "必须配置 WhatsApp App ID",
+          "CONFIGURATION_ID_REQUIRED": "必须配置 WhatsApp Configuration ID",
           "SUCCESS_FALLBACK": "WhatsApp Business 账户已成功配置",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "如果您的号码已连接到 WhatsApp Business Platform（API），或者您是接入自有号码的技术提供商，请使用{link}",
           "MANUAL_LINK_TEXT": "手动设置流程",
           "CALLING_ENABLE_FAILED": "您的 WhatsApp 收件箱已就绪，但无法启用语音通话：此号码尚未加入 WhatsApp Business Calling API。请联系 Meta 或您的 WhatsApp Business Solution Provider 完成接入，然后在收件箱的“通话”设置中启用通话。"
         },
@@ -393,9 +396,9 @@
           "ERROR": "此字段是必填项"
         },
         "EMAIL": {
-          "LABEL": "Email",
+          "LABEL": "电子邮件",
           "SUBTITLE": "提供您的客户发送支持请求的电子邮件地址",
-          "PLACEHOLDER": "Email"
+          "PLACEHOLDER": "电子邮件"
         },
         "SUBMIT_BUTTON": "创建电子邮件频道",
         "API": {
@@ -653,6 +656,10 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "语音通话需要 Twilio API 密钥凭据，用于为客服语音连接生成令牌。"
+      },
+      "INBOUND": {
+        "LABEL": "允许来电",
+        "DESCRIPTION": "允许客户拨打此号码。关闭后，来电将被自动拒绝，客服不会收到通知，也不会创建对话；客服仍可拨打外呼电话。"
       }
     },
     "WHATSAPP_CALLING": {
@@ -682,6 +689,7 @@
       "DESCRIPTION": "查看您的 WhatsApp 账户状态、消息限制和质量。如有需要，请更新设置或解决问题",
       "GO_TO_SETTINGS": "前往 Meta 商业管理器",
       "NO_DATA": "健康数据不可用",
+      "FETCH_ERROR": "无法获取账户健康状态",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "显示电话号码",
@@ -1005,13 +1013,30 @@
       "UNAVAILABLE_MESSAGE_LABEL": "对访客的不可用消息",
       "TOGGLE_HELP": "启用业务可用性将在实时聊天小部件上显示可用时间，即使所有代理都离线。在可用时间之外，访客将收到一条消息和预聊天表单的警告。",
       "DAY": {
-        "DAY": "日",
-        "AVAILABILITY": "有效的",
-        "HOURS": "小时",
-        "ENABLE": "为此天启用可用性",
+        "DAY": "日期",
+        "AVAILABILITY": "可用状态",
+        "HOURS": "时段",
+        "ENABLE": "启用当天的工作时间",
         "UNAVAILABLE": "不可用",
         "VALIDATION_ERROR": "起始时间应在结束时间之前。",
-        "CHOOSE": "选择"
+        "CHOOSE": "选择",
+        "NAMES": {
+          "SUNDAY": "周日",
+          "MONDAY": "周一",
+          "TUESDAY": "周二",
+          "WEDNESDAY": "周三",
+          "THURSDAY": "周四",
+          "FRIDAY": "周五",
+          "SATURDAY": "周六"
+        }
+      },
+      "PERIOD": {
+        "AM": "上午",
+        "PM": "下午"
+      },
+      "DURATION": {
+        "HOURS": "{count} 小时",
+        "MINUTES": "{count} 分钟"
       },
       "ALL_DAY": "全天"
     },
@@ -1117,7 +1142,7 @@
           "IN_A_DAY": "通常在一天之内回复您"
         },
         "WIDGET_COLOR_LABEL": "窗口小部件颜色",
-        "WIDGET_BUBBLE": "Bubble",
+        "WIDGET_BUBBLE": "聊天气泡",
         "WIDGET_BUBBLE_POSITION_LABEL": "位置：",
         "WIDGET_BUBBLE_TYPE_LABEL": "类型:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {

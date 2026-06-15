@@ -7,13 +7,21 @@ import NextSelect from 'dashboard/components-next/select/Select.vue';
 
 const timeSlots = generateTimeSlots(30);
 
-const groupByPeriod = slots =>
+const formatTime = (time, locale) => {
+  const date = parse(time, 'hh:mm a', new Date());
+  return new Intl.DateTimeFormat(locale.replace(/_/g, '-'), {
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(date);
+};
+
+const groupByPeriod = (slots, locale, translate) =>
   ['AM', 'PM']
     .map(period => ({
-      label: period,
+      label: translate(`INBOX_MGMT.BUSINESS_HOURS.PERIOD.${period}`),
       options: slots
         .filter(s => s.endsWith(period))
-        .map(s => ({ value: s, label: s })),
+        .map(s => ({ value: s, label: formatTime(s, locale) })),
     }))
     .filter(g => g.options.length);
 
@@ -38,10 +46,14 @@ export default {
   emits: ['update'],
   computed: {
     fromTimeSlots() {
-      return groupByPeriod(timeSlots);
+      return groupByPeriod(timeSlots, this.$i18n.locale, this.$t);
     },
     toTimeSlots() {
-      return groupByPeriod(timeSlots.filter(slot => slot !== '12:00 AM'));
+      return groupByPeriod(
+        timeSlots.filter(slot => slot !== '12:00 AM'),
+        this.$i18n.locale,
+        this.$t
+      );
     },
     isDayEnabled: {
       get() {
@@ -114,7 +126,23 @@ export default {
       const totalMinutes = differenceInMinutes(this.toDate, this.fromDate);
       const [h, m] = [Math.floor(totalMinutes / 60), totalMinutes % 60];
 
-      return [h && `${h}h`, m && `${m}m`].filter(Boolean).join(' ') || '0m';
+      return (
+        [
+          h &&
+            this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.HOURS', {
+              count: h,
+            }),
+          m &&
+            this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.MINUTES', {
+              count: m,
+            }),
+        ]
+          .filter(Boolean)
+          .join(' ') ||
+        this.$t('INBOX_MGMT.BUSINESS_HOURS.DURATION.MINUTES', {
+          count: 0,
+        })
+      );
     },
     hasError() {
       return !this.timeSlot.valid;

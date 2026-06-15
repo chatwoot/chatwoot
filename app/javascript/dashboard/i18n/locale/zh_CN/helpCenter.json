@@ -129,7 +129,7 @@
             "ITEMS": {
               "NAME": "姓名：",
               "DOMAIN": "自定义域名",
-              "SLUG": "Slug",
+              "SLUG": "路径标识（Slug）",
               "TITLE": "门户标题",
               "THEME": "主题颜色",
               "SUB_TEXT": "门户副文本"
@@ -234,12 +234,12 @@
           }
         },
         "LOGO": {
-          "LABEL": "Logo",
-          "UPLOAD_BUTTON": "上传Logo",
-          "HELP_TEXT": "此Logo将显示在门户标题中。",
-          "IMAGE_UPLOAD_SUCCESS": "Logo上传成功",
-          "IMAGE_UPLOAD_ERROR": "Logo删除成功",
-          "IMAGE_DELETE_ERROR": "删除Logo时出错"
+          "LABEL": "徽标",
+          "UPLOAD_BUTTON": "上传徽标",
+          "HELP_TEXT": "此徽标将显示在门户标题中。",
+          "IMAGE_UPLOAD_SUCCESS": "徽标上传成功",
+          "IMAGE_UPLOAD_ERROR": "徽标上传失败，请重试",
+          "IMAGE_DELETE_ERROR": "删除徽标时出错"
         },
         "NAME": {
           "LABEL": "姓名：",
@@ -248,9 +248,9 @@
           "ERROR": "名字必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "门户的URL Slug",
-          "ERROR": "Slug是必填项"
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "门户的 URL 路径标识",
+          "ERROR": "路径标识为必填项"
         },
         "DOMAIN": {
           "LABEL": "自定义域名",
@@ -417,10 +417,10 @@
           "ERROR": "名字必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "类别的URL Slug",
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "类别的 URL 路径标识",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug是必填项"
+          "ERROR": "路径标识为必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -428,7 +428,7 @@
           "ERROR": "描述是必需的"
         },
         "BUTTONS": {
-          "CREATE": "类别的 URL Slug",
+          "CREATE": "创建类别",
           "CANCEL": "取消"
         },
         "API": {
@@ -448,10 +448,10 @@
           "ERROR": "名字必填"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "类别的URL Slug",
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "类别的 URL 路径标识",
           "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
-          "ERROR": "Slug是必填项"
+          "ERROR": "路径标识为必填项"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
@@ -670,9 +670,9 @@
             "ERROR": "名字必填"
           },
           "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "类别的URL Slug",
-            "ERROR": "Slug 是必填项",
+            "LABEL": "路径标识（Slug）",
+            "PLACEHOLDER": "类别的 URL 路径标识",
+            "ERROR": "路径标识为必填项",
             "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
@@ -789,20 +789,20 @@
         "ERROR": "名字必填"
       },
       "SLUG": {
-        "LABEL": "Slug",
+        "LABEL": "路径标识（Slug）",
         "PLACEHOLDER": "用户指南",
-        "ERROR": "Slug是必填项",
-        "FORMAT_ERROR": "请输入有效的 Slug，例如：user-guide"
+        "ERROR": "路径标识为必填项",
+        "FORMAT_ERROR": "请输入有效的路径标识，例如：user-guide"
       }
     },
     "PORTAL_SETTINGS": {
       "FORM": {
         "AVATAR": {
-          "LABEL": "头像",
+          "LABEL": "徽标",
           "IMAGE_UPLOAD_ERROR": "无法上传图片！请再试一次",
-          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击保存更改以保存Logo",
-          "IMAGE_DELETE_SUCCESS": "Logo删除成功",
-          "IMAGE_DELETE_ERROR": "无法删除Logo",
+          "IMAGE_UPLOAD_SUCCESS": "图片上传成功，请点击“保存更改”以保存徽标",
+          "IMAGE_DELETE_SUCCESS": "徽标删除成功",
+          "IMAGE_DELETE_ERROR": "无法删除徽标",
           "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
         },
         "NAME": {
@@ -824,8 +824,8 @@
           "ERROR": "请输入有效的 URL，主页链接必须以 'http://' 或 'https://' 开头。"
         },
         "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "门户Slug"
+          "LABEL": "路径标识（Slug）",
+          "PLACEHOLDER": "门户路径标识"
         },
         "LIVE_CHAT_WIDGET": {
           "LABEL": "在线聊天小部件",
