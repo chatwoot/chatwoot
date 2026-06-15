@@ -1,0 +1,69 @@
+{% extends "_shell.html" %}
+{% set active = 'kb' %}
+{% block title %}Knowledge{% endblock %}
+{% block main %}
+<header class="mb-8">
+  <h1 class="text-2xl font-semibold text-slate-900">Knowledge base</h1>
+  <p class="mt-1 text-sm text-slate-500">Upload product info, FAQs, and policies. Agents ground
+    their answers in these documents and escalate when an answer isn't found.</p>
+</header>
+
+{% if flash %}
+<div class="mb-6 rounded-lg bg-slate-100 text-slate-700 text-sm px-4 py-2">{{ flash }}</div>
+{% endif %}
+
+<form method="post" action="/admin/kb" enctype="multipart/form-data"
+      class="bg-white rounded-2xl ring-1 ring-slate-200 p-6 mb-6 space-y-4">
+  <div>
+    <label class="block text-sm font-medium text-slate-700 mb-1">Document name</label>
+    <input name="name" type="text" placeholder="e.g. Returns policy"
+           class="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm
+                  focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-slate-700 mb-1">Paste text</label>
+    <textarea name="text" rows="6" placeholder="Paste FAQ / policy / product text…"
+              class="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm
+                     focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+  </div>
+  <div>
+    <label class="block text-sm font-medium text-slate-700 mb-1">…or upload a .txt / .md file</label>
+    <input name="file" type="file" accept=".txt,.md,text/plain"
+           class="block text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0
+                  file:bg-slate-100 file:px-3 file:py-2 file:text-sm" />
+  </div>
+  <div class="flex justify-end">
+    <button type="submit"
+            class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-5 py-2.5
+                   hover:bg-indigo-500">Ingest document</button>
+  </div>
+</form>
+
+<div class="bg-white rounded-2xl ring-1 ring-slate-200 overflow-hidden">
+  <table class="w-full text-sm">
+    <thead class="bg-slate-50 text-slate-500 text-left">
+      <tr>
+        <th class="px-5 py-3 font-medium">Document</th>
+        <th class="px-5 py-3 font-medium">Chunks</th>
+        <th class="px-5 py-3 font-medium">Status</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-100">
+      {% for doc in docs %}
+      <tr>
+        <td class="px-5 py-3 text-slate-800">{{ doc.name }}</td>
+        <td class="px-5 py-3 text-slate-500">{{ doc.chunks }}</td>
+        <td class="px-5 py-3">
+          <span class="text-xs font-medium rounded-full px-2 py-0.5
+                       {{ 'bg-emerald-50 text-emerald-700' if doc.status == 'indexed'
+                          else 'bg-red-50 text-red-700' if doc.status == 'failed'
+                          else 'bg-slate-100 text-slate-600' }}">{{ doc.status }}</span>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="3" class="px-5 py-6 text-center text-slate-400">No documents yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

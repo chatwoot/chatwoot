@@ -48,6 +48,9 @@ class Settings(BaseSettings):
 
     # RAG
     qdrant_url: str = "http://qdrant:6333"
+    # Local fastembed model for KB embeddings. Empty = fastembed default (English). Set a
+    # multilingual model (e.g. intfloat/multilingual-e5-large) for non-English catalogues.
+    kb_embedding_model: str = ""
 
 
 settings = Settings()

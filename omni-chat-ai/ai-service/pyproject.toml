@@ -19,7 +19,7 @@ dependencies = [
     "pydantic-ai>=1.0",
     "langgraph>=0.2",            # MIT library only — do NOT add langgraph-api (Elastic License)
     "langfuse>=2.50",
-    "qdrant-client>=1.12",
+    "qdrant-client[fastembed]>=1.12",   # local embeddings for RAG (no extra API key)
     # Admin panel + runtime settings store (API keys entered in the UI, not .env)
     "sqlalchemy[asyncio]>=2.0",
     "asyncpg>=0.29",

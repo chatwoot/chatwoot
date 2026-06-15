@@ -7,7 +7,7 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
-from ..tools import keycrm
+from ..tools import keycrm, kb
 
 
 async def order_summary(order_id: int) -> str:
@@ -28,3 +28,15 @@ def register_order_lookup(agent: Agent) -> None:
     async def lookup_order(order_id: int) -> str:
         """Look up a customer's order by its KeyCRM id (status, total, buyer)."""
         return await order_summary(order_id)
+
+
+def register_kb_search(agent: Agent) -> None:
+    """Attach the knowledge-base search tool so the agent grounds answers in uploaded docs."""
+
+    @agent.tool_plain
+    async def knowledge_search(query: str) -> str:
+        """Search the product/FAQ/policy knowledge base for passages relevant to the query.
+
+        Returns relevant text, or an empty string if nothing is found — in which case do not
+        invent an answer; escalate instead."""
+        return await kb.kb_search(query)

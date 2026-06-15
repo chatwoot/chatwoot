@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
-from .common_tools import register_order_lookup
+from .common_tools import register_kb_search, register_order_lookup
 from .llm import AgentReply, build_model
 
 __all__ = ["warranty_agent"]
@@ -27,3 +27,4 @@ warranty_agent = Agent(
 )
 
 register_order_lookup(warranty_agent)
+register_kb_search(warranty_agent)

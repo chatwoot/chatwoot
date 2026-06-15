@@ -7,11 +7,15 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from fastapi import APIRouter, Form, Request
+from fastapi import APIRouter, File, Form, Request, UploadFile
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy import select
 
 from .. import auth, channels, provisioning, settings_service
+from ..db import SessionLocal
+from ..models_db import KbDocument
+from ..tools import kb
 
 _DIR = Path(__file__).parent
 templates = Jinja2Templates(directory=str(_DIR / "templates"))
@@ -171,6 +175,52 @@ async def channels_telegram(request: Request):
         return redirect
     ok, msg = await channels.ensure_telegram()
     return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
+
+
+# ----------------------------------------------------------------- knowledge base (RAG)
+@router.get("/kb", response_class=HTMLResponse)
+async def kb_page(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    async with SessionLocal() as session:
+        docs = (
+            await session.execute(select(KbDocument).order_by(KbDocument.created_at.desc()))
+        ).scalars().all()
+    return templates.TemplateResponse(
+        request, "kb.html", {"docs": docs, "flash": request.query_params.get("flash")}
+    )
+
+
+@router.post("/kb")
+async def kb_upload(
+    request: Request,
+    name: str = Form(""),
+    text: str = Form(""),
+    file: UploadFile | None = File(None),
+):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    content = text
+    doc_name = name.strip()
+    if file is not None and file.filename:
+        raw = await file.read()
+        content = raw.decode("utf-8", errors="ignore")
+        doc_name = doc_name or file.filename
+    doc_name = doc_name or "Untitled"
+    if not content.strip():
+        return RedirectResponse("/admin/kb?flash=Nothing to ingest.", status_code=303)
+
+    async with SessionLocal() as session:
+        doc = KbDocument(name=doc_name, source="upload", status="processing")
+        session.add(doc)
+        await session.commit()
+        chunks = await kb.ingest_text(doc_name, content)
+        doc.chunks = chunks
+        doc.status = "indexed" if chunks else "failed"
+        await session.merge(doc)
+        await session.commit()
+    msg = f"Indexed {doc_name} ({chunks} chunks)." if chunks else f"Failed to index {doc_name}."
+    return RedirectResponse(f"/admin/kb?flash={msg}", status_code=303)
 
 
 # ----------------------------------------------------------------- connection tests (AJAX)

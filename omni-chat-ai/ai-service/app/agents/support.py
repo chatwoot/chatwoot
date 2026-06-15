@@ -8,6 +8,7 @@ from __future__ import annotations
 from pydantic_ai import Agent
 
 from ..tools import keycrm
+from .common_tools import register_kb_search
 from .llm import AgentReply, build_model, to_message_history
 
 __all__ = ["support_agent", "to_message_history"]
@@ -36,3 +37,6 @@ async def lookup_order(order_id: int) -> str:
         f"Order #{order.id}: status={order.status}, total={order.grand_total}, "
         f"buyer={order.buyer_name}."
     )
+
+
+register_kb_search(support_agent)

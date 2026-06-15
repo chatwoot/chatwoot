@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
+from .common_tools import register_kb_search
 from .llm import AgentReply, build_model
 
 __all__ = ["consultation_agent"]
@@ -25,3 +26,5 @@ consultation_agent = Agent(
         "needs_human=True with a short handoff_reason. Otherwise answer directly and helpfully."
     ),
 )
+
+register_kb_search(consultation_agent)
