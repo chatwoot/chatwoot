@@ -178,8 +178,16 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
+  def unread_incoming_messages?
+    unread_messages.where(account_id: account_id).incoming.exists?
+  end
+
   def assignee_unread_incoming_messages
     assignee_unread_messages.where(account_id: account_id).incoming.last(10)
+  end
+
+  def assignee_unread_incoming_messages?
+    assignee_unread_messages.where(account_id: account_id).incoming.exists?
   end
 
   def cached_label_list_array

@@ -597,6 +597,60 @@ RSpec.describe Conversation do
     end
   end
 
+  describe 'unread_incoming_messages?' do
+    subject(:unread_incoming_messages) { conversation.unread_incoming_messages? }
+
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+    let(:message_params) do
+      {
+        conversation: conversation,
+        account: conversation.account,
+        inbox: conversation.inbox,
+        created_at: 1.minute.ago
+      }
+    end
+
+    it 'returns true when there are unread incoming messages' do
+      create(:message, message_type: :incoming, **message_params)
+
+      expect(unread_incoming_messages).to be true
+    end
+
+    it 'returns false when only non-incoming messages are unread' do
+      create(:message, message_type: :outgoing, **message_params)
+      create(:message, message_type: :activity, **message_params)
+
+      expect(unread_incoming_messages).to be false
+    end
+  end
+
+  describe 'assignee_unread_incoming_messages?' do
+    subject(:assignee_unread_incoming_messages) { conversation.assignee_unread_incoming_messages? }
+
+    let(:conversation) { create(:conversation, assignee_last_seen_at: 1.hour.ago) }
+    let(:message_params) do
+      {
+        conversation: conversation,
+        account: conversation.account,
+        inbox: conversation.inbox,
+        created_at: 1.minute.ago
+      }
+    end
+
+    it 'returns true when there are assignee unread incoming messages' do
+      create(:message, message_type: :incoming, **message_params)
+
+      expect(assignee_unread_incoming_messages).to be true
+    end
+
+    it 'returns false when only non-incoming messages are unread for the assignee' do
+      create(:message, message_type: :outgoing, **message_params)
+      create(:message, message_type: :activity, **message_params)
+
+      expect(assignee_unread_incoming_messages).to be false
+    end
+  end
+
   describe '#push_event_data' do
     subject(:push_event_data) { conversation.push_event_data }
 

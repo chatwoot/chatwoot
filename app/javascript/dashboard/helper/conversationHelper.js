@@ -1,3 +1,5 @@
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+
 /**
  * Determines the last non-activity message between store and API messages.
  * @param {Object} messageInStore - The last non-activity message from the store.
@@ -89,6 +91,9 @@ export const getReadMessages = (messages, agentLastSeenAt) => {
  */
 export const getUnreadMessages = (messages, agentLastSeenAt) => {
   return messages.filter(
-    message => message.created_at * 1000 > agentLastSeenAt * 1000
+    message =>
+      message.created_at * 1000 > agentLastSeenAt * 1000 &&
+      message.message_type === MESSAGE_TYPE.INCOMING &&
+      message.private !== true
   );
 };

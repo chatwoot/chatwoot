@@ -57,6 +57,17 @@ describe('conversationHelper', () => {
         )
       ).toEqual(unReadMessagesData);
     });
+
+    it('only returns incoming public unread messages', () => {
+      const messages = [
+        { id: 1, created_at: 101, message_type: 1, private: false },
+        { id: 2, created_at: 102, message_type: 0, private: true },
+        { id: 3, created_at: 103, message_type: 2, private: false },
+        { id: 4, created_at: 104, message_type: 0, private: false },
+      ];
+
+      expect(getUnreadMessages(messages, 100)).toEqual([messages[3]]);
+    });
   });
 
   describe('#lastMessage', () => {
