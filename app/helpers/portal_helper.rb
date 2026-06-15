@@ -97,6 +97,18 @@ module PortalHelper
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
   end
 
+  # Renders a stored category icon: a bare ri icon name (e.g. `vip-crown-2-fill/line`) saved color, or a plain emoji character.
+  def render_emoji_or_icon(value, color = nil)
+    return '' if value.blank?
+
+    # Emojis are non-ascii; bare icon names match this safe charset.
+    return ERB::Util.html_escape(value) unless value.match?(/\A[a-z][a-z0-9-]*\z/)
+
+    icon_class = value.start_with?('i-') ? value : "i-ri-#{value}"
+    style = "color: #{color};" if color.to_s.match?(/\A#\h{3,8}\z/)
+    tag.span(class: icon_class, style: style, 'aria-hidden': true)
+  end
+
   def thumbnail_bg_color(username)
     colors = ['#6D95BA', '#A4C3C3', '#E19191']
     return colors.sample if username.blank?
