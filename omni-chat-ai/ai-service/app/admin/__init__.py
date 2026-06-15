@@ -12,7 +12,7 @@ from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy import select
 
-from .. import auth, channels, provisioning, settings_service
+from .. import auth, channels, prompts, provisioning, settings_service
 from ..db import SessionLocal
 from ..models_db import KbDocument
 from ..tools import kb
@@ -119,6 +119,43 @@ async def dashboard(request: Request):
     return templates.TemplateResponse(
         request, "dashboard.html", {"cards": cards, "groups": settings_service.GROUPS}
     )
+
+
+# ----------------------------------------------------------------- agents (editable prompts)
+_AGENT_ORDER = ("support", "consultation", "warranty", "sales")
+
+
+def _agent_rows() -> list[dict]:
+    names = [n for n in _AGENT_ORDER if n in prompts.DEFAULTS] or sorted(prompts.DEFAULTS)
+    return [
+        {"name": n, "prompt": prompts.get(n), "default": prompts.DEFAULTS.get(n, ""),
+         "overridden": n in prompts._cache}
+        for n in names
+    ]
+
+
+@router.get("/agents", response_class=HTMLResponse)
+async def agents_page(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    return templates.TemplateResponse(
+        request, "agents.html",
+        {"agents": _agent_rows(), "saved": request.query_params.get("saved")},
+    )
+
+
+@router.post("/agents")
+async def agents_save(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    form = await request.form()
+    if (blocked := _csrf_guard(request, form.get("_csrf"))) is not None:
+        return blocked
+    for name in prompts.DEFAULTS:
+        field = f"prompt.{name}"
+        if field in form:
+            await prompts.set_prompt(name, str(form[field]).strip() or prompts.DEFAULTS[name])
+    return RedirectResponse("/admin/agents?saved=1", status_code=303)
 
 
 # ----------------------------------------------------------------- settings

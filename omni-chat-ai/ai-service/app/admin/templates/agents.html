@@ -1,0 +1,40 @@
+{% extends "_shell.html" %}
+{% set active = 'agents' %}
+{% block title %}Agents{% endblock %}
+{% block main %}
+<header class="mb-8 flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold text-slate-900">Agents</h1>
+    <p class="mt-1 text-sm text-slate-500">Tune each specialist's instructions, tone, and
+      escalation rules. Changes apply live — no redeploy.</p>
+  </div>
+  {% if saved %}
+  <span class="rounded-lg bg-emerald-50 text-emerald-700 text-sm px-3 py-1.5">Saved ✓</span>
+  {% endif %}
+</header>
+
+<form method="post" action="/admin/agents" class="space-y-6">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
+  {% for agent in agents %}
+  <section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-medium text-slate-900 capitalize">{{ agent.name }}</h2>
+      {% if agent.overridden %}
+      <span class="text-xs text-amber-600 font-medium">customised</span>
+      {% else %}
+      <span class="text-xs text-slate-400">default</span>
+      {% endif %}
+    </div>
+    <textarea name="prompt.{{ agent.name }}" rows="6"
+              class="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm font-mono
+                     focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">{{ agent.prompt }}</textarea>
+    <p class="mt-1 text-xs text-slate-400">Clear the box and save to restore the default.</p>
+  </section>
+  {% endfor %}
+  <div class="flex justify-end">
+    <button type="submit"
+            class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-5 py-2.5
+                   hover:bg-indigo-500">Save prompts</button>
+  </div>
+</form>
+{% endblock %}

@@ -5,7 +5,7 @@ import httpx
 import pytest
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from app import auth, crypto, db, provisioning, settings_service
+from app import auth, crypto, db, prompts, provisioning, settings_service
 from app.config import settings as env_settings
 
 
@@ -96,6 +96,20 @@ async def test_register_llm_model_creates_aliases(monkeypatch):
     primary = next(c for c in created if c["model_name"] == "claude-primary")
     assert primary["litellm_params"]["model"] == "anthropic/claude-sonnet-4-6"
     assert primary["litellm_params"]["api_key"] == "sk-ant-live"
+
+
+async def test_prompt_override_falls_back_to_default(sqlite_db):
+    prompts.DEFAULTS["support"] = "DEFAULT PROMPT"
+    prompts._cache.clear()
+    assert prompts.get("support") == "DEFAULT PROMPT"
+
+    await prompts.set_prompt("support", "TUNED PROMPT")
+    assert prompts.get("support") == "TUNED PROMPT"
+
+    # Reload from DB proves persistence; clearing the override restores the default.
+    prompts._cache.clear()
+    await prompts.refresh()
+    assert prompts.get("support") == "TUNED PROMPT"
 
 
 def test_password_hash_and_session():

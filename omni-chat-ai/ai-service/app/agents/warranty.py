@@ -8,25 +8,28 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
+from .. import prompts
 from .common_tools import register_customer_orders, register_kb_search, register_order_lookup
 from .llm import AgentReply, CustomerContext, build_model
 
 __all__ = ["warranty_agent"]
 
+DEFAULT_PROMPT = (
+    "You are an after-sales / warranty agent for an e-commerce business. "
+    "Always reply in the same language the customer is writing in. "
+    "Verify the customer's order with the lookup_order tool before discussing a claim — "
+    "never assume order facts. Explain the warranty and returns policy clearly. Any actual "
+    "refund, replacement, or dispute decision must go to a human: set needs_human=True with "
+    "a short handoff_reason summarising the order id and the issue. Otherwise answer directly."
+)
+
 warranty_agent = Agent(
     build_model("claude-primary"),
     output_type=AgentReply,
     deps_type=CustomerContext,
-    system_prompt=(
-        "You are an after-sales / warranty agent for an e-commerce business. "
-        "Always reply in the same language the customer is writing in. "
-        "Verify the customer's order with the lookup_order tool before discussing a claim — "
-        "never assume order facts. Explain the warranty and returns policy clearly. Any actual "
-        "refund, replacement, or dispute decision must go to a human: set needs_human=True with "
-        "a short handoff_reason summarising the order id and the issue. Otherwise answer directly."
-    ),
 )
 
+prompts.register(warranty_agent, "warranty", DEFAULT_PROMPT)
 register_order_lookup(warranty_agent)
 register_customer_orders(warranty_agent)
 register_kb_search(warranty_agent)

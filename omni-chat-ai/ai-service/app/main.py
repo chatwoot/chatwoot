@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import BackgroundTasks, FastAPI, Header, Request, Response
 
-from . import chatwoot, settings_service
+from . import chatwoot, prompts, settings_service
 from .admin import router as admin_router
 from .graph import ConvState, graph
 from .observability import observe
@@ -28,6 +28,7 @@ async def lifespan(app: FastAPI):
 
         await init_models()
         await settings_service.refresh()
+        await prompts.refresh()
     except Exception as exc:  # pragma: no cover
         logger.warning("settings store unavailable, using env/defaults: %s", exc)
     yield
