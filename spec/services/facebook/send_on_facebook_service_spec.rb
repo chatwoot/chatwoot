@@ -79,14 +79,16 @@ describe Facebook::SendOnFacebookService do
         expect(message.reload.status).to eq('failed')
       end
 
-      it 'marks OAuthException without code 190 as an authorization error' do
+      it 'does not flag a per-recipient OAuthException (code 200) as an authorization error' do
         message = create(:message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation)
         allow(bot).to receive(:deliver).and_raise(
-          Facebook::Messenger::FacebookError.new('message' => 'Some unexpected OAuth failure', 'type' => 'OAuthException')
+          Facebook::Messenger::FacebookError.new('message' => "This person isn't available right now.", 'type' => 'OAuthException', 'code' => 200,
+                                                 'error_subcode' => 1_545_041)
         )
         described_class.new(message: message).perform
 
-        expect(facebook_channel.authorization_error_count).to eq(1)
+        expect(facebook_channel.authorization_error_count).to eq(0)
+        expect(message.reload.status).to eq('failed')
       end
 
       it 'does not flag unrelated errors as authorization errors' do
