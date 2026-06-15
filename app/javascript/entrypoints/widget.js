@@ -19,9 +19,6 @@ import {
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
-  // Fall back to English for keys the community hasn't translated yet,
-  // so customers never see raw i18n keys in the widget.
-  fallbackLocale: 'en',
   messages: i18nMessages,
 });
 

@@ -180,7 +180,7 @@ export default {
         v-if="shouldShowEmojiPicker && showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         mode="emoji"
-        class="!bottom-full end-0 mb-2"
+        class="!bottom-full end-0 mb-2 max-w-[calc(100vw-3rem)]"
         @select="onSelectEmoji"
         @keydown.esc="hideEmojiPicker"
       />
