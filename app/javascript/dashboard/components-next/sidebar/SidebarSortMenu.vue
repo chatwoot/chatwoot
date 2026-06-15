@@ -17,9 +17,13 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  openOnHover: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-const emit = defineEmits(['update:sort']);
+const emit = defineEmits(['sort', 'toggle']);
 
 const SORT_OPTION_GROUPS = [
   {
@@ -123,6 +127,7 @@ const clearCloseTimer = () => {
 const openMenu = async () => {
   clearCloseTimer();
   isOpen.value = true;
+  emit('toggle', true);
 
   await nextTick();
   updatePosition();
@@ -131,11 +136,20 @@ const openMenu = async () => {
 const closeMenu = () => {
   clearCloseTimer();
   isOpen.value = false;
+  emit('toggle', false);
 };
 
 const scheduleClose = () => {
   clearCloseTimer();
   closeTimer = setTimeout(closeMenu, 150);
+};
+
+const handleTriggerEnter = () => {
+  if (props.openOnHover) openMenu();
+};
+
+const handleTriggerLeave = () => {
+  if (props.openOnHover) scheduleClose();
 };
 
 const handleClickOutside = event => {
@@ -144,7 +158,7 @@ const handleClickOutside = event => {
 };
 
 const handleSortChange = ({ value }) => {
-  emit('update:sort', value);
+  emit('sort', value);
   closeMenu();
 };
 
@@ -156,8 +170,8 @@ onBeforeUnmount(clearCloseTimer);
     ref="triggerRef"
     class="relative invisible flex-shrink-0 opacity-0 pointer-events-none transition-opacity duration-150 group-hover/sidebar-section:visible group-hover/sidebar-section:opacity-100 group-hover/sidebar-section:pointer-events-auto"
     :class="{ '!visible !opacity-100 !pointer-events-auto': isOpen }"
-    @mouseenter="openMenu"
-    @mouseleave="scheduleClose"
+    @mouseenter="handleTriggerEnter"
+    @mouseleave="handleTriggerLeave"
   >
     <Button
       :title="t('SIDEBAR.SORT_TOOLTIP')"
@@ -165,7 +179,7 @@ onBeforeUnmount(clearCloseTimer);
       ghost
       slate
       xs
-      class="!size-6"
+      class="!size-6 !text-n-slate-11 hover:!text-n-slate-12"
       :class="{ '!bg-n-alpha-2': isOpen }"
       @click.stop="openMenu"
     />
@@ -181,7 +195,7 @@ onBeforeUnmount(clearCloseTimer);
         class="w-60 !fixed"
         @action="handleSortChange"
         @mouseenter="clearCloseTimer"
-        @mouseleave="scheduleClose"
+        @mouseleave="handleTriggerLeave"
       >
         <template #trailing-icon="{ item }">
           <span

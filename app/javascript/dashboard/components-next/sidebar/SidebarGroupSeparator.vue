@@ -84,7 +84,7 @@ const TREE_ELBOW =
         v-if="sortOptions.length"
         :active-sort="activeSort"
         :options="sortOptions"
-        @update:sort="sortBy => emit('update-sort', sortBy)"
+        @sort="sortBy => emit('update-sort', sortBy)"
       />
       <button
         v-if="collapsible"
