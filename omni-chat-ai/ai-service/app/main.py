@@ -46,6 +46,31 @@ async def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
+# ---------------------------------------------------------------- channel connectors (E-Chat)
+@app.post("/connectors/echat/inbound")
+async def echat_inbound(request: Request, background_tasks: BackgroundTasks) -> Response:
+    """Receive an E-Chat platform event and relay it into the Chatwoot API-channel inbox."""
+    from .connectors import echat
+
+    payload = await request.json()
+    background_tasks.add_task(echat.handle_inbound, payload)
+    return Response(status_code=200)
+
+
+@app.post("/connectors/echat/outbound")
+async def echat_outbound(request: Request, background_tasks: BackgroundTasks) -> Response:
+    """Receive Chatwoot's API-channel webhook (agent reply) and send it back out via E-Chat."""
+    from .connectors import echat
+
+    event = await request.json()
+    if event.get("message_type") == "outgoing" and not event.get("private"):
+        source_id = ((event.get("conversation") or {}).get("contact_inbox") or {}).get("source_id")
+        content = event.get("content")
+        if source_id and content:
+            background_tasks.add_task(echat.send_to_echat, source_id, content)
+    return Response(status_code=200)
+
+
 @app.post("/webhooks/chatwoot")
 async def chatwoot_webhook(
     request: Request,

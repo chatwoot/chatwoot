@@ -70,4 +70,38 @@
     </button>
   </form>
 </section>
+
+<h2 class="text-sm font-semibold text-slate-400 uppercase tracking-wide mt-10 mb-3">
+  More channels (need an external account)</h2>
+
+<!-- E-Chat (personal Telegram / Viber) -->
+<section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6 mb-5">
+  <div class="flex items-center justify-between mb-2">
+    <h2 class="font-medium text-slate-900">Personal Telegram / Viber <span
+      class="text-xs text-slate-400 font-normal">· via E-Chat.tech</span></h2>
+    <span class="text-xs font-medium {{ 'text-emerald-600' if echat_inbox else 'text-slate-400' }}">
+      {{ 'Connected' if echat_inbox else 'Not connected' }}
+    </span>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">Bridges a personal Telegram/Viber account through an
+    E-Chat.tech subscription into a Chatwoot API channel. Add your E-Chat key under
+    <a href="/admin/settings" class="text-indigo-600 hover:underline">Settings → Channels</a>,
+    then create the inbox.</p>
+  <form method="post" action="/admin/channels/echat">
+    <button type="submit" {{ 'disabled' if (not has_token or not echat_set or echat_inbox) }}
+            class="rounded-lg bg-slate-800 text-white text-sm font-medium px-4 py-2.5
+                   hover:bg-slate-700 disabled:opacity-40">
+      {{ 'Connected' if echat_inbox else 'Create E-Chat inbox' }}
+    </button>
+  </form>
+</section>
+
+<!-- WhatsApp / Instagram (native, need Meta Business) -->
+<section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6">
+  <h2 class="font-medium text-slate-900 mb-2">WhatsApp & Instagram</h2>
+  <p class="text-sm text-slate-500">These use Chatwoot's official channels and require a
+    <span class="font-medium">Meta Business</span> account. Set them up in Chatwoot directly
+    (Settings → Inboxes → Add Inbox → WhatsApp / Instagram), then the AI bot you created here
+    can be attached to them the same way. No extra wiring needed on this side.</p>
+</section>
 {% endblock %}

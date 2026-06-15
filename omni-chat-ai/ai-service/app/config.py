@@ -46,6 +46,10 @@ class Settings(BaseSettings):
     langfuse_public_key: str = ""
     langfuse_secret_key: str = ""
 
+    # Connectors (non-native channels via E-Chat.tech bridge)
+    echat_base_url: str = "https://api.e-chat.tech"
+    echat_api_key: str = ""
+
     # RAG
     qdrant_url: str = "http://qdrant:6333"
     # Local fastembed model for KB embeddings. Empty = fastembed default (English). Set a

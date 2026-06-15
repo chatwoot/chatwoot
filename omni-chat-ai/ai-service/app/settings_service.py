@@ -61,6 +61,11 @@ REGISTRY: tuple[SettingSpec, ...] = (
     # --- Channels ---
     SettingSpec("channels.telegram_bot_token", "Telegram bot token", "Channels", secret=True,
                 help="From @BotFather. Saving provisions a Telegram inbox in Chatwoot."),
+    SettingSpec("echat.base_url", "E-Chat base URL", "Channels",
+                default="https://api.e-chat.tech", env_attr="echat_base_url",
+                help="E-Chat.tech bridge for personal Telegram/Viber (needs an E-Chat account)."),
+    SettingSpec("echat.api_key", "E-Chat API key", "Channels", secret=True,
+                env_attr="echat_api_key"),
 )
 
 _SPEC_BY_KEY: dict[str, SettingSpec] = {s.key: s for s in REGISTRY}

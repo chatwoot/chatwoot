@@ -155,6 +155,8 @@ async def channels_page(request: Request):
         "widget_script": settings_service.get("chatwoot.web_widget_script"),
         "telegram_inbox": settings_service.get("chatwoot.telegram_inbox_id"),
         "telegram_set": settings_service.is_configured("channels.telegram_bot_token"),
+        "echat_inbox": settings_service.get("echat.inbox_identifier"),
+        "echat_set": settings_service.is_configured("echat.api_key"),
         "flash": request.query_params.get("flash"),
         "ok": request.query_params.get("ok"),
     }
@@ -174,6 +176,16 @@ async def channels_telegram(request: Request):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
     ok, msg = await channels.ensure_telegram()
+    return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
+
+
+@router.post("/channels/echat")
+async def channels_echat(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    from ..connectors import echat
+
+    ok, msg = await echat.ensure_inbox()
     return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
 
 
