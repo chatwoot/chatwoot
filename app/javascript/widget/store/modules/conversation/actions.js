@@ -186,7 +186,11 @@ export const actions = {
     commit('toggleAgentTypingStatus', data);
   },
 
-  toggleUserTyping: async (_, data) => {
+  toggleUserTyping: async ({ getters: appGetters }, data) => {
+    if (!appGetters.getConversationSize) {
+      return;
+    }
+
     try {
       await toggleTyping(data);
     } catch (error) {
