@@ -113,8 +113,20 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
 
   def handle_facebook_error(exception)
     # Refer: https://github.com/jgorset/facebook-messenger/blob/64fe1f5cef4c1e3fca295b205037f64dfebdbcab/lib/facebook/messenger/error.rb
-    return unless exception.to_s.include?('The session has been invalidated') || exception.to_s.include?('Error validating access token')
+    # https://developers.facebook.com/docs/graph-api/guides/error-handling/
+    # Classify any authentication failure as a channel authorization error
+    # rather than relying on exact error-message matching, which misses
+    # scope-revocation errors such as "permission(s) must be granted before
+    # impersonating a user's page".
+    return unless authorization_error?(exception)
 
     channel.authorization_error!
+  end
+
+  def authorization_error?(exception)
+    exception.code.to_i == 190 ||
+      exception.type.to_s == 'OAuthException' ||
+      exception.to_s.include?('The session has been invalidated') ||
+      exception.to_s.include?('Error validating access token')
   end
 end
