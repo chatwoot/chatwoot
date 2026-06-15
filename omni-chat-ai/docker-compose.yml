@@ -12,6 +12,7 @@ x-env: &default-env
 services:
   # ---------------------------------------------------------------- infra
   postgres:
+    restart: unless-stopped
     image: pgvector/pgvector:pg16
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-chatwoot}
@@ -28,6 +29,7 @@ services:
       retries: 10
 
   redis:
+    restart: unless-stopped
     image: redis:7-alpine
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis}"]
     volumes:
@@ -35,6 +37,7 @@ services:
 
   # ---------------------------------------------------------------- chatwoot (Unified Chat Panel)
   chatwoot:
+    restart: unless-stopped
     image: chatwoot/chatwoot:v4.14.2
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
@@ -48,6 +51,7 @@ services:
       - "3000:3000"
 
   chatwoot_worker:
+    restart: unless-stopped
     image: chatwoot/chatwoot:v4.14.2
     entrypoint: docker/entrypoints/rails.sh
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
@@ -60,6 +64,7 @@ services:
 
   # ---------------------------------------------------------------- model gateway (no OpenAI lock-in)
   litellm:
+    restart: unless-stopped
     image: ghcr.io/berriai/litellm:main-stable
     command: ["--config", "/app/config.yaml", "--port", "4000"]
     volumes:
@@ -81,6 +86,7 @@ services:
 
   # ---------------------------------------------------------------- AI agent service (your IP)
   ai-service:
+    restart: unless-stopped
     build: ./ai-service
     env_file: .env
     environment:
@@ -95,11 +101,18 @@ services:
       postgres: { condition: service_healthy }
       litellm: { condition: service_started }
       qdrant: { condition: service_started }
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:8080/health').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     ports:
       - "8080:8080"
 
   # ---------------------------------------------------------------- RAG vector store
   qdrant:
+    restart: unless-stopped
     image: qdrant/qdrant:v1.18.2
     volumes:
       - qdrant_data:/qdrant/storage
@@ -108,6 +121,7 @@ services:
 
   # ---------------------------------------------------------------- observability + eval + self-learning
   langfuse:
+    restart: unless-stopped
     image: langfuse/langfuse:3
     depends_on:
       postgres: { condition: service_healthy }
@@ -126,6 +140,7 @@ services:
       - "3001:3000"
 
   clickhouse:
+    restart: unless-stopped
     image: clickhouse/clickhouse-server:24
     environment:
       CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD:-clickhouse}
@@ -136,6 +151,7 @@ services:
   # Evolution API for a personal WhatsApp number (Baileys). Personal Viber/Telegram go through
   # the managed E-Chat.tech bridge (external) → Chatwoot API channel; see docs/knowledge/channels.md.
   evolution-api:
+    restart: unless-stopped
     image: atendai/evolution-api:v2.2.3
     environment:
       AUTHENTICATION_API_KEY: ${EVOLUTION_API_KEY:-evo-local}
