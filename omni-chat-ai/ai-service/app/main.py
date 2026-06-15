@@ -6,13 +6,35 @@ graph deliver the reply or hand off. Every run is traced to Langfuse.
 """
 from __future__ import annotations
 
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import BackgroundTasks, FastAPI, Header, Request, Response
 
-from . import chatwoot
+from . import chatwoot, settings_service
+from .admin import router as admin_router
 from .graph import ConvState, graph
 from .observability import observe
 
-app = FastAPI(title="Omni-Chat-AI service")
+logger = logging.getLogger("omni-chat-ai")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Create the settings store and load saved config into the cache. The service still boots
+    # if the DB is unreachable (e.g. unit tests) — env/defaults act as the fallback layer.
+    try:
+        from .db import init_models
+
+        await init_models()
+        await settings_service.refresh()
+    except Exception as exc:  # pragma: no cover
+        logger.warning("settings store unavailable, using env/defaults: %s", exc)
+    yield
+
+
+app = FastAPI(title="Omni-Chat-AI service", lifespan=lifespan)
+app.include_router(admin_router)
 
 # Webhooks can be redelivered; remember handled message ids so a retry never double-replies.
 # Bounded to avoid unbounded growth (a stateless service, so exact LRU isn't worth it).

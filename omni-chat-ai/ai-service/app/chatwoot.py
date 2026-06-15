@@ -11,27 +11,27 @@ import hmac
 
 import httpx
 
-from .config import settings
+from . import settings_service
 
 
 def _url(path: str) -> str:
-    base = settings.chatwoot_base_url.rstrip("/")
-    return f"{base}/api/v1/accounts/{settings.chatwoot_account_id}{path}"
+    base = settings_service.get("chatwoot.base_url").rstrip("/")
+    account_id = settings_service.get("chatwoot.account_id")
+    return f"{base}/api/v1/accounts/{account_id}{path}"
 
 
 def _headers() -> dict[str, str]:
-    return {"api_access_token": settings.chatwoot_api_access_token}
+    return {"api_access_token": settings_service.get("chatwoot.api_access_token")}
 
 
 def verify_signature(raw_body: bytes, signature: str | None) -> bool:
     """Validate the HMAC-SHA256 signature Chatwoot sends with agent-bot webhooks."""
-    if not settings.chatwoot_hmac_secret:
+    secret = settings_service.get("chatwoot.hmac_secret")
+    if not secret:
         return True  # not configured in local dev
     if not signature:
         return False
-    expected = hmac.new(
-        settings.chatwoot_hmac_secret.encode(), raw_body, hashlib.sha256
-    ).hexdigest()
+    expected = hmac.new(secret.encode(), raw_body, hashlib.sha256).hexdigest()
     return hmac.compare_digest(expected, signature)
 
 

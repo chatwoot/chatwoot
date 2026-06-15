@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="min-h-full flex">
+  <aside class="w-60 shrink-0 bg-slate-900 text-slate-300 flex flex-col">
+    <div class="px-6 py-5 text-white font-semibold text-lg tracking-tight">Omni-Chat-AI</div>
+    <nav class="flex-1 px-3 space-y-1">
+      {% set nav = [('dashboard', 'Dashboard'), ('settings', 'Settings')] %}
+      {% for slug, label in nav %}
+      <a href="/admin/{{ slug }}"
+         class="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-slate-800
+                {{ 'bg-slate-800 text-white' if active == slug else '' }}">{{ label }}</a>
+      {% endfor %}
+    </nav>
+    <a href="/admin/logout" class="px-6 py-4 text-sm text-slate-400 hover:text-white">Sign out</a>
+  </aside>
+  <main class="flex-1 px-10 py-8 max-w-4xl">
+    {% block main %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

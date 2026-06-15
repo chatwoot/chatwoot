@@ -10,7 +10,7 @@ import time
 import httpx
 from pydantic import BaseModel
 
-from ..config import settings
+from .. import settings_service
 
 # KeyCRM caps at 60 req/min per IP per key (CLAUDE.md rule #7). A short TTL cache absorbs the
 # common case of several agents/turns asking about the same order within a minute.
@@ -26,7 +26,7 @@ class Order(BaseModel):
 
 
 def _headers() -> dict[str, str]:
-    return {"Authorization": f"Bearer {settings.keycrm_api_key}"}
+    return {"Authorization": f"Bearer {settings_service.get('keycrm.api_key')}"}
 
 
 async def get_order(order_id: int) -> Order | None:
@@ -36,7 +36,7 @@ async def get_order(order_id: int) -> Order | None:
     if cached and now - cached[0] < _TTL_SECONDS:
         return cached[1]
 
-    url = f"{settings.keycrm_base_url.rstrip('/')}/order/{order_id}"
+    url = f"{settings_service.get('keycrm.base_url').rstrip('/')}/order/{order_id}"
     async with httpx.AsyncClient(timeout=20) as client:
         resp = await client.get(url, headers=_headers(), params={"include": "buyer,payments"})
     if resp.status_code != 200:

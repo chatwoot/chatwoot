@@ -1,0 +1,48 @@
+{% extends "_shell.html" %}
+{% set active = 'dashboard' %}
+{% block title %}Dashboard{% endblock %}
+{% block main %}
+<header class="mb-8">
+  <h1 class="text-2xl font-semibold text-slate-900">Dashboard</h1>
+  <p class="mt-1 text-sm text-slate-500">Live status of each integration. Configure them under
+    <a href="/admin/settings" class="text-indigo-600 hover:underline">Settings</a>.</p>
+</header>
+
+<div x-data="statusBoard()" x-init="checkAll()" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+  {% for card in cards %}
+  <div class="bg-white rounded-2xl ring-1 ring-slate-200 p-5"
+       x-data="{ group: '{{ card.group }}' }">
+    <div class="flex items-center justify-between">
+      <h2 class="font-medium text-slate-900">{{ card.group }}</h2>
+      <span class="inline-flex items-center gap-1.5 text-xs font-medium"
+            :class="status[group]?.ok ? 'text-emerald-600' : 'text-slate-400'">
+        <span class="h-2 w-2 rounded-full"
+              :class="status[group]?.ok ? 'bg-emerald-500' :
+                      (status[group] ? 'bg-red-500' : 'bg-slate-300 animate-pulse')"></span>
+        <span x-text="status[group] ? (status[group].ok ? 'Connected' : 'Not connected') : 'Checking…'"></span>
+      </span>
+    </div>
+    <p class="mt-2 text-xs text-slate-500 min-h-[1rem]" x-text="status[group]?.message || ''"></p>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+function statusBoard() {
+  return {
+    status: {},
+    groups: {{ groups | tojson }},
+    async checkAll() {
+      await Promise.all(this.groups.map(async (g) => {
+        try {
+          const r = await fetch(`/admin/test/${encodeURIComponent(g)}`, { method: 'POST' });
+          this.status[g] = await r.json();
+        } catch (e) {
+          this.status[g] = { ok: false, message: 'Check failed.' };
+        }
+      }));
+    },
+  };
+}
+</script>
+{% endblock %}

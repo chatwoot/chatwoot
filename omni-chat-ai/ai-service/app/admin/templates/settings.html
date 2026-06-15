@@ -1,0 +1,61 @@
+{% extends "_shell.html" %}
+{% set active = 'settings' %}
+{% block title %}Settings{% endblock %}
+{% block main %}
+<header class="mb-8 flex items-center justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold text-slate-900">Settings</h1>
+    <p class="mt-1 text-sm text-slate-500">Enter your API keys here — nothing is stored in files.</p>
+  </div>
+  {% if saved %}
+  <span class="rounded-lg bg-emerald-50 text-emerald-700 text-sm px-3 py-1.5">Saved ✓</span>
+  {% endif %}
+</header>
+
+<form method="post" action="/admin/settings" class="space-y-6">
+  {% for group, specs in grouped.items() %}
+  <section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6"
+           x-data="{ result: null, testing: false,
+                     async test() {
+                       this.testing = true;
+                       const r = await fetch('/admin/test/{{ group | urlencode }}', { method: 'POST' });
+                       this.result = await r.json(); this.testing = false;
+                     } }">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-medium text-slate-900">{{ group }}</h2>
+      <div class="flex items-center gap-3">
+        <span x-show="result" x-cloak class="text-xs font-medium"
+              :class="result?.ok ? 'text-emerald-600' : 'text-red-600'"
+              x-text="result?.message"></span>
+        <button type="button" @click="test()" :disabled="testing"
+                class="text-xs font-medium rounded-lg ring-1 ring-slate-300 px-3 py-1.5
+                       hover:bg-slate-50 disabled:opacity-50">
+          <span x-text="testing ? 'Testing…' : 'Test connection'"></span>
+        </button>
+      </div>
+    </div>
+    <div class="space-y-4">
+      {% for spec in specs %}
+      <div>
+        <label class="block text-sm font-medium text-slate-700 mb-1">{{ spec.label }}</label>
+        <input name="{{ spec.key }}" type="{{ 'password' if spec.secret else 'text' }}"
+               value="{{ '' if spec.secret else values[spec.key] }}"
+               {% if spec.secret and values[spec.key] %}placeholder="•••••••• (saved — leave blank to keep)"{% endif %}
+               autocomplete="off"
+               class="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm
+                      focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+        {% if spec.help %}<p class="mt-1 text-xs text-slate-400">{{ spec.help }}</p>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+
+  <div class="flex justify-end">
+    <button type="submit"
+            class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-5 py-2.5
+                   hover:bg-indigo-500 transition">Save settings</button>
+  </div>
+</form>
+<style>[x-cloak]{display:none!important}</style>
+{% endblock %}
