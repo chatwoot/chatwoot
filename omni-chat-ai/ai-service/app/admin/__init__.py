@@ -18,9 +18,19 @@ from ..models_db import KbDocument
 from ..tools import kb
 
 _DIR = Path(__file__).parent
-templates = Jinja2Templates(directory=str(_DIR / "templates"))
+templates = Jinja2Templates(
+    directory=str(_DIR / "templates"),
+    context_processors=[lambda request: {"csrf": auth.csrf_token(request)}],
+)
 
 router = APIRouter(prefix="/admin", tags=["admin"])
+
+
+def _csrf_guard(request: Request, submitted: str | None) -> JSONResponse | None:
+    """Return a 403 response when the CSRF token is missing/invalid, else None."""
+    if not auth.csrf_ok(request, submitted):
+        return JSONResponse({"error": "Invalid CSRF token"}, status_code=403)
+    return None
 
 
 def _grouped_specs() -> dict[str, list]:
@@ -61,7 +71,7 @@ async def setup_submit(
         )
     await auth.create_admin(email, password)
     resp = RedirectResponse("/admin/dashboard", status_code=303)
-    resp.set_cookie(auth.COOKIE_NAME, auth.issue_session(email), httponly=True, samesite="lax")
+    auth.set_session_cookie(resp, email)
     return resp
 
 
@@ -84,7 +94,7 @@ async def login_submit(
             request, "login.html", {"error": "Invalid email or password."}
         )
     resp = RedirectResponse("/admin/dashboard", status_code=303)
-    resp.set_cookie(auth.COOKIE_NAME, auth.issue_session(email), httponly=True, samesite="lax")
+    auth.set_session_cookie(resp, email)
     return resp
 
 
@@ -129,6 +139,8 @@ async def settings_save(request: Request):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
     form = await request.form()
+    if (blocked := _csrf_guard(request, form.get("_csrf"))) is not None:
+        return blocked
     for spec in settings_service.REGISTRY:
         if spec.key not in form:
             continue
@@ -164,25 +176,31 @@ async def channels_page(request: Request):
 
 
 @router.post("/channels/web-widget")
-async def channels_web_widget(request: Request, website_url: str = Form(...)):
+async def channels_web_widget(request: Request, website_url: str = Form(...), csrf_field: str = Form("", alias="_csrf")):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
+    if (blocked := _csrf_guard(request, csrf_field)) is not None:
+        return blocked
     ok, msg = await channels.ensure_web_widget(website_url.strip())
     return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
 
 
 @router.post("/channels/telegram")
-async def channels_telegram(request: Request):
+async def channels_telegram(request: Request, csrf_field: str = Form("", alias="_csrf")):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
+    if (blocked := _csrf_guard(request, csrf_field)) is not None:
+        return blocked
     ok, msg = await channels.ensure_telegram()
     return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
 
 
 @router.post("/channels/echat")
-async def channels_echat(request: Request):
+async def channels_echat(request: Request, csrf_field: str = Form("", alias="_csrf")):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
+    if (blocked := _csrf_guard(request, csrf_field)) is not None:
+        return blocked
     from ..connectors import echat
 
     ok, msg = await echat.ensure_inbox()
@@ -209,9 +227,12 @@ async def kb_upload(
     name: str = Form(""),
     text: str = Form(""),
     file: UploadFile | None = File(None),
+    csrf_field: str = Form("", alias="_csrf"),
 ):
     if (redirect := auth.require_admin(request)) is not None:
         return redirect
+    if (blocked := _csrf_guard(request, csrf_field)) is not None:
+        return blocked
     content = text
     doc_name = name.strip()
     if file is not None and file.filename:

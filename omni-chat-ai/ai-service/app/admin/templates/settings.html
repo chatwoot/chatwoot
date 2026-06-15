@@ -13,6 +13,7 @@
 </header>
 
 <form method="post" action="/admin/settings" class="space-y-6">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
   {% for group, specs in grouped.items() %}
   <section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6"
            x-data="{ result: null, testing: false,

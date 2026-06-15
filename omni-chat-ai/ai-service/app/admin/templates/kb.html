@@ -14,6 +14,7 @@
 
 <form method="post" action="/admin/kb" enctype="multipart/form-data"
       class="bg-white rounded-2xl ring-1 ring-slate-200 p-6 mb-6 space-y-4">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
   <div>
     <label class="block text-sm font-medium text-slate-700 mb-1">Document name</label>
     <input name="name" type="text" placeholder="e.g. Returns policy"

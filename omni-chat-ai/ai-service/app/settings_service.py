@@ -66,6 +66,9 @@ REGISTRY: tuple[SettingSpec, ...] = (
                 help="E-Chat.tech bridge for personal Telegram/Viber (needs an E-Chat account)."),
     SettingSpec("echat.api_key", "E-Chat API key", "Channels", secret=True,
                 env_attr="echat_api_key"),
+    SettingSpec("echat.webhook_secret", "E-Chat webhook secret", "Channels", secret=True,
+                env_attr="echat_webhook_secret",
+                help="Shared secret E-Chat must send (?token= or X-Connector-Secret) on inbound."),
 )
 
 _SPEC_BY_KEY: dict[str, SettingSpec] = {s.key: s for s in REGISTRY}

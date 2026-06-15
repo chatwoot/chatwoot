@@ -6,6 +6,8 @@ session store is needed.
 """
 from __future__ import annotations
 
+import secrets
+
 import bcrypt
 from fastapi import Request
 from fastapi.responses import RedirectResponse
@@ -24,6 +26,11 @@ def _serializer() -> URLSafeTimedSerializer:
     return URLSafeTimedSerializer(settings.app_secret_key, salt="omni-admin-session")
 
 
+def _cookie_secure() -> bool:
+    # Send the cookie only over HTTPS when the public URL is https (i.e. behind Caddy in prod).
+    return settings.public_base_url.startswith("https://")
+
+
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
@@ -36,18 +43,40 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 
 def issue_session(email: str) -> str:
-    return _serializer().dumps({"email": email})
+    # Each session carries a CSRF token used to validate state-changing form posts.
+    return _serializer().dumps({"email": email, "csrf": secrets.token_urlsafe(16)})
 
 
-def read_session(request: Request) -> str | None:
+def _session_data(request: Request) -> dict | None:
     token = request.cookies.get(COOKIE_NAME)
     if not token:
         return None
     try:
-        data = _serializer().loads(token, max_age=_MAX_AGE)
+        return _serializer().loads(token, max_age=_MAX_AGE)
     except BadSignature:
         return None
-    return data.get("email")
+
+
+def read_session(request: Request) -> str | None:
+    data = _session_data(request)
+    return data.get("email") if data else None
+
+
+def csrf_token(request: Request) -> str:
+    data = _session_data(request)
+    return data.get("csrf", "") if data else ""
+
+
+def csrf_ok(request: Request, submitted: str | None) -> bool:
+    expected = csrf_token(request)
+    return bool(expected) and bool(submitted) and secrets.compare_digest(expected, submitted)
+
+
+def set_session_cookie(resp, email: str) -> None:
+    resp.set_cookie(
+        COOKIE_NAME, issue_session(email),
+        httponly=True, samesite="lax", secure=_cookie_secure(),
+    )
 
 
 async def admin_exists() -> bool:

@@ -36,6 +36,7 @@
             class="w-full rounded-lg bg-slate-900 text-slate-100 text-xs font-mono p-3">{{ widget_script }}</textarea>
   {% else %}
   <form method="post" action="/admin/channels/web-widget" class="flex gap-3 items-end">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
     <div class="flex-1">
       <label class="block text-sm font-medium text-slate-700 mb-1">Your website URL</label>
       <input name="website_url" type="url" required placeholder="https://example.com"
@@ -63,6 +64,7 @@
     then connect — Chatwoot registers the Telegram webhook for you.
   </p>
   <form method="post" action="/admin/channels/telegram">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
     <button type="submit" {{ 'disabled' if (not has_token or not telegram_set or telegram_inbox) }}
             class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-4 py-2.5
                    hover:bg-indigo-500 disabled:opacity-40">
@@ -88,6 +90,7 @@
     <a href="/admin/settings" class="text-indigo-600 hover:underline">Settings → Channels</a>,
     then create the inbox.</p>
   <form method="post" action="/admin/channels/echat">
+  <input type="hidden" name="_csrf" value="{{ csrf }}" />
     <button type="submit" {{ 'disabled' if (not has_token or not echat_set or echat_inbox) }}
             class="rounded-lg bg-slate-800 text-white text-sm font-medium px-4 py-2.5
                    hover:bg-slate-700 disabled:opacity-40">

@@ -48,11 +48,23 @@ async def health() -> dict[str, str]:
 
 # ---------------------------------------------------------------- channel connectors (E-Chat)
 @app.post("/connectors/echat/inbound")
-async def echat_inbound(request: Request, background_tasks: BackgroundTasks) -> Response:
-    """Receive an E-Chat platform event and relay it into the Chatwoot API-channel inbox."""
+async def echat_inbound(
+    request: Request,
+    background_tasks: BackgroundTasks,
+    x_connector_secret: str | None = Header(default=None),
+) -> Response:
+    """Receive an E-Chat platform event and relay it into the Chatwoot API-channel inbox.
+
+    The endpoint is public, so a shared secret (header or ?token=) is required when configured.
+    """
+    secret = settings_service.get("echat.webhook_secret")
+    if secret:
+        provided = x_connector_secret or request.query_params.get("token")
+        if provided != secret:
+            return Response(status_code=401)
+    payload = await request.json()
     from .connectors import echat
 
-    payload = await request.json()
     background_tasks.add_task(echat.handle_inbound, payload)
     return Response(status_code=200)
 

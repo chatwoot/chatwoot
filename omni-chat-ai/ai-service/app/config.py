@@ -49,6 +49,7 @@ class Settings(BaseSettings):
     # Connectors (non-native channels via E-Chat.tech bridge)
     echat_base_url: str = "https://api.e-chat.tech"
     echat_api_key: str = ""
+    echat_webhook_secret: str = ""
 
     # RAG
     qdrant_url: str = "http://qdrant:6333"
