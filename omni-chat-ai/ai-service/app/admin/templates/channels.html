@@ -1,0 +1,73 @@
+{% extends "_shell.html" %}
+{% set active = 'channels' %}
+{% block title %}Channels{% endblock %}
+{% block main %}
+<header class="mb-8">
+  <h1 class="text-2xl font-semibold text-slate-900">Channels</h1>
+  <p class="mt-1 text-sm text-slate-500">Connect customer channels. We provision the inbox and
+    wire the AI bot to it automatically.</p>
+</header>
+
+{% if flash %}
+<div class="mb-6 rounded-lg px-4 py-2 text-sm
+            {{ 'bg-emerald-50 text-emerald-700' if ok == '1' else 'bg-red-50 text-red-700' }}">
+  {{ flash }}
+</div>
+{% endif %}
+
+{% if not has_token %}
+<div class="mb-6 rounded-lg bg-amber-50 text-amber-800 text-sm px-4 py-3">
+  Set your Chatwoot admin access token under
+  <a href="/admin/settings" class="font-medium underline">Settings → Chatwoot</a> first.
+</div>
+{% endif %}
+
+<!-- Web widget -->
+<section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6 mb-5">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-medium text-slate-900">Website widget</h2>
+    <span class="text-xs font-medium {{ 'text-emerald-600' if widget_inbox else 'text-slate-400' }}">
+      {{ 'Connected' if widget_inbox else 'Not connected' }}
+    </span>
+  </div>
+  {% if widget_script %}
+  <p class="text-sm text-slate-500 mb-2">Paste this snippet before <code>&lt;/body&gt;</code> on your site:</p>
+  <textarea readonly rows="4"
+            class="w-full rounded-lg bg-slate-900 text-slate-100 text-xs font-mono p-3">{{ widget_script }}</textarea>
+  {% else %}
+  <form method="post" action="/admin/channels/web-widget" class="flex gap-3 items-end">
+    <div class="flex-1">
+      <label class="block text-sm font-medium text-slate-700 mb-1">Your website URL</label>
+      <input name="website_url" type="url" required placeholder="https://example.com"
+             class="w-full rounded-lg border-slate-300 border px-3 py-2 text-sm
+                    focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+    </div>
+    <button type="submit" {{ 'disabled' if not has_token }}
+            class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-4 py-2.5
+                   hover:bg-indigo-500 disabled:opacity-40">Create widget</button>
+  </form>
+  {% endif %}
+</section>
+
+<!-- Telegram -->
+<section class="bg-white rounded-2xl ring-1 ring-slate-200 p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-medium text-slate-900">Telegram bot</h2>
+    <span class="text-xs font-medium {{ 'text-emerald-600' if telegram_inbox else 'text-slate-400' }}">
+      {{ 'Connected' if telegram_inbox else 'Not connected' }}
+    </span>
+  </div>
+  <p class="text-sm text-slate-500 mb-4">
+    Add your bot token (from @BotFather) under
+    <a href="/admin/settings" class="text-indigo-600 hover:underline">Settings → Channels</a>,
+    then connect — Chatwoot registers the Telegram webhook for you.
+  </p>
+  <form method="post" action="/admin/channels/telegram">
+    <button type="submit" {{ 'disabled' if (not has_token or not telegram_set or telegram_inbox) }}
+            class="rounded-lg bg-indigo-600 text-white text-sm font-medium px-4 py-2.5
+                   hover:bg-indigo-500 disabled:opacity-40">
+      {{ 'Connected' if telegram_inbox else 'Connect Telegram' }}
+    </button>
+  </form>
+</section>
+{% endblock %}

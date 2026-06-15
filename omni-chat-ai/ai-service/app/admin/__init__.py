@@ -11,7 +11,7 @@ from fastapi import APIRouter, Form, Request
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from .. import auth, provisioning, settings_service
+from .. import auth, channels, provisioning, settings_service
 
 _DIR = Path(__file__).parent
 templates = Jinja2Templates(directory=str(_DIR / "templates"))
@@ -138,6 +138,39 @@ async def settings_save(request: Request):
     if any(str(form.get(k, "")).strip() for k in ("ai.api_key", "ai.model", "ai.provider")):
         await provisioning.register_llm_model()
     return RedirectResponse("/admin/settings?saved=1", status_code=303)
+
+
+# ----------------------------------------------------------------- channels (auto-provision)
+@router.get("/channels", response_class=HTMLResponse)
+async def channels_page(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    ctx = {
+        "has_token": settings_service.is_configured("chatwoot.api_access_token"),
+        "widget_inbox": settings_service.get("chatwoot.web_widget_inbox_id"),
+        "widget_script": settings_service.get("chatwoot.web_widget_script"),
+        "telegram_inbox": settings_service.get("chatwoot.telegram_inbox_id"),
+        "telegram_set": settings_service.is_configured("channels.telegram_bot_token"),
+        "flash": request.query_params.get("flash"),
+        "ok": request.query_params.get("ok"),
+    }
+    return templates.TemplateResponse(request, "channels.html", ctx)
+
+
+@router.post("/channels/web-widget")
+async def channels_web_widget(request: Request, website_url: str = Form(...)):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    ok, msg = await channels.ensure_web_widget(website_url.strip())
+    return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
+
+
+@router.post("/channels/telegram")
+async def channels_telegram(request: Request):
+    if (redirect := auth.require_admin(request)) is not None:
+        return redirect
+    ok, msg = await channels.ensure_telegram()
+    return RedirectResponse(f"/admin/channels?ok={int(ok)}&flash={msg}", status_code=303)
 
 
 # ----------------------------------------------------------------- connection tests (AJAX)

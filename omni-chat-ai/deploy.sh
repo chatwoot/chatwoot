@@ -79,6 +79,23 @@ for _ in $(seq 1 60); do
   sleep 5
 done
 
+# Bootstrap a Chatwoot admin + API token so the AI service can auto-provision channels.
+if ! grep -q '^CHATWOOT_API_ACCESS_TOKEN=.\+' .env; then
+  echo "▶ Bootstrapping Chatwoot admin + API token…"
+  out="$(docker compose exec -T chatwoot bundle exec rails runner "$(cat scripts/bootstrap_chatwoot.rb)" 2>/dev/null | grep OMNI_BOOTSTRAP || true)"
+  acct="$(sed -n 's/.*account_id=\([0-9]*\).*/\1/p' <<<"$out")"
+  token="$(sed -n 's/.*token=\([A-Za-z0-9]*\).*/\1/p' <<<"$out")"
+  if [[ -n "$token" ]]; then
+    sed -i.bak "s#^CHATWOOT_API_ACCESS_TOKEN=.*#CHATWOOT_API_ACCESS_TOKEN=${token}#" .env
+    sed -i.bak "s#^CHATWOOT_ACCOUNT_ID=.*#CHATWOOT_ACCOUNT_ID=${acct:-1}#" .env
+    rm -f .env.bak
+    echo "✓ Chatwoot API token wired into .env."
+    docker compose up -d ai-service   # restart so the AI service loads the token
+  else
+    echo "⚠ Could not auto-bootstrap Chatwoot — set the admin token in the panel (Settings → Chatwoot)."
+  fi
+fi
+
 cat <<EOF
 
 ────────────────────────────────────────────────────────────────────
