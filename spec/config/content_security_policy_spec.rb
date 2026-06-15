@@ -8,11 +8,14 @@ describe 'Content Security Policy Configuration' do
   # current process can only assert the boot-time outcome. We test what the
   # initializer produces by re-loading it with a stubbed ENV.
   let(:initializer_path) { Rails.root.join('config/initializers/content_security_policy.rb') }
+  let(:config) { Rails.application.config }
 
   def reload_initializer
-    # Reset so a previous run does not leak into this one.
-    Rails.application.config.content_security_policy = nil
-    Rails.application.config.content_security_policy_report_only = false
+    # Reset so a previous run does not leak into this one. The Rails config DSL
+    # method `content_security_policy` is read+block-write only, so we clear the
+    # underlying ivar directly.
+    config.instance_variable_set(:@content_security_policy, nil)
+    config.content_security_policy_report_only = false
     load initializer_path
   end
 
@@ -23,7 +26,7 @@ describe 'Content Security Policy Configuration' do
 
     it 'does not configure a content security policy' do
       reload_initializer
-      expect(Rails.application.config.content_security_policy).to be_nil
+      expect(config.content_security_policy).to be_nil
     end
   end
 
@@ -34,33 +37,31 @@ describe 'Content Security Policy Configuration' do
 
     it 'configures a content security policy in report-only mode' do
       reload_initializer
-      expect(Rails.application.config.content_security_policy).to be_a(ActionDispatch::ContentSecurityPolicy)
-      expect(Rails.application.config.content_security_policy_report_only).to be(true)
+      expect(config.content_security_policy).to be_a(ActionDispatch::ContentSecurityPolicy)
+      expect(config.content_security_policy_report_only).to be(true)
     end
 
     it 'sets restrictive defaults that still allow https assets' do
       reload_initializer
-      policy = Rails.application.config.content_security_policy
+      directives = config.content_security_policy.directives
 
-      expect(policy.default_src).to include("'self'", 'https:')
-      expect(policy.object_src).to eq(["'none'"])
-      expect(policy.frame_ancestors).to eq(["'self'"])
-      expect(policy.base_uri).to eq(["'self'"])
+      expect(directives['default-src']).to include("'self'", 'https:')
+      expect(directives['object-src']).to eq(["'none'"])
+      expect(directives['frame-ancestors']).to eq(["'self'"])
+      expect(directives['base-uri']).to eq(["'self'"])
     end
 
-    it 'does not set a report_uri when CSP_REPORT_URI is unset' do
+    it 'does not set a report-uri directive when CSP_REPORT_URI is unset' do
       ClimateControl.modify(CSP_REPORT_URI: nil) do
         reload_initializer
-        # ContentSecurityPolicy stores @report_uri internally; a nil value means
-        # the report-uri directive is omitted from the rendered header.
-        expect(Rails.application.config.content_security_policy.instance_variable_get(:@report_uri)).to be_nil
+        expect(config.content_security_policy.directives).not_to have_key('report-uri')
       end
     end
 
-    it 'sets report_uri when CSP_REPORT_URI is provided' do
+    it 'sets the report-uri directive when CSP_REPORT_URI is provided' do
       ClimateControl.modify(CSP_REPORT_URI: 'https://example.com/csp-report') do
         reload_initializer
-        expect(Rails.application.config.content_security_policy.instance_variable_get(:@report_uri)).to eq('https://example.com/csp-report')
+        expect(config.content_security_policy.directives['report-uri']).to eq(['https://example.com/csp-report'])
       end
     end
   end
@@ -72,7 +73,7 @@ describe 'Content Security Policy Configuration' do
 
     it 'does not configure a content security policy' do
       reload_initializer
-      expect(Rails.application.config.content_security_policy).to be_nil
+      expect(config.content_security_policy).to be_nil
     end
   end
 end
