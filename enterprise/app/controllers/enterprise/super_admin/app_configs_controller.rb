@@ -47,6 +47,7 @@ module Enterprise::SuperAdmin::AppConfigsController
       CAPTAIN_OPEN_AI_ENDPOINT
       CAPTAIN_EMBEDDING_MODEL
       CAPTAIN_FIRECRAWL_API_KEY
+      CAPTAIN_FIRECRAWL_BASE_URL
     ]
   end
 
