@@ -8,14 +8,15 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
-from .common_tools import register_kb_search, register_order_lookup
-from .llm import AgentReply, build_model
+from .common_tools import register_customer_orders, register_kb_search, register_order_lookup
+from .llm import AgentReply, CustomerContext, build_model
 
 __all__ = ["warranty_agent"]
 
 warranty_agent = Agent(
     build_model("claude-primary"),
     output_type=AgentReply,
+    deps_type=CustomerContext,
     system_prompt=(
         "You are an after-sales / warranty agent for an e-commerce business. "
         "Always reply in the same language the customer is writing in. "
@@ -27,4 +28,5 @@ warranty_agent = Agent(
 )
 
 register_order_lookup(warranty_agent)
+register_customer_orders(warranty_agent)
 register_kb_search(warranty_agent)

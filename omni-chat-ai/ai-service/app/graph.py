@@ -15,7 +15,7 @@ from langgraph.graph import END, StateGraph
 
 from . import chatwoot
 from .agents.consultation import consultation_agent
-from .agents.llm import to_message_history
+from .agents.llm import CustomerContext, to_message_history
 from .agents.router import router_agent
 from .agents.sales import sales_agent
 from .agents.support import support_agent
@@ -33,6 +33,9 @@ SPECIALISTS = {
 class ConvState(TypedDict, total=False):
     conversation_id: int
     user_message: str
+    customer_name: str
+    customer_phone: str
+    customer_email: str
     specialist: str
     reply: str
     needs_human: bool
@@ -58,8 +61,13 @@ def _make_specialist_node(name: str):
         # agent doesn't see it twice (once as history, once as the prompt).
         if history and history[-1]["incoming"] and history[-1]["content"] == state["user_message"]:
             history = history[:-1]
+        deps = CustomerContext(
+            name=state.get("customer_name"),
+            phone=state.get("customer_phone"),
+            email=state.get("customer_email"),
+        )
         result = await agent.run(
-            state["user_message"], message_history=to_message_history(history)
+            state["user_message"], message_history=to_message_history(history), deps=deps
         )
         out = result.output
         return {

@@ -6,6 +6,8 @@ aliases (``claude-primary`` / ``claude-fast``) that the admin panel registers at
 """
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from pydantic import BaseModel
 from pydantic_ai import (
     ModelMessage,
@@ -18,6 +20,18 @@ from pydantic_ai.models.openai import OpenAIChatModel
 from pydantic_ai.providers.openai import OpenAIProvider
 
 from ..config import settings
+
+
+@dataclass
+class CustomerContext:
+    """Identity of the customer in the current conversation, from Chatwoot's contact record.
+
+    Lets tools look the customer up in KeyCRM without them quoting an order id.
+    """
+
+    name: str | None = None
+    phone: str | None = None
+    email: str | None = None
 
 
 def build_model(alias: str = "claude-primary") -> OpenAIChatModel:

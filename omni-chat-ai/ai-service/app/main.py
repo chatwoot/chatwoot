@@ -108,14 +108,30 @@ async def chatwoot_webhook(
             _seen_message_ids.clear()
         _seen_message_ids.add(message_id)
 
+    # The customer's CRM identity travels in the payload (conversation.meta.sender), so agents
+    # can look up their orders without an order number.
+    sender = (conversation.get("meta") or {}).get("sender") or {}
+    customer = {
+        "name": sender.get("name"),
+        "phone": sender.get("phone_number"),
+        "email": sender.get("email"),
+    }
+
     # Ack immediately; an LLM turn can take many seconds and Chatwoot would otherwise retry.
-    background_tasks.add_task(process_turn, conversation_id, user_message)
+    background_tasks.add_task(process_turn, conversation_id, user_message, customer)
     return Response(status_code=200)
 
 
-async def process_turn(conversation_id: int, user_message: str) -> None:
+async def process_turn(conversation_id: int, user_message: str, customer: dict | None = None) -> None:
     """Run the agent graph out-of-band. On any failure, hand off rather than leave silence."""
-    state: ConvState = {"conversation_id": conversation_id, "user_message": user_message}
+    customer = customer or {}
+    state: ConvState = {
+        "conversation_id": conversation_id,
+        "user_message": user_message,
+        "customer_name": customer.get("name") or "",
+        "customer_phone": customer.get("phone") or "",
+        "customer_email": customer.get("email") or "",
+    }
     try:
         with observe(conversation_id, user_message):
             await graph.ainvoke(state)

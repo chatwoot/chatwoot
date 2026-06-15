@@ -8,14 +8,15 @@ from __future__ import annotations
 
 from pydantic_ai import Agent
 
-from .common_tools import register_kb_search
-from .llm import AgentReply, build_model
+from .common_tools import register_kb_search, register_product_search
+from .llm import AgentReply, CustomerContext, build_model
 
 __all__ = ["consultation_agent"]
 
 consultation_agent = Agent(
     build_model("claude-primary"),
     output_type=AgentReply,
+    deps_type=CustomerContext,
     system_prompt=(
         "You are a product consultant for an e-commerce business. "
         "Always reply in the same language the customer is writing in. "
@@ -27,4 +28,5 @@ consultation_agent = Agent(
     ),
 )
 
+register_product_search(consultation_agent)
 register_kb_search(consultation_agent)
