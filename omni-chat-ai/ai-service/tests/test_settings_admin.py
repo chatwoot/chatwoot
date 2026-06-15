@@ -1,10 +1,11 @@
 """Tests for the settings store, encryption, and admin auth (no live services)."""
 from __future__ import annotations
 
+import httpx
 import pytest
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
-from app import auth, crypto, db, settings_service
+from app import auth, crypto, db, provisioning, settings_service
 from app.config import settings as env_settings
 
 
@@ -60,6 +61,41 @@ async def test_secret_is_encrypted_at_rest(sqlite_db):
     assert row.value is None
     assert row.encrypted_value is not None
     assert b"sk-ant-plain" not in row.encrypted_value
+
+
+async def test_register_llm_model_creates_aliases(monkeypatch):
+    settings_service._cache.update({
+        "ai.api_key": "sk-ant-live", "ai.provider": "anthropic", "ai.model": "claude-sonnet-4-6",
+    })
+    created: list[dict] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        if request.url.path == "/model/info":
+            return httpx.Response(200, json={"data": []})  # nothing to clean up
+        if request.url.path == "/model/new":
+            import json
+            created.append(json.loads(request.content))
+            return httpx.Response(200, json={"model_id": "x"})
+        return httpx.Response(404)
+
+    real_client = httpx.AsyncClient
+
+    def fake_client(*args, **kwargs):
+        return real_client(transport=httpx.MockTransport(handler))
+
+    monkeypatch.setattr(provisioning.httpx, "AsyncClient", fake_client)
+    try:
+        ok, msg = await provisioning.register_llm_model()
+    finally:
+        for k in ("ai.api_key", "ai.provider", "ai.model"):
+            settings_service._cache.pop(k, None)
+
+    assert ok, msg
+    names = {c["model_name"] for c in created}
+    assert names == {"claude-primary", "claude-fast"}
+    primary = next(c for c in created if c["model_name"] == "claude-primary")
+    assert primary["litellm_params"]["model"] == "anthropic/claude-sonnet-4-6"
+    assert primary["litellm_params"]["api_key"] == "sk-ant-live"
 
 
 def test_password_hash_and_session():

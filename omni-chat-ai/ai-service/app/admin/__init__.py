@@ -133,6 +133,10 @@ async def settings_save(request: Request):
         if spec.secret and not value:
             continue
         await settings_service.set_value(spec.key, value)
+    # When the AI provider/model/key changes, (re)register the alias with LiteLLM at runtime so
+    # it takes effect without a restart.
+    if any(str(form.get(k, "")).strip() for k in ("ai.api_key", "ai.model", "ai.provider")):
+        await provisioning.register_llm_model()
     return RedirectResponse("/admin/settings?saved=1", status_code=303)
 
 

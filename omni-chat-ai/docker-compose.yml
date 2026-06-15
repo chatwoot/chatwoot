@@ -64,10 +64,14 @@ services:
     command: ["--config", "/app/config.yaml", "--port", "4000"]
     volumes:
       - ./litellm/config.yaml:/app/config.yaml:ro
+    depends_on:
+      postgres: { condition: service_healthy }
     environment:
-      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-omni-local}
+      # DB mode: models (and their provider keys) are created from the admin panel and stored
+      # here, encrypted with LITELLM_SALT_KEY so they survive restarts.
+      LITELLM_DATABASE_URL: postgresql://${POSTGRES_USER:-chatwoot}:${POSTGRES_PASSWORD:-chatwoot}@postgres:5432/litellm
+      LITELLM_SALT_KEY: ${LITELLM_SALT_KEY:-sk-salt-omni-local}
       # Forward LLM telemetry to Langfuse (see success_callback in litellm/config.yaml).
       LANGFUSE_PUBLIC_KEY: ${LANGFUSE_PUBLIC_KEY:-}
       LANGFUSE_SECRET_KEY: ${LANGFUSE_SECRET_KEY:-}
@@ -83,10 +87,14 @@ services:
       LITELLM_BASE_URL: http://litellm:4000
       LANGFUSE_HOST: http://langfuse:3000
       QDRANT_URL: http://qdrant:6333
+      # Admin panel + settings store (keys are entered in the panel, encrypted in this DB).
+      OMNI_DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-chatwoot}:${POSTGRES_PASSWORD:-chatwoot}@postgres:5432/omni_ai
+      APP_SECRET_KEY: ${APP_SECRET_KEY:-dev-insecure-change-me}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-http://localhost:8080}
     depends_on:
-      - litellm
-      - chatwoot
-      - qdrant
+      postgres: { condition: service_healthy }
+      litellm: { condition: service_started }
+      qdrant: { condition: service_started }
     ports:
       - "8080:8080"
 

@@ -7,4 +7,6 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'langfuse')\gexec
   SELECT 'CREATE DATABASE omni_ai'
   WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'omni_ai')\gexec
+  SELECT 'CREATE DATABASE litellm'
+  WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'litellm')\gexec
 EOSQL

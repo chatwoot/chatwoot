@@ -1,23 +1,11 @@
 # LiteLLM model gateway — provider-agnostic routing.
-# Claude is the primary brain; add OpenAI / OpenRouter / local as fallbacks without
-# touching the agent code. The agent only ever calls the alias `claude-primary`.
+# Claude is the primary brain; the agents only ever call the aliases `claude-primary` /
+# `claude-fast`. Those aliases are created at runtime from the admin panel (DB mode), so the
+# provider API key is entered in the UI and never lives in a file.
 
-model_list:
-  - model_name: claude-primary
-    litellm_params:
-      model: anthropic/claude-opus-4-8
-      api_key: os.environ/ANTHROPIC_API_KEY
-
-  - model_name: claude-fast
-    litellm_params:
-      model: anthropic/claude-sonnet-4-6
-      api_key: os.environ/ANTHROPIC_API_KEY
-
-  # Optional fallback — only used if Anthropic is unavailable.
-  - model_name: openai-fallback
-    litellm_params:
-      model: openai/gpt-4o
-      api_key: os.environ/OPENAI_API_KEY
+# Model definitions are stored in the DB (created via the panel). The list below stays empty;
+# an optional OpenAI fallback can be re-added here if a static key is preferred.
+model_list: []
 
 litellm_settings:
   drop_params: true
@@ -26,8 +14,11 @@ litellm_settings:
   # evaluate. Reads LANGFUSE_PUBLIC_KEY / LANGFUSE_SECRET_KEY / LANGFUSE_HOST from the env.
   success_callback: ["langfuse"]
   failure_callback: ["langfuse"]
-  # If claude-primary fails, transparently retry on these.
-  fallbacks: [{ "claude-primary": ["claude-fast", "openai-fallback"] }]
+  # If claude-primary fails, transparently retry on the fast alias.
+  fallbacks: [{ "claude-primary": ["claude-fast"] }]
 
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
+  # Persist models created via /model/new so panel-entered keys survive restarts.
+  store_model_in_db: true
+  database_url: os.environ/LITELLM_DATABASE_URL
