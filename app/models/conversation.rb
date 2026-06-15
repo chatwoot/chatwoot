@@ -223,7 +223,6 @@ class Conversation < ApplicationRecord
     messages[:conversation_id].eq(conversations[:id])
                               .and(messages[:account_id].eq(conversations[:account_id]))
                               .and(messages[:message_type].eq(Message.message_types[:incoming]))
-                              .and(messages[:private].eq(false))
                               .and(
                                 conversations[:agent_last_seen_at].eq(nil)
                                   .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
