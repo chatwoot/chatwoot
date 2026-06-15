@@ -45,7 +45,9 @@ const count = computed(() =>
         class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
       />
     </div>
-    <div class="flex items-center gap-1.5 flex-grow min-w-0 flex-1">
+    <div
+      class="flex items-center gap-1.5 flex-grow justify-between min-w-0 flex-1"
+    >
       <span
         class="truncate"
         :class="{
