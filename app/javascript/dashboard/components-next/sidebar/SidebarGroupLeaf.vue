@@ -12,6 +12,7 @@ const props = defineProps({
   active: { type: Boolean, default: false },
   component: { type: Function, default: null },
   badgeCount: { type: [Number, String], default: 0 },
+  badgeTooltip: { type: String, default: '' },
   hideTreeLine: { type: Boolean, default: false },
   thinTreeLine: { type: Boolean, default: false },
 });
@@ -52,14 +53,14 @@ const TREE_CONNECTOR =
       <component
         :is="component"
         v-if="shouldRenderComponent"
-        v-bind="{ label, icon, active, badgeCount }"
+        v-bind="{ label, icon, active, badgeCount, badgeTooltip }"
       />
       <template v-else>
         <span v-if="icon" class="size-4 grid place-content-center rounded-full">
           <Icon :icon="icon" class="size-4 inline-block" />
         </span>
         <div class="flex-1 truncate min-w-0 text-sm">{{ label }}</div>
-        <SidebarUnreadBadge :count="badgeCount" />
+        <SidebarUnreadBadge :count="badgeCount" :tooltip="badgeTooltip" />
       </template>
     </component>
   </Policy>
