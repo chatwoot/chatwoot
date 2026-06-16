@@ -14,6 +14,9 @@ const props = defineProps({
       value.every(option => 'value' in option && 'label' in option),
   },
   placeholder: { type: String, default: '' },
+  // Fallback label shown when the selected value is not in `options` yet
+  // (e.g. API-backed lists that load lazily on open).
+  displayLabel: { type: String, default: '' },
   modelValue: { type: [String, Number], default: '' },
   disabled: { type: Boolean, default: false },
   searchPlaceholder: { type: String, default: '' },
@@ -52,7 +55,7 @@ const selectedLabel = computed(() => {
   const selected = props.options.find(
     option => option.value === selectedValue.value
   );
-  return selected?.label ?? selectPlaceholder.value;
+  return selected?.label ?? (props.displayLabel || selectPlaceholder.value);
 });
 
 const selectOption = option => {

@@ -1,18 +1,16 @@
 <script setup>
-import { computed, reactive, ref, watch } from 'vue';
+import { computed, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
 import countries from 'shared/constants/countries.js';
-import CompanyAPI from 'dashboard/api/companies';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CompanySelector from 'dashboard/components-next/Companies/CompanySelector.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import CompanyCreateDialog from 'dashboard/components-next/Companies/CompanyCreateDialog.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 
 const props = defineProps({
@@ -25,10 +23,6 @@ const props = defineProps({
     default: false,
   },
   isNewContact: {
-    type: Boolean,
-    default: false,
-  },
-  shouldLoadCompanyOptions: {
     type: Boolean,
     default: false,
   },
@@ -87,12 +81,6 @@ const defaultState = {
 };
 
 const state = reactive({ ...defaultState });
-const companyOptions = ref([]);
-const companySearch = ref('');
-const createCompanyDialogRef = ref(null);
-const isCreatingCompany = ref(false);
-const hasLoadedCompanyOptions = ref(false);
-let companySearchRequestToken = 0;
 
 const validationRules = {
   firstName: { required },
@@ -106,116 +94,7 @@ const hasCompaniesFeature = computed(
   () =>
     currentAccount.value?.id && isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
 );
-const showCompanySelector = computed(
-  () =>
-    hasCompaniesFeature.value &&
-    (Boolean(state.companyId) || !state.additionalAttributes.companyName)
-);
-
-const normalizeCompanyOptions = companies =>
-  companies.map(company => ({
-    label: company.name,
-    value: company.id,
-  }));
-
-const selectedCompanyOption = computed(() => {
-  const { companyId, additionalAttributes } = state;
-  if (!companyId || !additionalAttributes.companyName) return null;
-
-  return {
-    label: additionalAttributes.companyName,
-    value: Number(companyId),
-  };
-});
-
-const ensureSelectedCompanyOption = options => {
-  const selected = selectedCompanyOption.value;
-  if (!selected || options.some(option => option.value === selected.value)) {
-    return options;
-  }
-
-  return [selected, ...options];
-};
-
-const appendCompanyOption = company => {
-  companyOptions.value = ensureSelectedCompanyOption([
-    { label: company.name, value: company.id },
-    ...companyOptions.value,
-  ]);
-};
-
-const createCompanyOption = computed(() => {
-  const name = companySearch.value.trim();
-  if (!name) return null;
-
-  const alreadyExists = companyOptions.value.some(
-    option => option.label.toLowerCase() === name.toLowerCase()
-  );
-  if (alreadyExists) return null;
-
-  return {
-    label: t('COMPANIES.SELECTOR.CREATE_OPTION', { name }),
-    value: `create:${name}`,
-  };
-});
-
-const companySelectOptions = computed(() => {
-  const createOption = createCompanyOption.value;
-  return createOption
-    ? [...companyOptions.value, createOption]
-    : companyOptions.value;
-});
-
-const loadCompanyOptions = async query => {
-  if (!hasCompaniesFeature.value) return;
-
-  companySearch.value = query || '';
-  if (!query?.trim()) hasLoadedCompanyOptions.value = true;
-  const requestToken = companySearchRequestToken + 1;
-  companySearchRequestToken = requestToken;
-
-  try {
-    const {
-      data: { payload },
-    } = query?.trim()
-      ? await CompanyAPI.search(query)
-      : await CompanyAPI.get({ page: 1 });
-
-    if (companySearchRequestToken !== requestToken) return;
-    companyOptions.value = ensureSelectedCompanyOption(
-      normalizeCompanyOptions(payload || [])
-    );
-  } catch {
-    if (companySearchRequestToken === requestToken) {
-      companyOptions.value = ensureSelectedCompanyOption([]);
-    }
-  }
-};
-
-const loadSelectedCompany = async () => {
-  if (
-    !hasCompaniesFeature.value ||
-    !state.companyId ||
-    state.additionalAttributes.companyName
-  ) {
-    return;
-  }
-
-  try {
-    const {
-      data: { payload },
-    } = await CompanyAPI.show(state.companyId);
-
-    state.additionalAttributes.companyName = payload.name;
-    appendCompanyOption(payload);
-  } catch {
-    // Keep the selector usable even if the linked company was deleted later.
-  }
-};
-
-const handleCompanyDropdownOpen = () => {
-  if (!hasLoadedCompanyOptions.value) loadCompanyOptions();
-};
+const showCompanySelector = computed(() => hasCompaniesFeature.value);
 
 const emitContactUpdate = async () => {
   const isFormValid = await v$.value.$validate();
@@ -358,48 +237,9 @@ const handleCountrySelection = value => {
   emit('update', state);
 };
 
-const selectCompany = async company => {
-  state.companyId = company.id;
-  state.additionalAttributes.companyName = company.name;
-  appendCompanyOption(company);
-
-  await emitContactUpdate();
-};
-
-const openCreateCompanyDialog = name => {
-  createCompanyDialogRef.value?.open({ name });
-};
-
-const createCompany = async company => {
-  isCreatingCompany.value = true;
-
-  try {
-    const {
-      data: { payload },
-    } = await CompanyAPI.create({ company });
-    await selectCompany(payload);
-    createCompanyDialogRef.value?.onSuccess();
-    useAlert(t('COMPANIES.CREATE.MESSAGES.SUCCESS'));
-  } catch {
-    useAlert(t('COMPANIES.CREATE.MESSAGES.ERROR'));
-  } finally {
-    isCreatingCompany.value = false;
-  }
-};
-
-const handleCompanySelection = async value => {
-  if (typeof value === 'string' && value.startsWith('create:')) {
-    openCreateCompanyDialog(value.replace('create:', ''));
-    return;
-  }
-
-  const companyId = value ? Number(value) : '';
-  const selectedCompany = companyOptions.value.find(
-    option => option.value === companyId
-  );
-  state.companyId = companyId;
-  state.additionalAttributes.companyName = selectedCompany?.label || '';
-
+const handleCompanySelection = async ({ id, name }) => {
+  state.companyId = id || '';
+  state.additionalAttributes.companyName = name || '';
   await emitContactUpdate();
 };
 
@@ -414,22 +254,7 @@ const resetForm = () => {
 watch(
   () => props.contactData?.id,
   id => {
-    if (id) {
-      prepareStateBasedOnProps();
-      companyOptions.value = ensureSelectedCompanyOption(companyOptions.value);
-    }
-  },
-  { immediate: true }
-);
-
-watch(
-  () => [
-    props.shouldLoadCompanyOptions,
-    hasCompaniesFeature.value,
-    props.contactData?.id,
-  ],
-  ([shouldLoad, enabled]) => {
-    if (shouldLoad && enabled) loadSelectedCompany();
+    if (id) prepareStateBasedOnProps();
   },
   { immediate: true }
 );
@@ -470,22 +295,12 @@ defineExpose({
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
           />
-          <ComboBox
+          <CompanySelector
             v-else-if="item.key === 'COMPANY_NAME' && showCompanySelector"
             :model-value="state.companyId"
-            :options="companySelectOptions"
-            :placeholder="t('COMPANIES.SELECTOR.PLACEHOLDER')"
-            :search-placeholder="t('COMPANIES.SEARCH_PLACEHOLDER')"
-            use-api-results
-            class="[&>div>button]:h-8"
-            :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
-                !isDetailsView,
-              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
-            }"
-            @search="loadCompanyOptions"
-            @open="handleCompanyDropdownOpen"
-            @update:model-value="handleCompanySelection"
+            :selected-name="state.additionalAttributes.companyName"
+            :is-details-view="isDetailsView"
+            @select="handleCompanySelection"
           />
           <Input
             v-else
@@ -540,10 +355,5 @@ defineExpose({
         </div>
       </div>
     </div>
-    <CompanyCreateDialog
-      ref="createCompanyDialogRef"
-      :is-loading="isCreatingCompany"
-      @create="createCompany"
-    />
   </div>
 </template>
