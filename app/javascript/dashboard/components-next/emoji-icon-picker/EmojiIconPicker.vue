@@ -19,7 +19,7 @@ import {
   getEmojiTint,
   getRecentEmojis,
   addRecentEmoji,
-} from './helper';
+} from 'shared/components/emoji/pickerHelper';
 
 const props = defineProps({
   // 'both' shows Icons + Emojis tabs; 'emoji' shows only the emoji panel.
@@ -229,7 +229,7 @@ const selectEmoji = emoji => {
           :key="icon.name"
           type="button"
           :title="icon.name"
-          class="flex items-center justify-center !p-0 w-full max-w-[2rem] aspect-square transition-colors rounded-lg hover:bg-[var(--ep-tint)] active:enabled:scale-[0.97]"
+          class="flex items-center justify-center !p-0 size-8 transition-colors rounded-lg aspect-square hover:bg-[var(--ep-tint)] active:enabled:scale-[0.97]"
           @click="selectIcon(icon)"
         >
           <span
@@ -287,7 +287,7 @@ const selectEmoji = emoji => {
               :key="`${section.name}-${emoji.slug}`"
               type="button"
               :title="emoji.name"
-              class="flex items-center justify-center !p-0 w-full max-w-[2rem] text-xl transition-colors rounded-lg aspect-square hover:bg-[var(--ep-tint)] active:enabled:scale-[0.97]"
+              class="flex items-center justify-center !p-0 size-8 w-full max-w-[2rem] text-xl transition-colors rounded-lg aspect-square hover:bg-[var(--ep-tint)] active:enabled:scale-[0.97]"
               @mouseenter="applyEmojiTint($event, emoji.emoji)"
               @click="selectEmoji(emoji)"
             >

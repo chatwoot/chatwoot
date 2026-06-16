@@ -8,9 +8,8 @@ import { useAttachments } from '../composables/useAttachments';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
-const EmojiIconPicker = defineAsyncComponent(
-  () =>
-    import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
+const EmojiPicker = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiPicker.vue')
 );
 
 export default {
@@ -18,7 +17,7 @@ export default {
   components: {
     ChatAttachmentButton,
     ChatSendButton,
-    EmojiIconPicker,
+    EmojiPicker,
     FluentIcon,
     ResizableTextArea,
   },
@@ -176,10 +175,9 @@ export default {
           }"
         />
       </button>
-      <EmojiIconPicker
+      <EmojiPicker
         v-if="shouldShowEmojiPicker && showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
-        mode="emoji"
         class="!bottom-full end-0 mb-2 max-w-[calc(100vw-3rem)]"
         @select="onSelectEmoji"
         @keydown.esc="hideEmojiPicker"

@@ -1,5 +1,8 @@
 import emojiGroups from 'shared/components/emoji/emojisGroup.json';
-import { MAX_RECENT_EMOJIS, RECENT_EMOJI_KEY } from './constants';
+
+// Recently used emojis persisted in localStorage.
+const RECENT_EMOJI_KEY = 'emoji-icon-picker.recent-emojis';
+const MAX_RECENT_EMOJIS = 16;
 
 const matchesSearch = (emoji, term) =>
   emoji.slug.replaceAll('_', ' ').includes(term) ||
