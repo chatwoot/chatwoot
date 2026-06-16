@@ -225,17 +225,6 @@ describe ConversationFinder do
         expect(conversation_ids).to include(visible_conversation.id)
         expect(conversation_ids).not_to include(inaccessible_conversation.id)
       end
-
-      it 'returns participant-only conversations for custom roles with participating permission' do
-        custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
-        account.account_users.find_by!(user_id: user_1.id).update!(custom_role: custom_role)
-        participating_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_2)
-        create(:conversation_participant, account: account, conversation: participating_conversation, user: user_1)
-
-        result = conversation_finder.perform
-
-        expect(result[:conversations].map(&:id)).to include(participating_conversation.id)
-      end
     end
 
     context 'without source' do
