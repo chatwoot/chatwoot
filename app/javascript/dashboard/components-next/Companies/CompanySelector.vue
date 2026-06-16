@@ -5,6 +5,7 @@ import { useDebounceFn } from '@vueuse/core';
 import CompanyAPI from 'dashboard/api/companies';
 import { useAlert } from 'dashboard/composables';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CompanyCreateDialog from 'dashboard/components-next/Companies/CompanyCreateDialog.vue';
 
 const props = defineProps({
   modelValue: {
@@ -30,6 +31,8 @@ const CREATE_PREFIX = 'create:';
 
 const options = ref([]);
 const searchQuery = ref('');
+const createDialogRef = ref(null);
+const isCreatingCompany = ref(false);
 
 const toOption = company => ({ label: company.name, value: company.id });
 
@@ -91,21 +94,30 @@ const handleSearch = useDebounceFn(query => {
   fetchCompanies(searchQuery.value);
 }, 300);
 
-const createCompany = async name => {
+// Open the create dialog (prefilled with the typed name) so the user can add
+// domain/description before saving, instead of creating with just a name.
+const createCompany = async company => {
+  isCreatingCompany.value = true;
   try {
     const {
       data: { payload },
-    } = await CompanyAPI.create({ company: { name } });
+    } = await CompanyAPI.create({ company });
+    createDialogRef.value?.onSuccess();
     emit('select', { id: payload.id, name: payload.name });
     useAlert(t('COMPANIES.CREATE.MESSAGES.SUCCESS'));
   } catch {
     useAlert(t('COMPANIES.CREATE.MESSAGES.ERROR'));
+  } finally {
+    isCreatingCompany.value = false;
   }
 };
 
 const handleSelect = value => {
   if (typeof value === 'string' && value.startsWith(CREATE_PREFIX)) {
-    createCompany(value.slice(CREATE_PREFIX.length));
+    createDialogRef.value?.open({ name: value.slice(CREATE_PREFIX.length) });
+    // Drop the transient "Add …" option so the button label doesn't stick to
+    // it if the dialog is dismissed without creating.
+    searchQuery.value = '';
     return;
   }
 
@@ -132,5 +144,10 @@ const handleSelect = value => {
     @open="handleOpen"
     @search="handleSearch"
     @update:model-value="handleSelect"
+  />
+  <CompanyCreateDialog
+    ref="createDialogRef"
+    :is-loading="isCreatingCompany"
+    @create="createCompany"
   />
 </template>

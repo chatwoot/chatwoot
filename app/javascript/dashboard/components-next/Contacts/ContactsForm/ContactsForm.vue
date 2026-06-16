@@ -94,7 +94,11 @@ const hasCompaniesFeature = computed(
   () =>
     currentAccount.value?.id && isCloudFeatureEnabled(FEATURE_FLAGS.COMPANIES)
 );
-const showCompanySelector = computed(() => hasCompaniesFeature.value);
+const showCompanySelector = computed(
+  () =>
+    hasCompaniesFeature.value &&
+    (Boolean(state.companyId) || !state.additionalAttributes.companyName)
+);
 
 const emitContactUpdate = async () => {
   const isFormValid = await v$.value.$validate();

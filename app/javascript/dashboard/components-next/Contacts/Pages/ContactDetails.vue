@@ -165,7 +165,6 @@ const handleAvatarDelete = async () => {
         ref="contactsFormRef"
         :contact-data="contactData"
         is-details-view
-        should-load-company-options
         @update="handleFormUpdate"
       />
       <Button
