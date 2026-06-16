@@ -37,6 +37,7 @@ class Conversations::UnreadCounts::Builder
     custom_filters = conversation_custom_filters(user).to_a
 
     store.clear_user_filters!(account.id, user.id)
+    version_snapshot = store.filter_version_snapshot(account.id, user.id)
     store.add_filter_memberships(
       account_id: account.id,
       user_id: user.id,
@@ -47,10 +48,19 @@ class Conversations::UnreadCounts::Builder
       },
       folders: folder_unread_conversation_ids(custom_filters, user)
     )
-    store.mark_filters_ready!(account.id, user.id, expires_in: filters_ready_ttl(custom_filters))
+    mark_filters_ready_if_current(user, custom_filters, version_snapshot)
   end
 
   private
+
+  def mark_filters_ready_if_current(user, custom_filters, version_snapshot)
+    store.mark_filters_ready_if_current!(
+      account.id,
+      user.id,
+      version_snapshot: version_snapshot,
+      expires_in: filters_ready_ttl(custom_filters)
+    )
+  end
 
   def write_memberships(assignment:)
     unread_conversations(open_only: true).in_batches(of: BATCH_SIZE) do |relation|

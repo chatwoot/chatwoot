@@ -60,6 +60,22 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     expect(store.filters_ready?(account.id, agent.id)).to be(true)
   end
 
+  it 'retries when a build finishes without marking the cache ready' do
+    builder = instance_double(Conversations::UnreadCounts::Builder)
+    attempts = 0
+    allow(Conversations::UnreadCounts::Builder).to receive(:new).and_return(builder)
+    allow(builder).to receive(:build_base!) do
+      attempts += 1
+      store.mark_base_ready!(account.id) if attempts == 2
+    end
+    allow(builder).to receive(:build_filters_for!) { store.mark_filters_ready!(account.id, agent.id) }
+
+    described_class.new(account: account, user: agent).perform
+
+    expect(builder).to have_received(:build_base!).twice
+    expect(store.base_ready?(account.id)).to be(true)
+  end
+
   it 'counts unread conversations only across inboxes visible to a normal agent' do
     create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title], team: visible_team)
     create_unread_conversation(account: account, inbox: hidden_inbox, labels: [label.title], team: visible_team)

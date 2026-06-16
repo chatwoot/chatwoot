@@ -61,9 +61,10 @@ class Conversations::UnreadCounts::Counter
     loop do
       return if ready.call
 
-      return if lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) { yield unless ready.call }
+      lock_acquired = lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) { yield unless ready.call }
+      return if ready.call
 
-      wait_for_cache_ready(ready)
+      wait_for_cache_ready(ready) unless lock_acquired
     end
   end
 

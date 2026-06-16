@@ -84,6 +84,32 @@ RSpec.describe Conversations::UnreadCounts::Store do
         Conversations::UnreadCounts::READY_TTL
       )
     end
+
+    it 'tracks filter invalidation versions independently' do
+      expect(described_class.filter_version_snapshot(account_id, user_id)).to eq(account: 0, user: 0)
+
+      expect(described_class.clear_user_filters!(account_id, user_id)).to be(false)
+
+      expect(described_class.filter_version_snapshot(account_id, user_id)).to eq(account: 0, user: 1)
+      expect(ttl_for(user_filter_version_key)).to be_within(5).of(Conversations::UnreadCounts::SET_TTL)
+
+      expect(described_class.clear_filter_caches!(account_id)).to be(false)
+
+      expect(described_class.filter_version_snapshot(account_id, user_id)).to eq(account: 1, user: 1)
+      expect(ttl_for(account_filter_version_key)).to be_within(5).of(Conversations::UnreadCounts::SET_TTL)
+    end
+
+    it 'marks filter caches ready only when the invalidation version is current' do
+      version_snapshot = described_class.filter_version_snapshot(account_id, user_id)
+
+      expect(described_class.mark_filters_ready_if_current!(account_id, user_id, version_snapshot: version_snapshot)).to be_truthy
+      expect(described_class.filters_ready?(account_id, user_id)).to be(true)
+
+      described_class.clear_user_filters!(account_id, user_id)
+
+      expect(described_class.mark_filters_ready_if_current!(account_id, user_id, version_snapshot: version_snapshot)).to be(false)
+      expect(described_class.filters_ready?(account_id, user_id)).to be(false)
+    end
   end
 
   describe 'set operations' do
@@ -370,6 +396,14 @@ RSpec.describe Conversations::UnreadCounts::Store do
 
   def user_filter_build_lock_key(filter_user_id = user_id)
     format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_FILTERS_BUILD_LOCK, account_id: account_id, user_id: filter_user_id)
+  end
+
+  def account_filter_version_key
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_FILTERS_VERSION, account_id: account_id)
+  end
+
+  def user_filter_version_key(filter_user_id = user_id)
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_FILTERS_VERSION, account_id: account_id, user_id: filter_user_id)
   end
 
   def ttl_for(key)

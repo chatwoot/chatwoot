@@ -151,7 +151,7 @@ RSpec.describe Conversations::UnreadCounts::Builder do
         filter_type: :conversation,
         query: filter_query('created_at', [7], filter_operator: 'days_before')
       )
-      allow(store).to receive(:mark_filters_ready!).and_call_original
+      allow(store).to receive(:mark_filters_ready_if_current!).and_call_original
       expected_ttl = nil
 
       travel_to Time.zone.local(2026, 1, 1, 9, 30, 0) do
@@ -159,7 +159,34 @@ RSpec.describe Conversations::UnreadCounts::Builder do
         described_class.new(account).build_filters_for!(assignee)
       end
 
-      expect(store).to have_received(:mark_filters_ready!).with(account.id, assignee.id, expires_in: expected_ttl)
+      expect(store).to have_received(:mark_filters_ready_if_current!).with(
+        account.id,
+        assignee.id,
+        version_snapshot: kind_of(Hash),
+        expires_in: expected_ttl
+      )
+    end
+
+    it 'does not mark filters ready when user filters are invalidated during the build' do
+      conversation = create_unread_conversation(account: account, inbox: inbox)
+      create(:mention, account: account, conversation: conversation, user: assignee)
+      clear_user_filters_after_membership_write
+
+      described_class.new(account).build_filters_for!(assignee)
+
+      expect(store.filters_ready?(account.id, assignee.id)).to be(false)
+      expect(redis_set_members(store.user_mentions_key(account.id, assignee.id))).to be_empty
+    end
+
+    it 'does not mark filters ready when account filters are invalidated during the build' do
+      conversation = create_unread_conversation(account: account, inbox: inbox)
+      create(:mention, account: account, conversation: conversation, user: assignee)
+      clear_filter_caches_after_membership_write
+
+      described_class.new(account).build_filters_for!(assignee)
+
+      expect(store.filters_ready?(account.id, assignee.id)).to be(false)
+      expect(redis_set_members(store.user_mentions_key(account.id, assignee.id))).to be_empty
     end
 
     it 'skips invalid folder filters and still marks the user filter cache ready' do
@@ -205,6 +232,20 @@ RSpec.describe Conversations::UnreadCounts::Builder do
 
   def redis_set_members(key)
     Redis::Alfred.pipelined { |pipeline| pipeline.smembers(key) }.first
+  end
+
+  def clear_user_filters_after_membership_write
+    allow(store).to receive(:add_filter_memberships).and_wrap_original do |method, *args, **kwargs|
+      method.call(*args, **kwargs)
+      store.clear_user_filters!(account.id, assignee.id)
+    end
+  end
+
+  def clear_filter_caches_after_membership_write
+    allow(store).to receive(:add_filter_memberships).and_wrap_original do |method, *args, **kwargs|
+      method.call(*args, **kwargs)
+      store.clear_filter_caches!(account.id)
+    end
   end
 
   def filter_query(attribute_key, values, filter_operator: 'equal_to')
