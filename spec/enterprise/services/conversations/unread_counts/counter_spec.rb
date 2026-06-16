@@ -16,7 +16,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
   end
 
   after do
-    store.clear_account!(account.id)
+    store.clear_all_account!(account.id)
   end
 
   it 'uses base counts for custom roles with conversation_manage permission' do

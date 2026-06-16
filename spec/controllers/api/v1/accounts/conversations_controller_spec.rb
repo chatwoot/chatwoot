@@ -123,7 +123,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       after do
-        Conversations::UnreadCounts::Store.clear_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
       end
 
       context 'when conversation unread counts feature is enabled' do
@@ -897,7 +897,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
       ensure
-        Conversations::UnreadCounts::Store.clear_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
       end
 
       it 'updates both if one timestamp is old even when the other is recent' do
@@ -984,7 +984,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
       ensure
-        Conversations::UnreadCounts::Store.clear_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
       end
     end
   end

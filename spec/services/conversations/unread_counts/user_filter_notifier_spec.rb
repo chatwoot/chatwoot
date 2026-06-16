@@ -6,7 +6,7 @@ RSpec.describe Conversations::UnreadCounts::UserFilterNotifier do
   let(:store) { Conversations::UnreadCounts::Store }
 
   after do
-    store.clear_account!(account.id)
+    store.clear_all_account!(account.id)
   end
 
   it 'clears the user filter cache and dispatches an unread count refresh event' do

@@ -9,7 +9,7 @@ RSpec.describe Conversations::UnreadCounts::Builder do
   let(:store) { Conversations::UnreadCounts::Store }
 
   after do
-    store.clear_account!(account.id)
+    store.clear_all_account!(account.id)
   end
 
   describe '#build_base!' do

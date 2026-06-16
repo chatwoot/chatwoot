@@ -57,7 +57,7 @@ RSpec.describe Account do
     let(:inbox_key) { store.inbox_key(account.id, inbox.id) }
 
     after do
-      store.clear_account!(account.id)
+      store.clear_all_account!(account.id)
     end
 
     it 'clears unread count cache when the feature is enabled' do

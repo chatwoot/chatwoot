@@ -173,7 +173,7 @@ RSpec.describe Conversations::UnreadCounts::Listener do
       conversation_data: conversation_data.stringify_keys
     )
   ensure
-    store.clear_account!(account.id)
+    store.clear_all_account!(account.id)
   end
 
   def deleted_conversation_data(conversation)

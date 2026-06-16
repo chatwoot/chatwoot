@@ -17,7 +17,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
   end
 
   after do
-    store.clear_account!(account.id)
+    store.clear_all_account!(account.id)
   end
 
   it 'builds the base cache on demand' do
