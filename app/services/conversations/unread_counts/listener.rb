@@ -25,6 +25,13 @@ class Conversations::UnreadCounts::Listener < BaseListener
     end
   end
 
+  def conversation_contact_changed(event)
+    conversation, = extract_conversation_and_account(event)
+    return unless conversation.account.feature_enabled?('conversation_unread_counts')
+
+    notify_filter_counts_changed(conversation)
+  end
+
   def assignee_changed(event)
     conversation, = extract_conversation_and_account(event)
     refresh(conversation, event.data[:changed_attributes])
