@@ -11,8 +11,8 @@ module Conversations::UnreadCounts::UserFilterStore
     Redis::Alfred.exists?(filters_ready_key(account_id, user_id))
   end
 
-  def mark_filters_ready!(account_id, user_id)
-    Redis::Alfred.set(filters_ready_key(account_id, user_id), Time.current.to_i, ex: Conversations::UnreadCounts::READY_TTL)
+  def mark_filters_ready!(account_id, user_id, expires_in: Conversations::UnreadCounts::READY_TTL)
+    Redis::Alfred.set(filters_ready_key(account_id, user_id), Time.current.to_i, ex: expires_in)
   end
 
   def clear_filter_caches!(account_id)

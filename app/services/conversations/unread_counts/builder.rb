@@ -1,5 +1,6 @@
 class Conversations::UnreadCounts::Builder
   PARTICIPATING_PERMISSION = 'conversation_participating_manage'.freeze
+  RELATIVE_DATE_FILTER_OPERATOR = 'days_before'.freeze
   BATCH_SIZE = 1000
   FILTER_ERRORS = [
     ActiveRecord::StatementInvalid,
@@ -33,6 +34,8 @@ class Conversations::UnreadCounts::Builder
   end
 
   def build_filters_for!(user)
+    custom_filters = conversation_custom_filters(user).to_a
+
     store.clear_user_filters!(account.id, user.id)
     store.add_filter_memberships(
       account_id: account.id,
@@ -42,9 +45,9 @@ class Conversations::UnreadCounts::Builder
         participating: participating_unread_conversation_ids(user),
         unattended: unattended_unread_conversation_ids(user)
       },
-      folders: folder_unread_conversation_ids(user)
+      folders: folder_unread_conversation_ids(custom_filters, user)
     )
-    store.mark_filters_ready!(account.id, user.id)
+    store.mark_filters_ready!(account.id, user.id, expires_in: filters_ready_ttl(custom_filters))
   end
 
   private
@@ -85,8 +88,8 @@ class Conversations::UnreadCounts::Builder
       .pluck(:id)
   end
 
-  def folder_unread_conversation_ids(user)
-    conversation_custom_filters(user).each_with_object({}) do |custom_filter, result|
+  def folder_unread_conversation_ids(custom_filters, user)
+    custom_filters.each_with_object({}) do |custom_filter, result|
       result[custom_filter.id] = unread_ids_for_filter(custom_filter, user)
     rescue *FILTER_ERRORS
       next
@@ -95,6 +98,24 @@ class Conversations::UnreadCounts::Builder
 
   def conversation_custom_filters(user)
     account.custom_filters.where(user: user, filter_type: :conversation)
+  end
+
+  def filters_ready_ttl(custom_filters)
+    return Conversations::UnreadCounts::READY_TTL unless relative_date_filter?(custom_filters)
+
+    seconds_until_next_day
+  end
+
+  def relative_date_filter?(custom_filters)
+    custom_filters.any? do |custom_filter|
+      Array(custom_filter.query.with_indifferent_access[:payload]).any? do |condition|
+        condition[:filter_operator] == RELATIVE_DATE_FILTER_OPERATOR
+      end
+    end
+  end
+
+  def seconds_until_next_day
+    [(Time.zone.tomorrow.beginning_of_day - Time.current).ceil, 1].max
   end
 
   def unread_ids_for_filter(custom_filter, user)

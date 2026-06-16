@@ -143,6 +143,25 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.user_folder_key(account.id, assignee.id, custom_filter.id))).to contain_exactly(resolved_conversation.id.to_s)
     end
 
+    it 'expires relative-date folder caches at the next date boundary' do
+      create(
+        :custom_filter,
+        account: account,
+        user: assignee,
+        filter_type: :conversation,
+        query: filter_query('created_at', [7], filter_operator: 'days_before')
+      )
+      allow(store).to receive(:mark_filters_ready!).and_call_original
+      expected_ttl = nil
+
+      travel_to Time.zone.local(2026, 1, 1, 9, 30, 0) do
+        expected_ttl = (Time.zone.tomorrow.beginning_of_day - Time.current).ceil
+        described_class.new(account).build_filters_for!(assignee)
+      end
+
+      expect(store).to have_received(:mark_filters_ready!).with(account.id, assignee.id, expires_in: expected_ttl)
+    end
+
     it 'skips invalid folder filters and still marks the user filter cache ready' do
       create_unread_conversation(account: account, inbox: inbox)
       invalid_filter = create(
