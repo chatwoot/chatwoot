@@ -1,4 +1,12 @@
 module Conversations::UnreadCounts::UserFilterStore
+  USER_FILTER_KEY_SUFFIXES = [
+    'READY::FILTERS',
+    'MENTIONS',
+    'PARTICIPATING',
+    'UNATTENDED',
+    'FOLDER::*'
+  ].freeze
+
   def filters_ready?(account_id, user_id)
     Redis::Alfred.exists?(filters_ready_key(account_id, user_id))
   end
@@ -8,11 +16,11 @@ module Conversations::UnreadCounts::UserFilterStore
   end
 
   def clear_filter_caches!(account_id)
-    delete_matching("#{account_prefix(account_id)}::USER::*")
+    delete_user_filter_patterns("#{account_prefix(account_id)}::USER::*")
   end
 
   def clear_user_filters!(account_id, user_id)
-    delete_matching("#{user_filter_prefix(account_id, user_id)}::*")
+    delete_user_filter_patterns(user_filter_prefix(account_id, user_id))
   end
 
   def add_filter_memberships(account_id:, user_id:, filters:, folders:)
@@ -36,6 +44,14 @@ module Conversations::UnreadCounts::UserFilterStore
 
   def user_filter_prefix(account_id, user_id)
     "#{account_prefix(account_id)}::USER::#{user_id}"
+  end
+
+  def delete_user_filter_patterns(prefix)
+    deleted = false
+    USER_FILTER_KEY_SUFFIXES.each do |suffix|
+      deleted = delete_matching("#{prefix}::#{suffix}") || deleted
+    end
+    deleted
   end
 
   def write_membership_sets(memberships)
