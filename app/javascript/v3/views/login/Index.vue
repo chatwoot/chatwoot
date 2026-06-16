@@ -8,6 +8,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import SessionStorage from 'shared/helpers/sessionStorage';
 import { useBranding } from 'shared/composables/useBranding';
+import AnalyticsHelper from 'dashboard/helper/AnalyticsHelper';
+import { SESSION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 // components
 import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
@@ -17,6 +19,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
+import SessionLimitOverlay from 'dashboard/components/auth/SessionLimitOverlay.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -26,6 +29,7 @@ const ERROR_MESSAGES = {
 };
 
 const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
+const USER_NOT_CONFIRMED_ERROR_CODE = 'user_not_confirmed';
 
 export default {
   components: {
@@ -35,6 +39,7 @@ export default {
     NextButton,
     SimpleDivider,
     MfaVerification,
+    SessionLimitOverlay,
     Icon,
   },
   props: {
@@ -67,6 +72,8 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      sessionsLimitReached: false,
+      limitedSessions: [],
     };
   },
   validations() {
@@ -181,10 +188,28 @@ export default {
             return;
           }
 
+          // Check if sessions limit reached
+          if (result?.sessionsLimitReached) {
+            this.loginApi.showLoading = false;
+            this.sessionsLimitReached = true;
+            this.limitedSessions = result.sessions;
+            AnalyticsHelper.track(SESSION_EVENTS.LIMIT_HIT);
+            return;
+          }
+
           this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
+          if (response?.errorCode === USER_NOT_CONFIRMED_ERROR_CODE) {
+            this.loginApi.showLoading = false;
+            this.$router.push({
+              name: 'auth_verify_email',
+              state: { email: credentials.email },
+            });
+            return;
+          }
+
           // Reset URL Params if the authentication is invalid
           if (this.email) {
             window.location = '/app/login';
@@ -212,6 +237,51 @@ export default {
       // User cancelled MFA, reset state
       this.mfaRequired = false;
       this.mfaToken = null;
+      this.credentials.password = '';
+    },
+    retryLoginWithParams(extraParams) {
+      const credentials = {
+        email: this.email
+          ? decodeURIComponent(this.email)
+          : this.credentials.email,
+        password: this.credentials.password,
+        sso_auth_token: this.ssoAuthToken,
+        ssoAccountId: this.ssoAccountId,
+        ssoConversationId: this.ssoConversationId,
+        ...extraParams,
+      };
+
+      this.sessionsLimitReached = false;
+      this.limitedSessions = [];
+      this.loginApi.showLoading = true;
+      login(credentials)
+        .then(result => {
+          if (result?.sessionsLimitReached) {
+            this.loginApi.showLoading = false;
+            this.sessionsLimitReached = true;
+            this.limitedSessions = result.sessions;
+            AnalyticsHelper.track(SESSION_EVENTS.LIMIT_HIT);
+            return;
+          }
+          this.handleImpersonation();
+          this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
+        })
+        .catch(response => {
+          this.loginApi.hasErrored = true;
+          this.showAlertMessage(
+            response?.message || this.$t('LOGIN.API.UNAUTH')
+          );
+        });
+    },
+    handleSessionRevoke(sessionId) {
+      this.retryLoginWithParams({ revoke_session_id: sessionId });
+    },
+    handleSessionRevokeAll() {
+      this.retryLoginWithParams({ revoke_all_sessions: true });
+    },
+    handleSessionLimitCancel() {
+      this.sessionsLimitReached = false;
+      this.limitedSessions = [];
       this.credentials.password = '';
     },
   },
@@ -245,8 +315,18 @@ export default {
       </p>
     </section>
 
+    <!-- Session Limit Section -->
+    <section v-if="sessionsLimitReached" class="mt-11">
+      <SessionLimitOverlay
+        :sessions="limitedSessions"
+        @revoke="handleSessionRevoke"
+        @revoke-all="handleSessionRevokeAll"
+        @cancel="handleSessionLimitCancel"
+      />
+    </section>
+
     <!-- MFA Verification Section -->
-    <section v-if="mfaRequired" class="mt-11">
+    <section v-else-if="mfaRequired" class="mt-11">
       <MfaVerification
         :mfa-token="mfaToken"
         @verified="handleMfaVerified"

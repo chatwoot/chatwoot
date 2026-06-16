@@ -29,8 +29,9 @@ class AgentBuilder
     user = User.from_email(email)
     return user if user
 
+    @name = email.split('@').first if @name.blank?
     temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    User.create!(email: email, name: @name, password: temp_password, password_confirmation: temp_password)
   end
 
   # Checks if the user needs confirmation.

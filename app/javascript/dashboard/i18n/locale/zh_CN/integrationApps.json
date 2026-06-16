@@ -46,6 +46,7 @@
           "PLACEHOLDER": "选择收件箱"
         },
         "SUBMIT": "创建",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "取消"
       },
       "API": {

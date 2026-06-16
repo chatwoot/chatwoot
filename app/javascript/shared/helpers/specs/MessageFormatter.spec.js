@@ -33,6 +33,13 @@ describe('#MessageFormatter', () => {
 <h2>tool</h2>`
       );
     });
+
+    it('should not render a setext heading when text is followed by "--"', () => {
+      const message = 'hy\n\n\\\n\\-\\-\n\nHello there';
+      const result = new MessageFormatter(message).formattedMessage;
+      expect(result).not.toMatch('<h2>');
+      expect(result).not.toMatch('<h1>');
+    });
   });
 
   describe('content with image and has "cw_image_height" query at the end of URL', () => {
@@ -116,6 +123,16 @@ describe('#MessageFormatter', () => {
       expect(new MessageFormatter(message).plainText).toMatch(
         'Chatwoot is an opensource tool. https://www.chatwoot.com'
       );
+    });
+  });
+
+  describe('help center table colwidth marker', () => {
+    it('strips the internal colwidths marker from rendered output', () => {
+      const message =
+        '<!--cw-colwidths:120,200-->\n| A | B |\n| --- | --- |\n| 1 | 2 |';
+      const formatter = new MessageFormatter(message);
+      expect(formatter.formattedMessage).not.toContain('cw-colwidths');
+      expect(formatter.plainText).not.toContain('cw-colwidths');
     });
   });
 

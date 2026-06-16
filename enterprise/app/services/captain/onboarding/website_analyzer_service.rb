@@ -1,5 +1,6 @@
 class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
+
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
@@ -30,7 +31,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   def fetch_website_content
     crawler = Captain::Tools::SimplePageCrawlService.new(@website_url)
 
-    text_content = crawler.body_text_content
+    text_content = crawler.body_markdown
     page_title = crawler.page_title
     meta_description = crawler.meta_description
 

@@ -49,6 +49,9 @@
         "ERROR_MESSAGE": "אירעה שגיאה במחיקת המאקרו. אנא נסה שוב מאוחר יותר"
       }
     },
+    "VIEW": {
+      "TOOLTIP": "View macro"
+    },
     "EDIT": {
       "TOOLTIP": "ערוך מאקרו",
       "API": {
@@ -66,7 +69,9 @@
         "LABEL": "נראות מאקרו",
         "GLOBAL": {
           "LABEL": "ציבורי",
-          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה."
+          "DESCRIPTION": "מאקרו זה זמין באופן ציבורי עבור כל הסוכנים בחשבון זה.",
+          "CREATE_DISABLED_DESCRIPTION": "Only administrators can create public macros.",
+          "EDIT_DISABLED_DESCRIPTION": "Only administrators can edit public macros."
         },
         "PERSONAL": {
           "LABEL": "פרטי",

@@ -10,7 +10,8 @@
     "NO_RESULTS": "找不到符合搜尋條件的屬性",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "對話",
-      "CONTACT": "聯絡人"
+      "CONTACT": "聯絡人",
+      "COMPANY": "公司"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "文字",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "自訂屬性",
       "CONVERSATION": "對話",
-      "CONTACT": "聯絡人"
+      "CONTACT": "聯絡人",
+      "COMPANY": "公司"
     },
     "LIST": {
       "TABLE_HEADER": {

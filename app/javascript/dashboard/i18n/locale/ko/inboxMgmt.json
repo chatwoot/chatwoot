@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "Meta로 인증 중",
           "WAITING_FOR_BUSINESS_INFO": "Meta 창에서 비즈니스 설정을 완료하십시오...",
           "PROCESSING": "WhatsApp Business 계정을 설정하는 중",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK를 로드하는 중...",
           "CANCELLED": "WhatsApp 가입이 취소되었습니다",
           "SUCCESS_TITLE": "WhatsApp Business 계정이 연결되었습니다!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "인증이 완료되지 않았습니다. 프로세스를 다시 시작하십시오.",
           "SUCCESS_FALLBACK": "WhatsApp Business 계정이 성공적으로 구성되었습니다",
           "MANUAL_FALLBACK": "번호가 이미 WhatsApp Business Platform (API)에 연결되어 있거나, 자체 번호를 온보딩하는 기술 공급자인 경우 {link}을 사용하십시오",
-          "MANUAL_LINK_TEXT": "수동 설정 플로우"
+          "MANUAL_LINK_TEXT": "수동 설정 플로우",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "WhatsApp 채널을 저장할 수 없습니다."
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "WhatsApp으로 고객 지원"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "이메일",
@@ -636,7 +642,38 @@
       "WIDGET_BUILDER": "위젯 빌더",
       "BOT_CONFIGURATION": "봇 구성",
       "ACCOUNT_HEALTH": "계정 상태",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "음성",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
+      }
     },
     "CHANNEL_PREFERENCES": "채널 환경설정",
     "WIDGET_FEATURES": "위젯 기능",
@@ -745,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "이메일에 에이전트 이름 표시를 사용 또는 사용 안 함으로 설정합니다. 사용 안 함 시 비즈니스 이름이 표시됩니다.",
       "ENABLE_CONTINUITY_VIA_EMAIL": "이메일을 통한 대화 연속성 사용",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "연락처 이메일 주소가 있는 경우 이메일을 통해 대화가 계속됩니다.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "단일 대화로 제한",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "이 받은 메시지함에서 동일한 연락처에 대한 다중 대화를 사용 또는 사용 안 함으로 설정",
       "INBOX_UPDATE_TITLE": "받은 메시지함 설정",
@@ -789,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp에서 메시지 템플릿을 수동으로 동기화하여 사용 가능한 템플릿을 업데이트하십시오.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "템플릿 동기화",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "템플릿 동기화가 성공적으로 시작되었습니다. 업데이트되기까지 몇 분 정도 걸릴 수 있습니다.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "대화 전 설문 설정 업데이트"
     },
     "HELP_CENTER": {
@@ -1000,7 +1042,8 @@
         "LABEL": "비밀번호",
         "PLACE_HOLDER": "비밀번호"
       },
-      "ENABLE_SSL": "SSL 사용"
+      "ENABLE_SSL": "SSL 사용",
+      "AUTH_MECHANISM": "인증"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

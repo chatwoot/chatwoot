@@ -20,6 +20,8 @@
     "CALL": "Chamada",
     "CALL_INITIATED": "Efetuando chamada…",
     "CALL_FAILED": "Não foi possível iniciar a chamada. Tente novamente.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitação de permissão de chamada enviada ao contato. Tente novamente após a aceitação.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Uma solicitação de permissão de chamada já foi enviada recentemente. Tente novamente após o contato aceitar.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Escolha uma caixa de entrada de voz"
@@ -386,6 +388,7 @@
       "IDENTIFIER": "Identificador",
       "COUNTRY": "País/região",
       "CITY": "Cidade",
+      "COMPANY": "Empresa",
       "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade",
       "REFERER_LINK": "Link de origem",
@@ -582,8 +585,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Atribuir rótulo",
+    "REMOVE_LABELS": "Remover Etiquetas",
     "ASSIGN_LABELS_SUCCESS": "Rótulos atribuídos com sucesso.",
     "ASSIGN_LABELS_FAILED": "Falha ao atribuir etiquetas",
+    "REMOVE_LABELS_SUCCESS": "Etiquetas removidas com sucesso.",
+    "REMOVE_LABELS_FAILED": "Falha ao remover etiquetas",
     "DESCRIPTION": "Selecione as etiquetas que deseja adicionar aos contatos selecionados.",
     "NO_LABELS_FOUND": "Nenhuma etiqueta disponível ainda.",
     "SELECTED_COUNT": "{count} selecionado",
