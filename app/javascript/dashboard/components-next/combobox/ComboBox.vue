@@ -23,7 +23,7 @@ const props = defineProps({
   useApiResults: { type: Boolean, default: false }, // useApiResults prop to determine if search is handled by API
 });
 
-const emit = defineEmits(['update:modelValue', 'search']);
+const emit = defineEmits(['update:modelValue', 'search', 'open']);
 
 const { t } = useI18n();
 
@@ -72,6 +72,7 @@ const toggleDropdown = () => {
   open.value = !open.value;
   if (open.value) {
     search.value = '';
+    emit('open');
     nextTick(() => dropdownRef.value?.focus());
   }
 };

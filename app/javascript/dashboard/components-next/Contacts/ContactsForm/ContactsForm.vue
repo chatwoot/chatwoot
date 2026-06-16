@@ -12,6 +12,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import CompanyCreateDialog from 'dashboard/components-next/Companies/CompanyCreateDialog.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
 
 const props = defineProps({
@@ -24,6 +25,10 @@ const props = defineProps({
     default: false,
   },
   isNewContact: {
+    type: Boolean,
+    default: false,
+  },
+  shouldLoadCompanyOptions: {
     type: Boolean,
     default: false,
   },
@@ -84,6 +89,9 @@ const defaultState = {
 const state = reactive({ ...defaultState });
 const companyOptions = ref([]);
 const companySearch = ref('');
+const createCompanyDialogRef = ref(null);
+const isCreatingCompany = ref(false);
+const hasLoadedCompanyOptions = ref(false);
 let companySearchRequestToken = 0;
 
 const validationRules = {
@@ -129,6 +137,13 @@ const ensureSelectedCompanyOption = options => {
   return [selected, ...options];
 };
 
+const appendCompanyOption = company => {
+  companyOptions.value = ensureSelectedCompanyOption([
+    { label: company.name, value: company.id },
+    ...companyOptions.value,
+  ]);
+};
+
 const createCompanyOption = computed(() => {
   const name = companySearch.value.trim();
   if (!name) return null;
@@ -155,6 +170,7 @@ const loadCompanyOptions = async query => {
   if (!hasCompaniesFeature.value) return;
 
   companySearch.value = query || '';
+  if (!query?.trim()) hasLoadedCompanyOptions.value = true;
   const requestToken = companySearchRequestToken + 1;
   companySearchRequestToken = requestToken;
 
@@ -174,6 +190,31 @@ const loadCompanyOptions = async query => {
       companyOptions.value = ensureSelectedCompanyOption([]);
     }
   }
+};
+
+const loadSelectedCompany = async () => {
+  if (
+    !hasCompaniesFeature.value ||
+    !state.companyId ||
+    state.additionalAttributes.companyName
+  ) {
+    return;
+  }
+
+  try {
+    const {
+      data: { payload },
+    } = await CompanyAPI.show(state.companyId);
+
+    state.additionalAttributes.companyName = payload.name;
+    appendCompanyOption(payload);
+  } catch {
+    // Keep the selector usable even if the linked company was deleted later.
+  }
+};
+
+const handleCompanyDropdownOpen = () => {
+  if (!hasLoadedCompanyOptions.value) loadCompanyOptions();
 };
 
 const emitContactUpdate = async () => {
@@ -320,29 +361,35 @@ const handleCountrySelection = value => {
 const selectCompany = async company => {
   state.companyId = company.id;
   state.additionalAttributes.companyName = company.name;
-  companyOptions.value = ensureSelectedCompanyOption([
-    { label: company.name, value: company.id },
-    ...companyOptions.value,
-  ]);
+  appendCompanyOption(company);
 
   await emitContactUpdate();
 };
 
-const createCompany = async name => {
+const openCreateCompanyDialog = name => {
+  createCompanyDialogRef.value?.open({ name });
+};
+
+const createCompany = async company => {
+  isCreatingCompany.value = true;
+
   try {
     const {
       data: { payload },
-    } = await CompanyAPI.create({ company: { name } });
+    } = await CompanyAPI.create({ company });
     await selectCompany(payload);
+    createCompanyDialogRef.value?.onSuccess();
     useAlert(t('COMPANIES.CREATE.MESSAGES.SUCCESS'));
   } catch {
     useAlert(t('COMPANIES.CREATE.MESSAGES.ERROR'));
+  } finally {
+    isCreatingCompany.value = false;
   }
 };
 
 const handleCompanySelection = async value => {
   if (typeof value === 'string' && value.startsWith('create:')) {
-    await createCompany(value.replace('create:', ''));
+    openCreateCompanyDialog(value.replace('create:', ''));
     return;
   }
 
@@ -376,9 +423,13 @@ watch(
 );
 
 watch(
-  hasCompaniesFeature,
-  enabled => {
-    if (enabled) loadCompanyOptions();
+  () => [
+    props.shouldLoadCompanyOptions,
+    hasCompaniesFeature.value,
+    props.contactData?.id,
+  ],
+  ([shouldLoad, enabled]) => {
+    if (shouldLoad && enabled) loadSelectedCompany();
   },
   { immediate: true }
 );
@@ -433,6 +484,7 @@ defineExpose({
               '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
             }"
             @search="loadCompanyOptions"
+            @open="handleCompanyDropdownOpen"
             @update:model-value="handleCompanySelection"
           />
           <Input
@@ -488,5 +540,10 @@ defineExpose({
         </div>
       </div>
     </div>
+    <CompanyCreateDialog
+      ref="createCompanyDialogRef"
+      :is-loading="isCreatingCompany"
+      @create="createCompany"
+    />
   </div>
 </template>
