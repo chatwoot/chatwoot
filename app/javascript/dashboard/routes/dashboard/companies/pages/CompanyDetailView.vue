@@ -197,14 +197,15 @@ watch(
     clearSelectedCandidate();
     activeSidebarTab.value = getTabFromQuery();
     if (!id) return;
-    await Promise.allSettled([
+    const requests = [
       companiesStore.show(id),
       companiesStore.getCompanyContacts(id),
       companiesStore.getCompanyConversations(id),
-    ]);
+    ];
     if (activeSidebarTab.value === 'notes') {
-      companiesStore.getCompanyNotes(id);
+      requests.push(companiesStore.getCompanyNotes(id));
     }
+    await Promise.allSettled(requests);
   },
   { immediate: true }
 );
