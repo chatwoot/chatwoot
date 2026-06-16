@@ -104,7 +104,7 @@ module Captain::ChatHelper
   end
 
   def resolved_channel_type
-    Conversation.find_by(account_id: resolved_account_id, display_id: @conversation_id)&.inbox&.channel_type if @conversation_id
+    @conversation&.inbox&.channel_type
   end
 
   # Ensures all LLM calls and tool executions within an agentic loop

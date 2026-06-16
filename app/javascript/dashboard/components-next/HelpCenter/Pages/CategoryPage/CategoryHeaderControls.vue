@@ -25,7 +25,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['localeChange']);
+const emit = defineEmits(['localeChange', 'newArticle']);
 
 const route = useRoute();
 const router = useRouter();
@@ -106,6 +106,7 @@ const breadcrumbItems = computed(() => {
         }
       ),
       emoji: selectedCategoryEmoji.value,
+      iconColor: selectedCategory.value?.icon_color,
     });
   }
   return items;
@@ -142,7 +143,7 @@ const handleBreadcrumbClick = () => {
             v-if="isLocaleMenuOpen"
             :menu-items="localeMenuItems"
             show-search
-            class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+            class="left-0 w-40 mt-2 xl:right-0 top-full max-h-60"
             @action="handleLocaleAction"
           />
         </OnClickOutside>
@@ -179,7 +180,7 @@ const handleBreadcrumbClick = () => {
         />
       </OnClickOutside>
     </div>
-    <div v-else class="relative">
+    <div v-else class="relative flex items-center gap-2">
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
         <Button
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"
@@ -196,6 +197,12 @@ const handleBreadcrumbClick = () => {
           @close="isEditCategoryDialogOpen = false"
         />
       </OnClickOutside>
+      <Button
+        :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
+        icon="i-lucide-plus"
+        size="sm"
+        @click="emit('newArticle')"
+      />
     </div>
   </div>
 </template>

@@ -83,6 +83,37 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
   end
 
+  describe 'subscription quantity update' do
+    before do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({ 'id' => 'price_startups', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+    end
+
+    it 'updates subscribed_quantity' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+    end
+
+    it 'persists quantity even when increment_response_usage runs concurrently' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100))
+
+      # Simulate: webhook updates quantity, then a concurrent increment_response_usage writes usage
+      stripe_event_service.new.perform(event: event)
+      account.reload
+
+      # Simulate concurrent increment_response_usage (atomic jsonb_set, not full hash overwrite)
+      account.increment_response_usage
+
+      # Quantity must survive the concurrent usage update
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(101)
+    end
+  end
+
   describe 'subscription deletion handling' do
     it 'calls CreateStripeCustomerService on subscription deletion' do
       allow(event).to receive(:type).and_return('customer.subscription.deleted')

@@ -281,6 +281,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
         allow(Stripe::InvoiceItem).to receive(:create)
         allow(Stripe::Invoice).to receive(:finalize_invoice)
+        allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
         allow(Stripe::Invoice).to receive(:pay)
         allow(Stripe::Billing::CreditGrant).to receive(:create)
       end

@@ -68,7 +68,8 @@
         "API_SUCCESS": "İmza başarıyla kaydedildi",
         "IMAGE_UPLOAD_ERROR": "Resim yüklenemedi! Tekrar deneyin",
         "IMAGE_UPLOAD_SUCCESS": "Resim başarıyla eklendi. İmzayı kaydetmek için lütfen kaydet'e tıklayın",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Resim boyutu {size}MB'dan küçük olmalıdır",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "İmzanız",
@@ -381,7 +382,7 @@
     "DOCS": "Dokümantasyonu oku",
     "SECURITY": "Güvenlik",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Konuşma Akışı"
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
@@ -566,7 +567,7 @@
     },
     "REQUIRED_ATTRIBUTES": {
       "TITLE": "Attributes required on resolution",
-      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "DESCRIPTION": "Bir konuşma sonuçlandırılırken, temsilcilerden henüz doldurmamışlarsa bu alanları doldurmaları istenecektir.",
       "NO_ATTRIBUTES": "No attributes added yet",
       "ADD": {
         "TITLE": "Add Attributes",
@@ -578,17 +579,17 @@
       },
       "MODAL": {
         "TITLE": "Görüşmeyi Çöz",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "DESCRIPTION": "Bu konuşmayı kapatmadan önce lütfen aşağıdaki özel özellikleri doldurun",
         "ACTIONS": {
           "RESOLVE": "Görüşmeyi Çöz",
           "CANCEL": "İptal Et"
         },
         "PLACEHOLDERS": {
-          "TEXT": "Write a note...",
-          "NUMBER": "Enter a number",
-          "LINK": "Add a link",
-          "DATE": "Pick a date",
-          "LIST": "Select an option"
+          "TEXT": "Bir not yaz...",
+          "NUMBER": "Bir sayı girin",
+          "LINK": "Bağlantı ekle",
+          "DATE": "Bir tarih seçin",
+          "LIST": "Bir seçenek seçin"
         },
         "CHECKBOX": {
           "YES": "Evet",
@@ -598,7 +599,7 @@
       "PAYWALL": {
         "TITLE": "Upgrade to use required attributes",
         "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_PROMPT": "Planınızı yükseltin ve temsilcilerin görüşme sonuçlandırılmadan önce gerekli alanları doldurmasını sağlayın.",
         "UPGRADE_NOW": "Şimdi yükselt",
         "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       },

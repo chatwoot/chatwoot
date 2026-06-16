@@ -45,6 +45,13 @@
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
     },
     "SUBMIT": "Criar conta",
-    "HAVE_AN_ACCOUNT": "Já possui uma conta?"
+    "HAVE_AN_ACCOUNT": "Já possui uma conta?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Verifique sua caixa de entrada",
+      "DESCRIPTION": "Enviamos um link de verificação para {email}. Clique no link para verificar seu e-mail e começar.",
+      "RESEND": "Reenviar e-mail de verificação",
+      "RESEND_SUCCESS": "E-mail de verificação enviado. Por favor, verifique sua caixa de entrada.",
+      "RESEND_ERROR": "Não foi possível enviar o e-mail de verificação. Por favor, tente novamente."
+    }
   }
 }

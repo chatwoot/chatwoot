@@ -6,6 +6,7 @@ import Rating from 'survey/components/Rating.vue';
 import Feedback from 'survey/components/Feedback.vue';
 import Banner from 'survey/components/Banner.vue';
 import StarRating from 'shared/components/StarRating.vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getSurveyDetails, updateSurvey } from 'survey/api/survey';
 
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
@@ -20,6 +21,10 @@ export default {
     Feedback,
     StarRating,
   },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return { formatMessage };
+  },
   data() {
     return {
       surveyDetails: null,
@@ -27,6 +32,7 @@ export default {
       errorMessage: null,
       selectedRating: null,
       feedbackMessage: '',
+      hasSubmittedFeedback: false,
       isUpdating: false,
       logo: '',
       inboxName: '',
@@ -43,10 +49,14 @@ export default {
       return this.surveyDetails && this.surveyDetails.rating;
     },
     isFeedbackSubmitted() {
-      return this.surveyDetails && this.surveyDetails.feedback_message;
+      return (
+        this.hasSubmittedFeedback || !!this.surveyDetails?.feedback_message
+      );
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      if (!this.selectedRating) return true;
+      if (this.isUpdating) return true;
+      return false;
     },
     isEmojiType() {
       return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
@@ -72,18 +82,22 @@ export default {
       }
       return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
     },
+    formattedMessageContent() {
+      return this.formatMessage(this.messageContent, false);
+    },
   },
   async mounted() {
     this.getSurveyDetails();
   },
   methods: {
     selectRating(rating) {
+      if (this.isFeedbackSubmitted || this.isUpdating) return;
       this.selectedRating = rating;
       this.updateSurveyDetails();
     },
     sendFeedback(message) {
       this.feedbackMessage = message;
-      this.updateSurveyDetails();
+      this.updateSurveyDetails({ markFeedbackSubmitted: true });
     },
     async getSurveyDetails() {
       this.isLoading = true;
@@ -106,7 +120,7 @@ export default {
         this.isLoading = false;
       }
     },
-    async updateSurveyDetails() {
+    async updateSurveyDetails({ markFeedbackSubmitted = false } = {}) {
       this.isUpdating = true;
       try {
         const data = {
@@ -127,6 +141,9 @@ export default {
           rating: this.selectedRating,
           feedback_message: this.feedbackMessage,
         };
+        if (markFeedbackSubmitted) {
+          this.hasSubmittedFeedback = true;
+        }
       } catch (error) {
         const errorMessage = error?.response?.data?.error;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');
@@ -158,12 +175,11 @@ export default {
     >
       <div class="w-full px-12 pt-12 pb-6 m-auto my-0">
         <img v-if="logo" :src="logo" alt="Chatwoot logo" class="mb-6 logo" />
-        <p
+        <div
           v-if="!isRatingSubmitted"
-          class="mb-8 text-lg leading-relaxed text-n-slate-12"
-        >
-          {{ messageContent }}
-        </p>
+          v-dompurify-html="formattedMessageContent"
+          class="mb-8 text-lg leading-relaxed text-n-slate-12 prose prose-bubble"
+        />
         <Banner
           v-if="shouldShowBanner"
           :show-success="shouldShowSuccessMessage"
@@ -179,12 +195,13 @@ export default {
         <Rating
           v-if="isEmojiType"
           :selected-rating="selectedRating"
+          :is-disabled="isFeedbackSubmitted || isUpdating"
           @select-rating="selectRating"
         />
         <StarRating
           v-if="isStarType"
           :selected-rating="selectedRating"
-          :is-disabled="isRatingSubmitted"
+          :is-disabled="isFeedbackSubmitted || isUpdating"
           class="[&>button>span]:text-4xl !justify-start !px-0"
           @select-rating="selectRating"
         />

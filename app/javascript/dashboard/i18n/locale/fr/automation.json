@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Aucun",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversation créée",
       "CONVERSATION_UPDATED": "Conversation mise à jour",
@@ -140,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assigner à un agent",
       "ASSIGN_TEAM": "Assigner une équipe",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
       "ADD_LABEL": "Ajouter une étiquette",
       "REMOVE_LABEL": "Supprimer une étiquette",
       "SEND_EMAIL_TO_TEAM": "Envoyer un e-mail à l'équipe",
@@ -169,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Type de message",
+      "PRIVATE_NOTE": "Note privée",
       "MESSAGE_CONTAINS": "Le message contient",
       "EMAIL": "Courriel",
       "INBOX": "Boîte de réception",
@@ -178,6 +182,7 @@
       "BROWSER_LANGUAGE": "Langue du navigateur",
       "MAIL_SUBJECT": "Objet de l'email",
       "COUNTRY_NAME": "Pays",
+      "COMPANY_NAME": "Société",
       "REFERER_LINK": "Lien de référence",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Équipes",

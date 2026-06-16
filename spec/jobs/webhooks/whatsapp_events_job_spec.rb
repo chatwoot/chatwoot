@@ -62,6 +62,14 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(params)
     end
 
+    it 'still enqueues for manual channels even when reauthorization required' do
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual'))
+      channel.prompt_reauthorization!
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new)
+      job.perform_now(params)
+    end
+
     it 'will not enqueue if channel is not present' do
       allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
       allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
@@ -96,6 +104,126 @@ RSpec.describe Webhooks::WhatsappEventsJob do
 
       expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: unknown - #{unknown_phone}")
       job.perform_now(phone_number: unknown_phone)
+    end
+
+    it 'uses from_user_id as the mutex sender for BSUID-only inbound messages' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from: '', from_user_id: bsuid, id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'prefers from_user_id as the mutex sender for mixed phone and BSUID inbound messages' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from: '919745786257', from_user_id: bsuid, id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'uses contact user_id as the mutex sender when message from_user_id is missing' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:contacts] = [
+        { profile: { name: 'Muhsin' }, wa_id: '919745786257', user_id: bsuid }
+      ]
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from: '919745786257', id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'prefers parent BSUID as the mutex sender for inbound messages with both identifiers' do
+      bsuid = 'IN.2081978709342942'
+      parent_bsuid = 'IN.ENT.9081726354'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:value][:contacts] = [
+        { profile: { name: 'Muhsin' }, user_id: bsuid, parent_user_id: parent_bsuid }
+      ]
+      wb_params[:entry].first[:changes].first[:value][:messages] = [
+        { from_user_id: bsuid, from_parent_user_id: parent_bsuid, id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: parent_bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'uses to_user_id as the mutex sender for BSUID-only echo messages' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:field] = 'smb_message_echoes'
+      wb_params[:entry].first[:changes].first[:value][:message_echoes] = [
+        { from: channel.phone_number.delete('+'), to: '', to_user_id: bsuid, id: 'wamid-test', text: { body: 'Hello' }, type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'prefers parent BSUID as the mutex sender for echo messages with both identifiers' do
+      bsuid = 'IN.2081978709342942'
+      parent_bsuid = 'IN.ENT.9081726354'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:field] = 'smb_message_echoes'
+      wb_params[:entry].first[:changes].first[:value][:message_echoes] = [
+        {
+          from: channel.phone_number.delete('+'), to: '919745786257', to_user_id: bsuid, to_parent_user_id: parent_bsuid,
+          id: 'wamid-test', text: { body: 'Hello' }, type: 'text'
+        }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: parent_bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
+    end
+
+    it 'prefers to_user_id as the mutex sender for mixed phone and BSUID echo messages' do
+      bsuid = 'IN.2081978709342942'
+      wb_params = params.deep_dup
+      wb_params[:entry].first[:changes].first[:field] = 'smb_message_echoes'
+      wb_params[:entry].first[:changes].first[:value][:message_echoes] = [
+        { from: channel.phone_number.delete('+'), to: '919745786257', to_user_id: bsuid, id: 'wamid-test', text: { body: 'Hello' },
+          type: 'text' }
+      ]
+      job_instance = described_class.new
+      mutex_key = format(Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: bsuid)
+
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(job_instance).to receive(:with_lock).with(mutex_key, 30.seconds).and_yield
+
+      job_instance.perform(wb_params)
     end
   end
 

@@ -151,7 +151,13 @@ const openBulkDeleteDialog = () => {
 };
 
 const toggleSelectAll = shouldSelect => {
-  selectedContactIds.value = shouldSelect ? [...visibleContactIds.value] : [];
+  const currentSelection = new Set(selectedContactIds.value);
+  if (shouldSelect) {
+    visibleContactIds.value.forEach(id => currentSelection.add(id));
+  } else {
+    visibleContactIds.value.forEach(id => currentSelection.delete(id));
+  }
+  selectedContactIds.value = Array.from(currentSelection);
 };
 
 const toggleContactSelection = ({ id, value }) => {
@@ -190,16 +196,28 @@ const getCommonFetchParams = (page = 1) => ({
   label: activeLabel.value,
 });
 
-const fetchContacts = async (page = 1) => {
-  clearSelection();
+const fetchContacts = async (page = 1, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
 };
 
-const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
+const fetchSavedOrAppliedFilteredContact = async (
+  payload,
+  page = 1,
+  options = {}
+) => {
   if (!activeSegmentId.value && !hasAppliedFilters.value) return;
-  clearSelection();
+
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
+
   await store.dispatch('contacts/filter', {
     ...getCommonFetchParams(page),
     queryPayload: payload,
@@ -207,8 +225,12 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
   updatePageParam(page);
 };
 
-const fetchActiveContacts = async (page = 1) => {
-  clearSelection();
+const fetchActiveContacts = async (page = 1, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
+
   await store.dispatch('contacts/clearContactFilters');
   await store.dispatch('contacts/active', {
     page,
@@ -217,28 +239,36 @@ const fetchActiveContacts = async (page = 1) => {
   updatePageParam(page);
 };
 
-const searchContacts = debounce(async (value, page = 1, append = false) => {
-  if (!append) {
-    clearSelection();
-    searchPageNumber.value = 1;
-  }
-  await store.dispatch('contacts/clearContactFilters');
-  searchValue.value = value;
+const searchContacts = debounce(
+  async (value, page = 1, append = false, options = {}) => {
+    const { clearSelection: shouldClearSelection = true } = options;
 
-  if (!value) {
-    updatePageParam(page);
-    await fetchContacts(page);
-    return;
-  }
+    if (!append) {
+      searchPageNumber.value = 1;
 
-  updatePageParam(page, value);
-  await store.dispatch('contacts/search', {
-    ...getCommonFetchParams(page),
-    search: encodeURIComponent(value),
-    append,
-  });
-  searchPageNumber.value = page;
-}, DEBOUNCE_DELAY);
+      if (shouldClearSelection) {
+        clearSelection();
+      }
+    }
+    await store.dispatch('contacts/clearContactFilters');
+    searchValue.value = value;
+
+    if (!value) {
+      updatePageParam(page);
+      await fetchContacts(page, { clearSelection: false });
+      return;
+    }
+
+    updatePageParam(page, value);
+    await store.dispatch('contacts/search', {
+      ...getCommonFetchParams(page),
+      search: encodeURIComponent(value),
+      append,
+    });
+    searchPageNumber.value = page;
+  },
+  DEBOUNCE_DELAY
+);
 
 const loadMoreSearchResults = async () => {
   if (!hasMore.value || isLoadingMore.value) return;
@@ -256,19 +286,26 @@ const loadMoreSearchResults = async () => {
   isLoadingMore.value = false;
 };
 
-const fetchContactsBasedOnContext = async page => {
-  clearSelection();
+const fetchContactsBasedOnContext = async (page, options = {}) => {
+  const { clearSelection: shouldClearSelection = true } = options;
+  if (shouldClearSelection) {
+    clearSelection();
+  }
   updatePageParam(page, searchValue.value);
   if (isFetchingList.value) return;
   if (searchQuery.value) {
-    await searchContacts(searchQuery.value, page);
+    await searchContacts(searchQuery.value, page, false, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // Reset the search value when we change the view
   searchValue.value = '';
   // If we're on the active route, fetch active contacts
   if (isActiveView.value) {
-    await fetchActiveContacts(page);
+    await fetchActiveContacts(page, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // If there are applied filters or active segment with query
@@ -278,12 +315,19 @@ const fetchContactsBasedOnContext = async page => {
   ) {
     const queryPayload =
       activeSegment.value?.query || filterQueryGenerator(appliedFilters.value);
-    await fetchSavedOrAppliedFilteredContact(queryPayload, page);
+    await fetchSavedOrAppliedFilteredContact(queryPayload, page, {
+      clearSelection: shouldClearSelection,
+    });
     return;
   }
   // Default case: fetch regular contacts + label
-  await fetchContacts(page);
+  await fetchContacts(page, {
+    clearSelection: shouldClearSelection,
+  });
 };
+
+const onPageChange = page =>
+  fetchContactsBasedOnContext(page, { clearSelection: false });
 
 const assignLabels = async labels => {
   if (!labels.length || !selectedContactIds.value.length) {
@@ -302,6 +346,28 @@ const assignLabels = async labels => {
     await fetchContactsBasedOnContext(pageNumber.value);
   } catch (error) {
     useAlert(t('CONTACTS_BULK_ACTIONS.ASSIGN_LABELS_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
+};
+
+const removeLabels = async labels => {
+  if (!labels.length || !selectedContactIds.value.length) {
+    return;
+  }
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      labels: { remove: labels },
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_FAILED'));
   } finally {
     isBulkActionLoading.value = false;
   }
@@ -338,7 +404,9 @@ const handleSort = async ({ sort, order }) => {
   });
 
   if (searchQuery.value) {
-    await searchContacts(searchValue.value);
+    await searchContacts(searchValue.value, pageNumber.value, false, {
+      clearSelection: false,
+    });
     return;
   }
 
@@ -359,17 +427,6 @@ const handleSort = async ({ sort, order }) => {
 const createContact = async contact => {
   await store.dispatch('contacts/create', contact);
 };
-
-watch(
-  contacts,
-  newContacts => {
-    const idsOnPage = newContacts.map(contact => contact.id);
-    selectedContactIds.value = selectedContactIds.value.filter(id =>
-      idsOnPage.includes(id)
-    );
-  },
-  { deep: true }
-);
 
 watch(hasSelection, value => {
   if (!value) {
@@ -416,7 +473,9 @@ watch(searchQuery, value => {
 onMounted(async () => {
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
-      await searchContacts(searchQuery.value, pageNumber.value);
+      await searchContacts(searchQuery.value, pageNumber.value, false, {
+        clearSelection: false,
+      });
       return;
     }
     if (isActiveView.value) {
@@ -452,8 +511,10 @@ onMounted(async () => {
       :use-infinite-scroll="isSearchView"
       :has-more="hasMore"
       :is-loading-more="isLoadingMore"
-      @update:current-page="fetchContactsBasedOnContext"
-      @search="searchContacts"
+      @update:current-page="onPageChange"
+      @search="
+        value => searchContacts(value, 1, false, { clearSelection: false })
+      "
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
@@ -475,6 +536,7 @@ onMounted(async () => {
           @toggle-all="toggleSelectAll"
           @clear-selection="clearSelection"
           @assign-labels="assignLabels"
+          @remove-labels="removeLabels"
           @delete-selected="openBulkDeleteDialog"
         />
         <ContactEmptyState
@@ -485,6 +547,7 @@ onMounted(async () => {
           :button-label="t('CONTACTS_LAYOUT.EMPTY_STATE.BUTTON_LABEL')"
           @create="createContact"
         />
+
         <div
           v-else-if="showEmptyText"
           class="flex items-center justify-center py-10"
@@ -493,6 +556,7 @@ onMounted(async () => {
             {{ emptyStateMessage }}
           </span>
         </div>
+
         <div v-else class="flex flex-col gap-4 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"

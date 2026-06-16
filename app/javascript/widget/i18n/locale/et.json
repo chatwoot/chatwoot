@@ -1,153 +1,153 @@
 {
   "COMPONENTS": {
     "FILE_BUBBLE": {
-      "DOWNLOAD": "Download",
-      "UPLOADING": "Uploading..."
+      "DOWNLOAD": "Laadi alla",
+      "UPLOADING": "Üleslaadimine..."
     },
     "FORM_BUBBLE": {
-      "SUBMIT": "Submit"
+      "SUBMIT": "Saada"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Send message again",
-      "ERROR_MESSAGE": "Couldn't send, try again"
+      "RETRY": "Saada sõnum uuesti",
+      "ERROR_MESSAGE": "Saatmine ebaõnnestus, proovi uuesti"
     }
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Pole saadaval"
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "ONLINE": "Oleme võrgus",
+    "OFFLINE": "Oleme hetkel eemal",
+    "BACK_AS_SOON_AS_POSSIBLE": "Oleme tagasi esimesel võimalusel"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
-    "IN_A_FEW_HOURS": "Typically replies in a few hours",
-    "IN_A_DAY": "Typically replies in a day",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "IN_A_FEW_MINUTES": "Tavaliselt vastame mõne minuti jooksul",
+    "IN_A_FEW_HOURS": "Tavaliselt vastame mõne tunni jooksul",
+    "IN_A_DAY": "Tavaliselt vastame päeva jooksul",
+    "BACK_IN_HOURS": "Oleme tagasi {n} tunni pärast | Oleme tagasi {n} tunni pärast",
+    "BACK_IN_MINUTES": "Oleme tagasi {time} minuti pärast",
+    "BACK_AT_TIME": "Oleme tagasi kell {time}",
+    "BACK_ON_DAY": "Oleme tagasi {day}",
+    "BACK_TOMORROW": "Oleme tagasi homme",
+    "BACK_IN_SOME_TIME": "Oleme mõne aja pärast tagasi"
   },
   "DAY_NAMES": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "Pühapäev",
+    "MONDAY": "Esmaspäev",
+    "TUESDAY": "Teisipäev",
+    "WEDNESDAY": "Kolmapäev",
+    "THURSDAY": "Neljapäev",
+    "FRIDAY": "Reede",
+    "SATURDAY": "Laupäev"
   },
-  "START_CONVERSATION": "Start Conversation",
-  "END_CONVERSATION": "End Conversation",
-  "CONTINUE_CONVERSATION": "Continue conversation",
-  "YOU": "You",
-  "START_NEW_CONVERSATION": "Start a new conversation",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "START_CONVERSATION": "Alusta vestlust",
+  "END_CONVERSATION": "Lõpeta vestlus",
+  "CONTINUE_CONVERSATION": "Jätka vestlust",
+  "YOU": "Sina",
+  "START_NEW_CONVERSATION": "Alusta uut vestlust",
+  "VIEW_UNREAD_MESSAGES": "Sul on lugemata sõnumeid",
   "UNREAD_VIEW": {
-    "VIEW_MESSAGES_BUTTON": "See new messages",
-    "CLOSE_MESSAGES_BUTTON": "Close",
-    "COMPANY_FROM": "from",
+    "VIEW_MESSAGES_BUTTON": "Vaata uusi sõnumeid",
+    "CLOSE_MESSAGES_BUTTON": "Sulge",
+    "COMPANY_FROM": "saatjalt",
     "BOT": "Bot"
   },
   "BUBBLE": {
-    "LABEL": "Chat with us"
+    "LABEL": "Vestle meiega"
   },
-  "POWERED_BY": "Powered by Chatwoot",
-  "EMAIL_PLACEHOLDER": "Please enter your email",
-  "CHAT_PLACEHOLDER": "Type your message",
-  "TODAY": "Today",
-  "YESTERDAY": "Yesterday",
+  "POWERED_BY": "Toetab Chatwoot",
+  "EMAIL_PLACEHOLDER": "Palun sisesta oma e-post",
+  "CHAT_PLACEHOLDER": "Kirjuta oma sõnum",
+  "TODAY": "Täna",
+  "YESTERDAY": "Eile",
   "PRE_CHAT_FORM": {
     "FIELDS": {
       "FULL_NAME": {
-        "LABEL": "Full Name",
-        "PLACEHOLDER": "Please enter your full name",
-        "REQUIRED_ERROR": "Full Name is required"
+        "LABEL": "Täisnimi",
+        "PLACEHOLDER": "Palun sisesta oma täisnimi",
+        "REQUIRED_ERROR": "Täisnimi on kohustuslik"
       },
       "EMAIL_ADDRESS": {
-        "LABEL": "Email Address",
-        "PLACEHOLDER": "Please enter your email address",
-        "REQUIRED_ERROR": "Email Address is required",
-        "VALID_ERROR": "Please enter a valid email address"
+        "LABEL": "E-posti aadress",
+        "PLACEHOLDER": "Palun sisesta oma e-posti aadress",
+        "REQUIRED_ERROR": "E-posti aadress on kohustuslik",
+        "VALID_ERROR": "Palun sisesta kehtiv e-posti aadress"
       },
       "PHONE_NUMBER": {
-        "LABEL": "Phone Number",
-        "PLACEHOLDER": "Please enter your phone number",
-        "REQUIRED_ERROR": "Phone Number is required",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
-        "DROPDOWN_EMPTY": "No results found",
-        "DROPDOWN_SEARCH": "Search country"
+        "LABEL": "Telefoninumber",
+        "PLACEHOLDER": "Palun sisesta oma telefoninumber",
+        "REQUIRED_ERROR": "Telefoninumber on kohustuslik",
+        "DIAL_CODE_VALID_ERROR": "Palun vali riigikood",
+        "VALID_ERROR": "Palun sisesta kehtiv telefoninumber",
+        "DROPDOWN_EMPTY": "Tulemusi ei leitud",
+        "DROPDOWN_SEARCH": "Otsi riiki"
       },
       "MESSAGE": {
-        "LABEL": "Message",
-        "PLACEHOLDER": "Please enter your message",
-        "ERROR": "Message too short"
+        "LABEL": "Sõnum",
+        "PLACEHOLDER": "Palun sisesta oma sõnum",
+        "ERROR": "Sõnum on liiga lühike"
       }
     },
-    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
-    "IS_REQUIRED": "is required",
-    "REQUIRED": "Required",
-    "REGEX_ERROR": "Please provide a valid input"
+    "CAMPAIGN_HEADER": "Palun sisesta enne vestluse alustamist oma nimi ja e-post",
+    "IS_REQUIRED": "on kohustuslik",
+    "REQUIRED": "Kohustuslik",
+    "REGEX_ERROR": "Palun sisesta korrektne väärtus"
   },
-  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
+  "FILE_SIZE_LIMIT": "Fail ületab {MAXIMUM_FILE_UPLOAD_SIZE} manuse limiidi",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Invalid field"
+      "FIELD": "Vigane väli"
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Search emojis",
-    "NOT_FOUND": "No emoji match your search",
-    "ARIA_LABEL": "Emoji picker"
+    "PLACEHOLDER": "Otsi emotikone",
+    "NOT_FOUND": "Ühtegi emotikoni ei leitud",
+    "ARIA_LABEL": "Emotikonide valija"
   },
   "CSAT": {
-    "TITLE": "Rate your conversation",
-    "SUBMITTED_TITLE": "Thank you for submitting the rating",
-    "PLACEHOLDER": "Tell us more..."
+    "TITLE": "Hinda oma vestlust",
+    "SUBMITTED_TITLE": "Täname hinnangu eest",
+    "PLACEHOLDER": "Räägi meile rohkem..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Request a conversation transcript",
-    "SEND_EMAIL_SUCCESS": "The chat transcript was sent successfully",
-    "SEND_EMAIL_ERROR": "There was an error, please try again"
+    "BUTTON_TEXT": "Taotle vestluse koopiat",
+    "SEND_EMAIL_SUCCESS": "Vestluse koopia saadeti edukalt",
+    "SEND_EMAIL_ERROR": "Tekkis viga, palun proovi uuesti"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Klõpsa siia liitumiseks",
+      "LEAVE_THE_ROOM": "Lahku kõnest"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "Populaarsed artiklid",
+    "VIEW_ALL_ARTICLES": "Vaata kõiki artikleid",
+    "IFRAME_LOAD_ERROR": "Artikli laadimisel tekkis viga, palun värskenda lehte ja proovi uuesti."
   },
   "ATTACHMENTS": {
     "image": {
-      "CONTENT": "Picture message"
+      "CONTENT": "Pildisõnum"
     },
     "audio": {
-      "CONTENT": "Audio message"
+      "CONTENT": "Helisõnum"
     },
     "video": {
-      "CONTENT": "Video message"
+      "CONTENT": "Videosõnum"
     },
     "file": {
-      "CONTENT": "File Attachment"
+      "CONTENT": "Faili manus"
     },
     "location": {
-      "CONTENT": "Location"
+      "CONTENT": "Asukoht"
     },
     "fallback": {
-      "CONTENT": "has shared a url"
+      "CONTENT": "jagas URL-i"
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "Vastus sõnumile:"
   }
 }

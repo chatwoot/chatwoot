@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Select Inbox"
         },
         "SUBMIT": "സൃഷ്ടിക്കുക",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "റദ്ദാക്കുക"
       },
       "API": {

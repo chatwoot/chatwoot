@@ -68,7 +68,8 @@
         "API_SUCCESS": "Ondertekening succesvol opgeslagen",
         "IMAGE_UPLOAD_ERROR": "Kon afbeelding niet uploaden! Probeer het opnieuw",
         "IMAGE_UPLOAD_SUCCESS": "Afbeelding succesvol toegevoegd. Klik op opslaan om de handtekening op te slaan",
-        "IMAGE_UPLOAD_SIZE_ERROR": "De grootte van de afbeelding moet kleiner zijn dan {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "De grootte van de afbeelding moet kleiner zijn dan {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Bericht Ondertekening",

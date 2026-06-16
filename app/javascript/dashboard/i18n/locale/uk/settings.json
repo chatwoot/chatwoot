@@ -68,7 +68,8 @@
         "API_SUCCESS": "Підпис успішно збережено",
         "IMAGE_UPLOAD_ERROR": "Не вдалося завантажити зображення! Повторіть спробу",
         "IMAGE_UPLOAD_SUCCESS": "Зображення успішно додано. Будь ласка, натисніть на кнопку Зберегти, щоб зберегти підпис",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Зображення має бути менше {size}Мб",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Підпис повідомлення",

@@ -10,7 +10,25 @@ RSpec.describe Article do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:author_id) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:content) }
+
+    it 'validates content presence only for published articles' do
+      article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                title: 'test', content: nil, status: :draft)
+      expect(article).to be_valid
+
+      article.status = :published
+      expect(article).not_to be_valid
+      expect(article.errors[:content]).to include("can't be blank")
+    end
+
+    it 'rejects reserved slugs that collide with help center routes' do
+      Article::RESERVED_SLUGS.each do |reserved_slug|
+        article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                  title: reserved_slug, slug: reserved_slug, content: 'content')
+        expect(article).not_to be_valid
+        expect(article.errors[:slug]).to include('is reserved')
+      end
+    end
   end
 
   describe 'associations' do

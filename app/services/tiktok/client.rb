@@ -1,3 +1,6 @@
+require 'faraday'
+require 'faraday/multipart'
+
 class Tiktok::Client
   # Always use Tiktok::TokenService to get a valid access token
   pattr_initialize [:business_id!, :access_token!]
@@ -31,14 +34,32 @@ class Tiktok::Client
     json['data']['download_url']
   end
 
+  def image_send_capable?(conversation_id, conversation_type: 'SINGLE')
+    endpoint = "#{api_base_url}/business/message/capabilities/get/"
+    headers = { 'Access-Token': access_token }
+    query = {
+      business_id: business_id,
+      conversation_id: conversation_id,
+      conversation_type: conversation_type,
+      capability_types: ['IMAGE_SEND'].to_json
+    }
+
+    response = HTTParty.get(endpoint, query: query, headers: headers)
+    json = process_json_response(response, 'Failed to fetch TikTok message capabilities')
+    capabilities = json.dig('data', 'capability_infos') || []
+    image_send = capabilities.find { |capability| capability['capability_type'] == 'IMAGE_SEND' }
+
+    image_send&.[]('capability_result') == true
+  end
+
   def send_text_message(conversation_id, text, referenced_message_id: nil)
     send_message(conversation_id, 'TEXT', text, referenced_message_id: referenced_message_id)
   end
 
-  def send_media_message(conversation_id, attachment, referenced_message_id: nil)
+  def send_media_message(conversation_id, attachment)
     # As of now, only IMAGE media type is supported
-    media_id = upload_media(attachment.file, 'IMAGE')
-    send_message(conversation_id, 'IMAGE', media_id, referenced_message_id: referenced_message_id)
+    media_id = upload_media(attachment.file.blob, 'IMAGE')
+    send_message(conversation_id, 'IMAGE', media_id)
   end
 
   private
@@ -69,20 +90,28 @@ class Tiktok::Client
     json['data']['message']['message_id']
   end
 
-  def upload_media(file, media_type = 'IMAGE')
+  def upload_media(blob, media_type = 'IMAGE')
     endpoint = "#{api_base_url}/business/message/media/upload/"
-    headers = { 'Access-Token': access_token, 'Content-Type': 'multipart/form-data' }
 
-    file.open do |temp_file|
-      body = {
+    blob.open do |temp_file|
+      temp_file.rewind
+      payload = {
         business_id: business_id,
         media_type: media_type,
-        file: temp_file
+        file: Faraday::Multipart::FilePart.new(temp_file, blob.content_type || 'application/octet-stream', blob.filename.to_s)
       }
 
-      response = HTTParty.post(endpoint, body: body, headers: headers)
+      response = multipart_connection.post(endpoint, payload) do |request|
+        request.headers['Access-Token'] = access_token
+      end
       json = process_json_response(response, 'Failed to upload TikTok media')
       json['data']['media_id']
+    end
+  end
+
+  def multipart_connection
+    @multipart_connection ||= Faraday.new do |faraday|
+      faraday.request :multipart
     end
   end
 
@@ -92,13 +121,17 @@ class Tiktok::Client
 
   def process_json_response(response, error_prefix)
     unless response.success?
-      Rails.logger.error "#{error_prefix}. Status: #{response.code}, Body: #{response.body}"
-      raise "#{response.code}: #{response.body}"
+      Rails.logger.error "#{error_prefix}. Status: #{response_status(response)}, Body: #{response.body}"
+      raise "#{response_status(response)}: #{response.body}"
     end
 
     res = JSON.parse(response.body)
     raise "#{res['code']}: #{res['message']}" if res['code'] != 0
 
     res
+  end
+
+  def response_status(response)
+    response.respond_to?(:code) ? response.code : response.status
   end
 end

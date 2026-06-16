@@ -1,74 +1,74 @@
 {
   "AUDIT_LOGS": {
     "HEADER": "稽核日誌",
-    "HEADER_BTN_TXT": "新增審計日誌",
-    "LOADING": "正在獲取審計日誌",
-    "DESCRIPTION": "稽核日誌儲存您賬戶中的活動記錄，允許您跟蹤和審計您的賬戶、團隊或服務。",
-    "LEARN_MORE": "瞭解更多關於審計日誌的資訊",
-    "SEARCH_404": "沒有任何項目符合此查詢",
-    "SIDEBAR_TXT": "<p><b>審計日誌</b></p><p>審計日誌是 Chatwoot 系統中事件和操作的痕跡。</p>",
+    "HEADER_BTN_TXT": "新增稽核日誌",
+    "LOADING": "正在載入稽核日誌",
+    "DESCRIPTION": "稽核日誌記錄您帳戶中的所有活動，讓您可以追蹤與稽核帳戶、團隊或服務的異動。",
+    "LEARN_MORE": "了解更多關於稽核日誌的資訊",
+    "SEARCH_404": "沒有符合此查詢的項目",
+    "SIDEBAR_TXT": "<p><b>稽核日誌</b></p><p>稽核日誌記錄 Chatwoot 系統中的事件與操作軌跡。</p>",
     "LIST": {
-      "404": "此賬戶中沒有可用的審計日誌。",
-      "TITLE": "管理審計日誌",
-      "DESC": "審計日誌是 Chatwoot 系統中事件和操作的痕跡。",
+      "404": "此帳戶中沒有可用的稽核日誌。",
+      "TITLE": "管理稽核日誌",
+      "DESC": "稽核日誌記錄 Chatwoot 系統中的事件與操作軌跡。",
       "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
-        "IP_ADDRESS": "IP 位置"
+        "ACTIVITY": "活動",
+        "TIME": "時間",
+        "IP_ADDRESS": "IP 位址"
       }
     },
     "API": {
-      "SUCCESS_MESSAGE": "審計日誌獲取成功",
-      "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
+      "SUCCESS_MESSAGE": "稽核日誌取得成功",
+      "ERROR_MESSAGE": "無法連線至伺服器，請稍後再試。"
     },
     "DEFAULT_USER": "系統",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} 建立了一個新的自動化規則 (#{id})",
-      "EDIT": "{agentName} 更新了一個自動化規則 (#{id})",
-      "DELETE": "{agentName} 刪除了一個自動化規則 (#{id})"
+      "ADD": "{agentName} 建立了新的自動化規則（#{id}）",
+      "EDIT": "{agentName} 更新了自動化規則（#{id}）",
+      "DELETE": "{agentName} 刪除了自動化規則（#{id}）"
     },
     "ACCOUNT_USER": {
-      "ADD": "{agentName} 邀請了 {invitee} 加入賬戶作為 {role}",
+      "ADD": "{agentName} 邀請 {invitee} 以 {role} 身分加入帳戶",
       "EDIT": {
-        "SELF": "{agentName} 將其 {attributes} 更改為 {values}",
-        "OTHER": "{agentName} 將 {user} 的 {attributes} 更改為 {values}",
-        "DELETED": "{agentName} 將一個已刪除使用者的 {attributes} 更改為 {values}"
+        "SELF": "{agentName} 將自己的 {attributes} 變更為 {values}",
+        "OTHER": "{agentName} 將 {user} 的 {attributes} 變更為 {values}",
+        "DELETED": "{agentName} 將已刪除使用者的 {attributes} 變更為 {values}"
       }
     },
     "INBOX": {
-      "ADD": "{agentName} 建立了一個新的收件箱 (#{id})",
-      "EDIT": "{agentName} 更新了一個收件箱 (#{id})",
-      "DELETE": "{agentName} 刪除了一個收件箱 (#{id})"
+      "ADD": "{agentName} 建立了新的收件匣（#{id}）",
+      "EDIT": "{agentName} 更新了收件匣（#{id}）",
+      "DELETE": "{agentName} 刪除了收件匣（#{id}）"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} 建立了一個新的 webhook (#{id})",
-      "EDIT": "{agentName} 更新了一個 webhook (#{id})",
-      "DELETE": "{agentName} 刪除了一個 webhook (#{id})"
+      "ADD": "{agentName} 建立了新的 Webhook（#{id}）",
+      "EDIT": "{agentName} 更新了 Webhook（#{id}）",
+      "DELETE": "{agentName} 刪除了 Webhook（#{id}）"
     },
     "USER_ACTION": {
-      "SIGN_IN": "{agentName} 登入",
-      "SIGN_OUT": "{agentName} 登出"
+      "SIGN_IN": "{agentName} 已登入",
+      "SIGN_OUT": "{agentName} 已登出"
     },
     "TEAM": {
-      "ADD": "{agentName} 建立了一個新的團隊 (#{id})",
-      "EDIT": "{agentName} 更新了一個團隊 (#{id})",
-      "DELETE": "{agentName} 刪除了一個團隊 (#{id})"
+      "ADD": "{agentName} 建立了新的團隊（#{id}）",
+      "EDIT": "{agentName} 更新了團隊（#{id}）",
+      "DELETE": "{agentName} 刪除了團隊（#{id}）"
     },
     "MACRO": {
-      "ADD": "{agentName} 建立了一個新的宏 (#{id})",
-      "EDIT": "{agentName} 更新了一個宏 (#{id})",
-      "DELETE": "{agentName} 刪除了一個宏 (#{id})"
+      "ADD": "{agentName} 建立了新的巨集（#{id}）",
+      "EDIT": "{agentName} 更新了巨集（#{id}）",
+      "DELETE": "{agentName} 刪除了巨集（#{id}）"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} 將 {user} 新增到收件箱 (#{inbox_id})",
-      "REMOVE": "{agentName} 將 {user} 從收件箱 (#{inbox_id}) 中移除"
+      "ADD": "{agentName} 將 {user} 新增至收件匣（#{inbox_id}）",
+      "REMOVE": "{agentName} 將 {user} 從收件匣（#{inbox_id}）中移除"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} 將 {user} 新增到團隊 (#{team_id})",
-      "REMOVE": "{agentName} 將 {user} 從團隊 (#{team_id}) 中移除"
+      "ADD": "{agentName} 將 {user} 新增至團隊（#{team_id}）",
+      "REMOVE": "{agentName} 將 {user} 從團隊（#{team_id}）中移除"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} 更新了賬戶配置 (#{id})"
+      "EDIT": "{agentName} 更新了帳戶設定（#{id}）"
     },
     "CONVERSATION": {
       "DELETE": "{agentName} 刪除了對話 #{id}"
