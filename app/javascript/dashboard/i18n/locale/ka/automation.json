@@ -130,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "None",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "საუბარი შეიქმნა",
       "CONVERSATION_UPDATED": "საუბარი განახლდა",
@@ -181,6 +182,7 @@
       "BROWSER_LANGUAGE": "ბრაუზერის ენა",
       "MAIL_SUBJECT": "ელფოსტის თემა",
       "COUNTRY_NAME": "ქვეყანა",
+      "COMPANY_NAME": "კომპანია",
       "REFERER_LINK": "რეფერერის ბმული",
       "ASSIGNEE_NAME": "დავალებული",
       "TEAM_NAME": "გუნდი",

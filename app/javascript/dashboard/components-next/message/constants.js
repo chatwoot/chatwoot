@@ -78,6 +78,12 @@ export const MEDIA_TYPES = [
   ATTACHMENT_TYPES.IG_REEL,
 ];
 
+export const NON_FILE_TYPES = [
+  ATTACHMENT_TYPES.LOCATION,
+  ATTACHMENT_TYPES.FALLBACK,
+  ATTACHMENT_TYPES.CONTACT,
+];
+
 export const VOICE_CALL_STATUS = {
   IN_PROGRESS: 'in-progress',
   RINGING: 'ringing',
@@ -88,5 +94,18 @@ export const VOICE_CALL_STATUS = {
 
 export const VOICE_CALL_DIRECTION = {
   INBOUND: 'inbound',
+  INCOMING: 'incoming',
+  OUTGOING: 'outgoing',
+  ONGOING: 'ongoing',
   OUTBOUND: 'outbound',
+};
+
+export const VOICE_CALL_OUTBOUND_INIT_STATUS = {
+  LOCKED: 'locked',
+  PERMISSION_REQUESTED: 'permission_requested',
+  PERMISSION_PENDING: 'permission_pending',
+};
+
+export const VOICE_CALL_END_REASON = {
+  AGENT_REJECTED: 'agent_rejected',
 };

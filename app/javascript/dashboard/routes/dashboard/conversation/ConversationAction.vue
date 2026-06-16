@@ -125,7 +125,7 @@ export default {
       set(priorityItem) {
         const conversationId = this.currentChat.id;
         const oldValue = this.currentChat?.priority;
-        const priority = priorityItem ? priorityItem.id : null;
+        const priority = priorityItem.id;
 
         this.$store.dispatch('setCurrentChatPriority', {
           priority,
@@ -203,7 +203,9 @@ export default {
         this.assignedPriority &&
         this.assignedPriority.id === selectedPriorityItem.id;
 
-      this.assignedPriority = isSamePriority ? null : selectedPriorityItem;
+      this.assignedPriority = isSamePriority
+        ? this.priorityOptions[0]
+        : selectedPriorityItem;
     },
   },
 };

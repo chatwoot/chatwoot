@@ -140,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "ซ่อนข้อความในเครื่องหมายคำพูด",
     "SHOW_QUOTED_TEXT": "แสดงข้อความในเครื่องหมายคำพูด",
     "MESSAGE_READ": "อ่านแล้ว",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

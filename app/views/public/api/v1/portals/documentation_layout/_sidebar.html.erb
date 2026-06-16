@@ -1,0 +1,89 @@
+<%# locals: (portal:, locale:, article: nil, category: nil) %>
+<%
+  current_category_slug = article&.category&.slug || category&.slug
+  current_article_slug = article&.slug
+  sidebar_categories = portal.categories.where(locale: locale).order(position: :asc)
+  sidebar_articles_by_category = portal.articles.published
+                                       .where(category_id: sidebar_categories.map(&:id))
+                                       .order(:position)
+                                       .group_by(&:category_id)
+  uncategorized_articles = portal.articles.published.where(category_id: nil, locale: locale).order(:position)
+%>
+<input type="checkbox" id="sidebar-drawer-checkbox" class="peer/sb hidden">
+<label for="sidebar-drawer-checkbox" class="md:hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden peer-checked/sb:block cursor-pointer" aria-hidden="true"></label>
+<aside class="fixed md:sticky inset-y-0 md:inset-y-auto md:top-16 ltr:left-0 rtl:right-0 max-md:z-50 md:z-30 w-72 md:w-64 lg:w-72 shrink-0 h-[100dvh] md:h-[calc(100dvh-4rem)] overflow-y-auto bg-white dark:bg-n-slate-2 ltr:border-r rtl:border-l border-solid border-n-weak max-md:ltr:-translate-x-full max-md:rtl:translate-x-full md:translate-x-0 transition-transform duration-200 peer-checked/sb:translate-x-0">
+  <div class="md:hidden flex items-center justify-end px-4 h-14">
+    <label for="sidebar-drawer-checkbox" class="p-1.5 rounded-md text-n-slate-11 hover:bg-n-alpha-2 cursor-pointer" aria-label="<%= I18n.t('public_portal.sidebar.close_sidebar') %>">
+      <span class="i-lucide-x size-5 block" aria-hidden="true"></span>
+    </label>
+  </div>
+
+  <nav class="px-3 pt-6 md:pt-8 pb-6 space-y-1">
+    <a href="<%= public_portal_locale_path(portal.slug, locale) %>"
+       class="flex items-center gap-2.5 px-3 py-2 text-sm font-medium rounded-md transition <%= current_category_slug.nil? && current_article_slug.nil? ? 'bg-n-portal-soft text-n-portal' : 'text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2' %>">
+      <span class="i-lucide-house size-4" aria-hidden="true"></span>
+      <%= I18n.t('public_portal.common.home') %>
+    </a>
+
+    <div class="pt-6 pb-2 px-3 text-xs font-semibold tracking-wider text-n-slate-10 uppercase"><%= I18n.t('public_portal.sidebar.categories') %></div>
+
+    <% sidebar_categories.each do |sidebar_category| %>
+      <% category_articles = sidebar_articles_by_category[sidebar_category.id] || [] %>
+      <% next if category_articles.empty? %>
+      <% is_active = current_category_slug == sidebar_category.slug || (current_article_slug && category_articles.any? { |a| a.slug == current_article_slug }) %>
+      <% category_url = public_portal_category_path(portal.slug, sidebar_category.locale, sidebar_category.slug) %>
+      <% if is_active %>
+        <details class="group" open>
+      <% else %>
+        <details class="group">
+      <% end %>
+        <summary class="flex items-center gap-2 px-3 py-2 text-sm rounded-md cursor-pointer list-none select-none <%= is_active ? 'text-n-portal font-semibold' : 'text-n-slate-12 font-medium' %> hover:bg-n-alpha-2 transition">
+          <% if sidebar_category.icon.present? %>
+            <span class="text-base leading-none w-4 flex items-center justify-center"><%= render_emoji_or_icon(sidebar_category.icon, sidebar_category.icon_color) %></span>
+          <% else %>
+            <span class="i-lucide-folder size-4 text-n-slate-10" aria-hidden="true"></span>
+          <% end %>
+          <a href="<%= category_url %>" class="flex-1 truncate"><%= sidebar_category.name %></a>
+          <span class="i-lucide-chevron-right size-3 text-n-slate-10 transition-transform group-open:rotate-90" aria-hidden="true"></span>
+        </summary>
+        <ul class="mt-1 mb-2 ms-4 ps-3 border-l border-n-weak space-y-px">
+          <% category_articles.each do |sidebar_article| %>
+            <% is_current_article = current_article_slug == sidebar_article.slug %>
+            <li>
+              <a href="<%= public_portal_article_path(portal.slug, sidebar_article.slug) %>"
+                 class="relative -ms-[13px] ps-3 block py-1.5 text-sm leading-snug truncate transition <%= is_current_article ? 'text-n-portal font-medium border-l-2 border-n-portal' : 'text-n-slate-11 hover:text-n-slate-12 border-l-2 border-transparent' %>">
+                <%= sidebar_article.title %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+
+    <% if uncategorized_articles.any? %>
+      <% is_uncategorized_active = uncategorized_articles.any? { |a| a.slug == current_article_slug } %>
+      <% if is_uncategorized_active %>
+        <details class="group" open>
+      <% else %>
+        <details class="group">
+      <% end %>
+        <summary class="flex items-center gap-2 px-3 py-2 text-sm rounded-md cursor-pointer list-none select-none <%= is_uncategorized_active ? 'text-n-portal font-semibold' : 'text-n-slate-12 font-medium' %> hover:bg-n-alpha-2 transition">
+          <span class="i-lucide-square-dashed size-4 text-n-slate-10" aria-hidden="true"></span>
+          <span class="flex-1 truncate"><%= I18n.t('public_portal.header.uncategorized') %></span>
+          <span class="i-lucide-chevron-right size-3 text-n-slate-10 transition-transform group-open:rotate-90" aria-hidden="true"></span>
+        </summary>
+        <ul class="mt-1 mb-2 ms-4 ps-3 border-l border-n-weak space-y-px">
+          <% uncategorized_articles.each do |sidebar_article| %>
+            <% is_current_article = current_article_slug == sidebar_article.slug %>
+            <li>
+              <a href="<%= public_portal_article_path(portal.slug, sidebar_article.slug) %>"
+                 class="relative -ms-[13px] ps-3 block py-1.5 text-sm leading-snug truncate transition <%= is_current_article ? 'text-n-portal font-medium border-l-2 border-n-portal' : 'text-n-slate-11 hover:text-n-slate-12 border-l-2 border-transparent' %>">
+                <%= sidebar_article.title %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </details>
+    <% end %>
+  </nav>
+</aside>

@@ -5,7 +5,6 @@ import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useTrack } from 'dashboard/composables';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import ReplyToMessage from './ReplyToMessage.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
@@ -57,8 +56,9 @@ import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { emitter } from 'shared/helpers/mitt';
-const EmojiInput = defineAsyncComponent(
-  () => import('shared/components/emoji/EmojiInput.vue')
+const EmojiIconPicker = defineAsyncComponent(
+  () =>
+    import('dashboard/components-next/emoji-icon-picker/EmojiIconPicker.vue')
 );
 
 export default {
@@ -67,7 +67,7 @@ export default {
     AttachmentPreview,
     AudioRecorder,
     ReplyBoxBanner,
-    EmojiInput,
+    EmojiIconPicker,
     MessageSignatureMissingAlert,
     ReplyBottomPanel,
     ReplyEmailHead,
@@ -144,8 +144,6 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -181,6 +179,21 @@ export default {
         return this.isOnPrivateNote;
       }
       return true;
+    },
+    hasMeaningfulEditorContent() {
+      const body = this.message || '';
+      // Only strip the signature when it's actually being auto-appended.
+      // If the toggle is off, the agent's text might happen to match their
+      // saved signature and we'd incorrectly treat it as empty.
+      const shouldStripSignature =
+        !this.isPrivate && this.sendWithSignature && !!this.messageSignature;
+      if (!shouldStripSignature) return !!body.trim();
+      const stripped = removeSignature(
+        body,
+        this.messageSignature,
+        getEffectiveChannelType(this.channelType, this.inbox?.medium || '')
+      );
+      return !!stripped.trim();
     },
     isReplyRestricted() {
       return (
@@ -273,6 +286,10 @@ export default {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
+      const { image_send: imageSend } =
+        this.currentChat?.additional_attributes?.tiktok_capabilities ?? {};
+      const tiktokAttachmentSupported = imageSend ?? true;
+
       return (
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
@@ -283,7 +300,7 @@ export default {
         this.isATelegramChannel ||
         this.isALineChannel ||
         this.isAnInstagramChannel ||
-        this.isATiktokChannel
+        (this.isATiktokChannel && tiktokAttachmentSupported)
       );
     },
     replyButtonLabel() {
@@ -359,6 +376,9 @@ export default {
       return `draft-${this.conversationIdByRoute}-${this.replyType}`;
     },
     audioRecordFormat() {
+      if (this.isAWhatsAppCloudChannel) {
+        return AUDIO_FORMATS.OGG;
+      }
       if (this.isAWhatsAppChannel || this.isATelegramChannel) {
         return AUDIO_FORMATS.MP3;
       }
@@ -380,14 +400,8 @@ export default {
       const { slug = '' } = portal;
       return slug;
     },
-    isQuotedEmailReplyEnabled() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.QUOTED_EMAIL_REPLY
-      );
-    },
     quotedReplyPreference() {
-      if (!this.isAnEmailChannel || !this.isQuotedEmailReplyEnabled) {
+      if (!this.isAnEmailChannel) {
         return false;
       }
 
@@ -412,11 +426,7 @@ export default {
       return truncatePreviewText(this.quotedEmailText, 80);
     },
     shouldShowQuotedReplyToggle() {
-      return (
-        this.isAnEmailChannel &&
-        !this.isOnPrivateNote &&
-        this.isQuotedEmailReplyEnabled
-      );
+      return this.isAnEmailChannel && !this.isOnPrivateNote;
     },
     shouldShowQuotedPreview() {
       return (
@@ -573,7 +583,6 @@ export default {
     },
     shouldIncludeQuotedEmail() {
       return (
-        this.isQuotedEmailReplyEnabled &&
         this.quotedReplyPreference &&
         this.shouldShowQuotedReplyToggle &&
         !!this.quotedEmailText
@@ -706,6 +715,7 @@ export default {
 
       // Don't handle paste if editor is disabled
       if (this.isEditorDisabled) return;
+      if (!this.showFileUpload && !this.isOnPrivateNote) return;
 
       // Filter valid files (non-zero size)
       Array.from(e.clipboardData.files)
@@ -1002,13 +1012,17 @@ export default {
     onFinishRecorder(file) {
       this.recordingAudioState = 'stopped';
       this.hasRecordedAudio = true;
-      // Added a new key isRecordedAudio to the file to find it's and recorded audio
+      // Added a new key isVoiceMessage to the file to identify recorded audio
       // Because to filter and show only non recorded audio and other attachments
       const autoRecordedFile = {
         ...file,
-        isRecordedAudio: true,
+        isVoiceMessage: true,
       };
       return file && this.onFileUpload(autoRecordedFile);
+    },
+    onRecordError() {
+      this.toggleAudioRecorder();
+      useAlert(this.$t('CONVERSATION.REPLYBOX.AUDIO_CONVERSION_FAILED'));
     },
     toggleTyping(status) {
       const conversationId = this.currentChat.id;
@@ -1025,6 +1039,8 @@ export default {
       });
     },
     attachFile({ blob, file }) {
+      if (!this.showFileUpload && !this.isOnPrivateNote) return;
+
       const reader = new FileReader();
       reader.readAsDataURL(file.file);
       reader.onloadend = () => {
@@ -1034,7 +1050,7 @@ export default {
           isPrivate: this.isPrivate,
           thumb: reader.result,
           blobSignedId: blob ? blob.signed_id : undefined,
-          isRecordedAudio: file?.isRecordedAudio || false,
+          isVoiceMessage: file?.isVoiceMessage || false,
         });
       };
     },
@@ -1070,6 +1086,7 @@ export default {
             private: false,
             message: caption,
             sender: this.sender,
+            isVoiceMessage: attachment.isVoiceMessage || false,
           };
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
@@ -1119,6 +1136,9 @@ export default {
         this.attachedFiles.forEach(attachment => {
           if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);
+            if (attachment.isVoiceMessage) {
+              messagePayload.isVoiceMessage = true;
+            }
           } else {
             messagePayload.files.push(attachment.resource.file);
           }
@@ -1207,7 +1227,7 @@ export default {
       this.hasRecordedAudio = false;
       // Only clear the recorded audio when we click toggle button.
       this.attachedFiles = this.attachedFiles.filter(
-        file => !file?.isRecordedAudio
+        file => !file?.isVoiceMessage
       );
     },
     toggleEditorSize() {
@@ -1238,6 +1258,7 @@ export default {
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
       :characters-remaining="charactersRemaining"
       :editor-content="message"
+      :has-content="hasMeaningfulEditorContent"
       @set-reply-mode="setReplyMode"
       @toggle-editor-size="toggleEditorSize"
       @toggle-copilot="copilot.toggleEditor"
@@ -1264,13 +1285,15 @@ export default {
           :message="inReplyTo"
           @dismiss="resetReplyToMessage"
         />
-        <EmojiInput
+        <EmojiIconPicker
           v-if="showEmojiPicker"
           v-on-clickaway="hideEmojiPicker"
+          mode="emoji"
+          class="emoji-dialog"
           :class="{
             'emoji-dialog--expanded': isOnExpandedLayout,
           }"
-          :on-click="addIntoEditor"
+          @select="addIntoEditor($event.value)"
         />
         <ReplyEmailHead
           v-if="showReplyHead && isDefaultEditorMode"
@@ -1284,6 +1307,7 @@ export default {
           :audio-record-format="audioRecordFormat"
           @recorder-progress-changed="onRecordProgressChanged"
           @finish-record="onFinishRecorder"
+          @record-error="onRecordError"
           @play="recordingAudioState = 'playing'"
           @pause="recordingAudioState = 'paused'"
         />

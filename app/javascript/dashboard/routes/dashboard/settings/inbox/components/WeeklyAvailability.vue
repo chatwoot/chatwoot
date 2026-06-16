@@ -227,7 +227,7 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-::v-deep.message-editor {
+:deep(.message-editor) {
   @apply border-0;
 }
 

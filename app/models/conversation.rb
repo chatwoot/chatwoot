@@ -78,6 +78,9 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :sort_on_unread, lambda { |_direction|
+    order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
+  }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
@@ -121,6 +124,8 @@ class Conversation < ApplicationRecord
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  before_destroy :set_unread_count_deletion_data
+  after_destroy_commit :notify_conversation_deletion
 
   delegate :auto_resolve_after, to: :account
 
@@ -204,6 +209,26 @@ class Conversation < ApplicationRecord
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
+  def self.unread_messages_count_arel
+    messages = Message.arel_table
+    conversations = arel_table
+    unread_messages = messages
+                      .project(messages[:id].count)
+                      .where(unread_messages_condition(messages, conversations))
+
+    Arel::Nodes::Grouping.new(unread_messages.ast)
+  end
+
+  def self.unread_messages_condition(messages, conversations)
+    messages[:conversation_id].eq(conversations[:id])
+                              .and(messages[:account_id].eq(conversations[:account_id]))
+                              .and(messages[:message_type].eq(Message.message_types[:incoming]))
+                              .and(
+                                conversations[:agent_last_seen_at].eq(nil)
+                                  .or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+                              )
+  end
+
   def recent_messages
     messages.chat.last(5)
   end
@@ -270,6 +295,12 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
+  def notify_conversation_deletion
+    return if @unread_count_deletion_data.blank?
+
+    Rails.configuration.dispatcher.dispatch(CONVERSATION_DELETED, Time.zone.now, conversation_data: @unread_count_deletion_data)
+  end
+
   def notify_conversation_updation
     return unless previous_changes.keys.present? && allowed_keys?
 
@@ -313,6 +344,17 @@ class Conversation < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(event_name, Time.zone.now, conversation: self, notifiable_assignee_change: notifiable_assignee_change?,
                                                                        changed_attributes: changed_attributes,
                                                                        performed_by: Current.executed_by)
+  end
+
+  def set_unread_count_deletion_data
+    @unread_count_deletion_data = {
+      id: id,
+      account_id: account_id,
+      inbox_id: inbox_id,
+      assignee_id: assignee_id,
+      team_id: team_id,
+      cached_label_list: cached_label_list
+    }
   end
 
   def conversation_status_changed_to_open?

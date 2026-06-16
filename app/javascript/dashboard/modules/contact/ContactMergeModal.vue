@@ -72,9 +72,7 @@ const onMergeContacts = async (parentContactId, hide) => {
   <Popover @hide="$emit('close')">
     <slot name="trigger" />
     <template #content="{ hide }">
-      <div
-        class="w-full md:w-96 p-6 flex flex-col gap-4 border-0 md:border rounded-xl md:border-n-strong"
-      >
+      <div class="w-full md:w-96 p-6 flex flex-col gap-4">
         <div class="flex flex-col gap-2">
           <h3 class="text-base font-medium leading-6 text-n-slate-12">
             {{ $t('MERGE_CONTACTS.TITLE') }}

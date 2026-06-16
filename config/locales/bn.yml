@@ -50,6 +50,8 @@ bn:
       email_already_exists: 'আপনি ইতিমধ্যে %{email} দিয়ে একটি অ্যাকাউন্ট তৈরি করেছেন'
       invalid_params: 'অবৈধ, অনুগ্রহ করে সাইনআপের তথ্য যাচাই করুন এবং আবার চেষ্টা করুন'
       failed: সাইন আপ ব্যর্থ হয়েছে
+    voice:
+      call_already_accepted: '%{agent_name} is already handling the call.'
     assignment_policy:
       not_found: অ্যাসাইনমেন্ট নীতি পাওয়া যায়নি
     attachments:
@@ -100,6 +102,15 @@ bn:
       reauthorization:
         generic: 'WhatsApp পুনরায় অনুমোদন করতে ব্যর্থ হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।.'
         not_supported: 'এই ধরনের WhatsApp চ্যানেলের জন্য পুনরায় অনুমোদন সমর্থিত নয়।.'
+      calls:
+        not_enabled: 'Calling is not enabled for this inbox'
+        no_recording: 'No recording file provided'
+        no_message: 'Call has no associated message'
+        sdp_offer_required: 'sdp_offer is required'
+        contact_phone_required: 'Contact phone number is required'
+        permission_request_failed: 'Failed to send call permission request'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: অনুগ্রহ করে নেটওয়ার্ক সংযোগ, IMAP ঠিকানা যাচাই করুন এবং আবার চেষ্টা করুন।.
@@ -229,6 +240,11 @@ bn:
       deleted: এই বার্তাটি মুছে ফেলা হয়েছে
       whatsapp:
         list_button_label: 'একটি আইটেম নির্বাচন করুন'
+        call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Voice Call'
+        whatsapp: 'WhatsApp Call'
       delivery_status:
         error_code: 'ত্রুটি কোড: %{error_code}'
     activity:
@@ -273,6 +289,9 @@ bn:
         issue_created: 'Linear ইস্যু %{issue_id} তৈরি করেছেন %{user_name}'
         issue_linked: 'Linear ইস্যু %{issue_id} লিঙ্ক করেছেন %{user_name}'
         issue_unlinked: 'Linear ইস্যু %{issue_id} আনলিঙ্ক করেছেন %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Sent a call permission request to %{contact_name}.'
+        permission_granted: '%{contact_name} accepted the call permission request.'
       csat:
         not_sent_due_to_messaging_window: 'বাহ্যিক বার্তা পাঠানোর সীমাবদ্ধতার কারণে CSAT জরিপ পাঠানো হয়নি'
       auto_resolve:
@@ -337,6 +356,7 @@ bn:
       name: 'লিনিয়ার'
       short_description: 'কথোপকথন থেকে সরাসরি Linear ইস্যু তৈরি ও সংযুক্ত করুন।.'
       description: 'আপনার কথোপকথনের উইন্ডো থেকেই সরাসরি Linear-এ ইস্যু তৈরি করুন। বিকল্পভাবে, বিদ্যমান Linear ইস্যুগুলিকে সংযুক্ত করুন আরও সহজ ও কার্যকর ইস্যু ট্র্যাকিংয়ের জন্য।.'
+      attachment_link_title: 'Conversation (#%{conversation_id}) with %{name}'
     notion:
       name: 'Notion'
       short_description: 'ডাটাবেস, ডকুমেন্ট এবং পেজগুলো সরাসরি Captain-এর সাথে সংযুক্ত করুন।.'
@@ -365,6 +385,9 @@ bn:
       limit_exceeded: 'ডকুমেন্ট সীমা অতিক্রম হয়েছে'
       pdf_format_error: 'একটি PDF ফাইল হতে হবে'
       pdf_size_error: '১০MB-এর কম হতে হবে'
+      sync_not_supported_for_pdf: 'Sync is not supported for PDF documents'
+      sync_only_available_documents: 'Sync is only available for processed documents'
+      sync_already_in_progress: 'Document sync is already in progress'
       pdf_upload_failed: 'PDF টি OpenAI-তে আপলোড করতে ব্যর্থ হয়েছে'
       pdf_upload_success: 'PDF সফলভাবে আপলোড হয়েছে, file_id: %{file_id}'
       pdf_processing_failed: 'PDF ডকুমেন্ট %{document_id} প্রসেস করতে ব্যর্থ হয়েছে: %{error}'
@@ -390,7 +413,30 @@ bn:
       empty_placeholder: কোনো ফলাফল পাওয়া যায়নি।.
       loading_placeholder: অনুসন্ধান চলছে...
       results_title: অনুসন্ধানের ফলাফল
+      results: অনুসন্ধান ফলাফল
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: অনুসন্ধান
     toc_header: 'এই পাতায়'
+    sidebar:
+      help_center: সহায়তা কেন্দ্র
+      categories: বিভাগসমূহ
+      language: Language
+      theme: Theme
+      open_sidebar: সাইডবার খুলুন
+      close_sidebar: সাইডবার বন্ধ করুন
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: এখানে প্রবন্ধগুলি খুঁজুন অথবা নিচের বিভাগগুলো ব্রাউজ করুন।.
     common:
@@ -405,12 +451,21 @@ bn:
       others: অন্যান্যরা
       by: দ্বারা
       no_articles: এখানে কোনো প্রবন্ধ নেই
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: নির্মিত
     header:
       go_to_homepage: ওয়েবসাইট
       visit_website: ওয়েবসাইট দেখুন
       appearance:
+        title: Appearance
         system: সিস্টেম
         light: হালকা
         dark: গাঢ়
@@ -474,6 +529,12 @@ bn:
   agent_capacity_policy:
     inbox_already_assigned: 'এই নীতিতে ইনবক্স ইতিমধ্যে অ্যাসাইন করা হয়েছে'
   portals:
+    articles:
+      captain_not_available: 'Translation requires Captain to be enabled for this account'
+      locale_not_available: 'Locale not available in this portal'
+      category_not_found: 'Category not found in this portal'
+      no_articles_found: 'No articles found to process'
+      invalid_status: 'Invalid status value'
     send_instructions:
       email_required: 'ইমেইল আবশ্যক'
       invalid_email_format: 'ইমেইলের ফরম্যাট সঠিক নয়'
@@ -482,3 +543,9 @@ bn:
       subject: '%{custom_domain} সেটআপ সম্পন্ন করুন'
     ssl_status:
       custom_domain_not_configured: 'কাস্টম ডোমেইন কনফিগার করা হয়নি'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'User not found.'
+      no_subscriptions_to_test: 'Select at least one subscription to test.'
+      no_subscriptions_to_delete: 'Select at least one subscription to delete.'
+      subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."

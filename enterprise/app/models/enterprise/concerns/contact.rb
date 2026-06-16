@@ -6,6 +6,7 @@ module Enterprise::Concerns::Contact
     after_commit :associate_company_from_email,
                  on: [:create, :update],
                  if: :should_associate_company?
+    after_update_commit :record_company_activity, if: :saved_change_to_last_activity_at?
   end
 
   private
@@ -27,5 +28,9 @@ module Enterprise::Concerns::Contact
   rescue StandardError => e
     Rails.logger.error("Failed to associate company for contact #{id}: #{e.message}")
     # Don't fail the contact save if the company association fails
+  end
+
+  def record_company_activity
+    company&.record_activity_at!(last_activity_at) if last_activity_at.present?
   end
 end
