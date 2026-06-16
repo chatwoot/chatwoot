@@ -72,7 +72,7 @@ class Conversations::UnreadCounts::Builder
   end
 
   def participating_unread_conversation_ids(user)
-    unread_conversations(open_only: true)
+    visible_unread_conversations(user, open_only: true)
       .joins(:conversation_participants)
       .where(conversation_participants: { account_id: account.id, user_id: user.id })
       .pluck(:id)

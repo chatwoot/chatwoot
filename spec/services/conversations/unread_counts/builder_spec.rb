@@ -99,6 +99,16 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.user_participating_key(account.id, assignee.id))).to contain_exactly(participating_conversation.id.to_s)
     end
 
+    it 'excludes participating conversations that are no longer visible to the user' do
+      participating_conversation = create_unread_conversation(account: account, inbox: inbox)
+      create(:conversation_participant, account: account, conversation: participating_conversation, user: assignee)
+      InboxMember.find_by!(user: assignee, inbox: inbox).destroy!
+
+      described_class.new(account).build_filters_for!(assignee)
+
+      expect(redis_set_members(store.user_participating_key(account.id, assignee.id))).to be_empty
+    end
+
     it 'stores visible unread open unattended conversations' do
       no_first_reply_conversation = create_unread_conversation(account: account, inbox: inbox)
       waiting_conversation = create_unread_conversation(account: account, inbox: inbox)
