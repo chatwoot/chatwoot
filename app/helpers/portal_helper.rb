@@ -17,13 +17,9 @@ module PortalHelper
     uri.to_s
   end
 
-  def generate_portal_bg_color(portal_color, theme)
+  def generate_portal_bg(portal_color, theme)
     base_color = theme == 'dark' ? 'black' : 'white'
     "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
-  end
-
-  def generate_portal_bg(portal_color, theme)
-    generate_portal_bg_color(portal_color, theme)
   end
 
   def generate_gradient_to_bottom(theme)
