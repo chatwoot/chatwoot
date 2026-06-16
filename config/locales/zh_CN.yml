@@ -241,6 +241,7 @@ zh_CN:
       whatsapp:
         list_button_label: 'Choose an item'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,29 @@ zh_CN:
       empty_placeholder: 未找到结果。
       loading_placeholder: 搜索中...
       results_title: 搜索结果
+      results: 搜索结果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 搜索
     toc_header: '在此页面'
+    sidebar:
+      help_center: 帮助中心
+      categories: 类别
+      language: 语言
+      theme: Theme
+      open_sidebar: 打开侧边栏
+      close_sidebar: 关闭侧边栏
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: 在这里搜索文章或浏览下面的分类
     common:
@@ -427,12 +450,21 @@ zh_CN:
       others: 其他
       by: 作者：
       no_articles: 没有文章在这里
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: 制作于
     header:
       go_to_homepage: 网站
       visit_website: Visit website
       appearance:
+        title: 外观
         system: 系统
         light: 浅色
         dark: 暗色

@@ -6,6 +6,7 @@
 # hook_type: ( account / inbox )
 # feature_flag: (string) feature flag to enable/disable the integration
 # allow_multiple_hooks: whether multiple hooks can be created for the integration
+# visible_properties: hook setting keys safe to return in API responses and show in the UI
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
 ########################################################
@@ -55,7 +56,7 @@ openai:
         'validation': '',
       },
     ]
-  visible_properties: ['api_key', 'label_suggestion']
+  visible_properties: ['label_suggestion']
 linear:
   id: linear
   logo: linear.png
@@ -63,12 +64,14 @@ linear:
   action: https://linear.app/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
+  visible_properties: []
 notion:
   id: notion
   logo: notion.png
   i18n_key: notion
   hook_type: account
   allow_multiple_hooks: false
+  visible_properties: []
 slack:
   id: slack
   logo: slack.png
@@ -76,6 +79,7 @@ slack:
   action: https://slack.com/oauth/v2/authorize?scope=commands,chat:write,channels:read,channels:manage,channels:join,groups:read,groups:write,im:write,mpim:write,users:read,users:read.email,chat:write.customize,channels:history,groups:history,mpim:history,im:history,files:read,files:write
   hook_type: account
   allow_multiple_hooks: false
+  visible_properties: ['channel_name']
 dialogflow:
   id: dialogflow
   logo: dialogflow.png
@@ -240,6 +244,7 @@ shopify:
   i18n_key: shopify
   hook_type: account
   allow_multiple_hooks: false
+  visible_properties: []
 
 leadsquared:
   id: leadsquared
@@ -310,7 +315,6 @@ leadsquared:
     ]
   visible_properties:
     [
-      'access_key',
       'endpoint_url',
       'enable_conversation_activity',
       'enable_transcript_activity',
