@@ -234,6 +234,88 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when message contains referral data' do
+      let(:referral_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Mom' }, wa_id: '255718573302', user_id: 'TZ.1040042605869930' }],
+                messages: [{
+                  referral: {
+                    source_url: 'https://fb.me/3TYpooaRT',
+                    source_id: '52558118838064',
+                    source_type: 'ad',
+                    body: 'washa data tu',
+                    headline: 'Diana Digital',
+                    media_type: 'video',
+                    video_url: 'https://www.facebook.com/reel/1438165771395493/',
+                    thumbnail_url: 'https://scontent.xx.fbcdn.net/sample.jpg',
+                    ctwa_clid: 'AfhcQdP2E4A8wWpeb1FqUzUi',
+                    welcome_message: {
+                      text: 'Hi! Please let us know how we can help you.'
+                    }
+                  },
+                  from: '255718573302',
+                  from_user_id: 'TZ.1040042605869930',
+                  id: 'wamid.CTWA_REFERRAL_MESSAGE',
+                  timestamp: '1780649766',
+                  text: { body: 'Hello nielekeze' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'stores the referral payload in message content attributes' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('Hello nielekeze')
+        expect(message.content_attributes['referral']).to include(
+          'source_url' => 'https://fb.me/3TYpooaRT',
+          'source_id' => '52558118838064',
+          'source_type' => 'ad',
+          'body' => 'washa data tu',
+          'headline' => 'Diana Digital',
+          'media_type' => 'video',
+          'video_url' => 'https://www.facebook.com/reel/1438165771395493/',
+          'thumbnail_url' => 'https://scontent.xx.fbcdn.net/sample.jpg',
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi',
+          'welcome_message' => { 'text' => 'Hi! Please let us know how we can help you.' }
+        )
+      end
+
+      it 'preserves the referral payload when the message contains contacts' do
+        contacts_referral_params = referral_params.deep_dup
+        parent_message = contacts_referral_params.dig(:entry, 0, :changes, 0, :value, :messages, 0)
+        parent_message[:type] = 'contacts'
+        parent_message.delete(:text)
+        parent_message[:contacts] = [{
+          name: {
+            formatted_name: 'Diana Digital',
+            first_name: 'Diana',
+            last_name: 'Digital'
+          },
+          phones: [{ phone: '+255718573302' }]
+        }]
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: contacts_referral_params).perform
+
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('Diana Digital')
+        expect(message.content_attributes['referral']).to include(
+          'source_id' => '52558118838064',
+          'headline' => 'Diana Digital',
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+        )
+      end
+    end
+
     context 'when message is a reply (has context)' do
       let(:reply_params) do
         {
