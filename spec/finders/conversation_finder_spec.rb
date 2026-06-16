@@ -208,6 +208,36 @@ describe ConversationFinder do
       end
     end
 
+    context 'with participating conversation type' do
+      let(:params) { { status: 'open', conversation_type: 'participating' } }
+
+      it 'does not return participating conversations from inboxes where the agent is no longer a member' do
+        visible_conversation = create(:conversation, account: account, inbox: inbox)
+        inaccessible_conversation = create(:conversation, account: account, inbox: restricted_inbox)
+        create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        create(:conversation_participant, account: account, conversation: visible_conversation, user: user_1)
+        create(:conversation_participant, account: account, conversation: inaccessible_conversation, user: user_1)
+        InboxMember.find_by!(user: user_1, inbox: restricted_inbox).destroy!
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(visible_conversation.id)
+        expect(conversation_ids).not_to include(inaccessible_conversation.id)
+      end
+
+      it 'returns participant-only conversations for custom roles with participating permission' do
+        custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+        account.account_users.find_by!(user_id: user_1.id).update!(custom_role: custom_role)
+        participating_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_2)
+        create(:conversation_participant, account: account, conversation: participating_conversation, user: user_1)
+
+        result = conversation_finder.perform
+
+        expect(result[:conversations].map(&:id)).to include(participating_conversation.id)
+      end
+    end
+
     context 'without source' do
       let(:params) { {} }
 
