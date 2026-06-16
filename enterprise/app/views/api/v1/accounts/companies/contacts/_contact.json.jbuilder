@@ -3,8 +3,7 @@ json.company_id contact.company_id
 json.linked_to_current_company contact.company_id == @company.id
 if contact.company.present?
   json.company do
-    json.id contact.company_id
-    json.name contact.company.name
+    json.partial! 'api/v1/models/company', formats: [:json], resource: contact.company
   end
 else
   json.company nil
