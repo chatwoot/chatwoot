@@ -41,6 +41,10 @@ module PortalHelper
     language_map[locale] || locale
   end
 
+  def html_lang_attribute(locale)
+    locale.to_s.tr('_', '-')
+  end
+
   def theme_query_string(theme)
     theme.present? && theme != 'system' ? "?theme=#{theme}" : ''
   end

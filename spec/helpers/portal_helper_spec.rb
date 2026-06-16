@@ -1,6 +1,28 @@
 require 'rails_helper'
 
 describe PortalHelper do
+  describe '#html_lang_attribute' do
+    it 'returns the locale unchanged when it has no region suffix' do
+      expect(helper.html_lang_attribute('en')).to eq('en')
+      expect(helper.html_lang_attribute(:fr)).to eq('fr')
+    end
+
+    it 'converts underscores to hyphens for BCP 47 compliance' do
+      expect(helper.html_lang_attribute('pt_BR')).to eq('pt-BR')
+      expect(helper.html_lang_attribute(:zh_CN)).to eq('zh-CN')
+      expect(helper.html_lang_attribute('zh_TW')).to eq('zh-TW')
+    end
+
+    it 'produces a valid BCP 47 lang attribute for every language shown in the UI' do
+      bcp47 = /\A[a-z]{2,3}(-[A-Z]{2})?\z/
+
+      LANGUAGES_CONFIG.each_value do |lang|
+        locale = lang[:iso_639_1_code]
+        expect(helper.html_lang_attribute(locale)).to match(bcp47)
+      end
+    end
+  end
+
   describe '#generate_portal_bg_color' do
     context 'when theme is dark' do
       it 'returns the correct color mix with black' do
