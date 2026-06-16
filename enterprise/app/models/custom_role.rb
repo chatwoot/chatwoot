@@ -28,7 +28,7 @@ class CustomRole < ApplicationRecord
   belongs_to :account
   has_many :account_users, dependent: :nullify
 
-  before_destroy :cache_users_for_unread_filter_notification
+  before_destroy :cache_users_for_unread_filter_notification, prepend: true
   after_commit :notify_unread_filter_counts_changed, on: [:update, :destroy], if: :unread_filter_access_changed?
 
   PERMISSIONS = %w[
