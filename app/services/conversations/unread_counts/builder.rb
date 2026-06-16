@@ -34,10 +34,10 @@ class Conversations::UnreadCounts::Builder
   end
 
   def build_filters_for!(user)
-    custom_filters = conversation_custom_filters(user).to_a
-
     store.clear_user_filters!(account.id, user.id)
     version_snapshot = store.filter_version_snapshot(account.id, user.id)
+    custom_filters = conversation_custom_filters(user).to_a
+
     store.add_filter_memberships(
       account_id: account.id,
       user_id: user.id,

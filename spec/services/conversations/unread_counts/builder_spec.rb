@@ -143,6 +143,30 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.user_folder_key(account.id, assignee.id, custom_filter.id))).to contain_exactly(resolved_conversation.id.to_s)
     end
 
+    it 'loads folder filters after taking the invalidation version snapshot' do
+      create_unread_conversation(account: account, inbox: inbox)
+      resolved_conversation = create_unread_conversation(account: account, inbox: inbox)
+      resolved_conversation.update!(status: :resolved)
+      custom_filter = create(
+        :custom_filter, account: account, user: assignee, filter_type: :conversation, query: filter_query('status', ['open'])
+      )
+      notifier = instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true)
+      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
+      filter_updated = false
+      allow(store).to receive(:filter_version_snapshot).and_wrap_original do |method, *args|
+        method.call(*args).tap do
+          next if filter_updated
+
+          filter_updated = true
+          custom_filter.update!(query: filter_query('status', ['resolved']))
+        end
+      end
+
+      described_class.new(account).build_filters_for!(assignee)
+
+      expect(redis_set_members(store.user_folder_key(account.id, assignee.id, custom_filter.id))).to contain_exactly(resolved_conversation.id.to_s)
+    end
+
     it 'expires relative-date folder caches at the next date boundary' do
       create(
         :custom_filter,
