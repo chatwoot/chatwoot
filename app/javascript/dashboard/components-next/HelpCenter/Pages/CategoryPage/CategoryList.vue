@@ -68,6 +68,7 @@ watch(
           :id="element.id"
           :title="element.name"
           :icon="element.icon"
+          :icon-color="element.icon_color"
           :description="element.description"
           :articles-count="element.meta?.articles_count || 0"
           :slug="element.slug"

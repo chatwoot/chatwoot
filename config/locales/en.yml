@@ -47,6 +47,10 @@ en:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
+  profile_settings:
+    sessions:
+      cannot_revoke_current: You cannot revoke the current session.
+
   errors:
     account:
       reporting_timezone:

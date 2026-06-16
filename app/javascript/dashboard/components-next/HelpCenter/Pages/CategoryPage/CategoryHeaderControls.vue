@@ -106,6 +106,7 @@ const breadcrumbItems = computed(() => {
         }
       ),
       emoji: selectedCategoryEmoji.value,
+      iconColor: selectedCategory.value?.icon_color,
     });
   }
   return items;

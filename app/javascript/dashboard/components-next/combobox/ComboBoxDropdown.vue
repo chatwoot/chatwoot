@@ -87,7 +87,7 @@ defineExpose({
         }"
         role="option"
         :aria-selected="isSelected(option)"
-        @click="emit('select', option)"
+        @click.stop="emit('select', option)"
       >
         <span
           :class="{

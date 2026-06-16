@@ -511,6 +511,60 @@ describe Twilio::IncomingMessageService do
         end
       end
 
+      describe 'When the incoming WhatsApp message has CTWA referral parameters' do
+        let!(:whatsapp_twilio_channel) do
+          create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',
+                                                 inbox: create(:inbox, account: account, greeting_enabled: false))
+        end
+
+        it 'stores normalized referral attributes on the message' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Hallo! Kann ich hierzu mehr Informationen erhalten?',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG',
+            ReferralSourceId: '120237244350960485',
+            ReferralSourceUrl: 'https://fb.me/4tBfhWhjr',
+            ReferralSourceType: 'ad',
+            ReferralHeadline: 'German citizenship lawyer',
+            ReferralBody: 'Fast-track your German citizenship',
+            ReferralMediaId: '',
+            ReferralNumMedia: '0'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes['referral']).to eq(
+            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG',
+            'source_id' => '120237244350960485',
+            'source_url' => 'https://fb.me/4tBfhWhjr',
+            'source_type' => 'ad',
+            'headline' => 'German citizenship lawyer',
+            'body' => 'Fast-track your German citizenship',
+            'num_media' => '0'
+          )
+        end
+
+        it 'does not add referral attributes when ReferralSourceId is absent' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Regular WhatsApp message',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG'
+          }
+
+          described_class.new(params: params).perform
+
+          message = whatsapp_twilio_channel.inbox.messages.last
+          expect(message.content_attributes).not_to have_key('referral')
+        end
+      end
+
       describe 'When the incoming number is a Brazilian number in new format with 9 included' do
         let!(:whatsapp_twilio_channel) do
           create(:channel_twilio_sms, :whatsapp, account: account, account_sid: 'ACxxx',

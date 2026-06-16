@@ -12,7 +12,7 @@
   <div class="flex justify-start flex-col items-start w-full gap-2">
     <div class="flex flex-col gap-2">
       <% if category.icon.present? %>
-      <span class="text-4xl"><%= category.icon %></span>
+      <span class="text-4xl"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span>
       <% end %>
       <h1 class="text-3xl font-bold tracking-wide leading-[52.5px] text-slate-900 dark:text-white">
         <%= category.name %>
