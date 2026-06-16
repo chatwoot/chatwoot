@@ -29,10 +29,6 @@ export const ICON_COLORS = [
 
 export const DEFAULT_ICON_COLOR = '#3B82F6';
 
-// Recently used emojis persisted in localStorage.
-export const RECENT_EMOJI_KEY = 'emoji-icon-picker.recent-emojis';
-export const MAX_RECENT_EMOJIS = 16;
-
 export const PICKER_MODE = {
   BOTH: 'both',
   EMOJI: 'emoji',

@@ -19,7 +19,7 @@ import {
   getEmojiTint,
   getRecentEmojis,
   addRecentEmoji,
-} from './helper';
+} from 'shared/components/emoji/pickerHelper';
 
 const props = defineProps({
   // 'both' shows Icons + Emojis tabs; 'emoji' shows only the emoji panel.
