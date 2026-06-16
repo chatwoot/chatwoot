@@ -22,6 +22,10 @@ export const useLoadWithRetry = (config = {}) => {
           element = new Audio();
           element.preload = 'metadata';
           element.onloadedmetadata = onSuccess;
+        } else if (mediaType === 'video') {
+          element = document.createElement('video');
+          element.preload = 'metadata';
+          element.onloadedmetadata = onSuccess;
         } else {
           element = new Image();
           element.onload = onSuccess;

@@ -1,21 +1,15 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useLoadWithRetry } from 'dashboard/composables/loadWithRetry';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
 import { ATTACHMENT_TYPES } from '../constants';
 
-const emit = defineEmits(['error']);
-const hasError = ref(false);
 const showGallery = ref(false);
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
-
-const handleError = () => {
-  hasError.value = true;
-  emit('error');
-};
 
 const attachment = computed(() => {
   return attachments.value[0];
@@ -24,6 +18,20 @@ const attachment = computed(() => {
 const isReel = computed(() => {
   return attachment.value.fileType === ATTACHMENT_TYPES.IG_REEL;
 });
+
+const { isLoaded, hasError, loadWithRetry } = useLoadWithRetry({
+  mediaType: 'video',
+});
+
+onMounted(() => {
+  if (attachment.value?.dataUrl) {
+    loadWithRetry(attachment.value.dataUrl);
+  }
+});
+
+const handleError = () => {
+  hasError.value = true;
+};
 </script>
 
 <template>
@@ -32,7 +40,13 @@ const isReel = computed(() => {
     data-bubble-name="video"
     @click="showGallery = true"
   >
-    <div class="relative group rounded-lg overflow-hidden">
+    <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
+      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
+      <p class="mb-0 text-n-slate-11">
+        {{ $t('COMPONENTS.MEDIA.VIDEO_UNAVAILABLE') }}
+      </p>
+    </div>
+    <div v-else-if="isLoaded" class="relative group rounded-lg overflow-hidden">
       <div
         v-if="isReel"
         class="absolute p-2 flex items-start justify-end right-0 pointer-events-none"
@@ -48,7 +62,6 @@ const isReel = computed(() => {
           'max-w-full': !isReel,
         }"
         @click.stop
-        @error="handleError"
       />
     </div>
   </BaseBubble>
@@ -57,7 +70,7 @@ const isReel = computed(() => {
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
-    @error="onError"
+    @error="handleError"
     @close="() => (showGallery = false)"
   />
 </template>
