@@ -20,7 +20,7 @@ async def ensure_inbox() -> tuple[bool, str]:
         return ok, msg
     if settings_service.get("echat.inbox_identifier"):
         return True, "E-Chat inbox already created."
-    webhook_url = f"{settings.public_base_url.rstrip('/')}/connectors/echat/outbound"
+    webhook_url = f"{settings.internal_base_url.rstrip('/')}/connectors/echat/outbound"
     try:
         data = await channels._create_inbox(
             "E-Chat (personal)", {"type": "api", "webhook_url": webhook_url}

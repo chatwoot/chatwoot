@@ -1,0 +1,31 @@
+#cloud-config
+# One-click deploy: paste this into your cloud provider's "User data" / "Cloud-init" box when
+# creating a server (DigitalOcean, Hetzner, AWS EC2, Vultr, Linode, …), then click Create.
+# The server boots and installs the entire Omni-Chat-AI stack automatically.
+#
+# 1) Edit the two exports below (DOMAIN + ACME_EMAIL) for a public HTTPS deploy, OR leave DOMAIN
+#    empty to run on the server's IP/ports.
+# 2) For a domain: point  example.com  AND  panel.example.com  at the server's IP first.
+# 3) Recommended size: 4 GB RAM or more.
+#
+# After ~5–10 minutes, open  https://panel.<your-domain>/admin  (or  http://<server-ip>:8080/admin )
+# to create your admin account and enter your API keys.
+
+package_update: true
+packages:
+  - git
+  - curl
+  - openssl
+
+write_files:
+  - path: /root/omni-deploy.sh
+    permissions: "0755"
+    content: |
+      #!/usr/bin/env bash
+      set -euo pipefail
+      export DOMAIN=""            # e.g. example.com  (leave empty for IP-only)
+      export ACME_EMAIL=""        # e.g. you@example.com (for Let's Encrypt)
+      curl -fsSL https://raw.githubusercontent.com/alekseevconsult-coder/chatwoot/claude/omni-chat-ai-stack-7ydEC/omni-chat-ai/install.sh | bash
+
+runcmd:
+  - [ bash, /root/omni-deploy.sh ]

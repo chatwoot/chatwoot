@@ -29,7 +29,8 @@ def _headers() -> dict[str, str]:
 
 
 def _webhook_url() -> str:
-    return f"{settings.public_base_url.rstrip('/')}/webhooks/chatwoot"
+    # Chatwoot delivers agent-bot events server-side, so use the internal address.
+    return f"{settings.internal_base_url.rstrip('/')}/webhooks/chatwoot"
 
 
 async def ensure_agent_bot() -> tuple[bool, str]:

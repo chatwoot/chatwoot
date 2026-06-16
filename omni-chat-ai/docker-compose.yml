@@ -160,9 +160,29 @@ services:
     ports:
       - "8081:8080"
 
+  # ---------------------------------------------------------------- reverse proxy + automatic HTTPS
+  # Only started for public deploys (DOMAIN set): `docker compose --profile tls up -d`.
+  # deploy.sh generates ./caddy/Caddyfile and enables this automatically.
+  caddy:
+    profiles: ["tls"]
+    restart: unless-stopped
+    image: caddy:2-alpine
+    depends_on:
+      - chatwoot
+      - ai-service
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
 volumes:
   pg_data:
   redis_data:
   qdrant_data:
   clickhouse_data:
   evolution_data:
+  caddy_data:
+  caddy_config:

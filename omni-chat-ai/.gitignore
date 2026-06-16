@@ -1,4 +1,5 @@
 .env
+caddy/Caddyfile
 *.pyc
 __pycache__/
 .venv/

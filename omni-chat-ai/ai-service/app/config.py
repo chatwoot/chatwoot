@@ -26,6 +26,10 @@ class Settings(BaseSettings):
     # Public URL of this service (used to render webhook/embed snippets in the panel).
     public_base_url: str = "http://localhost:8080"
 
+    # Internal URL Chatwoot uses to reach this service for agent-bot/API-channel webhooks
+    # (server-to-server inside the compose network — independent of the public proxy/TLS).
+    internal_base_url: str = "http://ai-service:8080"
+
     # Chatwoot (Unified Chat Panel)
     chatwoot_base_url: str = "http://chatwoot:3000"
     chatwoot_api_access_token: str = ""
