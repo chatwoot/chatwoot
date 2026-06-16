@@ -2,6 +2,7 @@ class Conversations::UnreadCounts::Builder
   PARTICIPATING_PERMISSION = 'conversation_participating_manage'.freeze
   BATCH_SIZE = 1000
   FILTER_ERRORS = [
+    ActiveRecord::StatementInvalid,
     CustomExceptions::CustomFilter::InvalidAttribute,
     CustomExceptions::CustomFilter::InvalidOperator,
     CustomExceptions::CustomFilter::InvalidQueryOperator,

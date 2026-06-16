@@ -154,6 +154,22 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(store.filters_ready?(account.id, assignee.id)).to be(true)
       expect(redis_set_members(store.user_folder_key(account.id, assignee.id, invalid_filter.id))).to be_empty
     end
+
+    it 'skips folder filters that fail when the SQL query is executed' do
+      conversation = create_unread_conversation(account: account, inbox: inbox)
+      invalid_filter = create(
+        :custom_filter,
+        account: account,
+        user: assignee,
+        filter_type: :conversation,
+        query: filter_query('display_id', [conversation.display_id.to_s], filter_operator: 'contains')
+      )
+
+      expect { described_class.new(account).build_filters_for!(assignee) }.not_to raise_error
+
+      expect(store.filters_ready?(account.id, assignee.id)).to be(true)
+      expect(redis_set_members(store.user_folder_key(account.id, assignee.id, invalid_filter.id))).to be_empty
+    end
   end
 
   def create_read_conversation
@@ -172,12 +188,12 @@ RSpec.describe Conversations::UnreadCounts::Builder do
     Redis::Alfred.pipelined { |pipeline| pipeline.smembers(key) }.first
   end
 
-  def filter_query(attribute_key, values)
+  def filter_query(attribute_key, values, filter_operator: 'equal_to')
     {
       payload: [
         {
           attribute_key: attribute_key,
-          filter_operator: 'equal_to',
+          filter_operator: filter_operator,
           values: values,
           query_operator: nil,
           custom_attribute_type: ''
