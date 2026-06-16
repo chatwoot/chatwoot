@@ -7,7 +7,7 @@ const selectedColor = defineModel({ type: String, default: '' });
 </script>
 
 <template>
-  <div class="flex items-center justify-between gap-1 px-0.5 mx-2 py-1">
+  <div class="flex items-center justify-between gap-1 px-0.5 mx-2 py-1 mb-px">
     <button
       v-for="color in ICON_COLORS"
       :key="color.value"
