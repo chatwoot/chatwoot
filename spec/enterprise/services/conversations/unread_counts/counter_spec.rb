@@ -43,7 +43,8 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     account_user.update!(custom_role: create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']))
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: agent, team: team)
     create_unread_conversation(account: account, inbox: inbox, labels: [label.title], team: team)
-    create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: other_agent, team: team)
+    other_assigned_conversation = create_unread_conversation(account: account, inbox: inbox, labels: [label.title], assignee: other_agent, team: team)
+    create(:conversation_participant, account: account, conversation: other_assigned_conversation, user: agent)
 
     result = described_class.new(account: account, user: agent).perform
 

@@ -1,4 +1,5 @@
 class Conversations::UnreadCounts::Builder
+  PARTICIPATING_PERMISSION = 'conversation_participating_manage'.freeze
   BATCH_SIZE = 1000
   FILTER_ERRORS = [
     CustomExceptions::CustomFilter::InvalidAttribute,
@@ -72,9 +73,8 @@ class Conversations::UnreadCounts::Builder
   end
 
   def participating_unread_conversation_ids(user)
-    visible_unread_conversations(user, open_only: true)
-      .joins(:conversation_participants)
-      .where(conversation_participants: { account_id: account.id, user_id: user.id })
+    participating_visible_unread_conversations(user, open_only: true)
+      .where(id: user.participating_conversations.where(account_id: account.id).select(:id))
       .pluck(:id)
   end
 
@@ -118,6 +118,28 @@ class Conversations::UnreadCounts::Builder
 
   def visible_unread_conversations(user, open_only:)
     ::Conversations::PermissionFilterService.new(unread_conversations(open_only: open_only), user, account).perform
+  end
+
+  def participating_visible_unread_conversations(user, open_only:)
+    return inbox_visible_unread_conversations(user, open_only: open_only) if custom_role_participating_permission?(user)
+
+    visible_unread_conversations(user, open_only: open_only)
+  end
+
+  def inbox_visible_unread_conversations(user, open_only:)
+    conversations = unread_conversations(open_only: open_only)
+    return conversations if account_user_for(user)&.administrator?
+
+    conversations.where(inbox: user.inboxes.where(account_id: account.id))
+  end
+
+  def custom_role_participating_permission?(user)
+    account_user = account_user_for(user)
+    account_user&.agent? && account_user.custom_role_id.present? && account_user.permissions.include?(PARTICIPATING_PERMISSION)
+  end
+
+  def account_user_for(user)
+    account.account_users.find_by(user_id: user.id)
   end
 
   def unread_since_last_seen_condition
