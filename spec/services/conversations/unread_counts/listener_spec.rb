@@ -21,13 +21,22 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(notifier).to have_received(:perform)
   end
 
-  it 'ignores outgoing message creation' do
+  it 'clears user filter counts when a non-incoming message updates last activity' do
+    account.enable_features!(:conversation_unread_counts)
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
+    allow(store).to receive(:clear_filter_caches!).and_return(true)
+    allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
     listener.message_created(event)
 
     expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+    expect(store).to have_received(:clear_filter_caches!).with(account.id)
+    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+      'conversation.unread_count_changed',
+      kind_of(Time),
+      conversation: conversation
+    )
   end
 
   it 'ignores incoming message creation when conversation unread counts are disabled' do

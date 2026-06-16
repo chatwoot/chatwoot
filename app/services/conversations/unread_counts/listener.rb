@@ -3,10 +3,13 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def message_created(event)
     message, = extract_message_and_account(event)
-    return unless message.incoming?
     return unless message.account.feature_enabled?('conversation_unread_counts')
 
-    refresh(message.conversation)
+    if message.incoming?
+      refresh(message.conversation)
+    else
+      notify_filter_counts_changed(message.conversation)
+    end
   end
 
   def conversation_status_changed(event)
