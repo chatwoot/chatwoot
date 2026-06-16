@@ -241,6 +241,7 @@ zh_TW:
       whatsapp:
         list_button_label: '選擇一個項目'
         call_permission_request_body: 'We would like to call you regarding your conversation.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Voice Call'
         whatsapp: 'WhatsApp Call'
@@ -412,7 +413,29 @@ zh_TW:
       empty_placeholder: 查無結果。
       loading_placeholder: 搜尋中...
       results_title: 搜尋結果
+      results: 搜尋結果
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        other: 'Found %{count} results'
+      submit: 搜尋
     toc_header: '本頁內容'
+    sidebar:
+      help_center: 幫助中心
+      categories: 分類
+      language: 語言
+      theme: Theme
+      open_sidebar: 開啟側邊欄
+      close_sidebar: 關閉側邊欄
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: 在此搜尋文章或瀏覽以下分類。
     common:
@@ -423,16 +446,25 @@ zh_TW:
       articles: 篇文章
       author: 位作者
       authors: 位作者
-      other: 其他
+      other: other
       others: 其他
       by: 作者：
       no_articles: 這裡還沒有文章
+      previous: 上一頁
+      next: 下一頁
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: 由以下技術製作
     header:
       go_to_homepage: 網站首頁
       visit_website: 前往網站
       appearance:
+        title: 外觀
         system: 系統
         light: 淺色
         dark: 深色

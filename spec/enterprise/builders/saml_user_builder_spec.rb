@@ -122,8 +122,8 @@ RSpec.describe SamlUserBuilder do
         it 'does not add the user to the target account' do
           expect do
             builder.perform
-          rescue SamlUserBuilder::AuthenticationFailed
-            nil
+          rescue StandardError => e
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to change(AccountUser, :count)
           expect(existing_user.reload.accounts).not_to include(account)
         end
@@ -131,8 +131,8 @@ RSpec.describe SamlUserBuilder do
         it 'does not convert the user provider to saml' do
           expect do
             builder.perform
-          rescue SamlUserBuilder::AuthenticationFailed
-            nil
+          rescue StandardError => e
+            raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to(change { existing_user.reload.provider })
         end
       end

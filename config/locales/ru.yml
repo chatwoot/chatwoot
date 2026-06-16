@@ -241,6 +241,7 @@ ru:
       whatsapp:
         list_button_label: 'Выберите элемент'
         call_permission_request_body: 'Мы хотели бы позвонить Вам по поводу Вашего разговора.'
+        unsupported_message: 'This message is unavailable.'
       voice_call:
         twilio: 'Голосовой звонок'
         whatsapp: 'WhatsApp звонок'
@@ -412,7 +413,32 @@ ru:
       empty_placeholder: Результаты не найдены.
       loading_placeholder: Идёт поиск...
       results_title: Результаты поиска
+      results: Результаты поиска
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        few: 'Found %{count} results'
+        many: 'Found %{count} results'
+        other: 'Found %{count} results'
+      submit: Поиск
     toc_header: 'На этой странице'
+    sidebar:
+      help_center: Центр поддержки
+      categories: Категории
+      language: Язык
+      theme: Theme
+      open_sidebar: Открыть боковую панель
+      close_sidebar: Закрыть боковую панель
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Ищите здесь статьи или выберите категории, указанные ниже.
     common:
@@ -427,12 +453,21 @@ ru:
       others: другие
       by: От
       no_articles: Здесь нет статей
+      previous: Previous
+      next: Next
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Сделано с
     header:
       go_to_homepage: Сайт
       visit_website: Посетить сайт
       appearance:
+        title: Образец
         system: Система
         light: Светлая
         dark: Тёмная
