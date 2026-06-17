@@ -19,10 +19,6 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
-  conversationInboxType: {
-    type: String,
-    required: true,
-  },
   assistants: {
     type: Array,
     default: () => [],
@@ -146,7 +142,6 @@ watch(
             v-else-if="item.message_type === 'assistant'"
             :message="item.message"
             :is-last-message="index === groupedMessages.length - 1"
-            :conversation-inbox-type="conversationInboxType"
           />
           <CopilotThinkingGroup
             v-else

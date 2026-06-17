@@ -11,13 +11,6 @@ import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import wootConstants from 'dashboard/constants/globals';
 
-defineProps({
-  conversationInboxType: {
-    type: String,
-    default: '',
-  },
-});
-
 const store = useStore();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
@@ -144,7 +137,6 @@ onMounted(() => {
     <Copilot
       :messages="messages"
       :support-agent="currentUser"
-      :conversation-inbox-type="conversationInboxType"
       :assistants="assistants"
       :active-assistant="activeAssistant"
       @set-assistant="setAssistant"
