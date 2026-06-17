@@ -113,6 +113,43 @@ RSpec.describe MailboxHelper do
     end
   end
 
+  describe '#inline_attachment?' do
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    before do
+      allow(helper_instance).to receive(:mail_content).and_return('Email body')
+    end
+
+    it 'detects inline images when the HTML body references the CID' do
+      original_attachment = double(content_type: 'image/png', inline?: true, cid: 'image001.jpg@test')
+      helper_instance.instance_variable_set(:@html_content, '<img src="cid:image001.jpg@test">')
+
+      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be true
+    end
+
+    it 'does not detect inline-marked images when the HTML body does not reference the CID' do
+      original_attachment = double(content_type: 'image/png', inline?: true, cid: 'image001.jpg@test')
+      helper_instance.instance_variable_set(:@html_content, '<attachment id="image001.jpg@test"></attachment>')
+
+      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be false
+    end
+
+    it 'does not detect non-image inline parts as inline attachments' do
+      original_attachment = double(content_type: 'application/pdf', inline?: true, cid: 'document001@test')
+      helper_instance.instance_variable_set(:@html_content, '<img src="cid:document001@test">')
+
+      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be false
+    end
+
+    it 'does not raise when HTML content is missing' do
+      original_attachment = double(content_type: 'image/png', inline?: true, cid: 'image001.jpg@test')
+      helper_instance.instance_variable_set(:@html_content, nil)
+
+      expect { helper_instance.send(:inline_attachment?, { original: original_attachment }) }.not_to raise_error
+      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be false
+    end
+  end
+
   describe '#upload_inline_image' do
     let(:mail_attachment) do
       {
@@ -156,6 +193,43 @@ RSpec.describe MailboxHelper do
 
       expect(html_content).to include('/fake-image-url"')
       expect(html_content).not_to include('cid:')
+    end
+
+    context 'when an inline-marked image CID is not referenced in the HTML body' do
+      let(:mail) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject 'Inline image not referenced'
+          message_id '<unreferenced-inline-image@example.com>'
+          text_part do
+            body 'This is a plain text version of the message.'
+          end
+          html_part do
+            content_type 'text/html; charset=UTF-8'
+            body '<html><body><p>Apple inline attachment</p><attachment id="image001.jpg@test"></attachment></body></html>'
+          end
+        end.tap do |message|
+          message.add_part(
+            Mail::Part.new do
+              content_type 'image/png'
+              content_disposition 'inline; filename="image001.png"'
+              content_id '<image001.jpg@test>'
+              body File.binread(Rails.root.join('spec/assets/avatar.png'))
+            end
+          )
+        end
+      end
+
+      it 'processes the image as a regular attachment' do
+        helper_instance.send(:add_attachments_to_message)
+
+        message = conversation.messages[0]
+
+        expect(message.attachments.count).to eq(1)
+        expect(message.attachments.first.file_type).to eq('image')
+        expect(message.content_attributes[:email][:html_content][:full]).to include('<attachment id="image001.jpg@test">')
+      end
     end
   end
 end

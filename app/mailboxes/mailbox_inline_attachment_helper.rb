@@ -10,12 +10,11 @@ module MailboxInlineAttachmentHelper
     # Only process images as potential inline attachments
     return false unless mail_content.present? && attachment[:original].content_type.to_s.start_with?('image/')
 
-    # Check if attachment is explicitly marked as inline
-    return true if attachment[:original].inline?
-
-    # For Outlook compatibility: if not marked as inline but has CID and is referenced in body
     cid = attachment[:original].cid
-    cid.present? && body_references_cid?(cid)
+    return false if cid.blank?
+
+    # Process inline-marked images and Outlook images without Content-Disposition only when the body references their CID
+    body_references_cid?(cid)
   end
 
   def body_references_cid?(cid)
