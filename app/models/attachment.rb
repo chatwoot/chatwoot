@@ -23,6 +23,7 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include AudioTranscodable
 
   ACCEPTABLE_FILE_TYPES = %w[
     text/csv text/plain text/rtf text/xml

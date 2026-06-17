@@ -128,6 +128,7 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  ffmpeg \
   && gem install bundler -v "$BUNDLER_VERSION"
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/

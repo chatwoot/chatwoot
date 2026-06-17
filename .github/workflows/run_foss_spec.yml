@@ -105,6 +105,9 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Create database
         run: bundle exec rake db:create
 

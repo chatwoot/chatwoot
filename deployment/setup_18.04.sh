@@ -12,7 +12,7 @@ echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.lis
 apt update
 
 apt install -y \
-	git software-properties-common imagemagick libpq-dev \
+	git software-properties-common imagemagick ffmpeg libpq-dev \
     libxml2-dev libxslt1-dev file g++ gcc autoconf build-essential \
     libssl-dev libyaml-dev libreadline-dev gnupg2 nginx redis-server \
     redis-tools postgresql postgresql-contrib certbot \
