@@ -188,11 +188,11 @@ class Whatsapp::IncomingMessageAvisaService
 
   def persist_message(conversation, contact)
     text = extract_text
-    file = media_upload
-    return if text.blank? && file.blank?
+    media = media_attachment
+    return if text.blank? && media.blank?
 
     message = conversation.messages.build(message_attributes(text, contact))
-    attach_media(message, file) if file.present?
+    attach_media(message, media) if media.present?
     message.save!
   end
 
@@ -218,29 +218,55 @@ class Whatsapp::IncomingMessageAvisaService
     MEDIA_KEYS.keys.find { |key| msg[key].is_a?(Hash) }
   end
 
-  def media_upload
-    return nil if media_message_key.blank?
+  # Resolve a mídia a anexar como hash {io:, filename:, content_type:, file_type:}.
+  # image/video/document/sticker: o Avisa entrega o binário em params[:file].
+  # áudio (ptt/voice): o webhook NÃO anexa o arquivo — baixamos o áudio
+  # decriptado da Avisa e anexamos. O anexo de áudio aciona a transcrição
+  # NATIVA do Chatwoot (audio_transcriptions) e mostra o player + transcript.
+  def media_attachment
+    key = media_message_key
+    return nil if key.blank?
 
     file = params[:file]
-    return nil if file.blank?
-    return nil unless file.respond_to?(:original_filename) && file.respond_to?(:content_type)
+    if file.respond_to?(:original_filename) && file.respond_to?(:content_type)
+      return {
+        io: file.tempfile,
+        filename: document_filename || file.original_filename,
+        content_type: file.content_type,
+        file_type: MEDIA_KEYS[key] || :file
+      }
+    end
 
-    file
+    return downloaded_audio_attachment if key == 'audioMessage'
+
+    nil
   end
 
-  def attach_media(message, file)
-    key = media_message_key
-    file_type = MEDIA_KEYS[key] || :file
-    msg = event['Message'] || {}
-    doc_name = msg.dig('documentMessage', 'fileName').to_s.presence
+  def downloaded_audio_attachment
+    audio = event.dig('Message', 'audioMessage') || {}
+    bytes = avisa_client.download_audio(audio)
+    return nil if bytes.blank?
 
+    {
+      io: StringIO.new(bytes),
+      filename: "audio-#{source_id.presence || 'voice'}.ogg",
+      content_type: audio['mimetype'].to_s.split(';').first.presence || 'audio/ogg',
+      file_type: :audio
+    }
+  end
+
+  def document_filename
+    event.dig('Message', 'documentMessage', 'fileName').to_s.presence
+  end
+
+  def attach_media(message, media)
     message.attachments.new(
       account_id: message.account_id,
-      file_type: file_type,
+      file_type: media[:file_type],
       file: {
-        io: file.tempfile,
-        filename: doc_name || file.original_filename,
-        content_type: file.content_type
+        io: media[:io],
+        filename: media[:filename],
+        content_type: media[:content_type]
       }
     )
   end

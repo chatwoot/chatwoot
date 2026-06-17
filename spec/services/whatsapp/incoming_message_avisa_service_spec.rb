@@ -68,4 +68,48 @@ RSpec.describe Whatsapp::IncomingMessageAvisaService do
       end
     end
   end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: o webhook do Avisa não anexa o arquivo de áudio.
+  # Baixamos o áudio decriptado e anexamos à incoming -> o anexo de áudio
+  # aciona a transcrição NATIVA do Chatwoot. Antes o áudio era dropado (conv 162).
+  describe '#perform with inbound audio' do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:audio_event) do
+      {
+        'Info' => { 'ID' => 'AUDIOMSG1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'audioMessage' => {
+          'URL' => 'https://wa/audio.enc', 'directPath' => '/v/t', 'mediaKey' => 'mk',
+          'mimetype' => 'audio/ogg; codecs=opus', 'fileEncSHA256' => 'e',
+          'fileSHA256' => 's', 'fileLength' => 2048
+        } }
+      }
+    end
+
+    subject(:service) { described_class.new(inbox: inbox, params: { jsonData: { 'event' => audio_event }.to_json }) }
+
+    def stub_download(return_value)
+      client = instance_double(Whatsapp::Providers::AvisaClient, download_audio: return_value)
+      allow(service).to receive(:avisa_client).and_return(client)
+    end
+
+    it 'baixa o áudio decriptado e cria incoming com anexo de áudio' do
+      stub_download('FAKE_OGG_BYTES')
+
+      service.perform
+
+      msg = Message.find_by(source_id: 'AUDIOMSG1', inbox_id: inbox.id)
+      expect(msg).to be_present
+      expect(msg.message_type).to eq('incoming')
+      expect(msg.attachments.count).to eq(1)
+      expect(msg.attachments.first.file_type).to eq('audio')
+    end
+
+    it 'não cria mensagem quando o download do áudio falha (sem texto, sem arquivo)' do
+      stub_download(nil)
+
+      service.perform
+
+      expect(Message.find_by(source_id: 'AUDIOMSG1', inbox_id: inbox.id)).to be_nil
+    end
+  end
 end
