@@ -82,6 +82,25 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['source']).to eq('google')
   end
 
+  it 'ignores parsed cookies that are not populated attribution objects' do
+    account.update!(
+      internal_attributes: {
+        'marketing_attribution' => {
+          'first_touch' => { 'source' => 'reddit' },
+          'last_touch' => { 'source' => 'github' }
+        }
+      }
+    )
+    cookies[described_class::FIRST_TOUCH_COOKIE] = {}.to_json
+    cookies[described_class::LAST_TOUCH_COOKIE] = [].to_json
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    attribution = account.reload.internal_attributes['marketing_attribution']
+    expect(attribution['first_touch']['source']).to eq('reddit')
+    expect(attribution['last_touch']['source']).to eq('github')
+  end
+
   def encoded_cookie(payload)
     payload.to_json.bytes.map do |byte|
       character = byte.chr

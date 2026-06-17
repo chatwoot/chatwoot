@@ -35,15 +35,19 @@ class Internal::Accounts::MarketingAttributionService
   end
 
   def parse_cookie(cookie_value)
-    JSON.parse(cookie_value)
+    validate_payload(JSON.parse(cookie_value))
   rescue JSON::ParserError, ArgumentError
     parse_percent_encoded_cookie(cookie_value)
   end
 
   def parse_percent_encoded_cookie(cookie_value)
-    JSON.parse(percent_decode(cookie_value))
+    validate_payload(JSON.parse(percent_decode(cookie_value)))
   rescue JSON::ParserError, ArgumentError
     nil
+  end
+
+  def validate_payload(payload)
+    payload if payload.is_a?(Hash) && payload.present?
   end
 
   def percent_decode(value)
