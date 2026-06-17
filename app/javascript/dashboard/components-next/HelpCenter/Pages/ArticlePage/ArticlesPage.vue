@@ -230,6 +230,7 @@ const categoryMenuItems = computed(() =>
     value: category.id,
     action: 'move',
     emoji: category.icon,
+    iconColor: category.icon_color,
   }))
 );
 
