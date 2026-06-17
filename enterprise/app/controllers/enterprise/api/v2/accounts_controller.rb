@@ -7,6 +7,7 @@ module Enterprise::Api::V2::AccountsController
   private
 
   def record_marketing_attribution
+    return if current_user.present?
     return if @account.blank?
 
     Internal::Accounts::MarketingAttributionService.new(account: @account, cookies: cookies).perform
