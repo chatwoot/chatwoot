@@ -101,6 +101,38 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['source']).to eq('github')
   end
 
+  it 'stores only allowlisted scalar attribution fields' do
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie(
+      'source' => 'google',
+      'source_type' => 'paid_search',
+      'utm_campaign' => 'spring',
+      'unknown_field' => 'ignore me',
+      'nested' => { 'value' => 'ignore me' },
+      'array' => ['ignore me']
+    )
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    attribution = account.reload.internal_attributes['marketing_attribution']
+    expect(attribution['last_touch']).to eq(
+      'source' => 'google',
+      'source_type' => 'paid_search',
+      'utm_campaign' => 'spring'
+    )
+  end
+
+  it 'truncates oversized attribution values' do
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie(
+      'source' => 'google',
+      'utm_campaign' => 'a' * 600
+    )
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    attribution = account.reload.internal_attributes['marketing_attribution']
+    expect(attribution['last_touch']['utm_campaign'].length).to eq(described_class::FIELD_MAX_LENGTH)
+  end
+
   def encoded_cookie(payload)
     payload.to_json.bytes.map do |byte|
       character = byte.chr

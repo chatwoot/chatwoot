@@ -3,6 +3,31 @@
 class Internal::Accounts::MarketingAttributionService
   FIRST_TOUCH_COOKIE = 'cw_first_touch_attribution'
   LAST_TOUCH_COOKIE = 'cw_last_touch_attribution'
+  FIELD_MAX_LENGTH = 500
+  ALLOWED_FIELDS = %w[
+    utm_source
+    utm_medium
+    utm_campaign
+    utm_term
+    utm_content
+    utm_id
+    gclid
+    gbraid
+    wbraid
+    dclid
+    fbclid
+    msclkid
+    ttclid
+    li_fat_id
+    twclid
+    rdt_cid
+    referrer
+    referrer_path
+    landing_page
+    source
+    source_type
+    captured_at
+  ].freeze
 
   pattr_initialize [:account!, :cookies!]
 
@@ -47,7 +72,13 @@ class Internal::Accounts::MarketingAttributionService
   end
 
   def validate_payload(payload)
-    payload if payload.is_a?(Hash) && payload.present?
+    return unless payload.is_a?(Hash)
+
+    payload.slice(*ALLOWED_FIELDS).filter_map do |key, value|
+      next if value.blank? || value.is_a?(Array) || value.is_a?(Hash)
+
+      [key, value.to_s.first(FIELD_MAX_LENGTH)]
+    end.to_h.presence
   end
 
   def percent_decode(value)
