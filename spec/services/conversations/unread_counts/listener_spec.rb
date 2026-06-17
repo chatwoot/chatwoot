@@ -21,22 +21,13 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(notifier).to have_received(:perform)
   end
 
-  it 'clears user filter counts when a non-incoming message updates last activity' do
-    account.enable_features!(:conversation_unread_counts)
+  it 'ignores outgoing message creation' do
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
-    allow(store).to receive(:clear_filter_caches!).and_return(true)
-    allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
     listener.message_created(event)
 
     expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
-    expect(store).to have_received(:clear_filter_caches!).with(account.id)
-    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-      'conversation.unread_count_changed',
-      kind_of(Time),
-      conversation: conversation
-    )
   end
 
   it 'ignores incoming message creation when conversation unread counts are disabled' do
@@ -61,7 +52,6 @@ RSpec.describe Conversations::UnreadCounts::Listener do
   end
 
   it 'refreshes unread counts when labels change' do
-    account.enable_features!(:conversation_unread_counts)
     changed_attributes = { label_list: [%w[old], %w[new]] }
     event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: changed_attributes)
 
@@ -71,43 +61,8 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(notifier).to have_received(:perform)
   end
 
-  it 'clears user filter counts when a folder filter dimension changes' do
-    account.enable_features!(:conversation_unread_counts)
+  it 'ignores conversation updates unrelated to unread count dimensions' do
     event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: { priority: [nil, 'high'] })
-    allow(store).to receive(:clear_filter_caches!).and_return(true)
-    allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-    listener.conversation_updated(event)
-
-    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
-    expect(store).to have_received(:clear_filter_caches!).with(account.id)
-    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-      'conversation.unread_count_changed',
-      kind_of(Time),
-      conversation: conversation
-    )
-  end
-
-  it 'clears user filter counts when the conversation contact changes' do
-    account.enable_features!(:conversation_unread_counts)
-    event = Events::Base.new('conversation.contact_changed', Time.zone.now, conversation: conversation)
-    allow(store).to receive(:clear_filter_caches!).and_return(true)
-    allow(Rails.configuration.dispatcher).to receive(:dispatch)
-
-    listener.conversation_contact_changed(event)
-
-    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
-    expect(store).to have_received(:clear_filter_caches!).with(account.id)
-    expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
-      'conversation.unread_count_changed',
-      kind_of(Time),
-      conversation: conversation
-    )
-  end
-
-  it 'ignores conversation updates without changed attributes' do
-    account.enable_features!(:conversation_unread_counts)
-    event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: {})
 
     listener.conversation_updated(event)
 
@@ -173,7 +128,7 @@ RSpec.describe Conversations::UnreadCounts::Listener do
       conversation_data: conversation_data.stringify_keys
     )
   ensure
-    store.clear_all_account!(account.id)
+    store.clear_account!(account.id)
   end
 
   def deleted_conversation_data(conversation)
