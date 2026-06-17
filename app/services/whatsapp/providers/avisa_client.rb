@@ -97,8 +97,13 @@ class Whatsapp::Providers::AvisaClient
       FileSHA256: am['fileSHA256'],
       FileLength: am['fileLength'].to_i
     }
-    b64 = extract_base64(post('/message/download/audio', body))
-    return nil if b64.blank?
+    response = post('/message/download/audio', body)
+    b64 = extract_base64(response)
+    if b64.blank?
+      shape = response.is_a?(Hash) ? response.keys.inspect : response.class.name
+      Rails.logger.warn("[AVISA] download_audio sem base64 na resposta — shape=#{shape}")
+      return nil
+    end
 
     Base64.decode64(b64.to_s.sub(/\Adata:[^,]+,/, ''))
   rescue Error => e

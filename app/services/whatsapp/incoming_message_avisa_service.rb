@@ -244,8 +244,13 @@ class Whatsapp::IncomingMessageAvisaService
 
   def downloaded_audio_attachment
     audio = event.dig('Message', 'audioMessage') || {}
+    Rails.logger.info("[AVISA] audio inbound source_id=#{source_id} baixando áudio decriptado (bytes esperados=#{audio['fileLength']})")
     bytes = avisa_client.download_audio(audio)
-    return nil if bytes.blank?
+    if bytes.blank?
+      Rails.logger.warn("[AVISA] audio inbound source_id=#{source_id} download_audio retornou vazio — mensagem NÃO criada")
+      return nil
+    end
+    Rails.logger.info("[AVISA] audio inbound source_id=#{source_id} download_audio OK (#{bytes.bytesize} bytes) — anexando")
 
     {
       io: StringIO.new(bytes),
