@@ -53,79 +53,38 @@ RSpec.describe Account do
   describe 'conversation unread counts feature flag' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
-    let(:user) { create(:user) }
     let(:store) { Conversations::UnreadCounts::Store }
     let(:inbox_key) { store.inbox_key(account.id, inbox.id) }
-    let(:filter_keys) do
-      [
-        store.user_mentions_key(account.id, user.id),
-        store.user_participating_key(account.id, user.id),
-        store.user_unattended_key(account.id, user.id),
-        store.user_folder_key(account.id, user.id, 1)
-      ]
-    end
 
     after do
-      store.clear_all_account!(account.id)
+      store.clear_account!(account.id)
     end
 
-    it 'clears all unread count cache when the feature is enabled' do
+    it 'clears unread count cache when the feature is enabled' do
       build_unread_count_cache
 
       account.enable_features!(:conversation_unread_counts)
 
-      expect_unread_count_cache_cleared
+      expect(store.base_ready?(account.id)).to be(false)
+      expect(store.assignment_ready?(account.id)).to be(false)
+      expect(store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
     end
 
-    it 'clears all unread count cache when the feature is disabled' do
+    it 'clears unread count cache when the feature is disabled' do
       account.enable_features!(:conversation_unread_counts)
       build_unread_count_cache
 
       account.disable_features!(:conversation_unread_counts)
 
-      expect_unread_count_cache_cleared
-    end
-
-    it 'clears all unread count cache when account cache keys are reset' do
-      build_unread_count_cache
-
-      account.reset_cache_keys
-
-      expect_unread_count_cache_cleared
-    end
-
-    def expect_unread_count_cache_cleared
-      expect(unread_count_ready_markers).to all(be(false))
-      expect(store.counts_for_keys(unread_count_keys).values).to all(eq(0))
-    end
-
-    def unread_count_ready_markers
-      [
-        store.base_ready?(account.id),
-        store.assignment_ready?(account.id),
-        store.filters_ready?(account.id, user.id)
-      ]
-    end
-
-    def unread_count_keys
-      [inbox_key] + filter_keys
+      expect(store.base_ready?(account.id)).to be(false)
+      expect(store.assignment_ready?(account.id)).to be(false)
+      expect(store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
     end
 
     def build_unread_count_cache
       store.mark_base_ready!(account.id)
       store.mark_assignment_ready!(account.id)
-      store.mark_filters_ready!(account.id, user.id)
       store.add_base_membership(account_id: account.id, inbox_id: inbox.id, label_ids: [], conversation_id: 1)
-      store.add_filter_memberships(
-        account_id: account.id,
-        user_id: user.id,
-        filters: {
-          mentions: [1],
-          participating: [2],
-          unattended: [3]
-        },
-        folders: { 1 => [4] }
-      )
     end
   end
 

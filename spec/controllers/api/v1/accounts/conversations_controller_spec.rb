@@ -123,7 +123,7 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       after do
-        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
 
       context 'when conversation unread counts feature is enabled' do
@@ -144,42 +144,7 @@ RSpec.describe 'Conversations API', type: :request do
             'all_count' => 1,
             'inboxes' => { visible_inbox.id.to_s => 1 },
             'labels' => { label.id.to_s => 1 },
-            'teams' => {},
-            'mentions_count' => 0,
-            'participating_count' => 0,
-            'unattended_count' => 1,
-            'folders' => {}
-          )
-        end
-
-        it 'returns unread counts for mentions, participating conversations, unattended conversations, and folders' do
-          mentioned_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-          participating_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-          resolved_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-          resolved_conversation.update!(status: :resolved)
-          custom_filter = create(:custom_filter, account: account, user: agent, filter_type: :conversation, query: {
-                                   payload: [{
-                                     attribute_key: 'status',
-                                     filter_operator: 'equal_to',
-                                     values: ['resolved'],
-                                     query_operator: nil,
-                                     custom_attribute_type: ''
-                                   }]
-                                 })
-
-          create(:mention, account: account, conversation: mentioned_conversation, user: agent)
-          create(:conversation_participant, account: account, conversation: participating_conversation, user: agent)
-
-          get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
-              headers: agent.create_new_auth_token,
-              as: :json
-
-          expect(response).to have_http_status(:success)
-          expect(response.parsed_body['payload']).to include(
-            'mentions_count' => 1,
-            'participating_count' => 1,
-            'unattended_count' => 2,
-            'folders' => { custom_filter.id.to_s => 1 }
+            'teams' => {}
           )
         end
 
@@ -897,7 +862,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
       ensure
-        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
 
       it 'updates both if one timestamp is old even when the other is recent' do
@@ -984,7 +949,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
       ensure
-        Conversations::UnreadCounts::Store.clear_all_account!(account.id)
+        Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
     end
   end
