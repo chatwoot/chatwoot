@@ -43,7 +43,7 @@ RSpec.describe Companies::SyncContactNamesJob, type: :job do
 
     it 'does not save contacts while syncing the denormalized company name' do
       contact = create(:contact, account: account, company: company, additional_attributes: { 'company_name' => 'Acme' })
-      original_updated_at = contact.updated_at
+      original_updated_at = contact.reload.updated_at
 
       company.update!(name: 'Acme Labs')
 
