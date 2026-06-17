@@ -62,6 +62,8 @@ RSpec.describe Audio::TranscoderService do
 
         expect(result).to eq({ transcoded: false })
         expect(tracker).to have_received(:capture_exception)
+        # the source io is left rewound so the kept-original attachment isn't an empty stream
+        expect(ogg.read).not_to be_empty
       end
     end
   end

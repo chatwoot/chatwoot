@@ -75,6 +75,9 @@ class Audio::TranscoderService
     tmp.binmode
     IO.copy_stream(@io, tmp)
     tmp.flush
+    # Leave the source rewound so the keep-original fallback (transcode failure) uploads the
+    # full file instead of a stream already consumed to EOF by the copy above.
+    @io.rewind if @io.respond_to?(:rewind)
     tmp
   end
 
