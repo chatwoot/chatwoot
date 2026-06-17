@@ -96,11 +96,23 @@ class Messages::MessageBuilder
   end
 
   def message_type
-    if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
+    if @message_type == 'incoming' && !incoming_inbox_allowed?
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
 
     @message_type
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: além das inboxes Channel::Api, libera criar mensagens
+  # `incoming` via API nas inboxes do Avisa (WhatsApp não-oficial). O log de
+  # áudio/transcrição inbound do cliente vem do n8n via API e precisa criar
+  # incoming nessas inboxes (antes batia em 422 e a mensagem do cliente sumia).
+  def incoming_inbox_allowed?
+    inbox = @conversation.inbox
+    return true if inbox.channel_type == 'Channel::Api'
+
+    channel = inbox.channel
+    channel.respond_to?(:provider) && channel.provider == 'avisa'
   end
 
   def sender

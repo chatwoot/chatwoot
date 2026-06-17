@@ -121,6 +121,43 @@ describe Messages::MessageBuilder do
       end
     end
 
+    # CUSTOMIZAÇÃO_SYNAPSEOS: incoming liberado nas inboxes do Avisa (o n8n loga
+    # áudio/transcrição inbound via API — antes batia em 422).
+    context 'when channel is whatsapp avisa' do
+      let(:params) do
+        ActionController::Parameters.new({
+                                           content: '🎤 transcrição do áudio do cliente',
+                                           message_type: 'incoming'
+                                         })
+      end
+
+      before do
+        allow(conversation.inbox).to receive(:channel_type).and_return('Channel::Whatsapp')
+        allow(conversation.inbox.channel).to receive(:provider).and_return('avisa')
+      end
+
+      it 'creates incoming message on an avisa inbox (no 422)' do
+        message = message_builder
+        expect(message.message_type).to eq 'incoming'
+        expect(message.content).to eq '🎤 transcrição do áudio do cliente'
+      end
+    end
+
+    context 'when channel is whatsapp but not avisa (e.g. cloud)' do
+      before do
+        allow(conversation.inbox).to receive(:channel_type).and_return('Channel::Whatsapp')
+        allow(conversation.inbox.channel).to receive(:provider).and_return('whatsapp_cloud')
+      end
+
+      let(:params) do
+        ActionController::Parameters.new({ content: 'test', message_type: 'incoming' })
+      end
+
+      it 'still raises (incoming only on api/avisa)' do
+        expect { message_builder }.to raise_error 'Incoming messages are only allowed in Api inboxes'
+      end
+    end
+
     context 'when attachment messages' do
       let(:params) do
         ActionController::Parameters.new({

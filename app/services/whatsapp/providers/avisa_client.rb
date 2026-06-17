@@ -3,8 +3,6 @@
 #
 # Sem conhecimento de Chatwoot models — recebe credenciais no construtor e
 # expõe métodos por endpoint. Errors levantam Whatsapp::Providers::AvisaClient::Error.
-require 'base64'
-
 class Whatsapp::Providers::AvisaClient
   DEFAULT_BASE_URL = 'https://www.avisaapi.com.br/api'.freeze
 
@@ -82,42 +80,7 @@ class Whatsapp::Providers::AvisaClient
     true
   end
 
-  # POST /message/download/audio — baixa o ÁUDIO inbound DECRIPTADO (base64).
-  # O webhook inbound do Avisa não anexa o arquivo de áudio (.enc); este endpoint
-  # entrega o conteúdo decriptado a partir do hash `audioMessage` do whatsmeow.
-  # Retorna os bytes (String binária) ou nil se indisponível. Best-effort.
-  def download_audio(audio_message)
-    am = audio_message || {}
-    body = {
-      Url: am['URL'] || am['url'],
-      DirectPath: am['directPath'],
-      MediaKey: am['mediaKey'],
-      Mimetype: am['mimetype'],
-      FileEncSHA256: am['fileEncSHA256'],
-      FileSHA256: am['fileSHA256'],
-      FileLength: am['fileLength'].to_i
-    }
-    b64 = extract_base64(post('/message/download/audio', body))
-    return nil if b64.blank?
-
-    Base64.decode64(b64.to_s.sub(/\Adata:[^,]+,/, ''))
-  rescue Error => e
-    Rails.logger.warn("[AVISA] download_audio falhou: #{e.message}")
-    nil
-  end
-
   private
-
-  # A resposta do download pode vir como { Data/data/file: <b64> } ou aninhada
-  # em { data: { Data/data: <b64> } }. Procura nas duas profundidades.
-  def extract_base64(response)
-    return nil unless response.is_a?(Hash)
-
-    [response, response['data']]
-      .select { |obj| obj.is_a?(Hash) }
-      .flat_map { |obj| obj.values_at('Data', 'data', 'file') }
-      .find { |val| val.is_a?(String) && val.present? }
-  end
 
   def post(path, body)
     response = HTTParty.post(
