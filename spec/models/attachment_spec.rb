@@ -360,6 +360,18 @@ RSpec.describe Attachment do
       end
     end
 
+    context 'when an incoming OGG is attached via a signed blob id (direct upload / API)' do
+      it 'transcodes it to mp3 and replaces the original blob' do
+        source_blob = ActiveStorage::Blob.create_and_upload!(io: ogg_io, filename: 'voice.ogg', content_type: 'audio/ogg')
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :audio, file: source_blob.signed_id)
+        attachment.save!
+
+        expect(attachment.file.content_type).to eq('audio/mpeg')
+        # the direct-upload source blob is swapped out (and purged) rather than stored as-is
+        expect(attachment.file.blob.id).not_to eq(source_blob.id)
+      end
+    end
+
     context 'when the incoming audio is already mp3' do
       it 'stores it unchanged' do
         attachment = message.attachments.new(
