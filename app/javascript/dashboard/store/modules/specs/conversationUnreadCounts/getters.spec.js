@@ -57,10 +57,32 @@ describe('#getters', () => {
       inboxes: { 1: 2 },
       labels: { 3: 4 },
       teams: { 5: 6 },
+      folders: { 8: 9 },
     };
 
     expect(getters.getInboxUnreadCounts(state)).toEqual({ 1: 2 });
     expect(getters.getLabelUnreadCounts(state)).toEqual({ 3: 4 });
     expect(getters.getTeamUnreadCounts(state)).toEqual({ 5: 6 });
+    expect(getters.getFolderUnreadCounts(state)).toEqual({ 8: 9 });
+  });
+
+  it('returns mentions, participating, unattended, and folder unread counts', () => {
+    const state = {
+      allCount: 0,
+      inboxes: {},
+      labels: {},
+      teams: {},
+      mentionsCount: 3,
+      participatingCount: 4,
+      unattendedCount: 5,
+      folders: { 7: 8 },
+    };
+
+    expect(getters.getMentionsUnreadCount(state)).toBe(3);
+    expect(getters.getParticipatingUnreadCount(state)).toBe(4);
+    expect(getters.getUnattendedUnreadCount(state)).toBe(5);
+    expect(getters.getFolderUnreadCount(state)(7)).toBe(8);
+    expect(getters.getFolderUnreadCount(state)('7')).toBe(8);
+    expect(getters.getFolderUnreadCount(state)(8)).toBe(0);
   });
 });

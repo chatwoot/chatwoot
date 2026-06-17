@@ -1,5 +1,6 @@
 class Conversations::UnreadCounts::Store
   extend ::Conversations::UnreadCounts::StoreKeys
+  extend ::Conversations::UnreadCounts::UserFilterStore
 
   class << self
     def base_ready?(account_id)
@@ -19,6 +20,10 @@ class Conversations::UnreadCounts::Store
     end
 
     def clear_account!(account_id)
+      account_key_patterns(account_id).each { |pattern| delete_matching(pattern) }
+    end
+
+    def clear_all_account!(account_id)
       delete_matching("#{account_prefix(account_id)}::*")
     end
 
@@ -178,9 +183,11 @@ class Conversations::UnreadCounts::Store
     end
 
     def delete_matching(pattern)
+      deleted = 0
       Redis::Alfred.scan_each(match: pattern, count: 1000) do |key|
-        Redis::Alfred.delete(key)
+        deleted += 1 if Redis::Alfred.delete(key)
       end
+      deleted.positive?
     end
 
     def assignment_key_patterns(account_id)
@@ -193,6 +200,17 @@ class Conversations::UnreadCounts::Store
         "#{prefix}::LABEL::*::INBOX::*::ASSIGNEE::*",
         "#{prefix}::TEAM::*::INBOX::*::UNASSIGNED",
         "#{prefix}::TEAM::*::INBOX::*::ASSIGNEE::*"
+      ]
+    end
+
+    def account_key_patterns(account_id)
+      prefix = account_prefix(account_id)
+      [
+        base_ready_key(account_id),
+        assignment_ready_key(account_id),
+        "#{prefix}::INBOX::*",
+        "#{prefix}::LABEL::*::INBOX::*",
+        "#{prefix}::TEAM::*::INBOX::*"
       ]
     end
   end

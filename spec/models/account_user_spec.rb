@@ -42,4 +42,32 @@ RSpec.describe AccountUser do
       expect(user.assigned_conversations.count).to eq(0)
     end
   end
+
+  describe 'unread filter count invalidation' do
+    let(:notifier) { instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true) }
+
+    before do
+      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
+    end
+
+    it 'notifies when the account role changes' do
+      account_user.update!(role: :administrator)
+
+      expect(Conversations::UnreadCounts::UserFilterNotifier).to have_received(:new).with(
+        account: account_user.account,
+        user: account_user.user
+      )
+      expect(notifier).to have_received(:perform)
+    end
+
+    it 'notifies when account access is removed' do
+      expect(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).with(
+        account: account_user.account,
+        user: account_user.user
+      ).and_return(notifier)
+      expect(notifier).to receive(:perform)
+
+      account_user.destroy!
+    end
+  end
 end

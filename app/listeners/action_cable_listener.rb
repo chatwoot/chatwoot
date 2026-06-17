@@ -91,10 +91,10 @@ class ActionCableListener < BaseListener
   end
 
   def conversation_unread_count_changed(event)
-    account, inbox_members = ::Conversations::UnreadCounts::BroadcastScope.new(event).perform
+    account, inbox_members, include_admins = ::Conversations::UnreadCounts::BroadcastScope.new(event).perform
     return if account.blank? || !account.feature_enabled?('conversation_unread_counts')
 
-    tokens = user_tokens(account, inbox_members)
+    tokens = include_admins ? user_tokens(account, inbox_members) : inbox_members.pluck(:pubsub_token)
 
     broadcast(account, tokens, CONVERSATION_UNREAD_COUNT_CHANGED, {})
   end

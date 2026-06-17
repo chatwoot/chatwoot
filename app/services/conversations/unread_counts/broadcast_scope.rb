@@ -6,12 +6,22 @@ class Conversations::UnreadCounts::BroadcastScope
   end
 
   def perform
-    return [conversation.account, conversation.inbox.members] if conversation.present?
+    return user_scope if user.present?
+    return [conversation.account, conversation.inbox.members, true] if conversation.present?
 
     deleted_conversation_scope
   end
 
   private
+
+  def user
+    event.data[:user]
+  end
+
+  def user_scope
+    account = event.data[:account] || user.account
+    [account, [user], false]
+  end
 
   def conversation
     event.data[:conversation]
@@ -24,7 +34,7 @@ class Conversations::UnreadCounts::BroadcastScope
     account = Account.find_by(id: conversation_data[:account_id])
     return if account.blank?
 
-    [account, inbox_members_for(account, conversation_data[:inbox_id])]
+    [account, inbox_members_for(account, conversation_data[:inbox_id]), true]
   end
 
   def inbox_members_for(account, inbox_id)

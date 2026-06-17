@@ -28,6 +28,9 @@ class CustomRole < ApplicationRecord
   belongs_to :account
   has_many :account_users, dependent: :nullify
 
+  before_destroy :cache_users_for_unread_filter_notification, prepend: true
+  after_commit :notify_unread_filter_counts_changed, on: [:update, :destroy], if: :unread_filter_access_changed?
+
   PERMISSIONS = %w[
     conversation_manage
     conversation_unassigned_manage
@@ -39,4 +42,24 @@ class CustomRole < ApplicationRecord
 
   validates :name, presence: true
   validates :permissions, inclusion: { in: PERMISSIONS }
+
+  private
+
+  def unread_filter_access_changed?
+    destroyed? || previous_changes.key?('permissions')
+  end
+
+  def cache_users_for_unread_filter_notification
+    @users_for_unread_filter_notification = account_users.includes(:user).map(&:user)
+  end
+
+  def users_for_unread_filter_notification
+    @users_for_unread_filter_notification || account_users.includes(:user).map(&:user)
+  end
+
+  def notify_unread_filter_counts_changed
+    users_for_unread_filter_notification.each do |user|
+      ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: user).perform
+    end
+  end
 end
