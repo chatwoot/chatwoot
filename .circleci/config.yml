@@ -40,6 +40,7 @@ jobs:
               software-properties-common \
               ca-certificates \
               imagemagick \
+              ffmpeg \
               libxml2-dev \
               libxslt1-dev \
               file \
@@ -183,6 +184,7 @@ jobs:
               software-properties-common \
               ca-certificates \
               imagemagick \
+              ffmpeg \
               libxml2-dev \
               libxslt1-dev \
               file \
