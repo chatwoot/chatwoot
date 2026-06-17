@@ -81,7 +81,7 @@ class Company < ApplicationRecord
   end
 
   def sync_contact_company_names_later
-    Companies::SyncContactNamesJob.perform_later(company_id: id, company_name: name)
+    Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
 
   def capture_contact_ids_for_company_name_cleanup

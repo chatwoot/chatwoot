@@ -56,7 +56,7 @@ RSpec.describe Company, type: :model do
     it 'enqueues contact company name sync when the company name changes' do
       expect do
         company.update!(name: 'Acme Labs')
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(company_id: company.id, company_name: 'Acme Labs')
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(company_id: company.id)
     end
 
     it 'enqueues contact company name cleanup when the company is deleted' do

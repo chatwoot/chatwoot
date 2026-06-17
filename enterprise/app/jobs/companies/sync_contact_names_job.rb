@@ -11,16 +11,15 @@ class Companies::SyncContactNamesJob < ApplicationJob
   SQL
   CONTACT_COMPANY_NAME_DELETE_SQL = "additional_attributes = COALESCE(additional_attributes, '{}'::jsonb) - 'company_name'".freeze
 
-  def perform(company_id: nil, company_name: nil, contact_ids: nil)
+  def perform(company_id: nil, contact_ids: nil)
     return if company_id.blank? && contact_ids.blank?
 
-    contacts = contact_ids.present? ? Contact.where(id: contact_ids) : Contact.where(company_id: company_id)
+    return clear_company_name(Contact.where(id: contact_ids, company_id: nil)) if contact_ids.present?
 
-    if company_name.present?
-      sync_company_name(contacts, company_name)
-    else
-      clear_company_name(contacts)
-    end
+    company = Company.find_by(id: company_id)
+    return if company.blank?
+
+    sync_company_name(Contact.where(company_id: company.id), company.name)
   end
 
   private
