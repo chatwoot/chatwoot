@@ -40,7 +40,7 @@ class Company < ApplicationRecord
   before_validation :prepare_jsonb_attributes
   after_create_commit :fetch_favicon, if: -> { domain.present? }
   after_update_commit :sync_contact_company_names_later, if: :saved_change_to_name?
-  before_destroy :capture_contact_ids_for_company_name_cleanup, prepend: true
+  before_destroy :capture_company_name_cleanup_context, prepend: true
   after_destroy_commit :clear_contact_company_names_later
 
   scope :ordered_by_name, -> { order(:name) }
@@ -84,13 +84,17 @@ class Company < ApplicationRecord
     Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
 
-  def capture_contact_ids_for_company_name_cleanup
-    @contact_ids_for_company_name_cleanup = contacts.ids
+  def capture_company_name_cleanup_context
+    @account_id_for_company_name_cleanup = account_id
+    @company_name_for_company_name_cleanup = name
   end
 
   def clear_contact_company_names_later
-    return if @contact_ids_for_company_name_cleanup.blank?
+    return if @account_id_for_company_name_cleanup.blank? || @company_name_for_company_name_cleanup.blank?
 
-    Companies::SyncContactNamesJob.perform_later(contact_ids: @contact_ids_for_company_name_cleanup)
+    Companies::SyncContactNamesJob.perform_later(
+      account_id: @account_id_for_company_name_cleanup,
+      company_name: @company_name_for_company_name_cleanup
+    )
   end
 end
