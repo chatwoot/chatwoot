@@ -51,6 +51,27 @@ RSpec.describe 'Accounts API', type: :request do
         end
       end
 
+      it 'records marketing attribution for unauthenticated signup requests' do
+        attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(account_builder).to receive(:perform).and_return([user, account])
+          allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
+
+          params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!' }
+
+          post api_v1_accounts_url,
+               params: params,
+               as: :json
+
+          expect(Internal::Accounts::MarketingAttributionService).to have_received(:new).with(
+            account: account,
+            cookies: kind_of(ActionDispatch::Cookies::CookieJar)
+          )
+          expect(attribution_service).to have_received(:perform)
+        end
+      end
+
       it 'renders error response on invalid params' do
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return(nil)
@@ -81,6 +102,23 @@ RSpec.describe 'Accounts API', type: :request do
 
           expect(response).to have_http_status(:success)
           expect(response.parsed_body.dig('data', 'account_id')).to be_present
+        end
+      end
+
+      it 'does not record marketing attribution' do
+        attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
+
+        with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
+          allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
+
+          post api_v1_accounts_url,
+               params: { account_name: 'Second Account', email: existing_user.email,
+                         user_full_name: existing_user.name, password: 'Password1!' },
+               headers: existing_user.create_new_auth_token,
+               as: :json
+
+          expect(Internal::Accounts::MarketingAttributionService).not_to have_received(:new)
+          expect(attribution_service).not_to have_received(:perform)
         end
       end
     end

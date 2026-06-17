@@ -1,19 +1,5 @@
 module Enterprise::Api::V2::AccountsController
-  def create
-    super
-    record_marketing_attribution
-  end
-
   private
-
-  def record_marketing_attribution
-    return if current_user.present?
-    return if @account.blank?
-
-    Internal::Accounts::MarketingAttributionService.new(account: @account, cookies: cookies).perform
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-  end
 
   def fetch_account_and_user_info
     @data = fetch_from_clearbit

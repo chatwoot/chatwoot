@@ -67,46 +67,6 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
       end
     end
 
-    it 'records marketing attribution for v2 signup requests' do
-      attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
-
-      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
-        allow(account_builder).to receive(:perform).and_return([user, account])
-        allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
-
-        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
-
-        post api_v2_accounts_url,
-             params: params,
-             as: :json
-
-        expect(Internal::Accounts::MarketingAttributionService).to have_received(:new).with(
-          account: account,
-          cookies: kind_of(ActionDispatch::Cookies::CookieJar)
-        )
-        expect(attribution_service).to have_received(:perform)
-      end
-    end
-
-    it 'does not record marketing attribution for authenticated v2 account creates' do
-      attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
-
-      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
-        allow(account_builder).to receive(:perform).and_return([user, account])
-        allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
-
-        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
-
-        post api_v2_accounts_url,
-             params: params,
-             headers: user.create_new_auth_token,
-             as: :json
-
-        expect(Internal::Accounts::MarketingAttributionService).not_to have_received(:new)
-        expect(attribution_service).not_to have_received(:perform)
-      end
-    end
-
     it 'handles errors when fetching data from clearbit' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         allow(account_builder).to receive(:perform).and_return([user, account])
