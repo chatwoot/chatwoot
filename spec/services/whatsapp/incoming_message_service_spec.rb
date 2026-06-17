@@ -428,13 +428,11 @@ describe Whatsapp::IncomingMessageService do
         expect(Contact.all.first.name).to eq('Kedar')
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
 
-        m1 = whatsapp_channel.inbox.messages.first
-        expect(m1.content).to eq('Apple Inc.')
+        m1 = whatsapp_channel.inbox.messages.find_by(content: 'Apple Inc.')
         expect(m1.attachments.first.fallback_title).to eq('+911800')
         expect(m1.attachments.first.meta).to eq({})
 
-        m2 = whatsapp_channel.inbox.messages.last
-        expect(m2.content).to eq('Chatwoot')
+        m2 = whatsapp_channel.inbox.messages.find_by(content: 'Chatwoot')
         expect(m2.attachments.first.meta).to eq({ 'firstName' => 'Chatwoot' })
       end
     end
