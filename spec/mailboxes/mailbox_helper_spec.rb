@@ -141,12 +141,14 @@ RSpec.describe MailboxHelper do
       expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be false
     end
 
-    it 'does not raise when HTML content is missing' do
+    it 'keeps inline-marked images inline when HTML content is missing' do
       original_attachment = instance_double(Mail::Part, content_type: 'image/png', inline?: true, cid: 'image001.jpg@test')
       helper_instance.instance_variable_set(:@html_content, nil)
 
       expect { helper_instance.send(:inline_attachment?, { original: original_attachment }) }.not_to raise_error
-      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be false
+      # With no HTML body there is nothing to reference the image, so an
+      # explicitly inline-marked image stays inline rather than being surfaced.
+      expect(helper_instance.send(:inline_attachment?, { original: original_attachment })).to be true
     end
   end
 
