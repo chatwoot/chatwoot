@@ -105,14 +105,26 @@ class Message < ApplicationRecord
   # [:email] : Used by conversation_continuity incoming email messages
   # [:in_reply_to] : Used to reply to a particular tweet in threads
   # [:deleted] : Used to denote whether the message was deleted by the agent
+  # Pass-through coder to allow `store` to provide HashWithIndifferentAccess and dirty tracking
+  # without performing JSON stringification, since the underlying column is already `json`/`jsonb`.
+  class PassThroughCoder
+    def self.dump(obj)
+      obj
+    end
+
+    def self.load(obj)
+      obj || {}
+    end
+  end
+
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   # [:data] : Used for structured content types such as voice_call
-  store_accessor :content_attributes, :submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
+  store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :data
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :data], coder: PassThroughCoder
 
-  store_accessor :external_source_ids, :slack, prefix: :external_source_id
+  store :external_source_ids, accessors: [:slack], prefix: :external_source_id, coder: PassThroughCoder
 
   scope :created_since, ->(datetime) { where('created_at > ?', datetime) }
   scope :chat, -> { where.not(message_type: :activity).where(private: false) }
