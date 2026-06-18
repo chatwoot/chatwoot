@@ -144,6 +144,18 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['utm_campaign']).to eq('launch &amp; learn')
   end
 
+  it 'caps attribution values after escaping' do
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie(
+      'source' => 'google',
+      'utm_campaign' => '&' * 600
+    )
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    attribution = account.reload.internal_attributes['marketing_attribution']
+    expect(attribution['last_touch']['utm_campaign'].length).to eq(described_class::FIELD_MAX_LENGTH)
+  end
+
   def encoded_cookie(payload)
     Base64.urlsafe_encode64(payload.to_json, padding: false)
   end

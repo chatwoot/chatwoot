@@ -72,8 +72,12 @@ class Internal::Accounts::MarketingAttributionService
     payload.slice(*ALLOWED_FIELDS).filter_map do |key, value|
       next if value.blank? || value.is_a?(Array) || value.is_a?(Hash)
 
-      [key, ERB::Util.html_escape(value.to_s.first(FIELD_MAX_LENGTH))]
+      [key, sanitized_value(value)]
     end.to_h.presence
+  end
+
+  def sanitized_value(value)
+    ERB::Util.html_escape(value.to_s.first(FIELD_MAX_LENGTH)).first(FIELD_MAX_LENGTH)
   end
 
   def internal_attributes_service
