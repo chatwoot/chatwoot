@@ -77,6 +77,32 @@ describe Dyte do
         expect(response).to eq({ error: { 'message' => 'Meeting ID is invalid' }, error_code: 422 })
       end
     end
+
+    context 'when the default preset is not found' do
+      before do
+        stub_request(:post, participants_url)
+          .with { |request| JSON.parse(request.body)['preset_name'] == 'group-call-host' }
+          .to_return(
+            status: 404,
+            body: { success: false, error: { code: 404, message: 'ResourceNotFound: No preset found with name group-call-host' } }.to_json,
+            headers: headers
+          )
+
+        stub_request(:post, participants_url)
+          .with { |request| JSON.parse(request.body)['preset_name'] == 'group_call_host' }
+          .to_return(
+            status: 200,
+            body: { success: true, data: { id: 'random_uuid', token: 'json-web-token' } }.to_json,
+            headers: headers
+          )
+      end
+
+      it 'retries with the legacy Dyte preset name' do
+        response = dyte_client.add_participant_to_meeting('m_id', 'c_id', 'name', 'https://avatar.url')
+
+        expect(response).to eq({ 'id' => 'random_uuid', 'token' => 'json-web-token' })
+      end
+    end
   end
 
   context 'when refresh_participant_token is called' do

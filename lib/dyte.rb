@@ -2,6 +2,7 @@ class Dyte
   BASE_URL = 'https://api.cloudflare.com/client/v4'.freeze
   API_KEY_HEADER = 'Authorization'.freeze
   PRESET_NAME = 'group-call-host'.freeze
+  LEGACY_PRESET_NAME = 'group_call_host'.freeze
 
   def initialize(account_id = nil, app_id = nil, api_token = nil)
     @account_id = account_id
@@ -30,8 +31,11 @@ class Dyte
       'preset_name': PRESET_NAME
     }
     path = "meetings/#{meeting_id}/participants"
-    response = post(path, payload)
-    process_response(response)
+    response = process_response(post(path, payload))
+    return response unless preset_not_found?(response)
+
+    payload[:preset_name] = LEGACY_PRESET_NAME
+    process_response(post(path, payload))
   end
 
   def refresh_participant_token(meeting_id, participant_id)
@@ -60,6 +64,14 @@ class Dyte
 
   def parsed_data(response)
     response.parsed_response['data']
+  end
+
+  def preset_not_found?(response)
+    error = response[:error]
+    message = error.dig('error', 'message') if error.is_a?(Hash) && error['error'].is_a?(Hash)
+    message ||= error['message'] if error.is_a?(Hash)
+    message ||= error.to_s
+    message.include?('No preset found')
   end
 
   def post(path, payload = nil)
