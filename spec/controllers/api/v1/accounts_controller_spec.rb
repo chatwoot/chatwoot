@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'Accounts API', type: :request do
+  let(:marketing_attribution_service_class) { 'Internal::Accounts::MarketingAttributionService'.safe_constantize }
+
   describe 'POST /api/v1/accounts' do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
@@ -52,11 +54,13 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'records marketing attribution for unauthenticated signup requests' do
-        attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
+        skip 'Enterprise attribution service is not loaded' unless marketing_attribution_service_class
+
+        attribution_service = instance_double(marketing_attribution_service_class, perform: true)
 
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
           allow(account_builder).to receive(:perform).and_return([user, account])
-          allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
+          allow(marketing_attribution_service_class).to receive(:new).and_return(attribution_service)
 
           params = { account_name: 'test', email: email, user: nil, locale: nil, user_full_name: user_full_name, password: 'Password1!' }
 
@@ -64,7 +68,7 @@ RSpec.describe 'Accounts API', type: :request do
                params: params,
                as: :json
 
-          expect(Internal::Accounts::MarketingAttributionService).to have_received(:new).with(
+          expect(marketing_attribution_service_class).to have_received(:new).with(
             account: account,
             cookies: kind_of(ActionDispatch::Cookies::CookieJar)
           )
@@ -106,10 +110,12 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'does not record marketing attribution' do
-        attribution_service = instance_double(Internal::Accounts::MarketingAttributionService, perform: true)
+        skip 'Enterprise attribution service is not loaded' unless marketing_attribution_service_class
+
+        attribution_service = instance_double(marketing_attribution_service_class, perform: true)
 
         with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
-          allow(Internal::Accounts::MarketingAttributionService).to receive(:new).and_return(attribution_service)
+          allow(marketing_attribution_service_class).to receive(:new).and_return(attribution_service)
 
           post api_v1_accounts_url,
                params: { account_name: 'Second Account', email: existing_user.email,
@@ -117,7 +123,7 @@ RSpec.describe 'Accounts API', type: :request do
                headers: existing_user.create_new_auth_token,
                as: :json
 
-          expect(Internal::Accounts::MarketingAttributionService).not_to have_received(:new)
+          expect(marketing_attribution_service_class).not_to have_received(:new)
           expect(attribution_service).not_to have_received(:perform)
         end
       end
