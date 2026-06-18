@@ -5,6 +5,16 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
   describe 'POST /api/v1/accounts' do
     let(:email) { Faker::Internet.email }
     let(:user_full_name) { Faker::Name.name_with_middle }
+    let(:first_touch_cookie) { Base64.urlsafe_encode64({ source: 'reddit', source_type: 'paid_social' }.to_json, padding: false) }
+    let(:last_touch_cookie) { Base64.urlsafe_encode64({ source: 'github', source_type: 'referral' }.to_json, padding: false) }
+    let(:attribution_cookie_header) do
+      {
+        'Cookie' => [
+          "#{Internal::Accounts::MarketingAttributionService::FIRST_TOUCH_COOKIE}=#{first_touch_cookie}",
+          "#{Internal::Accounts::MarketingAttributionService::LAST_TOUCH_COOKIE}=#{last_touch_cookie}"
+        ].join('; ')
+      }
+    end
 
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
@@ -20,7 +30,14 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
 
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         post api_v1_accounts_url,
-             params: signup_params,
+             params: {
+               account_name: 'test',
+               email: email,
+               user: nil,
+               locale: nil,
+               user_full_name: user_full_name,
+               password: 'Password1!'
+             },
              headers: attribution_cookie_header,
              as: :json
       end
@@ -45,32 +62,5 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
       account = Account.find(response.parsed_body.dig('data', 'account_id'))
       expect(account.internal_attributes).not_to include('marketing_attribution')
     end
-  end
-
-  def signup_params
-    {
-      account_name: 'test',
-      email: email,
-      user: nil,
-      locale: nil,
-      user_full_name: user_full_name,
-      password: 'Password1!'
-    }
-  end
-
-  def encoded_cookie(payload)
-    Base64.urlsafe_encode64(payload.to_json, padding: false)
-  end
-
-  def attribution_cookie_header
-    first_touch = encoded_cookie('source' => 'reddit', 'source_type' => 'paid_social')
-    last_touch = encoded_cookie('source' => 'github', 'source_type' => 'referral')
-
-    {
-      'Cookie' => [
-        "#{Internal::Accounts::MarketingAttributionService::FIRST_TOUCH_COOKIE}=#{first_touch}",
-        "#{Internal::Accounts::MarketingAttributionService::LAST_TOUCH_COOKIE}=#{last_touch}"
-      ].join('; ')
-    }
   end
 end
