@@ -33,7 +33,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
 
     after do
-      Conversations::UnreadCounts::Store.clear_account!(account.id)
+      Conversations::UnreadCounts::Store.clear_all_account!(account.id)
     end
 
     context 'when it is an unauthenticated user' do

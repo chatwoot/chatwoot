@@ -96,6 +96,67 @@ describe ConversationFinder do
       end
     end
 
+    context 'with unread sort' do
+      let(:params) { { status: 'open', sort_by: 'unread' } }
+
+      it 'returns all conversations matching the selected status with the highest unread count first' do
+        most_unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                         agent_last_seen_at: 1.hour.ago)
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+        resolved_unread_conversation = create(:conversation, account: account, inbox: inbox, status: 'resolved',
+                                                             agent_last_seen_at: 1.hour.ago)
+
+        [most_unread_conversation, unread_conversation, read_conversation, resolved_unread_conversation].each do |conversation|
+          create(:message, account: account, inbox: inbox, conversation: conversation,
+                           message_type: :incoming, created_at: 5.minutes.ago)
+        end
+        create(:message, account: account, inbox: inbox, conversation: most_unread_conversation,
+                         message_type: :incoming, created_at: 4.minutes.ago)
+        resolved_unread_conversation.update!(status: 'resolved')
+        read_conversation.update!(last_activity_at: 1.minute.from_now)
+        unread_conversation.update!(last_activity_at: 2.minutes.from_now)
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(most_unread_conversation.id, unread_conversation.id, read_conversation.id)
+        expect(conversation_ids).not_to include(resolved_unread_conversation.id)
+        expect(conversation_ids.index(most_unread_conversation.id)).to be < conversation_ids.index(unread_conversation.id)
+        expect(conversation_ids.index(unread_conversation.id)).to be < conversation_ids.index(read_conversation.id)
+      end
+
+      it 'includes private incoming messages in unread counts used for ordering' do
+        private_unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                            agent_last_seen_at: 1.hour.ago)
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+
+        2.times do
+          create(:message, account: account, inbox: inbox, conversation: private_unread_conversation,
+                           message_type: :incoming, private: true, created_at: 5.minutes.ago)
+        end
+        create(:message, account: account, inbox: inbox, conversation: unread_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+        create(:message, account: account, inbox: inbox, conversation: read_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+        private_unread_conversation.update!(last_activity_at: 10.minutes.ago)
+        unread_conversation.update!(last_activity_at: 2.minutes.from_now)
+        read_conversation.update!(last_activity_at: 1.minute.from_now)
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(private_unread_conversation.unread_incoming_messages.count).to eq 2
+        expect(conversation_ids.index(private_unread_conversation.id)).to be < conversation_ids.index(unread_conversation.id)
+        expect(conversation_ids.index(unread_conversation.id)).to be < conversation_ids.index(read_conversation.id)
+      end
+    end
+
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
 
@@ -144,6 +205,25 @@ describe ConversationFinder do
       it 'filter conversations by source id' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
+      end
+    end
+
+    context 'with participating conversation type' do
+      let(:params) { { status: 'open', conversation_type: 'participating' } }
+
+      it 'does not return participating conversations from inboxes where the agent is no longer a member' do
+        visible_conversation = create(:conversation, account: account, inbox: inbox)
+        inaccessible_conversation = create(:conversation, account: account, inbox: restricted_inbox)
+        create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        create(:conversation_participant, account: account, conversation: visible_conversation, user: user_1)
+        create(:conversation_participant, account: account, conversation: inaccessible_conversation, user: user_1)
+        InboxMember.find_by!(user: user_1, inbox: restricted_inbox).destroy!
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(visible_conversation.id)
+        expect(conversation_ids).not_to include(inaccessible_conversation.id)
       end
     end
 

@@ -32,6 +32,7 @@ class Mention < ApplicationRecord
   belongs_to :user
 
   after_commit :notify_mentioned_user
+  after_commit :notify_unread_filter_counts_changed, on: [:create, :destroy]
 
   scope :latest, -> { order(mentioned_at: :desc) }
 
@@ -54,5 +55,9 @@ class Mention < ApplicationRecord
 
   def notify_mentioned_user
     Rails.configuration.dispatcher.dispatch(CONVERSATION_MENTIONED, Time.zone.now, user: user, conversation: conversation)
+  end
+
+  def notify_unread_filter_counts_changed
+    ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: user).perform
   end
 end

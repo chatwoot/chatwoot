@@ -2,6 +2,8 @@ module Redis::RedisKeys
   ## Inbox Keys
   # Array storing the ordered ids for agent round robin assignment
   ROUND_ROBIN_AGENTS = 'ROUND_ROBIN_AGENTS:%<inbox_id>d'.freeze
+  # Track recently deleted IMAP messages to prevent them from being synced again
+  IMAP_DELETED_MESSAGE = 'IMAP_DELETED_MESSAGE::%<inbox_id>d::%<message_id_digest>s'.freeze
 
   ## Conversation keys
   # Detect whether to send an email reply to the conversation
@@ -12,8 +14,15 @@ module Redis::RedisKeys
   UNREAD_CONVERSATIONS_ACCOUNT_PREFIX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d'.freeze
   UNREAD_CONVERSATIONS_BASE_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::BASE'.freeze
   UNREAD_CONVERSATIONS_ASSIGNMENT_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_USER_FILTERS_READY =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::READY::FILTERS'.freeze
+  UNREAD_CONVERSATIONS_FILTERS_VERSION = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::VERSION::FILTERS'.freeze
+  UNREAD_CONVERSATIONS_USER_FILTERS_VERSION =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::VERSION::FILTERS'.freeze
   UNREAD_CONVERSATIONS_BASE_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::BASE'.freeze
   UNREAD_CONVERSATIONS_ASSIGNMENT_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_USER_FILTERS_BUILD_LOCK =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::BUILD_LOCK::FILTERS'.freeze
   UNREAD_CONVERSATIONS_INBOX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d'.freeze
   UNREAD_CONVERSATIONS_LABEL_INBOX =
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d'.freeze
@@ -31,6 +40,14 @@ module Redis::RedisKeys
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
   UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE =
     'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_USER_MENTIONS =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::MENTIONS'.freeze
+  UNREAD_CONVERSATIONS_USER_PARTICIPATING =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::PARTICIPATING'.freeze
+  UNREAD_CONVERSATIONS_USER_UNATTENDED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::UNATTENDED'.freeze
+  UNREAD_CONVERSATIONS_USER_FOLDER =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::USER::%<user_id>d::FOLDER::%<custom_filter_id>d'.freeze
 
   ## User Keys
   # SSO Auth Tokens

@@ -13,6 +13,7 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -131,7 +132,7 @@ const statusText = computed(() => {
 
 const categoryName = computed(() => {
   if (props.category?.slug) {
-    return `${props.category.icon} ${props.category.name}`;
+    return props.category.name;
   }
   return t(
     'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.CATEGORY.UNCATEGORISED'
@@ -222,7 +223,15 @@ const handleClick = id => {
             {{ authorName || '-' }}
           </span>
         </div>
-        <span class="block text-sm whitespace-nowrap text-n-slate-11">
+        <span
+          class="flex items-center gap-1 text-sm whitespace-nowrap text-n-slate-11"
+        >
+          <EmojiIcon
+            v-if="category?.icon"
+            :value="category.icon"
+            :color="category.icon_color"
+            class="flex-shrink-0 size-4"
+          />
           {{ categoryName }}
         </span>
         <div

@@ -67,4 +67,20 @@ RSpec.describe Contact, type: :model do
       end
     end
   end
+
+  describe '#push_event_data' do
+    let(:account) { create(:account) }
+    let(:company) { create(:company, account: account) }
+    let(:contact) { create(:contact, account: account, company: company) }
+
+    it 'includes company_id when companies feature is enabled' do
+      account.enable_features!(:companies)
+
+      expect(contact.push_event_data[:company_id]).to eq(company.id)
+    end
+
+    it 'does not include company_id when companies feature is disabled' do
+      expect(contact.push_event_data).not_to have_key(:company_id)
+    end
+  end
 end
