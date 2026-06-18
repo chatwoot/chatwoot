@@ -40,6 +40,9 @@ describe Dyte do
 
   context 'when add_participant_to_meeting is called' do
     let(:participants_url) { 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants' }
+    let(:participant_token_url) do
+      'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/c_id/token'
+    end
 
     context 'when API parameters are missing' do
       it 'raises an exception' do
@@ -49,6 +52,8 @@ describe Dyte do
 
     context 'when API response is success' do
       before do
+        stub_request(:post, participant_token_url)
+          .to_return(status: 404, body: { success: false, data: { message: 'Participant not found' } }.to_json, headers: headers)
         stub_request(:post, participants_url)
           .to_return(
             status: 200,
@@ -66,8 +71,24 @@ describe Dyte do
       end
     end
 
+    context 'when participant already exists in RealtimeKit' do
+      before do
+        stub_request(:post, participant_token_url)
+          .to_return(status: 200, body: { success: true, data: { token: 'refreshed-json-web-token' } }.to_json, headers: headers)
+      end
+
+      it 'returns a refreshed participant token without creating the participant again' do
+        response = dyte_client.add_participant_to_meeting('m_id', 'c_id', 'name', 'https://avatar.url')
+
+        expect(response).to eq({ 'token' => 'refreshed-json-web-token' })
+        expect(WebMock).not_to have_requested(:post, participants_url)
+      end
+    end
+
     context 'when API response is invalid' do
       before do
+        stub_request(:post, participant_token_url)
+          .to_return(status: 404, body: { success: false, data: { message: 'Participant not found' } }.to_json, headers: headers)
         stub_request(:post, participants_url)
           .to_return(status: 422, body: { message: 'Meeting ID is invalid' }.to_json, headers: headers)
       end

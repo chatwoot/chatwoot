@@ -23,6 +23,9 @@ class Dyte
   def add_participant_to_meeting(meeting_id, client_id, name, avatar_url)
     raise ArgumentError, 'Missing information' if meeting_id.blank? || client_id.blank? || name.blank? || avatar_url.blank?
 
+    refreshed_token = refresh_participant_token(meeting_id, client_id)
+    return refreshed_token if refreshed_token[:error].blank?
+
     payload = {
       'custom_participant_id': client_id.to_s,
       'name': name,
@@ -36,18 +39,24 @@ class Dyte
 
   private
 
+  def refresh_participant_token(meeting_id, client_id)
+    path = "meetings/#{meeting_id}/participants/#{client_id}/token"
+    response = post(path)
+    process_response(response)
+  end
+
   def process_response(response)
     return response.parsed_response['data'].with_indifferent_access if response.success?
 
     { error: response.parsed_response, error_code: response.code }
   end
 
-  def post(path, payload)
+  def post(path, payload = nil)
     HTTParty.post(
       "#{BASE_URL}/accounts/#{@account_id}/realtime/kit/#{@app_id}/#{path}", {
         headers: { API_KEY_HEADER => "Bearer #{@api_token}", 'Content-Type' => 'application/json' },
-        body: payload.to_json
-      }
+        body: payload&.to_json
+      }.compact
     )
   end
 end
