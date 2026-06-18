@@ -41,8 +41,7 @@ class Company < ApplicationRecord
   before_validation :prepare_jsonb_attributes
   after_create_commit :fetch_favicon, if: -> { domain.present? }
   after_update_commit :sync_contact_company_names_later, if: :saved_change_to_name?
-  before_destroy :capture_company_name_cleanup_context, prepend: true
-  after_destroy_commit :clear_contact_company_names_later
+  before_destroy :enqueue_contact_company_name_cleanup, prepend: true
 
   scope :ordered_by_name, -> { order(:name) }
   scope :search_by_name_or_domain, lambda { |query|
@@ -85,17 +84,10 @@ class Company < ApplicationRecord
     Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
 
-  def capture_company_name_cleanup_context
-    @contact_company_name_batches_for_cleanup = contacts.in_batches(of: CONTACT_NAME_SYNC_BATCH_SIZE).map do |batch|
-      batch.pluck(:id, :additional_attributes).map { |contact_id, attributes| [contact_id, attributes&.dig('company_name')] }
-    end
-  end
-
-  def clear_contact_company_names_later
-    return if @contact_company_name_batches_for_cleanup.blank?
-
-    @contact_company_name_batches_for_cleanup.each do |contact_company_names|
-      Companies::SyncContactNamesJob.perform_later(contact_company_names: contact_company_names)
+  def enqueue_contact_company_name_cleanup
+    contacts.in_batches(of: CONTACT_NAME_SYNC_BATCH_SIZE) do |batch|
+      contact_company_names = batch.pluck(:id, :additional_attributes).map { |contact_id, attributes| [contact_id, attributes&.dig('company_name')] }
+      Companies::SyncContactNamesJob.set(wait: 5.seconds).perform_later(contact_company_names: contact_company_names)
     end
   end
 end
