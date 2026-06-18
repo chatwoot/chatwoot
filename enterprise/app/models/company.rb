@@ -38,7 +38,7 @@ class Company < ApplicationRecord
   has_many :contacts, dependent: :nullify
   before_validation :prepare_jsonb_attributes
   after_create_commit :fetch_favicon, if: -> { domain.present? }
-  after_update_commit :sync_contact_company_names_later, if: :saved_change_to_name?
+  after_update_commit :process_contact_company_name_update, if: :saved_change_to_name?
 
   scope :ordered_by_name, -> { order(:name) }
   scope :search_by_name_or_domain, lambda { |query|
@@ -77,7 +77,7 @@ class Company < ApplicationRecord
     Avatar::AvatarFromFaviconJob.set(wait: 5.seconds).perform_later(self)
   end
 
-  def sync_contact_company_names_later
+  def process_contact_company_name_update
     Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
 end
