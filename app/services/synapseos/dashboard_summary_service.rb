@@ -83,6 +83,9 @@ module Synapseos
         # `shoots_month` mantido por backcompat (acumulativo do mês corrente).
         shoots_period: outgoing_distinct_contacts(@range),
         shoots_month: shoots_month_count,
+        # DISPAROS NO DIA (hoje, BRT) — contatos distintos que receberam ao
+        # menos uma outgoing hoje. NÃO reage ao filtro de período.
+        shoots_today: shoots_today_count,
         # ELISA → ATENDIMENTO HUMANO: conversas distintas onde Elisa
         # transferiu pra consultor humano (= alertas únicos disparados).
         # Mesma fonte que `deals_won` (sales_alert_dispatched) e que a lista
@@ -206,6 +209,16 @@ module Synapseos
     def shoots_month_count
       month_range = Time.current.beginning_of_month..Time.current
       outgoing_distinct_contacts(month_range)
+    end
+
+    # Disparos feitos HOJE (dia corrente em BRT) = contatos distintos que
+    # receberam ao menos uma outgoing hoje. Boundary em America/Sao_Paulo pra
+    # bater com o dia operacional (disparos rodam 8h-18h BRT); senão um disparo
+    # às 22h BRT cairia no dia seguinte em UTC.
+    def shoots_today_count
+      tz = ActiveSupport::TimeZone['America/Sao_Paulo']
+      today_range = tz.now.beginning_of_day..Time.current
+      outgoing_distinct_contacts(today_range)
     end
 
     def deals_scope

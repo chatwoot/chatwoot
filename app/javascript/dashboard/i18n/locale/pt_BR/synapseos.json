@@ -81,6 +81,7 @@
         "LEADS": "Leads",
         "SHOOTS_PERIOD": "Disparos no período",
         "SHOOTS_MONTH": "Disparos no mês",
+        "SHOOTS_TODAY": "Disparos hoje",
         "DEALS_WON": "Negócios ganhos",
         "DEALS_LOST": "Negócios perdidos",
         "REVENUE": "Receita potencial",
@@ -94,7 +95,8 @@
         "DEALS_WON_HINT": "Leads na coluna \"Ganho\" da pipeline",
         "CONVERSION_RATE_HINT": "% dos disparos feitos que geraram alerta de venda",
         "BOT_TAKEOVERS_HINT": "Quantidade de alertas enviados ao time",
-        "SHOOTS_MONTH_HINT": "Mês corrente (não reage ao filtro)"
+        "SHOOTS_MONTH_HINT": "Mês corrente (não reage ao filtro)",
+        "SHOOTS_TODAY_HINT": "Hoje (não reage ao filtro)"
       },
       "CHART": {
         "TITLE": "Atividade diária",

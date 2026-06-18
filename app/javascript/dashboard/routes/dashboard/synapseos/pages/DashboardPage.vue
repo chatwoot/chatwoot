@@ -120,6 +120,14 @@ const primaryKpis = computed(() => {
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
+    // Disparos HOJE (dia corrente, BRT) — NÃO reage ao filtro de período.
+    {
+      key: 'shoots_today',
+      label: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_TODAY'),
+      value: formatNumber(k.shoots_today),
+      hint: t('SYNAPSEOS.DASHBOARD.KPI.SHOOTS_TODAY_HINT'),
+      valueClass: 'text-s-primary',
+    },
     // Disparos no mês corrente — NÃO reage ao filtro de período da tela
     // (diferente de SHOOTS_PERIOD, que respeita 7d/30d/90d).
     {

@@ -81,6 +81,7 @@
         "LEADS": "Leads",
         "SHOOTS_PERIOD": "Outreach in period",
         "SHOOTS_MONTH": "Outreach this month",
+        "SHOOTS_TODAY": "Outreach today",
         "DEALS_WON": "Deals won",
         "DEALS_LOST": "Deals lost",
         "REVENUE": "Potential revenue",
@@ -94,7 +95,8 @@
         "DEALS_WON_HINT": "Leads in the pipeline \"Won\" column",
         "CONVERSION_RATE_HINT": "% of outreach that generated a sales alert",
         "BOT_TAKEOVERS_HINT": "Number of alerts sent to the team",
-        "SHOOTS_MONTH_HINT": "Current month (not affected by the filter)"
+        "SHOOTS_MONTH_HINT": "Current month (not affected by the filter)",
+        "SHOOTS_TODAY_HINT": "Today (not affected by the filter)"
       },
       "CHART": {
         "TITLE": "Daily activity",
