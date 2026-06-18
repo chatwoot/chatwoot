@@ -385,13 +385,14 @@ RSpec.describe 'Companies API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
 
-      it 'deletes the company' do
+      it 'schedules the company delete' do
         company
-        expect do
-          delete "/api/v1/accounts/#{account.id}/companies/#{company.id}",
-                 headers: admin.create_new_auth_token,
-                 as: :json
-        end.to change(Company, :count).by(-1)
+        expect(Companies::DeleteJob).to receive(:perform_later).with(company.id)
+
+        delete "/api/v1/accounts/#{account.id}/companies/#{company.id}",
+               headers: admin.create_new_auth_token,
+               as: :json
+
         expect(response).to have_http_status(:ok)
       end
     end

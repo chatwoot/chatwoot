@@ -24,15 +24,6 @@ class Company < ApplicationRecord
   include Avatarable
 
   ACTIVITY_ROLLUP_INTERVAL = 5.minutes
-  CONTACT_COMPANY_NAME_CLEANUP_SQL = <<~SQL.squish.freeze
-    additional_attributes = jsonb_set(
-      COALESCE(additional_attributes, '{}'::jsonb),
-      '{_company_name_cleanup}',
-      jsonb_build_object('company_id', ?::bigint, 'company_name', additional_attributes ->> 'company_name'),
-      true
-    )
-  SQL
-
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
@@ -48,8 +39,6 @@ class Company < ApplicationRecord
   before_validation :prepare_jsonb_attributes
   after_create_commit :fetch_favicon, if: -> { domain.present? }
   after_update_commit :sync_contact_company_names_later, if: :saved_change_to_name?
-  before_destroy :mark_contacts_for_company_name_cleanup, prepend: true
-  after_destroy_commit :enqueue_contact_company_name_cleanup
 
   scope :ordered_by_name, -> { order(:name) }
   scope :search_by_name_or_domain, lambda { |query|
@@ -90,16 +79,5 @@ class Company < ApplicationRecord
 
   def sync_contact_company_names_later
     Companies::SyncContactNamesJob.perform_later(company_id: id)
-  end
-
-  # Denormalized display field sync; avoid contact validations, callbacks, and webhook/automation side effects.
-  # rubocop:disable Rails/SkipsModelValidations
-  def mark_contacts_for_company_name_cleanup
-    contacts.where("additional_attributes ? 'company_name'").update_all([CONTACT_COMPANY_NAME_CLEANUP_SQL, id])
-  end
-  # rubocop:enable Rails/SkipsModelValidations
-
-  def enqueue_contact_company_name_cleanup
-    Companies::SyncContactNamesJob.perform_later(cleanup_company_id: id, cleanup_account_id: account_id)
   end
 end

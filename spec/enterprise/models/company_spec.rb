@@ -58,27 +58,5 @@ RSpec.describe Company, type: :model do
         company.update!(name: 'Acme Labs')
       end.to have_enqueued_job(Companies::SyncContactNamesJob).with(company_id: company.id)
     end
-
-    it 'enqueues contact company name cleanup when the company is deleted' do
-      create(:contact, account: account, company: company, additional_attributes: { 'company_name' => 'Acme' })
-
-      expect do
-        company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id, cleanup_account_id: account.id)
-    end
-
-    it 'marks the contact company name before cleanup is enqueued' do
-      contact = create(:contact, account: account, company: company, additional_attributes: { 'company_name' => 'Acme' })
-      company.update!(name: 'Acme Labs')
-
-      expect do
-        company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id, cleanup_account_id: account.id)
-
-      expect(contact.reload.additional_attributes).to eq(
-        'company_name' => 'Acme',
-        '_company_name_cleanup' => { 'company_id' => company.id, 'company_name' => 'Acme' }
-      )
-    end
   end
 end
