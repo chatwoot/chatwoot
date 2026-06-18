@@ -42,12 +42,24 @@ class Dyte
     process_response(response)
   end
 
+  def fetch_participants(meeting_id)
+    raise ArgumentError, 'Missing information' if meeting_id.blank?
+
+    response = get("meetings/#{meeting_id}/participants")
+    process_response(response)
+  end
+
   private
 
   def process_response(response)
-    return response.parsed_response['data'].with_indifferent_access if response.success?
+    return parsed_data(response).with_indifferent_access if response.success? && parsed_data(response).is_a?(Hash)
+    return parsed_data(response).map(&:with_indifferent_access) if response.success? && parsed_data(response).is_a?(Array)
 
     { error: response.parsed_response, error_code: response.code }
+  end
+
+  def parsed_data(response)
+    response.parsed_response['data']
   end
 
   def post(path, payload = nil)
@@ -56,6 +68,13 @@ class Dyte
         headers: { API_KEY_HEADER => "Bearer #{@api_token}", 'Content-Type' => 'application/json' },
         body: payload&.to_json
       }.compact
+    )
+  end
+
+  def get(path)
+    HTTParty.get(
+      "#{BASE_URL}/accounts/#{@account_id}/realtime/kit/#{@app_id}/#{path}",
+      headers: { API_KEY_HEADER => "Bearer #{@api_token}", 'Content-Type' => 'application/json' }
     )
   end
 end

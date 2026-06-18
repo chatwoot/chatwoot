@@ -122,6 +122,36 @@ describe Integrations::Dyte::ProcessorService do
       end
     end
 
+    context 'when the participant exists in RealtimeKit but is not stored on the integration message' do
+      before do
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
+          .to_return(
+            status: 422,
+            body: { success: false, error: 'Participant already exists' }.to_json,
+            headers: headers
+          )
+        stub_request(:get, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
+          .to_return(
+            status: 200,
+            body: { success: true, data: [{ id: 'participant_id', custom_participant_id: agent.id.to_s }] }.to_json,
+            headers: headers
+          )
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/participant_id/token')
+          .to_return(
+            status: 200,
+            body: { success: true, data: { token: 'refreshed-json-web-token' } }.to_json,
+            headers: headers
+          )
+      end
+
+      it 'finds the existing participant and stores the RealtimeKit participant ID' do
+        response = processor.add_participant_to_meeting('m_id', agent, integration_message)
+
+        expect(response).to eq({ 'token' => 'refreshed-json-web-token' })
+        expect(integration_message.reload.content_attributes.dig('data', 'participants', agent.id.to_s)).to eq('participant_id')
+      end
+    end
+
     context 'when the stored hook still has legacy Dyte credentials' do
       let(:dyte_settings) { { organization_id: 'org_id', api_key: 'dyte_api_key' } }
 

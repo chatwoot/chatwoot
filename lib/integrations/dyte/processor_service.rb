@@ -22,11 +22,17 @@ class Integrations::Dyte::ProcessorService
     return response if response[:error].blank?
 
     response = dyte_client.add_participant_to_meeting(meeting_id, user.id, user.name, avatar_url(user))
-    update_realtimekit_participant_id(message, user.id, response['id']) if response[:error].blank? && response['id'].present?
-    response
+    return store_participant_id_and_return(message, user.id, response) if response[:error].blank?
+
+    existing_participant_token_response(meeting_id, user.id, message) || response
   end
 
   private
+
+  def store_participant_id_and_return(message, client_id, response)
+    update_realtimekit_participant_id(message, client_id, response['id']) if response['id'].present?
+    response
+  end
 
   def create_a_dyte_integration_message(meeting, title, agent)
     @conversation.messages.create!(
@@ -65,6 +71,22 @@ class Integrations::Dyte::ProcessorService
     return { error: :participant_id_missing } if participant_id.blank?
 
     dyte_client.refresh_participant_token(meeting_id, participant_id)
+  end
+
+  def existing_participant_token_response(meeting_id, client_id, message)
+    participant_id = existing_realtimekit_participant_id(meeting_id, client_id)
+    return if participant_id.blank?
+
+    response = dyte_client.refresh_participant_token(meeting_id, participant_id)
+    update_realtimekit_participant_id(message, client_id, participant_id) if response[:error].blank?
+    response
+  end
+
+  def existing_realtimekit_participant_id(meeting_id, client_id)
+    participants = dyte_client.fetch_participants(meeting_id)
+    return if participants.blank? || participants.is_a?(Hash)
+
+    participants.find { |participant| participant['custom_participant_id'].to_s == client_id.to_s }&.dig('id')
   end
 
   def realtimekit_participant_id(message, client_id)

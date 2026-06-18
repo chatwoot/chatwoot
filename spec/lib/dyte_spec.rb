@@ -103,4 +103,31 @@ describe Dyte do
       end
     end
   end
+
+  context 'when fetch_participants is called' do
+    let(:participants_url) { 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants' }
+
+    context 'when API response is success' do
+      before do
+        stub_request(:get, participants_url)
+          .to_return(
+            status: 200,
+            body: { success: true, data: [{ id: 'participant_id', custom_participant_id: 'c_id' }] }.to_json,
+            headers: headers
+          )
+      end
+
+      it 'returns participants' do
+        response = dyte_client.fetch_participants('m_id')
+
+        expect(response).to eq([{ 'id' => 'participant_id', 'custom_participant_id' => 'c_id' }])
+      end
+    end
+
+    context 'when API parameters are missing' do
+      it 'raises an exception' do
+        expect { dyte_client.fetch_participants(nil) }.to raise_error(StandardError)
+      end
+    end
+  end
 end
