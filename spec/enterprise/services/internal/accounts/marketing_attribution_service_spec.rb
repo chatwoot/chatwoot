@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'base64'
 
 RSpec.describe Internal::Accounts::MarketingAttributionService do
   let(:account) { create(:account) }
@@ -40,19 +41,7 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(account.reload.internal_attributes).not_to include('marketing_attribution')
   end
 
-  it 'preserves plus signs from Rails-decoded cookie values' do
-    cookies[described_class::LAST_TOUCH_COOKIE] = {
-      'source' => 'google',
-      'utm_campaign' => 'C++ launch'
-    }.to_json
-
-    described_class.new(account: account, cookies: cookies).perform
-
-    attribution = account.reload.internal_attributes['marketing_attribution']
-    expect(attribution['last_touch']['utm_campaign']).to eq('C++ launch')
-  end
-
-  it 'falls back to percent-decoding raw cookie values' do
+  it 'decodes base64url cookie values and preserves plus signs' do
     cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie(
       'source' => 'google',
       'utm_campaign' => 'C++ launch'
@@ -80,6 +69,15 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     attribution = account.reload.internal_attributes['marketing_attribution']
     expect(attribution['first_touch']['source']).to eq('reddit')
     expect(attribution['last_touch']['source']).to eq('google')
+  end
+
+  it 'preserves other internal attributes' do
+    account.update!(internal_attributes: { 'manually_managed_features' => ['inbound_emails'] })
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie('source' => 'google')
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    expect(account.reload.internal_attributes['manually_managed_features']).to eq(['inbound_emails'])
   end
 
   it 'ignores parsed cookies that are not populated attribution objects' do
@@ -133,10 +131,20 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['utm_campaign'].length).to eq(described_class::FIELD_MAX_LENGTH)
   end
 
+  it 'escapes attribution values before saving' do
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie(
+      'source' => '<script>alert(1)</script>',
+      'utm_campaign' => 'launch & learn'
+    )
+
+    described_class.new(account: account, cookies: cookies).perform
+
+    attribution = account.reload.internal_attributes['marketing_attribution']
+    expect(attribution['last_touch']['source']).to eq('&lt;script&gt;alert(1)&lt;/script&gt;')
+    expect(attribution['last_touch']['utm_campaign']).to eq('launch &amp; learn')
+  end
+
   def encoded_cookie(payload)
-    payload.to_json.bytes.map do |byte|
-      character = byte.chr
-      character.match?(/[A-Za-z0-9_.~-]/) ? character : "%#{byte.to_s(16).upcase.rjust(2, '0')}"
-    end.join
+    Base64.urlsafe_encode64(payload.to_json, padding: false)
   end
 end
