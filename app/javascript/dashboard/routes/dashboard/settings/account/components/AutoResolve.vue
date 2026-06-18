@@ -165,7 +165,7 @@ const toggleAutoResolve = async () => {
           <Editor
             v-model="message"
             class="w-full"
-            channel-type="Context::Plain"
+            channel-type="Context::NoToolbar"
             enable-variables
             :enable-canned-responses="false"
             :show-character-count="false"
