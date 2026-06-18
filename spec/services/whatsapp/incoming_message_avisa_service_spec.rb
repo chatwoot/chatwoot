@@ -104,12 +104,49 @@ RSpec.describe Whatsapp::IncomingMessageAvisaService do
       expect(msg.attachments.first.file_type).to eq('audio')
     end
 
-    it 'não cria mensagem quando o download do áudio falha (sem texto, sem arquivo)' do
+    it 'cria placeholder incoming quando o download do áudio falha (não some mais)' do
       stub_download(nil)
 
       service.perform
 
-      expect(Message.find_by(source_id: 'AUDIOMSG1', inbox_id: inbox.id)).to be_nil
+      msg = Message.find_by(source_id: 'AUDIOMSG1', inbox_id: inbox.id)
+      expect(msg).to be_present
+      expect(msg.message_type).to eq('incoming')
+      expect(msg.content).to include('áudio')
+      expect(msg.attachments).to be_empty
+    end
+  end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: inbound sem texto e sem mídia anexável (tipo não
+  # suportado) NÃO pode virar conversa-casca silenciosa (conv 380) — vira um
+  # placeholder incoming visível.
+  describe '#perform with unsupported inbound (sem texto/mídia)' do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:loc_event) do
+      {
+        'Info' => { 'ID' => 'LOCMSG1', 'Chat' => '5534999793594@s.whatsapp.net',
+                    'PushName' => 'Cliente', 'Type' => 'media', 'MediaType' => 'location' },
+        'Message' => { 'locationMessage' => { 'degreesLatitude' => -18.9, 'degreesLongitude' => -48.2 } }
+      }
+    end
+
+    subject(:service) { described_class.new(inbox: inbox, params: { jsonData: { 'event' => loc_event }.to_json }) }
+
+    it 'cria um placeholder incoming visível em vez de conversa vazia' do
+      service.perform
+
+      msg = Message.find_by(source_id: 'LOCMSG1', inbox_id: inbox.id)
+      expect(msg).to be_present
+      expect(msg.message_type).to eq('incoming')
+      expect(msg.content).to include('não pôde ser exibido')
+    end
+
+    it 'descarta echo do próprio número sem conteúdo (não cria placeholder)' do
+      loc_event['Info']['IsFromMe'] = true
+
+      service.perform
+
+      expect(Message.find_by(source_id: 'LOCMSG1', inbox_id: inbox.id)).to be_nil
     end
   end
 end

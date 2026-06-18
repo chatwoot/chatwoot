@@ -189,11 +189,36 @@ class Whatsapp::IncomingMessageAvisaService
   def persist_message(conversation, contact)
     text = extract_text
     media = media_attachment
-    return if text.blank? && media.blank?
+    if text.blank? && media.blank?
+      # CUSTOMIZAÇÃO_SYNAPSEOS: nunca deixar uma conversa-casca silenciosa
+      # (conv 380). Um inbound sem texto e sem mídia anexável — áudio que não
+      # baixou, ou tipo não suportado (localização, contato, enquete, figurinha
+      # sem arquivo, etc.) — vira um placeholder VISÍVEL como incoming, pra a
+      # equipe ver que o cliente mandou algo E o agente poder pedir reenvio.
+      # Echo do próprio número (from_me) sem conteúdo é descartado como antes.
+      return if from_me?
+
+      text = unsupported_inbound_placeholder
+    end
 
     message = conversation.messages.build(message_attributes(text, contact))
     attach_media(message, media) if media.present?
     message.save!
+  end
+
+  # Texto legível pro placeholder de inbound não exibível (sem texto/mídia).
+  def unsupported_inbound_placeholder
+    kind = case media_message_key
+           when 'audioMessage' then 'um áudio'
+           when 'imageMessage' then 'uma imagem'
+           when 'videoMessage' then 'um vídeo'
+           when 'documentMessage' then 'um documento'
+           when 'stickerMessage' then 'uma figurinha'
+           else
+             tipo = event.dig('Info', 'Type').presence || event.dig('Info', 'MediaType').presence
+             tipo ? "um conteúdo (#{tipo})" : 'um conteúdo'
+           end
+    "[O cliente enviou #{kind} que não pôde ser exibido aqui. Peça para reenviar por texto.]"
   end
 
   def message_attributes(text, contact)
