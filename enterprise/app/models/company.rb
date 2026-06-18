@@ -24,6 +24,12 @@ class Company < ApplicationRecord
   include Avatarable
 
   ACTIVITY_ROLLUP_INTERVAL = 5.minutes
+  CONTACT_BATCH_SIZE = 1000
+  CONTACT_COMPANY_CLEAR_SQL = <<~SQL.squish.freeze
+    company_id = NULL,
+    additional_attributes = COALESCE(additional_attributes, '{}'::jsonb) - 'company_name'
+  SQL
+
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
   validates :domain, allow_blank: true, format: {
@@ -37,6 +43,7 @@ class Company < ApplicationRecord
   belongs_to :account
   has_many :contacts, dependent: :nullify
   before_validation :prepare_jsonb_attributes
+  before_destroy :clear_contact_company_associations, prepend: true
   after_create_commit :fetch_favicon, if: -> { domain.present? }
   after_update_commit :enqueue_contact_company_name_sync, if: :saved_change_to_name?
 
@@ -80,4 +87,13 @@ class Company < ApplicationRecord
   def enqueue_contact_company_name_sync
     Companies::SyncContactNamesJob.perform_later(company_id: id)
   end
+
+  # Keep this out of contact callbacks so unlinking does not dispatch contact automations/webhooks.
+  # rubocop:disable Rails/SkipsModelValidations
+  def clear_contact_company_associations
+    contacts.in_batches(of: CONTACT_BATCH_SIZE) do |contact_batch|
+      contact_batch.update_all(CONTACT_COMPANY_CLEAR_SQL)
+    end
+  end
+  # rubocop:enable Rails/SkipsModelValidations
 end

@@ -385,15 +385,13 @@ RSpec.describe 'Companies API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
       let(:company) { create(:company, account: account) }
 
-      it 'schedules the company delete' do
-        company
-        expect(Companies::DeleteJob).to receive(:perform_later).with(company.id)
-
+      it 'deletes the company' do
         delete "/api/v1/accounts/#{account.id}/companies/#{company.id}",
                headers: admin.create_new_auth_token,
                as: :json
 
         expect(response).to have_http_status(:ok)
+        expect { company.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

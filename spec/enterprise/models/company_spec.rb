@@ -58,5 +58,16 @@ RSpec.describe Company, type: :model do
         company.update!(name: 'Acme Labs')
       end.to have_enqueued_job(Companies::SyncContactNamesJob).with(company_id: company.id)
     end
+
+    it 'unlinks contacts and clears denormalized company names before destroy' do
+      contact = create(:contact, account: account, company: company, additional_attributes: { 'company_name' => 'Acme', 'city' => 'Berlin' })
+      other_contact = create(:contact, account: account, additional_attributes: { 'company_name' => 'Acme' })
+
+      company.destroy!
+
+      expect(contact.reload.company_id).to be_nil
+      expect(contact.additional_attributes).to eq('city' => 'Berlin')
+      expect(other_contact.reload.additional_attributes).to eq('company_name' => 'Acme')
+    end
   end
 end
