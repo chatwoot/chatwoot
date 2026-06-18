@@ -86,15 +86,16 @@ class Company < ApplicationRecord
   end
 
   def capture_company_name_cleanup_context
-    @contact_id_batches_for_company_name_cleanup = contacts.in_batches(of: CONTACT_NAME_SYNC_BATCH_SIZE).map { |batch| batch.pluck(:id) }
-    @company_name_for_company_name_cleanup = name
+    @contact_company_name_batches_for_cleanup = contacts.in_batches(of: CONTACT_NAME_SYNC_BATCH_SIZE).map do |batch|
+      batch.pluck(:id, :additional_attributes).map { |contact_id, attributes| [contact_id, attributes&.dig('company_name')] }
+    end
   end
 
   def clear_contact_company_names_later
-    return if @contact_id_batches_for_company_name_cleanup.blank?
+    return if @contact_company_name_batches_for_cleanup.blank?
 
-    @contact_id_batches_for_company_name_cleanup.each do |contact_ids|
-      Companies::SyncContactNamesJob.perform_later(contact_ids: contact_ids, company_name: @company_name_for_company_name_cleanup)
+    @contact_company_name_batches_for_cleanup.each do |contact_company_names|
+      Companies::SyncContactNamesJob.perform_later(contact_company_names: contact_company_names)
     end
   end
 end
