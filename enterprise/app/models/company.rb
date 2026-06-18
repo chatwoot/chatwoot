@@ -100,6 +100,6 @@ class Company < ApplicationRecord
   # rubocop:enable Rails/SkipsModelValidations
 
   def enqueue_contact_company_name_cleanup
-    Companies::SyncContactNamesJob.perform_later(cleanup_company_id: id)
+    Companies::SyncContactNamesJob.perform_later(cleanup_company_id: id, cleanup_account_id: account_id)
   end
 end

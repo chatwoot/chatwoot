@@ -64,7 +64,7 @@ RSpec.describe Company, type: :model do
 
       expect do
         company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id)
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id, cleanup_account_id: account.id)
     end
 
     it 'marks the contact company name before cleanup is enqueued' do
@@ -73,7 +73,7 @@ RSpec.describe Company, type: :model do
 
       expect do
         company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id)
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(cleanup_company_id: company.id, cleanup_account_id: account.id)
 
       expect(contact.reload.additional_attributes).to eq(
         'company_name' => 'Acme',

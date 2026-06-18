@@ -18,10 +18,10 @@ class Companies::SyncContactNamesJob < ApplicationJob
     END
   SQL
 
-  def perform(company_id: nil, cleanup_company_id: nil)
+  def perform(company_id: nil, cleanup_company_id: nil, cleanup_account_id: nil)
     return if company_id.blank? && cleanup_company_id.blank?
 
-    return clear_marked_company_names(cleanup_company_id) if cleanup_company_id.present?
+    return clear_marked_company_names(cleanup_company_id, cleanup_account_id) if cleanup_company_id.present?
 
     company = Company.find_by(id: company_id)
     return if company.blank?
@@ -37,8 +37,11 @@ class Companies::SyncContactNamesJob < ApplicationJob
     contacts.update_all([CONTACT_COMPANY_NAME_UPDATE_SQL, company_name.to_json])
   end
 
-  def clear_marked_company_names(cleanup_company_id)
-    Contact.where("additional_attributes #>> '{#{CONTACT_COMPANY_NAME_CLEANUP_KEY},company_id}' = ?", cleanup_company_id.to_s)
+  def clear_marked_company_names(cleanup_company_id, cleanup_account_id)
+    return if cleanup_account_id.blank?
+
+    Contact.where(account_id: cleanup_account_id)
+           .where("additional_attributes #>> '{#{CONTACT_COMPANY_NAME_CLEANUP_KEY},company_id}' = ?", cleanup_company_id.to_s)
            .update_all(CONTACT_COMPANY_NAME_CLEANUP_SQL)
   end
   # rubocop:enable Rails/SkipsModelValidations
