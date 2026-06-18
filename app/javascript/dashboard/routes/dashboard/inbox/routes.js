@@ -1,6 +1,6 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import InboxListView from './InboxList.vue';
-import InboxDetailView from './InboxView.vue';
+const InboxDetailView = () => import('./InboxView.vue');
 import InboxEmptyStateView from './InboxEmptyState.vue';
 import {
   ROLES,

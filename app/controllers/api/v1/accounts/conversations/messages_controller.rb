@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
+  before_action :check_message_deletion_enabled, only: :destroy
 
   def index
     @messages = message_finder.perform
@@ -70,6 +71,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  def check_message_deletion_enabled
+    return unless Current.account.message_deletion_disabled
+
+    render json: { error: I18n.t('conversations.messages.deletion_disabled') }, status: :forbidden
   end
 
   # API inbox check
