@@ -64,7 +64,7 @@ RSpec.describe Company, type: :model do
 
       expect do
         company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(contact_ids: [contact.id])
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(contact_ids: [contact.id], company_name: 'Acme')
     end
   end
 end

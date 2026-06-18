@@ -27,7 +27,7 @@ RSpec.describe Companies::SyncContactNamesJob, type: :job do
     it 'clears company names for provided contacts' do
       contact = create(:contact, account: account, company: nil, additional_attributes: { 'company_name' => 'Acme', 'city' => 'Berlin' })
 
-      described_class.perform_now(contact_ids: [contact.id])
+      described_class.perform_now(contact_ids: [contact.id], company_name: 'Acme')
 
       expect(contact.reload.additional_attributes).to eq('city' => 'Berlin')
     end
@@ -40,11 +40,19 @@ RSpec.describe Companies::SyncContactNamesJob, type: :job do
       expect(contact.reload.additional_attributes).to eq('company_name' => 'Acme')
     end
 
+    it 'keeps newer manual company names during delete cleanup' do
+      contact = create(:contact, account: account, company: nil, additional_attributes: { 'company_name' => 'New Company' })
+
+      described_class.perform_now(contact_ids: [contact.id], company_name: 'Acme')
+
+      expect(contact.reload.additional_attributes).to eq('company_name' => 'New Company')
+    end
+
     it 'keeps reassigned contact company names during delete cleanup' do
       other_company = create(:company, account: account, name: 'Other Company')
       contact = create(:contact, account: account, company: other_company, additional_attributes: { 'company_name' => 'Other Company' })
 
-      described_class.perform_now(contact_ids: [contact.id])
+      described_class.perform_now(contact_ids: [contact.id], company_name: 'Other Company')
 
       expect(contact.reload.additional_attributes).to eq('company_name' => 'Other Company')
     end
