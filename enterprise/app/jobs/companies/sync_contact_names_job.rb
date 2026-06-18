@@ -9,12 +9,19 @@ class Companies::SyncContactNamesJob < ApplicationJob
       true
     )
   SQL
-  CONTACT_COMPANY_NAME_DELETE_SQL = "additional_attributes = COALESCE(additional_attributes, '{}'::jsonb) - 'company_name'".freeze
+  CONTACT_COMPANY_NAME_CLEANUP_KEY = '_company_name_cleanup'.freeze
+  CONTACT_COMPANY_NAME_CLEANUP_SQL = <<~SQL.squish.freeze
+    additional_attributes = CASE
+      WHEN company_id IS NULL AND additional_attributes ->> 'company_name' = additional_attributes #>> '{_company_name_cleanup,company_name}'
+      THEN additional_attributes - 'company_name' - '_company_name_cleanup'
+      ELSE additional_attributes - '_company_name_cleanup'
+    END
+  SQL
 
-  def perform(company_id: nil, contact_company_names: nil)
-    return if company_id.blank? && contact_company_names.blank?
+  def perform(company_id: nil, cleanup_company_id: nil)
+    return if company_id.blank? && cleanup_company_id.blank?
 
-    return clear_captured_company_names(contact_company_names) if contact_company_names.present?
+    return clear_marked_company_names(cleanup_company_id) if cleanup_company_id.present?
 
     company = Company.find_by(id: company_id)
     return if company.blank?
@@ -30,17 +37,9 @@ class Companies::SyncContactNamesJob < ApplicationJob
     contacts.update_all([CONTACT_COMPANY_NAME_UPDATE_SQL, company_name.to_json])
   end
 
-  def clear_company_name(contacts)
-    contacts.update_all(CONTACT_COMPANY_NAME_DELETE_SQL)
+  def clear_marked_company_names(cleanup_company_id)
+    Contact.where("additional_attributes #>> '{#{CONTACT_COMPANY_NAME_CLEANUP_KEY},company_id}' = ?", cleanup_company_id.to_s)
+           .update_all(CONTACT_COMPANY_NAME_CLEANUP_SQL)
   end
   # rubocop:enable Rails/SkipsModelValidations
-
-  def clear_captured_company_names(contact_company_names)
-    contact_company_names.group_by(&:second).each do |company_name, contact_names|
-      next if company_name.blank?
-
-      contact_ids = contact_names.map(&:first)
-      clear_company_name(Contact.where(id: contact_ids, company_id: nil).where("additional_attributes ->> 'company_name' = ?", company_name))
-    end
-  end
 end
