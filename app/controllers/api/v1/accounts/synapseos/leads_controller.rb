@@ -65,7 +65,65 @@ class Api::V1::Accounts::Synapseos::LeadsController < Api::V1::Accounts::BaseCon
     render :show
   end
 
+  # POST /synapseos/leads/transition
+  # ADR-003: único ponto de entrada pra mudar estado de lead. Recebe um sinal e
+  # delega pra Synapseos::LeadLifecycle.transition (função total + idempotente).
+  # Resolve conversation_id por display_id OU id interno (igual upsert_by_conversation).
+  #
+  #   conversation_id: integer (required)
+  #   signal:          string (required) — quer|quer_depois|nao_quer|
+  #                                        sem_resposta_toque|sem_resposta_esgotou
+  #   motivo:          string (obrigatório p/ nao_quer)
+  #   horizonte_compra:string opcional (balde de retomada p/ quer_depois)
+  #   cadence_touch:   integer opcional (override do contador de toque)
+  #   next_action_at:  timestamp opcional (override do próximo toque)
+  #   fields:          { modelo_interesse, tem_troca, forma_pagamento, urgencia }
+  #   source:          string opcional pra novos leads (default 'n8n')
+  #
+  # NOTA: o upsert_by_conversation existente segue intacto; o n8n só passa a
+  # chamar este endpoint num corte posterior.
+  def transition
+    return render(json: { error: 'conversation_id is required' }, status: :unprocessable_entity) if params[:conversation_id].blank?
+    return render(json: { error: 'signal is required' }, status: :unprocessable_entity) if params[:signal].blank?
+
+    conv = resolve_conversation(params[:conversation_id])
+    return render(json: { error: 'conversation not found' }, status: :not_found) if conv.nil?
+
+    @lead = find_or_create_lead(conv)
+    ::Synapseos::LeadLifecycle.transition(lead: @lead, signal: params[:signal], **transition_attrs)
+    render :show
+  rescue ::Synapseos::LeadLifecycle::InvalidSignal,
+         ::Synapseos::LeadLifecycle::MotivoRequired,
+         ActiveRecord::RecordInvalid => e
+    render(json: { error: e.message }, status: :unprocessable_entity)
+  end
+
   private
+
+  def find_or_create_lead(conv)
+    lead = scope.find_or_initialize_by(conversation_id: conv.id) do |l|
+      l.contact_id = conv.contact_id
+      l.status = :open
+      l.source = params[:source].presence || 'n8n'
+    end
+    lead.save! if lead.new_record?
+    lead
+  end
+
+  # Achata o payload de transição nos attrs que LeadLifecycle.transition espera.
+  def transition_attrs
+    fields = params[:fields].respond_to?(:to_unsafe_h) ? params[:fields].to_unsafe_h.symbolize_keys : {}
+    {
+      motivo: params[:motivo].presence,
+      horizonte_compra: params[:horizonte_compra].presence,
+      cadence_touch: params[:cadence_touch].presence,
+      next_action_at: params[:next_action_at].presence,
+      modelo_interesse: fields[:modelo_interesse],
+      tem_troca: fields.key?(:tem_troca) ? ActiveModel::Type::Boolean.new.cast(fields[:tem_troca]) : nil,
+      forma_pagamento: fields[:forma_pagamento],
+      urgencia: fields[:urgencia]
+    }.compact
+  end
 
   # n8n/Chatwoot webhooks sempre passam display_id (convenção pública do
   # Chatwoot). Resolvemos display_id PRIMEIRO; fallback p/ id interno só pra

@@ -46,6 +46,7 @@ module Synapseos
       sales_alert_dispatched
       sales_alert_approved
       lead_blocked
+      lead_state_changed
     ].freeze
 
     belongs_to :account
@@ -66,6 +67,7 @@ module Synapseos
       deal_lost
       sales_alert_dispatched
       lead_blocked
+      lead_state_changed
     ].freeze
 
     private
@@ -113,6 +115,15 @@ module Synapseos
       when 'lead_blocked'
         motivo = metadata['motivo'] || metadata[:motivo]
         motivo.present? ? "🚫 Lead bloqueou contato (#{motivo[0..60]})" : '🚫 Lead bloqueou contato'
+      when 'lead_state_changed'
+        to = metadata['to'] || metadata[:to]
+        labels = {
+          'quer' => '⭐ Quer (alerta de venda)',
+          'quer_depois' => '🕒 Quer depois (Futuro)',
+          'nao_quer' => '🚫 Não quer (encerrado)',
+          'sem_resposta' => '🔇 Sem resposta (cadência)'
+        }
+        labels[to] || "Estado do lead: #{to}"
       else
         "Evento: #{event_type}"
       end

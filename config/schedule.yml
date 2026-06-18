@@ -68,3 +68,11 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# ADR-003 / Fase 3 — sweeper diário de reconciliação de leads.
+# Repara violações de invariante (I1/I2) e emite métrica de quantas achou.
+# executed daily at 0300 UTC (baixo tráfego)
+synapseos_lead_reconciliation_job:
+  cron: '0 3 * * *'
+  class: 'Synapseos::LeadReconciliationJob'
+  queue: scheduled_jobs

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_04_26_170614) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_17_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1263,8 +1263,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_04_26_170614) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "pipeline_stage_id"
+    t.string "estado"
+    t.datetime "next_action_at"
+    t.integer "cadence_touch", default: 0, null: false
+    t.datetime "retomada_at"
+    t.text "motivo"
+    t.string "modelo_interesse"
+    t.boolean "tem_troca"
+    t.string "forma_pagamento"
+    t.string "urgencia"
+    t.string "horizonte_compra"
     t.index ["account_id", "conversation_id"], name: "index_synapseos_leads_on_account_id_and_conversation_id", unique: true
     t.index ["account_id", "created_at"], name: "index_synapseos_leads_on_account_id_and_created_at"
+    t.index ["account_id", "estado", "next_action_at"], name: "idx_synapseos_leads_estado_next_action"
     t.index ["account_id", "pipeline_stage_id", "created_at"], name: "idx_synapseos_leads_stage_time"
     t.index ["account_id", "status"], name: "index_synapseos_leads_on_account_id_and_status"
     t.index ["account_id"], name: "index_synapseos_leads_on_account_id"

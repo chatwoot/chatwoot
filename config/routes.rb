@@ -65,6 +65,7 @@ Rails.application.routes.draw do
               collection do
                 get 'by_conversation/:conversation_id', action: :by_conversation
                 post :upsert_by_conversation
+                post :transition
               end
             end
             resources :deals, only: [:index, :show, :create, :update]
