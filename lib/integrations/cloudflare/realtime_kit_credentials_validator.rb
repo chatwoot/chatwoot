@@ -18,7 +18,7 @@ module Integrations::Cloudflare::RealtimeKitCredentialsValidator
     validate_realtimekit_app(account_id, app_id, api_token)
   rescue Faraday::Error => e
     Rails.logger.warn("[cloudflare-realtimekit-credentials-validator] #{e.class}: #{e.message}")
-    success
+    failure(:verification_failed)
   end
 
   def self.validate_token(api_token)
@@ -26,7 +26,7 @@ module Integrations::Cloudflare::RealtimeKitCredentialsValidator
       req.headers['Authorization'] = "Bearer #{api_token}"
     end
 
-    return success if transient_error?(response)
+    return failure(:verification_failed) if transient_error?(response)
 
     body = parse_response(response)
     return success if response.status == 200 && body['success'] == true && body.dig('result', 'status') == 'active'
@@ -40,7 +40,7 @@ module Integrations::Cloudflare::RealtimeKitCredentialsValidator
 
     loop do
       response = fetch_realtimekit_apps(account_id, api_token, page_no)
-      return success if transient_error?(response)
+      return failure(:verification_failed) if transient_error?(response)
       return failure(:invalid_account_or_permissions) unless response.status == 200
 
       body = parse_response(response)

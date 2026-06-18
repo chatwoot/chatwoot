@@ -92,14 +92,23 @@ describe Integrations::Dyte::ProcessorService do
         response = processor.add_participant_to_meeting('m_id', agent, integration_message)
 
         expect(response).not_to be_nil
-        expect(integration_message.reload.content_attributes.dig('data', 'participants', agent.id.to_s)).to eq('random_uuid')
+        expect(integration_message.reload.content_attributes.dig('data', 'participants', "user:#{agent.id}")).to eq('random_uuid')
+      end
+
+      it 'sends a namespaced participant ID to RealtimeKit' do
+        processor.add_participant_to_meeting('m_id', agent, integration_message)
+
+        expect(WebMock).to(
+          have_requested(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
+            .with { |request| JSON.parse(request.body)['custom_participant_id'] == "user:#{agent.id}" }
+        )
       end
     end
 
     context 'when the participant ID is already stored on the integration message' do
       let(:integration_message) do
         create(:message, content_type: 'integrations',
-                         content_attributes: { type: 'dyte', data: { meeting_id: 'm_id', participants: { agent.id.to_s => 'participant_id' } } },
+                         content_attributes: { type: 'dyte', data: { meeting_id: 'm_id', participants: { "user:#{agent.id}" => 'participant_id' } } },
                          conversation: conversation)
       end
 
@@ -133,7 +142,7 @@ describe Integrations::Dyte::ProcessorService do
         stub_request(:get, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
           .to_return(
             status: 200,
-            body: { success: true, data: [{ id: 'participant_id', custom_participant_id: agent.id.to_s }] }.to_json,
+            body: { success: true, data: [{ id: 'participant_id', custom_participant_id: "user:#{agent.id}" }] }.to_json,
             headers: headers
           )
         stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/participant_id/token')
@@ -148,7 +157,34 @@ describe Integrations::Dyte::ProcessorService do
         response = processor.add_participant_to_meeting('m_id', agent, integration_message)
 
         expect(response).to eq({ 'token' => 'refreshed-json-web-token' })
-        expect(integration_message.reload.content_attributes.dig('data', 'participants', agent.id.to_s)).to eq('participant_id')
+        expect(integration_message.reload.content_attributes.dig('data', 'participants', "user:#{agent.id}")).to eq('participant_id')
+      end
+    end
+
+    context 'when a contact and agent have the same database ID' do
+      let(:contact) { create(:contact, account: account) }
+
+      before do
+        allow(contact).to receive(:id).and_return(agent.id)
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
+          .to_return(
+            status: 200,
+            body: { success: true, data: { id: 'contact_participant_id', token: 'json-web-token' } }.to_json,
+            headers: headers
+          )
+      end
+
+      it 'stores the contact participant separately from the agent participant' do
+        integration_message.update!(
+          content_attributes: { type: 'dyte', data: { meeting_id: 'm_id', participants: { "user:#{agent.id}" => 'agent_participant_id' } } }
+        )
+
+        response = processor.add_participant_to_meeting('m_id', contact, integration_message)
+
+        expect(response).to eq({ 'id' => 'contact_participant_id', 'token' => 'json-web-token' })
+        participants = integration_message.reload.content_attributes.dig('data', 'participants')
+        expect(participants["user:#{agent.id}"]).to eq('agent_participant_id')
+        expect(participants["contact:#{contact.id}"]).to eq('contact_participant_id')
       end
     end
 

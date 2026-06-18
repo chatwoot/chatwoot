@@ -121,6 +121,7 @@ en:
         invalid_api_token: 'Cloudflare API token is invalid or inactive. Please create a new token with Realtime Admin permissions.'
         invalid_account_or_permissions: 'Cloudflare Account ID is invalid, or the API token does not have Realtime Admin access to this account.'
         app_not_found: 'RealtimeKit App ID was not found in this Cloudflare account. Please check the app you selected.'
+        verification_failed: 'Could not verify Cloudflare RealtimeKit credentials right now. Please try again.'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
     whatsapp:

@@ -55,14 +55,20 @@ RSpec.describe Integrations::Cloudflare::RealtimeKitCredentialsValidator do
     expect(described_class.validate(nil, app_id, api_token).error).to eq(:missing_credentials)
   end
 
-  it 'treats transient Cloudflare failures as valid to avoid blocking saves' do
+  it 'rejects transient Cloudflare failures instead of saving unverified credentials' do
     stub_request(:get, token_verify_url).to_return(status: 500)
     stub_apps_list([{ id: app_id }])
-    expect(described_class.valid?(account_id, app_id, api_token)).to be true
+    expect(described_class.validate(account_id, app_id, api_token).error).to eq(:verification_failed)
 
     stub_token_verify(status: 'active')
     stub_apps_request.to_return(status: 500)
-    expect(described_class.valid?(account_id, app_id, api_token)).to be true
+    expect(described_class.validate(account_id, app_id, api_token).error).to eq(:verification_failed)
+  end
+
+  it 'rejects credentials when Cloudflare cannot be reached' do
+    stub_request(:get, token_verify_url).to_raise(Faraday::TimeoutError)
+
+    expect(described_class.validate(account_id, app_id, api_token).error).to eq(:verification_failed)
   end
 
   def stub_token_verify(status:)

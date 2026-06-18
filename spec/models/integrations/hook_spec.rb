@@ -270,6 +270,17 @@ RSpec.describe Integrations::Hook do
       expect(hook.reload).to be_disabled
     end
 
+    it 'allows re-enabling a persisted legacy Dyte hook without RealtimeKit credential validation' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+      hook.disable
+
+      expect(Integrations::Cloudflare::RealtimeKitCredentialsValidator).not_to receive(:validate)
+
+      expect(hook.update(status: :enabled)).to be true
+      expect(hook.reload).to be_enabled
+    end
+
     it 'validates settings when a legacy Dyte hook settings payload is changed' do
       hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
       hook.save!(validate: false)

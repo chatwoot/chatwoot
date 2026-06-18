@@ -17,17 +17,22 @@ class Integrations::Dyte::ProcessorService
   def add_participant_to_meeting(meeting_id, user, message = nil)
     return missing_realtimekit_credentials_response if realtimekit_credentials_missing?
 
-    participant_id = realtimekit_participant_id(message, user.id)
+    client_id = realtimekit_client_id(user)
+    participant_id = realtimekit_participant_id(message, client_id)
     response = participant_token_response(meeting_id, participant_id)
     return response if response[:error].blank?
 
-    response = dyte_client.add_participant_to_meeting(meeting_id, user.id, user.name, avatar_url(user))
-    return store_participant_id_and_return(message, user.id, response) if response[:error].blank?
+    response = dyte_client.add_participant_to_meeting(meeting_id, client_id, user.name, avatar_url(user))
+    return store_participant_id_and_return(message, client_id, response) if response[:error].blank?
 
-    existing_participant_token_response(meeting_id, user.id, message) || response
+    existing_participant_token_response(meeting_id, client_id, message) || response
   end
 
   private
+
+  def realtimekit_client_id(user)
+    "#{user.class.model_name.singular}:#{user.id}"
+  end
 
   def store_participant_id_and_return(message, client_id, response)
     update_realtimekit_participant_id(message, client_id, response['id']) if response['id'].present?
@@ -103,6 +108,8 @@ class Integrations::Dyte::ProcessorService
     data[:participants] = participants
     attributes[:data] = data
     message.update!(content_attributes: attributes.deep_stringify_keys)
+  rescue StandardError => e
+    Rails.logger.warn("[dyte] Failed to store RealtimeKit participant ID for message #{message.id}: #{e.class}: #{e.message}")
   end
 
   def integration_message_data(message)

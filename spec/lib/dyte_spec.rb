@@ -36,6 +36,18 @@ describe Dyte do
         expect(response).to eq({ error: { 'message' => 'Title is required' }, error_code: 422 })
       end
     end
+
+    context 'when API response succeeds without data' do
+      before do
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings')
+          .to_return(status: 200, body: { success: true, data: nil }.to_json, headers: headers)
+      end
+
+      it 'returns an explicit unexpected response error' do
+        response = dyte_client.create_a_meeting('title_of_the_meeting')
+        expect(response).to eq({ error: :unexpected_response, error_code: 200 })
+      end
+    end
   end
 
   context 'when add_participant_to_meeting is called' do

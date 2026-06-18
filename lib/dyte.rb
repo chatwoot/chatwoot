@@ -56,10 +56,13 @@ class Dyte
   private
 
   def process_response(response)
-    return parsed_data(response).with_indifferent_access if response.success? && parsed_data(response).is_a?(Hash)
-    return parsed_data(response).map(&:with_indifferent_access) if response.success? && parsed_data(response).is_a?(Array)
+    return { error: response.parsed_response, error_code: response.code } unless response.success?
 
-    { error: response.parsed_response, error_code: response.code }
+    data = parsed_data(response)
+    return data.with_indifferent_access if data.is_a?(Hash)
+    return data.map(&:with_indifferent_access) if data.is_a?(Array)
+
+    { error: :unexpected_response, error_code: response.code }
   end
 
   def parsed_data(response)

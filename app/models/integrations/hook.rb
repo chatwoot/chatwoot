@@ -113,7 +113,8 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def validate_cloudflare_realtimekit_credentials?
-    dyte? && enabled? && (new_record? || cloudflare_realtimekit_credentials_changed? || will_save_change_to_status?)
+    dyte? && enabled? && !legacy_dyte_settings_unchanged? &&
+      (new_record? || cloudflare_realtimekit_credentials_changed? || will_save_change_to_status?)
   end
 
   def openai_api_key_changed?
