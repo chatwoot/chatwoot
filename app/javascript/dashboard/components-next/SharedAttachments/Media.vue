@@ -7,6 +7,7 @@ import {
   formatDuration,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 import { downloadFile } from '@chatwoot/utils';
 import {
   ATTACHMENT_TYPES,
@@ -25,6 +26,7 @@ const props = defineProps({
 const emit = defineEmits(['select', 'jumpToMessage']);
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const mediaAttachments = computed(() =>
   [...props.attachments]
@@ -119,7 +121,11 @@ const displayDuration = attachment => {
 
 const displayTime = attachment => {
   if (!attachment.created_at) return '';
-  return shortTimestamp(dynamicTime(attachment.created_at), true);
+  return shortTimestamp(
+    dynamicTime(attachment.created_at),
+    true,
+    resolvedLocale.value
+  );
 };
 
 const isOverflowTile = index =>

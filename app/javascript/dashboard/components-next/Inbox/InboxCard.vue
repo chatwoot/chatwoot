@@ -3,6 +3,7 @@ import { computed, ref, onBeforeMount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 import {
   snoozedReopenTimeToTimestamp,
   shortenSnoozeTime,
@@ -30,6 +31,7 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 
 const isContextMenuOpen = ref(false);
 const contextMenuPosition = ref({ x: null, y: null });
@@ -59,7 +61,9 @@ const hasSlaThreshold = computed(() => {
 
 const lastActivityAt = computed(() => {
   const timestamp = props.inboxItem?.lastActivityAt;
-  return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
+  return timestamp
+    ? shortTimestamp(dynamicTime(timestamp), false, resolvedLocale.value)
+    : '';
 });
 
 const menuItems = computed(() => [
@@ -118,7 +122,11 @@ const hasLastSnoozed = computed(() => props.inboxItem?.meta?.lastSnoozedAt);
 const snoozedText = computed(() => {
   return !hasLastSnoozed.value
     ? t('INBOX.TYPES_NEXT.SNOOZED_UNTIL', {
-        time: shortTimestamp(snoozedUntilTime.value),
+        time: shortTimestamp(
+          snoozedUntilTime.value,
+          false,
+          resolvedLocale.value
+        ),
       })
     : t('INBOX.TYPES_NEXT.SNOOZED_ENDS');
 });

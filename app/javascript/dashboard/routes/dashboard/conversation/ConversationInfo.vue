@@ -1,6 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { getLanguageName } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
+import { useLocale } from 'shared/composables/useLocale';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 
@@ -15,10 +17,22 @@ const props = defineProps({
   },
 });
 
+const { resolvedLocale } = useLocale();
+
 const referer = computed(() => props.conversationAttributes.referer);
-const initiatedAt = computed(
-  () => props.conversationAttributes.initiated_at?.timestamp
-);
+const initiatedAt = computed(() => {
+  const timestamp = props.conversationAttributes.initiated_at?.timestamp;
+  if (!timestamp) return '';
+
+  const timestampDate = new Date(timestamp);
+  if (Number.isNaN(timestampDate.getTime())) return timestamp;
+
+  return messageTimestamp(
+    Math.floor(timestampDate.getTime() / 1000),
+    'LLL d yyyy, h:mm a',
+    resolvedLocale.value
+  );
+});
 
 const browserInfo = computed(() => props.conversationAttributes.browser);
 

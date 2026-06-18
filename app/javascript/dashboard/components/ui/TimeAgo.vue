@@ -37,11 +37,18 @@ export default {
     };
   },
   computed: {
+    currentLocale() {
+      return this.$i18n?.locale;
+    },
     lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
+      return shortTimestamp(
+        this.lastActivityAtTimeAgo,
+        false,
+        this.currentLocale
+      );
     },
     createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
+      return shortTimestamp(this.createdAtTimeAgo, false, this.currentLocale);
     },
     createdAt() {
       const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
@@ -51,7 +58,9 @@ export default {
             this.createdAtTimeAgo
           }`
         : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(
-            this.createdAtTimestamp
+            this.createdAtTimestamp,
+            undefined,
+            this.currentLocale
           )}`;
     },
     lastActivity() {
@@ -64,7 +73,11 @@ export default {
           }`
         : `${this.$t(
             'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${dateFormat(this.lastActivityTimestamp)}`;
+          )} ${dateFormat(
+            this.lastActivityTimestamp,
+            undefined,
+            this.currentLocale
+          )}`;
     },
     tooltipText() {
       return `${this.createdAt}

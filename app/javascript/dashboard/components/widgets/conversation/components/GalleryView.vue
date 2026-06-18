@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useImageZoom } from 'dashboard/composables/useImageZoom';
+import { useLocale } from 'shared/composables/useLocale';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 
@@ -32,6 +33,7 @@ const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
 
 const { t } = useI18n();
+const { resolvedLocale } = useLocale();
 const getters = useStoreGetters();
 
 const ALLOWED_FILE_TYPES = {
@@ -73,7 +75,10 @@ const hasMoreThanOneAttachment = computed(
 const readableTime = computed(() => {
   const { created_at: createdAt } = activeAttachment.value;
   if (!createdAt) return '';
-  return messageTimestamp(createdAt, 'LLL d yyyy, h:mm a') || '';
+  return (
+    messageTimestamp(createdAt, 'LLL d yyyy, h:mm a', resolvedLocale.value) ||
+    ''
+  );
 });
 
 const isImage = computed(
