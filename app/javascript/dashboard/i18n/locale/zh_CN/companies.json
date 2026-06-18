@@ -4,7 +4,7 @@
     "SORT_BY": {
       "LABEL": "排序方式",
       "OPTIONS": {
-        "NAME": "姓名：",
+        "NAME": "公司名称",
         "DOMAIN": "域名",
         "CREATED_AT": "创建于",
         "LAST_ACTIVITY_AT": "上次操作",
@@ -119,7 +119,7 @@
           "UPDATE_ERROR": "无法更新公司。"
         },
         "FIELDS": {
-          "NAME": "姓名：",
+          "NAME": "公司名称",
           "DOMAIN": "域名"
         }
       },

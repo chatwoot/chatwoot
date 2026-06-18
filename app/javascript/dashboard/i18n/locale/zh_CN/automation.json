@@ -44,7 +44,7 @@
     },
     "LIST": {
       "TABLE_HEADER": {
-        "NAME": "姓名：",
+        "NAME": "规则名称",
         "ACTIVE": "状态",
         "CREATED_ON": "创建时间",
         "ACTIONS": "操作"

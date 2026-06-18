@@ -29,7 +29,7 @@
     },
     "LIST": {
       "TABLE_HEADER": {
-        "NAME": "姓名：",
+        "NAME": "宏名称",
         "CREATED BY": "创建者",
         "LAST_UPDATED_BY": "最后更新者",
         "VISIBILITY": "可视性",

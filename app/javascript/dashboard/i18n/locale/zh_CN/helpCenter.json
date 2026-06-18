@@ -127,7 +127,7 @@
           "PORTAL_CONFIG": {
             "TITLE": "门户配置",
             "ITEMS": {
-              "NAME": "姓名：",
+              "NAME": "门户名称",
               "DOMAIN": "自定义域名",
               "SLUG": "路径标识（Slug）",
               "TITLE": "门户标题",
@@ -185,7 +185,7 @@
           "TITLE": "类别",
           "NEW_CATEGORY": "新建类别",
           "TABLE": {
-            "NAME": "姓名：",
+            "NAME": "类别名称",
             "DESCRIPTION": "描述信息",
             "LOCALE": "语言环境",
             "ARTICLE_COUNT": "文章数量",
@@ -242,10 +242,10 @@
           "IMAGE_DELETE_ERROR": "删除徽标时出错"
         },
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "门户名称",
           "PLACEHOLDER": "门户名称",
           "HELP_TEXT": "该名称将用于面向公众的门户内部。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
           "LABEL": "路径标识（Slug）",
@@ -411,10 +411,10 @@
         "PORTAL": "门户网站",
         "LOCALE": "语言环境",
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "类别名称",
           "PLACEHOLDER": "类别名称",
           "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
           "LABEL": "路径标识（Slug）",
@@ -442,10 +442,10 @@
         "PORTAL": "门户网站",
         "LOCALE": "语言环境",
         "NAME": {
-          "LABEL": "姓名：",
+          "LABEL": "类别名称",
           "PLACEHOLDER": "类别名称",
           "HELP_TEXT": "类别名称和图标将用于面向公众的门户以对文章进行分类。",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "SLUG": {
           "LABEL": "路径标识（Slug）",
@@ -665,9 +665,9 @@
         },
         "FORM": {
           "NAME": {
-            "LABEL": "姓名",
+            "LABEL": "类别名称",
             "PLACEHOLDER": "类别名称",
-            "ERROR": "名字必填"
+            "ERROR": "名称必填"
           },
           "SLUG": {
             "LABEL": "路径标识（Slug）",
@@ -783,10 +783,10 @@
       "DESCRIPTION": "为您的门户命名并创建一个用户友好的URL Slug。您稍后可以在设置中修改它们。",
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
-        "LABEL": "姓名",
+        "LABEL": "门户名称",
         "PLACEHOLDER": "用户指南 | Chatwoot",
         "MESSAGE": "为您的门户选择一个名称。",
-        "ERROR": "名字必填"
+        "ERROR": "名称必填"
       },
       "SLUG": {
         "LABEL": "路径标识（Slug）",
@@ -806,9 +806,9 @@
           "IMAGE_UPLOAD_SIZE_ERROR": "图片大小应小于 {size}MB"
         },
         "NAME": {
-          "LABEL": "姓名",
+          "LABEL": "门户名称",
           "PLACEHOLDER": "门户名称",
-          "ERROR": "名字必填"
+          "ERROR": "名称必填"
         },
         "HEADER_TEXT": {
           "LABEL": "标题文本",
