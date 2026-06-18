@@ -60,11 +60,11 @@ RSpec.describe Company, type: :model do
     end
 
     it 'enqueues contact company name cleanup when the company is deleted' do
-      create(:contact, account: account, company: company)
+      contact = create(:contact, account: account, company: company)
 
       expect do
         company.destroy!
-      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(account_id: account.id, company_name: 'Acme')
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(contact_ids: [contact.id])
     end
   end
 end

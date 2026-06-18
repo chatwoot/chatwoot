@@ -24,6 +24,7 @@ class Company < ApplicationRecord
   include Avatarable
 
   ACTIVITY_ROLLUP_INTERVAL = 5.minutes
+  CONTACT_NAME_SYNC_BATCH_SIZE = 1000
 
   validates :account_id, presence: true
   validates :name, presence: true, length: { maximum: Limits::COMPANY_NAME_LENGTH_LIMIT }
@@ -85,16 +86,14 @@ class Company < ApplicationRecord
   end
 
   def capture_company_name_cleanup_context
-    @account_id_for_company_name_cleanup = account_id
-    @company_name_for_company_name_cleanup = name
+    @contact_id_batches_for_company_name_cleanup = contacts.in_batches(of: CONTACT_NAME_SYNC_BATCH_SIZE).map { |batch| batch.pluck(:id) }
   end
 
   def clear_contact_company_names_later
-    return if @account_id_for_company_name_cleanup.blank? || @company_name_for_company_name_cleanup.blank?
+    return if @contact_id_batches_for_company_name_cleanup.blank?
 
-    Companies::SyncContactNamesJob.perform_later(
-      account_id: @account_id_for_company_name_cleanup,
-      company_name: @company_name_for_company_name_cleanup
-    )
+    @contact_id_batches_for_company_name_cleanup.each do |contact_ids|
+      Companies::SyncContactNamesJob.perform_later(contact_ids: contact_ids)
+    end
   end
 end

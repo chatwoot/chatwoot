@@ -11,10 +11,10 @@ class Companies::SyncContactNamesJob < ApplicationJob
   SQL
   CONTACT_COMPANY_NAME_DELETE_SQL = "additional_attributes = COALESCE(additional_attributes, '{}'::jsonb) - 'company_name'".freeze
 
-  def perform(company_id: nil, account_id: nil, company_name: nil)
-    return if company_id.blank? && (account_id.blank? || company_name.blank?)
+  def perform(company_id: nil, contact_ids: nil)
+    return if company_id.blank? && contact_ids.blank?
 
-    return clear_company_name(unassigned_contacts_with_company_name(account_id, company_name)) if account_id.present? && company_name.present?
+    return clear_company_name(Contact.where(id: contact_ids, company_id: nil)) if contact_ids.present?
 
     company = Company.find_by(id: company_id)
     return if company.blank?
@@ -34,9 +34,4 @@ class Companies::SyncContactNamesJob < ApplicationJob
     contacts.update_all(CONTACT_COMPANY_NAME_DELETE_SQL)
   end
   # rubocop:enable Rails/SkipsModelValidations
-
-  def unassigned_contacts_with_company_name(account_id, company_name)
-    Contact.where(account_id: account_id, company_id: nil)
-           .where("additional_attributes ->> 'company_name' = ?", company_name)
-  end
 end
