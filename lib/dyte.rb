@@ -1,7 +1,7 @@
 class Dyte
   BASE_URL = 'https://api.cloudflare.com/client/v4'.freeze
   API_KEY_HEADER = 'Authorization'.freeze
-  PRESET_NAME = 'group_call_host'.freeze
+  PRESET_NAME = 'group-call-host'.freeze
 
   def initialize(account_id = nil, app_id = nil, api_token = nil)
     @account_id = account_id

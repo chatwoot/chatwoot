@@ -101,6 +101,7 @@ class Integrations::Hook < ApplicationRecord
 
   def validate_settings_json_schema
     return if app.blank? || app.params[:settings_json_schema].blank?
+    return if legacy_dyte_settings_unchanged?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
   end
@@ -123,6 +124,17 @@ class Integrations::Hook < ApplicationRecord
     settings_cloudflare_realtimekit_credentials(settings) != settings_cloudflare_realtimekit_credentials(settings_in_database)
   end
 
+  def legacy_dyte_settings_unchanged?
+    dyte? && persisted? && !will_save_change_to_settings? && legacy_dyte_settings?(settings_in_database)
+  end
+
+  def legacy_dyte_settings?(value)
+    return false if value.blank?
+
+    %w[organization_id api_key].any? { |key| settings_value(value, key).present? } &&
+      %w[account_id app_id api_token].none? { |key| settings_value(value, key).present? }
+  end
+
   def validate_openai_api_key
     return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings))
 
@@ -137,15 +149,19 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def settings_api_key(value)
-    value&.dig('api_key') || value&.dig(:api_key)
+    settings_value(value, 'api_key')
   end
 
   def settings_cloudflare_realtimekit_credentials(value)
     [
-      value&.dig('account_id') || value&.dig(:account_id),
-      value&.dig('app_id') || value&.dig(:app_id),
-      value&.dig('api_token') || value&.dig(:api_token)
+      settings_value(value, 'account_id'),
+      settings_value(value, 'app_id'),
+      settings_value(value, 'api_token')
     ]
+  end
+
+  def settings_value(value, key)
+    value&.dig(key) || value&.dig(key.to_sym)
   end
 
   def trigger_setup_if_crm

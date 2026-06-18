@@ -258,6 +258,37 @@ RSpec.describe Integrations::Hook do
 
       expect(hook.reload).to be_disabled
     end
+
+    it 'allows disabling a persisted legacy Dyte hook without RealtimeKit credentials' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+
+      expect(hook.disable).to be true
+      expect(hook.reload).to be_disabled
+    end
+
+    it 'validates settings when a legacy Dyte hook settings payload is changed' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+
+      hook.settings = { 'account_id' => 'account_id' }
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:settings]).to include(': Invalid settings data')
+    end
+
+    it 'rejects new legacy Dyte hooks' do
+      hook = build(:integrations_hook, :dyte,
+                   account: account,
+                   status: :disabled,
+                   settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:settings]).to include(': Invalid settings data')
+    end
   end
 
   def cloudflare_validator_result(success, error = nil)
