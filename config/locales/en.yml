@@ -113,6 +113,7 @@ en:
         unique: should be unique in the category and portal
     dyte:
       invalid_message_type: 'Invalid message type. Action not permitted'
+      realtimekit_credentials_required: 'Cloudflare RealtimeKit credentials are required. Delete the existing Dyte integration and create it again with Cloudflare RealtimeKit credentials.'
     cloudflare:
       realtimekit:
         invalid_credentials: 'Cloudflare RealtimeKit credentials are invalid. Please check the Account ID, RealtimeKit App ID, and API token permissions.'

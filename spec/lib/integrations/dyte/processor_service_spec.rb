@@ -7,11 +7,15 @@ describe Integrations::Dyte::ProcessorService do
   let(:conversation) { create(:conversation, account: account, status: :pending) }
   let(:processor) { described_class.new(account: account, conversation: conversation) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:dyte_settings) { { account_id: 'account_id', app_id: 'app_id', api_token: 'api_token' } }
 
   before do
     allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
       .and_return(Integrations::Cloudflare::RealtimeKitCredentialsValidator::Result.new(true, nil))
-    create(:integrations_hook, :dyte, account: account)
+
+    hook = build(:integrations_hook, :dyte, account: account, settings: dyte_settings)
+    hook.save!(validate: false) if dyte_settings[:organization_id].present?
+    hook.save! unless hook.persisted?
   end
 
   describe '#create_a_meeting' do
@@ -48,6 +52,19 @@ describe Integrations::Dyte::ProcessorService do
         expect(conversation.reload.messages.count).to eq(0)
       end
     end
+
+    context 'when the stored hook still has legacy Dyte credentials' do
+      let(:dyte_settings) { { organization_id: 'org_id', api_key: 'dyte_api_key' } }
+
+      it 'returns a normal error response without creating a RealtimeKit client' do
+        expect(Dyte).not_to receive(:new)
+
+        response = processor.create_a_meeting(agent)
+
+        expect(response).to eq({ error: I18n.t('errors.dyte.realtimekit_credentials_required') })
+        expect(conversation.reload.messages.count).to eq(0)
+      end
+    end
   end
 
   describe '#add_participant_to_meeting' do
@@ -64,6 +81,18 @@ describe Integrations::Dyte::ProcessorService do
       it 'return the authResponse' do
         response = processor.add_participant_to_meeting('m_id', agent)
         expect(response).not_to be_nil
+      end
+    end
+
+    context 'when the stored hook still has legacy Dyte credentials' do
+      let(:dyte_settings) { { organization_id: 'org_id', api_key: 'dyte_api_key' } }
+
+      it 'returns a normal error response without creating a RealtimeKit client' do
+        expect(Dyte).not_to receive(:new)
+
+        response = processor.add_participant_to_meeting('m_id', agent)
+
+        expect(response).to eq({ error: I18n.t('errors.dyte.realtimekit_credentials_required') })
       end
     end
   end

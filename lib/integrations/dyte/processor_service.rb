@@ -2,6 +2,8 @@ class Integrations::Dyte::ProcessorService
   pattr_initialize [:account!, :conversation!]
 
   def create_a_meeting(agent)
+    return missing_realtimekit_credentials_response if realtimekit_credentials_missing?
+
     title = I18n.t('integration_apps.dyte.meeting_name', agent_name: agent.available_name)
     response = dyte_client.create_a_meeting(title)
 
@@ -13,6 +15,8 @@ class Integrations::Dyte::ProcessorService
   end
 
   def add_participant_to_meeting(meeting_id, user)
+    return missing_realtimekit_credentials_response if realtimekit_credentials_missing?
+
     dyte_client.add_participant_to_meeting(meeting_id, user.id, user.name, avatar_url(user))
   end
 
@@ -48,7 +52,19 @@ class Integrations::Dyte::ProcessorService
   end
 
   def dyte_client
-    credentials = dyte_hook.settings
-    @dyte_client ||= Dyte.new(credentials['account_id'], credentials['app_id'], credentials['api_token'])
+    @dyte_client ||= Dyte.new(*realtimekit_credentials)
+  end
+
+  def realtimekit_credentials
+    credentials = dyte_hook.settings.with_indifferent_access
+    [credentials[:account_id], credentials[:app_id], credentials[:api_token]]
+  end
+
+  def realtimekit_credentials_missing?
+    realtimekit_credentials.any?(&:blank?)
+  end
+
+  def missing_realtimekit_credentials_response
+    { error: I18n.t('errors.dyte.realtimekit_credentials_required') }
   end
 end
