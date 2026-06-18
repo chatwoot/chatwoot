@@ -36,7 +36,10 @@ export default {
       try {
         await DyteAPI.createAMeeting(this.conversationId);
       } catch (error) {
-        useAlert(this.$t('INTEGRATION_SETTINGS.DYTE.CREATE_ERROR'));
+        useAlert(
+          error?.response?.data?.error ||
+            this.$t('INTEGRATION_SETTINGS.DYTE.CREATE_ERROR')
+        );
       } finally {
         this.isLoading = false;
       }
