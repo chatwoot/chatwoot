@@ -8,6 +8,11 @@ describe Integrations::Dyte::ProcessorService do
   let(:processor) { described_class.new(account: account, conversation: conversation) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:dyte_settings) { { account_id: 'account_id', app_id: 'app_id', api_token: 'api_token' } }
+  let(:integration_message) do
+    create(:message, content_type: 'integrations',
+                     content_attributes: { type: 'dyte', data: { meeting_id: 'm_id' } },
+                     conversation: conversation)
+  end
 
   before do
     allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
@@ -70,13 +75,6 @@ describe Integrations::Dyte::ProcessorService do
   describe '#add_participant_to_meeting' do
     context 'when the API response is success' do
       before do
-        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/' \
-                            "#{agent.id}/token")
-          .to_return(
-            status: 404,
-            body: { success: false, data: { message: 'Participant not found' } }.to_json,
-            headers: headers
-          )
         stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
           .to_return(
             status: 200,
@@ -88,6 +86,39 @@ describe Integrations::Dyte::ProcessorService do
       it 'return the authResponse' do
         response = processor.add_participant_to_meeting('m_id', agent)
         expect(response).not_to be_nil
+      end
+
+      it 'stores the RealtimeKit participant ID on the integration message' do
+        response = processor.add_participant_to_meeting('m_id', agent, integration_message)
+
+        expect(response).not_to be_nil
+        expect(integration_message.reload.content_attributes.dig('data', 'participants', agent.id.to_s)).to eq('random_uuid')
+      end
+    end
+
+    context 'when the participant ID is already stored on the integration message' do
+      let(:integration_message) do
+        create(:message, content_type: 'integrations',
+                         content_attributes: { type: 'dyte', data: { meeting_id: 'm_id', participants: { agent.id.to_s => 'participant_id' } } },
+                         conversation: conversation)
+      end
+
+      before do
+        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/participant_id/token')
+          .to_return(
+            status: 200,
+            body: { success: true, data: { token: 'refreshed-json-web-token' } }.to_json,
+            headers: headers
+          )
+      end
+
+      it 'returns a refreshed participant token without creating the participant again' do
+        response = processor.add_participant_to_meeting('m_id', agent, integration_message)
+
+        expect(response).to eq({ 'token' => 'refreshed-json-web-token' })
+        expect(WebMock).not_to have_requested(
+          :post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants'
+        )
       end
     end
 

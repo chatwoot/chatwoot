@@ -114,13 +114,6 @@ RSpec.describe 'Dyte Integration API', type: :request do
 
     context 'when it is an agent with inbox access and message_type is integrations' do
       before do
-        stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/' \
-                            "#{agent.id}/token")
-          .to_return(
-            status: 404,
-            body: { success: false, data: { message: 'Participant not found' } }.to_json,
-            headers: headers
-          )
         stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
           .to_return(
             status: 200,

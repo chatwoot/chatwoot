@@ -23,9 +23,6 @@ class Dyte
   def add_participant_to_meeting(meeting_id, client_id, name, avatar_url)
     raise ArgumentError, 'Missing information' if meeting_id.blank? || client_id.blank? || name.blank? || avatar_url.blank?
 
-    refreshed_token = refresh_participant_token(meeting_id, client_id)
-    return refreshed_token if refreshed_token[:error].blank?
-
     payload = {
       'custom_participant_id': client_id.to_s,
       'name': name,
@@ -37,13 +34,15 @@ class Dyte
     process_response(response)
   end
 
-  private
+  def refresh_participant_token(meeting_id, participant_id)
+    raise ArgumentError, 'Missing information' if meeting_id.blank? || participant_id.blank?
 
-  def refresh_participant_token(meeting_id, client_id)
-    path = "meetings/#{meeting_id}/participants/#{client_id}/token"
+    path = "meetings/#{meeting_id}/participants/#{participant_id}/token"
     response = post(path)
     process_response(response)
   end
+
+  private
 
   def process_response(response)
     return response.parsed_response['data'].with_indifferent_access if response.success?

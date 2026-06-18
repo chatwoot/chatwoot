@@ -14,10 +14,16 @@ class Integrations::Dyte::ProcessorService
     message.push_event_data
   end
 
-  def add_participant_to_meeting(meeting_id, user)
+  def add_participant_to_meeting(meeting_id, user, message = nil)
     return missing_realtimekit_credentials_response if realtimekit_credentials_missing?
 
-    dyte_client.add_participant_to_meeting(meeting_id, user.id, user.name, avatar_url(user))
+    participant_id = realtimekit_participant_id(message, user.id)
+    response = participant_token_response(meeting_id, participant_id)
+    return response if response[:error].blank?
+
+    response = dyte_client.add_participant_to_meeting(meeting_id, user.id, user.name, avatar_url(user))
+    update_realtimekit_participant_id(message, user.id, response['id']) if response[:error].blank? && response['id'].present?
+    response
   end
 
   private
@@ -53,6 +59,34 @@ class Integrations::Dyte::ProcessorService
 
   def dyte_client
     @dyte_client ||= Dyte.new(*realtimekit_credentials)
+  end
+
+  def participant_token_response(meeting_id, participant_id)
+    return { error: :participant_id_missing } if participant_id.blank?
+
+    dyte_client.refresh_participant_token(meeting_id, participant_id)
+  end
+
+  def realtimekit_participant_id(message, client_id)
+    integration_message_data(message).dig(:participants, client_id.to_s)
+  end
+
+  def update_realtimekit_participant_id(message, client_id, participant_id)
+    return if message.blank?
+
+    attributes = message.content_attributes.with_indifferent_access
+    data = (attributes[:data] || {}).with_indifferent_access
+    participants = (data[:participants] || {}).with_indifferent_access
+    participants[client_id.to_s] = participant_id
+    data[:participants] = participants
+    attributes[:data] = data
+    message.update!(content_attributes: attributes.deep_stringify_keys)
+  end
+
+  def integration_message_data(message)
+    return {} if message.blank?
+
+    (message.content_attributes.with_indifferent_access[:data] || {}).with_indifferent_access
   end
 
   def realtimekit_credentials

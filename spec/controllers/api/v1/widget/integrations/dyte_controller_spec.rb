@@ -48,13 +48,6 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
 
       context 'when message is an integration message' do
         before do
-          stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants/' \
-                              "#{contact.id}/token")
-            .to_return(
-              status: 404,
-              body: { success: false, data: { message: 'Participant not found' } }.to_json,
-              headers: { 'Content-Type' => 'application/json' }
-            )
           stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
             .to_return(
               status: 200,
