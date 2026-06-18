@@ -200,6 +200,24 @@ describe('Conversation Helpers', () => {
           )
         ).toBe(false);
       });
+
+      it('returns true when the user is a participant but not the assignee', () => {
+        const conversationWithParticipant = {
+          meta: {
+            assignee: { id: 2 },
+            is_participant: true,
+          },
+        };
+
+        expect(
+          applyRoleFilter(
+            conversationWithParticipant,
+            role,
+            permissions,
+            currentUserId
+          )
+        ).toBe(true);
+      });
     });
 
     // Test for user with no relevant permissions

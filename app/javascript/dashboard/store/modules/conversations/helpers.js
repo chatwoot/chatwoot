@@ -101,7 +101,7 @@ export const applyRoleFilter = (
 
   // Check participating conversation management permission
   if (permissions.includes('conversation_participating_manage')) {
-    return isAssignedToUser;
+    return isAssignedToUser || conversation.meta?.is_participant;
   }
 
   return false;

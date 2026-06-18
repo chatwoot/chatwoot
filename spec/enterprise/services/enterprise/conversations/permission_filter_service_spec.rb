@@ -86,7 +86,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
     end
 
     context 'when user has conversation_participating_manage permission' do
-      it 'returns only conversations assigned to the agent' do
+      it 'returns conversations assigned to the agent or where the agent is a participant' do
         # Create a new isolated test environment
         test_account = create(:account)
         test_inbox = create(:inbox, account: test_account)
@@ -114,12 +114,38 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
           test_account
         ).perform
 
-        # Should only see conversations assigned to this agent
+        # Should see conversations assigned to this agent
         expect(result.count).to eq(1)
         expect(result.first.assignee).to eq(test_agent)
         expect(result).to include(assigned_conversation)
         expect(result).not_to include(other_conversation)
         expect(result).not_to include(other_inbox_conversation)
+      end
+
+      it 'returns conversations where the agent is a participant but not the assignee' do
+        test_account = create(:account)
+        test_inbox = create(:inbox, account: test_account)
+        test_agent = create(:user, account: test_account, role: :agent)
+        create(:inbox_member, user: test_agent, inbox: test_inbox)
+
+        test_custom_role = create(:custom_role, account: test_account, permissions: %w[conversation_participating_manage])
+        AccountUser.find_by(user: test_agent, account: test_account)
+                   .update!(role: :agent, custom_role: test_custom_role)
+
+        other_agent = create(:user, account: test_account, role: :agent)
+        participant_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: other_agent)
+        create(:conversation_participant, conversation: participant_conversation, account: test_account, user: test_agent)
+
+        unrelated_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: other_agent)
+
+        result = Conversations::PermissionFilterService.new(
+          test_account.conversations,
+          test_agent,
+          test_account
+        ).perform
+
+        expect(result).to include(participant_conversation)
+        expect(result).not_to include(unrelated_conversation)
       end
     end
 
