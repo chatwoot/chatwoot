@@ -82,6 +82,29 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(response).to have_http_status(:not_found)
       end
 
+      it 'prefers an id match over a numeric slug to avoid resolving the wrong portal' do
+        create(:portal, name: 'numeric slug portal', slug: portal.id.to_s, account_id: account.id)
+
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'MyTitle',
+            slug: 'my-title',
+            content: 'This is my content.',
+            status: :published,
+            author_id: agent.id,
+            position: 3
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}/articles",
+             params: article_params,
+             headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(Article.find(json_response['payload']['id']).portal_id).to eq(portal.id)
+      end
+
       it 'creates article even if category is not provided' do
         article_params = {
           article: {
