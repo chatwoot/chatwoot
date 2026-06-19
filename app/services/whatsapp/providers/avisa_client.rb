@@ -101,7 +101,8 @@ class Whatsapp::Providers::AvisaClient
     b64 = extract_base64(response)
     if b64.blank?
       shape = response.is_a?(Hash) ? response.keys.inspect : response.class.name
-      Rails.logger.warn("[AVISA] download_audio sem base64 na resposta — shape=#{shape}")
+      inner = response.is_a?(Hash) && response['data'].is_a?(Hash) ? " data.keys=#{response['data'].keys.inspect}" : ''
+      Rails.logger.warn("[AVISA] download_audio sem base64 na resposta — shape=#{shape}#{inner}")
       return nil
     end
 
@@ -113,15 +114,37 @@ class Whatsapp::Providers::AvisaClient
 
   private
 
-  # A resposta do download pode vir como { Data/data/file: <b64> } ou aninhada
-  # em { data: { Data/data: <b64> } }. Procura nas duas profundidades.
-  def extract_base64(response)
-    return nil unless response.is_a?(Hash)
+  # Chaves prováveis do base64, checadas antes do fallback recursivo.
+  B64_KEYS = %w[base64 Base64 b64 data Data file File media Media content Content buffer audio].freeze
 
-    [response, response['data']]
-      .select { |obj| obj.is_a?(Hash) }
-      .flat_map { |obj| obj.values_at('Data', 'data', 'file') }
-      .find { |val| val.is_a?(String) && val.present? }
+  # A resposta do /message/download/audio varia de shape: {data: "<b64>"},
+  # {data: {base64: "..."}}, {status, data: ...}, {Data: "..."} etc. (em prod
+  # observamos {status, data} — confirmado no log). Em vez de fixar a chave,
+  # busca recursivamente a 1ª string base64 plausível, priorizando B64_KEYS.
+  def extract_base64(response)
+    deep_find_base64(response, 0)
+  end
+
+  def deep_find_base64(obj, depth)
+    return nil if depth > 5
+
+    case obj
+    when String
+      stripped = obj.sub(/\Adata:[^,]+,/, '')
+      stripped.length > 50 && stripped.match?(%r{\A[A-Za-z0-9+/=\s]+\z}) ? stripped : nil
+    when Hash
+      (obj.values_at(*B64_KEYS).compact + obj.values).each do |v|
+        found = deep_find_base64(v, depth + 1)
+        return found if found
+      end
+      nil
+    when Array
+      obj.each do |v|
+        found = deep_find_base64(v, depth + 1)
+        return found if found
+      end
+      nil
+    end
   end
 
   def post(path, body)

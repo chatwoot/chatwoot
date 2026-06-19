@@ -111,12 +111,12 @@ const primaryKpis = computed(() => {
   ];
 });
 
-// Operacionais (dash executivo — 3 cards):
+// Operacionais (dash executivo):
+// - DISPAROS HOJE / NO MÊS: contatos distintos abordados (dia/mês, BRT).
 // - ELISA → ATENDIMENTO HUMANO: qtd de alertas enviados ao time.
 // - NEGÓCIOS PERDIDOS: leads na coluna "perdido" da pipeline (stage_type lost).
-// - AGENDAMENTOS: visitas confirmadas.
-// Removidos do dash executivo (não são métricas de negócio): Leads,
-// Mensagens recebidas/enviadas, Respostas da IA.
+// 'Agendamentos' removido (vivia em 0). Removidos antes (não são métricas de
+// negócio): Leads, Mensagens recebidas/enviadas, Respostas da IA.
 const operationalCards = computed(() => {
   const k = summary.value?.kpis || {};
   return [
@@ -150,12 +150,9 @@ const operationalCards = computed(() => {
       value: formatNumber(k.deals_lost),
       valueClass: 'text-s-primary',
     },
-    {
-      key: 'appointments',
-      label: t('SYNAPSEOS.DASHBOARD.KPI.APPOINTMENTS'),
-      value: formatNumber(k.appointments),
-      valueClass: 'text-s-secondary',
-    },
+    // 'Agendamentos' (appointments) removido: vivia em 0 (aguardando_visita
+    // vazia) e ocupava o lugar de uma métrica útil. 'Disparos hoje' (acima)
+    // assume o slot operacional diário.
   ];
 });
 
