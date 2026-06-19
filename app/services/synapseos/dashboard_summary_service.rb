@@ -14,6 +14,32 @@ module Synapseos
         kpis: kpis,
         daily: daily_breakdown,
         recent_events: recent_events,
+        dry_run: dry_run_snapshot,
+      }
+    end
+
+    # Preview READ-ONLY do dia (gravado pelo n8n via CrmEvent 'dry_run_snapshot'
+    # às 08:00/13:30). Pega o snapshot MAIS RECENTE de hoje (BRT) — de manhã
+    # mostra o plano do dia; à tarde, o restante. nil se ainda não rodou hoje.
+    def dry_run_snapshot
+      tz = ActiveSupport::TimeZone['America/Sao_Paulo']
+      ev = ::Synapseos::CrmEvent
+           .where(account_id: @account.id, event_type: 'dry_run_snapshot')
+           .where('created_at >= ?', tz.now.beginning_of_day)
+           .order(created_at: :desc)
+           .first
+      return nil if ev.nil?
+
+      meta = ev.metadata.is_a?(Hash) ? ev.metadata : {}
+      disparos = meta['disparos'].is_a?(Array) ? meta['disparos'] : []
+      followups = meta['followups'].is_a?(Array) ? meta['followups'] : []
+      {
+        scope: meta['scope'],
+        generated_at: meta['generated_at'] || ev.created_at.iso8601,
+        disparos_count: meta['disparos_count'] || disparos.size,
+        followups_count: meta['followups_count'] || followups.size,
+        disparos: disparos,
+        followups: followups,
       }
     end
 

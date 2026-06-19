@@ -183,6 +183,17 @@ const recentEvents = computed(() => {
   }));
 });
 
+// DISPAROS PROGRAMADOS HOJE (dry-run read-only do n8n via snapshot CrmEvent).
+// Lista combinada disparos + follow-ups, só nome + últimos 4 dígitos.
+const dryRun = computed(() => summary.value?.dry_run || null);
+const dryRunItems = computed(() => {
+  const d = summary.value?.dry_run;
+  if (!d) return [];
+  const disp = (d.disparos || []).map(x => ({ ...x, tipo: 'disparo' }));
+  const fu = (d.followups || []).map(x => ({ ...x, tipo: 'follow-up' }));
+  return [...disp, ...fu];
+});
+
 const formatRelativeTime = iso => {
   if (!iso) return '';
   const then = new Date(iso).getTime();
@@ -544,6 +555,60 @@ onBeforeUnmount(() => {
               icon="i-lucide-activity"
               :title="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_TITLE')"
               :description="t('SYNAPSEOS.DASHBOARD.EMPTY_EVENTS_DESCRIPTION')"
+              size="sm"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- DISPAROS PROGRAMADOS HOJE (dry-run read-only; snapshot 08:00/13:30) -->
+      <div class="px-4 md:px-6 pb-6">
+        <div
+          class="bg-s-surface border border-s-border rounded-lg overflow-hidden flex flex-col"
+        >
+          <div
+            class="px-5 py-3 border-b border-s-border flex items-center justify-between"
+          >
+            <h3
+              class="text-xs font-semibold uppercase tracking-wider text-s-secondary"
+            >
+              {{ t('SYNAPSEOS.DASHBOARD.DRY_RUN.TITLE') }}
+            </h3>
+            <span
+              v-if="dryRun"
+              class="text-[10px] font-mono text-s-muted tabular-nums"
+            >
+              {{ dryRunItems.length }}
+            </span>
+          </div>
+          <ul
+            v-if="dryRunItems.length"
+            class="flex flex-col divide-y divide-s-border-subtle overflow-auto max-h-80"
+          >
+            <li
+              v-for="(item, idx) in dryRunItems"
+              :key="idx"
+              class="flex items-center gap-3 px-5 py-2.5"
+            >
+              <SynapseBadge :tone="item.tipo === 'disparo' ? 'brand' : 'neutral'">
+                {{ item.tipo }}
+              </SynapseBadge>
+              <span
+                class="text-sm font-medium text-s-primary truncate flex-1"
+              >
+                {{ item.nome }}
+              </span>
+              <span class="text-[11px] font-mono text-s-muted tabular-nums">
+                ••••{{ item.tel4 }}
+              </span>
+            </li>
+          </ul>
+          <div v-else class="px-5 py-6">
+            <SynapseEmptyState
+              icon="i-lucide-send"
+              :title="t('SYNAPSEOS.DASHBOARD.DRY_RUN.EMPTY_TITLE')"
+              :description="t('SYNAPSEOS.DASHBOARD.DRY_RUN.EMPTY_DESC')"
               size="sm"
               class="w-full"
             />

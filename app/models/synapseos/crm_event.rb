@@ -47,6 +47,7 @@ module Synapseos
       sales_alert_approved
       lead_blocked
       lead_state_changed
+      dry_run_snapshot
     ].freeze
 
     belongs_to :account

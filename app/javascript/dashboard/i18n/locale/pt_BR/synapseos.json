@@ -118,6 +118,11 @@
         "TITLE": "Últimos alertas",
         "EMPTY": "Nenhum alerta de venda ainda."
       },
+      "DRY_RUN": {
+        "TITLE": "Disparos programados hoje",
+        "EMPTY_TITLE": "Nada programado ainda",
+        "EMPTY_DESC": "O preview roda às 08:00 e 13:30 (ou sob demanda). Aparece aqui quem a Elisa vai abordar hoje."
+      },
       "EVENT_TYPE": {
         "LEAD_CREATED": "Lead criado",
         "LEAD_QUALIFIED": "Lead qualificado",

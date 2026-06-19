@@ -46,4 +46,35 @@ RSpec.describe Synapseos::DashboardSummaryService do
       expect(summary[:kpis][:shoots_today]).to eq(1)
     end
   end
+
+  describe '#call dry_run (snapshot do n8n via CrmEvent)' do
+    def snapshot!(meta, at: Time.current)
+      Synapseos::CrmEvent.create!(account: account, event_type: 'dry_run_snapshot',
+                                  metadata: meta, created_at: at)
+    end
+
+    it 'retorna nil quando não há snapshot hoje' do
+      expect(described_class.new(account).call[:dry_run]).to be_nil
+    end
+
+    it 'pega o snapshot MAIS RECENTE de hoje (tarde sobre manhã)' do
+      snapshot!({ 'scope' => 'manha', 'disparos' => [{ 'nome' => 'A', 'tel4' => '1111' }],
+                  'followups' => [] }, at: 3.hours.ago)
+      snapshot!({ 'scope' => 'tarde', 'disparos' => [{ 'nome' => 'B', 'tel4' => '2222' }],
+                  'followups' => [{ 'nome' => 'C', 'tel4' => '3333' }] }, at: 1.minute.ago)
+
+      dr = described_class.new(account).call[:dry_run]
+
+      expect(dr[:scope]).to eq('tarde')
+      expect(dr[:disparos_count]).to eq(1)
+      expect(dr[:followups_count]).to eq(1)
+      expect(dr[:disparos].first['nome']).to eq('B')
+    end
+
+    it 'ignora snapshot de dias anteriores' do
+      snapshot!({ 'scope' => 'manha', 'disparos' => [{ 'nome' => 'X', 'tel4' => '9999' }] },
+                at: 2.days.ago)
+      expect(described_class.new(account).call[:dry_run]).to be_nil
+    end
+  end
 end

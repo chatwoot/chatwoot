@@ -109,6 +109,11 @@
         "TITLE": "Latest alerts",
         "EMPTY": "No sales alerts yet."
       },
+      "DRY_RUN": {
+        "TITLE": "Scheduled outreach today",
+        "EMPTY_TITLE": "Nothing scheduled yet",
+        "EMPTY_DESC": "The preview runs at 08:00 and 13:30 (or on demand). Shows who Elisa will reach out to today."
+      },
       "ALERT_DETAILS": {
         "TITLE": "Alert details",
         "CLOSE": "Close",
