@@ -176,6 +176,28 @@ describe Messages::Facebook::MessageBuilder do
         expect(message.attachments.first.file_type).to eq('image')
         expect(message.attachments.first.external_url).to eq(sticker_url)
       end
+
+      it 'keeps duplicate non-sticker attachments that share a URL' do
+        duplicate_image_object = {
+          messaging: {
+            sender: { id: '3383290475046708' },
+            recipient: { id: facebook_channel.page_id },
+            message: {
+              mid: 'm_duplicate_image_test',
+              attachments: [
+                { type: 'image', payload: { url: sticker_url } },
+                { type: 'image', payload: { url: sticker_url } }
+              ]
+            }
+          }
+        }.to_json
+        duplicate_image_message = Integrations::Facebook::MessageParser.new(duplicate_image_object)
+
+        described_class.new(duplicate_image_message, facebook_channel.inbox).perform
+
+        message = facebook_channel.inbox.messages.find_by(source_id: 'm_duplicate_image_test')
+        expect(message.attachments.count).to eq(2)
+      end
     end
 
     [

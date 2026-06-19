@@ -7,9 +7,9 @@ class Messages::Messenger::MessageBuilder
 
     params = attachment_params(attachment)
     # During Meta's sticker webhook transition, a sticker message carries both an `image`
-    # and a `sticker` attachment pointing to the same URL. Skip the duplicate to avoid
-    # attaching the sticker twice.
-    return if duplicate_external_url?(params[:external_url])
+    # and a `sticker` attachment pointing to the same URL. Skip the redundant sticker so it
+    # isn't attached twice, while still storing legitimate duplicate attachments of other types.
+    return if duplicate_sticker?(attachment, params[:external_url])
 
     attachment_obj = @message.attachments.new(params.except(:remote_file_url))
     attachment_obj.save!
@@ -127,10 +127,11 @@ class Messages::Messenger::MessageBuilder
     FACEBOOK_FILE_TYPE_MAP.fetch(sym, sym)
   end
 
-  def duplicate_external_url?(url)
+  def duplicate_sticker?(attachment, url)
+    return false unless attachment['type'].to_sym == :sticker
     return false if url.blank?
 
-    @message.attachments.any? { |attachment| attachment.external_url == url }
+    @message.attachments.any? { |existing| existing.external_url == url }
   end
 
   # Facebook sends reel URLs as webpage links (facebook.com/reel/...) rather than
