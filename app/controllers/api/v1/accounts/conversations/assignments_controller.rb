@@ -2,6 +2,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   # assigns agent/team to a conversation
   def create
     if params.key?(:assignee_id) || agent_bot_assignment?
+      authorize_assignment!
       set_agent
     elsif params.key?(:team_id)
       set_team
@@ -11,6 +12,19 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   end
 
   private
+
+  def authorize_assignment!
+    return if self_assigning_unassigned_conversation?
+
+    authorize @conversation, :assign?
+  end
+
+  def self_assigning_unassigned_conversation?
+    !agent_bot_assignment? &&
+      params[:assignee_id].to_i == Current.user&.id &&
+      @conversation.assignee_id.nil? &&
+      @conversation.assignee_agent_bot_id.nil?
+  end
 
   def set_agent
     resource = Conversations::AssignmentService.new(
