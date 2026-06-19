@@ -65,7 +65,13 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def portal
     @portal ||= Current.account.portals.find_by(slug: params[:portal_id]) ||
-                Current.account.portals.find_by!(id: params[:portal_id])
+                find_portal_by_numeric_id!
+  end
+
+  def find_portal_by_numeric_id!
+    raise ActiveRecord::RecordNotFound unless params[:portal_id].match?(/\A\d+\z/)
+
+    Current.account.portals.find(params[:portal_id])
   end
 
   def article_params

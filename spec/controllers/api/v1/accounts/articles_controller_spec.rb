@@ -63,6 +63,25 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['position']).to be(3)
       end
 
+      it 'returns not found when portal segment is a mistyped slug starting with another portal\'s id' do
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'MyTitle',
+            slug: 'my-title',
+            content: 'This is my content.',
+            status: :published,
+            author_id: agent.id,
+            position: 3
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}-old-slug/articles",
+             params: article_params,
+             headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:not_found)
+      end
+
       it 'creates article even if category is not provided' do
         article_params = {
           article: {
