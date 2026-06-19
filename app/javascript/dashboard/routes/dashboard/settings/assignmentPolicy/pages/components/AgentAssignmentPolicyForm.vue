@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -200,19 +200,20 @@ const handleSubmit = () => {
   emit('submit', { ...state });
 };
 
+// Pick the display unit from the stored value so non-day thresholds (e.g. 25h) don't get floored
+const detectExclusionUnit = hours => {
+  exclusionUnit.value =
+    hours && hours % 24 !== 0 ? DURATION_UNITS.HOURS : DURATION_UNITS.DAYS;
+};
+
 watch(
   () => props.initialData,
   newData => {
     Object.assign(state, newData);
+    detectExclusionUnit(newData.excludeOlderThanHours);
   },
   { immediate: true, deep: true }
 );
-
-onMounted(() => {
-  const hours = state.excludeOlderThanHours;
-  exclusionUnit.value =
-    hours && hours % 24 !== 0 ? DURATION_UNITS.HOURS : DURATION_UNITS.DAYS;
-});
 
 defineExpose({
   resetForm,
