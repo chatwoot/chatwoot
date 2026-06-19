@@ -64,12 +64,16 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def portal
-    @portal ||= if params[:portal_id].match?(/\A\d+\z/)
-                  Current.account.portals.find_by(id: params[:portal_id]) ||
-                    Current.account.portals.find_by!(slug: params[:portal_id])
-                else
-                  Current.account.portals.find_by!(slug: params[:portal_id])
-                end
+    return @portal if @portal
+
+    slug_match = Current.account.portals.find_by(slug: params[:portal_id])
+    id_match = Current.account.portals.find_by(id: params[:portal_id]) if params[:portal_id].match?(/\A\d+\z/)
+
+    if slug_match && id_match && slug_match != id_match
+      render_could_not_create_error('Portal identifier is ambiguous between an existing slug and an existing id') and return
+    end
+
+    @portal = slug_match || id_match || raise(ActiveRecord::RecordNotFound)
   end
 
   def article_params
