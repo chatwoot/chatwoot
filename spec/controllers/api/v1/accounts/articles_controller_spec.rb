@@ -40,6 +40,29 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(json_response['payload']['position']).to be(3)
       end
 
+      it 'creates article when portal is referenced by id instead of slug' do
+        article_params = {
+          article: {
+            category_id: category.id,
+            description: 'test description',
+            title: 'MyTitle',
+            slug: 'my-title',
+            content: 'This is my content.',
+            status: :published,
+            author_id: agent.id,
+            position: 3
+          }
+        }
+        post "/api/v1/accounts/#{account.id}/portals/#{portal.id}/articles",
+             params: article_params,
+             headers: admin.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['payload']['title']).to eql('MyTitle')
+        expect(json_response['payload']['status']).to eql('published')
+        expect(json_response['payload']['position']).to be(3)
+      end
+
       it 'creates article even if category is not provided' do
         article_params = {
           article: {

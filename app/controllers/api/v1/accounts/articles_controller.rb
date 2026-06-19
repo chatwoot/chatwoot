@@ -64,7 +64,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def portal
-    @portal ||= Current.account.portals.find_by!(slug: params[:portal_id])
+    @portal ||= Current.account.portals.find_by(slug: params[:portal_id]) ||
+                Current.account.portals.find_by!(id: params[:portal_id])
   end
 
   def article_params
