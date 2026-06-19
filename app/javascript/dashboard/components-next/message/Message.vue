@@ -368,6 +368,11 @@ const payloadForContextMenu = computed(() => {
   };
 });
 
+const hasEditHistory = computed(() => {
+  const previousContents = props.contentAttributes?.previousContents;
+  return Array.isArray(previousContents) && previousContents.length > 0;
+});
+
 const contextMenuEnabledOptions = computed(() => {
   const hasText = !!props.content;
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
@@ -390,8 +395,13 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    viewEditHistory: hasEditHistory.value && !isMessageDeleted.value,
   };
 });
+
+function handleViewEditHistory() {
+  emitter.emit(BUS_EVENTS.OPEN_MESSAGE_EDIT_HISTORY, { messageId: props.id });
+}
 
 const shouldRenderMessage = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
@@ -585,6 +595,7 @@ provideMessageContext({
         @open="openContextMenu"
         @close="closeContextMenu"
         @reply-to="handleReplyTo"
+        @view-edit-history="handleViewEditHistory"
       />
     </div>
   </div>

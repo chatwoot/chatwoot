@@ -15,8 +15,7 @@ const props = defineProps({
   hideMeta: { type: Boolean, default: false },
 });
 
-const { variant, orientation, inReplyTo, shouldGroupWithNext } =
-  useMessageContext();
+const { variant, orientation, inReplyTo } = useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
@@ -70,10 +69,7 @@ const scrollToMessage = () => {
 };
 
 const shouldShowMeta = computed(
-  () =>
-    !props.hideMeta &&
-    !shouldGroupWithNext.value &&
-    variant.value !== MESSAGE_VARIANTS.ACTIVITY
+  () => !props.hideMeta && variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
 
 const replyToPreview = computed(() => {
