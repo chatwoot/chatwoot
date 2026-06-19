@@ -7,7 +7,8 @@ class Conversations::FilterService < FilterService
   end
 
   def perform
-    @conversations = filtered_relation
+    validate_query_operator
+    @conversations = query_builder(@filters['conversations'])
     mine_count, unassigned_count, all_count, = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
@@ -20,13 +21,6 @@ class Conversations::FilterService < FilterService
         all_count: all_count
       }
     }
-  end
-
-  def filtered_relation
-    validate_query_operator
-    return base_relation if @params[:payload].blank?
-
-    query_builder(@filters['conversations'])
   end
 
   def base_relation

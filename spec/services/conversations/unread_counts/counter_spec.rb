@@ -17,7 +17,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
   end
 
   after do
-    store.clear_all_account!(account.id)
+    store.clear_account!(account.id)
   end
 
   it 'builds the base cache on demand' do
@@ -32,7 +32,6 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     lock_key = "UNREAD_CONVERSATIONS::V1::ACCOUNT::#{account.id}::BUILD_LOCK::BASE"
     lock_manager = instance_double(Redis::LockManager)
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
-    allow(lock_manager).to receive(:with_lock).and_yield.and_return(true)
     allow(lock_manager).to receive(:with_lock).with(lock_key, described_class::BUILD_LOCK_TTL).and_yield.and_return(true)
 
     create_unread_conversation(account: account, inbox: visible_inbox, labels: [label.title], team: visible_team)
@@ -47,32 +46,12 @@ RSpec.describe Conversations::UnreadCounts::Counter do
     counter = described_class.new(account: account, user: agent)
 
     allow(Redis::LockManager).to receive(:new).and_return(lock_manager)
-    allow(counter).to receive(:wait_for_cache_ready) do
-      store.mark_base_ready!(account.id)
-      store.mark_filters_ready!(account.id, agent.id)
-    end
+    allow(counter).to receive(:wait_for_cache_ready) { store.mark_base_ready!(account.id) }
     expect(Conversations::UnreadCounts::Builder).not_to receive(:new)
 
     counter.perform
 
     expect(counter).to have_received(:wait_for_cache_ready)
-    expect(store.base_ready?(account.id)).to be(true)
-    expect(store.filters_ready?(account.id, agent.id)).to be(true)
-  end
-
-  it 'retries when a build finishes without marking the cache ready' do
-    builder = instance_double(Conversations::UnreadCounts::Builder)
-    attempts = 0
-    allow(Conversations::UnreadCounts::Builder).to receive(:new).and_return(builder)
-    allow(builder).to receive(:build_base!) do
-      attempts += 1
-      store.mark_base_ready!(account.id) if attempts == 2
-    end
-    allow(builder).to receive(:build_filters_for!) { store.mark_filters_ready!(account.id, agent.id) }
-
-    described_class.new(account: account, user: agent).perform
-
-    expect(builder).to have_received(:build_base!).twice
     expect(store.base_ready?(account.id)).to be(true)
   end
 
@@ -86,11 +65,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 1 },
-      teams: { visible_team.id.to_s => 1 },
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 1,
-      folders: {}
+      teams: { visible_team.id.to_s => 1 }
     )
   end
 
@@ -104,11 +79,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       all_count: 2,
       inboxes: { visible_inbox.id.to_s => 1, hidden_inbox.id.to_s => 1 },
       labels: { label.id.to_s => 2 },
-      teams: { visible_team.id.to_s => 2 },
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 2,
-      folders: {}
+      teams: { visible_team.id.to_s => 2 }
     )
   end
 
@@ -121,46 +92,7 @@ RSpec.describe Conversations::UnreadCounts::Counter do
       all_count: 1,
       inboxes: { visible_inbox.id.to_s => 1 },
       labels: {},
-      teams: { visible_team.id.to_s => 1 },
-      mentions_count: 0,
-      participating_count: 0,
-      unattended_count: 1,
-      folders: {}
+      teams: { visible_team.id.to_s => 1 }
     )
-  end
-
-  it 'returns mention, participating, unattended, and valid folder unread counts for the user' do
-    mentioned_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-    participating_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-    resolved_conversation = create_unread_conversation(account: account, inbox: visible_inbox)
-    resolved_conversation.update!(status: :resolved)
-    valid_folder = create(:custom_filter, account: account, user: agent, filter_type: :conversation, query: filter_query('status', ['resolved']))
-    invalid_folder = create(:custom_filter, account: account, user: agent, filter_type: :conversation, query: filter_query('unknown', ['open']))
-
-    create(:mention, account: account, conversation: mentioned_conversation, user: agent)
-    create(:conversation_participant, account: account, conversation: participating_conversation, user: agent)
-
-    result = described_class.new(account: account, user: agent).perform
-
-    expect(result[:mentions_count]).to eq(1)
-    expect(result[:participating_count]).to eq(1)
-    expect(result[:unattended_count]).to eq(2)
-    expect(result[:folders]).to eq(valid_folder.id.to_s => 1)
-    expect(result[:folders]).not_to have_key(invalid_folder.id.to_s)
-    expect(store.filters_ready?(account.id, agent.id)).to be(true)
-  end
-
-  def filter_query(attribute_key, values)
-    {
-      payload: [
-        {
-          attribute_key: attribute_key,
-          filter_operator: 'equal_to',
-          values: values,
-          query_operator: nil,
-          custom_attribute_type: ''
-        }
-      ]
-    }
   end
 end

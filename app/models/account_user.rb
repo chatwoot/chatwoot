@@ -39,7 +39,6 @@ class AccountUser < ApplicationRecord
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
-  after_commit :notify_unread_filter_counts_changed, on: [:update, :destroy], if: :unread_filter_access_changed?
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -79,14 +78,6 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
-  end
-
-  def unread_filter_access_changed?
-    destroyed? || previous_changes.key?('role') || previous_changes.key?('custom_role_id')
-  end
-
-  def notify_unread_filter_counts_changed
-    ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: user).perform
   end
 end
 

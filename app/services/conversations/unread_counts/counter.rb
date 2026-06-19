@@ -1,7 +1,4 @@
 class Conversations::UnreadCounts::Counter
-  include ::Conversations::UnreadCounts::BuildLockKeys
-  include ::Conversations::UnreadCounts::FilterCounter
-
   MANAGE_ALL_PERMISSION = 'conversation_manage'.freeze
   UNASSIGNED_PERMISSION = 'conversation_unassigned_manage'.freeze
   PARTICIPATING_PERMISSION = 'conversation_participating_manage'.freeze
@@ -21,38 +18,31 @@ class Conversations::UnreadCounts::Counter
 
     ensure_base_cache!
     ensure_assignment_cache! if assignment_mode?
-    ensure_filters_cache!
 
     inbox_counts = unread_inbox_counts
-    filter_counts = unread_filter_counts
 
     {
       all_count: inbox_counts.values.sum,
       inboxes: inbox_counts,
       labels: unread_label_counts,
-      teams: unread_team_counts,
-      mentions_count: filter_counts[:mentions_count],
-      participating_count: filter_counts[:participating_count],
-      unattended_count: filter_counts[:unattended_count],
-      folders: filter_counts[:folders]
+      teams: unread_team_counts
     }
   end
 
   private
 
   def ensure_base_cache!
-    ensure_cache_ready!(ready: -> { store.base_ready?(account.id) }, lock_key: base_build_lock_key) { builder.build_base! }
+    ensure_cache_ready!(
+      ready: -> { store.base_ready?(account.id) },
+      lock_key: base_build_lock_key
+    ) { ::Conversations::UnreadCounts::Builder.new(account).build_base! }
   end
 
   def ensure_assignment_cache!
-    ensure_cache_ready!(ready: -> { store.assignment_ready?(account.id) }, lock_key: assignment_build_lock_key) { builder.build_assignment! }
-  end
-
-  def ensure_filters_cache!
     ensure_cache_ready!(
-      ready: -> { store.filters_ready?(account.id, user.id) },
-      lock_key: filters_build_lock_key
-    ) { builder.build_filters_for!(user) }
+      ready: -> { store.assignment_ready?(account.id) },
+      lock_key: assignment_build_lock_key
+    ) { ::Conversations::UnreadCounts::Builder.new(account).build_assignment! }
   end
 
   def ensure_cache_ready!(ready:, lock_key:)
@@ -61,16 +51,23 @@ class Conversations::UnreadCounts::Counter
     loop do
       return if ready.call
 
-      lock_acquired = lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) { yield unless ready.call }
-      return if ready.call
+      return if lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) { yield unless ready.call }
 
-      wait_for_cache_ready(ready) unless lock_acquired
+      wait_for_cache_ready(ready)
     end
   end
 
   def wait_for_cache_ready(ready)
     deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + BUILD_WAIT_TIMEOUT
     sleep BUILD_WAIT_INTERVAL until ready.call || Process.clock_gettime(Process::CLOCK_MONOTONIC) >= deadline
+  end
+
+  def base_build_lock_key
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_BASE_BUILD_LOCK, account_id: account.id)
+  end
+
+  def assignment_build_lock_key
+    format(Redis::Alfred::UNREAD_CONVERSATIONS_ASSIGNMENT_BUILD_LOCK, account_id: account.id)
   end
 
   def unread_inbox_counts
@@ -197,14 +194,10 @@ class Conversations::UnreadCounts::Counter
   end
 
   def empty_counts
-    { all_count: 0, inboxes: {}, labels: {}, teams: {}, mentions_count: 0, participating_count: 0, unattended_count: 0, folders: {} }
+    { all_count: 0, inboxes: {}, labels: {}, teams: {} }
   end
 
   def store
     ::Conversations::UnreadCounts::Store
-  end
-
-  def builder
-    @builder ||= ::Conversations::UnreadCounts::Builder.new(account)
   end
 end
