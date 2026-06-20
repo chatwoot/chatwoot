@@ -275,7 +275,6 @@ export default {
       v-if="enabledOptions['report']"
       ref="reportDialog"
       :message-id="messageId"
-      :conversation-id="conversationId"
     />
   </div>
 </template>

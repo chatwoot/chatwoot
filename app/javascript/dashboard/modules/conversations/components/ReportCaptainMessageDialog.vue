@@ -10,7 +10,6 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 
 const props = defineProps({
   messageId: { type: [Number, String], required: true },
-  conversationId: { type: [Number, String], required: true },
 });
 
 const { t } = useI18n();
@@ -57,7 +56,6 @@ const handleConfirm = async () => {
   try {
     await MessageReportsAPI.create({
       message_id: props.messageId,
-      conversation_id: props.conversationId,
       report_reason: form.reportReason,
       description: form.description.trim() || null,
     });

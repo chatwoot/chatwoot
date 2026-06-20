@@ -3,10 +3,7 @@ class Api::V1::Accounts::Captain::MessageReportsController < Api::V1::Accounts::
   before_action :set_message
 
   def create
-    @message_report = Captain::MessageReport.create!(
-      account: Current.account,
-      conversation: @message.conversation,
-      message: @message,
+    @message_report = @message.message_reports.create!(
       user: Current.user,
       report_reason: permitted_params[:report_reason],
       description: permitted_params[:description]

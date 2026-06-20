@@ -32,4 +32,15 @@ class Captain::MessageReport < ApplicationRecord
   belongs_to :user
 
   validates :report_reason, presence: true, inclusion: { in: REPORT_REASONS }
+
+  before_validation :ensure_account_and_conversation
+
+  private
+
+  def ensure_account_and_conversation
+    return if message.blank?
+
+    self.account ||= message.account
+    self.conversation ||= message.conversation
+  end
 end

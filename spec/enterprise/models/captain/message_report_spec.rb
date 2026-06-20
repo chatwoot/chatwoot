@@ -19,6 +19,19 @@ RSpec.describe Captain::MessageReport, type: :model do
     it { is_expected.to validate_inclusion_of(:report_reason).in_array(described_class::REPORT_REASONS) }
   end
 
+  describe 'callbacks' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, account: account, conversation: conversation) }
+
+    it 'derives the account and conversation from the message' do
+      report = described_class.create!(message: message, user: create(:user, account: account), report_reason: 'other')
+
+      expect(report.account).to eq(account)
+      expect(report.conversation).to eq(conversation)
+    end
+  end
+
   describe 'factory' do
     it 'creates a valid message report' do
       expect(build(:captain_message_report)).to be_valid
