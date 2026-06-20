@@ -60,16 +60,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
                params: valid_params, headers: agent.create_new_auth_token, as: :json
         end.to change(Captain::MessageReport, :count).by(1)
 
-        expect(response).to have_http_status(:success)
-
         report = Captain::MessageReport.last
-        expect(report.message_id).to eq(message.id)
-        expect(report.conversation_id).to eq(conversation.id)
-        expect(report.user_id).to eq(agent.id)
-        expect(report.report_reason).to eq('incorrect_information')
-        expect(report.description).to eq('The generated citation is wrong.')
-
-        expect(json_response[:report_reason]).to eq('incorrect_information')
+        aggregate_failures do
+          expect(response).to have_http_status(:success)
+          expect(report.message_id).to eq(message.id)
+          expect(report.conversation_id).to eq(conversation.id)
+          expect(report.user_id).to eq(agent.id)
+          expect(report.report_reason).to eq('incorrect_information')
+          expect(report.description).to eq('The generated citation is wrong.')
+          expect(json_response[:report_reason]).to eq('incorrect_information')
+        end
       end
 
       it 'returns not found when the message does not belong to the account' do
