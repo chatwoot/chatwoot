@@ -3,8 +3,14 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let(:conversation) { create(:conversation, account: account) }
-  let(:message) { create(:message, account: account, conversation: conversation) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:assistant) { create(:captain_assistant, account: account) }
+  let(:message) do
+    create(:message, account: account, conversation: conversation, message_type: :outgoing, sender: assistant)
+  end
+
+  before { create(:inbox_member, user: agent, inbox: inbox) }
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -80,6 +86,29 @@ RSpec.describe 'Api::V1::Accounts::Captain::MessageReports', type: :request do
         post "/api/v1/accounts/#{account.id}/captain/message_reports",
              params: valid_params.merge(report_reason: 'invalid_reason'),
              headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'does not allow an agent without access to the conversation to report' do
+        other_agent = create(:user, account: account, role: :agent)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/message_reports",
+               params: valid_params, headers: other_agent.create_new_auth_token, as: :json
+        end.not_to change(Captain::MessageReport, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'rejects messages that were not sent by a Captain assistant' do
+        non_captain_message = create(:message, account: account, conversation: conversation)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/captain/message_reports",
+               params: valid_params.merge(message_id: non_captain_message.id),
+               headers: agent.create_new_auth_token, as: :json
+        end.not_to change(Captain::MessageReport, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
