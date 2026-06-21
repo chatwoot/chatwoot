@@ -27,7 +27,20 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
     request_chat_completion
   end
 
+  # Metadata describing how the last response was generated, persisted alongside the message.
+  def generation_metadata
+    {
+      model: model,
+      citations: collected_citations,
+      generation_path: generation_path
+    }
+  end
+
   private
+
+  def collected_citations
+    @tools.flat_map { |tool| tool.try(:citations) || [] }
+  end
 
   def build_tools
     tools = [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]

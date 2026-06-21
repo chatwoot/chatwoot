@@ -34,9 +34,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_and_process_response
     message_history = collect_previous_messages
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: message_history
-    )
+    @chat_service = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation)
+    @response = @chat_service.generate_response(message_history: message_history)
     classify_v1_response_action(message_history) if conversation_pending?
     process_response
   end
@@ -151,15 +150,24 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message(preserve_waiting_since: false)
-    create_outgoing_message(
+    message = create_outgoing_message(
       @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
       preserve_waiting_since: preserve_waiting_since
     )
+    persist_generation_metadata(message, @response['action_reason'])
   end
 
   def create_messages
     validate_message_content!(@response['response'])
-    create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
+    message = create_outgoing_message(@response['response'], agent_name: @response['agent_name'])
+    persist_generation_metadata(message, @response['reasoning'])
+  end
+
+  def persist_generation_metadata(message, reasoning)
+    return if @chat_service.blank? && reasoning.blank?
+
+    Captain::MessageGeneration.record!(message: message, assistant: @assistant, reasoning: reasoning,
+                                       used_sources: @response['used_sources'], metadata: @chat_service&.generation_metadata)
   end
 
   def validate_message_content!(content)

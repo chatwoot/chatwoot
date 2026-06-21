@@ -2,9 +2,10 @@ module Captain::ChatHelper
   include Integrations::LlmInstrumentation
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
+  include Captain::ChatGenerationPath
 
   def request_chat_completion
-    log_chat_completion_request
+    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, requesting completion for #{@messages} with #{@tools&.length || 0} tools")
     chat = build_chat
 
     add_messages_to_chat(chat)
@@ -59,11 +60,13 @@ module Captain::ChatHelper
     persist_thinking_message(tool_call)
     start_tool_span(tool_call)
     (@pending_tool_calls ||= []).push(tool_call)
+    track_generation_step(tool_call)
   end
 
   def handle_tool_result(result)
     end_tool_span(result)
     persist_tool_completion
+    record_generation_step_result(result)
   end
 
   def add_messages_to_chat(chat)
@@ -127,9 +130,5 @@ module Captain::ChatHelper
   # Used for Langfuse tagging and span naming.
   def feature_name
     raise NotImplementedError, "#{self.class.name} must implement #feature_name"
-  end
-
-  def log_chat_completion_request
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, requesting completion for #{@messages} with #{@tools&.length || 0} tools")
   end
 end

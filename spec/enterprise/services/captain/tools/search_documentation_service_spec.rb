@@ -51,6 +51,19 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
         expect(result).to include(answer)
         expect(result).to include(external_link)
       end
+
+      it 'captures structured citations for the matched responses' do
+        service.execute(query: question)
+
+        expect(service.citations).to contain_exactly(
+          hash_including(
+            'response_id' => response.id,
+            'title' => question,
+            'source' => external_link,
+            'document_id' => documentable.id
+          )
+        )
+      end
     end
 
     context 'when no matching responses exist' do

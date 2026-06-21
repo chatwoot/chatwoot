@@ -70,6 +70,18 @@
     "RATING_TITLE": "Rating",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "CAPTAIN_GENERATION": {
+      "TITLE": "How was this reply generated?",
+      "LOADING": "Loading details…",
+      "EMPTY": "No generation details available for this message.",
+      "REASONING": "Reasoning",
+      "SOURCES": "Knowledge base",
+      "SOURCES_SUMMARY": "Found {count} results",
+      "SEARCHED_FOR": "Searched for “{query}”",
+      "USED": "Used in reply",
+      "TOOLS": "Tools used",
+      "MODEL": "Generated with {model}"
+    },
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels",

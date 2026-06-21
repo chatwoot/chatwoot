@@ -18,6 +18,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(inbox).to receive(:captain_active?).and_return(true)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain Specs' })
+      allow(mock_llm_chat_service).to receive(:generation_metadata).and_return(
+        { model: 'gpt-4o-mini', citations: [], generation_path: [] }
+      )
       allow(Captain::Assistant::AgentRunnerService).to receive(:new).and_return(mock_agent_runner_service)
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
@@ -49,6 +52,37 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
         account.reload
         expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
+      end
+
+      it 'persists the generation metadata for the outgoing message' do
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return(
+          { 'response' => 'Hey, welcome to Captain Specs', 'reasoning' => 'Matched the welcome FAQ', 'used_sources' => [11] }
+        )
+        allow(mock_llm_chat_service).to receive(:generation_metadata).and_return(
+          {
+            model: 'gpt-4o-mini',
+            citations: [
+              { 'response_id' => 11, 'title' => 'Used FAQ', 'source' => 'https://example.com/used' },
+              { 'response_id' => 22, 'title' => 'Other FAQ', 'source' => 'https://example.com/other' }
+            ],
+            generation_path: [{ 'tool' => 'search_documentation', 'arguments' => { 'query' => 'hi' } }]
+          }
+        )
+
+        described_class.perform_now(conversation, assistant)
+
+        generation = conversation.messages.outgoing.last.captain_generation
+        aggregate_failures do
+          expect(generation).to be_present
+          expect(generation.reasoning).to eq('Matched the welcome FAQ')
+          expect(generation.model).to eq('gpt-4o-mini')
+          expect(generation.generation_path.first['tool']).to eq('search_documentation')
+          expect(generation.assistant).to eq(assistant)
+          # the source listed in used_sources is flagged used, the other stays unused
+          used = generation.citations.index_by { |c| c['response_id'] }
+          expect(used[11]['used']).to be(true)
+          expect(used[22]['used']).to be(false)
+        end
       end
 
       it 'does not run the action classifier when the classifier feature is disabled' do
@@ -366,6 +400,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(Captain::OpenAiMessageBuilderService).to receive(:new).with(message: anything).and_return(mock_message_builder)
       allow(mock_message_builder).to receive(:generate_content).and_return('Hello with image')
       allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'Test response' })
+      allow(mock_llm_chat_service).to receive(:generation_metadata).and_return(
+        { model: 'gpt-4o-mini', citations: [], generation_path: [] }
+      )
     end
 
     context 'when ActiveStorage::FileNotFoundError occurs' do
@@ -476,6 +513,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
       allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
+      allow(mock_llm_chat_service).to receive(:generation_metadata).and_return(
+        { model: 'gpt-4o-mini', citations: [], generation_path: [] }
+      )
       allow(account).to receive(:feature_enabled?).and_return(false)
       allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
     end
