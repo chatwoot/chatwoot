@@ -1,0 +1,75 @@
+# InboxHub STAGING — build desde fork (no imagen oficial).
+# Dokploy: dominio test.inbox.paluhub.com, red externa main-chatwoot-staging.
+# Volúmenes con prefijo staging-* (DB vacía, aislada de producción).
+
+x-base-config: &base-config
+  build:
+    context: .
+    dockerfile: docker/Dockerfile
+  image: inboxhub/chatwoot:staging
+  env_file: .env
+  volumes:
+    - staging-chatwoot-storage:/app/storage
+  networks:
+    - chatwoot-internal
+    - main-chatwoot-staging
+
+services:
+  chatwoot-rails:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'sh', '-c', 'bundle exec rails db:chatwoot_prepare && bundle exec rails s -p 3000 -b 0.0.0.0']
+    restart: always
+
+  chatwoot-sidekiq:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
+
+  chatwoot-postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    volumes:
+      - staging-chatwoot-postgres-data:/var/lib/postgresql/data
+      - ./docker/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql:ro
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-staging
+
+  chatwoot-redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - staging-chatwoot-redis-data:/data
+    networks:
+      - chatwoot-internal
+
+volumes:
+  staging-chatwoot-storage:
+  staging-chatwoot-postgres-data:
+  staging-chatwoot-redis-data:
+
+networks:
+  chatwoot-internal:
+    driver: bridge
+  main-chatwoot-staging:
+    external: true

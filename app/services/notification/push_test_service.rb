@@ -5,7 +5,7 @@ class Notification::PushTestService
   DEFAULT_BODY = 'This is a test from our team to check notification delivery on your device. No action needed.'.freeze
 
   def self.default_title
-    format(DEFAULT_TITLE, installation_name: GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot'))
+    format(DEFAULT_TITLE, installation_name: GlobalConfigService.load('INSTALLATION_NAME', 'InboxHub'))
   end
 
   def self.default_body

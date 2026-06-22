@@ -106,6 +106,9 @@ export default {
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
     },
+    isStaging() {
+      return this.globalConfig.deploymentEnv === 'staging';
+    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -307,6 +310,9 @@ export default {
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
         {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
+      <p v-if="isStaging" class="mt-2 text-xs font-medium text-center text-amber-600">
+        Entorno de pruebas — InboxHub
+      </p>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
         <router-link to="auth/signup" class="lowercase text-link text-n-brand">
