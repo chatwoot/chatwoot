@@ -21,7 +21,7 @@ defineEmits(['continue', 'skip']);
     <div
       class="absolute inset-0 bg-[size:96px_96px] bg-[image:linear-gradient(to_right,rgb(var(--border-weak))_1px,transparent_1px),linear-gradient(to_bottom,rgb(var(--border-weak))_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_80%_at_100%_0%,black_5%,transparent_50%),radial-gradient(ellipse_80%_80%_at_0%_100%,black_5%,transparent_50%)] [mask-composite:add] [-webkit-mask-composite:source-over]"
     />
-    <div class="relative w-full max-w-[640px]">
+    <div class="relative w-full max-w-[40rem]">
       <div class="relative ps-12">
         <!-- Timeline dotted line -->
         <svg
