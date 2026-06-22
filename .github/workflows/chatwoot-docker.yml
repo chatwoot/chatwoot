@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository_owner }}/chatwoot
 
 jobs:
   build-and-push:
@@ -35,7 +35,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ghcr.io/${{ github.repository.toLowerCase() }}
+          images: ghcr.io/${{ github.repository_owner }}/chatwoot
           tags: |
             type=ref,event=branch
             type=sha,prefix={{branch}}-
