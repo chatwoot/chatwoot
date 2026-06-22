@@ -8,10 +8,7 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
   let(:audio_api) { double }
 
   around do |example|
-    with_modified_env(
-      ENABLE_WIDGET_AUDIO_TRANSCRIPTION: 'true',
-      WIDGET_TRANSCRIPTION_OPENAI_API_KEY: 'test-api-key'
-    ) { example.run }
+    with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_API_KEY: 'test-api-key') { example.run }
   end
 
   before do
@@ -27,14 +24,14 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
       expect(service.perform).to eq({ success: true, transcription: 'Hello world' })
     end
 
-    context 'when the feature is disabled' do
+    context 'when no OpenAI key is configured' do
       around do |example|
-        with_modified_env(ENABLE_WIDGET_AUDIO_TRANSCRIPTION: 'false') { example.run }
+        with_modified_env(WIDGET_TRANSCRIPTION_OPENAI_API_KEY: nil) { example.run }
       end
 
       it 'returns an error and does not call the API' do
         expect(audio_api).not_to receive(:transcribe)
-        expect(service.perform).to eq({ error: 'Audio transcription is not enabled' })
+        expect(service.perform).to eq({ error: 'Audio transcription is not configured' })
       end
     end
 

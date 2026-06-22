@@ -1141,6 +1141,17 @@ export default {
                       {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
                     </label>
                   </div>
+                  <div class="flex gap-2 py-0.5">
+                    <input
+                      v-model="selectedFeatureFlags"
+                      type="checkbox"
+                      value="voice_recorder"
+                      @input="handleFeatureFlag"
+                    />
+                    <label for="voice_recorder">
+                      {{ $t('INBOX_MGMT.FEATURES.ENABLE_VOICE_RECORDER') }}
+                    </label>
+                  </div>
                 </div>
               </SettingsFieldSection>
             </SettingsAccordion>

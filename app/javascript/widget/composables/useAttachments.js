@@ -37,11 +37,13 @@ export function useAttachments() {
     !!navigator.mediaDevices?.getUserMedia &&
     typeof window.MediaRecorder !== 'undefined';
 
+  const hasVoiceRecorderEnabled = computed(() => {
+    const channelConfig = window.chatwootWebChannel;
+    return channelConfig?.enabledFeatures?.includes('voice_recorder') || false;
+  });
+
   const canTranscribeAudio = computed(
-    () =>
-      (window.chatwootWebChannel?.audioTranscriptionEnabled &&
-        isAudioRecordingSupported) ||
-      false
+    () => (hasVoiceRecorderEnabled.value && isAudioRecordingSupported) || false
   );
 
   return {

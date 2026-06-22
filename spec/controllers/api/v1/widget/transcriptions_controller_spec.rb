@@ -16,18 +16,32 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
   end
 
   describe 'POST /api/v1/widget/transcription' do
-    context 'when audio transcription is disabled' do
+    context 'when the voice recorder feature is disabled for the inbox' do
+      before { allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(true) }
+
       it 'returns forbidden' do
-        allow(Widget::AudioTranscriptionConfig).to receive(:enabled?).and_return(false)
-
         post_transcription(audio: audio_file)
-
         expect(response).to have_http_status(:forbidden)
       end
     end
 
-    context 'when audio transcription is enabled' do
-      before { allow(Widget::AudioTranscriptionConfig).to receive(:enabled?).and_return(true) }
+    context 'when the voice recorder feature is enabled but no OpenAI key is configured' do
+      before do
+        web_widget.update!(voice_recorder: true)
+        allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(false)
+      end
+
+      it 'returns forbidden' do
+        post_transcription(audio: audio_file)
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
+
+    context 'when the voice recorder feature is enabled and configured' do
+      before do
+        web_widget.update!(voice_recorder: true)
+        allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(true)
+      end
 
       it 'returns unprocessable entity when no audio is provided' do
         post_transcription({})

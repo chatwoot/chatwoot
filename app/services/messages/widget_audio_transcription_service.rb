@@ -12,7 +12,7 @@ class Messages::WidgetAudioTranscriptionService
   end
 
   def perform
-    return { error: 'Audio transcription is not enabled' } unless Widget::AudioTranscriptionConfig.enabled?
+    return { error: 'Audio transcription is not configured' } unless Widget::AudioTranscriptionConfig.configured?
     return { error: 'Audio too large for transcription' } if audio_too_large?
 
     { success: true, transcription: transcribe_audio }

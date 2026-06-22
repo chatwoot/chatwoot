@@ -1,7 +1,8 @@
-# Resolves the widget voice-to-text configuration purely from ENV so the
-# feature is independent of the (paid) Captain integration. Falls back to the
-# Captain OpenAI installation config only as a convenience when a dedicated
-# widget key is not provided.
+# Resolves the widget voice-to-text OpenAI configuration from ENV so the
+# feature is independent of the (paid) Captain integration. Per-inbox
+# availability is controlled by the web widget `voice_recorder` feature flag;
+# this only supplies the credentials. Falls back to the Captain OpenAI
+# installation config for the key as a convenience.
 module Widget
   module AudioTranscriptionConfig
     DEFAULT_MODEL = 'gpt-4o-mini-transcribe'.freeze
@@ -9,8 +10,8 @@ module Widget
 
     module_function
 
-    def enabled?
-      ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_WIDGET_AUDIO_TRANSCRIPTION', false)) && api_key.present?
+    def configured?
+      api_key.present?
     end
 
     def api_key
