@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, nextTick, onMounted } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
@@ -45,7 +46,10 @@ const showErrorOnFields = ref(false);
 
 const validationRules = {
   userRole: {},
-  website: {},
+  // Website is required: the onboarding web-widget inbox can't be created
+  // without a URL (Channel::WebWidget validates presence), so a blank value
+  // would leave the "Live Chat widget" status polling forever.
+  website: { required },
   locale: {},
   timezone: {},
   companySize: {},
@@ -134,6 +138,9 @@ const handleSubmit = async () => {
     setTimeout(() => {
       showErrorOnFields.value = false;
     }, 600);
+    // The website field is read-only until edited; open it so a required-but-
+    // empty value is immediately fixable rather than just shaking a locked field.
+    if (v$.value.website.$error) enableWebsiteEditing();
     return;
   }
 
