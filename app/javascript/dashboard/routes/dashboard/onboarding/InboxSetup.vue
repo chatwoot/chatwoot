@@ -15,6 +15,7 @@ import InboxChannelsFooter from './inbox-setup/InboxChannelsFooter.vue';
 import ChannelRow from './inbox-setup/ChannelRow.vue';
 import WebWidgetCreationStatus from './inbox-setup/WebWidgetCreationStatus.vue';
 import HelpCenterCreationStatus from './inbox-setup/HelpCenterCreationStatus.vue';
+import { CHANNEL_TYPES } from 'dashboard/helper/inbox';
 import { useChannelConnect } from './inbox-setup/useChannelConnect';
 import { useDetectedChannels } from './inbox-setup/useDetectedChannels';
 import { DIALOG_CHANNELS } from './inbox-setup/constants';
@@ -80,7 +81,7 @@ const refetchInboxes = () => store.dispatch('inboxes/get');
 // the redirect OAuth flow (Gmail/Outlook keyed by email provider, Instagram by
 // channel type).
 const connectChannel = channel => {
-  if (channel.type === 'whatsapp') {
+  if (channel.type === CHANNEL_TYPES.WHATSAPP) {
     connectWhatsapp();
     return;
   }
@@ -131,9 +132,7 @@ const connectChannel = channel => {
             icon="i-lucide-lightbulb"
             class="size-4 text-n-slate-11 flex-shrink-0"
           />
-          <span
-            class="flex-1 min-w-0 text-sm font-420 leading-[21px] tracking-[-0.28px] text-n-slate-11"
-          >
+          <span class="flex-1 min-w-0 text-body-main text-n-slate-11">
             {{ t('ONBOARDING_INBOX_SETUP.CHANNELS.HEADER') }}
           </span>
         </div>
