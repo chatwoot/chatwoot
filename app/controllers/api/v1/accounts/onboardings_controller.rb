@@ -1,7 +1,12 @@
 class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
 
-  ONBOARDING_STEPS = %w[account_details inbox_setup].freeze
+  ONBOARDING_STEP_KEY = 'onboarding_step'.freeze
+  STEP_ENRICHMENT = 'enrichment'.freeze
+  STEP_ACCOUNT_DETAILS = 'account_details'.freeze
+  STEP_INBOX_SETUP = 'inbox_setup'.freeze
+
+  ONBOARDING_STEPS = [STEP_ACCOUNT_DETAILS, STEP_INBOX_SETUP].freeze
 
   def update
     return render json: { error: 'Invalid onboarding step' }, status: :unprocessable_entity unless valid_onboarding_step?
@@ -34,11 +39,11 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
     # The stored cursor may still be 'enrichment' when the client submits after
     # the enrichment timeout, so accept either pre-inbox_setup state. A stale
     # replay after onboarding finished (no stored step) must not re-enter it.
-    return unless %w[enrichment account_details].include?(@account.custom_attributes['onboarding_step'])
+    return unless [STEP_ENRICHMENT, STEP_ACCOUNT_DETAILS].include?(@account.custom_attributes[ONBOARDING_STEP_KEY])
 
     @account.assign_attributes(account_params)
     @account.custom_attributes.merge!(custom_attributes_params)
-    @account.custom_attributes['onboarding_step'] = 'inbox_setup'
+    @account.custom_attributes[ONBOARDING_STEP_KEY] = STEP_INBOX_SETUP
     @account.save!
     create_onboarding_inboxes
   end
@@ -46,9 +51,9 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
   def complete_inbox_setup
     # Only finalize while the stored cursor still points here, so a stale or
     # out-of-order request can't end onboarding early. Replays are no-ops.
-    return unless @account.custom_attributes['onboarding_step'] == 'inbox_setup'
+    return unless @account.custom_attributes[ONBOARDING_STEP_KEY] == STEP_INBOX_SETUP
 
-    @account.custom_attributes.delete('onboarding_step')
+    @account.custom_attributes.delete(ONBOARDING_STEP_KEY)
     @account.save!
   end
 
