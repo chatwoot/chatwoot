@@ -207,10 +207,10 @@ RSpec.describe AutoAssignment::AssignmentService do
         allow(rate_limiter).to receive(:track_assignment)
       end
 
-      it 'skips conversations older than the policy threshold' do
+      it 'skips conversations inactive beyond the policy threshold' do
         assignment_policy.update!(exclude_older_than_hours: 24)
-        old_conversation = create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago)
-        recent_conversation = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
+        old_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago)
+        recent_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago)
 
         assigned_count = service.perform_bulk_assignment(limit: 10)
 
@@ -219,9 +219,20 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(recent_conversation.reload.assignee).to eq(agent)
       end
 
+      it 'assigns reopened conversations created long ago but recently active' do
+        assignment_policy.update!(exclude_older_than_hours: 24)
+        reopened_conversation = create(:conversation, inbox: inbox, assignee: nil,
+                                                      created_at: 30.days.ago, last_activity_at: 1.hour.ago)
+
+        assigned_count = service.perform_bulk_assignment(limit: 10)
+
+        expect(assigned_count).to eq(1)
+        expect(reopened_conversation.reload.assignee).to eq(agent)
+      end
+
       it 'assigns conversations regardless of age when threshold is nil' do
         assignment_policy.update!(exclude_older_than_hours: nil)
-        old_conversation = create(:conversation, inbox: inbox, assignee: nil, created_at: 30.days.ago)
+        old_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 30.days.ago)
 
         assigned_count = service.perform_bulk_assignment(limit: 10)
 

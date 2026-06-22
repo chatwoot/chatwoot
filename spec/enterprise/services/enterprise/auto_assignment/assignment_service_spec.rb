@@ -90,8 +90,8 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     end
 
     context 'when excluding conversations by age' do
-      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago) }
-      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago) }
+      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago) }
+      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago) }
 
       before do
         capacity_policy.update!(exclusion_rules: {
@@ -124,10 +124,10 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     context 'when combining exclusion rules' do
       it 'applies both exclusion rules' do
         # Create conversations
-        old_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago)
-        old_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago)
-        recent_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
-        recent_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago)
+        old_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago)
+        old_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago)
+        recent_conversation_with_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago)
+        recent_conversation_without_label = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago)
 
         # Add labels
         old_conversation_with_label.update_labels([label1.title])
@@ -184,8 +184,8 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     end
 
     context 'when excluding by age via the assignment policy' do
-      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 25.hours.ago) }
-      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, created_at: 1.hour.ago) }
+      let!(:old_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 25.hours.ago) }
+      let!(:recent_conversation) { create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 1.hour.ago) }
 
       before do
         InboxCapacityLimit.destroy_all
