@@ -85,6 +85,90 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - Downloadable Reports for offline analysis and reporting.
 
 
+---
+
+## Switchable Fork — Custom Features
+
+This repository is a fork of Chatwoot with isolated, portable custom features. Each feature is self-contained and can be copied into any other Chatwoot installation without touching upstream files beyond a minimum.
+
+---
+
+### Feature: Facebook Messenger Ad Referral Card
+
+When a contact starts a conversation by clicking a Facebook ad, Chatwoot now displays the ad content (thumbnail + title) above their first message in the chat.
+
+#### How it works
+
+Facebook sends a `referral` object alongside the message webhook event. This fork captures it and stores it in `content_attributes.referral`. The frontend reads that data and renders an ad card at the top of the text bubble.
+
+#### Files added by this feature
+
+| File | Purpose |
+|---|---|
+| `config/initializers/facebook_ad_referral.rb` | Wires the extensions (the only file that references upstream classes) |
+| `lib/integrations/facebook/ad_referral/message_parser_extension.rb` | Extracts `referral` from the webhook payload |
+| `lib/integrations/facebook/ad_referral/message_builder_extension.rb` | Stores referral in `content_attributes` |
+| `app/javascript/dashboard/components-next/message/ad-referral/AdReferralCard.vue` | Vue component that renders the ad card |
+
+#### Minimal changes to upstream files
+
+| File | Change |
+|---|---|
+| `app/javascript/dashboard/components-next/message/bubbles/Text/Index.vue` | 1 import line + 3 template lines |
+| `app/javascript/dashboard/i18n/locale/en/conversation.json` | `AD_REFERRAL.SPONSORED` translation key |
+
+#### Deploying to an existing Chatwoot installation
+
+1. **Copy the new files** into the target Chatwoot repo:
+   ```
+   config/initializers/facebook_ad_referral.rb
+   lib/integrations/facebook/ad_referral/
+   app/javascript/dashboard/components-next/message/ad-referral/
+   ```
+
+2. **Edit `app/javascript/dashboard/components-next/message/bubbles/Text/Index.vue`** — add after the existing imports:
+   ```js
+   import AdReferralCard from 'next/message/ad-referral/AdReferralCard.vue';
+   ```
+   Then inside the template's `<div class="gap-3 flex flex-col">`, before `<span v-if="isEmpty">`:
+   ```vue
+   <AdReferralCard
+     v-if="contentAttributes.referral"
+     :referral="contentAttributes.referral"
+   />
+   ```
+
+3. **Add the translation key** to `app/javascript/dashboard/i18n/locale/en/conversation.json` inside the top-level `CONVERSATION` object:
+   ```json
+   "AD_REFERRAL": {
+     "SPONSORED": "Sponsored"
+   },
+   ```
+
+4. **Rebuild the frontend assets:**
+   ```bash
+   pnpm install
+   pnpm build
+   ```
+
+5. **Restart Rails** (the initializer loads automatically on boot — no migrations required):
+   ```bash
+   bundle exec rails server
+   # or in production: restart your Rails process / Sidekiq workers
+   ```
+
+#### Removing the feature
+
+Delete these files and restart Rails:
+```
+config/initializers/facebook_ad_referral.rb
+lib/integrations/facebook/ad_referral/
+app/javascript/dashboard/components-next/message/ad-referral/
+```
+Then revert the 4 lines in `Text/Index.vue` and the i18n key.
+
+---
+
 ## Documentation
 
 Detailed documentation is available at [chatwoot.com/help-center](https://www.chatwoot.com/help-center).

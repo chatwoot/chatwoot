@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
+import AdReferralCard from 'next/message/ad-referral/AdReferralCard.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
@@ -44,6 +45,10 @@ const handleSeeOriginal = () => {
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="text">
     <div class="gap-3 flex flex-col">
+      <AdReferralCard
+        v-if="contentAttributes.referral"
+        :referral="contentAttributes.referral"
+      />
       <span v-if="isEmpty" class="text-n-slate-11">
         {{ $t('CONVERSATION.NO_CONTENT') }}
       </span>
