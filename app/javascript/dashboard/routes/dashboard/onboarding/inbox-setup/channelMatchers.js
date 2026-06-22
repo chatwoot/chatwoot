@@ -1,3 +1,5 @@
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
+
 // A detected channel maps to a real inbox when they share a channel_type. Gmail
 // and Outlook both use Channel::Email, so for email we also match on provider.
 // `stub` is a channel's `{ channel_type, provider }` shape (e.g. channel.inbox).
@@ -8,7 +10,7 @@ export const findConnectedInbox = (inboxes, stub) =>
   inboxes.find(
     inbox =>
       inbox.channel_type === stub?.channel_type &&
-      (stub?.channel_type !== 'Channel::Email' ||
+      (stub?.channel_type !== INBOX_TYPES.EMAIL ||
         inbox.provider === stub?.provider)
   );
 
