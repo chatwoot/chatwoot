@@ -17,6 +17,7 @@ import WebWidgetCreationStatus from './inbox-setup/WebWidgetCreationStatus.vue';
 import HelpCenterCreationStatus from './inbox-setup/HelpCenterCreationStatus.vue';
 import { useChannelConnect } from './inbox-setup/useChannelConnect';
 import { useDetectedChannels } from './inbox-setup/useDetectedChannels';
+import { DIALOG_CHANNELS } from './inbox-setup/constants';
 
 const { t } = useI18n();
 const store = useStore();
@@ -74,12 +75,10 @@ const handleSkip = () =>
 const openChannelsDialog = () => channelsDialogRef.value?.open();
 const refetchInboxes = () => store.dispatch('inboxes/get');
 
-// WhatsApp connects via Meta's embedded-signup popup; Facebook (page picker)
-// and the credential-form channels (Telegram, Line) open the channels dialog
-// preselected to their in-dialog step; the rest go through the redirect OAuth
-// flow (Gmail/Outlook keyed by email provider, Instagram by channel type).
-const DIALOG_CHANNELS = ['facebook', 'telegram', 'line'];
-
+// WhatsApp connects via Meta's embedded-signup popup; the DIALOG_CHANNELS open
+// the channels dialog preselected to their in-dialog step; the rest go through
+// the redirect OAuth flow (Gmail/Outlook keyed by email provider, Instagram by
+// channel type).
 const connectChannel = channel => {
   if (channel.type === 'whatsapp') {
     connectWhatsapp();

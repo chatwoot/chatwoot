@@ -1,3 +1,26 @@
+import { CHANNEL_TYPES } from 'dashboard/helper/inbox';
+
+// Channels whose connect flow opens the channels dialog preselected to their
+// in-dialog step — Facebook (page picker) and the credential-form channels
+// (Telegram, Line) — rather than redirecting through OAuth.
+export const DIALOG_CHANNELS = [
+  CHANNEL_TYPES.FACEBOOK,
+  CHANNEL_TYPES.TELEGRAM,
+  CHANNEL_TYPES.LINE,
+];
+
+// Suggested channels (in priority order) to offer as rows when nothing is
+// detected, so the step isn't empty. The mainstream OAuth channels show on
+// configured installs, while credential-free Telegram/LINE keep the list
+// non-empty on a bare self-host.
+export const DEFAULT_CHANNEL_TYPES = [
+  CHANNEL_TYPES.WHATSAPP,
+  CHANNEL_TYPES.FACEBOOK,
+  CHANNEL_TYPES.INSTAGRAM,
+  CHANNEL_TYPES.TELEGRAM,
+  CHANNEL_TYPES.LINE,
+];
+
 // Channels offered in the onboarding "View all" dialog. `inbox` is a stub shaped
 // like a real inbox so ChannelIcon can resolve the icon from the shared provider.
 // With `use-brand-icon`, ChannelIcon renders the full-color brand logo when one

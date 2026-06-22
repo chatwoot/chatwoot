@@ -1,25 +1,17 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { SOCIAL_PLATFORMS, EMAIL_PROVIDERS } from './constants';
+import {
+  SOCIAL_PLATFORMS,
+  EMAIL_PROVIDERS,
+  DEFAULT_CHANNEL_TYPES,
+} from './constants';
 import { findConnectedInbox } from './channelMatchers';
 import { useChannelConfig } from './useChannelConfig';
 
-// How many channel rows to show, whether detected or defaulted.
+// How many channel rows to show, whether detected or defaulted. DEFAULT_CHANNEL_TYPES
+// is config-gated like everything else, then sliced to this limit.
 const DISPLAYED_CHANNEL_LIMIT = 3;
-
-// Suggested channels (in priority order) to offer as rows when nothing is
-// detected, so the step isn't empty. Config-gated like everything else, then
-// sliced to DISPLAYED_CHANNEL_LIMIT — the mainstream OAuth channels show on
-// configured installs, while credential-free Telegram/LINE keep the list
-// non-empty on a bare self-host.
-const DEFAULT_CHANNEL_TYPES = [
-  'whatsapp',
-  'facebook',
-  'instagram',
-  'telegram',
-  'line',
-];
 
 // Pull the handle/username out of a detected social URL, formatted per channel.
 const extractHandle = ({ type, url }) => {
