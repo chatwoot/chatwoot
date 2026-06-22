@@ -40,20 +40,4 @@ module Conversations::UnreadCounts::StoreKeys
   def team_inbox_assignee_key(account_id, team_id, inbox_id, user_id)
     format(Redis::Alfred::UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE, account_id: account_id, team_id: team_id, inbox_id: inbox_id, user_id: user_id)
   end
-
-  def user_mentions_key(account_id, user_id)
-    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_MENTIONS, account_id: account_id, user_id: user_id)
-  end
-
-  def user_participating_key(account_id, user_id)
-    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_PARTICIPATING, account_id: account_id, user_id: user_id)
-  end
-
-  def user_unattended_key(account_id, user_id)
-    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_UNATTENDED, account_id: account_id, user_id: user_id)
-  end
-
-  def user_folder_key(account_id, user_id, custom_filter_id)
-    format(Redis::Alfred::UNREAD_CONVERSATIONS_USER_FOLDER, account_id: account_id, user_id: user_id, custom_filter_id: custom_filter_id)
-  end
 end

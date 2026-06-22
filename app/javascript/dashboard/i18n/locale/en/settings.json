@@ -316,16 +316,6 @@
     "MENTIONED_CONVERSATIONS": "Mentions",
     "PARTICIPATING_CONVERSATIONS": "Participating",
     "UNATTENDED_CONVERSATIONS": "Unattended",
-    "UNREAD_COUNT_TOOLTIP": {
-      "ALL": "Total unread conversations",
-      "INBOX": "Total unread conversations in this inbox",
-      "LABEL": "Total unread conversations in this label",
-      "TEAM": "Total unread conversations in this team",
-      "FOLDER": "Total unread conversations in this folder",
-      "MENTIONS": "Unread conversations where you were mentioned",
-      "PARTICIPATING": "Unread conversations you're participating in",
-      "UNATTENDED": "Unread unattended conversations"
-    },
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",

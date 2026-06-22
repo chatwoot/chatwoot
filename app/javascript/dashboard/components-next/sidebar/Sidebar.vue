@@ -199,18 +199,6 @@ const getLabelUnreadCount = useMapGetter(
 const getTeamUnreadCount = useMapGetter(
   'conversationUnreadCounts/getTeamUnreadCount'
 );
-const mentionsUnreadCount = useMapGetter(
-  'conversationUnreadCounts/getMentionsUnreadCount'
-);
-const participatingUnreadCount = useMapGetter(
-  'conversationUnreadCounts/getParticipatingUnreadCount'
-);
-const unattendedUnreadCount = useMapGetter(
-  'conversationUnreadCounts/getUnattendedUnreadCount'
-);
-const getFolderUnreadCount = useMapGetter(
-  'conversationUnreadCounts/getFolderUnreadCount'
-);
 const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
@@ -292,19 +280,6 @@ const sortedLabels = computed(() =>
   })
 );
 
-const unreadBadgeTooltips = computed(() => ({
-  ALL: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.ALL'),
-  INBOX: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.INBOX'),
-  LABEL: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.LABEL'),
-  TEAM: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.TEAM'),
-  FOLDER: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.FOLDER'),
-  MENTIONS: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.MENTIONS'),
-  PARTICIPATING: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.PARTICIPATING'),
-  UNATTENDED: t('SIDEBAR.UNREAD_COUNT_TOOLTIP.UNATTENDED'),
-}));
-
-const unreadBadgeTooltip = type => unreadBadgeTooltips.value[type];
-
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
@@ -360,15 +335,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.ALL_CONVERSATIONS'),
           icon: 'i-lucide-inbox',
           badgeCount: allUnreadCount.value,
-          badgeTooltip: unreadBadgeTooltip('ALL'),
           activeOn: ['inbox_conversation'],
           to: accountScopedRoute('home'),
         },
         {
           name: 'Mentions',
           label: t('SIDEBAR.MENTIONED_CONVERSATIONS'),
-          badgeCount: mentionsUnreadCount.value,
-          badgeTooltip: unreadBadgeTooltip('MENTIONS'),
           icon: 'i-lucide-at-sign',
           activeOn: ['conversation_through_mentions'],
           to: accountScopedRoute('conversation_mentions'),
@@ -376,8 +348,6 @@ const menuItems = computed(() => {
         {
           name: 'Participating',
           label: t('SIDEBAR.PARTICIPATING_CONVERSATIONS'),
-          badgeCount: participatingUnreadCount.value,
-          badgeTooltip: unreadBadgeTooltip('PARTICIPATING'),
           icon: 'i-lucide-user-round-check',
           activeOn: ['conversation_through_participating'],
           to: accountScopedRoute('conversation_participating'),
@@ -385,8 +355,6 @@ const menuItems = computed(() => {
         {
           name: 'Unattended',
           activeOn: ['conversation_through_unattended'],
-          badgeCount: unattendedUnreadCount.value,
-          badgeTooltip: unreadBadgeTooltip('UNATTENDED'),
           label: t('SIDEBAR.UNATTENDED_CONVERSATIONS'),
           icon: 'i-lucide-clock-alert',
           to: accountScopedRoute('conversation_unattended'),
@@ -402,8 +370,6 @@ const menuItems = computed(() => {
           children: sortedFolders.value.map(view => ({
             name: `${view.name}-${view.id}`,
             label: view.name,
-            badgeCount: getFolderUnreadCount.value(view.id),
-            badgeTooltip: unreadBadgeTooltip('FOLDER'),
             to: accountScopedRoute('folder_conversations', { id: view.id }),
           })),
         },
@@ -419,7 +385,6 @@ const menuItems = computed(() => {
             name: `${team.name}-${team.id}`,
             label: team.name,
             badgeCount: getTeamUnreadCount.value(team.id),
-            badgeTooltip: unreadBadgeTooltip('TEAM'),
             to: accountScopedRoute('team_conversations', { teamId: team.id }),
           })),
         },
@@ -435,7 +400,6 @@ const menuItems = computed(() => {
             name: `${inbox.name}-${inbox.id}`,
             label: inbox.name,
             badgeCount: getInboxUnreadCount.value(inbox.id),
-            badgeTooltip: unreadBadgeTooltip('INBOX'),
             icon: h(ChannelIcon, { inbox, class: 'size-[16px]' }),
             to: accountScopedRoute('inbox_dashboard', { inbox_id: inbox.id }),
             component: leafProps =>
@@ -444,7 +408,6 @@ const menuItems = computed(() => {
                 active: leafProps.active,
                 inbox,
                 badgeCount: leafProps.badgeCount,
-                badgeTooltip: leafProps.badgeTooltip,
               }),
           })),
         },
@@ -460,7 +423,6 @@ const menuItems = computed(() => {
             name: `${label.title}-${label.id}`,
             label: label.title,
             badgeCount: getLabelUnreadCount.value(label.id),
-            badgeTooltip: unreadBadgeTooltip('LABEL'),
             icon: h('span', {
               class: `size-[8px] rounded-sm`,
               style: { backgroundColor: label.color },

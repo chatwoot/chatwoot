@@ -22,19 +22,10 @@ class CustomFilter < ApplicationRecord
 
   enum filter_type: { conversation: 0, contact: 1, report: 2 }
   validate :validate_number_of_filters
-  after_commit :notify_unread_filter_counts_changed, on: [:create, :update, :destroy]
 
   def validate_number_of_filters
     return true if account.custom_filters.where(user_id: user_id).size < Limits::MAX_CUSTOM_FILTERS_PER_USER
 
     errors.add :account_id, I18n.t('errors.custom_filters.number_of_records')
-  end
-
-  private
-
-  def notify_unread_filter_counts_changed
-    return unless conversation?
-
-    ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: user).perform
   end
 end
