@@ -34,7 +34,7 @@ const previewChannels = computed(() =>
     <I18nT
       keypath="ONBOARDING_INBOX_SETUP.CHANNELS.MORE_CHANNELS_NOTE"
       tag="span"
-      class="flex-1 min-w-0 text-sm text-n-slate-11"
+      class="flex-1 min-w-0 text-body-main text-n-slate-11"
     >
       <template #email>
         <span class="text-n-slate-12">
@@ -60,7 +60,7 @@ const previewChannels = computed(() =>
       <span class="w-px h-3 bg-n-weak" />
       <button
         type="button"
-        class="text-sm font-460 leading-[21px] tracking-[-0.28px] text-n-slate-12 hover:underline"
+        class="text-button text-n-slate-12 hover:underline"
         @click="$emit('viewAll')"
       >
         {{ t('ONBOARDING_INBOX_SETUP.CHANNELS.VIEW_ALL') }}
