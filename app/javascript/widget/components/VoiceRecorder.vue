@@ -18,6 +18,7 @@ const mediaStream = ref(null);
 const chunks = ref([]);
 const elapsed = ref(0);
 const isCancelled = ref(false);
+const isUnmounted = ref(false);
 let timer = null;
 
 const formattedTime = () => {
@@ -42,21 +43,35 @@ const pickMimeType = () => {
   return candidates.find(type => MediaRecorder.isTypeSupported(type)) || '';
 };
 
+const isRecordingSupported = () =>
+  !!navigator.mediaDevices?.getUserMedia &&
+  typeof window.MediaRecorder !== 'undefined';
+
 const startRecording = async () => {
+  if (!isRecordingSupported()) {
+    emit('error', new Error('Audio recording is not supported'));
+    return;
+  }
+
+  let stream;
   try {
-    mediaStream.value = await navigator.mediaDevices.getUserMedia({
-      audio: true,
-    });
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
   } catch (error) {
     emit('error', error);
     return;
   }
 
+  // The permission prompt is async: the user may have cancelled or the
+  // component may have unmounted while it was open. Release and bail out
+  // before we start capturing.
+  if (isCancelled.value || isUnmounted.value) {
+    stream.getTracks().forEach(track => track.stop());
+    return;
+  }
+
+  mediaStream.value = stream;
   const mimeType = pickMimeType();
-  mediaRecorder.value = new MediaRecorder(
-    mediaStream.value,
-    mimeType ? { mimeType } : {}
-  );
+  mediaRecorder.value = new MediaRecorder(stream, mimeType ? { mimeType } : {});
 
   mediaRecorder.value.addEventListener('dataavailable', event => {
     if (event.data.size > 0) chunks.value.push(event.data);
@@ -93,7 +108,10 @@ const cancelRecording = () => {
 };
 
 onMounted(startRecording);
-onUnmounted(releaseStream);
+onUnmounted(() => {
+  isUnmounted.value = true;
+  releaseStream();
+});
 </script>
 
 <template>

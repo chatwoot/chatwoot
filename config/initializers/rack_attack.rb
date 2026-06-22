@@ -188,6 +188,16 @@ class Rack::Attack
     throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
       req.ip if req.path_without_extensions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
+
+    ## Prevent abuse of widget audio transcription (visitor-facing, paid LLM capacity) ###
+    throttle('api/v1/widget/transcription',
+             limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPTION', '20').to_i, period: 1.hour) do |req|
+      if req.path_without_extensions == '/api/v1/widget/transcription' && req.post?
+        auth_token = req.get_header('HTTP_X_AUTH_TOKEN').presence
+        website_token = ActionDispatch::Request.new(req.env).params['website_token'].presence
+        [website_token, auth_token].compact.join(':').presence || req.ip
+      end
+    end
   end
 
   ##-----------------------------------------------##
