@@ -223,18 +223,18 @@ describe('useAttachments', () => {
       });
     });
 
-    it('returns true when the inbox feature is on and the browser supports recording', () => {
+    it('returns true when the server enables it and the browser supports recording', () => {
       enableRecordingSupport();
-      window.chatwootWebChannel = { enabledFeatures: ['voice_recorder'] };
+      window.chatwootWebChannel = { audioTranscriptionEnabled: true };
 
       const { canTranscribeAudio } = useAttachments();
 
       expect(canTranscribeAudio.value).toBe(true);
     });
 
-    it('returns false when the inbox feature is off', () => {
+    it('returns false when the server flag is off (feature off or key missing)', () => {
       enableRecordingSupport();
-      window.chatwootWebChannel = { enabledFeatures: ['attachments'] };
+      window.chatwootWebChannel = { audioTranscriptionEnabled: false };
 
       const { canTranscribeAudio } = useAttachments();
 
@@ -247,7 +247,7 @@ describe('useAttachments', () => {
         value: undefined,
         configurable: true,
       });
-      window.chatwootWebChannel = { enabledFeatures: ['voice_recorder'] };
+      window.chatwootWebChannel = { audioTranscriptionEnabled: true };
 
       const { canTranscribeAudio } = useAttachments();
 

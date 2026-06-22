@@ -37,13 +37,13 @@ export function useAttachments() {
     !!navigator.mediaDevices?.getUserMedia &&
     typeof window.MediaRecorder !== 'undefined';
 
-  const hasVoiceRecorderEnabled = computed(() => {
-    const channelConfig = window.chatwootWebChannel;
-    return channelConfig?.enabledFeatures?.includes('voice_recorder') || false;
-  });
-
+  // Combines the inbox `voice_recorder` flag with a configured OpenAI key
+  // server-side, so the mic only shows when the backend can actually transcribe.
   const canTranscribeAudio = computed(
-    () => (hasVoiceRecorderEnabled.value && isAudioRecordingSupported) || false
+    () =>
+      (window.chatwootWebChannel?.audioTranscriptionEnabled &&
+        isAudioRecordingSupported) ||
+      false
   );
 
   return {
