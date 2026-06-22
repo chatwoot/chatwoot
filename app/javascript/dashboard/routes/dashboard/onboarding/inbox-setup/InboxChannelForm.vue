@@ -49,7 +49,7 @@ const FORMS = {
     // Inbox name is mandatory for Line; prefill it from the channel label
     // rather than asking, to keep the form to just the credentials.
     buildPayload: values => ({
-      name: props.channel.label,
+      name: t(props.channel.labelKey),
       channel: {
         type: 'line',
         line_channel_id: values.lineChannelId,

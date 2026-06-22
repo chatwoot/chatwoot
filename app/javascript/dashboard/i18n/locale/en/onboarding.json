@@ -63,7 +63,10 @@
       "MORE_CHANNELS_NOTE": "Set up {email} and {voice} channels later inside the app",
       "MORE_CHANNELS_EMAIL": "Email",
       "MORE_CHANNELS_VOICE": "Voice",
-      "VIEW_ALL": "View all"
+      "VIEW_ALL": "View all",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Other Email Providers"
     },
     "CHANNELS_DIALOG": {
       "TITLE": "Connect all your channels instantly",

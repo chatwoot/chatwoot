@@ -9,7 +9,7 @@ vi.mock('vue-router');
 // Mounts the composable against a real store and the real useAccount (only
 // useRoute and the underlying getters are faked), so a change to how useAccount
 // resolves the current account is exercised here too. The real ./constants are
-// used, so assertions validate against the actual channel identity (labels,
+// used, so assertions validate against the actual channel identity (label keys,
 // channel_type, social ordering) derived from CHANNEL_LIST.
 const mountComposable = ({ brandInfo, inboxes = [] } = {}) => {
   const store = createStore({
@@ -74,13 +74,13 @@ describe('useDetectedChannels', () => {
         {
           type: 'whatsapp',
           handle: '+14155552671',
-          label: 'WhatsApp',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP.TITLE',
           inbox: { channel_type: 'Channel::Whatsapp' },
         },
         {
           type: 'instagram',
           handle: '@acme',
-          label: 'Instagram',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.INSTAGRAM.TITLE',
           inbox: { channel_type: 'Channel::Instagram' },
         },
       ]);
@@ -116,13 +116,13 @@ describe('useDetectedChannels', () => {
         {
           type: 'line',
           handle: 'acme',
-          label: 'LINE',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.LINE.TITLE',
           inbox: { channel_type: 'Channel::Line' },
         },
         {
           type: 'facebook',
           handle: '',
-          label: 'Facebook',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.FACEBOOK.TITLE',
           inbox: { channel_type: 'Channel::FacebookPage' },
         },
       ]);
@@ -150,19 +150,19 @@ describe('useDetectedChannels', () => {
         {
           type: 'whatsapp',
           handle: '',
-          label: 'WhatsApp',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP.TITLE',
           inbox: { channel_type: 'Channel::Whatsapp' },
         },
         {
           type: 'facebook',
           handle: '',
-          label: 'Facebook',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.FACEBOOK.TITLE',
           inbox: { channel_type: 'Channel::FacebookPage' },
         },
         {
           type: 'instagram',
           handle: '',
-          label: 'Instagram',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.INSTAGRAM.TITLE',
           inbox: { channel_type: 'Channel::Instagram' },
         },
       ]);
@@ -206,17 +206,17 @@ describe('useDetectedChannels', () => {
       expect(remainingChannels.value).toEqual([
         {
           type: 'line',
-          label: 'LINE',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.LINE.TITLE',
           inbox: { channel_type: 'Channel::Line' },
         },
         {
           type: 'telegram',
-          label: 'Telegram',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.TELEGRAM.TITLE',
           inbox: { channel_type: 'Channel::Telegram' },
         },
         {
           type: 'tiktok',
-          label: 'TikTok',
+          labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE',
           inbox: { channel_type: 'Channel::Tiktok' },
         },
       ]);

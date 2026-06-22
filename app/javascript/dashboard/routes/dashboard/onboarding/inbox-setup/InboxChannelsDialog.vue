@@ -101,7 +101,7 @@ const onCardClick = channel => {
 const dialogTitle = computed(() =>
   selectedChannel.value
     ? t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.CONNECT_TITLE', {
-        name: selectedChannel.value.label,
+        name: t(selectedChannel.value.labelKey),
       })
     : t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.TITLE')
 );
@@ -180,7 +180,7 @@ defineExpose({ open, close });
           </div>
           <div class="flex-1 min-w-0">
             <span class="block text-sm font-medium text-n-slate-12">
-              {{ channel.label }}
+              {{ t(channel.labelKey) }}
             </span>
             <span
               v-if="channel.availability === 'setupLater'"

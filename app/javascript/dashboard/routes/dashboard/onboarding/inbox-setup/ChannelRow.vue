@@ -17,7 +17,9 @@ const connected = computed(() => Boolean(props.connectedInbox));
 // may have connected a different account than the one we detected.
 const connectedName = computed(
   () =>
-    props.connectedInbox?.name || props.channel.handle || props.channel.label
+    props.connectedInbox?.name ||
+    props.channel.handle ||
+    t(props.channel.labelKey)
 );
 </script>
 
@@ -32,7 +34,7 @@ const connectedName = computed(
       />
     </div>
     <span class="flex-1 min-w-0 truncate text-body-main text-n-slate-12">
-      {{ channel.label }}
+      {{ t(channel.labelKey) }}
     </span>
     <div
       v-if="connected"

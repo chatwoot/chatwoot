@@ -55,7 +55,7 @@ export function useDetectedChannels() {
       .map(social => ({
         type: social.type,
         handle: extractHandle(social),
-        label: SOCIAL_PLATFORMS[social.type].label,
+        labelKey: SOCIAL_PLATFORMS[social.type].labelKey,
         inbox: { channel_type: SOCIAL_PLATFORMS[social.type].channelType },
       }))
   );
@@ -68,7 +68,7 @@ export function useDetectedChannels() {
     return {
       type: 'email',
       handle: brandInfo?.email || '',
-      label: EMAIL_PROVIDERS[provider].label,
+      labelKey: EMAIL_PROVIDERS[provider].labelKey,
       inbox: { channel_type: 'Channel::Email', provider },
     };
   });
@@ -83,7 +83,7 @@ export function useDetectedChannels() {
   const toChannelRow = type => ({
     type,
     handle: '',
-    label: SOCIAL_PLATFORMS[type].label,
+    labelKey: SOCIAL_PLATFORMS[type].labelKey,
     inbox: { channel_type: SOCIAL_PLATFORMS[type].channelType },
   });
 
@@ -120,9 +120,9 @@ export function useDetectedChannels() {
       .filter(([type]) => !shownTypes.has(type))
       .filter(([type]) => isConfigured(type))
       .slice(0, 3)
-      .map(([type, { label, channelType }]) => ({
+      .map(([type, { labelKey, channelType }]) => ({
         type,
-        label,
+        labelKey,
         inbox: { channel_type: channelType },
       }));
   });

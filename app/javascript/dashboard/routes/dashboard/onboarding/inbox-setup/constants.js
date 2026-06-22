@@ -5,42 +5,44 @@
 // style flag is needed. Entries without a channel type (Voice, Other Email
 // Providers) render `fallbackIcon` instead. `form: true` swaps the grid for an
 // inline credential form; `setupLater: true` defers the channel to in-app setup
-// for this phase.
+// for this phase. `labelKey` is an i18n key — most reuse the shared channel
+// titles from the inbox settings (INBOX_MGMT.ADD.AUTH.CHANNEL.*.TITLE) so the
+// names translate without duplicating strings; resolve it with `t()` at display.
 export const CHANNEL_LIST = [
   {
     type: 'website',
-    label: 'Website',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.WEBSITE.TITLE',
     inbox: { channel_type: 'Channel::WebWidget' },
   },
   {
     type: 'whatsapp',
-    label: 'WhatsApp',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.WHATSAPP.TITLE',
     inbox: { channel_type: 'Channel::Whatsapp' },
   },
   {
     type: 'instagram',
-    label: 'Instagram',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.INSTAGRAM.TITLE',
     inbox: { channel_type: 'Channel::Instagram' },
   },
   {
     type: 'facebook',
-    label: 'Facebook',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.FACEBOOK.TITLE',
     inbox: { channel_type: 'Channel::FacebookPage' },
   },
   {
     type: 'tiktok',
-    label: 'TikTok',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE',
     inbox: { channel_type: 'Channel::Tiktok' },
   },
   {
     type: 'telegram',
-    label: 'Telegram',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.TELEGRAM.TITLE',
     inbox: { channel_type: 'Channel::Telegram' },
     form: true,
   },
   {
     type: 'line',
-    label: 'LINE',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.LINE.TITLE',
     inbox: { channel_type: 'Channel::Line' },
     form: true,
   },
@@ -48,37 +50,37 @@ export const CHANNEL_LIST = [
   // this phase; they will be enabled in a future PR.
   {
     type: 'gmail',
-    label: 'Gmail',
+    labelKey: 'ONBOARDING_INBOX_SETUP.CHANNELS.GMAIL',
     inbox: { channel_type: 'Channel::Email', provider: 'google' },
     setupLater: true,
   },
   {
     type: 'outlook',
-    label: 'Outlook',
+    labelKey: 'ONBOARDING_INBOX_SETUP.CHANNELS.OUTLOOK',
     inbox: { channel_type: 'Channel::Email', provider: 'microsoft' },
     setupLater: true,
   },
   {
     type: 'sms',
-    label: 'SMS',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.SMS.TITLE',
     inbox: { channel_type: 'Channel::Sms' },
     setupLater: true,
   },
   {
     type: 'api',
-    label: 'API',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.API.TITLE',
     inbox: { channel_type: 'Channel::Api' },
     setupLater: true,
   },
   {
     type: 'voice',
-    label: 'Voice',
+    labelKey: 'INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE',
     fallbackIcon: 'i-woot-voice',
     setupLater: true,
   },
   {
     type: 'email',
-    label: 'Other Email Providers',
+    labelKey: 'ONBOARDING_INBOX_SETUP.CHANNELS.OTHER_EMAIL',
     fallbackIcon: 'i-woot-mail',
     setupLater: true,
   },
@@ -109,8 +111,8 @@ const SOCIAL_PLATFORM_TYPES = [
 
 export const SOCIAL_PLATFORMS = Object.fromEntries(
   SOCIAL_PLATFORM_TYPES.map(type => {
-    const { label, inbox } = channelByType(type);
-    return [type, { label, channelType: inbox.channel_type }];
+    const { labelKey, inbox } = channelByType(type);
+    return [type, { labelKey, channelType: inbox.channel_type }];
   })
 );
 
@@ -119,6 +121,6 @@ export const SOCIAL_PLATFORMS = Object.fromEntries(
 export const EMAIL_PROVIDERS = Object.fromEntries(
   CHANNEL_LIST.filter(channel => channel.inbox?.provider).map(channel => [
     channel.inbox.provider,
-    { label: channel.label },
+    { labelKey: channel.labelKey },
   ])
 );
