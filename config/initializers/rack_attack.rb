@@ -194,7 +194,9 @@ class Rack::Attack
              limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPTION', '20').to_i, period: 1.hour) do |req|
       if req.path_without_extensions == '/api/v1/widget/transcription' && req.post?
         auth_token = req.get_header('HTTP_X_AUTH_TOKEN').presence
-        website_token = ActionDispatch::Request.new(req.env).params['website_token'].presence
+        # Read from the query string only — reading .params would force parsing
+        # the multipart audio body before the throttle decision.
+        website_token = req.GET['website_token'].presence
         [website_token, auth_token].compact.join(':').presence || req.ip
       end
     end
