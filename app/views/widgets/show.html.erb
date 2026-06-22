@@ -28,7 +28,7 @@
         timezone: '<%= @web_widget.inbox.timezone %>',
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
-        audioTranscriptionEnabled: <%= ChatwootApp.enterprise? && @web_widget.inbox.account.audio_transcriptions.present? %>,
+        audioTranscriptionEnabled: <%= Widget::AudioTranscriptionConfig.enabled? %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

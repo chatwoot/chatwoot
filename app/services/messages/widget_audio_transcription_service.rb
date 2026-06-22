@@ -1,20 +1,18 @@
 # Transcribes a standalone audio upload coming from the web widget microphone
-# and returns the text, without persisting a message or consuming Captain
-# response credits. Reuses the Captain OpenAI configuration for the client.
-class Messages::WidgetAudioTranscriptionService < Llm::LegacyBaseOpenAiService
-  TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe'.freeze
+# and returns the text, without persisting a message. Driven entirely by ENV
+# (see Widget::AudioTranscriptionConfig) so it does not depend on Captain.
+class Messages::WidgetAudioTranscriptionService
+  TRANSCRIPTION_MODEL = Widget::AudioTranscriptionConfig::DEFAULT_MODEL
   # OpenAI's transcription endpoint hard limit is 25 MB decimal (25_000_000),
-  # not binary — see Messages::AudioTranscriptionService for context.
+  # not binary — using the binary form leaks the 25.0-26.2 MB range as 413s.
   TRANSCRIPTION_BYTE_LIMIT = 25_000_000
 
-  def initialize(account, audio_file)
-    super()
-    @account = account
+  def initialize(audio_file)
     @audio_file = audio_file
   end
 
   def perform
-    return { error: 'Audio transcription is not enabled' } unless can_transcribe?
+    return { error: 'Audio transcription is not enabled' } unless Widget::AudioTranscriptionConfig.enabled?
     return { error: 'Audio too large for transcription' } if audio_too_large?
 
     { success: true, transcription: transcribe_audio }
@@ -25,8 +23,12 @@ class Messages::WidgetAudioTranscriptionService < Llm::LegacyBaseOpenAiService
 
   private
 
-  def can_transcribe?
-    @account.audio_transcriptions.present?
+  def client
+    @client ||= OpenAI::Client.new(
+      access_token: Widget::AudioTranscriptionConfig.api_key,
+      uri_base: Widget::AudioTranscriptionConfig.endpoint,
+      log_errors: Rails.env.development?
+    )
   end
 
   def audio_too_large?
@@ -38,9 +40,9 @@ class Messages::WidgetAudioTranscriptionService < Llm::LegacyBaseOpenAiService
 
     File.open(temp_file_path, 'rb') do |file|
       # temperature: 0.0 minimises hallucinations on silence / near-silent audio.
-      response = @client.audio.transcribe(
+      response = client.audio.transcribe(
         parameters: {
-          model: TRANSCRIPTION_MODEL,
+          model: Widget::AudioTranscriptionConfig.model,
           file: file,
           temperature: 0.0
         }

@@ -1,29 +1,36 @@
 require 'rails_helper'
 
 RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
-  let(:account) { create(:account, audio_transcriptions: true) }
   let(:audio_file) do
     Rack::Test::UploadedFile.new(Rails.root.join('spec/assets/sample.mp3'), 'audio/mpeg')
   end
   let(:openai_client) { instance_double(OpenAI::Client) }
   let(:audio_api) { double }
 
+  around do |example|
+    with_modified_env(
+      ENABLE_WIDGET_AUDIO_TRANSCRIPTION: 'true',
+      WIDGET_TRANSCRIPTION_OPENAI_API_KEY: 'test-api-key'
+    ) { example.run }
+  end
+
   before do
-    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-api-key' }
     allow(OpenAI::Client).to receive(:new).and_return(openai_client)
     allow(openai_client).to receive(:audio).and_return(audio_api)
     allow(audio_api).to receive(:transcribe).and_return({ 'text' => '  Hello world  ' })
   end
 
   describe '#perform' do
-    subject(:service) { described_class.new(account, audio_file) }
+    subject(:service) { described_class.new(audio_file) }
 
     it 'returns the transcribed text' do
       expect(service.perform).to eq({ success: true, transcription: 'Hello world' })
     end
 
-    context 'when audio transcriptions are disabled' do
-      before { account.update!(audio_transcriptions: false) }
+    context 'when the feature is disabled' do
+      around do |example|
+        with_modified_env(ENABLE_WIDGET_AUDIO_TRANSCRIPTION: 'false') { example.run }
+      end
 
       it 'returns an error and does not call the API' do
         expect(audio_api).not_to receive(:transcribe)
@@ -50,7 +57,7 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
   end
 
   describe '#stage_audio_file' do
-    subject(:service) { described_class.new(account, audio_file) }
+    subject(:service) { described_class.new(audio_file) }
 
     context 'when the upload has no filename extension' do
       let(:audio_file) do

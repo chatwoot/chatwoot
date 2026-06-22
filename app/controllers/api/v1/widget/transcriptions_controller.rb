@@ -1,9 +1,9 @@
 class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseController
   def create
-    return render_unavailable unless transcription_available?
+    return render_unavailable unless Widget::AudioTranscriptionConfig.enabled?
     return render_error('No audio provided', :unprocessable_entity) if params[:audio].blank?
 
-    result = Messages::WidgetAudioTranscriptionService.new(account, params[:audio]).perform
+    result = Messages::WidgetAudioTranscriptionService.new(params[:audio]).perform
 
     if result[:success]
       render json: { transcription: result[:transcription] }
@@ -16,14 +16,6 @@ class Api::V1::Widget::TranscriptionsController < Api::V1::Widget::BaseControlle
   end
 
   private
-
-  def account
-    @account ||= @web_widget.inbox.account
-  end
-
-  def transcription_available?
-    ChatwootApp.enterprise? && account.audio_transcriptions.present?
-  end
 
   def render_unavailable
     render_error('Audio transcription is not enabled', :forbidden)
