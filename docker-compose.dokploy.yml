@@ -1,0 +1,70 @@
+# Réplica del compose de Dokploy/VPS + ajustes para desarrollo local.
+# Uso:
+#   docker network create main-chatwoot-local
+#   docker compose -f docker-compose.dokploy.yml up -d
+
+x-base-config: &base-config
+  image: chatwoot/chatwoot:v4.14.2
+  env_file: .env
+  volumes:
+    - chatwoot-storage:/app/storage
+  networks:
+    - chatwoot-internal
+    - main-chatwoot-local
+
+services:
+  chatwoot-rails:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_started
+      chatwoot-redis:
+        condition: service_started
+    ports:
+      - '127.0.0.1:3000:3000'
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'sh', '-c', 'rails db:chatwoot_prepare && rails s -p 3000 -b 0.0.0.0']
+    restart: unless-stopped
+
+  chatwoot-sidekiq:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_started
+      chatwoot-redis:
+        condition: service_started
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: unless-stopped
+
+  chatwoot-postgres:
+    image: pgvector/pgvector:pg14
+    restart: unless-stopped
+    volumes:
+      - chatwoot-postgres-data:/var/lib/postgresql/data
+      - ./docker/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-local
+
+  chatwoot-redis:
+    image: redis:alpine
+    restart: unless-stopped
+    volumes:
+      - chatwoot-redis-data:/data
+    networks:
+      - chatwoot-internal
+
+volumes:
+  chatwoot-storage:
+  chatwoot-postgres-data:
+  chatwoot-redis-data:
+
+networks:
+  chatwoot-internal:
+    driver: bridge
+  main-chatwoot-local:
+    external: true

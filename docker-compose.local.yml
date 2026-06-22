@@ -1,0 +1,36 @@
+# Override local: red compartida con Panel AI
+# Uso: docker compose -f docker-compose.production.yaml -f docker-compose.local.yml up -d
+#
+# Antes de levantar:
+#   docker network create main-chatwoot-local
+
+version: '3'
+
+services:
+  rails:
+    networks:
+      - default
+      - main-chatwoot-local
+    # Descomenta para usar tu imagen del fork en GHCR:
+    # image: ghcr.io/pabloluna3596afk/chatwoot:develop
+
+  sidekiq:
+    networks:
+      - default
+      - main-chatwoot-local
+
+  postgres:
+    networks:
+      - default
+      - main-chatwoot-local
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  redis:
+    networks:
+      - default
+      - main-chatwoot-local
+
+networks:
+  main-chatwoot-local:
+    external: true
