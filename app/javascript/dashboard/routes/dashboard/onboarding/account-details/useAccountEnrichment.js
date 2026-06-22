@@ -53,29 +53,31 @@ export function useAccountEnrichment(fields) {
   // Idempotent: only fills empty fields, so late-arriving enrichment data
   // populates untouched fields without clobbering user edits.
   const populateFormFields = () => {
-    const attrs = currentAccount.value?.custom_attributes || {};
-    const brandInfo = attrs.brand_info;
+    const {
+      website,
+      timezone,
+      company_size: companySize,
+      industry,
+      referral_source: referralSource,
+      brand_info: brandInfo,
+    } = currentAccount.value?.custom_attributes || {};
 
-    if (!fields.locale.value) fields.locale.value = detectBestLocale();
-    if (!fields.website.value) {
-      fields.website.value = attrs.website || brandInfo?.domain || '';
-    }
-    if (!fields.timezone.value) {
-      fields.timezone.value =
-        attrs.timezone ||
-        Intl.DateTimeFormat().resolvedOptions().timeZone ||
-        '';
-    }
-    if (!fields.companySize.value) {
-      fields.companySize.value = attrs.company_size || '';
-    }
-    if (!fields.industry.value) {
-      fields.industry.value =
-        attrs.industry || brandInfo?.industries?.[0]?.industry || '';
-    }
-    if (!fields.referralSource.value) {
-      fields.referralSource.value = attrs.referral_source || '';
-    }
+    const fillIfEmpty = (field, value) => {
+      if (!field.value) field.value = value || '';
+    };
+
+    fillIfEmpty(fields.locale, detectBestLocale());
+    fillIfEmpty(fields.website, website || brandInfo?.domain);
+    fillIfEmpty(
+      fields.timezone,
+      timezone || Intl.DateTimeFormat().resolvedOptions().timeZone
+    );
+    fillIfEmpty(fields.companySize, companySize);
+    fillIfEmpty(
+      fields.industry,
+      industry || brandInfo?.industries?.[0]?.industry
+    );
+    fillIfEmpty(fields.referralSource, referralSource);
 
     snapshotInitialValues();
   };
