@@ -155,6 +155,7 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
 });
 
 export const SESSION_EVENTS = Object.freeze({
+  LIMIT_HIT: 'Session limit reached at login',
   REVOKED_FROM_PROFILE: 'Revoked an active session',
 });
 

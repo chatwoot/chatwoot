@@ -47,6 +47,75 @@ RSpec.describe UserSessionTrackingService do
       expect(existing.reload.ip_address).to eq('8.8.8.8')
       expect(existing.last_activity_at).to be_within(1.second).of(Time.current)
     end
+
+    context 'with a Chatwoot Mobile legacy User-Agent' do
+      let(:request) do
+        instance_double(
+          ActionDispatch::Request,
+          user_agent: ua,
+          remote_ip: '8.8.8.8'
+        )
+      end
+
+      context 'when the UA is okhttp (Android Chatwoot Mobile)' do
+        let(:ua) { 'okhttp/4.9.2' }
+
+        it 'labels the session as Chatwoot Mobile on Android', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to be_nil
+          expect(session.platform_name).to eq('Android')
+          expect(session.platform_version).to be_nil
+          expect(session.device_name).to eq('Android')
+          expect(session.user_agent).to eq(ua)
+        end
+      end
+
+      context 'when the UA is CFNetwork (iOS Chatwoot Mobile)' do
+        let(:ua) { 'Chatwoot/3759 CFNetwork/3886.100.1 Darwin/27.0.0' }
+
+        it 'labels the session as Chatwoot Mobile on iPhone', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Chatwoot Mobile')
+          expect(session.browser_version).to be_nil
+          expect(session.platform_name).to eq('iPhone')
+          expect(session.platform_version).to be_nil
+          expect(session.device_name).to eq('iPhone')
+          expect(session.user_agent).to eq(ua)
+        end
+      end
+
+      context 'when the UA is a real browser (Firefox on Linux)' do
+        let(:ua) { 'Mozilla/5.0 (X11; Linux x86_64; rv:124.0) Gecko/20100101 Firefox/124.0' }
+
+        it 'does not override the Browser-derived metadata', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Firefox')
+          expect(session.platform_name).to eq('Generic Linux')
+          expect(session.device_name).not_to eq('Android')
+          expect(session.device_name).not_to eq('iPhone')
+        end
+      end
+
+      context 'when the UA is unknown but does not match any mobile pattern' do
+        let(:ua) { 'curl/8.4.0' }
+
+        it 'leaves the Unknown labels untouched', :aggregate_failures do
+          service.create_or_update!
+
+          session = user.user_sessions.last
+          expect(session.browser_name).to eq('Unknown Browser')
+          expect(session.platform_name).to eq('Unknown')
+          expect(session.device_name).to eq('Unknown')
+        end
+      end
+    end
   end
 
   describe '#update_activity!' do

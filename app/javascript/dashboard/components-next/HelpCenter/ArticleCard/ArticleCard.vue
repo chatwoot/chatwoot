@@ -13,6 +13,7 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -131,7 +132,7 @@ const statusText = computed(() => {
 
 const categoryName = computed(() => {
   if (props.category?.slug) {
-    return `${props.category.icon} ${props.category.name}`;
+    return props.category.name;
   }
   return t(
     'HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.CATEGORY.UNCATEGORISED'
@@ -209,9 +210,9 @@ const handleClick = id => {
         </div>
       </div>
     </div>
-    <div class="flex items-center justify-between w-full gap-4">
-      <div class="flex items-center gap-4">
-        <div class="flex items-center gap-1">
+    <div class="flex items-center justify-between w-full gap-2 sm:gap-4">
+      <div class="flex items-center min-w-0 gap-2 sm:gap-4">
+        <div class="flex items-center min-w-0 gap-1">
           <Avatar
             :name="authorName"
             :src="authorThumbnailSrc"
@@ -222,11 +223,17 @@ const handleClick = id => {
             {{ authorName || '-' }}
           </span>
         </div>
-        <span class="block text-sm whitespace-nowrap text-n-slate-11">
-          {{ categoryName }}
+        <span class="flex items-center min-w-0 gap-1 text-sm text-n-slate-11">
+          <EmojiIcon
+            v-if="category?.icon"
+            :value="category.icon"
+            :color="category.icon_color"
+            class="flex-shrink-0 size-4"
+          />
+          <span class="truncate">{{ categoryName }}</span>
         </span>
         <div
-          class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap"
+          class="inline-flex items-center gap-1 text-n-slate-11 whitespace-nowrap shrink-0"
         >
           <Icon icon="i-lucide-eye" class="size-4" />
           <span class="text-sm">
@@ -238,7 +245,7 @@ const handleClick = id => {
           </span>
         </div>
       </div>
-      <span class="text-sm text-n-slate-11 line-clamp-1">
+      <span class="text-sm text-n-slate-11 line-clamp-1 shrink-0">
         {{ lastUpdatedAt }}
       </span>
     </div>
