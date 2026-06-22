@@ -23,7 +23,10 @@ module Widget
     end
 
     def endpoint
-      ENV['WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT'].presence || DEFAULT_ENDPOINT
+      raw = ENV['WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT'].presence || DEFAULT_ENDPOINT
+      # ruby-openai joins this with "v1/audio/transcriptions", so a trailing
+      # slash is required to avoid producing a malformed "...hostv1/..." URL.
+      raw.end_with?('/') ? raw : "#{raw}/"
     end
   end
 end
