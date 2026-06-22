@@ -32,11 +32,16 @@ export function useAttachments() {
     return hasAttachmentsEnabled.value;
   });
 
+  const canTranscribeAudio = computed(
+    () => window.chatwootWebChannel?.audioTranscriptionEnabled || false
+  );
+
   return {
     shouldShowFilePicker,
     shouldShowEmojiPicker,
     hasAttachmentsEnabled,
     hasEmojiPickerEnabled,
     canHandleAttachments,
+    canTranscribeAudio,
   };
 }
