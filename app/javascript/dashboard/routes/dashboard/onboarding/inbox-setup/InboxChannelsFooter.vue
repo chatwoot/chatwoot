@@ -56,7 +56,7 @@ const previewChannels = computed(() =>
         class="size-5"
       />
     </div>
-    <div class="flex items-center gap-2 flex-shrink-0 pl-1">
+    <div class="flex items-center gap-2 flex-shrink-0 ps-1">
       <span class="w-px h-3 bg-n-weak" />
       <button
         type="button"
