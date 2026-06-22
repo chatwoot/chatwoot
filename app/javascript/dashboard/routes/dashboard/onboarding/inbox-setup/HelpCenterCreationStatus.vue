@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useTimeoutPoll } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import OnboardingAPI from 'dashboard/api/onboarding';
 import CreationStatusRow from './CreationStatusRow.vue';
@@ -27,8 +28,6 @@ const PHASE_DELAY_JITTER = 2000;
 
 const phaseIndex = ref(0);
 let phaseTimer = null;
-let pollTimer = null;
-const isFetching = ref(false);
 
 // Advance one phase after a jittered delay; stop once we reach the last line
 // (it then holds until the first article arrives).
@@ -55,37 +54,25 @@ const isTerminal = computed(
 const articlesCount = computed(() => generation.value.articles_count || 0);
 const categoriesCount = computed(() => generation.value.categories_count || 0);
 
-const stopPolling = () => {
-  if (pollTimer) {
-    clearInterval(pollTimer);
-    pollTimer = null;
-  }
-};
+// Poll the generation status until it reaches a terminal state. useTimeoutPoll
+// waits for each request to settle before scheduling the next (so requests never
+// overlap), fires immediately on mount, and stops on unmount.
+const { pause: stopPolling } = useTimeoutPoll(
+  async () => {
+    try {
+      const { data } = await OnboardingAPI.getHelpCenterGeneration();
+      generation.value = data;
+      if (isTerminal.value) stopPolling();
+    } catch {
+      // Keep polling; transient network failures should not strand onboarding.
+    }
+  },
+  POLL_INTERVAL,
+  { immediate: true }
+);
 
-const fetchStatus = async () => {
-  if (isFetching.value) return;
-  isFetching.value = true;
-  try {
-    const { data } = await OnboardingAPI.getHelpCenterGeneration();
-    generation.value = data;
-    if (isTerminal.value) stopPolling();
-  } catch {
-    // Keep polling; transient network failures should not strand onboarding.
-  } finally {
-    isFetching.value = false;
-  }
-};
-
-onMounted(() => {
-  scheduleNextPhase();
-  fetchStatus();
-  pollTimer = setInterval(fetchStatus, POLL_INTERVAL);
-});
-
-onBeforeUnmount(() => {
-  clearTimeout(phaseTimer);
-  stopPolling();
-});
+onMounted(scheduleNextPhase);
+onBeforeUnmount(() => clearTimeout(phaseTimer));
 
 const articlesText = computed(() =>
   t(

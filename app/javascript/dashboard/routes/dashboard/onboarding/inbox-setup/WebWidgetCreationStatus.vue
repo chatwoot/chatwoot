@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed } from 'vue';
+import { useTimeoutPoll } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import CreationStatusRow from './CreationStatusRow.vue';
@@ -15,33 +16,16 @@ const store = useStore();
 const websiteInboxes = useMapGetter('inboxes/getWebsiteInboxes');
 const isReady = computed(() => websiteInboxes.value.length > 0);
 
-let timer = null;
-const isFetching = ref(false);
-
-const stopPolling = () => {
-  if (timer) {
-    clearInterval(timer);
-    timer = null;
-  }
-};
-
-const poll = async () => {
-  if (isFetching.value) return;
-  isFetching.value = true;
-  try {
+// useTimeoutPoll waits for each fetch to settle before scheduling the next (so
+// requests never overlap), fires immediately on mount, and stops on unmount.
+const { pause } = useTimeoutPoll(
+  async () => {
     await store.dispatch('inboxes/get');
-  } finally {
-    isFetching.value = false;
-  }
-  if (isReady.value) stopPolling();
-};
-
-onMounted(() => {
-  poll();
-  if (!isReady.value) timer = setInterval(poll, POLL_INTERVAL);
-});
-
-onBeforeUnmount(stopPolling);
+    if (isReady.value) pause();
+  },
+  POLL_INTERVAL,
+  { immediate: true }
+);
 </script>
 
 <template>
