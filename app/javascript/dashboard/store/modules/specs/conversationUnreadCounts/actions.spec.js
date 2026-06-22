@@ -15,6 +15,7 @@ describe('#actions', () => {
   describe('#get', () => {
     it('commits unread counts when API is successful', async () => {
       const payload = {
+        all_count: 2,
         inboxes: { 1: '2' },
         labels: { 3: 4 },
         teams: { 5: 6 },

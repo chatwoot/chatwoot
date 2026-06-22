@@ -21,7 +21,7 @@
           <% popular_topics.each do |category| %>
             <a href="<%= public_portal_category_path(portal.slug, category.locale, category.slug) %>"
                class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-white/60 dark:bg-n-slate-1/60 backdrop-blur border border-solid border-n-weak text-n-slate-11 hover:text-n-portal hover:border-n-portal transition">
-              <% if category.icon.present? %><span class="text-xs"><%= category.icon %></span><% end %>
+              <% if category.icon.present? %><span class="inline-flex items-center text-xs leading-none"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span><% end %>
               <%= category.name %>
             </a>
           <% end %>

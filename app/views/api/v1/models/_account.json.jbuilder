@@ -14,6 +14,9 @@ if resource.custom_attributes.present?
     json.referral_source resource.custom_attributes['referral_source'] if resource.custom_attributes['referral_source'].present?
     json.brand_info resource.custom_attributes['brand_info'] if resource.custom_attributes['brand_info'].present?
     json.onboarding_step resource.onboarding_step if resource.onboarding_step.present?
+    if resource.custom_attributes['help_center_generation_id'].present?
+      json.help_center_generation_id resource.custom_attributes['help_center_generation_id']
+    end
     json.marked_for_deletion_at resource.custom_attributes['marked_for_deletion_at'] if resource.custom_attributes['marked_for_deletion_at'].present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']
