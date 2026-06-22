@@ -105,7 +105,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   end
 
   def parse_llm_response(response_text)
-    parsed_response = JSON.parse(response_text.strip)
+    parsed_response = JSON.parse(sanitize_json_response(response_text))
 
     {
       success: true,
