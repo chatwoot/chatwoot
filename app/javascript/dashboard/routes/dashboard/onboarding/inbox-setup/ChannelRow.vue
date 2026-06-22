@@ -31,14 +31,12 @@ const connectedName = computed(
         :class="{ grayscale: !connected }"
       />
     </div>
-    <span
-      class="flex-1 min-w-0 truncate text-sm font-420 leading-[21px] tracking-[-0.28px] text-n-slate-12"
-    >
+    <span class="flex-1 min-w-0 truncate text-body-main text-n-slate-12">
       {{ channel.label }}
     </span>
     <div
       v-if="connected"
-      class="flex items-center gap-2 flex-shrink-0 text-sm font-420 leading-[21px] tracking-[-0.28px] text-n-slate-11"
+      class="flex items-center gap-2 flex-shrink-0 text-body-main text-n-slate-11"
     >
       <span class="whitespace-nowrap">{{ connectedName }}</span>
       <span class="w-px h-3 bg-n-weak" />
@@ -49,7 +47,7 @@ const connectedName = computed(
     <button
       v-else
       type="button"
-      class="flex items-center flex-shrink-0 h-7 px-2 rounded-lg outline outline-1 outline-n-container bg-n-button-color text-sm font-460 leading-[21px] tracking-[-0.28px] text-n-blue-11"
+      class="flex items-center flex-shrink-0 h-7 px-2 rounded-lg outline outline-1 outline-n-container bg-n-button-color text-button text-n-blue-11"
       @click="$emit('connect', channel)"
     >
       <span class="truncate">
