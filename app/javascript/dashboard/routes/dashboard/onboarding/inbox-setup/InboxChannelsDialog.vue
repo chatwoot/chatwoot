@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
+import { CHANNEL_TYPES } from 'dashboard/helper/inbox';
 import { useChannelConnect } from './useChannelConnect';
 import { useChannelConfig } from './useChannelConfig';
 import { CHANNEL_LIST } from './constants';
@@ -24,10 +25,10 @@ const { isConfigured } = useChannelConfig();
 // Maps the dialog's display types to the OAuth client key the flow expects.
 // Types without an entry (manual-setup channels) are no-ops for now.
 const OAUTH_PROVIDERS = {
-  gmail: 'google',
-  outlook: 'microsoft',
-  instagram: 'instagram',
-  tiktok: 'tiktok',
+  [CHANNEL_TYPES.GMAIL]: 'google',
+  [CHANNEL_TYPES.OUTLOOK]: 'microsoft',
+  [CHANNEL_TYPES.INSTAGRAM]: 'instagram',
+  [CHANNEL_TYPES.TIKTOK]: 'tiktok',
 };
 
 // A card's availability — what the user can do with it right now:
@@ -58,7 +59,7 @@ const channelCards = computed(() =>
     // manual creation path, so an unconnected Website card defers rather than
     // offering a click that can't do anything.
     const availability =
-      channel.type === 'website' && !connected
+      channel.type === CHANNEL_TYPES.WEBSITE && !connected
         ? 'setupLater'
         : channelAvailability(channel);
     return { ...channel, availability, connected };
@@ -86,12 +87,12 @@ const onCardClick = channel => {
     return;
   }
   // WhatsApp uses Meta's embedded-signup popup, not the redirect OAuth flow.
-  if (channel.type === 'whatsapp') {
+  if (channel.type === CHANNEL_TYPES.WHATSAPP) {
     connectWhatsapp();
     return;
   }
   // Facebook swaps to an in-dialog page picker (FB.login → choose a Page).
-  if (channel.type === 'facebook') {
+  if (channel.type === CHANNEL_TYPES.FACEBOOK) {
     selectedChannel.value = channel;
     return;
   }
@@ -110,7 +111,7 @@ const dialogDescription = computed(() => {
   if (!selectedChannel.value) {
     return t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.SUBTITLE');
   }
-  if (selectedChannel.value.type === 'facebook') {
+  if (selectedChannel.value.type === CHANNEL_TYPES.FACEBOOK) {
     return t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.FACEBOOK_SUBTITLE');
   }
   return t('ONBOARDING_INBOX_SETUP.CHANNELS_DIALOG.CONNECT_SUBTITLE');
@@ -142,7 +143,7 @@ defineExpose({ open, close });
     @close="selectedChannel = null"
   >
     <InboxFacebookForm
-      v-if="selectedChannel?.type === 'facebook'"
+      v-if="selectedChannel?.type === CHANNEL_TYPES.FACEBOOK"
       @back="selectedChannel = null"
       @created="onCreated"
     />
