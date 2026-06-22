@@ -31,7 +31,7 @@ class Integrations::Dyte::ProcessorService
   private
 
   def realtimekit_client_id(user)
-    "#{user.class.model_name.singular}:#{user.id}"
+    "#{user.class.name}:#{user.id}"
   end
 
   def store_participant_id_and_return(message, client_id, response)
@@ -107,7 +107,7 @@ class Integrations::Dyte::ProcessorService
     participants[client_id.to_s] = participant_id
     data[:participants] = participants
     attributes[:data] = data
-    message.update!(content_attributes: attributes.deep_stringify_keys)
+    message.update_columns(content_attributes: attributes.deep_stringify_keys, updated_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
   rescue StandardError => e
     Rails.logger.warn("[dyte] Failed to store RealtimeKit participant ID for message #{message.id}: #{e.class}: #{e.message}")
   end
