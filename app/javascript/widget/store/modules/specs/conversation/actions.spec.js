@@ -191,7 +191,11 @@ describe('#actions', () => {
     it('sends typing status when a conversation exists', async () => {
       API.post.mockResolvedValue({ data: { success: true } });
       await actions.toggleUserTyping(
-        { getters: { getConversationSize: 2 } },
+        {
+          rootGetters: {
+            'conversationAttributes/getConversationParams': { id: 123 },
+          },
+        },
         { typingStatus: 'on' }
       );
       expect(API.post).toHaveBeenCalled();
@@ -199,7 +203,11 @@ describe('#actions', () => {
     it('skips the request when no conversation exists', async () => {
       API.post.mockResolvedValue({ data: { success: true } });
       await actions.toggleUserTyping(
-        { getters: { getConversationSize: 0 } },
+        {
+          rootGetters: {
+            'conversationAttributes/getConversationParams': { id: '' },
+          },
+        },
         { typingStatus: 'on' }
       );
       expect(API.post).not.toHaveBeenCalled();
