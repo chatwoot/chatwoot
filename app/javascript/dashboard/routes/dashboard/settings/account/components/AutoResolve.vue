@@ -5,7 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
-import TextArea from 'next/textarea/TextArea.vue';
+import Editor from 'next/Editor/Editor.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DurationInput from 'next/input/DurationInput.vue';
@@ -162,9 +162,13 @@ const toggleAutoResolve = async () => {
           :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.LABEL')"
           :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.HELP')"
         >
-          <TextArea
+          <Editor
             v-model="message"
             class="w-full"
+            channel-type="Context::NoToolbar"
+            enable-variables
+            :enable-canned-responses="false"
+            :show-character-count="false"
             :placeholder="
               t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')
             "
