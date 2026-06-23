@@ -4,9 +4,9 @@
     "watchAdditionalPaths": []
   },
   "development": {
-    "autoBuild": true,
+    "autoBuild": false,
     "publicOutputDir": "vite-dev",
-    "port": 3036
+    "port": 3037
   },
   "test": {
     "autoBuild": true,
