@@ -68,7 +68,7 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
            headers: agent.create_new_auth_token
 
       expect(response).to have_http_status(:ok)
-      expect(call.reload.status).to eq('failed')
+      expect(call.reload.status).to eq('rejected')
     end
   end
 

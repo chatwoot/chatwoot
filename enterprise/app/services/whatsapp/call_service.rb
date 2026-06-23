@@ -21,7 +21,7 @@ class Whatsapp::CallService
 
       invoke_provider!(:reject_call)
       call.update!(accepted_by_agent_id: agent.id) if call.accepted_by_agent_id.nil?
-      finalize_call('failed', end_reason: 'agent_rejected')
+      finalize_call('rejected', end_reason: 'agent_rejected')
     end
     call
   end
