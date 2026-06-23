@@ -1,12 +1,10 @@
-# InboxHub STAGING — build desde fork (no imagen oficial).
+# InboxHub STAGING — imagen precompilada en GitHub Actions (GHCR).
+# No hace build en el VPS: pull de ghcr.io/pabloluna3596afk/chatwoot:develop
 # Dokploy: dominio test.inbox.paluhub.com, red externa main-chatwoot-staging.
-# Volúmenes con prefijo staging-* (DB vacía, aislada de producción).
 
 x-base-config: &base-config
-  build:
-    context: .
-    dockerfile: docker/Dockerfile
-  image: inboxhub/chatwoot:staging
+  image: ghcr.io/pabloluna3596afk/chatwoot:develop
+  pull_policy: always
   env_file: .env
   volumes:
     - staging-chatwoot-storage:/app/storage

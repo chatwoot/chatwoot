@@ -1,6 +1,6 @@
 # Staging InboxHub + Panel AI en Dokploy
 
-Entorno paralelo para validar **fork → GitHub → Dokploy build** sin tocar producción.
+Entorno paralelo para validar **fork → GitHub Actions → GHCR → Dokploy pull** sin tocar producción.
 
 | Entorno | Chatwoot | Panel AI | Red Docker |
 |---------|----------|----------|------------|
@@ -9,7 +9,8 @@ Entorno paralelo para validar **fork → GitHub → Dokploy build** sin tocar pr
 
 ## Archivos del fork
 
-- `docker-compose.staging.yml` — build desde `docker/Dockerfile`, imagen `inboxhub/chatwoot:staging`
+- `docker-compose.staging.yml` — pull de `ghcr.io/pabloluna3596afk/chatwoot:develop` (sin build en VPS)
+- `.github/workflows/chatwoot-docker.yml` — compila y publica la imagen en GHCR al push a `develop`
 - `.env.staging.example` — plantilla de variables (copiar a `.env` en Dokploy)
 - `public/brand-assets/logo*.svg` — logos PaluHub
 - Login: badge **Entorno de pruebas — InboxHub** si `DEPLOYMENT_ENV=staging`
@@ -48,7 +49,18 @@ ssh -i "ruta/a/ssh-key-2026-05-06.key" ubuntu@157.137.211.152
    - Reemplazar cada `CHANGE_ME` (mínimo: `SECRET_KEY_BASE`, `POSTGRES_PASSWORD`)
    - `POSTGRES_PASSWORD` no puede estar vacío
 5. Dominio: `test.inbox.paluhub.com`
-6. **Deploy** (primer build: **30–60 min**)
+6. **Deploy** (~2–5 min en VPS; el build pesado corre en **GitHub Actions**, 5–25 min)
+
+### Imagen Docker (GHCR)
+
+| Tag | Uso |
+|-----|-----|
+| `ghcr.io/pabloluna3596afk/chatwoot:develop` | Staging (compose actual) |
+| `ghcr.io/pabloluna3596afk/chatwoot:staging` | Alias del mismo build |
+
+Tras cada `push` a `develop`, espera que **Build and Push Docker Image** termine en verde en GitHub Actions antes de redeploy en Dokploy.
+
+Si el pull falla por permisos GHCR: en Dokploy → **Registry** → `ghcr.io` con PAT (`read:packages`) o haz el paquete **Public** en GitHub Packages.
 
 ### Error: `chatwoot-postgres is unhealthy`
 
@@ -75,6 +87,16 @@ Servicios expuestos en la red `main-chatwoot-staging`:
 5. Dominio: `test.ainbox.paluhub.com`
 6. **Deploy** (~5–10 min)
 
+**Importante:** el compose debe ser solo `docker-compose.staging.yml`. Si Dokploy usa `docker-compose.yml`, Qdrant intentará el puerto **6333** ya ocupado por producción.
+
+### Error: `Bind for 0.0.0.0:6333 failed: port is already allocated`
+
+Producción (`main-panelai-sa7dgb`) ya usa el puerto 6333. Staging **no debe publicar puertos** en el host.
+
+1. En Dokploy → Compose file: **`docker-compose.staging.yml`** (no `docker-compose.yml`)
+2. Redeploy
+3. Qdrant solo se usa dentro de la red Docker (`http://qdrant:6333`)
+
 Orden recomendado: **Chatwoot staging primero**, luego Panel AI.
 
 ## D. Integración Chatwoot ↔ Panel AI
@@ -98,16 +120,16 @@ Orden recomendado: **Chatwoot staging primero**, luego Panel AI.
 | 5 | Panel AI staging | Login y dashboard en `test.ainbox.paluhub.com` |
 | 6 | Bot / webhook | Respuesta automática en inbox staging |
 
-Si pasan 1–4, el pipeline **fork → GitHub → Dokploy build** está validado.
+Si pasan 1–4, el pipeline **fork → GitHub Actions → GHCR → Dokploy pull** está validado.
 
 ## Recursos estimados (staging)
 
-| Fase | Tiempo | RAM pico |
-|------|--------|----------|
-| Primer build Chatwoot | 30–60 min | 2–4 GB |
-| Build Panel AI | 5–10 min | ~1–2 GB |
-| Redeploys (caché) | 8–20 min | Menor |
-| Disco extra | ~5–8 GB | — |
+| Fase | Tiempo | Dónde |
+|------|--------|--------|
+| Build Chatwoot (GH Actions) | 5–25 min | GitHub (no toca VPS) |
+| Deploy Dokploy (pull + up) | 2–5 min | VPS Oracle |
+| Build Panel AI | 5–10 min | VPS |
+| Disco extra | ~5–8 GB | VPS |
 
 ## Promoción a producción (después de validar)
 
@@ -120,7 +142,6 @@ Si pasan 1–4, el pipeline **fork → GitHub → Dokploy build** está validado
 
 ## Qué no incluye esta fase
 
-- GitHub Actions obligatorio (Dokploy build desde repo)
 - Cambios grandes de UI (colores, resúmenes Panel AI en CW)
 - Migración de datos prod → staging (staging empieza vacío a propósito)
 - Tocar volúmenes o compose de producción
