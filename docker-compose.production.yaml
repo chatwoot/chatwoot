@@ -1,8 +1,7 @@
-version: '3'
-
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    image: ghcr.io/xaandmenezes/chatwoot-roteiros:latest
+    pull_policy: always
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
@@ -12,8 +11,6 @@ services:
     depends_on:
       - postgres
       - redis
-    ports:
-      - '127.0.0.1:3000:3000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -37,15 +34,12 @@ services:
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=${POSTGRES_DATABASE}
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:alpine
@@ -54,8 +48,6 @@ services:
     env_file: .env
     volumes:
       - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
 
 volumes:
   storage_data:

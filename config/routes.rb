@@ -385,6 +385,22 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :viari, controller: 'viari', only: [:destroy] do
+              collection do
+                get :customer
+                get :reservas
+                get :orcamentos
+                get :pagamentos
+                get :produtos
+                get :agendas
+                get :tarifas
+                get :canais_venda
+                post :create_orcamento
+                post :create_reserva
+                post :create_pagamento
+                get 'texto_whatsapp/:orcamento_id', action: :texto_whatsapp
+              end
+            end
           end
           resources :portals do
             member do

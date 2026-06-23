@@ -1,5 +1,30 @@
 {
   "INTEGRATION_SETTINGS": {
+    "VIARI": {
+      "HEADER": "Viari",
+      "CONNECT": {
+        "TITLE": "Conectar Viari",
+        "API_URL_LABEL": "URL do Viari",
+        "API_URL_PLACEHOLDER": "https://viari.portoseguroroteiros.com.br",
+        "API_URL_HELP": "Endereço completo do seu sistema Viari",
+        "API_KEY_LABEL": "Chave de API",
+        "API_KEY_PLACEHOLDER": "viari_xxxx...",
+        "API_KEY_HELP": "Gerada nas configurações do Viari (Configurações → Integrações → Chave de API)",
+        "SUBMIT": "Conectar",
+        "CANCEL": "Cancelar"
+      },
+      "UPDATE": {
+        "TITLE": "Atualizar configurações",
+        "SUBMIT": "Salvar alterações"
+      },
+      "DELETE": {
+        "TITLE": "Desconectar Viari",
+        "MESSAGE": "Tem certeza que deseja desconectar o Viari? O painel lateral deixará de funcionar."
+      },
+      "CONNECTED": "Conectado",
+      "ERROR": "Erro ao conectar com o Viari. Verifique a URL e a Chave de API.",
+      "LABELS_CREATED": "Etiquetas CRM criadas com sucesso."
+    },
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {

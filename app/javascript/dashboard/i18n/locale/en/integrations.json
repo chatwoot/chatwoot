@@ -16,6 +16,31 @@
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
+    "VIARI": {
+      "HEADER": "Viari",
+      "CONNECT": {
+        "TITLE": "Connect Viari",
+        "API_URL_LABEL": "Viari URL",
+        "API_URL_PLACEHOLDER": "https://viari.portoseguroroteiros.com.br",
+        "API_URL_HELP": "Full address of your Viari system",
+        "API_KEY_LABEL": "API Key",
+        "API_KEY_PLACEHOLDER": "viari_xxxx...",
+        "API_KEY_HELP": "Generated in Viari settings (Settings → Integrations → API Key)",
+        "SUBMIT": "Connect",
+        "CANCEL": "Cancel"
+      },
+      "UPDATE": {
+        "TITLE": "Update settings",
+        "SUBMIT": "Save changes"
+      },
+      "DELETE": {
+        "TITLE": "Disconnect Viari",
+        "MESSAGE": "Are you sure you want to disconnect Viari? The sidebar panel will stop working."
+      },
+      "CONNECTED": "Connected",
+      "ERROR": "Error connecting to Viari. Please check the URL and API Key.",
+      "LABELS_CREATED": "CRM labels created successfully."
+    },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
