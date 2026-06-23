@@ -22,6 +22,18 @@ module Widget
       ENV['WIDGET_TRANSCRIPTION_OPENAI_MODEL'].presence || DEFAULT_MODEL
     end
 
+    # Optional text prompt passed to the transcription model to bias recognition
+    # towards domain terms, names and spelling (OpenAI's `prompt` field).
+    def prompt
+      ENV['WIDGET_TRANSCRIPTION_OPENAI_PROMPT'].presence
+    end
+
+    # Optional ISO-639-1 language code (e.g. "lt"). When unset the model
+    # auto-detects the spoken language.
+    def language
+      ENV['WIDGET_TRANSCRIPTION_OPENAI_LANGUAGE'].presence
+    end
+
     def endpoint
       raw = ENV['WIDGET_TRANSCRIPTION_OPENAI_ENDPOINT'].presence || DEFAULT_ENDPOINT
       # ruby-openai joins this with "v1/audio/transcriptions", so a trailing

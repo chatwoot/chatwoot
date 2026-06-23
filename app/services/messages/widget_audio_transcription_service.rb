@@ -39,18 +39,22 @@ class Messages::WidgetAudioTranscriptionService
     temp_file_path = stage_audio_file
 
     File.open(temp_file_path, 'rb') do |file|
-      # temperature: 0.0 minimises hallucinations on silence / near-silent audio.
-      response = client.audio.transcribe(
-        parameters: {
-          model: Widget::AudioTranscriptionConfig.model,
-          file: file,
-          temperature: 0.0
-        }
-      )
+      response = client.audio.transcribe(parameters: transcription_parameters(file))
       response['text'].to_s.strip
     end
   ensure
     FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+  end
+
+  def transcription_parameters(file)
+    {
+      model: Widget::AudioTranscriptionConfig.model,
+      file: file,
+      # temperature: 0.0 minimises hallucinations on silence / near-silent audio.
+      temperature: 0.0,
+      prompt: Widget::AudioTranscriptionConfig.prompt,
+      language: Widget::AudioTranscriptionConfig.language
+    }.compact
   end
 
   # OpenAI infers the audio format from the filename extension, so the temp file
