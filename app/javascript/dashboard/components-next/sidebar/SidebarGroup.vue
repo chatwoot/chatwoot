@@ -55,6 +55,9 @@ const hasChildren = computed(
 const isPopoverOpen = computed(() => activePopover.value === props.name);
 const triggerRef = ref(null);
 const triggerRect = ref({ top: 0, left: 0, bottom: 0, right: 0 });
+// The sort dropdown teleports outside the popover; keep the popover open while
+// it is showing so moving the cursor onto it does not close everything.
+const isSortMenuOpen = ref(false);
 
 const openPopover = () => {
   if (triggerRef.value) {
@@ -82,7 +85,7 @@ const handleMouseEnter = () => {
 };
 
 const handleMouseLeave = () => {
-  if (!hasChildren.value) return;
+  if (!hasChildren.value || isSortMenuOpen.value) return;
   scheduleClose(200);
 };
 
@@ -91,7 +94,13 @@ const handlePopoverMouseEnter = () => {
 };
 
 const handlePopoverMouseLeave = () => {
+  if (isSortMenuOpen.value) return;
   scheduleClose(100);
+};
+
+const handleSortToggle = isOpen => {
+  isSortMenuOpen.value = isOpen;
+  cancelClose();
 };
 
 // Close popover when mouse leaves the window
@@ -273,6 +282,7 @@ watch(
           @close="closePopover"
           @mouseenter="handlePopoverMouseEnter"
           @mouseleave="handlePopoverMouseLeave"
+          @sort-toggle="handleSortToggle"
         />
       </div>
     </template>
@@ -307,6 +317,9 @@ watch(
             :end-tree-line="child.showTreeLine && isLastVisibleChild(child)"
             :is-expanded="isExpanded"
             :active-child="activeChild"
+            :sort-options="child.sortOptions"
+            :active-sort="child.activeSort"
+            @update-sort="child.onSortChange"
           />
           <SidebarGroupLeaf
             v-else-if="isAllowed(child.to)"

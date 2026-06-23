@@ -14,6 +14,7 @@ import {
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ReportCaptainMessageDialog from './ReportCaptainMessageDialog.vue';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     MenuItem,
     ContextMenu,
     NextButton,
+    ReportCaptainMessageDialog,
   },
   props: {
     message: {
@@ -152,6 +154,10 @@ export default {
     closeDeleteModal() {
       this.showDeleteModal = false;
     },
+    openReportDialog() {
+      this.handleClose();
+      this.$refs.reportDialog?.open();
+    },
   },
 };
 </script>
@@ -243,6 +249,16 @@ export default {
           variant="icon"
           @click.stop="showCannedResponseModal"
         />
+        <hr v-if="enabledOptions['report']" />
+        <MenuItem
+          v-if="enabledOptions['report']"
+          :option="{
+            icon: 'warning',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPORT_MESSAGE.LABEL'),
+          }"
+          variant="icon"
+          @click.stop="openReportDialog"
+        />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem
           v-if="enabledOptions['delete']"
@@ -255,6 +271,11 @@ export default {
         />
       </div>
     </ContextMenu>
+    <ReportCaptainMessageDialog
+      v-if="enabledOptions['report']"
+      ref="reportDialog"
+      :message-id="messageId"
+    />
   </div>
 </template>
 

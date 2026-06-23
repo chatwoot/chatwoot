@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { useMapGetter } from 'dashboard/composables/store';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -8,7 +9,6 @@ import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 
 import { useSidebarContext } from './provider';
-import { useEventListener } from '@vueuse/core';
 
 const props = defineProps({
   name: { type: String, required: true },
@@ -17,10 +17,14 @@ const props = defineProps({
   icon: { type: [Object, String], required: true },
   children: { type: Array, default: undefined },
   activeChild: { type: Object, default: undefined },
+  sortOptions: { type: Array, default: () => [] },
+  activeSort: { type: String, default: '' },
   collapsible: { type: Boolean, default: false },
   showTreeLine: { type: Boolean, default: false },
   endTreeLine: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['update-sort']);
 
 const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
@@ -121,7 +125,7 @@ watch([hasActiveChild, storageKey], expandSubGroupOnActiveChild, {
 </script>
 
 <template>
-  <li class="relative flex flex-col list-none min-w-0">
+  <li class="group/sidebar-section relative flex flex-col list-none min-w-0">
     <template v-if="hasAccessibleItems">
       <SidebarGroupSeparator
         v-show="isExpanded"
@@ -131,8 +135,11 @@ watch([hasActiveChild, storageKey], expandSubGroupOnActiveChild, {
         :is-expanded="isSubGroupExpanded"
         :show-tree-line="showTreeLine"
         :end-tree-line="endTreeLine"
+        :sort-options="sortOptions"
+        :active-sort="activeSort"
         class="my-1"
         @toggle="toggleSubGroup"
+        @update-sort="sortBy => emit('update-sort', sortBy)"
       />
       <ul
         v-if="children.length"
