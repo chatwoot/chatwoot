@@ -175,7 +175,7 @@ class Rack::Attack
   # TODO: Deprecate this feature in future after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
     ## Prevent Conversation Bombing on Widget APIs ###
-    throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+    throttle('api/v1/widget/conversations', limit: 6, period: 1.minute) do |req|
       req.ip if req.path_without_extensions == '/api/v1/widget/conversations' && req.post?
     end
 
