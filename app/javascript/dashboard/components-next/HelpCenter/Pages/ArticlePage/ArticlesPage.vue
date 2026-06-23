@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
+import { debounce } from '@chatwoot/utils';
 import { ARTICLE_TABS, CATEGORY_ALL } from 'dashboard/helper/portalHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
@@ -18,6 +19,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ArticleEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Article/ArticleEmptyState.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import BulkTranslateDialog from './BulkTranslateDialog.vue';
@@ -49,7 +51,12 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['pageChange', 'fetchPortal', 'refreshArticles']);
+const emit = defineEmits([
+  'pageChange',
+  'fetchPortal',
+  'refreshArticles',
+  'search',
+]);
 
 const router = useRouter();
 const route = useRoute();
@@ -65,6 +72,9 @@ const isFeatureEnabledonAccount = useMapGetter(
 const selectedArticleIds = ref(new Set());
 const deleteConfirmDialogRef = ref(null);
 const isCategoryMenuOpen = ref(false);
+const searchQuery = ref(route.query.search || '');
+
+const debouncedSearch = debounce(() => emit('search', searchQuery.value), 500);
 
 const { isEnterprise } = useConfig();
 
@@ -122,6 +132,7 @@ const updateRoute = newParams => {
       categorySlug: newParams.categorySlug ?? categorySlug,
       ...newParams,
     },
+    query: route.query,
   });
 };
 
@@ -145,7 +156,12 @@ const showCategoryHeaderControls = computed(
   () => props.isCategoryArticles && !isSwitchingPortal.value
 );
 
+const isSearching = computed(() => Boolean(searchQuery.value?.trim()));
+
 const getEmptyStateText = type => {
+  if (isSearching.value) {
+    return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.SEARCH.${type}`);
+  }
   if (props.isCategoryArticles) {
     return t(`HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.CATEGORY.${type}`);
   }
@@ -230,6 +246,7 @@ const categoryMenuItems = computed(() =>
     value: category.id,
     action: 'move',
     emoji: category.icon,
+    iconColor: category.icon_color,
   }))
 );
 
@@ -290,6 +307,19 @@ watch(
     :show-pagination-footer="shouldShowPaginationFooter"
     @update:current-page="handlePageChange"
   >
+    <template #title-actions>
+      <Input
+        v-if="!isSwitchingPortal"
+        v-model="searchQuery"
+        :placeholder="
+          t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.SEARCH_PLACEHOLDER')
+        "
+        type="search"
+        size="sm"
+        class="w-full max-w-[16rem] min-w-0"
+        @input="debouncedSearch"
+      />
+    </template>
     <template #header-actions>
       <div class="flex items-end justify-between">
         <ArticleHeaderControls
@@ -421,6 +451,7 @@ watch(
         <ArticleList
           :articles="articles"
           :is-category-articles="isCategoryArticles"
+          :is-searching="isSearching"
           :selected-article-ids="selectedArticleIds"
           class="relative z-0"
           @translate-article="handleTranslateArticle"
@@ -432,7 +463,7 @@ watch(
         class="pt-14"
         :title="getEmptyStateTitle"
         :subtitle="getEmptyStateSubtitle"
-        :show-button="hasNoArticlesInPortal"
+        :show-button="hasNoArticlesInPortal && !isSearching"
         :button-label="
           t('HELP_CENTER.ARTICLES_PAGE.EMPTY_STATE.ALL.BUTTON_LABEL')
         "

@@ -70,7 +70,8 @@ describe('useFacebookPageConnect', () => {
       ACCOUNT_ID
     );
     expect(window.FB.login).toHaveBeenCalledWith(expect.any(Function), {
-      scope: expect.stringContaining('pages_show_list'),
+      scope:
+        'pages_manage_metadata,business_management,pages_messaging,pages_show_list,pages_read_engagement',
     });
   });
 
