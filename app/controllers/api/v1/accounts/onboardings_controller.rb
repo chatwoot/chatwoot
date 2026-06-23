@@ -2,17 +2,18 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
   before_action :check_admin_authorization?
 
   ONBOARDING_STEP_KEY = 'onboarding_step'.freeze
-  STEP_ENRICHMENT = 'enrichment'.freeze
   STEP_ACCOUNT_DETAILS = 'account_details'.freeze
   STEP_INBOX_SETUP = 'inbox_setup'.freeze
-
   ONBOARDING_STEPS = [STEP_ACCOUNT_DETAILS, STEP_INBOX_SETUP].freeze
 
   def update
-    return render json: { error: 'Invalid onboarding step' }, status: :unprocessable_entity unless valid_onboarding_step?
+    return render json: { error: 'Invalid onboarding step' }, status: :unprocessable_entity unless ONBOARDING_STEPS.include?(params[:onboarding_step])
 
     @account = Current.account
-    complete_onboarding_step
+    # The client declares the step it is completing; `account_details` runs
+    # `complete_account_details`, and so on. The known-step guard above keeps the
+    # client value from `send`-ing an arbitrary method.
+    send("complete_#{params[:onboarding_step]}")
 
     render 'api/v1/accounts/update', format: :json
   end
@@ -23,36 +24,42 @@ class Api::V1::Accounts::OnboardingsController < Api::V1::Accounts::BaseControll
 
   private
 
-  # The client declares which step it is completing; step `foo` runs
-  # `complete_foo`, which owns persisting that step's data, advancing the cursor,
-  # and any side effects. Dispatch is gated on the known-step list so the client
-  # value can never `send` an arbitrary method.
-  def valid_onboarding_step?
-    ONBOARDING_STEPS.include?(params[:onboarding_step])
-  end
-
-  def complete_onboarding_step
-    send("complete_#{params[:onboarding_step]}")
-  end
-
   def complete_account_details
-    # The stored cursor may still be 'enrichment' when the client submits after
-    # the enrichment timeout, so accept either pre-inbox_setup state. A stale
-    # replay after onboarding finished (no stored step) must not re-enter it.
-    return unless [STEP_ENRICHMENT, STEP_ACCOUNT_DETAILS].include?(@account.custom_attributes[ONBOARDING_STEP_KEY])
+    # Only act while the cursor still points here, so a stale replay after
+    # onboarding finished can't re-enter it.
+    return unless current_step == STEP_ACCOUNT_DETAILS
 
     @account.assign_attributes(account_params)
     @account.custom_attributes.merge!(custom_attributes_params)
-    @account.custom_attributes[ONBOARDING_STEP_KEY] = STEP_INBOX_SETUP
-    @account.save!
-    create_onboarding_inboxes
+
+    # inbox_setup is a cloud-only step (DEPLOYMENT_ENV config, not a hardcoded
+    # environment check); self-hosted finishes onboarding here.
+    if ChatwootApp.chatwoot_cloud?
+      move_to_step(STEP_INBOX_SETUP)
+      create_onboarding_inboxes
+    else
+      finish_onboarding
+    end
   end
 
   def complete_inbox_setup
-    # Only finalize while the stored cursor still points here, so a stale or
-    # out-of-order request can't end onboarding early. Replays are no-ops.
-    return unless @account.custom_attributes[ONBOARDING_STEP_KEY] == STEP_INBOX_SETUP
+    # Only finalize while the cursor still points here, so a stale or out-of-order
+    # request can't end onboarding early. Replays are no-ops.
+    return unless current_step == STEP_INBOX_SETUP
 
+    finish_onboarding
+  end
+
+  def current_step
+    @account.custom_attributes[ONBOARDING_STEP_KEY]
+  end
+
+  def move_to_step(step)
+    @account.custom_attributes[ONBOARDING_STEP_KEY] = step
+    @account.save!
+  end
+
+  def finish_onboarding
     @account.custom_attributes.delete(ONBOARDING_STEP_KEY)
     @account.save!
   end

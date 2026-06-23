@@ -8,7 +8,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { ONBOARDING_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -28,7 +28,12 @@ import {
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
 const { accountId, currentAccount, finishOnboarding } = useAccount();
+
+// Where each onboarding cursor routes. The backend owns which steps run where;
+// the frontend just follows the cursor it advanced us to (no deployment checks).
+const STEP_ROUTES = { inbox_setup: 'onboarding_inbox_setup' };
 const { enabledLanguages } = useConfig();
 const currentUser = useMapGetter('getCurrentUser');
 
@@ -178,10 +183,19 @@ const handleSubmit = async () => {
     });
 
     useAlert(t('ONBOARDING_NEXT.SUCCESS'));
-    router.push({
-      name: 'onboarding_inbox_setup',
-      params: { accountId: accountId.value },
-    });
+    // Follow the cursor the backend advanced us to. A next step routes there; no
+    // next step means onboarding is complete, so refresh the user (so the router
+    // guard sees the cleared cursor) and head to the dashboard.
+    const nextStep = currentAccount.value?.custom_attributes?.onboarding_step;
+    if (STEP_ROUTES[nextStep]) {
+      router.push({
+        name: STEP_ROUTES[nextStep],
+        params: { accountId: accountId.value },
+      });
+    } else {
+      await store.dispatch('setUser');
+      router.push({ name: 'home', params: { accountId: accountId.value } });
+    }
   } catch {
     useAlert(t('ONBOARDING_NEXT.ERROR'));
   } finally {

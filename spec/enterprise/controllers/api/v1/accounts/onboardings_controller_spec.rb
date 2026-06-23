@@ -6,7 +6,11 @@ RSpec.describe 'Enterprise Onboarding API', type: :request do
 
   describe 'PATCH /api/v1/accounts/{account.id}/onboarding' do
     context 'when finalizing account_details' do
-      before { account.update!(custom_attributes: { 'onboarding_step' => 'account_details' }) }
+      # Inbox/help-center setup is a cloud-only step; off cloud the flow finishes at account_details.
+      before do
+        account.update!(custom_attributes: { 'onboarding_step' => 'account_details' })
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      end
 
       it 'invokes HelpCenterCreationService when website is present' do
         service = instance_double(Onboarding::HelpCenterCreationService, perform: nil)

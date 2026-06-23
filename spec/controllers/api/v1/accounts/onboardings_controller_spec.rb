@@ -59,43 +59,55 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(attrs['company_size']).to eq('10-50')
       end
 
-      it 'advances onboarding_step to inbox_setup' do
-        patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com', onboarding_step: 'account_details' },
-              headers: admin.create_new_auth_token, as: :json
+      context 'on cloud (inbox setup is a cloud-only step)' do
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
 
-        expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
-      end
-
-      it 'does not create a help center portal when website is blank' do
-        expect do
+        it 'advances onboarding_step to inbox_setup' do
           patch "/api/v1/accounts/#{account.id}/onboarding",
-                params: { name: 'Acme Inc', onboarding_step: 'account_details' },
+                params: { website: 'acme.com', onboarding_step: 'account_details' },
                 headers: admin.create_new_auth_token, as: :json
-        end.not_to change(account.portals, :count)
+
+          expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
+        end
+
+        it 'does not create a help center portal when website is blank' do
+          expect do
+            patch "/api/v1/accounts/#{account.id}/onboarding",
+                  params: { name: 'Acme Inc', onboarding_step: 'account_details' },
+                  headers: admin.create_new_auth_token, as: :json
+          end.not_to change(account.portals, :count)
+        end
+
+        it 'is idempotent when the account_details completion is replayed' do
+          2.times do
+            patch "/api/v1/accounts/#{account.id}/onboarding",
+                  params: { website: 'acme.com', onboarding_step: 'account_details' },
+                  headers: admin.create_new_auth_token, as: :json
+          end
+
+          # Replaying step 1 always lands on inbox_setup; it never skips to done.
+          expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
+        end
       end
 
-      it 'is idempotent when the account_details completion is replayed' do
-        2.times do
+      context 'off cloud (inbox setup is skipped)' do
+        before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
+
+        it 'finishes onboarding instead of advancing to inbox_setup' do
+          patch "/api/v1/accounts/#{account.id}/onboarding",
+                params: { website: 'acme.com', onboarding_step: 'account_details' },
+                headers: admin.create_new_auth_token, as: :json
+
+          expect(account.reload.custom_attributes).not_to have_key('onboarding_step')
+        end
+
+        it 'does not auto-create onboarding inboxes' do
+          expect(Onboarding::WebWidgetCreationService).not_to receive(:new)
+
           patch "/api/v1/accounts/#{account.id}/onboarding",
                 params: { website: 'acme.com', onboarding_step: 'account_details' },
                 headers: admin.create_new_auth_token, as: :json
         end
-
-        # Replaying step 1 always lands on inbox_setup; it never skips to done.
-        expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
-      end
-    end
-
-    context 'when completing account_details while enrichment is still pending' do
-      before { account.update!(custom_attributes: { 'onboarding_step' => 'enrichment' }) }
-
-      it 'still advances to inbox_setup (post-timeout submit)' do
-        patch "/api/v1/accounts/#{account.id}/onboarding",
-              params: { website: 'acme.com', onboarding_step: 'account_details' },
-              headers: admin.create_new_auth_token, as: :json
-
-        expect(account.reload.custom_attributes['onboarding_step']).to eq('inbox_setup')
       end
     end
 
