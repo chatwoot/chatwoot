@@ -60,6 +60,8 @@ ssh -i "ruta/a/ssh-key-2026-05-06.key" ubuntu@157.137.211.152
 
 Tras cada `push` a `develop`, espera que **Build and Push Docker Image** termine en verde en GitHub Actions antes de redeploy en Dokploy.
 
+La imagen incluye **amd64 + arm64** (Oracle Cloud Ampere usa arm64). El primer build multi-arch puede tardar **15–30 min** en GitHub.
+
 Si el pull falla por permisos GHCR: en Dokploy → **Registry** → `ghcr.io` con PAT (`read:packages`) o haz el paquete **Public** en GitHub Packages.
 
 ### Error: `chatwoot-postgres is unhealthy`
