@@ -59,7 +59,7 @@ RSpec.describe 'Onboarding API', type: :request do
         expect(attrs['company_size']).to eq('10-50')
       end
 
-      context 'on cloud (inbox setup is a cloud-only step)' do
+      context 'when on cloud (inbox setup is a cloud-only step)' do
         before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
 
         it 'advances onboarding_step to inbox_setup' do
@@ -90,7 +90,7 @@ RSpec.describe 'Onboarding API', type: :request do
         end
       end
 
-      context 'off cloud (inbox setup is skipped)' do
+      context 'when off cloud (inbox setup is skipped)' do
         before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false) }
 
         it 'finishes onboarding instead of advancing to inbox_setup' do
