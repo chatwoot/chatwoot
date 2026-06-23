@@ -1,4 +1,5 @@
 class Api::V1::Accounts::DashboardAppsController < Api::V1::Accounts::BaseController
+  before_action :authorize_dashboard_app_mutation!, only: [:create, :update, :destroy]
   before_action :fetch_dashboard_apps, except: [:create]
   before_action :fetch_dashboard_app, only: [:show, :update, :destroy]
 
@@ -40,5 +41,11 @@ class Api::V1::Accounts::DashboardAppsController < Api::V1::Accounts::BaseContro
 
   def permitted_params
     params.permit(:id)
+  end
+
+  def authorize_dashboard_app_mutation!
+    account_user = Current.account_user || Current.account.account_users.find_by(user_id: Current.user&.id)
+
+    raise Pundit::NotAuthorizedError unless account_user&.administrator?
   end
 end
