@@ -27,22 +27,37 @@ Panel AI (repo hermano):
 docker network create main-chatwoot-staging
 ```
 
-DNS (registros A hacia la IP del VPS):
+DNS (registros A hacia la IP del VPS **157.137.211.152**):
 
 - `test.inbox.paluhub.com`
 - `test.ainbox.paluhub.com`
+
+SSH al VPS (Oracle):
+
+```bash
+ssh -i "ruta/a/ssh-key-2026-05-06.key" ubuntu@157.137.211.152
+```
 
 ## B. App Chatwoot Staging
 
 1. Dokploy → **Nueva aplicación** → Compose
 2. Repositorio: `pabloluna3596afk/chatwoot`, rama `develop`
 3. Compose file: `docker-compose.staging.yml`
-4. Variables de entorno: copiar desde `.env.staging.example` y reemplazar:
-   - `SECRET_KEY_BASE` → `bundle exec rails secret` (local) o generador seguro
-   - `POSTGRES_PASSWORD` → password nuevo solo para staging
-   - Credenciales SMTP si aplica
-5. Dominio en Dokploy: `test.inbox.paluhub.com` (HTTPS vía Traefik)
-6. **Deploy** — primer build: **30–60 min** (Dockerfile completo + assets)
+4. **Environment / Variables** (obligatorio — sin esto Postgres queda `unhealthy`):
+   - Copiar **todo** `.env.staging.example`
+   - Reemplazar cada `CHANGE_ME` (mínimo: `SECRET_KEY_BASE`, `POSTGRES_PASSWORD`)
+   - `POSTGRES_PASSWORD` no puede estar vacío
+5. Dominio: `test.inbox.paluhub.com`
+6. **Deploy** (primer build: **30–60 min**)
+
+### Error: `chatwoot-postgres is unhealthy`
+
+Causa habitual: **no configuraste variables en Dokploy**. El log dirá:
+`Database is uninitialized and superuser password is not specified`.
+
+1. Pega las variables del paso 4 (incluye `POSTGRES_PASSWORD=...`)
+2. Si ya falló un deploy, en Dokploy elimina el volumen `staging-chatwoot-postgres-data` o redeploy limpio
+3. Vuelve a desplegar
 
 Servicios expuestos en la red `main-chatwoot-staging`:
 

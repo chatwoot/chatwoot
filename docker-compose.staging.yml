@@ -39,13 +39,14 @@ services:
   chatwoot-postgres:
     image: pgvector/pgvector:pg16
     restart: always
+    env_file: .env
     volumes:
       - staging-chatwoot-postgres-data:/var/lib/postgresql/data
       - ./docker/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql:ro
     environment:
-      - POSTGRES_DB=${POSTGRES_DATABASE}
-      - POSTGRES_USER=${POSTGRES_USERNAME}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      # Valores fijos; POSTGRES_PASSWORD viene del .env de Dokploy (env_file)
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
       interval: 5s
