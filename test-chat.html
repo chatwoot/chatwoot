@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prueba widget Chatwoot (local)</title>
+</head>
+<body>
+  <h1>Página de prueba — widget Chatwoot</h1>
+  <p>
+    Servir esta página con:
+    <code>python -m http.server 8080</code>
+    → abrir <a href="http://localhost:8080/test-chat.html">http://localhost:8080/test-chat.html</a>
+  </p>
+  <p>Chatwoot debe estar en <strong>http://localhost:3000</strong>.</p>
+
+  <!--
+    1. Settings → Inboxes → Website → Configuration
+       Website URL: http://localhost:8080
+       Allowed domains: http://localhost:8080  (o vacío)
+    2. Copia websiteToken de Installation y reemplaza abajo.
+  -->
+  <script>
+    (function (d, t) {
+      // URL del servidor Chatwoot (NO la de esta página)
+      var CHATWOOT_URL = 'http://localhost:3000';
+      var WEBSITE_TOKEN = 'PEGA_AQUI_TU_WEBSITE_TOKEN';
+
+      var g = d.createElement(t);
+      var s = d.getElementsByTagName(t)[0];
+      g.src = CHATWOOT_URL + '/packs/js/sdk.js';
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function () {
+        window.chatwootSDK.run({
+          websiteToken: WEBSITE_TOKEN,
+          baseUrl: CHATWOOT_URL,
+        });
+      };
+    })(document, 'script');
+  </script>
+</body>
+</html>
