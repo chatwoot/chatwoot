@@ -80,7 +80,7 @@ module Captain::Conversation::V1FalsePromiseHandler
   end
 
   def v1_false_promise_harness_enabled?
-    ActiveModel::Type::Boolean.new.cast(@assistant.config['false_promise_harness_enabled'])
+    ActiveModel::Type::Boolean.new.cast(account.captain_false_promise_harness_enabled)
   end
 
   def log_v1_false_promise_detection(detection)

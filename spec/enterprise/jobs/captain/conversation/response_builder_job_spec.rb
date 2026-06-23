@@ -62,7 +62,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
-      it 'does not run the false promise harness when the assistant setting is disabled' do
+      it 'does not run the false promise harness when the account setting is disabled' do
         expect(Captain::Llm::AssistantFalsePromiseService).not_to receive(:new)
 
         described_class.perform_now(conversation, assistant)
@@ -70,9 +70,9 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
       end
 
-      context 'when false promise harness is enabled in assistant config' do
+      context 'when false promise harness is enabled in account settings' do
         before do
-          assistant.update!(config: assistant.config.merge('false_promise_harness_enabled' => true))
+          account.update!(settings: account.settings.merge('captain_false_promise_harness_enabled' => true))
         end
 
         it 'sends the original response when the detector marks it safe' do
