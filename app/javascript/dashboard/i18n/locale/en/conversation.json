@@ -304,6 +304,25 @@
         "MESSAGE": "You cannot undo this action",
         "DELETE": "Delete",
         "CANCEL": "Cancel"
+      },
+      "REPORT_MESSAGE": {
+        "LABEL": "Report message",
+        "TITLE": "Report Captain message",
+        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
+        "PROBLEM_TYPE": "Problem type",
+        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
+        "DESCRIPTION_LABEL": "Description",
+        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
+        "SUBMIT": "Report",
+        "SUCCESS": "Thanks for reporting. Our team will take a look.",
+        "ERROR": "Could not report this message. Please try again.",
+        "REASONS": {
+          "incorrect_information": "Incorrect information",
+          "inappropriate_response": "Inappropriate response",
+          "incomplete_response": "Incomplete response",
+          "outdated_information": "Outdated information",
+          "other": "Other"
+        }
       }
     },
     "SIDEBAR": {
@@ -401,7 +420,8 @@
       "VIEW_ALL": "View all",
       "SHOW_LESS": "Show less",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file"
+      "UNTITLED_FILE": "Untitled file",
+      "JUMP_TO_MESSAGE": "Jump to message"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

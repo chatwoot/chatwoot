@@ -14,6 +14,8 @@ json.category do
   json.name article.category&.name
   json.slug article.category&.slug
   json.locale article.category&.locale
+  json.icon article.category&.icon
+  json.icon_color article.category&.icon_color
 end
 
 json.views article.views

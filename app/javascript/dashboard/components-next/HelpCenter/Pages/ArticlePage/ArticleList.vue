@@ -24,6 +24,10 @@ const props = defineProps({
     type: Set,
     default: () => new Set(),
   },
+  isSearching: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['translateArticle', 'toggleSelect']);
@@ -41,6 +45,7 @@ const hoveredArticleId = ref(null);
 const dragEnabled = computed(() => {
   return (
     props.isCategoryArticles &&
+    !props.isSearching &&
     localArticles.value?.length > 1 &&
     props.selectedArticleIds.size === 0
   );
