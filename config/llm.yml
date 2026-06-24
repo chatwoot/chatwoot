@@ -1,4 +1,4 @@
-aproviders:
+providers:
   openai:
     display_name: 'OpenAI'
   anthropic:

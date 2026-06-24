@@ -30,14 +30,8 @@ module CaptainFeaturable
   private
 
   def captain_models_with_defaults
-    stored_models = captain_models || {}
-    Llm::Models.feature_keys.each_with_object({}) do |feature_key, result|
-      stored_value = stored_models[feature_key]
-      result[feature_key] = if stored_value.present? && Llm::Models.valid_model_for?(feature_key, stored_value)
-                              stored_value
-                            else
-                              Llm::Models.default_model_for(feature_key)
-                            end
+    Llm::Models.feature_keys.index_with do |feature_key|
+      Llm::FeatureRouter.resolve(feature: feature_key, account: self)[:model]
     end
   end
 
