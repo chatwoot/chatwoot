@@ -162,12 +162,12 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        # Step 1: Subscribe app to WABA with the explicit field list (incl. `calls`).
+        # Step 1: Subscribe app to WABA with the default field list (`calls` is added only when voice is enabled).
         # Pinning the body guards against regressions that drop a field and break delivery.
         stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-            body: { subscribed_fields: %w[messages smb_message_echoes calls] }.to_json
+            body: { subscribed_fields: %w[messages smb_message_echoes] }.to_json
           )
           .to_return(
             status: 200,

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
+ActiveRecord::Schema[7.1].define(version: 2026_06_20_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -205,6 +205,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "exclude_older_than_hours", default: 168
     t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_assignment_policies_on_account_id"
     t.index ["enabled"], name: "index_assignment_policies_on_enabled"
@@ -399,6 +400,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
+  create_table "captain_message_reports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+    t.string "report_reason", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_message_reports_on_account_id"
+    t.index ["conversation_id"], name: "index_captain_message_reports_on_conversation_id"
+    t.index ["message_id"], name: "index_captain_message_reports_on_message_id"
+    t.index ["user_id"], name: "index_captain_message_reports_on_user_id"
+  end
+
   create_table "captain_scenarios", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -428,6 +444,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.bigint "parent_category_id"
     t.bigint "associated_category_id"
     t.string "icon", default: ""
+    t.string "icon_color", default: ""
     t.index ["associated_category_id"], name: "index_categories_on_associated_category_id"
     t.index ["locale", "account_id"], name: "index_categories_on_locale_and_account_id"
     t.index ["locale"], name: "index_categories_on_locale"
@@ -557,6 +574,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.boolean "voice_enabled", default: false, null: false
     t.string "twiml_app_sid"
     t.string "api_key_secret"
+    t.jsonb "provider_config", default: {}
     t.index ["account_sid", "phone_number"], name: "index_channel_twilio_sms_on_account_sid_and_phone_number", unique: true
     t.index ["messaging_service_sid"], name: "index_channel_twilio_sms_on_messaging_service_sid", unique: true
     t.index ["phone_number"], name: "index_channel_twilio_sms_on_phone_number", unique: true
@@ -1248,8 +1266,30 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "icon", default: ""
+    t.string "icon_color", default: ""
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
+  end
+
+  create_table "user_sessions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "client_id", null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.string "browser_name"
+    t.string "browser_version"
+    t.string "device_name"
+    t.string "platform_name"
+    t.string "platform_version"
+    t.string "city"
+    t.string "country"
+    t.string "country_code"
+    t.datetime "last_activity_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "client_id"], name: "index_user_sessions_on_user_id_and_client_id", unique: true
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
@@ -1324,6 +1364,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

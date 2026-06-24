@@ -1,7 +1,7 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
-  # Webhook fields resent on every subscribe so Meta won't reset to defaults. `calls` powers voice; the disable-voice path narrows it.
-  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes calls].freeze
+  # Base webhook fields resent on every subscribe so Meta won't reset to defaults. `calls` is added by callers only when voice is enabled.
+  WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -64,7 +64,7 @@ class Whatsapp::FacebookApiClient
 
   def subscribe_phone_number_webhook(waba_id, phone_number_id, callback_url, verify_token, subscribed_fields: nil)
     # Subscribe app to WABA first — Meta requires it before any callback override (issue #13097).
-    # subscribed_fields (incl. `calls` for voice) is declared here; the phone-level POST has no such field.
+    # subscribed_fields (incl. `calls` when voice is enabled) is declared here; the phone-level POST has no such field.
     subscribe_app_to_waba(waba_id, subscribed_fields: subscribed_fields || WEBHOOK_DEFAULT_FIELDS)
 
     # Phone-level override takes precedence over WABA-level, so numbers on one WABA can route to different URLs.
