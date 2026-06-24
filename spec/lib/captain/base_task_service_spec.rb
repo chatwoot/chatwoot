@@ -167,6 +167,17 @@ RSpec.describe Captain::BaseTaskService do
       service.send(:make_api_call, model: model, messages: messages)
     end
 
+    it 'uses the resolved feature model for the request and instrumentation' do
+      account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+
+      expect(mock_context).to receive(:chat).with(model: 'gpt-4.1').and_return(mock_chat)
+      expect(service).to receive(:instrument_llm_call).with(
+        hash_including(model: 'gpt-4.1', feature_name: 'test_event')
+      ).and_call_original
+
+      service.send(:make_api_call, feature: 'editor', messages: messages)
+    end
+
     it 'returns formatted response with tokens' do
       result = service.send(:make_api_call, model: model, messages: messages)
 
