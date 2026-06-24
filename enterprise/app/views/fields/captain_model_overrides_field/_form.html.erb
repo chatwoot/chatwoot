@@ -3,7 +3,7 @@
 </div>
 
 <div class="field-unit__field">
-  <p class="text-gray-400 text-xs italic mb-4">Leave a model blank to use the YAML default for that AI feature.</p>
+  <p class="text-gray-400 text-xs italic mb-4"><%= t('super_admin.captain_model_overrides.form.helper_text') %></p>
 
   <div class="grid grid-cols-1 gap-4">
     <% field.feature_rows.each do |feature| %>
@@ -16,7 +16,7 @@
         <%= select_tag(
               "account[captain_models][#{feature[:key]}]",
               options_for_select(
-                [["Use default: #{feature[:model]} (#{feature[:model_id]})", '']] + feature[:options],
+                [[t('super_admin.captain_model_overrides.form.use_default', model: feature[:model], model_id: feature[:model_id]), '']] + feature[:options],
                 feature[:selected_override]
               ),
               class: 'block w-full rounded-md border-slate-300 text-sm'

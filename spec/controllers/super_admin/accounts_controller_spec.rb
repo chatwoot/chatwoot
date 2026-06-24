@@ -27,7 +27,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
   describe 'GET /super_admin/accounts/{account_id}' do
     context 'when it is an authenticated user' do
-      it 'shows effective Captain model routing' do
+      it 'shows effective Captain model routing', if: ChatwootApp.enterprise? do
         account.update!(captain_models: { 'editor' => 'gpt-4.1' })
         sign_in(super_admin, scope: :super_admin)
 
@@ -47,7 +47,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
   describe 'GET /super_admin/accounts/{account_id}/edit' do
     context 'when it is an authenticated user' do
-      it 'renders a Captain model selector for every AI feature' do
+      it 'renders a Captain model selector for every AI feature', if: ChatwootApp.enterprise? do
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"

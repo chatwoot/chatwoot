@@ -7,7 +7,7 @@ class CaptainModelOverridesField < Administrate::Field::Base
 
       {
         key: feature_key,
-        name: feature_key.humanize,
+        name: feature_name(feature_key),
         provider: provider_label(route[:provider]),
         provider_id: route[:provider],
         model: model_label(route[:model]),
@@ -40,7 +40,11 @@ class CaptainModelOverridesField < Administrate::Field::Base
     Llm::Models.providers.dig(provider_id, 'display_name') || provider_id
   end
 
+  def feature_name(feature_key)
+    I18n.t("super_admin.captain_model_overrides.features.#{feature_key}", default: feature_key.humanize)
+  end
+
   def source_label(source)
-    source == :account_override ? 'Account override' : 'Default'
+    I18n.t("super_admin.captain_model_overrides.sources.#{source}")
   end
 end
