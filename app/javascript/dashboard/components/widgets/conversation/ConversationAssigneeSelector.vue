@@ -52,7 +52,6 @@ watch(
       v-if="showSelfAssignButton && showSelfAssign"
       link
       xs
-      icon="i-lucide-arrow-right"
       class="!gap-1 flex-shrink-0"
       :label="$t('CONVERSATION_SIDEBAR.SELF_ASSIGN')"
       @click="onSelfAssign"
