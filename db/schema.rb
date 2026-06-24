@@ -1266,6 +1266,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_20_000000) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "icon", default: ""
+    t.string "icon_color", default: ""
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end
