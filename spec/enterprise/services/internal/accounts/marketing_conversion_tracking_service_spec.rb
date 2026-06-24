@@ -143,6 +143,35 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     )
   end
 
+  it 'defaults currency when conversion value is present without currency' do
+    create_config
+    account.update!(internal_attributes: attribution_attributes('last-click'))
+    token_response = response_double('access_token' => 'access-token')
+    upload_response = response_double('requestId' => 'request-123')
+    upload_body = nil
+
+    allow(HTTParty).to receive(:post) do |url, options|
+      if url == described_class::TOKEN_URL
+        token_response
+      else
+        upload_body = JSON.parse(options[:body])
+        upload_response
+      end
+    end
+
+    described_class.new(
+      account: account,
+      event_name: event_name,
+      occurred_at: occurred_at,
+      conversion_value: 199
+    ).perform
+
+    expect(upload_body['events'].first).to include(
+      'conversionValue' => 199.0,
+      'currency' => 'USD'
+    )
+  end
+
   it 'does not upload the same event twice' do
     create_config
     account.update!(
@@ -168,7 +197,6 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
 
   def default_config
     {
-      'enabled' => true,
       'customer_id' => '852-320-2898',
       'login_customer_id' => '742-202-9198',
       'service_account_credentials' => {

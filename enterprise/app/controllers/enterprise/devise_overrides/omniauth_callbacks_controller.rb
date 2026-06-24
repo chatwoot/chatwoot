@@ -32,7 +32,6 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
   def create_account_for_user
     super
     record_marketing_attribution
-    enqueue_marketing_signup_conversion
   end
 
   def record_marketing_attribution
@@ -41,14 +40,6 @@ module Enterprise::DeviseOverrides::OmniauthCallbacksController
     Internal::Accounts::MarketingAttributionService.new(account: @account, cookies: cookies).perform
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
-  end
-
-  def enqueue_marketing_signup_conversion
-    return if @account.blank?
-
-    Internal::Accounts::MarketingConversionTrackingJob.perform_later(@account.id, 'cloud_signup', @account.created_at.iso8601)
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @account).capture_exception
   end
 
   def handle_saml_auth

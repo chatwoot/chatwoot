@@ -17,7 +17,6 @@ class Internal::Accounts::MarketingConversionTrackingService
     return unless configured?
     return if already_sent?
     return if click_attributes.blank?
-    return if conversion_action_id.blank?
 
     upload_conversion!
     mark_sent!
@@ -48,7 +47,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def configured?
-    enabled_config? && event_config.present? && required_config_present?
+    conversion_action_id.present? && required_config_present?
   end
 
   def destination_payload
@@ -152,10 +151,6 @@ class Internal::Accounts::MarketingConversionTrackingService
       service_account_credentials['private_key'].present?
   end
 
-  def enabled_config?
-    ActiveModel::Type::Boolean.new.cast(config['enabled'])
-  end
-
   def event_config
     @event_config ||= config.dig('events', event_name) || {}
   end
@@ -178,11 +173,11 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def conversion_amount
-    @conversion_amount ||= (conversion_value.presence || event_config['value'].presence)&.to_f
+    @conversion_amount ||= conversion_value.presence&.to_f
   end
 
   def conversion_currency
-    currency_code.presence || event_config['currency_code'].presence || 'USD'
+    currency_code.presence || 'USD'
   end
 
   def service_account_credentials
