@@ -4,7 +4,6 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
-import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
@@ -86,15 +85,6 @@ const snoozedDisplayText = computed(() => {
   return t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
 });
 
-const inbox = computed(() => {
-  const { inbox_id: inboxId } = props.chat;
-  return store.getters['inboxes/getInbox'](inboxId);
-});
-
-const hasMultipleInboxes = computed(
-  () => store.getters['inboxes/getInboxes'].length > 1
-);
-
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const contactSubtitle = computed(() => {
@@ -106,15 +96,10 @@ const contactSubtitle = computed(() => {
   const additionalAttributes = contact.additional_attributes || {};
   const socialProfiles = additionalAttributes.social_profiles || {};
   const telegram =
-    socialProfiles.telegram ||
-    additionalAttributes.social_telegram_user_name ||
-    '';
-  const instagram = socialProfiles.instagram || '';
-  const messenger = socialProfiles.messenger || contact.identifier || '';
-  const socialHandle = telegram || instagram || messenger;
+    socialProfiles.telegram || additionalAttributes.social_telegram_user_name;
 
-  if (socialHandle) {
-    return socialHandle.startsWith('@') ? socialHandle : `@${socialHandle}`;
+  if (telegram) {
+    return telegram.startsWith('@') ? telegram : `@${telegram}`;
   }
 
   return '';
@@ -191,8 +176,6 @@ const toggleContactSidebar = () => {
           >
             {{ contactSubtitle || `#${chat.id}` }}
           </button>
-          <span v-if="hasMultipleInboxes">•</span>
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
           <span v-if="isSnoozed">•</span>
           <span v-if="isSnoozed" class="font-medium text-n-amber-10">
             {{ snoozedDisplayText }}
