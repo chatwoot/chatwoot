@@ -47,17 +47,15 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   end
 
   def permitted_captain_models
-    params.require(:captain_models).permit(
-      :editor, :assistant, :copilot, :label_suggestion,
-      :audio_transcription, :help_center_search
-    ).to_h.stringify_keys
+    params.require(:captain_models).permit(*captain_feature_keys).to_h.stringify_keys
   end
 
   def permitted_captain_features
-    params.require(:captain_features).permit(
-      :editor, :assistant, :copilot, :label_suggestion,
-      :audio_transcription, :help_center_search
-    ).to_h.stringify_keys
+    params.require(:captain_features).permit(*captain_feature_keys).to_h.stringify_keys
+  end
+
+  def captain_feature_keys
+    Llm::Models.feature_keys.map(&:to_sym)
   end
 
   def features_with_account_preferences
