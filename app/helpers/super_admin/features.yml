@@ -150,11 +150,3 @@ shopify:
   enabled: true
   icon: 'icon-shopify'
   config_key: 'shopify'
-
-# ------- Chatwoot Cloud ------- #
-chatwoot_cloud:
-  name: 'Chatwoot Cloud'
-  description: 'Configuration for Chatwoot Cloud-only services.'
-  enabled: <%= ChatwootApp.chatwoot_cloud? %>
-  icon: 'icon-settings-2-line'
-  config_key: 'cloud'
