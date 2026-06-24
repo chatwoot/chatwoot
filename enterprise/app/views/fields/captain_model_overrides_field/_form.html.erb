@@ -16,7 +16,7 @@
         <%= select_tag(
               "account[captain_models][#{feature[:key]}]",
               options_for_select(
-                [[t('super_admin.captain_model_overrides.form.use_default', model: feature[:model], model_id: feature[:model_id]), '']] + feature[:options],
+                [[t('super_admin.captain_model_overrides.form.use_default', model: feature[:default_model], model_id: feature[:default_model_id]), '']] + feature[:options],
                 feature[:selected_override]
               ),
               class: 'block w-full rounded-md border-slate-300 text-sm'

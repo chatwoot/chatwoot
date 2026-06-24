@@ -12,6 +12,8 @@ class CaptainModelOverridesField < Administrate::Field::Base
         provider_id: route[:provider],
         model: model_label(route[:model]),
         model_id: route[:model],
+        default_model: model_label(default_model_id(feature_key)),
+        default_model_id: default_model_id(feature_key),
         source: route[:source],
         source_label: source_label(route[:source]),
         selected_override: selected_override(feature_key),
@@ -24,6 +26,10 @@ class CaptainModelOverridesField < Administrate::Field::Base
 
   def selected_override(feature_key)
     resource.captain_models&.[](feature_key).presence
+  end
+
+  def default_model_id(feature_key)
+    Llm::Models.default_model_for(feature_key)
   end
 
   def model_options(feature_key)

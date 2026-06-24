@@ -48,6 +48,7 @@ RSpec.describe 'Super Admin accounts API', type: :request do
   describe 'GET /super_admin/accounts/{account_id}/edit' do
     context 'when it is an authenticated user' do
       it 'renders a Captain model selector for every AI feature', if: ChatwootApp.enterprise? do
+        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
         sign_in(super_admin, scope: :super_admin)
 
         get "/super_admin/accounts/#{account.id}/edit"
@@ -56,6 +57,13 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         Llm::Models.feature_keys.each do |feature_key|
           expect(response.body).to include("account[captain_models][#{feature_key}]")
         end
+
+        document = Nokogiri::HTML(response.body)
+        editor_select = document.at_css('select[name="account[captain_models][editor]"]')
+        default_model_id = Llm::Models.default_model_for('editor')
+        default_model = Llm::Models.model_config(default_model_id)['display_name']
+
+        expect(editor_select.at_css('option[value=""]').text.squish).to eq("Use default: #{default_model} (#{default_model_id})")
       end
     end
   end
