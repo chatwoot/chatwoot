@@ -211,4 +211,33 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response.headers['Content-Type']).to eq('image/png')
     end
   end
+
+  describe 'documentation layout sidebar for a region-variant locale' do
+    let!(:th_portal) do
+      create(:portal, slug: 'th-portal', custom_domain: 'th.example.com',
+                      config: { allowed_locales: ['th_TH'], default_locale: 'th_TH', layout: 'documentation' })
+    end
+    let!(:th_category) do
+      create(:category, name: 'TH Category', portal: th_portal, account_id: account.id, locale: 'th_TH', slug: 'th-cat')
+    end
+    let!(:th_article) do
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id, locale: 'th_TH')
+    end
+
+    before do
+      # The category sidebar only lists articles whose content locale matches the portal locale (th_TH).
+      # `th_TH` is not a shipped I18n locale, so the content locale must not be normalised to `th`.
+      create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id,
+                       locale: 'th_TH', title: 'Sibling In Sidebar', status: :published)
+    end
+
+    it 'lists the category and sibling articles using the full portal locale' do
+      host! 'th.example.com'
+      get "/hc/#{th_portal.slug}/articles/#{th_article.slug}"
+
+      expect(response).to have_http_status(:success)
+      # The sibling article only appears via the locale-scoped category sidebar
+      expect(response.body).to include('Sibling In Sidebar')
+    end
+  end
 end
