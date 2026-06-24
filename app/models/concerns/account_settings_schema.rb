@@ -24,6 +24,10 @@ module AccountSettingsSchema
             'assistant': { 'type': %w[string null] },
             'copilot': { 'type': %w[string null] },
             'label_suggestion': { 'type': %w[string null] },
+            'document_faq_generation': { 'type': %w[string null] },
+            'help_center_article_generation': { 'type': %w[string null] },
+            'onboarding_content_generation': { 'type': %w[string null] },
+            'help_center_query_translation': { 'type': %w[string null] },
             'audio_transcription': { 'type': %w[string null] },
             'help_center_search': { 'type': %w[string null] }
           },
@@ -36,6 +40,10 @@ module AccountSettingsSchema
             'assistant': { 'type': %w[boolean null] },
             'copilot': { 'type': %w[boolean null] },
             'label_suggestion': { 'type': %w[boolean null] },
+            'document_faq_generation': { 'type': %w[boolean null] },
+            'help_center_article_generation': { 'type': %w[boolean null] },
+            'onboarding_content_generation': { 'type': %w[boolean null] },
+            'help_center_query_translation': { 'type': %w[boolean null] },
             'audio_transcription': { 'type': %w[boolean null] },
             'help_center_search': { 'type': %w[boolean null] }
           },

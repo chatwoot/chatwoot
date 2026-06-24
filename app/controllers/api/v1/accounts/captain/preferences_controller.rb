@@ -49,6 +49,8 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   def permitted_captain_models
     params.require(:captain_models).permit(
       :editor, :assistant, :copilot, :label_suggestion,
+      :document_faq_generation, :help_center_article_generation,
+      :onboarding_content_generation, :help_center_query_translation,
       :audio_transcription, :help_center_search
     ).to_h.stringify_keys
   end
@@ -56,6 +58,8 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   def permitted_captain_features
     params.require(:captain_features).permit(
       :editor, :assistant, :copilot, :label_suggestion,
+      :document_faq_generation, :help_center_article_generation,
+      :onboarding_content_generation, :help_center_query_translation,
       :audio_transcription, :help_center_search
     ).to_h.stringify_keys
   end

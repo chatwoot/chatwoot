@@ -6,11 +6,12 @@ class Captain::Llm::EmbeddingService
   def initialize(account_id: nil)
     Llm::Config.initialize!
     @account_id = account_id
-    @embedding_model = InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
+    @account = Account.find_by(id: account_id) if account_id
+    @embedding_model = Llm::FeatureRouter.resolve(feature: 'help_center_search', account: @account)[:model]
   end
 
   def self.embedding_model
-    InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence || LlmConstants::DEFAULT_EMBEDDING_MODEL
+    Llm::FeatureRouter.resolve(feature: 'help_center_search')[:model]
   end
 
   def get_embedding(content, model: @embedding_model)

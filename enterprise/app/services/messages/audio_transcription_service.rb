@@ -15,6 +15,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     @attachment = attachment
     @message = attachment.message
     @account = message.account
+    @transcription_model = Llm::FeatureRouter.resolve(feature: 'audio_transcription', account: account)[:model]
   end
 
   def perform
@@ -81,7 +82,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       # behaviour across OpenAI transcription models.
       response = @client.audio.transcribe(
         parameters: {
-          model: TRANSCRIPTION_MODEL,
+          model: transcription_model,
           file: file,
           temperature: 0.0
         }
@@ -98,7 +99,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   def instrumentation_params(file_path)
     {
       span_name: 'llm.messages.audio_transcription',
-      model: TRANSCRIPTION_MODEL,
+      model: transcription_model,
       account_id: account&.id,
       feature_name: 'audio_transcription',
       file_path: file_path
@@ -126,5 +127,9 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       'x-wav' => 'wav',
       'x-mp3' => 'mp3'
     }.fetch(subtype, subtype)
+  end
+
+  def transcription_model
+    @transcription_model || TRANSCRIPTION_MODEL
   end
 end

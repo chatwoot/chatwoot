@@ -59,7 +59,10 @@ class Captain::BaseTaskService
   def resolved_model(model:, feature:)
     return model if feature.blank?
 
-    Llm::FeatureRouter.resolve(feature: feature, account: account)[:model]
+    route = Llm::FeatureRouter.resolve(feature: feature, account: account)
+    return model if model.present? && route[:source] == :default
+
+    route[:model]
   end
 
   def execute_ruby_llm_request(model:, messages:, schema: nil, tools: [])
