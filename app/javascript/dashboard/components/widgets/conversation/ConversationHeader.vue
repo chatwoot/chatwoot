@@ -32,7 +32,7 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
-const { updateUISettings } = useUISettings();
+const { uiSettings, updateUISettings } = useUISettings();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox } = useInbox();
@@ -97,18 +97,43 @@ const hasMultipleInboxes = computed(
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
-const copyConversationId = async () => {
+const contactSubtitle = computed(() => {
+  const contact = currentContact.value;
+  if (!contact) return '';
+  if (contact.phone_number) return contact.phone_number;
+  if (contact.email) return contact.email;
+
+  const additionalAttributes = contact.additional_attributes || {};
+  const socialProfiles = additionalAttributes.social_profiles || {};
+  const telegram =
+    socialProfiles.telegram ||
+    additionalAttributes.social_telegram_user_name ||
+    '';
+  const instagram = socialProfiles.instagram || '';
+  const messenger = socialProfiles.messenger || contact.identifier || '';
+  const socialHandle = telegram || instagram || messenger;
+
+  if (socialHandle) {
+    return socialHandle.startsWith('@') ? socialHandle : `@${socialHandle}`;
+  }
+
+  return '';
+});
+
+const copyContactSubtitle = async () => {
   try {
-    await copyTextToClipboard(String(props.chat.id));
+    const text = contactSubtitle.value || String(props.chat.id);
+    await copyTextToClipboard(text);
     useAlert(t('CONVERSATION.HEADER.COPY_ID_SUCCESS'));
   } catch (error) {
     // error
   }
 };
 
-const openContactSidebar = () => {
+const toggleContactSidebar = () => {
+  const isContactSidebarOpen = uiSettings.value.is_contact_sidebar_open;
   updateUISettings({
-    is_contact_sidebar_open: true,
+    is_contact_sidebar_open: !isContactSidebarOpen,
     is_copilot_panel_open: false,
   });
 };
@@ -142,8 +167,8 @@ const openContactSidebar = () => {
         >
           <button
             type="button"
-            class="text-sm font-medium truncate leading-tight text-n-slate-12 hover:text-n-brand cursor-pointer"
-            @click="openContactSidebar"
+            class="text-sm font-medium truncate leading-tight text-n-slate-12 hover:text-n-brand cursor-pointer p-0 text-start"
+            @click="toggleContactSidebar"
           >
             {{ currentContact.name }}
           </button>
@@ -162,9 +187,9 @@ const openContactSidebar = () => {
           <button
             type="button"
             class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cursor-pointer"
-            @click="copyConversationId"
+            @click="copyContactSubtitle"
           >
-            {{ `#${chat.id}` }}
+            {{ contactSubtitle || `#${chat.id}` }}
           </button>
           <span v-if="hasMultipleInboxes">•</span>
           <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />

@@ -150,7 +150,7 @@ export default {
         compact
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
       />
-      <ConversationAssigneeSelector show-self-assign-button />
+      <ConversationAssigneeSelector />
     </div>
     <div>
       <ContactDetailsItem

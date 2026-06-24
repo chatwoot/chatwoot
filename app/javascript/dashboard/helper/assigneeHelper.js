@@ -1,3 +1,24 @@
+export const inferAssigneeType = assignee => {
+  if (!assignee?.id) return null;
+
+  if (
+    assignee.assignee_type === 'AgentBot' ||
+    assignee.assignee_type === 'User'
+  ) {
+    return assignee.assignee_type;
+  }
+
+  if (
+    assignee.role === 'agent_bot' ||
+    assignee.bot_type !== undefined ||
+    assignee.outgoing_url !== undefined
+  ) {
+    return 'AgentBot';
+  }
+
+  return 'User';
+};
+
 export const getConversationAssigneeType = meta => {
   if (!meta?.assignee?.id) return null;
 
@@ -18,14 +39,22 @@ export const isBotHandledConversation = conversation => {
   if (!conversation) return false;
   if (isHumanAssigneeMeta(conversation.meta)) return false;
 
-  return Boolean(conversation.bot_handling) || isBotAssigneeMeta(conversation.meta);
+  return (
+    Boolean(conversation.bot_handling) || isBotAssigneeMeta(conversation.meta)
+  );
 };
 
 export const isNonHumanAssignedConversation = conversation =>
   !isHumanAssigneeMeta(conversation?.meta);
 
 export const getInboxBotAgent = agents =>
-  (agents || []).find(agent => agent.assignee_type === 'AgentBot') || null;
+  (agents || []).find(
+    agent =>
+      agent.assignee_type === 'AgentBot' ||
+      agent.role === 'agent_bot' ||
+      agent.bot_type !== undefined ||
+      agent.outgoing_url !== undefined
+  ) || null;
 
 export const isAgentBotAssigneeMeta = (meta, inboxBotId = null) => {
   const { assignee, assignee_type: assigneeType } = meta || {};
@@ -48,24 +77,6 @@ export const isAgentBotAssigneeMeta = (meta, inboxBotId = null) => {
 
 export const isClearAssigneeSelection = agent =>
   !agent || agent.id === 0 || agent.id === null;
-
-export const inferAssigneeType = assignee => {
-  if (!assignee?.id) return null;
-
-  if (assignee.assignee_type === 'AgentBot' || assignee.assignee_type === 'User') {
-    return assignee.assignee_type;
-  }
-
-  if (
-    assignee.role === 'agent_bot' ||
-    assignee.bot_type !== undefined ||
-    assignee.outgoing_url !== undefined
-  ) {
-    return 'AgentBot';
-  }
-
-  return 'User';
-};
 
 export const isSameAssignee = (left, right) => {
   if (!left?.id || !right?.id) return false;
