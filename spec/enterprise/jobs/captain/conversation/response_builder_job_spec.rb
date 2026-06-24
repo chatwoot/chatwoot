@@ -82,7 +82,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           ).and_return({
                          'decision' => 'safe',
                          'reason' => 'safe_response',
-                         'model' => 'gpt-4.1'
+                         'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
                        })
 
           described_class.perform_now(conversation, assistant)
@@ -103,12 +103,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
               {
                 'decision' => 'future_work_promise',
                 'reason' => 'future_check_or_investigation',
-                'model' => 'gpt-4.1'
+                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
               },
               {
                 'decision' => 'safe',
                 'reason' => 'asks_user_to_check_or_provide_info',
-                'model' => 'gpt-4.1'
+                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
               }
             )
 
@@ -143,7 +143,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           allow(mock_false_promise_service).to receive(:detect).and_return({
                                                                              'decision' => 'future_work_promise',
                                                                              'reason' => 'future_check_or_investigation',
-                                                                             'model' => 'gpt-4.1'
+                                                                             'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
                                                                            })
 
           described_class.perform_now(conversation, assistant)
@@ -165,13 +165,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
               {
                 'decision' => 'future_work_promise',
                 'reason' => 'future_check_or_investigation',
-                'model' => 'gpt-4.1'
+                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
               },
               {
                 'decision' => nil,
                 'reason' => nil,
                 'error' => 'verification timeout',
-                'model' => 'gpt-4.1'
+                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
               }
             )
 
@@ -192,7 +192,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           allow(mock_false_promise_service).to receive(:detect).and_return({
                                                                              'decision' => 'future_work_promise',
                                                                              'reason' => 'future_check_or_investigation',
-                                                                             'model' => 'gpt-4.1'
+                                                                             'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
                                                                            })
 
           described_class.perform_now(conversation, assistant)

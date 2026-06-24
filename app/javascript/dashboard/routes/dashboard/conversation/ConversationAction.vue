@@ -252,6 +252,7 @@ export default {
       <MultiselectDropdown
         :options="teamsList"
         :selected-item="assignedTeam"
+        show-emoji-icon
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.TEAM')"
         :multiselector-placeholder="$t('AGENT_MGMT.MULTI_SELECTOR.PLACEHOLDER')"
         :no-search-result="
