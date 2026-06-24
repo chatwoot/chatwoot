@@ -1,6 +1,9 @@
 module AccountSettingsSchema
   extend ActiveSupport::Concern
 
+  CAPTAIN_MODEL_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[string null] } }.freeze
+  CAPTAIN_FEATURE_PROPERTIES = Llm::Models.feature_keys.index_with { { 'type': %w[boolean null] } }.freeze
+
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
     'properties':
@@ -19,34 +22,12 @@ module AccountSettingsSchema
         },
         'captain_models': {
           'type': %w[object null],
-          'properties': {
-            'editor': { 'type': %w[string null] },
-            'assistant': { 'type': %w[string null] },
-            'copilot': { 'type': %w[string null] },
-            'label_suggestion': { 'type': %w[string null] },
-            'document_faq_generation': { 'type': %w[string null] },
-            'help_center_article_generation': { 'type': %w[string null] },
-            'onboarding_content_generation': { 'type': %w[string null] },
-            'help_center_query_translation': { 'type': %w[string null] },
-            'audio_transcription': { 'type': %w[string null] },
-            'help_center_search': { 'type': %w[string null] }
-          },
+          'properties': CAPTAIN_MODEL_PROPERTIES,
           'additionalProperties': false
         },
         'captain_features': {
           'type': %w[object null],
-          'properties': {
-            'editor': { 'type': %w[boolean null] },
-            'assistant': { 'type': %w[boolean null] },
-            'copilot': { 'type': %w[boolean null] },
-            'label_suggestion': { 'type': %w[boolean null] },
-            'document_faq_generation': { 'type': %w[boolean null] },
-            'help_center_article_generation': { 'type': %w[boolean null] },
-            'onboarding_content_generation': { 'type': %w[boolean null] },
-            'help_center_query_translation': { 'type': %w[boolean null] },
-            'audio_transcription': { 'type': %w[boolean null] },
-            'help_center_search': { 'type': %w[boolean null] }
-          },
+          'properties': CAPTAIN_FEATURE_PROPERTIES,
           'additionalProperties': false
         }
       },

@@ -4,6 +4,7 @@ module CaptainFeaturable
   extend ActiveSupport::Concern
 
   included do
+    before_validation :normalize_captain_models
     validate :validate_captain_models
 
     # Dynamically define accessor methods for each captain feature
@@ -46,11 +47,27 @@ module CaptainFeaturable
     return if captain_models.blank?
 
     captain_models.each do |feature_key, model_name|
-      next if model_name.blank?
+      unless Llm::Models.feature?(feature_key)
+        errors.add(:captain_models, "'#{feature_key}' is not a known feature")
+        next
+      end
+
       next if Llm::Models.valid_model_for?(feature_key, model_name)
 
       allowed_models = Llm::Models.models_for(feature_key)
       errors.add(:captain_models, "'#{model_name}' is not a valid model for #{feature_key}. Allowed: #{allowed_models.join(', ')}")
     end
+  end
+
+  def normalize_captain_models
+    return unless captain_models.is_a?(Hash)
+
+    normalized_models = captain_models.each_with_object({}) do |(feature_key, model_name), result|
+      next if model_name.blank?
+
+      result[feature_key.to_s] = model_name.to_s
+    end
+
+    self.captain_models = normalized_models.presence
   end
 end
