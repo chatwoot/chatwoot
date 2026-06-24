@@ -30,6 +30,7 @@ class Enterprise::Billing::HandleStripeEventService
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    enqueue_marketing_plan_activation_conversion
 
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
@@ -64,6 +65,29 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_ends_on' => Time.zone.at(subscription['current_period_end'])
       )
     )
+  end
+
+  def enqueue_marketing_plan_activation_conversion
+    Internal::Accounts::MarketingConversionTrackingJob.perform_later(
+      account.id,
+      'cloud_plan_activation',
+      Time.zone.at(subscription.created).iso8601,
+      subscription_amount,
+      subscription_currency
+    )
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+  end
+
+  def subscription_amount
+    amount = subscription['plan']['amount'] || subscription['plan']['amount_decimal']
+    return if amount.blank?
+
+    (amount.to_d * subscription['quantity'].to_i / 100).to_f
+  end
+
+  def subscription_currency
+    subscription['plan']['currency']&.upcase
   end
 
   def process_subscription_deleted

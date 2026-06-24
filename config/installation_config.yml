@@ -289,6 +289,12 @@
   display_title: 'Inactive WhatsApp Numbers'
   description: 'Comma-separated list of WhatsApp numbers that should be rejected with a 422 error'
   type: code
+- name: MARKETING_CONVERSION_TRACKING_CONFIG
+  value:
+  display_title: 'Marketing Conversion Tracking Config'
+  description: 'JSON config for Chatwoot Cloud signup and plan activation conversion tracking'
+  locked: false
+  type: code
 # ------- End of Chatwoot Internal Config for Cloud ----#
 
 # ------- Chatwoot Internal Config for Self Hosted ----#

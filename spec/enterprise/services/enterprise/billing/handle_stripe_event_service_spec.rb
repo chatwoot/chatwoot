@@ -37,6 +37,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:customer).and_return('cus_123')
+    allow(subscription).to receive(:created).and_return(1_686_000_000)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end
 
@@ -95,6 +96,23 @@ describe Enterprise::Billing::HandleStripeEventService do
       stripe_event_service.new.perform(event: event)
 
       expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+    end
+
+    it 'enqueues marketing conversion tracking for plan activation' do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_startups',
+                                                       'product' => 'plan_id_startups',
+                                                       'name' => 'Startups',
+                                                       'amount' => 19_900,
+                                                       'currency' => 'usd'
+                                                     })
+      allow(subscription).to receive(:[]).with('quantity').and_return(2)
+
+      expect do
+        stripe_event_service.new.perform(event: event)
+      end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
+        .with(account.id, 'cloud_plan_activation', Time.zone.at(1_686_000_000).iso8601, 398.0, 'USD')
     end
 
     it 'persists quantity even when increment_response_usage runs concurrently' do
