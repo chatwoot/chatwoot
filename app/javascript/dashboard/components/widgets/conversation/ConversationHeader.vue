@@ -137,7 +137,9 @@ const openContactSidebar = () => {
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
       >
-        <div class="flex flex-row items-center max-w-full gap-1.5 p-0 m-0 min-w-0">
+        <div
+          class="flex flex-row items-center max-w-full gap-1.5 p-0 m-0 min-w-0"
+        >
           <button
             type="button"
             class="text-sm font-medium truncate leading-tight text-n-slate-12 hover:text-n-brand cursor-pointer"
@@ -159,7 +161,7 @@ const openContactSidebar = () => {
         >
           <button
             type="button"
-            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cucursor-pointer"
+            class="truncate text-label-small text-n-slate-11 hover:text-n-slate-12 !p-0 cursor-pointer"
             @click="copyConversationId"
           >
             {{ `#${chat.id}` }}

@@ -13,7 +13,7 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
-import { inferAssigneeType, resolveAssigneeType } from 'dashboard/helper/assigneeHelper';
+import { resolveAssigneeType } from 'dashboard/helper/assigneeHelper';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
@@ -209,7 +209,10 @@ const actions = {
     }
   },
 
-  assignAgent: async ({ dispatch, getters, rootGetters }, { conversationId, agentId, assigneeType }) => {
+  assignAgent: async (
+    { dispatch, getters, rootGetters },
+    { conversationId, agentId, assigneeType }
+  ) => {
     let resolvedAgentId = agentId;
     let resolvedAssigneeType = assigneeType;
 
@@ -221,7 +224,8 @@ const actions = {
       const inboxId = conversation?.inbox_id;
       if (inboxId) {
         const agents =
-          rootGetters['inboxAssignableAgents/getAssignableAgents'](inboxId) || [];
+          rootGetters['inboxAssignableAgents/getAssignableAgents'](inboxId) ||
+          [];
         const bot = agents.find(agent => agent.assignee_type === 'AgentBot');
         if (bot) {
           resolvedAgentId = bot.id;
@@ -238,31 +242,6 @@ const actions = {
         agentId: resolvedAgentId,
         assigneeType: resolvedAssigneeType,
       });
-      // #region agent log
-      fetch('http://127.0.0.1:7681/ingest/5a14c770-9960-4aff-80cb-467e93b61e93', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Debug-Session-Id': 'b893f4',
-        },
-        body: JSON.stringify({
-          sessionId: 'b893f4',
-          hypothesisId: 'E',
-          location: 'actions.js:assignAgent',
-          message: 'assignAgent API response',
-          data: {
-            conversationId,
-            requestedAgentId: resolvedAgentId,
-            requestedAssigneeType: resolvedAssigneeType,
-            responseId: response.data?.id ?? null,
-            responseName: response.data?.name ?? null,
-            responseEmail: response.data?.email ?? null,
-            responseBotType: response.data?.bot_type ?? null,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
       dispatch('setCurrentChatAssignee', {
         conversationId,
         assignee: response.data,
@@ -274,7 +253,10 @@ const actions = {
     }
   },
 
-  setCurrentChatAssignee({ commit }, { conversationId, assignee, assigneeType }) {
+  setCurrentChatAssignee(
+    { commit },
+    { conversationId, assignee, assigneeType }
+  ) {
     commit(types.ASSIGN_AGENT, { conversationId, assignee, assigneeType });
   },
 

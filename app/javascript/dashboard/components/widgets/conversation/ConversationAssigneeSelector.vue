@@ -6,7 +6,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useConversationAssignee } from 'dashboard/composables/useConversationAssignee';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
+defineProps({
   compact: {
     type: Boolean,
     default: false,
@@ -46,7 +46,7 @@ watch(
 <template>
   <div
     class="flex items-center gap-1"
-    :class="compact ? 'w-[11.7rem] shrink-0' : 'min-w-0 w-full'"
+    :class="compact ? 'min-w-[11rem] max-w-[14rem] shrink-0' : 'min-w-0 w-full'"
   >
     <NextButton
       v-if="showSelfAssignButton && showSelfAssign"
@@ -60,7 +60,7 @@ watch(
     <div
       v-tooltip="compact ? t('CONVERSATION.HEADER.ASSIGNEE') : undefined"
       class="min-w-0"
-      :class="compact ? 'w-full' : 'w-full mb-2'"
+      :class="compact ? 'w-full' : 'w-full'"
     >
       <MultiselectDropdown
         :compact="compact"

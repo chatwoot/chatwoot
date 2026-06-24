@@ -1,4 +1,4 @@
-import { computed, unref, watch } from 'vue';
+import { computed, unref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { isBotHandledConversation } from 'dashboard/helper/assigneeHelper';
 
@@ -48,54 +48,6 @@ export function usePanelIaState(chatRef) {
     if (!showIndicator.value || !config.value) return '';
     return config.value.indicatorClass;
   });
-
-  // #region agent log
-  watch(
-    () => {
-      const chat = unref(chatRef);
-      return [
-        chat?.id,
-        chat?.custom_attributes?.panel_ia_estado,
-        chat?.meta?.assignee_type,
-        chat?.meta?.assignee?.id,
-        chat?.bot_handling,
-        isBotHandled.value,
-        state.value,
-        showIndicator.value,
-      ];
-    },
-    () => {
-      const chat = unref(chatRef);
-      if (!chat?.id) return;
-      fetch('http://127.0.0.1:7681/ingest/5a14c770-9960-4aff-80cb-467e93b61e93', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Debug-Session-Id': 'b893f4',
-        },
-        body: JSON.stringify({
-          sessionId: 'b893f4',
-          runId: 'panel-ia-strip-fix',
-          hypothesisId: 'I',
-          location: 'usePanelIaState.js:watch',
-          message: 'panel ia strip state',
-          data: {
-            conversationId: chat.id,
-            panelIaEstado: chat.custom_attributes?.panel_ia_estado ?? null,
-            assigneeType: chat.meta?.assignee_type ?? null,
-            assigneeId: chat.meta?.assignee?.id ?? null,
-            botHandling: chat.bot_handling ?? null,
-            isBotHandled: isBotHandled.value,
-            resolvedState: state.value,
-            showIndicator: showIndicator.value,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-    },
-    { immediate: true }
-  );
-  // #endregion
 
   return {
     state,

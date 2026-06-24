@@ -1,4 +1,4 @@
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -22,41 +22,10 @@ export function useConversationAssignee() {
     if (!assignee?.id) return null;
 
     const assigneeType = currentChat.value?.meta?.assignee_type;
-    return assigneeType ? { ...assignee, assignee_type: assigneeType } : assignee;
+    return assigneeType
+      ? { ...assignee, assignee_type: assigneeType }
+      : assignee;
   });
-
-  // #region agent log
-  watch(
-    () => currentChat.value?.id,
-    () => {
-      const chat = currentChat.value;
-      if (!chat?.id) return;
-      fetch('http://127.0.0.1:7681/ingest/5a14c770-9960-4aff-80cb-467e93b61e93', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Debug-Session-Id': 'b893f4',
-        },
-        body: JSON.stringify({
-          sessionId: 'b893f4',
-          hypothesisId: 'B',
-          location: 'useConversationAssignee.js:watch',
-          message: 'selected chat assignee meta',
-          data: {
-            conversationId: chat.id,
-            assigneeId: chat.meta?.assignee?.id ?? null,
-            assigneeName: chat.meta?.assignee?.name ?? null,
-            assigneeType: chat.meta?.assignee_type ?? null,
-            assigneeEmail: chat.meta?.assignee?.email ?? null,
-            botType: chat.meta?.assignee?.bot_type ?? null,
-          },
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-    },
-    { immediate: true }
-  );
-  // #endregion
 
   const showSelfAssign = computed(() => {
     if (!assignedAgent.value) return true;
@@ -79,30 +48,6 @@ export function useConversationAssignee() {
     const agentId = resolved ? resolved.id : null;
     const assigneeType = resolveAssigneeType(resolved);
 
-    // #region agent log
-    fetch('http://127.0.0.1:7681/ingest/5a14c770-9960-4aff-80cb-467e93b61e93', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Debug-Session-Id': 'b893f4',
-      },
-      body: JSON.stringify({
-        sessionId: 'b893f4',
-        runId: 'post-fix-4',
-        hypothesisId: 'G',
-        location: 'useConversationAssignee.js:assignAgent',
-        message: 'dispatch assignAgent',
-        data: {
-          conversationId,
-          agentId,
-          assigneeType,
-          agentName: resolved?.name ?? null,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     return store
       .dispatch('assignAgent', {
         conversationId,
@@ -115,29 +60,6 @@ export function useConversationAssignee() {
   };
 
   const onClickAssignAgent = selectedItem => {
-    // #region agent log
-    fetch('http://127.0.0.1:7681/ingest/5a14c770-9960-4aff-80cb-467e93b61e93', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Debug-Session-Id': 'b893f4',
-      },
-      body: JSON.stringify({
-        sessionId: 'b893f4',
-        runId: 'post-fix-4',
-        hypothesisId: 'H',
-        location: 'useConversationAssignee.js:onClickAssignAgent',
-        message: 'assign selected item directly',
-        data: {
-          selectedId: selectedItem?.id ?? null,
-          selectedType: resolveAssigneeType(selectedItem),
-          selectedName: selectedItem?.name ?? null,
-        },
-        timestamp: Date.now(),
-      }),
-    }).catch(() => {});
-    // #endregion
-
     assignAgent(selectedItem);
   };
 

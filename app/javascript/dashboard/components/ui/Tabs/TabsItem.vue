@@ -47,7 +47,7 @@ const onTabClick = event => {
     class="flex-shrink-0 my-0 mx-2 ltr:first:ml-0 rtl:first:mr-0 ltr:last:mr-0 rtl:last:ml-0 hover:text-n-slate-12"
   >
     <a
-      class="flex items-center flex-row select-none cursor-pointer relative after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200 text-button"
+      class="flex items-center flex-row min-w-0 select-none cursor-pointer relative after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200 text-button"
       :class="[
         active
           ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
@@ -56,7 +56,9 @@ const onTabClick = event => {
       ]"
       @click="onTabClick"
     >
-      {{ name }}
+      <span class="truncate min-w-0">
+        {{ name }}
+      </span>
       <div
         v-if="showBadge"
         class="rounded-full h-5 flex items-center justify-center text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"

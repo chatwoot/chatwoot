@@ -101,6 +101,7 @@ export default {
     <PanelIaStateIndicator
       v-if="currentChat.id"
       :chat="currentChat"
+      variant="horizontal"
     />
     <ConversationHeader
       v-if="currentChat.id"

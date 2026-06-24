@@ -85,11 +85,7 @@ const hasIcon = computed(() => {
         "
       >
         <div class="flex items-center flex-1 min-w-0 gap-1">
-          <h4
-            v-if="!hasValue"
-            class="text-sm text-ellipsis text-n-slate-12"
-            :class="compact ? 'truncate' : ''"
-          >
+          <h4 v-if="!hasValue" class="text-sm truncate text-n-slate-12">
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
@@ -116,8 +112,8 @@ const hasIcon = computed(() => {
         />
       </Button>
       <div
+        class="box-border w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
         :class="[
-          'box-border w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]',
           compact ? 'top-8' : 'top-[2.625rem]',
           showSearchDropdown ? 'block visible' : 'hidden invisible',
         ]"

@@ -22,7 +22,7 @@ const indicatorLayoutClass = computed(() => {
   if (props.variant === 'horizontal') {
     return 'h-1 w-full shrink-0';
   }
-  return 'absolute left-0 top-0 bottom-0 w-[3px] z-10';
+  return 'absolute inset-y-0 start-0 w-[3px] z-10';
 });
 
 const pulseClass = computed(() =>
@@ -34,7 +34,6 @@ const pulseClass = computed(() =>
   <div
     v-if="showIndicator && indicatorClass"
     v-tooltip="label"
-    class="pointer-events-none"
     :class="[indicatorLayoutClass, indicatorClass, pulseClass]"
     role="status"
     :aria-label="label"
