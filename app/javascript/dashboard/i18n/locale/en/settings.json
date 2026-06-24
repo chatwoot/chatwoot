@@ -390,6 +390,21 @@
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
+    "SORT_TOOLTIP": "Sort",
+    "SORT_BY": "Sort by",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
@@ -783,9 +798,13 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "Cap conversations per agent within a time window to avoid overload. Defaults to 100 per hour.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",
