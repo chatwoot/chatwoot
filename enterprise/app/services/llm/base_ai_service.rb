@@ -8,7 +8,11 @@ class Llm::BaseAiService
 
   attr_reader :model, :temperature
 
-  def initialize
+  def initialize(feature: nil, account: nil, fallback_model: nil)
+    @llm_feature = feature
+    @llm_account = account
+    @fallback_model = fallback_model
+
     Llm::Config.initialize!
     setup_model
     setup_temperature
@@ -29,8 +33,13 @@ class Llm::BaseAiService
   end
 
   def setup_model
+    if @llm_feature.present?
+      @model = Llm::FeatureRouter.resolve(feature: @llm_feature, account: @llm_account)[:model]
+      return
+    end
+
     config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
-    @model = (config_value.presence || DEFAULT_MODEL)
+    @model = @fallback_model.presence || config_value.presence || DEFAULT_MODEL
   end
 
   def setup_temperature
