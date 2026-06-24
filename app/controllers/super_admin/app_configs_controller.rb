@@ -53,10 +53,10 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT]
     }
 
-    general_configs = %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
-    general_configs << 'MARKETING_CONVERSION_TRACKING_CONFIG' if ChatwootApp.chatwoot_cloud?
-
-    @allowed_configs = mapping.fetch(@config, general_configs)
+    @allowed_configs = mapping.fetch(
+      @config,
+      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
+    )
   end
 
   def success_notice
