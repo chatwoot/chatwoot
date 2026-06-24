@@ -189,17 +189,25 @@ export default {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
       ](this.inboxId);
+      const humanAgents = agents.filter(agent => agent.assignee_type !== 'AgentBot');
+      const botAgents = agents.filter(agent => agent.assignee_type === 'AgentBot');
       const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
-        agents,
+        humanAgents,
         this.currentUser,
         this.currentAccountId
       );
       const filteredAgents = getSortedAgentsByAvailability(
         agentsByUpdatedPresence
       );
-      return filteredAgents;
+      return [...filteredAgents, ...botAgents];
     },
     assignableAgents() {
+      const agents = this.filteredAgentOnAvailability;
+      const hasInboxBot = agents.some(agent => agent.assignee_type === 'AgentBot');
+      if (hasInboxBot) {
+        return agents;
+      }
+
       return [
         {
           confirmed: true,
@@ -209,7 +217,7 @@ export default {
           account_id: 0,
           email: 'None',
         },
-        ...this.filteredAgentOnAvailability,
+        ...agents,
       ];
     },
     showSnooze() {

@@ -170,6 +170,12 @@ class Inbox < ApplicationRecord
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
 
+  def assignable_agent_bot
+    return unless agent_bot_inbox&.active?
+
+    agent_bot
+  end
+
   def active_bot?
     agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
                                             status: 'enabled').count.positive?

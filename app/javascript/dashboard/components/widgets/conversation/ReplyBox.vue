@@ -445,6 +445,16 @@ export default {
         !this.currentChat.can_reply
       );
     },
+    isAssignedToCurrentUser() {
+      const assignee = this.currentChat?.meta?.assignee;
+      const assigneeType = this.currentChat?.meta?.assignee_type;
+      if (!assignee?.id || !this.currentUser?.id) return false;
+      if (assigneeType === 'AgentBot') return false;
+      return assignee.id === this.currentUser.id;
+    },
+    needsSelfAssignmentBeforeReply() {
+      return !this.isOnPrivateNote && !this.isAssignedToCurrentUser();
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -877,11 +887,37 @@ export default {
 
         const ok = await this.$refs.confirmDialog.showConfirmation();
         if (ok) {
-          this.confirmOnSendReply();
+          await this.proceedAfterAssignmentCheck();
         }
       } else {
-        this.confirmOnSendReply();
+        await this.proceedAfterAssignmentCheck();
       }
+    },
+    async proceedAfterAssignmentCheck() {
+      if (this.needsSelfAssignmentBeforeReply) {
+        const ok = await this.$refs.assignBeforeReplyDialog.showConfirmation();
+        if (!ok) return;
+        try {
+          await this.selfAssignConversation();
+        } catch (error) {
+          useAlert(this.$t('CONVERSATION.CHANGE_AGENT_FAILED'));
+          return;
+        }
+      }
+      this.confirmOnSendReply();
+    },
+    async selfAssignConversation() {
+      const { avatar_url: avatarUrl, ...rest } = this.currentUser || {};
+      const assignee = { ...rest, thumbnail: avatarUrl };
+      this.$store.dispatch('setCurrentChatAssignee', {
+        conversationId: this.currentChat.id,
+        assignee,
+      });
+      await this.$store.dispatch('assignAgent', {
+        conversationId: this.currentChat.id,
+        agentId: this.currentUser.id,
+        assigneeType: 'User',
+      });
     },
     async sendMessage(
       messagePayload,
@@ -1456,6 +1492,13 @@ export default {
       ref="confirmDialog"
       :title="$t('CONVERSATION.REPLYBOX.UNDEFINED_VARIABLES.TITLE')"
       :description="undefinedVariableMessage"
+    />
+    <woot-confirm-modal
+      ref="assignBeforeReplyDialog"
+      :title="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.TITLE')"
+      :description="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.MESSAGE')"
+      :confirm-label="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.CONFIRM')"
+      :cancel-label="$t('CONVERSATION.REPLYBOX.ASSIGN_BEFORE_REPLY.CANCEL')"
     />
   </div>
 </template>

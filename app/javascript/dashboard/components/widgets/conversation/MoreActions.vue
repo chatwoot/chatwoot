@@ -7,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
+import ConversationAssigneeSelector from './ConversationAssigneeSelector.vue';
 import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
@@ -91,7 +92,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative flex items-center gap-2 actions--container">
+  <div class="relative flex items-center gap-2 actions--container min-w-0">
+    <ConversationAssigneeSelector
+      v-if="currentChat?.id"
+      compact
+      show-self-assign-button
+      class="hidden md:flex shrink-0"
+    />
     <ResolveAction
       :conversation-id="currentChat.id"
       :status="currentChat.status"

@@ -58,14 +58,43 @@ export function useBulkActions() {
 
   // Same method used in context menu, conversationId being passed from there.
   async function onAssignAgent(agent, conversationId = null) {
+    const conversationIds = conversationId
+      ? Array.isArray(conversationId)
+        ? conversationId
+        : [conversationId]
+      : selectedConversations.value;
+
     try {
-      await store.dispatch('bulkActions/process', {
-        type: 'Conversation',
-        ids: conversationId || selectedConversations.value,
-        fields: {
-          assignee_id: agent.id,
-        },
-      });
+      if (!agent?.id) {
+        await Promise.all(
+          conversationIds.map(id =>
+            store.dispatch('assignAgent', {
+              conversationId: id,
+              agentId: null,
+            })
+          )
+        );
+      } else if (agent.assignee_type === 'AgentBot') {
+        await Promise.all(
+          conversationIds.map(id =>
+            store.dispatch('assignAgent', {
+              conversationId: id,
+              agentId: agent.id,
+              assigneeType: 'AgentBot',
+            })
+          )
+        );
+      } else {
+        await Promise.all(
+          conversationIds.map(id =>
+            store.dispatch('assignAgent', {
+              conversationId: id,
+              agentId: agent.id,
+              assigneeType: 'User',
+            })
+          )
+        );
+      }
       store.dispatch('bulkActions/clearSelectedConversationIds');
       if (conversationId) {
         useAlert(

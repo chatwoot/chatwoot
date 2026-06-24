@@ -1,5 +1,11 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import { getInboxBotAgent, isHumanAssigneeMeta } from 'dashboard/helper/assigneeHelper';
+import {
+  applyPageFilters,
+  applyRoleFilter,
+  matchesUnassignedTab,
+  sortComparator,
+} from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { matchesFilters } from './helpers/filterHelpers';
 import {
@@ -78,8 +84,8 @@ const getters = {
     const currentUserID = rootGetters.getCurrentUser?.id;
 
     return _state.allConversations.filter(conversation => {
-      const { assignee } = conversation.meta;
-      const isAssignedToMe = assignee && assignee.id === currentUserID;
+      const isAssignedToMe = isHumanAssigneeMeta(conversation.meta) &&
+        Number(conversation.meta.assignee.id) === Number(currentUserID);
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       const isChatMine = isAssignedToMe && shouldFilter;
 
@@ -97,9 +103,16 @@ const getters = {
     const hasAppliedFilters = _state.appliedFilters.length !== 0;
     return hasAppliedFilters ? filterQueryGenerator(_state.appliedFilters) : [];
   },
-  getUnAssignedChats: _state => activeFilters => {
+  getUnAssignedChats: (_state, _, __, rootGetters) => activeFilters => {
+    const inboxId = activeFilters.inboxId;
+    const inboxBotId = inboxId
+      ? getInboxBotAgent(
+          rootGetters['inboxAssignableAgents/getAssignableAgents'](inboxId)
+        )?.id
+      : null;
+
     return _state.allConversations.filter(conversation => {
-      const isUnAssigned = !conversation.meta.assignee;
+      const isUnAssigned = matchesUnassignedTab(conversation, { inboxBotId });
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return isUnAssigned && shouldFilter;
     });

@@ -11,6 +11,7 @@ import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import PanelIaStateIndicator from './PanelIaStateIndicator.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -113,6 +114,7 @@ watch(
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
   >
+    <PanelIaStateIndicator :chat="chat" />
     <div
       class="relative"
       @mouseenter="onThumbnailHover"
@@ -172,7 +174,7 @@ watch(
         class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
         :class="hasUnread ? 'font-semibold' : 'font-medium'"
       >
-        {{ currentContact.name }}
+        <span class="truncate">{{ currentContact.name }}</span>
       </h4>
       <VoiceCallStatus
         v-if="voiceCallData.status"

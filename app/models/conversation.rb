@@ -66,7 +66,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
-  before_validation :reset_agent_bot_when_assignee_present
+  before_validation :ensure_exclusive_assignee
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -205,6 +205,10 @@ class Conversation < ApplicationRecord
     assignee_agent_bot || assignee
   end
 
+  def bot_handling?
+    assignee_agent_bot_id.present?
+  end
+
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
@@ -271,10 +275,31 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def reset_agent_bot_when_assignee_present
-    return if assignee_id.blank?
+  def ensure_exclusive_assignee
+    if assignee_id.present? && assignee_agent_bot_id.present?
+      # #region agent log
+      File.open(Rails.root.join('debug-b893f4.log'), 'a') do |f|
+        f.puts({
+          sessionId: 'b893f4',
+          hypothesisId: 'A',
+          location: 'conversation.rb:ensure_exclusive_assignee',
+          message: 'dual assignee detected before fix',
+          data: {
+            conversation_id: id,
+            assignee_id: assignee_id,
+            assignee_agent_bot_id: assignee_agent_bot_id
+          },
+          timestamp: (Time.now.to_f * 1000).to_i
+        }.to_json)
+      end
+      # #endregion
+    end
 
-    self.assignee_agent_bot_id = nil
+    if assignee_id.present?
+      self.assignee_agent_bot_id = nil
+    elsif assignee_agent_bot_id.present?
+      self.assignee_id = nil
+    end
   end
 
   def determine_conversation_status

@@ -1,0 +1,31 @@
+# Override para correr el fork local (código + assets) sobre la stack Dokploy.
+# Uso:
+#   docker network create main-chatwoot-local
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build
+#
+# Solo backend/frontend rápido (sin rebuild de imagen):
+#   pnpm exec vite build
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml restart chatwoot-rails
+
+x-fork-code-volumes: &fork-code-volumes
+  - ./app:/app/app
+  - ./enterprise:/app/enterprise
+  - ./lib:/app/lib
+  - ./config:/app/config
+  - ./public/vite:/app/public/vite
+
+services:
+  chatwoot-rails:
+    image: inboxhub-chatwoot:local
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - chatwoot-storage:/app/storage
+      - *fork-code-volumes
+
+  chatwoot-sidekiq:
+    image: inboxhub-chatwoot:local
+    volumes:
+      - chatwoot-storage:/app/storage
+      - *fork-code-volumes

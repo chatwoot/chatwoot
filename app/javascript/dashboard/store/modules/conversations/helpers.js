@@ -1,4 +1,8 @@
 import { CONVERSATION_PRIORITY_ORDER } from 'shared/constants/messages';
+import {
+  isAgentBotAssigneeMeta,
+  isHumanAssigneeMeta,
+} from 'dashboard/helper/assigneeHelper';
 
 export const findPendingMessageIndex = (chat, message) => {
   const { echo_id: tempMessageId } = message;
@@ -24,6 +28,23 @@ export const filterByLabel = (shouldFilter, labels, chatLabels) => {
   const isOnLabel = labels.every(label => chatLabels.includes(label));
   return labels.length ? isOnLabel && shouldFilter : shouldFilter;
 };
+/**
+ * Whether a conversation belongs on the "unassigned" assignee tab.
+ * When the inbox has an active bot, bot-assigned threads count as the bot queue.
+ */
+export const matchesUnassignedTab = (conversation, { inboxBotId } = {}) => {
+  const { assignee } = conversation.meta || {};
+
+  if (inboxBotId) {
+    return (
+      !assignee ||
+      isAgentBotAssigneeMeta(conversation.meta, inboxBotId)
+    );
+  }
+
+  return !isHumanAssigneeMeta(conversation.meta);
+};
+
 export const filterByUnattended = (
   shouldFilter,
   conversationType,
@@ -91,7 +112,7 @@ export const applyRoleFilter = (
   }
 
   const conversationAssignee = conversation.meta.assignee;
-  const isUnassigned = !conversationAssignee;
+  const isUnassigned = !isHumanAssigneeMeta(conversation.meta);
   const isAssignedToUser = conversationAssignee?.id === currentUserId;
 
   // Check unassigned management permission

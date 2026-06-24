@@ -50,6 +50,8 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+import { matchesUnassignedTab } from '../store/modules/conversations/helpers';
+import { getInboxBotAgent, isCurrentUserAssigneeMeta } from 'dashboard/helper/assigneeHelper';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -108,6 +110,9 @@ const campaigns = useMapGetter('campaigns/getAllCampaigns');
 const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
+const getAssignableAgents = useMapGetter(
+  'inboxAssignableAgents/getAssignableAgents'
+);
 const getTeamFn = useMapGetter('teams/getTeam');
 const getConversationById = useMapGetter('getConversationById');
 
@@ -175,16 +180,35 @@ const userPermissions = computed(() => {
   return getUserPermissions(currentUser.value, currentAccountId.value);
 });
 
+const activeInboxId = computed(() => {
+  if (props.conversationInbox) return props.conversationInbox;
+  if (route.params.inbox_id) return route.params.inbox_id;
+  return activeInbox.value;
+});
+
+const inboxBot = computed(() => {
+  const inboxId = activeInboxId.value;
+  if (!inboxId) return null;
+  const agents = getAssignableAgents.value(inboxId) || [];
+  return getInboxBotAgent(agents);
+});
+
 const assigneeTabItems = computed(() => {
   return filterItemsByPermission(
     ASSIGNEE_TYPE_TAB_PERMISSIONS,
     userPermissions.value,
     item => item.permissions
-  ).map(({ key, count: countKey }) => ({
-    key,
-    name: t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`),
-    count: conversationStats.value[countKey] || 0,
-  }));
+  ).map(({ key, count: countKey }) => {
+    let name = t(`CHAT_LIST.ASSIGNEE_TYPE_TABS.${key}`);
+    if (key === 'unassigned' && inboxBot.value?.name) {
+      name = inboxBot.value.name;
+    }
+    return {
+      key,
+      name,
+      count: conversationStats.value[countKey] || 0,
+    };
+  });
 });
 
 const showAssigneeInConversationCard = computed(() => {
@@ -248,7 +272,7 @@ const conversationListPagination = computed(() => {
 
 const conversationFilters = computed(() => {
   return {
-    inboxId: props.conversationInbox ? props.conversationInbox : undefined,
+    inboxId: activeInboxId.value || undefined,
     assigneeType: activeAssigneeTab.value,
     status: activeStatus.value,
     sortBy: activeSortBy.value,
@@ -298,12 +322,15 @@ const pageTitle = computed(() => {
 
 function filterByAssigneeTab(conversations) {
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
-    return conversations.filter(
-      c => c.meta?.assignee?.id === currentUser.value?.id
+    return conversations.filter(c =>
+      isCurrentUserAssigneeMeta(c.meta, currentUser.value)
     );
   }
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
-    return conversations.filter(c => !c.meta?.assignee);
+    const inboxBotId = inboxBot.value?.id;
+    return conversations.filter(c =>
+      matchesUnassignedTab(c, { inboxBotId })
+    );
   }
   return [...conversations];
 }
@@ -805,15 +832,26 @@ useEmitter('fetch_conversation_stats', () => {
   store.dispatch('conversationStats/get', conversationFilters.value);
 });
 
+function fetchAssignableAgentsForInbox(inboxId) {
+  if (inboxId) {
+    store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+  }
+}
+
 onMounted(() => {
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
+  fetchAssignableAgentsForInbox(activeInboxId.value);
   resetAndFetchData();
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
+});
+
+watch(activeInboxId, inboxId => {
+  fetchAssignableAgentsForInbox(inboxId);
 });
 
 const deleteConversationDialogRef = ref(null);

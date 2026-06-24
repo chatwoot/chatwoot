@@ -5,6 +5,7 @@ import {
   getAgentsByUpdatedPresence,
   getSortedAgentsByAvailability,
 } from 'dashboard/helper/agentHelper';
+import { getInboxBotAgent } from 'dashboard/helper/assigneeHelper';
 
 /**
  * A composable function that provides a list of agents for assignment.
@@ -42,13 +43,26 @@ export function useAgentsList(includeNoneAgent = true) {
     return inboxId.value ? assignable.value(inboxId.value) : [];
   });
 
+  const inboxBotAgent = computed(() =>
+    getInboxBotAgent(assignableAgents.value)
+  );
+
+  const showNoneAgent = computed(
+    () =>
+      includeNoneAgent &&
+      isAgentSelected.value &&
+      !inboxBotAgent.value
+  );
+
   /**
    * @type {import('vue').ComputedRef<Array>}
    */
   const agentsList = computed(() => {
     const agents = assignableAgents.value || [];
+    const humanAgents = agents.filter(agent => agent.assignee_type !== 'AgentBot');
+    const botAgents = agents.filter(agent => agent.assignee_type === 'AgentBot');
     const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
-      agents,
+      humanAgents,
       currentUser.value,
       currentAccountId.value
     );
@@ -58,13 +72,15 @@ export function useAgentsList(includeNoneAgent = true) {
     );
 
     return [
-      ...(includeNoneAgent && isAgentSelected.value ? [createNoneAgent()] : []),
+      ...(showNoneAgent.value ? [createNoneAgent()] : []),
       ...filteredAgentsByAvailability,
+      ...botAgents,
     ];
   });
 
   return {
     agentsList,
     assignableAgents,
+    inboxBotAgent,
   };
 }

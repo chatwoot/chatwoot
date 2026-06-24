@@ -1,4 +1,5 @@
 import AssignableAgentsAPI from '../../api/assignableAgents';
+import { normalizeAssignableAgent } from 'dashboard/helper/assigneeHelper';
 
 const state = {
   records: {},
@@ -14,7 +15,9 @@ export const types = {
 
 export const getters = {
   getAssignableAgents: $state => inboxId => {
-    const allAgents = $state.records[inboxId] || [];
+    if (inboxId == null || inboxId === '') return [];
+    const key = String(inboxId);
+    const allAgents = $state.records[key] || $state.records[inboxId] || [];
     const verifiedAgents = allAgents.filter(record => record.confirmed);
     return verifiedAgents;
   },
@@ -52,7 +55,7 @@ export const mutations = {
   [types.SET_INBOX_ASSIGNABLE_AGENTS]: ($state, { inboxId, members }) => {
     $state.records = {
       ...$state.records,
-      [inboxId]: members,
+      [inboxId]: members.map(normalizeAssignableAgent),
     };
   },
 };

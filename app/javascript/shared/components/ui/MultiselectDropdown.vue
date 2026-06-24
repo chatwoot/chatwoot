@@ -37,6 +37,10 @@ const props = defineProps({
     type: String,
     default: 'Search',
   },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select']);
@@ -62,26 +66,35 @@ const hasIcon = computed(() => {
 
 <template>
   <OnClickOutside @trigger="onCloseDropdown">
-    <div class="relative w-full mb-2" @keyup.esc="onCloseDropdown">
+    <div
+      class="relative w-full"
+      :class="compact ? '' : 'mb-2'"
+      @keyup.esc="onCloseDropdown"
+    >
       <Button
         slate
         outline
         trailing-icon
+        :size="compact ? 'sm' : undefined"
         :icon="
           showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
         "
-        class="w-full !px-2"
+        :class="compact ? 'w-full !h-8 !px-2' : 'w-full !px-2'"
         @click="
           () => toggleDropdown() // ensure that the event is not passed to the button
         "
       >
-        <div class="flex items-center justify-between w-full min-w-0">
-          <h4 v-if="!hasValue" class="text-sm text-ellipsis text-n-slate-12">
+        <div class="flex items-center flex-1 min-w-0 gap-1">
+          <h4
+            v-if="!hasValue"
+            class="text-sm text-ellipsis text-n-slate-12"
+            :class="compact ? 'truncate' : ''"
+          >
             {{ multiselectorPlaceholder }}
           </h4>
           <h4
             v-else
-            class="items-center overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
+            class="overflow-hidden text-sm leading-tight whitespace-nowrap text-ellipsis text-n-slate-12"
             :title="selectedItem.name"
           >
             {{ selectedItem.name }}
@@ -92,7 +105,7 @@ const hasIcon = computed(() => {
           :src="selectedItem.thumbnail"
           :status="selectedItem.availability_status"
           :name="selectedItem.name"
-          :size="24"
+          :size="compact ? 20 : 24"
           hide-offline-status
           rounded-full
         />
@@ -103,11 +116,11 @@ const hasIcon = computed(() => {
         />
       </Button>
       <div
-        :class="{
-          'block visible': showSearchDropdown,
-          'hidden invisible': !showSearchDropdown,
-        }"
-        class="box-border top-[2.625rem] w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
+        :class="[
+          'box-border w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]',
+          compact ? 'top-8' : 'top-[2.625rem]',
+          showSearchDropdown ? 'block visible' : 'hidden invisible',
+        ]"
       >
         <div class="flex items-center justify-between mb-1">
           <h4

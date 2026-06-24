@@ -41,6 +41,9 @@
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "PANEL_IA_STATE_ACTIVE": "AI responding",
+    "PANEL_IA_STATE_WAITING": "AI waiting",
+    "PANEL_IA_STATE_HELP": "AI requests help",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -102,6 +105,7 @@
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "MORE_ACTIONS": "More actions",
+      "ASSIGNEE": "Assigned agent",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -258,6 +262,12 @@
           "YES": "Send",
           "CANCEL": "Cancel"
         }
+      },
+      "ASSIGN_BEFORE_REPLY": {
+        "TITLE": "Assign conversation",
+        "MESSAGE": "To reply you must assign this conversation to yourself. Confirm?",
+        "CONFIRM": "Yes",
+        "CANCEL": "No"
       },
       "QUOTED_REPLY": {
         "ENABLE_TOOLTIP": "Include quoted email thread",

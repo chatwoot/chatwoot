@@ -140,7 +140,7 @@ const onUpdateConversation = (status, snoozedUntil) => {
 };
 
 const onAssignAgent = agent => {
-  assignAgent(agent, [props.source.id]);
+  assignAgent(agent, props.source.id);
   closeContextMenu();
 };
 

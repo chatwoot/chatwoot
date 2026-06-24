@@ -41,7 +41,9 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
-    return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
+    if agent_ids[0] == 'nil'
+      return Conversations::AssignmentService.new(conversation: @conversation, assignee_id: nil).perform
+    end
 
     agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
     return unless agent_belongs_to_inbox?(agent_ids)
@@ -49,7 +51,7 @@ class ActionService
     @agent = @account.users.find_by(id: agent_ids)
     return unless @agent.present? && @agent.confirmed?
 
-    @conversation.update!(assignee_id: @agent.id)
+    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: @agent.id).perform
   end
 
   def remove_label(labels)

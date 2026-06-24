@@ -10,6 +10,8 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
     agent_ids = agent_ids.inject(:&)
     agents = Current.account.users.where(id: agent_ids)
     @assignable_agents = (agents + Current.account.administrators).uniq
+    bots = @inboxes.filter_map(&:assignable_agent_bot).uniq
+    @assignable_agents_payload = bots.any? ? @assignable_agents + bots : @assignable_agents
   end
 
   private

@@ -4,6 +4,10 @@ import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import {
+  getAssigneeSelectionKey,
+  isSameAssignee,
+} from 'dashboard/helper/assigneeHelper';
 
 export default {
   components: {
@@ -67,7 +71,12 @@ export default {
       this.$refs.searchbar.focus();
     },
     isActive(option) {
-      return this.selectedItems.some(item => item && option.id === item.id);
+      return this.selectedItems.some(
+        item => item && isSameAssignee(item, option)
+      );
+    },
+    selectionKey(option) {
+      return getAssigneeSelectionKey(option);
     },
   },
 };
@@ -88,7 +97,10 @@ export default {
     <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
       <div class="w-full max-h-[10rem]">
         <WootDropdownMenu>
-          <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
+          <WootDropdownItem
+            v-for="option in filteredOptions"
+            :key="selectionKey(option)"
+          >
             <NextButton
               slate
               :variant="isActive(option) ? 'faded' : 'ghost'"

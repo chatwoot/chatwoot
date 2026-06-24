@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import ConversationHeader from './ConversationHeader.vue';
+import PanelIaStateIndicator from './PanelIaStateIndicator.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
@@ -8,6 +9,7 @@ import MessagesView from './MessagesView.vue';
 export default {
   components: {
     ConversationHeader,
+    PanelIaStateIndicator,
     DashboardAppFrame,
     EmptyState,
     MessagesView,
@@ -96,6 +98,10 @@ export default {
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
   >
+    <PanelIaStateIndicator
+      v-if="currentChat.id"
+      :chat="currentChat"
+    />
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"

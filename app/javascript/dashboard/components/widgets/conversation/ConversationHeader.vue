@@ -14,6 +14,7 @@ import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useAlert } from 'dashboard/composables';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
@@ -31,6 +32,7 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
+const { updateUISettings } = useUISettings();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox } = useInbox();
@@ -103,6 +105,13 @@ const copyConversationId = async () => {
     // error
   }
 };
+
+const openContactSidebar = () => {
+  updateUISettings({
+    is_contact_sidebar_open: true,
+    is_copilot_panel_open: false,
+  });
+};
 </script>
 
 <template>
@@ -128,12 +137,14 @@ const copyConversationId = async () => {
       <div
         class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
       >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
-          <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
+        <div class="flex flex-row items-center max-w-full gap-1.5 p-0 m-0 min-w-0">
+          <button
+            type="button"
+            class="text-sm font-medium truncate leading-tight text-n-slate-12 hover:text-n-brand cursor-pointer"
+            @click="openContactSidebar"
           >
             {{ currentContact.name }}
-          </span>
+          </button>
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"

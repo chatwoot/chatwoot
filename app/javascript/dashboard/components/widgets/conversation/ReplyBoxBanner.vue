@@ -34,36 +34,33 @@ const assignedAgent = computed({
     store.dispatch('setCurrentChatAssignee', {
       conversationId: currentChat.value?.id,
       assignee: agent,
+      assigneeType: 'User',
     });
     store.dispatch('assignAgent', {
       conversationId: currentChat.value?.id,
       agentId,
+      assigneeType: 'User',
     });
   },
 });
 
-const isUserTyping = computed(
-  () => props.message !== '' && !props.isOnPrivateNote
-);
-const isUnassigned = computed(() => !assignedAgent.value);
-const isAssignedToOtherAgent = computed(
-  () => assignedAgent.value?.id !== currentUser.value?.id
-);
-
-const showSelfAssignBanner = computed(() => {
-  return (
-    isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
-  );
+const isAssignedToCurrentUser = computed(() => {
+  const assignee = currentChat.value?.meta?.assignee;
+  const assigneeType = currentChat.value?.meta?.assignee_type;
+  if (!assignee?.id || !currentUser.value?.id) return false;
+  if (assigneeType === 'AgentBot') return false;
+  return assignee.id === currentUser.value.id;
 });
 
 const showBotHandoffBanner = computed(
   () =>
-    isUserTyping.value &&
+    props.message !== '' &&
+    !props.isOnPrivateNote &&
     currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
 );
 
 const botHandoffActionLabel = computed(() => {
-  return assignedAgent.value?.id === currentUser.value?.id
+  return isAssignedToCurrentUser.value
     ? t('CONVERSATION.BOT_HANDOFF_REOPEN_ACTION')
     : t('CONVERSATION.BOT_HANDOFF_ACTION');
 });
@@ -73,18 +70,7 @@ const selfAssignConversation = async () => {
   assignedAgent.value = { ...rest, thumbnail: avatar_url };
 };
 
-const needsAssignmentToCurrentUser = computed(() => {
-  return isUnassigned.value || isAssignedToOtherAgent.value;
-});
-
-const onClickSelfAssign = async () => {
-  try {
-    await selfAssignConversation();
-    useAlert(t('CONVERSATION.CHANGE_AGENT'));
-  } catch (error) {
-    useAlert(t('CONVERSATION.CHANGE_AGENT_FAILED'));
-  }
-};
+const needsAssignmentToCurrentUser = computed(() => !isAssignedToCurrentUser.value);
 
 const reopenConversation = async () => {
   await store.dispatch('toggleStatus', {
@@ -109,16 +95,6 @@ const onClickBotHandoff = async () => {
 </script>
 
 <template>
-  <Banner
-    v-if="showSelfAssignBanner && !showBotHandoffBanner"
-    action-button-variant="ghost"
-    color-scheme="secondary"
-    class="mx-2 mb-2 rounded-lg !py-2"
-    :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
-    has-action-button
-    :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
-    @primary-action="onClickSelfAssign"
-  />
   <Banner
     v-if="showBotHandoffBanner"
     action-button-variant="ghost"

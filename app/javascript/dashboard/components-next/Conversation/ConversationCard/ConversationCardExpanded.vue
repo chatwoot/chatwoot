@@ -12,6 +12,7 @@ import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabe
 import CardStatusIcon from './CardStatusIcon.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import PanelIaStateIndicator from 'dashboard/components/widgets/conversation/PanelIaStateIndicator.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -80,6 +81,7 @@ const selectedModel = computed({
     @click="$emit('click', $event)"
     @contextmenu="$emit('contextmenu', $event)"
   >
+    <PanelIaStateIndicator :chat="chat" />
     <!-- LEFT SECTION -->
     <div class="flex items-center gap-2 min-w-0 flex-1">
       <div class="flex items-center justify-center flex-shrink-0" @click.stop>
@@ -153,7 +155,7 @@ const selectedModel = computed({
       <h4
         class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
       >
-        {{ currentContact.name }}
+        <span class="truncate">{{ currentContact.name }}</span>
       </h4>
 
       <CardContent

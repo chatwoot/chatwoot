@@ -175,6 +175,7 @@ export function useConversationHotKeys() {
     store.dispatch('assignAgent', {
       conversationId: currentChat.value.id,
       agentId: action.agentInfo.id,
+      assigneeType: action.agentInfo.assignee_type,
     });
   };
 

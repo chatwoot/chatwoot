@@ -1,0 +1,12 @@
+json.id resource.id
+json.account_id Current.account&.id
+json.availability_status 'online'
+json.auto_offline false
+json.confirmed true
+json.email ''
+json.available_name resource.name
+json.name resource.name
+json.role 'agent_bot'
+json.thumbnail resource.avatar_url
+json.assignee_type 'AgentBot'
+json.bot_type resource.bot_type

@@ -2,6 +2,7 @@ import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
 import { findPendingMessageIndex } from './helpers';
+import { inferAssigneeType, resolveAssigneeType } from 'dashboard/helper/assigneeHelper';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -108,10 +109,14 @@ export const mutations = {
     }
   },
 
-  [types.ASSIGN_AGENT](_state, { conversationId, assignee }) {
+  [types.ASSIGN_AGENT](_state, { conversationId, assignee, assigneeType }) {
     const chat = getConversationById(_state)(conversationId);
     if (chat) {
+      const resolvedType =
+        assigneeType !== undefined ? assigneeType : resolveAssigneeType(assignee);
       chat.meta.assignee = assignee;
+      chat.meta.assignee_type = resolvedType;
+      chat.bot_handling = resolvedType === 'AgentBot';
     }
   },
 
@@ -297,6 +302,12 @@ export const mutations = {
     const chat = getConversationById(_state)(payload.id);
     if (chat) {
       chat.meta.assignee = payload.assignee;
+      if (payload.assignee_type !== undefined) {
+        chat.meta.assignee_type = payload.assignee_type;
+      } else {
+        chat.meta.assignee_type = resolveAssigneeType(payload.assignee);
+      }
+      chat.bot_handling = chat.meta.assignee_type === 'AgentBot';
     }
   },
 
