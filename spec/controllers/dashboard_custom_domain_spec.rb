@@ -5,7 +5,6 @@ describe 'GET / on a help center custom domain', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
 
   around do |example|
-    # Ensure the custom domain is not mistaken for the dashboard host
     with_modified_env FRONTEND_URL: 'http://www.chatwoot.test' do
       example.run
     end
@@ -29,7 +28,6 @@ describe 'GET / on a help center custom domain', type: :request do
       get '/'
 
       expect(response).to have_http_status(:success)
-      # documentation layout marker (the sidebar drawer) and home data both present
       expect(response.body).to include('sidebar-drawer-checkbox')
       expect(response.body).to include('Getting Started')
     end

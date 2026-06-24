@@ -225,8 +225,6 @@ RSpec.describe 'Public Articles API', type: :request do
     end
 
     before do
-      # The category sidebar only lists articles whose content locale matches the portal locale (th_TH).
-      # `th_TH` is not a shipped I18n locale, so the content locale must not be normalised to `th`.
       create(:article, category: th_category, portal: th_portal, account_id: account.id, author_id: agent.id,
                        locale: 'th_TH', title: 'Sibling In Sidebar', status: :published)
     end
@@ -236,7 +234,6 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{th_portal.slug}/articles/#{th_article.slug}"
 
       expect(response).to have_http_status(:success)
-      # The sibling article only appears via the locale-scoped category sidebar
       expect(response.body).to include('Sibling In Sidebar')
     end
   end
