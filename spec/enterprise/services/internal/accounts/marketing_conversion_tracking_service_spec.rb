@@ -30,7 +30,7 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
   end
 
-  it 'uploads the last-touch click conversion and marks the event as sent', :aggregate_failures do
+  it 'uploads the last-touch click conversion', :aggregate_failures do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
     token_response = response_double('access_token' => 'access-token')
@@ -81,9 +81,7 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     )
     expect(body['events'].first.keys).not_to include('conversionValue', 'currency')
 
-    conversions = account.reload.internal_attributes['marketing_conversions']
-    expect(conversions.dig('cloud_signup', 'click_id_fields')).to eq(['gclid'])
-    expect(conversions.dig('cloud_signup', 'order_id')).to eq("cloud_signup-account-#{account.id}")
+    expect(account.reload.internal_attributes).not_to have_key('marketing_conversions')
   end
 
   it 'falls back to first-touch attribution when last-touch attribution is absent' do
@@ -170,21 +168,6 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
       'conversionValue' => 199.0,
       'currency' => 'USD'
     )
-  end
-
-  it 'does not upload the same event twice' do
-    create_config
-    account.update!(
-      internal_attributes: attribution_attributes('last-click').merge(
-        'marketing_conversions' => {
-          'cloud_signup' => { 'sent_at' => Time.current.iso8601 }
-        }
-      )
-    )
-
-    expect(HTTParty).not_to receive(:post)
-
-    described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
   end
 
   def create_config(overrides = {})

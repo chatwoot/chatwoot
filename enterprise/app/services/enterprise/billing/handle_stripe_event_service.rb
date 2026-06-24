@@ -27,11 +27,15 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 
+    previous_plan_name = account.custom_attributes['plan_name']
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
-    enqueue_marketing_plan_activation_conversion
+    track_marketing_plan_activation(previous_plan_name, plan['name'])
+    sync_subscription_credits(plan, previous_usage)
+  end
 
+  def sync_subscription_credits(plan, previous_usage)
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
         handle_subscription_credits(plan, previous_usage)
@@ -88,6 +92,20 @@ class Enterprise::Billing::HandleStripeEventService
 
   def subscription_currency
     subscription['plan']['currency']&.upcase
+  end
+
+  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
+    return unless paid_plan_activation?(previous_plan_name, current_plan_name)
+
+    enqueue_marketing_plan_activation_conversion
+  end
+
+  def paid_plan_activation?(previous_plan_name, current_plan_name)
+    default_plan?(previous_plan_name) && !default_plan?(current_plan_name)
+  end
+
+  def default_plan?(plan_name)
+    plan_name.blank? || plan_name.casecmp?('Hacker')
   end
 
   def process_subscription_deleted

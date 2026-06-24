@@ -15,20 +15,14 @@ class Internal::Accounts::MarketingConversionTrackingService
   def perform
     return unless ChatwootApp.chatwoot_cloud?
     return unless configured?
-    return if already_sent?
     return if click_attributes.blank?
 
     upload_conversion!
-    mark_sent!
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
   end
 
   private
-
-  def already_sent?
-    conversions_state.dig(event_name, 'sent_at').present?
-  end
 
   def upload_conversion!
     response = HTTParty.post(
@@ -94,7 +88,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def marketing_attribution
-    @marketing_attribution ||= internal_attributes_service.get('marketing_attribution') || {}
+    @marketing_attribution ||= account.internal_attributes['marketing_attribution'] || {}
   end
 
   def access_token
@@ -190,25 +184,5 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def order_id
     "#{event_name}-account-#{account.id}"
-  end
-
-  def mark_sent!
-    updated_state = conversions_state.merge(
-      event_name => {
-        'sent_at' => Time.current.iso8601,
-        'conversion_action_id' => conversion_action_id,
-        'click_id_fields' => click_attributes.keys.map(&:to_s),
-        'order_id' => order_id
-      }
-    )
-    internal_attributes_service.set('marketing_conversions', updated_state)
-  end
-
-  def conversions_state
-    @conversions_state ||= internal_attributes_service.get('marketing_conversions') || {}
-  end
-
-  def internal_attributes_service
-    @internal_attributes_service ||= Internal::Accounts::InternalAttributesService.new(account)
   end
 end

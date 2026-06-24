@@ -99,6 +99,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
 
     it 'enqueues marketing conversion tracking for plan activation' do
+      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({
                                                        'id' => 'price_startups',
@@ -113,6 +114,36 @@ describe Enterprise::Billing::HandleStripeEventService do
         stripe_event_service.new.perform(event: event)
       end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
         .with(account.id, 'cloud_plan_activation', Time.zone.at(1_686_000_000).iso8601, 398.0, 'USD')
+    end
+
+    it 'does not enqueue marketing conversion tracking for paid plan changes' do
+      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Startups'))
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_business',
+                                                       'product' => 'plan_id_business',
+                                                       'name' => 'Business',
+                                                       'amount' => 19_900,
+                                                       'currency' => 'usd'
+                                                     })
+
+      expect do
+        stripe_event_service.new.perform(event: event)
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
+    end
+
+    it 'does not enqueue marketing conversion tracking for default plan updates' do
+      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_hacker',
+                                                       'product' => 'plan_id_hacker',
+                                                       'name' => 'Hacker'
+                                                     })
+
+      expect do
+        stripe_event_service.new.perform(event: event)
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
     end
 
     it 'persists quantity even when increment_response_usage runs concurrently' do
