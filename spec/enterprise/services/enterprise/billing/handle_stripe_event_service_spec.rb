@@ -112,6 +112,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'currency' => 'usd'
                                                      })
       allow(subscription).to receive(:[]).with('quantity').and_return(2)
+      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
 
       expect do
         stripe_event_service.new.perform(event: event)
@@ -146,6 +147,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'amount' => 19_900,
                                                        'currency' => 'usd'
                                                      })
+      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
 
       expect do
         stripe_event_service.new.perform(event: event)

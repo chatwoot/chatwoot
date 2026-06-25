@@ -32,7 +32,7 @@ class Enterprise::Billing::HandleStripeEventService
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
-    track_marketing_plan_activation(previous_plan_name, plan['name'])
+    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
     sync_subscription_credits(plan, previous_usage)
   end
 
@@ -74,7 +74,7 @@ class Enterprise::Billing::HandleStripeEventService
 
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
     activated_at = Time.zone.at(subscription.created)
-    marketing_attribution = account.internal_attributes['marketing_attribution'] || {}
+    marketing_attribution = account.internal_attributes['marketing_attribution']
 
     return unless track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
 
@@ -186,6 +186,6 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def cloud_plans
-    @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
+    @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG).value
   end
 end
