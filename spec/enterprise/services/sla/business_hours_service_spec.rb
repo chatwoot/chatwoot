@@ -95,6 +95,18 @@ RSpec.describe Sla::BusinessHoursService do
 
         expect(service.deadline.to_i).to eq(wednesday_10am.to_i)
       end
+
+      it 'reuses loaded working hours while calculating across days' do
+        monday_4pm = Time.zone.parse('2024-01-15 16:00:00')
+        wednesday_10am = Time.zone.parse('2024-01-17 10:00:00')
+        working_hours = inbox.working_hours
+        service = described_class.new(inbox: inbox, start_time: monday_4pm, threshold_seconds: 10.hours)
+
+        expect(working_hours).to receive(:index_by).once.and_call_original
+        expect(working_hours).not_to receive(:find_by)
+
+        expect(service.deadline.to_i).to eq(wednesday_10am.to_i)
+      end
     end
 
     context 'with different timezone' do

@@ -14,7 +14,7 @@ class Sla::BusinessHoursService
   end
 
   def open_days?
-    inbox.working_hours.exists?(closed_all_day: false)
+    working_hours_by_day.values.any? { |working_hour| !working_hour.closed_all_day? }
   end
 
   def calculate_deadline_with_business_hours
@@ -80,7 +80,11 @@ class Sla::BusinessHoursService
   end
 
   def working_hour_for(time)
-    inbox.working_hours.find_by(day_of_week: time.wday)
+    working_hours_by_day[time.wday]
+  end
+
+  def working_hours_by_day
+    @working_hours_by_day ||= inbox.working_hours.index_by(&:day_of_week)
   end
 
   def next_business_day_start(current_time)
