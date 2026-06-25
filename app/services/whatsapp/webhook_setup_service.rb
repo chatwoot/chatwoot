@@ -70,8 +70,22 @@ class Whatsapp::WebhookSetupService
   # Subscribe to `calls` only when voice calling is enabled on the inbox
   def subscribed_fields
     fields = %w[messages smb_message_echoes]
-    fields << 'calls' if @channel.provider_config['calling_enabled']
+    fields << 'calls' if calls_enabled_on_waba?
     fields
+  end
+
+  # `subscribed_fields` is a WABA-wide app subscription, so keep `calls` whenever this inbox or
+  # any sibling on the same WABA has voice on — otherwise a non-calling sibling's setup would
+  # rewrite the shared subscription and drop calls for a calling-enabled sibling.
+  def calls_enabled_on_waba?
+    return true if @channel.provider_config['calling_enabled']
+
+    Channel::Whatsapp
+      .where(provider: 'whatsapp_cloud')
+      .where.not(id: @channel.id)
+      .where("provider_config->>'business_account_id' = ?", @waba_id)
+      .where("provider_config->>'calling_enabled' = 'true'")
+      .exists?
   end
 
   def build_callback_url
