@@ -14,7 +14,6 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def perform
     return unless ChatwootApp.chatwoot_cloud?
-    return unless configured?
     return if click_attributes.blank?
 
     upload_conversion!
@@ -38,10 +37,6 @@ class Internal::Accounts::MarketingConversionTrackingService
 
     parsed_response = response.parsed_response || {}
     raise "Marketing conversion upload response missing request ID: #{response.body}" if parsed_response['requestId'].blank?
-  end
-
-  def configured?
-    conversion_action_id.present? && required_config_present?
   end
 
   def destination_payload
@@ -132,25 +127,17 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def config
     @config ||= begin
-      value = InstallationConfig.find_by(name: CONFIG_KEY)&.value || {}
+      value = InstallationConfig.find_by!(name: CONFIG_KEY).value
       value.is_a?(String) ? JSON.parse(value) : value
-    rescue JSON::ParserError
-      {}
     end
   end
 
-  def required_config_present?
-    config['customer_id'].present? &&
-      service_account_credentials['client_email'].present? &&
-      service_account_credentials['private_key'].present?
-  end
-
   def event_config
-    @event_config ||= config.dig('events', event_name) || {}
+    @event_config ||= config['events'][event_name]
   end
 
   def customer_id
-    config['customer_id'].to_s.delete('-')
+    config['customer_id'].delete('-')
   end
 
   def login_customer_id
@@ -158,7 +145,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def conversion_action_id
-    event_config['conversion_action_id'].presence
+    event_config['conversion_action_id']
   end
 
   def conversion_time
@@ -175,7 +162,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def service_account_credentials
-    @service_account_credentials ||= config['service_account_credentials'] || {}
+    @service_account_credentials ||= config['service_account_credentials']
   end
 
   def base64_url_encode(value)

@@ -22,14 +22,6 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
   end
 
-  it 'does nothing when conversion tracking is not configured' do
-    account.update!(internal_attributes: attribution_attributes('gclid-123'))
-
-    expect(HTTParty).not_to receive(:post)
-
-    described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
-  end
-
   it 'uploads the last-touch click conversion', :aggregate_failures do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
