@@ -134,6 +134,8 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
+  before_validation :apply_agent_signature_to_whatsapp_outgoing, on: :create
+
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
@@ -447,6 +449,11 @@ class Message < ApplicationRecord
   def reindex_for_search
     reindex(mode: :async)
   end
+
+  def apply_agent_signature_to_whatsapp_outgoing
+    Messages::AgentSignatureService.new(self).perform
+  end
+
 end
 
 Message.prepend_mod_with('Message')
