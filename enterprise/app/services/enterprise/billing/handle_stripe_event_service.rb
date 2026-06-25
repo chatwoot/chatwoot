@@ -167,6 +167,6 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def cloud_plans
-    @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG).value
+    @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
   end
 end
