@@ -37,8 +37,6 @@ class Internal::Accounts::MarketingConversionTrackingService
     )
 
     raise "Marketing conversion upload failed: #{response.body}" unless response.success?
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
   end
 
   private
