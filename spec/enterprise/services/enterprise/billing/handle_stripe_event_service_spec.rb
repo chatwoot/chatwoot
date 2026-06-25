@@ -37,7 +37,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:customer).and_return('cus_123')
-    allow(subscription).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
+    allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end
 
@@ -112,19 +112,21 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                      })
       allow(subscription).to receive(:[]).with('quantity').and_return(2)
       allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
-      attribution_service = instance_double(Internal::Accounts::MarketingAttributionService)
-      allow(Internal::Accounts::MarketingAttributionService).to receive(:new).with(account: account).and_return(attribution_service)
-      allow(attribution_service).to receive(:track_plan_activation)
+      conversion_service = instance_double(Internal::Accounts::CloudPlanActivationConversionService)
+      allow(Internal::Accounts::CloudPlanActivationConversionService).to receive(:new).and_return(conversion_service)
+      allow(conversion_service).to receive(:perform)
 
       stripe_event_service.new.perform(event: event)
 
-      expect(attribution_service).to have_received(:track_plan_activation).with(
+      expect(Internal::Accounts::CloudPlanActivationConversionService).to have_received(:new).with(
+        account: account,
         previous_plan_name: 'Hacker',
         current_plan_name: 'Startups',
         activated_at: Time.zone.at(account.created_at.to_i + 1.day.to_i),
         conversion_value: 398.0,
         currency_code: 'USD'
       )
+      expect(conversion_service).to have_received(:perform)
     end
 
     it 'persists quantity even when increment_response_usage runs concurrently' do

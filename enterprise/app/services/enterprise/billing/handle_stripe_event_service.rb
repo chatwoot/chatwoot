@@ -74,13 +74,14 @@ class Enterprise::Billing::HandleStripeEventService
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
     subscription_plan = subscription['plan']
 
-    Internal::Accounts::MarketingAttributionService.new(account: account).track_plan_activation(
+    Internal::Accounts::CloudPlanActivationConversionService.new(
+      account: account,
       previous_plan_name: previous_plan_name,
       current_plan_name: current_plan_name,
-      activated_at: Time.zone.at(subscription.created),
+      activated_at: Time.zone.at(@event.created),
       conversion_value: subscription_conversion_value(subscription_plan),
       currency_code: subscription_plan['currency'].upcase
-    )
+    ).perform
   end
 
   def subscription_conversion_value(subscription_plan)
