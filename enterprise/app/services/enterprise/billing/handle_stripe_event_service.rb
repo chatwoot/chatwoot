@@ -97,7 +97,8 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def paid_plan_activation?(previous_plan_name, current_plan_name)
-    previous_plan_name == default_plan_name && current_plan_name != default_plan_name
+    default_plan = cloud_plans.first['name']
+    previous_plan_name == default_plan && current_plan_name != default_plan
   end
 
   def process_subscription_deleted
@@ -176,10 +177,6 @@ class Enterprise::Billing::HandleStripeEventService
 
   def find_plan(plan_id)
     cloud_plans.find { |config| config['product_id'].include?(plan_id) }
-  end
-
-  def default_plan_name
-    cloud_plans.first['name']
   end
 
   def cloud_plans
