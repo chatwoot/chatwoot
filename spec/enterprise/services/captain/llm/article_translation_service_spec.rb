@@ -17,6 +17,7 @@ RSpec.describe Captain::Llm::ArticleTranslationService do
 
     it 'returns the stripped translated title' do
       expect(service).to receive(:make_api_call) do |args|
+        expect(args[:feature]).to eq('help_center_article_generation')
         expect(args[:messages][0][:content]).to include('professional translator')
         expect(args[:messages][0][:content]).to include(target_language)
         expect(args[:messages][1][:content]).to eq('Getting Started')

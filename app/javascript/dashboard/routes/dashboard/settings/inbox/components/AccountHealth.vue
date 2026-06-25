@@ -144,8 +144,10 @@ const showWebhookSection = computed(
   () => props.healthData?.webhook_configuration !== undefined
 );
 
+// Phone-level override takes precedence over WABA-level (application), so prefer it.
 const webhookUrl = computed(
   () =>
+    props.healthData?.webhook_configuration?.phone_number ||
     props.healthData?.webhook_configuration?.whatsapp_business_account ||
     props.healthData?.webhook_configuration?.application
 );

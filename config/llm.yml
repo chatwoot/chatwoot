@@ -1,4 +1,4 @@
-aproviders:
+providers:
   openai:
     display_name: 'OpenAI'
   anthropic:
@@ -108,6 +108,44 @@ features:
   label_suggestion:
     models:
       [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini, gemini-3-flash, claude-haiku-4.5]
+    default: gpt-4.1-nano
+  document_faq_generation:
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-4.1-mini
+  pdf_faq_generation:
+    models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
+    default: gpt-4.1-mini
+  help_center_article_generation:
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-5.2
+  onboarding_content_generation:
+    models:
+      [gpt-4.1, gpt-4.1-mini, gpt-5-mini, gpt-5.1, gpt-5.2]
+    default: gpt-4.1
+  help_center_query_translation:
+    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
     default: gpt-4.1-nano
   audio_transcription:
     models: [whisper-1]

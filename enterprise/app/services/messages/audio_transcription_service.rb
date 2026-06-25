@@ -1,7 +1,7 @@
 class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
-  TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe'.freeze
+  TRANSCRIPTION_MODEL = 'whisper-1'.freeze
   # OpenAI's transcription endpoint hard limit is 25 MB *decimal* (25_000_000), not
   # binary (25.megabytes = 26_214_400) — using the binary form leaks the 25.0–26.2 MB
   # range to the API as 413s. Long audio (~70+ min Opus) keeps the attachment but skips
@@ -15,6 +15,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     @attachment = attachment
     @message = attachment.message
     @account = message.account
+    @transcription_model = Llm::FeatureRouter.resolve(feature: 'audio_transcription', account: account)[:model]
   end
 
   def perform
@@ -81,7 +82,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       # behaviour across OpenAI transcription models.
       response = @client.audio.transcribe(
         parameters: {
-          model: TRANSCRIPTION_MODEL,
+          model: transcription_model,
           file: file,
           temperature: 0.0
         }
@@ -98,7 +99,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   def instrumentation_params(file_path)
     {
       span_name: 'llm.messages.audio_transcription',
-      model: TRANSCRIPTION_MODEL,
+      model: transcription_model,
       account_id: account&.id,
       feature_name: 'audio_transcription',
       file_path: file_path
@@ -126,5 +127,9 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       'x-wav' => 'wav',
       'x-mp3' => 'mp3'
     }.fetch(subtype, subtype)
+  end
+
+  def transcription_model
+    @transcription_model || TRANSCRIPTION_MODEL
   end
 end
