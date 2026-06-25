@@ -193,11 +193,13 @@ class Rack::Attack
     throttle('api/v1/widget/transcription',
              limit: ENV.fetch('RATE_LIMIT_WIDGET_TRANSCRIPTION', '20').to_i, period: 1.hour) do |req|
       if req.path_without_extensions == '/api/v1/widget/transcription' && req.post?
-        auth_token = req.get_header('HTTP_X_AUTH_TOKEN').presence
-        # Read from the query string only — reading .params would force parsing
-        # the multipart audio body before the throttle decision.
+        # Key on the client IP (a stable dimension) scoped per inbox. The widget
+        # auth token is disposable — a visitor can mint a fresh one by reloading
+        # without the conversation cookie — so it must not be the only dimension.
+        # Read website_token from the query string only; reading .params would
+        # force parsing the multipart audio body before the throttle decision.
         website_token = req.GET['website_token'].presence
-        [website_token, auth_token].compact.join(':').presence || req.ip
+        [website_token, req.ip].compact.join(':')
       end
     end
   end

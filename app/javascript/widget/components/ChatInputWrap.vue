@@ -115,6 +115,9 @@ export default {
       this.focusInput();
     },
     handleEnterKeyPress(e) {
+      // The textarea (and its ref) is unmounted while recording/transcribing,
+      // so ignore Enter to avoid focusing a missing input.
+      if (this.isRecording || this.isTranscribing) return;
       if (e.keyCode === 13 && !e.shiftKey) {
         e.preventDefault();
         this.handleButtonClick();
