@@ -43,7 +43,14 @@ module Concerns::Agentable
   end
 
   def agent_model
-    Llm::FeatureRouter.resolve(feature: 'assistant', account: account)[:model]
+    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
+    return route[:model] if route[:source] == :account_override
+
+    installation_model.presence || route[:model]
+  end
+
+  def installation_model
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
   end
 
   def agent_response_schema

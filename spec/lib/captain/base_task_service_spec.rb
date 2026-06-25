@@ -21,6 +21,7 @@ RSpec.describe Captain::BaseTaskService do
   let(:service) { test_service_class.new(account: account, conversation_display_id: conversation.display_id) }
 
   before do
+    InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_API_KEY').destroy_all
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     # Stub captain enabled check to allow OSS specs to test base functionality
     # without enterprise module interference
