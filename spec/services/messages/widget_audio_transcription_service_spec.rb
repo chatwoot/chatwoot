@@ -70,17 +70,16 @@ RSpec.describe Messages::WidgetAudioTranscriptionService, type: :service do
     end
 
     it 'removes the temporary file after transcription' do
-      temp_paths = []
-      allow(service).to receive(:stage_audio_file).and_wrap_original do |method|
-        path = method.call
-        temp_paths << path
-        path
+      removed_paths = []
+      allow(FileUtils).to receive(:rm_f).and_wrap_original do |method, path|
+        removed_paths << path
+        method.call(path)
       end
 
       service.perform
 
-      expect(temp_paths).to be_present
-      expect(temp_paths).to all(satisfy { |path| !File.exist?(path) })
+      expect(removed_paths).to be_present
+      expect(removed_paths).to all(satisfy { |path| !File.exist?(path) })
     end
   end
 end

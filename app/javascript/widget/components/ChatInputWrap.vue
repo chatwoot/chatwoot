@@ -70,9 +70,7 @@ export default {
     }),
     isIdleInput() {
       return (
-        this.userInput.length === 0 &&
-        !this.isRecording &&
-        !this.isTranscribing
+        this.userInput.length === 0 && !this.isRecording && !this.isTranscribing
       );
     },
     showAttachment() {

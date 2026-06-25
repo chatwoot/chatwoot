@@ -119,7 +119,9 @@ onUnmounted(() => {
     <div class="flex items-center gap-2 text-n-slate-12">
       <span class="w-2 h-2 rounded-full bg-n-ruby-9 animate-pulse" />
       <span class="text-sm tabular-nums">{{ formattedTime() }}</span>
-      <span class="text-sm text-n-slate-11">{{ $t('VOICE_RECORDER.RECORDING') }}</span>
+      <span class="text-sm text-n-slate-11">{{
+        $t('VOICE_RECORDER.RECORDING')
+      }}</span>
     </div>
     <div class="flex items-center gap-1">
       <button

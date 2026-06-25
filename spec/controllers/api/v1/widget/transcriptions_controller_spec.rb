@@ -38,9 +38,12 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
     end
 
     context 'when the voice recorder feature is enabled and configured' do
+      let(:transcription_service) { instance_double(Messages::WidgetAudioTranscriptionService) }
+
       before do
         web_widget.update!(voice_recorder: true)
         allow(Widget::AudioTranscriptionConfig).to receive(:configured?).and_return(true)
+        allow(Messages::WidgetAudioTranscriptionService).to receive(:new).and_return(transcription_service)
       end
 
       it 'returns unprocessable entity when no audio is provided' do
@@ -51,8 +54,7 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
       end
 
       it 'returns the transcription when the service succeeds' do
-        allow_any_instance_of(Messages::WidgetAudioTranscriptionService)
-          .to receive(:perform).and_return({ success: true, transcription: 'Hello world' })
+        allow(transcription_service).to receive(:perform).and_return({ success: true, transcription: 'Hello world' })
 
         post_transcription(audio: audio_file)
 
@@ -61,8 +63,7 @@ RSpec.describe '/api/v1/widget/transcription', type: :request do
       end
 
       it 'returns an error when the service fails' do
-        allow_any_instance_of(Messages::WidgetAudioTranscriptionService)
-          .to receive(:perform).and_return({ error: 'Audio too large for transcription' })
+        allow(transcription_service).to receive(:perform).and_return({ error: 'Audio too large for transcription' })
 
         post_transcription(audio: audio_file)
 
