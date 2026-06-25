@@ -102,7 +102,7 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     create(
       :installation_config,
       name: described_class::CONFIG_KEY,
-      value: default_config.deep_merge(overrides)
+      value: default_config.deep_merge(overrides).to_json
     )
   end
 

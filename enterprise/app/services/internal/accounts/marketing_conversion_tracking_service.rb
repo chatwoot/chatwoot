@@ -94,9 +94,6 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def config
-    @config ||= begin
-      value = InstallationConfig.find_by!(name: CONFIG_KEY).value
-      value.is_a?(String) ? JSON.parse(value) : value
-    end
+    @config ||= JSON.parse(InstallationConfig.find_by!(name: CONFIG_KEY).value)
   end
 end
