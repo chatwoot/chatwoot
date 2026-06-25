@@ -43,13 +43,18 @@
 
 ## General Guidelines
 
-- MVP focus: Least code change, happy-path only
-- No unnecessary defensive programming
-- Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
+- Prefer the smallest production-ready change that solves the current problem.
+- Build for the expected production path first. Do not add speculative guards, fallbacks, retries, or edge-case handling unless the caller can actually hit that case or production has proven it necessary.
+- When an impossible or misconfigured state would indicate a setup/deployment bug, let it fail loudly instead of silently skipping behavior.
+- For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks.
+- Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
+- Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
+- Avoid one-use private helpers unless they hide real complexity or make the main flow meaningfully easier to read.
 - Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
 - Avoid writing specs unless explicitly asked
+- In specs, avoid custom helper methods for setup/data. Prefer `let` values and direct per-example setup; only add a helper when it removes meaningful repeated complexity.
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
 - Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
