@@ -37,6 +37,7 @@ RSpec.describe Concerns::Agentable do
   let(:mock_agents_agent) { instance_double(Agents::Agent) }
 
   before do
+    InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_MODEL').destroy_all
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
@@ -166,9 +167,16 @@ RSpec.describe Concerns::Agentable do
     end
 
     it 'returns account override model when present' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
+    end
+
+    it 'returns the installation model when account override is absent' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
     end
 
     it 'returns the assistant feature default model when account is nil' do
