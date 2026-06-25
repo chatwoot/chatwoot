@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   let(:account) { create(:account) }
   let(:event_name) { 'cloud_signup' }
-  let(:occurred_at) { '2026-06-23T10:30:00Z' }
+  let(:occurred_at) { Time.zone.parse('2026-06-23T10:30:00Z') }
   let(:private_key) { OpenSSL::PKey::RSA.new(2048).to_pem }
   let(:credentials) do
     instance_double(Google::Auth::ServiceAccountCredentials, fetch_access_token!: { 'access_token' => 'access-token' })
