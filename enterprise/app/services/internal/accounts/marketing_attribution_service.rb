@@ -59,8 +59,11 @@ class Internal::Accounts::MarketingAttributionService
     return unless ChatwootApp.chatwoot_cloud?
 
     marketing_attribution = internal_attributes_service.get('marketing_attribution')
+    default_plan = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG).value.first['name']
 
-    return unless track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
+    return unless previous_plan_name == default_plan && current_plan_name != default_plan
+    return if marketing_attribution.blank? || marketing_attribution[PLAN_ACTIVATION_TRACKED_AT].present?
+    return if activated_at > account.created_at + 30.days
 
     Internal::Accounts::MarketingConversionTrackingJob.perform_later(
       account.id,
@@ -105,15 +108,5 @@ class Internal::Accounts::MarketingAttributionService
 
   def enqueue_signup_conversion
     Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup', account.created_at)
-  end
-
-  def track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
-    default_plan = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG).value.first['name']
-
-    previous_plan_name == default_plan &&
-      current_plan_name != default_plan &&
-      marketing_attribution.present? &&
-      marketing_attribution[PLAN_ACTIVATION_TRACKED_AT].blank? &&
-      activated_at <= account.created_at + 30.days
   end
 end

@@ -98,10 +98,9 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
     end
 
-    it 'enqueues marketing conversion tracking for plan activation' do
+    it 'tracks marketing attribution for plan activation' do
       account.update!(
-        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'),
-        internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'gclid' => 'test-click-id' } } }
+        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker')
       )
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({
@@ -113,47 +112,19 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                      })
       allow(subscription).to receive(:[]).with('quantity').and_return(2)
       allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
-      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      attribution_service = instance_double(Internal::Accounts::MarketingAttributionService)
+      allow(Internal::Accounts::MarketingAttributionService).to receive(:new).with(account: account).and_return(attribution_service)
+      allow(attribution_service).to receive(:track_plan_activation)
 
-      expect do
-        stripe_event_service.new.perform(event: event)
-      end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-        .with(
-          account.id,
-          'cloud_plan_activation',
-          Time.zone.at(account.created_at.to_i + 1.day.to_i),
-          398.0,
-          'USD'
-        )
+      stripe_event_service.new.perform(event: event)
 
-      attribution = account.reload.internal_attributes['marketing_attribution']
-      expect(attribution['cloud_plan_activation_tracked_at']).to be_present
-    end
-
-    it 'does not enqueue marketing conversion tracking when plan activation was already tracked' do
-      account.update!(
-        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'),
-        internal_attributes: {
-          'marketing_attribution' => {
-            'last_touch' => { 'gclid' => 'test-click-id' },
-            'cloud_plan_activation_tracked_at' => 1.day.ago.iso8601
-          }
-        }
+      expect(attribution_service).to have_received(:track_plan_activation).with(
+        previous_plan_name: 'Hacker',
+        current_plan_name: 'Startups',
+        activated_at: Time.zone.at(account.created_at.to_i + 1.day.to_i),
+        conversion_value: 398.0,
+        currency_code: 'USD'
       )
-      allow(subscription).to receive(:[]).with('plan')
-                                         .and_return({
-                                                       'id' => 'price_startups',
-                                                       'product' => 'plan_id_startups',
-                                                       'name' => 'Startups',
-                                                       'amount' => 19_900,
-                                                       'currency' => 'usd'
-                                                     })
-      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
-      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-
-      expect do
-        stripe_event_service.new.perform(event: event)
-      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
     end
 
     it 'persists quantity even when increment_response_usage runs concurrently' do
