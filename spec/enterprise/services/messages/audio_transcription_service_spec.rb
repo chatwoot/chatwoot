@@ -100,5 +100,33 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     ensure
       FileUtils.rm_f(temp_file_path) if temp_file_path.present?
     end
+
+    it 'remaps an unsupported .oga extension to .ogg so the transcription endpoint accepts it' do
+      attachment.file.attach(
+        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+        filename: 'voice-note.oga',
+        content_type: 'audio/ogg'
+      )
+
+      temp_file_path = service.send(:fetch_audio_file)
+
+      expect(File.extname(temp_file_path)).to eq('.ogg')
+    ensure
+      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
+
+    it 'preserves a supported extension' do
+      attachment.file.attach(
+        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
+        filename: 'voice-note.mp3',
+        content_type: 'audio/mpeg'
+      )
+
+      temp_file_path = service.send(:fetch_audio_file)
+
+      expect(File.extname(temp_file_path)).to eq('.mp3')
+    ensure
+      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
+    end
   end
 end

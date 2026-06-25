@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
+class Messages::AudioTranscriptionService < Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
   TRANSCRIPTION_MODEL = 'gpt-4o-mini-transcribe'.freeze
@@ -7,6 +7,12 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   # range to the API as 413s. Long audio (~70+ min Opus) keeps the attachment but skips
   # transcription.
   TRANSCRIPTION_BYTE_LIMIT = 25_000_000
+
+  # Extensions the gpt-4o-*-transcribe endpoint rejects, mapped to an accepted
+  # equivalent for the same container. WhatsApp voice notes arrive as `.oga`, which
+  # 400s with "Unsupported file format oga" even though the bytes are valid Ogg/Opus
+  # audio — `.ogg` is the accepted name for the same data. See issue #14689.
+  EXTENSION_REMAP = { 'oga' => 'ogg' }.freeze
 
   attr_reader :attachment, :message, :account
 
@@ -50,12 +56,13 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     blob = attachment.file.blob
     temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_name = "#{blob.key}-#{blob.filename}"
 
-    if blob.filename.extension_without_delimiter.blank?
-      extension = extension_from_content_type(blob.content_type)
-      temp_file_name = "#{temp_file_name}.#{extension}" if extension.present?
-    end
+    extension = blob.filename.extension_without_delimiter
+    extension = extension_from_content_type(blob.content_type) if extension.blank?
+    extension = normalize_extension(extension)
+
+    temp_file_name = "#{blob.key}-#{blob.filename.base}"
+    temp_file_name = "#{temp_file_name}.#{extension}" if extension.present?
 
     temp_file_path = File.join(temp_dir, temp_file_name)
 
@@ -126,5 +133,11 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       'x-wav' => 'wav',
       'x-mp3' => 'mp3'
     }.fetch(subtype, subtype)
+  end
+
+  def normalize_extension(extension)
+    return extension if extension.blank?
+
+    EXTENSION_REMAP.fetch(extension.to_s.downcase, extension)
   end
 end
