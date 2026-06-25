@@ -148,7 +148,9 @@ export default {
       this.$store.dispatch('conversation/toggleUserTyping', { typingStatus });
     },
     focusInput() {
-      this.$refs.chatInput.focus();
+      // The textarea ref is absent while recording/transcribing, and callers
+      // like the isWidgetOpen reopen watcher may still fire, so guard the ref.
+      this.$refs.chatInput?.focus();
     },
     startRecording() {
       this.isRecording = true;
