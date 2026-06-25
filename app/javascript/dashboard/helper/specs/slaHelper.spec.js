@@ -149,6 +149,24 @@ describe('#SLA Helpers', () => {
         expect(result.isSlaMissed).toBe(false);
       });
 
+      it.each(['pending', 'snoozed'])(
+        'returns RT status when conversation is %s and within threshold',
+        status => {
+          const appliedSla = { sla_rt_due_at: currentTimestamp + 7200 };
+          const chat = {
+            first_reply_created_at: currentTimestamp - 3600,
+            status,
+          };
+
+          const result = evaluateSLAStatus({ appliedSla, chat });
+
+          expect(result.type).toBe('RT');
+          expect(result.threshold).toBe('2h');
+          expect(result.icon).toBe('alarm');
+          expect(result.isSlaMissed).toBe(false);
+        }
+      );
+
       it('returns missed RT status when threshold is exceeded', () => {
         const appliedSla = { sla_rt_due_at: currentTimestamp - 3600 }; // 1 hour ago
         const chat = {

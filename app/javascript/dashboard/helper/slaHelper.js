@@ -80,8 +80,8 @@ export const evaluateSLAStatus = ({ appliedSla, chat }) => {
     });
   }
 
-  // Check RT - only if conversation is open
-  if (sla.slaRtDueAt && conversation.status === 'open') {
+  // Check RT - only if conversation is unresolved
+  if (sla.slaRtDueAt && conversation.status !== 'resolved') {
     const threshold = sla.slaRtDueAt - currentTime;
     slaStatuses.push({
       type: 'RT',
