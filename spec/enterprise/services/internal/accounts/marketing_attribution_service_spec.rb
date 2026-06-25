@@ -32,6 +32,15 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect(attribution['last_touch']['source']).to eq('github')
   end
 
+  it 'enqueues signup conversion tracking after storing attribution' do
+    cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie('source' => 'github')
+
+    expect do
+      described_class.new(account: account, cookies: cookies).perform
+    end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
+      .with(account.id, 'cloud_signup', account.created_at)
+  end
+
   it 'does not store attribution outside Chatwoot Cloud' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
     cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie('source' => 'reddit')
