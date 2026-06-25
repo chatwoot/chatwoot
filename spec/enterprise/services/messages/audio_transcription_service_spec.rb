@@ -108,8 +108,6 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
     let(:audio_file_path) { Rails.root.join('tmp/audio_transcription_service_spec.mp3').to_s }
 
     before do
-      account.update!(captain_models: { 'audio_transcription' => 'whisper-1' })
-      message.account.reload
       File.binwrite(audio_file_path, 'audio')
       allow(service).to receive(:fetch_audio_file).and_return(audio_file_path)
       allow(service).to receive(:update_transcription)
