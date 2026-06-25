@@ -43,7 +43,7 @@ RSpec.describe 'Enterprise Accounts API', type: :request do
                as: :json
         end
       end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-        .with(account.id, 'cloud_signup', account.created_at.iso8601)
+        .with(account.id, 'cloud_signup')
 
       attribution = account.reload.internal_attributes['marketing_attribution']
       expect(attribution['captured_from']).to eq('cookie')
