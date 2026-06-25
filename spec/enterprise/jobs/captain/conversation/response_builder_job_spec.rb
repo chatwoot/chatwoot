@@ -12,6 +12,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
     let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
+    let(:assistant_model) { Llm::Models.default_model_for('assistant') }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -82,7 +83,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           ).and_return({
                          'decision' => 'safe',
                          'reason' => 'safe_response',
-                         'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                         'model' => assistant_model
                        })
 
           described_class.perform_now(conversation, assistant)
@@ -103,12 +104,12 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
               {
                 'decision' => 'future_work_promise',
                 'reason' => 'future_check_or_investigation',
-                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                'model' => assistant_model
               },
               {
                 'decision' => 'safe',
                 'reason' => 'asks_user_to_check_or_provide_info',
-                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                'model' => assistant_model
               }
             )
 
@@ -143,7 +144,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           allow(mock_false_promise_service).to receive(:detect).and_return({
                                                                              'decision' => 'future_work_promise',
                                                                              'reason' => 'future_check_or_investigation',
-                                                                             'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                                                                             'model' => assistant_model
                                                                            })
 
           described_class.perform_now(conversation, assistant)
@@ -165,13 +166,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
               {
                 'decision' => 'future_work_promise',
                 'reason' => 'future_check_or_investigation',
-                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                'model' => assistant_model
               },
               {
                 'decision' => nil,
                 'reason' => nil,
                 'error' => 'verification timeout',
-                'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                'model' => assistant_model
               }
             )
 
@@ -192,7 +193,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           allow(mock_false_promise_service).to receive(:detect).and_return({
                                                                              'decision' => 'future_work_promise',
                                                                              'reason' => 'future_check_or_investigation',
-                                                                             'model' => Captain::Llm::AssistantFalsePromiseService::DETECTOR_MODEL
+                                                                             'model' => assistant_model
                                                                            })
 
           described_class.perform_now(conversation, assistant)

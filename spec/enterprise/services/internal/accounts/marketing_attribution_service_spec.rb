@@ -38,7 +38,7 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     expect do
       described_class.new(account: account, cookies: cookies).perform
     end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-      .with(account.id, 'cloud_signup', account.created_at.iso8601)
+      .with(account.id, 'cloud_signup', account.created_at)
   end
 
   it 'does not store attribution outside Chatwoot Cloud' do

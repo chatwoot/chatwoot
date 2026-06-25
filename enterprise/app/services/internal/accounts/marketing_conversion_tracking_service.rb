@@ -58,7 +58,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   def conversion_payload
     payload = {
       transactionId: "#{event_name}-account-#{account.id}",
-      eventTimestamp: (occurred_at.present? ? Time.zone.parse(occurred_at.to_s) : Time.current).iso8601,
+      eventTimestamp: event_timestamp.iso8601,
       eventSource: 'WEB',
       adIdentifiers: click_attributes
     }
@@ -76,6 +76,10 @@ class Internal::Accounts::MarketingConversionTrackingService
       value = attribution[field]
       [field.to_sym, value] if value.present?
     end.to_h
+  end
+
+  def event_timestamp
+    occurred_at || Time.current
   end
 
   def attribution
