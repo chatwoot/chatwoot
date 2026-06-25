@@ -49,7 +49,7 @@ const unreadMessagesCount = computed(() => {
 
 const hasSlaThreshold = computed(() => {
   return (
-    slaCardLabelRef.value?.hasSlaThreshold && props.conversation?.slaPolicyId
+    slaCardLabelRef.value?.hasSlaThreshold && props.conversation?.appliedSla?.id
   );
 });
 

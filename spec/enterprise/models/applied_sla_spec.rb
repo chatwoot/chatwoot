@@ -34,4 +34,18 @@ RSpec.describe AppliedSla, type: :model do
       expect(applied_sla.sla_status).to eq 'active'
     end
   end
+
+  describe '.with_sla_applicable_conversation' do
+    it 'excludes blocked contacts and keeps conversations with missing contacts' do
+      applied_sla = create(:applied_sla)
+      blocked_applied_sla = create(:applied_sla)
+      missing_contact_applied_sla = create(:applied_sla)
+
+      blocked_applied_sla.conversation.contact.update!(blocked: true)
+      missing_contact_applied_sla.conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+
+      expect(described_class.with_sla_applicable_conversation).to include(applied_sla, missing_contact_applied_sla)
+      expect(described_class.with_sla_applicable_conversation).not_to include(blocked_applied_sla)
+    end
+  end
 end

@@ -19,6 +19,29 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   end
   let!(:applied_sla) { conversation.applied_sla }
 
+  describe '#perform - blocked contacts' do
+    before do
+      applied_sla.sla_policy.update(first_response_time_threshold: 1.hour, resolution_time_threshold: 1.hour)
+      conversation.contact.update!(blocked: true)
+    end
+
+    it 'does not create SLA events or update SLA status' do
+      described_class.new(applied_sla: applied_sla).perform
+
+      expect(SlaEvent.where(applied_sla: applied_sla)).not_to exist
+      expect(applied_sla.reload.sla_status).to eq('active')
+    end
+
+    it 'does not mark resolved conversations as hit or missed' do
+      conversation.resolved!
+
+      described_class.new(applied_sla: applied_sla).perform
+
+      expect(SlaEvent.where(applied_sla: applied_sla)).not_to exist
+      expect(applied_sla.reload.sla_status).to eq('active')
+    end
+  end
+
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
       before { applied_sla.sla_policy.update(first_response_time_threshold: 1.hour) }

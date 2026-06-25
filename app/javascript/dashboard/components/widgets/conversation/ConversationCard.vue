@@ -57,7 +57,7 @@ const showMetaSection = computed(() => {
   );
 });
 
-const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+const hasSlaPolicyId = computed(() => props.chat?.applied_sla?.id);
 
 const showLabelsSection = computed(() => {
   return props.chat.labels?.length > 0 || hasSlaPolicyId.value;

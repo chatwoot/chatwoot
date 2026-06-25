@@ -1,4 +1,4 @@
-if conversation.account.feature_enabled?('sla')
+if conversation.account.feature_enabled?('sla') && conversation.sla_applicable?
   json.applied_sla do
     json.partial! 'api/v1/models/applied_sla', formats: [:json], resource: conversation.applied_sla if conversation.applied_sla.present?
   end
