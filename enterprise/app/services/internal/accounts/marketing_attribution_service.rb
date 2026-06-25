@@ -82,6 +82,6 @@ class Internal::Accounts::MarketingAttributionService
   end
 
   def enqueue_signup_conversion
-    Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup')
+    Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup', account.created_at)
   end
 end
