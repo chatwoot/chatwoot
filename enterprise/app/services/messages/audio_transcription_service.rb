@@ -1,14 +1,13 @@
 class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
-  TRANSCRIPTION_MODEL = 'whisper-1'.freeze
   # OpenAI's transcription endpoint hard limit is 25 MB *decimal* (25_000_000), not
   # binary (25.megabytes = 26_214_400) — using the binary form leaks the 25.0–26.2 MB
   # range to the API as 413s. Long audio (~70+ min Opus) keeps the attachment but skips
   # transcription.
   TRANSCRIPTION_BYTE_LIMIT = 25_000_000
 
-  attr_reader :attachment, :message, :account
+  attr_reader :attachment, :message, :account, :transcription_model
 
   def initialize(attachment)
     super()
@@ -127,9 +126,5 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       'x-wav' => 'wav',
       'x-mp3' => 'mp3'
     }.fetch(subtype, subtype)
-  end
-
-  def transcription_model
-    @transcription_model || TRANSCRIPTION_MODEL
   end
 end

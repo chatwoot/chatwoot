@@ -31,7 +31,7 @@ RSpec.describe Llm::BaseAiService do
     end
 
     it 'uses the feature default when feature context has no account override or installation model' do
-      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.1')
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq(Llm::Models.default_model_for('assistant'))
     end
   end
 
