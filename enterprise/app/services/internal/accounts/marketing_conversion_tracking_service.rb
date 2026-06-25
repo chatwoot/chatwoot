@@ -4,6 +4,16 @@ require 'googleauth'
 
 class Internal::Accounts::MarketingConversionTrackingService
   CONFIG_KEY = 'MARKETING_CONVERSION_TRACKING_CONFIG'
+  # Expected config shape:
+  # {
+  #   "customer_id": "123-456-7890",
+  #   "login_customer_id": "123-456-7890",
+  #   "service_account_credentials": { ... },
+  #   "events": {
+  #     "cloud_signup": { "conversion_action_id": "123456789" },
+  #     "cloud_plan_activation": { "conversion_action_id": "987654321" }
+  #   }
+  # }
   TOKEN_SCOPES = ['https://www.googleapis.com/auth/datamanager'].freeze
   API_URL = 'https://datamanager.googleapis.com/v1/events:ingest'
   CLICK_ID_FIELDS = %w[gclid gbraid wbraid].freeze
