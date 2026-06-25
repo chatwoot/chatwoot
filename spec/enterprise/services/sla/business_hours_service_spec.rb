@@ -123,6 +123,17 @@ RSpec.describe Sla::BusinessHoursService do
 
         expect(service.deadline.to_i).to eq(saturday_12pm.to_i)
       end
+
+      it 'includes the final minute in the business-time window' do
+        inbox.working_hours.find_by(day_of_week: 6).update!(open_all_day: true, closed_all_day: false)
+
+        saturday_midnight = Time.zone.parse('2024-01-20 00:00:00')
+        sunday_midnight = Time.zone.parse('2024-01-21 00:00:00')
+
+        service = described_class.new(inbox: inbox, start_time: saturday_midnight, threshold_seconds: 24.hours)
+
+        expect(service.deadline.to_i).to eq(sunday_midnight.to_i)
+      end
     end
 
     context 'when days have different business hours' do
