@@ -83,7 +83,8 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
-    return unless paid_plan_activation?(previous_plan_name, current_plan_name)
+    default_plan = cloud_plans.first['name']
+    return unless previous_plan_name == default_plan && current_plan_name != default_plan
     return if account.internal_attributes['marketing_attribution'].blank?
     return if Time.zone.at(subscription.created) > account.created_at + 30.days
 
@@ -94,11 +95,6 @@ class Enterprise::Billing::HandleStripeEventService
       subscription_amount,
       subscription_currency
     )
-  end
-
-  def paid_plan_activation?(previous_plan_name, current_plan_name)
-    default_plan = cloud_plans.first['name']
-    previous_plan_name == default_plan && current_plan_name != default_plan
   end
 
   def process_subscription_deleted
