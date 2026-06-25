@@ -34,28 +34,20 @@ class Internal::Accounts::MarketingConversionTrackingService
     )
 
     raise "Marketing conversion upload failed: #{response.body}" unless response.success?
-
-    parsed_response = response.parsed_response || {}
-    raise "Marketing conversion upload response missing request ID: #{response.body}" if parsed_response['requestId'].blank?
   end
 
   def destination_payload
-    payload = {
+    {
       operatingAccount: {
         accountType: 'GOOGLE_ADS',
         accountId: customer_id
       },
-      productDestinationId: conversion_action_id
-    }
-
-    if login_customer_id.present?
-      payload[:loginAccount] = {
+      loginAccount: {
         accountType: 'GOOGLE_ADS',
         accountId: login_customer_id
-      }
-    end
-
-    payload
+      },
+      productDestinationId: conversion_action_id
+    }
   end
 
   def conversion_payload
@@ -141,7 +133,7 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def login_customer_id
-    config['login_customer_id'].to_s.delete('-')
+    config['login_customer_id'].delete('-')
   end
 
   def conversion_action_id
