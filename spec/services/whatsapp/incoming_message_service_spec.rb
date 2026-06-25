@@ -6,6 +6,14 @@ describe Whatsapp::IncomingMessageService do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
     end
 
+    after do
+      # The atomic dedup lock lives in Redis and is not rolled back by
+      # transactional fixtures. Clean up any keys created during the test.
+      Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') do |key|
+        Redis::Alfred.delete(key)
+      end
+    end
+
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
     let(:wa_id) { '2423423243' }
     let!(:params) do
@@ -78,6 +86,110 @@ describe Whatsapp::IncomingMessageService do
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.messages.count).to eq(1)
       end
+
+      it 'creates a contact and conversation when only BSUID is present' do
+        params = {
+          'contacts' => [{
+            'profile' => { 'name' => 'Muhsin', 'username' => 'muhsin' },
+            'user_id' => 'IN.2081978709342942',
+            'parent_user_id' => 'IN.ENT.9081726354'
+          }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'from_parent_user_id' => 'IN.ENT.9081726354',
+            'id' => 'wamid.bsuid-only-message',
+            'text' => { 'body' => 'testing bsuid' },
+            'timestamp' => '1778579582',
+            'type' => 'text'
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+        contact = contact_inbox.contact
+        parent_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.ENT.9081726354')
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('testing bsuid')
+        expect(contact).to have_attributes(name: 'Muhsin', phone_number: nil)
+        expect(contact.additional_attributes).to include(
+          'social_whatsapp_user_name' => 'muhsin',
+          'social_profiles' => { 'whatsapp' => 'muhsin' }
+        )
+        expect(parent_contact_inbox.contact).to eq(contact)
+      end
+
+      it 'links phone and BSUID source ids to the same contact' do
+        phone_with_bsuid_params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257', 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from' => '919745786257',
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.phone-bsuid-message',
+            'text' => { 'body' => 'phone and bsuid' },
+            'timestamp' => '1778579582',
+            'type' => 'text'
+          }]
+        }.with_indifferent_access
+        bsuid_only_params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.bsuid-follow-up-message',
+            'text' => { 'body' => 'bsuid only' },
+            'timestamp' => '1778579583',
+            'type' => 'text'
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+        contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform }.not_to raise_error
+        expect(whatsapp_channel.inbox.contact_inboxes.count).to eq(2)
+        expect(whatsapp_channel.inbox.messages.pluck(:content)).to contain_exactly('phone and bsuid', 'bsuid only')
+        expect(bsuid_contact_inbox.contact).to eq(contact_inbox.contact)
+      end
+
+      it 'backfills contact phone number when a phone arrives after BSUID-only creation' do
+        bsuid_only_params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.bsuid-first-message',
+            'text' => { 'body' => 'bsuid first' },
+            'timestamp' => '1778579582',
+            'type' => 'text'
+          }]
+        }.with_indifferent_access
+        phone_with_bsuid_params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Muhsin' }, 'wa_id' => '919745786257', 'user_id' => 'IN.2081978709342942' }],
+          'messages' => [{
+            'from' => '919745786257',
+            'from_user_id' => 'IN.2081978709342942',
+            'id' => 'wamid.phone-follow-up-message',
+            'text' => { 'body' => 'phone follow up' },
+            'timestamp' => '1778579583',
+            'type' => 'text'
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: bsuid_only_params).perform
+        bsuid_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: 'IN.2081978709342942')
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: phone_with_bsuid_params).perform
+
+        phone_contact_inbox = whatsapp_channel.inbox.contact_inboxes.find_by!(source_id: '919745786257')
+        expect(phone_contact_inbox.contact).to eq(bsuid_contact_inbox.contact)
+        expect(bsuid_contact_inbox.contact.reload.phone_number).to eq('+919745786257')
+      end
+
+      it 'keeps cloud BSUID source ids in the Meta-provided shape' do
+        service = described_class.new(inbox: whatsapp_channel.inbox, params: params)
+
+        expect(service.send(:whatsapp_source_id, 'whatsapp:IN.2081978709342942')).to eq('whatsapp:IN.2081978709342942')
+      end
     end
 
     context 'when unsupported message types' do
@@ -94,7 +206,7 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
 
-      it 'ignores type unsupported and does not create ghost conversation' do
+      it 'stores type unsupported as a placeholder message so the conversation is not headless' do
         params = {
           'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
           'messages' => [{
@@ -105,9 +217,12 @@ describe Whatsapp::IncomingMessageService do
         }.with_indifferent_access
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect(whatsapp_channel.inbox.conversations.count).to eq(0)
-        expect(Contact.count).to eq(0)
-        expect(whatsapp_channel.inbox.messages.count).to eq(0)
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(Contact.count).to eq(1)
+        expect(whatsapp_channel.inbox.messages.count).to eq(1)
+        message = whatsapp_channel.inbox.messages.last
+        expect(message.content).to eq('This message is unavailable.')
+        expect(message.content_attributes['is_unsupported']).to be(true)
       end
     end
 
@@ -135,6 +250,24 @@ describe Whatsapp::IncomingMessageService do
         expect(message.status).to eq('sent')
         described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
         expect(message.reload.status).to eq('read')
+      end
+
+      it 'stores BSUID source ids from status contacts' do
+        bsuid = 'IN.2081978709342942'
+        parent_bsuid = 'IN.ENT.9081726354'
+        status_params = {
+          'contacts' => [{ 'wa_id' => from, 'user_id' => bsuid, 'parent_user_id' => parent_bsuid }],
+          'statuses' => [{ 'recipient_id' => from, 'id' => from, 'status' => 'delivered' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: status_params).perform
+
+        source_rows = whatsapp_channel.inbox.contact_inboxes.where(source_id: [from, bsuid, parent_bsuid]).pluck(:source_id, :contact_id)
+        expect(source_rows).to contain_exactly(
+          [from, contact_inbox.contact_id],
+          [bsuid, contact_inbox.contact_id],
+          [parent_bsuid, contact_inbox.contact_id]
+        )
       end
 
       it 'update status message to failed' do
@@ -248,6 +381,32 @@ describe Whatsapp::IncomingMessageService do
         expect(location_attachment.coordinates_long).to eq(-122.3895553)
         expect(location_attachment.external_url).to eq('http://location_url.test')
       end
+
+      it 'truncates long fallback titles to avoid dropping location messages' do
+        long_place_name = [
+          'Gremi de Fusters, 33, Edificio VIP Asima, Piso 2, Local 2, Norte',
+          '07009 Poligon industrial de Son Castello, Illes Balears, Espana'
+        ].join(', ')
+        source_id = 'wamid.long-location-fallback-title'
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => '2423423243' }],
+          'messages' => [{ 'from' => '2423423243', 'id' => source_id,
+                           'location' => { 'id' => 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                                           :address => long_place_name,
+                                           :latitude => 37.7893768,
+                                           :longitude => -122.3895553,
+                                           :name => long_place_name,
+                                           :url => 'http://location_url.test' },
+                           'timestamp' => '1633034394', 'type' => 'location' }]
+        }.with_indifferent_access
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: params).perform }
+          .to change { Message.where(source_id: source_id).count }.from(0).to(1)
+
+        location_attachment = Message.find_by!(source_id: source_id).attachments.first
+        expect(location_attachment.fallback_title).to eq("#{long_place_name}, #{long_place_name}".first(255))
+        expect(location_attachment.fallback_title.length).to eq(255)
+      end
     end
 
     context 'when valid contact message params' do
@@ -267,19 +426,16 @@ describe Whatsapp::IncomingMessageService do
                                     ] }] }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(Contact.all.first.name).to eq('Kedar')
-
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
 
-        # Two messages are tested deliberately to ensure multiple contact attachments work.
         m1 = whatsapp_channel.inbox.messages.first
-        contact_attachments = m1.attachments.first
         expect(m1.content).to eq('Apple Inc.')
-        expect(contact_attachments.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.fallback_title).to eq('+911800')
+        expect(m1.attachments.first.meta).to eq({})
 
         m2 = whatsapp_channel.inbox.messages.last
-        contact_attachments = m2.attachments.first
         expect(m2.content).to eq('Chatwoot')
-        expect(contact_attachments.fallback_title).to eq('+1 (415) 341-8386')
+        expect(m2.attachments.first.meta).to eq({ 'firstName' => 'Chatwoot' })
       end
     end
 
@@ -344,8 +500,60 @@ describe Whatsapp::IncomingMessageService do
       end
     end
 
-    describe 'when message processing is in progress' do
-      it 'ignores the current message creation request' do
+    describe 'When the incoming waid is an Argentine number with 9 after country code' do
+      let(:wa_id) { '5491123456789' }
+
+      it 'creates appropriate conversations, message and contacts if contact does not exist' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+      end
+
+      it 'appends to existing contact if contact inbox exists with normalized format' do
+        # Normalized format removes the 9 after country code
+        normalized_wa_id = '541123456789'
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: normalized_wa_id)
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        # no new conversation should be created
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        # message appended to the last conversation
+        expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        # should use the normalized wa_id from existing contact
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(normalized_wa_id)
+      end
+    end
+
+    describe 'When incoming waid is an Argentine number without 9 after country code' do
+      let(:wa_id) { '541123456789' }
+
+      context 'when a contact inbox exists with the same format' do
+        it 'appends to existing contact' do
+          contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: wa_id)
+          last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          # no new conversation should be created
+          expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+          # message appended to the last conversation
+          expect(last_conversation.messages.last.content).to eq(params[:messages].first[:text][:body])
+        end
+      end
+
+      context 'when a contact inbox does not exist' do
+        it 'creates contact inbox with the incoming waid' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+          expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+          expect(Contact.all.first.name).to eq('Sojan Jose')
+          expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
+          expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq(wa_id)
+        end
+      end
+    end
+
+    describe 'when another worker already holds the dedup lock' do
+      it 'skips message creation' do
         params = { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
                    'messages' => [{ 'from' => '919446284490',
                                     'id' => 'wamid.SDFADSf23sfasdafasdfa',
@@ -360,18 +568,110 @@ describe Whatsapp::IncomingMessageService do
                                         'phones' => [{ 'phone' => '+1 (415) 341-8386' }] }
                                     ] }] }.with_indifferent_access
 
-        expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
-        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
-
-        Redis::Alfred.setex(key, true)
-        expect(Redis::Alfred.get(key)).to be_truthy
+        # Simulate another worker holding the lock
+        lock = Whatsapp::MessageDedupLock.new('wamid.SDFADSf23sfasdafasdfa')
+        expect(lock.acquire!).to be_truthy
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
-        expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
-
-        expect(Redis::Alfred.get(key)).to be_truthy
+      ensure
+        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
         Redis::Alfred.delete(key)
+      end
+    end
+
+    context 'when profile name is available for contact updates' do
+      let(:wa_id) { '1234567890' }
+      let(:phone_number) { "+#{wa_id}" }
+
+      it 'updates existing contact name when current name matches phone number' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: phone_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Jane Smith' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Jane Smith')
+      end
+
+      it 'does not update contact name when current name is different from phone number' do
+        # Create contact with human name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: 'John Doe',
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Jane Smith' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('John Doe') # Should not change
+      end
+
+      it 'updates contact name when current name matches formatted phone number' do
+        formatted_number = TelephoneNumber.parse(phone_number).international_number
+
+        # Create contact with formatted phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: formatted_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Alice Johnson' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq('Alice Johnson')
+      end
+
+      it 'does not update when profile name is blank' do
+        # Create contact with phone number as name
+        existing_contact = create(:contact,
+                                  account: whatsapp_channel.inbox.account,
+                                  name: phone_number,
+                                  phone_number: phone_number)
+        create(:contact_inbox,
+               contact: existing_contact,
+               inbox: whatsapp_channel.inbox,
+               source_id: wa_id)
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => '' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'message123', 'text' => { 'body' => 'Hello' },
+                           'timestamp' => '1633034394', 'type' => 'text' }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        existing_contact.reload
+        expect(existing_contact.name).to eq(phone_number) # Should not change
       end
     end
   end

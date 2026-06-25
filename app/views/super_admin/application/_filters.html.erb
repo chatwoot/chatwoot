@@ -36,7 +36,7 @@ for a collection of resources.
         </svg>
       </div>
       <div class="flex-1 h-full min-w-0 relative">
-        <select id="filter-select" class="appearance-none bg-gray-100 border-0 text-gray-700 cursor-pointer text-sm h-full overflow-hidden truncate whitespace-nowrap w-full pr-7 pl-0 py-2 focus:outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23293f54%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
+        <select id="filter-select" class="appearance-none bg-transparent border-0 text-gray-700 cursor-pointer text-sm h-full overflow-hidden truncate whitespace-nowrap w-full pr-7 pl-0 py-2 focus:outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23293f54%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
           <option value="">All records</option>
           <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
             <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>

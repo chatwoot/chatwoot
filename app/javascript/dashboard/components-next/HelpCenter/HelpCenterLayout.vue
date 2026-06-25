@@ -58,20 +58,20 @@ const togglePortalSwitcher = () => {
 </script>
 
 <template>
-  <section class="flex flex-col w-full h-full overflow-hidden bg-n-background">
-    <header class="sticky top-0 z-10 px-6 pb-3 lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto lg:px-6">
+  <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
+    <header class="sticky top-0 z-10 px-6 pb-3">
+      <div class="w-full max-w-5xl mx-auto">
         <div
           v-if="showHeaderTitle"
           class="flex items-center justify-start h-20 gap-2"
         >
           <span
             v-if="activePortalName"
-            class="text-xl font-medium text-n-slate-12"
+            class="min-w-0 text-xl font-medium truncate text-n-slate-12"
           >
             {{ activePortalName }}
           </span>
-          <div v-if="activePortalName" class="relative group">
+          <div v-if="activePortalName" class="relative shrink-0 group">
             <OnClickOutside @trigger="showPortalSwitcher = false">
               <Button
                 icon="i-lucide-chevron-down"
@@ -91,20 +91,24 @@ const togglePortalSwitcher = () => {
             </OnClickOutside>
             <CreatePortalDialog ref="createPortalDialogRef" />
           </div>
+          <div class="flex justify-end min-w-0 grow">
+            <slot name="title-actions" />
+          </div>
         </div>
         <slot name="header-actions" />
       </div>
     </header>
-    <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto py-3 lg:px-6">
+    <main class="flex-1 px-6 overflow-y-auto">
+      <div class="w-full max-w-5xl mx-auto py-3">
         <slot name="content" />
       </div>
     </main>
-    <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10 px-4 pb-4">
+    <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
       <PaginationFooter
         :current-page="currentPage"
         :total-items="totalItems"
         :items-per-page="itemsPerPage"
+        class="max-w-[67rem]"
         @update:current-page="updateCurrentPage"
       />
     </footer>

@@ -1,17 +1,37 @@
+// scss-lint:disable SpaceAfterPropertyColon
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 @import 'widget/assets/scss/reset';
 @import 'shared/assets/fonts/InterDisplay/inter-display';
+@import 'shared/assets/fonts/inter';
+@import 'dashboard/assets/scss/next-colors';
 
 html,
 body {
-  font-family: 'InterDisplay', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   height: 100%;
   letter-spacing: 0.2px;
+}
+
+.font-default {
+  font-family:
+    'InterDisplay',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif,
+    'Noto Sans',
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Noto Color Emoji';
 }
 
 // Taking these utils from tailwind 3.x.x, need to remove once we upgrade
@@ -33,4 +53,8 @@ body {
       visibility: visible;
     }
   }
+}
+
+.turbo-progress-bar {
+  background-color: var(--dynamic-portal-color);
 }

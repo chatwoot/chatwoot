@@ -49,35 +49,74 @@ describe('#getters', () => {
   });
 
   describe('isRTL', () => {
-    it('returns false when accountId is not present', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it('returns false when accountId is not present and userLocale is not set', () => {
+      const state = { records: [accountData] };
       const rootState = { route: { params: {} } };
-      expect(getters.isRTL({}, null, rootState)).toBe(false);
+      const rootGetters = {};
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(false);
     });
 
-    it('returns true for RTL language', () => {
-      const state = {
-        records: [{ id: 1, locale: 'ar' }],
-      };
-      const rootState = { route: { params: { accountId: '1' } } };
-      vi.spyOn(languageHelpers, 'getLanguageDirection').mockReturnValue(true);
-      expect(getters.isRTL(state, null, rootState)).toBe(true);
+    it('uses userLocale when present (no accountId)', () => {
+      const state = { records: [accountData] };
+      const rootState = { route: { params: {} } };
+      const rootGetters = { getUISettings: { locale: 'ar' } };
+      const spy = vi
+        .spyOn(languageHelpers, 'getLanguageDirection')
+        .mockReturnValue(true);
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(true);
+      expect(spy).toHaveBeenCalledWith('ar');
     });
 
-    it('returns false for LTR language', () => {
-      const state = {
-        records: [{ id: 1, locale: 'en' }],
-      };
+    it('prefers userLocale over account locale when both are present', () => {
+      const state = { records: [{ id: 1, locale: 'en' }] };
       const rootState = { route: { params: { accountId: '1' } } };
-      vi.spyOn(languageHelpers, 'getLanguageDirection').mockReturnValue(false);
-      expect(getters.isRTL(state, null, rootState)).toBe(false);
+      const rootGetters = { getUISettings: { locale: 'ar' } };
+      const spy = vi
+        .spyOn(languageHelpers, 'getLanguageDirection')
+        .mockReturnValue(true);
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(true);
+      expect(spy).toHaveBeenCalledWith('ar');
     });
 
-    it('returns false when account is not found', () => {
-      const state = {
-        records: [],
-      };
+    it('falls back to account locale when userLocale is not provided', () => {
+      const state = { records: [{ id: 1, locale: 'ar' }] };
       const rootState = { route: { params: { accountId: '1' } } };
-      expect(getters.isRTL(state, null, rootState)).toBe(false);
+      const rootGetters = {};
+      const spy = vi
+        .spyOn(languageHelpers, 'getLanguageDirection')
+        .mockReturnValue(true);
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(true);
+      expect(spy).toHaveBeenCalledWith('ar');
+    });
+
+    it('returns false for LTR language when userLocale is provided', () => {
+      const state = { records: [{ id: 1, locale: 'en' }] };
+      const rootState = { route: { params: { accountId: '1' } } };
+      const rootGetters = { getUISettings: { locale: 'en' } };
+      const spy = vi
+        .spyOn(languageHelpers, 'getLanguageDirection')
+        .mockReturnValue(false);
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(false);
+      expect(spy).toHaveBeenCalledWith('en');
+    });
+
+    it('returns false when accountId present but user locale is null', () => {
+      const state = { records: [{ id: 1, locale: 'en' }] };
+      const rootState = { route: { params: { accountId: '1' } } };
+      const rootGetters = { getUISettings: { locale: null } };
+      const spy = vi.spyOn(languageHelpers, 'getLanguageDirection');
+
+      expect(getters.isRTL(state, null, rootState, rootGetters)).toBe(false);
+      expect(spy).toHaveBeenCalledWith('en');
     });
   });
 });

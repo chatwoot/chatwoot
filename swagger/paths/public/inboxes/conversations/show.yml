@@ -3,12 +3,23 @@ tags:
 operationId: get-single-conversation
 summary: Get a single conversation
 description: Retrieves the details of a specific conversation
+security: []
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/public_conversation'
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/public_conversation'
+  '401':
     description: Unauthorized
-  404:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
     description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

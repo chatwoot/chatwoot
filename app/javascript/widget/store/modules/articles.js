@@ -23,6 +23,7 @@ export const actions = {
     commit('setError', false);
 
     try {
+      if (!locale) return;
       const cachedData = getFromCache(`${CACHE_KEY_PREFIX}${slug}_${locale}`);
       if (cachedData) {
         commit('setArticles', cachedData);

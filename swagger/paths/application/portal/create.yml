@@ -5,16 +5,22 @@ summary: Add a new portal
 description: Add a new portal to account
 security:
   - userApiKey: []
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      $ref: '#/definitions/portal_create_update_payload'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/portal_create_update_payload'
 responses:
   '200':
     description: Success
-    schema:
-      $ref: '#/definitions/portal'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/portal'
   '403':
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -17,7 +17,12 @@ class SlackUploadsController < ApplicationController
   end
 
   def blob_url
-    url_for(@blob.representation(resize_to_fill: [250, nil]))
+    # Only generate representations for images
+    if @blob.content_type.start_with?('image/')
+      url_for(@blob.representation(resize_to_fill: [250, nil]))
+    else
+      url_for(@blob)
+    end
   end
 
   def avatar_url

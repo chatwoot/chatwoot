@@ -6,7 +6,7 @@ class AgentNotifications::ConversationNotificationsMailer < ApplicationMailer
     @conversation = conversation
     subject = default_i18n_subject(
       agent_name: @agent.available_name, conversation_id: @conversation.display_id,
-      inbox_name: @conversation.inbox&.name,
+      inbox_name: @conversation.inbox&.sanitized_name,
       actor: t('.actor'),
       happened: t('.happened')
     )

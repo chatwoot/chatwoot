@@ -21,6 +21,7 @@ export const SENDER_TYPES = {
   CONTACT: 'Contact',
   USER: 'User',
   AGENT_BOT: 'agent_bot',
+  CAPTAIN_ASSISTANT: 'captain_assistant',
 };
 
 export const ORIENTATION = {
@@ -48,6 +49,10 @@ export const ATTACHMENT_TYPES = {
   STORY_MENTION: 'story_mention',
   CONTACT: 'contact',
   IG_REEL: 'ig_reel',
+  EMBED: 'embed',
+  IG_POST: 'ig_post',
+  IG_STORY: 'ig_story',
+  IG_STORY_REPLY: 'ig_story_reply',
 };
 
 export const CONTENT_TYPES = {
@@ -63,6 +68,7 @@ export const CONTENT_TYPES = {
   INPUT_CSAT: 'input_csat',
   INTEGRATIONS: 'integrations',
   STICKER: 'sticker',
+  VOICE_CALL: 'voice_call',
 };
 
 export const MEDIA_TYPES = [
@@ -71,3 +77,36 @@ export const MEDIA_TYPES = [
   ATTACHMENT_TYPES.AUDIO,
   ATTACHMENT_TYPES.IG_REEL,
 ];
+
+export const NON_FILE_TYPES = [
+  ATTACHMENT_TYPES.LOCATION,
+  ATTACHMENT_TYPES.FALLBACK,
+  ATTACHMENT_TYPES.CONTACT,
+];
+
+export const VOICE_CALL_STATUS = {
+  IN_PROGRESS: 'in-progress',
+  RINGING: 'ringing',
+  COMPLETED: 'completed',
+  NO_ANSWER: 'no-answer',
+  FAILED: 'failed',
+  REJECTED: 'rejected',
+};
+
+export const VOICE_CALL_DIRECTION = {
+  INBOUND: 'inbound',
+  INCOMING: 'incoming',
+  OUTGOING: 'outgoing',
+  ONGOING: 'ongoing',
+  OUTBOUND: 'outbound',
+};
+
+export const VOICE_CALL_OUTBOUND_INIT_STATUS = {
+  LOCKED: 'locked',
+  PERMISSION_REQUESTED: 'permission_requested',
+  PERMISSION_PENDING: 'permission_pending',
+};
+
+export const VOICE_CALL_END_REASON = {
+  AGENT_REJECTED: 'agent_rejected',
+};

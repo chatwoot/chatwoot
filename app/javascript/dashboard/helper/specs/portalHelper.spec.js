@@ -1,4 +1,8 @@
-import { buildPortalArticleURL, buildPortalURL } from '../portalHelper';
+import {
+  buildLocaleMenuItems,
+  buildPortalArticleURL,
+  buildPortalURL,
+} from '../portalHelper';
 
 describe('PortalHelper', () => {
   describe('buildPortalURL', () => {
@@ -66,6 +70,44 @@ describe('PortalHelper', () => {
       expect(
         buildPortalArticleURL('handbook', 'culture', 'fr', 'article-slug')
       ).toEqual('https://app.chatwoot.com/hc/handbook/articles/article-slug');
+    });
+  });
+
+  describe('buildLocaleMenuItems', () => {
+    it('disables other actions but keeps customize enabled for the default locale', () => {
+      const items = buildLocaleMenuItems({ isDefault: true, isDraft: false });
+      const customize = items.find(item => item.action === 'customize-content');
+
+      expect(customize).toBeTruthy();
+      expect(customize.disabled).toBeFalsy();
+      expect(
+        items
+          .filter(item => item.action !== 'customize-content')
+          .every(item => item.disabled)
+      ).toBe(true);
+    });
+
+    it('returns publish, customize, and delete actions for draft locales', () => {
+      expect(
+        buildLocaleMenuItems({
+          isDefault: false,
+          isDraft: true,
+        }).map(({ action }) => action)
+      ).toEqual(['publish-locale', 'customize-content', 'delete']);
+    });
+
+    it('returns default, draft, customize, and delete actions for live locales', () => {
+      expect(
+        buildLocaleMenuItems({
+          isDefault: false,
+          isDraft: false,
+        }).map(({ action }) => action)
+      ).toEqual([
+        'change-default',
+        'move-to-draft',
+        'customize-content',
+        'delete',
+      ]);
     });
   });
 });

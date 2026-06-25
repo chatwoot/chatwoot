@@ -10,7 +10,25 @@ RSpec.describe Article do
     it { is_expected.to validate_presence_of(:account_id) }
     it { is_expected.to validate_presence_of(:author_id) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:content) }
+
+    it 'validates content presence only for published articles' do
+      article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                title: 'test', content: nil, status: :draft)
+      expect(article).to be_valid
+
+      article.status = :published
+      expect(article).not_to be_valid
+      expect(article.errors[:content]).to include("can't be blank")
+    end
+
+    it 'rejects reserved slugs that collide with help center routes' do
+      Article::RESERVED_SLUGS.each do |reserved_slug|
+        article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                  title: reserved_slug, slug: reserved_slug, content: 'content')
+        expect(article).not_to be_valid
+        expect(article.errors[:slug]).to include('is reserved')
+      end
+    end
   end
 
   describe 'associations' do
@@ -165,6 +183,28 @@ RSpec.describe Article do
                                    author_id: user.id)
         expect(article.slug).to include('the-awesome-article-1')
       end
+    end
+  end
+
+  describe '#to_llm_text' do
+    it 'returns formatted article text' do
+      category = create(:category, name: 'Test Category', slug: 'test_category', portal_id: portal_1.id)
+      article = create(:article, title: 'Test Article', category_id: category.id, content: 'This is the content', portal_id: portal_1.id,
+                                 author_id: user.id)
+      expected_output = <<~TEXT
+        Title: #{article.title}
+        ID: #{article.id}
+        Status: #{article.status}
+        Category: #{category.name}
+        Author: #{user.name}
+        Views: #{article.views}
+        Created At: #{article.created_at}
+        Updated At: #{article.updated_at}
+        Content:
+        #{article.content}
+      TEXT
+
+      expect(article.to_llm_text).to eq(expected_output)
     end
   end
 end

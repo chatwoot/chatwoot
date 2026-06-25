@@ -1,5 +1,31 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
+  include PortalHomeData
+
+  GLOBAL_CONFIG_KEYS = %w[
+    LOGO
+    LOGO_DARK
+    LOGO_THUMBNAIL
+    INSTALLATION_NAME
+    WIDGET_BRAND_URL
+    TERMS_URL
+    BRAND_URL
+    BRAND_NAME
+    PRIVACY_URL
+    DISPLAY_MANIFEST
+    CREATE_NEW_ACCOUNT_FROM_DASHBOARD
+    CHATWOOT_INBOX_TOKEN
+    API_CHANNEL_NAME
+    API_CHANNEL_THUMBNAIL
+    CLOUD_ANALYTICS_TOKEN
+    DIRECT_UPLOADS_ENABLED
+    MAXIMUM_FILE_UPLOAD_SIZE
+    HCAPTCHA_SITE_KEY
+    LOGOUT_REDIRECT_LINK
+    DISABLE_USER_PROFILE_UPDATE
+    DEPLOYMENT_ENV
+    INSTALLATION_PRICING_PLAN
+  ].freeze
 
   before_action :set_application_pack
   before_action :set_global_config
@@ -15,29 +41,11 @@ class DashboardController < ActionController::Base
   private
 
   def ensure_html_format
-    head :not_acceptable unless request.format.html?
+    render json: { error: 'Please use API routes instead of dashboard routes for JSON requests' }, status: :not_acceptable if request.format.json?
   end
 
   def set_global_config
-    @global_config = GlobalConfig.get(
-      'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
-      'INSTALLATION_NAME',
-      'WIDGET_BRAND_URL', 'TERMS_URL',
-      'BRAND_URL', 'BRAND_NAME',
-      'PRIVACY_URL',
-      'DISPLAY_MANIFEST',
-      'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',
-      'CHATWOOT_INBOX_TOKEN',
-      'API_CHANNEL_NAME',
-      'API_CHANNEL_THUMBNAIL',
-      'ANALYTICS_TOKEN',
-      'DIRECT_UPLOADS_ENABLED',
-      'HCAPTCHA_SITE_KEY',
-      'LOGOUT_REDIRECT_LINK',
-      'DISABLE_USER_PROFILE_UPDATE',
-      'DEPLOYMENT_ENV',
-      'INSTALLATION_PRICING_PLAN'
-    ).merge(app_config)
+    @global_config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
   end
 
   def set_dashboard_scripts
@@ -56,6 +64,10 @@ class DashboardController < ActionController::Base
     return unless @portal
 
     @locale = @portal.default_locale
+    if @portal.layout == 'documentation'
+      request.variant = :documentation
+      load_home_data
+    end
     render 'public/api/v1/portals/show', layout: 'portal', portal: @portal and return
   end
 
@@ -66,11 +78,29 @@ class DashboardController < ActionController::Base
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),
       INSTAGRAM_APP_ID: GlobalConfigService.load('INSTAGRAM_APP_ID', ''),
-      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v17.0'),
+      TIKTOK_APP_ID: GlobalConfigService.load('TIKTOK_APP_ID', ''),
+      FACEBOOK_API_VERSION: GlobalConfigService.load('FACEBOOK_API_VERSION', 'v18.0'),
+      WHATSAPP_APP_ID: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
+      WHATSAPP_CONFIGURATION_ID: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
-      GIT_SHA: GIT_HASH
+      GIT_SHA: GIT_HASH,
+      ALLOWED_LOGIN_METHODS: allowed_login_methods,
+      ACTIVE_PLATFORM_BANNERS: active_platform_banners
     }
+  end
+
+  def active_platform_banners
+    return [] unless ChatwootApp.chatwoot_cloud?
+
+    PlatformBanner.active.order(created_at: :desc).as_json(only: %i[id banner_message banner_type updated_at])
+  end
+
+  def allowed_login_methods
+    methods = ['email']
+    methods << 'google_oauth' if GlobalConfigService.load('ENABLE_GOOGLE_OAUTH_LOGIN', 'true').to_s != 'false'
+    methods << 'saml' if ChatwootHub.pricing_plan != 'community' && GlobalConfigService.load('ENABLE_SAML_SSO_LOGIN', 'true').to_s != 'false'
+    methods
   end
 
   def set_application_pack

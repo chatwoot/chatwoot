@@ -185,6 +185,7 @@ watch(
               "
               trailing-icon
               :disabled="disabled"
+              type="button"
               class="!h-[1.875rem] top-1 ltr:ml-px rtl:mr-px !px-2 outline-0 !outline-none !rounded-lg border-0 ltr:!rounded-r-none rtl:!rounded-l-none"
               @click="toggleCountryDropdown"
             >
@@ -208,7 +209,7 @@ watch(
         v-if="showDropdown"
         :menu-items="filteredCountries"
         show-search
-        class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-52"
+        class="z-[100] w-48 mt-2 ltr:left-0 rtl:right-0 top-full max-h-52"
         @action="onSelectCountry"
       />
     </div>

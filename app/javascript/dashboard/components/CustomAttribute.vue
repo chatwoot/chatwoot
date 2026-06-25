@@ -49,12 +49,12 @@ export default {
       if (this.isAttributeTypeDate) {
         return this.value
           ? new Date(this.value || new Date()).toLocaleDateString()
-          : '';
+          : '---';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
-      return this.value;
+      return this.hasValue ? this.value : '---';
     },
     formattedValue() {
       return this.isAttributeTypeDate
@@ -83,6 +83,9 @@ export default {
     isAttributeTypeDate() {
       return this.attributeType === 'date';
     },
+    hasValue() {
+      return this.value !== null && this.value !== '';
+    },
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
     },
@@ -99,13 +102,14 @@ export default {
       return this.v$.editedValue.$error;
     },
     errorMessage() {
-      if (this.v$.editedValue.url) {
+      if (this.v$.editedValue.url?.$invalid) {
         return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
       }
-      if (!this.v$.editedValue.regexValidation) {
-        return this.regexCue
-          ? this.regexCue
-          : this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT');
+      if (this.v$.editedValue.regexValidation?.$invalid) {
+        return (
+          this.regexCue ||
+          this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT')
+        );
       }
       return this.$t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
     },
@@ -131,9 +135,12 @@ export default {
       editedValue: {
         required,
         regexValidation: value => {
-          return !(
-            this.attributeRegex && !getRegexp(this.attributeRegex).test(value)
-          );
+          if (!this.attributeRegex || !value) return true;
+          try {
+            return getRegexp(this.attributeRegex).test(value);
+          } catch {
+            return false;
+          }
         },
       },
     };
@@ -223,7 +230,7 @@ export default {
             />
           </span>
           <NextButton
-            v-if="showActions && value"
+            v-if="showActions && hasValue"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             slate
             sm
@@ -281,13 +288,13 @@ export default {
           v-else
           class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
-          {{ displayValue || '---' }}
+          {{ displayValue }}
         </p>
         <div
           class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0"
         >
           <NextButton
-            v-if="showActions && value"
+            v-if="showActions && hasValue"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             xs
             slate
@@ -332,17 +339,15 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .selector-wrap {
-    @apply m-0 top-1;
+:deep(.selector-wrap) {
+  @apply m-0 top-1;
 
-    .selector-name {
-      @apply ml-0;
-    }
-  }
-
-  .name {
+  .selector-name {
     @apply ml-0;
   }
+}
+
+:deep(.name) {
+  @apply ml-0;
 }
 </style>

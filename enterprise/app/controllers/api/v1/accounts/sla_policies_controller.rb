@@ -6,18 +6,18 @@ class Api::V1::Accounts::SlaPoliciesController < Api::V1::Accounts::EnterpriseAc
     @sla_policies = Current.account.sla_policies
   end
 
+  def show; end
+
   def create
     @sla_policy = Current.account.sla_policies.create!(permitted_params)
   end
-
-  def show; end
 
   def update
     @sla_policy.update!(permitted_params)
   end
 
   def destroy
-    @sla_policy.destroy!
+    ::DeleteObjectJob.perform_later(@sla_policy, Current.user, request.ip) if @sla_policy.present?
     head :ok
   end
 

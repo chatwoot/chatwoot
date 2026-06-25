@@ -1,32 +1,27 @@
-<script>
+<script setup>
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
-import MenuItem from './MenuItem.vue';
+import MenuItem from 'dashboard/components/widgets/conversation/contextMenu/menuItem.vue';
 
-export default {
-  components: {
-    MenuItem,
-    ContextMenu,
+defineProps({
+  contextMenuPosition: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    contextMenuPosition: {
-      type: Object,
-      default: () => ({}),
-    },
-    menuItems: {
-      type: Array,
-      default: () => [],
-    },
+  menuItems: {
+    type: Array,
+    default: () => [],
   },
-  emits: ['close', 'selectAction'],
-  methods: {
-    handleClose() {
-      this.$emit('close');
-    },
-    onMenuItemClick(key) {
-      this.$emit('selectAction', key);
-      this.handleClose();
-    },
-  },
+});
+
+const emit = defineEmits(['close', 'selectAction']);
+
+const handleClose = () => {
+  emit('close');
+};
+
+const onMenuItemClick = key => {
+  emit('selectAction', key);
+  handleClose();
 };
 </script>
 
@@ -37,12 +32,14 @@ export default {
     @close="handleClose"
   >
     <div
-      class="bg-n-alpha-3 backdrop-blur-[100px] w-40 py-2 px-2 outline outline-1 outline-n-container shadow-lg rounded-xl"
+      class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px] outline-1 outline outline-n-weak/50"
     >
       <MenuItem
         v-for="item in menuItems"
         :key="item.key"
-        :label="item.label"
+        :option="item"
+        variant="icon"
+        class="!w-48"
         @click.stop="onMenuItemClick(item.key)"
       />
     </div>

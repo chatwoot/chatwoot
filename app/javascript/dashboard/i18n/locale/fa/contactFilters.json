@@ -48,7 +48,8 @@
       "CREATED_AT": "ایجاد شده در",
       "LAST_ACTIVITY": "آخرین فعالیت",
       "REFERER_LINK": "پیوند ارجاع‌دهنده",
-      "BLOCKED": "مسدود شده"
+      "BLOCKED": "مسدود شده",
+      "LABELS": "برچسب‌ها"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "فیلترهای استاندارد",

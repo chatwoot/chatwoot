@@ -14,8 +14,12 @@ module SortHandler
       order(generate_sql_query("priority #{sort_direction.to_s.upcase} NULLS LAST, last_activity_at DESC"))
     end
 
+    def sort_on_priority_created_at(sort_direction = :desc)
+      order(generate_sql_query("priority #{sort_direction.to_s.upcase} NULLS LAST, created_at ASC"))
+    end
+
     def sort_on_waiting_since(sort_direction = :asc)
-      order(generate_sql_query("waiting_since #{sort_direction.to_s.upcase} NULLS LAST, created_at ASC"))
+      order(generate_sql_query("(waiting_since IS NULL), waiting_since #{sort_direction.to_s.upcase}, created_at ASC"))
     end
 
     def last_messaged_conversations

@@ -1,21 +1,56 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useEventListener } from '@vueuse/core';
+import { useMapGetter } from 'dashboard/composables/store';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import Icon from 'next/icon/Icon.vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 
 import { useSidebarContext } from './provider';
-import { useEventListener } from '@vueuse/core';
 
 const props = defineProps({
+  name: { type: String, required: true },
   isExpanded: { type: Boolean, default: false },
   label: { type: String, required: true },
   icon: { type: [Object, String], required: true },
   children: { type: Array, default: undefined },
   activeChild: { type: Object, default: undefined },
+  sortOptions: { type: Array, default: () => [] },
+  activeSort: { type: String, default: '' },
+  collapsible: { type: Boolean, default: false },
+  showTreeLine: { type: Boolean, default: false },
+  endTreeLine: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['update-sort']);
 
 const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
+const accountId = useMapGetter('getCurrentAccountId');
+
+const minimizedSectionsKey = LOCAL_STORAGE_KEYS.SIDEBAR_MINIMIZED_SECTIONS;
+
+const getMinimizedSections = () => {
+  const minimizedSections = LocalStorage.get(minimizedSectionsKey);
+  return minimizedSections &&
+    typeof minimizedSections === 'object' &&
+    !Array.isArray(minimizedSections)
+    ? minimizedSections
+    : {};
+};
+
+const minimizedSections = ref(getMinimizedSections());
+const storageKey = computed(() =>
+  accountId.value ? `${accountId.value}:${props.name}` : props.name
+);
+const isSubGroupExpanded = computed(
+  () => !props.collapsible || !minimizedSections.value[storageKey.value]
+);
+const hasActiveChild = computed(() =>
+  props.children.some(child => child.name === props.activeChild?.name)
+);
 
 const accessibleItems = computed(() =>
   props.children.filter(child => {
@@ -28,80 +63,120 @@ const hasAccessibleItems = computed(() => {
 });
 
 const isScrollable = computed(() => {
-  return accessibleItems.value.length > 7;
+  return (
+    props.isExpanded &&
+    isSubGroupExpanded.value &&
+    accessibleItems.value.length > 7
+  );
 });
 
 const scrollEnd = ref(false);
+
+const CHILDREN_TRUNK =
+  "before:content-[''] before:absolute before:top-0 before:bottom-0 before:w-0.5 before:bg-n-slate-4 before:start-[-0.5rem]";
+
+const hideLeafTreeLine = computed(
+  () => props.showTreeLine && !props.isExpanded
+);
+
+const toggleSubGroup = () => {
+  if (!props.collapsible) return;
+
+  if (isSubGroupExpanded.value) {
+    LocalStorage.updateJsonStore(minimizedSectionsKey, storageKey.value, true);
+  } else {
+    LocalStorage.deleteFromJsonStore(minimizedSectionsKey, storageKey.value);
+  }
+
+  minimizedSections.value = getMinimizedSections();
+};
+
+const expandSubGroupOnActiveChild = () => {
+  if (!props.collapsible || !hasActiveChild.value || isSubGroupExpanded.value) {
+    return;
+  }
+
+  LocalStorage.deleteFromJsonStore(minimizedSectionsKey, storageKey.value);
+  minimizedSections.value = getMinimizedSections();
+};
+
+const shouldShowItem = child => {
+  return (
+    isSubGroupExpanded.value &&
+    (props.isExpanded || props.activeChild?.name === child.name)
+  );
+};
 
 // set scrollEnd to true when the scroll reaches the end
 useEventListener(scrollableContainer, 'scroll', () => {
   const { scrollHeight, scrollTop, clientHeight } = scrollableContainer.value;
   scrollEnd.value = scrollHeight - scrollTop === clientHeight;
 });
+
+useEventListener(window, 'storage', event => {
+  if (event.key === minimizedSectionsKey) {
+    minimizedSections.value = getMinimizedSections();
+  }
+});
+
+watch([hasActiveChild, storageKey], expandSubGroupOnActiveChild, {
+  immediate: true,
+});
 </script>
 
 <template>
-  <SidebarGroupSeparator
-    v-if="hasAccessibleItems"
-    v-show="isExpanded"
-    :label
-    :icon
-    class="my-1"
-  />
-  <ul v-if="children.length" class="m-0 list-none reset-base relative group">
-    <!-- Each element has h-8, which is 32px, we will show 7 items with one hidden at the end,
-    which is 14rem. Then we add 16px so that we have some text visible from the next item  -->
-    <div
-      ref="scrollableContainer"
-      :class="{
-        'max-h-[calc(14rem+16px)] overflow-y-scroll no-scrollbar': isScrollable,
-      }"
-    >
-      <SidebarGroupLeaf
-        v-for="child in children"
-        v-show="isExpanded || activeChild?.name === child.name"
-        v-bind="child"
-        :key="child.name"
-        :active="activeChild?.name === child.name"
+  <li class="group/sidebar-section relative flex flex-col list-none min-w-0">
+    <template v-if="hasAccessibleItems">
+      <SidebarGroupSeparator
+        v-show="isExpanded"
+        :label
+        :icon
+        :collapsible
+        :is-expanded="isSubGroupExpanded"
+        :show-tree-line="showTreeLine"
+        :end-tree-line="endTreeLine"
+        :sort-options="sortOptions"
+        :active-sort="activeSort"
+        class="my-1"
+        @toggle="toggleSubGroup"
+        @update-sort="sortBy => emit('update-sort', sortBy)"
       />
-    </div>
-    <div
-      v-if="isScrollable && isExpanded"
-      v-show="!scrollEnd"
-      class="absolute bg-gradient-to-t from-n-solid-2 w-full h-12 to-transparent -bottom-1 pointer-events-none flex items-end justify-end px-2 animate-fade-in-up"
-    >
-      <svg
-        width="16"
-        height="24"
-        viewBox="0 0 16 24"
-        fill="none"
-        class="text-n-slate-9 opacity-50 group-hover:opacity-100"
-        xmlns="http://www.w3.org/2000/svg"
+      <ul
+        v-if="children.length"
+        class="m-0 list-none reset-base relative group min-w-0"
+        :class="[
+          { 'ms-5': collapsible },
+          showTreeLine && !endTreeLine && CHILDREN_TRUNK,
+        ]"
       >
-        <path
-          d="M4 4L8 8L12 4"
-          stroke="currentColor"
-          opacity="0.5"
-          stroke-width="1.33333"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M4 10L8 14L12 10"
-          stroke="currentColor"
-          opacity="0.75"
-          stroke-width="1.33333"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M4 16L8 20L12 16"
-          stroke="currentColor"
-          stroke-width="1.33333"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
-    </div>
-  </ul>
+        <div
+          ref="scrollableContainer"
+          class="min-w-0"
+          :class="{
+            'max-h-60 overflow-y-scroll no-scrollbar': isScrollable,
+          }"
+        >
+          <SidebarGroupLeaf
+            v-for="child in children"
+            v-show="shouldShowItem(child)"
+            v-bind="child"
+            :key="child.name"
+            :active="activeChild?.name === child.name"
+            :hide-tree-line="hideLeafTreeLine"
+            thin-tree-line
+          />
+        </div>
+        <div
+          v-if="isScrollable && isExpanded"
+          v-show="!scrollEnd"
+          class="absolute bg-gradient-to-t from-n-background w-full h-12 to-transparent -bottom-1 pointer-events-none flex items-end justify-end px-2 animate-fade-in-up"
+        >
+          <Icon
+            icon="i-woot-chevrons-down"
+            class="w-4 h-6 text-n-slate-9 opacity-50 group-hover:opacity-100"
+          />
+        </div>
+      </ul>
+    </template>
+  </li>
 </template>

@@ -35,8 +35,15 @@ class ContactAPI extends ApiClient {
     return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
   }
 
-  getConversations(contactId) {
-    return axios.get(`${this.url}/${contactId}/conversations`);
+  getConversations(contactId, { inboxId } = {}) {
+    const params = inboxId ? { inbox_id: inboxId } : {};
+    return axios.get(`${this.url}/${contactId}/conversations`, { params });
+  }
+
+  getAttachments(contactId, page = 1) {
+    return axios.get(`${this.url}/${contactId}/attachments`, {
+      params: { page },
+    });
   }
 
   getContactableInboxes(contactId) {
@@ -47,17 +54,29 @@ class ContactAPI extends ApiClient {
     return axios.get(`${this.url}/${contactId}/labels`);
   }
 
+  initiateCall(contactId, inboxId, conversationId = null) {
+    return axios.post(`${this.url}/${contactId}/call`, {
+      inbox_id: inboxId,
+      conversation_id: conversationId,
+    });
+  }
+
   updateContactLabels(contactId, labels) {
     return axios.post(`${this.url}/${contactId}/labels`, { labels });
   }
 
-  search(search = '', page = 1, sortAttr = 'name', label = '') {
+  search(search = '', page = 1, sortAttr = 'name', label = '', options = {}) {
     let requestURL = `${this.url}/search?${buildContactParams(
       page,
       sortAttr,
       label,
       search
     )}`;
+    return axios.get(requestURL, { signal: options.signal });
+  }
+
+  active(page = 1, sortAttr = 'name') {
+    let requestURL = `${this.url}/active?${buildContactParams(page, sortAttr)}`;
     return axios.get(requestURL);
   }
 

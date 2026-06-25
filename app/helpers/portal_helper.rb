@@ -1,11 +1,25 @@
 module PortalHelper
-  def generate_portal_bg_color(portal_color, theme)
-    base_color = theme == 'dark' ? 'black' : 'white'
-    "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
+  include UrlHelper
+  def set_og_image_url(portal_name, title)
+    cdn_url = GlobalConfig.get('OG_IMAGE_CDN_URL')['OG_IMAGE_CDN_URL']
+    return if cdn_url.blank?
+
+    client_ref = GlobalConfig.get('OG_IMAGE_CLIENT_REF')['OG_IMAGE_CLIENT_REF']
+
+    uri = URI.parse(cdn_url)
+    uri.path = '/og'
+    uri.query = URI.encode_www_form(
+      clientRef: client_ref,
+      title: title,
+      portalName: portal_name
+    )
+
+    uri.to_s
   end
 
   def generate_portal_bg(portal_color, theme)
-    generate_portal_bg_color(portal_color, theme)
+    base_color = theme == 'dark' ? 'black' : 'white'
+    "color-mix(in srgb, #{portal_color} 20%, #{base_color})"
   end
 
   def generate_gradient_to_bottom(theme)
@@ -23,13 +37,24 @@ module PortalHelper
     language_map[locale] || locale
   end
 
+  def html_lang_attribute(locale)
+    locale.to_s.tr('_', '-')
+  end
+
   def theme_query_string(theme)
     theme.present? && theme != 'system' ? "?theme=#{theme}" : ''
   end
 
+  def portal_query_string(theme, is_plain_layout_enabled)
+    query_params = {}
+    query_params[:theme] = theme if theme.present? && theme != 'system'
+    query_params[:show_plain_layout] = true if is_plain_layout_enabled
+    query_params.present? ? "?#{query_params.to_query}" : ''
+  end
+
   def generate_home_link(portal_slug, portal_locale, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{portal_locale}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/#{portal_locale}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/#{portal_locale}"
     end
@@ -43,7 +68,7 @@ module PortalHelper
     is_plain_layout_enabled = params[:is_plain_layout_enabled]
 
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/#{category_locale}/categories/#{category_slug}"
     end
@@ -51,14 +76,37 @@ module PortalHelper
 
   def generate_article_link(portal_slug, article_slug, theme, is_plain_layout_enabled)
     if is_plain_layout_enabled
-      "/hc/#{portal_slug}/articles/#{article_slug}#{theme_query_string(theme)}"
+      "/hc/#{portal_slug}/articles/#{article_slug}#{portal_query_string(theme, is_plain_layout_enabled)}"
     else
       "/hc/#{portal_slug}/articles/#{article_slug}"
     end
   end
 
+  def generate_portal_brand_url(brand_url, referer)
+    url = URI.parse(brand_url.to_s)
+    query_params = Rack::Utils.parse_query(url.query)
+    query_params['utm_medium'] = 'helpcenter'
+    query_params['utm_campaign'] = 'branding'
+    query_params['utm_source'] = URI.parse(referer).host if url_valid?(referer)
+
+    url.query = query_params.to_query
+    url.to_s
+  end
+
   def render_category_content(content)
     ChatwootMarkdownRenderer.new(content).render_markdown_to_plain_text
+  end
+
+  # Renders a stored category icon: a bare ri icon name (e.g. `vip-crown-2-fill/line`) saved color, or a plain emoji character.
+  def render_emoji_or_icon(value, color = nil)
+    return '' if value.blank?
+
+    # Emojis are non-ascii; bare icon names match this safe charset.
+    return ERB::Util.html_escape(value) unless value.match?(/\A[a-z][a-z0-9-]*\z/)
+
+    icon_class = value.start_with?('i-') ? value : "i-ri-#{value}"
+    style = "color: #{color};" if color.to_s.match?(/\A#\h{3,8}\z/)
+    tag.span(class: icon_class, style: style, 'aria-hidden': true)
   end
 
   def thumbnail_bg_color(username)
@@ -66,5 +114,16 @@ module PortalHelper
     return colors.sample if username.blank?
 
     colors[username.length % colors.size]
+  end
+
+  def format_authors_label(authors)
+    return if authors.blank?
+
+    names = authors.map(&:available_name)
+    return names.to_sentence if names.size <= 3
+
+    I18n.t('public_portal.sidebar.authors_others',
+           names: names.first(2).join(', '),
+           count: authors.size - 2)
   end
 end

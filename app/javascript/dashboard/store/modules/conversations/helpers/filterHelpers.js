@@ -46,6 +46,7 @@
  * 2. Nested properties in additional_attributes (browser_language, referer, etc.)
  * 3. Nested properties in custom_attributes (conversation_type, etc.)
  */
+import { coerceToDate } from '@chatwoot/utils';
 import jsonLogic from 'json-logic-js';
 
 /**
@@ -63,19 +64,26 @@ const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
-    case 'display_id':
     case 'labels':
     case 'created_at':
     case 'last_activity_at':
       return conversation[attributeKey];
+    case 'display_id':
+      // Frontend uses 'id' but backend expects 'display_id'
+      return conversation.display_id || conversation.id;
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
+    case 'contact_id':
+      return (
+        conversation.meta?.sender?.id ||
+        conversation.contact?.id ||
+        conversation.contact_id
+      );
     case 'inbox_id':
       return conversation.inbox_id;
     case 'team_id':
       return conversation.meta?.team?.id;
     case 'browser_language':
-    case 'country_code':
     case 'referer':
       return conversation.additional_attributes?.[attributeKey];
     default:
@@ -119,7 +127,8 @@ const resolveValue = candidate => {
  * @returns {Boolean} - Returns true if the values are considered equal according to filtering rules
  *
  * This function handles various equality scenarios:
- * 1. When both values are arrays: checks if all items in filterValue exist in conversationValue
+ * 1. When both values are arrays (e.g. labels): matches if any filter value exists in the conversation array
+ *    (mirrors the backend SQL `tag_id IN (...)` OR semantics)
  * 2. When filterValue is an array but conversationValue is not: checks if conversationValue is included in filterValue
  * 3. Otherwise: performs strict equality comparison
  */
@@ -129,8 +138,9 @@ const equalTo = (filterValue, conversationValue) => {
     if (filterValue === 'all') return true;
 
     if (Array.isArray(conversationValue)) {
-      // For array values like labels, check if any of the filter values exist in the array
-      return filterValue.every(val => conversationValue.includes(val));
+      // For array values like labels, match if any filter value is present.
+      // Mirrors the backend SQL `tag_id IN (...)` (OR semantics).
+      return filterValue.some(val => conversationValue.includes(val));
     }
 
     if (!Array.isArray(conversationValue)) {
@@ -151,10 +161,34 @@ const equalTo = (filterValue, conversationValue) => {
  * It only works with string values and returns false for non-string types.
  */
 const contains = (filterValue, conversationValue) => {
-  if (typeof conversationValue === 'string') {
+  if (
+    typeof conversationValue === 'string' &&
+    typeof filterValue === 'string'
+  ) {
     return conversationValue.toLowerCase().includes(filterValue.toLowerCase());
   }
   return false;
+};
+
+/**
+ * Compares two date values using a comparison function
+ * @param {*} conversationValue - The conversation value to compare
+ * @param {*} filterValue - The filter value to compare against
+ * @param {Function} compareFn - The comparison function to apply
+ * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
+ */
+const compareDates = (conversationValue, filterValue, compareFn) => {
+  const conversationDate = coerceToDate(conversationValue);
+
+  // In saved views, the filterValue might be returned as an Array
+  // In conversation list, when filtering, the filterValue will be returned as a string
+  const valueToCompare = Array.isArray(filterValue)
+    ? filterValue[0]
+    : filterValue;
+  const filterDate = coerceToDate(valueToCompare);
+
+  if (conversationDate === null || filterDate === null) return false;
+  return compareFn(conversationDate, filterDate);
 };
 
 /**
@@ -166,10 +200,8 @@ const contains = (filterValue, conversationValue) => {
 const matchesCondition = (conversationValue, filter) => {
   const { filter_operator: filterOperator, values } = filter;
 
-  // Handle null/undefined values
-  if (conversationValue === null || conversationValue === undefined) {
-    return filterOperator === 'is_not_present';
-  }
+  const isNullish =
+    conversationValue === null || conversationValue === undefined;
 
   const filterValue = Array.isArray(values)
     ? values.map(resolveValue)
@@ -189,18 +221,22 @@ const matchesCondition = (conversationValue, filter) => {
       return !contains(filterValue, conversationValue);
 
     case 'is_present':
-      return true; // We already handled null/undefined above
+      return !isNullish;
 
     case 'is_not_present':
-      return false; // We already handled null/undefined above
+      return isNullish;
 
     case 'is_greater_than':
-      return new Date(conversationValue) > new Date(filterValue);
+      return compareDates(conversationValue, filterValue, (a, b) => a > b);
 
     case 'is_less_than':
-      return new Date(conversationValue) < new Date(filterValue);
+      return compareDates(conversationValue, filterValue, (a, b) => a < b);
 
     case 'days_before': {
+      if (isNullish) {
+        return false;
+      }
+
       const today = new Date();
       const daysInMilliseconds = filterValue * 24 * 60 * 60 * 1000;
       const targetDate = new Date(today.getTime() - daysInMilliseconds);
@@ -347,6 +383,7 @@ export const matchesFilters = (conversation, filters) => {
       conversation,
       filters[0].attribute_key
     );
+
     return matchesCondition(value, filters[0]);
   }
 

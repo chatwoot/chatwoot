@@ -14,6 +14,7 @@ import {
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ReportCaptainMessageDialog from './ReportCaptainMessageDialog.vue';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     MenuItem,
     ContextMenu,
     NextButton,
+    ReportCaptainMessageDialog,
   },
   props: {
     message: {
@@ -47,6 +49,7 @@ export default {
   emits: ['open', 'close', 'replyTo'],
   setup() {
     const { getPlainText } = useMessageFormatter();
+
     return {
       getPlainText,
     };
@@ -61,6 +64,7 @@ export default {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
+      getUISettings: 'getUISettings',
     }),
     plainTextContent() {
       return this.getPlainText(this.messageContent);
@@ -116,11 +120,13 @@ export default {
       this.$emit('close', e);
     },
     handleTranslate() {
-      const { locale } = this.getAccount(this.currentAccountId);
+      const { locale: accountLocale } = this.getAccount(this.currentAccountId);
+      const agentLocale = this.getUISettings?.locale;
+      const targetLanguage = agentLocale || accountLocale || 'en';
       this.$store.dispatch('translateMessage', {
         conversationId: this.conversationId,
         messageId: this.messageId,
-        targetLanguage: locale || 'en',
+        targetLanguage,
       });
       useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
@@ -148,6 +154,10 @@ export default {
     closeDeleteModal() {
       this.showDeleteModal = false;
     },
+    openReportDialog() {
+      this.handleClose();
+      this.$refs.reportDialog?.open();
+    },
   },
 };
 </script>
@@ -167,7 +177,7 @@ export default {
     </woot-modal>
     <!-- Confirm Deletion -->
     <woot-delete-modal
-      v-if="showDeleteModal"
+      v-if="showDeleteModal && enabledOptions['delete']"
       v-model:show="showDeleteModal"
       class="context-menu--delete-modal"
       :on-close="closeDeleteModal"
@@ -212,7 +222,7 @@ export default {
           @click.stop="handleCopy"
         />
         <MenuItem
-          v-if="enabledOptions['copy']"
+          v-if="enabledOptions['translate']"
           :option="{
             icon: 'translate',
             label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
@@ -222,6 +232,7 @@ export default {
         />
         <hr />
         <MenuItem
+          v-if="enabledOptions['copyLink']"
           :option="{
             icon: 'link',
             label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
@@ -238,6 +249,16 @@ export default {
           variant="icon"
           @click.stop="showCannedResponseModal"
         />
+        <hr v-if="enabledOptions['report']" />
+        <MenuItem
+          v-if="enabledOptions['report']"
+          :option="{
+            icon: 'warning',
+            label: $t('CONVERSATION.CONTEXT_MENU.REPORT_MESSAGE.LABEL'),
+          }"
+          variant="icon"
+          @click.stop="openReportDialog"
+        />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem
           v-if="enabledOptions['delete']"
@@ -250,12 +271,17 @@ export default {
         />
       </div>
     </ContextMenu>
+    <ReportCaptainMessageDialog
+      v-if="enabledOptions['report']"
+      ref="reportDialog"
+      :message-id="messageId"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
 .menu-container {
-  @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;
+  @apply p-1 bg-n-background shadow-xl rounded-md;
 
   hr:first-child {
     @apply hidden;
@@ -267,17 +293,11 @@ export default {
 }
 
 .context-menu--delete-modal {
-  ::v-deep {
-    .modal-container {
-      @apply max-w-[30rem];
+  :deep(.modal-container) {
+    @apply max-w-[30rem];
 
-      h2 {
-        @apply font-medium text-base;
-      }
-    }
-
-    .modal-footer {
-      @apply pt-4 pb-8 px-8;
+    h2 {
+      @apply font-medium text-base;
     }
   }
 }

@@ -36,6 +36,7 @@ const translationKeys = {
   'teammember:create': `AUDIT_LOGS.TEAM_MEMBER.ADD`,
   'teammember:destroy': `AUDIT_LOGS.TEAM_MEMBER.REMOVE`,
   'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
+  'conversation:destroy': `AUDIT_LOGS.CONVERSATION.DELETE`,
 };
 
 function extractAttrChange(attrChange) {
@@ -167,6 +168,11 @@ export function generateTranslationPayload(auditLogItem, agentList) {
 
   const auditableType = auditLogItem.auditable_type.toLowerCase();
   const action = auditLogItem.action.toLowerCase();
+
+  if (auditableType === 'conversation' && action === 'destroy') {
+    translationPayload.id =
+      auditLogItem.audited_changes?.display_id || auditLogItem.auditable_id;
+  }
 
   if (auditableType === 'accountuser') {
     translationPayload = handleAccountUser(

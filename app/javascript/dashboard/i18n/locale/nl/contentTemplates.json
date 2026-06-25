@@ -1,0 +1,52 @@
+{
+  "CONTENT_TEMPLATES": {
+    "MODAL": {
+      "TITLE": "Twilio Templates",
+      "SUBTITLE": "Select the Twilio template you want to send",
+      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+    },
+    "PICKER": {
+      "SEARCH_PLACEHOLDER": "Templates zoeken",
+      "NO_TEMPLATES_FOUND": "Geen templates gevonden voor",
+      "NO_CONTENT": "No content",
+      "HEADER": "Header",
+      "BODY": "Body",
+      "FOOTER": "Footer",
+      "BUTTONS": "Buttons",
+      "CATEGORY": "Categorie",
+      "MEDIA_CONTENT": "Media Content",
+      "MEDIA_CONTENT_FALLBACK": "media content",
+      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
+      "REFRESH_BUTTON": "Refresh templates",
+      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
+      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "LABELS": {
+        "LANGUAGE": "Taal",
+        "TEMPLATE_BODY": "Template bericht",
+        "CATEGORY": "Categorie"
+      },
+      "TYPES": {
+        "MEDIA": "Media",
+        "QUICK_REPLY": "Quick Reply",
+        "CALL_TO_ACTION": "Call to Action",
+        "TEXT": "Tekst"
+      }
+    },
+    "PARSER": {
+      "VARIABLES_LABEL": "Variabelen",
+      "LANGUAGE": "Taal",
+      "CATEGORY": "Categorie",
+      "VARIABLE_PLACEHOLDER": "Voer {variable} waarde in",
+      "GO_BACK_LABEL": "Ga terug",
+      "SEND_MESSAGE_LABEL": "Verstuur bericht",
+      "FORM_ERROR_MESSAGE": "Vul alstublieft alle variabelen in voordat u deze verzendt",
+      "MEDIA_HEADER_LABEL": "{type} Header",
+      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
+    },
+    "FORM": {
+      "BACK_BUTTON": "Terug",
+      "SEND_MESSAGE_BUTTON": "Verstuur bericht"
+    }
+  }
+}

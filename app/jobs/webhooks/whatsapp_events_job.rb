@@ -1,5 +1,9 @@
-class Webhooks::WhatsappEventsJob < ApplicationJob
+class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
+  # Retry budget (19 × 2s = 38s) must exceed the 30s lock TTL set in `perform`, otherwise
+  # a webhook that arrives just after the lock is acquired can exhaust retries before the
+  # holder finishes and silently drop its message.
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -9,6 +13,70 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
       return
     end
 
+    sender_id = contact_sender_id(params)
+    return process_events(channel, params) if sender_id.blank?
+
+    # Album uploads arrive as separate concurrent webhooks. Serialize per (inbox, contact)
+    # so the first webhook creates the conversation and the rest append to it.
+    # 30s TTL covers the attachment download + transaction — the default 1s expires
+    # mid-processing and lets a concurrent webhook re-acquire before the first commit.
+    key = format(::Redis::Alfred::WHATSAPP_MESSAGE_MUTEX, inbox_id: channel.inbox.id, sender_id: sender_id)
+    with_lock(key, 30.seconds) do
+      process_events(channel, params)
+    end
+  end
+
+  def process_events(channel, params)
+    if message_echo_event?(params)
+      handle_message_echo(channel, params)
+    else
+      handle_message_events(channel, params)
+    end
+  end
+
+  # Detects if the webhook is an SMB message echo event (message sent from WhatsApp Business app)
+  # This is part of WhatsApp coexistence feature where businesses can respond from both
+  # Chatwoot and the WhatsApp Business app, with messages synced to Chatwoot.
+  #
+  # Regular message payload (field: "messages"):
+  # {
+  #   "entry": [{
+  #     "changes": [{
+  #       "field": "messages",
+  #       "value": {
+  #         "contacts": [{ "wa_id": "919745786257", "profile": { "name": "Customer" } }],
+  #         "messages": [{ "from": "919745786257", "id": "wamid...", "text": { "body": "Hello" } }]
+  #       }
+  #     }]
+  #   }]
+  # }
+  #
+  # Echo message payload (field: "smb_message_echoes"):
+  # {
+  #   "entry": [{
+  #     "changes": [{
+  #       "field": "smb_message_echoes",
+  #       "value": {
+  #         "message_echoes": [{ "from": "971545296927", "to": "919745786257", "id": "wamid...", "text": { "body": "Hi" } }]
+  #       }
+  #     }]
+  #   }]
+  # }
+  #
+  # Key differences:
+  # - field: "smb_message_echoes" instead of "messages"
+  # - message_echoes[] instead of messages[]
+  # - "from" is the business number, "to" is the contact (reversed from regular messages)
+  # - No "contacts" array in echo payload
+  def message_echo_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'smb_message_echoes'
+  end
+
+  def handle_message_echo(channel, params)
+    Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params, outgoing_echo: true).perform
+  end
+
+  def handle_message_events(channel, params)
     case channel.provider
     when 'whatsapp_cloud'
       Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: channel.inbox, params: params).perform
@@ -19,12 +87,54 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
 
   private
 
+  # Echo payloads reverse the fields — `from` is the business number and `to` is the contact.
+  # Returns nil for status-only webhooks so they bypass the lock.
+  def contact_sender_id(params)
+    value = params.dig(:entry, 0, :changes, 0, :value) || params
+    return contact_sender_id_from_message_echoes(value[:message_echoes]) if value[:message_echoes].present?
+
+    contact_sender_id_from_messages(value[:messages], value[:contacts])
+  end
+
+  # Echo payloads are outbound messages from the WhatsApp Business app, so `to`
+  # points to the contact. Prefer parent BSUID when present so payloads that have
+  # both regular+parent BSUIDs serialize with parent-BSUID-only payloads.
+  def contact_sender_id_from_message_echoes(message_echoes)
+    message = message_echoes&.first
+    return if message.blank?
+
+    [message[:to_parent_user_id], message[:to_user_id], message[:to]].compact_blank.first
+  end
+
+  # Regular inbound payloads are sent by the contact, so `from` points to the
+  # contact. Prefer parent BSUID when present so payloads that have both
+  # regular+parent BSUIDs serialize with parent-BSUID-only payloads.
+  def contact_sender_id_from_messages(messages, contacts)
+    message = messages&.first
+    return if message.blank?
+
+    contact = contacts&.first || {}
+
+    [
+      message[:from_parent_user_id],
+      contact[:parent_user_id],
+      message[:from_user_id],
+      contact[:user_id],
+      message[:from]
+    ].compact_blank.first
+  end
+
   def channel_is_inactive?(channel)
     return true if channel.blank?
-    return true if channel.reauthorization_required?
+    # Only skip for embedded signup when reauth is required; manual flow uses API keys and should still receive webhooks
+    return true if channel.reauthorization_required? && embedded_signup_channel?(channel)
     return true unless channel.account.active?
 
     false
+  end
+
+  def embedded_signup_channel?(channel)
+    (channel.provider_config || {}).to_h['source'] == 'embedded_signup'
   end
 
   def find_channel_by_url_param(params)
@@ -50,3 +160,5 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     return channel if channel && channel.provider_config['phone_number_id'] == phone_number_id
   end
 end
+
+Webhooks::WhatsappEventsJob.prepend_mod_with('Webhooks::WhatsappEventsJob')

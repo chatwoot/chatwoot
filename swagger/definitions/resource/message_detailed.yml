@@ -1,0 +1,82 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the message
+  content:
+    type: string
+    description: The text content of the message
+  inbox_id:
+    type: number
+    description: The ID of the inbox
+  conversation_id:
+    type: number
+    description: The ID of the conversation
+  message_type:
+    type: integer
+    enum: [0, 1, 2, 3]
+    description: "The type of the message (0: incoming, 1: outgoing, 2: activity, 3: template)"
+  content_type:
+    type: string
+    enum: ["text", "input_text", "input_textarea", "input_email", "input_select", "cards", "form", "article", "incoming_email", "input_csat", "integrations", "sticker", "voice_call"]
+    description: The type of the message content
+  status:
+    type: string
+    enum: ["sent", "delivered", "read", "failed"]
+    description: The status of the message
+  content_attributes:
+    type: object
+    description: The content attributes for each content_type
+    properties:
+      in_reply_to:
+        type:
+          - string
+          - 'null'
+        description: ID of the message this is replying to
+  echo_id:
+    type:
+      - string
+      - 'null'
+    description: The echo ID of the message, used for deduplication
+  created_at:
+    type: integer
+    description: The timestamp when message was created
+  private:
+    type: boolean
+    description: The flag which shows whether the message is private or not
+  source_id:
+    type:
+      - string
+      - 'null'
+    description: The source ID of the message
+  sender:
+    $ref: '#/components/schemas/contact_detail'
+    description: The sender of the message (only for incoming messages)
+  attachments:
+    type: array
+    description: The list of attachments associated with the message
+    items:
+      type: object
+      properties:
+        id:
+          type: number
+          description: The ID of the attachment
+        message_id:
+          type: number
+          description: The ID of the message
+        file_type:
+          type: string
+          enum: ["image", "video", "audio", "file", "location", "fallback", "share", "story_mention", "contact", "ig_reel"]
+          description: The type of the attached file
+        account_id:
+          type: number
+          description: The ID of the account
+        data_url:
+          type: string
+          description: The URL of the attached file
+        thumb_url:
+          type: string
+          description: The thumbnail URL of the attached file
+        file_size:
+          type: number
+          description: The size of the attached file in bytes

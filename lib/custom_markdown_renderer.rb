@@ -1,11 +1,42 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
-  # TODO: let move this regex from here to a config file where we can update this list much more easily
-  # the config file will also have the matching embed template as well.
-  YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
-  LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
-  VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
-  MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
-  ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
+  CONFIG_PATH = Rails.root.join('config/markdown_embeds.yml')
+
+  def self.config
+    @config ||= YAML.load_file(CONFIG_PATH)
+  end
+
+  def self.embed_regexes
+    @embed_regexes ||= config.transform_values { |embed_config| Regexp.new(embed_config['regex']) }
+  end
+
+  # Matches columnResizing({ cellMinWidth: 50 }) in @chatwoot/prosemirror-schema
+  # so cells without an explicit colwidth render the same minimum here as in the editor.
+  TABLE_CELL_MIN_WIDTH_PX = 50
+  COLWIDTHS_COMMENT = /<!--cw-colwidths:([\d,]+)-->/
+
+  # The article editor serializes column widths as a `<!--cw-colwidths:...-->` HTML
+  # comment immediately before each resized table. Capture it (emitting nothing) so the
+  # next `table` can size itself; any other raw HTML keeps its default rendering.
+  def html(node)
+    match = node.string_content.match(COLWIDTHS_COMMENT)
+    return super unless match
+
+    @pending_colwidths = match[1].split(',').map(&:to_i)
+  end
+
+  def table(node)
+    widths = @pending_colwidths
+    @pending_colwidths = nil
+
+    if sized_widths?(widths)
+      out(table_wrapper_open(widths))
+      out(inject_table_sizing(capture_html { super(node) }, widths))
+    else
+      out('<div class="tableWrapper">')
+      super
+    end
+    out('</div>')
+  end
 
   def text(node)
     content = node.string_content
@@ -21,11 +52,89 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   def link(node)
     return if surrounded_by_empty_lines?(node) && render_embedded_content(node)
 
-    # If it's not YouTube or Vimeo link, render normally
+    # If it's not a supported embed link, render normally
     super
   end
 
+  def image(node)
+    src = escape_href(node.url)
+    width = extract_image_width(src)
+    plain do
+      out(%(<img src="#{src}"))
+      out(' alt="', :children, '"')
+      out(%( title="#{escape_html(node.title)}")) if node.title.present?
+      out(%( style="width: #{width}; max-width: 100%; height: auto;")) if width
+      out(' />')
+    end
+  end
+
   private
+
+  def sized_widths?(widths)
+    widths.is_a?(Array) && widths.any? { |w| w.to_i.positive? }
+  end
+
+  def fully_sized?(widths)
+    widths.all? { |w| w.to_i.positive? }
+  end
+
+  # Fully-sized tables hug their exact width so the card doesn't trail empty space;
+  # partial tables stay a plain full-width card so flexible columns can expand.
+  def table_wrapper_open(widths)
+    return '<div class="tableWrapper">' unless fully_sized?(widths)
+
+    %(<div class="tableWrapper" style="width: #{total_width(widths)}px; max-width: 100%;">)
+  end
+
+  # Let the gem render the whole table, then splice a <colgroup> and sizing style
+  # into the opening <table> tag. Delegating the row/cell/tbody/alignment markup to
+  # super keeps this working across commonmarker upgrades.
+  # `!important` overrides the portal's `[&_table]:!min-w-full` Tailwind rule.
+  def inject_table_sizing(html, widths)
+    opening = %(<table style="#{table_sizing_style(widths)}">\n#{colgroup_html(widths)})
+    html.sub(/<table[^>]*>\n?/, opening)
+  end
+
+  # Capture everything `super` writes by swapping the renderer's output buffer.
+  def capture_html
+    original = @stream
+    @stream = StringIO.new(+'')
+    yield
+    @stream.string
+  ensure
+    @stream = original
+  end
+
+  # Total table width: each column's saved width, or the cell min for unsized ones.
+  def total_width(widths)
+    widths.sum { |w| w.to_i.positive? ? w.to_i : TABLE_CELL_MIN_WIDTH_PX }
+  end
+
+  # Fully sized → lock to the exact total (min-width too, so a narrow saved width
+  # beats the portal's `[&_table]:!min-w-full`). Partial → `max(100%, total)` fills
+  # the container (flexible columns) yet scrolls when the sized columns exceed it.
+  def table_sizing_style(widths)
+    total = total_width(widths)
+    return "table-layout: fixed; min-width: max(100%, #{total}px) !important;" unless fully_sized?(widths)
+
+    "table-layout: fixed; width: #{total}px !important; min-width: #{total}px !important;"
+  end
+
+  def colgroup_html(widths)
+    cols = widths.map { |w| w.to_i.positive? ? %(<col style="width: #{w.to_i}px;">) : '<col>' }
+    "<colgroup>#{cols.join}</colgroup>\n"
+  end
+
+  def extract_image_width(src)
+    query = URI.parse(src).query
+    raw = query && CGI.parse(query)['cw_image_width']&.first
+    return unless raw =~ /\A(\d+)px\z/
+
+    px = Regexp.last_match(1).to_i
+    "#{px}px" if px.between?(1, 2000)
+  rescue URI::InvalidURIError
+    nil
+  end
 
   def surrounded_by_empty_lines?(node)
     prev_node_empty?(node.previous) && next_node_empty?(node.next)
@@ -45,23 +154,36 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def render_embedded_content(node)
     link_url = node.url
-    embedding_methods = {
-      YOUTUBE_REGEX => :make_youtube_embed,
-      VIMEO_REGEX => :make_vimeo_embed,
-      MP4_REGEX => :make_video_embed,
-      LOOM_REGEX => :make_loom_embed,
-      ARCADE_REGEX => :make_arcade_embed
-    }
+    embed_html = find_matching_embed(link_url)
 
-    embedding_methods.each do |regex, method|
+    return false unless embed_html
+
+    out(embed_html)
+    true
+  end
+
+  def find_matching_embed(link_url)
+    self.class.embed_regexes.each do |embed_key, regex|
       match = link_url.match(regex)
-      if match
-        out(send(method, match))
-        return true
-      end
+      next unless match
+
+      return render_embed_from_match(embed_key, match)
     end
 
-    false
+    nil
+  end
+
+  def render_embed_from_match(embed_key, match_data)
+    embed_config = self.class.config[embed_key]
+    return nil unless embed_config
+
+    template = embed_config['template']
+    # Use gsub (not format) so CSS `%` values in templates don't need escaping.
+    # Captured values are HTML-escaped since they land inside HTML attribute contexts.
+    match_data.named_captures.each do |var_name, value|
+      template = template.gsub("%{#{var_name}}", CGI.escapeHTML(value))
+    end
+    template
   end
 
   def parse_sup(content)
@@ -72,71 +194,5 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
         escape_html(segment)
       end
     end
-  end
-
-  def make_youtube_embed(youtube_match)
-    video_id = youtube_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-       <iframe
-        src="https://www.youtube-nocookie.com/embed/#{video_id}"
-        frameborder="0"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-      </div>
-    )
-  end
-
-  def make_loom_embed(loom_match)
-    video_id = loom_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-        <iframe
-         src="https://www.loom.com/embed/#{video_id}"
-         frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-      </div>
-    )
-  end
-
-  def make_vimeo_embed(vimeo_match)
-    video_id = vimeo_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-       <iframe
-        src="https://player.vimeo.com/video/#{video_id}?dnt=true"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-       </div>
-    )
-  end
-
-  def make_video_embed(link_url)
-    %(
-      <video width="640" height="360" controls>
-        <source src="#{link_url}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    )
-  end
-
-  def make_arcade_embed(arcade_match)
-    video_id = arcade_match[1]
-    %(
-    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-      <iframe
-        src="https://app.arcade.software/embed/#{video_id}"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen
-        allow="fullscreen"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-      </iframe>
-    </div>
-  )
   end
 end

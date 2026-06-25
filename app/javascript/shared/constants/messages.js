@@ -34,33 +34,19 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
-// Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
-export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
-
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +
   'video/*,' +
   '.3gpp,' +
+  '.xls, .xlsx, .xml, .pfx,' +
   'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
   'application/xml, text/xml,' +
   'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
   'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
   'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,';
-
-export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
-  'image/png, image/jpeg,' +
-  'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
-  'video/mp4,' +
-  'application/pdf,';
-// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
-export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
-
-// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
-export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
-  'image/png, image/jpeg, video/mp4, video/mov, video/webm';
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document,' +
+  'application/x-pkcs12, application/pkcs12,';
 
 export const CSAT_RATINGS = [
   {
@@ -99,6 +85,11 @@ export const CSAT_RATINGS = [
     color: '#44CE4B',
   },
 ];
+
+export const CSAT_DISPLAY_TYPES = {
+  EMOJI: 'emoji',
+  STAR: 'star',
+};
 
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
@@ -152,6 +143,14 @@ export const MESSAGE_VARIABLES = [
     label: 'Agent email',
     key: 'agent.email',
   },
+  {
+    key: 'inbox.name',
+    label: 'Inbox name',
+  },
+  {
+    label: 'Inbox id',
+    key: 'inbox.id',
+  },
 ];
 
 export const ATTACHMENT_ICONS = {
@@ -161,4 +160,11 @@ export const ATTACHMENT_ICONS = {
   file: 'document',
   location: 'location',
   fallback: 'link',
+};
+
+export const TWILIO_CONTENT_TEMPLATE_TYPES = {
+  TEXT: 'text',
+  MEDIA: 'media',
+  QUICK_REPLY: 'quick_reply',
+  CALL_TO_ACTION: 'call_to_action',
 };

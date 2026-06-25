@@ -63,10 +63,9 @@ class ConversationApi extends ApiClient {
   }
 
   assignAgent({ conversationId, agentId }) {
-    return axios.post(
-      `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
-      {}
-    );
+    return axios.post(`${this.url}/${conversationId}/assignments`, {
+      assignee_id: agentId,
+    });
   }
 
   assignTeam({ conversationId, teamId }) {
@@ -134,12 +133,12 @@ class ConversationApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/attachments`);
   }
 
-  requestCopilot(conversationId, body) {
-    return axios.post(`${this.url}/${conversationId}/copilot`, body);
-  }
-
   getInboxAssistant(conversationId) {
     return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
+  }
+
+  delete(conversationId) {
+    return axios.delete(`${this.url}/${conversationId}`);
   }
 }
 

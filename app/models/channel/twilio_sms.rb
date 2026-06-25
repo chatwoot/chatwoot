@@ -2,16 +2,22 @@
 #
 # Table name: channel_twilio_sms
 #
-#  id                    :bigint           not null, primary key
-#  account_sid           :string           not null
-#  api_key_sid           :string
-#  auth_token            :string           not null
-#  medium                :integer          default("sms")
-#  messaging_service_sid :string
-#  phone_number          :string
-#  created_at            :datetime         not null
-#  updated_at            :datetime         not null
-#  account_id            :integer          not null
+#  id                             :bigint           not null, primary key
+#  account_sid                    :string           not null
+#  api_key_secret                 :string
+#  api_key_sid                    :string
+#  auth_token                     :string           not null
+#  content_templates              :jsonb
+#  content_templates_last_updated :datetime
+#  medium                         :integer          default("sms")
+#  messaging_service_sid          :string
+#  phone_number                   :string
+#  provider_config                :jsonb
+#  twiml_app_sid                  :string
+#  voice_enabled                  :boolean          default(FALSE), not null
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+#  account_id                     :integer          not null
 #
 # Indexes
 #
@@ -25,6 +31,9 @@ class Channel::TwilioSms < ApplicationRecord
   include Rails.application.routes.url_helpers
 
   self.table_name = 'channel_twilio_sms'
+
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :auth_token if Chatwoot.encryption_configured?
 
   validates :account_sid, presence: true
   # The same parameter is used to store api_key_secret if api_key authentication is opted
@@ -46,14 +55,17 @@ class Channel::TwilioSms < ApplicationRecord
     medium == 'sms' ? 'Twilio SMS' : 'Whatsapp'
   end
 
+  # Mutes only the incoming side of calling; default on, so only an explicit false disables inbound.
+  def inbound_calls_enabled?
+    provider_config['inbound_calls_enabled'] != false
+  end
+
   def send_message(to:, body:, media_url: nil)
     params = send_message_from.merge(to: to, body: body)
     params[:media_url] = media_url if media_url.present?
     params[:status_callback] = twilio_delivery_status_index_url
     client.messages.create(**params)
   end
-
-  private
 
   def client
     if api_key_sid.present?
@@ -63,6 +75,8 @@ class Channel::TwilioSms < ApplicationRecord
     end
   end
 
+  private
+
   def send_message_from
     if messaging_service_sid?
       { messaging_service_sid: messaging_service_sid }
@@ -71,3 +85,5 @@ class Channel::TwilioSms < ApplicationRecord
     end
   end
 end
+
+Channel::TwilioSms.prepend_mod_with('Channel::TwilioSms')

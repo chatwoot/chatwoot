@@ -4,6 +4,7 @@ import InboxReconnectionRequired from '../components/InboxReconnectionRequired.v
 import { useAlert } from 'dashboard/composables';
 
 import { loadScript } from 'dashboard/helper/DOMHelpers';
+import { buildFacebookLoginScopes } from 'dashboard/helper/facebookScopes';
 import * as Sentry from '@sentry/vue';
 
 export default {
@@ -19,6 +20,11 @@ export default {
   computed: {
     inboxId() {
       return this.inbox.id;
+    },
+    facebookLoginScopes() {
+      return buildFacebookLoginScopes({
+        includeInstagramScopes: !!this.inbox.instagram_id,
+      });
     },
   },
   mounted() {
@@ -77,8 +83,7 @@ export default {
           }
         },
         {
-          scope:
-            'pages_manage_metadata,business_management,pages_messaging,instagram_basic,pages_show_list,pages_read_engagement,instagram_manage_messages',
+          scope: this.facebookLoginScopes,
           auth_type: 'reauthorize',
         }
       );
@@ -99,16 +104,14 @@ export default {
 </script>
 
 <template>
-  <InboxReconnectionRequired class="mx-8 mt-5" @reauthorize="startLogin" />
+  <InboxReconnectionRequired class="mx-6" @reauthorize="startLogin" />
 </template>
 
 <style lang="scss" scoped>
-@import 'dashboard/assets/scss/variables';
-
 .fb--login {
   img {
     max-width: 240px;
-    padding: $space-normal 0;
+    padding: 1rem 0;
   }
 }
 </style>

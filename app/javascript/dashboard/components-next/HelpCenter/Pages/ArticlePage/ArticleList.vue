@@ -20,7 +20,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  selectedArticleIds: {
+    type: Set,
+    default: () => new Set(),
+  },
+  isSearching: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['translateArticle', 'toggleSelect']);
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
@@ -30,11 +40,26 @@ const store = useStore();
 const { t } = useI18n();
 
 const localArticles = ref(props.articles);
+const hoveredArticleId = ref(null);
 
 const dragEnabled = computed(() => {
-  // Enable dragging only for category articles and when there's more than one article
-  return props.isCategoryArticles && localArticles.value?.length > 1;
+  return (
+    props.isCategoryArticles &&
+    !props.isSearching &&
+    localArticles.value?.length > 1 &&
+    props.selectedArticleIds.size === 0
+  );
 });
+
+const hasBulkSelection = computed(() => props.selectedArticleIds.size > 0);
+
+const shouldShowSelectionControl = id => {
+  return hoveredArticleId.value === id || hasBulkSelection.value;
+};
+
+const handleCardHover = (isHovered, id) => {
+  hoveredArticleId.value = isHovered ? id : null;
+};
 
 const getCategoryById = useMapGetter('categories/categoryById');
 
@@ -58,18 +83,22 @@ const openArticle = id => {
   }
 };
 
-const onReorder = reorderedGroup => {
-  store.dispatch('articles/reorder', {
-    reorderedGroup,
-    portalSlug: route.params.portalSlug,
-  });
+const onReorder = async reorderedGroup => {
+  try {
+    await store.dispatch('articles/reorder', {
+      reorderedGroup,
+      portalSlug: route.params.portalSlug,
+    });
+  } catch {
+    useAlert(t('HELP_CENTER.REORDER_ARTICLE.API.ERROR_MESSAGE'));
+  }
 };
 
 const onDragEnd = () => {
-  // Reuse existing positions to maintain order within the current group
+  // Collect and sort existing positions, falling back to index+1 for null/0 values
   const sortedArticlePositions = localArticles.value
-    .map(article => article.position)
-    .sort((a, b) => a - b); // Use custom sort to handle numeric values correctly
+    .map((article, index) => article.position || index + 1)
+    .sort((a, b) => a - b);
 
   const orderedArticles = localArticles.value.map(article => article.id);
 
@@ -148,6 +177,10 @@ const handleArticleAction = async (action, { status, id }) => {
 };
 
 const updateArticle = ({ action, value, id }) => {
+  if (action === 'translate') {
+    emit('translateArticle', id);
+    return;
+  }
   const status = action !== 'delete' ? getArticleStatus(value) : null;
   handleArticleAction(action, { status, id });
 };
@@ -183,9 +216,14 @@ watch(
           :category="getCategory(element.category.id)"
           :views="element.views || 0"
           :updated-at="element.updatedAt"
+          :is-selected="selectedArticleIds.has(element.id)"
+          selectable
+          :show-selection-control="shouldShowSelectionControl(element.id)"
           :class="{ 'cursor-grab': dragEnabled }"
           @open-article="openArticle"
           @article-action="updateArticle"
+          @toggle-select="emit('toggleSelect', $event)"
+          @hover="isHovered => handleCardHover(isHovered, element.id)"
         />
       </li>
     </template>

@@ -8,7 +8,7 @@ import PortalEmptyState from './PortalEmptyState.vue';
     :layout="{ type: 'single', width: '1100px' }"
   >
     <Variant title="Portal Empty State">
-      <div class="w-full h-full px-20 mx-auto bg-white dark:bg-slate-900">
+      <div class="w-full h-full px-20 mx-auto bg-n-background">
         <PortalEmptyState />
       </div>
     </Variant>

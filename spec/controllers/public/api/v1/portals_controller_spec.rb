@@ -13,6 +13,12 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}' do
+    it 'redirects to the portal default locale when locale is not present' do
+      get "/hc/#{portal.slug}"
+
+      expect(response).to redirect_to("/hc/#{portal.slug}/#{portal.default_locale}")
+    end
+
     it 'Show portal and categories belonging to the portal' do
       get "/hc/#{portal.slug}/en"
 
@@ -56,28 +62,81 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
         expect(response.body).not_to include('<link rel="icon" href=')
       end
     end
+
+    it 'hides drafted locales from the public locale switcher' do
+      portal.update!(config: { allowed_locales: %w[en es], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/en"
+
+      expect(response).to have_http_status(:success)
+      expect(response.body).not_to include('value="es"')
+      expect(response.body).not_to include('locale-switcher')
+    end
+
+    it 'allows direct access to drafted locale pages' do
+      portal.update!(config: { allowed_locales: %w[en es], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response).to have_http_status(:success)
+    end
+
+    it 'shows the active drafted locale in the switcher state on direct locale access' do
+      portal.update!(config: { allowed_locales: %w[en es fr], draft_locales: ['es'], default_locale: 'en' })
+
+      get "/hc/#{portal.slug}/es"
+
+      expect(response).to have_http_status(:success)
+
+      document = Nokogiri::HTML(response.body)
+      switchers = document.css('select.locale-switcher')
+
+      expect(switchers).not_to be_empty
+
+      switchers.each do |switcher|
+        options = switcher.css('option')
+
+        expect(options.map { |option| option['value'] }).to include('en', 'es', 'fr')
+        expect(
+          options.any? do |option|
+            option['value'] == 'es' && option['selected'].present? && option['disabled'].present?
+          end
+        ).to be(true)
+      end
+    end
   end
 
   describe 'GET /public/api/v1/portals/{portal_slug}/sitemap' do
     context 'when custom_domain is present' do
-      it 'gets a valid sitemap' do
+      it 'returns a valid urlset sitemap with the correct namespace' do
         get "/hc/#{portal.slug}/sitemap.xml"
+
         expect(response).to have_http_status(:success)
-        expect(response.body).to match(/<sitemap/)
-        expect(Nokogiri::XML(response.body).errors).to be_empty
+
+        doc = Nokogiri::XML(response.body)
+        expect(doc.errors).to be_empty
+
+        expect(doc.root.name).to eq('urlset')
+        expect(doc.root.namespace&.href).to eq('http://www.sitemaps.org/schemas/sitemap/0.9')
       end
 
-      it 'has valid sitemap links' do
+      it 'contains valid article URLs for the portal' do
         get "/hc/#{portal.slug}/sitemap.xml"
+
         expect(response).to have_http_status(:success)
-        parsed_xml = Nokogiri::XML(response.body)
-        links = parsed_xml.css('loc')
 
-        links.each do |link|
-          expect(link.text).to match(%r{https://www\.example\.com/hc/test-portal/articles/\d+})
-        end
+        doc = Nokogiri::XML(response.body)
+        doc.remove_namespaces!
 
-        expect(links.length).to eq 3
+        # ensure we are NOT returning a sitemapindex
+        expect(doc.xpath('//sitemapindex')).to be_empty
+
+        links = doc.xpath('//url/loc').map(&:text)
+        expect(links.length).to eq(3)
+
+        expect(links).to all(
+          match(%r{\Ahttps://www\.example\.com/hc/#{Regexp.escape(portal.slug)}/articles/\d+})
+        )
       end
     end
   end

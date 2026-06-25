@@ -1,6 +1,7 @@
 in: query
 name: page
-type: integer
-default: 1
+schema:
+  type: integer
+  default: 1
 required: false
 description: The page parameter

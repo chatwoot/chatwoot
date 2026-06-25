@@ -37,9 +37,9 @@ export default {
       this.$nextTick(() => {
         const el = document.getElementById(elementId);
         el.scrollIntoView();
-        el.classList.add('bg-slate-100', 'dark:bg-slate-900');
+        el.classList.add('bg-n-slate-3', 'dark:bg-n-solid-3');
         this.timeOutID = setTimeout(() => {
-          el.classList.remove('bg-slate-100', 'dark:bg-slate-900');
+          el.classList.remove('bg-n-slate-3', 'dark:bg-n-solid-3');
         }, 500);
       });
     },
@@ -49,7 +49,7 @@ export default {
 
 <template>
   <button
-    class="px-1.5 py-0.5 rounded-md text-slate-500 bg-slate-50 dark:bg-slate-900 opacity-60 hover:opacity-100 cursor-pointer flex items-center gap-1.5"
+    class="px-1.5 py-0.5 rounded-md text-n-slate-11 bg-n-slate-4 opacity-60 hover:opacity-100 cursor-pointer flex items-center gap-1.5"
     @click="navigateTo(replyTo.id)"
   >
     <FluentIcon icon="arrow-reply" size="12" class="flex-shrink-0" />

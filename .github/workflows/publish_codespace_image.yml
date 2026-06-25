@@ -3,6 +3,10 @@ name: Publish Codespace Base Image
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish-code-space-image:
     runs-on: ubuntu-latest
@@ -19,6 +23,5 @@ jobs:
 
     - name: Build the Codespace Base Image
       run: |
-        docker-compose -f .devcontainer/docker-compose.yml build base
-        docker tag base:latest ghcr.io/chatwoot/chatwoot_codespace:latest
+        docker compose -f .devcontainer/docker-compose.base.yml build base
         docker push ghcr.io/chatwoot/chatwoot_codespace:latest

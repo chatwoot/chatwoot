@@ -1,7 +1,9 @@
 <script setup>
-import { computed, defineModel, h, watch, ref } from 'vue';
+import { computed, h, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { debounce } from '@chatwoot/utils';
 import Button from 'next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import FilterSelect from './inputs/FilterSelect.vue';
 import MultiSelect from './inputs/MultiSelect.vue';
 import SingleSelect from './inputs/SingleSelect.vue';
@@ -49,12 +51,12 @@ const currentFilter = computed(() =>
 );
 
 const getOperator = (filter, selectedOperator) => {
-  const operatorFromOptions = filter.filterOperators.find(
+  const operatorFromOptions = filter?.filterOperators?.find(
     operator => operator.value === selectedOperator
   );
 
   if (!operatorFromOptions) {
-    return filter.filterOperators[0];
+    return filter?.filterOperators?.[0];
   }
 
   return operatorFromOptions;
@@ -76,12 +78,12 @@ const queryOperatorOptions = computed(() => {
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.AND`),
       value: 'and',
-      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-text' }),
+      icon: h('span', { class: 'i-lucide-ampersands !text-n-blue-11' }),
     },
     {
       label: t(`FILTER.QUERY_DROPDOWN_LABELS.OR`),
       value: 'or',
-      icon: h('span', { class: 'i-woot-logic-or !text-n-blue-text' }),
+      icon: h('span', { class: 'i-woot-logic-or !text-n-blue-11' }),
     },
   ];
 });
@@ -102,6 +104,40 @@ const validationError = computed(() => {
   );
 });
 
+const inputFieldType = computed(() => {
+  if (inputType.value === 'date') return 'date';
+  if (inputType.value === 'number') return 'number';
+  return 'text';
+});
+
+const asyncOptions = ref([]);
+const isSearching = ref(false);
+const lastSearchQuery = ref('');
+
+const performAsyncSearch = async query => {
+  let results;
+  try {
+    results = await currentFilter.value.searchOptions(query);
+  } catch {
+    results = [];
+  }
+  // skip stale responses — a newer search in this row owns the UI
+  if (query !== lastSearchQuery.value) return;
+  // null means another row's search aborted ours, reset instead of staying stuck on the searching state
+  if (results !== null) asyncOptions.value = results;
+  isSearching.value = false;
+};
+
+const debouncedAsyncSearch = debounce(performAsyncSearch, 300);
+
+const onAsyncSearch = query => {
+  const hasQuery = !!query.trim();
+  lastSearchQuery.value = query;
+  if (!hasQuery) asyncOptions.value = [];
+  isSearching.value = hasQuery;
+  debouncedAsyncSearch(query);
+};
+
 const resetModelOnAttributeKeyChange = newAttributeKey => {
   /**
    * Resets the filter values and operator when the attribute key changes. This ensures that
@@ -114,11 +150,16 @@ const resetModelOnAttributeKeyChange = newAttributeKey => {
   const newInputType = getInputType(newOperator, filter);
   if (newInputType === 'multiSelect') {
     values.value = [];
-  } else if (['searchSelect', 'booleanSelect'].includes(newInputType)) {
+  } else if (
+    ['searchSelect', 'asyncSearchSelect', 'booleanSelect'].includes(
+      newInputType
+    )
+  ) {
     values.value = {};
   } else {
     values.value = '';
   }
+  asyncOptions.value = [];
   filterOperator.value = newOperator.value;
 };
 
@@ -131,7 +172,11 @@ const validate = () => {
   return !validationError.value;
 };
 
-defineExpose({ validate });
+const resetValidation = () => {
+  showErrors.value = false;
+};
+
+defineExpose({ validate, resetValidation });
 </script>
 
 <template>
@@ -159,18 +204,30 @@ defineExpose({ validate });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="currentFilter.filterOperators"
+        :options="currentFilter?.filterOperators"
       />
-      <template v-if="currentOperator.hasInput">
+      <template v-if="currentOperator?.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-72"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-64"
+        />
+        <SingleSelect
+          v-else-if="inputType === 'asyncSearchSelect'"
+          v-model="values"
+          async-search
+          :options="asyncOptions"
+          :is-searching="isSearching"
+          :search-placeholder="currentFilter.searchPlaceholder"
+          dropdown-max-height="max-h-64"
+          @search="onAsyncSearch"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
@@ -178,11 +235,11 @@ defineExpose({ validate });
           disable-search
           :options="booleanOptions"
         />
-        <input
+        <Input
           v-else
           v-model="values"
-          :type="inputType === 'date' ? 'date' : 'text'"
-          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base"
+          :type="inputFieldType"
+          class="[&>input]:h-8 [&>input]:py-1.5 [&>input]:outline-offset-0"
           :placeholder="t('FILTER.INPUT_PLACEHOLDER')"
         />
       </template>
@@ -191,6 +248,7 @@ defineExpose({ validate });
         solid
         slate
         icon="i-lucide-trash"
+        class="flex-shrink-0"
         @click.stop="emit('remove')"
       />
     </div>

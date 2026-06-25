@@ -1,0 +1,153 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Laadi alla",
+      "UPLOADING": "Üleslaadimine..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Saada"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Saada sõnum uuesti",
+      "ERROR_MESSAGE": "Saatmine ebaõnnestus, proovi uuesti"
+    }
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Pole saadaval"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Oleme võrgus",
+    "OFFLINE": "Oleme hetkel eemal",
+    "BACK_AS_SOON_AS_POSSIBLE": "Oleme tagasi esimesel võimalusel"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Tavaliselt vastame mõne minuti jooksul",
+    "IN_A_FEW_HOURS": "Tavaliselt vastame mõne tunni jooksul",
+    "IN_A_DAY": "Tavaliselt vastame päeva jooksul",
+    "BACK_IN_HOURS": "Oleme tagasi {n} tunni pärast | Oleme tagasi {n} tunni pärast",
+    "BACK_IN_MINUTES": "Oleme tagasi {time} minuti pärast",
+    "BACK_AT_TIME": "Oleme tagasi kell {time}",
+    "BACK_ON_DAY": "Oleme tagasi {day}",
+    "BACK_TOMORROW": "Oleme tagasi homme",
+    "BACK_IN_SOME_TIME": "Oleme mõne aja pärast tagasi"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Pühapäev",
+    "MONDAY": "Esmaspäev",
+    "TUESDAY": "Teisipäev",
+    "WEDNESDAY": "Kolmapäev",
+    "THURSDAY": "Neljapäev",
+    "FRIDAY": "Reede",
+    "SATURDAY": "Laupäev"
+  },
+  "START_CONVERSATION": "Alusta vestlust",
+  "END_CONVERSATION": "Lõpeta vestlus",
+  "CONTINUE_CONVERSATION": "Jätka vestlust",
+  "YOU": "Sina",
+  "START_NEW_CONVERSATION": "Alusta uut vestlust",
+  "VIEW_UNREAD_MESSAGES": "Sul on lugemata sõnumeid",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Vaata uusi sõnumeid",
+    "CLOSE_MESSAGES_BUTTON": "Sulge",
+    "COMPANY_FROM": "saatjalt",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Vestle meiega"
+  },
+  "POWERED_BY": "Toetab Chatwoot",
+  "EMAIL_PLACEHOLDER": "Palun sisesta oma e-post",
+  "CHAT_PLACEHOLDER": "Kirjuta oma sõnum",
+  "TODAY": "Täna",
+  "YESTERDAY": "Eile",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Täisnimi",
+        "PLACEHOLDER": "Palun sisesta oma täisnimi",
+        "REQUIRED_ERROR": "Täisnimi on kohustuslik"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-posti aadress",
+        "PLACEHOLDER": "Palun sisesta oma e-posti aadress",
+        "REQUIRED_ERROR": "E-posti aadress on kohustuslik",
+        "VALID_ERROR": "Palun sisesta kehtiv e-posti aadress"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefoninumber",
+        "PLACEHOLDER": "Palun sisesta oma telefoninumber",
+        "REQUIRED_ERROR": "Telefoninumber on kohustuslik",
+        "DIAL_CODE_VALID_ERROR": "Palun vali riigikood",
+        "VALID_ERROR": "Palun sisesta kehtiv telefoninumber",
+        "DROPDOWN_EMPTY": "Tulemusi ei leitud",
+        "DROPDOWN_SEARCH": "Otsi riiki"
+      },
+      "MESSAGE": {
+        "LABEL": "Sõnum",
+        "PLACEHOLDER": "Palun sisesta oma sõnum",
+        "ERROR": "Sõnum on liiga lühike"
+      }
+    },
+    "CAMPAIGN_HEADER": "Palun sisesta enne vestluse alustamist oma nimi ja e-post",
+    "IS_REQUIRED": "on kohustuslik",
+    "REQUIRED": "Kohustuslik",
+    "REGEX_ERROR": "Palun sisesta korrektne väärtus"
+  },
+  "FILE_SIZE_LIMIT": "Fail ületab {MAXIMUM_FILE_UPLOAD_SIZE} manuse limiidi",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Vigane väli"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Otsi emotikone",
+    "NOT_FOUND": "Ühtegi emotikoni ei leitud",
+    "ARIA_LABEL": "Emotikonide valija"
+  },
+  "CSAT": {
+    "TITLE": "Hinda oma vestlust",
+    "SUBMITTED_TITLE": "Täname hinnangu eest",
+    "PLACEHOLDER": "Räägi meile rohkem..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Taotle vestluse koopiat",
+    "SEND_EMAIL_SUCCESS": "Vestluse koopia saadeti edukalt",
+    "SEND_EMAIL_ERROR": "Tekkis viga, palun proovi uuesti"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Klõpsa siia liitumiseks",
+      "LEAVE_THE_ROOM": "Lahku kõnest"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Populaarsed artiklid",
+    "VIEW_ALL_ARTICLES": "Vaata kõiki artikleid",
+    "IFRAME_LOAD_ERROR": "Artikli laadimisel tekkis viga, palun värskenda lehte ja proovi uuesti."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Pildisõnum"
+    },
+    "audio": {
+      "CONTENT": "Helisõnum"
+    },
+    "video": {
+      "CONTENT": "Videosõnum"
+    },
+    "file": {
+      "CONTENT": "Faili manus"
+    },
+    "location": {
+      "CONTENT": "Asukoht"
+    },
+    "fallback": {
+      "CONTENT": "jagas URL-i"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Vastus sõnumile:"
+  }
+}

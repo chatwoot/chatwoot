@@ -88,8 +88,31 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
 
+    describe '#perform with remove assignment actions' do
+      let!(:team) { create(:team, account: account) }
+
+      before do
+        conversation.update!(assignee: agent, team: team)
+        rule.actions = [
+          { action_name: 'remove_assigned_agent', action_params: [] },
+          { action_name: 'remove_assigned_team', action_params: [] }
+        ]
+        rule.save!
+      end
+
+      it 'removes assignee and team from the conversation' do
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.reload.assignee).to be_nil
+        expect(conversation.team).to be_nil
+      end
+    end
+
     describe '#perform with send_email_transcript action' do
       before do
+        allow(account).to receive(:email_transcript_enabled?).and_return(true)
+        allow(account).to receive(:within_email_rate_limit?).and_return(true)
+        allow(account).to receive(:increment_email_sent_count).and_return(true)
         rule.actions << { action_name: 'send_email_transcript', action_params: ['contact@example.com, agent@example.com,agent1@example.com'] }
         rule.save
       end
@@ -115,6 +138,83 @@ RSpec.describe AutomationRules::ActionService do
 
         described_class.new(rule.reload, account, conversation).perform
         expect(mailer).to have_received(:conversation_transcript).exactly(1).times
+      end
+    end
+
+    describe '#perform with add_label action' do
+      before do
+        rule.actions << { action_name: 'add_label', action_params: %w[bug feature] }
+        rule.save
+      end
+
+      it 'will add labels to conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list).to include('bug', 'feature')
+      end
+
+      it 'will not duplicate existing labels' do
+        conversation.add_labels(['bug'])
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list.count('bug')).to eq(1)
+        expect(conversation.reload.label_list).to include('feature')
+      end
+    end
+
+    describe '#perform with remove_label action' do
+      before do
+        conversation.add_labels(%w[bug feature support])
+        rule.actions << { action_name: 'remove_label', action_params: %w[bug feature] }
+        rule.save
+      end
+
+      it 'will remove specified labels from conversation' do
+        described_class.new(rule, account, conversation).perform
+        expect(conversation.reload.label_list).not_to include('bug', 'feature')
+        expect(conversation.reload.label_list).to include('support')
+      end
+
+      it 'will not fail if labels do not exist on conversation' do
+        conversation.update_labels(['support']) # Remove bug and feature first
+        expect { described_class.new(rule, account, conversation).perform }.not_to raise_error
+        expect(conversation.reload.label_list).to include('support')
+      end
+    end
+
+    describe '#perform with add_private_note action' do
+      let(:message_builder) { double }
+
+      before do
+        allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+        rule.actions.delete_if { |a| a['action_name'] == 'send_message' }
+        rule.actions << { action_name: 'add_private_note', action_params: ['Note'] }
+      end
+
+      it 'will add private note' do
+        expect(message_builder).to receive(:perform)
+        described_class.new(rule, account, conversation).perform
+      end
+
+      it 'will not add note if conversation is a tweet' do
+        twitter_inbox = create(:inbox, channel: create(:channel_twitter_profile, account: account))
+        conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
+        expect(message_builder).not_to receive(:perform)
+        described_class.new(rule, account, conversation).perform
+      end
+    end
+
+    describe '#perform with assign_agent action' do
+      before do
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        rule.actions << { action_name: 'assign_agent', action_params: ['last_responding_agent'] }
+      end
+
+      it 'assigns the conversation to the last responding agent' do
+        create(:message, message_type: :outgoing, account: account,
+                         inbox: conversation.inbox, conversation: conversation, sender: agent)
+
+        described_class.new(rule, account, conversation).perform
+
+        expect(conversation.reload.assignee).to eq(agent)
       end
     end
   end

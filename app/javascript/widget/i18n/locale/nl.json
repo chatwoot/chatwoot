@@ -12,15 +12,26 @@
       "ERROR_MESSAGE": "Verzenden mislukt, probeer het opnieuw"
     }
   },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Niet beschikbaar"
+    }
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We zijn online",
-    "OFFLINE": "We zijn momenteel afwezig"
+    "OFFLINE": "We zijn momenteel afwezig",
+    "BACK_AS_SOON_AS_POSSIBLE": "We zijn zo snel mogelijk weer terug"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Reageert meestal binnen een paar minuten",
     "IN_A_FEW_HOURS": "Reageert meestal binnen een paar uur",
     "IN_A_DAY": "Reageert meestal binnen een dag",
-    "BACK_IN": "We zullen weer online zijn"
+    "BACK_IN_HOURS": "We zullen weer online zijn in {n} uur | We zijn weer online in {n} uur",
+    "BACK_IN_MINUTES": "We zijn weer online in {time} minuten",
+    "BACK_AT_TIME": "We zijn weer online op {time}",
+    "BACK_ON_DAY": "We zijn weer online op {day}",
+    "BACK_TOMORROW": "We zullen morgen weer online zijn",
+    "BACK_IN_SOME_TIME": "We zijn weer online binnen een bepaalde tijd"
   },
   "DAY_NAMES": {
     "SUNDAY": "zondag",

@@ -3,27 +3,35 @@ import { ref } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
-const emit = defineEmits(['close']);
+defineProps({
+  assistantId: {
+    type: Number,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['close', 'createSuccess']);
 const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
-const documentForm = ref(null);
 
 const i18nKey = 'CAPTAIN.DOCUMENTS.CREATE';
 
 const handleSubmit = async newDocument => {
   try {
     await store.dispatch('captainDocuments/create', newDocument);
+    emit('createSuccess');
     useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      error?.response?.message || t(`${i18nKey}.ERROR_MESSAGE`);
+      parseAPIErrorResponse(error) || t(`${i18nKey}.ERROR_MESSAGE`);
     useAlert(errorMessage);
   }
 };
@@ -49,7 +57,7 @@ defineExpose({ dialogRef });
     @close="handleClose"
   >
     <DocumentForm
-      ref="documentForm"
+      :assistant-id="assistantId"
       @submit="handleSubmit"
       @cancel="handleCancel"
     />

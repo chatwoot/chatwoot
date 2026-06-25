@@ -47,18 +47,223 @@ RSpec.describe Channel::Whatsapp do
   end
 
   describe 'webhook_verify_token' do
+    before do
+      # Stub webhook setup to prevent HTTP calls during channel creation
+      setup_service = instance_double(Whatsapp::WebhookSetupService)
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+      allow(setup_service).to receive(:perform)
+    end
+
     it 'generates webhook_verify_token if not present' do
-      channel = create(:channel_whatsapp, provider_config: { webhook_verify_token: nil }, provider: 'whatsapp_cloud', account: create(:account),
-                                          validate_provider_config: false, sync_templates: false)
+      channel = create(:channel_whatsapp,
+                       provider_config: {
+                         'webhook_verify_token' => nil,
+                         'api_key' => 'test_key',
+                         'business_account_id' => '123456789'
+                       },
+                       provider: 'whatsapp_cloud',
+                       account: create(:account),
+                       validate_provider_config: false,
+                       sync_templates: false)
 
       expect(channel.provider_config['webhook_verify_token']).not_to be_nil
     end
 
     it 'does not generate webhook_verify_token if present' do
-      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', provider_config: { webhook_verify_token: '123' }, account: create(:account),
-                                          validate_provider_config: false, sync_templates: false)
+      channel = create(:channel_whatsapp,
+                       provider: 'whatsapp_cloud',
+                       provider_config: {
+                         'webhook_verify_token' => '123',
+                         'api_key' => 'test_key',
+                         'business_account_id' => '123456789'
+                       },
+                       account: create(:account),
+                       validate_provider_config: false,
+                       sync_templates: false)
 
       expect(channel.provider_config['webhook_verify_token']).to eq '123'
+    end
+  end
+
+  describe 'webhook setup after creation' do
+    let(:account) { create(:account) }
+    let(:webhook_service) { instance_double(Whatsapp::WebhookSetupService) }
+
+    before do
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+      allow(webhook_service).to receive(:perform)
+    end
+
+    context 'when channel is created through embedded signup' do
+      it 'does not raise error if webhook setup fails' do
+        allow(webhook_service).to receive(:perform).and_raise(StandardError, 'Webhook error')
+
+        expect do
+          create(:channel_whatsapp,
+                 account: account,
+                 provider: 'whatsapp_cloud',
+                 provider_config: {
+                   'source' => 'embedded_signup',
+                   'business_account_id' => 'test_waba_id',
+                   'api_key' => 'test_access_token'
+                 },
+                 validate_provider_config: false,
+                 sync_templates: false)
+        end.not_to raise_error
+      end
+    end
+
+    context 'when channel is created through manual setup' do
+      it 'setups webhooks via after_commit callback' do
+        expect(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+        expect(webhook_service).to receive(:perform)
+
+        # Explicitly set source to nil to test manual setup behavior (not embedded_signup)
+        create(:channel_whatsapp,
+               account: account,
+               provider: 'whatsapp_cloud',
+               provider_config: {
+                 'business_account_id' => 'test_waba_id',
+                 'api_key' => 'test_access_token',
+                 'source' => nil
+               },
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+    end
+
+    context 'when channel is created with different provider' do
+      it 'does not setup webhooks for 360dialog provider' do
+        expect(Whatsapp::WebhookSetupService).not_to receive(:new)
+
+        create(:channel_whatsapp,
+               account: account,
+               provider: 'default',
+               provider_config: {
+                 'source' => 'embedded_signup',
+                 'api_key' => 'test_360dialog_key'
+               },
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+    end
+  end
+
+  describe '#teardown_webhooks' do
+    let(:account) { create(:account) }
+
+    context 'when channel is whatsapp_cloud with embedded_signup' do
+      it 'calls WebhookTeardownService on destroy' do
+        # Mock the setup service to prevent HTTP calls during creation
+        setup_service = instance_double(Whatsapp::WebhookSetupService)
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+        allow(setup_service).to receive(:perform)
+
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         provider: 'whatsapp_cloud',
+                         provider_config: {
+                           'source' => 'embedded_signup',
+                           'business_account_id' => 'test_waba_id',
+                           'api_key' => 'test_access_token',
+                           'phone_number_id' => '123456789'
+                         },
+                         validate_provider_config: false,
+                         sync_templates: false)
+
+        teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+        allow(Whatsapp::WebhookTeardownService).to receive(:new).with(channel).and_return(teardown_service)
+        allow(teardown_service).to receive(:perform)
+
+        channel.destroy
+
+        expect(Whatsapp::WebhookTeardownService).to have_received(:new).with(channel)
+        expect(teardown_service).to have_received(:perform)
+      end
+    end
+
+    context 'when channel is not embedded_signup' do
+      it 'calls WebhookTeardownService on destroy' do
+        # Mock the setup service to prevent HTTP calls during creation
+        setup_service = instance_double(Whatsapp::WebhookSetupService)
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(setup_service)
+        allow(setup_service).to receive(:perform)
+
+        channel = create(:channel_whatsapp,
+                         account: account,
+                         provider: 'whatsapp_cloud',
+                         provider_config: {
+                           'business_account_id' => 'test_waba_id',
+                           'api_key' => 'test_access_token'
+                         },
+                         validate_provider_config: false,
+                         sync_templates: false)
+
+        teardown_service = instance_double(Whatsapp::WebhookTeardownService)
+        allow(Whatsapp::WebhookTeardownService).to receive(:new).with(channel).and_return(teardown_service)
+        allow(teardown_service).to receive(:perform)
+
+        channel.destroy
+
+        expect(teardown_service).to have_received(:perform)
+      end
+    end
+  end
+
+  describe '#voice_enabled?' do
+    let(:account) { create(:account) }
+
+    before { account.enable_features!('channel_voice') }
+
+    it 'returns true for embedded-signup whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns true for manual whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns false for default-provider channels (360dialog) even with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'default',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+
+    it 'returns false when the channel_voice feature is disabled on the account' do
+      account.disable_features!('channel_voice')
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+  end
+
+  describe '#inbound_calls_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'returns true by default when nothing has been toggled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      expect(channel.inbound_calls_enabled?).to be true
+    end
+
+    it 'returns false only when explicitly disabled in provider_config' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('inbound_calls_enabled' => false))
+
+      expect(channel.inbound_calls_enabled?).to be false
     end
   end
 end

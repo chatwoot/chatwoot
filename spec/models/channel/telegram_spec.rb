@@ -114,6 +114,24 @@ RSpec.describe Channel::Telegram do
       expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
     end
 
+    it 'sends message with business_connection_id' do
+      additional_attributes = { 'chat_id' => '123', 'business_connection_id' => 'eooW3KF5WB5HxTD7T826' }
+      message = create(:message, message_type: :outgoing, content: 'test',
+                                 conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: additional_attributes))
+
+      stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/sendMessage")
+        .with(
+          body: 'chat_id=123&text=test&reply_markup=&parse_mode=HTML&reply_to_message_id=&business_connection_id=eooW3KF5WB5HxTD7T826'
+        )
+        .to_return(
+          status: 200,
+          body: { result: { message_id: 'telegram_123' } }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+
+      expect(telegram_channel.send_message_on_telegram(message)).to eq('telegram_123')
+    end
+
     it 'send text message failed' do
       message = create(:message, message_type: :outgoing, content: 'test',
                                  conversation: create(:conversation, inbox: telegram_channel.inbox, additional_attributes: { 'chat_id' => '123' }))

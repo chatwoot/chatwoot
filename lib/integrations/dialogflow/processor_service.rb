@@ -1,6 +1,51 @@
 require 'google/cloud/dialogflow/v2'
 
 class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorService
+  SUPPORTED_LANGUAGE_CODES = %w[
+    ar
+    en-US
+    en-GB
+    es-ES
+    es-419
+    fr-FR
+    de-DE
+    pt-BR
+    pt-PT
+    it-IT
+    ja-JP
+    ko-KR
+    zh-CN
+    zh-TW
+    hi-IN
+    ru-RU
+    nl-NL
+    pl-PL
+    tr-TR
+    th-TH
+    vi-VN
+    id-ID
+  ].freeze
+  AUTO_LANGUAGE_CODE_MAP = {
+    'ar' => 'ar',
+    'de' => 'de-DE',
+    'en' => 'en-US',
+    'es' => 'es-ES',
+    'fr' => 'fr-FR',
+    'hi' => 'hi-IN',
+    'id' => 'id-ID',
+    'it' => 'it-IT',
+    'ja' => 'ja-JP',
+    'ko' => 'ko-KR',
+    'nl' => 'nl-NL',
+    'pl' => 'pl-PL',
+    'pt' => 'pt-BR',
+    'ru' => 'ru-RU',
+    'th' => 'th-TH',
+    'tr' => 'tr-TR',
+    'vi' => 'vi-VN',
+    'zh' => 'zh-CN'
+  }.freeze
+
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
   private
@@ -65,13 +110,63 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
       config.timeout = 10.0
       config.credentials = hook.settings['credentials']
+      config.endpoint = dialogflow_endpoint
     end
+  end
+
+  def normalized_region
+    region = hook.settings['region'].to_s.strip
+    (region.presence || 'global')
+  end
+
+  def dialogflow_endpoint
+    region = normalized_region
+    return 'dialogflow.googleapis.com' if region == 'global'
+
+    "#{region}-dialogflow.googleapis.com"
   end
 
   def detect_intent(session_id, message)
     client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
-    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
-    query_input = { text: { text: message, language_code: 'en-US' } }
+    session = build_session_path(session_id)
+    query_input = { text: { text: message, language_code: dialogflow_language_code } }
     client.detect_intent session: session, query_input: query_input
+  end
+
+  def build_session_path(session_id)
+    project_id = hook.settings['project_id']
+    region = normalized_region
+
+    if region == 'global'
+      "projects/#{project_id}/agent/sessions/#{session_id}"
+    else
+      "projects/#{project_id}/locations/#{region}/agent/sessions/#{session_id}"
+    end
+  end
+
+  def dialogflow_language_code
+    configured_language = hook.settings['language_code'].to_s.strip
+    return 'en-US' if configured_language.blank?
+    return configured_language if configured_language != 'auto'
+
+    normalized_contact_language_code(conversation&.contact&.additional_attributes&.dig('language_code')) || 'en-US'
+  end
+
+  def normalized_contact_language_code(language_code)
+    canonicalized_language_code = canonical_language_code(language_code)
+    return if canonicalized_language_code.blank?
+    return canonicalized_language_code if SUPPORTED_LANGUAGE_CODES.include?(canonicalized_language_code)
+
+    AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code] || AUTO_LANGUAGE_CODE_MAP[canonicalized_language_code.split('-', 2).first]
+  end
+
+  def canonical_language_code(language_code)
+    normalized_language_code = language_code.to_s.tr('_', '-').strip
+    return if normalized_language_code.blank?
+
+    language, region = normalized_language_code.split('-', 2)
+    return language.downcase if region.blank?
+
+    "#{language.downcase}-#{region.upcase}"
   end
 end

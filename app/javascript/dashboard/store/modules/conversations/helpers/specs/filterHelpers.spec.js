@@ -192,6 +192,32 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    it('should not match conversation with equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with not_equal_to operator when assignee is null', () => {
+      const conversation = { meta: { assignee: null } };
+      const filters = [
+        {
+          attribute_key: 'assignee_id',
+          filter_operator: 'not_equal_to',
+          values: { id: 1, name: 'John Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with is_not_present operator for assignee_id', () => {
       const conversation = { meta: { assignee: null } };
       const filters = [
@@ -216,6 +242,32 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match conversation with equal_to operator for contact_id', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: { id: 42, name: 'Jane Doe' },
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match conversation with saved contact_id filter values', () => {
+      const conversation = { meta: { sender: { id: 42 } } };
+      const filters = [
+        {
+          attribute_key: 'contact_id',
+          filter_operator: 'equal_to',
+          values: [42],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
     // Standard attribute tests - priority
@@ -247,7 +299,7 @@ describe('filterHelpers', () => {
 
     // Text search tests - display_id
     it('should match conversation with equal_to operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -260,7 +312,7 @@ describe('filterHelpers', () => {
     });
 
     it('should match conversation with contains operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -273,7 +325,7 @@ describe('filterHelpers', () => {
     });
 
     it('should not match conversation with does_not_contain operator for display_id', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -285,8 +337,60 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
+    it('should not match contains operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should not match contains operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'contains',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should match does_not_contain operator when display_id is null', () => {
+      const conversation = { id: null };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: '234',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should match does_not_contain operator when filter value is null', () => {
+      const conversation = { id: '12345' };
+      const filters = [
+        {
+          attribute_key: 'display_id',
+          filter_operator: 'does_not_contain',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
     it('should match conversation with does_not_contain operator when value is not present', () => {
-      const conversation = { display_id: '12345' };
+      const conversation = { id: '12345' };
       const filters = [
         {
           attribute_key: 'display_id',
@@ -336,6 +440,40 @@ describe('filterHelpers', () => {
         },
       ];
       expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Multi-label equal_to uses OR semantics to mirror the backend SQL `tag_id IN (...)`:
+    // a conversation matches if ANY of the filter labels is on it.
+    it('should match conversation with equal_to operator when any of multiple filter labels is present', () => {
+      const conversation = { labels: ['support'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with equal_to operator when none of multiple filter labels is present', () => {
+      const conversation = { labels: ['new'] };
+      const filters = [
+        {
+          attribute_key: 'labels',
+          filter_operator: 'equal_to',
+          values: [
+            { id: 'support', name: 'Support' },
+            { id: 'urgent', name: 'Urgent' },
+          ],
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
     });
 
     it('should match conversation with is_present operator for labels', () => {
@@ -463,6 +601,294 @@ describe('filterHelpers', () => {
       expect(matchesFilters(conversation, filters)).toBe(true);
     });
 
+    // Test conversation with 10-digit timestamp (seconds) vs standard date filter
+    it('should match conversation with 10-digit timestamp against date string filter', () => {
+      const conversation = { created_at: 1647777600 }; // March 20, 2022 in seconds (10 digits)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19', // Standard YYYY-MM-DD format
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test conversation with 13-digit timestamp (milliseconds) vs standard date filter
+    it('should match conversation with 13-digit timestamp against date string filter', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022 in milliseconds (13 digits)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19', // Standard YYYY-MM-DD format
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test conversation with string timestamp vs standard date filter
+    it('should match conversation with string 10-digit timestamp against date string filter', () => {
+      const conversation = { created_at: '1647777600' }; // March 20, 2022 as string (10 digits)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19', // Standard YYYY-MM-DD format
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test conversation with string 13-digit timestamp vs standard date filter
+    it('should match conversation with string 13-digit timestamp against date string filter', () => {
+      const conversation = { created_at: '1647777600000' }; // March 20, 2022 as string (13 digits)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19', // Standard YYYY-MM-DD format
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test conversation with mixed format vs standard date filter with time
+    it('should match conversation with numeric timestamp against ISO date string filter', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022 12:00:00 GMT (numeric)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19T10:30:00Z', // Standard ISO format from filter
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test parseDate with date string without time (should default to 00:00:00)
+    it('should match conversation with is_greater_than operator using date string without time', () => {
+      const conversation = { created_at: 1647820800000 }; // March 21, 2022 00:00:00 GMT
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-20', // March 20, 2022 (should become 00:00:00)
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test parseDate with ISO date string
+    it('should match conversation with is_greater_than operator using ISO date string', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19T00:00:00.000Z', // March 19, 2022 ISO format
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test parseDate with null/undefined values
+    it('should handle null filter values in date comparison', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: null,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should handle undefined filter values in date comparison', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: undefined,
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Test parseDate with invalid date strings
+    it('should handle invalid date strings in date comparison', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: 'invalid-date-string',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Test for array filter values (saved views)
+    it('should handle array filter values for date comparison in saved views', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: ['2022-03-19'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with is_less_than operator', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
+          values: ['2022-03-21'], // Array format from saved views
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle array filter values with timestamp', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [1647691200], // March 19, 2022 as array (in seconds)
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should handle empty array filter values', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: [], // Empty array
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    it('should handle non-date string values in date comparison', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: 'not-a-date',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Test is_less_than with various date formats
+    it('should match conversation with is_less_than operator using numeric timestamp', () => {
+      const conversation = { created_at: 1647691200000 }; // March 19, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
+          values: 1647777600, // March 20, 2022 as 10-digit timestamp
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    it('should not match conversation with is_less_than operator when date is later', () => {
+      const conversation = { created_at: 1647864000000 }; // March 21, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_less_than',
+          values: '2022-03-20T12:00:00Z', // March 20, 2022 with time
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
+    // Edge case: Test with conversation having string timestamp
+    it('should handle conversation with string timestamp value', () => {
+      const conversation = { created_at: '1647777600000' }; // March 20, 2022 as string
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Edge case: Test with conversation having 10-digit timestamp
+    it('should handle conversation with 10-digit timestamp value', () => {
+      const conversation = { created_at: 1647777600 }; // March 20, 2022 as seconds (10 digits)
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19',
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test date string with different time formats
+    it('should handle date string with space-separated time', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: '2022-03-19 10:30:00', // Date with space-separated time
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(true);
+    });
+
+    // Test parseDate with object input (should return null and fail comparison)
+    it('should handle non-string, non-number filter values', () => {
+      const conversation = { created_at: 1647777600000 }; // March 20, 2022
+      const filters = [
+        {
+          attribute_key: 'created_at',
+          filter_operator: 'is_greater_than',
+          values: { date: '2022-03-19' }, // Object instead of string/number
+          query_operator: 'and',
+        },
+      ];
+      expect(matchesFilters(conversation, filters)).toBe(false);
+    });
+
     describe('days_before operator', () => {
       beforeEach(() => {
         // Set the date to March 25, 2022
@@ -481,6 +907,19 @@ describe('filterHelpers', () => {
             attribute_key: 'created_at',
             filter_operator: 'days_before',
             values: '3', // 3 days before March 25 = March 22
+            query_operator: 'and',
+          },
+        ];
+        expect(matchesFilters(conversation, filters)).toBe(true);
+      });
+
+      it('should handle array values for days_before operator', () => {
+        const conversation = { created_at: 1647777600000 }; // March 20, 2022
+        const filters = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'days_before',
+            values: ['3'], // Array format from saved views
             query_operator: 'and',
           },
         ];
@@ -688,7 +1127,7 @@ describe('filterHelpers', () => {
 
     it('should handle empty string values in conversation', () => {
       const conversation = {
-        display_id: '',
+        id: '',
       };
       const filters = [
         {

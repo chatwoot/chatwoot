@@ -1,0 +1,13 @@
+type: object
+properties:
+  payload:
+    type: array
+    items:
+      allOf:
+        - $ref: '#/components/schemas/conversation'
+        - type: object
+          properties:
+            meta:
+              $ref: './extension/contact/conversation.yml#/properties/meta'
+              description: Meta information about the conversation
+    description: List of conversations for the contact 

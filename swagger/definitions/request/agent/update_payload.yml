@@ -1,0 +1,18 @@
+type: object
+required:
+  - role
+properties:
+  role:
+    type: string
+    enum: ['agent', 'administrator']
+    description: Whether its administrator or agent
+    example: 'agent'
+  availability:
+    type: string
+    enum: ['online', 'busy', 'offline']
+    description: The configured availability of the agent.
+    example: 'online'
+  auto_offline:
+    type: boolean
+    description: Whether the agent is automatically marked offline when they are away.
+    example: true

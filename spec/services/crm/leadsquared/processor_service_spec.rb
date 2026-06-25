@@ -116,7 +116,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
     before do
       allow(Crm::Leadsquared::Mappers::ConversationMapper).to receive(:map_conversation_activity)
-        .with(conversation)
+        .with(hook, conversation)
         .and_return(activity_note)
     end
 
@@ -157,7 +157,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
         it 'logs the error' do
           service.handle_conversation_created(conversation)
-          expect(Rails.logger).to have_received(:error).with(/Error creating conversation activity/)
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
         end
       end
     end
@@ -180,7 +180,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
     before do
       allow(Crm::Leadsquared::Mappers::ConversationMapper).to receive(:map_transcript_activity)
-        .with(conversation)
+        .with(hook, conversation)
         .and_return(activity_note)
     end
 

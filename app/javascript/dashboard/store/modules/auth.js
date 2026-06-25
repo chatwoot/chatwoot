@@ -2,6 +2,8 @@ import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
 import { setUser, clearCookiesOnLogout } from '../utils/api';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 
 const initialState = {
   currentUser: {
@@ -133,6 +135,16 @@ export const actions = {
     }
   },
 
+  updatePassword: async ({ commit }, params) => {
+    // eslint-disable-next-line no-useless-catch
+    try {
+      const response = await authAPI.profilePasswordUpdate(params);
+      commit(types.SET_CURRENT_USER, response.data);
+    } catch (error) {
+      throw error;
+    }
+  },
+
   deleteAvatar: async ({ commit }) => {
     try {
       const response = await authAPI.deleteAvatar();
@@ -145,8 +157,15 @@ export const actions = {
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
-      const response = await authAPI.updateUISettings(params);
-      commit(types.SET_CURRENT_USER, response.data);
+
+      const isImpersonating = SessionStorage.get(
+        SESSION_STORAGE_KEYS.IMPERSONATION_USER
+      );
+
+      if (!isImpersonating) {
+        const response = await authAPI.updateUISettings(params);
+        commit(types.SET_CURRENT_USER, response.data);
+      }
     } catch (error) {
       // Ignore error
     }
@@ -204,6 +223,16 @@ export const actions = {
     }
   },
 
+  resetAccessToken: async ({ commit }) => {
+    try {
+      const response = await authAPI.resetAccessToken();
+      commit(types.SET_CURRENT_USER, response.data);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+
   resendConfirmation: async () => {
     try {
       await authAPI.resendConfirmation();
@@ -231,6 +260,20 @@ export const mutations = {
     const accounts = _state.currentUser.accounts.map(account => {
       if (account.id === _state.currentUser.account_id) {
         return { ...account, autoOffline: autoOffline };
+      }
+      return account;
+    });
+
+    _state.currentUser = {
+      ..._state.currentUser,
+      accounts,
+    };
+  },
+  [types.RESET_ONBOARDING](_state, accountId) {
+    const accounts = _state.currentUser.accounts.map(account => {
+      if (account.id === accountId) {
+        const { onboarding_step, ...rest } = account;
+        return rest;
       }
       return account;
     });

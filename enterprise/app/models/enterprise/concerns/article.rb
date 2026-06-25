@@ -11,7 +11,7 @@ module Enterprise::Concerns::Article
     add_article_embedding_association
 
     def self.vector_search(params)
-      embedding = Captain::Llm::EmbeddingService.new.get_embedding(params['query'])
+      embedding = Captain::Llm::EmbeddingService.new(account_id: params[:account_id]).get_embedding(params['query'])
       records = joins(
         :category
       ).search_by_category_slug(
@@ -26,13 +26,15 @@ module Enterprise::Concerns::Article
       # if using add the filter block to the below query
       # .filter { |ae| ae.neighbor_distance <= distance_threshold }
 
-      article_ids = ArticleEmbedding.where(article_id: filtered_article_ids)
-                                    .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-                                    .limit(5)
-                                    .pluck(:article_id)
+      limit = params.key?(:limit) ? params[:limit] : 5
+
+      article_embeddings = ArticleEmbedding.where(article_id: filtered_article_ids)
+                                           .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      article_embeddings = article_embeddings.limit(limit) if limit.present?
+      article_ids = article_embeddings.pluck(:article_id)
 
       # Fetch the articles by the IDs obtained from the nearest neighbors search
-      where(id: article_ids)
+      where(id: article_ids).in_order_of(:id, article_ids)
     end
   end
 
@@ -68,8 +70,16 @@ module Enterprise::Concerns::Article
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{ENV.fetch('OPENAI_API_KEY', nil)}" }
     body = { model: 'gpt-4o', messages: messages, response_format: { type: 'json_object' } }.to_json
     Rails.logger.info "Requesting Chat GPT with body: #{body}"
-    response = HTTParty.post('https://api.openai.com/v1/chat/completions', headers: headers, body: body)
+    response = HTTParty.post(openai_api_url, headers: headers, body: body)
     Rails.logger.info "Chat GPT response: #{response.body}"
     JSON.parse(response.parsed_response['choices'][0]['message']['content'])['search_terms']
+  end
+
+  private
+
+  def openai_api_url
+    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value || 'https://api.openai.com/'
+    endpoint = endpoint.chomp('/')
+    "#{endpoint}/v1/chat/completions"
   end
 end

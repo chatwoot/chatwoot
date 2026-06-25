@@ -21,6 +21,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         json_response = response.parsed_body
         expect(json_response['id']).to eq(agent.id)
         expect(json_response['email']).to eq(agent.email)
@@ -50,6 +51,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         json_response = response.parsed_body
         agent.reload
         expect(json_response['id']).to eq(agent.id)
@@ -64,6 +66,7 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         agent.reload
 
         expect(agent.custom_attributes['phone_number']).to eq('+123456789')
@@ -91,7 +94,20 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(agent.reload.valid_password?('Test1234!')).to be true
+      end
+
+      it 'does not reset the display name if updates the password' do
+        display_name = agent.display_name
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.display_name).to eq(display_name)
       end
 
       it 'throws error when current password provided is invalid' do
@@ -293,6 +309,34 @@ RSpec.describe 'Profile API', type: :request do
         end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
 
         expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/reset_access_token' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/reset_access_token'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'regenerates the access token' do
+        old_token = agent.access_token.token
+
+        post '/api/v1/profile/reset_access_token',
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.access_token.token).not_to eq(old_token)
+        json_response = response.parsed_body
+        expect(json_response['access_token']).to eq(agent.access_token.token)
       end
     end
   end
