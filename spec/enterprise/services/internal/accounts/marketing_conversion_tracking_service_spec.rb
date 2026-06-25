@@ -10,16 +10,38 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   let(:credentials) do
     instance_double(Google::Auth::ServiceAccountCredentials, fetch_access_token!: { 'access_token' => 'access-token' })
   end
+  let(:config) do
+    {
+      'customer_id' => '852-320-2898',
+      'login_customer_id' => '742-202-9198',
+      'service_account_credentials' => {
+        'client_email' => 'marketing-conversions@chatwoot-production.iam.gserviceaccount.com',
+        'private_key' => private_key
+      },
+      'events' => {
+        'cloud_signup' => {
+          'conversion_action_id' => '123456789'
+        }
+      }
+    }
+  end
+  let(:marketing_attribution) do
+    {
+      'first_touch' => { 'gclid' => 'first-click' },
+      'last_touch' => { 'gclid' => 'last-click' }
+    }
+  end
 
   before do
-    InstallationConfig.where(name: described_class::CONFIG_KEY).delete_all
+    create(:installation_config, name: described_class::CONFIG_KEY, value: config.to_json)
+    account.update!(internal_attributes: { 'marketing_attribution' => marketing_attribution })
+
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     allow(Google::Auth::ServiceAccountCredentials).to receive(:make_creds).and_return(credentials)
   end
 
   it 'does nothing outside Chatwoot Cloud' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
-    create_config
 
     expect(HTTParty).not_to receive(:post)
 
@@ -27,13 +49,11 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   end
 
   it 'uploads the last-touch click conversion', :aggregate_failures do
-    create_config
-    account.update!(internal_attributes: attribution_attributes('last-click'))
     upload_request = nil
 
     allow(HTTParty).to receive(:post) do |url, options|
       upload_request = [url, options]
-      response_double
+      instance_double(HTTParty::Response, success?: true, body: '{}')
     end
 
     described_class.new(
@@ -77,7 +97,6 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   end
 
   it 'falls back to first-touch attribution when last-touch attribution has no click id' do
-    create_config
     account.update!(
       internal_attributes: {
         'marketing_attribution' => {
@@ -90,48 +109,11 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
 
     allow(HTTParty).to receive(:post) do |_url, options|
       upload_body = JSON.parse(options[:body])
-      response_double
+      instance_double(HTTParty::Response, success?: true, body: '{}')
     end
 
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
 
     expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
-  end
-
-  def create_config(overrides = {})
-    create(
-      :installation_config,
-      name: described_class::CONFIG_KEY,
-      value: default_config.deep_merge(overrides).to_json
-    )
-  end
-
-  def default_config
-    {
-      'customer_id' => '852-320-2898',
-      'login_customer_id' => '742-202-9198',
-      'service_account_credentials' => {
-        'client_email' => 'marketing-conversions@chatwoot-production.iam.gserviceaccount.com',
-        'private_key' => private_key
-      },
-      'events' => {
-        'cloud_signup' => {
-          'conversion_action_id' => '123456789'
-        }
-      }
-    }
-  end
-
-  def attribution_attributes(gclid)
-    {
-      'marketing_attribution' => {
-        'first_touch' => { 'gclid' => 'first-click' },
-        'last_touch' => { 'gclid' => gclid }
-      }
-    }
-  end
-
-  def response_double
-    instance_double(HTTParty::Response, success?: true, body: '{}')
   end
 end
