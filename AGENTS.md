@@ -46,6 +46,9 @@
 - MVP focus: Least code change, happy-path only
 - No unnecessary defensive programming
 - Ship the happy path first: limit guards/fallbacks to what production has proven necessary, then iterate
+- For locked/internal configs that must exist in production, prefer direct reads (`find`, `find_by!`, required hash keys) over silent fallbacks. Let bad configuration fail loudly and be fixed.
+- Do not add validation or response checks unless the code uses the result or the check changes behavior meaningfully.
+- Prefer existing repo dependencies/client libraries over hand-rolled protocol code for auth, signing, parsing, or API plumbing.
 - Prefer minimal, readable code over elaborate abstractions; clarity beats cleverness
 - Break down complex tasks into small, testable units
 - Iterate after confirmation
