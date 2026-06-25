@@ -33,13 +33,24 @@ class Llm::BaseAiService
   end
 
   def setup_model
-    if @llm_feature.present?
-      @model = Llm::FeatureRouter.resolve(feature: @llm_feature, account: @llm_account)[:model]
-      return
-    end
+    route = feature_route
+    return @model = route[:model] if account_override_route?(route)
 
-    config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
-    @model = @fallback_model.presence || config_value.presence || DEFAULT_MODEL
+    @model = @fallback_model.presence || installation_model.presence || route&.dig(:model) || DEFAULT_MODEL
+  end
+
+  def feature_route
+    return if @llm_feature.blank?
+
+    Llm::FeatureRouter.resolve(feature: @llm_feature, account: @llm_account)
+  end
+
+  def account_override_route?(route)
+    route&.dig(:source) == :account_override
+  end
+
+  def installation_model
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
   end
 
   def setup_temperature

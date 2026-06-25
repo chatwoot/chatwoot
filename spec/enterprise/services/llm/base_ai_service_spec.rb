@@ -6,6 +6,7 @@ RSpec.describe Llm::BaseAiService do
   let(:account) { create(:account) }
 
   before do
+    InstallationConfig.where(name: %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL]).destroy_all
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
   end
 
@@ -16,18 +17,21 @@ RSpec.describe Llm::BaseAiService do
       expect(described_class.new.model).to eq('gpt-4.1-nano')
     end
 
-    it 'uses the feature router when feature context is provided' do
+    it 'uses the account override when feature context is provided' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
       account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
       expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.2')
     end
 
-    it 'does not read the installation model when feature context is provided' do
+    it 'uses the installation model when feature context has no account override' do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
 
-      expect(InstallationConfig).not_to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_MODEL')
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-4.1-nano')
+    end
 
-      described_class.new(feature: 'assistant', account: account)
+    it 'uses the feature default when feature context has no account override or installation model' do
+      expect(described_class.new(feature: 'assistant', account: account).model).to eq('gpt-5.1')
     end
   end
 
