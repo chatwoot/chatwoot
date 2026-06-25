@@ -163,6 +163,11 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Context::NoToolbar': {
+    marks: ['strong', 'em', 'link'],
+    nodes: ['bulletList', 'orderedList'],
+    menu: [],
+  },
 };
 
 // Editor menu options for Full Editor

@@ -7,6 +7,7 @@
 #  conversation_priority    :integer          default("earliest_created"), not null
 #  description              :text
 #  enabled                  :boolean          default(TRUE), not null
+#  exclude_older_than_hours :integer          default(168)
 #  fair_distribution_limit  :integer          default(100), not null
 #  fair_distribution_window :integer          default(3600), not null
 #  name                     :string(255)      not null
@@ -28,6 +29,7 @@ class AssignmentPolicy < ApplicationRecord
   validates :name, presence: true, uniqueness: { scope: :account_id }
   validates :fair_distribution_limit, numericality: { greater_than: 0 }
   validates :fair_distribution_window, numericality: { greater_than: 0 }
+  validates :exclude_older_than_hours, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
   enum conversation_priority: { earliest_created: 0, longest_waiting: 1 }
 

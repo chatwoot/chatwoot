@@ -84,13 +84,14 @@ describe Whatsapp::CallService do
   describe '#reject' do
     before { allow(provider_service).to receive(:reject_call).and_return(true) }
 
-    it 'tells Meta to reject and finalizes the call as failed' do
+    it 'tells Meta to reject and finalizes the call as rejected' do
       described_class.new(call: call, agent: agent).reject
 
       expect(provider_service).to have_received(:reject_call).with('wacid_abc')
-      expect(call.reload.status).to eq('failed')
+      expect(call.reload.status).to eq('rejected')
+      expect(call.end_reason).to eq('agent_rejected')
       expect(ActionCable.server).to have_received(:broadcast).with(
-        "account_#{account.id}", hash_including(event: 'voice_call.ended', data: hash_including(status: 'failed'))
+        "account_#{account.id}", hash_including(event: 'voice_call.ended', data: hash_including(status: 'rejected'))
       )
     end
 
