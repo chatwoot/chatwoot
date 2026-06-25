@@ -87,28 +87,39 @@ class Whatsapp::Providers::AvisaClient
   # entrega o conteúdo decriptado a partir do hash `audioMessage` do whatsmeow.
   # Retorna os bytes (String binária) ou nil se indisponível. Best-effort.
   def download_audio(audio_message)
-    am = audio_message || {}
+    download_media(kind: 'audio', media_message: audio_message)
+  end
+
+  # POST /message/download/{kind} — baixa a mídia inbound DECRIPTADA (base64) a
+  # partir dos metadados whatsmeow (mesmo mecanismo do áudio). kind ∈
+  # audio|image|video|document|sticker. O webhook do Avisa nem sempre anexa o
+  # binário (figurinha NUNCA vem inline; imagem/vídeo/documento às vezes não) —
+  # este endpoint entrega o conteúdo a partir do hash da mensagem. Retorna os
+  # bytes (String binária) ou nil (best-effort: o caller cai no placeholder
+  # visível, sem regressão). Repro conv 254 (figurinha virava placeholder).
+  def download_media(kind:, media_message:)
+    m = media_message || {}
     body = {
-      Url: am['URL'] || am['url'],
-      DirectPath: am['directPath'],
-      MediaKey: am['mediaKey'],
-      Mimetype: am['mimetype'],
-      FileEncSHA256: am['fileEncSHA256'],
-      FileSHA256: am['fileSHA256'],
-      FileLength: am['fileLength'].to_i
+      Url: m['URL'] || m['url'],
+      DirectPath: m['directPath'],
+      MediaKey: m['mediaKey'],
+      Mimetype: m['mimetype'],
+      FileEncSHA256: m['fileEncSHA256'],
+      FileSHA256: m['fileSHA256'],
+      FileLength: m['fileLength'].to_i
     }
-    response = post('/message/download/audio', body)
+    response = post("/message/download/#{kind}", body)
     b64 = extract_base64(response)
     if b64.blank?
       shape = response.is_a?(Hash) ? response.keys.inspect : response.class.name
       inner = response.is_a?(Hash) && response['data'].is_a?(Hash) ? " data.keys=#{response['data'].keys.inspect}" : ''
-      Rails.logger.warn("[AVISA] download_audio sem base64 na resposta — shape=#{shape}#{inner}")
+      Rails.logger.warn("[AVISA] download_media(#{kind}) sem base64 na resposta — shape=#{shape}#{inner}")
       return nil
     end
 
     Base64.decode64(b64.to_s.sub(/\Adata:[^,]+,/, ''))
   rescue Error => e
-    Rails.logger.warn("[AVISA] download_audio falhou: #{e.message}")
+    Rails.logger.warn("[AVISA] download_media(#{kind}) falhou: #{e.message}")
     nil
   end
 

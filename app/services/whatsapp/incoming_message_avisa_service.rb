@@ -26,6 +26,16 @@ class Whatsapp::IncomingMessageAvisaService
     'stickerMessage' => :image
   }.freeze
 
+  # kind do endpoint /message/download/{kind} do Avisa por tipo de mensagem
+  # whatsmeow. Usado como fallback quando o webhook não anexa o binário inline.
+  DOWNLOAD_KINDS = {
+    'imageMessage' => 'image',
+    'videoMessage' => 'video',
+    'audioMessage' => 'audio',
+    'documentMessage' => 'document',
+    'stickerMessage' => 'sticker'
+  }.freeze
+
   def perform
     return if event.blank?
     return handle_reaction if reaction?
@@ -264,7 +274,51 @@ class Whatsapp::IncomingMessageAvisaService
 
     return downloaded_audio_attachment if key == 'audioMessage'
 
-    nil
+    # Avisa não inlinou o binário (figurinha sempre; imagem/vídeo/documento às
+    # vezes). Baixa o conteúdo decriptado via /message/download/{kind} — mesmo
+    # caminho do áudio. Best-effort: se falhar, cai no placeholder visível
+    # (sem regressão vs. comportamento anterior). Repro conv 254.
+    downloaded_media_attachment(key)
+  end
+
+  def downloaded_media_attachment(key)
+    media = event.dig('Message', key) || {}
+    bytes = avisa_client.download_media(kind: DOWNLOAD_KINDS[key], media_message: media)
+    if bytes.blank?
+      Rails.logger.warn("[AVISA] inbound #{key} source_id=#{source_id} download vazio — placeholder")
+      return nil
+    end
+    Rails.logger.info("[AVISA] inbound #{key} source_id=#{source_id} download OK (#{bytes.bytesize} bytes) — anexando")
+
+    {
+      io: StringIO.new(bytes),
+      filename: downloaded_media_filename(key, media),
+      content_type: downloaded_media_content_type(key, media),
+      file_type: MEDIA_KEYS[key] || :file
+    }
+  end
+
+  def downloaded_media_filename(key, media)
+    base = source_id.presence || 'arquivo'
+    case key
+    when 'documentMessage' then media['fileName'].to_s.presence || "documento-#{base}"
+    when 'imageMessage'    then "imagem-#{base}.jpg"
+    when 'videoMessage'    then "video-#{base}.mp4"
+    when 'stickerMessage'  then "figurinha-#{base}.webp"
+    else "arquivo-#{base}"
+    end
+  end
+
+  def downloaded_media_content_type(key, media)
+    mime = media['mimetype'].to_s.split(';').first.presence
+    return mime if mime
+
+    case key
+    when 'imageMessage'   then 'image/jpeg'
+    when 'videoMessage'   then 'video/mp4'
+    when 'stickerMessage' then 'image/webp'
+    else 'application/octet-stream'
+    end
   end
 
   def downloaded_audio_attachment

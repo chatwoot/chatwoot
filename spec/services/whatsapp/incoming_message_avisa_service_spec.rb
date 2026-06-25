@@ -117,6 +117,78 @@ RSpec.describe Whatsapp::IncomingMessageAvisaService do
     end
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: figurinha/imagem/vídeo/documento que o Avisa NÃO
+  # entrega inline (params[:file] ausente) são BAIXADOS via /message/download/
+  # {kind} e anexados, em vez de virar placeholder. Repro conv 254 (figurinha
+  # virava "[O cliente enviou uma figurinha que não pôde ser exibido...]").
+  describe '#perform with downloaded media (Avisa não inlina o binário)' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    def media_event(key, id, mimetype)
+      {
+        'Info' => { 'ID' => id, 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { key => {
+          'URL' => 'https://wa/media.enc', 'directPath' => '/v/t', 'mediaKey' => 'mk',
+          'mimetype' => mimetype, 'fileEncSHA256' => 'e', 'fileSHA256' => 's', 'fileLength' => 1024
+        } }
+      }
+    end
+
+    def build_service(event)
+      described_class.new(inbox: inbox, params: { jsonData: { 'event' => event }.to_json })
+    end
+
+    def stub_download_media(svc, return_value)
+      client = instance_double(Whatsapp::Providers::AvisaClient, download_media: return_value)
+      allow(svc).to receive(:avisa_client).and_return(client)
+    end
+
+    it 'baixa a figurinha (sticker) e cria incoming com anexo de imagem (não placeholder)' do
+      svc = build_service(media_event('stickerMessage', 'STK1', 'image/webp'))
+      stub_download_media(svc, 'FAKE_WEBP_BYTES')
+
+      svc.perform
+
+      msg = Message.find_by(source_id: 'STK1', inbox_id: inbox.id)
+      expect(msg).to be_present
+      expect(msg.message_type).to eq('incoming')
+      expect(msg.attachments.count).to eq(1)
+      expect(msg.attachments.first.file_type).to eq('image')
+    end
+
+    it 'baixa a imagem quando o Avisa não anexa o binário inline' do
+      svc = build_service(media_event('imageMessage', 'IMG1', 'image/jpeg'))
+      stub_download_media(svc, 'FAKE_JPG_BYTES')
+
+      svc.perform
+
+      msg = Message.find_by(source_id: 'IMG1', inbox_id: inbox.id)
+      expect(msg.attachments.first.file_type).to eq('image')
+    end
+
+    it 'baixa o vídeo quando o Avisa não anexa o binário inline' do
+      svc = build_service(media_event('videoMessage', 'VID1', 'video/mp4'))
+      stub_download_media(svc, 'FAKE_MP4_BYTES')
+
+      svc.perform
+
+      msg = Message.find_by(source_id: 'VID1', inbox_id: inbox.id)
+      expect(msg.attachments.first.file_type).to eq('video')
+    end
+
+    it 'cai no placeholder de figurinha quando o download falha (best-effort, sem regressão)' do
+      svc = build_service(media_event('stickerMessage', 'STK2', 'image/webp'))
+      stub_download_media(svc, nil)
+
+      svc.perform
+
+      msg = Message.find_by(source_id: 'STK2', inbox_id: inbox.id)
+      expect(msg).to be_present
+      expect(msg.content).to include('figurinha')
+      expect(msg.attachments).to be_empty
+    end
+  end
+
   # CUSTOMIZAÇÃO_SYNAPSEOS: inbound sem texto e sem mídia anexável (tipo não
   # suportado) NÃO pode virar conversa-casca silenciosa (conv 380) — vira um
   # placeholder incoming visível.
