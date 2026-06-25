@@ -60,7 +60,7 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def conversion_payload
     payload = {
-      transactionId: order_id,
+      transactionId: "#{event_name}-account-#{account.id}",
       eventTimestamp: conversion_time,
       eventSource: 'WEB',
       adIdentifiers: click_attributes
@@ -139,9 +139,5 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def service_account_credentials
     @service_account_credentials ||= config['service_account_credentials']
-  end
-
-  def order_id
-    "#{event_name}-account-#{account.id}"
   end
 end
