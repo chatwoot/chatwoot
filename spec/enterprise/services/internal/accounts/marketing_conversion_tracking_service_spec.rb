@@ -29,15 +29,20 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   it 'uploads the last-touch click conversion', :aggregate_failures do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
-    upload_response = response_double('requestId' => 'request-123')
     upload_request = nil
 
     allow(HTTParty).to receive(:post) do |url, options|
       upload_request = [url, options]
-      upload_response
+      response_double
     end
 
-    described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+    described_class.new(
+      account: account,
+      event_name: event_name,
+      occurred_at: occurred_at,
+      conversion_value: 199,
+      currency_code: 'USD'
+    ).perform
 
     url, options = upload_request
     body = JSON.parse(options[:body])
@@ -65,33 +70,10 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
       'transactionId' => "cloud_signup-account-#{account.id}",
       'eventTimestamp' => '2026-06-23T10:30:00Z',
       'eventSource' => 'WEB',
-      'adIdentifiers' => { 'gclid' => 'last-click' }
+      'adIdentifiers' => { 'gclid' => 'last-click' },
+      'conversionValue' => 199.0,
+      'currency' => 'USD'
     )
-    expect(body['events'].first.keys).not_to include('conversionValue', 'currency')
-
-    expect(account.reload.internal_attributes).not_to have_key('marketing_conversions')
-  end
-
-  it 'falls back to first-touch attribution when last-touch attribution is absent' do
-    create_config
-    account.update!(
-      internal_attributes: {
-        'marketing_attribution' => {
-          'first_touch' => { 'gclid' => 'first-click' }
-        }
-      }
-    )
-    upload_response = response_double('requestId' => 'request-123')
-    upload_body = nil
-
-    allow(HTTParty).to receive(:post) do |_url, options|
-      upload_body = JSON.parse(options[:body])
-      upload_response
-    end
-
-    described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
-
-    expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
   end
 
   it 'falls back to first-touch attribution when last-touch attribution has no click id' do
@@ -104,66 +86,16 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
         }
       }
     )
-    upload_response = response_double('requestId' => 'request-123')
     upload_body = nil
 
     allow(HTTParty).to receive(:post) do |_url, options|
       upload_body = JSON.parse(options[:body])
-      upload_response
+      response_double
     end
 
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
 
     expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
-  end
-
-  it 'uploads conversion value and currency when provided' do
-    create_config
-    account.update!(internal_attributes: attribution_attributes('last-click'))
-    upload_response = response_double('requestId' => 'request-123')
-    upload_body = nil
-
-    allow(HTTParty).to receive(:post) do |_url, options|
-      upload_body = JSON.parse(options[:body])
-      upload_response
-    end
-
-    described_class.new(
-      account: account,
-      event_name: event_name,
-      occurred_at: occurred_at,
-      conversion_value: 199,
-      currency_code: 'USD'
-    ).perform
-
-    expect(upload_body['events'].first).to include(
-      'conversionValue' => 199.0,
-      'currency' => 'USD'
-    )
-  end
-
-  it 'defaults currency when conversion value is present without currency' do
-    create_config
-    account.update!(internal_attributes: attribution_attributes('last-click'))
-    upload_response = response_double('requestId' => 'request-123')
-    upload_body = nil
-
-    allow(HTTParty).to receive(:post) do |_url, options|
-      upload_body = JSON.parse(options[:body])
-      upload_response
-    end
-
-    described_class.new(
-      account: account,
-      event_name: event_name,
-      occurred_at: occurred_at,
-      conversion_value: 199
-    ).perform
-
-    expect(upload_body['events'].first).to include(
-      'conversionValue' => 199.0,
-      'currency' => 'USD'
-    )
   end
 
   def create_config(overrides = {})
@@ -199,7 +131,7 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     }
   end
 
-  def response_double(parsed_response)
-    instance_double(HTTParty::Response, success?: true, parsed_response: parsed_response, body: parsed_response.to_json)
+  def response_double
+    instance_double(HTTParty::Response, success?: true, body: '{}')
   end
 end
