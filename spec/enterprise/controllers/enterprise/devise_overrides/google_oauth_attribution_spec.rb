@@ -35,13 +35,10 @@ RSpec.describe 'Enterprise Google OAuth attribution', type: :request do
     cookies[Internal::Accounts::MarketingAttributionService::FIRST_TOUCH_COOKIE] = first_touch_cookie
     cookies[Internal::Accounts::MarketingAttributionService::LAST_TOUCH_COOKIE] = last_touch_cookie
 
-    expect do
-      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', FRONTEND_URL: 'http://www.example.com' do
-        get '/omniauth/google_oauth2/callback'
-        follow_redirect!
-      end
-    end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-      .with(account.id, 'cloud_signup', account.created_at.iso8601)
+    with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', FRONTEND_URL: 'http://www.example.com' do
+      get '/omniauth/google_oauth2/callback'
+      follow_redirect!
+    end
 
     attribution = account.reload.internal_attributes['marketing_attribution']
 

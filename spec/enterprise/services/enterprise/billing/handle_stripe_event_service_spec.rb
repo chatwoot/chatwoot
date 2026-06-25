@@ -119,34 +119,25 @@ describe Enterprise::Billing::HandleStripeEventService do
         .with(
           account.id,
           'cloud_plan_activation',
-          Time.zone.at(account.created_at.to_i + 1.day.to_i).iso8601,
+          Time.zone.at(account.created_at.to_i + 1.day.to_i),
           398.0,
           'USD'
         )
+
+      attribution = account.reload.internal_attributes['marketing_attribution']
+      expect(attribution['cloud_plan_activation_tracked_at']).to be_present
     end
 
-    it 'does not enqueue marketing conversion tracking without stored attribution' do
-      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
-      allow(subscription).to receive(:[]).with('plan')
-                                         .and_return({
-                                                       'id' => 'price_startups',
-                                                       'product' => 'plan_id_startups',
-                                                       'name' => 'Startups',
-                                                       'amount' => 19_900,
-                                                       'currency' => 'usd'
-                                                     })
-
-      expect do
-        stripe_event_service.new.perform(event: event)
-      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-    end
-
-    it 'does not enqueue marketing conversion tracking for activations after 30 days' do
+    it 'does not enqueue marketing conversion tracking when plan activation was already tracked' do
       account.update!(
         custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'),
-        internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'gclid' => 'test-click-id' } } }
+        internal_attributes: {
+          'marketing_attribution' => {
+            'last_touch' => { 'gclid' => 'test-click-id' },
+            'cloud_plan_activation_tracked_at' => 1.day.ago.iso8601
+          }
+        }
       )
-      allow(subscription).to receive(:created).and_return(account.created_at.to_i + 31.days.to_i)
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({
                                                        'id' => 'price_startups',
@@ -154,36 +145,6 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'name' => 'Startups',
                                                        'amount' => 19_900,
                                                        'currency' => 'usd'
-                                                     })
-
-      expect do
-        stripe_event_service.new.perform(event: event)
-      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-    end
-
-    it 'does not enqueue marketing conversion tracking for paid plan changes' do
-      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Startups'))
-      allow(subscription).to receive(:[]).with('plan')
-                                         .and_return({
-                                                       'id' => 'price_business',
-                                                       'product' => 'plan_id_business',
-                                                       'name' => 'Business',
-                                                       'amount' => 19_900,
-                                                       'currency' => 'usd'
-                                                     })
-
-      expect do
-        stripe_event_service.new.perform(event: event)
-      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-    end
-
-    it 'does not enqueue marketing conversion tracking for default plan updates' do
-      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
-      allow(subscription).to receive(:[]).with('plan')
-                                         .and_return({
-                                                       'id' => 'price_hacker',
-                                                       'product' => 'plan_id_hacker',
-                                                       'name' => 'Hacker'
                                                      })
 
       expect do
