@@ -96,15 +96,18 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
           allow(lead_client).to receive(:update_lead)
             .with(any_args, 'stale_lead_id')
             .and_raise(lead_not_found_error)
-          allow(lead_client).to receive(:create_or_update_lead)
-            .with(any_args)
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'fresh_lead_id')
+            .and_return(nil)
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
             .and_return('fresh_lead_id')
         end
 
-        it 'clears the stale id and recreates the lead' do
+        it 'clears the stale id and re-resolves the lead' do
           service.handle_contact(contact)
 
-          expect(lead_client).to have_received(:create_or_update_lead).with(any_args)
+          expect(lead_finder).to have_received(:find_or_create).with(contact)
           expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
         end
       end

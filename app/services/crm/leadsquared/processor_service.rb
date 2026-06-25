@@ -64,7 +64,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     # may not be marked as unique, same with the phone number field
     # So we just use the update API if we already have a lead ID
     if lead_id.present?
-      update_lead_with_healing(contact, lead_data, lead_id)
+      with_stale_lead_recovery(contact, lead_id) { |id| @lead_client.update_lead(lead_data, id) }
     else
       new_lead_id = @lead_client.create_or_update_lead(lead_data)
       store_external_id(contact, new_lead_id)
@@ -77,26 +77,14 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
   end
 
-  # The cached lead id can become stale when the lead is deleted/merged in LeadSquared,
-  # which makes update_lead fail with "Lead not found". When that happens, clear the
-  # stored id and create a fresh lead instead.
-  def update_lead_with_healing(contact, lead_data, lead_id)
-    @lead_client.update_lead(lead_data, lead_id)
-  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
-    raise unless lead_not_found_error?(e)
-
-    Rails.logger.warn("LeadSquared stale lead #{lead_id} for contact ##{contact.id}, clearing and recreating")
-    clear_external_id(contact)
-    new_lead_id = @lead_client.create_or_update_lead(lead_data)
-    store_external_id(contact, new_lead_id)
-  end
-
   def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, activity_note:)
     lead_id = get_lead_id(conversation.contact)
     return if lead_id.blank?
 
     activity_code = get_activity_code(activity_code_key)
-    activity_id = post_activity_with_healing(conversation.contact, lead_id, activity_code, activity_note)
+    activity_id = with_stale_lead_recovery(conversation.contact, lead_id) do |id|
+      @activity_client.post_activity(id, activity_code, activity_note)
+    end
     return if activity_id.blank?
 
     metadata = {}
@@ -109,10 +97,10 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   end
 
   # The cached lead id can become stale when the lead is deleted/merged in LeadSquared,
-  # which makes post_activity fail with "Lead not found". When that happens, clear the
-  # stored id, re-resolve the contact to a fresh lead, and retry the activity once.
-  def post_activity_with_healing(contact, lead_id, activity_code, activity_note)
-    @activity_client.post_activity(lead_id, activity_code, activity_note)
+  # making LeadSquared reject the call with "Lead not found". When that happens, clear the
+  # stored id, re-resolve the contact to a fresh lead, and run the operation again once.
+  def with_stale_lead_recovery(contact, lead_id)
+    yield(lead_id)
   rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
     raise unless lead_not_found_error?(e)
 
@@ -121,7 +109,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     fresh_lead_id = get_lead_id(contact)
     raise if fresh_lead_id.blank? || fresh_lead_id == lead_id
 
-    @activity_client.post_activity(fresh_lead_id, activity_code, activity_note)
+    yield(fresh_lead_id)
   end
 
   def lead_not_found_error?(error)
