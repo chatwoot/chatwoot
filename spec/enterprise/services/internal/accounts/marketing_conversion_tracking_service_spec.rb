@@ -94,6 +94,29 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
   end
 
+  it 'falls back to first-touch attribution when last-touch attribution has no click id' do
+    create_config
+    account.update!(
+      internal_attributes: {
+        'marketing_attribution' => {
+          'last_touch' => { 'source' => 'github' },
+          'first_touch' => { 'gclid' => 'first-click' }
+        }
+      }
+    )
+    upload_response = response_double('requestId' => 'request-123')
+    upload_body = nil
+
+    allow(HTTParty).to receive(:post) do |_url, options|
+      upload_body = JSON.parse(options[:body])
+      upload_response
+    end
+
+    described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
+
+    expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
+  end
+
   it 'uploads conversion value and currency when provided' do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))

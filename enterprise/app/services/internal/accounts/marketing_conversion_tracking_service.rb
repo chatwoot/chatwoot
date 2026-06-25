@@ -82,7 +82,9 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def attribution
     marketing_attribution = account.internal_attributes['marketing_attribution'] || {}
-    marketing_attribution['last_touch'].presence || marketing_attribution['first_touch'].presence || {}
+    [marketing_attribution['last_touch'], marketing_attribution['first_touch']].find do |touch|
+      touch.present? && CLICK_ID_FIELDS.any? { |field| touch[field].present? }
+    end || {}
   end
 
   def access_token
