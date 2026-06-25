@@ -7,10 +7,14 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   let(:event_name) { 'cloud_signup' }
   let(:occurred_at) { '2026-06-23T10:30:00Z' }
   let(:private_key) { OpenSSL::PKey::RSA.new(2048).to_pem }
+  let(:credentials) do
+    instance_double(Google::Auth::ServiceAccountCredentials, fetch_access_token!: { 'access_token' => 'access-token' })
+  end
 
   before do
     InstallationConfig.where(name: described_class::CONFIG_KEY).delete_all
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+    allow(Google::Auth::ServiceAccountCredentials).to receive(:make_creds).and_return(credentials)
   end
 
   it 'does nothing outside Chatwoot Cloud' do
@@ -25,17 +29,12 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   it 'uploads the last-touch click conversion', :aggregate_failures do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
-    token_response = response_double('access_token' => 'access-token')
     upload_response = response_double('requestId' => 'request-123')
     upload_request = nil
 
     allow(HTTParty).to receive(:post) do |url, options|
-      if url == described_class::TOKEN_URL
-        token_response
-      else
-        upload_request = [url, options]
-        upload_response
-      end
+      upload_request = [url, options]
+      upload_response
     end
 
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
@@ -44,12 +43,9 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     body = JSON.parse(options[:body])
 
     expect(url).to eq('https://datamanager.googleapis.com/v1/events:ingest')
-    expect(HTTParty).to have_received(:post).with(
-      described_class::TOKEN_URL,
-      body: hash_including(
-        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion: be_present
-      )
+    expect(Google::Auth::ServiceAccountCredentials).to have_received(:make_creds).with(
+      json_key_io: kind_of(StringIO),
+      scope: ['https://www.googleapis.com/auth/datamanager']
     )
     expect(options[:headers]).to include(
       'Authorization' => 'Bearer access-token'
@@ -85,17 +81,12 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
         }
       }
     )
-    token_response = response_double('access_token' => 'access-token')
     upload_response = response_double('requestId' => 'request-123')
     upload_body = nil
 
-    allow(HTTParty).to receive(:post) do |url, options|
-      if url == described_class::TOKEN_URL
-        token_response
-      else
-        upload_body = JSON.parse(options[:body])
-        upload_response
-      end
+    allow(HTTParty).to receive(:post) do |_url, options|
+      upload_body = JSON.parse(options[:body])
+      upload_response
     end
 
     described_class.new(account: account, event_name: event_name, occurred_at: occurred_at).perform
@@ -106,17 +97,12 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   it 'uploads conversion value and currency when provided' do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
-    token_response = response_double('access_token' => 'access-token')
     upload_response = response_double('requestId' => 'request-123')
     upload_body = nil
 
-    allow(HTTParty).to receive(:post) do |url, options|
-      if url == described_class::TOKEN_URL
-        token_response
-      else
-        upload_body = JSON.parse(options[:body])
-        upload_response
-      end
+    allow(HTTParty).to receive(:post) do |_url, options|
+      upload_body = JSON.parse(options[:body])
+      upload_response
     end
 
     described_class.new(
@@ -136,17 +122,12 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
   it 'defaults currency when conversion value is present without currency' do
     create_config
     account.update!(internal_attributes: attribution_attributes('last-click'))
-    token_response = response_double('access_token' => 'access-token')
     upload_response = response_double('requestId' => 'request-123')
     upload_body = nil
 
-    allow(HTTParty).to receive(:post) do |url, options|
-      if url == described_class::TOKEN_URL
-        token_response
-      else
-        upload_body = JSON.parse(options[:body])
-        upload_response
-      end
+    allow(HTTParty).to receive(:post) do |_url, options|
+      upload_body = JSON.parse(options[:body])
+      upload_response
     end
 
     described_class.new(

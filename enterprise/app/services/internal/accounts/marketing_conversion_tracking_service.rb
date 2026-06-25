@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require 'base64'
-require 'openssl'
+require 'googleauth'
 
 class Internal::Accounts::MarketingConversionTrackingService
   CONFIG_KEY = 'MARKETING_CONVERSION_TRACKING_CONFIG'
-  TOKEN_URL = 'https://oauth2.googleapis.com/token'
-  TOKEN_SCOPE = 'https://www.googleapis.com/auth/datamanager'
+  TOKEN_SCOPES = ['https://www.googleapis.com/auth/datamanager'].freeze
   API_URL = 'https://datamanager.googleapis.com/v1/events:ingest'
   CLICK_ID_FIELDS = %w[gclid gbraid wbraid].freeze
 
@@ -79,35 +77,11 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def access_token
-    @access_token ||= begin
-      response = HTTParty.post(
-        TOKEN_URL,
-        body: {
-          grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-          assertion: service_account_assertion
-        }
-      )
-
-      raise "Marketing conversion token request failed: #{response.body}" unless response.success?
-
-      response.parsed_response['access_token']
-    end
-  end
-
-  def service_account_assertion
-    now = Time.current.to_i
-    header = { alg: 'RS256', typ: 'JWT' }
-    claim_set = {
-      iss: service_account_credentials['client_email'],
-      scope: TOKEN_SCOPE,
-      aud: TOKEN_URL,
-      exp: now + 1.hour.to_i,
-      iat: now
-    }
-
-    signing_input = [header, claim_set].map { |part| base64_url_encode(part.to_json) }.join('.')
-    signature = OpenSSL::PKey::RSA.new(service_account_credentials['private_key']).sign(OpenSSL::Digest.new('SHA256'), signing_input)
-    "#{signing_input}.#{base64_url_encode(signature)}"
+    authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
+      json_key_io: StringIO.new(service_account_credentials.to_json),
+      scope: TOKEN_SCOPES
+    )
+    authorizer.fetch_access_token!['access_token']
   end
 
   def api_headers
@@ -155,10 +129,6 @@ class Internal::Accounts::MarketingConversionTrackingService
 
   def service_account_credentials
     @service_account_credentials ||= config['service_account_credentials']
-  end
-
-  def base64_url_encode(value)
-    Base64.urlsafe_encode64(value, padding: false)
   end
 
   def order_id
