@@ -24,17 +24,12 @@ class Internal::Accounts::MarketingConversionTrackingService
     return unless ChatwootApp.chatwoot_cloud?
     return if click_attributes.blank?
 
-    upload_conversion!
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
-  end
-
-  private
-
-  def upload_conversion!
     response = HTTParty.post(
       API_URL,
-      headers: api_headers,
+      headers: {
+        'Authorization' => "Bearer #{access_token}",
+        'Content-Type' => 'application/json'
+      },
       body: {
         destinations: [destination_payload],
         events: [conversion_payload]
@@ -42,32 +37,39 @@ class Internal::Accounts::MarketingConversionTrackingService
     )
 
     raise "Marketing conversion upload failed: #{response.body}" unless response.success?
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
   end
+
+  private
 
   def destination_payload
     {
       operatingAccount: {
         accountType: 'GOOGLE_ADS',
-        accountId: customer_id
+        accountId: config['customer_id'].delete('-')
       },
       loginAccount: {
         accountType: 'GOOGLE_ADS',
-        accountId: login_customer_id
+        accountId: config['login_customer_id'].delete('-')
       },
-      productDestinationId: conversion_action_id
+      productDestinationId: config['events'][event_name]['conversion_action_id']
     }
   end
 
   def conversion_payload
     payload = {
       transactionId: "#{event_name}-account-#{account.id}",
-      eventTimestamp: conversion_time,
+      eventTimestamp: (occurred_at.present? ? Time.zone.parse(occurred_at.to_s) : Time.current).iso8601,
       eventSource: 'WEB',
       adIdentifiers: click_attributes
     }
 
-    payload[:conversionValue] = conversion_amount if conversion_amount.present?
-    payload[:currency] = conversion_currency if conversion_amount.present?
+    if conversion_value.present?
+      payload[:conversionValue] = conversion_value.to_f
+      payload[:currency] = currency_code.presence || 'USD'
+    end
+
     payload
   end
 
@@ -79,26 +81,16 @@ class Internal::Accounts::MarketingConversionTrackingService
   end
 
   def attribution
-    @attribution ||= marketing_attribution['last_touch'].presence || marketing_attribution['first_touch'].presence || {}
-  end
-
-  def marketing_attribution
-    @marketing_attribution ||= account.internal_attributes['marketing_attribution'] || {}
+    marketing_attribution = account.internal_attributes['marketing_attribution'] || {}
+    marketing_attribution['last_touch'].presence || marketing_attribution['first_touch'].presence || {}
   end
 
   def access_token
     authorizer = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: StringIO.new(service_account_credentials.to_json),
+      json_key_io: StringIO.new(config['service_account_credentials'].to_json),
       scope: TOKEN_SCOPES
     )
     authorizer.fetch_access_token!['access_token']
-  end
-
-  def api_headers
-    {
-      'Authorization' => "Bearer #{access_token}",
-      'Content-Type' => 'application/json'
-    }
   end
 
   def config
@@ -106,38 +98,5 @@ class Internal::Accounts::MarketingConversionTrackingService
       value = InstallationConfig.find_by!(name: CONFIG_KEY).value
       value.is_a?(String) ? JSON.parse(value) : value
     end
-  end
-
-  def event_config
-    @event_config ||= config['events'][event_name]
-  end
-
-  def customer_id
-    config['customer_id'].delete('-')
-  end
-
-  def login_customer_id
-    config['login_customer_id'].delete('-')
-  end
-
-  def conversion_action_id
-    event_config['conversion_action_id']
-  end
-
-  def conversion_time
-    time = occurred_at.present? ? Time.zone.parse(occurred_at.to_s) : Time.current
-    time.iso8601
-  end
-
-  def conversion_amount
-    @conversion_amount ||= conversion_value.presence&.to_f
-  end
-
-  def conversion_currency
-    currency_code.presence || 'USD'
-  end
-
-  def service_account_credentials
-    @service_account_credentials ||= config['service_account_credentials']
   end
 end
