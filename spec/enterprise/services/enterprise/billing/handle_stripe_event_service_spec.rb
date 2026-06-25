@@ -37,7 +37,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:customer).and_return('cus_123')
-    allow(subscription).to receive(:created).and_return(1_686_000_000)
+    allow(subscription).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end
 
@@ -99,7 +99,10 @@ describe Enterprise::Billing::HandleStripeEventService do
     end
 
     it 'enqueues marketing conversion tracking for plan activation' do
-      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
+      account.update!(
+        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'),
+        internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'gclid' => 'test-click-id' } } }
+      )
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({
                                                        'id' => 'price_startups',
@@ -113,7 +116,49 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect do
         stripe_event_service.new.perform(event: event)
       end.to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
-        .with(account.id, 'cloud_plan_activation', Time.zone.at(1_686_000_000).iso8601, 398.0, 'USD')
+        .with(
+          account.id,
+          'cloud_plan_activation',
+          Time.zone.at(account.created_at.to_i + 1.day.to_i).iso8601,
+          398.0,
+          'USD'
+        )
+    end
+
+    it 'does not enqueue marketing conversion tracking without stored attribution' do
+      account.update!(custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'))
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_startups',
+                                                       'product' => 'plan_id_startups',
+                                                       'name' => 'Startups',
+                                                       'amount' => 19_900,
+                                                       'currency' => 'usd'
+                                                     })
+
+      expect do
+        stripe_event_service.new.perform(event: event)
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
+    end
+
+    it 'does not enqueue marketing conversion tracking for activations after 30 days' do
+      account.update!(
+        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker'),
+        internal_attributes: { 'marketing_attribution' => { 'last_touch' => { 'gclid' => 'test-click-id' } } }
+      )
+      allow(subscription).to receive(:created).and_return(account.created_at.to_i + 31.days.to_i)
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_startups',
+                                                       'product' => 'plan_id_startups',
+                                                       'name' => 'Startups',
+                                                       'amount' => 19_900,
+                                                       'currency' => 'usd'
+                                                     })
+
+      expect do
+        stripe_event_service.new.perform(event: event)
+      end.not_to have_enqueued_job(Internal::Accounts::MarketingConversionTrackingJob)
     end
 
     it 'does not enqueue marketing conversion tracking for paid plan changes' do

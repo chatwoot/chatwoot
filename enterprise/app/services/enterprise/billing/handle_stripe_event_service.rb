@@ -71,18 +71,6 @@ class Enterprise::Billing::HandleStripeEventService
     )
   end
 
-  def enqueue_marketing_plan_activation_conversion
-    Internal::Accounts::MarketingConversionTrackingJob.perform_later(
-      account.id,
-      'cloud_plan_activation',
-      Time.zone.at(subscription.created).iso8601,
-      subscription_amount,
-      subscription_currency
-    )
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
-  end
-
   def subscription_amount
     amount = subscription['plan']['amount'] || subscription['plan']['amount_decimal']
     return if amount.blank?
@@ -96,8 +84,16 @@ class Enterprise::Billing::HandleStripeEventService
 
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
     return unless paid_plan_activation?(previous_plan_name, current_plan_name)
+    return if account.internal_attributes['marketing_attribution'].blank?
+    return if Time.zone.at(subscription.created) > account.created_at + 30.days
 
-    enqueue_marketing_plan_activation_conversion
+    Internal::Accounts::MarketingConversionTrackingJob.perform_later(
+      account.id,
+      'cloud_plan_activation',
+      Time.zone.at(subscription.created).iso8601,
+      subscription_amount,
+      subscription_currency
+    )
   end
 
   def paid_plan_activation?(previous_plan_name, current_plan_name)
