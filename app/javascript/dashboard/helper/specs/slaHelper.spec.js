@@ -232,6 +232,23 @@ describe('#SLA Helpers', () => {
         expect(result.type).toBe('NRT');
         expect(result.isSlaMissed).toBe(true);
       });
+
+      it('returns an existing missed SLA over a closer upcoming SLA', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 7200, // 2h overdue
+          sla_rt_due_at: currentTimestamp + 300, // 5m remaining
+        };
+        const chat = {
+          first_reply_created_at: null,
+          status: 'open',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('2h');
+        expect(result.isSlaMissed).toBe(true);
+      });
     });
 
     describe('time formatting', () => {

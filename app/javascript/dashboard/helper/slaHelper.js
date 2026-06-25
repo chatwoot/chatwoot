@@ -95,8 +95,14 @@ export const evaluateSLAStatus = ({ appliedSla, chat }) => {
     return emptyStatus;
   }
 
-  // Find most urgent (smallest absolute threshold)
-  slaStatuses.sort((a, b) => Math.abs(a.threshold) - Math.abs(b.threshold));
+  // Show existing breaches before upcoming deadlines, then pick the closest timer.
+  slaStatuses.sort((a, b) => {
+    if (a.isSlaMissed !== b.isSlaMissed) {
+      return a.isSlaMissed ? -1 : 1;
+    }
+
+    return Math.abs(a.threshold) - Math.abs(b.threshold);
+  });
   const mostUrgent = slaStatuses[0];
 
   return {
