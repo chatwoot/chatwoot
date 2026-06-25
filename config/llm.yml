@@ -123,6 +123,9 @@ features:
         gemini-3-pro,
       ]
     default: gpt-4.1-mini
+  pdf_faq_generation:
+    models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
+    default: gpt-4.1-mini
   audio_transcription:
     models: [whisper-1]
     default: whisper-1

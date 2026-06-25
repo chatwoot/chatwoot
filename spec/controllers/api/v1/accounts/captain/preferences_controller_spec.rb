@@ -95,6 +95,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(account.reload.captain_models['document_faq_generation']).to eq('gpt-5.2')
       end
 
+      it 'updates captain_models for PDF FAQ generation' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { pdf_faq_generation: 'gpt-5.2' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :pdf_faq_generation, :selected)).to eq('gpt-5.2')
+        expect(account.reload.captain_models['pdf_faq_generation']).to eq('gpt-5.2')
+      end
+
       it 'updates captain_features' do
         put "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,

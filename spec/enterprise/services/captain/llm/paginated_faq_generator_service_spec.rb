@@ -16,8 +16,8 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   end
 
   describe '#generate' do
-    it 'uses the document FAQ generation feature model' do
-      document.account.update!(captain_models: { 'document_faq_generation' => 'gpt-5.2' })
+    it 'uses the PDF FAQ generation feature model' do
+      document.account.update!(captain_models: { 'pdf_faq_generation' => 'gpt-5.2' })
 
       expect(service.model).to eq('gpt-5.2')
     end
