@@ -82,6 +82,33 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         end
       end
 
+      context 'when the existing lead no longer exists' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXInvalidEntityReferenceException' })
+        end
+        let(:lead_not_found_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('Lead not found', 500, error_response)
+        end
+
+        before do
+          contact.update!(additional_attributes: { 'external' => { 'leadsquared_id' => 'stale_lead_id' } })
+
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'stale_lead_id')
+            .and_raise(lead_not_found_error)
+          allow(lead_client).to receive(:create_or_update_lead)
+            .with(any_args)
+            .and_return('fresh_lead_id')
+        end
+
+        it 'clears the stale id and recreates the lead' do
+          service.handle_contact(contact)
+
+          expect(lead_client).to have_received(:create_or_update_lead).with(any_args)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
+        end
+      end
+
       context 'when API call raises an error' do
         before do
           allow(lead_client).to receive(:create_or_update_lead)
