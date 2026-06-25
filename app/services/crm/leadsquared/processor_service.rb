@@ -64,7 +64,7 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
     # may not be marked as unique, same with the phone number field
     # So we just use the update API if we already have a lead ID
     if lead_id.present?
-      @lead_client.update_lead(lead_data, lead_id)
+      update_lead_with_healing(contact, lead_data, lead_id)
     else
       new_lead_id = @lead_client.create_or_update_lead(lead_data)
       store_external_id(contact, new_lead_id)
@@ -75,6 +75,20 @@ class Crm::Leadsquared::ProcessorService < Crm::BaseProcessorService
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @account).capture_exception
     Rails.logger.error "Error processing contact in LeadSquared: #{e.message}"
+  end
+
+  # The cached lead id can become stale when the lead is deleted/merged in LeadSquared,
+  # which makes update_lead fail with "Lead not found". When that happens, clear the
+  # stored id and create a fresh lead instead.
+  def update_lead_with_healing(contact, lead_data, lead_id)
+    @lead_client.update_lead(lead_data, lead_id)
+  rescue Crm::Leadsquared::Api::BaseClient::ApiError => e
+    raise unless lead_not_found_error?(e)
+
+    Rails.logger.warn("LeadSquared stale lead #{lead_id} for contact ##{contact.id}, clearing and recreating")
+    clear_external_id(contact)
+    new_lead_id = @lead_client.create_or_update_lead(lead_data)
+    store_external_id(contact, new_lead_id)
   end
 
   def create_conversation_activity(conversation:, activity_type:, activity_code_key:, metadata_key:, activity_note:)
