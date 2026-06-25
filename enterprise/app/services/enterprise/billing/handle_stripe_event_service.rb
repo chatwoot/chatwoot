@@ -1,7 +1,6 @@
 class Enterprise::Billing::HandleStripeEventService
   CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'.freeze
   CAPTAIN_CLOUD_PLAN_LIMITS = 'CAPTAIN_CLOUD_PLAN_LIMITS'.freeze
-  PLAN_ACTIVATION_TRACKED_AT = 'cloud_plan_activation_tracked_at'.freeze
 
   STARTUP_PLAN_FEATURES = Enterprise::Billing::ReconcilePlanFeaturesService::STARTUP_PLAN_FEATURES
   BUSINESS_PLAN_FEATURES = Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES
@@ -73,34 +72,15 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def track_marketing_plan_activation(previous_plan_name, current_plan_name)
-    activated_at = Time.zone.at(subscription.created)
-    marketing_attribution = account.internal_attributes['marketing_attribution']
-
-    return unless track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
-
     subscription_plan = subscription['plan']
 
-    Internal::Accounts::MarketingConversionTrackingJob.perform_later(
-      account.id,
-      'cloud_plan_activation',
-      activated_at,
-      subscription_conversion_value(subscription_plan),
-      subscription_plan['currency'].upcase
+    Internal::Accounts::MarketingAttributionService.new(account: account).track_plan_activation(
+      previous_plan_name: previous_plan_name,
+      current_plan_name: current_plan_name,
+      activated_at: Time.zone.at(subscription.created),
+      conversion_value: subscription_conversion_value(subscription_plan),
+      currency_code: subscription_plan['currency'].upcase
     )
-    Internal::Accounts::InternalAttributesService.new(account).set(
-      'marketing_attribution',
-      marketing_attribution.merge(PLAN_ACTIVATION_TRACKED_AT => Time.current.iso8601)
-    )
-  end
-
-  def track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
-    default_plan = cloud_plans.first['name']
-
-    previous_plan_name == default_plan &&
-      current_plan_name != default_plan &&
-      marketing_attribution.present? &&
-      marketing_attribution[PLAN_ACTIVATION_TRACKED_AT].blank? &&
-      activated_at <= account.created_at + 30.days
   end
 
   def subscription_conversion_value(subscription_plan)

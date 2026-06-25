@@ -113,6 +113,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                      })
       allow(subscription).to receive(:[]).with('quantity').and_return(2)
       allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
 
       expect do
         stripe_event_service.new.perform(event: event)
@@ -148,6 +149,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'currency' => 'usd'
                                                      })
       allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
 
       expect do
         stripe_event_service.new.perform(event: event)

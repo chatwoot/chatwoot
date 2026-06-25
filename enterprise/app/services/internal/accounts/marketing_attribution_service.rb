@@ -5,6 +5,8 @@ require 'base64'
 class Internal::Accounts::MarketingAttributionService
   FIRST_TOUCH_COOKIE = 'cw_first_touch_attribution'
   LAST_TOUCH_COOKIE = 'cw_last_touch_attribution'
+  PLAN_ACTIVATION_TRACKED_AT = 'cloud_plan_activation_tracked_at'
+  CLOUD_PLANS_CONFIG = 'CHATWOOT_CLOUD_PLANS'
   FIELD_MAX_LENGTH = 500
   ALLOWED_FIELDS = %w[
     utm_source
@@ -31,7 +33,7 @@ class Internal::Accounts::MarketingAttributionService
     captured_at
   ].freeze
 
-  pattr_initialize [:account!, :cookies!]
+  pattr_initialize [:account!, { cookies: {} }]
 
   def perform
     return unless ChatwootApp.chatwoot_cloud?
@@ -51,6 +53,26 @@ class Internal::Accounts::MarketingAttributionService
       }.compact
     )
     enqueue_signup_conversion
+  end
+
+  def track_plan_activation(previous_plan_name:, current_plan_name:, activated_at:, conversion_value:, currency_code:)
+    return unless ChatwootApp.chatwoot_cloud?
+
+    marketing_attribution = internal_attributes_service.get('marketing_attribution')
+
+    return unless track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
+
+    Internal::Accounts::MarketingConversionTrackingJob.perform_later(
+      account.id,
+      'cloud_plan_activation',
+      activated_at,
+      conversion_value,
+      currency_code
+    )
+    internal_attributes_service.set(
+      'marketing_attribution',
+      marketing_attribution.merge(PLAN_ACTIVATION_TRACKED_AT => Time.current.iso8601)
+    )
   end
 
   private
@@ -83,5 +105,15 @@ class Internal::Accounts::MarketingAttributionService
 
   def enqueue_signup_conversion
     Internal::Accounts::MarketingConversionTrackingJob.perform_later(account.id, 'cloud_signup', account.created_at)
+  end
+
+  def track_plan_activation?(previous_plan_name, current_plan_name, activated_at, marketing_attribution)
+    default_plan = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG).value.first['name']
+
+    previous_plan_name == default_plan &&
+      current_plan_name != default_plan &&
+      marketing_attribution.present? &&
+      marketing_attribution[PLAN_ACTIVATION_TRACKED_AT].blank? &&
+      activated_at <= account.created_at + 30.days
   end
 end
