@@ -21,9 +21,9 @@ RSpec.describe Captain::SummaryService do
   end
 
   describe '#perform' do
-    it 'passes correct model to API' do
+    it 'routes through the editor feature' do
       expect(service).to receive(:make_api_call).with(
-        hash_including(model: Captain::BaseTaskService::GPT_MODEL)
+        hash_including(feature: 'editor')
       ).and_call_original
 
       service.perform
