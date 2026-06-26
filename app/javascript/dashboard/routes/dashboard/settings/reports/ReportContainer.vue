@@ -5,6 +5,7 @@ import { GROUP_BY_FILTER, METRIC_CHART } from './constants';
 import fromUnixTime from 'date-fns/fromUnixTime';
 import format from 'date-fns/format';
 import { formatTime } from '@chatwoot/utils';
+import { useAlert } from 'dashboard/composables';
 import ChartStats from './components/ChartElements/ChartStats.vue';
 import BarChart from 'shared/components/charts/BarChart.vue';
 import ReportDrilldownDrawer from './components/ReportDrilldownDrawer.vue';
@@ -71,7 +72,11 @@ export default {
   computed: {
     ...mapGetters({
       accountReport: 'getAccountReports',
+      currentRole: 'getCurrentRole',
     }),
+    isAdmin() {
+      return this.currentRole === 'administrator';
+    },
     metrics() {
       const reportKeys = Object.keys(this.reportKeys);
       const infoText = {
@@ -173,6 +178,10 @@ export default {
 
       const dataPoint = this.accountReport.data[metric.KEY]?.[event.dataIndex];
       if (!this.canOpenDrilldown(metric, dataPoint)) return;
+      if (!this.isAdmin) {
+        useAlert(this.$t('REPORT.DRILLDOWN.ADMIN_ONLY'));
+        return;
+      }
 
       this.drilldownRequest = {
         metric: metric.KEY,
