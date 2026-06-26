@@ -111,7 +111,7 @@ describe Enterprise::Billing::HandleStripeEventService do
                                                        'currency' => 'usd'
                                                      })
       allow(subscription).to receive(:[]).with('quantity').and_return(2)
-      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'id' => 'price_hacker' } })
+      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'product' => 'plan_id_hacker' } })
       conversion_service = instance_double(Internal::Accounts::CloudPlanActivationConversionService)
       allow(Internal::Accounts::CloudPlanActivationConversionService).to receive(:new).and_return(conversion_service)
       allow(conversion_service).to receive(:perform)
