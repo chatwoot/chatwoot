@@ -36,6 +36,15 @@ class Whatsapp::IncomingMessageAvisaService
     'stickerMessage' => 'sticker'
   }.freeze
 
+  # Wrappers do whatsmeow que aninham a mensagem REAL em `.message`: mensagens
+  # temporárias (ephemeralMessage), ver-uma-vez (viewOnce*) e documento-com-
+  # caption. Texto/mídia dentro deles caíam no placeholder "(text) não pôde ser
+  # exibido" (conv 372) porque extract_text/media só olhavam o topo do Message.
+  WRAPPER_KEYS = %w[
+    ephemeralMessage viewOnceMessage viewOnceMessageV2
+    viewOnceMessageV2Extension documentWithCaptionMessage
+  ].freeze
+
   def perform
     return if event.blank?
     return handle_reaction if reaction?
@@ -101,12 +110,20 @@ class Whatsapp::IncomingMessageAvisaService
   end
 
   def extract_text
-    msg = event['Message'] || {}
+    msg = resolved_message
 
     ext_text = msg.dig('extendedTextMessage', 'text')
     return ext_text if ext_text.present?
 
     return msg['conversation'] if msg['conversation'].present?
+
+    # Respostas interativas (botão / template / lista): o texto que o cliente
+    # escolheu não vem em conversation/extendedTextMessage.
+    interactive = msg.dig('buttonsResponseMessage', 'selectedDisplayText') ||
+                  msg.dig('templateButtonReplyMessage', 'selectedDisplayText') ||
+                  msg.dig('listResponseMessage', 'title') ||
+                  msg.dig('listResponseMessage', 'singleSelectReply', 'selectedRowId')
+    return interactive if interactive.present?
 
     %w[imageMessage videoMessage documentMessage].each do |media_type|
       caption = msg.dig(media_type, 'caption')
@@ -114,6 +131,25 @@ class Whatsapp::IncomingMessageAvisaService
     end
 
     nil
+  end
+
+  # Desembrulha os WRAPPER_KEYS recursivamente (cap 5 níveis) e devolve a
+  # mensagem efetiva — a real, de onde texto/mídia são extraídos. Sem wrapper,
+  # devolve o próprio event['Message'] (comportamento idêntico ao anterior).
+  def resolved_message
+    @resolved_message ||= begin
+      msg = event['Message'] || {}
+      5.times do
+        wrapper = WRAPPER_KEYS.find { |k| msg[k].is_a?(Hash) }
+        break unless wrapper
+
+        inner = msg[wrapper]['message'] || msg[wrapper]['Message']
+        break unless inner.is_a?(Hash)
+
+        msg = inner
+      end
+      msg
+    end
   end
 
   def reaction?
@@ -249,7 +285,7 @@ class Whatsapp::IncomingMessageAvisaService
   end
 
   def media_message_key
-    msg = event['Message'] || {}
+    msg = resolved_message
     MEDIA_KEYS.keys.find { |key| msg[key].is_a?(Hash) }
   end
 
@@ -282,7 +318,7 @@ class Whatsapp::IncomingMessageAvisaService
   end
 
   def downloaded_media_attachment(key)
-    media = event.dig('Message', key) || {}
+    media = resolved_message[key] || {}
     bytes = avisa_client.download_media(kind: DOWNLOAD_KINDS[key], media_message: media)
     if bytes.blank?
       Rails.logger.warn("[AVISA] inbound #{key} source_id=#{source_id} download vazio — placeholder")
@@ -322,7 +358,7 @@ class Whatsapp::IncomingMessageAvisaService
   end
 
   def downloaded_audio_attachment
-    audio = event.dig('Message', 'audioMessage') || {}
+    audio = resolved_message['audioMessage'] || {}
     Rails.logger.info("[AVISA] audio inbound source_id=#{source_id} baixando áudio decriptado (bytes esperados=#{audio['fileLength']})")
     bytes = avisa_client.download_audio(audio)
     if bytes.blank?
@@ -340,7 +376,7 @@ class Whatsapp::IncomingMessageAvisaService
   end
 
   def document_filename
-    event.dig('Message', 'documentMessage', 'fileName').to_s.presence
+    resolved_message.dig('documentMessage', 'fileName').to_s.presence
   end
 
   def attach_media(message, media)

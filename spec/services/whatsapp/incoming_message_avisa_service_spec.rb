@@ -189,6 +189,68 @@ RSpec.describe Whatsapp::IncomingMessageAvisaService do
     end
   end
 
+  # CUSTOMIZAÇÃO_SYNAPSEOS: texto dentro de wrapper (mensagem temporária /
+  # ver-uma-vez) ou em resposta interativa (botão/lista) NÃO pode virar o
+  # placeholder "(text) não pôde ser exibido" (conv 372).
+  describe '#perform with wrapped / interactive text' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    def perform_with(event)
+      described_class.new(inbox: inbox, params: { jsonData: { 'event' => event }.to_json }).perform
+    end
+
+    it 'extrai texto de ephemeralMessage (mensagem temporária) -> conversation' do
+      ev = {
+        'Info' => { 'ID' => 'EPH1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'ephemeralMessage' => { 'message' => { 'conversation' => 'Obrigada pela atenção' } } }
+      }
+      perform_with(ev)
+      msg = Message.find_by(source_id: 'EPH1', inbox_id: inbox.id)
+      expect(msg.content).to eq('Obrigada pela atenção')
+      expect(msg.content).not_to include('não pôde ser exibido')
+    end
+
+    it 'extrai texto de ephemeralMessage -> extendedTextMessage.text' do
+      ev = {
+        'Info' => { 'ID' => 'EPH2', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'ephemeralMessage' => { 'message' => { 'extendedTextMessage' => { 'text' => 'Não sou da cidade' } } } }
+      }
+      perform_with(ev)
+      expect(Message.find_by(source_id: 'EPH2', inbox_id: inbox.id).content).to eq('Não sou da cidade')
+    end
+
+    it 'extrai texto de viewOnceMessageV2 aninhado' do
+      ev = {
+        'Info' => { 'ID' => 'VO1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'viewOnceMessageV2' => { 'message' => { 'conversation' => 'oi' } } }
+      }
+      perform_with(ev)
+      expect(Message.find_by(source_id: 'VO1', inbox_id: inbox.id).content).to eq('oi')
+    end
+
+    it 'extrai o texto escolhido de buttonsResponseMessage' do
+      ev = {
+        'Info' => { 'ID' => 'BTN1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'buttonsResponseMessage' => { 'selectedDisplayText' => 'Sim, quero' } }
+      }
+      perform_with(ev)
+      expect(Message.find_by(source_id: 'BTN1', inbox_id: inbox.id).content).to eq('Sim, quero')
+    end
+
+    it 'detecta e baixa imagem dentro de ephemeralMessage (sem params[:file])' do
+      ev = {
+        'Info' => { 'ID' => 'EPHIMG', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'ephemeralMessage' => { 'message' => { 'imageMessage' => { 'mimetype' => 'image/jpeg', 'URL' => 'u' } } } }
+      }
+      svc = described_class.new(inbox: inbox, params: { jsonData: { 'event' => ev }.to_json })
+      client = instance_double(Whatsapp::Providers::AvisaClient, download_media: 'FAKE_JPG')
+      allow(svc).to receive(:avisa_client).and_return(client)
+      svc.perform
+      msg = Message.find_by(source_id: 'EPHIMG', inbox_id: inbox.id)
+      expect(msg.attachments.first.file_type).to eq('image')
+    end
+  end
+
   # CUSTOMIZAÇÃO_SYNAPSEOS: inbound sem texto e sem mídia anexável (tipo não
   # suportado) NÃO pode virar conversa-casca silenciosa (conv 380) — vira um
   # placeholder incoming visível.
