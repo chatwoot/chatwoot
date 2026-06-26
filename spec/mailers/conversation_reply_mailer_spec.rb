@@ -738,4 +738,51 @@ RSpec.describe ConversationReplyMailer do
       end
     end
   end
+
+  describe 'conversation_transcript' do
+    # Regression test for https://github.com/chatwoot/chatwoot/issues/14845
+    # The Send Transcript email did not set a Reply-To header, so visitors
+    # who replied to the transcript via email lost their reply. The
+    # reply_with_summary / email_reply mailers all set reply_to to the
+    # conversation's reply+<uuid>@<domain> address; conversation_transcript
+    # must do the same.
+
+    let(:account) { create(:account) }
+    let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:email_channel) { create(:channel_email, account: account) }
+    let(:inbox) { create(:inbox, channel: email_channel, account: account) }
+    let(:conversation) do
+      create(:conversation, account: account, inbox: inbox, assignee: agent)
+    end
+    let(:contact) { create(:contact, account: account, email: 'visitor@example.com') }
+
+    before do
+      ConversationContact.create!(conversation: conversation, contact: contact)
+      account.update!(domain: 'example.com', support_email: 'support@example.com')
+      account.enable_features('inbound_emails')
+    end
+
+    context 'when the custom domain emails are enabled' do
+      let(:mail) do
+        described_class.with(account: account).conversation_transcript(conversation, contact.email).deliver_now
+      end
+
+      it 'sets reply-to to the conversation reply+<uuid>@<domain> address' do
+        reply_to_email = "reply+#{conversation.uuid}@#{account.domain}"
+        expect(mail.reply_to).to eq([reply_to_email])
+      end
+    end
+
+    context 'when inbound emails are not enabled' do
+      before { account.update!(domain: nil) }
+
+      let(:mail) do
+        described_class.with(account: account).conversation_transcript(conversation, contact.email).deliver_now
+      end
+
+      it 'falls back to the channel email for reply-to' do
+        expect(mail.reply_to).to eq([email_channel.email])
+      end
+    end
+  end
 end
