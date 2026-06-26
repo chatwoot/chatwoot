@@ -64,6 +64,28 @@ RSpec.describe V2::Reports::DrilldownBuilder do
         expect(drilldown[:payload].first[:conversation][:last_message][:content]).to eq('Latest customer note')
       end
 
+      it 'loads latest messages in one query for the page conversations' do
+        first_conversation = create(:conversation, account: account, inbox: inbox, created_at: bucket_start + 2.hours)
+        second_conversation = create(:conversation, account: account, inbox: inbox, created_at: bucket_start + 3.hours)
+        first_message = create(:message, account: account, inbox: inbox, conversation: first_conversation, created_at: bucket_start + 4.hours)
+        second_message = create(:message, account: account, inbox: inbox, conversation: second_conversation, created_at: bucket_start + 5.hours)
+
+        message_queries = []
+        subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, payload|
+          message_queries << payload[:sql] if payload[:sql].match?(/\ASELECT .*FROM "messages"/m) && !payload[:cached]
+        end
+
+        payload = drilldown[:payload]
+
+        expect(payload.map { |row| row[:conversation][:last_message][:id] }).to contain_exactly(
+          first_message.id,
+          second_message.id
+        )
+        expect(message_queries.size).to eq(1)
+      ensure
+        ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
+      end
+
       context 'when filtering by agent' do
         let(:metric) { 'conversations_count' }
         let(:filter_type) { :agent }
@@ -116,6 +138,36 @@ RSpec.describe V2::Reports::DrilldownBuilder do
         expect(drilldown[:payload].first[:record_type]).to eq('message')
         expect(drilldown[:payload].first[:message][:id]).to eq(message.id)
         expect(drilldown[:payload].first[:metric_value]).to eq(45)
+      end
+
+      it 'loads inferred and latest messages in two queries for the page events' do
+        first_conversation = create(:conversation, account: account, inbox: inbox)
+        second_conversation = create(:conversation, account: account, inbox: inbox)
+        first_message = create(:message, account: account, inbox: inbox, conversation: first_conversation,
+                                         sender: agent, message_type: :outgoing, created_at: bucket_start + 2.hours)
+        second_message = create(:message, account: account, inbox: inbox, conversation: second_conversation,
+                                          sender: agent, message_type: :outgoing, created_at: bucket_start + 3.hours)
+        create(:reporting_event, account: account, inbox: inbox, conversation: first_conversation, user: agent,
+                                 name: 'first_response', value: 120, created_at: bucket_start + 2.hours,
+                                 event_end_time: first_message.created_at)
+        create(:reporting_event, account: account, inbox: inbox, conversation: second_conversation, user: agent,
+                                 name: 'first_response', value: 90, created_at: bucket_start + 3.hours,
+                                 event_end_time: second_message.created_at)
+
+        message_queries = []
+        subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |_name, _started, _finished, _unique_id, payload|
+          message_queries << payload[:sql] if payload[:sql].match?(/\ASELECT .*FROM "messages"/m) && !payload[:cached]
+        end
+
+        payload = drilldown[:payload]
+
+        expect(payload.map { |row| row[:message][:id] }).to contain_exactly(
+          first_message.id,
+          second_message.id
+        )
+        expect(message_queries.size).to eq(2)
+      ensure
+        ActiveSupport::Notifications.unsubscribe(subscriber) if subscriber
       end
 
       it 'falls back to the conversation when no matching message is found' do

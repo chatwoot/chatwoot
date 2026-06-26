@@ -1,7 +1,14 @@
 class V2::Reports::DrilldownRecordSerializer
   MESSAGE_EVENT_METRICS = %w[avg_first_response_time reply_time].freeze
 
-  pattr_initialize :account, :metric, :use_business_hours
+  attr_reader :account, :metric, :use_business_hours, :records
+
+  def initialize(account, metric, use_business_hours, records = [])
+    @account = account
+    @metric = metric
+    @use_business_hours = use_business_hours
+    @records = records
+  end
 
   def serialize(record)
     return serialize_message(record) if record.is_a?(Message)
@@ -79,10 +86,7 @@ class V2::Reports::DrilldownRecordSerializer
   end
 
   def last_message_attributes(conversation)
-    message = conversation.messages
-                          .where(account_id: account.id)
-                          .non_activity_messages
-                          .first
+    message = latest_messages_by_conversation_id[conversation.id]
     return if message.blank?
 
     message_attributes(message)
@@ -92,13 +96,7 @@ class V2::Reports::DrilldownRecordSerializer
     return unless MESSAGE_EVENT_METRICS.include?(metric)
     return if event.conversation.blank? || event.event_end_time.blank?
 
-    messages = event.conversation.messages
-                    .where(account_id: account.id)
-                    .where(created_at: message_inference_range(event))
-                    .where(message_type: %i[outgoing template])
-    messages = messages.where(sender_id: event.user_id, sender_type: 'User') if first_response_event_with_user?(event)
-
-    messages.reorder(created_at: :desc).first
+    inferred_messages_by_event_id[event.id]
   end
 
   def first_response_event_with_user?(event)
@@ -115,5 +113,84 @@ class V2::Reports::DrilldownRecordSerializer
 
   def event_timestamp(event)
     event.event_end_time || event.created_at
+  end
+
+  def latest_messages_by_conversation_id
+    @latest_messages_by_conversation_id ||= if conversation_ids.blank?
+                                              {}
+                                            else
+                                              latest_messages.index_by(&:conversation_id)
+                                            end
+  end
+
+  def latest_messages
+    Message
+      .where(account_id: account.id, conversation_id: conversation_ids)
+      .where.not(message_type: :activity)
+      .select('DISTINCT ON (messages.conversation_id) messages.*')
+      .reorder(Arel.sql('messages.conversation_id, messages.created_at DESC, messages.id DESC'))
+      .includes(:sender)
+  end
+
+  def inferred_messages_by_event_id
+    @inferred_messages_by_event_id ||= inference_events.each_with_object({}) do |event, messages_by_event_id|
+      messages_by_event_id[event.id] = inferred_message_candidates.find do |message|
+        message_matches_event?(message, event)
+      end
+    end
+  end
+
+  def inferred_message_candidates
+    @inferred_message_candidates ||= if inference_events.blank?
+                                       []
+                                     else
+                                       inferred_messages.to_a
+                                     end
+  end
+
+  def inferred_messages
+    Message
+      .where(account_id: account.id, conversation_id: inference_events.map(&:conversation_id).uniq)
+      .where(created_at: inference_time_range)
+      .where(message_type: %i[outgoing template])
+      .includes(:sender)
+      .reorder(created_at: :desc, id: :desc)
+  end
+
+  def message_matches_event?(message, event)
+    message.conversation_id == event.conversation_id &&
+      message.created_at.between?(
+        message_inference_range(event).begin,
+        message_inference_range(event).end
+      ) &&
+      message_sender_matches_event?(message, event)
+  end
+
+  def message_sender_matches_event?(message, event)
+    return true unless first_response_event_with_user?(event)
+
+    message.sender_id == event.user_id && message.sender_type == 'User'
+  end
+
+  def inference_time_range
+    event_end_times = inference_events.map(&:event_end_time)
+
+    (event_end_times.min - 1.second)..(event_end_times.max + 1.second)
+  end
+
+  def inference_events
+    @inference_events ||= records.select do |record|
+      record.is_a?(ReportingEvent) && record.conversation_id.present? && record.event_end_time.present?
+    end
+  end
+
+  def conversation_ids
+    @conversation_ids ||= records.filter_map { |record| conversation_id_for(record) }.uniq
+  end
+
+  def conversation_id_for(record)
+    return record.conversation_id if record.is_a?(Message) || record.is_a?(ReportingEvent)
+
+    record.id
   end
 end

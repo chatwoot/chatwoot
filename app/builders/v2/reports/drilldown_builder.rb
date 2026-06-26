@@ -19,10 +19,8 @@ class V2::Reports::DrilldownBuilder
   def self.supported_dimension_type?(type) = SUPPORTED_DIMENSION_TYPES.include?((type.presence || 'account').to_s)
 
   def build
-    {
-      meta: meta,
-      payload: paginated_records.map { |record| record_serializer.serialize(record) }
-    }
+    records = paginated_records.to_a
+    { meta: meta, payload: records.map { |record| record_serializer(records).serialize(record) } }
   end
 
   private
@@ -99,11 +97,12 @@ class V2::Reports::DrilldownBuilder
           .group(:conversation_id)
   end
 
-  def record_serializer
+  def record_serializer(records)
     @record_serializer ||= V2::Reports::DrilldownRecordSerializer.new(
       account,
       metric,
-      use_business_hours?
+      use_business_hours?,
+      records
     )
   end
 
