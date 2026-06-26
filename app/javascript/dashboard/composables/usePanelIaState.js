@@ -5,20 +5,20 @@ import { isBotHandledConversation } from 'dashboard/helper/assigneeHelper';
 const STATE_CONFIG = {
   activo: {
     indicatorClass: 'bg-n-teal-9',
-    i18nKey: 'PANEL_IA_STATE_ACTIVE',
+    labelKey: 'CONVERSATION.PANEL_IA_STATE_ACTIVE',
   },
   esperando: {
     indicatorClass: 'bg-n-amber-9',
-    i18nKey: 'PANEL_IA_STATE_WAITING',
+    labelKey: 'CONVERSATION.PANEL_IA_STATE_WAITING',
   },
   solicita_ayuda: {
     indicatorClass: 'bg-n-ruby-9',
-    i18nKey: 'PANEL_IA_STATE_HELP',
+    labelKey: 'CONVERSATION.PANEL_IA_STATE_HELP',
     pulseIndicator: true,
   },
   cerrado_inactividad: {
     indicatorClass: 'bg-n-slate-9',
-    i18nKey: 'PANEL_IA_STATE_INACTIVITY_CLOSED',
+    labelKey: 'CONVERSATION.PANEL_IA_STATE_INACTIVITY_CLOSED',
   },
 };
 
@@ -48,7 +48,7 @@ export function usePanelIaState(chatRef) {
     const customLabel = chat?.custom_attributes?.panel_ia_estado_label;
     if (customLabel) return customLabel;
     if (!config.value) return '';
-    return t(`CONVERSATION.${config.value.i18nKey}`);
+    return t(config.value.labelKey);
   });
 
   const indicatorClass = computed(() => {

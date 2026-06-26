@@ -32,7 +32,7 @@ const pulseClass = computed(() =>
 
 <template>
   <div
-    v-if="showIndicator && indicatorClass"
+    v-show="showIndicator && indicatorClass"
     v-tooltip="label"
     :class="wrapperLayoutClass"
   >

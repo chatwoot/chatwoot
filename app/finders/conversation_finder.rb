@@ -41,8 +41,7 @@ class ConversationFinder
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count = set_count_for_all_conversations
-    assigned_count = all_count - unassigned_count
+    mine_count, unassigned_count, assigned_count, all_count = set_count_for_all_conversations
 
     filter_by_assignee_type
 
@@ -60,8 +59,7 @@ class ConversationFinder
   def perform_meta_only
     set_up
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
-    assigned_count = all_count - unassigned_count
+    mine_count, unassigned_count, assigned_count, all_count = set_count_for_all_conversations
 
     {
       count: {
@@ -190,15 +188,17 @@ class ConversationFinder
     counts = @conversations.unscope(:order).pick(
       Arel.sql("COUNT(*) FILTER (WHERE assignee_id = #{current_user.id})"),
       Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NOT NULL)'),
       Arel.sql('COUNT(*)')
     )
-    counts || [0, 0, 0]
+    counts || [0, 0, 0, 0]
   end
 
   def legacy_count_for_all_conversations
     [
       @conversations.assigned_to(current_user).count,
       @conversations.without_human_assignee.count,
+      @conversations.with_human_assignee.count,
       @conversations.count
     ]
   end

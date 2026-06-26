@@ -80,6 +80,7 @@ const resolveAttributesModalRef = ref(null);
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const autoSwitchedToUnassigned = ref(false);
 const autoSwitchedStatusToAll = ref(false);
+const previousStatusBeforeBotSwitch = ref(null);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
@@ -649,6 +650,7 @@ function onBasicFilterChange(value, type) {
   if (type === 'status') {
     activeStatus.value = value;
     autoSwitchedStatusToAll.value = false;
+    previousStatusBeforeBotSwitch.value = null;
   } else {
     activeSortBy.value = value;
   }
@@ -847,6 +849,7 @@ function applyBotInboxViewDefaults({ skipFetch = false } = {}) {
     changed = true;
   }
   if (activeStatus.value === wootConstants.STATUS_TYPE.PENDING) {
+    previousStatusBeforeBotSwitch.value = activeStatus.value;
     activeStatus.value = wootConstants.STATUS_TYPE.ALL;
     autoSwitchedStatusToAll.value = true;
     changed = true;
@@ -874,9 +877,11 @@ function restoreBotInboxViewDefaults({ skipFetch = false } = {}) {
   }
   if (
     autoSwitchedStatusToAll.value &&
-    activeStatus.value === wootConstants.STATUS_TYPE.ALL
+    activeStatus.value === wootConstants.STATUS_TYPE.ALL &&
+    previousStatusBeforeBotSwitch.value
   ) {
-    activeStatus.value = wootConstants.STATUS_TYPE.OPEN;
+    activeStatus.value = previousStatusBeforeBotSwitch.value;
+    previousStatusBeforeBotSwitch.value = null;
     autoSwitchedStatusToAll.value = false;
     changed = true;
   }
@@ -914,6 +919,8 @@ watch(activeInboxId, async inboxId => {
     resetAndFetchData();
   } else if (restoreBotInboxViewDefaults({ skipFetch: true })) {
     store.dispatch('setChatStatusFilter', activeStatus.value);
+    resetAndFetchData();
+  } else {
     resetAndFetchData();
   }
 });
@@ -953,10 +960,6 @@ provide('deleteConversation', handleDelete);
 
 watch(activeTeam, () => resetAndFetchData());
 
-watch(
-  computed(() => props.conversationInbox),
-  () => resetAndFetchData()
-);
 watch(
   computed(() => props.label),
   () => resetAndFetchData()

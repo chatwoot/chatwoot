@@ -275,39 +275,35 @@ const actions = {
     { commit },
     { conversationId, status, snoozedUntil = null, customAttributes = null }
   ) => {
-    try {
-      // Update custom attributes first if provided
-      if (customAttributes) {
-        await ConversationApi.updateCustomAttributes({
-          conversationId,
-          customAttributes,
-        });
-        commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
-          conversationId,
-          customAttributes,
-        });
-      }
-
-      const {
-        data: {
-          payload: {
-            current_status: updatedStatus,
-            snoozed_until: updatedSnoozedUntil,
-          } = {},
-        } = {},
-      } = await ConversationApi.toggleStatus({
+    // Update custom attributes first if provided
+    if (customAttributes) {
+      await ConversationApi.updateCustomAttributes({
         conversationId,
-        status,
-        snoozedUntil,
+        customAttributes,
       });
-      commit(types.CHANGE_CONVERSATION_STATUS, {
+      commit(types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, {
         conversationId,
-        status: updatedStatus,
-        snoozedUntil: updatedSnoozedUntil,
+        customAttributes,
       });
-    } catch (error) {
-      // Handle error
     }
+
+    const {
+      data: {
+        payload: {
+          current_status: updatedStatus,
+          snoozed_until: updatedSnoozedUntil,
+        } = {},
+      } = {},
+    } = await ConversationApi.toggleStatus({
+      conversationId,
+      status,
+      snoozedUntil,
+    });
+    commit(types.CHANGE_CONVERSATION_STATUS, {
+      conversationId,
+      status: updatedStatus,
+      snoozedUntil: updatedSnoozedUntil,
+    });
   },
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {

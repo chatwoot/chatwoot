@@ -31,7 +31,7 @@ module Enterprise::Conversations::PermissionFilterService
 
   def filter_unassigned_and_mine
     mine = accessible_conversations.assigned_to(user)
-    unassigned = accessible_conversations.unassigned
+    unassigned = accessible_conversations.without_human_assignee
 
     Conversation.from("(#{mine.to_sql} UNION #{unassigned.to_sql}) as conversations")
                 .where(account_id: account.id)
