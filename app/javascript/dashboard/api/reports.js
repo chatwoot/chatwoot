@@ -42,8 +42,9 @@ class ReportsAPI extends ApiClient {
     businessHours,
     page,
     perPage,
+    signal,
   }) {
-    return axios.get(`${this.url}/drilldown`, {
+    const requestConfig = {
       params: {
         metric,
         bucket_timestamp: bucketTimestamp,
@@ -57,7 +58,13 @@ class ReportsAPI extends ApiClient {
         page,
         per_page: perPage,
       },
-    });
+    };
+
+    if (signal) {
+      requestConfig.signal = signal;
+    }
+
+    return axios.get(`${this.url}/drilldown`, requestConfig);
   }
 
   // eslint-disable-next-line default-param-last

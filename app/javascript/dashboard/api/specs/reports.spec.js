@@ -1,6 +1,8 @@
 import reportsAPI from '../reports';
 import ApiClient from '../ApiClient';
 
+const timezoneOffset = () => -new Date().getTimezoneOffset() / 60;
+
 describe('#Reports API', () => {
   it('creates correct instance', () => {
     expect(reportsAPI).toBeInstanceOf(ApiClient);
@@ -43,11 +45,14 @@ describe('#Reports API', () => {
       });
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports', {
         params: {
+          business_hours: undefined,
+          group_by: undefined,
+          id: undefined,
           metric: 'conversations_count',
           since: 1621103400,
           until: 1621621800,
           type: 'account',
-          timezone_offset: -0,
+          timezone_offset: timezoneOffset(),
         },
       });
     });
@@ -60,7 +65,7 @@ describe('#Reports API', () => {
           group_by: undefined,
           id: undefined,
           since: 1621103400,
-          timezone_offset: -0,
+          timezone_offset: timezoneOffset(),
           type: 'account',
           until: 1621621800,
         },
@@ -90,10 +95,37 @@ describe('#Reports API', () => {
           id: 1,
           group_by: 'day',
           business_hours: false,
-          timezone_offset: -0,
+          timezone_offset: timezoneOffset(),
           page: 2,
           per_page: 25,
         },
+      });
+    });
+
+    it('#getDrilldown with abort signal', () => {
+      const controller = new AbortController();
+
+      reportsAPI.getDrilldown({
+        metric: 'incoming_messages_count',
+        bucketTimestamp: 1621103400,
+        signal: controller.signal,
+      });
+
+      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/drilldown', {
+        params: {
+          metric: 'incoming_messages_count',
+          bucket_timestamp: 1621103400,
+          since: undefined,
+          until: undefined,
+          type: 'account',
+          id: undefined,
+          group_by: undefined,
+          business_hours: undefined,
+          timezone_offset: timezoneOffset(),
+          page: undefined,
+          per_page: undefined,
+        },
+        signal: controller.signal,
       });
     });
 

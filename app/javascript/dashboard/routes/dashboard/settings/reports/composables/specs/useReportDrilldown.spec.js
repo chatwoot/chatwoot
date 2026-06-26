@@ -19,6 +19,17 @@ const deferredPromise = () => {
   return { promise, resolve, reject };
 };
 
+const drilldownRequest = overrides => ({
+  metric: 'conversations_count',
+  bucketTimestamp: 1,
+  from: 1621103400,
+  to: 1621621800,
+  type: 'account',
+  groupBy: 'day',
+  businessHours: false,
+  ...overrides,
+});
+
 describe('useReportDrilldown', () => {
   const mountComposable = () =>
     mount({
@@ -32,6 +43,51 @@ describe('useReportDrilldown', () => {
     vi.clearAllMocks();
   });
 
+  it('does not request drilldown again for an identical active request', async () => {
+    const request = deferredPromise();
+    ReportsAPI.getDrilldown.mockReturnValue(request.promise);
+
+    const wrapper = mountComposable();
+    wrapper.vm.open(drilldownRequest());
+    wrapper.vm.open(drilldownRequest());
+
+    expect(ReportsAPI.getDrilldown).toHaveBeenCalledTimes(1);
+  });
+
+  it('aborts an in-flight request when a newer request is opened', async () => {
+    const firstRequest = deferredPromise();
+    const secondRequest = deferredPromise();
+    let firstSignal;
+
+    ReportsAPI.getDrilldown
+      .mockImplementationOnce(({ signal }) => {
+        firstSignal = signal;
+        return firstRequest.promise;
+      })
+      .mockReturnValueOnce(secondRequest.promise);
+
+    const wrapper = mountComposable();
+    wrapper.vm.open(drilldownRequest({ bucketTimestamp: 1 }));
+    wrapper.vm.open(drilldownRequest({ bucketTimestamp: 2 }));
+
+    expect(firstSignal.aborted).toBe(true);
+  });
+
+  it('passes an abort signal to drilldown requests', async () => {
+    const request = deferredPromise();
+    ReportsAPI.getDrilldown.mockReturnValue(request.promise);
+
+    const wrapper = mountComposable();
+    wrapper.vm.open(drilldownRequest());
+
+    expect(ReportsAPI.getDrilldown).toHaveBeenCalledWith(
+      expect.objectContaining({
+        page: 1,
+        signal: expect.any(AbortSignal),
+      })
+    );
+  });
+
   it('ignores stale responses when a newer request is opened first', async () => {
     const firstRequest = deferredPromise();
     const secondRequest = deferredPromise();
@@ -40,8 +96,8 @@ describe('useReportDrilldown', () => {
       .mockReturnValueOnce(secondRequest.promise);
 
     const wrapper = mountComposable();
-    wrapper.vm.open({ metric: 'conversations_count', bucketTimestamp: 1 });
-    wrapper.vm.open({ metric: 'conversations_count', bucketTimestamp: 2 });
+    wrapper.vm.open(drilldownRequest({ bucketTimestamp: 1 }));
+    wrapper.vm.open(drilldownRequest({ bucketTimestamp: 2 }));
 
     secondRequest.resolve({
       data: {
