@@ -100,7 +100,7 @@ describe Enterprise::Billing::HandleStripeEventService do
 
     it 'tracks marketing attribution for plan activation' do
       account.update!(
-        custom_attributes: account.custom_attributes.merge('plan_name' => 'Hacker')
+        custom_attributes: account.custom_attributes.merge('plan_name' => 'Startups')
       )
       allow(subscription).to receive(:[]).with('plan')
                                          .and_return({

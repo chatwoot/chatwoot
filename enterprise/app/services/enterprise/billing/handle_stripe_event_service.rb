@@ -27,7 +27,6 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank? || account.blank?
 
-    previous_plan_name = account.custom_attributes['plan_name']
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
@@ -163,7 +162,14 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def find_plan(plan_id)
-    cloud_plans.find { |config| config['product_id'].include?(plan_id) }
+    cloud_plans.find { |config| config['product_id'].include?(plan_id) || config['price_ids'].include?(plan_id) }
+  end
+
+  def previous_plan_name
+    stripe_plan = previous_attributes['plan']
+    return if stripe_plan.blank?
+
+    find_plan(stripe_plan['product'] || stripe_plan['id'])&.dig('name')
   end
 
   def cloud_plans
