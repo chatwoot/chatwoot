@@ -162,14 +162,20 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def find_plan(plan_id)
-    cloud_plans.find { |config| config['product_id'].include?(plan_id) || config['price_ids'].include?(plan_id) }
+    cloud_plans.find { |config| config['product_id'].include?(plan_id) }
+  end
+
+  def find_plan_by_price_id(price_id)
+    cloud_plans.find { |config| config['price_ids'].include?(price_id) }
   end
 
   def previous_plan_name
     stripe_plan = previous_attributes['plan']
     return if stripe_plan.blank?
 
-    find_plan(stripe_plan['product'] || stripe_plan['id'])&.dig('name')
+    previous_plan = find_plan(stripe_plan['product']) if stripe_plan['product'].present?
+    previous_plan ||= find_plan_by_price_id(stripe_plan['id'])
+    previous_plan&.dig('name')
   end
 
   def cloud_plans
