@@ -6,34 +6,8 @@ class Conversations::AssignmentService
   end
 
   def perform
-    # #region agent log
-    debug_assignee_log(
-      'assignment_service perform start',
-      {
-        conversation_id: conversation.id,
-        assignee_id: conversation.assignee_id,
-        assignee_agent_bot_id: conversation.assignee_agent_bot_id,
-        requested_assignee_id: assignee_id,
-        requested_assignee_type: assignee_type
-      },
-      'A'
-    )
-    # #endregion
     result = agent_bot_assignment? ? assign_agent_bot : assign_agent
     conversation.reload
-    # #region agent log
-    debug_assignee_log(
-      'assignment_service perform end',
-      {
-        conversation_id: conversation.id,
-        assignee_id: conversation.assignee_id,
-        assignee_agent_bot_id: conversation.assignee_agent_bot_id,
-        assignee_type: conversation.assignee_type,
-        result_class: result.class.name
-      },
-      'A'
-    )
-    # #endregion
     result
   end
 
@@ -82,19 +56,5 @@ class Conversations::AssignmentService
 
   def agent_bot_assignment?
     assignee_type.to_s == 'AgentBot'
-  end
-
-  def debug_assignee_log(message, data, hypothesis_id)
-    payload = {
-      sessionId: 'b893f4',
-      hypothesisId: hypothesis_id,
-      location: 'assignment_service.rb',
-      message: message,
-      data: data,
-      timestamp: (Time.now.to_f * 1000).to_i
-    }
-    File.open(Rails.root.join('debug-b893f4.log'), 'a') { |f| f.puts(payload.to_json) }
-  rescue StandardError
-    nil
   end
 end

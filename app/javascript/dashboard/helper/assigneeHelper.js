@@ -44,9 +44,6 @@ export const isBotHandledConversation = conversation => {
   );
 };
 
-export const isNonHumanAssignedConversation = conversation =>
-  !isHumanAssigneeMeta(conversation?.meta);
-
 export const getInboxBotAgent = agents =>
   (agents || []).find(
     agent =>

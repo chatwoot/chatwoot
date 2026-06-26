@@ -75,8 +75,9 @@ class Conversation < ApplicationRecord
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
-  scope :unassigned, -> { where(assignee_id: nil) }
-  scope :assigned, -> { where.not(assignee_id: nil) }
+  scope :unassigned, -> { where(assignee_id: nil, assignee_agent_bot_id: nil) }
+  scope :assigned, -> { where.not(assignee_id: nil).or(where.not(assignee_agent_bot_id: nil)) }
+  scope :without_human_assignee, -> { where(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :sort_on_unread, lambda { |_direction|
     order(unread_messages_count_arel.desc).sort_on_last_activity_at('desc')
@@ -276,25 +277,6 @@ class Conversation < ApplicationRecord
   end
 
   def ensure_exclusive_assignee
-    if assignee_id.present? && assignee_agent_bot_id.present?
-      # #region agent log
-      File.open(Rails.root.join('debug-b893f4.log'), 'a') do |f|
-        f.puts({
-          sessionId: 'b893f4',
-          hypothesisId: 'A',
-          location: 'conversation.rb:ensure_exclusive_assignee',
-          message: 'dual assignee detected before fix',
-          data: {
-            conversation_id: id,
-            assignee_id: assignee_id,
-            assignee_agent_bot_id: assignee_agent_bot_id
-          },
-          timestamp: (Time.now.to_f * 1000).to_i
-        }.to_json)
-      end
-      # #endregion
-    end
-
     if assignee_id.present?
       self.assignee_agent_bot_id = nil
     elsif assignee_agent_bot_id.present?

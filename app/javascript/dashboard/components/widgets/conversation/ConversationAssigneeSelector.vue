@@ -24,6 +24,7 @@ const {
   agentsList,
   assignedAgent,
   showSelfAssign,
+  isAssigning,
   onClickAssignAgent,
   onSelfAssign,
 } = useConversationAssignee();
@@ -63,6 +64,7 @@ watch(
     >
       <MultiselectDropdown
         :compact="compact"
+        :disabled="isAssigning"
         :options="agentsList"
         :selected-item="assignedAgent"
         :multiselector-title="$t('AGENT_MGMT.MULTI_SELECTOR.TITLE.AGENT')"

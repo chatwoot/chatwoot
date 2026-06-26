@@ -236,21 +236,16 @@ const actions = {
       resolvedAssigneeType = 'User';
     }
 
-    try {
-      const response = await ConversationApi.assignAgent({
-        conversationId,
-        agentId: resolvedAgentId,
-        assigneeType: resolvedAssigneeType,
-      });
-      dispatch('setCurrentChatAssignee', {
-        conversationId,
-        assignee: response.data,
-        assigneeType:
-          resolvedAssigneeType ?? resolveAssigneeType(response.data),
-      });
-    } catch (error) {
-      // Handle error
-    }
+    const response = await ConversationApi.assignAgent({
+      conversationId,
+      agentId: resolvedAgentId,
+      assigneeType: resolvedAssigneeType,
+    });
+    dispatch('setCurrentChatAssignee', {
+      conversationId,
+      assignee: response.data,
+      assigneeType: resolvedAssigneeType ?? resolveAssigneeType(response.data),
+    });
   },
 
   setCurrentChatAssignee(

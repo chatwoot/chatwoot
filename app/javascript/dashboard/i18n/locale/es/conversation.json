@@ -44,6 +44,7 @@
     "PANEL_IA_STATE_ACTIVE": "IA contestando",
     "PANEL_IA_STATE_WAITING": "IA esperando",
     "PANEL_IA_STATE_HELP": "IA solicita ayuda",
+    "PANEL_IA_HANDOFF_BANNER": "Panel IA escaló esta conversación. Revisá las notas privadas en el hilo (icono candado) para ver el resumen y el contexto.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram fue migrada a la nueva bandeja de entrada del canal Instagram. Todos los nuevos mensajes aparecerán allí. Ya no podrás enviar mensajes de esta conversación.",

@@ -41,6 +41,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select']);
@@ -75,6 +79,7 @@ const hasIcon = computed(() => {
         slate
         outline
         trailing-icon
+        :disabled="disabled"
         :size="compact ? 'sm' : undefined"
         :icon="
           showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'

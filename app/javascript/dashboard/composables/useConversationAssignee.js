@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -13,6 +13,7 @@ export function useConversationAssignee() {
   const store = useStore();
   const { t } = useI18n();
   const { agentsList, inboxBotAgent } = useAgentsList();
+  const isAssigning = ref(false);
 
   const currentChat = computed(() => store.getters.getSelectedChat);
   const currentUser = computed(() => store.getters.getCurrentUser);
@@ -42,21 +43,25 @@ export function useConversationAssignee() {
     return agent;
   };
 
-  const assignAgent = agent => {
+  const assignAgent = async agent => {
     const resolved = resolveAssigneeSelection(agent);
     const conversationId = currentChat.value.id;
     const agentId = resolved ? resolved.id : null;
     const assigneeType = resolveAssigneeType(resolved);
 
-    return store
-      .dispatch('assignAgent', {
+    isAssigning.value = true;
+    try {
+      await store.dispatch('assignAgent', {
         conversationId,
         agentId,
         assigneeType,
-      })
-      .then(() => {
-        useAlert(t('CONVERSATION.CHANGE_AGENT'));
       });
+      useAlert(t('CONVERSATION.CHANGE_AGENT'));
+    } catch {
+      useAlert(t('CONVERSATION.CHANGE_AGENT_FAILED'));
+    } finally {
+      isAssigning.value = false;
+    }
   };
 
   const onClickAssignAgent = selectedItem => {
@@ -93,6 +98,7 @@ export function useConversationAssignee() {
     inboxBotAgent,
     assignedAgent,
     showSelfAssign,
+    isAssigning,
     onClickAssignAgent,
     onSelfAssign,
   };

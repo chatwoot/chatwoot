@@ -74,7 +74,7 @@ class ActionService
   end
 
   def remove_assigned_agent(_params)
-    @conversation.update!(assignee_id: nil)
+    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: nil).perform
   end
 
   def remove_assigned_team(_params)

@@ -4,6 +4,7 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
+import PanelIaHandoffBanner from './PanelIaHandoffBanner.vue';
 
 export default {
   components: {
@@ -11,6 +12,7 @@ export default {
     DashboardAppFrame,
     EmptyState,
     MessagesView,
+    PanelIaHandoffBanner,
   },
   props: {
     inboxId: {
@@ -119,9 +121,11 @@ export default {
         is-compact
       />
     </woot-tabs>
-    <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
+    <div v-show="!activeIndex" class="flex flex-col h-full min-h-0 m-0">
+      <PanelIaHandoffBanner v-if="currentChat.id" :chat="currentChat" />
       <MessagesView
         v-if="currentChat.id"
+        class="flex-1 min-h-0"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
       />

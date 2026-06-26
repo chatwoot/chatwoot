@@ -51,7 +51,10 @@ import {
 } from 'dashboard/helper/permissionsHelper.js';
 import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
 import { matchesUnassignedTab } from '../store/modules/conversations/helpers';
-import { getInboxBotAgent, isCurrentUserAssigneeMeta } from 'dashboard/helper/assigneeHelper';
+import {
+  getInboxBotAgent,
+  isCurrentUserAssigneeMeta,
+} from 'dashboard/helper/assigneeHelper';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -328,9 +331,7 @@ function filterByAssigneeTab(conversations) {
   }
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
     const inboxBotId = inboxBot.value?.id;
-    return conversations.filter(c =>
-      matchesUnassignedTab(c, { inboxBotId })
-    );
+    return conversations.filter(c => matchesUnassignedTab(c, { inboxBotId }));
   }
   return [...conversations];
 }
@@ -832,26 +833,51 @@ useEmitter('fetch_conversation_stats', () => {
   store.dispatch('conversationStats/get', conversationFilters.value);
 });
 
-function fetchAssignableAgentsForInbox(inboxId) {
-  if (inboxId) {
-    store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+function applyBotInboxViewDefaults({ skipFetch = false } = {}) {
+  if (!inboxBot.value) return false;
+
+  let changed = false;
+  if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.UNASSIGNED;
+    changed = true;
   }
+  if (activeStatus.value === wootConstants.STATUS_TYPE.PENDING) {
+    activeStatus.value = wootConstants.STATUS_TYPE.ALL;
+    changed = true;
+  }
+  if (changed) {
+    store.dispatch('setChatStatusFilter', activeStatus.value);
+    if (!skipFetch) {
+      resetAndFetchData();
+    }
+  }
+  return changed;
 }
 
-onMounted(() => {
+onMounted(async () => {
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
+  const inboxId = activeInboxId.value;
+  if (inboxId) {
+    await store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+  }
+  applyBotInboxViewDefaults({ skipFetch: true });
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
-  fetchAssignableAgentsForInbox(activeInboxId.value);
   resetAndFetchData();
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
 });
 
-watch(activeInboxId, inboxId => {
-  fetchAssignableAgentsForInbox(inboxId);
+watch(activeInboxId, async inboxId => {
+  if (inboxId) {
+    await store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+  }
+  if (applyBotInboxViewDefaults({ skipFetch: true })) {
+    store.dispatch('setChatStatusFilter', activeStatus.value);
+    resetAndFetchData();
+  }
 });
 
 const deleteConversationDialogRef = ref(null);
