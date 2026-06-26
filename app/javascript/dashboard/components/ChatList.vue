@@ -78,6 +78,8 @@ const store = useStore();
 const resolveAttributesModalRef = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
+const autoSwitchedToUnassigned = ref(false);
+const autoSwitchedStatusToAll = ref(false);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
@@ -636,6 +638,7 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
+    autoSwitchedToUnassigned.value = false;
     if (!currentPage.value) {
       fetchConversations();
     }
@@ -645,6 +648,7 @@ function updateAssigneeTab(selectedTab) {
 function onBasicFilterChange(value, type) {
   if (type === 'status') {
     activeStatus.value = value;
+    autoSwitchedStatusToAll.value = false;
   } else {
     activeSortBy.value = value;
   }
@@ -839,10 +843,41 @@ function applyBotInboxViewDefaults({ skipFetch = false } = {}) {
   let changed = false;
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
     activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.UNASSIGNED;
+    autoSwitchedToUnassigned.value = true;
     changed = true;
   }
   if (activeStatus.value === wootConstants.STATUS_TYPE.PENDING) {
     activeStatus.value = wootConstants.STATUS_TYPE.ALL;
+    autoSwitchedStatusToAll.value = true;
+    changed = true;
+  }
+  if (changed) {
+    store.dispatch('setChatStatusFilter', activeStatus.value);
+    if (!skipFetch) {
+      resetAndFetchData();
+    }
+  }
+  return changed;
+}
+
+function restoreBotInboxViewDefaults({ skipFetch = false } = {}) {
+  if (inboxBot.value) return false;
+
+  let changed = false;
+  if (
+    autoSwitchedToUnassigned.value &&
+    activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED
+  ) {
+    activeAssigneeTab.value = wootConstants.ASSIGNEE_TYPE.ME;
+    autoSwitchedToUnassigned.value = false;
+    changed = true;
+  }
+  if (
+    autoSwitchedStatusToAll.value &&
+    activeStatus.value === wootConstants.STATUS_TYPE.ALL
+  ) {
+    activeStatus.value = wootConstants.STATUS_TYPE.OPEN;
+    autoSwitchedStatusToAll.value = false;
     changed = true;
   }
   if (changed) {
@@ -875,6 +910,9 @@ watch(activeInboxId, async inboxId => {
     await store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
   }
   if (applyBotInboxViewDefaults({ skipFetch: true })) {
+    store.dispatch('setChatStatusFilter', activeStatus.value);
+    resetAndFetchData();
+  } else if (restoreBotInboxViewDefaults({ skipFetch: true })) {
     store.dispatch('setChatStatusFilter', activeStatus.value);
     resetAndFetchData();
   }

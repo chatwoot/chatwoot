@@ -54,6 +54,7 @@ watch(
       link
       xs
       class="!gap-1 flex-shrink-0"
+      :disabled="isAssigning"
       :label="$t('CONVERSATION_SIDEBAR.SELF_ASSIGN')"
       @click="onSelfAssign"
     />

@@ -44,6 +44,7 @@
     "PANEL_IA_STATE_ACTIVE": "AI responding",
     "PANEL_IA_STATE_WAITING": "AI waiting",
     "PANEL_IA_STATE_HELP": "AI requests help",
+    "PANEL_IA_STATE_INACTIVITY_CLOSED": "Closed due to inactivity",
     "PANEL_IA_HANDOFF_BANNER": "Panel IA escalated this conversation. Check the private notes in the thread (lock icon) for the summary and context.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",

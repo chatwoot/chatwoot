@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
@@ -171,12 +172,16 @@ export function useConversationHotKeys() {
     return teams.value;
   });
 
-  const onChangeAssignee = action => {
-    store.dispatch('assignAgent', {
-      conversationId: currentChat.value.id,
-      agentId: action.agentInfo.id,
-      assigneeType: action.agentInfo.assignee_type,
-    });
+  const onChangeAssignee = async action => {
+    try {
+      await store.dispatch('assignAgent', {
+        conversationId: currentChat.value.id,
+        agentId: action.agentInfo.id,
+        assigneeType: action.agentInfo.assignee_type,
+      });
+    } catch {
+      useAlert(t('CONVERSATION.CHANGE_AGENT_FAILED'));
+    }
   };
 
   const onChangePriority = action => {

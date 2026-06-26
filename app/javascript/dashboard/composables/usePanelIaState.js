@@ -16,6 +16,10 @@ const STATE_CONFIG = {
     i18nKey: 'PANEL_IA_STATE_HELP',
     pulseIndicator: true,
   },
+  cerrado_inactividad: {
+    indicatorClass: 'bg-n-slate-9',
+    i18nKey: 'PANEL_IA_STATE_INACTIVITY_CLOSED',
+  },
 };
 
 export function usePanelIaState(chatRef) {
@@ -27,6 +31,9 @@ export function usePanelIaState(chatRef) {
     const chat = unref(chatRef);
     const estado = chat?.custom_attributes?.panel_ia_estado;
     if (estado) return estado;
+    if (chat?.status === 'resolved' && isBotHandled.value) {
+      return 'cerrado_inactividad';
+    }
     return isBotHandled.value ? 'activo' : '';
   });
 

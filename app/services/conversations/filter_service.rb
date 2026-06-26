@@ -6,6 +6,14 @@ class Conversations::FilterService < FilterService
     super(params, user)
   end
 
+  def set_count_for_all_conversations
+    [
+      @conversations.assigned_to(@user).count,
+      @conversations.without_human_assignee.count,
+      @conversations.count
+    ]
+  end
+
   def perform
     validate_query_operator
     @conversations = query_builder(@filters['conversations'])

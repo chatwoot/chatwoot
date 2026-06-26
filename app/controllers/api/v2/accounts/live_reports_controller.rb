@@ -8,7 +8,7 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
     render json: {
       open: @conversations.open.count,
       unattended: @conversations.open.unattended.count,
-      unassigned: @conversations.open.unassigned.count,
+      unassigned: @conversations.open.without_human_assignee.count,
       pending: @conversations.pending.count
     }
   end
@@ -16,7 +16,7 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   def grouped_conversation_metrics
     count_by_group = @conversations.open.group(@group_scope).count
     unattended_by_group = @conversations.open.unattended.group(@group_scope).count
-    unassigned_by_group = @conversations.open.unassigned.group(@group_scope).count
+    unassigned_by_group = @conversations.open.without_human_assignee.group(@group_scope).count
 
     group_metrics = count_by_group.map do |group_id, count|
       metric = {

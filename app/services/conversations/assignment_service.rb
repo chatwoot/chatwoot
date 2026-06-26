@@ -39,11 +39,19 @@ class Conversations::AssignmentService
 
   def assign_agent_bot
     return unless agent_bot
+    return unless bot_assignable_to_inbox?(agent_bot)
 
     conversation.assignee = nil
     conversation.assignee_agent_bot = agent_bot
     conversation.save!
     agent_bot
+  end
+
+  def bot_assignable_to_inbox?(bot)
+    inbox = conversation.inbox
+    return false if inbox.blank? || bot.blank?
+
+    inbox.assignable_agent_bot&.id == bot.id
   end
 
   def assignee

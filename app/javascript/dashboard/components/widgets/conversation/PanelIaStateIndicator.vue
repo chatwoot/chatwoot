@@ -18,7 +18,7 @@ const chatRef = toRef(props, 'chat');
 const { showIndicator, indicatorClass, label, config } =
   usePanelIaState(chatRef);
 
-const indicatorLayoutClass = computed(() => {
+const wrapperLayoutClass = computed(() => {
   if (props.variant === 'horizontal') {
     return 'h-1 w-full shrink-0';
   }
@@ -34,8 +34,13 @@ const pulseClass = computed(() =>
   <div
     v-if="showIndicator && indicatorClass"
     v-tooltip="label"
-    :class="[indicatorLayoutClass, indicatorClass, pulseClass]"
-    role="status"
-    :aria-label="label"
-  />
+    :class="wrapperLayoutClass"
+  >
+    <div
+      class="pointer-events-none h-full w-full"
+      :class="[indicatorClass, pulseClass]"
+      role="status"
+      :aria-label="label"
+    />
+  </div>
 </template>

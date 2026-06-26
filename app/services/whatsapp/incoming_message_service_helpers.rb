@@ -25,8 +25,10 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def message_content(message)
-    # TODO: map interactive messages back to button messages in chatwoot
-    message.dig(:text, :body) ||
+    interactive_id = message.dig(:interactive, :button_reply, :id) ||
+                     message.dig(:interactive, :list_reply, :id)
+    interactive_id.presence ||
+      message.dig(:text, :body) ||
       message.dig(:button, :text) ||
       message.dig(:interactive, :button_reply, :title) ||
       message.dig(:interactive, :list_reply, :title) ||

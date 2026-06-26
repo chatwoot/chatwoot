@@ -453,7 +453,7 @@ export default {
       return assignee.id === this.currentUser.id;
     },
     needsSelfAssignmentBeforeReply() {
-      return !this.isOnPrivateNote && !this.isAssignedToCurrentUser();
+      return !this.isOnPrivateNote && !this.isAssignedToCurrentUser;
     },
   },
   watch: {
@@ -909,15 +909,26 @@ export default {
     async selfAssignConversation() {
       const { avatar_url: avatarUrl, ...rest } = this.currentUser || {};
       const assignee = { ...rest, thumbnail: avatarUrl };
+      const previousAssignee = this.currentChat?.meta?.assignee;
+      const previousAssigneeType = this.currentChat?.meta?.assignee_type;
       this.$store.dispatch('setCurrentChatAssignee', {
         conversationId: this.currentChat.id,
         assignee,
       });
-      await this.$store.dispatch('assignAgent', {
-        conversationId: this.currentChat.id,
-        agentId: this.currentUser.id,
-        assigneeType: 'User',
-      });
+      try {
+        await this.$store.dispatch('assignAgent', {
+          conversationId: this.currentChat.id,
+          agentId: this.currentUser.id,
+          assigneeType: 'User',
+        });
+      } catch (error) {
+        this.$store.dispatch('setCurrentChatAssignee', {
+          conversationId: this.currentChat.id,
+          assignee: previousAssignee,
+          assigneeType: previousAssigneeType,
+        });
+        throw error;
+      }
     },
     async sendMessage(
       messagePayload,

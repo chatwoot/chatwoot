@@ -56,6 +56,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
       end
 
       it 'assigns an agent bot to the conversation' do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
         params = { assignee_id: agent_bot.id, assignee_type: 'AgentBot' }
 
         expect(Conversations::AssignmentService).to receive(:new)

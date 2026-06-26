@@ -25,25 +25,6 @@ const { t } = useI18n();
 const currentChat = useMapGetter('getSelectedChat');
 const currentUser = useMapGetter('getCurrentUser');
 
-const assignedAgent = computed({
-  get() {
-    return currentChat.value?.meta?.assignee;
-  },
-  set(agent) {
-    const agentId = agent ? agent.id : null;
-    store.dispatch('setCurrentChatAssignee', {
-      conversationId: currentChat.value?.id,
-      assignee: agent,
-      assigneeType: 'User',
-    });
-    store.dispatch('assignAgent', {
-      conversationId: currentChat.value?.id,
-      agentId,
-      assigneeType: 'User',
-    });
-  },
-});
-
 const isAssignedToCurrentUser = computed(() => {
   const assignee = currentChat.value?.meta?.assignee;
   const assigneeType = currentChat.value?.meta?.assignee_type;
@@ -66,11 +47,37 @@ const botHandoffActionLabel = computed(() => {
 });
 
 const selfAssignConversation = async () => {
+  const conversationId = currentChat.value?.id;
+  const previousAssignee = currentChat.value?.meta?.assignee;
+  const previousAssigneeType = currentChat.value?.meta?.assignee_type;
   const { avatar_url, ...rest } = currentUser.value || {};
-  assignedAgent.value = { ...rest, thumbnail: avatar_url };
+  const nextAssignee = { ...rest, thumbnail: avatar_url };
+
+  store.dispatch('setCurrentChatAssignee', {
+    conversationId,
+    assignee: nextAssignee,
+    assigneeType: 'User',
+  });
+
+  try {
+    await store.dispatch('assignAgent', {
+      conversationId,
+      agentId: currentUser.value?.id,
+      assigneeType: 'User',
+    });
+  } catch (error) {
+    store.dispatch('setCurrentChatAssignee', {
+      conversationId,
+      assignee: previousAssignee,
+      assigneeType: previousAssigneeType,
+    });
+    throw error;
+  }
 };
 
-const needsAssignmentToCurrentUser = computed(() => !isAssignedToCurrentUser.value);
+const needsAssignmentToCurrentUser = computed(
+  () => !isAssignedToCurrentUser.value
+);
 
 const reopenConversation = async () => {
   await store.dispatch('toggleStatus', {

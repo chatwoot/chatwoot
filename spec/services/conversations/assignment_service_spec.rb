@@ -61,6 +61,10 @@ describe Conversations::AssignmentService do
         )
       end
 
+      before do
+        create(:agent_bot_inbox, inbox: conversation.inbox, agent_bot: agent_bot)
+      end
+
       it 'sets the agent bot and clears human assignee' do
         conversation.update!(assignee: agent, assignee_agent_bot: nil)
 
@@ -70,6 +74,33 @@ describe Conversations::AssignmentService do
         expect(result).to eq(agent_bot)
         expect(conversation.assignee_agent_bot_id).to eq(agent_bot.id)
         expect(conversation.assignee_id).to be_nil
+      end
+
+      it 'does not assign an inactive inbox bot' do
+        conversation.inbox.agent_bot_inbox.update!(status: :inactive)
+        conversation.update!(assignee: agent, assignee_agent_bot: nil)
+
+        result = service.perform
+
+        conversation.reload
+        expect(result).to be_nil
+        expect(conversation.assignee_agent_bot_id).to be_nil
+        expect(conversation.assignee_id).to eq(agent.id)
+      end
+
+      it 'does not assign a bot from another inbox' do
+        other_bot = create(:agent_bot, account: account)
+        other_service = described_class.new(
+          conversation: conversation,
+          assignee_id: other_bot.id,
+          assignee_type: 'AgentBot'
+        )
+
+        result = other_service.perform
+
+        conversation.reload
+        expect(result).to be_nil
+        expect(conversation.assignee_agent_bot_id).to be_nil
       end
     end
   end

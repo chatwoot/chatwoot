@@ -1,0 +1,23 @@
+# Monta fork local: assets Vite + código Rails (assignable bot, Panel IA UI backend).
+# Uso:
+#   pnpm exec vite build
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.vite-local.yml up -d --force-recreate chatwoot-rails chatwoot-sidekiq
+
+services:
+  chatwoot-rails:
+    volumes:
+      - chatwoot-storage:/app/storage
+      - ./app:/app/app
+      - ./enterprise:/app/enterprise
+      - ./lib:/app/lib
+      - ./config:/app/config
+      - ./public/vite:/app/public/vite:ro
+
+  chatwoot-sidekiq:
+    volumes:
+      - chatwoot-storage:/app/storage
+      - ./app:/app/app
+      - ./enterprise:/app/enterprise
+      - ./lib:/app/lib
+      - ./config:/app/config
+      - ./public/vite:/app/public/vite:ro
