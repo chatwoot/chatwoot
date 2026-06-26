@@ -37,13 +37,13 @@ class Synapseos::AgentMetricsQuery
 
   def live_payload
     {
-      agents: AgentResolver::SLUGS.map { |slug| agent_status(slug) },
+      agents: ::Synapseos::AgentResolver::SLUGS.map { |slug| agent_status(slug) },
       hot_conversations: hot_conversations
     }
   end
 
   def agent_status(slug)
-    bot_ids = AgentResolver.bots_for_slug(@account, slug).pluck(:id)
+    bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, slug).pluck(:id)
     last_msg = latest_message_for(bot_ids)
     last_label_event = latest_label_event_for(slug)
 
@@ -51,7 +51,7 @@ class Synapseos::AgentMetricsQuery
 
     {
       slug: slug,
-      display_name: AgentResolver.display_name(slug),
+      display_name: ::Synapseos::AgentResolver.display_name(slug),
       status: status_from(last_action_at),
       last_action: last_action,
       last_action_at: last_action_at
@@ -73,7 +73,7 @@ class Synapseos::AgentMetricsQuery
   def agent_payload(slug:, since:)
     {
       slug: slug,
-      display_name: AgentResolver.display_name(slug),
+      display_name: ::Synapseos::AgentResolver.display_name(slug),
       since: since.iso8601,
       kpis: kpis_for(slug, since)
     }
@@ -85,14 +85,14 @@ class Synapseos::AgentMetricsQuery
   # bot do slug, no mês calendário atual (BRT). Mensagens em conversas sem
   # bot atribuído ficam fora — quota é por agente cadastrado.
   def usage_payload(slug:)
-    bot_ids = AgentResolver.bots_for_slug(@account, slug).pluck(:id)
+    bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, slug).pluck(:id)
     period_start, period_end = current_month_range
     daily = daily_outgoing_counts(bot_ids, period_start, period_end)
     total = daily.values.sum
 
     {
       slug: slug,
-      display_name: AgentResolver.display_name(slug),
+      display_name: ::Synapseos::AgentResolver.display_name(slug),
       period_start: period_start.iso8601,
       period_end: period_end.iso8601,
       quota: MONTHLY_MESSAGE_QUOTA,
@@ -152,7 +152,7 @@ class Synapseos::AgentMetricsQuery
   # KPIs descritos sem depender de tags específicas — usa Message direto
   # pra evitar dependência do labels_emission_plan.
   def natalia_kpis(since)
-    bot_ids = AgentResolver.bots_for_slug(@account, 'natalia').pluck(:id)
+    bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, 'natalia').pluck(:id)
     outgoing_msgs = Message.where(account_id: @account.id, message_type: :outgoing,
                                   sender_type: 'AgentBot', sender_id: bot_ids)
                            .where('created_at >= ?', since)
@@ -183,7 +183,7 @@ class Synapseos::AgentMetricsQuery
 
   # Iza (SDR inbound): conversas recebidas do cliente, sem tag outbound.
   def iza_kpis(since)
-    iza_bot_ids = AgentResolver.bots_for_slug(@account, 'iza').pluck(:id)
+    iza_bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, 'iza').pluck(:id)
     outbound_ids = conversations_with_label('outbound', since).pluck(:id)
     inbound = @account.conversations
                       .where('conversations.created_at >= ?', since)
@@ -202,7 +202,7 @@ class Synapseos::AgentMetricsQuery
   end
 
   def otto_kpis(since)
-    bot_ids = AgentResolver.bots_for_slug(@account, 'otto').pluck(:id)
+    bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, 'otto').pluck(:id)
     {
       interacoes_crm: conversations_with_label('crm_updated', since).count,
       alertas_sla: private_notes_from(bot_ids, since).count,
@@ -211,7 +211,7 @@ class Synapseos::AgentMetricsQuery
   end
 
   def luis_kpis(since)
-    bot_ids = AgentResolver.bots_for_slug(@account, 'luis').pluck(:id)
+    bot_ids = ::Synapseos::AgentResolver.bots_for_slug(@account, 'luis').pluck(:id)
     { assistencias_tecnicas: private_notes_from(bot_ids, since).count }
   end
 
