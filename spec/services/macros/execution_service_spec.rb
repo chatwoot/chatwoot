@@ -174,5 +174,16 @@ RSpec.describe Macros::ExecutionService, type: :service do
       expect(WebhookJob).to receive(:perform_later)
       service.send(:send_webhook_event, ['https://example.com/webhook'])
     end
+
+    it 'includes the macro and the executing user in the payload' do
+      expect(WebhookJob).to receive(:perform_later) do |url, payload|
+        expect(url).to eq('https://example.com/webhook')
+        expect(payload[:event]).to eq('macro.executed')
+        expect(payload[:macro]).to eq({ id: macro.id, name: macro.name })
+        expect(payload[:executed_by]).to eq(user.webhook_data)
+      end
+
+      service.send(:send_webhook_event, ['https://example.com/webhook'])
+    end
   end
 end

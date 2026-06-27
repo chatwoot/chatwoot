@@ -64,7 +64,11 @@ class Macros::ExecutionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: 'macro.executed')
+    payload = @conversation.webhook_data.merge(
+      event: 'macro.executed',
+      macro: { id: @macro.id, name: @macro.name },
+      executed_by: @user&.webhook_data
+    )
     WebhookJob.perform_later(webhook_url.first, payload)
   end
 end
