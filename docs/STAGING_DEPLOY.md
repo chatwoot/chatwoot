@@ -70,8 +70,18 @@ Causa habitual: **no configuraste variables en Dokploy**. El log dirá:
 `Database is uninitialized and superuser password is not specified`.
 
 1. Pega las variables del paso 4 (incluye `POSTGRES_PASSWORD=...`)
-2. Si ya falló un deploy, en Dokploy elimina el volumen `staging-chatwoot-postgres-data` o redeploy limpio
+2. Si ya falló un deploy, en Dokploy elimina el volumen `staging-chatwoot-postgres-data` **solo si no tiene datos que quieras recuperar** — siempre hacer backup antes
 3. Vuelve a desplegar
+
+### Error: onboarding otra vez tras cambiar imagen (incidente 2026-06-26)
+
+**No es el fork.** Postgres quedó montado en un volumen **nuevo vacío** (`…_chatwoot-postgres-data`) en vez del volumen con datos (`…_staging-chatwoot-postgres-data`).
+
+**Prevención en Dokploy:**
+- Compose file: **`docker-compose.staging.yml`** (no el `docker-compose.yml` que Dokploy genera solo con `chatwoot-postgres-data`)
+- Antes de redeploy: `SELECT count(*) FROM accounts;` debe ser > 0 si ya había onboarding
+
+Ver recuperación y plan prod: [`docs/PRODUCTION_MIGRATION.md`](./PRODUCTION_MIGRATION.md)
 
 Servicios expuestos en la red `main-chatwoot-staging`:
 
@@ -135,12 +145,15 @@ Si pasan 1–4, el pipeline **fork → GitHub Actions → GHCR → Dokploy pull*
 
 ## Promoción a producción (después de validar)
 
+Ver guía completa: **[`docs/PRODUCTION_MIGRATION.md`](./PRODUCTION_MIGRATION.md)**
+
 1. Backup completo prod (Postgres + `chatwoot-storage`).
-2. En app **producción** Chatwoot: cambiar compose a build desde fork (adaptar `docker-compose.staging.yml` a dominios prod) o reutilizar imagen probada.
-3. **Reutilizar volúmenes prod** (`chatwoot-postgres-data`, etc.) — no los `staging-*`.
+2. En app **producción** Chatwoot: cambiar **solo** `image:` a `ghcr.io/pabloluna3596afk/chatwoot:develop` — **no renombrar volúmenes**.
+3. **Reutilizar volúmenes prod** (`main-chatwoot-miwnzk_chatwoot-postgres-data`, etc.) — no los `staging-*`.
 4. `FRONTEND_URL=https://inbox.paluhub.com`, quitar `DEPLOYMENT_ENV=staging`.
-5. Panel AI prod: actualizar solo si hace falta; red `main-chatwoot-miwnzk`.
-6. Smoke test en prod antes de apagar staging.
+5. Panel AI prod: redeploy cuando subas `master`; no obligatorio solo por imagen Chatwoot si no hay re-onboarding.
+6. Verificar `SELECT count(*) FROM accounts;` antes y después del deploy.
+7. Smoke test en prod antes de apagar staging.
 
 ## Qué no incluye esta fase
 

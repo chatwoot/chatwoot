@@ -7,7 +7,7 @@ import { useMessageContext } from '../provider.js';
 const { content, createdAt } = useMessageContext();
 
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(createdAt.value, 'LLL d, HH:mm')
 );
 </script>
 
