@@ -154,11 +154,6 @@
     "node": "24.x",
     "pnpm": "10.x"
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "sh bin/validate_push"
-    }
-  },
   "pnpm": {
     "overrides": {
       "vite": "6.4.2",

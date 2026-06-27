@@ -1,0 +1,124 @@
+# Dokploy staging — test.inbox.paluhub.com
+# Volúmenes: staging-chatwoot-* (PG16) | Imagen: ghcr.io/.../chatwoot:develop
+# CRÍTICO: chatwoot-rails debe estar en dokploy-network + chatwoot-internal
+
+x-base-config: &base-config
+  image: ghcr.io/pabloluna3596afk/chatwoot:develop
+  pull_policy: always
+  env_file: .env
+  volumes:
+    - staging-chatwoot-storage:/app/storage
+  environment:
+    - FRONTEND_URL=${FRONTEND_URL}
+    - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    - RAILS_ENV=${RAILS_ENV}
+    - NODE_ENV=${NODE_ENV}
+    - INSTALLATION_ENV=${INSTALLATION_ENV}
+    - RAILS_LOG_TO_STDOUT=${RAILS_LOG_TO_STDOUT}
+    - LOG_LEVEL=${LOG_LEVEL}
+    - DEFAULT_LOCALE=${DEFAULT_LOCALE}
+    - POSTGRES_HOST=${POSTGRES_HOST}
+    - POSTGRES_PORT=${POSTGRES_PORT}
+    - POSTGRES_DATABASE=${POSTGRES_DATABASE}
+    - POSTGRES_USERNAME=${POSTGRES_USERNAME}
+    - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    - REDIS_URL=${REDIS_URL}
+    - ENABLE_ACCOUNT_SIGNUP=${ENABLE_ACCOUNT_SIGNUP}
+    - ACTIVE_STORAGE_SERVICE=${ACTIVE_STORAGE_SERVICE}
+    - MAILER_DELIVERY_METHOD=${MAILER_DELIVERY_METHOD}
+    - SMTP_ADDRESS=${SMTP_ADDRESS}
+    - SMTP_PORT=${SMTP_PORT}
+    - SMTP_AUTHENTICATION=${SMTP_AUTHENTICATION}
+    - SMTP_ENABLE_STARTTLS_AUTO=${SMTP_ENABLE_STARTTLS_AUTO}
+    - SMTP_USERNAME=${SMTP_USERNAME}
+    - SMTP_PASSWORD=${SMTP_PASSWORD}
+    - SMTP_DOMAIN=${SMTP_DOMAIN}
+    - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+  networks:
+    - chatwoot-internal
+    - main-chatwoot-staging
+
+services:
+  chatwoot-rails:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    entrypoint: docker/entrypoints/rails.sh
+    command:
+      - bundle
+      - exec
+      - sh
+      - -c
+      - bundle exec rails db:chatwoot_prepare && bundle exec rails s -p 3000 -b 0.0.0.0
+    restart: always
+    labels:
+      - traefik.docker.network=dokploy-network
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-web.rule=Host(`test.inbox.paluhub.com`)
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-web.entrypoints=web
+      - traefik.http.services.saas-chatwoottest-4bjduc-79-web.loadbalancer.server.port=3000
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-web.service=saas-chatwoottest-4bjduc-79-web
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-web.middlewares=redirect-to-https@file
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-websecure.rule=Host(`test.inbox.paluhub.com`)
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-websecure.entrypoints=websecure
+      - traefik.http.services.saas-chatwoottest-4bjduc-79-websecure.loadbalancer.server.port=3000
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-websecure.service=saas-chatwoottest-4bjduc-79-websecure
+      - traefik.http.routers.saas-chatwoottest-4bjduc-79-websecure.tls.certresolver=letsencrypt
+      - traefik.enable=true
+    networks:
+      - dokploy-network
+      - chatwoot-internal
+      - main-chatwoot-staging
+
+  chatwoot-sidekiq:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
+
+  chatwoot-postgres:
+    image: pgvector/pgvector:pg16
+    restart: always
+    env_file: .env
+    volumes:
+      - staging-chatwoot-postgres-data:/var/lib/postgresql/data
+      - ./docker/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql:ro
+    environment:
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-staging
+
+  chatwoot-redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - staging-chatwoot-redis-data:/data
+    networks:
+      - chatwoot-internal
+
+volumes:
+  staging-chatwoot-storage:
+  staging-chatwoot-postgres-data:
+  staging-chatwoot-redis-data:
+
+networks:
+  chatwoot-internal:
+    driver: bridge
+  main-chatwoot-staging:
+    external: true
+  dokploy-network:
+    external: true

@@ -13,7 +13,7 @@
   ],
   "success_url": "/",
   "env": {
-    "SECRET_TOKEN": {
+    "SECRET_KEY_BASE": {
       "description": "A secret key for verifying the integrity of signed cookies.",
       "generator": "secret"
     },
@@ -62,7 +62,6 @@
       "plan": "heroku-postgresql:essential-0"
     }
   ],
-  "stack": "heroku-24",
   "buildpacks": [
     {
       "url": "heroku/nodejs"
@@ -74,7 +73,7 @@
   "environments": {
     "test": {
       "scripts": {
-        "test": "bundle exec rake test"
+        "test": "bundle exec rspec --fail-fast"
       }
     },
     "review": {

@@ -4,7 +4,7 @@
 #   docker compose -f docker-compose.dokploy.yml up -d
 
 x-base-config: &base-config
-  image: chatwoot/chatwoot:v4.14.2
+  image: chatwoot/chatwoot:v4.15.1
   env_file: .env
   volumes:
     - chatwoot-storage:/app/storage
@@ -37,6 +37,7 @@ services:
     restart: unless-stopped
 
   chatwoot-postgres:
+    # Local dev: pg14 (volume compatibility). Staging recovery compose uses pg16.
     image: pgvector/pgvector:pg14
     restart: unless-stopped
     volumes:

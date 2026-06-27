@@ -4,7 +4,7 @@ Rails.application.configure do
   #########################################
 
   # We need the application frontend url to be used in our emails
-  config.action_mailer.default_url_options = { host: ENV['FRONTEND_URL'] } if ENV['FRONTEND_URL'].present?
+  config.action_mailer.default_url_options = FrontendUrl.default_url_options if ENV['FRONTEND_URL'].present?
   # We load certain mailer templates from our database. This ensures changes to it is reflected immediately
   config.action_mailer.perform_caching = false
   config.action_mailer.perform_deliveries = true
