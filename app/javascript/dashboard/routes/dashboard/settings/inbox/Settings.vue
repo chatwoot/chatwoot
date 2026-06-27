@@ -92,6 +92,7 @@ export default {
       businessName: '',
       locktoSingleConversation: false,
       allowMessagesAfterResolved: true,
+      activityMessagesEnabled: true,
       continuityViaEmail: true,
       selectedInboxName: '',
       channelWebsiteUrl: '',
@@ -470,6 +471,8 @@ export default {
       this.businessName = this.inbox.business_name;
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
+      this.activityMessagesEnabled =
+        this.inbox.activity_messages_enabled ?? true;
       this.continuityViaEmail = this.inbox.continuity_via_email;
       this.channelWebsiteUrl = this.inbox.website_url;
       this.channelWelcomeTitle = this.inbox.welcome_title;
@@ -583,6 +586,7 @@ export default {
           name: this.selectedInboxName?.trim(),
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
+          activity_messages_enabled: this.activityMessagesEnabled,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug
@@ -1189,6 +1193,18 @@ export default {
                 :description="
                   $t(
                     'INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT'
+                  )
+                "
+              />
+
+              <SettingsToggleSection
+                v-model="activityMessagesEnabled"
+                :header="
+                  $t('INBOX_MGMT.SETTINGS_POPUP.ACTIVITY_MESSAGES_ENABLED')
+                "
+                :description="
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.ACTIVITY_MESSAGES_ENABLED_SUB_TEXT'
                   )
                 "
               />

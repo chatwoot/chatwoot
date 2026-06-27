@@ -10,6 +10,8 @@ module ActivityMessageHandler
   private
 
   def create_activity
+    return unless inbox.activity_messages_enabled?
+
     user_name = determine_user_name
 
     handle_status_change(user_name)
@@ -101,6 +103,7 @@ module ActivityMessageHandler
 
   def create_mute_change_activity(change_type)
     return unless Current.user
+    return unless inbox.activity_messages_enabled?
 
     content = I18n.t("conversations.activity.#{change_type}", user_name: Current.user.name)
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content

@@ -4,6 +4,8 @@ module AssigneeActivityMessageHandler
   private
 
   def create_assignee_change_activity(user_name)
+    return unless inbox.activity_messages_enabled?
+
     user_name = activity_message_owner(user_name)
 
     return unless user_name
