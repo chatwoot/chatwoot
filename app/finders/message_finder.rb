@@ -15,9 +15,17 @@ class MessageFinder
   end
 
   def messages
-    return conversation_messages if @params[:filter_internal_messages].blank?
+    relation = conversation_messages
+    relation = relation.where.not(message_type: :activity) unless show_activity_messages?
+    return relation if @params[:filter_internal_messages].blank?
 
-    conversation_messages.where.not('private = ? OR message_type = ?', true, 2)
+    relation.where.not('private = ? OR message_type = ?', true, 2)
+  end
+
+  def show_activity_messages?
+    return false if ActiveModel::Type::Boolean.new.cast(@params[:filter_internal_messages])
+
+    @conversation.inbox.activity_messages_enabled?
   end
 
   def current_messages

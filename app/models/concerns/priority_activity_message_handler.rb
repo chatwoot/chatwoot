@@ -4,8 +4,6 @@ module PriorityActivityMessageHandler
   private
 
   def priority_change_activity(user_name)
-    return unless inbox.activity_messages_enabled?
-
     old_priority, new_priority = previous_changes.values_at('priority')[0]
     return unless priority_change?(old_priority, new_priority)
 

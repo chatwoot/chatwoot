@@ -4,8 +4,6 @@ module SlaActivityMessageHandler
   private
 
   def create_sla_change_activity(change_type, user_name)
-    return unless inbox.activity_messages_enabled?
-
     content = case change_type
               when 'added'
                 I18n.t('conversations.activity.sla.added', user_name: user_name, sla_name: sla_policy_name)

@@ -806,7 +806,7 @@
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
       "ACTIVITY_MESSAGES_ENABLED": "Show activity messages",
-      "ACTIVITY_MESSAGES_ENABLED_SUB_TEXT": "Display system activity messages in conversations, such as assignment changes, label updates, and status changes. Disable this for inboxes with heavy automation.",
+      "ACTIVITY_MESSAGES_ENABLED_SUB_TEXT": "Show system activity messages in conversations, such as assignment changes, label updates, and status changes. Activity is always saved and can be shown again later. Disable this for inboxes with heavy automation.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Key",

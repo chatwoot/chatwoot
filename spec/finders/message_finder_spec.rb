@@ -38,6 +38,30 @@ describe MessageFinder do
       end
     end
 
+    context 'when inbox activity messages are disabled' do
+      let(:params) { {} }
+
+      before { inbox.update!(activity_messages_enabled: false) }
+
+      it 'excludes activity messages from the result' do
+        result = message_finder.perform
+        expect(result.count).to be 4
+        expect(result.map(&:message_type)).not_to include('activity')
+      end
+    end
+
+    context 'when inbox activity messages are disabled and later re-enabled' do
+      let(:params) { {} }
+
+      it 'includes previously hidden activity messages' do
+        inbox.update!(activity_messages_enabled: false)
+        expect(message_finder.perform.count).to be 4
+
+        inbox.update!(activity_messages_enabled: true)
+        expect(message_finder.perform.count).to be 6
+      end
+    end
+
     context 'with before attribute' do
       let!(:outgoing) { create(:message, message_type: 'outgoing', account: account, inbox: inbox, conversation: conversation) }
       let(:params) { { before: outgoing.id } }

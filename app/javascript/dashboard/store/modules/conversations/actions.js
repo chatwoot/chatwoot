@@ -105,6 +105,41 @@ const actions = {
     }
   },
 
+  reloadConversationMessages: async ({ commit, state }, { conversationId }) => {
+    const chat = state.allConversations.find(
+      conversation => conversation.id === conversationId
+    );
+    if (!chat) return;
+
+    try {
+      if (!chat.messages.length) {
+        const {
+          data: { payload },
+        } = await MessageApi.getPreviousMessages({ conversationId });
+        if (payload.length) {
+          commit(types.SET_MISSING_MESSAGES, {
+            id: conversationId,
+            data: payload,
+          });
+        }
+        return;
+      }
+
+      const firstId = chat.messages[0].id;
+      const lastId = chat.messages[chat.messages.length - 1].id;
+      const {
+        data: { payload },
+      } = await MessageApi.getPreviousMessages({
+        conversationId,
+        after: firstId - 1,
+        before: lastId + 1,
+      });
+      commit(types.SET_MISSING_MESSAGES, { id: conversationId, data: payload });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   fetchAllAttachments: async ({ commit }, conversationId) => {
     let attachments = [];
 
@@ -321,6 +356,14 @@ const actions = {
   },
 
   addMessage({ commit, rootGetters }, message) {
+    const inbox = rootGetters['inboxes/getInbox']?.(message.inbox_id);
+    if (
+      message.message_type === MESSAGE_TYPE.ACTIVITY &&
+      inbox?.activity_messages_enabled === false
+    ) {
+      return;
+    }
+
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
