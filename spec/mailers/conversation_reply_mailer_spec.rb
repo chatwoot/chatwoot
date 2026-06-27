@@ -749,6 +749,7 @@ RSpec.describe ConversationReplyMailer do
 
     let(:account) { create(:account) }
     let!(:agent) { create(:user, email: 'agent1@example.com', account: account) }
+    let(:class_instance) { described_class.new }
     let(:email_channel) { create(:channel_email, account: account) }
     let(:inbox) { create(:inbox, channel: email_channel, account: account) }
     let(:conversation) do
@@ -756,15 +757,15 @@ RSpec.describe ConversationReplyMailer do
     end
 
     before do
+      allow(described_class).to receive(:new).and_return(class_instance)
+      allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(true)
       conversation.contact.update!(email: 'visitor@example.com')
       account.update!(domain: 'example.com', support_email: 'support@example.com')
       account.enable_features('inbound_emails')
     end
 
     context 'when the custom domain emails are enabled' do
-      let(:mail) do
-        described_class.with(account: account).conversation_transcript(conversation, conversation.contact.email).deliver_now
-      end
+      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
 
       it 'sets reply-to to the conversation reply+<uuid>@<domain> address' do
         reply_to_email = "reply+#{conversation.uuid}@#{account.domain}"
@@ -775,9 +776,7 @@ RSpec.describe ConversationReplyMailer do
     context 'when inbound emails are not enabled' do
       before { account.update!(domain: nil) }
 
-      let(:mail) do
-        described_class.with(account: account).conversation_transcript(conversation, conversation.contact.email).deliver_now
-      end
+      let(:mail) { described_class.conversation_transcript(conversation, 'visitor@example.com').deliver_now }
 
       it 'falls back to the channel email for reply-to' do
         expect(mail.reply_to).to eq([email_channel.email])
