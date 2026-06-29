@@ -6,7 +6,7 @@ class Onboarding::HelpCenterCurator
   # non-standard paths, producing ~60% of all onboarding skips via
   # "map returned no links". Broaden the term list so more paths match; the
   # LLM curator (HelpCenterCurationService) filters the results by quality.
-  MAP_SEARCH = 'docs help support faq resources guides kb knowledge articles handbook learn how-to tutorial troubleshooting getting-started'.freeze
+  MAP_SEARCH = 'docs help support faq resources guides kb knowledge articles handbook learn tutorial troubleshooting'.freeze
   MIN_ARTICLES = 3
 
   Skipped = Onboarding::HelpCenterErrors::CurationSkipped
