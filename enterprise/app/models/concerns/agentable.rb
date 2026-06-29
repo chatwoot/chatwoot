@@ -19,6 +19,7 @@ module Concerns::Agentable
       state = context.context[:state] || {}
       config = state[:assistant_config] || {}
       enhanced_context = enhanced_context.merge(
+        current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {}
@@ -55,6 +56,12 @@ module Concerns::Agentable
 
   def agent_response_schema
     Captain::ResponseSchema
+  end
+
+  def format_current_time(timezone)
+    tz = ActiveSupport::TimeZone[timezone] if timezone.present?
+    time = tz ? Time.current.in_time_zone(tz) : Time.current
+    time.strftime('%A, %B %d, %Y %I:%M %p %Z')
   end
 
   def prompt_context
