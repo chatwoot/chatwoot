@@ -104,3 +104,10 @@ CLAUDE.local.md
 .pnpm-store/*
 local/
 Procfile.worktree
+
+# Graphify — grafo local generado por `graphify update .` (no subir a GitHub)
+graphify-out/
+.graphify/
+.graphify_*.json
+.graphify_root
+.graphify_labels.json

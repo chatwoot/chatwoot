@@ -5,10 +5,17 @@
 ```powershell
 docker network create main-chatwoot-local
 
+# Paridad con staging: imagen fork (NO chatwoot/chatwoot upstream)
+cd D:\DOCUMENTOS\GITHUB\chatwoot\panel-ai
+python scripts/sync-local-to-staging.py
+
+# O manual:
 cd D:\DOCUMENTOS\GITHUB\chatwoot\chatwoot
-docker compose -f docker-compose.dokploy.yml up -d
+docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml pull
+docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml up -d
 
 cd D:\DOCUMENTOS\GITHUB\chatwoot\panel-ai
+git checkout develop && git pull origin develop
 docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 ```
 
@@ -18,12 +25,16 @@ docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 
 ## 2. Widget (página de prueba)
 
+Con el stack local levantado, **nginx en :8080** sirve la página automáticamente:
+
 ```powershell
 cd D:\DOCUMENTOS\GITHUB\chatwoot\chatwoot
-python -m http.server 8080
+docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml up -d widget-test
 ```
 
 Abrir: http://localhost:8080/test-chat.html
+
+Alternativa manual (sin Docker): `python -m http.server 8080` en la carpeta `chatwoot/`.
 
 En Chatwoot → **Settings → Inboxes → Website → Configuration**:
 
@@ -92,9 +103,24 @@ Si solo cambias las pestañas a "Todos" pero **Estado = Abiertas** (default), la
 
 **Para ver el chat del widget:** icono ⇅ → Estado → **Pendientes** o **Todos**.
 
-Acceso directo: `http://localhost:3000/app/accounts/1/conversations/1`
+Acceso directo (ejemplo conversación reciente): `http://localhost:3000/app/accounts/1/conversations/14`
 
 El `404` en `toggle_typing` al abrir el widget es normal si aún no hay conversación; no bloquea el envío de mensajes.
+
+### El mensaje llega a Chatwoot pero el bot no responde (401 webhook)
+
+Panel AI rechaza el webhook si el secret no coincide con el configurado en Chatwoot → Settings → Integrations → Webhooks.
+
+Sincronizar desde la BD local de Chatwoot:
+
+```powershell
+cd D:\DOCUMENTOS\GITHUB\chatwoot\panel-ai
+python scripts/sync-webhook-secret.py
+cd D:\DOCUMENTOS\GITHUB\chatwoot\panel-ai
+docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --force-recreate backend
+```
+
+Luego envía otro mensaje desde `test-chat.html`.
 
 ## 6. Estado visual del bot (Panel IA → Chatwoot)
 

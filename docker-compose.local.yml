@@ -1,35 +1,48 @@
-# Override local: red compartida con Panel AI
-# Uso: docker compose -f docker-compose.production.yaml -f docker-compose.local.yml up -d
-#
-# Antes de levantar:
+# Override local: red compartida con Panel AI (usar con docker-compose.dokploy.yml)
+# Uso:
 #   docker network create main-chatwoot-local
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml pull
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml up -d
+#
+# Imagen = misma que staging (fork InboxHub). NO usar chatwoot/chatwoot upstream.
 
-version: '3'
+x-fork-image: &fork-image
+  image: ghcr.io/pabloluna3596afk/chatwoot:develop
+  pull_policy: always
 
 services:
-  rails:
+  chatwoot-rails:
+    <<: *fork-image
     networks:
-      - default
-      - main-chatwoot-local
-    # Descomenta para usar tu imagen del fork en GHCR:
-    # image: ghcr.io/pabloluna3596afk/chatwoot:develop
-
-  sidekiq:
-    networks:
-      - default
+      - chatwoot-internal
       - main-chatwoot-local
 
-  postgres:
+  chatwoot-sidekiq:
+    <<: *fork-image
     networks:
-      - default
+      - chatwoot-internal
+      - main-chatwoot-local
+
+  chatwoot-postgres:
+    networks:
+      - chatwoot-internal
       - main-chatwoot-local
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
-  redis:
+  chatwoot-redis:
     networks:
-      - default
-      - main-chatwoot-local
+      - chatwoot-internal
+
+  # Página estática para probar el widget: http://localhost:8080/test-chat.html
+  widget-test:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./test-chat.html:/usr/share/nginx/html/test-chat.html:ro
+      - ./docker/widget-test/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
 
 networks:
   main-chatwoot-local:
