@@ -29,7 +29,7 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 100)
+    result = runner.run(message_to_process, context: context, max_turns: 10)
 
     process_agent_result(result)
   rescue StandardError => e
