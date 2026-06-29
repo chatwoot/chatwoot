@@ -52,9 +52,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
 
     render json: { content: translated_content }
-  rescue StandardError => e
-    # Google::Cloud errors expose a clean human message via `details`; `message` includes gRPC debug noise
-    render_could_not_create_error(e.try(:details).presence || e.message)
+  rescue Google::Cloud::Error => e
+    # `details` carries the clean human message; `message` includes gRPC debug noise
+    render_could_not_create_error(e.details.presence || e.message)
   end
 
   private
