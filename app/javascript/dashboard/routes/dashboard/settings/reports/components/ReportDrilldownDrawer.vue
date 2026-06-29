@@ -1,5 +1,6 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -16,6 +17,7 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
+const drawerRef = ref(null);
 const {
   records,
   meta,
@@ -28,6 +30,8 @@ const {
   close,
   loadMore,
 } = useReportDrilldown();
+
+let previousActiveElement = null;
 
 const isOpen = computed(() => !!props.request);
 
@@ -49,9 +53,17 @@ const resultCount = computed(() => {
   });
 });
 
+const restoreFocus = () => {
+  if (previousActiveElement?.isConnected) {
+    previousActiveElement.focus();
+  }
+  previousActiveElement = null;
+};
+
 const closeDrawer = () => {
   close();
   emit('close');
+  restoreFocus();
 };
 
 const recordKey = record =>
@@ -59,15 +71,47 @@ const recordKey = record =>
     record.occurred_at
   }`;
 
+const rememberActiveElement = () => {
+  if (previousActiveElement) return;
+
+  previousActiveElement =
+    document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+};
+
+const focusDrawer = () => {
+  nextTick(() => drawerRef.value?.focus());
+};
+
+const onKeydown = event => {
+  if (!isOpen.value || event.key !== 'Escape') return;
+
+  event.preventDefault();
+  event.stopPropagation();
+  closeDrawer();
+};
+
+useEventListener(document, 'keydown', onKeydown);
+
 watch(
   () => props.request,
   request => {
     if (request) {
+      rememberActiveElement();
       open(request);
+      focusDrawer();
+    } else {
+      close();
+      restoreFocus();
     }
   },
   { immediate: true }
 );
+
+onBeforeUnmount(() => {
+  restoreFocus();
+});
 </script>
 
 <template>
@@ -80,11 +124,12 @@ watch(
         @click.self="closeDrawer"
       >
         <aside
+          ref="drawerRef"
           class="fixed inset-y-0 right-0 flex w-full max-w-xl flex-col bg-n-solid-1 shadow-xl outline outline-1 outline-n-container"
           role="dialog"
           aria-modal="true"
           :aria-label="title"
-          @keydown.esc="closeDrawer"
+          tabindex="-1"
         >
           <header
             class="flex items-start justify-between gap-4 border-b border-n-weak px-6 py-5"

@@ -1,4 +1,5 @@
 import { flushPromises, mount } from '@vue/test-utils';
+import { nextTick } from 'vue';
 import ReportsAPI from 'dashboard/api/reports';
 import ReportDrilldownDrawer from '../ReportDrilldownDrawer.vue';
 
@@ -68,9 +69,10 @@ describe('ReportDrilldownDrawer.vue', () => {
     },
   ];
 
-  const mountDrawer = () =>
+  const mountDrawer = options =>
     mount(ReportDrilldownDrawer, {
       props: { request },
+      attachTo: options?.attachTo,
       global: {
         stubs: {
           Teleport: true,
@@ -133,5 +135,55 @@ describe('ReportDrilldownDrawer.vue', () => {
     await wrapper.find('button').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
+  });
+
+  it('moves focus into the drawer when opened', async () => {
+    const target = document.createElement('div');
+    document.body.appendChild(target);
+    const wrapper = mountDrawer({ attachTo: target });
+    await flushPromises();
+    await nextTick();
+
+    expect(document.activeElement).toBe(
+      wrapper.find('[role="dialog"]').element
+    );
+
+    wrapper.unmount();
+    target.remove();
+  });
+
+  it('closes on Escape even when focus is outside the drawer', async () => {
+    const target = document.createElement('div');
+    document.body.appendChild(target);
+    const wrapper = mountDrawer({ attachTo: target });
+    await flushPromises();
+
+    document.body.focus();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+
+    expect(wrapper.emitted('close')).toBeTruthy();
+
+    wrapper.unmount();
+    target.remove();
+  });
+
+  it('restores focus to the previously focused element when closed', async () => {
+    const opener = document.createElement('button');
+    const target = document.createElement('div');
+    document.body.appendChild(opener);
+    document.body.appendChild(target);
+    opener.focus();
+
+    const wrapper = mountDrawer({ attachTo: target });
+    await flushPromises();
+    await nextTick();
+
+    await wrapper.find('button').trigger('click');
+
+    expect(document.activeElement).toBe(opener);
+
+    wrapper.unmount();
+    target.remove();
+    opener.remove();
   });
 });
