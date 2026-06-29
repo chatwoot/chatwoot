@@ -14,16 +14,18 @@ module Enterprise::Concerns::Contact
 
   def should_associate_company?
     # Only trigger if:
-    # 1. The account has the Companies feature enabled
-    # 2. Contact has an email
-    # 3. Contact doesn't have a company yet
-    # 4. Email was just set/changed
-    # 5. Email was previously nil (first time getting email)
-    account.feature_enabled?('companies') &&
-      email.present? &&
+    # 1. Contact has an email
+    # 2. Contact doesn't have a company yet
+    # 3. Email was just set/changed
+    # 4. Email was previously nil (first time getting email)
+    # 5. The account has the Companies feature enabled
+    # Feature check is last so unrelated contact updates short-circuit on the
+    # cheap in-memory guards before touching the account (hot message-ingest path).
+    email.present? &&
       company_id.nil? &&
       saved_change_to_email? &&
-      saved_change_to_email.first.nil?
+      saved_change_to_email.first.nil? &&
+      account.feature_enabled?('companies')
   end
 
   def associate_company_from_email
