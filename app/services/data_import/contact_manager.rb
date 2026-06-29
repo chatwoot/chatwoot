@@ -11,7 +11,7 @@ class DataImport::ContactManager
 
   def find_or_initialize_contact(params)
     contact = find_existing_contact(params)
-    contact_params = params.slice(:email, :identifier, :phone_number)
+    contact_params = params.slice(:email, :identifier, :document_number, :phone_number)
     contact_params[:phone_number] = format_phone_number(contact_params[:phone_number]) if contact_params[:phone_number].present?
     contact ||= @account.contacts.new(contact_params)
     contact
@@ -19,6 +19,7 @@ class DataImport::ContactManager
 
   def find_existing_contact(params)
     contact = find_contact_by_identifier(params)
+    contact ||= find_contact_by_document_number(params)
     contact ||= find_contact_by_email(params)
     contact ||= find_contact_by_phone_number(params)
 
@@ -30,6 +31,12 @@ class DataImport::ContactManager
     return unless params[:identifier]
 
     @account.contacts.find_by(identifier: params[:identifier])
+  end
+
+  def find_contact_by_document_number(params)
+    return unless params[:document_number]
+
+    @account.contacts.find_by(document_number: params[:document_number])
   end
 
   def find_contact_by_email(params)
@@ -50,6 +57,7 @@ class DataImport::ContactManager
 
   def update_contact_with_merged_attributes(params, contact)
     contact.identifier = params[:identifier] if params[:identifier].present?
+    contact.document_number = params[:document_number] if params[:document_number].present?
     contact.email = params[:email] if params[:email].present?
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
     update_contact_attributes(params, contact)
@@ -60,9 +68,10 @@ class DataImport::ContactManager
 
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
+    contact.document_number = params[:document_number] if params[:document_number].present?
     contact.additional_attributes ||= {}
     contact.additional_attributes[:company_name] = params[:company_name] if params[:company_name].present?
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :email, :name, :phone_number)))
+    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :document_number, :email, :name, :phone_number)))
   end
 end

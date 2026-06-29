@@ -10,6 +10,7 @@
 #  contact_type          :integer          default("visitor")
 #  country_code          :string           default("")
 #  custom_attributes     :jsonb
+#  document_number       :string
 #  email                 :string
 #  identifier            :string
 #  last_activity_at      :datetime
@@ -27,11 +28,12 @@
 #
 #  index_contacts_on_account_id                          (account_id)
 #  index_contacts_on_account_id_and_contact_type         (account_id,contact_type)
+#  index_contacts_on_account_id_and_document_number      (account_id,document_number) UNIQUE WHERE ((document_number)::text <> ''::text)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
 #  index_contacts_on_blocked                             (blocked)
 #  index_contacts_on_company_id                          (company_id)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
-#  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
+#  index_contacts_on_name_email_phone_identifier_document (name,email,phone_number,identifier,document_number) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
 #  index_contacts_on_phone_number_and_account_id         (phone_number,account_id)
 #  index_resolved_contact_account_id                     (account_id) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
@@ -51,6 +53,7 @@ class Contact < ApplicationRecord
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
+  validates :document_number, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
@@ -131,6 +134,16 @@ class Contact < ApplicationRecord
     )
   }
 
+  scope :order_on_document_number, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order(
+          "\"contacts\".\"document_number\" #{direction} NULLS LAST"
+        )
+      )
+    )
+  }
+
   # Find contacts that:
   # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
   # 2. Have no conversations
@@ -139,6 +152,7 @@ class Contact < ApplicationRecord
     where('contacts.email IS NULL OR contacts.email = ?', '')
       .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
       .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+      .where('contacts.document_number IS NULL OR contacts.document_number = ?', '')
       .where('contacts.created_at < ?', time_period)
       .where.missing(:conversations)
   }
@@ -154,6 +168,7 @@ class Contact < ApplicationRecord
       email: email,
       id: id,
       identifier: identifier,
+      document_number: document_number,
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
@@ -173,6 +188,7 @@ class Contact < ApplicationRecord
       email: email,
       id: id,
       identifier: identifier,
+      document_number: document_number,
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
@@ -183,7 +199,7 @@ class Contact < ApplicationRecord
   def self.resolved_contacts(use_crm_v2: false)
     return where(contact_type: 'lead') if use_crm_v2
 
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> '' OR contacts.document_number <> ''")
   end
 
   def discard_invalid_attrs

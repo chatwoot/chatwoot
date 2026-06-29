@@ -32,6 +32,10 @@ const sortMenus = [
     value: 'email',
   },
   {
+    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.DOCUMENT_NUMBER'),
+    value: 'document_number',
+  },
+  {
     label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.COMPANY'),
     value: 'company_name',
   },

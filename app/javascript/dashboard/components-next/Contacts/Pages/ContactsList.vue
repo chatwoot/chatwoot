@@ -9,6 +9,7 @@ import {
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
+import ContactsTable from 'dashboard/components-next/Contacts/ContactsTable/ContactsTable.vue';
 
 const props = defineProps({
   contacts: { type: Array, required: true },
@@ -16,9 +17,11 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  activeSort: { type: String, default: 'last_activity_at' },
+  activeOrdering: { type: String, default: '' },
 });
 
-const emit = defineEmits(['toggleContact']);
+const emit = defineEmits(['toggleContact', 'update:sort']);
 
 const { t } = useI18n();
 const store = useStore();
@@ -83,30 +86,50 @@ const handleSelect = (id, value) => {
 const handleAvatarHover = (id, isHovered) => {
   hoveredAvatarId.value = isHovered ? id : null;
 };
+
+const handleSort = sortPayload => {
+  emit('update:sort', sortPayload);
+};
 </script>
 
 <template>
   <div class="flex flex-col gap-4">
-    <div v-for="contact in contacts" :key="contact.id" class="relative">
-      <ContactsCard
-        :id="contact.id"
-        :name="contact.name"
-        :email="contact.email"
-        :company-id="contact.companyId"
-        :thumbnail="contact.thumbnail"
-        :phone-number="contact.phoneNumber"
-        :additional-attributes="contact.additionalAttributes"
-        :availability-status="contact.availabilityStatus"
-        :is-expanded="expandedCardId === contact.id"
-        :is-updating="isUpdating"
-        :selectable="shouldShowSelection(contact.id)"
-        :is-selected="isSelected(contact.id)"
-        @toggle="toggleExpanded(contact.id)"
-        @update-contact="updateContact"
-        @show-contact="onClickViewDetails"
-        @select="value => handleSelect(contact.id, value)"
-        @avatar-hover="value => handleAvatarHover(contact.id, value)"
-      />
+    <!-- Desktop: table view -->
+    <ContactsTable
+      :contacts="contacts"
+      :selected-contact-ids="selectedContactIds"
+      :active-sort="activeSort"
+      :active-ordering="activeOrdering"
+      class="hidden md:block"
+      @toggle-contact="handleSelect"
+      @show-contact="onClickViewDetails"
+      @update:sort="handleSort"
+    />
+
+    <!-- Mobile: card view -->
+    <div class="md:hidden flex flex-col gap-4">
+      <div v-for="contact in contacts" :key="contact.id" class="relative">
+        <ContactsCard
+          :id="contact.id"
+          :name="contact.name"
+          :email="contact.email"
+          :document-number="contact.documentNumber"
+          :company-id="contact.companyId"
+          :thumbnail="contact.thumbnail"
+          :phone-number="contact.phoneNumber"
+          :additional-attributes="contact.additionalAttributes"
+          :availability-status="contact.availabilityStatus"
+          :is-expanded="expandedCardId === contact.id"
+          :is-updating="isUpdating"
+          :selectable="shouldShowSelection(contact.id)"
+          :is-selected="isSelected(contact.id)"
+          @toggle="toggleExpanded(contact.id)"
+          @update-contact="updateContact"
+          @show-contact="onClickViewDetails"
+          @select="value => handleSelect(contact.id, value)"
+          @avatar-hover="value => handleAvatarHover(contact.id, value)"
+        />
+      </div>
     </div>
   </div>
 </template>

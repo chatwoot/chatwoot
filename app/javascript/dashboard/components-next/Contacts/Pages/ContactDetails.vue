@@ -143,6 +143,13 @@ const handleAvatarDelete = async () => {
             <span class="i-ph-user-gear text-n-slate-10 size-4" />
             {{ selectedContact?.identifier }}
           </span>
+          <span
+            v-if="selectedContact?.documentNumber"
+            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
+          >
+            <span class="i-ph-identification-card text-n-slate-10 size-4" />
+            {{ selectedContact?.documentNumber }}
+          </span>
           <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
             <span
               v-if="selectedContact?.identifier"

@@ -102,6 +102,6 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def default_columns
-    %w[id name email phone_number labels]
+    %w[id name email document_number phone_number labels]
   end
 end

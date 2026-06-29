@@ -21,6 +21,7 @@ export const CONTACT_ATTRIBUTES = {
   NAME: 'name',
   EMAIL: 'email',
   PHONE_NUMBER: 'phone_number',
+  DOCUMENT_NUMBER: 'document_number',
   IDENTIFIER: 'identifier',
   COUNTRY_CODE: 'country_code',
   CITY: 'city',

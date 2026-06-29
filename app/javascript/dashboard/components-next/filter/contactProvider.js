@@ -105,6 +105,16 @@ export function useContactFilterContext() {
       attributeModel: 'standard',
     },
     {
+      attributeKey: CONTACT_ATTRIBUTES.DOCUMENT_NUMBER,
+      value: CONTACT_ATTRIBUTES.DOCUMENT_NUMBER,
+      attributeName: t('CONTACTS_LAYOUT.FILTER.DOCUMENT_NUMBER'),
+      label: t('CONTACTS_LAYOUT.FILTER.DOCUMENT_NUMBER'),
+      inputType: 'plainText',
+      dataType: 'text',
+      filterOperators: containmentOperators.value,
+      attributeModel: 'standard',
+    },
+    {
       attributeKey: CONTACT_ATTRIBUTES.IDENTIFIER,
       value: CONTACT_ATTRIBUTES.IDENTIFIER,
       attributeName: t('CONTACTS_LAYOUT.FILTER.IDENTIFIER'),

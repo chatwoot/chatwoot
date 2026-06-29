@@ -561,7 +561,10 @@ onMounted(async () => {
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"
+            :active-sort="sortState.activeSort"
+            :active-ordering="sortState.activeOrdering"
             @toggle-contact="toggleContactSelection"
+            @update:sort="handleSort"
           />
           <Dialog
             v-if="selectedCount"

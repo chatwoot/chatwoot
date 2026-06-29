@@ -37,6 +37,7 @@
       "NAME": "Name",
       "EMAIL": "Email",
       "PHONE_NUMBER": "Phone number",
+      "DOCUMENT_NUMBER": "Document number",
       "IDENTIFIER": "Identifier",
       "CITY": "City",
       "COUNTRY": "Country",

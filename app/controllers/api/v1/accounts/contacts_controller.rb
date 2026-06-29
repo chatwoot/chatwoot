@@ -8,6 +8,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :company_name, internal_name: :order_on_company_name, type: :scope, scope_params: [:direction]
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
+  sort_on :document_number, internal_name: :order_on_document_number, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 15
 
@@ -25,7 +26,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
     contacts = Current.account.contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search OR contacts.document_number LIKE :search',
       search: "%#{params[:q].strip}%"
     )
     @contacts = fetch_contacts_with_has_more(contacts)
@@ -171,7 +172,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :document_number, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes

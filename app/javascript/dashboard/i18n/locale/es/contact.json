@@ -3,6 +3,7 @@
     "NOT_AVAILABLE": "No Disponible",
     "EMAIL_ADDRESS": "Dirección de correo",
     "PHONE_NUMBER": "Número de teléfono",
+    "DOCUMENT_NUMBER": "Documento de identidad",
     "IDENTIFIER": "Idenrificador",
     "COPY_SUCCESSFUL": "Copiado al portapapeles satisfactoriamente",
     "COMPANY": "Empresa",
@@ -101,6 +102,11 @@
         "LABEL": "Dirección de correo",
         "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto.",
         "ERROR": "Por favor, introduzca una dirección de correo válida."
+      },
+      "DOCUMENT_NUMBER": {
+        "PLACEHOLDER": "Escriba el documento de identidad del contacto",
+        "LABEL": "Documento de identidad",
+        "DUPLICATE": "Este documento de identidad está en uso para otro contacto."
       },
       "PHONE_NUMBER": {
         "PLACEHOLDER": "Escriba el número de teléfono del contacto",
@@ -342,6 +348,7 @@
           "OPTIONS": {
             "NAME": "Nombre",
             "EMAIL": "E-mail",
+            "DOCUMENT_NUMBER": "Documento de identidad",
             "PHONE_NUMBER": "Número de teléfono",
             "COMPANY": "Empresa",
             "COUNTRY": "País",
@@ -385,6 +392,7 @@
       "NAME": "Nombre",
       "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de teléfono",
+      "DOCUMENT_NUMBER": "Documento de identidad",
       "IDENTIFIER": "Idenrificador",
       "COUNTRY": "País",
       "CITY": "Ciudad",
@@ -427,6 +435,10 @@
           "EMAIL_ADDRESS": {
             "PLACEHOLDER": "Ingrese el correo electrónico",
             "DUPLICATE": "Ésta dirección de correo está siendo utilizada por otro contacto."
+          },
+          "DOCUMENT_NUMBER": {
+            "PLACEHOLDER": "Ingrese el documento de identidad",
+            "DUPLICATE": "Este documento de identidad está en uso para otro contacto."
           },
           "PHONE_NUMBER": {
             "PLACEHOLDER": "Ingrese el número de teléfono",

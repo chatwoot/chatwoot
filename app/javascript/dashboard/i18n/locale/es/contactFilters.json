@@ -37,6 +37,7 @@
       "NAME": "Nombre",
       "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de teléfono",
+      "DOCUMENT_NUMBER": "Documento de identidad",
       "IDENTIFIER": "Idenrificador",
       "CITY": "Ciudad",
       "COUNTRY": "País",

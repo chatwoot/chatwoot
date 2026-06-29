@@ -54,6 +54,7 @@ class ContactInboxWithContactBuilder
       phone_number: contact_attributes[:phone_number],
       email: contact_attributes[:email],
       identifier: contact_attributes[:identifier],
+      document_number: contact_attributes[:document_number],
       additional_attributes: contact_attributes[:additional_attributes],
       custom_attributes: contact_attributes[:custom_attributes]
     )
@@ -66,6 +67,7 @@ class ContactInboxWithContactBuilder
 
   def find_contact
     contact = find_contact_by_identifier(contact_attributes[:identifier])
+    contact ||= find_contact_by_document_number(contact_attributes[:document_number])
     contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
@@ -99,6 +101,12 @@ class ContactInboxWithContactBuilder
     return if identifier.blank?
 
     account.contacts.find_by(identifier: identifier)
+  end
+
+  def find_contact_by_document_number(document_number)
+    return if document_number.blank?
+
+    account.contacts.find_by(document_number: document_number)
   end
 
   def find_contact_by_email(email)
