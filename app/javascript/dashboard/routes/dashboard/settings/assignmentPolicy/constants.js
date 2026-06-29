@@ -10,6 +10,9 @@ export const LONGEST_WAITING = 'longest_waiting';
 export const DEFAULT_FAIR_DISTRIBUTION_LIMIT = 100;
 export const DEFAULT_FAIR_DISTRIBUTION_WINDOW = 3600;
 
+// Default age threshold for excluding stale unassigned conversations (7 days)
+export const DEFAULT_EXCLUDE_OLDER_THAN_HOURS = 168;
+
 // Options groupings
 export const OPTIONS = {
   ORDER: [ROUND_ROBIN, BALANCED],

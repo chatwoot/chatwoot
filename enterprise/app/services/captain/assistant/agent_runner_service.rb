@@ -155,7 +155,7 @@ class Captain::Assistant::AgentRunnerService
       span_attributes: {
         ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
       },
-      attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
     register_trace_input_callback(runner)
   end
@@ -168,7 +168,6 @@ class Captain::Assistant::AgentRunnerService
     {
       ATTR_LANGFUSE_USER_ID => state[:account_id],
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
-      format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
       format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],
