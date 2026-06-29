@@ -405,6 +405,47 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
   end
 
+  describe 'InstrumentationAttributeProvider' do
+    subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
+
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'delegates root trace attributes to the service' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = provider.call(context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.user.id' => account.id.to_s,
+        'langfuse.trace.metadata.assistant_id' => assistant.id.to_s
+      )
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      tool_call = instance_double(RubyLLM::ToolCall)
+      message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+  end
+
   describe '#build_state' do
     subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
 
