@@ -45,6 +45,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    canDeleteOnChannel: {
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['open', 'close', 'replyTo'],
   setup() {
@@ -259,9 +263,9 @@ export default {
           variant="icon"
           @click.stop="openReportDialog"
         />
-        <hr v-if="enabledOptions['delete']" />
+        <hr v-if="enabledOptions['delete'] && canDeleteOnChannel" />
         <MenuItem
-          v-if="enabledOptions['delete']"
+          v-if="enabledOptions['delete'] && canDeleteOnChannel"
           :option="{
             icon: 'delete',
             label: $t('CONVERSATION.CONTEXT_MENU.DELETE'),
