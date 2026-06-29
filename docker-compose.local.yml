@@ -1,10 +1,15 @@
-# Override local: red compartida con Panel AI (usar con docker-compose.dokploy.yml)
-# Uso:
-#   docker network create main-chatwoot-local
+# =============================================================================
+# SOLO PREVIEW DE STAGING — imagen GHCR (último push a develop)
+# =============================================================================
+# NO usar para desarrollo diario: NO refleja cambios locales sin push.
+#
+# Para desarrollo con TU código en disco usar:
+#   docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build
+#
+# Este archivo (local.yml) sirve para probar lo mismo que staging sin rebuild:
 #   docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml pull
 #   docker compose -f docker-compose.dokploy.yml -f docker-compose.local.yml up -d
-#
-# Imagen = misma que staging (fork InboxHub). NO usar chatwoot/chatwoot upstream.
+# =============================================================================
 
 x-fork-image: &fork-image
   image: ghcr.io/pabloluna3596afk/chatwoot:develop

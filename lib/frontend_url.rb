@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 # Parse FRONTEND_URL (full URL) into Rails default_url_options components.
+# Loaded from application.rb before environment files (initializers run too late).
 module FrontendUrl
   module_function
 

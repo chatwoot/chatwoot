@@ -1,31 +1,67 @@
-# Override para correr el fork local (código + assets) sobre la stack Dokploy.
-# Uso:
-#   docker network create main-chatwoot-local
+# =============================================================================
+# CANONICAL LOCAL FORK — tu código en disco, NO GHCR, NO upstream oficial
+# =============================================================================
+# Uso (desde chatwoot/):
+#   docker network create main-chatwoot-local   # una vez
 #   docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build
 #
-# Solo backend/frontend rápido (sin rebuild de imagen):
-#   pnpm exec vite build
-#   docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml restart chatwoot-rails
+# O:  .\scripts\dev-up.ps1
+#
+# NO combinar con docker-compose.local.yml — ese archivo tira GHCR develop
+# (foto del último push) y ignora cambios sin commitear.
+# =============================================================================
 
 x-fork-code-volumes: &fork-code-volumes
+  - chatwoot-storage:/app/storage
   - ./app:/app/app
   - ./enterprise:/app/enterprise
   - ./lib:/app/lib
   - ./config:/app/config
+  - ./db:/app/db
+  - ./docker/entrypoints:/app/docker/entrypoints
   - ./public/vite:/app/public/vite
 
 services:
   chatwoot-rails:
     image: inboxhub-chatwoot:local
+    pull_policy: never
     build:
       context: .
       dockerfile: docker/Dockerfile
-    volumes:
-      - chatwoot-storage:/app/storage
-      - *fork-code-volumes
+    entrypoint: ["/bin/sh", "/app/docker/entrypoints/rails.sh"]
+    volumes: *fork-code-volumes
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-local
 
   chatwoot-sidekiq:
     image: inboxhub-chatwoot:local
+    pull_policy: never
+    volumes: *fork-code-volumes
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-local
+
+  chatwoot-postgres:
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-local
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  chatwoot-redis:
+    networks:
+      - chatwoot-internal
+
+  widget-test:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
     volumes:
-      - chatwoot-storage:/app/storage
-      - *fork-code-volumes
+      - ./test-chat.html:/usr/share/nginx/html/test-chat.html:ro
+      - ./docker/widget-test/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+networks:
+  main-chatwoot-local:
+    external: true
