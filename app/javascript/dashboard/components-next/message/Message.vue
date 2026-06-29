@@ -380,7 +380,6 @@ const CHANNELS_WITH_DELETE_SUPPORT = ['Channel::WebWidget', 'Channel::Api'];
 const canDeleteOnChannel = computed(() => {
   if (props.private) return true;
   const channelType = inbox.value?.channel_type;
-  if (!channelType) return true;
   return CHANNELS_WITH_DELETE_SUPPORT.includes(channelType);
 });
 
