@@ -1,13 +1,15 @@
 module Concerns::Agentable
   extend ActiveSupport::Concern
 
+  DEFAULT_TEMPERATURE = 0.5
+
   def agent
     Agents::Agent.new(
       name: agent_name,
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature.to_f || 0.7,
+      temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
       response_schema: agent_response_schema
     )
   end
