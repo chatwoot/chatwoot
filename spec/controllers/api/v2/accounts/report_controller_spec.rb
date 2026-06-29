@@ -287,6 +287,24 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'returns unprocessable entity for invalid bucket timestamp' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(bucket_timestamp: 'abc'),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns unprocessable entity for bucket timestamp outside the requested range' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(bucket_timestamp: end_of_today.to_s),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
       it 'returns unprocessable entity for unsupported drilldown type' do
         get "/api/v2/accounts/#{account.id}/reports/drilldown",
             params: params.merge(type: :unsupported),

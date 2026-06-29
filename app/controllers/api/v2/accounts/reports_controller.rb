@@ -153,7 +153,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def valid_drilldown_params?
     %i[metric bucket_timestamp since until].all? { |param| params[param].present? } &&
       Reports::ReportMetricRegistry.supported?(params[:metric]) &&
-      V2::Reports::DrilldownBuilder.supported_dimension_type?(params[:type])
+      V2::Reports::DrilldownBuilder.supported_dimension_type?(params[:type]) && Reports::DrilldownTimestampValidator.valid?(params)
   end
 
   def conversation_params
