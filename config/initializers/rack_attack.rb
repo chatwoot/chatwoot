@@ -203,6 +203,15 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  ## Prevent abuse of conversation delete API (per account)
+  throttle('/api/v1/accounts/:account_id/conversations/:id DELETE',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATION_DELETE', '60').to_i, period: 1.minute) do |req|
+    next unless req.delete?
+
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations/(?<id>\d+)/?\z}.match(req.path_without_extensions)
+    match_data[:account_id] if match_data.present?
+  end
+
   ## Prevent Abuse of attachment upload APIs ##
   throttle('/api/v1/accounts/:account_id/upload', limit: 60, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/upload}.match(req.path)

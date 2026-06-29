@@ -29,6 +29,16 @@ RSpec.describe Captain::Llm::AssistantChatService do
   end
 
   describe 'instrumentation metadata' do
+    it 'uses the assistant feature model' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
     it 'passes channel_type to the agent session instrumentation' do
       service = described_class.new(assistant: assistant, conversation: conversation)
 
