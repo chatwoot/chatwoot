@@ -47,10 +47,10 @@ RSpec.describe Captain::Llm::AssistantChatService do
       service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
     end
 
-    it 'uses explicit assistant config temperature' do
-      assistant.update!(config: assistant.config.merge('temperature' => '0.7'))
+    it 'preserves explicit assistant config temperature' do
+      assistant.update!(config: assistant.config.merge('temperature' => 1.0))
 
-      expect(mock_chat).to receive(:with_temperature).with(0.7).and_return(mock_chat)
+      expect(mock_chat).to receive(:with_temperature).with(1.0).and_return(mock_chat)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
 
       service = described_class.new(assistant: assistant, conversation: conversation)
