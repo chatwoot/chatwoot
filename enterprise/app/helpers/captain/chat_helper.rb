@@ -3,8 +3,6 @@ module Captain::ChatHelper
   include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
 
-  DEFAULT_TEMPERATURE = 0.5
-
   def request_chat_completion
     log_chat_completion_request
     chat = build_chat
@@ -98,7 +96,7 @@ module Captain::ChatHelper
   end
 
   def temperature
-    @assistant&.config&.[]('temperature').presence&.to_f || DEFAULT_TEMPERATURE
+    @assistant&.config&.[]('temperature').presence&.to_f || 0.5
   end
 
   def resolved_account_id
