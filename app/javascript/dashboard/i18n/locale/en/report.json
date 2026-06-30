@@ -134,6 +134,7 @@
       "UNASSIGNED_AGENT": "Unassigned",
       "NO_MESSAGE_CONTENT": "No message content",
       "MESSAGE_CREATED_AT": "Message created at {time}",
+      "EVENT_OCCURRED_AT": "Event occurred at {time}",
       "INCOMING_MESSAGE": "Incoming message",
       "OUTGOING_MESSAGE": "Outgoing message"
     },

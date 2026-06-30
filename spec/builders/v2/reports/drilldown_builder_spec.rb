@@ -200,6 +200,7 @@ RSpec.describe V2::Reports::DrilldownBuilder do
           first_conversation.id,
           second_conversation.id
         )
+        expect(drilldown[:payload].pluck(:event_name)).to all(eq('conversation_bot_handoff'))
       end
     end
 

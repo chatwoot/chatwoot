@@ -42,18 +42,21 @@ class V2::Reports::DrilldownRecordSerializer
     serialize_conversation(
       event.conversation,
       metric_value: event_metric_value(event),
-      occurred_at: event_timestamp(event)
+      occurred_at: event_timestamp(event),
+      event_name: event.name
     )
   end
 
-  def serialize_conversation(conversation, metric_value: nil, occurred_at: nil)
-    {
+  def serialize_conversation(conversation, metric_value: nil, occurred_at: nil, event_name: nil)
+    serialized_record = {
       record_type: 'conversation',
       conversation: conversation_attributes(conversation),
       message: nil,
       metric_value: metric_value,
       occurred_at: (occurred_at || conversation&.created_at)&.to_i
     }
+    serialized_record[:event_name] = event_name if event_name.present?
+    serialized_record
   end
 
   def conversation_attributes(conversation)

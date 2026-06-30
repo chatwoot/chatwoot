@@ -23,6 +23,9 @@ const route = useRoute();
 const conversation = computed(() => props.record.conversation || {});
 const message = computed(() => props.record.message || {});
 const isMessageRecord = computed(() => props.record.record_type === 'message');
+const isEventBackedConversationRecord = computed(
+  () => !isMessageRecord.value && !!props.record.event_name
+);
 const conversationDisplayId = computed(() => conversation.value.display_id);
 const conversationNumber = computed(() => `#${conversationDisplayId.value}`);
 const messageDirection = computed(() => message.value.message_type);
@@ -62,6 +65,12 @@ const showPreview = computed(() => {
 const messageCreatedTooltip = computed(() =>
   t('REPORT.DRILLDOWN.MESSAGE_CREATED_AT', {
     time: formatTimestamp(message.value.created_at),
+  })
+);
+
+const eventOccurredTooltip = computed(() =>
+  t('REPORT.DRILLDOWN.EVENT_OCCURRED_AT', {
+    time: formatTimestamp(props.record.occurred_at),
   })
 );
 
@@ -216,7 +225,7 @@ const openRecord = () => {
         </div>
       </div>
       <div
-        class="ml-2 w-[4.375rem] shrink-0 text-right text-xs leading-4 text-n-slate-10"
+        class="ml-2 flex shrink-0 items-center justify-end gap-1 text-right text-xs leading-4 text-n-slate-10"
       >
         <span
           v-if="isMessageRecord"
@@ -234,6 +243,14 @@ const openRecord = () => {
           :created-at-timestamp="conversation.created_at"
           class="font-440 !text-xs !text-n-slate-10"
         />
+        <span
+          v-if="isEventBackedConversationRecord"
+          v-tooltip.left="eventOccurredTooltip"
+          :aria-label="eventOccurredTooltip"
+          class="whitespace-nowrap rounded bg-n-alpha-2 px-1 py-0.5 text-[11px] leading-4 text-n-slate-10"
+        >
+          {{ compactTimestamp(record.occurred_at) }}
+        </span>
       </div>
     </div>
 

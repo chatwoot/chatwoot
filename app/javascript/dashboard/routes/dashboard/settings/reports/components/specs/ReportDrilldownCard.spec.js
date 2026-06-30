@@ -15,6 +15,9 @@ vi.mock('vue-i18n', () => ({
       if (key === 'REPORT.DRILLDOWN.MESSAGE_CREATED_AT') {
         return `Message created at ${params.time}`;
       }
+      if (key === 'REPORT.DRILLDOWN.EVENT_OCCURRED_AT') {
+        return `Event occurred at ${params.time}`;
+      }
       if (key === 'REPORT.DRILLDOWN.INCOMING_MESSAGE') {
         return 'Incoming message';
       }
@@ -167,5 +170,26 @@ describe('ReportDrilldownCard.vue', () => {
 
     expect(wrapper.text()).toContain('Latest reply');
     expect(wrapper.text()).toContain('4d • 4d');
+  });
+
+  it('renders event time alongside TimeAgo for event-backed conversation rows', () => {
+    const wrapper = mountCard({
+      record: {
+        ...record,
+        record_type: 'conversation',
+        message: null,
+        event_name: 'conversation_bot_handoff',
+        occurred_at: 1621103500,
+      },
+    });
+    const eventOccurredLabel = wrapper
+      .findAll('[aria-label]')
+      .map(timestamp => timestamp.attributes('aria-label'))
+      .find(label => label.includes('Event occurred at'));
+
+    expect(wrapper.text()).toContain('Latest reply');
+    expect(wrapper.text()).toContain('4d • 4d');
+    expect(wrapper.text()).toContain('2m');
+    expect(eventOccurredLabel).toContain('Event occurred at');
   });
 });
