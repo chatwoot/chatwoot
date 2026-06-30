@@ -47,9 +47,25 @@ class Whatsapp::Providers::AvisaService < Whatsapp::Providers::BaseService
 
   def send_text_message(phone_number, message)
     result = client.send_text(number: phone_number, message: message.content.to_s)
-    result[:id]
+    id = result[:id]
+    # Avisa respondeu 2xx mas SEM Id da mensagem: a sessão WhatsApp do canal está
+    # desconectada (ou o número é inválido) — a Avisa aceita o request mas não cria
+    # a mensagem. Sem marcar failed, a msg fica "sent + source_id null" = relógio
+    # ETERNO no UI (nunca falha, nunca alerta). Espelha o path de mídia (que já
+    # marca failed). Repro: 26/06→30/06, sessão Avisa do inbox 2 caída, 100% das
+    # outgoing com source_id null.
+    return mark_send_failed(message, 'envio não confirmado (sem Id — sessão WhatsApp pode estar desconectada)') if id.blank?
+
+    id
   rescue Whatsapp::Providers::AvisaClient::Error => e
     Rails.logger.error("[AVISA] envio falhou: #{e.message}")
+    mark_send_failed(message, e.message)
+  end
+
+  # Marca a mensagem como falha (status + external_error visível no UI) e retorna
+  # nil pro caller. Fonte única do tratamento de falha de envio de texto.
+  def mark_send_failed(message, reason)
+    message.update!(status: :failed, external_error: "Avisa: #{reason}")
     nil
   end
 
