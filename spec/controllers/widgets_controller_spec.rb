@@ -89,6 +89,22 @@ describe '/widget', type: :request do
         expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
       end
 
+      it 'does not grant a different scheme when allowed_domains specifies one' do
+        web_widget.update!(allowed_domains: 'https://embed.example.com')
+
+        get widget_url(website_token: web_widget.website_token),
+            headers: { 'Origin' => 'http://embed.example.com' }
+
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
+
+      it 'does not grant a non-default port for a host-only allowed domain' do
+        get widget_url(website_token: web_widget.website_token),
+            headers: { 'Origin' => 'https://embed.example.com:444' }
+
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
+
       it 'does not echo Access-Control-Allow-Origin for an origin outside allowed_domains' do
         get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => 'https://evil.example.com' }
 

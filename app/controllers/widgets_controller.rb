@@ -100,16 +100,40 @@ class WidgetsController < ActionController::Base
     response.headers['Vary'] = [response.headers['Vary'], 'Origin'].compact_blank.join(', ')
   end
 
-  # allowed_domains is stored host-only by convention ("example.com"), while the
-  # browser sends Origin with a scheme ("https://example.com"). Compare on host so
-  # the documented configuration matches; entries that include a scheme also work.
+  # Echo the Origin only when it matches an allowed_domains entry, mirroring how
+  # the CSP frame-ancestors source for that entry would match (so CORS is never
+  # broader than the framing policy). allowed_domains is host-only by convention
+  # ("example.com"), but entries may also pin a scheme/port ("https://example.com").
   def embed_origin_allowed?(origin)
-    origin_host = host_for(origin)
-    origin_host.present? && allowed_domains.any? { |domain| host_for(domain) == origin_host }
+    origin_uri = parse_uri(origin)
+    return false if origin_uri.nil? || origin_uri.host.blank?
+
+    allowed_domains.any? { |domain| domain_matches_origin?(domain, origin_uri) }
   end
 
-  def host_for(value)
-    URI.parse(value.include?('//') ? value : "//#{value}").host&.downcase
+  def domain_matches_origin?(domain, origin_uri)
+    domain_uri = parse_uri(domain.include?('//') ? domain : "//#{domain}")
+    return false unless domain_uri && hosts_equal?(domain_uri, origin_uri)
+
+    # A scheme is enforced only when the entry pins one (a host-only entry matches
+    # any scheme); the port must be the one the entry pins, else the scheme default.
+    scheme_matches?(domain_uri, origin_uri) && port_matches?(domain_uri, origin_uri)
+  end
+
+  def hosts_equal?(domain_uri, origin_uri)
+    domain_uri.host.present? && domain_uri.host.casecmp?(origin_uri.host)
+  end
+
+  def scheme_matches?(domain_uri, origin_uri)
+    domain_uri.scheme.nil? || domain_uri.scheme == origin_uri.scheme
+  end
+
+  def port_matches?(domain_uri, origin_uri)
+    (domain_uri.port || origin_uri.default_port) == origin_uri.port
+  end
+
+  def parse_uri(value)
+    URI.parse(value)
   rescue URI::InvalidURIError
     nil
   end
