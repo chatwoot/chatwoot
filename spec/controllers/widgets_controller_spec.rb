@@ -44,10 +44,13 @@ describe '/widget', type: :request do
   end
 
   describe 'cross-origin embed headers' do
+    # allowed_domains is stored host-only (the documented/UI format), while the
+    # browser sends Origin with a scheme.
+    let(:allowed_domain) { 'embed.example.com' }
     let(:origin) { 'https://embed.example.com' }
 
     context 'when allow_cross_origin_isolation is disabled (default)' do
-      before { web_widget.update!(allowed_domains: origin) }
+      before { web_widget.update!(allowed_domains: allowed_domain) }
 
       it 'does not emit cross-origin isolation or CORS headers' do
         get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
@@ -60,7 +63,7 @@ describe '/widget', type: :request do
 
     context 'when allow_cross_origin_isolation is enabled' do
       before do
-        web_widget.update!(allowed_domains: origin,
+        web_widget.update!(allowed_domains: allowed_domain,
                            selected_feature_flags: %w[allow_cross_origin_isolation])
       end
 
@@ -71,15 +74,30 @@ describe '/widget', type: :request do
         expect(response.headers['Cross-Origin-Resource-Policy']).to eq('cross-origin')
       end
 
-      it 'echoes Access-Control-Allow-Origin for an origin in allowed_domains' do
+      it 'echoes Access-Control-Allow-Origin for an origin whose host is in allowed_domains' do
         get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
 
         expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
         expect(response.headers['Vary'].to_s).to include('Origin')
       end
 
+      it 'also matches when allowed_domains is stored with a scheme' do
+        web_widget.update!(allowed_domains: 'https://embed.example.com')
+
+        get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
+
+        expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
+      end
+
       it 'does not echo Access-Control-Allow-Origin for an origin outside allowed_domains' do
         get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => 'https://evil.example.com' }
+
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
+
+      it 'does not match a different host that merely contains an allowed domain' do
+        get widget_url(website_token: web_widget.website_token),
+            headers: { 'Origin' => 'https://embed.example.com.evil.com' }
 
         expect(response.headers).not_to include('Access-Control-Allow-Origin')
       end

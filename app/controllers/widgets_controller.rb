@@ -94,10 +94,24 @@ class WidgetsController < ActionController::Base
     response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
 
     origin = request.headers['Origin']
-    return if origin.blank? || allowed_domains.exclude?(origin)
+    return if origin.blank? || !embed_origin_allowed?(origin)
 
     response.headers['Access-Control-Allow-Origin'] = origin
     response.headers['Vary'] = [response.headers['Vary'], 'Origin'].compact_blank.join(', ')
+  end
+
+  # allowed_domains is stored host-only by convention ("example.com"), while the
+  # browser sends Origin with a scheme ("https://example.com"). Compare on host so
+  # the documented configuration matches; entries that include a scheme also work.
+  def embed_origin_allowed?(origin)
+    origin_host = host_for(origin)
+    origin_host.present? && allowed_domains.any? { |domain| host_for(domain) == origin_host }
+  end
+
+  def host_for(value)
+    URI.parse(value.include?('//') ? value : "//#{value}").host&.downcase
+  rescue URI::InvalidURIError
+    nil
   end
 
   def allowed_domains
