@@ -305,6 +305,24 @@ RSpec.describe 'Reports API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
+      it 'returns drilldown records for a partial first weekly bucket' do
+        range_start = Time.zone.local(2026, 5, 20, 12)
+        range_end = Time.zone.local(2026, 5, 27, 12)
+        week_start = range_start.beginning_of_week(:sunday)
+
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params.merge(
+              since: range_start.to_i.to_s,
+              until: range_end.to_i.to_s,
+              bucket_timestamp: week_start.to_i.to_s,
+              group_by: 'week'
+            ),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'returns unprocessable entity for unsupported drilldown type' do
         get "/api/v2/accounts/#{account.id}/reports/drilldown",
             params: params.merge(type: :unsupported),
