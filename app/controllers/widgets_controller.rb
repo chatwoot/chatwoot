@@ -80,9 +80,28 @@ class WidgetsController < ActionController::Base
     if @web_widget.allowed_domains.blank? || embedded_from_non_web_origin?
       response.headers.delete('X-Frame-Options')
     else
-      domains = @web_widget.allowed_domains.split(',').map(&:strip).join(' ')
-      response.headers['Content-Security-Policy'] = "frame-ancestors #{domains}"
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{allowed_domains.join(' ')}"
     end
+
+    allow_cross_origin_isolation if @web_widget.allow_cross_origin_isolation?
+  end
+
+  # When an inbox opts into cross-origin isolation, emit the headers that let the
+  # widget load inside a cross-origin-isolated parent page: COEP/CORP, plus a CORS
+  # allow-origin echoed back for any origin already trusted via allowed_domains.
+  def allow_cross_origin_isolation
+    response.headers['Cross-Origin-Embedder-Policy'] = 'credentialless'
+    response.headers['Cross-Origin-Resource-Policy'] = 'cross-origin'
+
+    origin = request.headers['Origin']
+    return if origin.blank? || allowed_domains.exclude?(origin)
+
+    response.headers['Access-Control-Allow-Origin'] = origin
+    response.headers['Vary'] = [response.headers['Vary'], 'Origin'].compact_blank.join(', ')
+  end
+
+  def allowed_domains
+    @web_widget.allowed_domains.to_s.split(',').map(&:strip).reject(&:empty?)
   end
 
   # Mobile WebViews (iOS/Android) load content from file:// or null origins,

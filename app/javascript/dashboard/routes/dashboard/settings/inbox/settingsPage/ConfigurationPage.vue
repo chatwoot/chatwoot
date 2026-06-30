@@ -38,6 +38,7 @@ export default {
     return {
       hmacMandatory: false,
       allowMobileWebview: false,
+      allowCrossOriginIsolation: false,
       whatsAppInboxAPIKey: '',
       isRequestingReauthorization: false,
       isSyncingTemplates: false,
@@ -67,6 +68,9 @@ export default {
     allowMobileWebview() {
       if (!this.isSettingDefaults) this.handleMobileWebviewFlag();
     },
+    allowCrossOriginIsolation() {
+      if (!this.isSettingDefaults) this.handleCrossOriginIsolationFlag();
+    },
     hmacMandatory() {
       if (!this.isSettingDefaults && this.isAWebWidgetInbox)
         this.handleHmacFlag();
@@ -82,6 +86,9 @@ export default {
       this.allowMobileWebview = (
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
+      this.allowCrossOriginIsolation = (
+        this.inbox.selected_feature_flags || []
+      ).includes('allow_cross_origin_isolation');
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
@@ -111,6 +118,26 @@ export default {
         const selectedFlags = this.allowMobileWebview
           ? [...currentFlags, 'allow_mobile_webview']
           : currentFlags.filter(f => f !== 'allow_mobile_webview');
+
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            selected_feature_flags: selectedFlags,
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async handleCrossOriginIsolationFlag() {
+      try {
+        const currentFlags = this.inbox.selected_feature_flags || [];
+        const selectedFlags = this.allowCrossOriginIsolation
+          ? [...currentFlags, 'allow_cross_origin_isolation']
+          : currentFlags.filter(f => f !== 'allow_cross_origin_isolation');
 
         const payload = {
           id: this.inbox.id,
@@ -250,6 +277,15 @@ export default {
         :header="$t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.LABEL')"
         :description="
           $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MOBILE_WEBVIEW.SUBTITLE')
+        "
+      />
+      <SettingsToggleSection
+        v-model="allowCrossOriginIsolation"
+        :header="
+          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_CROSS_ORIGIN_ISOLATION.LABEL')
+        "
+        :description="
+          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_CROSS_ORIGIN_ISOLATION.SUBTITLE')
         "
       />
     </div>

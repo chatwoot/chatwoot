@@ -42,4 +42,47 @@ describe '/widget', type: :request do
       expect(response.body).to include('web widget does not exist')
     end
   end
+
+  describe 'cross-origin embed headers' do
+    let(:origin) { 'https://embed.example.com' }
+
+    context 'when allow_cross_origin_isolation is disabled (default)' do
+      before { web_widget.update!(allowed_domains: origin) }
+
+      it 'does not emit cross-origin isolation or CORS headers' do
+        get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
+
+        expect(response.headers).not_to include('Cross-Origin-Embedder-Policy')
+        expect(response.headers).not_to include('Cross-Origin-Resource-Policy')
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
+    end
+
+    context 'when allow_cross_origin_isolation is enabled' do
+      before do
+        web_widget.update!(allowed_domains: origin,
+                           selected_feature_flags: %w[allow_cross_origin_isolation])
+      end
+
+      it 'emits COEP and CORP so the widget can load in a cross-origin-isolated parent' do
+        get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
+
+        expect(response.headers['Cross-Origin-Embedder-Policy']).to eq('credentialless')
+        expect(response.headers['Cross-Origin-Resource-Policy']).to eq('cross-origin')
+      end
+
+      it 'echoes Access-Control-Allow-Origin for an origin in allowed_domains' do
+        get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => origin }
+
+        expect(response.headers['Access-Control-Allow-Origin']).to eq(origin)
+        expect(response.headers['Vary'].to_s).to include('Origin')
+      end
+
+      it 'does not echo Access-Control-Allow-Origin for an origin outside allowed_domains' do
+        get widget_url(website_token: web_widget.website_token), headers: { 'Origin' => 'https://evil.example.com' }
+
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
+    end
+  end
 end
