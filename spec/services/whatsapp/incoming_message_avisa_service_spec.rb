@@ -228,6 +228,28 @@ RSpec.describe Whatsapp::IncomingMessageAvisaService do
       expect(Message.find_by(source_id: 'VO1', inbox_id: inbox.id).content).to eq('oi')
     end
 
+    # conv 381 (24/06 e 29/06): cliente que manda do dispositivo vinculado (WhatsApp
+    # Web/Desktop) embrulha o texto em deviceSentMessage -> virava placeholder "(text)".
+    it 'extrai texto de deviceSentMessage (dispositivo vinculado)' do
+      ev = {
+        'Info' => { 'ID' => 'DEV1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'deviceSentMessage' => { 'message' => { 'conversation' => 'Oi device' } } }
+      }
+      perform_with(ev)
+      msg = Message.find_by(source_id: 'DEV1', inbox_id: inbox.id)
+      expect(msg.content).to eq('Oi device')
+      expect(msg.content).not_to include('não pôde ser exibido')
+    end
+
+    it 'extrai texto de associatedChildMessage (envelope FutureProof)' do
+      ev = {
+        'Info' => { 'ID' => 'ACM1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },
+        'Message' => { 'associatedChildMessage' => { 'message' => { 'conversation' => 'Oi child' } } }
+      }
+      perform_with(ev)
+      expect(Message.find_by(source_id: 'ACM1', inbox_id: inbox.id).content).to eq('Oi child')
+    end
+
     it 'extrai o texto escolhido de buttonsResponseMessage' do
       ev = {
         'Info' => { 'ID' => 'BTN1', 'Chat' => '5534999887766@s.whatsapp.net', 'PushName' => 'Cliente' },

@@ -37,12 +37,17 @@ class Whatsapp::IncomingMessageAvisaService
   }.freeze
 
   # Wrappers do whatsmeow que aninham a mensagem REAL em `.message`: mensagens
-  # temporárias (ephemeralMessage), ver-uma-vez (viewOnce*) e documento-com-
-  # caption. Texto/mídia dentro deles caíam no placeholder "(text) não pôde ser
-  # exibido" (conv 372) porque extract_text/media só olhavam o topo do Message.
+  # temporárias (ephemeralMessage), ver-uma-vez (viewOnce*), documento-com-
+  # caption, envio de dispositivo vinculado (deviceSentMessage — WhatsApp Web/
+  # Desktop) e o envelope FutureProof (associatedChildMessage). Texto/mídia
+  # dentro deles caíam no placeholder "(text) não pôde ser exibido": conv 372
+  # (ephemeral) e conv 381 (deviceSentMessage — cliente que manda do dispositivo
+  # vinculado tinha TODO texto virando placeholder, em 24/06 e 29/06). extract_text/
+  # media só olhavam o topo do Message; resolved_message desembrulha estes.
   WRAPPER_KEYS = %w[
     ephemeralMessage viewOnceMessage viewOnceMessageV2
     viewOnceMessageV2Extension documentWithCaptionMessage
+    deviceSentMessage associatedChildMessage
   ].freeze
 
   def perform
