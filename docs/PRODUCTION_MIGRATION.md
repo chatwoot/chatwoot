@@ -1,6 +1,31 @@
 # Migración Chatwoot producción → fork (GHCR)
 
-Guía para promover `ghcr.io/pabloluna3596afk/chatwoot:develop` a **producción** sin perder datos.
+Guía para desplegar el fork en **producción nueva** (fresh start) o migrar el stack legacy sin perder datos.
+
+## Producción nueva (fresh start) — recomendado
+
+Apps Dokploy nuevas, volúmenes `prod-*`, red `main-chatwoot-prod`. **Sin migrar datos** del stack `main-chatwoot-miwnzk`.
+
+| Campo | Valor |
+|-------|-------|
+| Compose | `docker-compose.production.yml` |
+| Rama repo | `develop` |
+| Red Docker | `main-chatwoot-prod` (crear: `docker network create main-chatwoot-prod`) |
+| Env Dokploy | [`.env.production.project.example`](../.env.production.project.example) |
+| Imagen | `CHATWOOT_IMAGE_TAG=ghcr.io/.../chatwoot:develop-<SHA>` (validar SHA en staging primero) |
+| Postgres | `pgvector/pgvector:pg14` |
+| Dominio | `inbox.paluhub.com` |
+
+Orden: Chatwoot prod → onboarding → API token → Panel AI prod (`master`) → webhook → smoke test → DNS.
+
+Variables Dokploy: [DOKPLOY_ENV.md](DOKPLOY_ENV.md)  
+Panel AI prod: [panel-ai/docs/PRODUCTION_DEPLOY.md](../../panel-ai/docs/PRODUCTION_DEPLOY.md)
+
+---
+
+## Migración del stack legacy (conservar datos)
+
+Guía para promover `ghcr.io/pabloluna3596afk/chatwoot:develop` al stack **`main-chatwoot-miwnzk`** existente sin perder datos.
 
 ## Incidente staging (2026-06-26) — lección aprendida
 
@@ -106,11 +131,11 @@ sudo docker exec main-chatwoot-miwnzk-chatwoot-postgres-1 psql -U postgres -d ch
 
 1. Backup prod Chatwoot + Panel IA
 2. **Staging** Chatwoot (validar fork + volúmenes correctos)
-3. **Staging** Panel IA (`docker-compose.staging.yml`, rama `master`)
+3. **Staging** Panel IA (`docker-compose.staging.yml`, rama `develop`)
 4. Smoke test staging (bot, guardian, menús)
-5. **Prod** Panel IA redeploy (`master`)
-6. **Prod** Chatwoot — solo cambio `image:` + redeploy
-7. Smoke test prod
+5. **Prod nueva** Chatwoot (`docker-compose.production.yml`, fresh start)
+6. **Prod nueva** Panel IA (`docker-compose.production.yml`, rama `master`)
+7. Smoke test prod + cutover DNS
 
 ---
 

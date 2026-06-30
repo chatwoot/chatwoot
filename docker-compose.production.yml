@@ -1,0 +1,74 @@
+# InboxHub PRODUCTION — imagen GHCR pinneada (no :develop flotante).
+# Dokploy: dominio inbox.paluhub.com, red externa main-chatwoot-prod.
+# Env proyecto: .env.production.project.example
+# Imagen: CHATWOOT_IMAGE_TAG en proyecto o en servicios rails/sidekiq (ver docs/DOKPLOY_ENV.md)
+
+x-base-config: &base-config
+  image: ${CHATWOOT_IMAGE_TAG:-ghcr.io/pabloluna3596afk/chatwoot:develop}
+  pull_policy: always
+  env_file: .env
+  volumes:
+    - prod-chatwoot-storage:/app/storage
+  networks:
+    - chatwoot-internal
+    - main-chatwoot-prod
+
+services:
+  chatwoot-rails:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'sh', '-c', 'bundle exec rails db:chatwoot_prepare && bundle exec rails s -p 3000 -b 0.0.0.0']
+    restart: always
+
+  chatwoot-sidekiq:
+    <<: *base-config
+    depends_on:
+      chatwoot-postgres:
+        condition: service_healthy
+      chatwoot-redis:
+        condition: service_started
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
+
+  chatwoot-postgres:
+    image: pgvector/pgvector:pg14
+    restart: always
+    env_file: .env
+    volumes:
+      - prod-chatwoot-postgres-data:/var/lib/postgresql/data
+      - ./docker/init-vector.sql:/docker-entrypoint-initdb.d/init-vector.sql:ro
+    environment:
+      - POSTGRES_DB=chatwoot
+      - POSTGRES_USER=postgres
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d chatwoot']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - chatwoot-internal
+      - main-chatwoot-prod
+
+  chatwoot-redis:
+    image: redis:alpine
+    restart: always
+    volumes:
+      - prod-chatwoot-redis-data:/data
+    networks:
+      - chatwoot-internal
+
+volumes:
+  prod-chatwoot-storage:
+  prod-chatwoot-postgres-data:
+  prod-chatwoot-redis-data:
+
+networks:
+  chatwoot-internal:
+    driver: bridge
+  main-chatwoot-prod:
+    external: true

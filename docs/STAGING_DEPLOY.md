@@ -147,13 +147,16 @@ Si pasan 1–4, el pipeline **fork → GitHub Actions → GHCR → Dokploy pull*
 
 Ver guía completa: **[`docs/PRODUCTION_MIGRATION.md`](./PRODUCTION_MIGRATION.md)**
 
-1. Backup completo prod (Postgres + `chatwoot-storage`).
-2. En app **producción** Chatwoot: cambiar **solo** `image:` a `ghcr.io/pabloluna3596afk/chatwoot:develop` — **no renombrar volúmenes**.
-3. **Reutilizar volúmenes prod** (`main-chatwoot-miwnzk_chatwoot-postgres-data`, etc.) — no los `staging-*`.
-4. `FRONTEND_URL=https://inbox.paluhub.com`, quitar `DEPLOYMENT_ENV=staging`.
-5. Panel AI prod: redeploy cuando subas `master`; no obligatorio solo por imagen Chatwoot si no hay re-onboarding.
-6. Verificar `SELECT count(*) FROM accounts;` antes y después del deploy.
-7. Smoke test en prod antes de apagar staging.
+**Producción nueva (fresh start, recomendado):**
+
+1. Crear red `main-chatwoot-prod` en el VPS.
+2. Nueva app Dokploy Chatwoot → `docker-compose.production.yml` + [`.env.production.project.example`](../.env.production.project.example).
+3. Fijar `CHATWOOT_IMAGE_TAG` al SHA validado en staging (ej. `develop-0eca20d20`).
+4. Onboarding → API token → nueva app Panel AI (`master`, `docker-compose.production.yml`).
+5. Env Dokploy: [DOKPLOY_ENV.md](./DOKPLOY_ENV.md) — proyecto vs servicio `frontend`.
+6. Smoke test → cutover DNS `inbox` / `ainbox`.
+
+**Legacy (migrar datos existentes en `main-chatwoot-miwnzk`):** ver sección "Migración del stack legacy" en PRODUCTION_MIGRATION.md.
 
 ## Qué no incluye esta fase
 
