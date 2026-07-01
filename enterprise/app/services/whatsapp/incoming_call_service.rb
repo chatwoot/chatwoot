@@ -82,24 +82,25 @@ class Whatsapp::IncomingCallService
     end
 
     sdp_offer = payload.dig(:session, :sdp)
-    call = Voice::InboundCallBuilder.perform!(
-      inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-      provider: :whatsapp, extra_meta: inbound_extra_meta(payload, sdp_offer)
-    )
+    call = build_inbound_call(payload, sdp_offer)
 
-    # Terminate overtook this connect (caller hung up before pickup): finalize now instead of ringing agents.
-    return if finalize_if_tombstoned(call, payload[:id])
+    return if call.terminal? # terminated before pickup; no ringing widget to surface
 
     update_conversation(call)
     broadcast_incoming(call, sdp_offer)
   end
 
-  def finalize_if_tombstoned(call, provider_call_id)
-    tombstone = consume_terminate_tombstone(provider_call_id)
-    return false unless tombstone
-
-    finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason'])
-    true
+  # If a terminate already arrived (caller hung up before pickup), finalize it in the
+  # SAME transaction as the build so the message's after_create_commit fires (at outer
+  # commit) already terminal, never `ringing` — agents aren't rung for a dead call.
+  def build_inbound_call(payload, sdp_offer)
+    ActiveRecord::Base.transaction do
+      call = Voice::InboundCallBuilder.perform!(inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
+                                                provider: :whatsapp, extra_meta: inbound_extra_meta(payload, sdp_offer))
+      tombstone = consume_terminate_tombstone(payload[:id])
+      finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason']) if tombstone
+      call
+    end
   end
 
   def inbound_extra_meta(payload, sdp_offer)
