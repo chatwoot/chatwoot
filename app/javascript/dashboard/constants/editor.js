@@ -265,11 +265,14 @@ export const MARKDOWN_PATTERNS = [
     type: 'link', // PM: link
     patterns: [
       // [text](url) -> "text: url" (keep the URL; drop label if it is the URL).
-      // Unwrap an <angle-bracketed> destination while keeping any link title.
+      // Drop the hidden CommonMark title and unwrap an <angle-bracketed> destination.
       {
         pattern: /\[([^\]]+)\]\(([^)]+)\)/g,
         replacement: (_match, text, url) => {
-          const cleanUrl = url.trim().replace(/^<([^>]*)>/, '$1');
+          const cleanUrl = url
+            .trim()
+            .replace(/\s+["'(].*$/, '') // drop hidden CommonMark title
+            .replace(/^<|>$/g, ''); // unwrap <angle-bracketed> destination
           return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
         },
       },

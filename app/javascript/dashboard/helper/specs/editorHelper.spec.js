@@ -987,13 +987,20 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('Check this link: https://example.com');
     });
 
-    it('keeps the link title while preserving the URL', () => {
+    it('drops the hidden link title when preserving the URL', () => {
       expect(
         stripUnsupportedFormatting(
           'Check [docs](https://example.com "Docs")',
           emptySchema
         )
-      ).toBe('Check docs: https://example.com "Docs"');
+      ).toBe('Check docs: https://example.com');
+
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](<https://example.com> "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
     });
 
     it('leaves bare URLs untouched so channels can auto-link them', () => {
