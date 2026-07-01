@@ -987,6 +987,24 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('Check this link: https://example.com');
     });
 
+    it('keeps the link title while preserving the URL', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](https://example.com "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com "Docs"');
+    });
+
+    it('leaves bare URLs untouched so channels can auto-link them', () => {
+      expect(
+        stripUnsupportedFormatting('Visit www.example.com now', emptySchema)
+      ).toBe('Visit www.example.com now');
+      expect(
+        stripUnsupportedFormatting('Visit <https://example.com>', emptySchema)
+      ).toBe('Visit https://example.com');
+    });
+
     it('converts autolinks to plain URLs when schema does not support links', () => {
       const content = 'Visit <https://cegrafic.com/catalogo/> for more info';
       const expected = 'Visit https://cegrafic.com/catalogo/ for more info';

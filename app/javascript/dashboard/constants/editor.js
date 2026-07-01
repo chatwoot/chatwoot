@@ -264,11 +264,12 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      // [text](url) -> "text: url" (keep the URL; drop label if it is the URL)
+      // [text](url) -> "text: url" (keep the URL; drop label if it is the URL).
+      // Unwrap an <angle-bracketed> destination while keeping any link title.
       {
         pattern: /\[([^\]]+)\]\(([^)]+)\)/g,
         replacement: (_match, text, url) => {
-          const cleanUrl = url.replace(/^<|>$/g, '').trim();
+          const cleanUrl = url.trim().replace(/^<([^>]*)>/, '$1');
           return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
         },
       },
