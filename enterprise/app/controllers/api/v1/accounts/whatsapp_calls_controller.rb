@@ -108,6 +108,8 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
+    @conversation.update!(assignee: Current.user) if @conversation.assignee_id.nil?
+
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',

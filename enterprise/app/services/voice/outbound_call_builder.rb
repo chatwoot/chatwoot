@@ -20,6 +20,7 @@ class Voice::OutboundCallBuilder
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       conversation = @existing_conversation || create_conversation!(contact_inbox)
+      conversation.update!(assignee: user) if conversation.assignee_id.nil?
       call_sid = initiate_call!
       call = create_call!(conversation, call_sid)
       message = Voice::CallMessageBuilder.new(call).perform!
@@ -44,7 +45,6 @@ class Voice::OutboundCallBuilder
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
-      assignee_id: user.id,
       status: :open
     )
   end
