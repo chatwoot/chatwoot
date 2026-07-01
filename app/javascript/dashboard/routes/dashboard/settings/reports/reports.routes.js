@@ -23,6 +23,8 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import AutoQaReports from './AutoQaReports.vue';
+import AiAnalytics from './AiAnalytics.vue';
 
 const meta = {
   featureFlag: FEATURE_FLAGS.REPORTS,
@@ -167,6 +169,18 @@ export default {
           name: 'bot_reports',
           meta,
           component: BotReports,
+        },
+        {
+          path: 'auto_qa',
+          name: 'auto_qa_reports',
+          meta,
+          component: AutoQaReports,
+        },
+        {
+          path: 'ai_analytics',
+          name: 'ai_analytics_reports',
+          meta,
+          component: AiAnalytics,
         },
       ],
     },

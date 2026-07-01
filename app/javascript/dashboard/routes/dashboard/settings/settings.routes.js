@@ -26,6 +26,7 @@ import profile from './profile/profile.routes';
 import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
+import workflows from './workflows/workflows.routes';
 
 export default {
   routes: [
@@ -63,6 +64,7 @@ export default {
     ...sla.routes,
     ...teams.routes,
     ...customRoles.routes,
+    ...workflows.routes,
     ...profile.routes,
     ...security.routes,
     ...conversationWorkflow.routes,

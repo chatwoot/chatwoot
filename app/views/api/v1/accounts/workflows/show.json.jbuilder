@@ -1,0 +1,9 @@
+json.id @workflow.id
+json.name @workflow.name
+json.description @workflow.description
+json.trigger_event @workflow.trigger_event
+json.active @workflow.active
+json.nodes @workflow.nodes
+json.edges @workflow.edges
+json.created_at @workflow.created_at.to_i
+json.updated_at @workflow.updated_at.to_i

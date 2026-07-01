@@ -114,6 +114,7 @@ Rails.application.routes.draw do
             end
           end
           resources :canned_responses, only: [:index, :create, :update, :destroy]
+          resources :workflows
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
           end
@@ -489,6 +490,8 @@ Rails.application.routes.draw do
           end
           resources :reports, only: [:index] do
             collection do
+              get :auto_qa
+              post :ai_analytics_query
               get :summary
               get :bot_summary
               get :agents

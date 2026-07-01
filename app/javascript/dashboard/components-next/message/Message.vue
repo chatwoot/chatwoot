@@ -135,6 +135,7 @@ const props = defineProps({
   sender: { type: Object, default: null },
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
+  sentiment: { type: Object, default: null }, // eslint-disable-line vue/no-unused-properties
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 

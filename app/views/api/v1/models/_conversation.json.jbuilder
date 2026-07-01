@@ -2,6 +2,10 @@
 
 json.id conversation.display_id
 json.uuid conversation.uuid
+json.resolved_by_ai conversation.resolved_by_ai
+json.ai_resolution_confidence conversation.ai_resolution_confidence
+json.auto_qa_score conversation.auto_qa_score
+json.auto_qa_feedback conversation.auto_qa_feedback
 json.created_at conversation.created_at.to_i
 json.contact do
   json.id conversation.contact.id

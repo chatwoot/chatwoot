@@ -242,3 +242,19 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: sentiment_analysis
+  display_name: Sentiment Analysis
+  enabled: false
+  premium: true
+- name: auto_categorization
+  display_name: Auto Categorization
+  enabled: false
+  premium: true
+- name: ai_resolution_tracking
+  display_name: AI Resolution Tracking
+  enabled: false
+  premium: true
+- name: auto_qa
+  display_name: Auto QA
+  enabled: false
+  premium: true

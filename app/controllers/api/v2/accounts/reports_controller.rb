@@ -18,6 +18,18 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: build_summary(:bot_summary)
   end
 
+  def auto_qa
+    conversations = Current.account.conversations.where.not(auto_qa_score: nil).order(auto_qa_score: :asc).limit(100)
+    render json: conversations.as_json(only: [:id, :display_id, :auto_qa_score, :auto_qa_feedback], include: { assignee: { only: [:id, :name] } })
+  end
+
+  def ai_analytics_query
+    return head :unprocessable_entity if params[:query].blank?
+
+    response = Captain::Llm::AiAnalyticsService.new(Current.account, params[:query]).process
+    render json: { response: response }
+  end
+
   def agents
     @report_data = generate_agents_report
     generate_csv('agents_report', 'api/v2/accounts/reports/agents')

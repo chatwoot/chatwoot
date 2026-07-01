@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 
 import MessageStatus from './MessageStatus.vue';
+import SentimentBadge from './SentimentBadge.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
@@ -30,6 +31,7 @@ const {
   sourceId,
   messageType,
   contentAttributes,
+  sentiment,
 } = useMessageContext();
 
 const readableTime = computed(() =>
@@ -138,6 +140,9 @@ const statusToShow = computed(() => {
     </div>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />
+    <SentimentBadge
+      v-if="sentiment && messageType === MESSAGE_TYPES.INCOMING"
+      :sentiment="sentiment"
+    />
   </div>
 </template>
-`

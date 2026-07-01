@@ -646,5 +646,55 @@
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
     "CONVERSATIONS": "No. of conversations"
+  },
+  "AUTO_QA": {
+    "HEADER": "AutoQA Dashboard",
+    "DESCRIPTION": "View AI-generated quality assurance evaluations for your agents' conversations.",
+    "LOADING": "Loading AutoQA records...",
+    "EMPTY": "No AutoQA evaluated conversations found yet.",
+    "TABLE": {
+      "CONVERSATION_ID": "Conversation ID",
+      "AGENT": "Agent",
+      "SCORE": "Score",
+      "FEEDBACK": "Feedback",
+      "ACTION": "Action",
+      "UNASSIGNED": "Unassigned",
+      "VIEW": "View"
+    }
+  },
+  "AI_ANALYTICS": {
+    "HEADER": "AI Insights",
+    "DESCRIPTION": "Ask natural language questions about your conversational data.",
+    "WELCOME": "Hello! I am your AI Analytics assistant. Ask me anything about your team's performance or conversation metrics.",
+    "ASK": "Ask AI",
+    "PLACEHOLDER": "e.g. Why did our average CSAT drop this week?",
+    "ERROR": "Sorry, I encountered an error. Please try again later.",
+    "CONNECTION_ERROR": "Error connecting to AI Analytics Engine"
+  },
+  "WORKFLOWS": {
+    "HEADER": "Workflows",
+    "DESCRIPTION": "Build visual automations and AI scenarios.",
+    "LOADING": "Loading workflows...",
+    "LEARN_MORE": "Learn more about workflows",
+    "CREATE": "Create Workflow",
+    "EMPTY": "No workflows found. Create one to get started.",
+    "TRIGGER_LABEL": "Trigger",
+    "NO_DESCRIPTION": "No description",
+    "BUILDER": {
+      "NAME_PLACEHOLDER": "Workflow Name",
+      "ADD_CONDITION": "Add Condition",
+      "ADD_ACTION": "Add Message Action",
+      "ADD_AI": "Add AI Step",
+      "SAVE": "Save Workflow"
+    },
+    "DELETE": {
+      "CONFIRM": "Are you sure you want to delete this workflow?",
+      "SUCCESS": "Workflow deleted successfully",
+      "ERROR": "Error deleting workflow"
+    },
+    "SAVE": {
+      "SUCCESS": "Workflow saved successfully",
+      "ERROR": "Error saving workflow"
+    }
   }
 }

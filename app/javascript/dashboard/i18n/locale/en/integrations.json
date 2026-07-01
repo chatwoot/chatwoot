@@ -392,6 +392,10 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
+    "SENTIMENT": {
+      "TOOLTIP": "Sentiment: {label}",
+      "ASPECTS_TOOLTIP": "Sentiment based on: {aspects}"
+    },
     "ASSISTANT_SWITCHER": {
       "ASSISTANTS": "Assistants",
       "SWITCH_ASSISTANT": "Switch between assistants",

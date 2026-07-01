@@ -563,6 +563,16 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_BOT'),
           to: accountScopedRoute('bot_reports'),
         },
+        {
+          name: 'Auto QA',
+          label: t('AUTO_QA.HEADER'),
+          to: accountScopedRoute('auto_qa_reports'),
+        },
+        {
+          name: 'AI Insights',
+          label: t('AI_ANALYTICS.HEADER'),
+          to: accountScopedRoute('ai_analytics_reports'),
+        },
       ],
     },
     {
