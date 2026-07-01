@@ -147,8 +147,7 @@ const scrollParent = () => {
   let el = root.value?.parentElement;
   while (el) {
     const { overflowY } = getComputedStyle(el);
-    const scrolls = overflowY === 'auto' || overflowY === 'scroll';
-    if (scrolls && el.scrollHeight > el.clientHeight) return el;
+    if (overflowY === 'auto' || overflowY === 'scroll') return el;
     el = el.parentElement;
   }
   return null;
