@@ -56,11 +56,11 @@ RSpec.describe Concerns::Agentable do
       dummy_instance.agent
     end
 
-    it 'converts nil temperature to 0.0' do
+    it 'uses default temperature when temperature is nil' do
       dummy_instance.temperature = nil
 
       expect(Agents::Agent).to receive(:new).with(
-        hash_including(temperature: 0.0)
+        hash_including(temperature: 0.5)
       )
 
       dummy_instance.agent

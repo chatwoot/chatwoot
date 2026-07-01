@@ -29,7 +29,7 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 100)
+    result = runner.run(message_to_process, context: context, max_turns: 10)
 
     process_agent_result(result)
   rescue StandardError => e
@@ -115,7 +115,8 @@ class Captain::Assistant::AgentRunnerService
     state = {
       account_id: @assistant.account_id,
       assistant_id: @assistant.id,
-      assistant_config: @assistant.config
+      assistant_config: @assistant.config,
+      timezone: @conversation&.inbox&.timezone.presence || 'UTC'
     }
     state[:source] = @source if @source.present?
 
