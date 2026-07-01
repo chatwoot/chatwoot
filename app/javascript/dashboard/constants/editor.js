@@ -264,7 +264,14 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
+      // [text](url) -> "text: url" (keep the URL; drop label if it is the URL)
+      {
+        pattern: /\[([^\]]+)\]\(([^)]+)\)/g,
+        replacement: (_match, text, url) => {
+          const cleanUrl = url.replace(/^<|>$/g, '').trim();
+          return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
+        },
+      },
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
       { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
     ],

@@ -978,13 +978,13 @@ describe('stripUnsupportedFormatting', () => {
       );
     });
 
-    it('strips links but keeps text', () => {
+    it('keeps link text and URL when schema does not support links', () => {
       expect(
         stripUnsupportedFormatting(
           'Check [this link](https://example.com)',
           emptySchema
         )
-      ).toBe('Check this link');
+      ).toBe('Check this link: https://example.com');
     });
 
     it('converts autolinks to plain URLs when schema does not support links', () => {
@@ -1049,7 +1049,7 @@ describe('stripUnsupportedFormatting', () => {
     it('handles complex content with multiple formatting types', () => {
       const content =
         '**Bold** and *italic* with `code` and [link](url)\n- list item';
-      const expected = 'Bold and italic with code and link\nlist item';
+      const expected = 'Bold and italic with code and link: url\nlist item';
       expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
   });
