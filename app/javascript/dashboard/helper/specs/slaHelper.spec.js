@@ -105,6 +105,26 @@ describe('#SLA Helpers', () => {
         expect(result.isSlaMissed).toBe(true);
       });
 
+      it('returns missed FRT when live first reply timestamp is an ISO string after due time', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 600,
+          sla_rt_due_at: currentTimestamp + 1800,
+        };
+        const chat = {
+          first_reply_created_at: new Date(
+            (currentTimestamp - 300) * 1000
+          ).toISOString(),
+          status: 'open',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('10m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
       it('uses the due time for a missed FRT event created after the deadline', () => {
         const appliedSla = { sla_frt_due_at: currentTimestamp - 3600 };
         const chat = { first_reply_created_at: null, status: 'open' };

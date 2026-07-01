@@ -35,6 +35,18 @@ const formatSLATime = seconds => {
   return parts.join(' ');
 };
 
+const toUnixTimestamp = value => {
+  if (!value || typeof value === 'number') return value;
+
+  const numericValue = Number(value);
+  if (!Number.isNaN(numericValue)) return numericValue;
+
+  const parsedTimestamp = Date.parse(value);
+  return Number.isNaN(parsedTimestamp)
+    ? value
+    : Math.floor(parsedTimestamp / 1000);
+};
+
 /**
  * Evaluates SLA status using backend-computed due times
  * @param {Object} params - Parameters object
@@ -78,7 +90,7 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
     });
   });
 
-  const firstReplyCreatedAt = conversation.firstReplyCreatedAt;
+  const firstReplyCreatedAt = toUnixTimestamp(conversation.firstReplyCreatedAt);
   const shouldCheckFirstResponse =
     !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
 
@@ -94,11 +106,7 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   }
 
   // Check NRT - only if first reply made and waiting for response
-  if (
-    sla.slaNrtDueAt &&
-    conversation.firstReplyCreatedAt &&
-    conversation.waitingSince
-  ) {
+  if (sla.slaNrtDueAt && firstReplyCreatedAt && conversation.waitingSince) {
     const threshold = sla.slaNrtDueAt - currentTime;
     slaStatuses.push({
       type: 'NRT',
