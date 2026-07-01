@@ -1,5 +1,5 @@
 class Sla::BusinessHoursService
-  pattr_initialize [:inbox!, :start_time!, :threshold_seconds!]
+  pattr_initialize [:inbox!, :start_time!, :threshold_seconds!, { working_hours_by_day_cache: nil }]
 
   def deadline
     return start_time + threshold_seconds.seconds unless should_apply_business_hours?
@@ -84,7 +84,7 @@ class Sla::BusinessHoursService
   end
 
   def working_hours_by_day
-    @working_hours_by_day ||= inbox.working_hours.index_by(&:day_of_week)
+    @working_hours_by_day ||= working_hours_by_day_cache || inbox.working_hours.index_by(&:day_of_week)
   end
 
   def next_business_day_start(current_time)

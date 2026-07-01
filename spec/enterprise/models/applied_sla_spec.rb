@@ -29,6 +29,38 @@ RSpec.describe AppliedSla, type: :model do
         }
       )
     end
+
+    it 'shares the working hours cache while serializing due times' do
+      account = create(:account)
+      inbox = create(:inbox, account: account, working_hours_enabled: true, timezone: 'UTC')
+      sla_policy = create(
+        :sla_policy,
+        account: account,
+        first_response_time_threshold: 1.hour,
+        next_response_time_threshold: 30.minutes,
+        resolution_time_threshold: 2.hours,
+        only_during_business_hours: true
+      )
+      start_time = Time.zone.parse('2024-01-17 10:00:00')
+      conversation = create(
+        :conversation,
+        account: account,
+        inbox: inbox,
+        created_at: start_time,
+        waiting_since: start_time + 1.hour
+      )
+      conversation.update!(waiting_since: start_time + 1.hour)
+      applied_sla = create(:applied_sla, account: account, conversation: conversation, sla_policy: sla_policy)
+      working_hours = inbox.working_hours
+
+      expect(working_hours).to receive(:index_by).once.and_call_original
+
+      expect(applied_sla.push_event_data).to include(
+        sla_frt_due_at: Time.zone.parse('2024-01-17 11:00:00').to_i,
+        sla_nrt_due_at: Time.zone.parse('2024-01-17 11:30:00').to_i,
+        sla_rt_due_at: Time.zone.parse('2024-01-17 12:00:00').to_i
+      )
+    end
   end
 
   describe 'validates_factory' do
