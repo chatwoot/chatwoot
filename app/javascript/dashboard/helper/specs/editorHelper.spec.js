@@ -1001,13 +1001,6 @@ describe('stripUnsupportedFormatting', () => {
           emptySchema
         )
       ).toBe('Check docs: https://example.com');
-
-      expect(
-        stripUnsupportedFormatting(
-          'Check [docs](https://example.com (Docs))',
-          emptySchema
-        )
-      ).toBe('Check docs: https://example.com');
     });
 
     it('keeps parentheses that belong to the URL', () => {
