@@ -1,8 +1,10 @@
 {
   "name": "Chatwoot Development Codespace",
-  "service": "app",
-  "dockerComposeFile": "docker-compose.yml",
-
+  "service": "rails",
+  // 🔽 ফাইলের এক্সটেনশন .yml থেকে .yaml করা হয়েছে রুটের ফাইলের সাথে মিলানোর জন্য
+  "dockerComposeFile": "../docker-compose.yaml",
+  "workspaceFolder": "/app",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/app,type=bind,consistency=cached",
   "settings": {
     "terminal.integrated.shell.linux": "/bin/zsh",
     "extensions.showRecommendationsOnlyOnDemand": true,
@@ -17,9 +19,6 @@
       "**/public/packs": true
     }
   },
-
-
-  // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     "Shopify.ruby-lsp",
     "misogi.ruby-rubocop",
@@ -27,14 +26,13 @@
     "github.copilot",
     "mrmlnc.vscode-duplicate"
   ],
-
-
-  // 5432 postgres
-  // 6379 redis
-  // 1025,8025 mailhog
-  "forwardPorts": [8025, 3000, 3036],
-
-  "postCreateCommand": ".devcontainer/scripts/setup.sh && POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rake db:chatwoot_prepare && pnpm install",
+  "forwardPorts": [
+    8025,
+    3000,
+    3036
+  ],
+  // 🔽 অটো-মাইগ্রেশন এবং ইনস্টলেশন সাময়িকভাবে অফ রাখা হলো যাতে টাইমআউট না হয়
+  "postCreateCommand": "",
   "portsAttributes": {
     "3000": {
       "label": "Rails Server"
