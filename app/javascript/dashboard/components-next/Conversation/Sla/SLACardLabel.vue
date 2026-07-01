@@ -27,6 +27,7 @@ defineOptions({
 });
 
 const appliedSLA = computed(() => props.chat?.applied_sla);
+const slaEvents = computed(() => props.chat?.sla_events);
 const hasSlaThreshold = computed(() => slaStatus.value?.threshold);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
@@ -34,6 +35,7 @@ const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
     appliedSla: appliedSLA.value || {},
     chat: props.chat,
+    slaEvents: slaEvents.value || [],
   });
 };
 

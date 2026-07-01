@@ -20,6 +20,7 @@ const slaStatus = ref({
 });
 
 const appliedSLA = computed(() => props.conversation?.appliedSla);
+const slaEvents = computed(() => props.conversation?.slaEvents);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
 const hasSlaThreshold = computed(() => {
@@ -34,6 +35,7 @@ const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
     appliedSla: appliedSLA.value || {},
     chat: props.conversation,
+    slaEvents: slaEvents.value || [],
   });
 };
 

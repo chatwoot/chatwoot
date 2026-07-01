@@ -40,9 +40,10 @@ const formatSLATime = seconds => {
  * @param {Object} params - Parameters object
  * @param {Object} params.appliedSla - The applied SLA with due_at timestamps
  * @param {Object} params.chat - The conversation object
+ * @param {Array} params.slaEvents - Recorded SLA miss events for this conversation
  * @returns {Object} SLA status with type, threshold, icon, and isSlaMissed
  */
-export const evaluateSLAStatus = ({ appliedSla, chat }) => {
+export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   const emptyStatus = { type: '', threshold: '', icon: '', isSlaMissed: false };
 
   if (!appliedSla || !chat) {
@@ -51,8 +52,30 @@ export const evaluateSLAStatus = ({ appliedSla, chat }) => {
 
   const sla = useCamelCase(appliedSla);
   const conversation = useCamelCase(chat);
+  const events = useCamelCase(slaEvents || []);
   const currentTime = Math.floor(Date.now() / 1000);
   const slaStatuses = [];
+
+  const dueAtByType = {
+    FRT: sla.slaFrtDueAt,
+    NRT: sla.slaNrtDueAt,
+    RT: sla.slaRtDueAt,
+  };
+
+  events.forEach(event => {
+    const type = event.eventType?.toUpperCase();
+    if (!Object.prototype.hasOwnProperty.call(dueAtByType, type)) return;
+
+    const missedAt = dueAtByType[type] || event.createdAt;
+    if (!missedAt) return;
+
+    slaStatuses.push({
+      type,
+      threshold: missedAt - currentTime,
+      icon: 'flame',
+      isSlaMissed: true,
+    });
+  });
 
   const firstReplyCreatedAt = conversation.firstReplyCreatedAt;
   const shouldCheckFirstResponse =

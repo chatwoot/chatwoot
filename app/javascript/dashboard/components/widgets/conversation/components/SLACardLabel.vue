@@ -61,6 +61,7 @@ const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
     appliedSla: appliedSLA.value,
     chat: props.chat,
+    slaEvents: slaEvents.value || [],
   });
 };
 
