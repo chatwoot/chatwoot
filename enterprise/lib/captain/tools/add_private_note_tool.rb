@@ -9,7 +9,7 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
     return 'Note content is required' if note.blank?
 
     log_tool_usage('add_private_note', { conversation_id: conversation.id, note_length: note.length })
-    create_private_note(conversation, note)
+    return 'Message creation is locked for this conversation' unless create_private_note(conversation, note)
 
     'Private note added successfully'
   end
@@ -25,6 +25,9 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
       content: note,
       private: true
     )
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[CAPTAIN][AddPrivateNoteTool] Dropped private note for conversation #{conversation.display_id}: #{e.message}")
+    nil
   end
 
   def permissions

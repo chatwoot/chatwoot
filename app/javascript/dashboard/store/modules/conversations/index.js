@@ -29,6 +29,24 @@ const getConversationById = _state => conversationId => {
   return _state.allConversations.find(c => c.id === conversationId);
 };
 
+const MESSAGE_CREATION_LOCK_FIELDS = [
+  'message_limit',
+  'message_limit_reached',
+  'message_creation_locked',
+  'message_creation_lock_reason',
+];
+
+const updateConversationMessageCreationLock = (
+  conversation,
+  lockState = {}
+) => {
+  MESSAGE_CREATION_LOCK_FIELDS.forEach(field => {
+    if (Object.prototype.hasOwnProperty.call(lockState, field)) {
+      conversation[field] = lockState[field];
+    }
+  });
+};
+
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, conversationList) {
@@ -205,6 +223,20 @@ export const mutations = {
     });
   },
 
+  [types.DELETE_MESSAGE]({ allConversations }, message) {
+    const { conversation_id: conversationId } = message;
+    const [chat] = getSelectedChatConversation({
+      allConversations,
+      selectedChatId: conversationId,
+    });
+    if (!chat) return;
+
+    const pendingMessageIndex = findPendingMessageIndex(chat, message);
+    if (pendingMessageIndex !== -1) {
+      chat.messages.splice(pendingMessageIndex, 1);
+    }
+  },
+
   [types.ADD_MESSAGE]({ allConversations, selectedChatId }, message) {
     const { conversation_id: conversationId } = message;
     const [chat] = getSelectedChatConversation({
@@ -216,14 +248,26 @@ export const mutations = {
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
       chat.messages[pendingMessageIndex] = message;
+      updateConversationMessageCreationLock(chat, message.conversation);
     } else {
       chat.messages.push(message);
       chat.timestamp = message.created_at;
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
+      updateConversationMessageCreationLock(chat, message.conversation);
       if (selectedChatId === conversationId) {
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
+    }
+  },
+
+  [types.SET_CONVERSATION_MESSAGE_CREATION_LOCK](
+    _state,
+    { conversationId, ...lockState }
+  ) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      updateConversationMessageCreationLock(chat, lockState);
     }
   },
 

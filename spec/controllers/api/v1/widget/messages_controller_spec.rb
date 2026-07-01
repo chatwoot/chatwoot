@@ -130,6 +130,30 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
       end
 
+      it 'returns structured lock metadata when message creation is locked', :skip_before do
+        create(:message, account: account, inbox: web_widget.inbox, conversation: conversation)
+        message_params = { content: 'hello world', timestamp: Time.current }
+        message_count_before_request = conversation.reload.messages.count
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+          post api_v1_widget_messages_url,
+               params: { website_token: web_widget.website_token, message: message_params },
+               headers: { 'X-Auth-Token' => token },
+               as: :json
+        end
+
+        json_response = response.parsed_body
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response).to include(
+          'error_code' => 'conversation_message_creation_locked',
+          'message_limit' => 1,
+          'message_limit_reached' => true,
+          'message_creation_locked' => true,
+          'message_creation_lock_reason' => 'message_limit'
+        )
+        expect(conversation.reload.messages.count).to eq(message_count_before_request)
+      end
+
       it 'creates message in conversation with a valid reply to' do
         message_params = { content: 'hello world reply', timestamp: Time.current, reply_to: conversation.messages.first.id }
         post api_v1_widget_messages_url,

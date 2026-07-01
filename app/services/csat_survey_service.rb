@@ -3,7 +3,16 @@ class CsatSurveyService
 
   def perform
     return unless should_send_csat_survey?
+    return drop_locked_csat_survey if conversation.message_creation_locked?
 
+    send_csat_survey
+  end
+
+  private
+
+  delegate :inbox, :contact, to: :conversation
+
+  def send_csat_survey
     if whatsapp_channel? && template_available_and_approved?
       send_whatsapp_template_survey
     elsif inbox.twilio_whatsapp? && twilio_template_available_and_approved?
@@ -14,10 +23,6 @@ class CsatSurveyService
       create_csat_not_sent_activity_message
     end
   end
-
-  private
-
-  delegate :inbox, :contact, to: :conversation
 
   def should_send_csat_survey?
     conversation_allows_csat? && csat_enabled? && !csat_already_sent? && csat_allowed_by_survey_rules?
@@ -115,6 +120,8 @@ class CsatSurveyService
     message_id = inbox.channel.provider_service.send_template(phone_number, template_info, message)
 
     message.update!(source_id: message_id) if message_id.present?
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    log_message_creation_locked(e)
   rescue StandardError => e
     Rails.logger.error "Error sending WhatsApp CSAT template for conversation #{conversation.id}: #{e.message}"
   end
@@ -164,6 +171,8 @@ class CsatSurveyService
     )
 
     message.update!(source_id: result[:message_id]) if result[:success] && result[:message_id].present?
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    log_message_creation_locked(e)
   rescue StandardError => e
     Rails.logger.error "Error sending Twilio WhatsApp CSAT template for conversation #{conversation.id}: #{e.message}"
   end
@@ -177,5 +186,13 @@ class CsatSurveyService
       content: content
     }
     ::Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params) if content
+  end
+
+  def log_message_creation_locked(error)
+    Rails.logger.info("Skipping CSAT survey for conversation #{conversation.id} because message creation is locked (#{error.message})")
+  end
+
+  def drop_locked_csat_survey
+    log_message_creation_locked(CustomExceptions::ConversationMessageCreationLocked.new(conversation))
   end
 end

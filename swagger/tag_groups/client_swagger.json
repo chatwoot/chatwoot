@@ -1245,6 +1245,30 @@
             "type": "boolean",
             "description": "Whether the conversation can be replied to"
           },
+          "message_limit": {
+            "type": "integer",
+            "description": "Maximum number of messages allowed in the conversation"
+          },
+          "message_limit_reached": {
+            "type": "boolean",
+            "description": "Whether the conversation has reached the message limit"
+          },
+          "message_creation_locked": {
+            "type": "boolean",
+            "description": "Whether new messages are currently blocked for the conversation"
+          },
+          "message_creation_lock_reason": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "message_limit",
+              "manual",
+              null
+            ],
+            "description": "Reason new message creation is blocked"
+          },
           "contact_last_seen_at": {
             "type": "number",
             "description": "The last activity at of the contact"
@@ -1500,7 +1524,33 @@
               "object",
               "null"
             ],
-            "description": "The conversation object"
+            "description": "The conversation object",
+            "properties": {
+              "message_limit": {
+                "type": "integer",
+                "description": "Maximum number of messages allowed in the conversation"
+              },
+              "message_limit_reached": {
+                "type": "boolean",
+                "description": "Whether the conversation has reached the message limit"
+              },
+              "message_creation_locked": {
+                "type": "boolean",
+                "description": "Whether new messages are currently blocked for the conversation"
+              },
+              "message_creation_lock_reason": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "message_limit",
+                  "manual",
+                  null
+                ],
+                "description": "Reason new message creation is blocked"
+              }
+            }
           },
           "attachment": {
             "type": [
@@ -6880,6 +6930,30 @@
               "last_activity_at": {
                 "type": "integer",
                 "description": "Timestamp of last activity"
+              },
+              "message_limit": {
+                "type": "integer",
+                "description": "Maximum number of messages allowed in the conversation"
+              },
+              "message_limit_reached": {
+                "type": "boolean",
+                "description": "Whether the conversation has reached the message limit"
+              },
+              "message_creation_locked": {
+                "type": "boolean",
+                "description": "Whether new messages are currently blocked for the conversation"
+              },
+              "message_creation_lock_reason": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "message_limit",
+                  "manual",
+                  null
+                ],
+                "description": "Reason new message creation is blocked"
               },
               "contact_inbox": {
                 "type": "object",

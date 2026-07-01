@@ -3,6 +3,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   before_action :set_call, only: %i[show accept reject terminate upload_recording]
   before_action :set_conversation, only: :initiate
+  before_action :ensure_message_creation_unlocked, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
@@ -82,6 +83,12 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     return if @conversation.contact&.phone_number.present?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required'))
+  end
+
+  def ensure_message_creation_unlocked
+    return unless @conversation.message_creation_locked?
+
+    raise CustomExceptions::ConversationMessageCreationLocked, @conversation
   end
 
   def ensure_recording_present

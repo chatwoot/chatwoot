@@ -12,6 +12,8 @@ class AutomationRules::ActionService < ActionService
       action = action.with_indifferent_access
       begin
         send(action[:action_name], action[:action_params])
+      rescue CustomExceptions::ConversationMessageCreationLocked => e
+        Rails.logger.info("Skipping automation action #{action[:action_name]} because message creation is locked (#{e.message})")
       rescue StandardError => e
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end

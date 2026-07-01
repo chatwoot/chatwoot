@@ -99,6 +99,20 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
         expect(conversation.reload.status).to eq('open')
       end
+
+      it 'performs handoff when the handoff message is dropped by the conversation message limit' do
+        create(:message, conversation: conversation, message_type: :outgoing, account: account)
+
+        expect(ChatwootExceptionTracker).not_to receive(:new)
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '2' do
+          expect do
+            create(:message, conversation: conversation, message_type: :incoming, account: account)
+          end.to change { conversation.messages.count }.by(1)
+        end
+
+        expect(conversation.reload.status).to eq('open')
+      end
     end
   end
 

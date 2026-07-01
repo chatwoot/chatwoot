@@ -14,6 +14,8 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     ActiveRecord::Base.transaction do
       build_message
     end
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[InstagramMessageBuilder] Dropped message for inbox #{@inbox.id}: #{e.message}")
   rescue StandardError => e
     handle_error(e)
   end

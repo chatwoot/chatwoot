@@ -101,6 +101,28 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       )
     end
 
+    it 'drops the message without reporting an exception when the conversation message limit is reached' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      sender_id = messaging['sender']['id']
+      contact = create_instagram_contact_for_sender(sender_id, instagram_messenger_inbox)
+      contact_inbox = contact.contact_inboxes.find_by!(inbox: instagram_messenger_inbox)
+      conversation = create(
+        :conversation,
+        account_id: account.id,
+        inbox_id: instagram_messenger_inbox.id,
+        contact_id: contact.id,
+        contact_inbox_id: contact_inbox.id,
+        additional_attributes: { type: 'instagram_direct_message', conversation_language: 'en' }
+      )
+      create(:message, conversation: conversation, account: account, inbox: instagram_messenger_inbox)
+
+      expect(ChatwootExceptionTracker).not_to receive(:new)
+
+      with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+        expect { described_class.new(messaging, instagram_messenger_inbox).perform }.not_to(change { conversation.messages.count })
+      end
+    end
+
     it 'creates message with for reply with story id' do
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       sender_id = messaging['sender']['id']

@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import CopilotEditor from 'dashboard/components/widgets/WootWriter/CopilotEditor.vue';
 import CaptainLoader from 'dashboard/components/widgets/conversation/copilot/CaptainLoader.vue';
 
-defineProps({
+const props = defineProps({
   showCopilotEditor: {
     type: Boolean,
     default: false,
@@ -15,6 +15,10 @@ defineProps({
   generatedContent: {
     type: String,
     default: '',
+  },
+  isMessageCreationLocked: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -41,6 +45,8 @@ const clearEditorSelection = () => {
 };
 
 const onSend = () => {
+  if (props.isMessageCreationLocked) return;
+
   emit('send', copilotEditorContent.value);
   copilotEditorContent.value = '';
 };
@@ -58,7 +64,9 @@ const onSend = () => {
     @after-enter="emit('contentReady')"
   >
     <CopilotEditor
-      v-if="showCopilotEditor && !isGeneratingContent"
+      v-if="
+        showCopilotEditor && !isGeneratingContent && !isMessageCreationLocked
+      "
       key="copilot-editor"
       v-model="copilotEditorContent"
       class="copilot-editor"

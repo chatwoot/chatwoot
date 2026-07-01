@@ -63,6 +63,7 @@ class Message < ApplicationRecord
   }.to_json.freeze
 
   before_validation :ensure_content_type
+  before_validation :ensure_message_creation_unlocked, on: :create
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
@@ -160,6 +161,7 @@ class Message < ApplicationRecord
       assignee_id: conversation.assignee_id,
       unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
+      **conversation.message_creation_lock_state,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
   end
@@ -284,6 +286,13 @@ class Message < ApplicationRecord
   end
 
   private
+
+  def ensure_message_creation_unlocked
+    return if conversation.blank?
+
+    locked_conversation = Conversation.lock.find(conversation.id)
+    raise CustomExceptions::ConversationMessageCreationLocked, locked_conversation if locked_conversation.message_creation_locked?
+  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages

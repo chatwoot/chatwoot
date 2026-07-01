@@ -289,12 +289,14 @@ const actions = {
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
     const { conversation_id: conversationId, id } = pendingMessage;
+    const shouldRetryMessage =
+      hasMessageFailedWithExternalError(pendingMessage);
     try {
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         status: MESSAGE_STATUS.PROGRESS,
       });
-      const response = hasMessageFailedWithExternalError(pendingMessage)
+      const response = shouldRetryMessage
         ? await MessageApi.retry(conversationId, id)
         : await MessageApi.create(pendingMessage);
       commit(types.ADD_MESSAGE, {
@@ -309,6 +311,31 @@ const actions = {
       const errorMessage = error.response
         ? error.response.data.error
         : undefined;
+      const errorResponse = error.response?.data || {};
+      if (errorResponse.message_creation_locked) {
+        if (shouldRetryMessage) {
+          commit(types.ADD_MESSAGE, {
+            ...pendingMessage,
+            meta: {
+              ...(pendingMessage.meta || {}),
+              error: errorResponse.error,
+            },
+            status: MESSAGE_STATUS.FAILED,
+          });
+        } else {
+          commit(types.DELETE_MESSAGE, pendingMessage);
+        }
+        commit(types.SET_CONVERSATION_MESSAGE_CREATION_LOCK, {
+          conversationId,
+          message_limit: errorResponse.message_limit,
+          message_limit_reached: errorResponse.message_limit_reached,
+          message_creation_locked: errorResponse.message_creation_locked,
+          message_creation_lock_reason:
+            errorResponse.message_creation_lock_reason,
+        });
+        throw error;
+      }
+
       commit(types.ADD_MESSAGE, {
         ...pendingMessage,
         meta: {
@@ -322,6 +349,12 @@ const actions = {
 
   addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
+    if (message.conversation) {
+      commit(types.SET_CONVERSATION_MESSAGE_CREATION_LOCK, {
+        conversationId: message.conversation_id,
+        ...message.conversation,
+      });
+    }
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
         conversationId: message.conversation_id,

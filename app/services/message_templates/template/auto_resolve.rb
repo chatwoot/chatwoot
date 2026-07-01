@@ -9,6 +9,8 @@ class MessageTemplates::Template::AutoResolve
     else
       create_auto_resolve_not_sent_activity_message
     end
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping auto-resolve template because message creation is locked (#{e.message})")
   end
 
   private

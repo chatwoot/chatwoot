@@ -100,26 +100,30 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
   end
 
   def create_private_note(conversation, inbox, content)
-    conversation.messages.create!(
-      message_type: :outgoing,
-      private: true,
-      sender: inbox.captain_assistant,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      content: content
-    )
+    create_message_or_drop(conversation, 'private note') do
+      conversation.messages.create!(
+        message_type: :outgoing,
+        private: true,
+        sender: inbox.captain_assistant,
+        account_id: conversation.account_id,
+        inbox_id: conversation.inbox_id,
+        content: content
+      )
+    end
   end
 
   def create_resolution_message(conversation, inbox)
     I18n.with_locale(inbox.account.locale) do
       resolution_message = inbox.captain_assistant.config['resolution_message']
-      conversation.messages.create!(
-        message_type: :outgoing,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        content: resolution_message.presence || I18n.t('conversations.activity.auto_resolution_message'),
-        sender: inbox.captain_assistant
-      )
+      create_message_or_drop(conversation, 'resolution message') do
+        conversation.messages.create!(
+          message_type: :outgoing,
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          content: resolution_message.presence || I18n.t('conversations.activity.auto_resolution_message'),
+          sender: inbox.captain_assistant
+        )
+      end
     end
   end
 
@@ -127,13 +131,23 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
     handoff_message = inbox.captain_assistant.config['handoff_message']
     return if handoff_message.blank?
 
-    conversation.messages.create!(
-      message_type: :outgoing,
-      sender: inbox.captain_assistant,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      content: handoff_message,
-      preserve_waiting_since: true
+    create_message_or_drop(conversation, 'handoff message') do
+      conversation.messages.create!(
+        message_type: :outgoing,
+        sender: inbox.captain_assistant,
+        account_id: conversation.account_id,
+        inbox_id: conversation.inbox_id,
+        content: handoff_message,
+        preserve_waiting_since: true
+      )
+    end
+  end
+
+  def create_message_or_drop(conversation, message_type)
+    yield
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info(
+      "[CAPTAIN][InboxPendingConversationsResolutionJob] Dropped #{message_type} for conversation #{conversation.display_id}: #{e.message}"
     )
   end
 end

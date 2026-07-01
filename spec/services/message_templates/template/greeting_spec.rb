@@ -29,5 +29,14 @@ describe MessageTemplates::Template::Greeting do
       expect(conversation.messages.count).to eq(1)
       expect(conversation.messages.last.content).to eq('Hello welcome to our board.')
     end
+
+    it 'drops locked greeting messages without reporting an exception' do
+      with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox)
+        expect(ChatwootExceptionTracker).not_to receive(:new)
+
+        expect { described_class.new(conversation: conversation).perform }.not_to change(Message, :count)
+      end
+    end
   end
 end

@@ -5,6 +5,8 @@ class MessageTemplates::Template::CsatSurvey
     ActiveRecord::Base.transaction do
       conversation.messages.create!(csat_survey_message_params)
     end
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping CSAT survey template because message creation is locked (#{e.message})")
   end
 
   private

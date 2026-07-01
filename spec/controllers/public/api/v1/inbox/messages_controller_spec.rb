@@ -53,6 +53,27 @@ RSpec.describe 'Public Inbox Contact Conversation Messages API', type: :request 
       expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
     end
 
+    it 'returns structured lock metadata when message creation is locked' do
+      create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation)
+      message_count_before_request = conversation.reload.messages.count
+
+      with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+        post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",
+             params: { content: 'hello' }
+      end
+
+      json_response = response.parsed_body
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json_response).to include(
+        'error_code' => 'conversation_message_creation_locked',
+        'message_limit' => 1,
+        'message_limit_reached' => true,
+        'message_creation_locked' => true,
+        'message_creation_lock_reason' => 'message_limit'
+      )
+      expect(conversation.reload.messages.count).to eq(message_count_before_request)
+    end
+
     it 'creates attachment message in conversation' do
       file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
       post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{contact_inbox.source_id}/conversations/#{conversation.display_id}/messages",

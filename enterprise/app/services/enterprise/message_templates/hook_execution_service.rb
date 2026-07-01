@@ -57,14 +57,20 @@ module Enterprise::MessageTemplates::HookExecutionService
     return unless conversation.pending?
 
     Rails.logger.info("Captain limit exceeded, performing handoff mid-conversation for conversation: #{conversation.id}")
+    create_handoff_message
+    conversation.bot_handoff!
+    send_out_of_office_message_after_handoff
+  end
+
+  def create_handoff_message
     conversation.messages.create!(
       message_type: :outgoing,
       account_id: conversation.account.id,
       inbox_id: conversation.inbox.id,
       content: 'Transferring to another agent for further assistance.'
     )
-    conversation.bot_handoff!
-    send_out_of_office_message_after_handoff
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[CaptainHandoff] Dropped handoff message for conversation #{conversation.display_id}: #{e.message}")
   end
 
   def send_out_of_office_message_after_handoff

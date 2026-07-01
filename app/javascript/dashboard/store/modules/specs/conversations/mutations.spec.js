@@ -109,6 +109,46 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_CONVERSATION_MESSAGE_CREATION_LOCK', () => {
+    it('sets message creation lock metadata', () => {
+      const state = { allConversations: [{ id: 1, messages: [] }] };
+      mutations[types.SET_CONVERSATION_MESSAGE_CREATION_LOCK](state, {
+        conversationId: 1,
+        message_limit: 10000,
+        message_limit_reached: true,
+        message_creation_locked: true,
+        message_creation_lock_reason: 'message_limit',
+      });
+
+      expect(state.allConversations[0]).toMatchObject({
+        message_limit: 10000,
+        message_limit_reached: true,
+        message_creation_locked: true,
+        message_creation_lock_reason: 'message_limit',
+      });
+    });
+  });
+
+  describe('#DELETE_MESSAGE', () => {
+    it('removes a pending message from the conversation', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [{ id: 'temp-1', echo_id: 'temp-1' }],
+          },
+        ],
+      };
+
+      mutations[types.DELETE_MESSAGE](state, {
+        conversation_id: 1,
+        id: 'temp-1',
+      });
+
+      expect(state.allConversations[0].messages).toEqual([]);
+    });
+  });
+
   describe('#ADD_MESSAGE', () => {
     it('does not add message to the store if conversation does not exist', () => {
       const state = { allConversations: [] };
@@ -207,6 +247,32 @@ describe('#mutations', () => {
         },
       ]);
       expect(emitter.emit).not.toHaveBeenCalled();
+    });
+
+    it('updates conversation lock metadata from message payload', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [] }],
+        selectedChatId: 1,
+      };
+
+      mutations[types.ADD_MESSAGE](state, {
+        conversation_id: 1,
+        content: 'Test message',
+        created_at: 1602256198,
+        conversation: {
+          message_limit: 10000,
+          message_limit_reached: true,
+          message_creation_locked: true,
+          message_creation_lock_reason: 'message_limit',
+        },
+      });
+
+      expect(state.allConversations[0]).toMatchObject({
+        message_limit: 10000,
+        message_limit_reached: true,
+        message_creation_locked: true,
+        message_creation_lock_reason: 'message_limit',
+      });
     });
   });
 

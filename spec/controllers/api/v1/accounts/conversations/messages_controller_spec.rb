@@ -82,6 +82,28 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.last.attachments.first.file_type).to eq('image')
       end
 
+      it 'returns structured lock metadata when message creation is locked' do
+        with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+          create(:message, conversation: conversation, account: account, inbox: inbox)
+
+          post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { content: 'test-message', private: true },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          json_response = response.parsed_body
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response).to include(
+            'error_code' => 'conversation_message_creation_locked',
+            'message_limit' => 1,
+            'message_limit_reached' => true,
+            'message_creation_locked' => true,
+            'message_creation_lock_reason' => 'message_limit'
+          )
+          expect(conversation.reload.messages.count).to eq(1)
+        end
+      end
+
       context 'when api inbox' do
         let(:api_channel) { create(:channel_api, account: account) }
         let(:api_inbox) { create(:inbox, channel: api_channel, account: account) }
@@ -276,6 +298,23 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(response).to have_http_status(:success)
         expect(message.reload.status).to eq('sent')
         expect(message.reload.content_attributes['external_error']).to be_nil
+      end
+
+      it 'returns structured lock metadata when retry is locked' do
+        with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+          post "/api/v1/accounts/#{account.id}/conversations/#{message.conversation.display_id}/messages/#{message.id}/retry",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          json_response = response.parsed_body
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response).to include(
+            'error_code' => 'conversation_message_creation_locked',
+            'message_creation_locked' => true,
+            'message_creation_lock_reason' => 'message_limit'
+          )
+          expect(message.reload.status).to eq('failed')
+        end
       end
     end
 

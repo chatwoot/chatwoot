@@ -69,6 +69,8 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     rescue Timeout::Error
       mark_email_as_failed(inbound_mail.message_id)
       Rails.logger.error "[IMAP] Email processing timeout (#{email_processing_timeout}s): #{inbound_mail.message_id}"
+    rescue CustomExceptions::ConversationMessageCreationLocked => e
+      log_message_creation_locked(inbound_mail, e)
     rescue StandardError => e
       mark_email_as_failed(inbound_mail.message_id)
       Rails.logger.error "[IMAP] Failed to process email #{inbound_mail.message_id}: #{e.message}"
@@ -78,5 +80,9 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
 
   def email_processing_timeout
     GlobalConfigService.load('EMAIL_PROCESSING_TIMEOUT_SECONDS', 60).to_i
+  end
+
+  def log_message_creation_locked(inbound_mail, error)
+    Rails.logger.info "[IMAP] Dropped email #{inbound_mail.message_id}: #{error.message}"
   end
 end

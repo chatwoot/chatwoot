@@ -28,6 +28,33 @@ describe CsatSurveyService do
         expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
         expect(csat_template).to have_received(:perform)
       end
+
+      it 'drops CSAT survey creation when the conversation is locked' do
+        create(:message, conversation: conversation, account: account, inbox: inbox)
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+          service.perform
+        end
+
+        expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
+        expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
+        expect(conversation.reload.messages.count).to eq(1)
+      end
+
+      it 'drops Twilio WhatsApp template survey before checking template status when the conversation is locked' do
+        create(:message, conversation: conversation, account: account, inbox: inbox)
+        inbox.update(csat_config: { 'template' => { 'content_sid' => 'HX123' } })
+        allow(conversation).to receive(:inbox).and_return(inbox)
+        allow(inbox).to receive(:twilio_whatsapp?).and_return(true)
+        expect(Twilio::CsatTemplateService).not_to receive(:new)
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+          service.perform
+        end
+
+        expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
+        expect(conversation.reload.messages.count).to eq(1)
+      end
     end
 
     context 'when outside messaging window' do
@@ -216,6 +243,19 @@ describe CsatSurveyService do
 
           csat_message = whatsapp_conversation.messages.where(content_type: :input_csat).last
           expect(csat_message.content).to eq('Please rate this conversation')
+        end
+
+        it 'drops WhatsApp template survey before checking template status when the conversation is locked' do
+          create(:message, conversation: whatsapp_conversation, account: account, inbox: whatsapp_inbox)
+          expect(mock_provider_service).not_to receive(:get_template_status)
+          expect(mock_provider_service).not_to receive(:send_template)
+
+          with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+            whatsapp_service.perform
+          end
+
+          expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
+          expect(whatsapp_conversation.reload.messages.count).to eq(1)
         end
       end
 

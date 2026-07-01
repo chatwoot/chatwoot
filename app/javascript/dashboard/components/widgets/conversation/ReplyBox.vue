@@ -201,6 +201,9 @@ export default {
         !(this.isAWhatsAppChannel || this.isAPIInbox)
       );
     },
+    isMessageCreationLocked() {
+      return !!this.currentChat?.message_creation_locked;
+    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
@@ -209,6 +212,9 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isEditorDisabled) {
+        if (this.isMessageCreationLocked) {
+          return this.$t('CONVERSATION.FOOTER.MESSAGE_CREATION_LOCKED');
+        }
         if (this.isAWhatsAppChannel) {
           return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP');
         }
@@ -326,7 +332,11 @@ export default {
       return !this.isOnPrivateNote && this.showFileUpload;
     },
     showAudioRecorderEditor() {
-      return this.showAudioRecorder && this.isRecordingAudio;
+      return (
+        !this.isMessageCreationLocked &&
+        this.showAudioRecorder &&
+        this.isRecordingAudio
+      );
     },
     isOnPrivateNote() {
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
@@ -439,6 +449,10 @@ export default {
       return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
     },
     isEditorDisabled() {
+      if (this.isMessageCreationLocked) {
+        return true;
+      }
+
       return (
         (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&
@@ -804,6 +818,8 @@ export default {
       }
     },
     sendMessageAsMultipleMessages(message, copilotAcceptedMessage = '') {
+      if (this.isMessageCreationLocked) return;
+
       const messages = this.getMultipleMessagesPayload(message);
       messages.forEach(messagePayload => {
         this.sendMessage(
@@ -888,6 +904,8 @@ export default {
       editorMessage = '',
       copilotAcceptedMessage = ''
     ) {
+      if (this.isMessageCreationLocked) return;
+
       try {
         await this.$store.dispatch(
           'createPendingMessageAndSend',
@@ -907,6 +925,8 @@ export default {
       }
     },
     async onSendWhatsAppReply(messagePayload) {
+      if (this.isMessageCreationLocked) return;
+
       this.sendMessage({
         conversationId: this.currentChat.id,
         ...messagePayload,
@@ -914,6 +934,8 @@ export default {
       this.hideWhatsappTemplatesModal();
     },
     async onSendContentTemplateReply(messagePayload) {
+      if (this.isMessageCreationLocked) return;
+
       this.sendMessage({
         conversationId: this.currentChat.id,
         ...messagePayload,
@@ -921,6 +943,8 @@ export default {
       this.hideContentTemplatesModal();
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
+      if (this.isMessageCreationLocked) return;
+
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
       if (this.attachedFiles.length > 0) this.attachedFiles = [];
@@ -943,6 +967,8 @@ export default {
       this.onFocus();
     },
     executeCopilotAction(action, data) {
+      if (this.isMessageCreationLocked) return;
+
       this.copilot.execute(action, data);
     },
     clearMessage() {
@@ -1235,6 +1261,8 @@ export default {
       this.$nextTick(() => this.messageEditor?.focusEditorInputField());
     },
     onSubmitCopilotReply() {
+      if (this.isMessageCreationLocked) return;
+
       const acceptedMessage = this.copilot.accept();
       this.message = acceptedMessage;
       this.setCopilotAcceptedMessage(acceptedMessage);
@@ -1315,6 +1343,7 @@ export default {
           v-if="copilot.isActive.value && !showAudioRecorderEditor"
           :show-copilot-editor="copilot.showEditor.value"
           :is-generating-content="copilot.isGenerating.value"
+          :is-message-creation-locked="isMessageCreationLocked"
           :generated-content="copilot.generatedContent.value"
           :placeholder="$t('CONVERSATION.FOOTER.COPILOT_MSG_INPUT')"
           @focus="onFocus"
@@ -1395,7 +1424,9 @@ export default {
       <CopilotReplyBottomPanel
         v-if="copilot.isActive.value"
         key="copilot-bottom-panel"
-        :is-generating-content="copilot.isButtonDisabled.value"
+        :is-generating-content="
+          copilot.isButtonDisabled.value || isMessageCreationLocked
+        "
         @submit="onSubmitCopilotReply"
         @cancel="copilot.reset"
       />
@@ -1412,6 +1443,7 @@ export default {
         :is-send-disabled="isReplyButtonDisabled"
         :is-note="isPrivate"
         :is-editor-disabled="isEditorDisabled"
+        :is-message-creation-locked="isMessageCreationLocked"
         :on-file-upload="onFileUpload"
         :on-send="onSendReply"
         :conversation-type="conversationType"

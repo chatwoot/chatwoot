@@ -59,6 +59,18 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
 
           tool.perform(tool_context, note: 'This is a test note')
         end
+
+        it 'returns a locked response when the private note is dropped by the message lock' do
+          with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+            create(:message, conversation: conversation, account: account, inbox: inbox)
+            expect(ChatwootExceptionTracker).not_to receive(:new)
+
+            expect do
+              result = tool.perform(tool_context, note: 'This is a private note')
+              expect(result).to eq('Message creation is locked for this conversation')
+            end.not_to change(Message, :count)
+          end
+        end
       end
 
       context 'with blank note content' do

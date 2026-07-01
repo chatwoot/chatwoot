@@ -5,4 +5,8 @@ class ApplicationJob < ActiveJob::Base
       job.instance_variable_get(:@serialized_arguments)
     } because of ActiveJob::DeserializationError (#{error.message})")
   end
+
+  discard_on CustomExceptions::ConversationMessageCreationLocked do |job, error|
+    Rails.logger.info("Skipping #{job.class} because message creation is locked (#{error.message})")
+  end
 end

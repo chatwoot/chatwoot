@@ -73,8 +73,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       process_v1_handoff
     elsif conversation_pending?
-      ActiveRecord::Base.transaction do
-        create_messages
+      create_messages_and_increment_usage
+    end
+  end
+
+  def create_messages_and_increment_usage
+    ActiveRecord::Base.transaction do
+      if create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
@@ -180,6 +185,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       content: message_content,
       additional_attributes: additional_attrs,
       preserve_waiting_since: preserve_waiting_since
+    )
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info(
+      "[CAPTAIN][ResponseBuilderJob] Dropped message for conversation #{@conversation.display_id}: #{e.message}"
     )
   end
 

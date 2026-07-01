@@ -104,6 +104,53 @@ RSpec.describe Conversation do
     end
   end
 
+  describe 'message creation lock' do
+    let(:conversation) { create(:conversation) }
+    let(:message_params) { { conversation: conversation, account: conversation.account, inbox: conversation.inbox } }
+
+    it 'detects when the message limit has been reached' do
+      with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '2' do
+        create(:message, **message_params)
+
+        expect(conversation.reload.message_limit).to eq(2)
+        expect(conversation.message_limit_reached?).to be false
+
+        create(:message, **message_params)
+
+        expect(conversation.reload.message_limit_reached?).to be true
+        expect(conversation.message_creation_locked?).to be true
+        expect(conversation.message_creation_lock_reason).to eq('message_limit')
+      end
+    end
+
+    it 'stores and clears manual lock metadata' do
+      freeze_time do
+        conversation.lock_message_creation!(reason: 'maintenance')
+
+        lock_data = conversation.reload.additional_attributes['message_creation_lock']
+        expect(lock_data).to include(
+          'locked' => true,
+          'reason' => 'maintenance',
+          'locked_at' => Time.current.iso8601
+        )
+        expect(conversation.manual_message_creation_locked?).to be true
+        expect(conversation.message_creation_locked?).to be true
+        expect(conversation.message_creation_lock_reason).to eq('manual')
+
+        conversation.unlock_message_creation!
+
+        expect(conversation.reload.additional_attributes).not_to have_key('message_creation_lock')
+        expect(conversation.message_creation_locked?).to be false
+      end
+    end
+
+    it 'fails loudly when the message limit config is invalid' do
+      with_modified_env 'CONVERSATION_MESSAGE_LIMIT': 'invalid' do
+        expect { conversation.message_limit }.to raise_error(ArgumentError)
+      end
+    end
+  end
+
   describe '.after_update' do
     let!(:account) { create(:account) }
     let!(:old_assignee) do
@@ -620,6 +667,10 @@ RSpec.describe Conversation do
         contact_inbox: conversation.contact_inbox,
         timestamp: conversation.last_activity_at.to_i,
         can_reply: true,
+        message_limit: conversation.message_limit,
+        message_limit_reached: conversation.message_limit_reached?,
+        message_creation_locked: conversation.message_creation_locked?,
+        message_creation_lock_reason: conversation.message_creation_lock_reason,
         channel: 'Channel::WebWidget',
         snoozed_until: conversation.snoozed_until,
         custom_attributes: conversation.custom_attributes,

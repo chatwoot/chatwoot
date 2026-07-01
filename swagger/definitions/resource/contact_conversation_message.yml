@@ -80,6 +80,21 @@ properties:
       last_activity_at:
         type: integer
         description: Timestamp of last activity
+      message_limit:
+        type: integer
+        description: Maximum number of messages allowed in the conversation
+      message_limit_reached:
+        type: boolean
+        description: Whether the conversation has reached the message limit
+      message_creation_locked:
+        type: boolean
+        description: Whether new messages are currently blocked for the conversation
+      message_creation_lock_reason:
+        type:
+          - string
+          - 'null'
+        enum: ['message_limit', 'manual', null]
+        description: Reason new message creation is blocked
       contact_inbox:
         type: object
         description: Contact inbox details
@@ -111,4 +126,4 @@ properties:
         description: Availability status of the sender
       thumbnail:
         type: string
-        description: Thumbnail URL of the sender 
+        description: Thumbnail URL of the sender

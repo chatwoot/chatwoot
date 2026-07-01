@@ -86,6 +86,22 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
 
           tool.perform(tool_context, reason: reason)
         end
+
+        it 'hands off even when the private note is dropped by the message lock' do
+          conversation.update!(status: :pending)
+
+          with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+            create(:message, conversation: conversation, account: account, inbox: inbox)
+            expect(ChatwootExceptionTracker).not_to receive(:new)
+
+            expect do
+              result = tool.perform(tool_context, reason: 'Customer needs specialized support')
+              expect(result).to eq('Conversation handed off to human support team (Reason: Customer needs specialized support)')
+            end.not_to change(Message, :count)
+
+            expect(conversation.reload.status).to eq('open')
+          end
+        end
       end
 
       context 'without reason provided' do

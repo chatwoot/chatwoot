@@ -17,7 +17,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       first_reply_created_at: first_reply_created_at,
       priority: priority,
       waiting_since: waiting_since.to_i,
-      **push_timestamps
+      **push_timestamps.merge(message_creation_lock_data)
     }
   end
 
@@ -47,6 +47,10 @@ class Conversations::EventDataPresenter < SimpleDelegator
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
     }
+  end
+
+  def message_creation_lock_data
+    message_creation_lock_state
   end
 
   def push_timestamps

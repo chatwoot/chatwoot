@@ -6,6 +6,8 @@ class Integrations::BotProcessorService
     return unless should_run_processor?(message)
 
     process_content(message)
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping bot processor response because message creation is locked (#{e.message})")
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: (hook&.account || agent_bot&.account)).capture_exception
   end

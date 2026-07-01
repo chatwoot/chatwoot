@@ -9,6 +9,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    render_error_response(e)
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -27,11 +29,14 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def retry
     return if message.blank?
+    raise CustomExceptions::ConversationMessageCreationLocked, @conversation if @conversation.message_creation_locked?
 
     service = Messages::StatusUpdateService.new(message, 'sent')
     service.perform
     message.update!(content_attributes: {})
     ::SendReplyJob.perform_later(message.id)
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    render_error_response(e)
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end

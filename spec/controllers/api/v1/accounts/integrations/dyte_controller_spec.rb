@@ -60,6 +60,27 @@ RSpec.describe 'Dyte Integration API', type: :request do
         expect(conversation.display_id).to eq(response_body['conversation_id'])
         expect(last_message.id).to eq(response_body['id'])
       end
+
+      it 'returns lock metadata without creating an external meeting when message creation is locked' do
+        create(:message, conversation: conversation, account: account, inbox: conversation.inbox)
+        expect(Dyte).not_to receive(:new)
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+          post create_a_meeting_api_v1_account_integrations_dyte_url(account),
+               params: { conversation_id: conversation.display_id },
+               headers: agent.create_new_auth_token,
+               as: :json
+        end
+
+        response_body = response.parsed_body
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_body).to include(
+          'error_code' => 'conversation_message_creation_locked',
+          'message_creation_locked' => true,
+          'message_creation_lock_reason' => 'message_limit'
+        )
+        expect(conversation.reload.messages.count).to eq(1)
+      end
     end
 
     context 'when it is an agent with inbox access and the Dyte API is errored' do

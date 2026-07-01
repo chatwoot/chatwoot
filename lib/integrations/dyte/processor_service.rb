@@ -2,6 +2,8 @@ class Integrations::Dyte::ProcessorService
   pattr_initialize [:account!, :conversation!]
 
   def create_a_meeting(agent)
+    raise CustomExceptions::ConversationMessageCreationLocked, conversation if conversation.message_creation_locked?
+
     return missing_realtimekit_credentials_response if realtimekit_credentials_missing?
 
     title = I18n.t('integration_apps.dyte.meeting_name', agent_name: agent.available_name)

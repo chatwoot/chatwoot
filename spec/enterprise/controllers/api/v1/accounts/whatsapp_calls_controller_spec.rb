@@ -104,6 +104,24 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
     end
 
+    it 'returns the lock response without calling Meta when the conversation is message-creation locked' do
+      initiate_conversation.lock_message_creation!(reason: 'manual')
+      expect(provider_service).not_to receive(:initiate_call)
+
+      expect do
+        post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+             params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+             headers: agent.create_new_auth_token
+      end.not_to change(Call, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body).to include(
+        'error_code' => 'conversation_message_creation_locked',
+        'message_creation_locked' => true,
+        'message_creation_lock_reason' => 'manual'
+      )
+    end
+
     it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
       allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
       allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_xyz' }] })

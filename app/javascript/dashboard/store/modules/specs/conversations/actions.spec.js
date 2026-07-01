@@ -288,6 +288,138 @@ describe('#actions', () => {
       actions.addMessage({ commit }, message);
       expect(commit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
     });
+
+    it('syncs message creation lock metadata from message payload', () => {
+      const message = {
+        id: 1,
+        message_type: 1,
+        conversation_id: 1,
+        conversation: {
+          message_limit: 10000,
+          message_limit_reached: true,
+          message_creation_locked: true,
+          message_creation_lock_reason: 'message_limit',
+        },
+      };
+      actions.addMessage({ commit }, message);
+      expect(commit.mock.calls).toEqual([
+        [types.ADD_MESSAGE, message],
+        [
+          types.SET_CONVERSATION_MESSAGE_CREATION_LOCK,
+          {
+            conversationId: 1,
+            ...message.conversation,
+          },
+        ],
+      ]);
+    });
+  });
+
+  describe('#sendMessageWithData', () => {
+    it('removes optimistic message and updates lock metadata when creation is locked', async () => {
+      const localCommit = vi.fn();
+      const pendingMessage = {
+        id: 'temp-1',
+        conversation_id: 1,
+        message: 'Locked message',
+      };
+      const error = {
+        response: {
+          data: {
+            error: 'This conversation has reached the 10000 message limit.',
+            message_limit: 10000,
+            message_limit_reached: true,
+            message_creation_locked: true,
+            message_creation_lock_reason: 'message_limit',
+          },
+        },
+      };
+      axios.mockRejectedValue(error);
+
+      await expect(
+        actions.sendMessageWithData({ commit: localCommit }, pendingMessage)
+      ).rejects.toBe(error);
+
+      expect(localCommit.mock.calls).toEqual([
+        [
+          types.ADD_MESSAGE,
+          {
+            ...pendingMessage,
+            status: 'progress',
+          },
+        ],
+        [types.DELETE_MESSAGE, pendingMessage],
+        [
+          types.SET_CONVERSATION_MESSAGE_CREATION_LOCK,
+          {
+            conversationId: 1,
+            message_limit: 10000,
+            message_limit_reached: true,
+            message_creation_locked: true,
+            message_creation_lock_reason: 'message_limit',
+          },
+        ],
+      ]);
+    });
+
+    it('keeps an existing failed message when retry is locked', async () => {
+      const localCommit = vi.fn();
+      const pendingMessage = {
+        id: 42,
+        conversation_id: 1,
+        message: 'Retry message',
+        status: 'failed',
+        content_attributes: {
+          external_error: 'Provider rejected the message',
+        },
+      };
+      const error = {
+        response: {
+          data: {
+            error: 'This conversation has reached the 10000 message limit.',
+            message_limit: 10000,
+            message_limit_reached: true,
+            message_creation_locked: true,
+            message_creation_lock_reason: 'message_limit',
+          },
+        },
+      };
+      axios.post.mockRejectedValue(error);
+
+      await expect(
+        actions.sendMessageWithData({ commit: localCommit }, pendingMessage)
+      ).rejects.toBe(error);
+
+      expect(localCommit.mock.calls).toEqual([
+        [
+          types.ADD_MESSAGE,
+          {
+            ...pendingMessage,
+            status: 'progress',
+          },
+        ],
+        [
+          types.ADD_MESSAGE,
+          {
+            ...pendingMessage,
+            meta: {
+              error: error.response.data.error,
+            },
+            status: 'failed',
+          },
+        ],
+        [
+          types.SET_CONVERSATION_MESSAGE_CREATION_LOCK,
+          {
+            conversationId: 1,
+            message_limit: 10000,
+            message_limit_reached: true,
+            message_creation_locked: true,
+            message_creation_lock_reason: 'message_limit',
+          },
+        ],
+      ]);
+    });
   });
 
   describe('#markMessagesRead', () => {

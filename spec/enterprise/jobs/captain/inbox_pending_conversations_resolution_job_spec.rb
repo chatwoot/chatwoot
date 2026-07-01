@@ -19,6 +19,11 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   end
 
   context 'when captain_tasks is disabled' do
+    before do
+      allow(inbox.account).to receive(:feature_enabled?).and_call_original
+      allow(inbox.account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
+    end
+
     it 'resolves pending conversations inactive for over 1 hour' do
       described_class.perform_now(inbox)
 

@@ -42,6 +42,11 @@ json.additional_attributes conversation.additional_attributes
 json.agent_last_seen_at conversation.agent_last_seen_at.to_i
 json.assignee_last_seen_at conversation.assignee_last_seen_at.to_i
 json.can_reply conversation.can_reply?
+message_creation_lock_state = conversation.message_creation_lock_state
+json.message_limit message_creation_lock_state[:message_limit]
+json.message_limit_reached message_creation_lock_state[:message_limit_reached]
+json.message_creation_locked message_creation_lock_state[:message_creation_locked]
+json.message_creation_lock_reason message_creation_lock_state[:message_creation_lock_reason]
 json.contact_last_seen_at conversation.contact_last_seen_at.to_i
 json.custom_attributes conversation.custom_attributes
 json.inbox_id conversation.inbox_id

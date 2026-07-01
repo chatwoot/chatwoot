@@ -9,6 +9,9 @@ class Api::V1::WebhooksController < ApplicationController
   def twitter_events
     twitter_consumer.consume
     head :ok
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping Twitter webhook because message creation is locked (#{e.message})")
+    head :ok
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     head :ok

@@ -14,4 +14,11 @@ module Limits
   def self.conversation_message_per_minute_limit
     ENV.fetch('CONVERSATION_MESSAGE_PER_MINUTE_LIMIT', '200').to_i
   end
+
+  def self.conversation_message_limit
+    limit = Integer(ENV.fetch('CONVERSATION_MESSAGE_LIMIT', '10000'), 10)
+    raise ArgumentError, 'CONVERSATION_MESSAGE_LIMIT must be greater than 0' unless limit.positive?
+
+    limit
+  end
 end

@@ -5,6 +5,9 @@ class MessageTemplates::Template::Greeting
     ActiveRecord::Base.transaction do
       conversation.messages.create!(greeting_message_params)
     end
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping greeting template because message creation is locked (#{e.message})")
+    true
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     true

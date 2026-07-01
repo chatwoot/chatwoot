@@ -193,6 +193,19 @@ export default {
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
+    messageCreationLockBannerMessage() {
+      if (!this.currentChat?.message_creation_locked) {
+        return '';
+      }
+
+      if (this.currentChat.message_creation_lock_reason === 'message_limit') {
+        return this.$t('CONVERSATION.MESSAGE_CREATION_LOCK.MESSAGE_LIMIT', {
+          limit: this.currentChat.message_limit,
+        });
+      }
+
+      return this.$t('CONVERSATION.MESSAGE_CREATION_LOCK.MANUAL');
+    },
     replyWindowLink() {
       if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
@@ -435,6 +448,8 @@ export default {
     },
     async handleMessageRetry(message) {
       if (!message) return;
+      if (this.currentChat.message_creation_locked) return;
+
       const payload = useSnakeCase(message);
       await this.$store.dispatch('sendMessageWithData', payload);
     },
@@ -455,7 +470,13 @@ export default {
   >
     <div ref="topBannerRef">
       <Banner
-        v-if="!currentChat.can_reply"
+        v-if="currentChat.message_creation_locked"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="messageCreationLockBannerMessage"
+      />
+      <Banner
+        v-else-if="!currentChat.can_reply"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="replyWindowBannerMessage"

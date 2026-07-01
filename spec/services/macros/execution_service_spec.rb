@@ -45,6 +45,19 @@ RSpec.describe Macros::ExecutionService, type: :service do
 
           service.perform
         end
+
+        it 'drops locked message actions without reporting an exception' do
+          allow(macro).to receive(:actions).and_return([
+                                                         { action_name: 'send_message', action_params: ['Locked message'] }
+                                                       ])
+
+          with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+            create(:message, conversation: conversation, account: account, inbox: conversation.inbox)
+            expect(ChatwootExceptionTracker).not_to receive(:new)
+
+            expect { service.perform }.not_to change(Message, :count)
+          end
+        end
       end
     end
   end

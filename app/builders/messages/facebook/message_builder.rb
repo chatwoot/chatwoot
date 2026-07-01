@@ -29,6 +29,9 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
     Rails.logger.error e
     @inbox.channel.authorization_error!
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[FacebookMessageBuilder] Dropped message for inbox #{@inbox.id}: #{e.message}")
+    true
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
     true

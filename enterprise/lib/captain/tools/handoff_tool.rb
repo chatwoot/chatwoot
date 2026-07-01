@@ -25,14 +25,7 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
   def trigger_handoff(conversation, reason)
     # post the reason as a private note
-    conversation.messages.create!(
-      message_type: :outgoing,
-      private: true,
-      sender: @assistant,
-      account: conversation.account,
-      inbox: conversation.inbox,
-      content: reason
-    )
+    create_private_note(conversation, reason)
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
@@ -47,6 +40,19 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
     return if conversation.campaign.present?
 
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
+  end
+
+  def create_private_note(conversation, reason)
+    conversation.messages.create!(
+      message_type: :outgoing,
+      private: true,
+      sender: @assistant,
+      account: conversation.account,
+      inbox: conversation.inbox,
+      content: reason
+    )
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[CAPTAIN][HandoffTool] Dropped handoff note for conversation #{conversation.display_id}: #{e.message}")
   end
 
   # TODO: Future enhancement - Add team assignment capability

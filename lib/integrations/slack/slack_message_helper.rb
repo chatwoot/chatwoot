@@ -7,6 +7,9 @@ module Integrations::Slack::SlackMessageHelper
   rescue Slack::Web::Api::Errors::MissingScope => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     disable_and_reauthorize
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("[SlackMessageHelper] Dropped message for conversation #{conversation.display_id}: #{e.message}")
+    success_response
   end
 
   def handle_conversation

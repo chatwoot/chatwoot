@@ -297,6 +297,23 @@ describe Messages::Facebook::MessageBuilder do
           expect(facebook_channel.inbox.conversations.last.id).not_to eq(existing_conversation.id)
           expect(Conversation.count).to eq(inital_count + 1)
         end
+
+        it 'drops the message without reporting an exception when the conversation message limit is reached' do
+          existing_conversation = create(:conversation, account_id: facebook_channel.inbox.account.id, inbox_id: facebook_channel.inbox.id,
+                                                        contact_id: contact.id, contact_inbox_id: contact_inbox.id,
+                                                        status: :open)
+          create(:message, conversation: existing_conversation, account: facebook_channel.inbox.account, inbox: facebook_channel.inbox)
+
+          allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+          allow(fb_object).to receive(:get_object).and_return(
+            { first_name: 'Jane', last_name: 'Dae', profile_pic: 'https://chatwoot-assets.local/sample.png' }.with_indifferent_access
+          )
+          expect(ChatwootExceptionTracker).not_to receive(:new)
+
+          with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+            expect { mocked_message_builder }.not_to(change { existing_conversation.messages.count })
+          end
+        end
       end
 
       context 'when lock to single conversation is enabled' do

@@ -141,6 +141,10 @@ RSpec.describe Message do
             source_id: message.conversation.contact_inbox.source_id
           },
           last_activity_at: message.conversation.last_activity_at.to_i,
+          message_limit: message.conversation.message_limit,
+          message_limit_reached: message.conversation.message_limit_reached?,
+          message_creation_locked: message.conversation.message_creation_locked?,
+          message_creation_lock_reason: message.conversation.message_creation_lock_reason,
           unread_count: message.conversation.unread_incoming_messages.count
         },
         sentiment: {},
@@ -151,6 +155,47 @@ RSpec.describe Message do
 
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
+    end
+  end
+
+  describe 'message creation lock' do
+    let(:conversation) { create(:conversation) }
+    let(:message_params) { { conversation: conversation, account: conversation.account, inbox: conversation.inbox } }
+    let(:locked_error_name) { 'CustomExceptions::ConversationMessageCreationLocked' }
+
+    it 'allows the capped message and blocks the next message' do
+      with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '2' do
+        create(:message, **message_params)
+
+        expect { create(:message, **message_params) }.to change(described_class, :count).by(1)
+        expect { create(:message, **message_params) }
+          .to raise_error(StandardError) { |error| expect(error.class.name).to eq(locked_error_name) }
+      end
+    end
+
+    it 'counts incoming, outgoing, template, private, and activity messages' do
+      with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '5' do
+        create(:message, message_type: :incoming, **message_params)
+        create(:message, message_type: :outgoing, **message_params)
+        create(:message, message_type: :template, **message_params)
+        create(:message, message_type: :outgoing, private: true, **message_params)
+        create(:message, message_type: :activity, **message_params)
+
+        expect(conversation.reload.message_limit_reached?).to be true
+        expect { create(:message, **message_params) }
+          .to raise_error(StandardError) { |error| expect(error.class.name).to eq(locked_error_name) }
+      end
+    end
+
+    it 'blocks message creation when manually locked and allows it after unlock' do
+      conversation.lock_message_creation!(reason: 'ops')
+
+      expect { create(:message, **message_params) }
+        .to raise_error(StandardError) { |error| expect(error.class.name).to eq(locked_error_name) }
+
+      conversation.unlock_message_creation!
+
+      expect { create(:message, **message_params) }.to change(described_class, :count).by(1)
     end
   end
 

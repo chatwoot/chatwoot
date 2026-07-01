@@ -96,6 +96,18 @@ describe Integrations::Slack::IncomingMessageBuilder do
         expect(conversation.messages.last.private).to be(true)
       end
 
+      it 'drops message creation when the conversation is locked' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox)
+
+        with_modified_env CONVERSATION_MESSAGE_LIMIT: '1' do
+          builder = described_class.new(message_params)
+          allow(builder).to receive(:resolve_slack_sender).and_return([nil, nil, nil])
+
+          expect(builder.perform).to eq({ status: 'success' })
+          expect(conversation.reload.messages.count).to eq(1)
+        end
+      end
+
       it 'does not create message for invalid event type' do
         messages_count = conversation.messages.count
         message_params[:type] = 'invalid_event_type'

@@ -3,6 +3,7 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
+    rescue_from CustomExceptions::ConversationMessageCreationLocked, with: :render_error_response
   end
 
   private

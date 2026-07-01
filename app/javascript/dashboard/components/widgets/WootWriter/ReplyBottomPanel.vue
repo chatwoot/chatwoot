@@ -125,6 +125,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isMessageCreationLocked: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'toggleInsertArticle',
@@ -250,7 +254,16 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     enableInsertArticleInReply() {
-      return this.portalSlug;
+      return !this.isMessageCreationLocked && this.portalSlug;
+    },
+    showQuotedReplyButton() {
+      return this.showQuotedReplyToggle && !this.isMessageCreationLocked;
+    },
+    showWhatsAppTemplateButton() {
+      return this.enableWhatsAppTemplates && !this.isMessageCreationLocked;
+    },
+    showContentTemplateButton() {
+      return this.enableContentTemplates && !this.isMessageCreationLocked;
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
@@ -340,7 +353,7 @@ export default {
         @click="toggleMessageSignature"
       />
       <NextButton
-        v-if="showQuotedReplyToggle"
+        v-if="showQuotedReplyButton"
         v-tooltip.top-end="quotedReplyToggleTooltip"
         icon="i-ph-quotes"
         :variant="quotedReplyEnabled ? 'solid' : 'faded'"
@@ -350,7 +363,7 @@ export default {
         @click="$emit('toggleQuotedReply')"
       />
       <NextButton
-        v-if="enableWhatsAppTemplates"
+        v-if="showWhatsAppTemplateButton"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
         slate
@@ -359,7 +372,7 @@ export default {
         @click="$emit('selectWhatsappTemplate')"
       />
       <NextButton
-        v-if="enableContentTemplates"
+        v-if="showContentTemplateButton"
         v-tooltip.top-end="'Content Templates'"
         icon="i-ph-whatsapp-logo"
         slate

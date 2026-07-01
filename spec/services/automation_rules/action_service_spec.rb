@@ -73,6 +73,18 @@ RSpec.describe AutomationRules::ActionService do
         expect(message_builder).not_to receive(:perform)
         described_class.new(rule, account, conversation).perform
       end
+
+      it 'drops locked message actions without reporting an exception' do
+        rule.update!(actions: [{ action_name: 'send_message', action_params: ['Hello'] }])
+
+        with_modified_env 'CONVERSATION_MESSAGE_LIMIT': '1' do
+          create(:message, conversation: conversation, account: account, inbox: conversation.inbox)
+          allow(Messages::MessageBuilder).to receive(:new).and_call_original
+          expect(ChatwootExceptionTracker).not_to receive(:new)
+
+          expect { described_class.new(rule.reload, account, conversation).perform }.not_to change(Message, :count)
+        end
+      end
     end
 
     describe '#perform with send_email_to_team action' do

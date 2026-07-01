@@ -6,6 +6,9 @@ class MessageTemplates::Template::EmailCollect
       conversation.messages.create!(ways_to_reach_you_message_params)
       conversation.messages.create!(email_input_box_template_message_params)
     end
+  rescue CustomExceptions::ConversationMessageCreationLocked => e
+    Rails.logger.info("Skipping email collect template because message creation is locked (#{e.message})")
+    true
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
     true

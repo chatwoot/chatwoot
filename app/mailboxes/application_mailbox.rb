@@ -1,6 +1,10 @@
 class ApplicationMailbox < ActionMailbox::Base
   include MailboxHelper
 
+  rescue_from CustomExceptions::ConversationMessageCreationLocked do |error|
+    Rails.logger.info("Skipping inbound email because message creation is locked (#{error.message})")
+  end
+
   # Last part is the regex for the UUID
   # Eg: email should be something like : reply+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
   REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i

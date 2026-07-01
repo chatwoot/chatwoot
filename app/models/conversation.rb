@@ -52,6 +52,10 @@
 #
 
 class Conversation < ApplicationRecord
+  MESSAGE_CREATION_LOCK_KEY = 'message_creation_lock'.freeze
+  MESSAGE_CREATION_LOCK_REASON_MANUAL = 'manual'.freeze
+  MESSAGE_CREATION_LOCK_REASON_MESSAGE_LIMIT = 'message_limit'.freeze
+
   include Labelable
   include LlmFormattable
   include AssignmentHandler
@@ -131,6 +135,58 @@ class Conversation < ApplicationRecord
 
   def can_reply?
     Conversations::MessageWindowService.new(self).can_reply?
+  end
+
+  def message_limit
+    Limits.conversation_message_limit
+  end
+
+  def message_limit_reached?
+    messages.where(account_id: account_id).reorder(nil).limit(message_limit).count >= message_limit
+  end
+
+  def manual_message_creation_locked?
+    message_creation_lock_data['locked'] == true
+  end
+
+  def message_creation_locked?
+    manual_message_creation_locked? || message_limit_reached?
+  end
+
+  def message_creation_lock_reason
+    message_creation_lock_reason_for(message_limit_reached?, manual_message_creation_locked?)
+  end
+
+  def message_creation_lock_state
+    limit_reached = message_limit_reached?
+    manually_locked = manual_message_creation_locked?
+
+    {
+      message_limit: message_limit,
+      message_limit_reached: limit_reached,
+      message_creation_locked: manually_locked || limit_reached,
+      message_creation_lock_reason: message_creation_lock_reason_for(limit_reached, manually_locked)
+    }
+  end
+
+  def message_creation_lock_data
+    additional_attributes&.fetch(MESSAGE_CREATION_LOCK_KEY, {}) || {}
+  end
+
+  def lock_message_creation!(reason: nil)
+    lock_data = {
+      'locked' => true,
+      'reason' => reason.presence || MESSAGE_CREATION_LOCK_REASON_MANUAL,
+      'locked_at' => Time.current.iso8601
+    }
+
+    updated_additional_attributes = (additional_attributes || {}).merge(MESSAGE_CREATION_LOCK_KEY => lock_data)
+    update!(additional_attributes: updated_additional_attributes)
+  end
+
+  def unlock_message_creation!
+    updated_additional_attributes = (additional_attributes || {}).except(MESSAGE_CREATION_LOCK_KEY)
+    update!(additional_attributes: updated_additional_attributes)
   end
 
   def language
@@ -243,6 +299,11 @@ class Conversation < ApplicationRecord
 
   private
 
+  def message_creation_lock_reason_for(limit_reached, manually_locked)
+    return MESSAGE_CREATION_LOCK_REASON_MESSAGE_LIMIT if limit_reached
+    return MESSAGE_CREATION_LOCK_REASON_MANUAL if manually_locked
+  end
+
   def execute_after_update_commit_callbacks
     handle_resolved_status_change
     notify_status_change
@@ -315,7 +376,10 @@ class Conversation < ApplicationRecord
   def allowed_keys?
     (
       previous_changes.keys.intersect?(list_of_keys) ||
-      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
+      (
+        previous_changes['additional_attributes'].present? &&
+        previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language message_creation_lock])
+      )
     )
   end
 
