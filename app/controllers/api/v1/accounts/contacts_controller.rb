@@ -94,6 +94,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
+    @contact.assigned_agent_id = params[:assigned_agent_id] if admin? && params.key?(:assigned_agent_id)
     @contact.save!
     process_avatar_from_url
   end
@@ -213,6 +214,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
+  end
+
+  def admin?
+    Current.account_user&.administrator?
   end
 end
 

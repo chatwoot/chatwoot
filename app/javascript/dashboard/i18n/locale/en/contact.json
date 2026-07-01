@@ -496,6 +496,12 @@
     "DETAILS": {
       "CREATED_AT": "Created {date}",
       "LAST_ACTIVITY": "Last active {date}",
+      "ASSIGNEE": {
+        "LABEL": "Assigned agent",
+        "ADMIN_ONLY": "Only administrators can change the assigned agent.",
+        "UPDATE_SUCCESS": "Assigned agent updated successfully",
+        "UPDATE_ERROR": "Could not update assigned agent. Please try again later."
+      },
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",
       "DELETE_DIALOG": {

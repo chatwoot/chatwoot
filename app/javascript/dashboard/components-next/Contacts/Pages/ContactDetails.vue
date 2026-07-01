@@ -10,6 +10,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
 import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
+import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
 import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
@@ -156,7 +157,7 @@ const handleAvatarDelete = async () => {
               class="i-ph-activity text-n-slate-10 size-4"
             />
             {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
-            •
+            <span class="i-ph-dot text-n-slate-10 size-4" aria-hidden="true" />
             {{
               $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
                 date: lastActivityAt,
@@ -166,6 +167,10 @@ const handleAvatarDelete = async () => {
         </div>
       </div>
       <ContactLabels :contact-id="selectedContact?.id" />
+      <ContactAssigneeSelector
+        :contact="selectedContact"
+        @update="handleFormUpdate"
+      />
     </div>
     <div class="flex flex-col items-start gap-6">
       <ContactsForm

@@ -17,6 +17,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
 
 export default {
   components: {
@@ -30,6 +31,7 @@ export default {
     ContactDeleteModal,
     VoiceCallButton,
     InlineInput,
+    ContactAssigneeSelector,
   },
   props: {
     contact: {
@@ -112,7 +114,7 @@ export default {
     findCountryFlag(countryCode, cityAndCountry) {
       try {
         if (!countryCode) {
-          return `${cityAndCountry} 🌎`;
+          return `${cityAndCountry} ðŸŒŽ`;
         }
 
         const code = countryCode?.toLowerCase();
@@ -290,6 +292,11 @@ export default {
             :title="$t('CONTACT_PANEL.LOCATION')"
           />
           <SocialIcons :social-profiles="socialProfiles" />
+          <ContactAssigneeSelector
+            v-if="contact.id"
+            :contact="contact"
+            class="mt-2"
+          />
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">

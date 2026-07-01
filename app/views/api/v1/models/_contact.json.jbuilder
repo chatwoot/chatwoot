@@ -10,6 +10,8 @@ json.document_number resource.document_number
 json.company_id resource.company_id if Current.account&.feature_enabled?('companies')
 json.thumbnail resource.avatar_url
 json.custom_attributes resource.custom_attributes
+json.assigned_agent_id resource.assigned_agent_id
+json.assigned_agent resource.assigned_agent&.push_event_data
 json.last_activity_at resource.last_activity_at.to_i if resource[:last_activity_at].present?
 json.created_at resource.created_at.to_i if resource[:created_at].present?
 # we only want to output contact inbox when its /contacts endpoints
