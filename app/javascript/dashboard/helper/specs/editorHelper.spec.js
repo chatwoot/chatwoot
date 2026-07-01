@@ -1001,6 +1001,22 @@ describe('stripUnsupportedFormatting', () => {
           emptySchema
         )
       ).toBe('Check docs: https://example.com');
+
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](https://example.com (Docs))',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
+    });
+
+    it('keeps parentheses that belong to the URL', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'See [wiki](https://en.wikipedia.org/wiki/Foo_(bar))',
+          emptySchema
+        )
+      ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
     });
 
     it('leaves bare URLs untouched so channels can auto-link them', () => {
