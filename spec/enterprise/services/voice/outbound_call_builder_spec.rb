@@ -55,11 +55,15 @@ RSpec.describe Voice::OutboundCallBuilder do
       expect(call.conversation.assignee_id).to eq(user.id)
     end
 
-    it 'keeps the calling agent assigned even when inbox auto-assignment is enabled' do
+    it 'keeps the calling agent assigned even when auto-assignment would pick an online agent' do
       other_agent = create(:user, account: account)
       create(:inbox_member, inbox: inbox, user: other_agent)
       create(:inbox_member, inbox: inbox, user: user)
       inbox.update!(enable_auto_assignment: true)
+      # Only other_agent is online, so round-robin would claim the new conversation for them
+      # in the after_save callback unless the caller is assigned at creation time.
+      OnlineStatusTracker.update_presence(account.id, 'User', other_agent.id)
+      OnlineStatusTracker.set_status(account.id, other_agent.id, 'online')
 
       call = described_class.perform!(
         account: account,

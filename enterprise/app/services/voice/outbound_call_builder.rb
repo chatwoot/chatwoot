@@ -20,6 +20,8 @@ class Voice::OutboundCallBuilder
     ActiveRecord::Base.transaction do
       contact_inbox = ensure_contact_inbox!
       conversation = @existing_conversation || create_conversation!(contact_inbox)
+      # New conversations set assignee at creation (see create_conversation!) to win over the
+      # auto-assignment after_save; here we only claim a reused conversation that's still unassigned.
       conversation.update!(assignee: user) if conversation.assignee_id.nil?
       call_sid = initiate_call!
       call = create_call!(conversation, call_sid)
@@ -45,6 +47,7 @@ class Voice::OutboundCallBuilder
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
+      assignee_id: user.id,
       status: :open
     )
   end
