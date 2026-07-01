@@ -31,6 +31,14 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+// Shared, monotonically increasing token for conversation-list fetches.
+// fetchAllConversations and fetchFilteredConversations both bump it and only
+// commit their result while they are still the latest in-flight request. This
+// prevents a slower earlier response from overwriting a newer one when the user
+// switches filters/assignee tabs quickly ("last response wins" -> "last click
+// wins"). See #10511.
+let conversationListRequestId = 0;
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -45,11 +53,15 @@ const actions = {
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
     commit(types.SET_LIST_LOADING_STATUS);
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
       } = await ConversationApi.get(params);
+      // Discard a stale response if a newer fetch has started meanwhile.
+      if (requestId !== conversationListRequestId) return;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -57,14 +69,24 @@ const actions = {
         params.assigneeType
       );
     } catch (error) {
-      // Handle error
+      // Clear loading only if this is still the latest request; otherwise a
+      // failed newer fetch plus a discarded stale success would leave the list
+      // stuck in the loading state (buildConversationList clears it on success,
+      // but is skipped here and on stale responses).
+      if (requestId === conversationListRequestId) {
+        commit(types.CLEAR_LIST_LOADING_STATUS);
+      }
     }
   },
 
   fetchFilteredConversations: async ({ commit, dispatch }, params) => {
     commit(types.SET_LIST_LOADING_STATUS);
+    conversationListRequestId += 1;
+    const requestId = conversationListRequestId;
     try {
       const { data } = await ConversationApi.filter(params);
+      // Discard a stale response if a newer fetch has started meanwhile.
+      if (requestId !== conversationListRequestId) return;
       buildConversationList(
         { commit, dispatch },
         params,
@@ -72,6 +94,12 @@ const actions = {
         'appliedFilters'
       );
     } catch (error) {
+      // A superseded request must not touch the UI of the newer one: clearing
+      // the loading state would hide the newer fetch's spinner, and rethrowing
+      // would surface CHAT_LIST.FETCH_ERROR (see #15320) for a list the user
+      // has already navigated away from. While this IS the latest request,
+      // behaviour is unchanged from #15320.
+      if (requestId !== conversationListRequestId) return;
       commit(types.CLEAR_LIST_LOADING_STATUS);
       throw error;
     }

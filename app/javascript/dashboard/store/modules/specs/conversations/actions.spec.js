@@ -465,6 +465,88 @@ describe('#actions', () => {
     });
   });
 
+  describe('conversation list stale response guard', () => {
+    it('ignores a slower earlier fetch when a newer one has started', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const state = { conversationFilters: { assigneeType: 'me' } };
+      const staleData = { payload: [{ id: 1 }], meta: {} };
+      const freshData = { payload: [{ id: 2 }], meta: {} };
+
+      // First (stale) request stays pending until we resolve it manually,
+      // second (fresh) request resolves immediately.
+      let resolveStale;
+      const stalePromise = new Promise(resolve => {
+        resolveStale = resolve;
+      });
+      axios.get
+        .mockReturnValueOnce(stalePromise)
+        .mockResolvedValueOnce({ data: { data: freshData } });
+
+      const staleCall = actions.fetchAllConversations({
+        commit: localCommit,
+        state,
+        dispatch: localDispatch,
+      });
+      const freshCall = actions.fetchAllConversations({
+        commit: localCommit,
+        state,
+        dispatch: localDispatch,
+      });
+
+      await freshCall;
+      resolveStale({ data: { data: staleData } });
+      await staleCall;
+
+      // Only the newest (fresh) response is committed; the stale one is dropped.
+      const setAllCalls = localCommit.mock.calls.filter(
+        call => call[0] === 'SET_ALL_CONVERSATION'
+      );
+      expect(setAllCalls).toEqual([
+        ['SET_ALL_CONVERSATION', freshData.payload],
+      ]);
+    });
+
+    it('clears loading when the newest fetch fails and only a stale one succeeds', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const state = { conversationFilters: { assigneeType: 'me' } };
+      const staleData = { payload: [{ id: 1 }], meta: {} };
+
+      // First (stale) request succeeds but resolves last; second (newest) fails.
+      let resolveStale;
+      const stalePromise = new Promise(resolve => {
+        resolveStale = resolve;
+      });
+      axios.get
+        .mockReturnValueOnce(stalePromise)
+        .mockRejectedValueOnce(new Error('network error'));
+
+      const staleCall = actions.fetchAllConversations({
+        commit: localCommit,
+        state,
+        dispatch: localDispatch,
+      });
+      const freshCall = actions.fetchAllConversations({
+        commit: localCommit,
+        state,
+        dispatch: localDispatch,
+      });
+
+      await freshCall;
+      resolveStale({ data: { data: staleData } });
+      await staleCall;
+
+      // Newest fetch failed -> loading is cleared so the list can recover,
+      // and the stale success is still dropped.
+      expect(localCommit).toHaveBeenCalledWith('CLEAR_LIST_LOADING_STATUS');
+      const setAllCalls = localCommit.mock.calls.filter(
+        call => call[0] === 'SET_ALL_CONVERSATION'
+      );
+      expect(setAllCalls).toEqual([]);
+    });
+  });
+
   describe('#setConversationFilter', () => {
     it('commits the correct mutation and sets filter state', () => {
       const filters = [
