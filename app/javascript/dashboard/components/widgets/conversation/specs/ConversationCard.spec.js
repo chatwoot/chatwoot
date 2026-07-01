@@ -11,7 +11,7 @@ const defaultChat = {
   created_at: 1700000000,
 };
 
-const mountComponent = chat =>
+const mountComponent = (chat, currentContact = {}) =>
   shallowMount(ConversationCard, {
     props: {
       chat: { ...defaultChat, ...chat },
@@ -19,6 +19,7 @@ const mountComponent = chat =>
         name: 'Jane Doe',
         thumbnail: '',
         availability_status: 'offline',
+        ...currentContact,
       },
       inbox: { id: 1 },
     },
@@ -43,5 +44,17 @@ describe('ConversationCard', () => {
     });
 
     expect(wrapper.findComponent({ name: 'CardLabels' }).exists()).toBe(true);
+  });
+
+  it('does not reserve the labels row when the contact is blocked', () => {
+    const wrapper = mountComponent(
+      {
+        sla_policy_id: 1,
+        applied_sla: { id: 1 },
+      },
+      { blocked: true }
+    );
+
+    expect(wrapper.findComponent({ name: 'CardLabels' }).exists()).toBe(false);
   });
 });

@@ -126,6 +126,7 @@ const onCardClick = e => {
         v-show="!showMessagePreviewWithoutMeta"
         ref="cardMessagePreviewWithMetaRef"
         :conversation="conversation"
+        :contact="contact"
         :account-labels="accountLabels"
       />
     </div>
