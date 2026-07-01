@@ -200,6 +200,9 @@ const drop = (item, rawBefore) => {
   const pos = o => o?.position || 0;
   const mid = (a, b) => Math.floor((pos(a) + pos(b)) / 2);
   const rest = others(item);
+  // No other rows to position against — e.g. the lone article on a page dropped
+  // without crossing to another page. Leave the order untouched.
+  if (!rest.length) return;
   // A page flip can leave the aimed key pointing at a row that is no longer on
   // this page. Like displayItems, resolve an unknown key to null (end of list),
   // so what the user sees and what we save agree.
