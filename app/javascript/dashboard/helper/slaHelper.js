@@ -54,8 +54,12 @@ export const evaluateSLAStatus = ({ appliedSla, chat }) => {
   const currentTime = Math.floor(Date.now() / 1000);
   const slaStatuses = [];
 
-  // Check FRT - only if first reply hasn't been made
-  if (sla.slaFrtDueAt && !conversation.firstReplyCreatedAt) {
+  const firstReplyCreatedAt = conversation.firstReplyCreatedAt;
+  const shouldCheckFirstResponse =
+    !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
+
+  // Check FRT - until first reply is made on time
+  if (sla.slaFrtDueAt && shouldCheckFirstResponse) {
     const threshold = sla.slaFrtDueAt - currentTime;
     slaStatuses.push({
       type: 'FRT',

@@ -60,7 +60,7 @@ describe('#SLA Helpers', () => {
         expect(result.isSlaMissed).toBe(true);
       });
 
-      it('does not return FRT when first reply already made', () => {
+      it('does not return FRT when first reply was made before due time', () => {
         const appliedSla = { sla_frt_due_at: currentTimestamp + 3600 };
         const chat = {
           first_reply_created_at: currentTimestamp - 1000,
@@ -70,6 +70,39 @@ describe('#SLA Helpers', () => {
         const result = evaluateSLAStatus({ appliedSla, chat });
 
         expect(result.type).not.toBe('FRT');
+      });
+
+      it('does not return FRT when first reply was made at due time', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 600,
+          sla_rt_due_at: currentTimestamp + 1800,
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 600,
+          status: 'open',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('RT');
+      });
+
+      it('returns missed FRT when first reply was made after due time', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 600,
+          sla_rt_due_at: currentTimestamp + 1800,
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 300,
+          status: 'open',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('10m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
       });
     });
 
