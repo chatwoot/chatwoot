@@ -74,6 +74,7 @@ const isActive = computed(() => {
     'line',
     'instagram',
     'tiktok',
+    'zalo_oa',
     'voice',
   ].includes(key);
 });

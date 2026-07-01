@@ -9,4 +9,10 @@ module ApplicationHelper
       hash[feature['name']] = feature['help_url'] if feature['help_url']
     end
   end
+
+  # Check if Vite dev server should be used
+  # Returns false when using tunnel with built assets (VITE_RUBY_SKIP_DEV_SERVER=true)
+  def vite_dev_server_enabled?
+    ENV['VITE_RUBY_SKIP_DEV_SERVER'] != 'true'
+  end
 end

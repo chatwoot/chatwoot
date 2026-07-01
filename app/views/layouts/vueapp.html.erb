@@ -37,6 +37,7 @@
         fbAppId: '<%= @global_config['FB_APP_ID'] %>',
         instagramAppId: '<%= @global_config['INSTAGRAM_APP_ID'] %>',
         tiktokAppId: '<%= @global_config['TIKTOK_APP_ID'] %>',
+        zaloAppId: '<%= @global_config['ZALO_APP_ID'] %>',
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
         googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         allowedLoginMethods: <%= @global_config['ALLOWED_LOGIN_METHODS'].to_json.html_safe %>,
@@ -71,7 +72,10 @@
       }
     </script>
     <% end %>
-    <%= vite_client_tag %>
+    <%# Only render vite_client_tag if dev server is actually running (not when using tunnel with built assets) %>
+    <% if vite_dev_server_enabled? %>
+      <%= vite_client_tag %>
+    <% end %>
     <%= vite_javascript_tag @application_pack %>
   </head>
   <body class="text-slate-600">
@@ -81,5 +85,5 @@
     <% if @dashboard_scripts.present? %>
       <%= @dashboard_scripts.html_safe %>
     <% end %>
-  </body>
+  </body> 
 </html>

@@ -14,6 +14,8 @@ const channelTypeIconMap = {
   'Channel::Whatsapp': 'i-woot-whatsapp',
   'Channel::Instagram': 'i-woot-instagram',
   'Channel::Tiktok': 'i-woot-tiktok',
+  'Channel::ZaloOa': 'i-woot-zalo',
+  'Channel::Voice': 'i-ri-phone-fill',
 };
 
 const providerIconMap = {

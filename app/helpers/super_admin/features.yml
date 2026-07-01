@@ -89,6 +89,12 @@ tiktok:
   enabled: true
   icon: 'icon-tiktok'
   config_key: 'tiktok'
+zalo_oa:
+  name: 'Zalo OA'
+  description: 'Connect your Zalo Official Account and start supporting your customers.'
+  enabled: true
+  icon: 'icon-zalo'
+  config_key: 'zalo_oa'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'

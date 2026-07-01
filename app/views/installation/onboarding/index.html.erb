@@ -2,7 +2,9 @@
 <html>
   <head>
     <title>SuperAdmin | Chatwoot</title>
-    <%= vite_client_tag %>
+    <% if vite_dev_server_enabled? %>
+      <%= vite_client_tag %>
+    <% end %>
     <%= vite_javascript_tag 'superadmin' %>
   </head>
   <body>

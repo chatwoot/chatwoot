@@ -9,7 +9,7 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   include ActionView::Context
   include SuperAdmin::NavigationHelper
 
-  helper_method :render_vue_component, :settings_open?, :settings_pages
+  helper_method :render_vue_component, :settings_open?, :settings_pages, :vite_dev_server_enabled?
   # authenticiation done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!
 
@@ -24,6 +24,12 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
       params.fetch(resource_name, {}).fetch(:order, 'id'),
       params.fetch(resource_name, {}).fetch(:direction, 'desc')
     )
+  end
+
+  # Check if Vite dev server should be used
+  # Returns false when using tunnel with built assets (VITE_RUBY_SKIP_DEV_SERVER=true)
+  def vite_dev_server_enabled?
+    ENV['VITE_RUBY_SKIP_DEV_SERVER'] != 'true'
   end
 
   private

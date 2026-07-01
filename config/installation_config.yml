@@ -462,6 +462,18 @@
   type: secret
 # ------- End of TikTok Channel Related Config ------- #
 
+# ------- Zalo OA Channel Related Config ------- #
+- name: ZALO_APP_ID
+  display_title: 'Zalo App ID'
+  locked: false
+  description: 'Zalo Application ID from Zalo Developer Console'
+- name: ZALO_APP_SECRET
+  display_title: 'Zalo App Secret'
+  locked: false
+  type: secret
+  description: 'Zalo Application Secret Key from Zalo Developer Console'
+# ------- End of Zalo OA Channel Related Config ------- #
+
 # ------- OG Image Related Config ------- #
 - name: OG_IMAGE_CDN_URL
   display_title: 'OG Image CDN URL'

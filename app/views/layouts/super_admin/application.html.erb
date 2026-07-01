@@ -22,7 +22,9 @@ By default, it renders:
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
-  <%= vite_client_tag %>
+  <% if vite_dev_server_enabled? %>
+    <%= vite_client_tag %>
+  <% end %>
   <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>
 </head>

@@ -1,4 +1,4 @@
-backend: DISABLE_MINI_PROFILER=true bin/rails s -p 3000
-# https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
+backend: DISABLE_MINI_PROFILER=true VITE_RUBY_SKIP_DEV_SERVER=true bin/rails s -p 3000
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
-vite: bin/vite build --watch
+vite: NODE_OPTIONS="--max-old-space-size=4096" bin/vite build --watch
+cloudflared tunnel --url http://localhost:3000

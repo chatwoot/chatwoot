@@ -7,7 +7,9 @@
     <script>
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
-    <%= vite_client_tag %>
+    <% if vite_dev_server_enabled? %>
+      <%= vite_client_tag %>
+    <% end %>
     <%= vite_javascript_tag 'survey' %>
   </head>
   <body>

@@ -4,6 +4,17 @@ RAILS_ENV ?= development
 
 # Targets
 setup:
+	@echo "Checking dependencies..."
+	@if command -v brew >/dev/null 2>&1; then \
+		echo "Detecting pg_config..."; \
+		PG_CONFIG_PATH=$$(find /opt/homebrew -name pg_config 2>/dev/null | head -1 || find /usr/local -name pg_config 2>/dev/null | head -1); \
+		if [ -n "$$PG_CONFIG_PATH" ]; then \
+			echo "Found pg_config at $$PG_CONFIG_PATH"; \
+			bundle config build.pg --with-pg-config=$$PG_CONFIG_PATH; \
+		else \
+			echo "Warning: pg_config not found. You may need to install libpq: brew install libpq"; \
+		fi; \
+	fi
 	gem install bundler
 	bundle install
 	pnpm install
@@ -63,4 +74,17 @@ debug_worker:
 docker: 
 	docker build -t $(APP_NAME) -f ./docker/Dockerfile .
 
-.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker
+# Local development helpers (without Docker for app)
+local-db-up:
+	docker-compose -f docker-compose.local.yml up -d
+
+local-db-down:
+	docker-compose -f docker-compose.local.yml down
+
+local-db-logs:
+	docker-compose -f docker-compose.local.yml logs -f
+
+local-db-status:
+	docker-compose -f docker-compose.local.yml ps
+
+.PHONY: setup db_create db_migrate db_seed db_reset db console server burn docker run force_run force_run_tunnel debug debug_worker local-db-up local-db-down local-db-logs local-db-status
