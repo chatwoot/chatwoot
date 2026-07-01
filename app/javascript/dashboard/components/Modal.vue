@@ -124,8 +124,6 @@ onMounted(() => {
         @apply p-4;
       }
 
-      // Links rendered inside the rich-text editor (e.g. canned response
-      // content) are real anchors and must not inherit the modal's link padding.
       .ProseMirror a {
         @apply p-0;
       }
