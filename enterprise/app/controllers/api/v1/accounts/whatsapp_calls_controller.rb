@@ -108,7 +108,11 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
-    @conversation.update!(assignee: Current.user) if @conversation.assignee_id.nil?
+    # Re-read under a row lock: @conversation was loaded before the Meta round-trip above,
+    # so a concurrent assignment during it must not be clobbered by this claim.
+    @conversation.with_lock do
+      @conversation.update!(assignee: Current.user) if @conversation.assignee_id.nil?
+    end
 
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,

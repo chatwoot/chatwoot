@@ -21,7 +21,9 @@ class Voice::OutboundCallBuilder
       contact_inbox = ensure_contact_inbox!
       conversation = @existing_conversation || create_conversation!(contact_inbox)
       # New conversations set assignee at creation (see create_conversation!) to win over the
-      # auto-assignment after_save; here we only claim a reused conversation that's still unassigned.
+      # auto-assignment after_save. A reused conversation is locked + re-read so a concurrent
+      # assignment isn't clobbered; only claim it while still unassigned.
+      @existing_conversation&.lock!
       conversation.update!(assignee: user) if conversation.assignee_id.nil?
       call_sid = initiate_call!
       call = create_call!(conversation, call_sid)
