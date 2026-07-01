@@ -171,6 +171,28 @@ describe('#SLA Helpers', () => {
         expect(result.isSlaMissed).toBe(true);
       });
 
+      it('uses the recorded event time for a missed NRT with a new active NRT timer', () => {
+        const appliedSla = {
+          sla_nrt_due_at: currentTimestamp + 300,
+          sla_rt_due_at: currentTimestamp + 1800,
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 7200,
+          waiting_since: currentTimestamp - 60,
+          status: 'open',
+        };
+        const slaEvents = [
+          { event_type: 'nrt', created_at: currentTimestamp - 1800 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result.type).toBe('NRT');
+        expect(result.threshold).toBe('30m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
       it('does not return NRT when first reply not made', () => {
         const appliedSla = { sla_nrt_due_at: currentTimestamp + 1800 };
         const chat = {
