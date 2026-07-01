@@ -104,6 +104,21 @@ describe('#SLA Helpers', () => {
         expect(result.icon).toBe('flame');
         expect(result.isSlaMissed).toBe(true);
       });
+
+      it('uses the due time for a missed FRT event created after the deadline', () => {
+        const appliedSla = { sla_frt_due_at: currentTimestamp - 3600 };
+        const chat = { first_reply_created_at: null, status: 'open' };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 1800 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('1h');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
     });
 
     describe('NRT (Next Response Time)', () => {
@@ -249,6 +264,24 @@ describe('#SLA Helpers', () => {
         };
 
         const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('RT');
+        expect(result.threshold).toBe('1h');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
+      it('uses the due time for a missed RT event created after the deadline', () => {
+        const appliedSla = { sla_rt_due_at: currentTimestamp - 3600 };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 7200,
+          status: 'open',
+        };
+        const slaEvents = [
+          { event_type: 'rt', created_at: currentTimestamp - 1800 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
 
         expect(result.type).toBe('RT');
         expect(result.threshold).toBe('1h');

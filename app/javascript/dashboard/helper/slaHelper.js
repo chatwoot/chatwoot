@@ -56,13 +56,18 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   const currentTime = Math.floor(Date.now() / 1000);
   const slaStatuses = [];
 
+  const dueAtByType = {
+    FRT: sla.slaFrtDueAt,
+    RT: sla.slaRtDueAt,
+  };
   const slaTypes = ['FRT', 'NRT', 'RT'];
 
   events.forEach(event => {
     const type = event.eventType?.toUpperCase();
     if (!slaTypes.includes(type)) return;
 
-    const missedAt = event.createdAt;
+    const missedAt =
+      type === 'NRT' ? event.createdAt : dueAtByType[type] || event.createdAt;
     if (!missedAt) return;
 
     slaStatuses.push({
