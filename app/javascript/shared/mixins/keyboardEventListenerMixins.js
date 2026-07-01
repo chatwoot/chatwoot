@@ -2,9 +2,6 @@ import { isActiveElementTypeable, isEscape } from '../helpers/KeyboardHelpers';
 
 import { createKeybindingsHandler } from 'tinykeys';
 
-// this is a store that stores the handler globally, and only gets reset on reload
-const taggedHandlers = [];
-
 export default {
   mounted() {
     const events = this.getKeyboardEvents();
@@ -15,21 +12,21 @@ export default {
     }
   },
   unmounted() {
-    if (this.$el && this.$el.dataset?.keydownHandlerIndex) {
-      const handlerToRemove =
-        taggedHandlers[this.$el.dataset.keydownHandlerIndex];
-      document.removeEventListener('keydown', handlerToRemove);
+    if (this.keydownHandlerRef) {
+      document.removeEventListener('keydown', this.keydownHandlerRef);
+      this.keydownHandlerRef = null;
     }
   },
   methods: {
     addEventHandler(keydownHandler) {
-      const indexToAppend = taggedHandlers.push(keydownHandler) - 1;
       const root = this.getElementToBind();
       if (root && root.dataset) {
         // For the components with a top level v-if Vue renders it as an empty comment in the DOM
         // so we need to check if the root element has a dataset property to ensure it is a valid element
+        // Keep the exact handler on the instance so unmounted() can remove it. Using $el.dataset here
+        // is unreliable for multi-root (fragment) components where $el is a comment anchor without dataset.
         document.addEventListener('keydown', keydownHandler);
-        root.dataset.keydownHandlerIndex = indexToAppend;
+        this.keydownHandlerRef = keydownHandler;
       }
     },
     getElementToBind() {
