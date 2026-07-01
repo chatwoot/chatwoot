@@ -184,6 +184,7 @@ const reset = () => {
   insertBefore.value = null;
   activeEdge.value = null;
   clearTimeout(dwell);
+  paging = false;
   scrollDir = 0;
   scroller = null;
   pauseScroll();
