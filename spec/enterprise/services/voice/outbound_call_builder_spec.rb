@@ -44,6 +44,33 @@ RSpec.describe Voice::OutboundCallBuilder do
       end
     end
 
+    it 'assigns the conversation to the agent placing the call' do
+      call = described_class.perform!(
+        account: account,
+        inbox: inbox,
+        user: user,
+        contact: contact
+      )
+
+      expect(call.conversation.assignee_id).to eq(user.id)
+    end
+
+    it 'keeps the calling agent assigned even when inbox auto-assignment is enabled' do
+      other_agent = create(:user, account: account)
+      create(:inbox_member, inbox: inbox, user: other_agent)
+      create(:inbox_member, inbox: inbox, user: user)
+      inbox.update!(enable_auto_assignment: true)
+
+      call = described_class.perform!(
+        account: account,
+        inbox: inbox,
+        user: user,
+        contact: contact
+      )
+
+      expect(call.conversation.assignee_id).to eq(user.id)
+    end
+
     it 'does not set conversation.identifier or write call state to additional_attributes' do
       call = described_class.perform!(
         account: account,

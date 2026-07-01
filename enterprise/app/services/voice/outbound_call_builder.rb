@@ -44,6 +44,7 @@ class Voice::OutboundCallBuilder
       contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
       contact_id: contact.id,
+      assignee_id: user.id,
       status: :open
     )
   end
