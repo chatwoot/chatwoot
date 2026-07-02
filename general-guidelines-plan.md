@@ -294,9 +294,9 @@ The XLSX is only for review. Production migration should use the final reviewed 
    - Regenerate drafts, dry-run apply, apply corrected values, and re-enable after validation.
    - Expand rollout in batches after the first cohort is stable.
 
-## Generate Local Migration Draft Review Sheet Prompt
+## Local Migration Draft Review Sheet Prompt
 
-Use this prompt when asking an LLM to act as the migration classifier and generate the local migration draft review sheet from the assistant CSV.
+Use this prompt to generate the local review workbook from `assistants.csv`.
 
 ```text
 You are the Captain General Guidelines migration classifier.
@@ -353,12 +353,13 @@ Do not include these columns in the review sheet unless explicitly needed:
 - Existing Guardrails
 
 Keep the workbook simple:
+- Save the workbook as assistant-review-sheet.xlsx.
 - Use a single primary sheet named "Assistant Review Sheet".
 - Do not add Summary or Original Instructions tabs.
 - Put existing instructions directly in the "Assistant Review Sheet" sheet so reviewers can compare source text with the generated draft sections.
 ```
 
-## Classifier Improvement
+## Classifier Improvement Prompt
 
 The reviewed sheet should improve the classifier, not become the production migration output.
 
