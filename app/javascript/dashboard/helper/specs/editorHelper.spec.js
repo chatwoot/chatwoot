@@ -1,4 +1,9 @@
-import { EditorState, EditorView } from '@chatwoot/prosemirror-schema';
+import {
+  EditorState,
+  EditorView,
+  buildMessageSchema,
+  MessageMarkdownTransformer,
+} from '@chatwoot/prosemirror-schema';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { Schema } from 'prosemirror-model';
 import {
@@ -1003,31 +1008,43 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('Check docs: https://example.com');
     });
 
-    it('unescapes the backslash-escaped URL the serializer stores', () => {
-      // Editor-created links serialize parens/underscores as \( \) \_,
-      // including parens mid-URL with more text after them.
-      expect(
-        stripUnsupportedFormatting(
-          'See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))',
-          emptySchema
-        )
-      ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
-      expect(
-        stripUnsupportedFormatting(
-          'See [wiki](https://host/a\\_\\(b\\)c)',
-          emptySchema
-        )
-      ).toBe('See wiki: https://host/a_(b)c');
-    });
+    // Output is re-parsed before sending, so assert the final text
+    // (strip + re-parse); the re-parse turns serializer escapes into literals.
+    describe('links round-trip through re-parse without crashing', () => {
+      const smsSchema = buildMessageSchema([], []); // no marks, no nodes
+      const sendAs = md =>
+        new MessageMarkdownTransformer(smsSchema).parse(
+          stripUnsupportedFormatting(md, smsSchema)
+        ).textContent;
 
-    it('drops the label when it equals the URL even when escaped', () => {
-      // Both label and URL are escaped; must collapse to a single bare URL
-      expect(
-        stripUnsupportedFormatting(
-          '[www.example.com/Foo\\_\\(bar\\)](www.example.com/Foo\\_\\(bar\\))',
-          emptySchema
-        )
-      ).toBe('www.example.com/Foo_(bar)');
+      it('keeps escaped parens/underscores anywhere in the URL', () => {
+        expect(
+          sendAs('See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))')
+        ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
+        expect(sendAs('See [wiki](https://host/a\\_\\(b\\)c)')).toBe(
+          'See wiki: https://host/a_(b)c'
+        );
+      });
+
+      it('drops the label when it equals the URL even when escaped', () => {
+        expect(
+          sendAs(
+            '[www.example.com/Foo\\_\\(bar\\)](www.example.com/Foo\\_\\(bar\\))'
+          )
+        ).toBe('www.example.com/Foo_(bar)');
+      });
+
+      it('does not reintroduce emphasis from an escaped label', () => {
+        expect(sendAs('[Use \\_id\\_](https://example.com)')).toBe(
+          'Use _id_: https://example.com'
+        );
+      });
+
+      it('flattens a label containing an escaped closing bracket', () => {
+        expect(sendAs('[FAQ \\[v2\\]](https://example.com)')).toBe(
+          'FAQ [v2]: https://example.com'
+        );
+      });
     });
 
     it('leaves bare URLs untouched so channels can auto-link them', () => {

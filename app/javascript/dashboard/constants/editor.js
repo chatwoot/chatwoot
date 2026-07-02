@@ -188,19 +188,14 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'insertTable',
 ];
 
-// [text](url) -> "text: url" for channels without links (drop label if it
-// equals the URL). Undoes the backslash escapes the serializer adds (\( \) \_),
-// strips the hidden CommonMark title and unwraps an <angle-bracketed> URL.
+// [text](url) -> "text: url" (drop label if it equals the URL). Keep serializer
+// escapes; the re-parse renders them literally, unescaping would crash it.
 const flattenLink = (_match, text, url) => {
-  const unescape = str => str.replace(/\\(.)/g, '$1');
-  const cleanText = unescape(text);
-  const cleanUrl = unescape(
-    url
-      .trim()
-      .replace(/\s+["'(].*$/, '')
-      .replace(/^<|>$/g, '')
-  );
-  return cleanText === cleanUrl ? cleanUrl : `${cleanText}: ${cleanUrl}`;
+  const cleanUrl = url
+    .trim()
+    .replace(/\s+["'(].*$/, '')
+    .replace(/^<|>$/g, '');
+  return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
 };
 
 /**
@@ -279,9 +274,10 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      // URL capture is escape-aware so it spans the \( \) the serializer stores.
+      // Escape-aware label + URL captures so a \] or \) can't cut the match
+      // short and leave link markup that crashes the re-parse.
       {
-        pattern: /\[([^\]]+)\]\(((?:\\.|[^)\\])*)\)/g,
+        pattern: /\[((?:\\.|[^\]\\])*)\]\(((?:\\.|[^)\\])*)\)/g,
         replacement: flattenLink,
       },
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
