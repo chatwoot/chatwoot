@@ -708,6 +708,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.boolean "resolved_by_ai", default: false
+    t.float "ai_resolution_confidence"
+    t.datetime "ai_resolved_at", precision: nil
+    t.float "auto_qa_score"
+    t.text "auto_qa_feedback"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -725,6 +730,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.index ["team_id"], name: "index_conversations_on_team_id"
     t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
+    t.index ["resolved_by_ai"], name: "index_conversations_on_resolved_by_ai"
+    t.index ["auto_qa_score"], name: "index_conversations_on_auto_qa_score"
   end
 
   create_table "copilot_messages", force: :cascade do |t|
@@ -1321,9 +1328,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_05_25_093000) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  create_table "workflows", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "trigger_event", null: false
+    t.boolean "active", default: true
+    t.jsonb "nodes", default: [], null: false
+    t.jsonb "edges", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "trigger_event", "active"], name: "index_workflows_on_account_id_and_trigger_event_and_active"
+    t.index ["account_id"], name: "index_workflows_on_account_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "workflows", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
