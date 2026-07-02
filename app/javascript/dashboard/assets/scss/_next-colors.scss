@@ -29,18 +29,19 @@
     --iris-11: 87 83 198;
     --iris-12: 39 41 98;
 
-    --blue-1: 251 253 255;
-    --blue-2: 245 249 255;
-    --blue-3: 233 243 255;
-    --blue-4: 218 236 255;
-    --blue-5: 201 226 255;
-    --blue-6: 181 213 255;
-    --blue-7: 155 195 252;
-    --blue-8: 117 171 247;
-    --blue-9: 39 129 246;
-    --blue-10: 16 115 233;
-    --blue-11: 8 109 224;
-    --blue-12: 11 50 101;
+    // BuzzWave cyan accent (light). --blue-9 is the primary solid #0891B2.
+    --blue-1: 236 254 255;
+    --blue-2: 224 252 254;
+    --blue-3: 207 250 254;
+    --blue-4: 186 246 253;
+    --blue-5: 165 243 252;
+    --blue-6: 103 232 249;
+    --blue-7: 34 211 238;
+    --blue-8: 6 182 212;
+    --blue-9: 8 145 178;
+    --blue-10: 14 116 144;
+    --blue-11: 21 94 117;
+    --blue-12: 8 51 68;
 
     --ruby-1: 255 252 253;
     --ruby-2: 255 247 248;
@@ -107,25 +108,25 @@
     --violet-11: 101 85 183;
     --violet-12: 47 38 95;
 
-    --background-color: 247 247 247;
+    --background-color: 251 251 248; // BuzzWave off-white #FBFBF8
     --surface-1: 254 254 254;
     --surface-2: 255 255 255;
     --surface-active: 255 255 255;
     --background-input-box: 0, 0, 0, 0.03;
-    --text-blue: 1 22 44;
+    --text-blue: 8 51 68; // #083344
     --text-purple: 2 4 49;
     --text-amber: 37 24 1;
     --border-container: 236 236 236;
     --border-strong: 226 227 231;
     --border-weak: 234 234 234;
-    --border-blue-strong: 18 61 117;
+    --border-blue-strong: 21 94 117; // #155E75
     --solid-1: 255 255 255;
     --solid-2: 255 255 255;
     --solid-3: 255 255 255;
     --solid-active: 255 255 255;
     --solid-amber: 255 228 181;
-    --solid-blue: 218 236 255;
-    --solid-blue-2: 251 253 255;
+    --solid-blue: 207 250 254; // #CFFAFE
+    --solid-blue-2: 236 254 255; // #ECFEFF
     --solid-iris: 230 231 255;
     --solid-purple: 230 231 255;
     --solid-red: 254 200 201;
@@ -143,7 +144,7 @@
     --alpha-3: 255, 255, 255, 0.96;
     --black-alpha-1: 0, 0, 0, 0.12;
     --black-alpha-2: 0, 0, 0, 0.04;
-    --border-blue: 39, 129, 246, 0.5;
+    --border-blue: 8, 145, 178, 0.5;
     --white-alpha: 255, 255, 255, 0.8;
 
     // Voice call widget - light mode
@@ -181,18 +182,19 @@
     --iris-11: 158 177 255;
     --iris-12: 224 223 254;
 
-    --blue-1: 10 17 28;
-    --blue-2: 15 24 38;
-    --blue-3: 15 39 72;
-    --blue-4: 10 49 99;
-    --blue-5: 18 61 117;
-    --blue-6: 29 84 134;
-    --blue-7: 40 89 156;
-    --blue-8: 48 106 186;
-    --blue-9: 39 129 246;
-    --blue-10: 21 116 231;
-    --blue-11: 126 182 255;
-    --blue-12: 205 227 255;
+    // BuzzWave cyan accent (dark). --blue-9 is the primary solid #22D3EE.
+    --blue-1: 10 22 24;
+    --blue-2: 15 27 31;
+    --blue-3: 12 45 50;
+    --blue-4: 8 59 66;
+    --blue-5: 8 72 80;
+    --blue-6: 14 90 100;
+    --blue-7: 20 110 122;
+    --blue-8: 24 140 155;
+    --blue-9: 34 211 238;
+    --blue-10: 72 224 248;
+    --blue-11: 103 232 249;
+    --blue-12: 207 250 254;
 
     --ruby-1: 25 17 19;
     --ruby-2: 30 21 23;
@@ -259,24 +261,24 @@
     --violet-11: 169 153 236;
     --violet-12: 226 221 254;
 
-    --background-color: 28 29 32;
+    --background-color: 15 27 31; // BuzzWave dark #0F1B1F
     --surface-1: 20 21 23;
     --surface-2: 22 23 26;
     --surface-active: 53 57 66;
     --background-input-box: 255, 255, 255, 0.02;
-    --text-blue: 213 234 255;
+    --text-blue: 230 246 250; // #E6F6FA
     --text-purple: 232 233 254;
     --text-amber: 255 247 234;
     --border-strong: 46 45 50;
     --border-weak: 31 31 37;
-    --border-blue-strong: 201 226 255;
+    --border-blue-strong: 165 243 252; // #A5F3FC
     --solid-1: 23 23 26;
     --solid-2: 29 30 36;
     --solid-3: 44 45 54;
     --solid-active: 53 57 66;
     --solid-amber: 56 50 41;
-    --solid-blue: 15 57 102;
-    --solid-blue-2: 26 29 35;
+    --solid-blue: 8 72 80; // dark cyan surface
+    --solid-blue-2: 15 27 31;
     --solid-iris: 38 42 101;
     --solid-purple: 51 51 107;
     --solid-red: 90 33 34;
@@ -294,7 +296,7 @@
     --alpha-3: 33, 34, 38, 0.95;
     --black-alpha-1: 0, 0, 0, 0.3;
     --black-alpha-2: 0, 0, 0, 0.2;
-    --border-blue: 39, 129, 246, 0.5;
+    --border-blue: 8, 145, 178, 0.5;
     --border-container: 255, 255, 255, 0;
     --white-alpha: 255, 255, 255, 0.1;
 

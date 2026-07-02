@@ -1,6 +1,4 @@
 const {
-  blue,
-  blueDark,
   green,
   greenDark,
   yellow,
@@ -14,19 +12,21 @@ const {
 } = require('@radix-ui/colors');
 
 export const colors = {
+  // BuzzWave brand cyan scale (matches Tailwind cyan). Token names/stops
+  // preserved from Chatwoot; only values changed so components keep working.
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: '#ECFEFF',
+    50: '#CFFAFE',
+    75: '#BAF6FD',
+    100: '#A5F3FC',
+    200: '#67E8F9',
+    300: '#22D3EE',
+    400: '#06B6D4',
+    500: '#0891B2', // BuzzWave primary
+    600: '#0E7490',
+    700: '#155E75',
+    800: '#164E63',
+    900: '#083344',
   },
   green: {
     50: greenDark.green12,
@@ -226,7 +226,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#0891B2',
     portal: 'var(--dynamic-portal-color)',
     'portal-soft': 'var(--dynamic-portal-color-soft)',
     'portal-faint': 'var(--dynamic-portal-color-faint)',
