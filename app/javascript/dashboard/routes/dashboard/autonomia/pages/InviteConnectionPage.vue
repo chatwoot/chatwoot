@@ -60,6 +60,10 @@ const poll = async () => {
     phone.value = data.phone;
     if (data.connected) {
       qrDataUrl.value = '';
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
     } else {
       await renderQr(data.qr);
     }

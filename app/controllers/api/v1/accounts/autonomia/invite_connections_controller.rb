@@ -52,7 +52,7 @@ class Api::V1::Accounts::Autonomia::InviteConnectionsController < Api::V1::Accou
   private
 
   def fetch_inbox
-    @inbox = invite_connection_inbox(inbox_id: params[:inbox_id])
+    @inbox = invite_connection_inbox(inbox_id: params[:inbox_id], include_connected: true)
     render json: { error: 'not_found' }, status: :not_found if @inbox.blank?
   end
 
