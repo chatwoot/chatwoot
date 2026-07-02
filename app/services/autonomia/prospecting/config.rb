@@ -1,20 +1,17 @@
 module Autonomia::Prospecting::Config
-  BOOLEAN = ActiveModel::Type::Boolean.new
-  INTERNAL_ATTR_KEY = 'autonomia_prospecting_enabled'.freeze
+  FEATURE_FLAG = 'autonomia_prospecting'.freeze
 
   def self.enabled?(account)
-    BOOLEAN.cast(account&.internal_attributes&.[](INTERNAL_ATTR_KEY)) || false
+    account.present? && account.feature_enabled?(FEATURE_FLAG)
   end
 
   def self.enable_for!(account)
-    account.internal_attributes[INTERNAL_ATTR_KEY] = true
-    account.save!
+    account.enable_features!(FEATURE_FLAG)
     account
   end
 
   def self.disable_for!(account)
-    account.internal_attributes[INTERNAL_ATTR_KEY] = false
-    account.save!
+    account.disable_features!(FEATURE_FLAG)
     account
   end
 end
