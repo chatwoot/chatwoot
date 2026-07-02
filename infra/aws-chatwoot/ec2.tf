@@ -76,7 +76,7 @@ SMTP_PORT=587
 SMTP_USERNAME=${var.smtp_username}
 WAHA_API_KEY=${var.waha_api_key}
 WAHA_API_URL=${var.waha_api_url}
-WAHA_CHATWOOT_ACCOUNT_TOKEN=${var.waha_chatwoot_account_token}
+WAHA_CHATWOOT_WEBHOOK_PATH=${var.waha_chatwoot_webhook_path}
 WAHA_PUBLIC_URL=${var.waha_public_url}
 WHATSAPP_API_CAMPAIGNS_ENABLED=${tostring(var.whatsapp_api_campaigns_enabled)}
 ENV

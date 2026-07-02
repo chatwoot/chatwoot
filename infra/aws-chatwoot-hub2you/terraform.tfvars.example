@@ -36,10 +36,10 @@ smtp_address  = ""
 smtp_username = ""
 smtp_password = ""
 
-waha_api_url                = ""
-waha_public_url             = ""
-waha_api_key                = ""
-waha_chatwoot_account_token = ""
+waha_api_url                   = "https://wa-hub.autonomia.site"
+waha_public_url                = "https://wa-hub.autonomia.site"
+waha_api_key                   = ""
+waha_chatwoot_webhook_path     = "/webhooks/chatwoot"
 
 email_campaign_enabled               = false
 email_campaign_aws_region            = "us-east-1"
