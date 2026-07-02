@@ -43,7 +43,11 @@
         "INBOXES": {
           "LABEL": "Agent inboxes",
           "HELP": "Optionally select where the agent can handle conversations after completing registration.",
-          "EMPTY": "There are no inboxes registered for this account yet."
+          "EMPTY": "There are no inboxes registered for this account yet.",
+          "PLACEHOLDER": "Select inboxes",
+          "SEARCH_PLACEHOLDER": "Add another inbox",
+          "NO_RESULTS": "No inboxes found.",
+          "REMOVE": "Remove {name}"
         },
         "WHATSAPP_API_INBOX": {
           "CREATE": "Create a new WhatsApp API inbox when the agent accepts the invitation",

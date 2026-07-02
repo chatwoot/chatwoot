@@ -236,6 +236,7 @@
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
+    "INVITE_CONNECTION": "Status Conexão",
     "YEAR_IN_REVIEW": "Retrospectiva do Ano",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "APPEARANCE": "Alterar Tema",
@@ -243,6 +244,13 @@
     "DOCS": "Ler documentação",
     "CHANGELOG": "Notas de versão",
     "LOGOUT": "Encerrar sessão"
+  },
+  "AUTONOMIA": {
+    "INVITE_CONNECTION": {
+      "TITLE": "Status Conexão",
+      "DESCRIPTION": "Conecte a caixa de entrada criada para você escaneando o QR Code pelo WhatsApp.",
+      "EMPTY": "Nenhuma caixa de entrada criada por convite está vinculada ao seu usuário."
+    }
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dias de teste restantes.",

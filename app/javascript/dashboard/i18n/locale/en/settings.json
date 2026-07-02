@@ -248,6 +248,7 @@
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Select an account from the following list",
     "PROFILE_SETTINGS": "Profile settings",
+    "INVITE_CONNECTION": "Connection status",
     "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
     "APPEARANCE": "Change appearance",
@@ -255,6 +256,13 @@
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
     "LOGOUT": "Log out"
+  },
+  "AUTONOMIA": {
+    "INVITE_CONNECTION": {
+      "TITLE": "Connection status",
+      "DESCRIPTION": "Connect the inbox created for you by scanning the QR Code with WhatsApp.",
+      "EMPTY": "No invite-created inbox is linked to your user."
+    }
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "days trial remaining.",

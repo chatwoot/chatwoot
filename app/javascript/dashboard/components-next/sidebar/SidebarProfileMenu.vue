@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import Auth from 'dashboard/api/auth';
+import InviteConnectionAPI from 'dashboard/api/autonomia/inviteConnection';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -34,6 +35,21 @@ const globalConfig = useMapGetter('globalConfig/get');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const inviteConnectionAvailable = ref(false);
+
+const fetchInviteConnection = async () => {
+  if (!accountId.value) return;
+
+  try {
+    const { data } = await InviteConnectionAPI.show();
+    inviteConnectionAvailable.value = !!data.inbox;
+  } catch {
+    inviteConnectionAvailable.value = false;
+  }
+};
+
+onMounted(fetchInviteConnection);
+watch(accountId, fetchInviteConnection);
 
 const showChatSupport = computed(() => {
   return (
@@ -62,6 +78,16 @@ const menuItems = computed(() => {
       icon: 'i-lucide-keyboard',
       click: () => {
         emit('openKeyShortcutModal');
+      },
+    },
+    {
+      show: inviteConnectionAvailable.value,
+      showOnCustomBrandedInstance: true,
+      label: t('SIDEBAR_ITEMS.INVITE_CONNECTION'),
+      icon: 'i-lucide-qr-code',
+      link: {
+        name: 'autonomia_invite_connection',
+        params: { accountId: accountId.value },
       },
     },
     {

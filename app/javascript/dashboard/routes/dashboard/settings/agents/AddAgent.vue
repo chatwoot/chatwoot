@@ -19,6 +19,8 @@ const agentName = ref('');
 const agentEmail = ref('');
 const selectedRoleId = ref('agent');
 const selectedInboxIds = ref([]);
+const inboxSearch = ref('');
+const isInboxComboboxOpen = ref(false);
 const createWhatsappApiInbox = ref(false);
 const whatsappApiPhone = ref('');
 const inboxAssignmentTouched = ref(false);
@@ -115,6 +117,21 @@ const availableInboxes = computed(() =>
   }))
 );
 
+const selectedInboxes = computed(() =>
+  availableInboxes.value.filter(inbox =>
+    selectedInboxIds.value.includes(inbox.id)
+  )
+);
+
+const filteredInboxOptions = computed(() => {
+  const term = inboxSearch.value.trim().toLowerCase();
+  return availableInboxes.value.filter(inbox => {
+    if (selectedInboxIds.value.includes(inbox.id)) return false;
+    if (!term) return true;
+    return inbox.name.toLowerCase().includes(term);
+  });
+});
+
 const normalizedWhatsappPhone = computed(() =>
   whatsappApiPhone.value.toString().replace(/\D/g, '')
 );
@@ -131,6 +148,27 @@ const canSubmit = computed(
     isWhatsappApiPhoneValid.value &&
     !uiFlags.value.isCreating
 );
+
+const openInboxCombobox = () => {
+  isInboxComboboxOpen.value = true;
+};
+
+const closeInboxCombobox = () => {
+  window.setTimeout(() => {
+    isInboxComboboxOpen.value = false;
+    inboxSearch.value = '';
+  }, 120);
+};
+
+const selectInbox = inbox => {
+  selectedInboxIds.value = [...selectedInboxIds.value, inbox.id];
+  inboxSearch.value = '';
+  isInboxComboboxOpen.value = true;
+};
+
+const removeInbox = inboxId => {
+  selectedInboxIds.value = selectedInboxIds.value.filter(id => id !== inboxId);
+};
 
 const addAgent = async () => {
   v$.value.$touch();
@@ -248,23 +286,65 @@ const addAgent = async () => {
           {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.HELP') }}
         </p>
 
-        <div
-          v-if="availableInboxes.length"
-          class="grid w-full grid-cols-1 gap-2"
-        >
-          <label
-            v-for="inbox in availableInboxes"
-            :key="inbox.id"
-            class="flex items-center gap-2 px-0 py-1 text-sm font-normal text-n-slate-12"
+        <div v-if="availableInboxes.length" class="relative w-full">
+          <div
+            class="flex flex-wrap items-center w-full gap-1.5 px-2 py-1.5 border rounded-lg min-h-10 bg-n-solid-1 border-n-weak focus-within:outline focus-within:outline-1 focus-within:outline-n-brand"
+            @click="openInboxCombobox"
           >
+            <span
+              v-for="inbox in selectedInboxes"
+              :key="inbox.id"
+              class="inline-flex items-center min-w-0 gap-1 px-2 py-1 text-xs rounded-md bg-n-alpha-2 text-n-slate-12"
+            >
+              <span class="max-w-[11rem] truncate">{{ inbox.name }}</span>
+              <button
+                type="button"
+                class="flex items-center justify-center rounded size-4 text-n-slate-11 hover:text-n-slate-12"
+                :aria-label="
+                  $t('AGENT_MGMT.ADD.FORM.INBOXES.REMOVE', {
+                    name: inbox.name,
+                  })
+                "
+                @click.stop="removeInbox(inbox.id)"
+              >
+                <span class="i-lucide-x size-3" />
+              </button>
+            </span>
             <input
-              v-model="selectedInboxIds"
-              type="checkbox"
-              class="!m-0 w-fit"
-              :value="inbox.id"
+              v-model="inboxSearch"
+              type="text"
+              class="flex-1 min-w-[9rem] !m-0 !p-1 !border-0 !outline-none bg-transparent text-sm"
+              :placeholder="
+                selectedInboxes.length
+                  ? $t('AGENT_MGMT.ADD.FORM.INBOXES.SEARCH_PLACEHOLDER')
+                  : $t('AGENT_MGMT.ADD.FORM.INBOXES.PLACEHOLDER')
+              "
+              @focus="openInboxCombobox"
+              @blur="closeInboxCombobox"
             />
-            <span class="min-w-0 truncate">{{ inbox.name }}</span>
-          </label>
+          </div>
+
+          <div
+            v-if="isInboxComboboxOpen"
+            class="absolute z-[9999] w-full mt-1 overflow-hidden border rounded-lg shadow-lg bg-n-solid-1 border-n-weak"
+          >
+            <button
+              v-for="inbox in filteredInboxOptions"
+              :key="inbox.id"
+              type="button"
+              class="flex items-center justify-between w-full gap-2 px-3 py-2 text-sm text-left text-n-slate-12 hover:bg-n-alpha-1"
+              @mousedown.prevent="selectInbox(inbox)"
+            >
+              <span class="min-w-0 truncate">{{ inbox.name }}</span>
+              <span class="text-xs text-n-slate-10">{{ inbox.type }}</span>
+            </button>
+            <p
+              v-if="!filteredInboxOptions.length"
+              class="px-3 py-2 mb-0 text-sm text-n-slate-11"
+            >
+              {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.NO_RESULTS') }}
+            </p>
+          </div>
         </div>
         <p v-else class="mb-1 text-xs text-n-slate-11">
           {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.EMPTY') }}
