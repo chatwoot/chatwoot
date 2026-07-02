@@ -130,6 +130,8 @@
       "ADMIN_ONLY": "Only administrators can drill down into report records.",
       "LOAD_MORE": "Load more",
       "CLOSE": "Close details",
+      "PREVIOUS_BUCKET": "Previous bar",
+      "NEXT_BUCKET": "Next bar",
       "UNKNOWN_CONTACT": "Unknown contact",
       "UNKNOWN_INBOX": "Unknown inbox",
       "UNASSIGNED_AGENT": "Unassigned",

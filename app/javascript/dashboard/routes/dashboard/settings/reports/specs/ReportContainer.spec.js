@@ -19,6 +19,7 @@ vi.mock('dashboard/composables/useReportMetrics', () => ({
 describe('ReportContainer.vue', () => {
   const mountComponent = ({
     dataPoint = { value: 2, timestamp: 1621103400 },
+    data,
     reportKey = 'conversations_count',
     role = 'administrator',
   } = {}) =>
@@ -44,7 +45,7 @@ describe('ReportContainer.vue', () => {
                   [reportKey]: false,
                 },
                 data: {
-                  [reportKey]: [dataPoint],
+                  [reportKey]: data || [dataPoint],
                 },
               },
               getCurrentRole: role,
@@ -61,13 +62,18 @@ describe('ReportContainer.vue', () => {
               'metricName',
               'bucketLabel',
               'bucketTimestamp',
+              'bucketValue',
+              'isAverageMetric',
               'from',
               'to',
               'type',
               'id',
               'groupBy',
               'businessHours',
+              'canPrev',
+              'canNext',
             ],
+            emits: ['navigate', 'close'],
             template: '<div />',
           },
           BarChart: {
@@ -95,7 +101,7 @@ describe('ReportContainer.vue', () => {
     expect(drawer.props()).toMatchObject({
       metric: 'conversations_count',
       metricName: 'REPORT.METRICS.CONVERSATIONS.NAME',
-      bucketLabel: '20-May',
+      bucketLabel: '15-May',
       bucketTimestamp: 1621103400,
       from: 1621103400,
       to: 1621621800,
@@ -143,5 +149,31 @@ describe('ReportContainer.vue', () => {
       metric: 'avg_first_response_time',
       bucketTimestamp: 1621103400,
     });
+  });
+
+  it('navigates to adjacent drillable buckets within the report range', async () => {
+    const wrapper = mountComponent({
+      data: [
+        { value: 2, timestamp: 1621103400 },
+        { value: 0, timestamp: 1621189800 },
+        { value: 5, timestamp: 1621276200 },
+      ],
+    });
+
+    await wrapper.find('[data-test-id="bar-chart"]').trigger('click');
+
+    const drawer = wrapper.findComponent({ name: 'ReportDrilldownDrawer' });
+    // Opened on the first bucket: no previous, but a later drillable bucket exists.
+    expect(drawer.props('bucketTimestamp')).toBe(1621103400);
+    expect(drawer.props('canPrev')).toBe(false);
+    expect(drawer.props('canNext')).toBe(true);
+
+    // Skips the zero-value middle bucket and lands on the last drillable one.
+    drawer.vm.$emit('navigate', 1);
+    await wrapper.vm.$nextTick();
+
+    expect(drawer.props('bucketTimestamp')).toBe(1621276200);
+    expect(drawer.props('canPrev')).toBe(true);
+    expect(drawer.props('canNext')).toBe(false);
   });
 });

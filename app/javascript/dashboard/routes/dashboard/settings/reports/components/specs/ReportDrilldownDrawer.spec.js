@@ -84,6 +84,7 @@ describe('ReportDrilldownDrawer.vue', () => {
           Spinner: true,
           Button: {
             props: ['label'],
+            emits: ['click'],
             template:
               '<button @click="$emit(\'click\')">{{ label }}<slot /></button>',
           },
@@ -158,9 +159,29 @@ describe('ReportDrilldownDrawer.vue', () => {
     const wrapper = mountDrawer();
     await flushPromises();
 
-    await wrapper.find('button').trigger('click');
+    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
 
     expect(wrapper.emitted('close')).toBeTruthy();
+  });
+
+  it('emits navigate when the next button is clicked', async () => {
+    const wrapper = mountDrawer({ props: { canNext: true } });
+    await flushPromises();
+
+    await wrapper
+      .get('[aria-label="REPORT.DRILLDOWN.NEXT_BUCKET"]')
+      .trigger('click');
+
+    expect(wrapper.emitted('navigate')).toStrictEqual([[1]]);
+  });
+
+  it('does not emit navigate past the available range', async () => {
+    const wrapper = mountDrawer({ props: { canPrev: false } });
+    await flushPromises();
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
+
+    expect(wrapper.emitted('navigate')).toBeUndefined();
   });
 
   it('moves focus into the drawer when opened', async () => {
@@ -204,7 +225,7 @@ describe('ReportDrilldownDrawer.vue', () => {
     await flushPromises();
     await nextTick();
 
-    await wrapper.find('button').trigger('click');
+    await wrapper.get('[aria-label="REPORT.DRILLDOWN.CLOSE"]').trigger('click');
 
     expect(document.activeElement).toBe(opener);
 

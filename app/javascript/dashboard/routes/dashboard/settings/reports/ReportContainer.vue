@@ -67,6 +67,8 @@ export default {
   data() {
     return {
       drilldownRequest: null,
+      drilldownMetric: null,
+      drilldownIndex: null,
     };
   },
   computed: {
@@ -76,6 +78,12 @@ export default {
     }),
     isAdmin() {
       return this.currentRole === 'administrator';
+    },
+    canDrilldownPrev() {
+      return this.findDrillableIndex(this.drilldownIndex - 1, -1) !== null;
+    },
+    canDrilldownNext() {
+      return this.findDrillableIndex(this.drilldownIndex + 1, 1) !== null;
     },
     metrics() {
       const reportKeys = Object.keys(this.reportKeys);
@@ -183,10 +191,20 @@ export default {
         return;
       }
 
+      this.openDrilldownAt(metric, event.dataIndex);
+    },
+    openDrilldownAt(metric, dataIndex) {
+      const dataPoint = this.accountReport.data[metric.KEY]?.[dataIndex];
+      if (!this.canOpenDrilldown(metric, dataPoint)) return;
+
+      const labels = this.getCollection(metric).labels || [];
+
+      this.drilldownMetric = metric;
+      this.drilldownIndex = dataIndex;
       this.drilldownRequest = {
         metric: metric.KEY,
         metricName: metric.NAME,
-        bucketLabel: event.label,
+        bucketLabel: labels[dataIndex],
         bucketTimestamp: dataPoint.timestamp,
         bucketValue: dataPoint.value,
         isAverageMetric: this.isAverageMetricType(metric.KEY),
@@ -197,6 +215,30 @@ export default {
         groupBy: this.groupBy?.period,
         businessHours: this.businessHours,
       };
+    },
+    navigateDrilldown(direction) {
+      const nextIndex = this.findDrillableIndex(
+        this.drilldownIndex + direction,
+        direction
+      );
+      if (nextIndex === null) return;
+
+      this.openDrilldownAt(this.drilldownMetric, nextIndex);
+    },
+    findDrillableIndex(startIndex, step) {
+      if (!this.drilldownMetric) return null;
+
+      const data = this.accountReport.data[this.drilldownMetric.KEY] || [];
+      for (
+        let index = startIndex;
+        index >= 0 && index < data.length;
+        index += step
+      ) {
+        if (this.canOpenDrilldown(this.drilldownMetric, data[index]))
+          return index;
+      }
+
+      return null;
     },
     canOpenDrilldown(metric, dataPoint) {
       if (!dataPoint) return false;
@@ -209,6 +251,8 @@ export default {
     },
     closeDrilldown() {
       this.drilldownRequest = null;
+      this.drilldownMetric = null;
+      this.drilldownIndex = null;
     },
   },
 };
@@ -263,6 +307,9 @@ export default {
     :type="drilldownRequest?.type"
     :group-by="drilldownRequest?.groupBy"
     :business-hours="drilldownRequest?.businessHours"
+    :can-prev="canDrilldownPrev"
+    :can-next="canDrilldownNext"
+    @navigate="navigateDrilldown"
     @close="closeDrilldown"
   />
 </template>

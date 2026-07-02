@@ -22,9 +22,11 @@ const props = defineProps({
   businessHours: { type: Boolean, default: false },
   bucketValue: { type: Number, default: null },
   isAverageMetric: { type: Boolean, default: false },
+  canPrev: { type: Boolean, default: false },
+  canNext: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'navigate']);
 
 const { t } = useI18n();
 const drawerRef = ref(null);
@@ -97,12 +99,38 @@ const focusDrawer = () => {
   nextTick(() => drawerRef.value?.focus());
 };
 
-const onKeydown = event => {
-  if (!isOpen.value || event.key !== 'Escape') return;
+const fetchDrilldown = () => {
+  openDrilldown({
+    metric: props.metric,
+    bucketTimestamp: props.bucketTimestamp,
+    from: props.from,
+    to: props.to,
+    type: props.type,
+    id: props.id,
+    groupBy: props.groupBy,
+    businessHours: props.businessHours,
+  });
+};
 
-  event.preventDefault();
-  event.stopPropagation();
-  closeDrawer();
+const navigate = direction => {
+  if (direction < 0 && !props.canPrev) return;
+  if (direction > 0 && !props.canNext) return;
+
+  emit('navigate', direction);
+};
+
+const onKeydown = event => {
+  if (!isOpen.value) return;
+
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    event.stopPropagation();
+    closeDrawer();
+  } else if (event.key === 'ArrowLeft') {
+    navigate(-1);
+  } else if (event.key === 'ArrowRight') {
+    navigate(1);
+  }
 };
 
 useEventListener(document, 'keydown', onKeydown);
@@ -117,19 +145,17 @@ watch(
     }
 
     rememberActiveElement();
-    openDrilldown({
-      metric: props.metric,
-      bucketTimestamp: props.bucketTimestamp,
-      from: props.from,
-      to: props.to,
-      type: props.type,
-      id: props.id,
-      groupBy: props.groupBy,
-      businessHours: props.businessHours,
-    });
+    fetchDrilldown();
     focusDrawer();
   },
   { immediate: true }
+);
+
+watch(
+  () => [props.metric, props.bucketTimestamp],
+  () => {
+    if (props.open) fetchDrilldown();
+  }
 );
 
 onBeforeUnmount(() => {
@@ -183,14 +209,34 @@ onBeforeUnmount(() => {
                 </span>
               </div>
             </div>
-            <Button
-              ghost
-              slate
-              size="sm"
-              icon="i-ph-x"
-              :aria-label="$t('REPORT.DRILLDOWN.CLOSE')"
-              @click="closeDrawer"
-            />
+            <div class="flex shrink-0 items-center gap-1">
+              <Button
+                ghost
+                slate
+                size="sm"
+                icon="i-ph-caret-left"
+                :disabled="!canPrev"
+                :aria-label="$t('REPORT.DRILLDOWN.PREVIOUS_BUCKET')"
+                @click="navigate(-1)"
+              />
+              <Button
+                ghost
+                slate
+                size="sm"
+                icon="i-ph-caret-right"
+                :disabled="!canNext"
+                :aria-label="$t('REPORT.DRILLDOWN.NEXT_BUCKET')"
+                @click="navigate(1)"
+              />
+              <Button
+                ghost
+                slate
+                size="sm"
+                icon="i-ph-x"
+                :aria-label="$t('REPORT.DRILLDOWN.CLOSE')"
+                @click="closeDrawer"
+              />
+            </div>
           </header>
 
           <div class="min-h-0 flex-1 overflow-y-auto px-5 py-3">
