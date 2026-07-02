@@ -2,7 +2,7 @@
 
 ## Goal
 
-Use same assistant, enriched config. Keep the existing assistant record, preserve old `config.instructions`, and add/pre-fill the new structured fields (`description`, `response_guidelines`, `guardrails`, `scenarios`, and conversation-message config). Use the account-level `captain_integration_v2` feature flag to switch between v1 and v2 behavior.
+Use same assistant, enriched config. Keep the existing assistant record, preserve old `config.instructions`, and add/pre-fill the new structured fields (`description`, `response_guidelines`, `guardrails`, `scenarios`, and conversation-message config). Use the account-level `captain_integration_v2` feature flag to switch between v1 and v2 behavior. Our ultimate goal will be using captain v2 moving forward.
 
 This keeps migration internal, avoids duplicate assistants, avoids inbox relinking, and keeps rollback simple: disable `captain_integration_v2` and v1 continues to use the preserved `config.instructions`.
 
@@ -176,7 +176,6 @@ The XLSX is only for review. Production migration should use the final reviewed 
    - Also keep a local JSONL sidecar when possible, because JSONL is easier to convert into the final apply payload later.
    - The review workbook should include:
      - assistant metadata
-     - active/unused status
      - inbox count and inbox IDs
      - current description
      - product name
