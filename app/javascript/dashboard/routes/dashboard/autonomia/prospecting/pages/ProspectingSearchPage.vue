@@ -109,7 +109,7 @@ onMounted(fetchSearches);
 
     <section class="grid gap-4 px-6 py-5">
       <form
-        class="grid gap-3 rounded-lg border border-n-weak bg-n-solid-1 p-4 md:grid-cols-[1fr_1fr_8rem_8rem_10rem]"
+        class="grid items-end gap-3 rounded-lg border border-n-weak bg-n-solid-1 p-4 md:grid-cols-[minmax(14rem,1fr)_minmax(14rem,1fr)_8rem_8rem_10rem]"
         @submit.prevent="submitSearch"
       >
         <label class="grid gap-1">
@@ -158,7 +158,7 @@ onMounted(fetchSearches);
         </label>
         <button
           type="submit"
-          class="mt-5 h-10 rounded-md bg-n-brand px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+          class="h-10 rounded-md bg-n-brand px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
           :disabled="!canSearch"
         >
           {{
