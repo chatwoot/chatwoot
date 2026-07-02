@@ -105,14 +105,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def create_outbound_call
     contact_phone = @conversation.contact.phone_number.delete('+')
+    # Claim for the caller only if unassigned at trigger time (before the round-trip); wins over auto-assignment.
+    claim_for_caller = @conversation.assignee_id.nil?
+
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
-    # Re-read under a row lock: @conversation was loaded before the Meta round-trip above,
-    # so a concurrent assignment during it must not be clobbered by this claim.
-    @conversation.with_lock do
-      @conversation.update!(assignee: Current.user) if @conversation.assignee_id.nil?
-    end
+    @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
