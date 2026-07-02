@@ -13,6 +13,7 @@ const ProspectingListsPage = () =>
   import('./prospecting/pages/ProspectingListsPage.vue');
 const ProspectingSettingsPage = () =>
   import('./prospecting/pages/ProspectingSettingsPage.vue');
+const InviteConnectionPage = () => import('./pages/InviteConnectionPage.vue');
 
 // Admin-only: every Autonomia backend endpoint enforces
 // `ensure_account_administrator`, so non-admins would 403 on each call.
@@ -53,6 +54,14 @@ const ensureProspectingEnabled = (to, _from, next) => {
 };
 
 export const routes = [
+  {
+    path: frontendURL('accounts/:accountId/autonomia/invite-connection'),
+    name: 'autonomia_invite_connection',
+    meta: {
+      permissions: ['administrator', 'agent', 'custom_role'],
+    },
+    component: InviteConnectionPage,
+  },
   {
     path: frontendURL('accounts/:accountId/agents'),
     name: 'autonomia_agents_index',

@@ -21,6 +21,7 @@ class Autonomia::Sso::Provisioner
     end
 
     apply_pending_agent_invitation!(user, account, pending_invitation) if pending_invitation.present?
+    set_pending_invite_connection_redirect(user, account) if @post_login_redirect_path.blank?
     user
   end
 
@@ -117,11 +118,44 @@ class Autonomia::Sso::Provisioner
     ).perform
 
     InboxMember.find_or_create_by!(inbox: result.inbox, user: user)
-    @post_login_redirect_path = "/app/accounts/#{account.id}/settings/inboxes/#{result.inbox.id}/connection"
+    mark_invite_connection_pending!(result.inbox, user)
+    @post_login_redirect_path = invite_connection_path(account)
   end
 
   def api_access_token_for(user)
     (user.access_token || user.create_access_token).token
+  end
+
+  def mark_invite_connection_pending!(inbox, user)
+    channel = inbox.channel
+    attrs = (channel.additional_attributes || {}).to_h
+    channel.update!(
+      additional_attributes: attrs.merge(
+        'autonomia_invite_connection' => {
+          'user_id' => user.id,
+          'status' => 'pending',
+          'created_at' => Time.current.iso8601
+        }
+      )
+    )
+  end
+
+  def set_pending_invite_connection_redirect(user, account)
+    return if invite_connection_inbox(user, account).blank?
+
+    @post_login_redirect_path = invite_connection_path(account)
+  end
+
+  def invite_connection_inbox(user, account)
+    account.inboxes.where(channel_type: 'Channel::Api').includes(:channel).find do |inbox|
+      attrs = (inbox.channel.additional_attributes || {}).to_h
+      connection = attrs['autonomia_invite_connection'] || {}
+      connection['user_id'].to_i == user.id && connection['status'] != 'connected'
+    end
+  end
+
+  def invite_connection_path(account)
+    "/app/accounts/#{account.id}/autonomia/invite-connection"
   end
 
   def pending_agent_invitation(account)

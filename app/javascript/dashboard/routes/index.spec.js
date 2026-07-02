@@ -94,7 +94,7 @@ describe('#validateAuthenticateRoutePermission', () => {
         query: {
           email: 'agent@example.com',
           sso_auth_token: 'sso-token',
-          redirect_to: '/app/accounts/7/settings/inboxes/13/connection',
+          redirect_to: '/app/accounts/7/autonomia/invite-connection',
         },
       };
       const currentUser = {
@@ -109,7 +109,7 @@ describe('#validateAuthenticateRoutePermission', () => {
       await validateAuthenticateRoutePermission(to, next);
 
       expect(next).toHaveBeenCalledWith(
-        '/app/accounts/7/settings/inboxes/13/connection'
+        '/app/accounts/7/autonomia/invite-connection'
       );
     });
   });

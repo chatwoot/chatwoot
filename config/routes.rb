@@ -279,6 +279,10 @@ Rails.application.routes.draw do
             post 'conversations/:conversation_id/copilot', to: 'conversation_copilot#create'
             # Guia da Plataforma — onboarding/suporte read-only, global/auto-on por conta elegível.
             post 'guide/chat', to: 'guide#chat'
+            resource :invite_connection, only: [:show] do
+              get ':inbox_id/connection', action: :connection
+              post ':inbox_id/reconnect', action: :reconnect
+            end
             # V2.3 — "Copiloto Autonom.ia" chat widget: list selectable internal/both agents + chat.
             get  'conversations/:conversation_id/copilot/agents', to: 'conversation_copilot#agents'
             post 'conversations/:conversation_id/copilot/chat',   to: 'conversation_copilot#chat'
