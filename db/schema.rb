@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_01_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_02_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -393,6 +393,104 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_01_000001) do
     t.index ["account_id", "status"], name: "index_autonomia_agents_on_account_id_and_status"
     t.index ["account_id"], name: "index_autonomia_agents_on_account_id"
     t.index ["created_by_id"], name: "index_autonomia_agents_on_created_by_id"
+  end
+
+  create_table "autonomia_prospecting_leads", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "prospect_search_id"
+    t.bigint "contact_id"
+    t.bigint "crm_card_id"
+    t.string "provider", default: "mock", null: false
+    t.string "provider_place_id"
+    t.string "name", null: false
+    t.string "phone"
+    t.string "website"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "country"
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.decimal "rating", precision: 3, scale: 2
+    t.integer "reviews_count"
+    t.string "category"
+    t.string "dedupe_key", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "raw_payload", default: {}, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
+    t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
+    t.index ["account_id", "status"], name: "index_autonomia_prospecting_leads_on_account_id_and_status"
+    t.index ["account_id"], name: "index_autonomia_prospecting_leads_on_account_id"
+    t.index ["contact_id"], name: "index_autonomia_prospecting_leads_on_contact_id"
+    t.index ["crm_card_id"], name: "index_autonomia_prospecting_leads_on_crm_card_id"
+    t.index ["prospect_search_id"], name: "index_autonomia_prospecting_leads_on_search_id"
+  end
+
+  create_table "autonomia_prospecting_list_leads", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "prospect_list_id", null: false
+    t.bigint "prospect_lead_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_autonomia_prospecting_list_leads_on_account_id"
+    t.index ["prospect_lead_id"], name: "idx_autonomia_prospecting_list_leads_lead_id"
+    t.index ["prospect_list_id", "prospect_lead_id"], name: "idx_autonomia_prospecting_list_leads_unique", unique: true
+    t.index ["prospect_list_id"], name: "idx_autonomia_prospecting_list_leads_list_id"
+  end
+
+  create_table "autonomia_prospecting_lists", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.text "description"
+    t.integer "status", default: 0, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_autonomia_prospecting_lists_on_account_id_and_name"
+    t.index ["account_id"], name: "index_autonomia_prospecting_lists_on_account_id"
+    t.index ["user_id"], name: "index_autonomia_prospecting_lists_on_user_id"
+  end
+
+  create_table "autonomia_prospecting_searches", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id"
+    t.string "query", null: false
+    t.string "location"
+    t.integer "radius"
+    t.string "provider", default: "mock", null: false
+    t.integer "status", default: 0, null: false
+    t.integer "requested_limit", default: 20, null: false
+    t.integer "consumed_api_units", default: 0, null: false
+    t.string "cache_key"
+    t.datetime "cache_expires_at"
+    t.jsonb "categories", default: [], null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "cache_key"], name: "idx_autonomia_prospecting_searches_acc_cache"
+    t.index ["account_id", "created_at"], name: "idx_autonomia_prospecting_searches_acc_created"
+    t.index ["account_id"], name: "index_autonomia_prospecting_searches_on_account_id"
+    t.index ["user_id"], name: "index_autonomia_prospecting_searches_on_user_id"
+  end
+
+  create_table "autonomia_prospecting_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.boolean "provider_enabled", default: false, null: false
+    t.string "provider", default: "mock", null: false
+    t.integer "default_limit", default: 20, null: false
+    t.integer "max_results_per_search", default: 20, null: false
+    t.integer "daily_limit"
+    t.integer "monthly_limit"
+    t.integer "cache_ttl_seconds", default: 86400, null: false
+    t.boolean "enrichment_enabled", default: false, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_autonomia_prospecting_settings_on_account_id", unique: true
   end
 
   create_table "calls", force: :cascade do |t|
@@ -2264,6 +2362,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_01_000001) do
   add_foreign_key "autonomia_agent_sources", "autonomia_agents"
   add_foreign_key "autonomia_agents", "accounts"
   add_foreign_key "autonomia_agents", "users", column: "created_by_id"
+  add_foreign_key "autonomia_prospecting_leads", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_leads", "autonomia_prospecting_searches", column: "prospect_search_id", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_leads", "contacts", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_leads", "crm_cards", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_list_leads", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_list_leads", "autonomia_prospecting_leads", column: "prospect_lead_id", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_list_leads", "autonomia_prospecting_lists", column: "prospect_list_id", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_lists", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_lists", "users", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_searches", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_searches", "users", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_settings", "accounts", on_delete: :cascade
   add_foreign_key "crm_activities", "accounts"
   add_foreign_key "crm_activities", "conversations"
   add_foreign_key "crm_activities", "crm_cards", column: "card_id"
