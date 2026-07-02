@@ -48,9 +48,19 @@ class CaptainAssistantMigrationTask
     def captain_models
       {}
     end
+
+    def conversations
+      CsvRelation.new
+    end
   end
 
   CsvAssociation = Struct.new(:size, keyword_init: true)
+
+  class CsvRelation
+    def find_by(*)
+      nil
+    end
+  end
 
   CsvAssistant = Struct.new(
     :id,

@@ -296,7 +296,7 @@ The XLSX is only for review. Production migration should use the final reviewed 
 
 ## Local Migration Draft Review Sheet Prompt
 
-Use this prompt to generate the local review workbook from `assistants.csv`.
+Use this prompt to generate the local review workbook from `assistants.csv` after running the migration classifier.
 
 ```text
 You are the Captain General Guidelines migration classifier.
@@ -305,14 +305,22 @@ Use the existing migration classifier contract as the source of truth:
 - enterprise/app/services/captain/assistant_migration/instruction_classifier.rb
 - enterprise/app/services/captain/assistant_migration/instruction_classifier_schema.rb
 
-Your job is not just to format the CSV. Your job is to read each assistant row, classify the existing assistant instructions into the new structured migration fields, and then generate a local XLSX review sheet from that classifier output.
+Your job is not to independently classify rows while formatting the CSV. Your job is to run or follow the existing migration classifier, use its structured draft output, and then generate a local XLSX review sheet from that classifier output.
 
 Workflow:
 assistant CSV -> migration classifier -> structured migration draft -> XLSX review sheet
 
+Required source of classification:
+- The migration classifier output is the only source for generated draft sections.
+- Do not create spreadsheet-only classification rules that bypass `instruction_classifier.rb`.
+- Do not manually improve individual rows in the XLSX. If a classification looks wrong, preserve the classifier output in the sheet and capture the issue through reviewer comments.
+- The review sheet exists to help reviewers find classifier problems. Reviewer feedback must feed back into `instruction_classifier.rb`, and into `instruction_classifier_schema.rb` only when the output shape is insufficient.
+
 Important constraints:
 - Local review workflow only.
 - Do not treat XLSX as production data.
+- Do not use the XLSX as the final migration payload.
+- Do not use reviewer-edited sheet cells as production migration data.
 - Do not remove or overwrite config.instructions.
 - Preserve existing behavior as closely as possible.
 - Do not ask customers/admins to classify old instructions.
