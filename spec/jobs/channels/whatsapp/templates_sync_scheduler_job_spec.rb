@@ -24,6 +24,19 @@ RSpec.describe Channels::Whatsapp::TemplatesSyncSchedulerJob do
       )
     end
 
+    it 'uses the 1 minute threshold as the resync boundary' do
+      stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
+      just_synced = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 30.seconds.ago)
+      stale = create(:channel_whatsapp, sync_templates: false, message_templates_last_updated: 2.minutes.ago)
+      described_class.perform_now
+      expect(Channels::Whatsapp::TemplatesSyncJob).not_to(
+        have_been_enqueued.with(just_synced).on_queue('low')
+      )
+      expect(Channels::Whatsapp::TemplatesSyncJob).to(
+        have_been_enqueued.with(stale).on_queue('low')
+      )
+    end
+
     it 'schedules templates_sync_job for oldest synced channels first' do
       stub_const('Limits::BULK_EXTERNAL_HTTP_CALLS_LIMIT', 2)
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
