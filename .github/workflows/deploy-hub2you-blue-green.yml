@@ -124,6 +124,9 @@ jobs:
           required = {
               "EMAIL_CAMPAIGN_ENABLED": "true",
               "WHATSAPP_API_CAMPAIGNS_ENABLED": "true",
+              # Widget "Copiloto Autonom.ia" (agentes internos) — o plano V2
+              # previa a flag em prod, mas ela so foi setada na VPS legada.
+              "CRM_COPILOT_ENABLED": "true",
           }
 
           lines = path.read_text().splitlines()

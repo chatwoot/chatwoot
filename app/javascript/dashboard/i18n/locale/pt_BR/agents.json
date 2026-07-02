@@ -19,6 +19,7 @@
       "NO_METRICS": "—",
       "OPEN": "Abrir agente",
       "EDIT_AI": "Editar com IA",
+      "PUBLISH": "Publicar",
       "DELETE": "Apagar"
     },
     "TYPES": {
@@ -153,6 +154,8 @@
       "INTERNAL_HINT": "Este agente ajuda sua equipe dentro das conversas e nunca fala com o cliente, então não há caixa para conectar.",
       "SELECT_INBOX": "Escolha uma caixa de entrada",
       "CONNECT_ACTIVATE": "Conectar e ativar",
+      "ACTIVATE_INTERNAL": "Ativar copiloto",
+      "ACTIVATED_INTERNAL": "Copiloto ativado. Sua equipe já pode usá-lo nas conversas.",
       "BACK": "Voltar"
     },
     "PANEL": {

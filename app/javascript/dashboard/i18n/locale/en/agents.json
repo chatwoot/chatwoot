@@ -19,6 +19,7 @@
       "NO_METRICS": "—",
       "OPEN": "Open agent",
       "EDIT_AI": "Edit with AI",
+      "PUBLISH": "Publish",
       "DELETE": "Delete"
     },
     "TYPES": {
@@ -153,6 +154,8 @@
       "INTERNAL_HINT": "This agent helps your team inside conversations and never talks to customers, so there's no inbox to connect.",
       "SELECT_INBOX": "Choose an inbox",
       "CONNECT_ACTIVATE": "Connect and activate",
+      "ACTIVATE_INTERNAL": "Activate copilot",
+      "ACTIVATED_INTERNAL": "Copilot activated. Your team can use it in conversations now.",
       "BACK": "Back"
     },
     "PANEL": {

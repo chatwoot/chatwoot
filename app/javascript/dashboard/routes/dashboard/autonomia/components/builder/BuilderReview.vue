@@ -39,7 +39,13 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['saveGreeting', 'test', 'connect', 'back']);
+const emit = defineEmits([
+  'saveGreeting',
+  'test',
+  'connect',
+  'back',
+  'activate',
+]);
 
 const { t } = useI18n();
 
@@ -268,6 +274,16 @@ const onConnect = () => {
             :is-loading="isConnecting"
             :disabled="!canConnect"
             @click="onConnect"
+          />
+          <!-- Interno (copiloto): não há canal para conectar — ativa direto. -->
+          <NextButton
+            v-else
+            solid
+            blue
+            icon="i-lucide-headset"
+            :label="t('AGENTS.REVIEW.ACTIVATE_INTERNAL')"
+            :is-loading="isConnecting"
+            @click="emit('activate')"
           />
         </div>
       </div>
