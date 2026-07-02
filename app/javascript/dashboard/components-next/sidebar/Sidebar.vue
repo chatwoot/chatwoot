@@ -134,6 +134,12 @@ const currentCustomRoleId = useMapGetter('getCurrentCustomRoleId');
 const autonomiaAgentsEnabled = computed(
   () => autonomiaAgentsFlag.value && currentRole.value === 'administrator'
 );
+const autonomiaProspectingEnabled = computed(
+  () =>
+    currentRole.value === 'administrator' &&
+    currentAccount.value(accountId.value)?.autonomia_prospecting_enabled ===
+      true
+);
 
 // LOCKED DECISION: administrators and plain (non-custom-role) agents keep full
 // CRM access; custom-role seats need crm_view (crm_admin implies it).
@@ -631,6 +637,40 @@ const menuItems = computed(() => {
                 label: t('SIDEBAR.AGENTS_BUILDER'),
                 to: accountScopedRoute('autonomia_agents_builder'),
                 activeOn: ['autonomia_agents_builder'],
+              },
+            ],
+          },
+        ]
+      : []),
+    ...(autonomiaProspectingEnabled.value
+      ? [
+          {
+            name: 'Prospecting',
+            label: t('SIDEBAR.PROSPECTING'),
+            icon: 'i-lucide-search',
+            activeOn: [
+              'autonomia_prospecting_search',
+              'autonomia_prospecting_lists',
+              'autonomia_prospecting_settings',
+            ],
+            children: [
+              {
+                name: 'Prospecting Search',
+                label: t('SIDEBAR.PROSPECTING_SEARCH'),
+                to: accountScopedRoute('autonomia_prospecting_search'),
+                activeOn: ['autonomia_prospecting_search'],
+              },
+              {
+                name: 'Prospecting Lists',
+                label: t('SIDEBAR.PROSPECTING_LISTS'),
+                to: accountScopedRoute('autonomia_prospecting_lists'),
+                activeOn: ['autonomia_prospecting_lists'],
+              },
+              {
+                name: 'Prospecting Settings',
+                label: t('SIDEBAR.PROSPECTING_SETTINGS'),
+                to: accountScopedRoute('autonomia_prospecting_settings'),
+                activeOn: ['autonomia_prospecting_settings'],
               },
             ],
           },
