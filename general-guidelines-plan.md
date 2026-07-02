@@ -343,7 +343,6 @@ Classify config.instructions into:
 Create an XLSX review workbook with:
 - assistant metadata
 - existing instructions
-- current message fields
 - classifier-generated draft sections
 - classifier notes
 - reviewer comments
@@ -359,12 +358,16 @@ Do not include these columns in the review sheet unless explicitly needed:
 - feature flags such as Capture Memories, Source Citations, Contact Access, Generate FAQs
 - Existing Response Guidelines
 - Existing Guardrails
+- Current Welcome Message
+- Current Handoff Message
+- Current Resolution Message
 
 Keep the workbook simple:
 - Save the workbook as assistant-review-sheet.xlsx.
 - Use a single primary sheet named "Assistant Review Sheet".
 - Do not add Summary or Original Instructions tabs.
 - Put existing instructions directly in the "Assistant Review Sheet" sheet so reviewers can compare source text with the generated draft sections.
+- Put exact welcome, handoff, and resolution copy in the Conversation Messages draft section. Do not add separate current message columns when the same values are already shown there.
 ```
 
 ## Classifier Improvement Prompt
