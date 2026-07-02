@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref, watch } from 'vue';
+import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
 import MessagePreview from './MessagePreview.vue';
@@ -61,6 +62,19 @@ const showMetaSection = computed(() => {
 });
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+// Convite de handoff da IA em aberto (payload handoff_invite): âmbar dentro
+// do prazo de pega, ruby quando estourou. Some quando o ciclo fecha.
+const handoffInvite = computed(() => {
+  const due = Number(props.chat?.handoff_invite?.pickup_due_at);
+  if (!due || Number.isNaN(due)) return null;
+
+  const isOverdue = Date.now() / 1000 > due;
+  return {
+    overdue: isOverdue,
+    label: shortTimestamp(dynamicTime(due), true),
+  };
+});
 
 // Virtual CRM stage chip — rendered alongside labels (same path as labels),
 // gated by CRM-on + view permission, data via batched lookup keyed on chat id.
@@ -252,6 +266,30 @@ watch(
             :chat="chat"
             class="ltr:mr-1 rtl:ml-1"
           />
+          <div
+            v-if="handoffInvite"
+            class="flex h-5 min-w-fit items-center gap-1 rounded border border-n-strong px-1.5 ltr:mr-1 rtl:ml-1"
+            :title="
+              handoffInvite.overdue
+                ? $t('CRM_KANBAN.CARD.HANDOFF_INVITE_OVERDUE')
+                : $t('CRM_KANBAN.CARD.HANDOFF_INVITE_PENDING')
+            "
+          >
+            <span
+              class="i-lucide-alarm-clock size-3 flex-shrink-0"
+              :class="
+                handoffInvite.overdue ? 'text-n-ruby-11' : 'text-n-amber-11'
+              "
+            />
+            <span
+              class="text-xs font-medium"
+              :class="
+                handoffInvite.overdue ? 'text-n-ruby-11' : 'text-n-amber-11'
+              "
+            >
+              {{ handoffInvite.label }}
+            </span>
+          </div>
         </template>
       </CardLabels>
     </div>

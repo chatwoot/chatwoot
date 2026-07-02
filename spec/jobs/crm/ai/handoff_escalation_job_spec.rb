@@ -6,7 +6,12 @@ RSpec.describe Crm::Ai::HandoffEscalationJob do
   let(:invited_agent) { create(:user, account: account) }
   let(:escalation_user) { create(:user, account: account) }
   let(:contact) { create(:contact, account: account) }
-  let(:inbox) { create_crm_inbox(account: account, members: [invited_agent, escalation_user]) }
+  let(:inbox) do
+    # Auto-assignment nativo desligado: com a presença stubada como online, o
+    # RoundRobin atribuiria a conversa na criação e o job pularia (already_assigned).
+    create_crm_inbox(account: account, members: [invited_agent, escalation_user])
+      .tap { |created| created.update!(enable_auto_assignment: false) }
+  end
   let(:conversation) { create_crm_conversation(account: account, inbox: inbox, contact: contact) }
   let(:notification_builder) { instance_double(NotificationBuilder, perform: true) }
 
@@ -18,6 +23,10 @@ RSpec.describe Crm::Ai::HandoffEscalationJob do
 
   before do
     allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    # Presença padrão: supervisor online (o gate de escalação exige online
+    # quando prefer_online está ligado, que é o default do funil).
+    allow(OnlineStatusTracker).to receive(:get_available_users)
+      .with(account.id).and_return(escalation_user.id.to_s => 'online')
   end
 
   it 'assigns the escalation user and stamps the cycle when escalation_action is escalate' do
@@ -126,6 +135,35 @@ RSpec.describe Crm::Ai::HandoffEscalationJob do
     expect(conversation.reload.assignee_id).to eq(escalation_user.id)
     expect(cycle['escalated_at']).to be_present
     expect(cycle['escalated_to']).to eq(escalation_user.id)
+  end
+
+  it 'holds the escalation while the supervisor is offline and prefer_online is on' do
+    allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return({})
+    card = create_card(
+      config: base_config.merge('escalation_action' => 'escalate', 'escalation_user_id' => escalation_user.id),
+      metadata: handoff_metadata(invited_at: 2.hours.ago)
+    )
+
+    described_class.perform_now
+
+    cycle = current_cycle(card.reload)
+    expect(conversation.reload.assignee_id).to be_nil
+    expect(cycle['escalated_at']).to be_blank
+  end
+
+  it 'forces the escalation to an offline supervisor when prefer_online is off' do
+    allow(OnlineStatusTracker).to receive(:get_available_users).with(account.id).and_return({})
+    card = create_card(
+      config: base_config.merge(
+        'escalation_action' => 'escalate', 'escalation_user_id' => escalation_user.id, 'prefer_online' => false
+      ),
+      metadata: handoff_metadata(invited_at: 2.hours.ago)
+    )
+
+    described_class.perform_now
+
+    expect(conversation.reload.assignee_id).to eq(escalation_user.id)
+    expect(current_cycle(card.reload)['escalated_at']).to be_present
   end
 
   def base_config

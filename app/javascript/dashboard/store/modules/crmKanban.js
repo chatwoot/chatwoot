@@ -152,7 +152,18 @@ export const getters = {
     return $state.board;
   },
   getStages($state) {
-    return $state.board.stages || [];
+    // Colunas ordenadas pela conversa mais recente (last_message_at desc,
+    // epoch do payload; empate por id desc). Feito no getter, imutável, para
+    // valer tanto na carga inicial quanto nos upserts realtime — o backend
+    // segue paginando por id e o board reordena aqui.
+    return ($state.board.stages || []).map(stage => ({
+      ...stage,
+      cards: [...(stage.cards || [])].sort((a, b) => {
+        const bEpoch = Number(b.last_message_at) || 0;
+        const aEpoch = Number(a.last_message_at) || 0;
+        return bEpoch - aEpoch || (b.id || 0) - (a.id || 0);
+      }),
+    }));
   },
   getCardsList($state) {
     return $state.cardsList;

@@ -60,7 +60,7 @@ class Crm::Ai::HandoffEscalationJob < ApplicationJob
     return if cycle.blank?
 
     user = escalation_user(card, conversation, settings[:escalation_user_id])
-    return if user.blank?
+    return unless escalation_target_ready?(card, settings, user)
 
     return unless assign_user(conversation, user)
 
@@ -170,6 +170,28 @@ class Crm::Ai::HandoffEscalationJob < ApplicationJob
 
   def inbox_member?(conversation, user)
     conversation.inbox&.members&.exists?(id: user.id)
+  end
+
+  # Escalar para supervisor OFFLINE cala a IA e deixa o cliente no vácuo (o
+  # furo R2 do redesenho). Com prefer_online ligado, segura: a IA continua
+  # atendendo e este job re-tenta a cada rodada até o supervisor ficar online.
+  def escalation_target_ready?(card, settings, user)
+    return false if user.blank?
+    return true unless settings[:prefer_online]
+
+    user_online?(card.account_id, user)
+  end
+
+  # Mesma fonte de presença do HandoffMemberSelector (Redis, janela curta).
+  # Falha de leitura conta como offline: melhor re-tentar na próxima rodada
+  # do que cravar num supervisor possivelmente ausente e calar a IA.
+  def user_online?(account_id, user)
+    OnlineStatusTracker.get_available_users(account_id)
+                       .select { |_id, status| status == 'online' }
+                       .keys.map(&:to_i)
+                       .include?(user.id)
+  rescue StandardError
+    false
   end
 
   def open_cycle(card)

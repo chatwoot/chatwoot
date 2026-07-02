@@ -73,34 +73,10 @@ class Crm::Cards::PayloadBuilder
   # Provenance of value_cents so the UI can badge "filled by AI" and the Win
   # dialog can hint it. value_cents itself is authoritative (auto-filled).
   # Gated on conversation visibility like the summary.
-  # Convite R3 em aberto para o badge do kanban: subset estável e seguro do
-  # ciclo ativo (não expõe o blob ai bruto). Some quando o ciclo fecha
-  # (pega, cancelamento, expiração ou escalação).
+  # Convite R3 em aberto para o badge do kanban (lógica compartilhada com a
+  # lista de conversas em Crm::Ai::HandoffInvitePayload).
   def handoff_invite_payload
-    pointer = (@card.metadata || {}).dig('ai', 'handoff')
-    return unless pointer.is_a?(Hash)
-    return if pointer['invited_at'].blank?
-    return if %w[picked_up_at canceled_at expired_at escalated_at].any? { |key| pointer[key].present? }
-
-    invited_at = parse_handoff_time(pointer['invited_at'])
-    return if invited_at.blank?
-
-    { invited_at: invited_at.to_i, pickup_due_at: handoff_pickup_due_at(pointer, invited_at).to_i }
-  end
-
-  def handoff_pickup_due_at(pointer, invited_at)
-    due = parse_handoff_time(pointer['pickup_due_at'])
-    return due if due.present?
-
-    # Ciclos anteriores ao carimbo de pickup_due_at: resolve pela config efetiva.
-    threshold = Crm::Ai::Config.handoff_settings(@card.stage, @card.pipeline)[:pickup_threshold_seconds].to_i
-    invited_at + threshold.seconds
-  end
-
-  def parse_handoff_time(value)
-    Time.zone.parse(value.to_s)
-  rescue ArgumentError, TypeError
-    nil
+    Crm::Ai::HandoffInvitePayload.for_card(@card)
   end
 
   def ai_value_payload

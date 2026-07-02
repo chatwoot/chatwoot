@@ -332,6 +332,7 @@ Metrics/CyclomaticComplexity:
 Metrics/MethodLength:
   Exclude:
     - 'app/controllers/api/v1/accounts/campaign_imports_controller.rb'
+    - 'app/presenters/conversations/event_data_presenter.rb'
     - 'app/controllers/api/v1/accounts/crm/booking_profiles_controller.rb'
     - 'app/controllers/api/v1/accounts/crm/calendar_controller.rb'
     - 'app/controllers/api/v1/accounts/crm/meetings_controller.rb'
