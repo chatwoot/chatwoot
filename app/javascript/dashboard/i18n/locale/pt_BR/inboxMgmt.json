@@ -1255,10 +1255,14 @@
       "CLIENT_SECRET_MICROSOFT": "Segredo do cliente",
       "CLIENT_SECRET_GOOGLE": "Segredo do cliente",
       "CLIENT_SECRET_PH": "Cole o valor do segredo",
+      "TENANT_ID_MICROSOFT": "Tenant ID (ID do diretório)",
+      "TENANT_ID_MICROSOFT_PH": "common",
+      "TENANT_ID_MICROSOFT_HINT": "Necessário quando o app Azure é single-tenant. Deixe vazio para apps multi-tenant.",
       "SAVE_AND_CONTINUE": "Salvar e continuar",
       "SAVE_ERROR": "Não foi possível salvar as credenciais. Confira os valores e tente novamente.",
       "USING_ACCOUNT_APP": "Usando o aplicativo próprio desta conta.",
-      "EDIT_APP": "Editar credenciais"
+      "EDIT_APP": "Editar credenciais",
+      "OAUTH_CALLBACK_ERROR": "Falha na autorização Microsoft/Google ({code}). Verifique o app OAuth da conta."
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
