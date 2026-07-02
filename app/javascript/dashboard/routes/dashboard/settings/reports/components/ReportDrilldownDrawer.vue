@@ -241,6 +241,7 @@ onBeforeUnmount(() => {
                 slate
                 size="sm"
                 icon="i-ph-caret-left"
+                class="rtl:rotate-180"
                 :disabled="!canPrev"
                 :aria-label="$t('REPORT.DRILLDOWN.PREVIOUS_BUCKET')"
                 @click="navigate(-1)"
@@ -250,6 +251,7 @@ onBeforeUnmount(() => {
                 slate
                 size="sm"
                 icon="i-ph-caret-right"
+                class="rtl:rotate-180"
                 :disabled="!canNext"
                 :aria-label="$t('REPORT.DRILLDOWN.NEXT_BUCKET')"
                 @click="navigate(1)"
