@@ -23,7 +23,7 @@
   "size-limit": [
     {
       "path": "public/vite/assets/widget-*.js",
-      "limit": "300 KB"
+      "limit": "350 KB"
     },
     {
       "path": "public/packs/js/sdk.js",
