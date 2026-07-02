@@ -37,6 +37,21 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(body).to include('hit_rate' => '0.0%')
       end
 
+      it 'excludes conversations with blocked contacts from metrics' do
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
+        conversation2.contact.update!(blocked: true)
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/metrics",
+            headers: administrator.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body)
+
+        expect(body).to include('total_applied_slas' => 1)
+        expect(body).to include('number_of_sla_misses' => 1)
+        expect(body).to include('hit_rate' => '0.0%')
+      end
+
       it 'filters sla metrics based on a date range' do
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, created_at: 10.days.ago)
         create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, created_at: 3.days.ago)
@@ -131,6 +146,21 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(csv_data.size).to eq(3)
         expect(csv_data[1][0].to_i).to eq(conversation1.display_id)
       end
+
+      it 'excludes conversations with blocked contacts from the CSV file' do
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
+        conversation2.contact.update!(blocked: true)
+
+        get "/api/v1/accounts/#{account.id}/applied_slas/download",
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        csv_data = CSV.parse(response.body)
+        csv_data.reject! { |row| row.all?(&:nil?) }
+        expect(csv_data.size).to eq(2)
+        expect(csv_data[1][0].to_i).to eq(conversation1.display_id)
+      end
     end
   end
 
@@ -153,6 +183,21 @@ RSpec.describe 'Applied SLAs API', type: :request do
         expect(body['payload'].size).to eq(1)
         expect(body['payload'].first).to include('applied_sla')
         expect(body['payload'].first['conversation']['id']).to eq(conversation2.display_id)
+        expect(body['meta']).to include('count' => 1)
+      end
+
+      it 'excludes conversations with blocked contacts' do
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation1, sla_status: 'missed')
+        create(:applied_sla, sla_policy: sla_policy1, conversation: conversation2, sla_status: 'missed')
+        conversation2.contact.update!(blocked: true)
+
+        get "/api/v1/accounts/#{account.id}/applied_slas",
+            headers: administrator.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body)
+
+        expect(body['payload'].size).to eq(1)
+        expect(body['payload'].first['conversation']['id']).to eq(conversation1.display_id)
         expect(body['meta']).to include('count' => 1)
       end
 
