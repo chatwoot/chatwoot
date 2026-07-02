@@ -261,13 +261,12 @@ const openRecord = () => {
       {{ previewText }}
     </p>
 
-    <div
-      class="mt-2 grid grid-cols-3 gap-2 text-[11px] leading-4 text-n-slate-10"
-    >
+    <div class="mt-2 grid grid-cols-3 gap-2">
       <component
         :is="item.path ? 'a' : 'span'"
         v-for="item in metadataItems"
         :key="item.key"
+        class="text-body-main"
         v-bind="metadataAttributes(item)"
         :class="metadataItemClass(item)"
         @click="stopMetadataLinkClick($event, item)"
