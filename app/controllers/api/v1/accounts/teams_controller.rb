@@ -32,3 +32,5 @@ class Api::V1::Accounts::TeamsController < Api::V1::Accounts::BaseController
     params.require(:team).permit(:name, :description, :allow_auto_assign, :icon, :icon_color)
   end
 end
+
+Api::V1::Accounts::TeamsController.prepend_mod_with('Api::V1::Accounts::TeamsController')

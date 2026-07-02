@@ -178,3 +178,5 @@ class Integrations::Hook < ApplicationRecord
     %w[leadsquared].include?(app_id)
   end
 end
+
+Integrations::Hook.prepend_mod_with('Integrations::Hook')

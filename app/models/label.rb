@@ -54,3 +54,5 @@ class Label < ApplicationRecord
     Labels::UpdateJob.perform_later(title, title_previously_was, account_id)
   end
 end
+
+Label.prepend_mod_with('Label')

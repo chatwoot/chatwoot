@@ -1,6 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useQuota } from 'dashboard/composables/useQuota';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import { computed, ref } from 'vue';
@@ -17,6 +18,7 @@ const store = useStore();
 const { t } = useI18n();
 const getters = useStoreGetters();
 const { isAdmin } = useAdmin();
+const { atQuotaLimit, quotaTitle } = useQuota('teams');
 
 const loading = ref({});
 const searchQuery = ref('');
@@ -102,9 +104,19 @@ const confirmPlaceHolderText = computed(() =>
           </span>
         </template>
         <template #actions>
-          <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
+          <router-link
+            v-if="isAdmin && !atQuotaLimit"
+            :to="{ name: 'settings_teams_new' }"
+          >
             <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" size="sm" />
           </router-link>
+          <Button
+            v-else-if="isAdmin"
+            :label="$t('TEAMS_SETTINGS.NEW_TEAM')"
+            size="sm"
+            disabled
+            :title="quotaTitle"
+          />
         </template>
       </BaseSettingsHeader>
     </template>

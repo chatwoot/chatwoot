@@ -116,3 +116,28 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## Fork (SaaS) Development — READ FIRST on this machine
+
+Full spec and architecture: `docs/fork/` (start with `docs/fork/README.md`).
+
+### Docker-only toolchain (overrides the rbenv/local-Ruby instructions above)
+
+Ruby is NOT installed on this machine. Run every project command inside Docker:
+
+- **Build images (first time)**: `docker compose build base rails vite`
+- **Run dev**: `docker compose up rails sidekiq vite`
+- **Ruby commands**: `docker compose run --rm rails bundle exec <rails|rubocop|rake> ...`
+- **RSpec (ALWAYS via the isolated test stack — never through the `rails` service)**: `docker compose -f docker-compose.yaml -f docker-compose.rspec.yaml run --rm test bundle exec rspec <path>` — the plain `rails` service inherits Neon/Upstash from `.env`, and `RAILS_ENV=test` there would truncate the live dev database (see `docs/fork/error-log/2026-07-02-test-env-pointed-at-neon-dev-db.md`). Note `docker-compose.test.yaml` is an upstream production deploy file, not a test runner.
+- **Spec DB init (schema only — NEVER seed it)**: `docker compose -f docker-compose.yaml -f docker-compose.rspec.yaml run --rm test bundle exec rails db:create db:schema:load` — `db:prepare` runs seeds, which breaks installation_config specs (see `docs/fork/error-log/2026-07-02-seeded-test-db-broke-installation-config-specs.md`). The test Postgres is tmpfs-backed, so re-run this after the container is recreated.
+- **JS/pnpm commands**: `docker compose run --rm vite pnpm <eslint|test|build|dlx> ...`
+- Postgres (Neon) and Redis (Upstash) are external, configured in `.env`. Never commit `.env` or copy its values into docs, logs, or commits.
+- Prefer generators/CLIs inside the containers (`rails g migration ...`, `pnpm dlx ...`) over hand-writing boilerplate files.
+
+### Fork rules
+
+- All fork behavior lives in the `custom/` overlay (injected via `prepend_mod_with`/`include_mod_with`, same mechanism as `enterprise/`). Do not edit OSS (`app/`, `lib/`) or `enterprise/` files when an overlay works; the only sanctioned OSS edits are (a) the `custom/` autoload bootstrap in `config/application.rb` and (b) canonical one-line extension points at file bottoms (`Foo.prepend_mod_with('Foo')` — the standard Chatwoot pattern, a no-op upstream). See `docs/fork/ARCHITECTURE.md`.
+- Public contracts are frozen: route paths, webhook event names/payloads, `X-Chatwoot-*` headers, and existing response shapes may only be extended additively.
+- Quota/entitlement work extends `Account#usage_limits` and the `accounts.limits` jsonb chain — never a parallel store (see `docs/fork/ENTITLEMENTS.md`). Quota denials: HTTP 402 with the additive `error`/`error_code`/`resource`/`current`/`limit` shape.
+- Every error you fix during fork work gets an entry in `docs/fork/error-log/` (template provided) before moving on.
+- Fork specs live in `spec/custom/`, mirroring the OSS spec layout.

@@ -11,8 +11,11 @@ RSpec.describe 'Agents API', type: :request do
       params = { name: 'NewUser', email: Faker::Internet.email, role: :agent }
 
       before do
+        # Fill the account exactly to its cap (admin + 3 agents = 4). The fork's
+        # model-level quota guard (Custom::Concerns::QuotaGuard) makes over-cap
+        # states unreachable, so setup cannot create past the limit anymore.
         account.update(limits: { agents: 4 })
-        create_list(:user, 4, account: account, role: :agent)
+        create_list(:user, 3, account: account, role: :agent)
       end
 
       it 'prevents adding a new agent and returns a payment required status' do

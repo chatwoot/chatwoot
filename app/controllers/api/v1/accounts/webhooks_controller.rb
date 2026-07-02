@@ -30,3 +30,5 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
     @webhook = Current.account.webhooks.find(params[:id])
   end
 end
+
+Api::V1::Accounts::WebhooksController.prepend_mod_with('Api::V1::Accounts::WebhooksController')

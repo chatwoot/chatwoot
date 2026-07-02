@@ -1,0 +1,70 @@
+# Fork-local spec runner (see docs/fork/IMPLEMENTATION_PLAN.md Phase 0).
+# Note: docker-compose.test.yaml is an upstream production-style deployment
+# file, NOT a test runner — hence this separate file.
+#
+# Specs must never touch the external Neon/Upstash instances from .env, so
+# this file hard-overrides every POSTGRES_*/REDIS_URL value with throwaway
+# local containers (tmpfs-backed, nothing persists).
+#
+# Usage:
+#   docker compose -f docker-compose.yaml -f docker-compose.rspec.yaml run --rm test \
+#     bundle exec rspec spec/path/to/file_spec.rb
+
+services:
+  postgres-test:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: chatwoot_test
+      POSTGRES_DB: chatwoot_test
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+  redis-test:
+    image: redis:7-alpine
+    tmpfs:
+      - /data
+
+  test:
+    image: chatwoot-rails:development
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
+
+    environment:
+      RAILS_ENV: test
+      NODE_ENV: test
+      POSTGRES_HOST: postgres-test
+      POSTGRES_PORT: "5432"
+      POSTGRES_DATABASE: chatwoot_test
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: chatwoot_test
+      POSTGRES_SSLMODE: disable
+      REDIS_URL: redis://redis-test:6379
+      # .env sets a 0.0.0.0 dev URL, which breaks redirect/url specs in test
+      FRONTEND_URL: http://localhost:3000
+
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_started
+
+    entrypoint: ""
+
+    command:
+      - bundle
+      - exec
+      - rspec

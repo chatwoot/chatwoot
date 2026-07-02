@@ -7,6 +7,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useQuota } from 'dashboard/composables/useQuota';
 import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -15,6 +16,7 @@ import { BaseTable } from 'dashboard/components-next/table';
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+const { atQuotaLimit, quotaTitle } = useQuota('automation_rules');
 const confirmDialog = ref(null);
 
 const loading = ref({});
@@ -206,6 +208,8 @@ const tableHeaders = computed(() => {
           <Button
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             size="sm"
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             @click="openAddPopup"
           />
         </template>

@@ -50,3 +50,5 @@ class Api::V1::Accounts::CustomAttributeDefinitionsController < Api::V1::Account
     params.permit(:id, :filter_type, :attribute_model)
   end
 end
+
+Api::V1::Accounts::CustomAttributeDefinitionsController.prepend_mod_with('Api::V1::Accounts::CustomAttributeDefinitionsController')

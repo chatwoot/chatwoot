@@ -69,3 +69,4 @@ class AgentBot < ApplicationRecord
 end
 
 AgentBot.include_mod_with('Audit::AgentBot')
+AgentBot.prepend_mod_with('AgentBot')
