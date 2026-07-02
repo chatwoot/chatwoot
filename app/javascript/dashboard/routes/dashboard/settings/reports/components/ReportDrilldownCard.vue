@@ -225,7 +225,7 @@ const openRecord = () => {
         </div>
       </div>
       <div
-        class="ml-2 flex shrink-0 items-center justify-end gap-1 text-right text-xs leading-4 text-n-slate-10"
+        class="ms-2 flex shrink-0 items-center justify-end gap-1 text-end text-xs leading-4 text-n-slate-10"
       >
         <span
           v-if="isMessageRecord"
