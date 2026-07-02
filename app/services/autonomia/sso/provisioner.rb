@@ -114,7 +114,7 @@ class Autonomia::Sso::Provisioner
       account: account,
       phone: pending_invitation['whatsapp_api_phone'],
       display_name: user.name,
-      api_access_token: api_access_token_for(user)
+      api_access_token: api_access_token_for(pending_invitation, fallback_user: user)
     ).perform
 
     InboxMember.find_or_create_by!(inbox: result.inbox, user: user)
@@ -122,8 +122,9 @@ class Autonomia::Sso::Provisioner
     @post_login_redirect_path = invite_connection_path(account)
   end
 
-  def api_access_token_for(user)
-    (user.access_token || user.create_access_token).token
+  def api_access_token_for(pending_invitation, fallback_user:)
+    token_owner = User.find_by(id: pending_invitation['invited_by_user_id']) || fallback_user
+    (token_owner.access_token || token_owner.create_access_token).token
   end
 
   def mark_invite_connection_pending!(inbox, user)
