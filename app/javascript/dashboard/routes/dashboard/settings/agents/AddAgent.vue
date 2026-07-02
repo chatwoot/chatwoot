@@ -119,31 +119,23 @@ const normalizedWhatsappPhone = computed(() =>
   whatsappApiPhone.value.toString().replace(/\D/g, '')
 );
 
-const hasInboxAssignment = computed(
-  () => selectedInboxIds.value.length > 0 || createWhatsappApiInbox.value
-);
-
 const isWhatsappApiPhoneValid = computed(
   () =>
     !createWhatsappApiInbox.value ||
     /^55\d{11}$/.test(normalizedWhatsappPhone.value)
 );
 
-const isInviteConfigInvalid = computed(
-  () => !hasInboxAssignment.value || !isWhatsappApiPhoneValid.value
-);
-
 const canSubmit = computed(
   () =>
     !v$.value.$invalid &&
-    !isInviteConfigInvalid.value &&
+    isWhatsappApiPhoneValid.value &&
     !uiFlags.value.isCreating
 );
 
 const addAgent = async () => {
   v$.value.$touch();
   inboxAssignmentTouched.value = true;
-  if (v$.value.$invalid || isInviteConfigInvalid.value) return;
+  if (v$.value.$invalid || !isWhatsappApiPhoneValid.value) return;
   manualInvitation.value = null;
 
   try {
@@ -307,13 +299,6 @@ const addAgent = async () => {
             {{ $t('AGENT_MGMT.ADD.FORM.WHATSAPP_API_INBOX.PHONE_ERROR') }}
           </span>
         </label>
-
-        <span
-          v-if="inboxAssignmentTouched && !hasInboxAssignment"
-          class="message"
-        >
-          {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.ERROR') }}
-        </span>
       </div>
 
       <div

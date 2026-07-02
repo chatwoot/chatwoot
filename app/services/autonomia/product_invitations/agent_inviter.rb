@@ -130,10 +130,6 @@ class Autonomia::ProductInvitations::AgentInviter
   end
 
   def validate_inbox_assignment!
-    if inbox_ids.blank? && !create_whatsapp_api_inbox?
-      raise Error, 'Selecione ao menos uma caixa de entrada ou informe a criacao de uma nova caixa WhatsApp API.'
-    end
-
     invalid_ids = inbox_ids - account.inboxes.where(id: inbox_ids).pluck(:id)
     raise Error, 'Uma ou mais caixas de entrada selecionadas nao pertencem a esta conta.' if invalid_ids.any?
 
