@@ -4,11 +4,13 @@ module MicrosoftConcern
   def microsoft_client
     creds = ::EmailOauth::CredentialResolver.new(oauth_account, 'microsoft').credentials
 
+    # Endpoint tenant-aware: app single-tenant da conta usa o tenant cadastrado
+    # (AADSTS50194 no /common); sem tenant_id mantém /common.
     ::OAuth2::Client.new(creds[:client_id], creds[:client_secret],
                          {
-                           site: 'https://login.microsoftonline.com',
-                           authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
-                           token_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/token'
+                           site: ::EmailOauth::MicrosoftTenant::BASE_URL,
+                           authorize_url: ::EmailOauth::MicrosoftTenant.authorize_url(creds),
+                           token_url: ::EmailOauth::MicrosoftTenant.token_url(creds)
                          })
   end
 

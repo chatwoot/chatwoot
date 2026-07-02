@@ -1,11 +1,21 @@
 class OauthCallbackController < ApplicationController
+  # Tokens/códigos têm 32+ chars alfanuméricos — redige antes de logar.
+  SENSITIVE_VALUE = /[A-Za-z0-9_.-]{32,}/
+
   def show
+    # Provedor voltou com erro (ex.: AADSTS50194 — app single-tenant no endpoint
+    # /common) ou sem code: não há o que trocar por token. Antes isso caía no
+    # rescue e virava redirect mudo para a home; agora loga e leva o admin de
+    # volta às configurações de inbox com o código do erro.
+    return handle_provider_error if params[:error].present? || oauth_code.blank?
+
     @response = oauth_client.auth_code.get_token(oauth_code, token_exchange_params)
 
     handle_response
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
-    redirect_to '/'
+    Rails.logger.error("[OauthCallback] #{provider_name} failed: #{e.class}: #{sanitize_for_log(e.message)}")
+    redirect_to error_redirect_path('token_exchange_failed')
   end
 
   # Provedores que precisam fixar o escopo de UM recurso na troca do code
@@ -15,6 +25,35 @@ class OauthCallbackController < ApplicationController
   end
 
   private
+
+  def handle_provider_error
+    Rails.logger.error(
+      "[OauthCallback] #{provider_name} provider error: #{sanitize_for_log(params[:error])} " \
+      "#{sanitize_for_log(params[:error_description])}"
+    )
+    # O código AADSTS (quando presente) é o dado acionável — ex.: AADSTS50194
+    # diz exatamente o que corrigir no app registration do Azure.
+    error_code = params[:error_description].to_s[/AADSTS\d+/] || params[:error].presence || 'missing_code'
+    redirect_to error_redirect_path(error_code)
+  end
+
+  # Erro visível: se o `state` resolve a conta, o admin volta pra tela de nova
+  # inbox com o código do erro (o frontend mostra o alerta). Home ('/') fica
+  # só para quando nem a conta é identificável.
+  def error_redirect_path(error_code)
+    acct = begin
+      account
+    rescue StandardError
+      nil
+    end
+    return '/' if acct.nil?
+
+    "/app/accounts/#{acct.id}/settings/inboxes/new?oauth_error=#{ERB::Util.url_encode(error_code.to_s.first(64))}"
+  end
+
+  def sanitize_for_log(value)
+    value.to_s.gsub(SENSITIVE_VALUE, '<REDACTED>').first(500)
+  end
 
   def handle_response
     inbox, already_exists = find_or_create_inbox

@@ -25,31 +25,47 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
       end
 
       it 'creates a new authorization and returns the redirect url' do
-        skip 'QUARANTINE: pre-existing legacy failure, harness-restore PR; real fix tracked for follow-up PR2'
+        with_modified_env CRM_CALENDAR_MEETINGS_ENABLED: 'false' do
+          post "/api/v1/accounts/#{account.id}/microsoft/authorization",
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:success)
+
+          # Validate URL components
+          url = response.parsed_body['url']
+          uri = URI.parse(url)
+          params = CGI.parse(uri.query)
+
+          expect(url).to start_with('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
+          expected_scope = [
+            'offline_access https://outlook.office.com/IMAP.AccessAsUser.All ' \
+            'https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Mail.ReadWrite openid profile email'
+          ]
+          expect(params['scope']).to eq(expected_scope)
+          expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback"])
+          expect(url).not_to match(/(?:\?|&)prompt=/)
+
+          # Validate state parameter exists and can be decoded back to the account
+          expect(params['state']).to be_present
+          decoded_account = GlobalID::Locator.locate_signed(params['state'].first, for: 'default')
+          expect(decoded_account).to eq(account)
+        end
+      end
+
+      it 'builds the authorize url on the tenant-specific endpoint when the account app has a tenant_id' do
+        account.email_oauth_apps.create!(
+          provider: 'microsoft', client_id: SecureRandom.uuid, client_secret: SecureRandom.hex(20),
+          tenant_id: 'a1b2c3d4-1111-2222-3333-444455556666'
+        )
+
         post "/api/v1/accounts/#{account.id}/microsoft/authorization",
              headers: administrator.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
-
-        # Validate URL components
-        url = response.parsed_body['url']
-        uri = URI.parse(url)
-        params = CGI.parse(uri.query)
-
-        expect(url).to start_with('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
-        expected_scope = [
-          'offline_access https://outlook.office.com/IMAP.AccessAsUser.All ' \
-          'https://outlook.office.com/SMTP.Send openid profile email'
-        ]
-        expect(params['scope']).to eq(expected_scope)
-        expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback"])
-        expect(url).not_to match(/(?:\?|&)prompt=/)
-
-        # Validate state parameter exists and can be decoded back to the account
-        expect(params['state']).to be_present
-        decoded_account = GlobalID::Locator.locate_signed(params['state'].first, for: 'default')
-        expect(decoded_account).to eq(account)
+        expect(response.parsed_body['url'])
+          .to start_with('https://login.microsoftonline.com/a1b2c3d4-1111-2222-3333-444455556666/oauth2/v2.0/authorize')
       end
     end
   end
