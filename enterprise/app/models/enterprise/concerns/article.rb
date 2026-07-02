@@ -78,7 +78,7 @@ module Enterprise::Concerns::Article
   private
 
   def openai_api_key
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value.presence || raise(I18n.t('captain.api_key_missing'))
   end
 
   def openai_api_url
