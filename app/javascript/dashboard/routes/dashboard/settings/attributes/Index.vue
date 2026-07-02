@@ -17,12 +17,14 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useQuota } from 'dashboard/composables/useQuota';
 
 const { t } = useI18n();
 
 const getters = useStoreGetters();
 const store = useStore();
 const { currentAccount } = useAccount();
+const { atQuotaLimit, quotaTitle } = useQuota('custom_attribute_definitions');
 const inboxes = useMapGetter('inboxes/getInboxes');
 
 const [showAddPopup, toggleAddPopup] = useToggle(false);
@@ -190,6 +192,8 @@ const filteredAttributes = computed(() => {
           <Button
             :label="$t('ATTRIBUTES_MGMT.HEADER_BTN_TXT')"
             size="sm"
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             @click="openAddPopup"
           />
         </template>

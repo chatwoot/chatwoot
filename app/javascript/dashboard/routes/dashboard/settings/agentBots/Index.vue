@@ -2,6 +2,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useQuota } from 'dashboard/composables/useQuota';
 import { useI18n } from 'vue-i18n';
 import { picoSearch } from '@scmmishra/pico-search';
 
@@ -24,6 +25,7 @@ const MODAL_TYPES = {
 
 const store = useStore();
 const { t } = useI18n();
+const { atQuotaLimit, quotaTitle } = useQuota('agent_bots');
 
 const agentBots = useMapGetter('agentBots/getBots');
 const uiFlags = useMapGetter('agentBots/getUIFlags');
@@ -116,6 +118,8 @@ onMounted(() => {
           <Button
             :label="$t('AGENT_BOTS.ADD.TITLE')"
             size="sm"
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             @click="openAddModal"
           />
         </template>

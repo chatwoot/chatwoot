@@ -1,0 +1,5 @@
+{
+  "QUOTA": {
+    "LIMIT_REACHED": "Plan limit reached ({consumed}/{allowed}). Upgrade your plan to add more."
+  }
+}

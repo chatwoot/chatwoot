@@ -145,3 +145,5 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     }
   end
 end
+
+Enterprise::Api::V1::AccountsController.prepend_mod_with('Enterprise::Api::V1::AccountsController')

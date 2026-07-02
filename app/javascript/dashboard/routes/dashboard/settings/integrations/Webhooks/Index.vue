@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
+import { useQuota } from 'dashboard/composables/useQuota';
 import { picoSearch } from '@scmmishra/pico-search';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { BaseTable } from 'dashboard/components-next/table';
@@ -23,7 +24,8 @@ export default {
   },
   setup() {
     const { replaceInstallationName } = useBranding();
-    return { replaceInstallationName };
+    const { atQuotaLimit, quotaTitle } = useQuota('webhooks');
+    return { replaceInstallationName, atQuotaLimit, quotaTitle };
   },
   data() {
     return {
@@ -135,6 +137,8 @@ export default {
             blue
             :label="$t('INTEGRATION_SETTINGS.WEBHOOK.HEADER_BTN_TXT')"
             size="sm"
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             @click="openAddPopup"
           />
         </template>
