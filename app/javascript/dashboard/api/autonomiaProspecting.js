@@ -22,6 +22,10 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.get(`${this.url}/leads`);
   }
 
+  createLeadContact(leadId) {
+    return axios.post(`${this.url}/leads/${leadId}/contact`);
+  }
+
   getLists() {
     return axios.get(`${this.url}/lists`);
   }

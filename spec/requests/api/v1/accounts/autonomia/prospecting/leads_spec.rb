@@ -1,0 +1,48 @@
+require 'rails_helper'
+
+RSpec.describe 'Autonomia prospecting leads API', type: :request do
+  let(:account) { create(:account) }
+  let(:admin) { create(:user, :administrator, account: account) }
+  let(:lead) do
+    Autonomia::Prospecting::Lead.create!(
+      account: account,
+      provider: 'mock',
+      provider_place_id: 'mock-place-1',
+      name: 'Alpha Restaurante',
+      phone: '+55 11 99999-8888',
+      city: 'Sao Paulo',
+      state: 'SP',
+      country: 'BR'
+    )
+  end
+
+  before do
+    Autonomia::Prospecting::Config.enable_for!(account)
+  end
+
+  it 'converts a prospecting lead into a Chatwoot contact' do
+    post "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}/contact",
+         headers: auth_headers(admin)
+
+    expect(response).to have_http_status(:created)
+    payload = response.parsed_body['payload']
+    expect(payload.dig('lead', 'contact_id')).to be_present
+    expect(payload.dig('lead', 'contact_status')).to eq('created')
+    expect(payload.dig('contact', 'phone_number')).to eq('+5511999998888')
+    expect(lead.reload.contact_id).to eq(payload.dig('contact', 'id'))
+  end
+
+  it 'does not create a duplicate contact when called twice' do
+    post "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}/contact",
+         headers: auth_headers(admin)
+    post "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}/contact",
+         headers: auth_headers(admin)
+
+    expect(response).to have_http_status(:ok)
+    expect(account.contacts.count).to eq(1)
+  end
+
+  def auth_headers(user)
+    { 'api_access_token' => user.access_token.token }
+  end
+end
