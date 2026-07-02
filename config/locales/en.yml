@@ -54,6 +54,7 @@ en:
   errors:
     quota:
       exceeded: 'Account limit exceeded for %{resource} (%{current}/%{limit}). Upgrade your plan to add more.'
+    sso_only_login: 'Direct sign-in is disabled. Please sign in through your account portal.'
     account:
       reporting_timezone:
         invalid: is not a valid timezone

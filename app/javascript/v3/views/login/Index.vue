@@ -110,6 +110,12 @@ export default {
   created() {
     if (this.ssoAuthToken) {
       this.submitLogin();
+    } else if (!this.email && window.chatwootConfig?.EXTERNAL_LOGIN_URL) {
+      // Fork: native login is owned by the external app. Bounce bare/expired
+      // visits to its login instead of showing Chatwoot's form. Only fires for
+      // non-SSO visits (no email/token), so the SSO handoff is untouched.
+      window.location.replace(window.chatwootConfig.EXTERNAL_LOGIN_URL);
+      return;
     }
     if (this.authError) {
       const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';

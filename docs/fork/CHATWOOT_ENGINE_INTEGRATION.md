@@ -140,7 +140,55 @@ Headers: api_access_token: {USER_TOKEN}
 ### 4.4 Store per tenant in the control plane
 
 `account_id`, `webhook_secret`, `bot_access_token` (`BOT_TOKEN`), and any
-orchestrator config (LangGraph, model, etc.).
+orchestrator config (LangGraph, model, etc.). Also store each tenant user's
+Chatwoot `user_id` (from §4.2) — you need it for the SSO login below.
+
+### 4.5 Logging a user into Chatwoot (SSO handoff — no Chatwoot login form)
+
+Users authenticate in **your** stack (Next.js / NestJS); they must never see
+Chatwoot's own login form. To drop an already-authenticated user into their
+Chatwoot dashboard, mint a one-time SSO link and redirect the browser to it:
+
+```http
+GET {BASE_URL}/platform/api/v1/users/{USER_ID}/login
+Headers: api_access_token: {PLATFORM_TOKEN}
+→ 200 { "url": "{BASE_URL}/app/login?email=<enc>&sso_auth_token=<token>" }
+```
+
+Then `302` the user's browser to that `url`. Chatwoot consumes the token, signs
+the user in, and lands them on the dashboard — the login page shows only a
+spinner during the exchange, never a form.
+
+- Flow: user logs in on your frontend → NestJS looks up the Chatwoot `user_id`
+  → `GET /platform/api/v1/users/{id}/login` → redirect the browser to `url`.
+- The `sso_auth_token` is **single-use** and **expires in 5 minutes**. Mint a
+  fresh one per login; never cache it.
+- Disable Chatwoot self-service signup so your stack is the only entry point:
+  set installation config `ENABLE_ACCOUNT_SIGNUP=false` (also hides the signup
+  link on Chatwoot's login page).
+- On Chatwoot **session expiry** the dashboard bounces to `/app/login`. If the
+  fork's "external login redirect" is enabled, that bare page redirects to your
+  login URL so users re-authenticate in your stack and get a fresh SSO link;
+  otherwise they would see Chatwoot's form.
+
+### 4.6 Locking down native Chatwoot auth (required config)
+
+To guarantee the only way in is your stack, set these on the Chatwoot deploy
+(ENV / installation config). All are enforced server-side — not just UI:
+
+| Config | Value | Effect |
+| --- | --- | --- |
+| `ENABLE_SSO_ONLY_LOGIN` | `true` | **Fork:** the user session controller rejects every non-SSO login (password + MFA-token) with `401 { "error_code": "sso_only_login" }`. Only the Platform SSO token — mintable solely with `PLATFORM_TOKEN` — can create a session. This is the master lock: even a known password can't log in. |
+| `EXTERNAL_LOGIN_URL` | your Next.js login URL | **Fork:** bare/expired visits to Chatwoot's `/app/login` redirect here instead of showing a form. |
+| `ENABLE_ACCOUNT_SIGNUP` | `false` (default) | Public account signup (`POST /api/v1/accounts`) returns 404. |
+| `ENABLE_GOOGLE_OAUTH_LOGIN` | `false` | Removes Google login (it signs in via `omniauth_callbacks`, bypassing the session controller). Also simply don't set `GOOGLE_OAUTH_CLIENT_ID`. |
+| `ENABLE_SAML_SSO_LOGIN` | `false` | Removes SAML login unless you use it. |
+
+- **Super admin is unaffected** — it uses a separate Devise scope
+  (`devise_for :super_admins` at `/super_admin`), so the operator always reaches
+  the Super Admin console even with `ENABLE_SSO_ONLY_LOGIN` on.
+- With `ENABLE_SSO_ONLY_LOGIN` **off** (default) native login works normally —
+  the lockdown is inert until you opt in, so dev/tests are unaffected.
 
 ---
 
