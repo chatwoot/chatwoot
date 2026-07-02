@@ -1963,6 +1963,9 @@ onMounted(async () => {
           </div>
         </header>
 
+        <!-- :sort=false — a ordem da coluna é sempre por conversa mais recente
+             (getter); reordenar manualmente dentro da coluna seria revertido no
+             próximo tick, então fica desabilitado. Drag entre etapas segue. -->
         <Draggable
           v-model="stage.cards"
           item-key="id"
@@ -1972,6 +1975,7 @@ onMounted(async () => {
           class="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-3"
           :animation="150"
           :disabled="!canMoveCards"
+          :sort="false"
           @start="onDragStart"
           @change="event => onDragChange(stage, event)"
         >
