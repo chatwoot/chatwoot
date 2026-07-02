@@ -205,6 +205,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_20_165144) do
     t.boolean "enabled", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "exclude_older_than_hours", default: 168
     t.index ["account_id", "name"], name: "index_assignment_policies_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_assignment_policies_on_account_id"
     t.index ["enabled"], name: "index_assignment_policies_on_enabled"
@@ -414,6 +415,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_20_165144) do
     t.index ["assistant_id"], name: "index_captain_message_generations_on_assistant_id"
     t.index ["conversation_id"], name: "index_captain_message_generations_on_conversation_id"
     t.index ["message_id"], name: "index_captain_message_generations_on_message_id", unique: true
+  end
+
+  create_table "captain_message_reports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id", null: false
+    t.bigint "user_id", null: false
+    t.string "report_reason", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_message_reports_on_account_id"
+    t.index ["conversation_id"], name: "index_captain_message_reports_on_conversation_id"
+    t.index ["message_id"], name: "index_captain_message_reports_on_message_id"
+    t.index ["user_id"], name: "index_captain_message_reports_on_user_id"
   end
 
   create_table "captain_scenarios", force: :cascade do |t|
@@ -1267,6 +1283,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_20_165144) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "icon", default: ""
+    t.string "icon_color", default: ""
     t.index ["account_id"], name: "index_teams_on_account_id"
     t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
   end

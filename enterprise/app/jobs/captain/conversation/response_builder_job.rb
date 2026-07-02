@@ -1,5 +1,6 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
+  include Captain::Conversation::V1FalsePromiseHandler
 
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
@@ -37,6 +38,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @chat_service = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation: @conversation)
     @response = @chat_service.generate_response(message_history: message_history)
     classify_v1_response_action(message_history) if conversation_pending?
+    repair_v1_false_promise_response(message_history) if conversation_pending?
     process_response
   end
 

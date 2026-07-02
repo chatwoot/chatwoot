@@ -75,6 +75,7 @@ Rails.application.routes.draw do
             end
             resources :assistant_responses
             resources :message_generations, only: [:show]
+            resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
               resources :copilot_messages, only: [:index, :create]
@@ -501,6 +502,7 @@ Rails.application.routes.draw do
               get :conversations
               get :conversations_summary
               get :conversation_traffic
+              get :drilldown
               get :bot_metrics
               get :inbox_label_matrix
               get :first_response_time_distribution

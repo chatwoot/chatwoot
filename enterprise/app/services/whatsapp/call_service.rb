@@ -21,7 +21,7 @@ class Whatsapp::CallService
 
       invoke_provider!(:reject_call)
       call.update!(accepted_by_agent_id: agent.id) if call.accepted_by_agent_id.nil?
-      finalize_call('failed', end_reason: 'agent_rejected')
+      finalize_call('rejected', end_reason: 'agent_rejected')
     end
     call
   end
@@ -48,9 +48,10 @@ class Whatsapp::CallService
   private
 
   def transition_to_in_progress!
-    # Order matters: in_progress and terminal both make ringing? false, so we have to
-    # branch on in_progress? first to surface the distinct AlreadyAccepted state.
+    # in_progress and terminal both make ringing? false; branch in order to surface the
+    # distinct AlreadyAccepted / CallAlreadyEnded states (caller can hang up mid-ring).
     raise Voice::CallErrors::AlreadyAccepted, 'Call already accepted by another agent' if call.in_progress?
+    raise Voice::CallErrors::CallAlreadyEnded, 'Call already ended' if call.terminal?
     raise Voice::CallErrors::NotRinging, 'Call is not in ringing state' unless call.ringing?
 
     forward_answer_to_meta!

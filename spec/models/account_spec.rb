@@ -385,6 +385,19 @@ RSpec.describe Account do
 
         expect(account).to be_valid
       end
+
+      it 'rejects unknown feature keys' do
+        account.captain_models = { 'unknown_feature' => 'gpt-4.1' }
+
+        expect(account).not_to be_valid
+        expect(account.errors[:captain_models]).to include("'unknown_feature' is not a known feature")
+      end
+
+      it 'removes blank model overrides before saving' do
+        account.update!(captain_models: { 'editor' => '', 'assistant' => 'gpt-5.2' })
+
+        expect(account.captain_models).to eq('assistant' => 'gpt-5.2')
+      end
     end
   end
 end
