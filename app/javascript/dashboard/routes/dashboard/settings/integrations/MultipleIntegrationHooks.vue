@@ -20,6 +20,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  atQuotaLimit: {
+    type: Boolean,
+    default: false,
+  },
+  quotaTitle: {
+    type: String,
+    default: undefined,
+  },
 });
 
 defineEmits(['delete', 'add']);
@@ -94,6 +102,8 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
         <NextButton
           v-if="showAddButton"
           :label="$t('INTEGRATION_APPS.ADD_BUTTON')"
+          :disabled="atQuotaLimit"
+          :title="quotaTitle"
           size="sm"
           @click="$emit('add')"
         />

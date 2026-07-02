@@ -8,6 +8,14 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  atQuotaLimit: {
+    type: Boolean,
+    default: false,
+  },
+  quotaTitle: {
+    type: String,
+    default: undefined,
+  },
 });
 
 defineEmits(['add', 'delete']);
@@ -56,6 +64,8 @@ const { replaceInstallationName } = useBranding();
           <Button
             blue
             faded
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             :label="$t('INTEGRATION_APPS.CONNECT.BUTTON_TEXT')"
             @click="$emit('add')"
           />
