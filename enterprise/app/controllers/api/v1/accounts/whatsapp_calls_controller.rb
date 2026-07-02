@@ -13,6 +13,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
               Voice::CallErrors::AlreadyAccepted,
               Voice::CallErrors::CallFailed,
               with: :render_call_error
+  rescue_from Voice::CallErrors::CallAlreadyEnded, with: :render_call_ended
   rescue_from Voice::CallErrors::NoCallPermission, with: :render_permission_request
 
   def show; end
@@ -189,5 +190,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def render_call_error(error)
     render_could_not_create_error(error.message)
+  end
+
+  # 409 (not 422) so the FE can tell "already ended" from a generic failure and dismiss the ringing UI.
+  def render_call_ended
+    render json: { error: I18n.t('errors.whatsapp.calls.already_ended') }, status: :conflict
   end
 end

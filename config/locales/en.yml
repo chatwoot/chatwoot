@@ -134,6 +134,7 @@ en:
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
