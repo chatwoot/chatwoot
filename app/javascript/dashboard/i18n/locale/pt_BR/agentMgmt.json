@@ -43,7 +43,11 @@
         "INBOXES": {
           "LABEL": "Caixas de entrada do agente",
           "HELP": "Opcionalmente, selecione onde o agente poderá atender assim que concluir o cadastro.",
-          "EMPTY": "Ainda não há caixas de entrada cadastradas para esta conta."
+          "EMPTY": "Ainda não há caixas de entrada cadastradas para esta conta.",
+          "PLACEHOLDER": "Selecione caixas de entrada",
+          "SEARCH_PLACEHOLDER": "Adicionar outra caixa",
+          "NO_RESULTS": "Nenhuma caixa encontrada.",
+          "REMOVE": "Remover {name}"
         },
         "WHATSAPP_API_INBOX": {
           "CREATE": "Criar uma nova caixa WhatsApp API quando o agente aceitar o convite",
