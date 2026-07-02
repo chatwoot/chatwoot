@@ -41,3 +41,5 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
     params.require(:label).permit(:title, :description, :color, :show_on_sidebar)
   end
 end
+
+Api::V1::Accounts::LabelsController.prepend_mod_with('Api::V1::Accounts::LabelsController')

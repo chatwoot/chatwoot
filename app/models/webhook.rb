@@ -44,3 +44,4 @@ class Webhook < ApplicationRecord
 end
 
 Webhook.include_mod_with('Audit::Webhook')
+Webhook.prepend_mod_with('Webhook')

@@ -66,3 +66,5 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
     @automation_rule = Current.account.automation_rules.find_by(id: params[:id])
   end
 end
+
+Api::V1::Accounts::AutomationRulesController.prepend_mod_with('Api::V1::Accounts::AutomationRulesController')

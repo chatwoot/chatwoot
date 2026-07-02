@@ -52,6 +52,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    quota:
+      exceeded: 'Account limit exceeded for %{resource} (%{current}/%{limit}). Upgrade your plan to add more.'
     account:
       reporting_timezone:
         invalid: is not a valid timezone

@@ -53,3 +53,5 @@ class Api::V1::Accounts::AgentBotsController < Api::V1::Accounts::BaseController
     ::Avatar::AvatarFromUrlJob.perform_later(@agent_bot, params[:avatar_url]) if params[:avatar_url].present?
   end
 end
+
+Api::V1::Accounts::AgentBotsController.prepend_mod_with('Api::V1::Accounts::AgentBotsController')

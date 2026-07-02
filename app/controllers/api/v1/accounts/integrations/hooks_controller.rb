@@ -43,3 +43,5 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
     params.require(:hook).permit(:app_id, :inbox_id, :status, settings: {})
   end
 end
+
+Api::V1::Accounts::Integrations::HooksController.prepend_mod_with('Api::V1::Accounts::Integrations::HooksController')
