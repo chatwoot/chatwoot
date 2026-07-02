@@ -171,7 +171,7 @@ The XLSX is only for review. Production migration should use the final reviewed 
 2. **Generate local migration draft review sheet**
    - Run selected assistant rows from the CSV through the migration classifier.
    - Input assistant fields, `config.instructions`, existing messages, existing guidelines/guardrails, and existing scenarios where available.
-   - Generate structured migration drafts with confidence/review flags and source excerpts.
+   - Generate structured migration drafts with confidence/review flags.
    - Export the generated drafts into a local XLSX review workbook.
    - Also keep a local JSONL sidecar when possible, because JSONL is easier to convert into the final apply payload later.
    - The review workbook should include:
@@ -180,7 +180,6 @@ The XLSX is only for review. Production migration should use the final reviewed 
      - current description
      - product name
      - existing instructions in the main review sheet
-     - welcome, handoff, and resolution messages
      - draft columns for Business/Product Context, Response Guidelines, Guardrails, Scenarios/Procedures, FAQs/Documents, Needs Review, and Reviewer Comments
    - The review workbook should not include noisy or non-review columns unless explicitly needed:
      - status
@@ -230,8 +229,10 @@ The XLSX is only for review. Production migration should use the final reviewed 
      - "This should be Guardrails, not Response Guidelines."
      - "Do not create a scenario for simple tone or answer-length rules."
      - "Pricing/policy text should become FAQs/Documents candidates, not trusted prompt rules."
+     - "Generic support scope should move to Business/Product Context or Response Guidelines, not FAQs/Documents candidates."
      - "Do not duplicate description content in Business/Product Context."
      - "Only move customer-facing copy into conversation messages when it is exact copy."
+     - "Do not duplicate welcome, handoff, or resolution copy that already exists in current config."
 6. **Regenerate migration draft review sheet locally**
    - Feed reviewer comments back into the migration prompt/classifier locally.
    - Regenerate the XLSX review workbook and JSONL sidecar from the CSV.
@@ -326,9 +327,14 @@ Important constraints:
 - Do not ask customers/admins to classify old instructions.
 - Do not auto-approve factual product/policy/pricing/setup content as trusted knowledge.
 - Do not duplicate content across sections.
+- Do not include source excerpts, source labels, citations, or "Source:" text in generated draft fields.
 - Only create scenarios for clear workflows/procedures/routing/handoff/tool-use steps.
 - Do not create scenarios for simple tone, answer length, formatting, language, or short-reply rules.
 - Preserve exact welcome, handoff, and resolution message copy.
+- If welcome, handoff, or resolution copy already exists in current config, do not duplicate it in Conversation Messages.
+- Only fill Conversation Messages when exact customer-facing copy exists in instructions and the corresponding current config value is blank.
+- Only factual or product-specific knowledge should stay in FAQs/Documents Candidates.
+- Generic support scope such as "answer product questions", "help with billing", "troubleshoot common issues", or "direct to documentation" should move to Business/Product Context or Response Guidelines when useful, not FAQs/Documents Candidates.
 - If unsure, place content in Needs Review with a reason.
 
 Classify config.instructions into:
@@ -367,7 +373,8 @@ Keep the workbook simple:
 - Use a single primary sheet named "Assistant Review Sheet".
 - Do not add Summary or Original Instructions tabs.
 - Put existing instructions directly in the "Assistant Review Sheet" sheet so reviewers can compare source text with the generated draft sections.
-- Put exact welcome, handoff, and resolution copy in the Conversation Messages draft section. Do not add separate current message columns when the same values are already shown there.
+- Put exact welcome, handoff, and resolution copy in the Conversation Messages draft section only when the corresponding current config value is blank.
+- Do not include source excerpts or "Source:" text in generated draft columns.
 ```
 
 ## Classifier Improvement Prompt
@@ -425,13 +432,17 @@ Important classification rules:
 - Guardrails = refusals, escalation boundaries, source boundaries, safety/privacy/security rules.
 - Scenarios/Procedures = clear workflow/procedure/routing/handoff/tool-use steps.
 - Conversation Messages = exact welcome, handoff, and resolution copy only.
-- FAQs/Documents = factual product, policy, pricing, setup, troubleshooting, or knowledge content that should be reviewed before becoming trusted knowledge.
+- Conversation Messages should stay empty for any welcome, handoff, or resolution message that already exists in current config.
+- FAQs/Documents = factual or product-specific product, policy, pricing, setup, troubleshooting, operational, support-hours, contact, or knowledge content that should be reviewed before becoming trusted knowledge.
+- Generic support scope should move to Business/Product Context or Response Guidelines, not FAQs/Documents.
 - Needs Review = unclear, risky, mixed, low-confidence, or potentially duplicated content.
 
 Do not create scenarios for simple tone, answer length, formatting, language, or short-reply rules.
 Do not auto-approve factual product/policy/pricing/setup content as trusted knowledge.
 Do not duplicate content across sections.
 Preserve exact welcome, handoff, and resolution message copy.
+Do not duplicate existing welcome, handoff, or resolution config values in Conversation Messages.
+Do not include source excerpts or "Source:" text in generated draft fields.
 
 Output format:
 1. Summary of recurring classifier issues
@@ -446,9 +457,11 @@ Examples of changes we expect from the feedback loop:
 - tighten scenario creation rules
 - move source-boundary and escalation language into guardrails
 - move tone, language, formatting, and answer-length rules into response guidelines
-- move product facts, policies, pricing, setup steps, and troubleshooting facts into FAQs/Documents candidates
+- move product facts, policies, pricing, setup steps, operational details, support hours, contacts, and troubleshooting facts into FAQs/Documents candidates
+- move generic support scope into Business/Product Context or Response Guidelines instead of FAQs/Documents candidates
 - avoid duplicating `description` and `product_name` content
 - preserve exact welcome, handoff, and resolution copy
+- discard Conversation Messages content when the same message already exists in current config
 
 ## Migration Confidence
 

@@ -1,12 +1,10 @@
 class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
-  SECTION_ITEM_DESCRIPTION = 'A single migrated instruction item. Keep value concise, preserve meaning, ' \
-                             'and include a short source excerpt from the original instructions where possible.'.freeze
+  SECTION_ITEM_DESCRIPTION = 'A single migrated instruction item. Keep value concise and preserve meaning.'.freeze
 
   def self.instruction_items(field_name, description:, max_items: 20)
     array field_name, description: description, max_items: max_items do
       object do
         string :value, description: 'Migrated instruction text.', max_length: 500
-        string :source_excerpt, description: 'Short excerpt from the original instructions that supports this item.', max_length: 300
         string :confidence, description: 'One of: high, medium, low.', max_length: 20
         string :review_reason, description: 'Why this item needs review. Empty string when confidence is high.', max_length: 300
       end
@@ -29,14 +27,17 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
                     description: 'Only clear multi-step workflows, routing logic, qualification flows, handoff flows, or tool-use procedures.',
                     max_items: 15
 
-  object :conversation_messages, description: 'Exact customer-facing message copy found in instructions, if any.' do
-    string :welcome_message, description: 'Exact welcome message copy from instructions, or empty string.', max_length: 1000
-    string :handoff_message, description: 'Exact human-handoff message copy from instructions, or empty string.', max_length: 1000
-    string :resolution_message, description: 'Exact resolution/closing message copy from instructions, or empty string.', max_length: 1000
+  object :conversation_messages, description: 'Exact customer-facing message copy found in instructions and not already present in config.' do
+    string :welcome_message, description: 'Exact welcome message copy from instructions only when config welcome_message is blank, or empty string.',
+                             max_length: 1000
+    string :handoff_message,
+           description: 'Exact human-handoff message copy from instructions only when config handoff_message is blank, or empty string.', max_length: 1000
+    string :resolution_message,
+           description: 'Exact resolution/closing message copy from instructions only when config resolution_message is blank, or empty string.', max_length: 1000
   end
 
   instruction_items :faq_document_candidates,
-                    description: 'Product facts, pricing, policy, setup steps, troubleshooting steps, or other knowledge candidates.',
+                    description: 'Only factual or product-specific knowledge candidates such as pricing, policy, setup, troubleshooting, or operational details.',
                     max_items: 25
 
   instruction_items :needs_review,

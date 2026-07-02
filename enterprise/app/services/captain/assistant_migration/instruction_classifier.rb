@@ -46,11 +46,16 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       Rules:
       - Preserve behavior as closely as possible.
       - Do not duplicate the same content across sections.
+      - Return clean migrated values only. Do not include source excerpts, source labels, citations, or "Source:" text in any migrated field.
       - Do not rewrite customer-facing message copy unless necessary to classify an exact copy from instructions.
-      - Existing welcome_message, handoff_message, and resolution_message are provided separately and should not be rewritten.
+      - Existing welcome_message, handoff_message, and resolution_message are provided separately.
+      - If an existing welcome_message, handoff_message, or resolution_message is already present in config, leave the corresponding conversation_messages field empty even if similar copy exists in instructions.
+      - Only fill conversation_messages when exact customer-facing welcome, handoff, or resolution copy is found in instructions and the corresponding config value is blank.
       - Only create scenarios for clear multi-step workflows, routing logic, qualification, handoff behavior, or tool-use procedures.
       - Do not classify simple tone, language, answer length, or short-reply rules as scenarios.
-      - Product facts, pricing, policies, setup steps, and troubleshooting content should become FAQs/Documents candidates, not trusted approved knowledge.
+      - Only factual or product-specific knowledge should become FAQs/Documents candidates.
+      - Generic capability statements such as "answer product questions", "help with billing", "troubleshoot common issues", or "direct to documentation" are not FAQ/document candidates. Put them in Business/Product Context or Response Guidelines when useful.
+      - Product facts, pricing, policies, setup steps, troubleshooting facts, support hours, emergency contacts, and operational details should become FAQs/Documents candidates, not trusted approved knowledge.
       - If unsure, place content in Needs Review with a reason.
       - Use "high", "medium", or "low" confidence values only.
       - Return data that matches the provided schema.
