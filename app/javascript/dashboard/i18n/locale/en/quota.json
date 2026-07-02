@@ -1,5 +1,8 @@
 {
   "QUOTA": {
     "LIMIT_REACHED": "Plan limit reached ({consumed}/{allowed}). Upgrade your plan to add more."
+  },
+  "AGENTIC_AI_LIMIT": {
+    "BANNER": "You've reached your automated AI workflow limit ({consumed}/{allowed}). New AI actions are paused until you upgrade your plan."
   }
 }

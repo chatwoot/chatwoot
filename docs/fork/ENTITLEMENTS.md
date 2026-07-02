@@ -124,3 +124,21 @@ resources* (agent bots) still hit model-level guards.
   error shape), edit at cap (200), delete frees capacity (next create 201).
 - Bypass-path specs: channel-created inbox at cap fails; `AgentBuilder` at cap
   fails; OAuth-created hook at cap fails.
+
+## Agentic-AI limit (externally enforced, display-only)
+
+The agentic-AI (automated workflow) quota is **enforced by the external NestJS
+backend**, not Chatwoot. Chatwoot only surfaces it so the dashboard can warn the
+tenant. It rides the existing limits pipeline rather than a parallel store:
+
+- Contract (control plane / NestJS writes via the Platform API, additively):
+  - cap → `accounts.limits['agentic_ai']` (same jsonb as every other limit).
+  - running usage → `accounts.custom_attributes['agentic_ai_usage']`.
+- `GET /enterprise/api/v1/accounts/:id/limits` (`Custom::Enterprise::Api::V1::AccountsController`)
+  emits `agentic_ai: { allowed, consumed }` in the standard shape, but **only
+  when a cap is set** — accounts without agentic AI get an unchanged response.
+- UI: `dashboard/fork/AgenticAiLimitBanner.vue` reuses `useQuota('agentic_ai')`
+  and renders a global warning banner (admins only) when `consumed >= allowed`.
+  It is display-only — there is no Chatwoot-side create path or 402 for this
+  resource (NestJS owns enforcement), so it has no `EntitlementService`
+  counter/guard.
