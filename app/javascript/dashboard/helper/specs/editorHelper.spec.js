@@ -1012,6 +1012,16 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
     });
 
+    it('unescapes the backslash-escaped URL the serializer stores', () => {
+      // Editor-created links serialize parens/underscores as \( \) \_
+      expect(
+        stripUnsupportedFormatting(
+          'See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))',
+          emptySchema
+        )
+      ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
+    });
+
     it('leaves bare URLs untouched so channels can auto-link them', () => {
       expect(
         stripUnsupportedFormatting('Visit www.example.com now', emptySchema)
