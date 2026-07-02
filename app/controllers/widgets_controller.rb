@@ -113,15 +113,11 @@ class WidgetsController < ActionController::Base
 
   def domain_matches_origin?(domain, origin_uri)
     domain_uri = parse_uri(domain.include?('//') ? domain : "//#{domain}")
-    return false unless domain_uri && hosts_equal?(domain_uri, origin_uri)
+    return false unless domain_uri&.host&.casecmp?(origin_uri.host)
 
     # A scheme is enforced only when the entry pins one (a host-only entry matches
     # any scheme); the port must be the one the entry pins, else the scheme default.
     scheme_matches?(domain_uri, origin_uri) && port_matches?(domain_uri, origin_uri)
-  end
-
-  def hosts_equal?(domain_uri, origin_uri)
-    domain_uri.host.present? && domain_uri.host.casecmp?(origin_uri.host)
   end
 
   # A host-only entry has no scheme, so CSP resolves it against the widget
@@ -143,7 +139,7 @@ class WidgetsController < ActionController::Base
   end
 
   def allowed_domains
-    @web_widget.allowed_domains.to_s.split(',').map(&:strip).reject(&:empty?)
+    @allowed_domains ||= @web_widget.allowed_domains.to_s.split(',').map(&:strip).reject(&:empty?)
   end
 
   # Mobile WebViews (iOS/Android) load content from file:// or null origins,

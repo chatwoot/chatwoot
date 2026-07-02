@@ -13,6 +13,14 @@ import TextArea from 'next/textarea/TextArea.vue';
 import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 
+// Widget feature flags surfaced as toggles below, paired with their local data
+// field. Single source of truth so setDefaults() and updateWidgetFeatureFlags()
+// stay in sync as flags are added.
+const WIDGET_FEATURE_TOGGLES = [
+  { flag: 'allow_mobile_webview', field: 'allowMobileWebview' },
+  { flag: 'allow_cross_origin_isolation', field: 'allowCrossOriginIsolation' },
+];
+
 export default {
   components: {
     SettingsFieldSection,
@@ -83,12 +91,10 @@ export default {
     setDefaults() {
       this.isSettingDefaults = true;
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      this.allowMobileWebview = (
-        this.inbox.selected_feature_flags || []
-      ).includes('allow_mobile_webview');
-      this.allowCrossOriginIsolation = (
-        this.inbox.selected_feature_flags || []
-      ).includes('allow_cross_origin_isolation');
+      const flags = this.inbox.selected_feature_flags || [];
+      WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+        this[field] = flags.includes(flag);
+      });
       this.allowedDomains = this.inbox.allowed_domains || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
@@ -117,17 +123,13 @@ export default {
         // Rebuild from the local toggle state (not the possibly-stale inbox
         // prop) so toggling both widget flags in quick succession doesn't drop
         // one of the updates; non-widget flags on the inbox are preserved.
-        const managedFlags = [
-          'allow_mobile_webview',
-          'allow_cross_origin_isolation',
-        ];
+        const managedFlags = WIDGET_FEATURE_TOGGLES.map(t => t.flag);
         const selectedFlags = (this.inbox.selected_feature_flags || []).filter(
           f => !managedFlags.includes(f)
         );
-        if (this.allowMobileWebview) selectedFlags.push('allow_mobile_webview');
-        if (this.allowCrossOriginIsolation) {
-          selectedFlags.push('allow_cross_origin_isolation');
-        }
+        WIDGET_FEATURE_TOGGLES.forEach(({ flag, field }) => {
+          if (this[field]) selectedFlags.push(flag);
+        });
 
         const payload = {
           id: this.inbox.id,
