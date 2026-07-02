@@ -117,6 +117,20 @@ describe '/widget', type: :request do
 
         expect(response.headers).not_to include('Access-Control-Allow-Origin')
       end
+
+      it 'grants a matching-scheme origin for a host-only domain on an https install' do
+        get widget_url(website_token: web_widget.website_token),
+            headers: { 'Origin' => 'https://embed.example.com' }, env: { 'HTTPS' => 'on' }
+
+        expect(response.headers['Access-Control-Allow-Origin']).to eq('https://embed.example.com')
+      end
+
+      it 'does not grant an http origin for a host-only domain on an https install' do
+        get widget_url(website_token: web_widget.website_token),
+            headers: { 'Origin' => 'http://embed.example.com' }, env: { 'HTTPS' => 'on' }
+
+        expect(response.headers).not_to include('Access-Control-Allow-Origin')
+      end
     end
   end
 end

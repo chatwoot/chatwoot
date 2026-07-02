@@ -66,10 +66,10 @@ export default {
       this.setDefaults();
     },
     allowMobileWebview() {
-      if (!this.isSettingDefaults) this.handleMobileWebviewFlag();
+      if (!this.isSettingDefaults) this.updateWidgetFeatureFlags();
     },
     allowCrossOriginIsolation() {
-      if (!this.isSettingDefaults) this.handleCrossOriginIsolationFlag();
+      if (!this.isSettingDefaults) this.updateWidgetFeatureFlags();
     },
     hmacMandatory() {
       if (!this.isSettingDefaults && this.isAWebWidgetInbox)
@@ -112,32 +112,22 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
-    async handleMobileWebviewFlag() {
+    async updateWidgetFeatureFlags() {
       try {
-        const currentFlags = this.inbox.selected_feature_flags || [];
-        const selectedFlags = this.allowMobileWebview
-          ? [...currentFlags, 'allow_mobile_webview']
-          : currentFlags.filter(f => f !== 'allow_mobile_webview');
-
-        const payload = {
-          id: this.inbox.id,
-          formData: false,
-          channel: {
-            selected_feature_flags: selectedFlags,
-          },
-        };
-        await this.$store.dispatch('inboxes/updateInbox', payload);
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
-      }
-    },
-    async handleCrossOriginIsolationFlag() {
-      try {
-        const currentFlags = this.inbox.selected_feature_flags || [];
-        const selectedFlags = this.allowCrossOriginIsolation
-          ? [...currentFlags, 'allow_cross_origin_isolation']
-          : currentFlags.filter(f => f !== 'allow_cross_origin_isolation');
+        // Rebuild from the local toggle state (not the possibly-stale inbox
+        // prop) so toggling both widget flags in quick succession doesn't drop
+        // one of the updates; non-widget flags on the inbox are preserved.
+        const managedFlags = [
+          'allow_mobile_webview',
+          'allow_cross_origin_isolation',
+        ];
+        const selectedFlags = (this.inbox.selected_feature_flags || []).filter(
+          f => !managedFlags.includes(f)
+        );
+        if (this.allowMobileWebview) selectedFlags.push('allow_mobile_webview');
+        if (this.allowCrossOriginIsolation) {
+          selectedFlags.push('allow_cross_origin_isolation');
+        }
 
         const payload = {
           id: this.inbox.id,

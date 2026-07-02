@@ -124,8 +124,12 @@ class WidgetsController < ActionController::Base
     domain_uri.host.present? && domain_uri.host.casecmp?(origin_uri.host)
   end
 
+  # A host-only entry has no scheme, so CSP resolves it against the widget
+  # response's own scheme (request.scheme) — on an https install that means the
+  # origin must be https too, with http-response -> https-origin upgrade allowed.
   def scheme_matches?(domain_uri, origin_uri)
-    domain_uri.scheme.nil? || domain_uri.scheme == origin_uri.scheme
+    effective_scheme = domain_uri.scheme || request.scheme
+    effective_scheme == origin_uri.scheme || (effective_scheme == 'http' && origin_uri.scheme == 'https')
   end
 
   def port_matches?(domain_uri, origin_uri)
