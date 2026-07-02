@@ -17,10 +17,22 @@ editable at runtime via Super Admin → App Config, or seedable per environment:
 | `BRAND_URL`, `WIDGET_BRAND_URL` | "Powered by" targets and widget branding |
 | `TERMS_URL`, `PRIVACY_URL` | Legal links |
 
-Set via console for scripted setup:
-`docker compose run --rm rails bundle exec rails runner "InstallationConfig.where(name: 'INSTALLATION_NAME').first_or_create!(value: '<Brand>')"`
-(follow existing seed patterns in `config/installation_config.yml` /
-`db/seeds` rather than ad-hoc SQL).
+Scripted, repeatable setup for the SaaS deploy uses the fork overlay service
+`Custom::BrandingSetup` (`custom/app/services/custom/branding_setup.rb`). It
+upserts the branding rows from ENV (keys named exactly as the configs:
+`INSTALLATION_NAME`, `BRAND_NAME`, `LOGO`, `LOGO_DARK`, `LOGO_THUMBNAIL`,
+`BRAND_URL`, `WIDGET_BRAND_URL`, `TERMS_URL`, `PRIVACY_URL`) and only touches a
+key when its ENV var is set, so partial branding leaves upstream defaults in
+place. Writing the DB row is required because ConfigLoader seeds these keys with
+the "Chatwoot" defaults, which shadow `GlobalConfigService`'s ENV fallback, and
+the frontend reads the DB directly via `GlobalConfig.get`. Updating
+`InstallationConfig` fires `after_commit :clear_cache`, so the Redis cache
+refreshes automatically.
+
+```
+INSTALLATION_NAME='Meta CRM' BRAND_NAME='Meta CRM' \
+  docker compose run --rm rails bundle exec rails runner "Custom::BrandingSetup.call"
+```
 
 ## Layer 2 — Frontend strings
 
@@ -71,3 +83,48 @@ instead of hand-editing sizes; verify output names match the originals.
   required license/attribution surfaces you explicitly choose to keep.
 - All routes and API responses byte-compatible with pre-branding behavior
   (regression suite green).
+
+## Status — "Meta CRM" pass
+
+Done in code (brand = "Meta CRM"):
+
+- Layer 1 mechanism: `Custom::BrandingSetup` (run with `INSTALLATION_NAME` /
+  `BRAND_NAME` set — this also flips `isACustomBrandedInstance`, auto-hiding
+  Chatwoot-only surfaces: update/upgrade banners, year-in-review, "powered by"
+  promos via `CustomBrandPolicyWrapper` / `usePolicy`).
+- Frontend i18n: all user-facing `Chatwoot` display strings in dashboard,
+  widget, and survey `en.json` → `Meta CRM` (word-boundary only; keys,
+  interpolation vars, and `window.chatwootSettings` left intact).
+- Frontend literals: survey logo alt, MFA backup-codes filename text,
+  sender-name / campaign / article-search / codepen example strings.
+- Backend i18n: integration description strings in `config/locales/en.yml`.
+- MFA TOTP issuer (shown in authenticator apps): `Custom::Mfa::ManagementService`
+  overlay now uses the installation name (extension point added to
+  `app/services/mfa/management_service.rb`).
+- Transactional emails: account-deletion / compliance mailers rebranded via
+  `custom/app/views` liquid overrides (bodies use
+  `global_config['BRAND_NAME'] | default: 'Chatwoot'`) plus
+  `Custom::AdministratorNotifications::AccountNotificationMailer` for the
+  subjects (extension point on the OSS mailer). Needed the custom view-path
+  bootstrap: `config.paths['app/views'].unshift('custom/app/views')` in
+  `config/application.rb`. Overrides live at the mailer prefix (no `mailers/`
+  segment) because `ApplicationMailer` appends `app/views/mailers` as a root.
+- Config-driven already (covered once `BrandingSetup` runs): app `<title>`,
+  email confirmation brand, mailer footer (`layouts/mailer/base.liquid` reads
+  `BRAND_NAME`).
+
+Verified (Docker up): `Custom::BrandingSetup` applied on dev; `spec/custom` +
+`spec/mailers/administrator_notifications` green (branding transparent when
+config unset, so upstream specs pass); MFA issuer and deletion emails render
+"Meta CRM" on dev; eslint 0 errors.
+
+Deferred:
+
+- **Layer 3 assets** (logos, favicons, PWA manifest) — pending brand image files.
+- Owner-set values: `BRAND_URL`, `WIDGET_BRAND_URL`, `TERMS_URL`, `PRIVACY_URL`
+  (via `BrandingSetup` ENV) and the `hello@chatwoot.com` support address in the
+  inactivity-deletion email (left until the fork's support contact is known).
+- `MAILER_SENDER_EMAIL` must be set on deploy (the OSS `from` fallback is
+  `Chatwoot <accounts@chatwoot.com>`).
+- Captain empty-state help content and Twilio template demo payloads — link to
+  external Chatwoot docs / are sample data; leave until content is reworked.

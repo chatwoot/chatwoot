@@ -86,3 +86,5 @@ class Mfa::ManagementService
     user.otp_secret.present? && !user.otp_required_for_login?
   end
 end
+
+Mfa::ManagementService.prepend_mod_with('Mfa::ManagementService')
