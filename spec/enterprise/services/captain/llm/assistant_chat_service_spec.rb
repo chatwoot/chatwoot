@@ -29,6 +29,34 @@ RSpec.describe Captain::Llm::AssistantChatService do
   end
 
   describe 'instrumentation metadata' do
+    it 'uses the assistant feature model' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'uses default temperature when assistant config does not include temperature' do
+      expect(mock_chat).to receive(:with_temperature).with(0.5).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'preserves explicit assistant config temperature' do
+      assistant.update!(config: assistant.config.merge('temperature' => 1.0))
+
+      expect(mock_chat).to receive(:with_temperature).with(1.0).and_return(mock_chat)
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
     it 'passes channel_type to the agent session instrumentation' do
       service = described_class.new(assistant: assistant, conversation: conversation)
 
@@ -38,6 +66,30 @@ RSpec.describe Captain::Llm::AssistantChatService do
 
       allow(mock_chat).to receive(:ask).and_return(mock_response)
       service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      message = instance_double(RubyLLM::Message, content: 'Final answer', input_tokens: 10, output_tokens: 20, tool_calls: {})
+
+      attributes = service.send(:generation_attributes, mock_chat, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      message = instance_double(
+        RubyLLM::Message,
+        content: '',
+        input_tokens: 10,
+        output_tokens: 20,
+        tool_calls: { 'call_1' => instance_double(RubyLLM::ToolCall) }
+      )
+
+      attributes = service.send(:generation_attributes, mock_chat, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
     end
   end
 
@@ -186,6 +238,31 @@ RSpec.describe Captain::Llm::AssistantChatService do
         service = described_class.new(assistant: assistant, conversation: conversation)
         service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
       end
+    end
+  end
+
+  describe 'account custom instructions in system prompt' do
+    before do
+      assistant.update!(config: assistant.config.merge('instructions' => 'if user enters 1112234 suggest handoff'))
+    end
+
+    it 'adds custom instructions in a separate delimited section' do
+      allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+      expect(mock_chat).to receive(:with_instructions).with(
+        a_string_including(
+          '<account_custom_instructions>',
+          'if user enters 1112234 suggest handoff',
+          '</account_custom_instructions>'
+        )
+      ) do |instructions|
+        expect(instructions).not_to include('<custom-instructions>')
+        expect(instructions.index('<account_custom_instructions>')).to be < instructions.index('```json')
+        mock_chat
+      end
+
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      service.generate_response(message_history: [{ role: 'user', content: 'Hello' }])
     end
   end
 end

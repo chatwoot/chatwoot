@@ -140,24 +140,15 @@ export default {
     },
   },
   methods: {
-    labelClass(input) {
-      const { state } = input.context;
-      const hasErrors = state.invalid;
-      return !hasErrors ? 'text-n-slate-12' : 'text-n-ruby-10';
-    },
     inputClass(input) {
       const { state, family: classification, type } = input.context;
-      const hasErrors = state.invalid;
       if (classification === 'box' && type === 'checkbox') {
         return '';
       }
       if (type === 'phoneInput') {
-        this.hasErrorInPhoneInput = hasErrors;
+        this.hasErrorInPhoneInput = state.invalid;
       }
-      if (!hasErrors) {
-        return `mt-1 rounded w-full py-2 px-3`;
-      }
-      return `mt-1 rounded w-full py-2 px-3 error`;
+      return 'mt-1 rounded w-full py-2 px-3';
     },
     isContactFieldRequired(field) {
       return this.preChatFields.find(option => option.name === field).required;
@@ -176,7 +167,12 @@ export default {
       return this.formValues[name] || null;
     },
     getValidation({ type, name, field_type, regex_pattern }) {
-      let regex = regex_pattern ? getRegexp(regex_pattern) : null;
+      const regex = regex_pattern ? getRegexp(regex_pattern) : null;
+      // FormKit caches the RegExp and calls .test() across keystrokes, so
+      // drop stateful g/y flags to stop lastIndex mutation flipping validity.
+      const matchRegex = regex
+        ? new RegExp(regex.source, regex.flags.replace(/[gy]/g, ''))
+        : null;
       const validations = {
         emailAddress: 'email',
         phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
@@ -186,27 +182,32 @@ export default {
         select: null,
         number: null,
         checkbox: false,
-        contact_attribute: regex ? [['matches', regex]] : null,
-        conversation_attribute: regex ? [['matches', regex]] : null,
+        contact_attribute: matchRegex ? [['matches', matchRegex]] : null,
+        conversation_attribute: matchRegex ? [['matches', matchRegex]] : null,
       };
       const validationKeys = Object.keys(validations);
       const isRequired = this.isContactFieldRequired(name);
-      const validation = isRequired ? ['required'] : ['optional'];
+      const baseRules = isRequired ? [['required']] : [['optional']];
 
       if (
-        validationKeys.includes(name) ||
-        validationKeys.includes(type) ||
-        validationKeys.includes(field_type)
+        !validationKeys.includes(name) &&
+        !validationKeys.includes(type) &&
+        !validationKeys.includes(field_type)
       ) {
-        const validationType =
-          validations[type] || validations[name] || validations[field_type];
-        const allValidations = validationType
-          ? validation.concat(validationType)
-          : validation;
-        return allValidations.join('|');
+        return '';
       }
 
-      return '';
+      const validationType =
+        validations[type] || validations[name] || validations[field_type];
+      if (!validationType) return baseRules;
+
+      // Normalise into array-of-arrays so RegExp objects in `['matches', regex]`
+      // survive without being stringified by FormKit.
+      const extraRules = Array.isArray(validationType)
+        ? validationType.map(rule => (Array.isArray(rule) ? rule : [rule]))
+        : [[validationType]];
+
+      return baseRules.concat(extraRules);
     },
     findFieldType(type) {
       if (type === 'link') {
@@ -283,7 +284,7 @@ export default {
             }
           : undefined
       "
-      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
+      label-class="text-sm font-medium text-n-slate-12"
       :input-class="context => inputClass(context)"
       :validation-messages="{
         startsWithPlus: $t(
@@ -302,7 +303,7 @@ export default {
       v-if="!hasActiveCampaign"
       name="message"
       type="textarea"
-      :label-class="context => `text-sm font-medium ${labelClass(context)}`"
+      label-class="text-sm font-medium text-n-slate-12"
       :input-class="context => inputClass(context)"
       :label="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.LABEL')"
       :placeholder="$t('PRE_CHAT_FORM.FIELDS.MESSAGE.PLACEHOLDER')"
@@ -330,14 +331,19 @@ export default {
   @apply mt-2;
 
   .formkit-inner {
-    input.error,
-    textarea.error,
-    select.error {
-      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 focus:outline-n-ruby-9 dark:focus:outline-n-ruby-9;
-    }
-
     input[type='checkbox'] {
       @apply size-4 outline-none;
+    }
+  }
+
+  &[data-invalid] {
+    .formkit-label {
+      @apply text-n-ruby-10;
+    }
+    .formkit-inner input,
+    .formkit-inner textarea,
+    .formkit-inner select {
+      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 focus:outline-n-ruby-9 dark:focus:outline-n-ruby-9;
     }
   }
 }

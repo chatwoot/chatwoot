@@ -63,6 +63,26 @@ RSpec.describe MessageContentPresenter do
       it 'returns raw content without markdown rendering' do
         expect(presenter.webhook_content).to eq('Regular **bold** message')
       end
+
+      it 'strips CommonMark hard-break backslashes before newlines' do
+        message.update!(content: "First\\\nSecond\\\nThird\\\nFourth")
+        expect(presenter.webhook_content).to eq("First\nSecond\nThird\nFourth")
+      end
+
+      it 'preserves backslashes that are not followed by a newline' do
+        message.update!(content: "path\\to\\file\\\nNext line")
+        expect(presenter.webhook_content).to eq("path\\to\\file\nNext line")
+      end
+
+      it 'handles carriage return and newline pairs' do
+        message.update!(content: "Line one\\\r\nLine two\\\r\nLine three")
+        expect(presenter.webhook_content).to eq("Line one\nLine two\nLine three")
+      end
+
+      it 'preserves normal newlines and only strips hard-break newlines' do
+        message.update!(content: "line one\\\nline two\n\nline three")
+        expect(presenter.webhook_content).to eq("line one\nline two\n\nline three")
+      end
     end
 
     context 'when message is input_csat and inbox is not web widget' do

@@ -121,7 +121,7 @@ const handleCreateArticle = event => {
           custom-text-area-class="!text-[32px] !leading-[48px] !font-medium !tracking-[0.2px]"
           custom-text-area-wrapper-class="border-0 !bg-transparent dark:!bg-transparent !py-0 !px-0"
           placeholder="Title"
-          autofocus
+          :autofocus="isNewArticle"
           @blur="handleCreateArticle"
         />
         <ArticleEditorControls
@@ -138,53 +138,50 @@ const handleCreateArticle = event => {
           t('HELP_CENTER.EDIT_ARTICLE_PAGE.EDIT_ARTICLE.EDITOR_PLACEHOLDER')
         "
         :enabled-menu-options="ARTICLE_EDITOR_MENU_OPTIONS"
-        :autofocus="false"
+        :autofocus="!isNewArticle"
       />
     </template>
   </HelpCenterLayout>
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .ProseMirror .empty-node::before {
-    @apply text-n-slate-10 text-base;
-  }
+:deep(.ProseMirror .empty-node::before) {
+  @apply text-n-slate-10 text-base;
+}
 
-  .ProseMirror-menubar-wrapper {
-    .ProseMirror-woot-style {
-      @apply min-h-[15rem] max-h-full;
-    }
+:deep(.ProseMirror-menubar-wrapper) {
+  .ProseMirror-woot-style {
+    @apply min-h-[15rem] max-h-full;
+  }
+}
+
+:deep(.ProseMirror-menubar) {
+  display: none; // Hide by default
+}
+
+:deep(.editor-root .has-selection) {
+  .ProseMirror-menubar:not(:has(*)) {
+    display: none !important;
   }
 
   .ProseMirror-menubar {
-    display: none; // Hide by default
-  }
+    @apply rounded-lg !px-3 !py-1.5 z-50 bg-n-background items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
+    display: flex;
+    top: var(--selection-top, auto) !important;
+    left: var(--selection-left, 0) !important;
+    width: fit-content !important;
+    position: absolute !important;
 
-  .editor-root .has-selection {
-    .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
-      display: flex;
-      top: var(--selection-top, auto) !important;
-      left: var(--selection-left, 0) !important;
-      width: fit-content !important;
-      position: absolute !important;
+    .ProseMirror-menuitem {
+      @apply ltr:mr-0 rtl:ml-0 size-4 flex items-center;
 
-      .ProseMirror-menuitem {
-        @apply mr-0;
-
-        .ProseMirror-icon {
-          @apply p-0 mt-0 !mr-0;
-
-          svg {
-            width: 20px !important;
-            height: 20px !important;
-          }
-        }
+      .ProseMirror-icon {
+        @apply p-0.5 flex-shrink-0 ltr:mr-2 rtl:ml-2;
       }
+    }
 
-      .ProseMirror-menu-active {
-        @apply bg-n-slate-3;
-      }
+    .ProseMirror-menu-active {
+      @apply bg-n-slate-3;
     }
   }
 }

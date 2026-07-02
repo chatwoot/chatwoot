@@ -10,6 +10,8 @@ RSpec.describe Integrations::LlmBaseService do
   let(:error) { StandardError.new('API Error') }
   let(:body) { { model: 'gpt-4', messages: [{ role: 'user', content: 'Hello' }] }.to_json }
 
+  before { allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true) }
+
   describe '#make_api_call' do
     before do
       allow(service).to receive(:instrument_llm_call).and_yield

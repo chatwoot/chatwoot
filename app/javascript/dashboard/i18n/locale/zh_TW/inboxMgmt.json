@@ -86,6 +86,14 @@
           "PLACEHOLDER": "請輸入您的 Webhook URL",
           "ERROR": "請輸入有效的 URL"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook 密鑰",
+          "COPY": "複製密鑰至剪貼簿",
+          "COPY_SUCCESS": "密鑰已複製至剪貼簿",
+          "TOGGLE": "切換密鑰顯示",
+          "RESET_SUCCESS": "Webhook 密鑰已成功重新產生",
+          "RESET_ERROR": "無法重新產生 Webhook 密鑰，請再試一次"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "網站網域",
           "PLACEHOLDER": "輸入您的網站網域（例：acme.com）"
@@ -300,6 +308,7 @@
           "AUTH_PROCESSING": "正在透過 Meta 進行驗證",
           "WAITING_FOR_BUSINESS_INFO": "請在 Meta 視窗中完成商業設定...",
           "PROCESSING": "正在設定您的 WhatsApp Business 帳號",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "正在載入 Facebook SDK...",
           "CANCELLED": "WhatsApp 註冊已取消",
           "SUCCESS_TITLE": "WhatsApp Business 帳號已連接！",
@@ -309,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "驗證未完成。請重新開始流程。",
           "SUCCESS_FALLBACK": "WhatsApp Business 帳號已成功設定",
           "MANUAL_FALLBACK": "如果您的號碼已連接到 WhatsApp Business Platform（API），或者您是正在接入自己號碼的技術供應商，請使用 {link}",
-          "MANUAL_LINK_TEXT": "手動設定流程"
+          "MANUAL_LINK_TEXT": "手動設定流程",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "無法儲存 WhatsApp 頻道"
@@ -456,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "透過 WhatsApp 為客戶提供支援"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -628,7 +642,38 @@
       "WIDGET_BUILDER": "小工具建置器",
       "BOT_CONFIGURATION": "機器人設定",
       "ACCOUNT_HEALTH": "帳號健康狀態",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "語音",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
+      }
     },
     "CHANNEL_PREFERENCES": "頻道偏好設定",
     "WIDGET_FEATURES": "小工具功能",
@@ -737,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "啟用/停用在郵件中顯示客服人員名稱，停用時將顯示企業名稱",
       "ENABLE_CONTINUITY_VIA_EMAIL": "透過電子郵件啟用對話延續",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "若聯絡人有電子郵件地址，對話將透過電子郵件繼續。",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "對話路由",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "設定現有聯絡人的對話建立方式",
       "INBOX_UPDATE_TITLE": "收件匣設定",
@@ -781,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "手動從 WhatsApp 同步訊息範本以更新可用範本。",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "同步範本",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "範本同步已啟動。可能需要幾分鐘才能更新完成。",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "更新聊天前表單設定"
     },
     "HELP_CENTER": {
@@ -992,7 +1042,8 @@
         "LABEL": "密碼",
         "PLACE_HOLDER": "密碼"
       },
-      "ENABLE_SSL": "啟用 SSL"
+      "ENABLE_SSL": "啟用 SSL",
+      "AUTH_MECHANISM": "驗證機制"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

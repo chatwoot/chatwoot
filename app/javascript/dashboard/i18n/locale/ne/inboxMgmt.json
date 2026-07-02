@@ -86,6 +86,14 @@
           "PLACEHOLDER": "कृपया तपाईंको वेबहुक URL प्रविष्ट गर्नुहोस्",
           "ERROR": "कृपया मान्य URL प्रविष्ट गर्नुहोस्"
         },
+        "CHANNEL_WEBHOOK_SECRET": {
+          "LABEL": "Webhook Secret",
+          "COPY": "Copy secret to clipboard",
+          "COPY_SUCCESS": "Secret copied to clipboard",
+          "TOGGLE": "Toggle secret visibility",
+          "RESET_SUCCESS": "Webhook secret regenerated successfully",
+          "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+        },
         "CHANNEL_DOMAIN": {
           "LABEL": "वेबसाइट डोमेन",
           "PLACEHOLDER": "तपाईंको वेबसाइट डोमेन प्रविष्ट गर्नुहोस् (जस्तै: acme.com)"
@@ -300,6 +308,7 @@
           "AUTH_PROCESSING": "Meta सँग प्रमाणिकरण हुँदैछ",
           "WAITING_FOR_BUSINESS_INFO": "कृपया Meta विन्डोमा व्यवसाय सेटअप पूरा गर्नुहोस्...",
           "PROCESSING": "तपाईंको WhatsApp व्यवसाय खाता सेटअप गर्दै",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK लोड हुँदैछ...",
           "CANCELLED": "WhatsApp साइनअप रद्द गरियो",
           "SUCCESS_TITLE": "WhatsApp व्यवसाय खाता जडान भयो!",
@@ -309,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "प्रमाणिकरण पूरा भएन। कृपया प्रक्रिया पुनः सुरु गर्नुहोस्।",
           "SUCCESS_FALLBACK": "WhatsApp व्यवसाय खाता सफलतापूर्वक कन्फिगर गरियो",
           "MANUAL_FALLBACK": "यदि तपाईंको नम्बर पहिले नै WhatsApp व्यवसाय प्लेटफर्म (API) सँग जडान गरिएको छ, वा तपाईं प्रविधि प्रदायक हुनुहुन्छ र आफ्नो नम्बर अनबोर्ड गर्दै हुनुहुन्छ भने, कृपया {link} प्रवाह प्रयोग गर्नुहोस्",
-          "MANUAL_LINK_TEXT": "म्यानुअल सेटअप प्रवाह"
+          "MANUAL_LINK_TEXT": "म्यानुअल सेटअप प्रवाह",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "हामी WhatsApp च्यानल सुरक्षित गर्न सकेनौं"
@@ -456,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "WhatsApp मा तपाईंका ग्राहकहरूलाई समर्थन गर्नुहोस्"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "इमेल",
@@ -628,7 +642,38 @@
       "WIDGET_BUILDER": "विजेट बिल्डर",
       "BOT_CONFIGURATION": "बोट कन्फिगरेसन",
       "ACCOUNT_HEALTH": "खाता स्वास्थ्य",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "VOICE": "भ्वाइस",
+      "CALLS": "Calls"
+    },
+    "VOICE_CONFIGURATION": {
+      "ENABLE_VOICE": {
+        "LABEL": "Enable Voice Calling",
+        "DESCRIPTION": "Enable voice calling on this inbox. Agents will be able to make and receive phone calls."
+      },
+      "CREDENTIALS": {
+        "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
+      }
     },
     "CHANNEL_PREFERENCES": "च्यानल प्राथमिकता",
     "WIDGET_FEATURES": "Widget features",
@@ -737,6 +782,7 @@
       "SENDER_NAME_SECTION_TEXT": "एजेन्टको नाम इमेलमा देखाउने/नदेखाउने सक्षम/अक्षम गर्नुहोस्, यदि अक्षम गरिएको छ भने व्यवसाय नाम देखाइनेछ",
       "ENABLE_CONTINUITY_VIA_EMAIL": "इमेल मार्फत कुराकानी निरन्तरता सक्षम गर्नुहोस्",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "यदि सम्पर्क इमेल ठेगाना उपलब्ध छ भने कुराकानी इमेल मार्फत जारी रहनेछ।",
+      "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "कुराकानी मार्गनिर्देशन",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "अस्तित्वमा रहेका सम्पर्कहरूको लागि संवाद सिर्जना कन्फिगर गर्नुहोस्",
       "INBOX_UPDATE_TITLE": "इनबक्स सेटिङहरू",
@@ -781,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "तपाईंका उपलब्ध टेम्प्लेटहरू अपडेट गर्न WhatsApp बाट म्यानुअली सन्देश टेम्प्लेटहरू समक्रमण गर्नुहोस्।",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "टेम्प्लेटहरू समक्रमण गर्नुहोस्",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "टेम्प्लेटहरू समक्रमण सफलतापूर्वक सुरु भयो। अपडेट हुन केही मिनेट लाग्न सक्छ।",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "पूर्व-च्याट फारम सेटिङहरू अपडेट गर्नुहोस्।"
     },
     "HELP_CENTER": {
@@ -992,7 +1042,8 @@
         "LABEL": "पासवर्ड",
         "PLACE_HOLDER": "पासवर्ड"
       },
-      "ENABLE_SSL": "SSL सक्षम गर्नुहोस्"
+      "ENABLE_SSL": "SSL सक्षम गर्नुहोस्",
+      "AUTH_MECHANISM": "प्रमाणीकरण"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",

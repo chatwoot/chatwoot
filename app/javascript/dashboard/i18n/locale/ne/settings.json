@@ -68,7 +68,8 @@
         "API_SUCCESS": "हस्ताक्षर सफलतापूर्वक सुरक्षित भयो",
         "IMAGE_UPLOAD_ERROR": "छवि अपलोड गर्न सकिएन! फेरि प्रयास गर्नु",
         "IMAGE_UPLOAD_SUCCESS": "छवि सफलतापूर्वक थपियो। कृपया हस्ताक्षर बचत गर्न सेभमा क्लिक गर्नु",
-        "IMAGE_UPLOAD_SIZE_ERROR": "छवि आकार {size}MB भन्दा कम हुनुपर्छ"
+        "IMAGE_UPLOAD_SIZE_ERROR": "छवि आकार {size}MB भन्दा कम हुनुपर्छ",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "सन्देश हस्ताक्षर",

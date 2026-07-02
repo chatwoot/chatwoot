@@ -525,6 +525,7 @@
             "PUBLISH": "Avalda",
             "DRAFT": "Mustand",
             "ARCHIVE": "Arhiveeri",
+            "TRANSLATE": "Tõlgi",
             "DELETE": "Kustuta"
           },
           "STATUS": {
@@ -579,6 +580,44 @@
           "TITLE": "Selles kategoorias pole artikleid",
           "SUBTITLE": "Selles kategoorias olevad artiklid kuvatakse siin"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "Tõlgi",
+        "SELECT_ALL": "Select all ({count})",
+        "SELECTED_COUNT": "{count} valitud",
+        "CLEAR_SELECTION": "Tühjenda valik",
+        "TRANSLATE_BUTTON": "Tõlgi",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Avalda",
+        "DRAFT": "Mustand",
+        "ARCHIVE": "Arhiveeri",
+        "TRANSLATE": "Tõlgi",
+        "MOVE_TO_CATEGORY": "Category",
+        "DELETE": "Delete",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "Delete",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -698,7 +737,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Rohkem omadusi",
         "UNCATEGORIZED": "Kategooriata",
-        "EDITOR_PLACEHOLDER": "Kirjuta midagi..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Artikli omadused",
@@ -829,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Muuda seadistust"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Appearance",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Eemalda"
+        },
+        "SAVE": "Salvesta muudatused"
       },
       "API": {
         "CREATE_PORTAL": {

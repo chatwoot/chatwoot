@@ -37,6 +37,8 @@ it:
     account:
       reporting_timezone:
         invalid: non è un fuso orario valido
+      support_email:
+        invalid: non è un indirizzo email valido
     validations:
       presence: non deve essere vuoto
     webhook:
@@ -48,10 +50,20 @@ it:
       email_already_exists: 'Ti sei già registrato per un account con %{email}'
       invalid_params: 'Non valido, controlla i dati di registrazione e riprova'
       failed: Registrazione non riuscita
+    voice:
+      call_already_accepted: '%{agent_name} sta già gestendo la chiamata.'
     assignment_policy:
       not_found: Policy di assegnazione non trovata
     attachments:
       invalid: Allegato non valido
+    upload:
+      missing_input: 'Nessun file o URL fornito'
+      invalid_url: 'URL fornito non valido'
+      fetch_failed: 'Impossibile recuperare il file dall''URL'
+      fetch_failed_with_message: 'Impossibile recuperare il file dall''URL: %{message}'
+      file_too_large: 'Il file supera la dimensione massima consentita'
+      unsupported_content_type: 'Tipo di file non supportato (sono ammessi solo immagini e video)'
+      unexpected: 'Si è verificato un errore imprevisto'
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
@@ -90,6 +102,15 @@ it:
       reauthorization:
         generic: 'Impossibile riautorizzare WhatsApp. Riprova.'
         not_supported: 'La riautorizzazione non è supportata per questo tipo di canale WhatsApp.'
+      calls:
+        not_enabled: 'Le chiamate non sono abilitate per questa inbox'
+        no_recording: 'Nessun file di registrazione fornito'
+        no_message: 'La chiamata non ha messaggi associati'
+        sdp_offer_required: 'sdp_offer è richiesto'
+        contact_phone_required: 'È richiesto il numero di telefono del contatto'
+        permission_request_failed: 'Impossibile inviare la richiesta di autorizzazione di chiamata'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -219,6 +240,11 @@ it:
       deleted: Questo messaggio è stato eliminato
       whatsapp:
         list_button_label: 'Scegli un elemento'
+        call_permission_request_body: 'Vorremmo chiamarti riguardo alla tua conversazione.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Chiamata Vocale'
+        whatsapp: 'Chiamata WhatsApp'
       delivery_status:
         error_code: 'Codice errore: %{error_code}'
     activity:
@@ -263,6 +289,9 @@ it:
         issue_created: 'Issue Linear %{issue_id} è stata creata da %{user_name}'
         issue_linked: 'Issue Linear %{issue_id} è stata collegata da %{user_name}'
         issue_unlinked: 'Issue Linear %{issue_id} è stata scollegata da %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Richiesta di autorizzazione di chiamata inviata a %{contact_name}.'
+        permission_granted: '%{contact_name} ha accettato la richiesta di autorizzazione di chiamata.'
       csat:
         not_sent_due_to_messaging_window: 'Sondaggio CSAT non inviato a causa di restrizioni sui messaggi in uscita'
       auto_resolve:
@@ -327,6 +356,7 @@ it:
       name: 'Linear'
       short_description: 'Crea e collega issue Linear direttamente dalle conversazioni.'
       description: 'Crea issue in Linear direttamente dalla finestra di conversazione. In alternativa, collega issue Linear esistenti per un processo di monitoraggio più snello ed efficiente.'
+      attachment_link_title: 'Conversazione (#%{conversation_id}) con %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integra database, documenti e pagine direttamente con Captain.'
@@ -355,6 +385,9 @@ it:
       limit_exceeded: 'Raggiunto limite documenti'
       pdf_format_error: 'deve essere un file PDF'
       pdf_size_error: 'deve essere inferiore a 10MB'
+      sync_not_supported_for_pdf: 'Sincronizzazione non supportata per i documenti PDF'
+      sync_only_available_documents: 'Sincronizzazione disponibile solo per i documenti già elaborati'
+      sync_already_in_progress: 'Sincronizzazione del documento già in corso'
       pdf_upload_failed: 'Caricamento PDF a OpenAI fallito'
       pdf_upload_success: 'PDF caricato con successo (file_id: %{file_id})'
       pdf_processing_failed: 'Errore nell''elaborazione del documento PDF %{document_id}: %{error}'
@@ -380,7 +413,30 @@ it:
       empty_placeholder: Nessun risultato trovato.
       loading_placeholder: Ricerca...
       results_title: Risultati di ricerca
+      results: Risultati di Ricerca
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Cerca
     toc_header: 'Su questa pagina'
+    sidebar:
+      help_center: Help Center
+      categories: Categorie
+      language: Lingua
+      theme: Theme
+      open_sidebar: Apri barra laterale
+      close_sidebar: Chiudi barra laterale
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Cerca gli articoli qui oppure sfoglia le categorie qui sotto.
     common:
@@ -395,12 +451,21 @@ it:
       others: altri
       by: Da
       no_articles: Non ci sono articoli qui
+      previous: Precedente
+      next: Successivo
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Realizzato con
     header:
       go_to_homepage: Sito Web
       visit_website: Visita sito
       appearance:
+        title: Aspetto
         system: Sistema
         light: Chiaro
         dark: Scuro
@@ -464,6 +529,12 @@ it:
   agent_capacity_policy:
     inbox_already_assigned: 'La Inbox è già stata assegnata a questa policy'
   portals:
+    articles:
+      captain_not_available: 'La traduzione richiede che Captain sia abilitato per questo account'
+      locale_not_available: 'Lingua non disponibile in questo portale'
+      category_not_found: 'Categoria non trovata in questo portale'
+      no_articles_found: 'Nessun articolo trovato da elaborare'
+      invalid_status: 'Valore dello stato non valido'
     send_instructions:
       email_required: 'Email richiesta'
       invalid_email_format: 'Formato email non valido'
@@ -472,3 +543,9 @@ it:
       subject: 'Termina la configurazione di %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Il dominio personalizzato non è configurato'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Utente non trovato.'
+      no_subscriptions_to_test: 'Seleziona almeno una subscription da testare.'
+      no_subscriptions_to_delete: 'Seleziona almeno una subscription da eliminare.'
+      subscriptions_deleted: "Eliminate %{count} subscription. I dispositivi dell'utente dovranno essere ri-registrati al prossimo avvio dell'app."

@@ -68,7 +68,8 @@
         "API_SUCCESS": "Potpis je uspješno spremljen",
         "IMAGE_UPLOAD_ERROR": "Nije moguće učitati sliku! Pokušajte ponovno",
         "IMAGE_UPLOAD_SUCCESS": "Slika je uspješno dodana. Molimo kliknite na spremi kako biste sačuvali potpis",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Veličina slike treba biti manja od {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Veličina slike treba biti manja od {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Potpis poruke",

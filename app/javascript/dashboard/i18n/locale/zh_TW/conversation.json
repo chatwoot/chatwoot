@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "此訊息不受支援。您可以在 Facebook Messenger 應用程式中檢視此訊息。",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "此訊息不受支援。您可以在 Instagram 應用程式中檢視此訊息。",
     "UNSUPPORTED_MESSAGE_TIKTOK": "此訊息不受支援。您可以在 TikTok 應用程式中檢視此訊息。",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "已成功刪除訊息",
     "FAIL_DELETE_MESSSAGE": "無法刪除訊息！請再試一次",
     "NO_RESPONSE": "無回應",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "訊息無法使用",
     "CARD": {
       "SHOW_LABELS": "顯示標籤",
-      "HIDE_LABELS": "隱藏標籤"
+      "HIDE_LABELS": "隱藏標籤",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "來電",
       "OUTGOING_CALL": "撥出電話",
       "CALL_IN_PROGRESS": "通話中",
       "NO_ANSWER": "未接聽",
+      "NO_ANSWER_OUTBOUND_LABEL": "未接聽",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "未接來電",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "通話結束",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "尚未接聽",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "對方已接聽",
-      "YOU_ANSWERED": "您已接聽"
+      "YOU_ANSWERED": "您已接聽",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "加入通話",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "解決",
@@ -92,10 +105,17 @@
       "OPEN": "更多",
       "CLOSE": "關閉",
       "DETAILS": "詳情",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "延後至",
       "SNOOZED_UNTIL_TOMORROW": "延後至明天",
       "SNOOZED_UNTIL_NEXT_WEEK": "延後至下週",
       "SNOOZED_UNTIL_NEXT_REPLY": "延後至下次回覆",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "錄製音訊",
       "TIP_AUDIORECORDER_PERMISSION": "允許存取音訊",
       "TIP_AUDIORECORDER_ERROR": "無法開啟音訊",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "拖放至此處以附加檔案",
       "START_AUDIO_RECORDING": "開始錄音",
       "STOP_AUDIO_RECORDING": "停止錄音",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "尚未接聽",
       "HANDLED_IN_ANOTHER_TAB": "正在另一個分頁中處理",
       "REJECT_CALL": "拒接",
+      "DISMISS_CALL": "關閉",
       "JOIN_CALL": "加入通話",
-      "END_CALL": "結束通話"
+      "END_CALL": "結束通話",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "先前的對話",
       "MACROS": "巨集",
       "LINEAR_ISSUES": "已連結的 Linear 議題",
-      "SHOPIFY_ORDERS": "Shopify 訂單"
+      "SHOPIFY_ORDERS": "Shopify 訂單",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "媒體",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "查看全部",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "訂單 #{id}",

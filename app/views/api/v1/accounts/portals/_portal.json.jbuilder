@@ -15,6 +15,10 @@ json.config do
       json.partial! 'api/v1/models/portal_config', formats: [:json], locale: locale, portal: portal
     end
   end
+  json.default_locale portal.default_locale
+  json.layout portal.layout
+  json.social_profiles portal.social_profiles
+  json.locale_translations portal.config['locale_translations'] || {}
 end
 
 if portal.channel_web_widget

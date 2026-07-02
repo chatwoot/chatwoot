@@ -68,7 +68,8 @@
         "API_SUCCESS": "Assinatura salva com sucesso",
         "IMAGE_UPLOAD_ERROR": "Não foi possível carregar a imagem! Tente novamente",
         "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada. Clique em salvar para salvar a assinatura",
-        "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser inferior a {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser inferior a {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Assinatura da mensagem",

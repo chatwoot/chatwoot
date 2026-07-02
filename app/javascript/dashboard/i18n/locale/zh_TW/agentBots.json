@@ -63,6 +63,16 @@
         "ERROR_MESSAGE": "無法更新機器人，請再試一次。"
       }
     },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "複製密鑰至剪貼簿",
+      "COPY_SUCCESS": "密鑰已複製至剪貼簿",
+      "TOGGLE": "切換密鑰顯示",
+      "CREATED_DESC": "Use the secret below to verify webhook signatures. Please copy it now, you can also find it later in the bot settings.",
+      "DONE": "完成",
+      "RESET_SUCCESS": "Webhook secret regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
+    },
     "ACCESS_TOKEN": {
       "TITLE": "存取權杖",
       "DESCRIPTION": "複製存取權杖並妥善保管",

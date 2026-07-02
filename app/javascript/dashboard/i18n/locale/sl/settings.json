@@ -68,7 +68,8 @@
         "API_SUCCESS": "Podpis je bil uspešno shranjen",
         "IMAGE_UPLOAD_ERROR": "Slike ni bilo mogoče naložiti! Poskusi znova",
         "IMAGE_UPLOAD_SUCCESS": "Slika je bila uspešno dodana. Za shranitev podpisa kliknite na shrani",
-        "IMAGE_UPLOAD_SIZE_ERROR": "Velikost slike mora biti manjša od {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "Velikost slike mora biti manjša od {size}MB",
+        "INLINE_IMAGE_WARNING": "Pasted inline images were removed. Please use the image upload button to add images to your signature."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Podpis sporočila",

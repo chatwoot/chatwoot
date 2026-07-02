@@ -68,7 +68,8 @@
         "API_SUCCESS": "Firma salvata con successo",
         "IMAGE_UPLOAD_ERROR": "Impossibile caricare l'immagine! Riprova",
         "IMAGE_UPLOAD_SUCCESS": "Immagine aggiunta con successo. Clicca su Salva per salvare la firma",
-        "IMAGE_UPLOAD_SIZE_ERROR": "La dimensione dell'immagine deve essere inferiore a {size}MB"
+        "IMAGE_UPLOAD_SIZE_ERROR": "La dimensione dell'immagine deve essere inferiore a {size}MB",
+        "INLINE_IMAGE_WARNING": "Le immagini in linea non possono più essere incollate. Si prega di utilizzare il pulsante di caricamento dell'immagine per aggiungere immagini alla firma."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Firma del messaggio",

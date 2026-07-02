@@ -525,6 +525,7 @@
             "PUBLISH": "Publicar",
             "DRAFT": "Rascunho",
             "ARCHIVE": "Arquivar",
+            "TRANSLATE": "Traduzir",
             "DELETE": "Excluir"
           },
           "STATUS": {
@@ -579,6 +580,44 @@
           "TITLE": "Não há artigos nesta categoria",
           "SUBTITLE": "Os artigos nesta categoria aparecerão aqui"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Traduzir artigo | Traduzir {count} artigos",
+        "DESCRIPTION": "Traduza o artigo selecionado para outro idioma. | Traduza os artigos selecionados para outro idioma.",
+        "LOCALE_LABEL": "Idioma alvo",
+        "LOCALE_PLACEHOLDER": "Selecione um idioma",
+        "CATEGORY_LABEL": "Categoria alvo",
+        "CATEGORY_PLACEHOLDER": "Selecione uma categoria",
+        "OPTIONAL": "(opcional)",
+        "CONFIRM": "Traduzir",
+        "SELECT_ALL": "Selecionar todos ({count})",
+        "SELECTED_COUNT": "{count} selecionado",
+        "CLEAR_SELECTION": "Limpar seleção",
+        "TRANSLATE_BUTTON": "Traduzir",
+        "CONFIRM_OVERWRITE": "Sobrescrever e traduzir",
+        "DUPLICATE_WARNING": "Uma tradução deste artigo já existe no idioma selecionado. | As traduções já existem para {count} artigos no idioma selecionado.",
+        "DUPLICATE_CONFIRM_HINT": "Clique em traduzir novamente para substituir a tradução existente.",
+        "API": {
+          "SUCCESS_MESSAGE": "Tradução em andamento. O artigo aparecerá como rascunho uma vez pronto.",
+          "ERROR_MESSAGE": "Falha ao iniciar a tradução. Por favor, tente novamente."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Publicar",
+        "DRAFT": "Rascunho",
+        "ARCHIVE": "Arquivar",
+        "TRANSLATE": "Traduzir",
+        "MOVE_TO_CATEGORY": "Categoria",
+        "DELETE": "Excluir",
+        "STATUS_SUCCESS": "Artigos atualizados com sucesso",
+        "STATUS_ERROR": "Falha ao atualizar artigos",
+        "CATEGORY_SUCCESS": "Artigos movidos com sucesso",
+        "CATEGORY_ERROR": "Falha ao mover artigos",
+        "DELETE_CONFIRM_TITLE": "Excluir artigo | Excluir {count} artigos",
+        "DELETE_CONFIRM_DESCRIPTION": "Isto irá apagar o artigo selecionado permanentemente. Esta ação não pode ser desfeita. | Isso irá apagar permanentemente {count} artigos selecionados. Esta ação não pode ser desfeita.",
+        "DELETE_CONFIRM": "Excluir",
+        "DELETE_SUCCESS": "Artigos excluídos com sucesso",
+        "DELETE_ERROR": "Falha ao excluir artigos"
       }
     },
     "CATEGORY_PAGE": {
@@ -698,7 +737,7 @@
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "Mais propriedades",
         "UNCATEGORIZED": "Não categorizado",
-        "EDITOR_PLACEHOLDER": "Escreva algo..."
+        "EDITOR_PLACEHOLDER": "Write your content here. Type '/' for formatting options."
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
@@ -829,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Alterar configuração"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Tema",
+        "DESCRIPTION": "Escolha o leiaute adequado à leitura de seus visitantes.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Clássico",
+            "DESCRIPTION": "Uma página inicial acolhedora com busca e tópicos em destaque."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentação",
+            "DESCRIPTION": "Navegação lado a lado que mantém todos os guias a um clique de distância."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Links sociais",
+          "DESCRIPTION": "Adicione o identificador de cada rede e sua central de ajuda criará o link completo automaticamente. Exibido no rodapé do leiaute da documentação.",
+          "PLACEHOLDER": "@usuario",
+          "ADD": "Adicionar link social",
+          "REMOVE": "Excluir"
+        },
+        "SAVE": "Salvar Alterações"
       },
       "API": {
         "CREATE_PORTAL": {

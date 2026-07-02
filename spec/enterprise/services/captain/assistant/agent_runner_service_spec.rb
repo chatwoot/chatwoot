@@ -93,7 +93,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
         context: expected_context,
-        max_turns: 100
+        max_turns: 10
       )
 
       service.generate_response(message_history: message_history)
@@ -119,7 +119,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(input.text).to eq('What does this error mean?')
           expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -147,7 +147,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             { type: 'text', text: 'Here is my error screenshot' },
             { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
           )
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: history_with_prior_image)
@@ -157,7 +157,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
           expect(context[:captain_v2_trace_current_input]).to include('image_url')
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -402,6 +402,47 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(attributes['langfuse.trace.input']).to include('image_url')
       expect(attributes['langfuse.observation.input']).to include('image_url')
       expect(attributes['langfuse.user.id']).to eq(account.id.to_s)
+    end
+  end
+
+  describe 'InstrumentationAttributeProvider' do
+    subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
+
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'delegates root trace attributes to the service' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = provider.call(context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.user.id' => account.id.to_s,
+        'langfuse.trace.metadata.assistant_id' => assistant.id.to_s
+      )
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      tool_call = instance_double(RubyLLM::ToolCall)
+      message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
     end
   end
 

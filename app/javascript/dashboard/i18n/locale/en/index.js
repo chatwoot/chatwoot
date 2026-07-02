@@ -39,6 +39,8 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
+import onboarding from './onboarding.json';
+import sessionLimit from './sessionLimit.json';
 import yearInReview from './yearInReview.json';
 
 export default {
@@ -83,5 +85,7 @@ export default {
   ...whatsappTemplates,
   ...contentTemplates,
   ...mfa,
+  ...onboarding,
+  ...sessionLimit,
   ...yearInReview,
 };

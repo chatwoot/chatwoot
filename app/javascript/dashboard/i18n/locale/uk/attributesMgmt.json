@@ -10,7 +10,8 @@
     "NO_RESULTS": "No attributes found matching your search",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Розмови",
-      "CONTACT": "Контакт"
+      "CONTACT": "Контакт",
+      "COMPANY": "Організація"
     },
     "ATTRIBUTE_TYPES": {
       "TEXT": "Текст",
@@ -108,7 +109,8 @@
     "TABS": {
       "HEADER": "Свої атрибути",
       "CONVERSATION": "Діалог",
-      "CONTACT": "Контакт"
+      "CONTACT": "Контакт",
+      "COMPANY": "Організація"
     },
     "LIST": {
       "TABLE_HEADER": {

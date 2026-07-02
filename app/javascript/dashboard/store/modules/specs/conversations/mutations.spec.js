@@ -786,9 +786,55 @@ describe('#mutations', () => {
       });
     });
 
-    it('should add conversation if not found', () => {
+    it('should add conversation if not found on normal view', () => {
       const state = {
         allConversations: [],
+        conversationFilters: {},
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([conversation]);
+    });
+
+    it('should not add conversation if not found on participating view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'participating' },
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([]);
+    });
+
+    it('should not add conversation if not found on mention view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'mention' },
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([]);
+    });
+
+    it('should add conversation if not found on unattended view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'unattended' },
       };
 
       const conversation = {

@@ -50,6 +50,44 @@ RSpec.describe Account do
     end
   end
 
+  describe 'conversation unread counts feature flag' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:store) { Conversations::UnreadCounts::Store }
+    let(:inbox_key) { store.inbox_key(account.id, inbox.id) }
+
+    after do
+      store.clear_account!(account.id)
+    end
+
+    it 'clears unread count cache when the feature is enabled' do
+      build_unread_count_cache
+
+      account.enable_features!(:conversation_unread_counts)
+
+      expect(store.base_ready?(account.id)).to be(false)
+      expect(store.assignment_ready?(account.id)).to be(false)
+      expect(store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
+    end
+
+    it 'clears unread count cache when the feature is disabled' do
+      account.enable_features!(:conversation_unread_counts)
+      build_unread_count_cache
+
+      account.disable_features!(:conversation_unread_counts)
+
+      expect(store.base_ready?(account.id)).to be(false)
+      expect(store.assignment_ready?(account.id)).to be(false)
+      expect(store.counts_for_keys([inbox_key])).to eq(inbox_key => 0)
+    end
+
+    def build_unread_count_cache
+      store.mark_base_ready!(account.id)
+      store.mark_assignment_ready!(account.id)
+      store.add_base_membership(account_id: account.id, inbox_id: inbox.id, label_ids: [], conversation_id: 1)
+    end
+  end
+
   describe 'inbound_email_domain' do
     let(:account) { create(:account) }
 
@@ -346,6 +384,19 @@ RSpec.describe Account do
         account.captain_models = { 'editor' => 'gpt-4.1-mini', 'label_suggestion' => 'gpt-4.1-nano' }
 
         expect(account).to be_valid
+      end
+
+      it 'rejects unknown feature keys' do
+        account.captain_models = { 'unknown_feature' => 'gpt-4.1' }
+
+        expect(account).not_to be_valid
+        expect(account.errors[:captain_models]).to include("'unknown_feature' is not a known feature")
+      end
+
+      it 'removes blank model overrides before saving' do
+        account.update!(captain_models: { 'editor' => '', 'assistant' => 'gpt-5.2' })
+
+        expect(account.captain_models).to eq('assistant' => 'gpt-5.2')
       end
     end
   end
