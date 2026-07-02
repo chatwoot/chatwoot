@@ -8,6 +8,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
+import ContactDetailMoreActions from 'dashboard/components-next/Contacts/ContactDetailMoreActions.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -72,16 +73,12 @@ const closeMobileSidebar = () => {
 </script>
 
 <template>
-  <section
-    class="flex w-full h-full overflow-hidden justify-evenly bg-n-surface-1"
-  >
-    <div
-      class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"
-    >
-      <header class="sticky top-0 z-10 px-6 3xl:px-0">
-        <div class="w-full mx-auto max-w-[40.625rem]">
+  <section class="flex w-full min-w-0 h-full overflow-hidden bg-n-surface-1">
+    <div class="flex flex-col flex-1 min-w-0 min-h-0 overflow-hidden">
+      <header class="sticky top-0 z-10 px-6 3xl:px-8 bg-n-surface-1">
+        <div class="w-full max-w-full">
           <div
-            class="flex flex-col xs:flex-row items-start xs:items-center justify-between w-full py-7 gap-2"
+            class="flex flex-col xs:flex-row items-start xs:items-center justify-between w-full py-5 gap-2"
           >
             <Breadcrumb
               :items="breadcrumbItems"
@@ -114,12 +111,17 @@ const closeMobileSidebar = () => {
                   />
                 </template>
               </ComposeConversation>
+              <ContactDetailMoreActions
+                v-if="selectedContact?.id"
+                :selected-contact="selectedContact"
+                @go-to-contacts-list="emit('goToContactsList')"
+              />
             </div>
           </div>
         </div>
       </header>
-      <main class="flex-1 px-6 overflow-y-auto 3xl:px-px">
-        <div class="w-full py-4 mx-auto max-w-[40.625rem]">
+      <main class="flex-1 min-h-0 px-6 overflow-y-auto 3xl:px-8">
+        <div class="w-full py-3 max-w-full">
           <slot name="default" />
         </div>
       </main>
@@ -128,12 +130,12 @@ const closeMobileSidebar = () => {
     <!-- Desktop sidebar -->
     <div
       v-if="slots.sidebar"
-      class="hidden lg:flex flex-col min-w-52 w-full max-w-md border-l border-n-weak bg-n-solid-2"
+      class="hidden lg:flex flex-col shrink-0 w-80 xl:w-96 min-h-0 border-l border-n-weak bg-n-solid-2"
     >
       <div class="shrink-0">
         <slot name="sidebarHeader" />
       </div>
-      <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
+      <div class="flex-1 min-h-0 overflow-y-auto pb-4 pt-2">
         <slot name="sidebar" />
       </div>
     </div>
@@ -144,7 +146,6 @@ const closeMobileSidebar = () => {
       class="lg:hidden fixed top-0 ltr:right-0 rtl:left-0 h-full z-50 flex justify-end transition-all duration-200 ease-in-out"
       :class="isContactSidebarOpen ? 'w-full' : 'w-16'"
     >
-      <!-- Toggle button -->
       <div
         v-on-click-outside="[
           closeMobileSidebar,
@@ -189,7 +190,7 @@ const closeMobileSidebar = () => {
           <div class="shrink-0">
             <slot name="sidebarHeader" />
           </div>
-          <div class="flex-1 min-h-0 overflow-y-auto pb-6 pt-3">
+          <div class="flex-1 min-h-0 overflow-y-auto pb-4 pt-2">
             <slot name="sidebar" />
           </div>
         </div>
