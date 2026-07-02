@@ -74,6 +74,37 @@ RSpec.describe 'Super Admin accounts API', type: :request do
     end
   end
 
+  describe 'POST /super_admin/accounts/{account_id}/toggle_prospecting' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/super_admin/accounts/#{account.id}/toggle_prospecting", params: { enabled: true }
+        expect(response).to have_http_status(:redirect)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      before { sign_in(super_admin, scope: :super_admin) }
+
+      it 'enables prospecting for the account' do
+        post "/super_admin/accounts/#{account.id}/toggle_prospecting", params: { enabled: true }
+
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:notice]).to eq('Autonomia Prospecting enabled')
+        expect(Autonomia::Prospecting::Config.enabled?(account.reload)).to be true
+      end
+
+      it 'disables prospecting for the account' do
+        Autonomia::Prospecting::Config.enable_for!(account)
+
+        post "/super_admin/accounts/#{account.id}/toggle_prospecting", params: { enabled: false }
+
+        expect(response).to have_http_status(:redirect)
+        expect(flash[:notice]).to eq('Autonomia Prospecting disabled')
+        expect(Autonomia::Prospecting::Config.enabled?(account.reload)).to be false
+      end
+    end
+  end
+
   describe 'DELETE /super_admin/accounts/{account_id}' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
