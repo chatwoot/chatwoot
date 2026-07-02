@@ -36,8 +36,10 @@ class CreateAutonomiaProspectingTables < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    add_index :autonomia_prospecting_searches, [:account_id, :created_at]
-    add_index :autonomia_prospecting_searches, [:account_id, :cache_key]
+    add_index :autonomia_prospecting_searches, [:account_id, :created_at],
+              name: 'idx_autonomia_prospecting_searches_acc_created'
+    add_index :autonomia_prospecting_searches, [:account_id, :cache_key],
+              name: 'idx_autonomia_prospecting_searches_acc_cache'
 
     create_table :autonomia_prospecting_leads do |t|
       t.references :account, null: false, foreign_key: { on_delete: :cascade }, index: true
