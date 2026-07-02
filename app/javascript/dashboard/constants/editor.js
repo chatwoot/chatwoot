@@ -188,6 +188,21 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'insertTable',
 ];
 
+// [text](url) -> "text: url" for channels without links (drop label if it
+// equals the URL). Undoes the backslash escapes the serializer adds (\( \) \_),
+// strips the hidden CommonMark title and unwraps an <angle-bracketed> URL.
+const flattenLink = (_match, text, url) => {
+  const unescape = str => str.replace(/\\(.)/g, '$1');
+  const cleanText = unescape(text);
+  const cleanUrl = unescape(
+    url
+      .trim()
+      .replace(/\s+["'(].*$/, '')
+      .replace(/^<|>$/g, '')
+  );
+  return cleanText === cleanUrl ? cleanUrl : `${cleanText}: ${cleanUrl}`;
+};
+
 /**
  * Markdown formatting patterns for stripping unsupported formatting.
  *
@@ -264,18 +279,10 @@ export const MARKDOWN_PATTERNS = [
   {
     type: 'link', // PM: link
     patterns: [
-      // [text](url) -> "text: url" (drop label if it equals the URL).
       // URL capture is escape-aware so it spans the \( \) the serializer stores.
       {
         pattern: /\[([^\]]+)\]\(((?:\\.|[^)\\])*)\)/g,
-        replacement: (_match, text, url) => {
-          const cleanUrl = url
-            .trim()
-            .replace(/\s+["'(].*$/, '') // drop the hidden CommonMark title
-            .replace(/^<|>$/g, '') // unwrap an <angle-bracketed> destination
-            .replace(/\\(.)/g, '$1'); // unescape \( \) \_ etc from the serializer
-          return text === cleanUrl ? cleanUrl : `${text}: ${cleanUrl}`;
-        },
+        replacement: flattenLink,
       },
       { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
       { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com

@@ -1022,6 +1022,16 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
     });
 
+    it('drops the label when it equals the URL even when escaped', () => {
+      // Both label and URL are escaped; must collapse to a single bare URL
+      expect(
+        stripUnsupportedFormatting(
+          '[www.example.com/Foo\\_\\(bar\\)](www.example.com/Foo\\_\\(bar\\))',
+          emptySchema
+        )
+      ).toBe('www.example.com/Foo_(bar)');
+    });
+
     it('leaves bare URLs untouched so channels can auto-link them', () => {
       expect(
         stripUnsupportedFormatting('Visit www.example.com now', emptySchema)
