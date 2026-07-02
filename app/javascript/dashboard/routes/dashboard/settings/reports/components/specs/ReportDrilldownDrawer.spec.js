@@ -79,7 +79,9 @@ describe('ReportDrilldownDrawer.vue', () => {
       attachTo: options?.attachTo,
       global: {
         stubs: {
-          Teleport: true,
+          TeleportWithDirection: {
+            template: '<div><slot /></div>',
+          },
           Transition: false,
           Spinner: true,
           Button: {
@@ -246,6 +248,27 @@ describe('ReportDrilldownDrawer.vue', () => {
     await flushPromises();
 
     expect(wrapper.text()).toContain('5 conversations');
+  });
+
+  it('anchors the drawer to the inline-end edge so it flips in RTL', async () => {
+    const wrapper = mountDrawer();
+    await flushPromises();
+
+    const drawer = wrapper.get('[role="dialog"]');
+    expect(drawer.classes()).toContain('end-0');
+    expect(drawer.classes()).not.toContain('right-0');
+  });
+
+  it('flips the navigation caret icons in RTL', async () => {
+    const wrapper = mountDrawer({ props: { canPrev: true, canNext: true } });
+    await flushPromises();
+
+    expect(
+      wrapper.get('[aria-label="REPORT.DRILLDOWN.PREVIOUS_BUCKET"]').classes()
+    ).toContain('rtl:rotate-180');
+    expect(
+      wrapper.get('[aria-label="REPORT.DRILLDOWN.NEXT_BUCKET"]').classes()
+    ).toContain('rtl:rotate-180');
   });
 
   it('emits close when the drawer close button is clicked', async () => {
