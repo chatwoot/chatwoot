@@ -12,7 +12,7 @@ class Captain::LabelSuggestionService < Captain::BaseTaskService
 
     # Make API call
     response = make_api_call(
-      model: GPT_MODEL, # TODO: Use separate model for label suggestion
+      feature: 'label_suggestion',
       messages: [
         { role: 'system', content: prompt_from_file('label_suggestion') },
         { role: 'user', content: content }

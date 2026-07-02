@@ -440,7 +440,9 @@
       "DESCRIPTION": "Enable or disable AI-powered features.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
