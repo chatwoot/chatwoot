@@ -1003,23 +1003,21 @@ describe('stripUnsupportedFormatting', () => {
       ).toBe('Check docs: https://example.com');
     });
 
-    it('keeps parentheses that belong to the URL', () => {
-      expect(
-        stripUnsupportedFormatting(
-          'See [wiki](https://en.wikipedia.org/wiki/Foo_(bar))',
-          emptySchema
-        )
-      ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
-    });
-
     it('unescapes the backslash-escaped URL the serializer stores', () => {
-      // Editor-created links serialize parens/underscores as \( \) \_
+      // Editor-created links serialize parens/underscores as \( \) \_,
+      // including parens mid-URL with more text after them.
       expect(
         stripUnsupportedFormatting(
           'See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))',
           emptySchema
         )
       ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
+      expect(
+        stripUnsupportedFormatting(
+          'See [wiki](https://host/a\\_\\(b\\)c)',
+          emptySchema
+        )
+      ).toBe('See wiki: https://host/a_(b)c');
     });
 
     it('drops the label when it equals the URL even when escaped', () => {
