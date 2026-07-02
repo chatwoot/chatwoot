@@ -30,6 +30,7 @@ export default [
       ssoAuthToken: route.query.sso_auth_token,
       ssoAccountId: route.query.sso_account_id,
       ssoConversationId: route.query.sso_conversation_id,
+      redirectTo: route.query.redirect_to,
       authError: route.query.error,
     }),
   },

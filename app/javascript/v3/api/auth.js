@@ -13,6 +13,7 @@ import {
 export const login = async ({
   ssoAccountId,
   ssoConversationId,
+  redirectTo,
   ...credentials
 }) => {
   try {
@@ -29,11 +30,14 @@ export const login = async ({
 
     setAuthCredentials(response);
     clearLocalStorageOnLogout();
-    window.location = getLoginRedirectURL({
-      ssoAccountId,
-      ssoConversationId,
-      user: response.data.data,
-    });
+    window.location =
+      typeof redirectTo === 'string' && redirectTo.startsWith('/app/')
+        ? redirectTo
+        : getLoginRedirectURL({
+            ssoAccountId,
+            ssoConversationId,
+            user: response.data.data,
+          });
     return null;
   } catch (error) {
     // Check if it's an MFA required response
