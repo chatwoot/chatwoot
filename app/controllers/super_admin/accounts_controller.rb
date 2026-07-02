@@ -57,6 +57,23 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     # rubocop:enable Rails/I18nLocaleTexts
   end
 
+  def toggle_prospecting
+    enabled = ActiveModel::Type::Boolean.new.cast(params[:enabled])
+
+    if enabled
+      Autonomia::Prospecting::Config.enable_for!(requested_resource)
+    else
+      Autonomia::Prospecting::Config.disable_for!(requested_resource)
+    end
+
+    # rubocop:disable Rails/I18nLocaleTexts
+    redirect_back(
+      fallback_location: [namespace, requested_resource],
+      notice: "Autonomia Prospecting #{enabled ? 'enabled' : 'disabled'}"
+    )
+    # rubocop:enable Rails/I18nLocaleTexts
+  end
+
   def destroy
     account = Account.find(params[:id])
 

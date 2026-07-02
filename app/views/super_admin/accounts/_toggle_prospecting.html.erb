@@ -1,0 +1,17 @@
+<section class="main-content__body">
+  <hr/>
+  <% enabled = Autonomia::Prospecting::Config.enabled?(page.resource) %>
+  <%= form_for([:toggle_prospecting, namespace, page.resource], method: :post, html: { class: "form" }) do |f| %>
+    <div class="form-actions">
+      <div class="pb-3">
+        <p class="font-medium">Autonomia Prospecting</p>
+        <p>
+          Controls whether the Prospecção menu and account-scoped prospecting endpoints are enabled for this account.
+        </p>
+        <p>Current status: <strong><%= enabled ? 'Enabled' : 'Disabled' %></strong></p>
+      </div>
+      <%= hidden_field_tag :enabled, (!enabled).to_s %>
+      <%= f.submit(enabled ? 'Disable Autonomia Prospecting' : 'Enable Autonomia Prospecting') %>
+    </div>
+  <% end %>
+</section>
