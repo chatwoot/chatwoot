@@ -150,25 +150,39 @@ const openBulkDeleteDialog = () => {
   bulkDeleteDialogRef.value?.open?.();
 };
 
+const normalizeContactId = id => {
+  if (id != null && typeof id === 'object') {
+    return Number(id.id);
+  }
+  return Number(id);
+};
+
 const toggleSelectAll = shouldSelect => {
-  const currentSelection = new Set(selectedContactIds.value);
+  const currentSelection = new Set(
+    selectedContactIds.value.map(id => normalizeContactId(id))
+  );
   if (shouldSelect) {
-    visibleContactIds.value.forEach(id => currentSelection.add(id));
+    visibleContactIds.value.forEach(id => currentSelection.add(Number(id)));
   } else {
-    visibleContactIds.value.forEach(id => currentSelection.delete(id));
+    visibleContactIds.value.forEach(id => currentSelection.delete(Number(id)));
   }
   selectedContactIds.value = Array.from(currentSelection);
 };
 
 const toggleContactSelection = ({ id, value }) => {
-  const isAlreadySelected = selectedContactIds.value.includes(id);
+  const contactId = normalizeContactId(id);
+  if (Number.isNaN(contactId)) return;
+
+  const isAlreadySelected = selectedContactIds.value.some(
+    selectedId => normalizeContactId(selectedId) === contactId
+  );
   const shouldSelect = value ?? !isAlreadySelected;
 
   if (shouldSelect && !isAlreadySelected) {
-    selectedContactIds.value = [...selectedContactIds.value, id];
+    selectedContactIds.value = [...selectedContactIds.value, contactId];
   } else if (!shouldSelect && isAlreadySelected) {
     selectedContactIds.value = selectedContactIds.value.filter(
-      contactId => contactId !== id
+      selectedId => normalizeContactId(selectedId) !== contactId
     );
   }
 };

@@ -85,9 +85,7 @@ const handleHeaderClick = key => {
   emit('update:sort', { sort: key, order });
 };
 
-const toggleSelectAll = () => {
-  const shouldSelect = !allSelected.value;
-
+const toggleSelectAll = shouldSelect => {
   props.contacts.forEach(contact => {
     emit('toggleContact', { id: contact.id, value: shouldSelect });
   });
