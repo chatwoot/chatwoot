@@ -55,14 +55,14 @@
       },
       "API": {
         "SUCCESS_MESSAGE": "Agent added successfully",
-        "INVITATION_SENT": "Invitation sent successfully. The agent will access the platform after accepting the invitation and signing in.",
-        "INVITATION_MANUAL_SHARE": "The invitation was created. Copy the link below if you want to share it manually.",
+        "INVITATION_SENT": "Invitation sent successfully. The link expires in 6 hours. The agent will access the platform after accepting the invitation and signing in.",
+        "INVITATION_MANUAL_SHARE": "The invitation was created and expires in 6 hours. Copy the link below if you want to share it manually.",
         "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "MANUAL_INVITATION": {
         "TITLE": "Invitation link",
-        "DESC": "Share this link with the agent if they do not receive the email or need to finish registration through another channel.",
+        "DESC": "Share this link with the agent if they do not receive the email or need to finish registration through another channel. The link expires in 6 hours.",
         "COPY": "Copy link",
         "COPY_SUCCESS": "Invitation link copied.",
         "COPY_ERROR": "Could not copy the link. Select it and copy manually."

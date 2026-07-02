@@ -55,6 +55,7 @@ Rails.application.routes.draw do
 
   get '/health', to: 'health#show'
   get '/api', to: 'api#index'
+  get '/api/v1/autonomia/product-invitations/validate', to: 'public/api/v1/autonomia/product_invitations#validate'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
       # ----------------------------------

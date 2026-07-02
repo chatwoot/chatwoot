@@ -200,12 +200,12 @@ variable "email_campaign_aws_secret_access_key" {
 
 variable "waha_api_url" {
   type    = string
-  default = ""
+  default = "https://wa-hub.autonomia.site"
 }
 
 variable "waha_public_url" {
   type    = string
-  default = ""
+  default = "https://wa-hub.autonomia.site"
 }
 
 variable "waha_api_key" {
@@ -214,10 +214,9 @@ variable "waha_api_key" {
   sensitive = true
 }
 
-variable "waha_chatwoot_account_token" {
-  type      = string
-  default   = ""
-  sensitive = true
+variable "waha_chatwoot_webhook_path" {
+  type    = string
+  default = "/webhooks/chatwoot"
 }
 
 variable "mailer_sender_email" {

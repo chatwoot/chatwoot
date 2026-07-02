@@ -16,6 +16,7 @@ module Custom::Api::V1::Accounts::AgentsController
       name: invitation.name,
       role: invitation.role,
       invitation_url: invitation.invitation_url,
+      expires_in_hours: invitation.expires_in_hours,
       email_delivery_failed: invitation.email_delivery_failed,
       manual_share_required: invitation.manual_share_required,
       email_delivery_error: invitation.email_delivery_error

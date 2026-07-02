@@ -24,6 +24,7 @@ RSpec.describe 'Enterprise Agents API', type: :request do
           name: 'Admin User',
           role: 'administrator',
           invitation_url: 'https://agents.autonomia.site/accept-invitation?token=test',
+          expires_in_hours: 6,
           email_delivery_failed: false,
           manual_share_required: false,
           email_delivery_error: nil
@@ -44,7 +45,8 @@ RSpec.describe 'Enterprise Agents API', type: :request do
           'pending_invitation' => true,
           'email' => 'admin@example.com',
           'role' => 'administrator',
-          'invitation_url' => 'https://agents.autonomia.site/accept-invitation?token=test'
+          'invitation_url' => 'https://agents.autonomia.site/accept-invitation?token=test',
+          'expires_in_hours' => 6
         )
       end
     end
