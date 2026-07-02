@@ -11,7 +11,9 @@ class DataImport::ContactManager
 
   def find_or_initialize_contact(params)
     contact = find_existing_contact(params)
-    contact_params = params.slice(:email, :identifier, :document_number, :phone_number)
+    document_number = normalized_document_number(params[:document_number])
+    contact_params = params.slice(:email, :identifier, :phone_number)
+    contact_params[:document_number] = document_number if document_number.present?
     contact_params[:phone_number] = format_phone_number(contact_params[:phone_number]) if contact_params[:phone_number].present?
     contact ||= @account.contacts.new(contact_params)
     contact
@@ -34,9 +36,10 @@ class DataImport::ContactManager
   end
 
   def find_contact_by_document_number(params)
-    return unless params[:document_number]
+    document_number = normalized_document_number(params[:document_number])
+    return unless document_number
 
-    @account.contacts.find_by(document_number: params[:document_number])
+    @account.contacts.find_by(document_number: document_number)
   end
 
   def find_contact_by_email(params)
@@ -56,8 +59,9 @@ class DataImport::ContactManager
   end
 
   def update_contact_with_merged_attributes(params, contact)
+    document_number = normalized_document_number(params[:document_number])
     contact.identifier = params[:identifier] if params[:identifier].present?
-    contact.document_number = params[:document_number] if params[:document_number].present?
+    contact.document_number = document_number if document_number.present?
     contact.email = params[:email] if params[:email].present?
     contact.phone_number = format_phone_number(params[:phone_number]) if params[:phone_number].present?
     update_contact_attributes(params, contact)
@@ -66,12 +70,21 @@ class DataImport::ContactManager
 
   private
 
+  def normalized_document_number(value)
+    value.to_s.strip.presence
+  end
+
   def update_contact_attributes(params, contact)
     contact.name = params[:name] if params[:name].present?
-    contact.document_number = params[:document_number] if params[:document_number].present?
+    document_number = normalized_document_number(params[:document_number])
+    contact.document_number = document_number if document_number.present?
     contact.additional_attributes ||= {}
     contact.additional_attributes[:company_name] = params[:company_name] if params[:company_name].present?
     contact.additional_attributes[:city] = params[:city] if params[:city].present?
-    contact.assign_attributes(custom_attributes: contact.custom_attributes.merge(params.except(:identifier, :document_number, :email, :name, :phone_number)))
+    contact.assign_attributes(
+      custom_attributes: contact.custom_attributes.merge(
+        params.except(:identifier, :document_number, :email, :name, :phone_number, :company_name, :city, :labels, :id)
+      )
+    )
   end
 end

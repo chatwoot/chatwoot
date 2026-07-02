@@ -9,6 +9,16 @@ import AnalyticsHelper from '../../../helper/AnalyticsHelper';
 import { CONTACTS_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import types from '../../mutation-types';
 
+let contactShowSeq = 0;
+const contactShowTokens = {};
+
+const invalidateContactShow = id => {
+  contactShowSeq += 1;
+  contactShowTokens[id] = contactShowSeq;
+};
+
+const isLatestContactShow = (id, token) => contactShowTokens[id] === token;
+
 const buildContactFormData = contactParams => {
   const formData = new FormData();
   const { additional_attributes = {}, ...contactProperties } = contactParams;
@@ -104,17 +114,24 @@ export const actions = {
   },
 
   show: async ({ commit }, { id }) => {
+    contactShowSeq += 1;
+    const token = contactShowSeq;
+    contactShowTokens[id] = token;
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await ContactAPI.show(id);
+      if (!isLatestContactShow(id, token)) return;
+
       commit(types.SET_CONTACT_ITEM, response.data.payload);
       commit(types.SET_CONTACT_UI_FLAG, {
         isFetchingItem: false,
       });
     } catch (error) {
-      commit(types.SET_CONTACT_UI_FLAG, {
-        isFetchingItem: false,
-      });
+      if (isLatestContactShow(id, token)) {
+        commit(types.SET_CONTACT_UI_FLAG, {
+          isFetchingItem: false,
+        });
+      }
     }
   },
 
@@ -131,7 +148,10 @@ export const actions = {
     }
   },
 
-  update: async ({ commit }, { id, isFormData = false, ...contactParams }) => {
+  update: async (
+    { commit, dispatch, rootState },
+    { id, isFormData = false, ...contactParams }
+  ) => {
     const { avatar, customAttributes, ...paramsToDecamelize } = contactParams;
     const decamelizedContactParams = {
       ...snakecaseKeys(paramsToDecamelize, { deep: true }),
@@ -147,6 +167,27 @@ export const actions = {
           : decamelizedContactParams
       );
       commit(types.EDIT_CONTACT, response.data.payload);
+      invalidateContactShow(id);
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          decamelizedContactParams,
+          'assigned_agent_id'
+        )
+      ) {
+        rootState.conversations?.allConversations
+          ?.filter(
+            conversation => Number(conversation.meta?.sender?.id) === Number(id)
+          )
+          ?.forEach(conversation => {
+            dispatch(
+              'conversations/updateConversationContact',
+              { conversationId: conversation.id, ...response.data.payload },
+              { root: true }
+            );
+          });
+      }
+
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
@@ -209,6 +250,7 @@ export const actions = {
     commit(types.SET_CONTACT_UI_FLAG, { isDeleting: true });
     try {
       await ContactAPI.delete(id);
+      commit(types.DELETE_CONTACT, id);
       commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isDeleting: false });
@@ -218,6 +260,35 @@ export const actions = {
         throw new Error(error);
       }
     }
+  },
+
+  deleteMany: async ({ commit }, ids) => {
+    const uniqueIds = [...new Set(ids)];
+    const results = await Promise.allSettled(
+      uniqueIds.map(id => ContactAPI.delete(id))
+    );
+
+    const deletedIds = [];
+    const failed = [];
+
+    results.forEach((result, index) => {
+      const id = uniqueIds[index];
+      if (result.status === 'fulfilled') {
+        commit(types.DELETE_CONTACT, id);
+        deletedIds.push(id);
+      } else {
+        const { reason: error } = result;
+        failed.push({
+          id,
+          message:
+            error.response?.data?.message ||
+            error.message ||
+            'Failed to delete contact',
+        });
+      }
+    });
+
+    return { deletedIds, failed };
   },
 
   deleteCustomAttributes: async ({ commit }, { id, customAttributes }) => {
@@ -289,10 +360,28 @@ export const actions = {
     });
   },
 
-  updateContact: async ({ commit }, updateObj) => {
+  updateContact: async ({ commit, dispatch, rootState }, updateObj) => {
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       commit(types.EDIT_CONTACT, updateObj);
+
+      if (
+        Object.prototype.hasOwnProperty.call(updateObj, 'assigned_agent_id')
+      ) {
+        rootState.conversations?.allConversations
+          ?.filter(
+            conversation =>
+              Number(conversation.meta?.sender?.id) === Number(updateObj.id)
+          )
+          ?.forEach(conversation => {
+            dispatch(
+              'conversations/updateConversationContact',
+              { conversationId: conversation.id, ...updateObj },
+              { root: true }
+            );
+          });
+      }
+
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });

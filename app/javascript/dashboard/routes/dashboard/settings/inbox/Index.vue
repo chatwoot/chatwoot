@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@scmmishra/pico-search';
@@ -78,6 +78,10 @@ const openDelete = inbox => {
   showDeletePopup.value = true;
   selectedInbox.value = inbox;
 };
+
+onMounted(() => {
+  store.dispatch('inboxes/get');
+});
 </script>
 
 <template>

@@ -94,7 +94,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
-    @contact.assigned_agent_id = params[:assigned_agent_id] if admin? && params.key?(:assigned_agent_id)
+    @contact.assigned_agent_id = permitted_assigned_agent_id
     @contact.save!
     process_avatar_from_url
   end
@@ -214,6 +214,28 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def render_error(error, error_status)
     render json: error, status: error_status
+  end
+
+  def permitted_assigned_agent_id
+    return @contact.assigned_agent_id unless params.key?(:assigned_agent_id)
+
+    requested_id = params[:assigned_agent_id].presence
+
+    return requested_id if admin?
+
+    current_user_id = Current.user&.id
+    current_owner_id = @contact.assigned_agent_id
+
+    # Agents can self-assign unassigned contacts
+    if current_owner_id.blank? && requested_id.to_i == current_user_id
+      current_user_id
+    # Agents can release contacts assigned to themselves
+    elsif current_owner_id == current_user_id && requested_id.blank?
+      nil
+    else
+      # Silently ignore any other change attempt
+      @contact.assigned_agent_id
+    end
   end
 
   def admin?

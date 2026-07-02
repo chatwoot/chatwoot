@@ -89,9 +89,8 @@ const conversationAdditionalAttributes = computed(
 
 const channelType = computed(() => currentChat.value.meta?.channel);
 
-const contactGetter = useMapGetter('contacts/getContact');
 const contactId = computed(() => currentChat.value.meta?.sender?.id);
-const contact = computed(() => contactGetter.value(contactId.value));
+const contact = useFunctionGetter('contacts/getContactById', contactId);
 const contactAdditionalAttributes = computed(
   () => contact.value.additional_attributes || {}
 );

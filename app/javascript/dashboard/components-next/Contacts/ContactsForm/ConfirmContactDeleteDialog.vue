@@ -22,21 +22,21 @@ const route = useRoute();
 
 const dialogRef = ref(null);
 
-const deleteContact = async id => {
+const handleDialogConfirm = async () => {
+  const id = route.params.contactId || props.selectedContact?.id;
   if (!id) return;
 
   try {
     await store.dispatch('contacts/delete', id);
     useAlert(t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.SUCCESS_MESSAGE'));
+    emit('goToContactsList');
+    dialogRef.value?.close();
   } catch (error) {
-    useAlert(t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.ERROR_MESSAGE'));
+    const message =
+      error?.message ||
+      t('CONTACTS_LAYOUT.DETAILS.DELETE_DIALOG.API.ERROR_MESSAGE');
+    useAlert(message);
   }
-};
-
-const handleDialogConfirm = async () => {
-  emit('goToContactsList');
-  await deleteContact(route.params.contactId || props.selectedContact.id);
-  dialogRef.value?.close();
 };
 
 defineExpose({ dialogRef });

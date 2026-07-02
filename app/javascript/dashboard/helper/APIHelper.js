@@ -1,12 +1,17 @@
+import Cookies from 'js-cookie';
+import { differenceInDays } from 'date-fns';
 import Auth from '../api/auth';
+import { getHeaderExpiry } from '../store/utils/api';
 
 const parseErrorCode = error => Promise.reject(error);
 
 export default axios => {
   const { apiHost = '' } = window.chatwootConfig || {};
   const wootApi = axios.create({ baseURL: `${apiHost}/` });
-  // Add Auth Headers to requests if logged in
-  if (Auth.hasAuthCookie()) {
+
+  const syncAuthHeaders = () => {
+    if (!Auth.hasAuthCookie()) return;
+
     const {
       'access-token': accessToken,
       'token-type': tokenType,
@@ -21,10 +26,26 @@ export default axios => {
       expiry,
       uid,
     });
-  }
-  // Response parsing interceptor
+  };
+
+  syncAuthHeaders();
+
+  wootApi.interceptors.request.use(config => {
+    syncAuthHeaders();
+    return config;
+  });
+
   wootApi.interceptors.response.use(
-    response => response,
+    response => {
+      if (response.headers?.['access-token']) {
+        const expiryDate = getHeaderExpiry(response);
+        Cookies.set('cw_d_session_info', JSON.stringify(response.headers), {
+          expires: differenceInDays(expiryDate, new Date()),
+        });
+        syncAuthHeaders();
+      }
+      return response;
+    },
     error => parseErrorCode(error)
   );
   return wootApi;

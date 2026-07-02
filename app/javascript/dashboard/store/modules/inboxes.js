@@ -193,7 +193,12 @@ export const actions = {
     try {
       const isExistingKeyValid = await InboxesAPI.validateCacheKey(newKey);
       if (!isExistingKeyValid) {
-        const response = await InboxesAPI.refetchAndCommit(newKey);
+        let response;
+        try {
+          response = await InboxesAPI.refetchAndCommit(newKey);
+        } catch {
+          response = await InboxesAPI.get(false);
+        }
         commit(types.default.SET_INBOXES, response.data.payload);
       }
     } catch (error) {
@@ -204,9 +209,15 @@ export const actions = {
     commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: true });
     try {
       const response = await InboxesAPI.get(true);
-      commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
       commit(types.default.SET_INBOXES, response.data.payload);
     } catch (error) {
+      try {
+        const response = await InboxesAPI.get(false);
+        commit(types.default.SET_INBOXES, response.data.payload);
+      } catch {
+        // Ignore error
+      }
+    } finally {
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
     }
   },

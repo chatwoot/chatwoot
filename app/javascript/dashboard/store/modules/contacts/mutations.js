@@ -47,9 +47,20 @@ export const mutations = {
   },
 
   [types.SET_CONTACT_ITEM]: ($state, data) => {
+    const existing = $state.records[data.id] || {};
+    const hasIncomingAssignee = Object.prototype.hasOwnProperty.call(
+      data,
+      'assigned_agent_id'
+    );
     $state.records[data.id] = {
-      ...($state.records[data.id] || {}),
+      ...existing,
       ...data,
+      ...(!hasIncomingAssignee && existing.assigned_agent_id != null
+        ? {
+            assigned_agent_id: existing.assigned_agent_id,
+            assigned_agent: existing.assigned_agent,
+          }
+        : {}),
     };
 
     if (!$state.sortOrder.includes(data.id)) {
@@ -58,10 +69,13 @@ export const mutations = {
   },
 
   [types.EDIT_CONTACT]: ($state, data) => {
-    const existingAttachments = $state.records[data.id]?.attachments;
-    $state.records[data.id] = existingAttachments
-      ? { ...data, attachments: existingAttachments }
-      : data;
+    const existing = $state.records[data.id] || {};
+    const existingAttachments = existing.attachments;
+    $state.records[data.id] = {
+      ...existing,
+      ...data,
+      ...(existingAttachments ? { attachments: existingAttachments } : {}),
+    };
   },
 
   [types.SET_CONTACT_ATTACHMENTS]: ($state, { id, data }) => {
@@ -70,8 +84,12 @@ export const mutations = {
   },
 
   [types.DELETE_CONTACT]: ($state, id) => {
-    const index = $state.sortOrder.findIndex(item => item === id);
-    $state.sortOrder.splice(index, 1);
+    const index = $state.sortOrder.findIndex(
+      item => Number(item) === Number(id)
+    );
+    if (index !== -1) {
+      $state.sortOrder.splice(index, 1);
+    }
     delete $state.records[id];
   },
 

@@ -80,6 +80,9 @@ defineExpose({ dialogRef });
           }}
         </a>
       </p>
+      <p class="mt-2 mb-0 text-sm text-n-slate-11">
+        {{ t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.COLUMNS_HINT') }}
+      </p>
     </template>
 
     <div class="flex flex-col gap-2">

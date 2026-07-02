@@ -231,6 +231,7 @@ describe('#actions', () => {
       await actions.delete({ commit }, contactList[0].id);
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isDeleting: true }],
+        [types.DELETE_CONTACT, contactList[0].id],
         [types.SET_CONTACT_UI_FLAG, { isDeleting: false }],
       ]);
     });

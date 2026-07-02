@@ -328,6 +328,7 @@
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Import contacts through a CSV file.",
+          "COLUMNS_HINT": "Supported columns: name, email, identifier, document_number, phone_number, labels, company_name, and custom attributes. The document field accepts headers like document_number, document:number, cedula, or dni.",
           "DOWNLOAD_LABEL": "Download a sample csv.",
           "LABEL": "CSV File:",
           "CHOOSE_FILE": "Choose file",
@@ -498,7 +499,10 @@
       "LAST_ACTIVITY": "Last active {date}",
       "ASSIGNEE": {
         "LABEL": "Assigned agent",
-        "ADMIN_ONLY": "Only administrators can change the assigned agent.",
+        "NONE": "Unassigned",
+        "SELF_ASSIGN": "Assign to me",
+        "SELF_UNASSIGN": "Release contact",
+        "ASSIGNED_TO_OTHER": "Assigned to {agentName}",
         "UPDATE_SUCCESS": "Assigned agent updated successfully",
         "UPDATE_ERROR": "Could not update assigned agent. Please try again later."
       },
@@ -618,6 +622,7 @@
     "DELETE_CONTACTS": "Delete",
     "DELETE_SUCCESS": "Contacts deleted successfully.",
     "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_PARTIAL_FAILED": "{count} contacts could not be deleted.",
     "DELETE_DIALOG": {
       "TITLE": "Delete selected contacts",
       "SINGULAR_TITLE": "Delete selected contact",

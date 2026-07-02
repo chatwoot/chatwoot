@@ -464,10 +464,14 @@ const actions = {
   },
 
   updateConversationContact({ commit }, data) {
-    if (data.id) {
-      commit(`contacts/${types.SET_CONTACT_ITEM}`, data);
+    const { conversationId, ...contactPayload } = data;
+    if (contactPayload.id) {
+      commit(`contacts/${types.SET_CONTACT_ITEM}`, contactPayload);
     }
-    commit(types.UPDATE_CONVERSATION_CONTACT, data);
+    commit(types.UPDATE_CONVERSATION_CONTACT, {
+      conversationId,
+      ...contactPayload,
+    });
   },
 
   setActiveInbox({ commit }, inboxId) {

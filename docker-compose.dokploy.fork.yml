@@ -19,7 +19,7 @@ x-fork-code-volumes: &fork-code-volumes
   - ./config:/app/config
   - ./db:/app/db
   - ./docker/entrypoints:/app/docker/entrypoints
-  - ./public/vite:/app/public/vite
+  # Do NOT mount ./public/vite — stale host assets override the image build (UI changes vanish).
 
 services:
   chatwoot-rails:

@@ -45,7 +45,7 @@ class DataImportJob < ApplicationJob
   end
 
   def build_contact_from_row(row, contacts, rejected_contacts)
-    row_hash = row.to_h.with_indifferent_access
+    row_hash = DataImport::CsvRowNormalizer.normalize(row)
     labels = extract_labels(row_hash)
     invalid_labels = labels.map(&:downcase) - approved_labels
 
@@ -125,11 +125,12 @@ class DataImportJob < ApplicationJob
   end
 
   def contact_identity_key(contact)
-    contact.identifier.presence || contact.email.presence || contact.phone_number.presence
+    contact.identifier.presence || contact.document_number.presence || contact.email.presence || contact.phone_number.presence
   end
 
   def imported_contact(contact)
     return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
+    return @data_import.account.contacts.find_by(document_number: contact.document_number) if contact.document_number.present?
     return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
 
     @data_import.account.contacts.find_by(phone_number: contact.phone_number) if contact.phone_number.present?

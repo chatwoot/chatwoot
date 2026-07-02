@@ -1,36 +1,53 @@
 <script setup>
 import { ref, computed } from 'vue';
+
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+
 import { useAlert } from 'dashboard/composables';
+
 import { useI18n } from 'vue-i18n';
+
 import { useRouter, useRoute } from 'vue-router';
+
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
+
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
+
 import ContactsTable from 'dashboard/components-next/Contacts/ContactsTable/ContactsTable.vue';
 
 const props = defineProps({
   contacts: { type: Array, required: true },
+
   selectedContactIds: {
     type: Array,
+
     default: () => [],
   },
+
   activeSort: { type: String, default: 'last_activity_at' },
+
   activeOrdering: { type: String, default: '' },
 });
 
 const emit = defineEmits(['toggleContact', 'update:sort']);
 
 const { t } = useI18n();
+
 const store = useStore();
+
 const router = useRouter();
+
 const route = useRoute();
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
+
 const isUpdating = computed(() => uiFlags.value.isUpdating);
+
 const expandedCardId = ref(null);
+
 const hoveredAvatarId = ref(null);
 
 const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
@@ -38,9 +55,11 @@ const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
 const updateContact = async updatedData => {
   try {
     await store.dispatch('contacts/update', updatedData);
+
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
     const i18nPrefix = 'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM';
+
     if (error instanceof DuplicateContactException) {
       if (error.data.includes('email')) {
         useAlert(t(`${i18nPrefix}.EMAIL_ADDRESS.DUPLICATE`));
@@ -58,11 +77,15 @@ const updateContact = async updatedData => {
 const onClickViewDetails = async id => {
   const routeTypes = {
     contacts_dashboard_segments_index: ['contacts_edit_segment', 'segmentId'],
+
     contacts_dashboard_labels_index: ['contacts_edit_label', 'label'],
   };
+
   const [name, paramKey] = routeTypes[route.name] || ['contacts_edit'];
+
   const params = {
     contactId: id,
+
     ...(paramKey && { [paramKey]: route.params[paramKey] }),
   };
 
@@ -95,6 +118,7 @@ const handleSort = sortPayload => {
 <template>
   <div class="flex flex-col gap-4">
     <!-- Desktop: table view -->
+
     <ContactsTable
       :contacts="contacts"
       :selected-contact-ids="selectedContactIds"
@@ -107,6 +131,7 @@ const handleSort = sortPayload => {
     />
 
     <!-- Mobile: card view -->
+
     <div class="md:hidden flex flex-col gap-4">
       <div v-for="contact in contacts" :key="contact.id" class="relative">
         <ContactsCard

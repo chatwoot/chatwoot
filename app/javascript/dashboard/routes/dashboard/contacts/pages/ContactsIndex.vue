@@ -379,18 +379,33 @@ const deleteContacts = async () => {
   }
 
   isBulkActionLoading.value = true;
+  const idsToDelete = [...selectedContactIds.value];
   try {
-    await BulkActionsAPI.create({
-      type: 'Contact',
-      ids: selectedContactIds.value,
-      action_name: 'delete',
-    });
-    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_SUCCESS'));
-    clearSelection();
-    await fetchContactsBasedOnContext(pageNumber.value);
+    const { deletedIds, failed } = await store.dispatch(
+      'contacts/deleteMany',
+      idsToDelete
+    );
+
     bulkDeleteDialogRef.value?.close?.();
-  } catch (error) {
-    useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_FAILED'));
+
+    if (deletedIds.length) {
+      useAlert(t('CONTACTS_BULK_ACTIONS.DELETE_SUCCESS'));
+      clearSelection();
+    }
+
+    if (failed.length) {
+      useAlert(
+        deletedIds.length
+          ? t('CONTACTS_BULK_ACTIONS.DELETE_PARTIAL_FAILED', {
+              count: failed.length,
+            })
+          : t('CONTACTS_BULK_ACTIONS.DELETE_FAILED')
+      );
+    }
+
+    await fetchContactsBasedOnContext(pageNumber.value, {
+      clearSelection: false,
+    });
   } finally {
     isBulkActionLoading.value = false;
   }

@@ -327,6 +327,7 @@
         "IMPORT_CONTACT": {
           "TITLE": "Importar contactos",
           "DESCRIPTION": "Importar contactos a través de un archivo CSV.",
+          "COLUMNS_HINT": "Columnas soportadas: name, email, identifier, document_number, phone_number, labels, company_name y atributos personalizados. El documento acepta cabeceras como document_number, document:number, cedula o dni.",
           "DOWNLOAD_LABEL": "Descarga un ejemplo de csv.",
           "LABEL": "Archivo CSV:",
           "CHOOSE_FILE": "Elegir archivo",
@@ -495,6 +496,15 @@
     "DETAILS": {
       "CREATED_AT": "Creado {date}",
       "LAST_ACTIVITY": "Última actividad {date}",
+      "ASSIGNEE": {
+        "LABEL": "Agente asignado",
+        "NONE": "Sin asignar",
+        "SELF_ASSIGN": "Asignarme este contacto",
+        "SELF_UNASSIGN": "Liberar contacto",
+        "ASSIGNED_TO_OTHER": "Asignado a {agentName}",
+        "UPDATE_SUCCESS": "Agente asignado actualizado correctamente",
+        "UPDATE_ERROR": "No se pudo actualizar el agente asignado. Inténtalo de nuevo más tarde."
+      },
       "DELETE_CONTACT_DESCRIPTION": "Eliminar permanentemente este contacto. Esta acción es irreversible",
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
