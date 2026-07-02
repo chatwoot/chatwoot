@@ -58,6 +58,15 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
 
       expect(response).to have_http_status(:unprocessable_entity)
     end
+
+    it 'returns 409 when the call has already ended (caller hung up mid-ring)' do
+      call.update!(status: 'no_answer')
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/#{call.id}/accept",
+           params: { sdp_answer: 'sdp_answer' }, headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:conflict)
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/whatsapp_calls/:id/reject' do
