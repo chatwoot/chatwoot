@@ -20,7 +20,7 @@ class EmailTemplate < ApplicationRecord
   enum :template_type, { layout: 0, content: 1 }
   belongs_to :account, optional: true
 
-  validates :name, uniqueness: { scope: :account }
+  validates :name, uniqueness: { scope: [:account, :template_type, :locale] }
 
   def self.resolver(options = {})
     ::EmailTemplates::DbResolverService.using self, options

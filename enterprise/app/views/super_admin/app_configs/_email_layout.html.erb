@@ -1,0 +1,15 @@
+<% if ChatwootHub.pricing_plan != 'community' %>
+  <div class="absolute right-4 top-5 w-96 rounded-md border border-slate-100 p-4">
+    <div class="flex items-start justify-between gap-5">
+      <div class="flex flex-col gap-1">
+        <span class="text-sm font-medium text-n-slate-12">Email templates</span>
+        <p class="m-0 text-xs italic leading-5 text-slate-400">
+          Customize the notification email layout for this brand.
+        </p>
+      </div>
+      <%= link_to 'Manage',
+                  edit_super_admin_email_layout_path,
+                  class: 'flex h-8 shrink-0 items-center rounded-md bg-transparent px-3 text-sm font-medium text-n-slate-11 outline outline-1 outline-n-container hover:bg-slate-50 hover:text-n-slate-12 focus:outline-none' %>
+    </div>
+  </div>
+<% end %>

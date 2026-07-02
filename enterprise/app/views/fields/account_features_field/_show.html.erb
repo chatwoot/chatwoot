@@ -30,5 +30,22 @@
         </span>
       </div>
     <% end %>
+
+    <% if ChatwootHub.pricing_plan != 'community' %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+        <div class="flex items-center gap-2">
+          <span class="bg-n-amber-3 text-n-amber-12 rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="12" height="12"><use xlink:href="#icon-lock-line" /></svg>
+          </span>
+          <span class="text-sm text-n-slate-12">Account Email Templates</span>
+        </div>
+        <%= link_to edit_super_admin_account_email_layout_path(field.resource),
+                    aria: { label: 'Customize account email templates' },
+                    title: 'Customize account email templates',
+                    class: 'inline-flex rounded-full bg-slate-50 p-1 text-slate-800 hover:bg-n-slate-4 hover:text-n-slate-12 focus:outline-none' do %>
+          <svg width="12" height="12"><use xlink:href="#icon-settings-2-line" /></svg>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

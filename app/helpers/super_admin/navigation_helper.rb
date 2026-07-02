@@ -1,6 +1,8 @@
 module SuperAdmin::NavigationHelper
   def settings_open?
-    params[:controller].in? %w[super_admin/settings super_admin/app_configs]
+    return false if params[:controller] == 'super_admin/email_layouts' && params[:account_id].present?
+
+    params[:controller].in? %w[super_admin/settings super_admin/app_configs super_admin/email_layouts]
   end
 
   def settings_pages

@@ -1,0 +1,241 @@
+<% content_for(:title) do %>
+  Configure Settings - <%= @account.present? ? "#{@account.name} Email Templates" : 'Email Templates' %>
+<% end %>
+
+<% overview_path = @account.present? ? edit_super_admin_account_email_layout_path(@account) : edit_super_admin_email_layout_path %>
+<% new_template_path = @account.present? ? edit_super_admin_account_email_layout_path(@account, new: 1, template_type: 'layout', template_name: 'base', locale: 'en') : edit_super_admin_email_layout_path(new: 1, template_type: 'layout', template_name: 'base', locale: 'en') %>
+
+<header class="main-content__header" role="banner">
+  <div class="flex items-center justify-between w-full">
+    <h1 class="main-content__page-title m-0 mr-6" id="page-title">
+      <%= content_for(:title) %>
+    </h1>
+
+    <% unless @show_template_editor %>
+      <div class="whitespace-nowrap ml-4">
+        <%= link_to 'Create new template', new_template_path, class: 'button' %>
+      </div>
+    <% end %>
+  </div>
+</header>
+
+<% unless @show_template_editor %>
+  <section class="main-content__body main-content__body--flush">
+    <table aria-labelledby="page-title">
+      <thead>
+        <tr>
+          <th class="cell-label cell-label--string" scope="col">Type</th>
+          <th class="cell-label cell-label--string" scope="col">Template</th>
+          <th class="cell-label cell-label--string" scope="col">Language</th>
+          <th class="cell-label cell-label--string" scope="col">Updated</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @custom_templates.each do |template| %>
+          <% template_path = @account.present? ? edit_super_admin_account_email_layout_path(@account, template_type: template.template_type, template_name: template.name, locale: template.locale) : edit_super_admin_email_layout_path(template_type: template.template_type, template_name: template.name, locale: template.locale) %>
+          <tr class="js-table-row" tabindex="0" role="link" data-url="<%= template_path %>">
+            <td class="cell-data cell-data--string">
+              <%= link_to template.template_type.titleize, template_path, class: 'action-show' %>
+            </td>
+            <td class="cell-data cell-data--string">
+              <%= link_to template.name.humanize, template_path, class: 'action-show' %>
+            </td>
+            <td class="cell-data cell-data--string">
+              <%= link_to template.locale.upcase, template_path, class: 'action-show' %>
+            </td>
+            <td class="cell-data cell-data--string">
+              <%= link_to "#{time_ago_in_words(template.updated_at)} ago", template_path, class: 'action-show' %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </section>
+<% else %>
+  <section class="main-content__body">
+    <div class="pr-16">
+      <%= form_tag overview_path, method: :get, id: 'email-template-selector-form', autocomplete: 'off' do %>
+        <%= hidden_field_tag :new, 1 %>
+        <fieldset>
+          <legend>Template details</legend>
+
+          <div class="field-unit field-unit--string">
+            <div class="field-unit__label">
+              <%= label_tag :template_type, 'Type' %>
+            </div>
+            <div class="field-unit__field">
+              <%= select_tag :template_type,
+                             options_for_select(EmailTemplate.template_types.keys.map { |type| [type.titleize, type] }, @template_type),
+                             data: { current_value: @template_type } %>
+            </div>
+          </div>
+
+          <div class="field-unit field-unit--string">
+            <div class="field-unit__label">
+              <%= label_tag :template_name, 'Template' %>
+            </div>
+            <div class="field-unit__field">
+              <%= select_tag :template_name,
+                             options_for_select(@template_options.map { |template| [template[:label], template[:name]] }, @template_name),
+                             data: { current_value: @template_name } %>
+              <p class="pt-2 text-xs italic text-slate-400"><%= @template_status %></p>
+            </div>
+          </div>
+
+          <div class="field-unit field-unit--string">
+            <div class="field-unit__label">
+              <%= label_tag :locale, 'Language' %>
+            </div>
+            <div class="field-unit__field">
+              <%= select_tag :locale,
+                             options_for_select(@locale_options, @template_locale),
+                             data: { current_value: @template_locale } %>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <%= submit_tag 'Load' %>
+          <%= link_to 'All templates', overview_path, class: 'button' %>
+        </div>
+      <% end %>
+
+      <%= form_with scope: :email_layout,
+                    url: @account.present? ? super_admin_account_email_layout_path(@account) : super_admin_email_layout_path,
+                    method: :patch do |form| %>
+        <%= form.hidden_field :template_type, value: @template_type %>
+        <%= form.hidden_field :template_name, value: @template_name %>
+        <%= form.hidden_field :locale, value: @template_locale %>
+
+        <fieldset>
+          <legend>Template body</legend>
+          <div class="field-unit field-unit--text">
+            <div class="field-unit__label">
+              <%= form.label :body, 'HTML / Liquid' %>
+            </div>
+            <div class="field-unit__field">
+              <%= form.text_area :body,
+                                 value: @layout_body,
+                                 rows: 24,
+                                 wrap: 'off',
+                                 data: { email_template_editor: true },
+                                 class: 'mt-2 w-full border font-mono text-xs border-slate-100 p-1 rounded-md overflow-scroll' %>
+              <% if @template_type == 'layout' %>
+                <p class="pt-2 text-xs italic text-slate-400">Keep {{ content_for_layout }} in the layout.</p>
+              <% end %>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <%= form.submit @email_layout.present? ? 'Save template' : 'Create template override' %>
+
+          <% if @email_layout.present? %>
+            <%= link_to t('administrate.actions.destroy'),
+                        @account.present? ? super_admin_account_email_layout_path(@account, template_type: @template_type, template_name: @template_name, locale: @template_locale) : super_admin_email_layout_path(template_type: @template_type, template_name: @template_name, locale: @template_locale),
+                        class: 'button button--danger',
+                        method: :delete,
+                        data: { confirm: t('administrate.actions.confirm') } %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <fieldset>
+        <legend>Preview</legend>
+        <div class="attribute-label">Email layout preview</div>
+        <div class="attribute-data attribute-data--string">
+          <iframe
+            title="Email layout preview"
+            sandbox
+            height="420"
+            srcdoc="<%= @preview_html %>"
+            data-email-template-preview="true"
+            class="w-full rounded-md border border-slate-100 bg-white"
+          ></iframe>
+          <p class="pt-2 text-xs italic text-slate-400">Refreshes as you type.</p>
+        </div>
+
+        <div class="attribute-label">Variables</div>
+        <div class="attribute-data attribute-data--string">
+          <% @supported_variables.each do |supported_variable| %>
+            <p class="m-0 mb-2 text-xs text-slate-500">
+              <code class="rounded bg-slate-25 px-2 py-1 font-mono text-xs text-slate-700"><%= supported_variable[:variable] %></code>
+              <%= supported_variable[:description] %>
+            </p>
+          <% end %>
+        </div>
+      </fieldset>
+
+      <script type="application/json" id="email-preview-config"><%= raw json_escape(@preview_config.to_json) %></script>
+    </div>
+  </section>
+    <% end %>
+
+<% if @show_template_editor %>
+  <% content_for :javascript do %>
+    <script>
+      const initializeEmailTemplateEditor = () => {
+        const selectorForm = document.getElementById('email-template-selector-form') || document.querySelector('form[method="get"]');
+        if (selectorForm) {
+          let isSubmitting = false;
+          const submitSelectorForm = select => {
+            if (isSubmitting) return;
+
+            const templateSelect = selectorForm.querySelector('select[name="template_name"]');
+            if (select.name === 'template_type' && templateSelect) {
+              templateSelect.disabled = true;
+            }
+
+            isSubmitting = true;
+            selectorForm.requestSubmit();
+          };
+
+          selectorForm.querySelectorAll('select').forEach(select => {
+            if (select.dataset.currentValue) {
+              if (select.selectize) {
+                select.selectize.setValue(select.dataset.currentValue, true);
+              } else {
+                select.value = select.dataset.currentValue;
+              }
+            }
+
+            select.addEventListener('change', () => submitSelectorForm(select));
+            select.selectize?.on('change', () => submitSelectorForm(select));
+          });
+        }
+
+        const editor = document.querySelector('[data-email-template-editor]');
+        const preview = document.querySelector('[data-email-template-preview]');
+        const configNode = document.getElementById('email-preview-config');
+
+        if (!editor || !preview || !configNode) return;
+
+        const config = JSON.parse(configNode.textContent);
+        const contentSlotPattern = /\{\{\s*content_for_layout\s*\}\}/g;
+        const replacements = [
+          [/\{\{\s*global_config\[['"]BRAND_NAME['"]\]\s*\}\}/g, config.brandName],
+          [/\{\{\s*global_config\[['"]BRAND_URL['"]\]\s*\}\}/g, config.brandUrl],
+          [/\{\{\s*account\.name\s*\}\}/g, config.accountName],
+        ];
+
+        const renderTemplateVariables = value => replacements.reduce((body, [pattern, replacement]) => body.replace(pattern, replacement || ''), value || '');
+
+        const renderPreview = () => {
+          const renderedBody = renderTemplateVariables(editor.value);
+          preview.srcdoc = config.templateType === 'layout'
+            ? renderedBody.replace(contentSlotPattern, config.previewContent)
+            : renderTemplateVariables(config.defaultLayout).replace(contentSlotPattern, renderedBody);
+        };
+
+        editor.addEventListener('input', renderPreview);
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initializeEmailTemplateEditor);
+      } else {
+        initializeEmailTemplateEditor();
+      }
+    </script>
+  <% end %>
+<% end %>
