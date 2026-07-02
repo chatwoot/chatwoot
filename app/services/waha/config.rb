@@ -22,11 +22,6 @@ module Waha
         ENV.fetch('CHATWOOT_BASE_URL', ENV.fetch('FRONTEND_URL', '')).to_s.chomp('/')
       end
 
-      # Token de acesso de conta usado pelo conector de mensagens para registrar as conversas.
-      def account_token
-        ENV.fetch('WAHA_CHATWOOT_ACCOUNT_TOKEN', '').to_s
-      end
-
       # Caminho do callback do conector. O motor WAHA serve o receptor do plugin chatwoot no
       # PLURAL (/webhooks/chatwoot/{sessão}/{app_id}); o singular retorna 401 e o outbound nunca
       # chega ao WhatsApp. Mantido configurável por ENV para acompanhar a versão do motor.

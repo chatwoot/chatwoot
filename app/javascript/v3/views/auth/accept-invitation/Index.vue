@@ -29,6 +29,11 @@ export default {
         showLoading: false,
         hasErrored: false,
       },
+      validationApi: {
+        isLoading: false,
+        isInvalid: false,
+        reason: '',
+      },
     };
   },
   validations() {
@@ -59,14 +64,31 @@ export default {
       return window.chatwootConfig.autonomiaSsoUrl || '/auth/autonomia';
     },
     canSubmit() {
-      return !this.v$.$invalid && Boolean(this.token);
+      return (
+        !this.validationApi.isLoading &&
+        !this.validationApi.isInvalid &&
+        !this.v$.$invalid &&
+        Boolean(this.token)
+      );
+    },
+    validationMessage() {
+      if (!this.validationApi.isInvalid) return '';
+      if (this.validationApi.reason === 'expired') {
+        return this.$t('ACCEPT_INVITATION.ERRORS.EXPIRED');
+      }
+      return this.$t('ACCEPT_INVITATION.ERRORS.INVALID_LINK');
     },
   },
   mounted() {
     if (!this.token) {
       this.submitApi.hasErrored = true;
+      this.validationApi.isInvalid = true;
+      this.validationApi.reason = 'invalid';
       useAlert(this.$t('ACCEPT_INVITATION.ERRORS.INVALID_LINK'));
+      return;
     }
+
+    this.validateInvitation();
   },
   methods: {
     showAlert(message) {
@@ -98,12 +120,46 @@ export default {
 
       return isProductLoginUrl ? this.autonomiaLoginUrl() : loginUrl.toString();
     },
+    async validateInvitation() {
+      this.validationApi.isLoading = true;
+      this.validationApi.isInvalid = false;
+      this.validationApi.reason = '';
+
+      try {
+        const url = new URL(
+          '/api/v1/autonomia/product-invitations/validate',
+          window.location.origin
+        );
+        url.searchParams.set('token', this.token);
+        const response = await fetch(url.toString(), {
+          headers: { Accept: 'application/json' },
+        });
+        const payload = await response.json().catch(() => ({}));
+
+        if (!response.ok || payload.valid === false) {
+          this.validationApi.isInvalid = true;
+          this.validationApi.reason = payload.reason || 'invalid';
+          this.submitApi.hasErrored = true;
+          this.showAlert(this.validationMessage);
+        }
+      } catch {
+        // Falha de rede não deve bloquear um convite potencialmente válido.
+      } finally {
+        this.validationApi.isLoading = false;
+      }
+    },
     async submitForm() {
       this.v$.$touch();
 
       if (!this.token) {
         this.submitApi.hasErrored = true;
         this.showAlert(this.$t('ACCEPT_INVITATION.ERRORS.INVALID_LINK'));
+        return;
+      }
+
+      if (this.validationApi.isInvalid) {
+        this.submitApi.hasErrored = true;
+        this.showAlert(this.validationMessage);
         return;
       }
 
@@ -182,9 +238,19 @@ export default {
         <p class="mt-2 text-sm leading-6 text-n-slate-11">
           {{ $t('ACCEPT_INVITATION.DESCRIPTION') }}
         </p>
+        <p class="mt-2 text-sm leading-6 text-n-slate-11">
+          {{ $t('ACCEPT_INVITATION.EXPIRES_HINT') }}
+        </p>
 
         <div v-if="clientId" class="mt-4 text-xs text-n-slate-10">
           {{ $t('ACCEPT_INVITATION.PRODUCT_LABEL', { clientId }) }}
+        </div>
+
+        <div
+          v-if="validationApi.isInvalid"
+          class="p-3 mt-5 text-sm border rounded-lg border-n-ruby-5 bg-n-ruby-2 text-n-ruby-11"
+        >
+          {{ validationMessage }}
         </div>
 
         <div class="mt-6 space-y-5">

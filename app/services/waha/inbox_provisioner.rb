@@ -10,10 +10,11 @@ module Waha
     # Celular BR no formato 55 + DDD(2) + 9 dígitos (ex.: 5511987654321) = 13 dígitos.
     PHONE_RE = /\A55\d{11}\z/
 
-    def initialize(account:, phone:, display_name: nil, ai_agent: false,
+    def initialize(account:, phone:, api_access_token:, display_name: nil, ai_agent: false,
                    client: Waha::Client.new, config: Waha::Config)
       @account = account
       @phone = normalize_phone(phone)
+      @api_access_token = api_access_token.to_s
       @display_name = display_name.to_s.strip
       @ai_agent = ActiveModel::Type::Boolean.new.cast(ai_agent)
       @client = client
@@ -23,7 +24,7 @@ module Waha
     def perform
       raise Error, 'integration_not_configured' unless @config.enabled?
       raise Error, 'invalid_phone' unless @phone.match?(PHONE_RE)
-      raise Error, 'account_token_missing' if @config.account_token.blank?
+      raise Error, 'account_token_missing' if @api_access_token.blank?
 
       app_id = "app_#{SecureRandom.hex(16)}"
       callback = @config.callback_url(@phone, app_id)
@@ -57,6 +58,7 @@ module Waha
           'provider' => 'waha',
           'session' => @phone,
           'app_id' => app_id,
+          'account_token_owner_user_id' => Current.user&.id,
           'kind' => @ai_agent ? 'ai' : 'human',
           # Já nasce marcada como caixa de campanha WhatsApp API — uma caixa WAHA É, por definição,
           # uma caixa de WhatsApp API; sem isto o seletor de campanha (filtra por campaign_channel_type)
@@ -78,7 +80,7 @@ module Waha
       {
         url: @config.chatwoot_base_url,
         accountId: @account.id,
-        accountToken: @config.account_token,
+        accountToken: @api_access_token,
         inboxId: inbox.id,
         inboxIdentifier: inbox.channel.identifier,
         locale: 'pt-BR',

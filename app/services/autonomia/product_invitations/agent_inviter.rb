@@ -4,12 +4,14 @@ require 'cgi'
 
 class Autonomia::ProductInvitations::AgentInviter
   class Error < StandardError; end
+  EXPIRES_IN_HOURS = 6
 
   Result = Struct.new(
     :email,
     :name,
     :role,
     :invitation_url,
+    :expires_in_hours,
     :email_delivery_failed,
     :manual_share_required,
     :email_delivery_error,
@@ -35,6 +37,7 @@ class Autonomia::ProductInvitations::AgentInviter
       name: name,
       role: role,
       invitation_url: invitation_url(response),
+      expires_in_hours: EXPIRES_IN_HOURS,
       email_delivery_failed: email_delivery_failed?(response),
       manual_share_required: manual_share_required?(response),
       email_delivery_error: response['emailDeliveryError'] || response['email_delivery_error']
