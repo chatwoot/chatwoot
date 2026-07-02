@@ -35,8 +35,15 @@ class V2::Reports::DrilldownBuilder
       },
       current_page: current_page,
       per_page: per_page,
-      total_count: paginated_records.total_count
+      total_count: paginated_records.total_count,
+      conversation_count: conversation_count
     }
+  end
+
+  def conversation_count
+    return paginated_records.total_count if conversation_metric?
+
+    drilldown_scope.except(:includes).reorder(nil).distinct.count(:conversation_id)
   end
 
   def paginated_records
@@ -139,21 +146,13 @@ class V2::Reports::DrilldownBuilder
     end
   end
 
-  def inbox
-    @inbox ||= account.inboxes.find(params[:id])
-  end
+  def inbox = @inbox ||= account.inboxes.find(params[:id])
 
-  def user
-    @user ||= account.users.find(params[:id])
-  end
+  def user = @user ||= account.users.find(params[:id])
 
-  def label
-    @label ||= account.labels.find(params[:id])
-  end
+  def label = @label ||= account.labels.find(params[:id])
 
-  def team
-    @team ||= account.teams.find(params[:id])
-  end
+  def team = @team ||= account.teams.find(params[:id])
 
   def metric
     params[:metric].to_s

@@ -16,9 +16,6 @@ vi.mock('vue-i18n', () => ({
       if (key === 'REPORT.DRILLDOWN.TITLE') {
         return `${params.metric} details`;
       }
-      if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE') {
-        return `${params.count} messages`;
-      }
       if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION') {
         return `${params.count} conversations`;
       }
@@ -107,6 +104,7 @@ describe('ReportDrilldownDrawer.vue', () => {
           total_count: 1,
           current_page: 1,
           record_type: 'message',
+          conversation_count: 1,
         },
         payload,
       },
@@ -130,7 +128,7 @@ describe('ReportDrilldownDrawer.vue', () => {
       })
     );
     expect(wrapper.text()).toContain('Messages received');
-    expect(wrapper.text()).toContain('1 messages');
+    expect(wrapper.text()).toContain('1 conversations');
     expect(wrapper.find('[data-testid="drilldown-card"]').text()).toBe('#42');
   });
 
@@ -148,11 +146,53 @@ describe('ReportDrilldownDrawer.vue', () => {
     expect(wrapper.text()).toContain(formatTime(2580));
   });
 
-  it('does not show a bucket value for count metrics', async () => {
-    const wrapper = mountDrawer({ props: { bucketValue: 12 } });
+  it('shows the plain count as the bucket value for count metrics', async () => {
+    const wrapper = mountDrawer({ props: { bucketValue: 128 } });
     await flushPromises();
 
-    expect(wrapper.text()).not.toContain(formatTime(12));
+    expect(wrapper.text()).toContain('128');
+    expect(wrapper.text()).not.toContain(formatTime(128));
+  });
+
+  it('hides the redundant subtitle count for conversation-count metrics', async () => {
+    ReportsAPI.getDrilldown.mockResolvedValue({
+      data: {
+        meta: {
+          total_count: 5,
+          current_page: 1,
+          record_type: 'conversation',
+          conversation_count: 5,
+        },
+        payload,
+      },
+    });
+    const wrapper = mountDrawer({
+      props: { metric: 'conversations_count', bucketValue: 5 },
+    });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('5');
+    expect(wrapper.text()).not.toContain('conversations');
+  });
+
+  it('keeps the subtitle count when it differs from the stat value', async () => {
+    ReportsAPI.getDrilldown.mockResolvedValue({
+      data: {
+        meta: {
+          total_count: 8,
+          current_page: 1,
+          record_type: 'conversation',
+          conversation_count: 5,
+        },
+        payload,
+      },
+    });
+    const wrapper = mountDrawer({
+      props: { metric: 'resolutions_count', bucketValue: 8 },
+    });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('5 conversations');
   });
 
   it('emits close when the drawer close button is clicked', async () => {

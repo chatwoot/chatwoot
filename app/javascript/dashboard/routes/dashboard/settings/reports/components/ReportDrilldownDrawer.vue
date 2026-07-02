@@ -52,20 +52,29 @@ const title = computed(() => props.metricName || '');
 const subtitle = computed(() => props.bucketLabel || '');
 
 const bucketValue = computed(() => {
-  if (!props.isAverageMetric || props.bucketValue === null) return '';
+  if (props.bucketValue === null) return '';
 
-  return formatTime(props.bucketValue);
+  return props.isAverageMetric
+    ? formatTime(props.bucketValue)
+    : `${props.bucketValue}`;
 });
 
+// The headline stat already shows the conversation count for conversation-count
+// metrics (e.g. conversations_count), so the subtitle count would be redundant.
+const isStatConversationCount = computed(
+  () =>
+    !props.isAverageMetric &&
+    meta.value.record_type === 'conversation' &&
+    props.bucketValue === meta.value.conversation_count
+);
+
 const resultCount = computed(() => {
-  if (!meta.value.total_count) return '';
+  if (!meta.value.conversation_count || isStatConversationCount.value)
+    return '';
 
-  const key =
-    meta.value.record_type === 'message'
-      ? 'REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE'
-      : 'REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION';
-
-  return t(key, { count: meta.value.total_count });
+  return t('REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION', {
+    count: meta.value.conversation_count,
+  });
 });
 
 const restoreFocus = () => {
