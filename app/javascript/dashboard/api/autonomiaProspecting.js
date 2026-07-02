@@ -10,6 +10,14 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.get(`${this.url}/searches`);
   }
 
+  getSearch(searchId) {
+    return axios.get(`${this.url}/searches/${searchId}`);
+  }
+
+  createSearch(search) {
+    return axios.post(`${this.url}/searches`, { search });
+  }
+
   getLeads() {
     return axios.get(`${this.url}/leads`);
   }

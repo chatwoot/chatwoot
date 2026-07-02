@@ -5,19 +5,37 @@
     },
     "ERRORS": {
       "LOAD_SEARCHES": "Could not load prospect searches.",
+      "LOAD_SEARCH": "Could not load this prospect search.",
+      "CREATE_SEARCH": "Could not run this prospect search.",
       "LOAD_LISTS": "Could not load prospect lists.",
       "LOAD_SETTINGS": "Could not load prospecting settings."
     },
     "SEARCH": {
       "TITLE": "Buscar leads",
+      "HISTORY_TITLE": "Histórico de buscas",
+      "RESULTS_TITLE": "Resultados",
       "QUERY_PLACEHOLDER": "Segmento ou termo",
       "LOCATION_PLACEHOLDER": "Cidade, bairro ou região",
       "ACTION": "Buscar",
+      "SEARCHING": "Buscando...",
       "EMPTY": "Nenhuma busca registrada.",
+      "RESULTS_EMPTY": "Execute uma busca ou selecione uma busca do histórico.",
+      "RESULTS_EMPTY_AFTER_SEARCH": "Nenhum lead encontrado para esta busca.",
+      "OPEN_SITE": "Abrir site",
+      "ADDRESS_SEPARATOR": " - ",
+      "RATING_LABEL": "{rating} estrelas",
+      "REVIEWS_LABEL": "{count} avaliações",
+      "FIELDS": {
+        "QUERY": "Termo",
+        "LOCATION": "Localização",
+        "RADIUS": "Raio (m)",
+        "LIMIT": "Limite"
+      },
       "COLUMNS": {
         "QUERY": "Busca",
         "PROVIDER": "Provider",
         "STATUS": "Status",
+        "RESULTS": "Leads",
         "CREATED_AT": "Criada em"
       }
     },
