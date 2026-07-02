@@ -49,8 +49,6 @@ const isOpen = computed(() => props.open);
 
 const title = computed(() => props.metricName || '');
 
-const subtitle = computed(() => props.bucketLabel || '');
-
 const bucketValue = computed(() => {
   if (props.bucketValue === null) return '';
 
@@ -68,7 +66,7 @@ const isStatConversationCount = computed(
     props.bucketValue === meta.value.conversation_count
 );
 
-const resultCount = computed(() => {
+const conversationCount = computed(() => {
   if (!meta.value.conversation_count || isStatConversationCount.value)
     return '';
 
@@ -76,6 +74,30 @@ const resultCount = computed(() => {
     count: meta.value.conversation_count,
   });
 });
+
+// Timing metrics (e.g. reply time) show a duration as the stat, so the underlying
+// message count adds context. Skip it when it just mirrors the conversation count
+// (e.g. first response time has one response message per conversation).
+const messageCount = computed(() => {
+  if (
+    !props.isAverageMetric ||
+    meta.value.record_type !== 'message' ||
+    !meta.value.total_count ||
+    meta.value.total_count === meta.value.conversation_count
+  ) {
+    return '';
+  }
+
+  return t('REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE', {
+    count: meta.value.total_count,
+  });
+});
+
+const subtitle = computed(() =>
+  [props.bucketLabel, conversationCount.value, messageCount.value]
+    .filter(Boolean)
+    .join(' ⋅ ')
+);
 
 const restoreFocus = () => {
   if (previousActiveElement?.isConnected) {
@@ -209,13 +231,7 @@ onBeforeUnmount(() => {
                   'mt-1': !bucketValue,
                 }"
               >
-                {{ subtitle
-                }}<span
-                  v-if="resultCount"
-                  class="before:mx-1 before:content-['⋅']"
-                >
-                  {{ resultCount }}
-                </span>
+                {{ subtitle }}
               </div>
             </div>
             <div class="flex shrink-0 items-center gap-1">

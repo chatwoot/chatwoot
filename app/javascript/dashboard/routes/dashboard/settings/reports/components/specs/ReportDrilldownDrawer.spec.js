@@ -19,6 +19,9 @@ vi.mock('vue-i18n', () => ({
       if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION') {
         return `${params.count} conversations`;
       }
+      if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE') {
+        return `${params.count} messages`;
+      }
       return key;
     },
   }),
@@ -144,6 +147,56 @@ describe('ReportDrilldownDrawer.vue', () => {
     await flushPromises();
 
     expect(wrapper.text()).toContain(formatTime(2580));
+  });
+
+  it('shows both conversation and message counts when they differ (reply time)', async () => {
+    ReportsAPI.getDrilldown.mockResolvedValue({
+      data: {
+        meta: {
+          total_count: 8,
+          current_page: 1,
+          record_type: 'message',
+          conversation_count: 5,
+        },
+        payload,
+      },
+    });
+    const wrapper = mountDrawer({
+      props: {
+        metric: 'reply_time',
+        isAverageMetric: true,
+        bucketValue: 2580,
+      },
+    });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('5 conversations');
+    expect(wrapper.text()).toContain('8 messages');
+  });
+
+  it('hides the message count when it matches the conversation count (first response time)', async () => {
+    ReportsAPI.getDrilldown.mockResolvedValue({
+      data: {
+        meta: {
+          total_count: 5,
+          current_page: 1,
+          record_type: 'message',
+          conversation_count: 5,
+        },
+        payload,
+      },
+    });
+    const wrapper = mountDrawer({
+      props: {
+        metric: 'avg_first_response_time',
+        isAverageMetric: true,
+        bucketValue: 2580,
+      },
+    });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain('5 conversations');
+    expect(wrapper.text()).not.toContain('messages');
   });
 
   it('shows the plain count as the bucket value for count metrics', async () => {
