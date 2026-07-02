@@ -188,6 +188,8 @@ export default {
         metricName: metric.NAME,
         bucketLabel: event.label,
         bucketTimestamp: dataPoint.timestamp,
+        bucketValue: dataPoint.value,
+        isAverageMetric: this.isAverageMetricType(metric.KEY),
         from: this.from,
         to: this.to,
         type: this.reportType,
@@ -254,6 +256,8 @@ export default {
     :metric-name="drilldownRequest?.metricName"
     :bucket-label="drilldownRequest?.bucketLabel"
     :bucket-timestamp="drilldownRequest?.bucketTimestamp"
+    :bucket-value="drilldownRequest?.bucketValue"
+    :is-average-metric="drilldownRequest?.isAverageMetric"
     :from="drilldownRequest?.from"
     :to="drilldownRequest?.to"
     :type="drilldownRequest?.type"

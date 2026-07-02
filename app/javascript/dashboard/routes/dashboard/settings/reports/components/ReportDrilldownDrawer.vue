@@ -2,6 +2,7 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { formatTime } from '@chatwoot/utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import { useReportDrilldown } from '../composables/useReportDrilldown';
@@ -19,6 +20,8 @@ const props = defineProps({
   id: { type: [String, Number], default: null },
   groupBy: { type: String, default: '' },
   businessHours: { type: Boolean, default: false },
+  bucketValue: { type: Number, default: null },
+  isAverageMetric: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['close']);
@@ -46,12 +49,21 @@ const title = computed(() => props.metricName || '');
 
 const subtitle = computed(() => props.bucketLabel || '');
 
+const bucketValue = computed(() => {
+  if (!props.isAverageMetric || props.bucketValue === null) return '';
+
+  return formatTime(props.bucketValue);
+});
+
 const resultCount = computed(() => {
   if (!meta.value.total_count) return '';
 
-  return t('REPORT.DRILLDOWN.RESULT_COUNT', {
-    count: meta.value.total_count,
-  });
+  const key =
+    meta.value.record_type === 'message'
+      ? 'REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE'
+      : 'REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION';
+
+  return t(key, { count: meta.value.total_count });
 });
 
 const restoreFocus = () => {
@@ -149,9 +161,21 @@ onBeforeUnmount(() => {
               <h2 class="truncate text-base font-medium text-n-slate-12">
                 {{ title }}
               </h2>
-              <div class="mt-1 text-sm text-n-slate-11">
-                {{ subtitle }}
-                <span
+              <p
+                v-if="bucketValue"
+                class="mt-1 text-xl font-semibold text-n-slate-12"
+              >
+                {{ bucketValue }}
+              </p>
+              <div
+                class="text-sm text-n-slate-11"
+                :class="{
+                  'mt-2': bucketValue,
+                  'mt-1': !bucketValue,
+                }"
+              >
+                {{ subtitle
+                }}<span
                   v-if="resultCount"
                   class="before:mx-1 before:content-['⋅']"
                 >

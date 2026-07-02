@@ -1,5 +1,6 @@
 import { flushPromises, mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
+import { formatTime } from '@chatwoot/utils';
 import ReportsAPI from 'dashboard/api/reports';
 import ReportDrilldownDrawer from '../ReportDrilldownDrawer.vue';
 
@@ -15,8 +16,11 @@ vi.mock('vue-i18n', () => ({
       if (key === 'REPORT.DRILLDOWN.TITLE') {
         return `${params.metric} details`;
       }
-      if (key === 'REPORT.DRILLDOWN.RESULT_COUNT') {
-        return `${params.count} records`;
+      if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_MESSAGE') {
+        return `${params.count} messages`;
+      }
+      if (key === 'REPORT.DRILLDOWN.RESULT_COUNT_CONVERSATION') {
+        return `${params.count} conversations`;
       }
       return key;
     },
@@ -71,7 +75,7 @@ describe('ReportDrilldownDrawer.vue', () => {
 
   const mountDrawer = options =>
     mount(ReportDrilldownDrawer, {
-      props: { open: true, ...request },
+      props: { open: true, ...request, ...options?.props },
       attachTo: options?.attachTo,
       global: {
         stubs: {
@@ -101,6 +105,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         meta: {
           total_count: 1,
           current_page: 1,
+          record_type: 'message',
         },
         payload,
       },
@@ -124,8 +129,29 @@ describe('ReportDrilldownDrawer.vue', () => {
       })
     );
     expect(wrapper.text()).toContain('Messages received');
-    expect(wrapper.text()).toContain('1 records');
+    expect(wrapper.text()).toContain('1 messages');
     expect(wrapper.find('[data-testid="drilldown-card"]').text()).toBe('#42');
+  });
+
+  it('shows the bucket aggregate value for average metrics', async () => {
+    const wrapper = mountDrawer({
+      props: {
+        metric: 'avg_first_response_time',
+        metricName: 'First response time',
+        isAverageMetric: true,
+        bucketValue: 2580,
+      },
+    });
+    await flushPromises();
+
+    expect(wrapper.text()).toContain(formatTime(2580));
+  });
+
+  it('does not show a bucket value for count metrics', async () => {
+    const wrapper = mountDrawer({ props: { bucketValue: 12 } });
+    await flushPromises();
+
+    expect(wrapper.text()).not.toContain(formatTime(12));
   });
 
   it('emits close when the drawer close button is clicked', async () => {
