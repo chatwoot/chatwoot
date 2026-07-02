@@ -99,7 +99,7 @@ const showPagination = computed(() => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 overflow-y-auto px-6">
-        <div class="w-full mx-auto max-w-5xl">
+        <div class="w-full mx-auto max-w-full">
           <ContactsActiveFiltersPreview
             v-if="showActiveFiltersPreview"
             :active-segment="activeSegment"
@@ -120,7 +120,7 @@ const showPagination = computed(() => {
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"
           :total-items="totalItems"
-          class="max-w-[67rem]"
+          class="max-w-full"
           :items-per-page="itemsPerPage"
           @update:current-page="updateCurrentPage"
         />

@@ -387,6 +387,18 @@
         }
       }
     },
+    "TABLE": {
+      "SELECT_PAGE": "Select all {count} contacts on this page",
+      "COLUMNS": {
+        "NAME": "Name",
+        "IDENTITY": "Identity",
+        "PHONE": "Phone",
+        "EMAIL": "Email",
+        "LABELS": "Labels",
+        "ASSIGNED_AGENT": "Agent",
+        "LAST_ACTIVITY": "Last activity"
+      }
+    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },

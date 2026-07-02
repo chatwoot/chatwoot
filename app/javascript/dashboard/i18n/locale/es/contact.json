@@ -386,6 +386,18 @@
         }
       }
     },
+    "TABLE": {
+      "SELECT_PAGE": "Seleccionar los {count} contactos de esta página",
+      "COLUMNS": {
+        "NAME": "Nombre",
+        "IDENTITY": "Identidad",
+        "PHONE": "Teléfono",
+        "EMAIL": "E-mail",
+        "LABELS": "Etiquetas",
+        "ASSIGNED_AGENT": "Agente",
+        "LAST_ACTIVITY": "Última actividad"
+      }
+    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contactos"
     },
