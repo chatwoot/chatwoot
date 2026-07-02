@@ -1,0 +1,45 @@
+{
+  "PROSPECTING": {
+    "STATES": {
+      "LOADING": "Loading..."
+    },
+    "ERRORS": {
+      "LOAD_SEARCHES": "Could not load prospect searches.",
+      "LOAD_LISTS": "Could not load prospect lists.",
+      "LOAD_SETTINGS": "Could not load prospecting settings."
+    },
+    "SEARCH": {
+      "TITLE": "Buscar leads",
+      "QUERY_PLACEHOLDER": "Segmento ou termo",
+      "LOCATION_PLACEHOLDER": "Cidade, bairro ou região",
+      "ACTION": "Buscar",
+      "EMPTY": "Nenhuma busca registrada.",
+      "COLUMNS": {
+        "QUERY": "Busca",
+        "PROVIDER": "Provider",
+        "STATUS": "Status",
+        "CREATED_AT": "Criada em"
+      }
+    },
+    "LISTS": {
+      "TITLE": "Listas",
+      "EMPTY": "Nenhuma lista salva.",
+      "COLUMNS": {
+        "NAME": "Lista",
+        "STATUS": "Status",
+        "CREATED_AT": "Criada em"
+      }
+    },
+    "SETTINGS": {
+      "TITLE": "Configurações",
+      "ENABLED": "Habilitado",
+      "DISABLED": "Desabilitado",
+      "FIELDS": {
+        "PROVIDER": "Provider",
+        "PROVIDER_ENABLED": "Provider habilitado",
+        "DEFAULT_LIMIT": "Limite padrão",
+        "CACHE_TTL": "Cache TTL"
+      }
+    }
+  }
+}

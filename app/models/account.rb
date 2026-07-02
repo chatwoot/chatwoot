@@ -100,6 +100,11 @@ class Account < ApplicationRecord
   has_many :crm_agent_booking_profiles, class_name: 'Crm::AgentBookingProfile', dependent: :destroy_async
   has_many :crm_agent_booking_links, class_name: 'Crm::AgentBookingLink', dependent: :destroy_async
   has_many :crm_calendar_sync_states, class_name: 'Crm::CalendarSyncState', dependent: :destroy_async
+  has_one :autonomia_prospecting_setting, class_name: 'Autonomia::Prospecting::Setting', dependent: :destroy_async
+  has_many :autonomia_prospecting_searches, class_name: 'Autonomia::Prospecting::Search', dependent: :destroy_async
+  has_many :autonomia_prospecting_leads, class_name: 'Autonomia::Prospecting::Lead', dependent: :destroy_async
+  has_many :autonomia_prospecting_lists, class_name: 'Autonomia::Prospecting::List', dependent: :destroy_async
+  has_many :autonomia_prospecting_list_leads, class_name: 'Autonomia::Prospecting::ListLead', dependent: :destroy_async
   has_many :whatsapp_api_campaigns, dependent: :destroy_async
   has_many :whatsapp_api_message_templates, dependent: :destroy_async
   has_many :canned_responses, dependent: :destroy_async

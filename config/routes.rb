@@ -287,6 +287,12 @@ Rails.application.routes.draw do
               get :invoices
               get :payments
             end
+            namespace :prospecting do
+              resources :searches, only: [:index, :show, :create]
+              resources :leads, only: [:index, :show]
+              resources :lists, only: [:index, :show, :create]
+              resource :settings, only: [:show]
+            end
           end
           namespace :email_campaigns do
             resources :sender_identities, only: [:index, :create, :show, :destroy] do

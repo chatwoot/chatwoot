@@ -7,6 +7,12 @@ import store from 'dashboard/store';
 const AgentsHubPage = () => import('./pages/AgentsHubPage.vue');
 const AgentBuilderPage = () => import('./pages/AgentBuilderPage.vue');
 const AgentPanelPage = () => import('./pages/AgentPanelPage.vue');
+const ProspectingSearchPage = () =>
+  import('./prospecting/pages/ProspectingSearchPage.vue');
+const ProspectingListsPage = () =>
+  import('./prospecting/pages/ProspectingListsPage.vue');
+const ProspectingSettingsPage = () =>
+  import('./prospecting/pages/ProspectingSettingsPage.vue');
 
 // Admin-only: every Autonomia backend endpoint enforces
 // `ensure_account_administrator`, so non-admins would 403 on each call.
@@ -29,6 +35,17 @@ const ensureAutonomiaEnabled = (to, _from, next) => {
   const accountEnabled = account?.autonomia_agents_enabled === true;
 
   if (masterEnabled && accountEnabled) {
+    next();
+    return;
+  }
+  next({ name: 'home', params: to.params });
+};
+
+const ensureProspectingEnabled = (to, _from, next) => {
+  const accountId = Number(to.params.accountId);
+  const account = store.getters['accounts/getAccount'](accountId);
+
+  if (account?.autonomia_prospecting_enabled === true) {
     next();
     return;
   }
@@ -62,6 +79,27 @@ export const routes = [
       agentId: route.params.agentId,
       tab: route.params.tab || 'test',
     }),
+  },
+  {
+    path: frontendURL('accounts/:accountId/autonomia/prospecting/search'),
+    name: 'autonomia_prospecting_search',
+    meta,
+    beforeEnter: ensureProspectingEnabled,
+    component: ProspectingSearchPage,
+  },
+  {
+    path: frontendURL('accounts/:accountId/autonomia/prospecting/lists'),
+    name: 'autonomia_prospecting_lists',
+    meta,
+    beforeEnter: ensureProspectingEnabled,
+    component: ProspectingListsPage,
+  },
+  {
+    path: frontendURL('accounts/:accountId/autonomia/prospecting/settings'),
+    name: 'autonomia_prospecting_settings',
+    meta,
+    beforeEnter: ensureProspectingEnabled,
+    component: ProspectingSettingsPage,
   },
 ];
 
