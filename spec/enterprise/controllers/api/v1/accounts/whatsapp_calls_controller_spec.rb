@@ -113,6 +113,31 @@ RSpec.describe 'WhatsApp Calls API', type: :request do
       expect(Call.find_by(provider_call_id: 'wacid_outbound')).to have_attributes(direction: 'outgoing', status: 'ringing')
     end
 
+    it 'assigns the conversation to the agent placing the call when it is unassigned' do
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(agent.id)
+    end
+
+    it 'keeps the existing assignee when the conversation is already assigned' do
+      other_agent = create(:user, account: account, role: :agent)
+      create(:inbox_member, user: other_agent, inbox: inbox)
+      initiate_conversation.update!(assignee: other_agent)
+      allow(provider_service).to receive(:initiate_call).and_return({ 'calls' => [{ 'id' => 'wacid_outbound' }] })
+
+      post "/api/v1/accounts/#{account.id}/whatsapp_calls/initiate",
+           params: { conversation_id: initiate_conversation.display_id, sdp_offer: 'sdp_offer' },
+           headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:ok)
+      expect(initiate_conversation.reload.assignee_id).to eq(other_agent.id)
+    end
+
     it 'sends a permission request and records the wamid when Meta returns NoCallPermission' do
       allow(provider_service).to receive(:initiate_call).and_raise(Voice::CallErrors::NoCallPermission)
       allow(provider_service).to receive(:send_call_permission_request).and_return({ 'messages' => [{ 'id' => 'wamid.req_xyz' }] })
