@@ -1,0 +1,18 @@
+# Railway config for the Chatwoot *web* service (Puma).
+# The Sidekiq worker is a separate Railway service — see railway.worker.toml.
+#
+# Connect this repo to the "Chatwoot" service in the Railway project, then deploy.
+# Docs: docs/RAILWAY.md
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "docker/Dockerfile"
+watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
+
+[deploy]
+healthcheckPath = "/api"
+healthcheckTimeout = 300
+preDeployCommand = "POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"
+startCommand = "bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
