@@ -1,9 +1,6 @@
 name: Deploy Autonomia Chatwoot Blue Green
 
 on:
-  pull_request_review:
-    types:
-      - submitted
   pull_request:
     types:
       - closed
@@ -52,10 +49,6 @@ jobs:
     name: Deploy Green
     if: >-
       (github.event_name == 'workflow_dispatch' && github.event.inputs.action == 'deploy') ||
-      (github.event_name == 'pull_request_review' &&
-        github.event.review.state == 'approved' &&
-        github.event.pull_request.base.ref == 'main' &&
-        github.event.pull_request.draft == false) ||
       (github.event_name == 'pull_request' &&
         github.event.action == 'closed' &&
         github.event.pull_request.merged == true &&
@@ -67,7 +60,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'pull_request_review' && github.event.pull_request.head.sha || github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merge_commit_sha || github.sha }}
+          ref: ${{ github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merge_commit_sha || github.sha }}
 
       - name: Log deployment trigger context
         run: |

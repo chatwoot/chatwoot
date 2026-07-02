@@ -113,7 +113,7 @@ variable "campaign_import_enabled" {
 
 variable "whatsapp_api_campaigns_enabled" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "crm_kanban_enabled" {
@@ -178,7 +178,7 @@ variable "autonomia_auth_client_id" {
 
 variable "email_campaign_enabled" {
   type    = bool
-  default = false
+  default = true
 }
 
 variable "email_campaign_aws_region" {
