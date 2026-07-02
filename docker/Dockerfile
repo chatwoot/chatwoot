@@ -151,3 +151,6 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 WORKDIR /app
 
 EXPOSE 3000
+
+ENTRYPOINT ["docker/entrypoints/rails.sh"]
+CMD ["sh", "-c", "bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p ${PORT:-3000} -e ${RAILS_ENV:-production}"]
