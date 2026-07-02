@@ -15,6 +15,7 @@ class Api::V1::Accounts::EmailOauthAppsController < Api::V1::Accounts::BaseContr
       source: creds[:source],
       client_id: app&.client_id,
       redirect_uri: app&.redirect_uri,
+      tenant_id: app&.tenant_id,
       callback_url: "#{base_url}/#{provider}/callback"
     }
   end
@@ -55,7 +56,7 @@ class Api::V1::Accounts::EmailOauthAppsController < Api::V1::Accounts::BaseContr
   end
 
   def permitted_params
-    params.permit(:client_id, :client_secret, :redirect_uri)
+    params.permit(:client_id, :client_secret, :redirect_uri, :tenant_id)
   end
 
   def base_url

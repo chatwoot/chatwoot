@@ -67,7 +67,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
       expect(inbox.name).to eq email.split('@').first.parameterize.titleize
     end
 
-    it 'redirects to google app in case of error' do
+    it 'redirects to the inbox settings page with an error code when the token exchange fails' do
       stub_request(:post, 'https://accounts.google.com/o/oauth2/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
@@ -75,7 +75,7 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
       get google_callback_url, params: { code: code, state: state }
 
-      expect(response).to redirect_to '/'
+      expect(response).to redirect_to("/app/accounts/#{account.id}/settings/inboxes/new?oauth_error=token_exchange_failed")
     end
   end
 end

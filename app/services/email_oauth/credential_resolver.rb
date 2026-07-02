@@ -20,9 +20,13 @@ module EmailOauth
     def credentials
       app = usable_account_app
       if app
-        { client_id: app.client_id, client_secret: app.client_secret, redirect_uri: app.redirect_uri.presence, source: 'account' }
+        # tenant_id (settings) viaja junto com a credencial da conta: app
+        # single-tenant usa o endpoint específico; global/multi-tenant fica nil
+        # e os consumidores caem no /common (EmailOauth::MicrosoftTenant).
+        { client_id: app.client_id, client_secret: app.client_secret, redirect_uri: app.redirect_uri.presence,
+          tenant_id: app.tenant_id.presence, source: 'account' }
       else
-        { client_id: global(:id), client_secret: global(:secret), redirect_uri: nil, source: 'global' }
+        { client_id: global(:id), client_secret: global(:secret), redirect_uri: nil, tenant_id: nil, source: 'global' }
       end
     end
 

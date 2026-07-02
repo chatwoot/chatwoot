@@ -1259,10 +1259,14 @@
       "CLIENT_SECRET_MICROSOFT": "Client secret",
       "CLIENT_SECRET_GOOGLE": "Client secret",
       "CLIENT_SECRET_PH": "Paste the secret value",
+      "TENANT_ID_MICROSOFT": "Tenant ID (Directory ID)",
+      "TENANT_ID_MICROSOFT_PH": "common",
+      "TENANT_ID_MICROSOFT_HINT": "Required when the Azure app is single-tenant. Leave empty for multi-tenant apps.",
       "SAVE_AND_CONTINUE": "Save and continue",
       "SAVE_ERROR": "Could not save the credentials. Please check the values and try again.",
       "USING_ACCOUNT_APP": "Using this account's own application.",
-      "EDIT_APP": "Edit credentials"
+      "EDIT_APP": "Edit credentials",
+      "OAUTH_CALLBACK_ERROR": "Microsoft/Google authorization failed ({code}). Check the account's OAuth app settings."
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",

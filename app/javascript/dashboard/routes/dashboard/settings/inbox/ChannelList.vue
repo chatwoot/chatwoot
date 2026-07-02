@@ -1,14 +1,16 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 
+import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
 const { t } = useI18n();
+const route = useRoute();
 const router = useRouter();
 const { accountId, currentAccount } = useAccount();
 
@@ -123,8 +125,22 @@ const initChannelAuth = channel => {
   router.push({ name: 'settings_inboxes_page_channel', params });
 };
 
+const notifyOauthError = () => {
+  const oauthError = route.query.oauth_error;
+  if (!oauthError) return;
+  useAlert(
+    t('INBOX_MGMT.OAUTH_CREDENTIALS.OAUTH_CALLBACK_ERROR', {
+      code: oauthError,
+    })
+  );
+  const query = { ...route.query };
+  delete query.oauth_error;
+  router.replace({ query });
+};
+
 onMounted(() => {
   initializeEnabledFeatures();
+  notifyOauthError();
 });
 </script>
 

@@ -7,8 +7,6 @@
 class Microsoft::GraphTokenService
   pattr_initialize [:channel!]
 
-  TOKEN_URL = 'https://login.microsoftonline.com/common/oauth2/v2.0/token'.freeze
-
   def access_token
     refresh_for_graph_api
   end
@@ -16,7 +14,7 @@ class Microsoft::GraphTokenService
   private
 
   def refresh_for_graph_api
-    response = Net::HTTP.post_form(URI(TOKEN_URL), token_params)
+    response = Net::HTTP.post_form(URI(token_url), token_params)
 
     raise_token_error(response) unless response.code.to_i == 200
 
@@ -37,7 +35,6 @@ class Microsoft::GraphTokenService
   end
 
   def token_params
-    creds = ::EmailOauth::CredentialResolver.new(channel.account, 'microsoft').credentials
     {
       client_id: creds[:client_id],
       client_secret: creds[:client_secret],
@@ -45,6 +42,15 @@ class Microsoft::GraphTokenService
       grant_type: 'refresh_token',
       scope: ::Microsoft::Scopes::GRAPH
     }
+  end
+
+  # Endpoint tenant-aware (app single-tenant falha no /common — AADSTS50194).
+  def token_url
+    ::EmailOauth::MicrosoftTenant.token_url(creds)
+  end
+
+  def creds
+    @creds ||= ::EmailOauth::CredentialResolver.new(channel.account, 'microsoft').credentials
   end
 
   # Detalhe do provedor só nos logs; ao chamador (e ao status de falha da mensagem)

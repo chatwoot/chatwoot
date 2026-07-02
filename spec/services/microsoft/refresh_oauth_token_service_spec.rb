@@ -32,14 +32,19 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
 
   describe 'on expired token or invalid expiry' do
     before do
+      # O refresh fixa o escopo do recurso (Azure v2 multi-recurso) — o stub
+      # antigo sem `scope` não casava e mantinha estes testes em quarentena.
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token').with(
-        body: { 'grant_type' => 'refresh_token', 'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'] }
+        body: hash_including(
+          'grant_type' => 'refresh_token',
+          'refresh_token' => microsoft_channel_with_expired_token.provider_config['refresh_token'],
+          'scope' => Microsoft::Scopes::IMAP
+        )
       ).to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
     end
 
     context 'when token is invalid' do
       it 'fetches new access token and refresh tokens' do
-        skip 'QUARANTINE: pre-existing legacy failure, harness-restore PR; real fix tracked for follow-up PR2'
         with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
           provider_config = microsoft_channel_with_expired_token.provider_config
           service = described_class.new(channel: microsoft_channel_with_expired_token)
@@ -53,9 +58,24 @@ RSpec.describe Microsoft::RefreshOauthTokenService do
       end
     end
 
+    context 'when the channel account has a single-tenant app with tenant_id' do
+      it 'refreshes the token on the tenant-specific endpoint' do
+        tenant = 'a1b2c3d4-1111-2222-3333-444455556666'
+        microsoft_channel_with_expired_token.account.email_oauth_apps.create!(
+          provider: 'microsoft', client_id: SecureRandom.uuid, client_secret: SecureRandom.hex(20), tenant_id: tenant
+        )
+        tenant_refresh = stub_request(:post, "https://login.microsoftonline.com/#{tenant}/oauth2/v2.0/token")
+                         .with(body: hash_including('grant_type' => 'refresh_token'))
+                         .to_return(status: 200, body: new_tokens.to_json, headers: { 'Content-Type' => 'application/json' })
+
+        described_class.new(channel: microsoft_channel_with_expired_token).access_token
+
+        expect(tenant_refresh).to have_been_requested
+      end
+    end
+
     context 'when expiry time is missing' do
       it 'fetches new access token and refresh tokens' do
-        skip 'QUARANTINE: pre-existing legacy failure, harness-restore PR; real fix tracked for follow-up PR2'
         with_modified_env AZURE_APP_ID: SecureRandom.uuid, AZURE_APP_SECRET: SecureRandom.hex do
           microsoft_channel_with_expired_token.provider_config['expires_on'] = nil
           microsoft_channel_with_expired_token.save!

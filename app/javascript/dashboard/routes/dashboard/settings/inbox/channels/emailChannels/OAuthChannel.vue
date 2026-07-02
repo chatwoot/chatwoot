@@ -47,6 +47,7 @@ const source = ref(null);
 const callbackUrl = ref('');
 const clientId = ref('');
 const clientSecret = ref('');
+const tenantId = ref('');
 
 const isMicrosoft = computed(() => props.provider === 'microsoft');
 const client = computed(() =>
@@ -63,6 +64,7 @@ onMounted(async () => {
     source.value = data.source;
     callbackUrl.value = data.callback_url;
     clientId.value = data.client_id || '';
+    tenantId.value = data.tenant_id || '';
   } catch (error) {
     configured.value = false;
   } finally {
@@ -86,6 +88,7 @@ const saveCredentials = async () => {
     await EmailOauthAppAPI.update(props.provider, {
       clientId: clientId.value.trim(),
       clientSecret: clientSecret.value.trim(),
+      tenantId: isMicrosoft.value ? tenantId.value.trim() : undefined,
     });
     configured.value = true;
     source.value = 'account';
@@ -179,6 +182,18 @@ const requestAuthorization = async () => {
           autocomplete="off"
           :placeholder="tk('CLIENT_SECRET_PH')"
         />
+      </label>
+
+      <label v-if="isMicrosoft">
+        {{ tk('TENANT_ID_MICROSOFT') }}
+        <input
+          v-model="tenantId"
+          type="text"
+          :placeholder="tk('TENANT_ID_MICROSOFT_PH')"
+        />
+        <span class="text-xs text-n-slate-11">
+          {{ tk('TENANT_ID_MICROSOFT_HINT') }}
+        </span>
       </label>
 
       <div>
