@@ -1,3 +1,5 @@
+import { MESSAGE_TYPE } from 'shared/constants/messages';
+
 /**
  * Determines the last non-activity message between store and API messages.
  * @param {Object} messageInStore - The last non-activity message from the store.
@@ -14,6 +16,23 @@ const getLastNonActivityMessage = (messageInStore, messageFromAPI) => {
   }
   // Otherwise, return whichever is available
   return messageInStore || messageFromAPI;
+};
+
+/**
+ * Filters activity messages when inbox setting hides them.
+ * @param {Array} messages - The array of messages to filter.
+ * @param {boolean} showActivityMessages - Whether activity messages should be visible.
+ * @returns {Array} Messages visible in the conversation timeline.
+ */
+export const filterActivityMessages = (
+  messages = [],
+  showActivityMessages = true
+) => {
+  if (showActivityMessages) return messages;
+
+  return messages.filter(
+    message => message.message_type !== MESSAGE_TYPE.ACTIVITY
+  );
 };
 
 /**

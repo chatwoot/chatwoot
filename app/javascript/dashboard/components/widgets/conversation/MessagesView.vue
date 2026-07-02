@@ -26,6 +26,7 @@ import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
+  filterActivityMessages,
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
@@ -131,11 +132,14 @@ export default {
       return '';
     },
     getMessages() {
-      const messages = this.currentChat.messages || [];
+      let messages = this.currentChat.messages || [];
       if (this.isAWhatsAppChannel) {
-        return filterDuplicateSourceMessages(messages);
+        messages = filterDuplicateSourceMessages(messages);
       }
-      return messages;
+      return filterActivityMessages(
+        messages,
+        this.inbox?.activity_messages_enabled !== false
+      );
     },
     readMessages() {
       return getReadMessages(
@@ -255,6 +259,15 @@ export default {
       this.fetchSuggestions();
       this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
+    },
+    'inbox.activity_messages_enabled'(enabled, previousValue) {
+      if (enabled === previousValue || previousValue === undefined) return;
+
+      if (enabled) {
+        this.$store.dispatch('reloadConversationMessages', {
+          conversationId: this.currentChat.id,
+        });
+      }
     },
   },
 

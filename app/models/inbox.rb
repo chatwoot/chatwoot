@@ -5,6 +5,7 @@
 # Table name: inboxes
 #
 #  id                            :integer          not null, primary key
+#  activity_messages_enabled     :boolean          default(TRUE), not null
 #  allow_messages_after_resolved :boolean          default(TRUE)
 #  auto_assignment_config        :jsonb
 #  business_name                 :string
