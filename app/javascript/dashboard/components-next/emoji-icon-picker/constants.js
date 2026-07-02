@@ -21,13 +21,13 @@ export const ICON_COLORS = [
   { name: 'AMBER', value: '#F59E0B' },
   { name: 'GREEN', value: '#22C55E' },
   { name: 'TEAL', value: '#14B8A6' },
-  { name: 'BLUE', value: '#3B82F6' },
+  { name: 'BLUE', value: '#0891B2' },
   { name: 'INDIGO', value: '#6366F1' },
   { name: 'VIOLET', value: '#8B5CF6' },
   { name: 'PINK', value: '#EC4899' },
 ];
 
-export const DEFAULT_ICON_COLOR = '#3B82F6';
+export const DEFAULT_ICON_COLOR = '#0891B2';
 
 export const PICKER_MODE = {
   BOTH: 'both',
