@@ -17,6 +17,7 @@ Read in this order:
 | [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) | Phased execution plan with per-phase commands, tests, and merge checklist |
 | [INVENTORY.md](./INVENTORY.md) | Phase 1 output: every create path per quota resource, bypass risks, existing limit plumbing |
 | [PROVISIONING.md](./PROVISIONING.md) | Phase 4 output: reference tenant provisioning flow (Platform API, limits, AI-loop plumbing) |
+| [CHATWOOT_ENGINE_INTEGRATION.md](./CHATWOOT_ENGINE_INTEGRATION.md) | **Self-contained contract for the external repo** (NestJS control plane + AI orchestrator): auth, provisioning, quotas, agentic-AI limit, and the signed webhook reply loop. Hand this file to that repo. |
 | [error-log/](./error-log/README.md) | Running log of errors hit during implementation and how they were fixed |
 
 ## Ground rules (apply to every phase)
