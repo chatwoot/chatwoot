@@ -11,11 +11,13 @@ module Waha
     PHONE_RE = /\A55\d{11}\z/
 
     def initialize(account:, phone:, display_name: nil, ai_agent: false,
+                   api_access_token: nil,
                    client: Waha::Client.new, config: Waha::Config)
       @account = account
       @phone = normalize_phone(phone)
       @display_name = display_name.to_s.strip
       @ai_agent = ActiveModel::Type::Boolean.new.cast(ai_agent)
+      @api_access_token = api_access_token.to_s
       @client = client
       @config = config
     end
@@ -23,7 +25,7 @@ module Waha
     def perform
       raise Error, 'integration_not_configured' unless @config.enabled?
       raise Error, 'invalid_phone' unless @phone.match?(PHONE_RE)
-      raise Error, 'account_token_missing' if @config.account_token.blank?
+      raise Error, 'account_token_missing' if account_token.blank?
 
       app_id = "app_#{SecureRandom.hex(16)}"
       callback = @config.callback_url(@phone, app_id)
@@ -78,7 +80,7 @@ module Waha
       {
         url: @config.chatwoot_base_url,
         accountId: @account.id,
-        accountToken: @config.account_token,
+        accountToken: account_token,
         inboxId: inbox.id,
         inboxIdentifier: inbox.channel.identifier,
         locale: 'pt-BR',
@@ -109,6 +111,10 @@ module Waha
       rescue StandardError
         nil
       end
+    end
+
+    def account_token
+      @api_access_token.presence || @config.account_token
     end
   end
 end

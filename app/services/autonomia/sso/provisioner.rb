@@ -3,16 +3,25 @@
 class Autonomia::Sso::Provisioner
   pattr_initialize [:context!, { token: nil }]
 
+  attr_reader :post_login_redirect_path
+
   def perform
+    pending_invitation = nil
+    user = nil
+    account = nil
+
     ActiveRecord::Base.transaction do
       user = find_or_create_user
       account = find_or_create_account
+      pending_invitation = pending_agent_invitation(account)
       sync_account_name(account)
       link_user(user)
       link_account(account)
-      ensure_account_user(user, account)
-      user
+      ensure_account_user(user, account, pending_invitation)
     end
+
+    apply_pending_agent_invitation!(user, account, pending_invitation) if pending_invitation.present?
+    user
   end
 
   private
@@ -72,15 +81,47 @@ class Autonomia::Sso::Provisioner
     end
   end
 
-  def ensure_account_user(user, account)
+  def ensure_account_user(user, account, pending_invitation)
     AccountUser.find_or_initialize_by(user: user, account: account).tap do |account_user|
-      pending_invitation = pending_agent_invitation(account)
       account_user.role = pending_invitation&.fetch('role', nil).presence || 'administrator'
       account_user.custom_role_id = pending_invitation['custom_role_id'] if pending_invitation&.fetch('custom_role_id', nil).present?
       account_user.inviter_id ||= pending_invitation['invited_by_user_id'] if pending_invitation.present?
       account_user.save!
-      consume_pending_agent_invitation(account) if pending_invitation.present?
     end
+  end
+
+  def apply_pending_agent_invitation!(user, account, pending_invitation)
+    assign_existing_inboxes!(user, account, pending_invitation)
+    create_whatsapp_api_inbox!(user, account, pending_invitation)
+    consume_pending_agent_invitation(account)
+  end
+
+  def assign_existing_inboxes!(user, account, pending_invitation)
+    inbox_ids = Array(pending_invitation['inbox_ids']).filter_map do |value|
+      value.to_i if value.to_s.match?(/\A\d+\z/)
+    end.uniq
+
+    account.inboxes.where(id: inbox_ids).find_each do |inbox|
+      InboxMember.find_or_create_by!(inbox: inbox, user: user)
+    end
+  end
+
+  def create_whatsapp_api_inbox!(user, account, pending_invitation)
+    return unless ActiveModel::Type::Boolean.new.cast(pending_invitation['create_whatsapp_api_inbox'])
+
+    result = Waha::InboxProvisioner.new(
+      account: account,
+      phone: pending_invitation['whatsapp_api_phone'],
+      display_name: user.name,
+      api_access_token: api_access_token_for(user)
+    ).perform
+
+    InboxMember.find_or_create_by!(inbox: result.inbox, user: user)
+    @post_login_redirect_path = "/app/accounts/#{account.id}/settings/inboxes/#{result.inbox.id}/connection"
+  end
+
+  def api_access_token_for(user)
+    (user.access_token || user.create_access_token).token
   end
 
   def pending_agent_invitation(account)

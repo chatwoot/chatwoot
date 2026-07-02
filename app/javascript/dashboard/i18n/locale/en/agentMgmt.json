@@ -40,6 +40,18 @@
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
         },
+        "INBOXES": {
+          "LABEL": "Agent inboxes",
+          "HELP": "Select where the agent can handle conversations after completing registration.",
+          "EMPTY": "There are no inboxes registered for this account yet.",
+          "ERROR": "Select at least one inbox or configure a new WhatsApp API inbox."
+        },
+        "WHATSAPP_API_INBOX": {
+          "CREATE": "Create a new WhatsApp API inbox when the agent accepts the invitation",
+          "PHONE_LABEL": "New WhatsApp API inbox phone",
+          "PHONE_PLACEHOLDER": "E.g. 5511999999999",
+          "PHONE_ERROR": "Use the format 55 + area code + number, for example 5511999999999."
+        },
         "SUBMIT": "Add Agent"
       },
       "API": {

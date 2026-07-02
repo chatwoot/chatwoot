@@ -34,11 +34,18 @@ const syncDocumentTitle = () => {
 };
 
 const getSsoCredentials = to => {
-  const { email, sso_auth_token: ssoAuthToken } = to.query || {};
+  const {
+    email,
+    sso_auth_token: ssoAuthToken,
+    redirect_to: redirectTo,
+  } = to.query || {};
   if (!email || !ssoAuthToken) return null;
 
-  return { email, ssoAuthToken };
+  return { email, ssoAuthToken, redirectTo };
 };
+
+const isSafeAppRedirect = redirectTo =>
+  typeof redirectTo === 'string' && redirectTo.startsWith('/app/');
 
 const defaultAuthenticatedRoute = user => {
   const accountId = user?.account_id || user?.accounts?.[0]?.id;
@@ -58,6 +65,9 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   if (!isLoggedIn && ssoCredentials) {
     try {
       const currentUser = await store.dispatch('loginWithSso', ssoCredentials);
+      if (isSafeAppRedirect(ssoCredentials.redirectTo)) {
+        return next(ssoCredentials.redirectTo);
+      }
       return next(defaultAuthenticatedRoute(currentUser));
     } catch {
       window.location.assign('/app/login?error=autonomia-sso-error');
