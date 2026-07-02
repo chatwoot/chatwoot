@@ -55,7 +55,19 @@ describe('ReportContainer.vue', () => {
           ChartStats: true,
           ReportDrilldownDrawer: {
             name: 'ReportDrilldownDrawer',
-            props: ['request'],
+            props: [
+              'open',
+              'metric',
+              'metricName',
+              'bucketLabel',
+              'bucketTimestamp',
+              'from',
+              'to',
+              'type',
+              'id',
+              'groupBy',
+              'businessHours',
+            ],
             template: '<div />',
           },
           BarChart: {
@@ -78,9 +90,9 @@ describe('ReportContainer.vue', () => {
 
     await wrapper.find('[data-test-id="bar-chart"]').trigger('click');
 
-    expect(
-      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('request')
-    ).toEqual({
+    const drawer = wrapper.findComponent({ name: 'ReportDrilldownDrawer' });
+    expect(drawer.props('open')).toBe(true);
+    expect(drawer.props()).toMatchObject({
       metric: 'conversations_count',
       metricName: 'REPORT.METRICS.CONVERSATIONS.NAME',
       bucketLabel: '20-May',
@@ -101,8 +113,8 @@ describe('ReportContainer.vue', () => {
 
     expect(useAlert).toHaveBeenCalledWith('REPORT.DRILLDOWN.ADMIN_ONLY');
     expect(
-      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('request')
-    ).toBeNull();
+      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('open')
+    ).toBe(false);
   });
 
   it('does not open drilldown for zero-value count bars', async () => {
@@ -113,8 +125,8 @@ describe('ReportContainer.vue', () => {
     await wrapper.find('[data-test-id="bar-chart"]').trigger('click');
 
     expect(
-      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('request')
-    ).toBeNull();
+      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('open')
+    ).toBe(false);
   });
 
   it('opens average metric drilldown when the bucket has contributing records', async () => {
@@ -125,9 +137,9 @@ describe('ReportContainer.vue', () => {
 
     await wrapper.find('[data-test-id="bar-chart"]').trigger('click');
 
-    expect(
-      wrapper.findComponent({ name: 'ReportDrilldownDrawer' }).props('request')
-    ).toMatchObject({
+    const drawer = wrapper.findComponent({ name: 'ReportDrilldownDrawer' });
+    expect(drawer.props('open')).toBe(true);
+    expect(drawer.props()).toMatchObject({
       metric: 'avg_first_response_time',
       bucketTimestamp: 1621103400,
     });

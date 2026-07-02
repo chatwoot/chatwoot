@@ -8,10 +8,17 @@ import { useReportDrilldown } from '../composables/useReportDrilldown';
 import ReportDrilldownCard from './ReportDrilldownCard.vue';
 
 const props = defineProps({
-  request: {
-    type: Object,
-    default: null,
-  },
+  open: { type: Boolean, default: false },
+  metric: { type: String, default: '' },
+  metricName: { type: String, default: '' },
+  bucketLabel: { type: String, default: '' },
+  bucketTimestamp: { type: Number, default: null },
+  from: { type: Number, default: null },
+  to: { type: Number, default: null },
+  type: { type: String, default: 'account' },
+  id: { type: [String, Number], default: null },
+  groupBy: { type: String, default: '' },
+  businessHours: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['close']);
@@ -26,24 +33,18 @@ const {
   hasError,
   hasRecords,
   hasMore,
-  open,
+  open: openDrilldown,
   close,
   loadMore,
 } = useReportDrilldown();
 
 let previousActiveElement = null;
 
-const isOpen = computed(() => !!props.request);
+const isOpen = computed(() => props.open);
 
-const title = computed(() => {
-  if (!props.request) return '';
+const title = computed(() => props.metricName || '');
 
-  return t('REPORT.DRILLDOWN.TITLE', {
-    metric: props.request.metricName,
-  });
-});
-
-const subtitle = computed(() => props.request?.bucketLabel || '');
+const subtitle = computed(() => props.bucketLabel || '');
 
 const resultCount = computed(() => {
   if (!meta.value.total_count) return '';
@@ -95,16 +96,26 @@ const onKeydown = event => {
 useEventListener(document, 'keydown', onKeydown);
 
 watch(
-  () => props.request,
-  request => {
-    if (request) {
-      rememberActiveElement();
-      open(request);
-      focusDrawer();
-    } else {
+  () => props.open,
+  isDrawerOpen => {
+    if (!isDrawerOpen) {
       close();
       restoreFocus();
+      return;
     }
+
+    rememberActiveElement();
+    openDrilldown({
+      metric: props.metric,
+      bucketTimestamp: props.bucketTimestamp,
+      from: props.from,
+      to: props.to,
+      type: props.type,
+      id: props.id,
+      groupBy: props.groupBy,
+      businessHours: props.businessHours,
+    });
+    focusDrawer();
   },
   { immediate: true }
 );
@@ -138,12 +149,15 @@ onBeforeUnmount(() => {
               <h2 class="truncate text-base font-medium text-n-slate-12">
                 {{ title }}
               </h2>
-              <p class="mt-1 text-sm text-n-slate-11">
+              <div class="mt-1 text-sm text-n-slate-11">
                 {{ subtitle }}
-              </p>
-              <p v-if="resultCount" class="mt-1 text-xs text-n-slate-10">
-                {{ resultCount }}
-              </p>
+                <span
+                  v-if="resultCount"
+                  class="before:mx-1 before:content-['⋅']"
+                >
+                  {{ resultCount }}
+                </span>
+              </div>
             </div>
             <Button
               ghost

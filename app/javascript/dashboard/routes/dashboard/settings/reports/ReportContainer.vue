@@ -247,5 +247,18 @@ export default {
       </div>
     </div>
   </div>
-  <ReportDrilldownDrawer :request="drilldownRequest" @close="closeDrilldown" />
+  <ReportDrilldownDrawer
+    :id="drilldownRequest?.id"
+    :open="!!drilldownRequest"
+    :metric="drilldownRequest?.metric"
+    :metric-name="drilldownRequest?.metricName"
+    :bucket-label="drilldownRequest?.bucketLabel"
+    :bucket-timestamp="drilldownRequest?.bucketTimestamp"
+    :from="drilldownRequest?.from"
+    :to="drilldownRequest?.to"
+    :type="drilldownRequest?.type"
+    :group-by="drilldownRequest?.groupBy"
+    :business-hours="drilldownRequest?.businessHours"
+    @close="closeDrilldown"
+  />
 </template>

@@ -71,7 +71,7 @@ describe('ReportDrilldownDrawer.vue', () => {
 
   const mountDrawer = options =>
     mount(ReportDrilldownDrawer, {
-      props: { request },
+      props: { open: true, ...request },
       attachTo: options?.attachTo,
       global: {
         stubs: {
@@ -123,7 +123,7 @@ describe('ReportDrilldownDrawer.vue', () => {
         page: 1,
       })
     );
-    expect(wrapper.text()).toContain('Messages received details');
+    expect(wrapper.text()).toContain('Messages received');
     expect(wrapper.text()).toContain('1 records');
     expect(wrapper.find('[data-testid="drilldown-card"]').text()).toBe('#42');
   });
