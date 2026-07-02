@@ -112,5 +112,6 @@ module Waha
         nil
       end
     end
+
   end
 end

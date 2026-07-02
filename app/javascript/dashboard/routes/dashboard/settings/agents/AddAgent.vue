@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -18,6 +18,10 @@ const { t } = useI18n();
 const agentName = ref('');
 const agentEmail = ref('');
 const selectedRoleId = ref('agent');
+const selectedInboxIds = ref([]);
+const createWhatsappApiInbox = ref(false);
+const whatsappApiPhone = ref('');
+const inboxAssignmentTouched = ref(false);
 
 const rules = {
   agentName: { required },
@@ -33,6 +37,7 @@ const v$ = useVuelidate(rules, {
 
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
@@ -50,6 +55,10 @@ const defineSchedule = ref(false);
 const createdAgent = ref(null);
 const showScheduleEditor = ref(false);
 const manualInvitation = ref(null);
+
+onMounted(() => {
+  store.dispatch('inboxes/get');
+});
 
 const finishAndClose = () => {
   showScheduleEditor.value = false;
@@ -98,15 +107,46 @@ const selectedRole = computed(() =>
   )
 );
 
+const availableInboxes = computed(() =>
+  inboxes.value.map(inbox => ({
+    id: inbox.id,
+    name: inbox.name,
+    type: inbox.channel_type,
+  }))
+);
+
+const normalizedWhatsappPhone = computed(() =>
+  whatsappApiPhone.value.toString().replace(/\D/g, '')
+);
+
+const isWhatsappApiPhoneValid = computed(
+  () =>
+    !createWhatsappApiInbox.value ||
+    /^55\d{11}$/.test(normalizedWhatsappPhone.value)
+);
+
+const canSubmit = computed(
+  () =>
+    !v$.value.$invalid &&
+    isWhatsappApiPhoneValid.value &&
+    !uiFlags.value.isCreating
+);
+
 const addAgent = async () => {
   v$.value.$touch();
-  if (v$.value.$invalid) return;
+  inboxAssignmentTouched.value = true;
+  if (v$.value.$invalid || !isWhatsappApiPhoneValid.value) return;
   manualInvitation.value = null;
 
   try {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
+      inbox_ids: selectedInboxIds.value,
+      create_whatsapp_api_inbox: createWhatsappApiInbox.value,
+      whatsapp_api_phone: createWhatsappApiInbox.value
+        ? normalizedWhatsappPhone.value
+        : '',
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -200,6 +240,67 @@ const addAgent = async () => {
         </label>
       </div>
 
+      <div class="flex flex-col w-full gap-2 py-2">
+        <p class="mb-0 text-sm font-medium text-n-slate-12">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.LABEL') }}
+        </p>
+        <p class="mb-1 text-xs text-n-slate-11">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.HELP') }}
+        </p>
+
+        <div
+          v-if="availableInboxes.length"
+          class="grid w-full grid-cols-1 gap-2"
+        >
+          <label
+            v-for="inbox in availableInboxes"
+            :key="inbox.id"
+            class="flex items-center gap-2 px-0 py-1 text-sm font-normal text-n-slate-12"
+          >
+            <input
+              v-model="selectedInboxIds"
+              type="checkbox"
+              class="!m-0 w-fit"
+              :value="inbox.id"
+            />
+            <span class="min-w-0 truncate">{{ inbox.name }}</span>
+          </label>
+        </div>
+        <p v-else class="mb-1 text-xs text-n-slate-11">
+          {{ $t('AGENT_MGMT.ADD.FORM.INBOXES.EMPTY') }}
+        </p>
+
+        <label class="flex items-center gap-2 text-sm text-n-slate-12">
+          <input
+            v-model="createWhatsappApiInbox"
+            type="checkbox"
+            class="!m-0 w-fit"
+          />
+          {{ $t('AGENT_MGMT.ADD.FORM.WHATSAPP_API_INBOX.CREATE') }}
+        </label>
+
+        <label
+          v-if="createWhatsappApiInbox"
+          :class="{ error: inboxAssignmentTouched && !isWhatsappApiPhoneValid }"
+        >
+          {{ $t('AGENT_MGMT.ADD.FORM.WHATSAPP_API_INBOX.PHONE_LABEL') }}
+          <input
+            v-model="whatsappApiPhone"
+            type="text"
+            inputmode="numeric"
+            :placeholder="
+              $t('AGENT_MGMT.ADD.FORM.WHATSAPP_API_INBOX.PHONE_PLACEHOLDER')
+            "
+          />
+          <span
+            v-if="inboxAssignmentTouched && !isWhatsappApiPhoneValid"
+            class="message"
+          >
+            {{ $t('AGENT_MGMT.ADD.FORM.WHATSAPP_API_INBOX.PHONE_ERROR') }}
+          </span>
+        </label>
+      </div>
+
       <div
         v-if="manualInvitation"
         class="w-full p-3 my-2 border rounded-lg border-n-amber-5 bg-n-amber-2 text-n-slate-12"
@@ -247,7 +348,7 @@ const addAgent = async () => {
         <Button
           type="submit"
           :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-          :disabled="v$.$invalid || uiFlags.isCreating"
+          :disabled="!canSubmit"
           :is-loading="uiFlags.isCreating"
         />
       </div>

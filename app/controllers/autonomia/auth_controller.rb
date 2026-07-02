@@ -31,9 +31,14 @@ class Autonomia::AuthController < ApplicationController
       code_verifier: state[:code_verifier]
     )
     context = client.fetch_context!(token.context_token)
-    user = Autonomia::Sso::Provisioner.new(context: context, token: token).perform
+    provisioner = Autonomia::Sso::Provisioner.new(context: context, token: token)
+    user = provisioner.perform
 
-    redirect_to login_page_url(email: user.email, sso_auth_token: user.generate_sso_auth_token)
+    redirect_to login_page_url(
+      email: user.email,
+      sso_auth_token: user.generate_sso_auth_token,
+      redirect_to: provisioner.post_login_redirect_path
+    )
   rescue StandardError => e
     Rails.logger.error("[Autonomia SSO] #{e.class}: #{e.message}")
     redirect_to login_page_url(error: 'autonomia-sso-error')
@@ -109,10 +114,20 @@ class Autonomia::AuthController < ApplicationController
     params[:prompt].to_s == 'login' ? 'login' : nil
   end
 
-  def login_page_url(error: nil, email: nil, sso_auth_token: nil)
-    query = { email: email, sso_auth_token: sso_auth_token }.compact
+  def login_page_url(error: nil, email: nil, sso_auth_token: nil, redirect_to: nil)
+    query = {
+      email: email,
+      sso_auth_token: sso_auth_token,
+      redirect_to: permitted_login_redirect(redirect_to)
+    }.compact
     query[:error] = error if error.present?
     "#{frontend_url}/app/login?#{query.to_query}"
+  end
+
+  def permitted_login_redirect(value)
+    return if value.blank?
+
+    value.to_s.start_with?('/app/') ? value : nil
   end
 
   def frontend_url

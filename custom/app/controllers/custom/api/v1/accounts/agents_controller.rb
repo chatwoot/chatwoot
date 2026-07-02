@@ -7,7 +7,7 @@ module Custom::Api::V1::Accounts::AgentsController
     invitation = Autonomia::ProductInvitations::AgentInviter.new(
       account: Current.account,
       inviter: current_user,
-      agent_params: new_agent_params.to_h.merge('custom_role_id' => custom_role_id_param)
+      agent_params: autonomia_agent_params.to_h.merge('custom_role_id' => custom_role_id_param)
     ).perform
 
     render json: {
@@ -35,5 +35,18 @@ module Custom::Api::V1::Accounts::AgentsController
 
   def custom_role_id_param
     params.dig(:agent, :custom_role_id).presence || params[:custom_role_id]
+  end
+
+  def autonomia_agent_params
+    params.require(:agent).permit(
+      :email,
+      :name,
+      :role,
+      :availability,
+      :auto_offline,
+      :create_whatsapp_api_inbox,
+      :whatsapp_api_phone,
+      inbox_ids: []
+    )
   end
 end

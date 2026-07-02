@@ -40,6 +40,17 @@
           "LABEL": "Endereço de e-mail",
           "PLACEHOLDER": "Por favor, insira um endereço de e-mail do agente"
         },
+        "INBOXES": {
+          "LABEL": "Caixas de entrada do agente",
+          "HELP": "Opcionalmente, selecione onde o agente poderá atender assim que concluir o cadastro.",
+          "EMPTY": "Ainda não há caixas de entrada cadastradas para esta conta."
+        },
+        "WHATSAPP_API_INBOX": {
+          "CREATE": "Criar uma nova caixa WhatsApp API quando o agente aceitar o convite",
+          "PHONE_LABEL": "Telefone da nova caixa WhatsApp API",
+          "PHONE_PLACEHOLDER": "Ex.: 5511999999999",
+          "PHONE_ERROR": "Use o formato 55 + DDD + número, por exemplo 5511999999999."
+        },
         "SUBMIT": "Adicionar agente"
       },
       "API": {

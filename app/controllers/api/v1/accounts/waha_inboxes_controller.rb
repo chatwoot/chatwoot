@@ -18,7 +18,8 @@ class Api::V1::Accounts::WahaInboxesController < Api::V1::Accounts::BaseControll
       phone: permitted_create_params[:phone],
       api_access_token: current_user.access_token&.token,
       display_name: permitted_create_params[:name],
-      ai_agent: permitted_create_params[:ai_agent]
+      ai_agent: permitted_create_params[:ai_agent],
+      api_access_token: api_access_token
     ).perform
 
     render json: { id: result.inbox.id, name: result.inbox.name }, status: :ok
@@ -94,5 +95,9 @@ class Api::V1::Accounts::WahaInboxesController < Api::V1::Accounts::BaseControll
 
   def permitted_create_params
     params.permit(:phone, :name, :ai_agent)
+  end
+
+  def api_access_token
+    (current_user.access_token || current_user.create_access_token).token
   end
 end

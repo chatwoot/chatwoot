@@ -82,8 +82,35 @@ describe('#validateAuthenticateRoutePermission', () => {
       expect(store.dispatch).toHaveBeenCalledWith('loginWithSso', {
         email: 'agent@example.com',
         ssoAuthToken: 'sso-token',
+        redirectTo: undefined,
       });
       expect(next).toHaveBeenCalledWith('/app/accounts/7/dashboard');
+    });
+
+    it('should complete SSO token login and use safe redirect target', async () => {
+      const to = {
+        name: 'login',
+        params: {},
+        query: {
+          email: 'agent@example.com',
+          sso_auth_token: 'sso-token',
+          redirect_to: '/app/accounts/7/settings/inboxes/13/connection',
+        },
+      };
+      const currentUser = {
+        account_id: 7,
+        id: 1,
+        accounts: [{ id: 7, status: 'active', role: 'administrator' }],
+      };
+
+      store.getters.isLoggedIn = false;
+      store.dispatch.mockResolvedValue(currentUser);
+
+      await validateAuthenticateRoutePermission(to, next);
+
+      expect(next).toHaveBeenCalledWith(
+        '/app/accounts/7/settings/inboxes/13/connection'
+      );
     });
   });
 

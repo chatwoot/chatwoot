@@ -26,6 +26,7 @@ class Autonomia::ProductInvitations::AgentInviter
 
     raise Error, 'Sua sessao do Auth expirou. Saia e entre novamente para convidar agentes.' if authorization_token.blank? || user_link.blank?
     raise Error, 'Este usuario ja faz parte da conta.' if account.users.exists?(email: email)
+    validate_inbox_assignment!
 
     response = Autonomia::ProductInvitations::Client.new.create!(
       authorization_token: authorization_token,
@@ -69,6 +70,9 @@ class Autonomia::ProductInvitations::AgentInviter
         'auth_invitation_id' => response.dig('invitation', 'id') || response['id'],
         'invitation_url' => invitation_url(response),
         'email_delivery_failed' => email_delivery_failed?(response),
+        'inbox_ids' => inbox_ids,
+        'create_whatsapp_api_inbox' => create_whatsapp_api_inbox?,
+        'whatsapp_api_phone' => whatsapp_api_phone,
         'created_at' => Time.current.iso8601
       }
     )
@@ -126,6 +130,35 @@ class Autonomia::ProductInvitations::AgentInviter
 
   def custom_role_id
     agent_params['custom_role_id'].presence
+  end
+
+  def validate_inbox_assignment!
+    invalid_ids = inbox_ids - account.inboxes.where(id: inbox_ids).pluck(:id)
+    raise Error, 'Uma ou mais caixas de entrada selecionadas nao pertencem a esta conta.' if invalid_ids.any?
+
+    return unless create_whatsapp_api_inbox?
+
+    if whatsapp_api_phone.blank?
+      raise Error, 'Informe o telefone da nova caixa no formato 55 + DDD + numero, por exemplo 5511999999999.'
+    end
+
+    unless whatsapp_api_phone.match?(Waha::InboxProvisioner::PHONE_RE)
+      raise Error, 'Telefone invalido. Use o formato 55 + DDD + numero, por exemplo 5511999999999.'
+    end
+  end
+
+  def inbox_ids
+    @inbox_ids ||= Array(agent_params['inbox_ids']).filter_map do |value|
+      value.to_i if value.to_s.match?(/\A\d+\z/)
+    end.uniq
+  end
+
+  def create_whatsapp_api_inbox?
+    ActiveModel::Type::Boolean.new.cast(agent_params['create_whatsapp_api_inbox'])
+  end
+
+  def whatsapp_api_phone
+    @whatsapp_api_phone ||= agent_params['whatsapp_api_phone'].to_s.gsub(/\D/, '')
   end
 
   def client_id
