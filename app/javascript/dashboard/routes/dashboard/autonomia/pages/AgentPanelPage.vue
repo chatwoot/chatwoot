@@ -12,6 +12,7 @@ import PanelKnowledge from '../components/panel/PanelKnowledge.vue';
 import PanelChannels from '../components/panel/PanelChannels.vue';
 import PanelPerformance from '../components/panel/PanelPerformance.vue';
 import PanelTune from '../components/panel/PanelTune.vue';
+import PanelPublish from '../components/panel/PanelPublish.vue';
 
 const props = defineProps({
   agentId: {
@@ -88,6 +89,10 @@ const activeComponent = computed(() => {
       return PanelPerformance;
     case 'tune':
       return PanelTune;
+    // Superfície de publicação (o hub roteia rascunho pra cá): externo conecta
+    // canal, interno ativa direto — não entra na barra de abas.
+    case 'publish':
+      return PanelPublish;
     default:
       return PanelTest;
   }

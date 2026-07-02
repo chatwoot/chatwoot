@@ -325,6 +325,26 @@ const connectInbox = async inboxId => {
   }
 };
 
+// Agente interno (copiloto) recém-criado: sem canal para conectar, a revisão
+// ativa direto — senão o wizard terminava com o agente preso em rascunho.
+const activateInternal = async () => {
+  if (!agentId.value) return;
+  try {
+    await store.dispatch('autonomiaAgents/update', {
+      id: agentId.value,
+      enabled: true,
+      status: 'active',
+    });
+    useAlert(t('AGENTS.REVIEW.ACTIVATED_INTERNAL'));
+    router.push({
+      name: 'autonomia_agent_panel',
+      params: { agentId: agentId.value, tab: 'test' },
+    });
+  } catch (error) {
+    useAlert(t('AGENTS.CHANNELS.CONNECT_ERROR'));
+  }
+};
+
 // "Voltar" from review goes back to the conversation (where the materials panel
 // lives). The agent was already generated; the user can tweak materials and ask
 // the Construtor to adjust, or re-confirm to close.
@@ -612,6 +632,7 @@ onBeforeUnmount(() => {
             @save-greeting="saveGreeting"
             @test="testAgent"
             @connect="connectInbox"
+            @activate="activateInternal"
             @back="backToConversa"
           />
         </div>
