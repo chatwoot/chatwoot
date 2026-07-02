@@ -20,6 +20,9 @@
     "CALL": "התקשר",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "בחר תיבת דואר קולי"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "מזהה",
       "COUNTRY": "מדינה",
       "CITY": "עיר",
+      "COMPANY": "חברה",
       "CREATED_AT": "נוצר בזמן",
       "LAST_ACTIVITY": "פעילות אחרונה",
       "REFERER_LINK": "קישור מפנה",
@@ -456,6 +460,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "הוסף אינסטגרם"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "טען עוד"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "הקצה תוויות",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "תוויות שוייכו בהצלחה.",
     "ASSIGN_LABELS_FAILED": "ההקצאה של התוויות נכשלה",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "בחר את התוויות שברצונך להוסיף לאנשי הקשר שנבחרו.",
     "NO_LABELS_FOUND": "אין עדיין תוויות זמינות.",
     "SELECTED_COUNT": "{count} נבחרו",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "אין תיבות דואר נכנס זמינות כדי להתחיל שיחה עם איש קשר זה.",
       "CONTACT_SELECTOR": {
         "LABEL": "אל:",
-        "TAG_INPUT_PLACEHOLDER": "חפש איש קשר לפי שם, דוא\"ל או מספר טלפון",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "יוצר איש קשר..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "נושא :",
         "SUBJECT_PLACEHOLDER": "הזן את נושא הדוא\"ל שלך כאן",
         "CC_LABEL": "עותק:",
-        "CC_PLACEHOLDER": "חפש איש קשר לפי כתובת הדוא\"ל שלו",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "עותק מוסתר:",
-        "BCC_PLACEHOLDER": "חפש איש קשר לפי כתובת הדוא\"ל שלו",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "עותק מוסתר"
       },
       "MESSAGE_EDITOR": {

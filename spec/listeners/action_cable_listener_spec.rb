@@ -94,6 +94,26 @@ describe ActionCableListener do
     end
   end
 
+  describe '#typing_on with agent bot' do
+    let(:event_name) { :'conversation.typing_on' }
+    let!(:agent_bot) { create(:agent_bot, account: account) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent_bot, is_private: false) }
+
+    it 'sends message to account admins, inbox agents and the contact' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(
+          admin.pubsub_token, agent.pubsub_token, conversation.contact_inbox.pubsub_token
+        ),
+        'conversation.typing_on', { conversation: conversation.push_event_data,
+                                    user: agent_bot.push_event_data,
+                                    account_id: account.id,
+                                    is_private: false }
+      )
+      listener.conversation_typing_on(event)
+    end
+  end
+
   describe '#typing_off' do
     let(:event_name) { :'conversation.typing_off' }
     let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: agent, is_private: false) }
@@ -209,6 +229,70 @@ describe ActionCableListener do
         conversation.push_event_data.merge(account_id: account.id)
       )
       listener.conversation_updated(event)
+    end
+  end
+
+  describe '#conversation_unread_count_changed' do
+    let(:event_name) { :'conversation.unread_count_changed' }
+    let!(:agent_without_inbox_access) { create(:user, account: account, role: :agent) }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    before do
+      account.enable_features!(:conversation_unread_counts)
+    end
+
+    it 'sends a lightweight refresh event to inbox agents and admins' do
+      expect(conversation.inbox.reload.inbox_members.count).to eq(1)
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'does not broadcast unread count refresh to agents outside the inbox' do
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later).with(
+        array_including(agent_without_inbox_access.pubsub_token),
+        anything,
+        anything
+      )
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'does not broadcast when conversation unread counts feature is disabled' do
+      account.disable_features!(:conversation_unread_counts)
+
+      expect(ActionCableBroadcastJob).not_to receive(:perform_later)
+
+      listener.conversation_unread_count_changed(event)
+    end
+
+    it 'supports deleted conversation data' do
+      event = Events::Base.new(
+        event_name,
+        Time.zone.now,
+        conversation_data: {
+          id: conversation.id,
+          account_id: account.id,
+          inbox_id: conversation.inbox_id
+        }
+      )
+
+      expect(ActionCableBroadcastJob).to receive(:perform_later).with(
+        a_collection_containing_exactly(agent.pubsub_token, admin.pubsub_token),
+        'conversation.unread_count_changed',
+        {
+          account_id: account.id
+        }
+      )
+
+      listener.conversation_unread_count_changed(event)
     end
   end
 end

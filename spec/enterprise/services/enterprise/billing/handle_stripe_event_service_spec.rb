@@ -37,6 +37,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     allow(subscription).to receive(:[]).with('status').and_return('active')
     allow(subscription).to receive(:[]).with('current_period_end').and_return(1_686_567_520)
     allow(subscription).to receive(:customer).and_return('cus_123')
+    allow(event).to receive(:created).and_return(account.created_at.to_i + 1.day.to_i)
     allow(event).to receive(:type).and_return('customer.subscription.updated')
   end
 
@@ -80,6 +81,68 @@ describe Enterprise::Billing::HandleStripeEventService do
 
       # Verify usage was reset
       expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+    end
+  end
+
+  describe 'subscription quantity update' do
+    before do
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({ 'id' => 'price_startups', 'product' => 'plan_id_startups', 'name' => 'Startups' })
+    end
+
+    it 'updates subscribed_quantity' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+    end
+
+    it 'tracks marketing attribution for plan activation' do
+      account.update!(
+        custom_attributes: account.custom_attributes.merge('plan_name' => 'Startups')
+      )
+      allow(subscription).to receive(:[]).with('plan')
+                                         .and_return({
+                                                       'id' => 'price_startups',
+                                                       'product' => 'plan_id_startups',
+                                                       'name' => 'Startups',
+                                                       'amount' => 19_900,
+                                                       'currency' => 'usd'
+                                                     })
+      allow(subscription).to receive(:[]).with('quantity').and_return(2)
+      allow(data).to receive(:previous_attributes).and_return({ 'plan' => { 'product' => 'plan_id_hacker' } })
+      conversion_service = instance_double(Internal::Accounts::CloudPlanActivationConversionService)
+      allow(Internal::Accounts::CloudPlanActivationConversionService).to receive(:new).and_return(conversion_service)
+      allow(conversion_service).to receive(:perform)
+
+      stripe_event_service.new.perform(event: event)
+
+      expect(Internal::Accounts::CloudPlanActivationConversionService).to have_received(:new).with(
+        account: account,
+        previous_plan_name: 'Hacker',
+        current_plan_name: 'Startups',
+        activated_at: Time.zone.at(account.created_at.to_i + 1.day.to_i),
+        conversion_value: 398.0,
+        currency_code: 'USD'
+      )
+      expect(conversion_service).to have_received(:perform)
+    end
+
+    it 'persists quantity even when increment_response_usage runs concurrently' do
+      allow(subscription).to receive(:[]).with('quantity').and_return(6)
+      account.update!(custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100))
+
+      # Simulate: webhook updates quantity, then a concurrent increment_response_usage writes usage
+      stripe_event_service.new.perform(event: event)
+      account.reload
+
+      # Simulate concurrent increment_response_usage (atomic jsonb_set, not full hash overwrite)
+      account.increment_response_usage
+
+      # Quantity must survive the concurrent usage update
+      expect(account.reload.custom_attributes['subscribed_quantity']).to eq(6)
+      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(101)
     end
   end
 

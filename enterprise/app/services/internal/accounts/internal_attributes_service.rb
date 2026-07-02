@@ -4,7 +4,7 @@ class Internal::Accounts::InternalAttributesService
   # List of keys that can be managed through this service
   # TODO: Add account_notes field in future
   # This field can be used to store notes about account on Chatwoot cloud
-  VALID_KEYS = %w[manually_managed_features].freeze
+  VALID_KEYS = %w[manually_managed_features marketing_attribution].freeze
 
   def initialize(account)
     @account = account
@@ -52,9 +52,9 @@ class Internal::Accounts::InternalAttributesService
 
   # Get list of valid features that can be manually managed
   def valid_feature_list
-    # Business and Enterprise plan features only
-    Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
-      Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+    Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES +
+      Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES +
+      %w[inbound_emails]
   end
 
   # Account notes functionality removed for now

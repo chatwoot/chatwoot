@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "המקום הוסר מהפורטל בהצלחה",
           "ERROR_MESSAGE": "לא ניתן להסיר את המקום מהפורטל. נסה שוב."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "המאמר נמחק בהצלחה",
         "ERROR_MESSAGE": "שגיאה בעת מחיקת מאמר"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -503,6 +525,7 @@
             "PUBLISH": "פרסם",
             "DRAFT": "טיוטה",
             "ARCHIVE": "ארכיון",
+            "TRANSLATE": "תרגום",
             "DELETE": "מחק"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "אין מאמרים בקטגוריה זו",
           "SUBTITLE": "מאמרים בקטגוריה זו יופיעו כאן"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Translate article | Translate {count} articles",
+        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
+        "LOCALE_LABEL": "Target language",
+        "LOCALE_PLACEHOLDER": "Select a language",
+        "CATEGORY_LABEL": "Target category",
+        "CATEGORY_PLACEHOLDER": "Select a category",
+        "OPTIONAL": "(optional)",
+        "CONFIRM": "תרגום",
+        "SELECT_ALL": "בחר הכל ({count})",
+        "SELECTED_COUNT": "{count} נבחרו",
+        "CLEAR_SELECTION": "נקה בחירה",
+        "TRANSLATE_BUTTON": "תרגום",
+        "CONFIRM_OVERWRITE": "Overwrite and translate",
+        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
+        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "API": {
+          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
+          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "פרסם",
+        "DRAFT": "טיוטה",
+        "ARCHIVE": "ארכיון",
+        "TRANSLATE": "תרגום",
+        "MOVE_TO_CATEGORY": "קטגוריה",
+        "DELETE": "מחק",
+        "STATUS_SUCCESS": "Articles updated successfully",
+        "STATUS_ERROR": "Failed to update articles",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
+        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "DELETE_CONFIRM": "מחק",
+        "DELETE_SUCCESS": "Articles deleted successfully",
+        "DELETE_ERROR": "Failed to delete articles"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} מאמר | {count} מאמרים",
         "CATEGORIES_COUNT": "{count} קטגוריה | {count} קטגוריות",
         "DEFAULT": "ברירת מחדל",
+        "DRAFT": "טיוטה",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "הפוך לברירת מחדל",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "מחק"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "בחר את השפה שבה מאמר זה ייכתב. זו תתווסף לרשימת התרגומים שלך, ותוכל להוסיף נוספים מאוחר יותר.",
         "COMBOBOX": {
           "PLACEHOLDER": "בחר אזור..."
+        },
+        "STATUS": {
+          "LABEL": "מצב",
+          "OPTIONS": {
+            "LIVE": "יצא לאור",
+            "DRAFT": "טיוטה"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "האזור נוסף בהצלחה",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "ערוך הגדרה"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "מראה",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "הסר"
+        },
+        "SAVE": "שמור שינויים"
       },
       "API": {
         "CREATE_PORTAL": {

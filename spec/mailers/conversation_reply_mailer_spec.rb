@@ -462,6 +462,26 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings.empty?).to be false
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
+        expect(mail.delivery_method.settings[:open_timeout]).to eq 15
+        expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+      end
+
+      it 'uses configured smtp timeout values' do
+        with_modified_env SMTP_OPEN_TIMEOUT: '10', SMTP_READ_TIMEOUT: '30' do
+          mail = described_class.email_reply(message)
+
+          expect(mail.delivery_method.settings[:open_timeout]).to eq 10
+          expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+        end
+      end
+
+      it 'uses default smtp timeout values when env values are blank' do
+        with_modified_env SMTP_OPEN_TIMEOUT: '', SMTP_READ_TIMEOUT: '' do
+          mail = described_class.email_reply(message)
+
+          expect(mail.delivery_method.settings[:open_timeout]).to eq 15
+          expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+        end
       end
 
       it 'renders sender name in the from address' do
@@ -590,6 +610,30 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings.empty?).to be false
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+
+      it 'uses inbox oauth smtp when global smtp config is unavailable' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        mail = described_class.email_reply(message)
+
+        expect(mail).not_to be_nil
+        expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
+        expect(mail.delivery_method.settings[:port]).to eq 587
+      end
+    end
+
+    context 'when oauth provider is set but imap is disabled' do
+      let(:google_channel) do
+        create(:channel_email, imap_enabled: false, account: account, provider: 'google', provider_config: { access_token: 'access_token' })
+      end
+      let(:conversation) { create(:conversation, assignee: agent, inbox: google_channel.inbox, account: account).reload }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
+
+      it 'does not build the mail without global smtp' do
+        allow(class_instance).to receive(:smtp_config_set_or_development?).and_return(false)
+
+        expect(described_class.email_reply(message).deliver_now).to be_nil
       end
     end
 

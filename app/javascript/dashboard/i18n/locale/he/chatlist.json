@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "ממתין לתגובה: הקצר ביותר תחילה"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -137,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "הסתר טקסט מצוטט",
     "SHOW_QUOTED_TEXT": "הצג טקסט מצוטט",
     "MESSAGE_READ": "נקרא",
-    "SENDING": "שולח"
+    "SENDING": "שולח",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

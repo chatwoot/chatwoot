@@ -5,7 +5,12 @@
     "ADD_ACTION_LONG": "Crear una nueva política de SLA",
     "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
     "LEARN_MORE": "Más información sobre SLA",
+    "COUNT": "{n} SLA | {n} SLAs",
     "LOADING": "Obteniendo SLAs",
+    "SEARCH_PLACEHOLDER": "Search SLA...",
+    "SEARCH": {
+      "NO_RESULTS": "No SLA found matching your search"
+    },
     "PAYWALL": {
       "TITLE": "Actualiza para crear SLAs",
       "AVAILABLE_ON": "La función SLA sólo está disponible en los planes Empresariales (Business) y Corporativos (Enterprise).",
@@ -20,14 +25,18 @@
     },
     "LIST": {
       "404": "No hay SLAs disponibles en esta cuenta.",
+      "TABLE_HEADER": {
+        "SLA": "SLA",
+        "BUSINESS_HOURS": "Business hours"
+      },
       "EMPTY": {
         "TITLE_1": "Empresa P0",
         "DESC_1": "Problemas planteados por los clientes empresariales, que requieren una atención inmediata.",
         "TITLE_2": "Empresa P1",
         "DESC_2": "Problemas planteados por los clientes empresariales, deben reconocerse con rapidez."
       },
-      "BUSINESS_HOURS_ON": "Horas laborables",
-      "BUSINESS_HOURS_OFF": "Horas de descanso",
+      "BUSINESS_HOURS_ON": "Turned on",
+      "BUSINESS_HOURS_OFF": "Turned off",
       "RESPONSE_TYPES": {
         "FRT": "Umbral de tiempo de primera respuesta",
         "NRT": "Umbral de tiempo de siguiente respuesta",

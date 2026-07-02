@@ -16,6 +16,7 @@ class ArticlesAPI extends PortalsAPI {
     authorId,
     categorySlug,
     sort,
+    query,
   }) {
     const url = getArticleSearchURL({
       pageNumber,
@@ -25,6 +26,7 @@ class ArticlesAPI extends PortalsAPI {
       authorId,
       categorySlug,
       sort,
+      query,
       host: this.url,
     });
 
@@ -71,6 +73,34 @@ class ArticlesAPI extends PortalsAPI {
       positions_hash: reorderedGroup,
       category_slug: categorySlug,
     });
+  }
+
+  bulkTranslate({ portalSlug, articleIds, locale, categoryId, force = false }) {
+    return axios.post(
+      `${this.url}/${portalSlug}/articles/bulk_actions/translate`,
+      { ids: articleIds, locale, category_id: categoryId, force }
+    );
+  }
+
+  bulkUpdateStatus({ portalSlug, articleIds, status }) {
+    return axios.patch(
+      `${this.url}/${portalSlug}/articles/bulk_actions/update_status`,
+      { ids: articleIds, status }
+    );
+  }
+
+  bulkUpdateCategory({ portalSlug, articleIds, categoryId }) {
+    return axios.patch(
+      `${this.url}/${portalSlug}/articles/bulk_actions/update_category`,
+      { ids: articleIds, category_id: categoryId }
+    );
+  }
+
+  bulkDelete({ portalSlug, articleIds }) {
+    return axios.delete(
+      `${this.url}/${portalSlug}/articles/bulk_actions/delete_articles`,
+      { data: { ids: articleIds } }
+    );
   }
 }
 

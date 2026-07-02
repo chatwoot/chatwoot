@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Réponse en attente : La plus courte en premier"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -137,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Masquer le texte cité",
     "SHOW_QUOTED_TEXT": "Afficher le texte cité",
     "MESSAGE_READ": "Lu",
-    "SENDING": "Sending"
+    "SENDING": "Sending",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

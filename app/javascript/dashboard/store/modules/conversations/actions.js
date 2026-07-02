@@ -6,6 +6,7 @@ import { createPendingMessage } from 'dashboard/helper/commons';
 import {
   buildConversationList,
   isOnMentionsView,
+  isOnParticipatingView,
   isOnUnattendedView,
   isOnFoldersView,
 } from './helpers/actionHelpers';
@@ -15,6 +16,7 @@ import * as Sentry from '@sentry/vue';
 import {
   handleVoiceCallCreated,
   handleVoiceCallUpdated,
+  syncConversationCallVisibility,
 } from 'dashboard/helper/voice';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
@@ -327,12 +329,21 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
-    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
+    handleVoiceCallCreated(
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
-    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
+    handleVoiceCallUpdated(
+      commit,
+      message,
+      rootGetters?.getCurrentUserID,
+      rootGetters?.getCurrentUserAvailability
+    );
   },
 
   deleteMessage: async function deleteLabels(
@@ -371,6 +382,7 @@ const actions = {
       !hasAppliedFilters &&
       !isOnFoldersView(rootState) &&
       !isOnMentionsView(rootState) &&
+      !isOnParticipatingView(rootState) &&
       !isOnUnattendedView(rootState) &&
       isMatchingInboxFilter
     ) {
@@ -391,18 +403,18 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
-    const {
-      meta: { sender },
-    } = conversation;
+  updateConversation({ commit, dispatch, rootGetters }, conversation) {
+    const sender = conversation.meta?.sender;
+
     commit(types.UPDATE_CONVERSATION, conversation);
+    syncConversationCallVisibility(conversation, rootGetters?.getCurrentUserID);
 
     dispatch('conversationLabels/setConversationLabel', {
       id: conversation.id,
       data: conversation.labels,
     });
 
-    dispatch('contacts/setContact', sender);
+    if (sender) dispatch('contacts/setContact', sender);
   },
 
   updateConversationLastActivity(

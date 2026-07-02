@@ -20,6 +20,9 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -385,6 +388,7 @@
       "IDENTIFIER": "Identifikators",
       "COUNTRY": "Valsts",
       "CITY": "Pilsēta",
+      "COMPANY": "Uzņēmums",
       "CREATED_AT": "Izveidots plkst",
       "LAST_ACTIVITY": "Pēdējā darbība",
       "REFERER_LINK": "Atsauces saite",
@@ -456,6 +460,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Pievienot Instagram"
+          },
+          "TELEGRAM": {
+            "PLACEHOLDER": "Add Telegram"
           },
           "TIKTOK": {
             "PLACEHOLDER": "Add TikTok"
@@ -573,12 +580,16 @@
       "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
       "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "Ielādēt vairāk"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Piešķirt Etiķetes",
+    "REMOVE_LABELS": "Remove Labels",
     "ASSIGN_LABELS_SUCCESS": "Etiķetes ir veiksmīgi piešķirtas.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
+    "REMOVE_LABELS_FAILED": "Failed to remove labels",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "Atlasīti {count}",
@@ -607,7 +618,7 @@
       "NO_INBOX_ALERT": "Nav pieejamas iesūtnes, lai sāktu sarunu ar šo kontaktpersonu.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kam:",
-        "TAG_INPUT_PLACEHOLDER": "Meklēt kontaktpersonu pēc vārda, e-pasta vai tālruņa numura",
+        "TAG_INPUT_PLACEHOLDER": "Enter at least 2 characters to search by name, email, or phone number",
         "CONTACT_CREATING": "Notiek kontaktpersonas izveide..."
       },
       "INBOX_SELECTOR": {
@@ -618,9 +629,9 @@
         "SUBJECT_LABEL": "Tēma :",
         "SUBJECT_PLACEHOLDER": "Ievadiet šeit sava e-pasta tēmu",
         "CC_LABEL": "Cc:",
-        "CC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
+        "CC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_LABEL": "Bcc:",
-        "BCC_PLACEHOLDER": "Meklēt kontaktpersonu pēc e-pasta adreses",
+        "BCC_PLACEHOLDER": "Enter at least 2 characters to search by email",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "Respuesta pendiente: la más corta primero"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -137,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
     "MESSAGE_READ": "Leído",
-    "SENDING": "Enviando"
+    "SENDING": "Enviando",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

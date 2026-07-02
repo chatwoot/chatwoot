@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "保留時間: 短い順"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priority: Highest first, Created: Oldest first"
       }
     },
     "ATTACHMENTS": {
@@ -137,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "引用テキストを非表示",
     "SHOW_QUOTED_TEXT": "引用テキストを表示",
     "MESSAGE_READ": "既読",
-    "SENDING": "送信中"
+    "SENDING": "送信中",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

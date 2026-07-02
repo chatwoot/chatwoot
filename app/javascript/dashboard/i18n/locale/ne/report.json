@@ -1,105 +1,105 @@
 {
   "REPORT": {
-    "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "HEADER": "संवादहरू",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
+    "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "DOWNLOAD_CONVERSATION_REPORTS": "वार्तालाप रिपोर्टहरू डाउनलोड गर्नुहोस्",
+    "DATA_FETCHING_FAILED": "डेटा ल्याउन असफल, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "SUMMARY_FETCHING_FAILED": "सारांश ल्याउन असफल, कृपया पछि पुन: प्रयास गर्नुहोस्।",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "संवादहरू",
+        "DESC": "( कुल )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( कुल )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( जम्मा )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "पहिलो प्रतिक्रिया समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "समाधान समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान गणना",
+        "DESC": "( जम्मा )"
       },
       "BOT_RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान गणना",
+        "DESC": "( कुल )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Total )"
+        "NAME": "ह्यान्डअफ संख्या",
+        "DESC": "( कुल )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "NAME": "ग्राहक प्रतीक्षा समय",
+        "TOOLTIP_TEXT": "पर्खाइ समय {metricValue} हो (आधारित {conversationCount} जवाफहरूमा)",
         "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "Last 7 days",
-      "LAST_14_DAYS": "Last 14 days",
-      "LAST_30_DAYS": "Last 30 days",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "LAST_7_DAYS": "अघिल्लो 7 दिन",
+      "LAST_14_DAYS": "अघिल्लो 14 दिन",
+      "LAST_30_DAYS": "अघिल्लो 30 दिन",
+      "THIS_MONTH": "यो महिना",
+      "LAST_MONTH": "अघिल्लो महिना",
+      "LAST_3_MONTHS": "अघिल्लो 3 महिना",
+      "LAST_6_MONTHS": "अघिल्लो 6 महिना",
+      "LAST_YEAR": "अघिल्लो वर्ष",
+      "CUSTOM_DATE_RANGE": "अनुकूलित मिति दायरा"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     },
-    "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
-    "DURATION_FILTER_LABEL": "Duration",
+    "GROUP_BY_FILTER_DROPDOWN_LABEL": "समूह अनुसार",
+    "DURATION_FILTER_LABEL": "अवधि",
     "GROUPING_OPTIONS": {
-      "DAY": "Day",
-      "WEEK": "Week",
-      "MONTH": "Month",
+      "DAY": "दिन",
+      "WEEK": "हप्ता",
+      "MONTH": "महिना",
       "YEAR": "Month"
     },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "दिन"
       }
     ],
     "GROUP_BY_WEEK_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "दिन"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "हप्ता"
       }
     ],
     "GROUP_BY_MONTH_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "दिन"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "हप्ता"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "महिना"
       }
     ],
     "GROUP_BY_YEAR_OPTIONS": [
@@ -116,467 +116,535 @@
         "groupBy": "Month"
       }
     ],
-    "BUSINESS_HOURS": "Business Hours",
+    "BUSINESS_HOURS": "व्यावसायिक समय",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
+      "CLEAR_FILTER": "फिल्टर हटाउनुहोस्",
+      "EMPTY_LIST": "कुनै परिणाम फेला परेन"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "PER_PAGE_TEMPLATE": "{size} / पृष्ठ"
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "HEADER": "एजेन्टहरूको अवलोकन",
+    "DESCRIPTION": "कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू जस्ता मुख्य मेट्रिक्सहरूसँग एजेन्ट प्रदर्शन सजिलै ट्र्याक गर्नुहोस्। थप जान्न एजेन्टको नाममा क्लिक गर्नुहोस्।",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
+    "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "DOWNLOAD_AGENT_REPORTS": "एजेन्ट प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "एजेन्ट छान्नुहोस्",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "एजेन्ट खोज्नुहोस्"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "संवादहरू",
+        "DESC": "( कुल )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "आउँदै गरेका सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "जाने सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "पहिलो प्रतिक्रिया समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "समाधान समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान गणना",
+        "DESC": "( कुल )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "अघिल्लो 7 दिन"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "अघिल्लो 30 दिन"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "अघिल्लो 3 महिना"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "अघिल्लो 6 महिना"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "अघिल्लो वर्ष"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "अनुकूलित मिति दायरा"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "HEADER": "लेबलहरूको संक्षिप्त विवरण",
+    "DESCRIPTION": "मुख्य मेट्रिक्सहरू सहित लेबल प्रदर्शन ट्र्याक गर्नुहोस् जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू। विस्तृत जानकारीका लागि लेबल नाममा क्लिक गर्नुहोस्।",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
+    "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "DOWNLOAD_LABEL_REPORTS": "लेबल रिपोर्ट डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "लेबल छान्नुहोस्",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "लेबल खोज्नुहोस्"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "संवादहरू",
+        "DESC": "( कुल )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "आउँदै गरेका सन्देशहरू",
+        "DESC": "( कुल )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "जाने सन्देशहरू",
+        "DESC": "( कुल )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "पहिलो प्रतिक्रिया समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "समाधान समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान संख्या",
+        "DESC": "( कुल )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "अघिल्लो 7 दिन"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "अघिल्लो 30 दिन"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "अघिल्लो 3 महिना"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "अघिल्लो 6 महिना"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "अघिल्लो वर्ष"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "अनुकूलित मिति दायरा"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Inbox Overview",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
-    "FILTER_DROPDOWN_LABEL": "Select Inbox",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "HEADER": "इनबक्सको संक्षिप्त विवरण",
+    "DESCRIPTION": "छिटो रूपमा तपाईंको इनबक्स प्रदर्शन हेर्नुहोस् मुख्य मेट्रिक्सहरू जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू—all एउटै ठाउँमा। थप विवरणका लागि इनबक्स नाममा क्लिक गर्नुहोस्।",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
+    "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "DOWNLOAD_INBOX_REPORTS": "इनबक्स रिपोर्ट डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "इनबक्स छान्नुहोस्",
+    "ALL_INBOXES": "सबै इनबक्सहरू",
+    "SEARCH_INBOX": "इनबक्स खोज्नुहोस्",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "इनबक्स खोज्नुहोस्"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "संवादहरू",
+        "DESC": "( कुल )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "आउँदै गरेका सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "जाने सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "पहिलो प्रतिक्रिया समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "समाधान समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान गणना",
+        "DESC": "( कुल )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "अघिल्लो 7 दिन"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "अघिल्लो 30 दिन"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "अघिल्लो 3 महिना"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "अघिल्लो 6 महिना"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "अघिल्लो वर्ष"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "अनुकूलित मिति दायरा"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_TEAM_REPORTS": "Download team reports",
-    "FILTER_DROPDOWN_LABEL": "Select Team",
+    "HEADER": "टोली अवलोकन",
+    "DESCRIPTION": "आवश्यक मेट्रिक्सहरूसहित तपाईंको टीमको प्रदर्शनको झलक पाउनुहोस्, जस्तै कुराकानीहरू, प्रतिक्रिया समयहरू, समाधान समयहरू, र समाधान भएका केसहरू। थप विवरणका लागि टीम नाममा क्लिक गर्नुहोस्।",
+    "LOADING_CHART": "चार्ट डेटा लोड हुँदैछ...",
+    "NO_ENOUGH_DATA": "रिपोर्ट बनाउन पर्याप्त डेटा बिन्दुहरू प्राप्त भएका छैनन्, कृपया पछि पुन: प्रयास गर्नुहोस्।",
+    "DOWNLOAD_TEAM_REPORTS": "टोली प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "FILTER_DROPDOWN_LABEL": "टोली छान्नुहोस्",
+    "FILTERS": {
+      "ADD_FILTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
+      "NO_FILTER": "फिल्टरहरू उपलब्ध छैनन्",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "टोली खोज्नुहोस्"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "संवादहरू",
+        "DESC": "( कुल )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "आउँदै गरेका सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "जाने सन्देशहरू",
+        "DESC": "( जम्मा )"
       },
       "FIRST_RESPONSE_TIME": {
-        "NAME": "First Response Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "पहिलो प्रतिक्रिया समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "पहिलो प्रतिक्रिया समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
-        "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
+        "NAME": "समाधान समय",
+        "DESC": "( औसत )",
+        "INFO_TEXT": "गणनाका लागि प्रयोग गरिएका कुल संवादहरूको संख्या:",
+        "TOOLTIP_TEXT": "समाधान समय {metricValue} हो (आधारित {conversationCount} कुराकानीहरूमा)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "समाधान गणना",
+        "DESC": "( कुल )"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "अघिल्लो 7 दिन"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "अघिल्लो 30 दिन"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "अघिल्लो 3 महिना"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "अघिल्लो 6 महिना"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "अघिल्लो वर्ष"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "अनुकूलित मिति दायरा"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "लागू गर्नुहोस्",
+      "PLACEHOLDER": "मिति दायरा छान्नुहोस्"
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
-    "NO_RECORDS": "There are no CSAT survey responses available.",
-    "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "HEADER": "CSAT प्रतिवेदनहरू",
+    "NO_RECORDS": "अझै कुनै प्रतिक्रिया छैन",
+    "NO_RECORDS_DESCRIPTION": "ग्राहकहरूले प्रतिक्रिया दिन थालेपछि CSAT सर्वेक्षण प्रतिक्रियाहरू यहाँ देखिनेछन्।",
+    "DOWNLOAD": "CSAT प्रतिवेदन डाउनलोड गर्नुहोस्",
+    "DOWNLOAD_FAILED": "CSAT प्रतिवेदन डाउनलोड गर्न असफल",
     "FILTERS": {
+      "ADD_FILTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
+      "NO_FILTER": "फिल्टर उपलब्ध छैनन्",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "एजेन्टहरू खोज्नुहोस्",
+        "INBOXES": "इनबक्सहरू खोज्नुहोस्",
+        "TEAMS": "टोलीहरू खोज्नुहोस्",
+        "RATINGS": "रेटिङहरू खोज्नुहोस्"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Choose Agents"
+        "LABEL": "एजेन्ट"
+      },
+      "INBOXES": {
+        "LABEL": "इनबक्स"
+      },
+      "TEAMS": {
+        "LABEL": "टोली"
+      },
+      "RATINGS": {
+        "LABEL": "रेटिङ"
       }
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
-        "AGENT_NAME": "Assigned agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment"
-      }
+        "CONTACT_NAME": "सम्पर्क",
+        "AGENT_NAME": "एजेन्ट",
+        "RATING": "मूल्याङ्कन",
+        "FEEDBACK_TEXT": "प्रतिक्रिया टिप्पणी",
+        "CONVERSATION": "संवाद",
+        "CUSTOMER": "ग्राहक",
+        "RESPONSE": "प्रतिक्रिया",
+        "HANDLED_BY": "कसले ह्यान्डल गरे"
+      },
+      "UNKNOWN_CUSTOMER": "अज्ञात ग्राहक"
     },
+    "NO_AGENT": "कुनै एजेन्ट तोकिएको छैन",
+    "NO_FEEDBACK": "कुनै प्रतिक्रिया प्रदान गरिएको छैन",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "कुल प्रतिक्रियाहरू",
+        "TOOLTIP": "सङ्कलन गरिएका प्रतिक्रियाहरूको कुल संख्या"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "सन्तुष्टि स्कोर",
+        "TOOLTIP": "सकारात्मक प्रतिक्रियाहरूको कुल संख्या / प्रतिक्रियाहरूको कुल संख्या * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "प्रतिक्रिया दर",
+        "TOOLTIP": "प्रतिक्रियाहरूको कुल संख्या / पठाइएका CSAT सर्वेक्षण सन्देशहरूको कुल संख्या * 100"
+      },
+      "RATING_DISTRIBUTION": "रेटिङ वितरण"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "समीक्षा नोटहरू",
+      "PLACEHOLDER": "यो रेटिङको समीक्षा नोटहरू थप्नुहोस्...",
+      "SAVE": "सेभ गर्नुहोस्",
+      "CANCEL": "रद्द गर्नुहोस्",
+      "SAVING": "सेभ हुँदैछ...",
+      "SAVED": "नोटहरू सफलतापूर्वक सेभ गरियो",
+      "SAVE_ERROR": "नोटहरू सेभ गर्न असफल",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "अपडेट गर्ने",
+      "PAYWALL": {
+        "TITLE": "समीक्षा नोटहरू थप्न अपग्रेड गर्नुहोस्",
+        "AVAILABLE_ON": "समीक्षा नोट्स सुविधा केवल बिजनेस र एंटरप्राइज योजनाहरूमा उपलब्ध छ।",
+        "UPGRADE_PROMPT": "प्रत्येक CSAT प्रतिक्रियामा आन्तरिक सन्दर्भ समीक्षा नोट्ससँग थप्नुहोस्। साँच्चिकै के भयो समात्नुहोस्, ढाँचाहरू छिटो पत्ता लगाउनुहोस्, र तपाईंको प्रतिक्रिया बाट राम्रो निर्णयहरू लिनुहोस्।",
+        "UPGRADE_NOW": "अहिले अपग्रेड गर्नुहोस्",
+        "CANCEL_ANYTIME": "तपाईं आफ्नो योजना कहिले पनि परिवर्तन वा रद्द गर्न सक्नुहुन्छ"
       }
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "बोट प्रतिवेदनहरू",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "संवाद संख्या",
+        "TOOLTIP": "बोटले सम्हालेका कुल संवादहरूको संख्या"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "कुल प्रतिक्रिया",
+        "TOOLTIP": "बोटले पठाएको कुल प्रतिक्रिया संख्या"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "समाधान दर",
+        "TOOLTIP": "बोटले समाधान गरेका कुल संवाद / बोटले सम्हालेका कुल संवाद * १००"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "ह्यान्डअफ दर",
+        "TOOLTIP": "एजेन्टलाई हस्तान्तरण गरिएका कुल संवाद / बोटले सम्हालेका कुल संवाद * १००"
       }
     }
   },
   "OVERVIEW_REPORTS": {
-    "HEADER": "Overview",
-    "LIVE": "Live",
+    "HEADER": "सारांश",
+    "LIVE": "प्रत्यक्ष",
     "ACCOUNT_CONVERSATIONS": {
-      "HEADER": "Open Conversations",
-      "LOADING_MESSAGE": "Loading conversation metrics...",
-      "OPEN": "Open",
-      "UNATTENDED": "Unattended",
-      "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "HEADER": "खुला कुराकानीहरू",
+      "LOADING_MESSAGE": "वार्ता मेट्रिक्स लोड हुँदैछ...",
+      "OPEN": "खुला",
+      "UNATTENDED": "नजरअन्दाज गरिएको",
+      "UNASSIGNED": "असाइन गरिएको छैन",
+      "PENDING": "पेन्डिङ"
     },
     "CONVERSATION_HEATMAP": {
-      "HEADER": "Conversation Traffic",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "संवाद ट्राफिक",
+      "NO_CONVERSATIONS": "कुनै संवाद छैन",
+      "CONVERSATION": "{count} कुराकानी",
+      "CONVERSATIONS": "{count} कुराकानीहरू",
+      "DOWNLOAD_REPORT": "रिपोर्ट डाउनलोड गर्नुहोस्"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
-      "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "HEADER": "समाधानहरू",
+      "NO_CONVERSATIONS": "कुनै कुराकानी छैन",
+      "CONVERSATION": "{count} कुराकानी",
+      "CONVERSATIONS": "{count} कुराकानीहरू",
+      "DOWNLOAD_REPORT": "रिपोर्ट डाउनलोड गर्नुहोस्"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversations by agents",
-      "LOADING_MESSAGE": "Loading agent metrics...",
-      "NO_AGENTS": "There are no conversations by agents",
+      "HEADER": "एजेन्टहरूद्वारा गरिएको कुराकानीहरू",
+      "LOADING_MESSAGE": "एजेन्ट मेट्रिक्स लोड हुँदैछ...",
+      "NO_AGENTS": "एजेन्टहरूद्वारा कुनै कुराकानी छैन",
       "TABLE_HEADER": {
-        "AGENT": "Agent",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "AGENT": "एजेन्ट",
+        "OPEN": "खुला",
+        "UNATTENDED": "नजरअन्दाज गरिएको",
+        "STATUS": "स्थिति"
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
+      "ALL_TEAMS": "सबै टिमहरू",
+      "HEADER": "टिमहरू अनुसार संवादहरू",
+      "LOADING_MESSAGE": "टिम मेट्रिक्स लोड हुँदैछ...",
+      "NO_TEAMS": "कुनै डाटा उपलब्ध छैन",
       "TABLE_HEADER": {
-        "TEAM": "Team",
-        "OPEN": "Open",
-        "UNATTENDED": "Unattended",
-        "STATUS": "Status"
+        "TEAM": "टोली",
+        "OPEN": "खुला",
+        "UNATTENDED": "नजरअन्दाज गरिएको",
+        "STATUS": "स्थिति"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Agent status",
-      "ONLINE": "Online",
-      "BUSY": "Busy",
-      "OFFLINE": "Offline"
+      "HEADER": "एजेन्ट स्थिति",
+      "ONLINE": "अनलाइन",
+      "BUSY": "व्यस्त",
+      "OFFLINE": "अफलाइन"
     }
   },
   "DAYS_OF_WEEK": {
-    "SUNDAY": "Sunday",
-    "MONDAY": "Monday",
-    "TUESDAY": "Tuesday",
-    "WEDNESDAY": "Wednesday",
-    "THURSDAY": "Thursday",
-    "FRIDAY": "Friday",
-    "SATURDAY": "Saturday"
+    "SUNDAY": "आइतबार",
+    "MONDAY": "सोमबार",
+    "TUESDAY": "मंगलबार",
+    "WEDNESDAY": "बुधबार",
+    "THURSDAY": "बिहीबार",
+    "FRIDAY": "शुक्रबार",
+    "SATURDAY": "शनिबार"
   },
   "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "HEADER": "SLA प्रतिवेदनहरू",
+    "NO_RECORDS": "SLA लागू गरिएका कुराकानीहरू उपलब्ध छैनन्।",
+    "LOADING": "SLA डेटा लोड हुँदैछ...",
+    "DOWNLOAD_SLA_REPORTS": "SLA रिपोर्टहरू डाउनलोड गर्नुहोस्",
+    "DOWNLOAD_FAILED": "SLA रिपोर्टहरू डाउनलोड गर्न असफल",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
+      "ADD_FIlTER": "फिल्टर थप्नुहोस्",
+      "CLEAR_ALL": "सबै हटाउनुहोस्",
+      "CLEAR_FILTER": "फिल्टर हटाउनुहोस्",
+      "EMPTY_LIST": "कुनै परिणाम फेला परेन",
+      "NO_FILTER": "कुनै फिल्टर उपलब्ध छैन",
+      "SEARCH": "फिल्टर खोज्नुहोस्",
       "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "Label name",
-        "TEAMS": "Team name"
+        "SLA": "SLA नाम",
+        "AGENTS": "एजेन्ट नाम",
+        "INBOXES": "इनबक्स नाम",
+        "LABELS": "लेबल नाम",
+        "TEAMS": "टोलीको नाम"
       },
-      "SLA": "SLA Policy",
-      "INBOXES": "Inbox",
-      "AGENTS": "Agent",
-      "LABELS": "Label",
-      "TEAMS": "Team"
+      "SLA": "SLA नीति",
+      "INBOXES": "इनबक्स",
+      "AGENTS": "एजेन्ट",
+      "LABELS": "लेबल",
+      "TEAMS": "टोली"
     },
-    "WITH": "with",
+    "WITH": "संग",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
+        "LABEL": "हिट दर",
+        "TOOLTIP": "बनाइएका SLA हरू सफलतापूर्वक पूरा भएको प्रतिशत"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
+        "LABEL": "मिस भएको संख्या",
+        "TOOLTIP": "एक निश्चित अवधिमा कुल SLA मिस"
       },
       "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
+        "LABEL": "संवादहरूको संख्या",
+        "TOOLTIP": "SLA सँग कुल संवादहरूको संख्या"
       }
     },
     "TABLE": {
       "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "Conversation",
-        "AGENT": "Agent"
+        "POLICY": "नीति",
+        "CONVERSATION": "संवाद",
+        "AGENT": "एजेन्ट"
       },
-      "VIEW_DETAILS": "View Details"
+      "VIEW_DETAILS": "विवरण हेर्नुहोस्"
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Inbox",
-    "AGENT": "Agent",
-    "TEAM": "Team",
-    "LABEL": "Label",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "INBOX": "इनबक्स",
+    "AGENT": "एजेन्ट",
+    "TEAM": "टोली",
+    "LABEL": "लेबल",
+    "AVG_RESOLUTION_TIME": "औसत समाधान समय",
+    "AVG_FIRST_RESPONSE_TIME": "औसत पहिलो प्रतिक्रिया समय",
+    "AVG_REPLY_TIME": "औसत ग्राहक प्रतीक्षा समय",
+    "RESOLUTION_COUNT": "समाधान गणना",
+    "CONVERSATIONS": "संवादहरूको संख्या"
   }
 }

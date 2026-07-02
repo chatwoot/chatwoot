@@ -9,6 +9,7 @@
       "ADMINISTRATOR": "מנהל",
       "AGENT": "סוכן"
     },
+    "COUNT": "{n} agent | {n} agents",
     "LIST": {
       "404": "אין סוכנים המקושרים לחשבון זה",
       "TITLE": "נהל סוכנים בצוות שלך",
@@ -96,6 +97,8 @@
         "ERROR_MESSAGE": "לא ניתן להתחבר לשרת ווט, נסה שוב מאוחר יותר"
       }
     },
+    "SEARCH_PLACEHOLDER": "חפש סוכנים...",
+    "NO_RESULTS": "No agents found matching your search",
     "SEARCH": {
       "NO_RESULTS": "לא נמצאו תוצאות."
     },

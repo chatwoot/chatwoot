@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "צור חשבון",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "הירשם",
     "TESTIMONIAL_HEADER": "כל מה שצריך זה צעד אחד כדי להתקדם",
     "TESTIMONIAL_CONTENT": "אתה במרחק צעד אחד מלהפעיל את הלקוחות שלך, לשמר אותם ולמצוא חדשים.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "לא ניתן להתחבר לשרת Woot, נסה שוב מאוחר יותר"
     },
     "SUBMIT": "צור חשבון",
-    "HAVE_AN_ACCOUNT": "כבר יש לך חשבון?"
+    "HAVE_AN_ACCOUNT": "כבר יש לך חשבון?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "שלח מחדש דוא\"ל אימות",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

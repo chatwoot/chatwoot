@@ -18,7 +18,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
-    process_attached_logo
+    process_attached_logo if params[:blob_id].present?
   end
 
   def update
@@ -61,9 +61,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def process_attached_logo
-    blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_signed(blob_id)
-    @portal.logo.attach(blob)
+    blob = ActiveStorage::Blob.find_signed(params[:blob_id].to_s)
+    @portal.logo.attach(blob) if blob
   end
 
   private
@@ -79,8 +78,15 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   def portal_params
     params.require(:portal).permit(
       :id, :color, :custom_domain, :header_text, :homepage_link,
-      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
+      :name, :page_title, :slug, :archived,
+      { config: [:default_locale, :layout, { allowed_locales: [] }, { draft_locales: [] },
+                 { social_profiles: %i[facebook x instagram linkedin youtube tiktok github whatsapp] },
+                 { locale_translations: locale_translation_keys.index_with { %i[name page_title header_text] } }] }
     )
+  end
+
+  def locale_translation_keys
+    params.dig(:portal, :config, :locale_translations)&.keys || []
   end
 
   def live_chat_widget_params
@@ -88,7 +94,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     return {} unless permitted_params.key?(:inbox_id)
     return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
-    inbox = Inbox.find(permitted_params[:inbox_id])
+    inbox = Current.account.inboxes.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?
 
     { channel_web_widget_id: inbox.channel.id }
@@ -99,6 +105,8 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def parsed_custom_domain
+    return @portal.custom_domain if @portal.custom_domain.blank?
+
     domain = URI.parse(@portal.custom_domain)
     domain.is_a?(URI::HTTP) ? domain.host : @portal.custom_domain
   end

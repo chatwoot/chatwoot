@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Carregando Editor...",
     "DESCRIPTION": "Robôs agentes são como os membros mais fabulosos de seu time. Eles podem lidar com as pequenas coisas, assim você pode focar nas coisas que importam. Dê uma chance a eles. Você pode gerenciar seus robôs a partir desta página ou criar novos usando o botão 'Criar Robô'.",
     "LEARN_MORE": "Aprenda sobre os robôs agentes",
+    "COUNT": "{n} robô | {n} robôs",
+    "SEARCH_PLACEHOLDER": "Pesquisar robôs...",
+    "NO_RESULTS": "Nenhum robô encontrado correspondente à sua busca",
     "GLOBAL_BOT": "Robô do sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Buscando robôs...",
       "TABLE_HEADER": {
         "DETAILS": "Detalhe do Robô",
-        "URL": "URL do Webhook"
+        "URL": "URL do Webhook",
+        "ACTIONS": "Ações"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Robô atualizado com sucesso.",
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
+    },
+    "SECRET": {
+      "LABEL": "Segredo do Webhook",
+      "COPY": "Copiar segredo para a área de transferência",
+      "COPY_SUCCESS": "Segredo copiado para a área de transferência",
+      "TOGGLE": "Alternar visibilidade do segredo",
+      "CREATED_DESC": "Use o segredo abaixo para verificar as assinaturas do webhook. Copie-o agora, você também poderá encontrá-lo depois nas configurações do robô.",
+      "DONE": "Concluído",
+      "RESET_SUCCESS": "Segredo do webhook regenerado com sucesso",
+      "RESET_ERROR": "Não foi possível regenerar o segredo do webhook. Por favor, tente novamente"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token de acesso",

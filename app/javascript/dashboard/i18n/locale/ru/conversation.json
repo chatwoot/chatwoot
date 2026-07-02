@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook / Instagram.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении Instagram.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "Это сообщение не поддерживается. Вы можете просмотреть это сообщение в приложении TikTok.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Сообщение успешно удалено",
     "FAIL_DELETE_MESSSAGE": "Не удалось удалить сообщение! Попробуйте еще раз",
     "NO_RESPONSE": "Нет ответа",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Сообщение недоступно",
     "CARD": {
       "SHOW_LABELS": "Показать метки",
-      "HIDE_LABELS": "Скрыть метки"
+      "HIDE_LABELS": "Скрыть метки",
+      "LABELS_COUNT": "{count} метки"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Входящий звонок",
       "OUTGOING_CALL": "Исходящий звонок",
       "CALL_IN_PROGRESS": "Идёт звонок",
       "NO_ANSWER": "Нет ответа",
+      "NO_ANSWER_OUTBOUND_LABEL": "Нет ответа",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Контакт не взял трубку",
       "MISSED_CALL": "Пропущенный звонок",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Агенты не взяли трубку",
+      "MISSED_CALL_DECLINED_BY": "Агент {agentName} отменил звонок",
       "CALL_ENDED": "Звонок завершен",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Пока нет ответа",
+      "CALLING": "Звонок…",
       "THEY_ANSWERED": "Они ответили",
-      "YOU_ANSWERED": "Вы ответили"
+      "YOU_ANSWERED": "Вы ответили",
+      "AGENT_ANSWERED": "{agentName} ответил",
+      "JOIN_CALL": "Присоединиться к звонку",
+      "CALL_BACK": "Перезвонить",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Показать меньше"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
@@ -91,10 +105,17 @@
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
+      "COPY_ID_SUCCESS": "ID разговора скопирован в буфер обмена",
       "SNOOZED_UNTIL": "Отложить до",
       "SNOOZED_UNTIL_TOMORROW": "Отложено до завтра",
       "SNOOZED_UNTIL_NEXT_WEEK": "Отложено до следующей недели",
       "SNOOZED_UNTIL_NEXT_REPLY": "Отложить до следующего ответа",
+      "WHATSAPP_CALL": "Начать звонок WhatsApp",
+      "WHATSAPP_CALL_FAILED": "Не удалось начать вызов Whatsapp.",
+      "VOICE_CALL": "Начать звонок",
+      "VOICE_CALL_FAILED": "Не получается начать звонок.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Запросите разрешение на звонок у контакта. Попробуйте снова после получения разрешения.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Запросите разрешение на звонок у контакта. Попробуйте снова после получения разрешения.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,8 +194,12 @@
           "SUCCESFUL": "Назначена метка #{labelName} диалогу {conversationId}",
           "FAILED": "Не удалось назначить метку. Пожалуйста, попробуйте еще раз."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Удалена метка #{labelName} из диалога с ID {conversationId}",
+          "FAILED": "Не удалось удалить метку. Пожалуйста, попробуйте еще раз."
+        },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Назначена метка #{team} в разговор id {conversationId}",
+          "SUCCESFUL": "Назначена команда \"{team}\" разговору с ID {conversationId}",
           "FAILED": "Не удалось назначить команду. Пожалуйста, попробуйте еще раз."
         }
       }
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "Отключить подпись",
       "MSG_INPUT": "Shift + enter чтобы начать новую строку. Начните с '/', чтобы выбрать шаблонный ответ.",
       "PRIVATE_MSG_INPUT": "Shift + enter для новой строки. Это будет видно только Операторам",
+      "MESSAGING_RESTRICTED": "Вы не можете отвечать в этот диалог",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Подпись сообщения не настроена, пожалуйста настройте её в настройках профиля.",
+      "COPILOT_MSG_INPUT": "Задайте Copilot дополнительные промпты или спросите что-нибудь другое... Нажмите Enter, чтобы дополнить информацию",
       "CLICK_HERE": "Нажмите здесь, чтобы обновить",
       "WHATSAPP_TEMPLATES": "Шаблоны Whatsapp"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
       "TIP_AUDIORECORDER_PERMISSION": "Разрешить доступ к аудио",
       "TIP_AUDIORECORDER_ERROR": "Не удалось открыть аудио",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Перетащите сюда, чтобы прикрепить",
       "START_AUDIO_RECORDING": "Начать запись аудио",
       "STOP_AUDIO_RECORDING": "Остановить запись аудио",
-      "": "",
+      "COPILOT_THINKING": "Copilot думает",
       "EMAIL_HEAD": {
         "TO": "ДО",
         "ADD_BCC": "Добавить bcc",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Диалог удален",
     "FAIL_DELETE_CONVERSATION": "Не удалось удалить диалог! Попробуйте снова",
     "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файла {fileName} не поддерживается в этом диалоге",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
+    "NATIVE_APP": "Нативное приложение",
+    "NATIVE_APP_ADVISORY": "Это сообщение было отправлено из нативного приложения. Ответьте через ChatWoot, чтобы продолжить диалог.",
     "SEND_FAILED": "Не удалось удалить сообщение! Попробуйте еще раз",
     "TRY_AGAIN": "повторить",
     "ASSIGNMENT": {
@@ -281,10 +314,15 @@
       "OUTGOING_CALL": "Исходящий звонок",
       "CALL_IN_PROGRESS": "Идёт звонок",
       "NOT_ANSWERED_YET": "Пока нет ответа",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Обрабатывается в другой вкладке",
+      "REJECT_CALL": "Отклонить",
+      "DISMISS_CALL": "Отклонить",
+      "JOIN_CALL": "Присоединиться к звонку",
+      "END_CALL": "Завершить звонок",
+      "MUTE": "Выключить микрофон",
+      "UNMUTE": "Включить микрофон",
+      "VIEW_CHAT_HISTORY": "Посмотреть историю чата",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "Отменить",
     "SEND_EMAIL_SUCCESS": "Субтитры чата успешно отправлены",
     "SEND_EMAIL_ERROR": "Произошла ошибка, попробуйте еще раз",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Отправка транскрипта на электронную почту не поддерживается вашим планом. Пожалуйста, обновите план, чтобы получить доступ к этой функции.",
     "FORM": {
       "SEND_TO_CONTACT": "Отправить субтитры клиенту",
       "SEND_TO_AGENT": "Отправить транскрипт назначенному агенту",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
       "MACROS": "Макросс",
       "LINEAR_ISSUES": "Связанные проблемы",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Вложения"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "Нет вложений",
+      "DOWNLOAD": "Загрузить файл",
+      "DOWNLOAD_ERROR": "Не удалось загрузить файл. Пожалуйста, попробуйте еще раз.",
+      "MEDIA_HEADING": "Медиа",
+      "FILES_HEADING": "Файлы",
+      "VIEW_ALL": "Посмотреть все",
+      "SHOW_LESS": "Показать меньше",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Файл без заголовка"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

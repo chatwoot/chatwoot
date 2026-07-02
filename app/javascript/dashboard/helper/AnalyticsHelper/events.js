@@ -119,6 +119,10 @@ export const COPILOT_EVENTS = Object.freeze({
   USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
 });
 
+export const SNOOZE_EVENTS = Object.freeze({
+  NLP_SNOOZE_APPLIED: 'Applied snooze via text-to-date input',
+});
+
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
@@ -148,4 +152,17 @@ export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
   MODAL_OPENED: 'Year in Review: Modal opened',
   NEXT_CLICKED: 'Year in Review: Next clicked',
   SHARE_CLICKED: 'Year in Review: Share clicked',
+});
+
+export const SESSION_EVENTS = Object.freeze({
+  LIMIT_HIT: 'Session limit reached at login',
+  REVOKED_FROM_PROFILE: 'Revoked an active session',
+});
+
+export const ONBOARDING_EVENTS = Object.freeze({
+  ACCOUNT_DETAILS_VISITED: 'Onboarding: Account details visited',
+  ACCOUNT_DETAILS_COMPLETED: 'Onboarding: Account details completed',
+  INBOX_SETUP_VISITED: 'Onboarding: Inbox setup visited',
+  INBOX_SETUP_COMPLETED: 'Onboarding: Inbox setup completed',
+  INBOX_SETUP_SKIPPED: 'Onboarding: Inbox setup skipped',
 });

@@ -61,6 +61,8 @@
     "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Detta meddelande stöds inte. Du kan se detta meddelande på Facebook Messenger-appen.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Detta meddelande stöds inte. Du kan se detta meddelande på Instagram-appen.",
+    "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "Meddelandet har tagits bort",
     "FAIL_DELETE_MESSSAGE": "Det gick inte att ta bort meddelande! Försök igen",
     "NO_RESPONSE": "Inget svar",
@@ -70,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "Meddelandet är inte tillgängligt",
     "CARD": {
       "SHOW_LABELS": "Visa etiketter",
-      "HIDE_LABELS": "Dölj etiketter"
+      "HIDE_LABELS": "Dölj etiketter",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
+      "NO_ANSWER_OUTBOUND_LABEL": "No answer",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "Missed call",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "Call ended",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "YOU_ANSWERED": "You answered",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "Join call",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
@@ -91,10 +105,17 @@
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "Snoozad till",
       "SNOOZED_UNTIL_TOMORROW": "Snoozad till imorgon",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozad till nästa vecka",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozad till nästa svar",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -173,6 +194,10 @@
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
           "FAILED": "Couldn't assign label. Please try again."
         },
+        "LABEL_REMOVAL": {
+          "SUCCESFUL": "Removed label #{labelName} from conversation id {conversationId}",
+          "FAILED": "Couldn't remove label. Please try again."
+        },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Assigned team \"{team}\" to conversation id {conversationId}",
           "FAILED": "Couldn't assign team. Please try again."
@@ -185,7 +210,11 @@
       "DISABLE_SIGN_TOOLTIP": "Inaktivera signatur",
       "MSG_INPUT": "Skift + Enter för ny rad. Börja med '/' för att välja en svarsmall.",
       "PRIVATE_MSG_INPUT": "Skift + Enter för ny rad. Detta kommer endast att vara synligt för agenter",
+      "MESSAGING_RESTRICTED": "You cannot reply to this conversation",
+      "MESSAGING_RESTRICTED_WHATSAPP": "You can only reply using a template message due to 24-hour message window restriction",
+      "MESSAGING_RESTRICTED_API": "You can only reply using a template message due to message window restriction",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Meddelandesignaturen är inte konfigurerad. Konfigurera den i profilinställningarna.",
+      "COPILOT_MSG_INPUT": "Ge copilot ytterligare instruktioner, eller ställ andra frågor... Tryck enter för att skicka uppföljning",
       "CLICK_HERE": "Klicka här för att uppdatera",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -202,10 +231,11 @@
       "TIP_AUDIORECORDER_ICON": "Spela in ljud",
       "TIP_AUDIORECORDER_PERMISSION": "Tillåt åtkomst till ljud",
       "TIP_AUDIORECORDER_ERROR": "Kunde inte öppna ljudet",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "Dra och släpp hit för att bifoga",
       "START_AUDIO_RECORDING": "Starta ljudinspelning",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
-      "": "",
+      "COPILOT_THINKING": "Copilot tänker",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Lägg till bcc",
@@ -247,9 +277,12 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
     "BOT": "Bot",
+    "NATIVE_APP": "Native app",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
@@ -283,8 +316,13 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "END_CALL": "End call",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -294,6 +332,7 @@
     "CANCEL": "Avbryt",
     "SEND_EMAIL_SUCCESS": "Chattranskriberingen har skickats",
     "SEND_EMAIL_ERROR": "Ett fel uppstod, vänligen försök igen",
+    "SEND_EMAIL_PAYMENT_REQUIRED": "Email transcript is not available on your current plan. Please upgrade to use this feature.",
     "FORM": {
       "SEND_TO_CONTACT": "Skicka transkriberingen till kunden",
       "SEND_TO_AGENT": "Skicka transkriberingen till den tilldelade agenten",
@@ -349,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "Tidigare konversationer",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "Visa alla",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

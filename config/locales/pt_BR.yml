@@ -28,13 +28,17 @@ pt_BR:
       invalid_email: 'Por favor, insira um endereço de e-mail válido'
       authentication_failed: 'Falha na autenticação. Por favor, verifique suas credenciais e tente novamente.'
   messages:
-    reset_password_success: Legal! A solicitação de alteração de senha foi bem sucedida. Verifique seu e-mail para obter instruções.
-    reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
+    reset_password: A solicitação de redefinição de senha foi realizada com sucesso. Um e-mail com instruções será enviado para o seu endereço de e-mail, caso ele exista em nosso sistema.
     reset_password_saml_user: Esta conta usa autenticação SAML. A redefinição de senha não está disponível. Por favor, contate o administrador.
     login_saml_user: Esta conta usa autenticação SAML. Por favor, faça login através do provedor SAML da sua organização.
     saml_not_available: A autenticação SAML não está disponível nesta instalação.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   errors:
+    account:
+      reporting_timezone:
+        invalid: não é um fuso horário válido
+      support_email:
+        invalid: is not a valid email address
     validations:
       presence: não pode ficar em branco
     webhook:
@@ -46,10 +50,20 @@ pt_BR:
       email_already_exists: 'Você já se cadastrou para uma conta com %{email}'
       invalid_params: 'Inválido, por favor, verifique os parâmetros de inscrição e tente novamente'
       failed: Registro falhou
+    voice:
+      call_already_accepted: '%{agent_name} já está atendendo a chamada.'
     assignment_policy:
       not_found: Política de atribuição não encontrada
     attachments:
       invalid: Anexo inválido
+    upload:
+      missing_input: 'Nenhum arquivo ou URL fornecido'
+      invalid_url: 'URL fornecida inválida'
+      fetch_failed: 'Falha ao recuperar o arquivo da URL'
+      fetch_failed_with_message: 'Falha ao recuperar o arquivo da URL: %{message}'
+      file_too_large: 'O arquivo excede o tamanho máximo permitido'
+      unsupported_content_type: 'Tipo de arquivo não suportado (apenas imagens e vídeos são permitidos)'
+      unexpected: 'Ocorreu um erro inesperado'
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
@@ -67,9 +81,9 @@ pt_BR:
         invalid: deve estar no formato e164
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: deve ser um nome de domínio válido
       search:
-        query_missing: Especifique a ‘string’ de busca com o parâmetro q
+        query_missing: Especifique a string de busca com o parâmetro q
     messages:
       search:
         time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
@@ -84,10 +98,19 @@ pt_BR:
       token_exchange_failed: 'Falha ao trocar o código por um token de acesso. Por favor, tente novamente.'
       invalid_token_permissions: 'O token de acesso não tem as permissões necessárias para o WhatsApp.'
       phone_info_fetch_failed: 'Falha ao obter a informação do número de telefone. Por favor, tente novamente.'
-      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
+      phone_number_already_exists: 'Já existe um canal para este número de telefone: %{phone_number}. Entre em contato com o suporte se o erro persistir'
       reauthorization:
         generic: 'Falha ao reautenticar o WhatsApp. Por favor, tente novamente.'
         not_supported: 'Reautenticação não é suportado por este tipo de canal WhatsApp.'
+      calls:
+        not_enabled: 'As chamadas não estão habilitadas para esta caixa de entrada'
+        no_recording: 'Nenhum arquivo de gravação fornecido'
+        no_message: 'A chamada não possui mensagem associada'
+        sdp_offer_required: 'sdp_offer é obrigatório'
+        contact_phone_required: 'Número de telefone do contato é obrigatório'
+        permission_request_failed: 'Falha ao enviar solicitação de permissão de chamada'
+    openai:
+      invalid_api_key: 'A chave da API da OpenAI é inválida ou revogada. Por favor, verifique sua chave no seu painel da OpenAI.'
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -95,6 +118,11 @@ pt_BR:
         host_unreachable_error: Servidor inacessível, por favor, verifique o endereço e a porta de IMAP e tente novamente.
         connection_timed_out_error: Tempo esgotado de conexão para %{address}:%{port}
         connection_closed_error: Conexão fechada.
+      smtp:
+        authentication_error: Autenticação SMTP falhou. Por favor, verifique suas credenciais de acesso.
+        connection_error: Não foi possível conectar ao servidor SMTP. Por favor, verifique o endereço do servidor e a porta.
+        ssl_error: Erro de SSL/TLS. Por favor, verifique suas configurações de criptografia.
+        smtp_error: Erro no servidor SMTP. Por favor, verifique sua configuração e tente novamente.
       validations:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
     custom_filters:
@@ -104,6 +132,7 @@ pt_BR:
       invalid_query_operator: Operador de consulta deve ser "E" ou "OU".
       invalid_value: Valor inválido. Os valores fornecidos para %{attribute_name} são inválidos
     custom_attribute_definition:
+      attribute_key_format: deve conter apenas letras, números, sublinhados, hífens, e pontos
       key_conflict: A chave fornecida não é permitida pois pode entrar em conflito com os atributos padrão.
     mfa:
       already_enabled: MFA já está habilitado
@@ -120,6 +149,8 @@ pt_BR:
       plan_not_eligible: As recargas estão disponíveis apenas para planos pagos. Por favor, faça o upgrade do seu plano primeiro.
       stripe_customer_not_configured: Cliente do Stripe não configurado
       no_payment_method: Nenhum método de pagamento encontrado. Por favor, adicione um método de pagamento antes de realizar uma compra.
+    reports:
+      date_range_too_long: O intervalo de datas não pode exceder 6 meses
   profile:
     mfa:
       enabled: MFA habilitado com sucesso
@@ -156,6 +187,14 @@ pt_BR:
       avg_resolution_time: Tempo médio de resolução
       resolution_count: Contagem de Resolução
       avg_customer_waiting_time: Tempo médio de espera do cliente
+    conversation_csv:
+      conversations_count: Conversas
+      incoming_messages_count: Mensagens Recebidas
+      outgoing_messages_count: Mensagens enviadas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Quantidade de resoluções
+      avg_customer_waiting_time: Tempo médio de espera do cliente
     conversation_traffic_csv:
       timezone: Fuso horário
     sla_csv:
@@ -178,9 +217,10 @@ pt_BR:
         rating: Classificação
         feedback: Comentário de Feedback
         recorded_at: Data de gravação
+        review_notes: Notas de Avaliação
   notifications:
     notification_title:
-      conversation_creation: ''
+      conversation_creation: 'A conversa (#%{display_id}) foi criada em %{inbox_name}'
       conversation_assignment: 'Uma conversa (#%{display_id}) foi atribuída a você'
       assigned_conversation_new_message: 'Uma nova mensagem foi criada na conversa (#%{display_id})'
       conversation_mention: 'Você foi mencionado em uma conversa (#%{display_id})'
@@ -200,14 +240,23 @@ pt_BR:
       deleted: Esta mensagem foi excluída
       whatsapp:
         list_button_label: 'Escolha um item'
+        call_permission_request_body: 'Gostaríamos de ligar para você em relação à sua conversa.'
+        unsupported_message: 'Esta mensagem não está disponível.'
+      voice_call:
+        twilio: 'Chamada de Voz'
+        whatsapp: 'Chamada do WhatsApp'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
+        resolved_with_reason: 'A conversa foi marcada como resolvida por %{user_name} (%{reason})'
+        resolved_by_tool: 'A conversa foi marcada como resolvida por %{user_name}: %{reason}'
         open: 'A conversa foi aberta por %{user_name}'
+        open_with_reason: 'A conversa foi marcada como aberta por %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'A conversa foi marcada como aberta automaticamente após a resposta de um agente'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: 'A conversa foi marcada como aberta pelo sistema devido a um erro com o robô de atendimento.'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
@@ -240,6 +289,9 @@ pt_BR:
         issue_created: 'Problema linear %{issue_id} foi criado por %{user_name}'
         issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
         issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Solicitação de permissão de chamada enviada para %{contact_name}.'
+        permission_granted: '%{contact_name} aceitou a solicitação de permissão de chamada.'
       csat:
         not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       auto_resolve:
@@ -304,6 +356,7 @@ pt_BR:
       name: 'Linear'
       short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
+      attachment_link_title: 'Conversa (#%{conversation_id}) com %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integre banco de dados, documentos e páginas diretamente com o Capitão.'
@@ -320,6 +373,9 @@ pt_BR:
     copilot_message_required: A mensagem é obrigatória
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
+    upgrade: 'Atualize seu plano para habilitar o Capitão IA'
+    disabled: 'O Capitão IA está desativado para esta conta.'
+    api_key_missing: 'A chave de API do Capitão IA não está configurada.'
     copilot:
       using_tool: 'Usando a ferramenta %{function_name}'
       completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
@@ -329,31 +385,58 @@ pt_BR:
       limit_exceeded: 'Limite de documento excedido'
       pdf_format_error: 'Deve ser um arquivo PDF'
       pdf_size_error: 'Deve ser menor que 10 MB'
+      sync_not_supported_for_pdf: 'A sincronização não é suportada para documentos PDF'
+      sync_only_available_documents: 'A sincronização só está disponível para documentos processados'
+      sync_already_in_progress: 'Sincronização de documentos já está em andamento'
       pdf_upload_failed: 'Falha ao enviar PDF para OpenAI'
       pdf_upload_success: 'PDF enviado com sucesso com file_id: %{file_id}'
       pdf_processing_failed: 'Falha ao processar o documento PDF %{document_id}: %{error}'
       pdf_processing_success: 'Documento PDF processado com sucesso %{document_id}'
-      faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
+      faq_generation_complete: 'Geração de FAQs concluída. Total de FAQs criadas: %{count}'
       using_paginated_faq: 'Usando geração de FAQ''s paginada para o documento %{document_id}'
-      using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
-      response_creation_error: 'Error in creating response document: %{error}'
+      using_standard_faq: 'Usando geração padrão de FAQs para o documento %{document_id}'
+      response_creation_error: 'Erro ao criar o documento de resposta: %{error}'
       missing_openai_file_id: 'O documento deve ter openai_file_id para processamento paginado'
       openai_api_error: 'Erro da API OpenAI: %{error}'
-      starting_paginated_faq: 'Starting paginated FAQ generation (%{pages_per_chunk} pages per chunk)'
+      starting_paginated_faq: 'Iniciando a geração paginada de FAQs (%{pages_per_chunk} páginas por bloco)'
       stopping_faq_generation: 'Processamento interrompido. Motivo: %{reason}'
       paginated_faq_complete: 'Geração de paginação completa. Total de FAQs: %{total_faqs}, Páginas processadas: %{pages_processed}'
       processing_pages: 'Processando páginas %{start}-%{end} (iteração %{iteration})'
-      chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
+      chunk_generated: 'Bloco gerado com %{chunk_faqs} FAQs. Total até agora: %{total_faqs}'
       page_processing_error: 'Erro ao processar as páginas %{start}-%{end}: %{error}'
     custom_tool:
-      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+      slug_generation_failed: 'Não foi possível gerar um slug único após 5 tentativas'
+      limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por conta'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
       empty_placeholder: Nenhum resultado encontrado.
       loading_placeholder: Procurando...
       results_title: Resultados de pesquisa
+      results: Resultados da Pesquisa
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Um resultado encontrado
+        other: 'Found %{count} results'
+      submit: Pesquisar
     toc_header: 'Nesta página'
+    sidebar:
+      help_center: Central de Ajuda
+      categories: Categorias
+      language: Idioma
+      theme: Tema
+      open_sidebar: Abrir barra lateral
+      close_sidebar: Fechar barra lateral
+      browse: Navegar
+      back_to_category: Voltar para %{name}
+      browse_by_topic: Navegar por tópico
+      browse_by_topic_subtitle: Encontre guias, tutoriais e respostas organizados por categoria.
+      popular_articles: Artigos populares
+      popular_articles_subtitle: O que outras pessoas estão lendo agora.
+      popular_label: 'Tópicos populares:'
+      authors_others: "%{names} e %{count} outros"
+      primary_nav: Primário
     hero:
       sub_title: Pesquise os artigos aqui ou navegue pelas categorias abaixo.
     common:
@@ -368,12 +451,21 @@ pt_BR:
       others: outros
       by: Por
       no_articles: Não há artigos aqui
+      previous: Anterior
+      next: Próximo
+    article_actions:
+      label: Abrir em
+      view_markdown: Ver como Markdown
+      open_in_chatgpt: Abrir no ChatGPT
+      open_in_claude: Abrir no Claude
+      llm_prompt: "Leia o seguinte artigo e me ajude a entendê-lo: %{url}"
     footer:
       made_with: Criado com
     header:
       go_to_homepage: Site
       visit_website: Visite o site
       appearance:
+        title: Tema
         system: Sistema
         light: Claro
         dark: Escuro
@@ -383,6 +475,10 @@ pt_BR:
       title: Página não encontrada
       description: Não conseguimos encontrar a página que você estava procurando.
       back_to_home: Ir para a página inicial
+    not_active:
+      title: Central de Ajuda Indisponível
+      description: Entre em contato com o administrador do site para mais informações.
+      action: Se você é o administrador, por favor atualize seu plano para restaurar o acesso.
   slack_unfurl:
     fields:
       name: Nome
@@ -405,6 +501,9 @@ pt_BR:
     seconds:
       one: '%{count} segundo'
       other: '%{count} segundos'
+  auto_assignment:
+    default_policy_name: 'Política Padrão'
+    policy_actor: 'Sistema de Automação via %{policy_name}'
   automation:
     system_name: 'Sistema de Automação'
   crm:
@@ -430,6 +529,12 @@ pt_BR:
   agent_capacity_policy:
     inbox_already_assigned: 'A caixa de entrada já foi atribuída a esta política'
   portals:
+    articles:
+      captain_not_available: 'A tradução requer que o Capitão esteja ativado para esta conta'
+      locale_not_available: 'Localidade não disponível neste portal'
+      category_not_found: 'Categoria não encontrada neste portal'
+      no_articles_found: 'Nenhum artigo encontrado para processar'
+      invalid_status: 'Valor de status inválido'
     send_instructions:
       email_required: 'E-mail é obrigatório'
       invalid_email_format: 'Formato inválido de e-mail'
@@ -438,3 +543,9 @@ pt_BR:
       subject: 'Termine de configurar %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Usuário não encontrado.'
+      no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
+      no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
+      subscriptions_deleted: "Excluída(s) %{count} inscrição(ões). O(s) dispositivo(s) do usuário será(ão) registrado(s) novamente na próxima inicialização do aplicativo."

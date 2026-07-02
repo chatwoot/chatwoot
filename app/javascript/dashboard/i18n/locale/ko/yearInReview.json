@@ -1,64 +1,64 @@
 {
   "YEAR_IN_REVIEW": {
-    "TITLE": "Year in Review",
-    "LOADING": "Loading your year in review...",
-    "ERROR": "Failed to load year in review",
+    "TITLE": "연간 리뷰",
+    "LOADING": "연간 리뷰를 불러오는 중...",
+    "ERROR": "연간 리뷰를 불러오지 못했습니다",
     "CLOSE": "닫기",
     "CONVERSATIONS": {
-      "TITLE": "You have handled",
+      "TITLE": "처리한 대화 수",
       "SUBTITLE": "대화",
-      "FALLBACK": "This year wasn't about the numbers. It was about showing up.",
+      "FALLBACK": "올해는 숫자가 아니라 꾸준히 함께했다는 것이 중요합니다.",
       "COMPARISON": {
-        "0_50": "You showed up, and that's how every good inbox begins.",
-        "50_100": "You kept the replies flowing and the conversations alive.",
-        "100_500": "You handled serious volume and kept everything on track.",
-        "500_2000": "You kept things moving while the volume kept climbing.",
-        "2000_10000": "You ran high traffic through your inbox without breaking a sweat.",
-        "10000_PLUS": "That's a full city of customers knocking on your door. You made it look effortless."
+        "0_50": "첫 걸음을 내딛었습니다. 모든 훌륭한 받은 메시지함은 이렇게 시작됩니다.",
+        "50_100": "답변을 이어가며 대화를 활발하게 유지했습니다.",
+        "100_500": "상당한 양을 처리하면서도 모든 것을 순조롭게 관리했습니다.",
+        "500_2000": "볼륨이 계속 늘어나는 가운데에서도 흐름을 유지했습니다.",
+        "2000_10000": "많은 트래픽을 거뜬히 소화했습니다.",
+        "10000_PLUS": "도시 하나에 해당하는 고객이 문을 두드렸는데, 당신은 쉬워 보이게 해냈습니다."
       }
     },
     "BUSIEST_DAY": {
-      "TITLE": "Your busiest day was",
-      "MESSAGE": "{count} conversations that day.",
+      "TITLE": "가장 바빴던 날은",
+      "MESSAGE": "그날 {count}건의 대화가 있었습니다.",
       "COMPARISON": {
-        "0_5": "A warm-up lap that barely woke the inbox.",
-        "5_10": "Enough action to justify a second cup of coffee.",
-        "10_25": "Things got busy and the inbox stayed on its toes.",
-        "25_50": "A proper rush that barely broke a sweat.",
-        "50_100": "Controlled chaos, handled like a normal Tuesday.",
-        "100_500": "Absolute dumpster fire, somehow still shipping replies.",
-        "500_PLUS": "The inbox lost all chill and never slowed down."
+        "0_5": "받은 메시지함을 간신히 깨운 워밍업 수준이었습니다.",
+        "5_10": "커피 한 잔 더 마실 이유가 생길 만큼의 활동이었습니다.",
+        "10_25": "바빠지기 시작했고 받은 메시지함이 긴장하기 시작했습니다.",
+        "25_50": "제대로 된 러시였지만 거뜬히 해냈습니다.",
+        "50_100": "통제된 혼란, 평범한 화요일처럼 처리했습니다.",
+        "100_500": "완전한 폭풍이었지만 어떻게든 답변을 보냈습니다.",
+        "500_PLUS": "받은 메시지함이 완전히 쉴 틈 없이 쏟아져 들어왔습니다."
       }
     },
     "PERSONALITY": {
-      "TITLE": "Your support personality is",
+      "TITLE": "당신의 지원 성격 유형은",
       "MESSAGES": {
-        "SWIFT_HELPER": "You replied in {time} on average. Faster than most notifications.",
-        "QUICK_RESPONDER": "You replied in {time} on average. The inbox barely waited.",
-        "STEADY_SUPPORT": "You replied in {time} on average. Calm pace, solid replies.",
-        "THOUGHTFUL_ADVISOR": "You replied in {time} on average. Took the time to get it right."
+        "SWIFT_HELPER": "평균 {time} 만에 답변했습니다. 대부분의 알림보다 빠릅니다.",
+        "QUICK_RESPONDER": "평균 {time} 만에 답변했습니다. 받은 메시지함이 거의 기다리지 않았습니다.",
+        "STEADY_SUPPORT": "평균 {time} 만에 답변했습니다. 차분한 속도, 견실한 답변.",
+        "THOUGHTFUL_ADVISOR": "평균 {time} 만에 답변했습니다. 정확한 답변을 위해 시간을 들였습니다."
       }
     },
     "THANK_YOU": {
-      "TITLE": "Congratulations on surviving the inbox of {year}.",
-      "MESSAGE": "Thank you for your incredible dedication to supporting customers throughout this year. Your hard work has made a real difference, and we're grateful to have you on this journey. Here's to making {nextYear} even better together!"
+      "TITLE": "{year}년 받은 메시지함을 잘 견뎌내신 것을 축하합니다.",
+      "MESSAGE": "올 한 해 고객 지원에 보여주신 놀라운 헌신에 감사드립니다. 여러분의 노력이 진정한 변화를 만들어냈으며, 이 여정을 함께해 주셔서 감사합니다. {nextYear}년에도 함께 더 나은 한 해를 만들어 나갑시다!"
     },
     "SHARE_MODAL": {
-      "TITLE": "Share Your Year in Review",
-      "PREPARING": "Preparing your image...",
+      "TITLE": "연간 리뷰 공유하기",
+      "PREPARING": "이미지를 준비하는 중...",
       "DOWNLOAD": "다운로드",
-      "SHARE_TITLE": "My {year} Year in Review",
-      "SHARE_TEXT": "Check out my {year} Year in Review with Chatwoot!",
+      "SHARE_TITLE": "나의 {year}년 연간 리뷰",
+      "SHARE_TEXT": "Chatwoot과 함께한 나의 {year}년 연간 리뷰를 확인해 보세요!",
       "BRANDING": "Made with Chatwoot"
     },
     "BANNER": {
-      "TITLE": "Your {year} Year in Review is here",
-      "BUTTON": "See your impact"
+      "TITLE": "{year}년 연간 리뷰가 도착했습니다",
+      "BUTTON": "나의 성과 보기"
     },
     "NAVIGATION": {
-      "PREVIOUS": "Previous",
-      "NEXT": "Next",
-      "SHARE": "대화 공유하기"
+      "PREVIOUS": "이전",
+      "NEXT": "다음",
+      "SHARE": "공유하기"
     }
   }
 }

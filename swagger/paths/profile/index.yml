@@ -19,3 +19,80 @@ get:
         application/json:
           schema:
             $ref: '#/components/schemas/bad_request_error'
+put:
+  tags:
+    - Profile
+  operationId: updateProfile
+  summary: Update user profile
+  description: Update the user profile details
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - profile
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                display_name:
+                  type: string
+                message_signature:
+                  type: string
+                phone_number:
+                  type: string
+                current_password:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                ui_settings:
+                  type: object
+      multipart/form-data:
+        schema:
+          type: object
+          required:
+            - profile
+          properties:
+            profile:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                display_name:
+                  type: string
+                message_signature:
+                  type: string
+                phone_number:
+                  type: string
+                current_password:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                avatar:
+                  type: string
+                  format: binary
+                ui_settings:
+                  type: object
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/user'
+    '401':
+      description: Unauthorized

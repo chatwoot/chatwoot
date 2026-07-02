@@ -1,0 +1,72 @@
+{
+  "SNOOZE_PARSER": {
+    "UNITS": {
+      "MINUTE": "minute",
+      "MINUTES": "minutes",
+      "HOUR": "hour",
+      "HOURS": "시간",
+      "DAY": "day",
+      "DAYS": "days",
+      "WEEK": "week",
+      "WEEKS": "weeks",
+      "MONTH": "month",
+      "MONTHS": "months",
+      "YEAR": "month",
+      "YEARS": "years"
+    },
+    "HALF": "half",
+    "NEXT": "next",
+    "THIS": "this",
+    "AT": "at",
+    "IN": "in",
+    "FROM_NOW": "지금부터",
+    "NEXT_YEAR": "내년",
+    "MERIDIEM": {
+      "AM": "am",
+      "PM": "pm"
+    },
+    "RELATIVE": {
+      "TOMORROW": "내일",
+      "DAY_AFTER_TOMORROW": "모레",
+      "NEXT_WEEK": "다음 주",
+      "NEXT_MONTH": "다음 달",
+      "THIS_WEEKEND": "이번 주말",
+      "NEXT_WEEKEND": "다음 주말"
+    },
+    "TIME_OF_DAY": {
+      "MORNING": "morning",
+      "AFTERNOON": "afternoon",
+      "EVENING": "evening",
+      "NIGHT": "night",
+      "NOON": "noon",
+      "MIDNIGHT": "midnight"
+    },
+    "WORD_NUMBERS": {
+      "ONE": "one",
+      "TWO": "two",
+      "THREE": "three",
+      "FOUR": "four",
+      "FIVE": "five",
+      "SIX": "six",
+      "SEVEN": "seven",
+      "EIGHT": "eight",
+      "NINE": "nine",
+      "TEN": "ten",
+      "TWELVE": "twelve",
+      "FIFTEEN": "fifteen",
+      "TWENTY": "twenty",
+      "THIRTY": "thirty"
+    },
+    "ORDINALS": {
+      "FIRST": "first",
+      "SECOND": "second",
+      "THIRD": "third",
+      "FOURTH": "fourth",
+      "FIFTH": "fifth"
+    },
+    "OF": "of",
+    "AFTER": "after",
+    "WEEK": "week",
+    "DAY": "day"
+  }
+}

@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Локаль успешно удалена из портала",
           "ERROR_MESSAGE": "Невозможно удалить локаль из портала. Повторите попытку."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Статья успешно удалена",
         "ERROR_MESSAGE": "Ошибка при удалении статьи"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -503,6 +525,7 @@
             "PUBLISH": "Опубликовано",
             "DRAFT": "Черновик",
             "ARCHIVE": "Архив",
+            "TRANSLATE": "Перевести",
             "DELETE": "Удалить"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "В этой категории нет статей",
           "SUBTITLE": "Статьи в этой категории будут отображаться здесь"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Перевести статью | Перевести статьи {count}",
+        "DESCRIPTION": "Перевод выбранной статьи на другой язык. | Перевести выбранные статьи на другой язык.",
+        "LOCALE_LABEL": "Целевой язык",
+        "LOCALE_PLACEHOLDER": "Выбрать язык",
+        "CATEGORY_LABEL": "Целевая категория",
+        "CATEGORY_PLACEHOLDER": "Выберите категорию",
+        "OPTIONAL": "(не обязательно)",
+        "CONFIRM": "Перевести",
+        "SELECT_ALL": "Выбрать все ({count})",
+        "SELECTED_COUNT": "Выбрано {count}",
+        "CLEAR_SELECTION": "Clear selection",
+        "TRANSLATE_BUTTON": "Перевести",
+        "CONFIRM_OVERWRITE": "Перезаписать и перевести",
+        "DUPLICATE_WARNING": "Перевод для этой статьи уже существует на выбранном языке. | Переводы уже существуют для {count} статей на выбранном языке.",
+        "DUPLICATE_CONFIRM_HINT": "Нажмите еще раз для перезаписи существующего перевода.",
+        "API": {
+          "SUCCESS_MESSAGE": "Перевод в процессе. Статья будет отображаться в виде проекта, как только будет готова.",
+          "ERROR_MESSAGE": "Не удалось начать перевод. Попробуйте еще раз."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Опубликовано",
+        "DRAFT": "Черновик",
+        "ARCHIVE": "Архив",
+        "TRANSLATE": "Перевести",
+        "MOVE_TO_CATEGORY": "Категория",
+        "DELETE": "Удалить",
+        "STATUS_SUCCESS": "Статьи успешно обновлены",
+        "STATUS_ERROR": "Ошибка обновления статей",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Удаление статьи | Удалить статьи {count}",
+        "DELETE_CONFIRM_DESCRIPTION": "Это действие будет окончательно удалено выбранной статьи. Это действие не может быть отменено. | Это действие будет окончательно удалено {count} выбранных статей. Это действие нельзя отменить.",
+        "DELETE_CONFIRM": "Удалить",
+        "DELETE_SUCCESS": "Статьи успешно удалены",
+        "DELETE_ERROR": "Не удалось удалить статьи"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} статьи | {count} статьи",
         "CATEGORIES_COUNT": "{count} категория | {count} категории",
         "DEFAULT": "По умолчанию",
+        "DRAFT": "Черновик",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Сделать по умолчанию",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Удалить"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "Выберите язык, на котором будет написана эта статья. Этот язык будет добавлен в ваш список переводов, и вы сможете добавить другие языки позже.",
         "COMBOBOX": {
           "PLACEHOLDER": "Выберите язык..."
+        },
+        "STATUS": {
+          "LABEL": "Статус",
+          "OPTIONS": {
+            "LIVE": "Опубликовано",
+            "DRAFT": "Черновик"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Локаль успешно добавлен",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Изменить конфигурацию"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Образец",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Удалить"
+        },
+        "SAVE": "Сохранить изменения"
       },
       "API": {
         "CREATE_PORTAL": {

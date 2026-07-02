@@ -72,8 +72,8 @@ describe Conversations::FilterService do
       it 'filter conversations by additional_attributes and status' do
         params[:payload] = payload
         result = filter_service.new(params, user_1, account).perform
-        conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
-        expect(result[:count][:all_count]).to be conversations.count
+        conversations = account.conversations.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result[:count][:all_count]).to eq conversations.count
       end
 
       it 'filter conversations by priority' do
@@ -133,12 +133,84 @@ describe Conversations::FilterService do
         expect(result[:conversations].pluck(:id)).to include(low_priority.id, medium_priority.id)
       end
 
+      it 'filters conversations by contact' do
+        account.conversations.destroy_all
+
+        contact = create(:contact, :with_email, account: account)
+        other_contact = create(:contact, :with_email, account: account)
+        matching_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: contact)
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: other_contact)
+
+        params[:payload] = [
+          {
+            attribute_key: 'contact_id',
+            filter_operator: 'equal_to',
+            values: [contact.id],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:count][:all_count]).to eq 1
+        expect(result[:conversations].pluck(:id)).to contain_exactly(matching_conversation.id)
+      end
+
+      it 'filters conversations using not_equal_to contact operator' do
+        account.conversations.destroy_all
+
+        contact = create(:contact, :with_email, account: account)
+        other_contact = create(:contact, :with_email, account: account)
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: contact)
+        other_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: other_contact)
+
+        params[:payload] = [
+          {
+            attribute_key: 'contact_id',
+            filter_operator: 'not_equal_to',
+            values: [contact.id],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:count][:all_count]).to eq 1
+        expect(result[:conversations].pluck(:id)).to contain_exactly(other_conversation.id)
+      end
+
+      it 'applies inbox permissions when filtering conversations by contact' do
+        account.conversations.destroy_all
+
+        contact = create(:contact, :with_email, account: account)
+        restricted_inbox = create(:inbox, account: account)
+        accessible_conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1, contact: contact)
+        create(:conversation, account: account, inbox: restricted_inbox, contact: contact)
+
+        params[:payload] = [
+          {
+            attribute_key: 'contact_id',
+            filter_operator: 'equal_to',
+            values: [contact.id],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(params, user_1, account).perform
+
+        expect(result[:count][:all_count]).to eq 1
+        expect(result[:conversations].pluck(:id)).to contain_exactly(accessible_conversation.id)
+      end
+
       it 'filter conversations by additional_attributes and status with pagination' do
         params[:payload] = payload
         params[:page] = 2
         result = filter_service.new(params, user_1, account).perform
-        conversations = Conversation.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
-        expect(result[:count][:all_count]).to be conversations.count
+        conversations = account.conversations.where("additional_attributes ->> 'browser_language' IN (?) AND status IN (?)", ['en'], [1, 2])
+        expect(result[:count][:all_count]).to eq conversations.count
       end
 
       it 'filters items with contains filter_operator with values being an array' do
@@ -184,10 +256,10 @@ describe Conversations::FilterService do
                      custom_attribute_type: 'conversation_attribute' }.with_indifferent_access]
         params[:payload] = payload
         result = filter_service.new(params, user_1, account).perform
-        conversations = Conversation.where(
+        conversations = account.conversations.where(
           "custom_attributes ->> 'conversation_type' NOT IN (?) OR custom_attributes ->> 'conversation_type' IS NULL", ['platinum']
         )
-        expect(result[:count][:all_count]).to be conversations.count
+        expect(result[:count][:all_count]).to eq conversations.count
       end
 
       it 'filter conversations by tags' do
@@ -413,8 +485,43 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1, account).perform
-        expected_count = Conversation.where('created_at > ?', DateTime.parse('2022-01-20')).count
-        expect(result[:conversations].length).to be expected_count
+        expected_count = account.conversations.where('created_at > ?', DateTime.parse('2022-01-20')).count
+        expect(result[:conversations].length).to eq expected_count
+      end
+
+      it 'binds created_at comparison values as dates' do
+        date_value = '2024-01-01'
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: [date_value],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        service = filter_service.new(params, user_1, account)
+        filters = service.instance_variable_get(:@filters)['conversations']
+        condition_query = service.send(:build_condition_query, filters, params[:payload].first, 0)
+
+        expect(condition_query).to include('(conversations.created_at)::date > :value_0')
+        expect(service.instance_variable_get(:@filter_values)['value_0']).to eq(Date.iso8601(date_value))
+      end
+
+      it 'rejects invalid created_at comparison values' do
+        malicious_value = "2024-01-01'::date OR (SELECT pg_sleep(5)) IS NOT NULL --"
+        params[:payload] = [
+          {
+            attribute_key: 'created_at',
+            filter_operator: 'is_greater_than',
+            values: [malicious_value],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+
+        expect { filter_service.new(params, user_1, account).perform }.to raise_error(CustomExceptions::CustomFilter::InvalidValue)
       end
 
       it 'filter by created_at and conversation_type' do
@@ -435,10 +542,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1, account).perform
-        expected_count = Conversation.where("created_at > ? AND custom_attributes->>'conversation_type' = ?", DateTime.parse('2022-01-20'),
-                                            'platinum').count
+        expected_count = account.conversations.where("created_at > ? AND custom_attributes->>'conversation_type' = ?",
+                                                     DateTime.parse('2022-01-20'), 'platinum').count
 
-        expect(result[:conversations].length).to be expected_count
+        expect(result[:conversations].length).to eq expected_count
       end
 
       context 'with x_days_before filter' do
@@ -467,11 +574,11 @@ describe Conversations::FilterService do
             }.with_indifferent_access
           ]
 
-          expected_count = Conversation.where("last_activity_at < ? AND custom_attributes->>'conversation_type' = ?", (Time.zone.today - 3.days),
-                                              'platinum').count
+          expected_count = account.conversations.where("last_activity_at < ? AND custom_attributes->>'conversation_type' = ?",
+                                                       (Time.zone.today - 3.days), 'platinum').count
 
           result = filter_service.new(params, user_1, account).perform
-          expect(result[:conversations].length).to be expected_count
+          expect(result[:conversations].length).to eq expected_count
         end
 
         it 'filter by last_activity_at 2_days_before' do
@@ -485,10 +592,10 @@ describe Conversations::FilterService do
             }.with_indifferent_access
           ]
 
-          expected_count = Conversation.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
+          expected_count = account.conversations.where('last_activity_at < ?', (Time.zone.today - 2.days)).count
 
           result = filter_service.new(params, user_1, account).perform
-          expect(result[:conversations].length).to be expected_count
+          expect(result[:conversations].length).to eq expected_count
         end
       end
     end
@@ -513,10 +620,10 @@ describe Conversations::FilterService do
           }.with_indifferent_access
         ]
         result = filter_service.new(params, user_1, account).perform
-        expected_count = Conversation.where('created_at > ?', DateTime.parse('2022-01-20')).count
+        expected_count = account.conversations.where('created_at > ?', DateTime.parse('2022-01-20')).count
 
         expect(Current.account).to be_nil
-        expect(result[:conversations].length).to be expected_count
+        expect(result[:conversations].length).to eq expected_count
       end
     end
   end

@@ -106,6 +106,26 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       end
     end
 
+    it 'blocks signup if config is stored as boolean false' do
+      GlobalConfig.clear_cache
+      InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      InstallationConfig.create!(name: 'ENABLE_ACCOUNT_SIGNUP', value: false, locked: false)
+
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        set_omniauth_config('does-not-exist-for-sure@example.com')
+        allow(email_validation_service).to receive(:perform).and_return(true)
+
+        get '/omniauth/google_oauth2/callback'
+
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+        expect(response).to redirect_to(%r{/app/login\?error=no-account-found$})
+      end
+    ensure
+      InstallationConfig.where(name: 'ENABLE_ACCOUNT_SIGNUP').delete_all
+      GlobalConfig.clear_cache
+    end
+
     it 'allows login' do
       with_modified_env FRONTEND_URL: 'http://www.example.com' do
         create(:user, email: 'test@example.com')
@@ -142,6 +162,22 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
         # expect app/login page to respond with 200 and render
         follow_redirect!
         expect(response).to have_http_status(:ok)
+      end
+    end
+
+    it 'resets password for an unconfirmed persisted user on OAuth login' do
+      with_modified_env FRONTEND_URL: 'http://www.example.com' do
+        user = create(:user, email: 'unconfirmed-oauth@example.com', skip_confirmation: false)
+        original_password_digest = user.encrypted_password
+        set_omniauth_config('unconfirmed-oauth@example.com')
+
+        get '/omniauth/google_oauth2/callback'
+        expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+        follow_redirect!
+
+        user.reload
+        expect(user).to be_confirmed
+        expect(user.encrypted_password).not_to eq(original_password_digest)
       end
     end
   end

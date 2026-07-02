@@ -7,6 +7,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
+  def stats?
+    true
+  end
+
   def tools?
     @account_user.administrator?
   end
@@ -20,6 +24,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
   end
 
   def destroy?
+    @account_user.administrator?
+  end
+
+  def sync?
     @account_user.administrator?
   end
 

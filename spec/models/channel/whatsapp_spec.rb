@@ -209,4 +209,61 @@ RSpec.describe Channel::Whatsapp do
       end
     end
   end
+
+  describe '#voice_enabled?' do
+    let(:account) { create(:account) }
+
+    before { account.enable_features!('channel_voice') }
+
+    it 'returns true for embedded-signup whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns true for manual whatsapp_cloud channels with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'manual', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be true
+    end
+
+    it 'returns false for default-provider channels (360dialog) even with calling_enabled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'default',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+
+    it 'returns false when the channel_voice feature is disabled on the account' do
+      account.disable_features!('channel_voice')
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('source' => 'embedded_signup', 'calling_enabled' => true))
+
+      expect(channel.voice_enabled?).to be false
+    end
+  end
+
+  describe '#inbound_calls_enabled?' do
+    let(:account) { create(:account) }
+
+    it 'returns true by default when nothing has been toggled' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      expect(channel.inbound_calls_enabled?).to be true
+    end
+
+    it 'returns false only when explicitly disabled in provider_config' do
+      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                          validate_provider_config: false, sync_templates: false)
+      channel.update!(provider_config: channel.provider_config.merge('inbound_calls_enabled' => false))
+
+      expect(channel.inbound_calls_enabled?).to be false
+    end
+  end
 end

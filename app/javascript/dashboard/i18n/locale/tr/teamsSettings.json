@@ -5,6 +5,9 @@
     "LOADING": "Fetching teams",
     "DESCRIPTION": "Ekipler, temsilcileri sorumluluklarına göre gruplar halinde organize etmenizi sağlar. Bir temsilci birden fazla ekibe ait olabilir. Ortak çalışırken, konuşmaları belirli ekiplere atayabilirsiniz.",
     "LEARN_MORE": "Ekipler hakkında daha fazla bilgi edinin",
+    "COUNT": "{n} team | {n} teams",
+    "SEARCH_PLACEHOLDER": "Takım ara...",
+    "NO_RESULTS": "No teams found matching your search",
     "LIST": {
       "404": "Bu hesap üzerine oluşturulmuş ekip bulunmamaktadır.",
       "EDIT_TEAM": "Ekibi düzenle",
@@ -64,7 +67,7 @@
       "ERROR_MESSAGE": "Ekip detayları kaydedilemedi. Tekrar deneyin."
     },
     "AGENTS": {
-      "AGENT": "TEMSİLCİ",
+      "AGENT": "Kullanıcı",
       "EMAIL": "E-Posta",
       "BUTTON_TEXT": "Kullanıcı Ekle",
       "ADD_AGENTS": "Ekibinize Temsiciler Ekleniyor...",

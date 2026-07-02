@@ -1,4 +1,4 @@
-openapi: '3.0.4'
+openapi: '3.1.0'
 info:
   title: Chatwoot - Application API
   description: Application API endpoints for Chatwoot
@@ -36,6 +36,8 @@ tags:
     description: Manage inboxes
   - name: Integrations
     description: Manage integrations
+  - name: Labels
+    description: Manage account labels
   - name: Messages
     description: Manage messages
   - name: Profile
@@ -62,4 +64,4 @@ components:
       type: apiKey
       in: header
       name: api_access_token
-      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels. 
+      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels.

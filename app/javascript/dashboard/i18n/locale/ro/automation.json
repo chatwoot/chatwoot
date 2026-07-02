@@ -3,8 +3,11 @@
     "HEADER": "Automatizare",
     "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
     "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Adaugă Regulă de Automatizare",
+    "COUNT": "{n} automation | {n} automations",
+    "HEADER_BTN_TXT": "Create Automation",
     "LOADING": "Preluarea regulilor de automatizare",
+    "SEARCH_PLACEHOLDER": "Search automation rules...",
+    "NO_RESULTS": "No automation rules found matching your search",
     "ADD": {
       "TITLE": "Adaugă Regulă de Automatizare",
       "SUBMIT": "Creeaza",
@@ -42,9 +45,9 @@
     "LIST": {
       "TABLE_HEADER": {
         "NAME": "Nume",
-        "DESCRIPTION": "Descriere",
         "ACTIVE": "Activ",
-        "CREATED_ON": "Creat in"
+        "CREATED_ON": "Creat in",
+        "ACTIONS": "Actiuni"
       },
       "404": "Nu s-au găsit reguli de automatizare"
     },
@@ -127,6 +130,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Nimic",
+    "LAST_RESPONDING_AGENT": "Last Responding Agent",
     "EVENTS": {
       "CONVERSATION_CREATED": "Conversație creată",
       "CONVERSATION_UPDATED": "Conversație actualizată",
@@ -137,6 +141,8 @@
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
       "ASSIGN_TEAM": "Assign a Team",
+      "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
+      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
       "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
@@ -150,7 +156,8 @@
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "Modificarea priorității",
       "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Deschiderea conversației"
+      "OPEN_CONVERSATION": "Deschiderea conversației",
+      "PENDING_CONVERSATION": "Mark conversation as pending"
     },
     "MESSAGE_TYPES": {
       "INCOMING": "Incoming Message",
@@ -165,6 +172,7 @@
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
+      "PRIVATE_NOTE": "Notă privată",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "E-mail",
       "INBOX": "Inbox",
@@ -174,6 +182,7 @@
       "BROWSER_LANGUAGE": "Limba browserului",
       "MAIL_SUBJECT": "Email Subject",
       "COUNTRY_NAME": "Țară",
+      "COMPANY_NAME": "Companie",
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Echipa",

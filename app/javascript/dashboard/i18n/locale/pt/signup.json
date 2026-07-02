@@ -1,6 +1,7 @@
 {
   "REGISTER": {
     "TRY_WOOT": "Criar uma conta",
+    "GET_STARTED": "Get started with Chatwoot",
     "TITLE": "Cadastrar",
     "TESTIMONIAL_HEADER": "Tudo que precisa é um passo para avançar",
     "TESTIMONIAL_CONTENT": "Está a um passo de fidelizar os seus clientes, mantê-los e encontrar novos.",
@@ -44,6 +45,13 @@
       "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
     },
     "SUBMIT": "Criar conta",
-    "HAVE_AN_ACCOUNT": "Já tem uma conta?"
+    "HAVE_AN_ACCOUNT": "Já tem uma conta?",
+    "VERIFY_EMAIL": {
+      "TITLE": "Check your inbox",
+      "DESCRIPTION": "We sent a verification link to {email}. Click the link to verify your email and get started.",
+      "RESEND": "Reenviar e-mail de verificação",
+      "RESEND_SUCCESS": "Verification email sent. Please check your inbox.",
+      "RESEND_ERROR": "Could not send verification email. Please try again."
+    }
   }
 }

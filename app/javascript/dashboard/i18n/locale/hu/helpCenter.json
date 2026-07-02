@@ -316,6 +316,18 @@
           "SUCCESS_MESSAGE": "Terület sikeresen eltávolítva a portálról",
           "ERROR_MESSAGE": "Nem sikerült eltávolítani a területet a portálról. Kérlek, próbáld újra."
         }
+      },
+      "DRAFT_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale moved to draft successfully",
+          "ERROR_MESSAGE": "Unable to move locale to draft. Try again."
+        }
+      },
+      "PUBLISH_LOCALE": {
+        "API": {
+          "SUCCESS_MESSAGE": "Locale published successfully",
+          "ERROR_MESSAGE": "Unable to publish locale. Try again."
+        }
       }
     },
     "TABLE": {
@@ -372,6 +384,16 @@
       "API": {
         "SUCCESS_MESSAGE": "Cikk sikeresen törölve",
         "ERROR_MESSAGE": "Hiba a cikk törlésekor"
+      }
+    },
+    "REORDER_ARTICLE": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder articles. Please try again."
+      }
+    },
+    "REORDER_CATEGORY": {
+      "API": {
+        "ERROR_MESSAGE": "Unable to reorder categories. Please try again."
       }
     },
     "CREATE_ARTICLE": {
@@ -503,6 +525,7 @@
             "PUBLISH": "Publikálás",
             "DRAFT": "Vázlat",
             "ARCHIVE": "Archive",
+            "TRANSLATE": "Fordítás",
             "DELETE": "Törlés"
           },
           "STATUS": {
@@ -557,6 +580,44 @@
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
         }
+      },
+      "BULK_TRANSLATE": {
+        "TITLE": "Bejegyzés lefordítása | {count} bejegyzés lefordítása",
+        "DESCRIPTION": "Fordítsd le a kiválasztott bejegyzést egy másik nyelvre. | Fordítsd le a kiválasztott bejegyzéseket egy másik nyelvre.",
+        "LOCALE_LABEL": "Célnyelv",
+        "LOCALE_PLACEHOLDER": "Válassz nyelvet",
+        "CATEGORY_LABEL": "Célkategória",
+        "CATEGORY_PLACEHOLDER": "Válassz kategóriát",
+        "OPTIONAL": "(opcionális)",
+        "CONFIRM": "Fordítás",
+        "SELECT_ALL": "Összes kijelölése ({count})",
+        "SELECTED_COUNT": "{count} kijelölve",
+        "CLEAR_SELECTION": "Kijelölés törlése",
+        "TRANSLATE_BUTTON": "Fordítás",
+        "CONFIRM_OVERWRITE": "Felülírás és lefordítás",
+        "DUPLICATE_WARNING": "Ehhez a bejegyzéshez már létezik fordítás a kiválasztott nyelven. | {count} bejegyzéshez már létezik fordítás a kiválasztott nyelven.",
+        "DUPLICATE_CONFIRM_HINT": "Kattints a 'Lefordítás' gombra ismét a meglévő fordítás felülírásához.",
+        "API": {
+          "SUCCESS_MESSAGE": "A fordítás folyamatban van. A bejegyzés elkészülés után piszkozatként fog megjelenni.",
+          "ERROR_MESSAGE": "Nem sikerült elindítani a fordítást. Kérlek, próbáld újra."
+        }
+      },
+      "BULK_ACTIONS": {
+        "PUBLISH": "Publikálás",
+        "DRAFT": "Vázlat",
+        "ARCHIVE": "Archiválás",
+        "TRANSLATE": "Fordítás",
+        "MOVE_TO_CATEGORY": "Kategória",
+        "DELETE": "Törlés",
+        "STATUS_SUCCESS": "A bejegyzések sikeresen frissítve",
+        "STATUS_ERROR": "Nem sikerült frissíteni a bejegyzéseket",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
+        "DELETE_CONFIRM_TITLE": "Bejegyzés törlése | {count} bejegyzés törlése",
+        "DELETE_CONFIRM_DESCRIPTION": "Ez véglegesen törli a kiválasztott bejegyzést. Ez a művelet nem vonható vissza. | Ez véglegesen törli a kijelölt {count} bejegyzést. Ez a művelet nem vonható vissza.",
+        "DELETE_CONFIRM": "Törlés",
+        "DELETE_SUCCESS": "A bejegyzések sikeresen törölve",
+        "DELETE_ERROR": "Nem sikerült törölni a bejegyzéseket"
       }
     },
     "CATEGORY_PAGE": {
@@ -634,8 +695,11 @@
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
         "DEFAULT": "Alapértelmezett",
+        "DRAFT": "Vázlat",
         "DROPDOWN_MENU": {
           "MAKE_DEFAULT": "Make default",
+          "MOVE_TO_DRAFT": "Move to draft",
+          "PUBLISH_LOCALE": "Publish locale",
           "DELETE": "Törlés"
         }
       },
@@ -644,6 +708,13 @@
         "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
         "COMBOBOX": {
           "PLACEHOLDER": "Nyelv kiválasztása..."
+        },
+        "STATUS": {
+          "LABEL": "Státusz",
+          "OPTIONS": {
+            "LIVE": "Publikált",
+            "DRAFT": "Vázlat"
+          }
         },
         "API": {
           "SUCCESS_MESSAGE": "Terület sikeresen hozzáadva",
@@ -797,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Edit configuration"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Megjelenés",
+        "DESCRIPTION": "Válaszd ki az elrendezést, amely a legjobban megfelel a céljaidnak.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Klasszikus",
+            "DESCRIPTION": "Barátságos kezdőlap kereséssel és kiemelt témákkal."
+          },
+          "SIDEBAR": {
+            "TITLE": "Dokumentáció",
+            "DESCRIPTION": "Egymás melletti navigáció, amely minden útmutatót egy kattintásnyira tart."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Közösségi hivatkozások",
+          "DESCRIPTION": "Add meg az egyes hálózatok felhasználónevét, és a súgóközpont elkészíti a teljes hivatkozást. A dokumentációs elrendezés láblécében jelenik meg.",
+          "PLACEHOLDER": "felhasználónév",
+          "ADD": "Közösségi hivatkozás hozzáadása",
+          "REMOVE": "Eltávolítás"
+        },
+        "SAVE": "Módosítások mentése"
       },
       "API": {
         "CREATE_PORTAL": {

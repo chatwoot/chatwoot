@@ -1,12 +1,12 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} konuşma seçildi",
-    "AGENT_SELECT_LABEL": "Temsilci seçin",
-    "ASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanacak. Emin misiniz?",
-    "UNASSIGN_CONFIRMATION_LABEL": "{conversationCount} {conversationLabel} atanmamış yapılacak. Emin misiniz?",
-    "GO_BACK_LABEL": "Geri git",
-    "ASSIGN_LABEL": "Atama yap",
+    "NONE": "Hiç",
+    "CLEAR_SELECTION": "Clear",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
     "YES": "Evet",
+    "CANCEL": "İptal Et",
     "SEARCH_INPUT_PLACEHOLDER": "Ara",
     "ASSIGN_AGENT_TOOLTIP": "Temsilci ata",
     "ASSIGN_TEAM_TOOLTIP": "Takım ata",
@@ -15,25 +15,30 @@
     "RESOLVE_SUCCESFUL": "Görüşmeler başarıyla çözüldü.",
     "RESOLVE_FAILED": "Görüşmeler çözülürken bir hata oluştu. Lütfen tekrar deneyin.",
     "ALL_CONVERSATIONS_SELECTED_ALERT": "Bu sayfada yalnızca seçili konuşmalar gösterilmektedir.",
-    "AGENT_LIST_LOADING": "Temsilciler Yükleniyor",
     "UPDATE": {
       "CHANGE_STATUS": "Durumu değiştir",
       "SNOOZE_UNTIL": "Sustur",
       "UPDATE_SUCCESFUL": "Konuşma durumu başarıyla güncellendi.",
       "UPDATE_FAILED": "Görüşmeler güncellenirken bir hata oluştu. Lütfen tekrar deneyin."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Etiket atama",
-      "NO_LABELS_FOUND": "Etiket bulunamadı",
+      "REMOVE_LABELS": "Remove labels",
       "ASSIGN_SELECTED_LABELS": "Seçili etiketleri atama",
+      "REMOVE_SELECTED_LABELS": "Remove selected labels",
       "ASSIGN_SUCCESFUL": "Etiketler başarıyla atandı.",
-      "ASSIGN_FAILED": "Etiketler atanırken bir hata oluştu. Lütfen tekrar deneyin."
+      "ASSIGN_FAILED": "Etiketler atanırken bir hata oluştu. Lütfen tekrar deneyin.",
+      "REMOVE_SUCCESFUL": "Labels removed successfully.",
+      "REMOVE_FAILED": "Failed to remove labels. Please try again."
     },
     "TEAMS": {
-      "TEAM_SELECT_LABEL": "Takım seçin",
       "NONE": "Hiçbiri",
-      "NO_TEAMS_AVAILABLE": "Bu hesaba henüz eklenmiş takımlar yok.",
-      "ASSIGN_SELECTED_TEAMS": "Seçili takımları atama",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Takımlar atanırken bir hata oluştu. Lütfen tekrar deneyin."
     }

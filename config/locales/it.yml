@@ -28,13 +28,17 @@ it:
       invalid_email: 'Inserisci un indirizzo email valido'
       authentication_failed: 'Autenticazione fallita. Verifica le credenziali e riprova.'
   messages:
-    reset_password_success: Wooh! Richiesta di reimpostazione della password riuscita. Controlla la tua mail per le istruzioni.
-    reset_password_failure: Oh oh! Non siamo riusciti a trovare alcun utente con l'email specificata.
+    reset_password: La richiesta di reimpostazione della password è riuscita. Una email con le istruzioni verrà inviata alla tua email se presente nel sistema.
     reset_password_saml_user: Questo account utilizza autenticazione SAML. Non è possibile resettare la password. Contatta il tuo amministratore.
     login_saml_user: Questo account utilizza autenticazione SAML. Effettua il login dal portale SAML della tua organizzazione.
     saml_not_available: Autenticazione SAML non disponibile in questa installazione.
     inbox_deletetion_response: La tua richiesta di cancellazione inbox verrà elaborata.
   errors:
+    account:
+      reporting_timezone:
+        invalid: non è un fuso orario valido
+      support_email:
+        invalid: non è un indirizzo email valido
     validations:
       presence: non deve essere vuoto
     webhook:
@@ -46,10 +50,20 @@ it:
       email_already_exists: 'Ti sei già registrato per un account con %{email}'
       invalid_params: 'Non valido, controlla i dati di registrazione e riprova'
       failed: Registrazione non riuscita
+    voice:
+      call_already_accepted: '%{agent_name} sta già gestendo la chiamata.'
     assignment_policy:
       not_found: Policy di assegnazione non trovata
     attachments:
       invalid: Allegato non valido
+    upload:
+      missing_input: 'Nessun file o URL fornito'
+      invalid_url: 'URL fornito non valido'
+      fetch_failed: 'Impossibile recuperare il file dall''URL'
+      fetch_failed_with_message: 'Impossibile recuperare il file dall''URL: %{message}'
+      file_too_large: 'Il file supera la dimensione massima consentita'
+      unsupported_content_type: 'Tipo di file non supportato (sono ammessi solo immagini e video)'
+      unexpected: 'Si è verificato un errore imprevisto'
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
@@ -88,6 +102,15 @@ it:
       reauthorization:
         generic: 'Impossibile riautorizzare WhatsApp. Riprova.'
         not_supported: 'La riautorizzazione non è supportata per questo tipo di canale WhatsApp.'
+      calls:
+        not_enabled: 'Le chiamate non sono abilitate per questa inbox'
+        no_recording: 'Nessun file di registrazione fornito'
+        no_message: 'La chiamata non ha messaggi associati'
+        sdp_offer_required: 'sdp_offer è richiesto'
+        contact_phone_required: 'È richiesto il numero di telefono del contatto'
+        permission_request_failed: 'Impossibile inviare la richiesta di autorizzazione di chiamata'
+    openai:
+      invalid_api_key: 'OpenAI API key is invalid or revoked. Please check your key in your OpenAI dashboard.'
     inboxes:
       imap:
         socket_error: Controlla la connessione di rete, l'indirizzo IMAP e riprova.
@@ -95,6 +118,11 @@ it:
         host_unreachable_error: Host irraggiungibile, Controlla l'indirizzo IMAP, la porta IMAP e riprova.
         connection_timed_out_error: Connessione scaduta per %{address}:%{port}
         connection_closed_error: Connessione chiusa.
+      smtp:
+        authentication_error: Autenticazione SMTP non riuscita. Verifica le tue credenziali di accesso.
+        connection_error: Impossibile connettersi al server SMTP. Controlla l'indirizzo e la porta del server.
+        ssl_error: Errore SSL/TLS. Verifica le impostazioni di crittografia.
+        smtp_error: Errore del server SMTP. Controlla la configurazione e riprova.
       validations:
         name: non dovrebbe iniziare o terminare con simboli, e non dovrebbe avere i caratteri < > / \ @
     custom_filters:
@@ -104,6 +132,7 @@ it:
       invalid_query_operator: L'operatore della query deve essere "E" o "O".
       invalid_value: Valore non valido. I valori forniti per %{attribute_name} non sono validi
     custom_attribute_definition:
+      attribute_key_format: deve contenere solo lettere, numeri, underscore, trattini e punti
       key_conflict: La chiave fornita non è consentita in quanto potrebbe entrare in conflitto con gli attributi predefiniti.
     mfa:
       already_enabled: MFA già attiva
@@ -120,6 +149,8 @@ it:
       plan_not_eligible: Le ricariche sono disponibili solo per i piani a pagamento. Si prega di aggiornare il piano prima.
       stripe_customer_not_configured: Cliente Stripe non configurato
       no_payment_method: Nessun metodo di pagamento trovato. Aggiungi un metodo di pagamento prima di effettuare un acquisto.
+    reports:
+      date_range_too_long: L'intervallo di date non può superare i 6 mesi
   profile:
     mfa:
       enabled: MFA attivata con successo
@@ -156,6 +187,14 @@ it:
       avg_resolution_time: Tempo medio di risoluzione
       resolution_count: Conteggio risoluzioni
       avg_customer_waiting_time: Tempo medio di attesa cliente
+    conversation_csv:
+      conversations_count: Conversazioni
+      incoming_messages_count: Messaggi in arrivo
+      outgoing_messages_count: Messaggi in uscita
+      avg_first_response_time: Tempo medio di prima risposta
+      avg_resolution_time: Tempo medio di risoluzione
+      resolution_count: Conteggio risoluzioni
+      avg_customer_waiting_time: Tempo medio di attesa cliente
     conversation_traffic_csv:
       timezone: Fuso Orario
     sla_csv:
@@ -178,6 +217,7 @@ it:
         rating: Valutazione
         feedback: Commento di Feedback
         recorded_at: Data di registrazione
+        review_notes: Note Revisione
   notifications:
     notification_title:
       conversation_creation: 'Una conversazione (#%{display_id}) è stata creata in %{inbox_name}'
@@ -200,12 +240,21 @@ it:
       deleted: Questo messaggio è stato eliminato
       whatsapp:
         list_button_label: 'Scegli un elemento'
+        call_permission_request_body: 'Vorremmo chiamarti riguardo alla tua conversazione.'
+        unsupported_message: 'This message is unavailable.'
+      voice_call:
+        twilio: 'Chiamata Vocale'
+        whatsapp: 'Chiamata WhatsApp'
       delivery_status:
         error_code: 'Codice errore: %{error_code}'
     activity:
       captain:
         resolved: 'La conversazione è stata segnata risolta da %{user_name} per inattività'
+        resolved_with_reason: 'La conversazione è stata risolta da %{user_name} (%{reason})'
+        resolved_by_tool: 'La conversazione è stata risolta da %{user_name}: %{reason}'
         open: 'La conversazione è stata riaperta da %{user_name}'
+        open_with_reason: 'La conversazione è stata aperta da %{user_name} (%{reason})'
+        auto_opened_after_agent_reply: 'Conversazione aperta automaticamente dopo l’intervento di un operatore'
       agent_bot:
         error_moved_to_open: 'La conversazione è stata riaperta dal sistema a causa di un errore con il Bot Agente.'
       status:
@@ -240,6 +289,9 @@ it:
         issue_created: 'Issue Linear %{issue_id} è stata creata da %{user_name}'
         issue_linked: 'Issue Linear %{issue_id} è stata collegata da %{user_name}'
         issue_unlinked: 'Issue Linear %{issue_id} è stata scollegata da %{user_name}'
+      whatsapp_call:
+        permission_requested: 'Richiesta di autorizzazione di chiamata inviata a %{contact_name}.'
+        permission_granted: '%{contact_name} ha accettato la richiesta di autorizzazione di chiamata.'
       csat:
         not_sent_due_to_messaging_window: 'Sondaggio CSAT non inviato a causa di restrizioni sui messaggi in uscita'
       auto_resolve:
@@ -248,7 +300,7 @@ it:
       unmuted: '%{user_name} ha riattivato l''audio della conversazione'
       auto_resolution_message: 'La conversazione sta per essere risolta per inattività. Avvia una nuova conversazione se hai bisogno di ulteriore assistenza.'
     templates:
-      greeting_message_body: '%{account_name}, in genere, risponde in poche ore.'
+      greeting_message_body: 'Solitamente %{account_name} risponde in poche ore.'
       ways_to_reach_you_message_body: 'Dai al team un modo per contattarti.'
       email_input_box_message_body: 'Ricevi notifiche via email'
       csat_input_message_body: 'Valuta la conversazione'
@@ -304,6 +356,7 @@ it:
       name: 'Linear'
       short_description: 'Crea e collega issue Linear direttamente dalle conversazioni.'
       description: 'Crea issue in Linear direttamente dalla finestra di conversazione. In alternativa, collega issue Linear esistenti per un processo di monitoraggio più snello ed efficiente.'
+      attachment_link_title: 'Conversazione (#%{conversation_id}) con %{name}'
     notion:
       name: 'Notion'
       short_description: 'Integra database, documenti e pagine direttamente con Captain.'
@@ -320,6 +373,9 @@ it:
     copilot_message_required: Messaggio richiesto
     copilot_error: 'Connetti un assistente a questa Inbox per usare Copilot'
     copilot_limit: 'Hai terminato i crediti Copilot. Puoi acquistare altri crediti dalla sezione fatturazione.'
+    upgrade: 'Aggiorna il piano per attivare Captain AI'
+    disabled: 'Captain AI è disattivato per questo account.'
+    api_key_missing: 'La chiave API di Captain AI non è configurata.'
     copilot:
       using_tool: 'Utilizzando tool %{function_name}'
       completed_tool_call: 'Tool %{function_name} utilizzato'
@@ -329,6 +385,9 @@ it:
       limit_exceeded: 'Raggiunto limite documenti'
       pdf_format_error: 'deve essere un file PDF'
       pdf_size_error: 'deve essere inferiore a 10MB'
+      sync_not_supported_for_pdf: 'Sincronizzazione non supportata per i documenti PDF'
+      sync_only_available_documents: 'Sincronizzazione disponibile solo per i documenti già elaborati'
+      sync_already_in_progress: 'Sincronizzazione del documento già in corso'
       pdf_upload_failed: 'Caricamento PDF a OpenAI fallito'
       pdf_upload_success: 'PDF caricato con successo (file_id: %{file_id})'
       pdf_processing_failed: 'Errore nell''elaborazione del documento PDF %{document_id}: %{error}'
@@ -347,13 +406,37 @@ it:
       page_processing_error: 'Errore nell''elaborazione delle pagine %{start}-%{end}: %{error}'
     custom_tool:
       slug_generation_failed: 'Impossibile generare slug univoco dopo 5 tentativi'
+      limit_exceeded: 'You can create a maximum of %{limit} custom tools per account'
   public_portal:
     search:
       search_placeholder: Cerca articolo tramite titolo o testo...
       empty_placeholder: Nessun risultato trovato.
       loading_placeholder: Ricerca...
       results_title: Risultati di ricerca
+      results: Risultati di Ricerca
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Cerca
     toc_header: 'Su questa pagina'
+    sidebar:
+      help_center: Help Center
+      categories: Categorie
+      language: Lingua
+      theme: Theme
+      open_sidebar: Apri barra laterale
+      close_sidebar: Chiudi barra laterale
+      browse: Browse
+      back_to_category: Back to %{name}
+      browse_by_topic: Browse by topic
+      browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
+      popular_articles: Popular articles
+      popular_articles_subtitle: What other people are reading right now.
+      popular_label: 'Popular topics:'
+      authors_others: "%{names} and %{count} others"
+      primary_nav: Primary
     hero:
       sub_title: Cerca gli articoli qui oppure sfoglia le categorie qui sotto.
     common:
@@ -368,12 +451,21 @@ it:
       others: altri
       by: Da
       no_articles: Non ci sono articoli qui
+      previous: Precedente
+      next: Successivo
+    article_actions:
+      label: Open in
+      view_markdown: View as Markdown
+      open_in_chatgpt: Open in ChatGPT
+      open_in_claude: Open in Claude
+      llm_prompt: "Read the following article and help me understand it: %{url}"
     footer:
       made_with: Realizzato con
     header:
       go_to_homepage: Sito Web
       visit_website: Visita sito
       appearance:
+        title: Aspetto
         system: Sistema
         light: Chiaro
         dark: Scuro
@@ -383,6 +475,10 @@ it:
       title: Pagina non trovata
       description: Non siamo riusciti a trovare la pagina che stavi cercando.
       back_to_home: Vai alla pagina iniziale
+    not_active:
+      title: Help Center Unavailable
+      description: Please contact the site administrator for more information.
+      action: If you are the administrator, please upgrade your plan to restore access.
   slack_unfurl:
     fields:
       name: Nome
@@ -405,6 +501,9 @@ it:
     seconds:
       one: '%{count} secondo'
       other: '%{count} secondi'
+  auto_assignment:
+    default_policy_name: 'Policy Predefinita'
+    policy_actor: 'Automation System via %{policy_name}'
   automation:
     system_name: 'Automation System'
   crm:
@@ -430,6 +529,12 @@ it:
   agent_capacity_policy:
     inbox_already_assigned: 'La Inbox è già stata assegnata a questa policy'
   portals:
+    articles:
+      captain_not_available: 'La traduzione richiede che Captain sia abilitato per questo account'
+      locale_not_available: 'Lingua non disponibile in questo portale'
+      category_not_found: 'Categoria non trovata in questo portale'
+      no_articles_found: 'Nessun articolo trovato da elaborare'
+      invalid_status: 'Valore dello stato non valido'
     send_instructions:
       email_required: 'Email richiesta'
       invalid_email_format: 'Formato email non valido'
@@ -438,3 +543,9 @@ it:
       subject: 'Termina la configurazione di %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Il dominio personalizzato non è configurato'
+  super_admin:
+    push_diagnostics:
+      user_not_found: 'Utente non trovato.'
+      no_subscriptions_to_test: 'Seleziona almeno una subscription da testare.'
+      no_subscriptions_to_delete: 'Seleziona almeno una subscription da eliminare.'
+      subscriptions_deleted: "Eliminate %{count} subscription. I dispositivi dell'utente dovranno essere ri-registrati al prossimo avvio dell'app."

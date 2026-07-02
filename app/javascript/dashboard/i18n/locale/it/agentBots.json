@@ -4,6 +4,9 @@
     "LOADING_EDITOR": "Caricamento editor...",
     "DESCRIPTION": "Gli Agent Bot sono membri virtuali del tuo team: gestiscono le attività di routine, lasciandoti più tempo per ciò che conta. Puoi gestirli da questa pagina o crearne di nuovi con il pulsante “Aggiungi Bot”.",
     "LEARN_MORE": "Informazioni sugli agent bot",
+    "COUNT": "{n} bot | {n} bot",
+    "SEARCH_PLACEHOLDER": "Cerca bot...",
+    "NO_RESULTS": "Nessun bot trovato corrispondente alla tua ricerca",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
@@ -34,7 +37,8 @@
       "LOADING": "Caricamento bot...",
       "TABLE_HEADER": {
         "DETAILS": "Dettagli Bot",
-        "URL": "URL Webhook"
+        "URL": "URL Webhook",
+        "ACTIONS": "Azioni"
       }
     },
     "DELETE": {
@@ -58,6 +62,16 @@
         "SUCCESS_MESSAGE": "Bot aggiornato con successo.",
         "ERROR_MESSAGE": "Impossibile aggiornare il bot. Riprova."
       }
+    },
+    "SECRET": {
+      "LABEL": "Webhook Secret",
+      "COPY": "Copia secret negli appunti",
+      "COPY_SUCCESS": "Secret copiato negli appunti",
+      "TOGGLE": "Cambia visibilità secret",
+      "CREATED_DESC": "Usa il secret qui sotto per verificare le signature dei webhook. Per favore copialo ora, puoi anche trovarlo in seguito nelle impostazioni del bot.",
+      "DONE": "Fatto",
+      "RESET_SUCCESS": "Webhook secret rigenerato con successo",
+      "RESET_ERROR": "Impossibile rigenerare il webhook secret. Riprova"
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token di Accesso",

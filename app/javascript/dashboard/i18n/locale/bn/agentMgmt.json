@@ -1,122 +1,125 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "HEADER": "এজেন্ট",
+    "HEADER_BTN_TXT": "এজেন্ট যোগ করুন",
+    "LOADING": "এজেন্ট তালিকা আনছে",
+    "DESCRIPTION": "একজন এজেন্ট হলেন আপনার গ্রাহক সাপোর্ট দলের সদস্য যিনি ব্যবহারকারীর বার্তা দেখতে এবং উত্তর দিতে পারেন। নিচের তালিকায় আপনার অ্যাকাউন্টের সব এজেন্ট দেখানো হয়েছে।",
+    "LEARN_MORE": "ব্যবহারকারীর ভূমিকা সম্পর্কে জানুন",
     "AGENT_TYPES": {
-      "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "ADMINISTRATOR": "প্রশাসক",
+      "AGENT": "এজেন্ট"
     },
+    "COUNT": "{n} এজেন্ট | {n} এজেন্ট",
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
-      "NAME": "Name",
-      "EMAIL": "EMAIL",
-      "STATUS": "Status",
-      "ACTIONS": "Actions",
-      "VERIFIED": "Verified",
-      "VERIFICATION_PENDING": "Verification Pending",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "404": "এই অ্যাকাউন্টে কোনো এজেন্ট নেই",
+      "TITLE": "আপনার দলের এজেন্ট পরিচালনা করুন",
+      "DESC": "আপনি আপনার দলে এজেন্ট যোগ/অপসারণ করতে পারেন।",
+      "NAME": "নাম",
+      "EMAIL": "ইমেইল",
+      "STATUS": "অবস্থা",
+      "ACTIONS": "কর্ম",
+      "VERIFIED": "যাচাই করা হয়েছে",
+      "VERIFICATION_PENDING": "যাচাই প্রক্রিয়াধীন",
+      "AVAILABLE_CUSTOM_ROLE": "উপলব্ধ কাস্টম ভূমিকার অনুমতিসমূহ"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
-      "DESC": "You can add people who will be able to handle support for your inboxes.",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "TITLE": "আপনার দলে এজেন্ট যোগ করুন",
+      "DESC": "আপনি এমন ব্যক্তিদের যোগ করতে পারেন যারা আপনার ইনবক্সের জন্য সাপোর্ট পরিচালনা করতে পারবেন।",
+      "CANCEL_BUTTON_TEXT": "বাতিল করুন",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "এজেন্টের নাম",
+          "PLACEHOLDER": "এজেন্টের নাম লিখুন"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "ভূমিকা",
+          "PLACEHOLDER": "একটি ভূমিকা নির্বাচন করুন",
+          "ERROR": "ভূমিকা আবশ্যক"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "ইমেইল ঠিকানা",
+          "PLACEHOLDER": "এজেন্টের ইমেইল ঠিকানা লিখুন"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "এজেন্ট যোগ করুন"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "এজেন্ট সফলভাবে যোগ করা হয়েছে",
+        "EXIST_MESSAGE": "এজেন্টের ইমেইল ইতিমধ্যে ব্যবহৃত, অনুগ্রহ করে অন্য ইমেইল ঠিকানা ব্যবহার করুন",
+        "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Delete",
+      "BUTTON_TEXT": "মুছে ফেলুন",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "এজেন্ট সফলভাবে মুছে ফেলা হয়েছে",
+        "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       },
       "CONFIRM": {
-        "TITLE": "Confirm Deletion",
-        "MESSAGE": "Are you sure to delete ",
-        "YES": "Yes, Delete ",
-        "NO": "No, Keep "
+        "TITLE": "মুছে ফেলা নিশ্চিত করুন",
+        "MESSAGE": "আপনি কি নিশ্চিত যে মুছে ফেলতে চান ",
+        "YES": "হ্যাঁ, মুছে ফেলুন ",
+        "NO": "না, রাখুন "
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "এজেন্ট সম্পাদনা করুন",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "এজেন্টের নাম",
+          "PLACEHOLDER": "এজেন্টের নাম লিখুন"
         },
         "AGENT_TYPE": {
-          "LABEL": "Role",
-          "PLACEHOLDER": "Please select a role",
-          "ERROR": "Role is required"
+          "LABEL": "ভূমিকা",
+          "PLACEHOLDER": "একটি ভূমিকা নির্বাচন করুন",
+          "ERROR": "ভূমিকা আবশ্যক"
         },
         "EMAIL": {
-          "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "LABEL": "ইমেইল ঠিকানা",
+          "PLACEHOLDER": "এজেন্টের ইমেইল ঠিকানা লিখুন"
         },
         "AGENT_AVAILABILITY": {
-          "LABEL": "Availability",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "LABEL": "উপলব্ধতা",
+          "PLACEHOLDER": "একটি উপলব্ধতা অবস্থা নির্বাচন করুন",
+          "ERROR": "উপলব্ধতা আবশ্যক"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "এজেন্ট সম্পাদনা করুন"
       },
-      "BUTTON_TEXT": "Edit",
-      "CANCEL_BUTTON_TEXT": "Cancel",
+      "BUTTON_TEXT": "সম্পাদনা করুন",
+      "CANCEL_BUTTON_TEXT": "বাতিল করুন",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "SUCCESS_MESSAGE": "এজেন্ট সফলভাবে আপডেট হয়েছে",
+        "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
-        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+        "ADMIN_RESET_BUTTON": "পাসওয়ার্ড রিসেট করুন",
+        "ADMIN_SUCCESS_MESSAGE": "পাসওয়ার্ড রিসেট নির্দেশনা সহ একটি ইমেইল এজেন্টকে পাঠানো হয়েছে",
+        "SUCCESS_MESSAGE": "এজেন্টের পাসওয়ার্ড সফলভাবে রিসেট হয়েছে",
+        "ERROR_MESSAGE": "Woot Server-এ সংযোগ করা যায়নি, অনুগ্রহ করে পরে আবার চেষ্টা করুন"
       }
     },
+    "SEARCH_PLACEHOLDER": "এজেন্ট অনুসন্ধান করুন...",
+    "NO_RESULTS": "আপনার অনুসন্ধানের সাথে মিলিত কোনো এজেন্ট পাওয়া যায়নি",
     "SEARCH": {
-      "NO_RESULTS": "No results found."
+      "NO_RESULTS": "কোনো ফলাফল পাওয়া যায়নি।"
     },
     "MULTI_SELECTOR": {
-      "PLACEHOLDER": "None",
+      "PLACEHOLDER": "কিছুই নয়",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "এজেন্ট নির্বাচন করুন",
+        "TEAM": "দল নির্বাচন করুন"
       },
       "LIST": {
-        "NONE": "None"
+        "NONE": "কিছুই নয়"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "কোনো এজেন্ট পাওয়া যায়নি",
+          "TEAM": "কোনো দল পাওয়া যায়নি"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams",
-          "INPUT": "Search for agents"
+          "AGENT": "এজেন্ট অনুসন্ধান করুন",
+          "TEAM": "দল অনুসন্ধান করুন",
+          "INPUT": "এজেন্টদের জন্য অনুসন্ধান করুন"
         }
       }
     }

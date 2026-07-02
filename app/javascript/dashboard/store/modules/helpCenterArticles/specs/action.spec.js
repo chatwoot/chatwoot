@@ -279,4 +279,82 @@ describe('#actions', () => {
       ).rejects.toThrow('Upload failed');
     });
   });
+
+  describe('#reorder', () => {
+    const state = {
+      articles: {
+        byId: {
+          1: { id: 1, title: 'Article 1', position: 10 },
+          2: { id: 2, title: 'Article 2', position: 20 },
+          3: { id: 3, title: 'Article 3', position: 30 },
+        },
+      },
+    };
+
+    it('commits SET_ARTICLE_POSITIONS and calls API when reorder is successful', async () => {
+      axios.post.mockResolvedValue({ data: {} });
+      const reorderedGroup = { 1: 1, 2: 2, 3: 3 };
+
+      await actions.reorder(
+        { commit, state },
+        {
+          portalSlug: 'test-portal',
+          categorySlug: 'test-category',
+          reorderedGroup,
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        reorderedGroup
+      );
+      expect(axios.post).toHaveBeenCalledWith(
+        expect.stringContaining('/portals/test-portal/articles/reorder'),
+        { positions_hash: reorderedGroup, category_slug: 'test-category' }
+      );
+    });
+
+    it('adopts the backend re-spaced positions when the response returns them', async () => {
+      const serverPositions = { 1: 10, 2: 30, 3: 20 };
+      axios.post.mockResolvedValue({ data: { positions: serverPositions } });
+
+      await actions.reorder(
+        { commit, state },
+        {
+          portalSlug: 'test-portal',
+          categorySlug: 'test-category',
+          reorderedGroup: { 3: 25 },
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        serverPositions
+      );
+    });
+
+    it('rolls back positions and throws when API call fails', async () => {
+      axios.post.mockRejectedValue({ message: 'Network error' });
+      const reorderedGroup = { 1: 1, 2: 2 };
+
+      await expect(
+        actions.reorder(
+          { commit, state },
+          {
+            portalSlug: 'test-portal',
+            reorderedGroup,
+          }
+        )
+      ).rejects.toEqual({ message: 'Network error' });
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        reorderedGroup
+      );
+      expect(commit).toHaveBeenCalledWith(types.default.SET_ARTICLE_POSITIONS, {
+        1: 10,
+        2: 20,
+      });
+    });
+  });
 });

@@ -76,6 +76,9 @@
       },
       "waiting_since_desc": {
         "TEXT": "In attesa di risposta: prima meno tempo in attesa"
+      },
+      "priority_desc_created_at_asc": {
+        "TEXT": "Priorità: prima le più importanti, Data creazione: prima le più vecchie"
       }
     },
     "ATTACHMENTS": {
@@ -137,6 +140,7 @@
     "HIDE_QUOTED_TEXT": "Nascondi Testo Citato",
     "SHOW_QUOTED_TEXT": "Mostra Testo Citato",
     "MESSAGE_READ": "Letto",
-    "SENDING": "Invio"
+    "SENDING": "Invio",
+    "UNREAD_COUNT_OVERFLOW": "9+"
   }
 }

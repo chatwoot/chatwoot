@@ -38,6 +38,12 @@ RSpec.describe AutomationRule do
             action_params: [1]
           },
           {
+            action_name: :remove_assigned_agent
+          },
+          {
+            action_name: :remove_assigned_team
+          },
+          {
             action_name: :add_label,
             action_params: %w[support priority_customer]
           },
@@ -80,6 +86,19 @@ RSpec.describe AutomationRule do
           attribute_key: 'labels',
           filter_operator: 'is_present',
           values: [],
+          query_operator: nil
+        }
+      ]
+      rule = FactoryBot.build(:automation_rule, params)
+      expect(rule.valid?).to be true
+    end
+
+    it 'allows private_note as a valid condition attribute' do
+      params[:conditions] = [
+        {
+          attribute_key: 'private_note',
+          filter_operator: 'equal_to',
+          values: [true],
           query_operator: nil
         }
       ]

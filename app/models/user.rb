@@ -75,6 +75,7 @@ class User < ApplicationRecord
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
 
+  validates :name, presence: true
   validates :email, presence: true
 
   serialize :otp_backup_codes, type: Array
@@ -100,6 +101,7 @@ class User < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
 
+  has_many :user_sessions, dependent: :destroy
   has_many :custom_filters, dependent: :destroy_async
   has_many :dashboard_apps, dependent: :nullify
   has_many :mentions, dependent: :destroy_async
@@ -117,6 +119,7 @@ class User < ApplicationRecord
 
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros
+  after_save :sync_user_sessions, if: :saved_change_to_tokens?
 
   scope :order_by_full_name, -> { order('lower(name) ASC') }
 
@@ -192,7 +195,31 @@ class User < ApplicationRecord
     Chatwoot.mfa_enabled?
   end
 
+  # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
+  #
+  # The Confirmable module's reconfirmable flow has a race condition where concurrent
+  # email change requests can desynchronize confirmation tokens, allowing an attacker
+  # to confirm an email they don't own. Fixed in Devise 5.0.3 by persisting
+  # unconfirmed_email before regenerating the confirmation token.
+  #
+  # We can't upgrade to Devise 5.0.3 because devise-two-factor only added Devise 5
+  # support in v6.4.0, which simultaneously raised its Rails minimum to 7.2+.
+  # No released version supports both Devise 5 and Rails 7.1.
+  #
+  # This override applies the same fix locally: force-mark unconfirmed_email
+  # as dirty before assignment so ActiveRecord always writes it, keeping it
+  # in sync with the regenerated confirmation token. Remove once on Devise 5+.
+  def postpone_email_change_until_confirmation_and_regenerate_confirmation_token
+    unconfirmed_email_will_change!
+    super
+  end
+
   private
+
+  def sync_user_sessions
+    active_client_ids = (tokens || {}).keys
+    user_sessions.where.not(client_id: active_client_ids).destroy_all
+  end
 
   def remove_macros
     macros.personal.destroy_all

@@ -44,11 +44,19 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[reaction ephemeral unsupported request_welcome].include?(message_type)
+    %w[reaction ephemeral request_welcome].include?(message_type)
   end
 
   def processed_waid(waid)
     Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
+  end
+
+  def whatsapp_phone_number(identifier)
+    identifier = identifier.to_s
+    return if identifier.blank?
+    return unless identifier.match?(/\A\d{1,15}\z/)
+
+    identifier
   end
 
   def error_webhook_event?(message)
@@ -61,6 +69,12 @@ module Whatsapp::IncomingMessageServiceHelpers
 
   def process_in_reply_to(message)
     @in_reply_to_external_id = message['context']&.[]('id')
+  end
+
+  def referral_attributes(message)
+    return {} if outgoing_echo
+
+    message[:referral]&.to_h&.deep_stringify_keys || {}
   end
 
   def find_message_by_source_id(source_id)

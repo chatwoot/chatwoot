@@ -1,6 +1,6 @@
 <script setup>
 // [TODO] Use Teleport to move the modal to the end of the body
-import { ref, computed, defineEmits, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useEventListener } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -122,6 +122,10 @@ onMounted(() => {
 
       a {
         @apply p-4;
+      }
+
+      .ProseMirror a {
+        @apply p-0;
       }
     }
   }
