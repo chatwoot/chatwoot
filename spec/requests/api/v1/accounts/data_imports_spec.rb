@@ -29,6 +29,31 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(response.parsed_body['source_provider']).to eq('intercom')
     end
 
+    it 'returns the active Intercom import instead of creating a duplicate' do
+      active_import = create(
+        :data_import,
+        account: account,
+        data_type: 'intercom',
+        source_type: 'integration',
+        source_provider: 'intercom',
+        import_types: %w[contacts conversations],
+        integration_hook: hook,
+        status: :processing,
+        import_file: nil
+      )
+
+      expect do
+        post api_v1_account_data_imports_url(account_id: account.id),
+             params: { name: 'Second run', import_types: %w[contacts conversations] },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['id']).to eq(active_import.id)
+      expect(account.data_imports.where(data_type: 'intercom', source_provider: 'intercom').count).to eq(1)
+    end
+
     it 'rejects unsupported import types instead of silently importing everything' do
       expect do
         post api_v1_account_data_imports_url(account_id: account.id),

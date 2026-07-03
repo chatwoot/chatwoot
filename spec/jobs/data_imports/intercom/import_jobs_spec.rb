@@ -21,6 +21,12 @@ RSpec.describe DataImports::Intercom::ImportJob do
     allow(DataImports::Intercom::Importer).to receive(:new).with(data_import: data_import).and_return(importer)
   end
 
+  describe DataImports::Intercom::BaseJob do
+    it 'checks rate limit retry before the generic client retry' do
+      expect(described_class.rescue_handlers.last.first).to eq('DataImports::Intercom::Client::RateLimitError')
+    end
+  end
+
   describe DataImports::Intercom::ImportJob do
     it 'starts the import and enqueues the first contacts page' do
       allow(importer).to receive_messages(start!: true, import_contacts?: true, contacts_completed?: false, cursor_for: 'contact-cursor')

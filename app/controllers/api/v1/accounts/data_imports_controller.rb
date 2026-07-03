@@ -22,20 +22,14 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def create
+    if (active_import = active_intercom_import)
+      @data_import = active_import
+      render :show
+      return
+    end
+
     hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
-    @data_import = Current.account.data_imports.create!(
-      name: permitted_params[:name].presence || 'Intercom import',
-      data_type: 'intercom',
-      source_type: 'integration',
-      source_provider: 'intercom',
-      import_types: import_types,
-      initiated_by: Current.user,
-      integration_hook: hook,
-      config: {
-        create_source_bucket_inboxes: true,
-        import_mode: 'historical'
-      }
-    )
+    @data_import = Current.account.data_imports.create!(intercom_import_attributes(hook))
     DataImports::Intercom::ImportJob.perform_later(@data_import)
     render :show
   end
@@ -71,6 +65,22 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   private
 
+  def intercom_import_attributes(hook)
+    {
+      name: permitted_params[:name].presence || 'Intercom import',
+      data_type: 'intercom',
+      source_type: 'integration',
+      source_provider: 'intercom',
+      import_types: import_types,
+      initiated_by: Current.user,
+      integration_hook: hook,
+      config: {
+        create_source_bucket_inboxes: true,
+        import_mode: 'historical'
+      }
+    }
+  end
+
   def set_data_import
     @data_import = Current.account.data_imports.find(params[:id])
   end
@@ -85,6 +95,14 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   def import_types
     Array(permitted_params[:import_types]).compact_blank.presence || DataImports::Intercom::Importer::DEFAULT_IMPORT_TYPES
+  end
+
+  def active_intercom_import
+    Current.account.data_imports.find_by(
+      data_type: 'intercom',
+      source_provider: 'intercom',
+      status: [:pending, :processing]
+    )
   end
 
   def set_import_errors_page
