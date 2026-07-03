@@ -303,7 +303,9 @@ Rails.application.routes.draw do
             end
             namespace :prospecting do
               resources :searches, only: [:index, :show, :create]
-              resources :leads, only: [:index, :show]
+              resources :leads, only: [:index, :show] do
+                post :contact, on: :member, action: :create_contact
+              end
               resources :lists, only: [:index, :show, :create]
               resource :settings, only: [:show]
             end

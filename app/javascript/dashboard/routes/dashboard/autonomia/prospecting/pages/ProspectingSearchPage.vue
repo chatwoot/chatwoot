@@ -1,12 +1,15 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 
 const { t } = useI18n();
+const route = useRoute();
 
 const isLoading = ref(true);
 const isSearching = ref(false);
+const convertingLeadId = ref(null);
 const error = ref('');
 const searches = ref([]);
 const leads = ref([]);
@@ -94,6 +97,31 @@ const formatLeadAddress = lead => {
   return [lead.address, cityState]
     .filter(Boolean)
     .join(t('PROSPECTING.SEARCH.ADDRESS_SEPARATOR'));
+};
+
+const contactUrl = contactId =>
+  `/app/accounts/${route.params.accountId}/contacts/${contactId}`;
+
+const createContact = async lead => {
+  if (!lead?.id || lead.contact_id || convertingLeadId.value) return;
+
+  convertingLeadId.value = lead.id;
+  error.value = '';
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.createLeadContact(lead.id);
+    const updatedLead = data.payload?.lead;
+    if (updatedLead) {
+      leads.value = leads.value.map(item =>
+        item.id === updatedLead.id ? updatedLead : item
+      );
+    }
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
+  } finally {
+    convertingLeadId.value = null;
+  }
 };
 
 onMounted(fetchSearches);
@@ -192,7 +220,7 @@ onMounted(fetchSearches);
           <article
             v-for="lead in leads"
             :key="lead.id"
-            class="grid gap-2 px-4 py-4 text-sm md:grid-cols-[1.5fr_1fr_1fr_8rem]"
+            class="grid gap-2 px-4 py-4 text-sm md:grid-cols-[1.5fr_1fr_1fr_8rem_9rem]"
           >
             <div class="min-w-0">
               <h3 class="truncate font-medium text-n-slate-12">
@@ -233,6 +261,31 @@ onMounted(fetchSearches);
                   })
                 }}
               </div>
+            </div>
+            <div class="flex flex-col items-start gap-1 text-n-slate-11">
+              <a
+                v-if="lead.contact_id"
+                :href="contactUrl(lead.contact_id)"
+                class="text-n-brand underline"
+              >
+                {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
+              </a>
+              <button
+                v-else
+                type="button"
+                class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                :disabled="convertingLeadId === lead.id"
+                @click="createContact(lead)"
+              >
+                {{
+                  convertingLeadId === lead.id
+                    ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
+                    : t('PROSPECTING.SEARCH.CREATE_CONTACT')
+                }}
+              </button>
+              <span v-if="lead.contact_id" class="text-xs text-n-slate-10">
+                {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+              </span>
             </div>
           </article>
         </div>

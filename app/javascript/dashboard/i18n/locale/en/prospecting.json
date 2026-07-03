@@ -7,6 +7,7 @@
       "LOAD_SEARCHES": "Could not load prospect searches.",
       "LOAD_SEARCH": "Could not load this prospect search.",
       "CREATE_SEARCH": "Could not run this prospect search.",
+      "CREATE_CONTACT": "Could not create this contact.",
       "LOAD_LISTS": "Could not load prospect lists.",
       "LOAD_SETTINGS": "Could not load prospecting settings."
     },
@@ -18,6 +19,10 @@
       "LOCATION_PLACEHOLDER": "Cidade, bairro ou região",
       "ACTION": "Buscar",
       "SEARCHING": "Buscando...",
+      "CREATE_CONTACT": "Criar contato",
+      "CREATING_CONTACT": "Criando...",
+      "CONTACT_CREATED": "Contato criado",
+      "OPEN_CONTACT": "Abrir contato",
       "EMPTY": "Nenhuma busca registrada.",
       "RESULTS_EMPTY": "Execute uma busca ou selecione uma busca do histórico.",
       "RESULTS_EMPTY_AFTER_SEARCH": "Nenhum lead encontrado para esta busca.",
