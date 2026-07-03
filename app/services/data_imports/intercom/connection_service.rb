@@ -6,6 +6,7 @@ class DataImports::Intercom::ConnectionService
 
   def perform
     raise ArgumentError, 'Access token is required' if @access_token.blank?
+    raise ArgumentError, 'Intercom cannot be connected while an import is active.' if active_intercom_import?
 
     client.validate!
     upsert_hook
@@ -15,6 +16,10 @@ class DataImports::Intercom::ConnectionService
 
   def client
     @client ||= DataImports::Intercom::Client.new(access_token: @access_token)
+  end
+
+  def active_intercom_import?
+    @account.data_imports.exists?(source_provider: 'intercom', status: [:pending, :processing])
   end
 
   def upsert_hook

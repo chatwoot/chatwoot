@@ -33,6 +33,31 @@ RSpec.describe 'Intercom Integration API', type: :request do
       expect(response.parsed_body['id']).to eq(hook.id)
       expect(response.parsed_body['settings']).to include('workspace_name' => 'Intercom workspace')
     end
+
+    it 'does not reconnect Intercom while an import is active' do
+      hook = create(:integrations_hook, :intercom, account: account, access_token: 'existing-token')
+      create(
+        :data_import,
+        account: account,
+        data_type: 'intercom',
+        source_type: 'integration',
+        source_provider: 'intercom',
+        status: :processing,
+        integration_hook: hook,
+        import_file: nil
+      )
+
+      expect(DataImports::Intercom::Client).not_to receive(:new)
+
+      post api_v1_account_integrations_intercom_url(account_id: account.id),
+           params: { access_token: 'new-token' },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Intercom cannot be connected while an import is active.')
+      expect(hook.reload.access_token).to eq('existing-token')
+    end
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/intercom' do
