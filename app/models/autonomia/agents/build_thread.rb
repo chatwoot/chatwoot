@@ -10,6 +10,10 @@ module Autonomia
 
       enum status: { open: 0, processing: 1, ready: 2, failed: 3 }
 
+      # Tenancy (defesa em profundidade): uma thread apontando para agente de OUTRA conta faria o
+      # Construtor ler/editar config alheia. Erro claro na escrita, nunca cross-tenant no runtime.
+      validate :agent_must_belong_to_account
+
       store_accessor :state, :draft_config, :needs_more_info, :next_question, :turn
       # Revisor v2 / portão de materiais: o usuário declarou que NÃO tem material para subir (avançou
       # a etapa de materiais sem anexar nada). O controller grava isso quando o front manda
@@ -110,6 +114,12 @@ module Autonomia
       end
 
       private
+
+      def agent_must_belong_to_account
+        return if account_id.blank? || agent.blank? || agent.account_id == account_id
+
+        errors.add(:agent, 'must belong to the same account')
+      end
 
       # Escreve só se a geração identificada por `token` ainda for a ativa e ainda processing.
       # update_all atômico fecha a janela entre checagem e escrita. Retorna true se ganhou (1 linha).

@@ -14,6 +14,9 @@ module Autonomia
       belongs_to :agent_bot
 
       validates :inbox_id, uniqueness: true
+      # Tenancy (defesa em profundidade): o runtime resolve o vínculo só por inbox_id
+      # (Operate.eligible_agent_inbox), então um registro inconsistente cruzaria contas.
+      validate :linked_records_must_belong_to_account
 
       # Limpeza do espelho ao destruir o vínculo — centraliza o conserto de "caixa deletada"
       # E "agente deletado" num só lugar. Dispara quando o vínculo cai por:
@@ -24,6 +27,17 @@ module Autonomia
       after_destroy :cleanup_mirror_bot
 
       private
+
+      def linked_records_must_belong_to_account
+        return if account_id.blank?
+
+        %i[agent inbox agent_bot].each do |association_name|
+          record = public_send(association_name)
+          next if record.blank? || record.account_id == account_id
+
+          errors.add(association_name, 'must belong to the same account')
+        end
+      end
 
       def cleanup_mirror_bot
         AgentBotInbox.where(inbox_id: inbox_id, agent_bot_id: agent_bot_id).destroy_all
