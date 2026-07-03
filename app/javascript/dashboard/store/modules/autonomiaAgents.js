@@ -23,6 +23,27 @@ export default createStore({
     [SET_INSTRUCTION_VERSIONS](state, versions) {
       state.instructionVersions = versions;
     },
+    // Staleness guard on the read path. A `show` (fetchingItem) fired by a tab
+    // switch or the agentId watch can resolve AFTER a rollback/save write and
+    // clobber the fresh record with an older snapshot (last-write-wins on the
+    // shared setSingleRecord). Writers among themselves are already serialized
+    // via `updatingItem`; this only closes read-clobbers-write. Skip the UPSERT
+    // when the incoming payload is strictly older than what's already stored.
+    // Scoped to this module so the generic setSingleRecord stays untouched.
+    [mutationTypes.UPSERT](state, data) {
+      const index = state.records.findIndex(record => record.id === data.id);
+      if (index === -1) {
+        state.records.push(data);
+        return;
+      }
+      const current = state.records[index];
+      const isStale =
+        current.updated_at &&
+        data.updated_at &&
+        new Date(data.updated_at) < new Date(current.updated_at);
+      if (isStale) return;
+      state.records[index] = data;
+    },
   },
   actions: () => ({
     // Load the instruction history for one agent (newest first from the API).
