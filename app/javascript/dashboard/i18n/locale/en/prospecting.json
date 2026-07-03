@@ -9,6 +9,10 @@
       "CREATE_SEARCH": "Could not run this prospect search.",
       "CREATE_CONTACT": "Could not create this contact.",
       "LOAD_LISTS": "Could not load prospect lists.",
+      "LOAD_LIST": "Could not load this prospect list.",
+      "CREATE_LIST": "Could not create this prospect list.",
+      "ADD_LEAD_TO_LIST": "Could not add this lead to the list.",
+      "REMOVE_LEAD_FROM_LIST": "Could not remove this lead from the list.",
       "LOAD_SETTINGS": "Could not load prospecting settings.",
       "SAVE_SETTINGS": "Could not save prospecting settings."
     },
@@ -49,6 +53,27 @@
     "LISTS": {
       "TITLE": "Listas",
       "EMPTY": "Nenhuma lista salva.",
+      "ALL_LISTS": "Listas",
+      "DETAIL_TITLE": "Detalhes da lista",
+      "ADD_LEADS_TITLE": "Adicionar leads",
+      "CREATE": "Criar lista",
+      "CREATING": "Criando...",
+      "CREATED": "Lista criada.",
+      "ADD_LEAD": "Adicionar",
+      "REMOVE_LEAD": "Remover",
+      "LEAD_ADDED": "Lead adicionado à lista.",
+      "LEAD_REMOVED": "Lead removido da lista.",
+      "SELECT_EMPTY": "Selecione uma lista para ver os leads.",
+      "SELECT_TO_ADD": "Selecione uma lista para adicionar leads.",
+      "LEADS_EMPTY": "Esta lista ainda não tem leads.",
+      "NO_AVAILABLE_LEADS": "Não há leads disponíveis fora desta lista.",
+      "NAME_PLACEHOLDER": "Campanha, praça ou segmento",
+      "DESCRIPTION_PLACEHOLDER": "Descrição opcional",
+      "LEADS_COUNT": "{count} leads",
+      "FIELDS": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição"
+      },
       "COLUMNS": {
         "NAME": "Lista",
         "STATUS": "Status",
