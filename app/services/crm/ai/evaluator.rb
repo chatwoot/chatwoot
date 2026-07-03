@@ -20,6 +20,7 @@ module Crm
         result = apply_classification(classification)
         run_handoff(classification)
         run_callback(classification)
+        run_attribute_extraction(classification)
         result
       rescue ResponsesClient::Error => e
         Result.new(status: :failed, error: e.message)
@@ -69,7 +70,8 @@ module Crm
           reasoning_effort: effort,
           handoff_enabled: handoff_config[:enabled],
           handoff_trigger: handoff_config[:trigger],
-          eligible_agents: eligible_agent_names
+          eligible_agents: eligible_agent_names,
+          attribute_schema: attribute_schema
         ).perform
       end
 
@@ -104,6 +106,19 @@ module Crm
         Crm::FollowUps::CallbackScheduler.new(card: @card, callback: classification[:callback_request]).perform
       rescue StandardError => e
         Rails.logger.error("[CRM AI callback] #{e.class}: #{e.message}")
+      end
+
+      def run_attribute_extraction(classification)
+        return unless attribute_extraction_enabled?
+
+        AttributeExtractorApplier.new(
+          card: @card,
+          extracted_attributes: classification[:extracted_attributes],
+          prefix: Config.attribute_extraction_prefix(@card.pipeline),
+          min_confidence: Config.attribute_extraction_min_confidence(@card.pipeline)
+        ).perform
+      rescue StandardError => e
+        Rails.logger.error("[CRM AI attribute extraction] #{e.class}: #{e.message}")
       end
 
       def apply_classification(classification)
@@ -164,6 +179,22 @@ module Crm
 
       def stages
         @stages ||= @card.pipeline.stages.order(:position, :id).to_a
+      end
+
+      def attribute_extraction_enabled?
+        return @attribute_extraction_enabled if defined?(@attribute_extraction_enabled)
+
+        @attribute_extraction_enabled = Config.attribute_extraction_enabled? &&
+                                        Config.pipeline_attribute_extraction_enabled?(@card.pipeline)
+      end
+
+      def attribute_schema
+        return { contact: [], conversation: [] } unless attribute_extraction_enabled?
+
+        @attribute_schema ||= AttributeSchemaBuilder.new(
+          account: @account,
+          prefix: Config.attribute_extraction_prefix(@card.pipeline)
+        ).perform
       end
 
       def ai_metadata

@@ -1,6 +1,18 @@
 module Crm
   module Ai
     class StageClassifier
+      EXTRACTED_ATTR_ITEM = {
+        type: 'object',
+        properties: {
+          key: { type: 'string', description: 'Chave exata do atributo conforme attribute_schema.' },
+          value: { type: %w[string number boolean], description: 'Valor limpo extraído da conversa.' },
+          confidence: { type: 'number', minimum: 0, maximum: 1 },
+          evidence: { type: 'string', maxLength: 300, description: 'Trecho curto que sustenta a extração.' }
+        },
+        required: %w[key value confidence evidence],
+        additionalProperties: false
+      }.freeze
+
       CLASSIFICATION_SCHEMA = {
         name: 'stage_classification',
         schema: {
@@ -47,15 +59,25 @@ module Crm
               },
               required: %w[detected requested_at requested_at_text confidence],
               additionalProperties: false
+            },
+            extracted_attributes: {
+              type: 'object',
+              description: 'Atributos customizados extraídos com evidência clara. Use arrays vazios se não houver extrações.',
+              properties: {
+                contact: { type: 'array', items: EXTRACTED_ATTR_ITEM },
+                conversation: { type: 'array', items: EXTRACTED_ATTR_ITEM }
+              },
+              required: %w[contact conversation],
+              additionalProperties: false
             }
           },
-          required: %w[suggested_stage_id confidence reasoning value handoff callback_request],
+          required: %w[suggested_stage_id confidence reasoning value handoff callback_request extracted_attributes],
           additionalProperties: false
         }
       }.freeze
 
       def initialize(card:, client:, stages:, context:, model: Config::MODEL_CLASSIFY, reasoning_effort: 'low',
-                     handoff_enabled: false, handoff_trigger: '', eligible_agents: [])
+                     handoff_enabled: false, handoff_trigger: '', eligible_agents: [], attribute_schema: { contact: [], conversation: [] })
         @card = card
         @client = client
         @stages = stages
@@ -65,6 +87,7 @@ module Crm
         @handoff_enabled = handoff_enabled
         @handoff_trigger = handoff_trigger.to_s.strip
         @eligible_agents = Array(eligible_agents)
+        @attribute_schema = attribute_schema
       end
 
       def perform
@@ -108,7 +131,8 @@ module Crm
           now_local: @context.dig(:temporal, :now_local),
           weekday: @context.dig(:temporal, :weekday),
           timezone: @context.dig(:temporal, :timezone),
-          default_hour: @context.dig(:temporal, :default_hour) || 9
+          default_hour: @context.dig(:temporal, :default_hour) || 9,
+          attribute_schema: @attribute_schema
         }.to_json
       end
 

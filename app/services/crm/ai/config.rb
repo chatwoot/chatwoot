@@ -74,6 +74,25 @@ module Crm
         CALLBACK_MODES.include?(mode) ? mode : 'reminder'
       end
 
+      def self.attribute_extraction_enabled?
+        enabled? && BOOLEAN.cast(ENV.fetch('CRM_AI_ATTR_EXTRACTION', false))
+      end
+
+      def self.pipeline_attribute_extraction_enabled?(pipeline)
+        BOOLEAN.cast(pipeline_ai_settings(pipeline)[:attribute_extraction_enabled])
+      end
+
+      def self.attribute_extraction_prefix(pipeline)
+        pipeline_ai_settings(pipeline)[:attribute_prefix].presence || 'sw_'
+      end
+
+      def self.attribute_extraction_min_confidence(pipeline)
+        raw = pipeline_ai_settings(pipeline)[:attribute_min_confidence].presence || 0.6
+        Float(raw).clamp(0.0, 1.0)
+      rescue ArgumentError, TypeError
+        0.6
+      end
+
       # Timezone EFETIVO para ancorar "amanhã 10h" e gravar o lembrete: contato
       # (additional_attributes['timezone']) → account.reporting_timezone → 'UTC'. Espelha o
       # AutoFollowupPlanner (quiet hours) para consistência. Sempre devolve um nome de tz VÁLIDO.
