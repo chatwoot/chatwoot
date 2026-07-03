@@ -109,6 +109,53 @@ jobs:
             --value "$IMAGE_URI" \
             --overwrite
 
+      # Mesmo padrao do step de flags do stack Hub2You: le o env parameter,
+      # garante as flags exigidas preservando todas as demais linhas, regrava.
+      - name: Ensure Autonomia runtime flags
+        run: |
+          aws ssm get-parameter \
+            --name "$ENV_PARAMETER" \
+            --with-decryption \
+            --query Parameter.Value \
+            --output text > chatwoot.env
+
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("chatwoot.env")
+          required = {
+              # Widget "Copiloto Autonom.ia" (agentes internos) — o plano V2
+              # previa a flag em prod, mas ela so foi setada na VPS legada.
+              "CRM_COPILOT_ENABLED": "true",
+          }
+
+          lines = path.read_text().splitlines()
+          seen = set()
+          next_lines = []
+
+          for line in lines:
+              key = line.split("=", 1)[0] if "=" in line else None
+              if key in required:
+                  next_lines.append(f"{key}={required[key]}")
+                  seen.add(key)
+              else:
+                  next_lines.append(line)
+
+          for key, value in required.items():
+              if key not in seen:
+                  next_lines.append(f"{key}={value}")
+
+          path.write_text("\n".join(next_lines) + "\n")
+          PY
+
+          aws ssm put-parameter \
+            --name "$ENV_PARAMETER" \
+            --type SecureString \
+            --value file://chatwoot.env \
+            --overwrite
+
+          rm -f chatwoot.env
+
       - name: Discover current infrastructure
         run: |
           lb_arn=$(aws elbv2 describe-load-balancers \

@@ -108,6 +108,17 @@ const statusLabel = computed(() => {
     </div>
 
     <div class="flex flex-wrap items-center justify-end gap-2 pt-1">
+      <!-- Rascunho sem ação de publicar era beco sem saída — leva pra aba
+           de publicação (AgentsHubPage já roteia draft -> tab publish). -->
+      <NextButton
+        v-if="status === 'draft'"
+        ghost
+        blue
+        xs
+        icon="i-lucide-rocket"
+        :label="t('AGENTS.HUB.PUBLISH')"
+        @click="emit('select', agent)"
+      />
       <NextButton
         ghost
         ruby

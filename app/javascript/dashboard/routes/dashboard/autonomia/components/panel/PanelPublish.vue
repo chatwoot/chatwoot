@@ -77,6 +77,23 @@ const connectInbox = async inboxId => {
   }
 };
 
+// Agente interno (copiloto da equipe) não conecta canal — ativa direto.
+// É o que o lista no seletor "Copiloto Autonom.ia" das conversas (a API
+// só devolve agentes internal/both com status active e enabled).
+const activateInternal = async () => {
+  try {
+    await store.dispatch('autonomiaAgents/update', {
+      id: props.agentId,
+      enabled: true,
+      status: 'active',
+    });
+    useAlert(t('AGENTS.REVIEW.ACTIVATED_INTERNAL'));
+    goToTest();
+  } catch (error) {
+    useAlert(t('AGENTS.CHANNELS.CONNECT_ERROR'));
+  }
+};
+
 onMounted(() => {
   store.dispatch('autonomiaChannels/fetch', { agentId: props.agentId });
   store.dispatch('autonomiaSources/fetch', { agentId: props.agentId });
@@ -99,6 +116,7 @@ onBeforeUnmount(() => {
       @save-greeting="saveGreeting"
       @test="goToTest"
       @connect="connectInbox"
+      @activate="activateInternal"
       @back="goToTest"
     />
   </div>

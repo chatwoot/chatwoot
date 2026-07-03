@@ -78,7 +78,7 @@ export const routes = [
   },
   {
     path: frontendURL(
-      'accounts/:accountId/agents/:agentId/:tab(test|knowledge|channels|performance|tune)?'
+      'accounts/:accountId/agents/:agentId/:tab(test|knowledge|channels|performance|tune|publish)?'
     ),
     name: 'autonomia_agent_panel',
     meta,
