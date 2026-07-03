@@ -17,7 +17,7 @@ module Autonomia
             begin
               xml = read_document_xml
               doc = Nokogiri::XML(xml)
-              doc.xpath('//w:p', NS).map { |para| paragraph_text(para) }.reject(&:empty?).join("\n")
+              blocks_text(doc)
             rescue Zip::Error => e
               raise ExtractionError, "docx_parse_failed: #{e.message}"
             end
@@ -25,8 +25,30 @@ module Autonomia
 
           private
 
+          # Percorre parágrafos (w:p) e tabelas (w:tbl) na ORDEM do documento. Parágrafos DENTRO de
+          # tabelas (w:tc//w:p) são excluídos do fluxo de parágrafos (`[not(ancestor::w:tbl)]`) p/ não
+          # duplicar as células — cada linha da tabela vira "célula | célula | célula" (o Chunker
+          # reconhece " | " como registro tabular).
+          def blocks_text(doc)
+            nodes = doc.xpath('//w:p[not(ancestor::w:tbl)] | //w:tbl', NS)
+            nodes.map { |node| node.name == 'tbl' ? table_text(node) : paragraph_text(node) }
+                 .reject(&:empty?).join("\n")
+          end
+
           def paragraph_text(para)
             para.xpath('.//w:t', NS).map(&:text).join.strip
+          end
+
+          # Cada w:tr (linha) -> "c1 | c2 | c3"; cada w:tc (célula) junta o texto de seus w:p.
+          def table_text(table)
+            table.xpath('.//w:tr', NS).filter_map do |row|
+              cells = row.xpath('./w:tc', NS).map { |cell| cell_text(cell) }
+              cells.join(' | ') if cells.any? { |cell| !cell.empty? }
+            end.join("\n")
+          end
+
+          def cell_text(cell)
+            cell.xpath('.//w:p', NS).map { |para| paragraph_text(para) }.reject(&:empty?).join(' ')
           end
 
           def read_document_xml

@@ -140,6 +140,21 @@ Cada fix é isolado por tipo, testável com fixture, sem tocar chunk/embedding.
 3. **B1 embedding 3-large@3072** (pré-req halfvec/pgvector≥0.7.0 + migração de coluna/índice + config).
 4. **Backfill BIG-BANG** (re-chunk + re-embed de TODA a base de uma vez) — a parte 🔴 de prod-data.
 
+**Backfill SEM regressão — nuance descoberta na construção (2026-07-03):** re-ingestão (p/ ganhar
+chunks B2) usa `replace_knowledge` que DELETA+recria os entries da fonte. Se recriar gravando só
+`embedding_large` (3-large) enquanto o modelo GLOBAL ainda é 3-small, o retrieval (que lê a coluna
+`embedding`) perde essa fonte até o cutover → janela de regressão POR FONTE. Duas saídas limpas:
+- **(recomendada) 2 fases:** (1) job "re-embed-only" adiciona `embedding_large` aos entries EXISTENTES
+  (embeda o `content` atual com 3-large, `UPDATE ... embedding_large`, sem deletar/re-chunk) → flip
+  global p/ 3-large (agora large serve, zero janela) → (2) re-ingestão normal das fontes ao longo do
+  tempo pega os chunks/metadata B2 (pós-cutover grava só a coluna ativa, sem risco). Desacopla o
+  cutover de embedding (seguro) da melhoria de chunk.
+- **(alternativa) dual-write:** re-ingestão grava AMBAS as colunas (embedding 3-small + embedding_large
+  3-large) durante a transição → 2× custo de embedding, zero janela, cutover instantâneo. Requer
+  Ingestor/EmbeddingService aceitarem override de modelo e escreverem 2 colunas.
+Backfill é 🔴 (próprio 🟢 do Rodrigo p/ EXECUTAR) e NÃO bloqueia o merge/deploy do código B1–B4 (com
+global ainda 3-small, a coluna halfvec fica dormente e segura; B2/B3/B4 já melhoram ingestões NOVAS).
+
 **Backfill (Vermelha — precisa plano de rollback + validação, regra 3):**
 - Job idempotente por fonte reusando `Ingestor` (extract→chunk→embed→replace com token-guard, que já
   existe e é seguro contra race). **Big-bang** (decisão Rodrigo) — todas as contas de uma vez.

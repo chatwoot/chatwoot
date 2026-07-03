@@ -11,18 +11,28 @@ module Autonomia
             # rescue de Roo/Zip só DEPOIS do ensure_gem!: com a gem ausente, ensure_gem! levanta
             # UnsupportedFormat e as constantes `Roo`/`Zip` (indefinidas) não são avaliadas.
             begin
-              lines = []
+              blocks = []
               with_tempfile do |path|
                 book = Roo::Spreadsheet.open(path, extension: :xlsx)
-                book.sheets.each { |sheet| lines.concat(rows_for(book, sheet)) }
+                book.sheets.each { |sheet| blocks.concat(block_for(book, sheet)) }
               end
-              lines.join("\n")
+              blocks.join("\n")
             rescue Roo::Error, Zip::Error => e
               raise ExtractionError, "xlsx_parse_failed: #{e.message}"
             end
           end
 
           private
+
+          # Bloco de uma aba: cabeçalho markdown com o NOME DA ABA (o Chunker reconhece "## x" como
+          # heading e o herda em cada chunk do corpo -> preserva o contexto da aba) seguido das
+          # linhas. Aba vazia é ignorada (não polui com heading sem corpo).
+          def block_for(book, sheet)
+            rows = rows_for(book, sheet)
+            return [] if rows.empty?
+
+            ["## #{sheet}", *rows]
+          end
 
           def rows_for(book, sheet)
             book.sheet(sheet).to_a.filter_map do |row|

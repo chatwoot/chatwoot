@@ -123,7 +123,16 @@ module Autonomia
       def fresh?(agent)
         agent.config.to_h['guide_kb_version'] == self.class.kb_version &&
           agent.knowledge_entries.ready.exists? &&
+          active_column_populated?(agent) &&
           canonical_state?(agent)
+      end
+
+      # B1 — a base do Guia precisa estar na COLUNA do modelo ativo. Se o cutover virou 3-large mas o
+      # Guia foi semeado em 3-small, `embedding_large` está vazia e o Retriever (large) não acha nada:
+      # NÃO é fresh → re-semeia na coluna certa. Checa 1 entry ready com a coluna ativa preenchida.
+      def active_column_populated?(agent)
+        column = ::Autonomia::Agents::Config.embedding_column(::Autonomia::Agents::Config.active_embedding_model)
+        agent.knowledge_entries.ready.where.not(column => nil).exists?
       end
 
       def canonical_state?(agent)
@@ -169,7 +178,13 @@ module Autonomia
         flows = split_flows(File.read(KB_PATH))
         return if flows.empty?
 
-        vectors = ::Autonomia::Agents::EmbeddingService.new(account: @account).embed_batch(flows)
+        # B1 — o Guia grava na MESMA tabela e é lido pelo MESMO Retriever (que usa o modelo GLOBAL).
+        # Resolve o modelo 1x e escreve na coluna dele (small->:embedding | large->:embedding_large
+        # halfvec), igual ao Ingestor — senão, no cutover 3-large, o Guia embedaria 3072 contra
+        # vector(1536) e/ou ficaria sem embedding_large (retrieval do Guia vazio).
+        model = ::Autonomia::Agents::Config.active_embedding_model
+        large = ::Autonomia::Agents::Config.embedding_column(model) == ::Autonomia::Agents::Config::EMBEDDING_LARGE_COLUMN
+        vectors = ::Autonomia::Agents::EmbeddingService.new(account: @account, model: model).embed_batch(flows)
         source = ensure_source(agent)
 
         ::Autonomia::Agents::KnowledgeEntry.transaction do
@@ -180,15 +195,25 @@ module Autonomia
             vector = vectors[index]
             next if vector.blank?
 
-            ::Autonomia::Agents::KnowledgeEntry.create!(
-              autonomia_agent_id: agent.id, account_id: @account.id, source_id: source.id,
-              content: content, embedding: vector, chunk_index: index,
-              status: :ready, metadata: { source_type: 'md' }
-            )
+            create_guide_entry(source, content, vector, index, large)
           end
         end
 
         agent.update!(config: agent.config.to_h.merge('guide_kb_version' => self.class.kb_version))
+      end
+
+      # Grava uma entry do Guia na coluna do modelo ativo (mesma regra do Ingestor). large -> halfvec
+      # via SQL sanitizado (a gem neighbor não casta halfvec); small -> :embedding pela gem.
+      def create_guide_entry(source, content, vector, index, large)
+        record = ::Autonomia::Agents::KnowledgeEntry.create!(
+          autonomia_agent_id: source.agent.id, account_id: @account.id, source_id: source.id,
+          content: content, chunk_index: index, status: :ready, metadata: { source_type: 'md' },
+          **(large ? {} : { embedding: vector })
+        )
+        return unless large
+
+        ::Autonomia::Agents::KnowledgeEntry.where(id: record.id)
+                                           .update_all(['embedding_large = ?::halfvec', "[#{vector.join(',')}]"])
       end
 
       def ensure_source(agent)

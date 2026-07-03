@@ -217,6 +217,12 @@ gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 gem 'pdf-reader', '~> 2.12'
 gem 'roo', '~> 2.10'
 gem 'rubyzip', '~> 2.3', require: 'zip' # docx (Zip::File) + dep do roo
+# OCR de PDF escaneado (sem camada de texto): rtesseract (wrapper do binário tesseract) +
+# mini_magick (wrapper imagemagick p/ rasterizar páginas). Ruby-puro; dependem de binários de
+# sistema (tesseract-ocr, tesseract-ocr-data-por, poppler-utils) instalados na imagem — o
+# processador degrada com segurança se o binário faltar em runtime.
+gem 'mini_magick', '~> 4.12'
+gem 'rtesseract', '~> 3.1'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
