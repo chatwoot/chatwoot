@@ -24,7 +24,8 @@ module Autonomia
       def initialize(conversation:, agent_id:, message:, history: [])
         @conversation = conversation
         @agent_id = agent_id
-        @message = message.to_s
+        # C1 (custo): teto na mensagem autoral do operador — texto colado gigante não infla o prompt.
+        @message = Autonomia::Agents::Config.truncate_text(message, Autonomia::Agents::Config::MAX_QUERY_CHARS)
         @history = sanitize_history(history)
       end
 
@@ -89,7 +90,8 @@ module Autonomia
                      .join("\n").first(MAX_TRANSCRIPT)
       end
 
-      # The widget thread is operator-authored; keep only role/content and cap length.
+      # The widget thread is operator-authored; keep only role/content and cap COUNT and SIZE —
+      # C1 (custo): antes só a quantidade era capada; um item gigante inflava o prompt do mesmo jeito.
       def sanitize_history(history)
         Array(history).filter_map do |entry|
           h = entry.respond_to?(:to_unsafe_h) ? entry.to_unsafe_h : entry
@@ -97,6 +99,7 @@ module Autonomia
           content = (h[:content] || h['content']).to_s.strip
           next if content.blank?
 
+          content = Autonomia::Agents::Config.truncate_text(content, Autonomia::Agents::Config::MAX_HISTORY_ITEM_CHARS)
           { role: role == 'assistant' ? 'assistant' : 'user', content: content }
         end.last(MAX_MESSAGES)
       end
