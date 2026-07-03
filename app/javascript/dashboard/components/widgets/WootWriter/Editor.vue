@@ -94,6 +94,10 @@ const props = defineProps({
   conversationId: { type: Number, default: null },
   medium: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: true },
+  // Global INSERT_INTO_RICH_EDITOR bus events (Copilot "Use this", article
+  // links) are meant for the conversation reply editor only — other mounted
+  // editors (canned responses, signature, etc.) must not consume them.
+  enableInsertEvents: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -861,7 +865,10 @@ defineExpose({ focusEditorInputField });
 // current cursor position.
 // Components using this
 // 1. SearchPopover.vue
-useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
+useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
+  if (!props.enableInsertEvents) return;
+  insertContentIntoEditor(content);
+});
 </script>
 
 <template>
