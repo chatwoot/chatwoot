@@ -11,7 +11,7 @@ import {
  *
  * @param {boolean} [includeNoneAgent=true] - Whether to include a 'None' agent option.
  * @param {Object} [options] - Options for the assignable agents list.
- * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees.
+ * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees. Only pass this from surfaces that thread `assignee_type` through the assignment request.
  * @returns {Object} An object containing the agents list and assignable agents.
  */
 export function useAgentsList(

@@ -8,6 +8,8 @@ import { useMapGetter } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   selectedInboxes: {
@@ -41,7 +43,9 @@ const assignableAgentsList = useMapGetter(
   'inboxAssignableAgents/getAssignableAgents'
 );
 const assignableAgents = computed(() =>
-  assignableAgentsList.value(props.selectedInboxes.join(','))
+  assignableAgentsList.value(props.selectedInboxes.join(','), {
+    includeAgentBots: true,
+  })
 );
 
 const agentMenuItems = computed(() => {
@@ -61,13 +65,17 @@ const agentMenuItems = computed(() => {
   assignableAgents.value.forEach(agent => {
     items.push({
       action: 'select',
-      value: agent.id,
+      value: `${agent.assignee_type || 'User'}:${agent.id}`,
       label: agent.name,
+      assigneeType: agent.assignee_type,
       thumbnail: {
         name: agent.name,
         src: agent.thumbnail,
       },
-      isSelected: selectedAgent.value?.id === agent.id,
+      isSelected:
+        selectedAgent.value?.id === agent.id &&
+        (selectedAgent.value?.assignee_type || 'User') ===
+          (agent.assignee_type || 'User'),
     });
   });
 
@@ -78,7 +86,9 @@ const handleSelectAgent = item => {
   if (item.value === 'none') {
     selectedAgent.value = { id: null, name: t('BULK_ACTION.NONE') };
   } else {
-    const agent = assignableAgents.value.find(a => a.id === item.value);
+    const agent = assignableAgents.value.find(
+      a => `${a.assignee_type || 'User'}:${a.id}` === item.value
+    );
     selectedAgent.value = agent || { id: null, name: t('BULK_ACTION.NONE') };
   }
 };
@@ -105,7 +115,10 @@ const handleToggleDropdown = () => {
 
   // Fetch agents only when opening the dropdown
   if (willOpen && props.selectedInboxes.length > 0) {
-    store.dispatch('inboxAssignableAgents/fetch', props.selectedInboxes);
+    store.dispatch('inboxAssignableAgents/fetch', {
+      inboxIds: props.selectedInboxes,
+      includeAgentBots: true,
+    });
   }
 };
 </script>
@@ -139,6 +152,29 @@ const handleToggleDropdown = () => {
         class="ltr:-right-10 rtl:-left-10 ltr:2xl:right-0 rtl:2xl:left-0 bottom-8 w-60 max-h-80"
         @action="handleSelectAgent"
       >
+        <template #thumbnail="{ item }">
+          <Avatar
+            :name="item.thumbnail.name"
+            :src="item.thumbnail.src"
+            :icon-name="
+              item.assigneeType === 'AgentBot' ? 'i-lucide-bot' : undefined
+            "
+            :size="20"
+            class="flex-shrink-0"
+            rounded-full
+          >
+            <template
+              v-if="item.assigneeType === 'AgentBot' && item.thumbnail.src"
+              #badge
+            >
+              <div
+                class="absolute z-20 flex items-center justify-center rounded-full outline outline-1 outline-n-weak bg-n-solid-1 -bottom-0.5 ltr:-right-0.5 rtl:-left-0.5 size-3"
+              >
+                <Icon icon="i-lucide-bot" class="text-n-slate-11 size-2" />
+              </div>
+            </template>
+          </Avatar>
+        </template>
         <template v-if="selectedAgent" #footer>
           <div
             class="pt-2 pb-2 px-2 border-t border-n-weak sticky bottom-0 rounded-b-md z-20 bg-n-alpha-3 backdrop-blur-[4px]"

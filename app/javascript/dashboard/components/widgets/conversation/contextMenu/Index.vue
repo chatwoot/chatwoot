@@ -188,7 +188,7 @@ export default {
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
-      ](this.inboxId);
+      ](this.inboxId, { includeAgentBots: true });
       const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
         agents,
         this.currentUser,
@@ -218,7 +218,10 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
+    this.$store.dispatch('inboxAssignableAgents/fetch', {
+      inboxIds: [this.inboxId],
+      includeAgentBots: true,
+    });
   },
   methods: {
     isAllowed(keys) {
@@ -269,6 +272,8 @@ export default {
         ...(type === 'label' && { color: option.color }),
         ...(type === 'agent' && { thumbnail: option.thumbnail }),
         ...(type === 'agent' && { status: option.availability_status }),
+        ...(type === 'agent' &&
+          option.assignee_type === 'AgentBot' && { iconName: 'i-lucide-bot' }),
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),

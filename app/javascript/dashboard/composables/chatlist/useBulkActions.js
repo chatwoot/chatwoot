@@ -64,6 +64,7 @@ export function useBulkActions() {
         ids: conversationId || selectedConversations.value,
         fields: {
           assignee_id: agent.id,
+          assignee_type: agent.assignee_type,
         },
       });
       store.dispatch('bulkActions/clearSelectedConversationIds');

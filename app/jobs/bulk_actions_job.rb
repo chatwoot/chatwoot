@@ -27,8 +27,23 @@ class BulkActionsJob < ApplicationJob
     records.each do |conversation|
       bulk_add_labels(conversation)
       bulk_snoozed_until(conversation)
-      conversation.update(params) if params
+      next unless params
+
+      assign_conversation(conversation, params)
+      conversation.update(params.except(:assignee_id, :assignee_type))
     end
+  end
+
+  # assignee_type is not a Conversation column and bots need dedicated handling,
+  # so assignment is routed through the shared AssignmentService instead of a bare update.
+  def assign_conversation(conversation, params)
+    return unless params.key?(:assignee_id)
+
+    Conversations::AssignmentService.new(
+      conversation: conversation,
+      assignee_id: params[:assignee_id],
+      assignee_type: params[:assignee_type]
+    ).perform
   end
 
   def bulk_remove_labels

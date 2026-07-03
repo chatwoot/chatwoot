@@ -62,6 +62,21 @@ RSpec.describe BulkActionsJob do
       expect(conversation_3.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'bulk assigns an agent bot when assignee_type is AgentBot' do
+      agent_bot = create(:agent_bot, account: account)
+      params = {
+        type: 'Conversation',
+        fields: { assignee_id: agent_bot.id, assignee_type: 'AgentBot' },
+        ids: conversation_ids
+      }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.assignee_agent_bot_id).to eq(agent_bot.id)
+      expect(conversation_1.assignee_id).to be_nil
+      expect(conversation_2.reload.assignee_agent_bot_id).to eq(agent_bot.id)
+    end
+
     it 'bulk updates the snoozed_until' do
       params = {
         type: 'Conversation',
