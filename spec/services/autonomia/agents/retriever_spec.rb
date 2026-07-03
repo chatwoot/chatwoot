@@ -96,4 +96,53 @@ RSpec.describe Autonomia::Agents::Retriever do
       expect(result).to eq([])
     end
   end
+
+  # B3 — rerank aditivo por metadata: promove o chunk cujo metadata casa com os termos da query,
+  # entre candidatos de distância parecida, SEM mutar neighbor_distance nem reabrir fora-de-escopo.
+  describe '#rerank_by_metadata (B3)' do
+    subject(:retriever) { described_class.new(agent: agent) }
+
+    def entry_with(distance:, metadata:)
+      entry = Autonomia::Agents::KnowledgeEntry.new(content: 'x', metadata: metadata)
+      entry.define_singleton_method(:neighbor_distance) { distance }
+      entry
+    end
+
+    it 'promotes a metadata-matching chunk above a slightly closer non-matching one' do
+      # Arrange — e2 é vetorialmente mais perto (0.48), mas e1 casa "frete" no metadata
+      match = entry_with(distance: 0.50, metadata: { 'keywords' => %w[frete entrega] })
+      closer = entry_with(distance: 0.48, metadata: { 'keywords' => %w[troca devolucao] })
+
+      # Act
+      ranked = retriever.send(:rerank_by_metadata, [closer, match], 'qual o frete?')
+
+      # Assert
+      expect(ranked.first).to eq(match)
+      expect(match.neighbor_distance).to eq(0.50) # inalterado (só a ordem muda)
+    end
+
+    it 'matches against the doc classification block (topics/entities)' do
+      # Arrange
+      match = entry_with(distance: 0.50, metadata: { 'doc' => { 'topics' => ['política de frete'] } })
+      other = entry_with(distance: 0.49, metadata: { 'doc' => { 'topics' => ['garantia'] } })
+
+      # Act
+      ranked = retriever.send(:rerank_by_metadata, [other, match], 'frete')
+
+      # Assert
+      expect(ranked.first).to eq(match)
+    end
+
+    it 'is a no-op (preserves vector order) when metadata is absent' do
+      # Arrange
+      a = entry_with(distance: 0.30, metadata: {})
+      b = entry_with(distance: 0.60, metadata: {})
+
+      # Act
+      ranked = retriever.send(:rerank_by_metadata, [a, b], 'frete')
+
+      # Assert — ordem por distância mantida, sem bônus
+      expect(ranked).to eq([a, b])
+    end
+  end
 end

@@ -27,6 +27,11 @@ class Autonomia::Agents::Retriever
     # ancoragem de confiança no Answerer o rebaixa se for fraco. Acima do teto = genuíno fora-de-
     # escopo → descartado, preservando o isolamento (handoff correto p/ "cardápio de pizza" num salão).
     kept = rows.select { |e| e.neighbor_distance.to_f <= Autonomia::Agents::Config::RETRIEVAL_HARD_CEILING }
+    # B3 — rerank ADITIVO por metadata (nunca filtro que zera — lição P1.1b): reordena os candidatos
+    # já dentro do teto, promovendo o chunk cujo heading/keywords/topics casam com os termos da query.
+    # Bônus pequeno e limitado → quebra empate / melhora o pick por fonte, sem ressuscitar lixo (o teto
+    # já barrou fora-de-escopo). NÃO muta neighbor_distance (o Answerer o usa p/ ancorar confiança).
+    kept = rerank_by_metadata(kept, query)
     result = dedup_by_source(kept).first(top_k)
     # P1.1c — complemento lexical p/ termos exatos que o embedding raso perde (SKU, "domingo",
     # "dermato"): só quando o vetorial veio fraco/incompleto. Roda sobre o MESMO escopo filtrado
@@ -151,6 +156,41 @@ class Autonomia::Agents::Retriever
 
   def lexical_terms(query)
     query.to_s.downcase.scan(/[\p{Alnum}]{4,}/).reject { |w| STOPWORDS_PT.include?(w) }.uniq.first(6)
+  end
+
+  # B3 — bônus por termo casado nos metadados do chunk, e teto do bônus. Pequenos de propósito:
+  # o rerank AJUDA a ordenar entre candidatos já válidos (< teto), não substitui a similaridade
+  # vetorial nem reabre fora-de-escopo (o teto 0.75 já filtrou). Distância menor = melhor; o bônus é
+  # SUBTRAÍDO da distância só para ORDENAR (neighbor_distance permanece intacto p/ a ancoragem).
+  METADATA_MATCH_BONUS = 0.03
+  METADATA_MAX_BONUS = 0.12
+
+  # Reordena por (distância - bônus_de_metadata), sem mutar neighbor_distance. Ordem estável quando
+  # não há termos ou metadata (sort_by preserva a ordem vetorial original via a própria distância).
+  def rerank_by_metadata(entries, query)
+    terms = lexical_terms(query)
+    return entries if terms.empty? || entries.size < 2
+
+    entries.sort_by { |entry| entry.neighbor_distance.to_f - metadata_bonus(entry, terms) }
+  end
+
+  def metadata_bonus(entry, terms)
+    haystack = metadata_haystack(entry.metadata)
+    return 0.0 if haystack.blank?
+
+    hits = terms.count { |term| haystack.include?(term) }
+    [hits * METADATA_MATCH_BONUS, METADATA_MAX_BONUS].min
+  end
+
+  # Junta os campos textuais do metadata (chaves string do jsonb) num blob minúsculo p/ casar termos:
+  # heading, material_type, keywords e o bloco doc (topics/entities/style) do classificador (B2). Nil-safe
+  # p/ chunks antigos sem metadata rica (bônus 0 → sem efeito, sem regressão).
+  def metadata_haystack(metadata)
+    meta = metadata || {}
+    doc = meta['doc'] || meta[:doc] || {}
+    parts = [meta['section_heading'], meta['material_type'], meta['keywords'],
+             doc['topics'], doc['entities']]
+    parts.flatten.compact.join(' ').downcase
   end
 
   # Dedup por fonte (P2): 1 melhor trecho por fonte primeiro (já ordenados por distância pelo
