@@ -197,7 +197,7 @@ module Autonomia
         # Teto de custo do texto agregado. DIMENSIONADO ACIMA do máximo que a amostra pode produzir
         # (SAMPLE_MAX_CHUNKS * SAMPLE_CHUNK_CHARS + separadores) para NUNCA cortar um chunk amostrado —
         # em especial o último. É rede de segurança para overflow patológico, não um limite ativo.
-        SAMPLE_TOTAL_CHARS = SAMPLE_MAX_CHUNKS * SAMPLE_CHUNK_CHARS + 2_000
+        SAMPLE_TOTAL_CHARS = (SAMPLE_MAX_CHUNKS * SAMPLE_CHUNK_CHARS) + 2_000
         # CAP determinístico do topic_map (defesa em profundidade do §6.2): mesmo que o modelo
         # devolva mais temas ou variações do mesmo, normalizamos para no máximo N itens deduplicados.
         TOPIC_MAP_CAP = 10
