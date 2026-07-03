@@ -24,9 +24,11 @@ module Autonomia
       def initialize(conversation:, task:, draft: nil, tone: nil, instruction: nil)
         @conversation = conversation
         @task = task.to_s
-        @draft = draft.to_s
+        # C1 (custo): teto nos textos autorais do atendente (draft a reescrever/refinar e a instrução
+        # de refino) — sem teto, um texto colado gigante vira input do LLM sem limite.
+        @draft = Autonomia::Agents::Config.truncate_text(draft, Autonomia::Agents::Config::MAX_QUERY_CHARS)
         @tone = tone.to_s
-        @instruction = instruction.to_s
+        @instruction = Autonomia::Agents::Config.truncate_text(instruction, Autonomia::Agents::Config::MAX_QUERY_CHARS)
       end
 
       def perform
@@ -82,16 +84,23 @@ module Autonomia
       end
 
       def linked_agent
-        agent = Autonomia::Agents::AgentInbox.find_by(inbox_id: conversation.inbox_id)&.agent
-        return nil if agent.nil?
+        # TENANCY FAIL-CLOSED na LEITURA: escopa o vínculo pela conta da conversa e exige agente da
+        # MESMA conta. Vínculo legado/corrompido cross-tenant nunca fundamenta rascunho com KB alheia —
+        # mismatch cai no draft genérico (como "sem agente").
+        agent = Autonomia::Agents::AgentInbox.find_by(inbox_id: conversation.inbox_id,
+                                                      account_id: conversation.account_id)&.agent
+        usable_copilot_agent?(agent) ? agent : nil
+      end
+
+      def usable_copilot_agent?(agent)
+        return false if agent.nil? || agent.account_id != conversation.account_id
         # Defesa: um agente de SISTEMA (Guia) nunca roda pelo copiloto/quick-actions (rodaria com o
         # web search default ligado e fora do contrato KB-only).
-        return nil if agent.config&.dig('system_key').present?
+        return false if agent.config&.dig('system_key').present?
+
         # Só agente HABILITADO + ATIVO atende (mesma guarda dos demais caminhos de copiloto): um agente
         # desligado/pausado não deve fundamentar rascunhos pelo quick-action.
-        return nil unless agent.enabled? && agent.active?
-
-        agent
+        agent.enabled? && agent.active?
       end
 
       # Real customer/agent messages only (no activities, no private notes).

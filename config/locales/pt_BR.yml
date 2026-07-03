@@ -578,6 +578,10 @@ pt_BR:
       no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
       subscriptions_deleted: "Excluída(s) %{count} inscrição(ões). O(s) dispositivo(s) do usuário será(ão) registrado(s) novamente na próxima inicialização do aplicativo."
   autonomia:
+    build_thread:
+      message_blank: 'Escreva uma mensagem para falar com o construtor de agentes.'
+      build_in_progress: 'O construtor ainda está processando sua mensagem anterior. Aguarde um instante e tente de novo.'
+      retry_unavailable: 'Não é possível reexecutar esta geração agora.'
     agents:
       operate:
         handoff_default: 'Não quero te passar uma informação imprecisa. Vou encaminhar seu atendimento para alguém do nosso time continuar com você.'

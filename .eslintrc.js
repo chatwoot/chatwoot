@@ -1,4 +1,8 @@
 module.exports = {
+  // Stop the legacy config cascade at the repo root: without this, linting from a
+  // nested git worktree (see "Codex Worktree Workflow" in CLAUDE.md) also loads the
+  // parent checkout's .eslintrc.js and ESLint aborts with a duplicate-plugin error.
+  root: true,
   extends: [
     'airbnb-base/legacy',
     'prettier',

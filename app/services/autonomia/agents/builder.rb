@@ -652,6 +652,12 @@ module Autonomia
       #   - needs_more_info=false → cria/atualiza o Agent (instruction/scaffold OCULTOS) e marca ready.
       # Levanta ResponsesClient::Error em falha de rede/provedor (o SubmitJob marca a thread failed).
       def run!(token)
+        # TENANCY FAIL-CLOSED no RUNTIME (par do validate do BuildThread, que só protege a ESCRITA):
+        # uma thread legada/corrompida apontando para agente de OUTRA conta faria o Construtor LER a
+        # instruction alheia (adjust_context) e ESCREVER config alheia (apply_builder_config!). Aborta
+        # ANTES de qualquer chamada de IA/escrita, marcando failed com telemetria — nunca cross-tenant.
+        return abort_cross_account_agent!(token) unless thread_agent_same_account?
+
         result = client.create(
           model: Autonomia::Agents::Config::BUILDER_MODEL,
           instructions: MOTHER_INSTRUCTION,
@@ -661,6 +667,21 @@ module Autonomia
           tools: Crm::Ai::WebSearch.tools
         )
         apply_result(token, result[:text])
+      end
+
+      # Sem agente ainda (criação) => ok; com agente, ele PRECISA ser da conta da thread.
+      def thread_agent_same_account?
+        agent = @thread.agent
+        agent.blank? || agent.account_id == @thread.account_id
+      end
+
+      def abort_cross_account_agent!(token)
+        Rails.logger.error(
+          "[Autonomia::Agents::Builder] cross_account_agent thread=#{@thread.id} " \
+          "thread_account=#{@thread.account_id} agent=#{@thread.autonomia_agent_id}"
+        )
+        @thread.mark_failed!(token, 'cross_account_agent')
+        nil
       end
 
       # CONSTRUTOR (P1) — reasoning POR FASE para cortar latência (~24s/turno na campanha). O ramo só é
@@ -730,6 +751,14 @@ module Autonomia
         # feature/contexto e tokens expirados. find_signed (não o bang) -> nil se inválido.
         blob = ActiveStorage::Blob.find_signed(signed_id, purpose: :autonomia_builder_image)
         return nil if blob.blank?
+
+        # TENANCY: o signed_id é global (find_signed não conhece conta) — só aceita blob criado no
+        # contexto DESTA conta (metadata gravado no upload pelo BuilderImagesController). Mismatch
+        # (inclui blob sem metadata) descarta só a imagem, com warn — o turno segue.
+        unless blob.metadata['autonomia_account_id'].to_s == @account.id.to_s
+          Rails.logger.warn("Autonomia builder image discarded: blob #{blob.id} not owned by account #{@account.id}")
+          return nil
+        end
         return nil unless Autonomia::Agents::Config::IMAGE_CONTENT_TYPES.include?(blob.content_type)
         return nil if blob.byte_size > Autonomia::Agents::Config::MAX_IMAGE_BYTES
 
@@ -840,7 +869,8 @@ module Autonomia
         'CONTEXTO INTERNO (não é fala do usuário). BASE DE CONHECIMENTO: o dono escolheu criar SEM base. ' \
           'NÃO peça documentos, FAQs ou materiais em nenhum momento. Conduza a entrevista normal (nome, ' \
           'objetivo, escopo, limites) e feche quando tiver o essencial; assuma que, faltando informação, ' \
-          'o agente encaminha para um humano.'
+          'o agente encaminha para um humano. NÃO pergunte se pode criar sem base de conhecimento: ' \
+          'essa escolha já foi feita na abertura e o fechamento está autorizado sem essa confirmação.'
       end
 
       # V2.1 — atuação escolhida na ABERTURA (state) tem prioridade: o agente-rascunho é criado no meio
@@ -874,10 +904,9 @@ module Autonomia
       end
 
       # Nº de RESPOSTAS já dadas pelo usuário na thread já bateu o teto da entrevista?
-      # Contamos turnos `user` como proxy do nº de respostas: o controller só persiste mensagens
-      # `user` (o bubble do assistant é injetado só no FE), então contar `assistant` daria sempre 0
-      # e a rede anti-loop nunca dispararia. A abertura do Construtor não tem turno de usuário, logo
-      # cada resposta do usuário corresponde a uma pergunta já respondida.
+      # Contamos turnos `user` como proxy do nº de respostas (desde E1 as perguntas do assistant
+      # também são persistidas, mas a contagem por RESPOSTA segue mais fiel — a abertura do
+      # Construtor não tem turno de usuário, logo cada resposta corresponde a uma pergunta respondida).
       def interview_budget_exhausted?
         Array(@thread.messages).count { |m| m['role'] == 'user' } >= MAX_INTERVIEW_QUESTIONS
       end
@@ -990,7 +1019,11 @@ module Autonomia
           # ABRIR o construtor e sair já lotaria o Hub de rascunhos "Novo agente" vazios. O agentId
           # passa a existir na 1ª resposta do usuário (quando os Materiais começam a fazer sentido).
           ensure_agent(token) if Array(@thread.messages).any? { |m| m['role'] == 'user' }
-          @thread.mark_ready!(token, state: self.class.state_for(parsed))
+          # E1 — persiste o turno do assistant no histórico do thread: a pergunta da entrevista ia só
+          # no state (next_question) e o FE a injetava localmente — um refresh perdia o fio e o LLM
+          # recebia a resposta ("sim/isso/o segundo") sem a pergunta anterior. Só grava se o
+          # mark_ready! venceu (token ainda ativo — geração não superseded).
+          persist_assistant_turn!(parsed['next_question']) if @thread.mark_ready!(token, state: self.class.state_for(parsed))
         else
           # GATE/P2 — FALLBACK de nome no fechamento: se o usuário mandou fechar mas nunca nomeou o
           # agente, derive um default pelo tipo em vez de deixar o agente vazio/"Novo agente" (T13).
@@ -1043,6 +1076,20 @@ module Autonomia
         parsed['needs_more_info'] = true
         parsed['next_question'] = parsed['next_question'].to_s.presence ||
                                   'Preciso de um pouco mais de contexto para finalizar a configuração do agente. Pode detalhar melhor?'
+      end
+
+      # E1 — anexa a pergunta do Construtor como mensagem `assistant` persistida, para o build_input
+      # dos próximos turnos conter pergunta+resposta e o reload do FE não perder o fio. Dedupe:
+      # no-op se o último turno já é este mesmo texto (retry/geração repetida não duplica; o FE
+      # também deduplica por role+content ao mesclar).
+      def persist_assistant_turn!(question)
+        text = question.to_s.strip
+        return if text.blank?
+
+        last = Array(@thread.messages).last
+        return if last && last['role'] == 'assistant' && last['content'] == text
+
+        @thread.append_message!('assistant', text)
       end
 
       # #3 INSTRUÇÃO VIVA (auto-finalize): o usuário avançou da Conversa/Materiais para a Revisão sem
@@ -1210,13 +1257,17 @@ module Autonomia
           knowledge.each { |s| lines << "- #{source_reference(s)}: #{material_state_label(s)}" }
           lines << 'Ao fechar, reconheça em 1 frase os materiais recebidos (e quais ficaram pendentes, se houver).'
         end
+        # E5 — "sem base" escolhido na ABERTURA (with_knowledge=false) vale como confirmação de que
+        # não haverá material: o status reporta confirmado e o bloco de cobrança ("pergunte UMA vez
+        # se pode criar SEM base") é suprimido — o fechamento fica liberado direto. O fluxo COM base
+        # (with_knowledge? true, default) segue idêntico.
         lines << "aceitos: #{accepted}; aguardando revisão/reenvio: #{pending}; " \
-                 "usuário declarou/confirmou não ter material: #{no_materials_declared?}."
+                 "usuário declarou/confirmou não ter material: #{no_materials_declared? || !with_knowledge?}."
         if pending.positive? && !no_materials_declared?
           lines << 'Só feche a instrução (needs_more_info=false) quando os materiais estiverem revisados OU o usuário ' \
                    'declarou/confirmou não ter material.'
         end
-        if knowledge.empty? && !no_materials_declared?
+        if knowledge.empty? && !no_materials_declared? && with_knowledge?
           lines << 'NÃO há material de conhecimento. ANTES de fechar, pergunte UMA vez se pode criar o agente SEM base ' \
                    'de conhecimento (ela encaminha para um humano quando faltar informação) e só feche depois que o ' \
                    'usuário confirmar OU pedir explicitamente para fechar.'

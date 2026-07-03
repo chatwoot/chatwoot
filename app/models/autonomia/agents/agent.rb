@@ -55,6 +55,15 @@ module Autonomia
       # jbuilder (não está na lista de campos seguros do serializer) e nunca vaza a instrução.
       store_accessor :config, :knowledge_refresh_token
 
+      # C3 (custo): agente declarado SEM base de conhecimento. ATENÇÃO ao default histórico: a
+      # AUSÊNCIA da chave `with_knowledge` significa COM base (true) — só o `false` explícito
+      # (boolean ou a string 'false', como o jsonb pode guardar) desliga. Usado p/ pular o
+      # retrieval/embedding no Answerer (agente sem base não paga embedding por mensagem nem
+      # usa entries residuais). Mesmo contrato do jbuilder (`with_knowledge != false`).
+      def knowledge_disabled?
+        [false, 'false'].include?(config.to_h['with_knowledge'])
+      end
+
       # Aplica config gerada pelo Construtor (token-guarded — análogo a ai_guarded_update do
       # EmailCampaign). `build_token` é o token ativo do BuildThread; a escrita só vence se este
       # ainda for o token da geração corrente (idempotência anti-supersede). `attrs` já vem mapeado
@@ -72,7 +81,9 @@ module Autonomia
           # → no-op (o ajuste mais NOVO vence). É só um SELECT escopado ao agente (sem lock do agente,
           # sem marcação, sem ordem de lock invertida) → não há deadlock com este `lock` na própria
           # thread. Criação (thread única) nunca tem uma mais nova → aplica normal.
-          next false if build_threads.where('id > ?', thread.id).exists?
+          # Escopado à MESMA conta: uma thread legada cross-account (que o runtime aborta, T5)
+          # não pode bloquear o apply de um ajuste legítimo por parecer "mais nova".
+          next false if build_threads.where(account_id: account_id).where('id > ?', thread.id).exists?
 
           # Merge no jsonb `config` em vez de substituí-lo: preserva model/temperature/business_hours/
           # max_turns já setados (o Construtor só gera `guardrails`). Substituir zeraria a config a
@@ -85,12 +96,19 @@ module Autonomia
       end
 
       # #3 INSTRUÇÃO VIVA — Atualiza a instrução fora do fluxo do Construtor (a KB mudou, não há
-      # BuildThread em geração). SEM token: não há geração concorrente do usuário aqui. Toca SÓ a
+      # BuildThread em geração). Escrita CONDICIONAL ATÔMICA (G1, anti-corrida check→write): só
+      # vence se o agente CONTINUA `guided` (modo manual = instrução escrita à mão pelo usuário,
+      # intocável pelo refresh automático) E a instrução no banco ainda é a que o refresh fotografou
+      # (`expected_instruction` — uma edição concorrente do painel perde de propósito). Toca SÓ a
       # coluna `instruction` (oculta); `config` — topic_map/knowledge_summary/confidence — acabou de
       # ser gravado por recompute_overall! no mesmo agente, então NÃO é tocado (preservado por
       # omissão). Não dispara recompute_overall! de volta (não mexe em config/sources): sem loop.
-      def refresh_instruction!(new_instruction)
-        update!(instruction: new_instruction)
+      # Agent não tem callbacks → update_all é seguro. Retorna true se ganhou a escrita.
+      def refresh_instruction!(new_instruction, expected_instruction:)
+        rows = self.class.where(id: id, mode: self.class.modes[:guided], instruction: expected_instruction)
+                   .update_all(instruction: new_instruction, updated_at: Time.current)
+        reload if rows.positive?
+        rows.positive?
       end
 
       # #3 INSTRUÇÃO VIVA (B): grava um token de coalescência novo no jsonb `config` e o retorna.

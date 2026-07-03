@@ -10,6 +10,10 @@ module Autonomia
 
       enum status: { open: 0, processing: 1, ready: 2, failed: 3 }
 
+      # Tenancy (defesa em profundidade): uma thread apontando para agente de OUTRA conta faria o
+      # Construtor ler/editar config alheia. Erro claro na escrita, nunca cross-tenant no runtime.
+      validate :agent_must_belong_to_account
+
       store_accessor :state, :draft_config, :needs_more_info, :next_question, :turn
       # Revisor v2 / portão de materiais: o usuário declarou que NÃO tem material para subir (avançou
       # a etapa de materiais sem anexar nada). O controller grava isso quando o front manda
@@ -60,13 +64,43 @@ module Autonomia
         self.state = merged
       end
 
+      # E3 — janela de "geração presa": o SubmitJob é síncrono e leva segundos; se a thread ficou
+      # `processing` por mais tempo que isto, o job morreu/perdeu-se sem mark_failed! (o token-guard
+      # impede qualquer escrita posterior). Passada a janela, reenvio/retry pode reassumir com um
+      # novo token; dentro dela, um novo turno é rejeitado (custo duplo + supersede do turno vivo).
+      STALE_PROCESSING_AFTER = 5.minutes
+
+      # E3 — há um build vivo agora? (processing e ainda dentro da janela esperada do job).
+      def build_in_progress?
+        processing? && !build_stale?
+      end
+
+      # E3 — build preso: processing além da janela do SubmitJob (updated_at é tocado por
+      # begin_build!, então mede o início da geração ativa).
+      def build_stale?
+        processing? && updated_at < STALE_PROCESSING_AFTER.ago
+      end
+
       # token-guard da geração do construtor (padrão EmailCampaign#ai_begin!): marca processing +
       # novo build_token. Toda escrita posterior (mark_ready!/mark_failed!) só vence se o token ainda
       # for o ativo E o status ainda for processing. Retorna o token p/ o SubmitJob/PollJob.
+      #
+      # CLAIM ATÔMICO (T6 review): um único UPDATE guardado por WHERE decide quem inicia a geração —
+      # só vence se o status estiver fora de processing OU o processing estiver preso além da janela
+      # stale. Duas chamadas simultâneas nunca vencem juntas: a perdedora recebe nil (o controller
+      # responde 409) sem turno nem job duplicado. Fecha a janela check-then-act do antigo
+      # `build_in_progress?` + update incondicional.
       def begin_build!
         token = SecureRandom.hex(16)
-        update_columns(status: self.class.statuses[:processing], build_token: token,
-                       updated_at: Time.current)
+        claimed = self.class.where(id: id)
+                      .where('status <> :processing OR updated_at < :stale_before',
+                             processing: self.class.statuses[:processing],
+                             stale_before: STALE_PROCESSING_AFTER.ago)
+                      .update_all(status: self.class.statuses[:processing], build_token: token,
+                                  updated_at: Time.current)
+        return nil if claimed.zero?
+
+        reload
         token
       end
 
@@ -110,6 +144,12 @@ module Autonomia
       end
 
       private
+
+      def agent_must_belong_to_account
+        return if account_id.blank? || agent.blank? || agent.account_id == account_id
+
+        errors.add(:agent, 'must belong to the same account')
+      end
 
       # Escreve só se a geração identificada por `token` ainda for a ativa e ainda processing.
       # update_all atômico fecha a janela entre checagem e escrita. Retorna true se ganhou (1 linha).

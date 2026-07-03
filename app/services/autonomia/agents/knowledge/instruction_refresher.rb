@@ -66,25 +66,52 @@ module Autonomia
           @agent&.reload # lê instrução/config frescos (anti-corrida com AJUSTE manual concorrente)
           return if @agent.blank? || @agent.instruction.blank? # só agentes FECHADOS; ignora rascunhos
 
+          # MODO MANUAL (avançado): a instrução foi escrita À MÃO pelo usuário — é dele, não do
+          # Construtor. O refresh automático JAMAIS pode reescrevê-la quando a base muda (destruiria
+          # o trabalho do cliente sem aviso). Só agentes `guided` recebem a instrução viva.
+          if @agent.manual?
+            telemetry(:skipped_manual)
+            return
+          end
+
           # GUARDA DE GERAÇÃO (anti last-writer-wins): fotografamos a base (token de coalescência +
           # resumo) ANTES da chamada LLM. Se a base mudou enquanto o modelo redigia (outra mudança de
           # KB venceu), DESCARTAMOS este resultado — senão um refresh que viu a base parcial poderia
           # regredir o escopo por cima de um que viu a base completa. A nova mudança já reenfileirou
           # o seu próprio refresh; deixamos ele assentar.
           generation = @agent.knowledge_refresh_token.to_s
+          # Fotografamos TAMBÉM a instrução: se o USUÁRIO a editar (PanelTune/ajuste) enquanto o
+          # modelo redige, este refresh viu uma instrução defasada e NÃO pode pisar na edição.
+          before_instruction = @agent.instruction
           updated = request_refresh
-          if updated.blank? || updated == @agent.instruction
+          if updated.blank? || updated == before_instruction
             telemetry(:skipped)
             return
           end
 
           @agent.reload
-          if @agent.instruction.blank? || @agent.knowledge_refresh_token.to_s != generation
+          if @agent.instruction.blank? || @agent.knowledge_refresh_token.to_s != generation ||
+             @agent.instruction != before_instruction
             telemetry(:superseded)
             return
           end
 
-          @agent.refresh_instruction!(updated)
+          # G1 pós-LLM: o usuário pode ter mudado o agente para MANUAL enquanto o modelo redigia.
+          # Se a instrução não mudou junto, o guard acima não pega — e o apply pisaria numa
+          # instrução que agora é do usuário. Revalida o modo depois do reload e descarta.
+          if @agent.manual?
+            telemetry(:skipped_manual)
+            return
+          end
+
+          # Apply condicional ATÔMICO (fecha a janela reload→write): refresh_instruction! só vence
+          # se o agente CONTINUA `guided` e a instrução no banco ainda é a fotografada. Perdeu = outra
+          # escrita (flip p/ manual ou edição do painel) chegou primeiro; descarta como superseded.
+          unless @agent.refresh_instruction!(updated, expected_instruction: before_instruction)
+            telemetry(:superseded)
+            return
+          end
+
           telemetry(:refreshed)
           updated
         rescue StandardError => e

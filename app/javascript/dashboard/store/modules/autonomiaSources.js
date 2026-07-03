@@ -95,6 +95,10 @@ const upsertItem = (items, item) => {
 
 export const actions = {
   fetch: async ({ commit, dispatch }, { agentId }) => {
+    // Zera a lista antes de buscar: ao trocar de agente o painel remonta, mas o
+    // store é module-wide — sem isto os itens do agente anterior ficam visíveis
+    // (o guard de loading é `fetchingList && !sources.length`) até o fetch voltar.
+    commit('SET', []);
     commit('SET_UI_FLAG', { fetchingList: true });
     try {
       const { data } = await AutonomiaSourcesAPI.get(agentId);

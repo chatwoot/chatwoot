@@ -28,6 +28,10 @@ export const getters = {
 
 export const actions = {
   fetch: async ({ commit }, { agentId }) => {
+    // Zera as listas antes de buscar (store module-wide): ao trocar de agente,
+    // sem isto os canais do agente anterior ficam visíveis até o fetch voltar,
+    // com botões conectar/desconectar apontando pro agente novo.
+    commit('SET_CHANNELS', { connected: [], eligible: [] });
     commit('SET_UI_FLAG', { fetching: true });
     try {
       const { data } = await AutonomiaChannelsAPI.get(agentId);
@@ -47,13 +51,20 @@ export const actions = {
 
   connect: async ({ commit, dispatch }, { agentId, inboxId }) => {
     commit('SET_UI_FLAG', { connecting: true });
+    let connected = false;
     try {
       const { data } = await AutonomiaChannelsAPI.connect(agentId, inboxId);
+      connected = true;
       // Re-sync from server truth: a connect moves the inbox between the
       // eligible and connected lists and may free/occupy others.
       await dispatch('fetch', { agentId });
       return data.payload || data;
     } catch (error) {
+      // Só propaga quando o CONNECT em si falhou. Se o vínculo foi criado e
+      // apenas o refetch caiu, lançar aqui faria o chamador (PanelPublish/
+      // Builder) desativar o agente por engano — deixando canal conectado a
+      // agente inativo.
+      if (connected) return null;
       return throwErrorMessage(error);
     } finally {
       commit('SET_UI_FLAG', { connecting: false });

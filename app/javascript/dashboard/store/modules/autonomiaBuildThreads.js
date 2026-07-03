@@ -1,3 +1,4 @@
+import getUuid from 'widget/helpers/uuid';
 import AutonomiaBuildThreadsAPI from '../../api/autonomia/buildThreads';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
@@ -26,9 +27,33 @@ const POLL_MAX_ATTEMPTS = 120; // ~6 minutes ceiling
 
 let pollTimer = null;
 
+// T6 — idempotency id per TURN (not per request): minted when the user sends a
+// message and reused while that exact turn is unconfirmed (double-click,
+// network replay, resend after 409/failure), so the backend can dedupe the
+// replayed submit. Cleared once the backend accepts the turn — a LATER answer
+// with identical content (e.g. "sim" twice in the interview) gets a fresh id
+// and is never swallowed by the dedupe.
+let pendingTurn = null;
+
+const clientIdForTurn = (threadId, content) => {
+  if (
+    pendingTurn &&
+    pendingTurn.threadId === threadId &&
+    pendingTurn.content === content
+  ) {
+    return pendingTurn.clientMessageId;
+  }
+  pendingTurn = { threadId, content, clientMessageId: getUuid() };
+  return pendingTurn.clientMessageId;
+};
+
 export const state = {
   thread: null,
   messages: [],
+  // How many authoritative backend turns MERGE_MESSAGES already reconciled —
+  // the backend list is append-only, so anything past this index is a NEW turn
+  // even when its content repeats an earlier one.
+  mergedCount: 0,
   status: null,
   threadState: {},
   agent: null,
@@ -113,6 +138,7 @@ export const actions = {
   start: async ({ commit, dispatch }, { agentId, message, ...rest } = {}) => {
     commit('SET_UI_FLAG', { creating: true });
     clearPoll();
+    pendingTurn = null;
     commit('RESET');
     // Optimistically echo the user's turn so the bubble shows instantly, even
     // before the 202 lands (the backend will return the same turn). Skipped on
@@ -151,7 +177,7 @@ export const actions = {
   },
 
   send: async (
-    { commit, dispatch },
+    { commit, dispatch, state: $state },
     { threadId, content, extra = {}, echo = true } = {}
   ) => {
     if (!threadId) return null;
@@ -166,21 +192,59 @@ export const actions = {
     if (echo && content) {
       commit('APPEND_MESSAGE', { role: 'user', content });
     }
+    // Same turn -> same id: a double-click or a resend of this exact message
+    // reuses the pending id so the backend replies idempotently instead of
+    // stacking a duplicate turn + build.
+    const clientMessageId = clientIdForTurn(threadId, content);
     try {
       const { data } = await AutonomiaBuildThreadsAPI.sendMessage(
         threadId,
         content,
-        extra
+        extra,
+        clientMessageId
       );
+      // Turn accepted and persisted server-side: the next identical content is
+      // a NEW turn and must get a fresh id.
+      pendingTurn = null;
       const payload = applyThreadResponse(commit, data);
       dispatch('poll', { threadId: payload.id });
       return payload;
     } catch (error) {
+      // 409 build_in_progress: the previous build is still running server-side —
+      // this is NOT a failure. Drop the optimistic echo (the turn was rejected),
+      // resume polling the in-flight build and rethrow the raw axios error so
+      // the page can show the friendly "still working" alert.
+      if (error?.response?.status === 409) {
+        const last = $state.messages[$state.messages.length - 1];
+        if (echo && last?.role === 'user' && last.content === content) {
+          commit('SET_MESSAGES', $state.messages.slice(0, -1));
+        }
+        dispatch('poll', { threadId });
+        throw error;
+      }
       commit('SET_ERROR', 'send');
       commit('SET_STATUS', 'failed');
       return throwErrorMessage(error);
     } finally {
       commit('SET_UI_FLAG', { sending: false });
+    }
+  },
+
+  // Re-runs the generation of a `failed` (or stale) thread via the retry
+  // endpoint — unlike the old behavior of just re-polling, this actually
+  // re-enqueues the SubmitJob with a fresh build_token, then polls to settle.
+  retry: async ({ commit, dispatch }, { threadId } = {}) => {
+    if (!threadId) return null;
+    commit('SET_ERROR', null);
+    commit('SET_PHASE', 'interviewing');
+    clearPoll();
+    try {
+      const { data } = await AutonomiaBuildThreadsAPI.retryBuild(threadId);
+      const payload = applyThreadResponse(commit, data);
+      dispatch('poll', { threadId: payload.id });
+      return payload;
+    } catch (error) {
+      return throwErrorMessage(error);
     }
   },
 
@@ -249,7 +313,7 @@ export const actions = {
   //   - needs_more_info=false -> the agent was generated; fetch it and switch to
   //     the `reviewing` phase so the review card can appear.
   //   - failed                -> surface a visible error.
-  onSettled: async ({ commit, dispatch }, payload) => {
+  onSettled: async ({ commit, dispatch, state: $state }, payload) => {
     if (!payload) return;
 
     if (payload.status === 'failed') {
@@ -263,8 +327,18 @@ export const actions = {
     const nextQuestion = (payload.state?.next_question || '').trim();
 
     if (needsMoreInfo) {
-      // Continue the interview: show the question and let the user answer.
-      if (nextQuestion) {
+      // Continue the interview: show the question and let the user answer. The
+      // backend now persists the assistant turn in `messages` (so refreshes keep
+      // the flow), which MERGE_MESSAGES already delivered above — the local
+      // append is only a fallback for payloads that don't carry it yet.
+      // T6 — check only the LAST message (the current turn), never the whole
+      // list: a global content match would hide a legitimate REPEATED question
+      // (the Builder re-asks after an insufficient answer).
+      const lastMessage = $state.messages[$state.messages.length - 1];
+      const alreadyShown =
+        lastMessage?.role === 'assistant' &&
+        lastMessage.content === nextQuestion;
+      if (nextQuestion && !alreadyShown) {
         commit('APPEND_MESSAGE', { role: 'assistant', content: nextQuestion });
       }
       commit('SET_PHASE', 'interviewing');
@@ -302,23 +376,34 @@ export const mutations = {
     $state.messages = messages || [];
   },
   // Append a single locally-authored turn (the optimistic user echo, or the
-  // assistant `next_question` the front renders between builds).
+  // assistant `next_question` the front renders between builds). Tagged
+  // `local: true` so MERGE_MESSAGES can later match it against the backend
+  // turn that confirms it, instead of duplicating the bubble.
   APPEND_MESSAGE($state, message) {
     if (!message || !message.content) return;
-    $state.messages = [...$state.messages, message];
+    $state.messages = [...$state.messages, { ...message, local: true }];
   },
-  // Reconcile the authoritative backend turns with the local list. Backend
-  // turns are matched by role+content; anything already shown (including the
-  // FE-injected interview questions, which the backend never stores) is kept,
-  // and any backend turn we don't have yet is appended in order.
+  // Reconcile the authoritative backend turns with the local list — by
+  // POSITION in the thread, never by global role+content (E1 persists every
+  // assistant turn, so a content match would hide a legitimate REPEATED
+  // question). The backend list is append-only: everything past `mergedCount`
+  // is a genuinely NEW turn. Each new turn either confirms one pending local
+  // bubble (optimistic user echo / FE-injected question, matched once by
+  // role+content) or is appended in order.
   MERGE_MESSAGES($state, incoming) {
     const list = Array.isArray(incoming) ? incoming : [];
-    const merged = [...$state.messages];
-    const has = (role, content) =>
-      merged.some(m => m.role === role && m.content === content);
-    list.forEach(m => {
-      if (!has(m.role, m.content)) merged.push(m);
+    const known = $state.mergedCount || 0;
+    let merged = [...$state.messages];
+    list.slice(known).forEach(turn => {
+      const localIndex = merged.findIndex(
+        m => m.local && m.role === turn.role && m.content === turn.content
+      );
+      merged =
+        localIndex >= 0
+          ? merged.map((m, i) => (i === localIndex ? { ...turn } : m))
+          : [...merged, turn];
     });
+    $state.mergedCount = Math.max(known, list.length);
     $state.messages = merged;
   },
   SET_STATUS($state, status) {
@@ -339,6 +424,7 @@ export const mutations = {
   RESET($state) {
     $state.thread = null;
     $state.messages = [];
+    $state.mergedCount = 0;
     $state.status = null;
     $state.threadState = {};
     $state.agent = null;

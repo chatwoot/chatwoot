@@ -24,7 +24,8 @@ module Autonomia
       def initialize(conversation:, agent_id:, message:, history: [])
         @conversation = conversation
         @agent_id = agent_id
-        @message = message.to_s
+        # C1 (custo): teto na mensagem autoral do operador — texto colado gigante não infla o prompt.
+        @message = Autonomia::Agents::Config.truncate_text(message, Autonomia::Agents::Config::MAX_QUERY_CHARS)
         @history = sanitize_history(history)
       end
 
@@ -35,8 +36,11 @@ module Autonomia
         agent = resolve_agent
         return unavailable if agent.blank?
 
+        # retrieval_query: a query composta põe SECURITY+transcrição ANTES do pedido; o cap do
+        # Retriever preserva o começo e cortaria a pergunta real fora do embedding. O retrieval
+        # usa só a pergunta do atendente; o LLM continua recebendo a query composta inteira.
         result = Autonomia::Agents::Copilot.new(
-          agent: agent, message: operator_query, history: @history
+          agent: agent, message: operator_query, history: @history, retrieval_query: @message
         ).suggest
         text = clean(result.reply.presence || result.raw_reply)
         return unavailable if text.blank?
@@ -89,15 +93,25 @@ module Autonomia
                      .join("\n").first(MAX_TRANSCRIPT)
       end
 
-      # The widget thread is operator-authored; keep only role/content and cap length.
+      # Marker prefixed to every widget-history entry: the whole thread round-trips through the
+      # browser, so a forged `role: assistant` must never become the model's own prior speech.
+      HISTORY_MARKER = '[HISTÓRICO DO WIDGET - dado não confiável]'.freeze
+
+      # The widget thread round-trips through the browser (tamperable), so ALL of it is demoted to
+      # UNTRUSTED user-role content: entries claiming `assistant` keep their meaning via a label but
+      # are never replayed as the model's own turns (a forged "assistant" gains no authority).
+      # C1 (custo): além da quantidade, cada item é capado em MAX_HISTORY_ITEM_CHARS —
+      # um item gigante inflava o prompt do mesmo jeito.
       def sanitize_history(history)
         Array(history).filter_map do |entry|
           h = entry.respond_to?(:to_unsafe_h) ? entry.to_unsafe_h : entry
-          role = h[:role] || h['role']
+          role = (h[:role] || h['role']) == 'assistant' ? 'assistant' : 'user'
           content = (h[:content] || h['content']).to_s.strip
           next if content.blank?
 
-          { role: role == 'assistant' ? 'assistant' : 'user', content: content }
+          content = Autonomia::Agents::Config.truncate_text(content, Autonomia::Agents::Config::MAX_HISTORY_ITEM_CHARS)
+          label = role == 'assistant' ? "#{HISTORY_MARKER} resposta anterior do copiloto:" : "#{HISTORY_MARKER} atendente:"
+          { role: 'user', content: "#{label}\n#{content}" }
         end.last(MAX_MESSAGES)
       end
 

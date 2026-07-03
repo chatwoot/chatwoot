@@ -89,6 +89,32 @@ module Autonomia
       SIMILARITY_MAX_DISTANCE = RETRIEVAL_STRONG_MATCH
       HISTORY_MAX_TURNS = 10 # pares user/assistant considerados no prompt
 
+      # TETOS DE CARACTERES (C1 — custo de IA). Sem teto, um texto colado gigante do usuário ou um
+      # histórico de mensagens enormes infla o input do LLM a cada turno (tokens = custo). Valores com
+      # folga generosa p/ conversa legítima de atendimento; cortam só o desperdício/abuso:
+      #   - MAX_QUERY_CHARS: entrada AUTORAL do usuário (mensagem do widget do copiloto, draft e
+      #     instrução de refino). ~1.5k tokens; nenhuma pergunta/rascunho legítimo passa disso.
+      #   - MAX_COMPOSED_QUERY_CHARS: teto FINAL da query no PromptBuilder. Maior que o de cima porque
+      #     a query composta pode embutir a transcrição da conversa + moldura de segurança do copiloto
+      #     (transcrição já capada em 8k + pedido em 6k) — 16k nunca clipa esse caminho legítimo.
+      #   - MAX_HISTORY_ITEM_CHARS: cada mensagem do histórico enviada ao modelo.
+      #   - MAX_HISTORY_TOTAL_CHARS: orçamento TOTAL do histórico; preserva as mensagens MAIS RECENTES
+      #     (as antigas saem primeiro quando o orçamento estoura).
+      MAX_QUERY_CHARS = 6_000
+      MAX_COMPOSED_QUERY_CHARS = 16_000
+      MAX_HISTORY_ITEM_CHARS = 4_000
+      MAX_HISTORY_TOTAL_CHARS = 24_000
+      TRUNCATION_SUFFIX = '…'.freeze
+
+      # Truncamento CENTRAL: mantém o COMEÇO da string (o fim é descartado) e sinaliza o corte com o
+      # sufixo '…'. Uma string dentro do teto volta intacta (sem sufixo).
+      def self.truncate_text(text, max_chars)
+        text = text.to_s
+        return text if text.length <= max_chars
+
+        "#{text[0, max_chars - TRUNCATION_SUFFIX.length]}#{TRUNCATION_SUFFIX}"
+      end
+
       # Fase C — "Operar" (debounce do ReplyJob). Janela de coalescência: rajada de
       # mensagens do contato (ex.: várias linhas seguidas) vira UMA resposta sobre o
       # contexto mais recente. last-writer-wins sobre o token de debounce.

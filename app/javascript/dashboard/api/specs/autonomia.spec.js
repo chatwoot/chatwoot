@@ -150,7 +150,11 @@ describe('Autonomia API clients', () => {
       buildThreads.create({ message: 'oi', agentId: 7 });
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/accounts/85/autonomia/build_threads',
-        { message: 'oi', autonomia_agent_id: 7 }
+        {
+          message: 'oi',
+          autonomia_agent_id: 7,
+          client_message_id: expect.any(String),
+        }
       );
 
       buildThreads.show(3);
@@ -161,8 +165,18 @@ describe('Autonomia API clients', () => {
       buildThreads.sendMessage(3, 'mais contexto');
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/accounts/85/autonomia/build_threads/3/messages',
-        { message: 'mais contexto' }
+        { message: 'mais contexto', client_message_id: expect.any(String) }
       );
+    });
+
+    it('reuses the turn client_message_id handed by the store instead of minting one per call', () => {
+      buildThreads.sendMessage(3, 'mesma resposta', {}, 'turn-uuid-1');
+      buildThreads.sendMessage(3, 'mesma resposta', {}, 'turn-uuid-1');
+
+      expect(axiosMock.post).toHaveBeenCalledTimes(2);
+      axiosMock.post.mock.calls.forEach(([, body]) => {
+        expect(body.client_message_id).toBe('turn-uuid-1');
+      });
     });
   });
 });
