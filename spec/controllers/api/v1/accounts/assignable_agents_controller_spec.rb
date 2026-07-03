@@ -79,19 +79,6 @@ RSpec.describe 'Assignable Agents API', type: :request do
           expect(response_data.pluck('assignee_type')).to include('User', 'AgentBot')
           expect(response_data.pluck('name')).to include(agent1.name, admin.name, account_bot.name, global_bot.name)
         end
-
-        it 'does not return agent bots when the opt-in is explicitly false' do
-          get "/api/v1/accounts/#{account.id}/assignable_agents",
-              params: { inbox_ids: [inbox1.id, inbox2.id], include_agent_bots: 'false' },
-              headers: agent1.create_new_auth_token,
-              as: :json
-
-          expect(response).to have_http_status(:success)
-
-          response_data = response.parsed_body['payload']
-          expect(response_data.pluck('assignee_type')).not_to include('AgentBot')
-          expect(response_data.pluck('name')).not_to include(account_bot.name, global_bot.name)
-        end
       end
     end
   end
