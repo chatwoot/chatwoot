@@ -41,6 +41,12 @@ module Autonomia
 
         # -> Result
         def perform
+          # C4 (custo): recheck BARATO de elegibilidade ANTES da chamada cara de IA (LLM + embedding).
+          # Entre o debounce e este ponto um humano pode ter assumido a conversa (ou o agente foi
+          # desligado/movido de caixa) — sem esta guarda o custo da geração já teria sido pago à toa.
+          # O recheck autoritativo pós-IA (dentro do lock, em classic_deliver/deliver_*) PERMANECE.
+          return Result.silenced unless still_eligible?
+
           # A chamada à IA (lenta) roda FORA do lock para não segurar a linha da conversa.
           result = answer
           # SINAL DE SILÊNCIO da instrução -> não posta nada (IF-node "parar"). Anti-loop / automações.
@@ -48,16 +54,7 @@ module Autonomia
           # Sem texto utilizável (falha de IA / resposta vazia) -> SILÊNCIO, sem fallback de sistema.
           return Result.silenced if result.nil? || result.reply.to_s.strip.blank?
 
-          # ESPELHAMENTO DE ÁUDIO (Onda 2c, gated): se o cliente mandou áudio neste turno e o recurso está
-          # ligado, responde EM ÁUDIO (TTS). Falha de síntese -> cai no texto (nunca fica mudo).
-          return deliver_voice(result) if voice_reply_applies?
-
-          # ENTREGA HUMANIZADA (aditiva, kill-switch): quebra a resposta em pedaços com "digitando" +
-          # pausa, entregues por um job encadeado. Quando OFF (ENV/por-agente) cai no caminho clássico
-          # de 1 mensagem abaixo — ZERO mudança de comportamento.
-          return deliver_humanized(result) if ::Autonomia::Agents::Config.humanize_delivery_enabled?(@agent)
-
-          classic_deliver(result)
+          deliver(result)
         rescue StandardError => e
           # Falha inesperada ao postar -> SILÊNCIO (sem texto de sistema). Loga p/ diagnóstico.
           Rails.logger.warn("[autonomia][operate] responder_failed agent=#{@agent.id} conv=#{@conversation.id} #{e.class}")
@@ -85,6 +82,18 @@ module Autonomia
         end
 
         private
+
+        # Escolhe o caminho de entrega (extraído do perform p/ legibilidade; mesma ordem de sempre):
+        #   1) ESPELHAMENTO DE ÁUDIO (Onda 2c, gated): cliente mandou áudio neste turno + recurso
+        #      ligado -> responde EM ÁUDIO (TTS). Falha de síntese -> cai no texto (nunca fica mudo).
+        #   2) ENTREGA HUMANIZADA (aditiva, kill-switch): quebra em pedaços com "digitando" + pausa.
+        #   3) OFF (ENV/por-agente) -> caminho CLÁSSICO de 1 mensagem (ZERO mudança de comportamento).
+        def deliver(result)
+          return deliver_voice(result) if voice_reply_applies?
+          return deliver_humanized(result) if ::Autonomia::Agents::Config.humanize_delivery_enabled?(@agent)
+
+          classic_deliver(result)
+        end
 
         # Caminho CLÁSSICO: 1 mensagem única (comportamento original, intocado). Usado quando a
         # humanização está OFF e como FALLBACK quando o quebrador não produz pedaço (resposta só com
