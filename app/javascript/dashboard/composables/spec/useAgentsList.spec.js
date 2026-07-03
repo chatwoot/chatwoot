@@ -56,6 +56,21 @@ describe('useAgentsList', () => {
     expect(assignableAgents.value).toEqual(allAgentsData);
     expect(
       useMapGetter('inboxAssignableAgents/getAssignableAgents').value
+    ).toHaveBeenCalledWith(1, { includeAgentBots: false });
+    expect(agentsList.value[0]).toEqual(mockNoneAgent);
+    expect(agentsList.value.length).toBe(
+      formattedAgentsData.slice(1).length + 1
+    );
+  });
+
+  it('requests agent bots when explicitly included', () => {
+    const { agentsList, assignableAgents } = useAgentsList(true, {
+      includeAgentBots: true,
+    });
+
+    expect(assignableAgents.value).toEqual(allAgentsData);
+    expect(
+      useMapGetter('inboxAssignableAgents/getAssignableAgents').value
     ).toHaveBeenCalledWith(1, { includeAgentBots: true });
     expect(agentsList.value[0]).toEqual(mockNoneAgent);
     expect(agentsList.value.length).toBe(

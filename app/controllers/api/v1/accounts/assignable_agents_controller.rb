@@ -3,7 +3,7 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
 
   def index
     # TODO: Remove this opt-in once mobile clients support AgentBot assignees in this payload.
-    @include_agent_bots = params[:include_agent_bots].present?
+    @include_agent_bots = ActiveModel::Type::Boolean.new.cast(params[:include_agent_bots])
     agent_ids = @inboxes.map do |inbox|
       authorize inbox, :show?
       member_ids = inbox.members.pluck(:user_id)

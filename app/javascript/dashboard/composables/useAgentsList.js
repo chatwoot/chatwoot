@@ -10,9 +10,14 @@ import {
  * A composable function that provides a list of agents for assignment.
  *
  * @param {boolean} [includeNoneAgent=true] - Whether to include a 'None' agent option.
+ * @param {Object} [options] - Options for the assignable agents list.
+ * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees.
  * @returns {Object} An object containing the agents list and assignable agents.
  */
-export function useAgentsList(includeNoneAgent = true) {
+export function useAgentsList(
+  includeNoneAgent = true,
+  { includeAgentBots = false } = {}
+) {
   const { t } = useI18n();
   const currentUser = useMapGetter('getCurrentUser');
   const currentChat = useMapGetter('getSelectedChat');
@@ -40,7 +45,7 @@ export function useAgentsList(includeNoneAgent = true) {
    */
   const assignableAgents = computed(() => {
     return inboxId.value
-      ? assignable.value(inboxId.value, { includeAgentBots: true })
+      ? assignable.value(inboxId.value, { includeAgentBots })
       : [];
   });
 
