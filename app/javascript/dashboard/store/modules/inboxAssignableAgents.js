@@ -45,6 +45,12 @@ export const actions = {
       const {
         data: { payload },
       } = await AssignableAgentsAPI.get(inboxIds, { includeAgentBots });
+      if (includeAgentBots) {
+        commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
+          inboxId: inboxIds.join(','),
+          members: payload,
+        });
+      }
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
         inboxId: recordKey(inboxIds.join(','), { includeAgentBots }),
         members: payload,

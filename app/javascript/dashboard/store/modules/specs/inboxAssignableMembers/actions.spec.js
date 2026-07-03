@@ -57,6 +57,10 @@ describe('#actions', () => {
         },
       });
       expect(commit).toHaveBeenCalledWith(types.SET_INBOX_ASSIGNABLE_AGENTS, {
+        inboxId: '1',
+        members: agentsData,
+      });
+      expect(commit).toHaveBeenCalledWith(types.SET_INBOX_ASSIGNABLE_AGENTS, {
         inboxId: '1:with_agent_bots',
         members: agentsData,
       });
