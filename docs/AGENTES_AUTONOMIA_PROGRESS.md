@@ -148,19 +148,29 @@ Do plano original de 9 frentes, ficaram de fora (podem virar Onda 5+):
   resolve `AgentInbox` sem escopo de conta — o Operate já revalida depois, então risco é baixo,
   mas vale uniformizar com o padrão fail-closed que os outros leitores ganharam no T5.
 
-## Onda 5 — DECIDIDO (Rodrigo, 2026-07-03): Robustez interna
+## Onda 5 — ENTREGUE E EM PRODUÇÃO ✅ (2026-07-03): Robustez interna
 Escopo: **G2 + G5 + H**. F1/F2/F4 (produto) ficam para depois — não iniciar sem novo 🟢.
+
+PR #106 mergeado em `main` (`d042483a7`) → deploy blue-green **success** nos 2 stacks
+(Hub2You run 28666563656 + Autonomia run 28666563691) → smoke ok (`chat.hub2you.ai` 200,
+`agents.autonomia.site/auth/autonomia` 302).
 
 | Item | Descrição | Status |
 |---|---|---|
-| G2 | Versionamento da instrução (histórico + rollback visível) | ⏳ não iniciado |
-| G5 | Revisor de base analisa documento inteiro, não só amostra de ~15 chunks | ⏳ não iniciado |
-| H | Abas do painel do agente viram navegação real (URL reflete aba); status ativo/pausado mais visível | ⏳ não iniciado |
+| G2 | Versionamento da instrução: tabela `autonomia_agent_instruction_versions` + gravação no auto-refresh e na edição manual + rollback atômico (transação) + histórico no painel Ajustar. Texto só em modo manual (IP guard no guiado). | ✅ `0777036ef` |
+| G5 | Revisor amostra estratificada (primeiro/meio/último, cap 40 chunks + teto de custo dimensionado) em vez dos 15 primeiros. | ✅ `16e2473a4` |
+| H | Abas usam `router.push` (botão Voltar navega abas) + badge de status + pausar/ativar no header. | ✅ `129f53dcf` |
+| — | Codex review por track (G2 FAIL→2 fixes; G5 FAIL→1 fix; H PASS) + rodada de integração | ✅ PASS |
+| — | Fixes de integração: serialização de writers do agente (rollback/save/pause/avatar) via flag `updatingItem` — corrida de UI descoberta só com os tracks juntos | ✅ `892f820d9`/`0767da774`/`da17423f5` |
+| — | Teste real | ✅ rspec afetado 17 examples/0 falhas; rubocop 0 offenses; eslint 0 errors; JSON i18n válido |
 
-**Próxima ação**: planejar Onda 5 (arquitetura de G2 precisa decisão: nova tabela de
-versões vs. coluna jsonb de histórico; G5 precisa decidir custo de reamostrar documento
-inteiro a cada review vs. amostra maior; H é puro frontend/rota). Seguir mesmo gate das
-ondas 1-4: implementar → Codex review → teste real → review final → 🟢 → merge+deploy.
+**Follow-up de baixo risco (registrado, não bloqueante)**: `autonomiaAgents/show` faz UPSERT
+otimista (last-write-wins do store factory do Chatwoot) — trocar de aba durante um rollback
+pode reexibir dados antigos na UI por instantes (banco fica correto). Comportamento
+pré-existente do store factory, não introduzido pela Onda 5. Chip criado em sessão separada.
+
+**Backlog remanescente (próxima leva, precisa novo 🟢)**: F1 (portão de confiança por conta),
+F2 (modo `:attendant` no copiloto), F4 (aviso de base fraca ao publicar). F3/G3 = decididos NÃO.
 
 ## Log de entregas
 - 2026-07-03: plano aprovado (sem G3); Onda 1 (A+B) entregue+revisada em `feat/agentes-onda-1`.
