@@ -81,7 +81,9 @@ module Autonomia
           # → no-op (o ajuste mais NOVO vence). É só um SELECT escopado ao agente (sem lock do agente,
           # sem marcação, sem ordem de lock invertida) → não há deadlock com este `lock` na própria
           # thread. Criação (thread única) nunca tem uma mais nova → aplica normal.
-          next false if build_threads.where('id > ?', thread.id).exists?
+          # Escopado à MESMA conta: uma thread legada cross-account (que o runtime aborta, T5)
+          # não pode bloquear o apply de um ajuste legítimo por parecer "mais nova".
+          next false if build_threads.where(account_id: account_id).where('id > ?', thread.id).exists?
 
           # Merge no jsonb `config` em vez de substituí-lo: preserva model/temperature/business_hours/
           # max_turns já setados (o Construtor só gera `guardrails`). Substituir zeraria a config a

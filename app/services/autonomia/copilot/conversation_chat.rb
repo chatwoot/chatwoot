@@ -36,8 +36,11 @@ module Autonomia
         agent = resolve_agent
         return unavailable if agent.blank?
 
+        # retrieval_query: a query composta põe SECURITY+transcrição ANTES do pedido; o cap do
+        # Retriever preserva o começo e cortaria a pergunta real fora do embedding. O retrieval
+        # usa só a pergunta do atendente; o LLM continua recebendo a query composta inteira.
         result = Autonomia::Agents::Copilot.new(
-          agent: agent, message: operator_query, history: @history
+          agent: agent, message: operator_query, history: @history, retrieval_query: @message
         ).suggest
         text = clean(result.reply.presence || result.raw_reply)
         return unavailable if text.blank?

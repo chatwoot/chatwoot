@@ -36,9 +36,13 @@ module Autonomia
       ].freeze
 
       def initialize(agent:, query:, history: [], images: [], allow_web_search: true, trust_instruction: false,
-                     audience: :customer)
+                     audience: :customer, retrieval_query: nil)
         @agent = agent
         @query = query.to_s
+        # Quando a query composta embute contexto ANTES da pergunta real (ex.: copiloto chat com
+        # transcrição), o truncamento do Retriever (que preserva o começo) cortaria a pergunta fora
+        # do embedding. O caller passa aqui só a pergunta, usada exclusivamente no retrieval.
+        @retrieval_query = retrieval_query.to_s.presence || @query
         @history = history
         @images = Array(images)
         # AUDIÊNCIA (Onda 1 v2): :customer (operate/cliente) | :attendant (copiloto) | :system (Guia).
@@ -97,7 +101,7 @@ module Autonomia
         # Default histórico preservado: chave ausente = COM base (retrieval roda normalmente).
         return [] if @agent.knowledge_disabled?
 
-        Retriever.new(agent: @agent).retrieve(@query, top_k: Config::ANSWER_TOP_K)
+        Retriever.new(agent: @agent).retrieve(@retrieval_query, top_k: Config::ANSWER_TOP_K)
       rescue Autonomia::Agents::Retriever::RetrievalError
         # #14 — falha de INFRA. Operate (instrução-dirigido): NÃO silencia o bot — degrada p/ [] e
         # segue pela instrução. Fluxo GATEADO (Guia/copiloto): re-levanta → `answer` faz handoff seguro.

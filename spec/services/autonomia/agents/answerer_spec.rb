@@ -72,4 +72,33 @@ RSpec.describe Autonomia::Agents::Answerer do
       described_class.new(agent: agent, query: 'oi', trust_instruction: true).answer
     end
   end
+
+  describe 'retrieval_query override' do
+    it 'retrieves with the bare question when the composed query embeds context first' do
+      # Arrange — copiloto chat: query composta = transcrição antes do pedido real
+      agent = create_agent('with_knowledge' => true)
+      composed = "CONTEXTO: #{'bla ' * 100}\nPEDIDO DO ATENDENTE:\nqual o prazo de entrega?"
+      retriever = instance_double(Autonomia::Agents::Retriever)
+      allow(Autonomia::Agents::Retriever).to receive(:new).and_return(retriever)
+      expect(retriever).to receive(:retrieve)
+        .with('qual o prazo de entrega?', top_k: Autonomia::Agents::Config::ANSWER_TOP_K)
+        .and_return([])
+
+      # Act
+      described_class.new(agent: agent, query: composed, trust_instruction: true,
+                          retrieval_query: 'qual o prazo de entrega?').answer
+    end
+
+    it 'falls back to the full query when no retrieval_query is given' do
+      # Arrange
+      agent = create_agent('with_knowledge' => true)
+      retriever = instance_double(Autonomia::Agents::Retriever)
+      allow(Autonomia::Agents::Retriever).to receive(:new).and_return(retriever)
+      expect(retriever).to receive(:retrieve)
+        .with('oi', top_k: Autonomia::Agents::Config::ANSWER_TOP_K).and_return([])
+
+      # Act
+      described_class.new(agent: agent, query: 'oi', trust_instruction: true).answer
+    end
+  end
 end

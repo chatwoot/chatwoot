@@ -6,10 +6,11 @@ module Autonomia
     # cai no `raw_reply` — o melhor esforço do modelo antes do portão (conteúdo gerado, não é IP).
     # NUNCA expõe instruction/scaffold/prompt; o jbuilder /suggest filtra a fronteira de segurança.
     class Copilot
-      def initialize(agent:, message:, history: [])
+      def initialize(agent:, message:, history: [], retrieval_query: nil)
         @agent = agent
         @message = message
         @history = history
+        @retrieval_query = retrieval_query
       end
 
       # -> Autonomia::Agents::AnswerResult (com reply garantido p/ o atendente revisar)
@@ -19,7 +20,8 @@ module Autonomia
         # isso NÃO usamos :attendant aqui (geraria meta-texto "sugestão ao atendente" no campo do cliente).
         # A regra anti-"material" universal do v2 já vale p/ :customer, então o copiloto interno também
         # não cita "material" (decisão do PO). :attendant fica reservado p/ um copiloto analítico futuro.
-        Answerer.new(agent: @agent, query: @message, history: @history, audience: :customer).answer
+        Answerer.new(agent: @agent, query: @message, history: @history, audience: :customer,
+                     retrieval_query: @retrieval_query).answer
       end
     end
   end
