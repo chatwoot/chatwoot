@@ -2,9 +2,11 @@ require 'json'
 require 'fileutils'
 require 'csv'
 
+# rubocop:disable Metrics/BlockLength
 namespace :captain do
   namespace :assistant_migration do
-    desc 'Generate structured migration drafts. Usage: rake captain:assistant_migration:generate IDS=1,2,3 LIMIT=50 OUTPUT=tmp/captain_migration.jsonl'
+    desc 'Generate structured migration drafts. Usage: rake captain:assistant_migration:generate IDS=1,2,3 LIMIT=50 ' \
+         'OUTPUT=tmp/captain_migration.jsonl'
     task generate: :environment do
       assistants = CaptainAssistantMigrationTask.assistants
       output_path = ENV.fetch('OUTPUT', Rails.root.join('tmp/captain_assistant_migration_drafts.jsonl').to_s)
@@ -42,7 +44,9 @@ namespace :captain do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
 
+# rubocop:disable Style/OneClassPerFile
 class CaptainAssistantMigrationTask
   CsvAccount = Struct.new(:id, :name, keyword_init: true) do
     def captain_models
@@ -54,7 +58,11 @@ class CaptainAssistantMigrationTask
     end
   end
 
-  CsvAssociation = Struct.new(:size, keyword_init: true)
+  CsvAssociation = Struct.new(:inbox_count, keyword_init: true) do
+    def size
+      inbox_count
+    end
+  end
 
   class CsvRelation
     def find_by(*)
@@ -138,13 +146,13 @@ class CaptainAssistantMigrationTask
 
     private
 
-    def csv_assistants
+    def csv_assistants # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       rows = CSV.read(ENV.fetch('CSV_INPUT'), headers: true)
       ids = ENV.fetch('IDS', '').split(',').filter_map { |id| id.strip.presence }
       status = ENV.fetch('STATUS', '').presence
 
       assistants = rows.filter_map do |row|
-        next if ids.any? && !ids.include?(row['id'].to_s)
+        next if ids.any? && ids.exclude?(row['id'].to_s)
         next if status.present? && row['status'].to_s != status
 
         assistant = csv_assistant(row)
@@ -168,7 +176,7 @@ class CaptainAssistantMigrationTask
         config: config,
         response_guidelines: parse_json(row['response_guidelines'], fallback: []),
         guardrails: parse_json(row['guardrails'], fallback: []),
-        captain_inboxes: CsvAssociation.new(size: normalize_integer(row['inbox_count'])),
+        captain_inboxes: CsvAssociation.new(inbox_count: normalize_integer(row['inbox_count'])),
         scenarios: []
       )
     end
@@ -186,3 +194,4 @@ class CaptainAssistantMigrationTask
     end
   end
 end
+# rubocop:enable Style/OneClassPerFile
