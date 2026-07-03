@@ -92,10 +92,10 @@ class CaptainAssistantMigrationTask
       limit.positive? ? scope.limit(limit) : scope
     end
 
-    def each_assistant(assistants, &block)
-      return assistants.find_each(&block) if assistants.respond_to?(:find_each)
+    def each_assistant(assistants, &)
+      return assistants.find_each(&) if assistants.respond_to?(:find_each)
 
-      assistants.each(&block)
+      assistants.each(&)
     end
 
     def assistant_count(assistants)
