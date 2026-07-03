@@ -652,6 +652,12 @@ module Autonomia
       #   - needs_more_info=false → cria/atualiza o Agent (instruction/scaffold OCULTOS) e marca ready.
       # Levanta ResponsesClient::Error em falha de rede/provedor (o SubmitJob marca a thread failed).
       def run!(token)
+        # TENANCY FAIL-CLOSED no RUNTIME (par do validate do BuildThread, que só protege a ESCRITA):
+        # uma thread legada/corrompida apontando para agente de OUTRA conta faria o Construtor LER a
+        # instruction alheia (adjust_context) e ESCREVER config alheia (apply_builder_config!). Aborta
+        # ANTES de qualquer chamada de IA/escrita, marcando failed com telemetria — nunca cross-tenant.
+        return abort_cross_account_agent!(token) unless thread_agent_same_account?
+
         result = client.create(
           model: Autonomia::Agents::Config::BUILDER_MODEL,
           instructions: MOTHER_INSTRUCTION,
@@ -661,6 +667,21 @@ module Autonomia
           tools: Crm::Ai::WebSearch.tools
         )
         apply_result(token, result[:text])
+      end
+
+      # Sem agente ainda (criação) => ok; com agente, ele PRECISA ser da conta da thread.
+      def thread_agent_same_account?
+        agent = @thread.agent
+        agent.blank? || agent.account_id == @thread.account_id
+      end
+
+      def abort_cross_account_agent!(token)
+        Rails.logger.error(
+          "[Autonomia::Agents::Builder] cross_account_agent thread=#{@thread.id} " \
+          "thread_account=#{@thread.account_id} agent=#{@thread.autonomia_agent_id}"
+        )
+        @thread.mark_failed!(token, 'cross_account_agent')
+        nil
       end
 
       # CONSTRUTOR (P1) — reasoning POR FASE para cortar latência (~24s/turno na campanha). O ramo só é
