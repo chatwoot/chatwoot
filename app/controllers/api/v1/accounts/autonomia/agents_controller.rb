@@ -54,7 +54,13 @@ class Api::V1::Accounts::Autonomia::AgentsController < Api::V1::Accounts::Autono
 
   def avatar
     if request.delete?
-      @agent.avatar.purge if @agent.avatar.attached?
+      # touch after purge so `updated_at` advances — the FE staleness guard on
+      # UPSERT relies on every agent write bumping the timestamp (upload already
+      # does via save!); without it a late `show` could restore the old avatar.
+      if @agent.avatar.attached?
+        @agent.avatar.purge
+        @agent.touch # rubocop:disable Rails/SkipsModelValidations
+      end
     else
       return render_unprocessable('avatar_required') if params[:avatar].blank?
 
