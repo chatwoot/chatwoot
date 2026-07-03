@@ -161,7 +161,10 @@ export default {
       if (!this.assignedAgent) {
         return true;
       }
-      if (this.assignedAgent.id !== this.currentUser.id) {
+      if (
+        this.assignedAgent.id !== this.currentUser.id ||
+        (this.assignedAgent.assignee_type || 'User') !== 'User'
+      ) {
         return true;
       }
       return false;
