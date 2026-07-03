@@ -128,6 +128,9 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  tesseract-ocr \
+  tesseract-ocr-data-por \
+  poppler-utils \
   && gem install bundler -v "$BUNDLER_VERSION"
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
