@@ -730,6 +730,14 @@ module Autonomia
         # feature/contexto e tokens expirados. find_signed (não o bang) -> nil se inválido.
         blob = ActiveStorage::Blob.find_signed(signed_id, purpose: :autonomia_builder_image)
         return nil if blob.blank?
+
+        # TENANCY: o signed_id é global (find_signed não conhece conta) — só aceita blob criado no
+        # contexto DESTA conta (metadata gravado no upload pelo BuilderImagesController). Mismatch
+        # (inclui blob sem metadata) descarta só a imagem, com warn — o turno segue.
+        unless blob.metadata['autonomia_account_id'].to_s == @account.id.to_s
+          Rails.logger.warn("Autonomia builder image discarded: blob #{blob.id} not owned by account #{@account.id}")
+          return nil
+        end
         return nil unless Autonomia::Agents::Config::IMAGE_CONTENT_TYPES.include?(blob.content_type)
         return nil if blob.byte_size > Autonomia::Agents::Config::MAX_IMAGE_BYTES
 
