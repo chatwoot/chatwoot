@@ -58,4 +58,67 @@ RSpec.describe Autonomia::Agents::Knowledge::Reviewer do
       expect(agent.topic_map).to contain_exactly('Horários e políticas de atendimento.')
     end
   end
+
+  describe '#sample_chunks_text (G5 — amostra estratificada)' do
+    let(:account) { create(:account) }
+    let(:agent) do
+      Autonomia::Agents::Agent.create!(account: account, name: 'Agente Teste', agent_type: 'support')
+    end
+    let(:source) do
+      Autonomia::Agents::Source.create!(account: account, agent: agent, source_type: 'txt', status: :ready)
+    end
+
+    def add_chunks(count, chars: 20)
+      count.times do |i|
+        Autonomia::Agents::KnowledgeEntry.create!(
+          account: account, agent: agent, source: source, status: :ready,
+          chunk_index: i, content: "CHUNK-#{i} #{'x' * chars}"
+        )
+      end
+    end
+
+    def sample_for(src)
+      described_class.new(source: src, token: 'tok').send(:sample_chunks_text)
+    end
+
+    it 'includes every chunk when the source has at most MAX chunks' do
+      # Arrange
+      add_chunks(10)
+
+      # Act
+      text = sample_for(source)
+
+      # Assert
+      (0..9).each { |i| expect(text).to include("CHUNK-#{i} ") }
+    end
+
+    it 'spans first, middle and last chunk and caps the count at MAX for a large source' do
+      # Arrange
+      add_chunks(100)
+
+      # Act
+      text = sample_for(source)
+
+      # Assert
+      expect(text).to include('CHUNK-0 ')
+      expect(text).to include('CHUNK-99 ')
+      middle = (30..70).any? { |i| text.include?("CHUNK-#{i} ") }
+      expect(middle).to be(true)
+      expect(text.split("\n---\n").size).to be <= described_class::SAMPLE_MAX_CHUNKS
+    end
+
+    it 'keeps first AND last chunk under budget for a pathological large document' do
+      # Arrange — cada chunk maior que o truncamento por chunk: se o teto agregado fosse menor que
+      # a amostra máxima, o corte final descartaria o ÚLTIMO chunk (regressão pega pelo Codex).
+      add_chunks(400, chars: 4000)
+
+      # Act
+      text = sample_for(source)
+
+      # Assert — teto respeitado E o fim do documento continua representado.
+      expect(text.length).to be <= described_class::SAMPLE_TOTAL_CHARS
+      expect(text).to include('CHUNK-0 ')
+      expect(text).to include('CHUNK-399 ')
+    end
+  end
 end
