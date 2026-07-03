@@ -23,7 +23,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   def create
     @data_import, enqueue_import = find_or_create_intercom_import
-    DataImports::Intercom::ImportJob.perform_later(@data_import) if enqueue_import
+    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if enqueue_import
     render :show
   end
 
@@ -34,7 +34,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
       return
     end
 
-    DataImports::Intercom::ImportJob.perform_later(@data_import) if restart_result == :enqueue
+    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if restart_result == :enqueue
     render :show
   end
 
@@ -91,9 +91,8 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
       active_import = active_intercom_import
       next active_import if active_import
 
-      hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
       enqueue_import = true
-      Current.account.data_imports.create!(intercom_import_attributes(hook))
+      create_intercom_import
     end
 
     [data_import, enqueue_import]
@@ -111,9 +110,18 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
       next :intercom_disconnected if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
 
-      @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil)
+      @data_import.assign_active_intercom_import_run_id
+      @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil, started_at: nil)
       :enqueue
     end
+  end
+
+  def create_intercom_import
+    hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
+    data_import = Current.account.data_imports.new(intercom_import_attributes(hook))
+    data_import.assign_active_intercom_import_run_id
+    data_import.save!
+    data_import
   end
 
   def active_intercom_import

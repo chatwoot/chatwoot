@@ -1,12 +1,12 @@
 class DataImports::Intercom::ConversationsPageJob < DataImports::Intercom::BaseJob
-  def perform(data_import, starting_after = nil)
-    return if skip_import?(data_import)
+  def perform(data_import, starting_after = nil, run_id = nil)
+    return if skip_import?(data_import, run_id)
 
     importer = importer_for(data_import)
     return if importer.conversations_completed?
 
     result = importer.import_conversations_page(starting_after: starting_after)
-    return self.class.perform_later(data_import, result.next_cursor) unless result.done?
+    return self.class.perform_later(data_import, result.next_cursor, run_id) unless result.done?
 
     importer.finish!
   rescue StandardError => e

@@ -83,17 +83,23 @@ RSpec.describe 'Data Imports API', type: :request do
     end
 
     it 'restarts abandoned imports' do
-      data_import.update!(status: :abandoned, abandoned_at: 1.hour.ago)
+      data_import.update!(
+        status: :abandoned,
+        abandoned_at: 1.hour.ago,
+        source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'previous-run' }
+      )
 
       expect do
         post start_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
              headers: admin.create_new_auth_token,
              as: :json
-      end.to have_enqueued_job(DataImports::Intercom::ImportJob).with(data_import)
+      end.to have_enqueued_job(DataImports::Intercom::ImportJob).with(data_import, a_kind_of(String))
 
       expect(response).to have_http_status(:ok)
       expect(data_import.reload).to be_pending
       expect(data_import.abandoned_at).to be_nil
+      expect(data_import.started_at).to be_nil
+      expect(data_import.active_intercom_import_run_id).not_to eq('previous-run')
     end
 
     it 'does not enqueue duplicate jobs for active imports' do

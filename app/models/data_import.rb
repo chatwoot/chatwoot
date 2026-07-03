@@ -37,6 +37,7 @@
 #  index_data_imports_on_target_inbox_id      (target_inbox_id)
 #
 class DataImport < ApplicationRecord
+  ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY = 'active_intercom_import_run_id'.freeze
   LEGACY_DATA_TYPES = ['contacts'].freeze
   INTEGRATION_DATA_TYPES = ['intercom'].freeze
   IMPORT_TYPES = %w[contacts conversations].freeze
@@ -74,6 +75,15 @@ class DataImport < ApplicationRecord
 
   def abandonable?
     intercom_import? && (pending? || processing?)
+  end
+
+  def active_intercom_import_run_id
+    source_metadata.to_h[ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY]
+  end
+
+  def assign_active_intercom_import_run_id
+    self.source_metadata = source_metadata.to_h.merge(ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => SecureRandom.uuid)
+    active_intercom_import_run_id
   end
 
   private

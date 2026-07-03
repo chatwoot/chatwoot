@@ -225,6 +225,7 @@ class DataImports::Intercom::Importer
     updates[:identifier] = attrs[:identifier] if contact.identifier.blank? && attrs[:identifier].present?
     updates[:additional_attributes] = contact.additional_attributes.to_h.deep_merge(attrs[:additional_attributes])
     updates[:custom_attributes] = contact.custom_attributes.to_h.deep_merge(attrs[:custom_attributes])
+    updates[:contact_type] = attrs[:contact_type] if contact.visitor? && attrs[:contact_type].present?
     updates[:updated_at] = Time.current
     contact.update_columns(updates) if updates.present?
     contact.reload

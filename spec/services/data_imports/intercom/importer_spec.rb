@@ -263,6 +263,20 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when an existing visitor contact matches the Intercom external id' do
+    let!(:existing_contact) { create(:contact, account: account, identifier: 'external_1') }
+
+    it 'promotes the contact to a lead when adding email or phone', :aggregate_failures do
+      expect(existing_contact).to be_visitor
+
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(existing_contact.reload).to be_lead
+      expect(existing_contact.email).to eq('customer@example.com')
+      expect(existing_contact.phone_number).to eq('+15551234567')
+    end
+  end
+
   context 'when Intercom rate limits a conversation detail request' do
     before do
       allow(client).to receive(:retrieve_conversation).with('conversation_1').and_raise(

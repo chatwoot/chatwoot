@@ -11,15 +11,22 @@ class DataImports::Intercom::BaseJob < ApplicationJob
 
   def fail_import!(error)
     data_import = arguments.first
-    return if data_import.blank? || data_import.abandoned?
+    run_id = arguments.length > 1 ? arguments.last : nil
+    return if data_import.blank? || skip_import?(data_import, run_id)
 
     DataImports::Intercom::Importer.new(data_import: data_import).fail!(error)
   end
 
   private
 
-  def skip_import?(data_import)
-    data_import.abandoned? || data_import.completed? || data_import.completed_with_errors?
+  def skip_import?(data_import, run_id = nil)
+    data_import.reload
+    data_import.abandoned? || data_import.completed? || data_import.completed_with_errors? || stale_import_run?(data_import, run_id)
+  end
+
+  def stale_import_run?(data_import, run_id)
+    active_run_id = data_import.active_intercom_import_run_id
+    active_run_id.present? && active_run_id != run_id
   end
 
   def importer_for(data_import)
