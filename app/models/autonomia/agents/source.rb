@@ -100,19 +100,9 @@ module Autonomia
       # review_summary). accepted continua accepted; needs_review continua excluído (sem promover).
       # Token-guard. Usado pelo ProcessJob no EmptyExtraction quando há entries.
       def restore_previous_generation!(token)
-        prev = (metadata || {})['prev_review'] || {}
-        status_value = prev['review_status']
-        # SEGURANÇA "revisado antes de usar": só 'accepted' volta a ser SERVÍVEL. nil/ausente/qualquer
-        # valor inesperado -> needs_review (NÃO-recuperável): nunca auto-serve conteúdo nunca-revisado
-        # (ex.: entries criados por um job superseded antes do review). needs_resend/needs_review seguem
-        # excluídos (fiel). NOTA: uma fonte legada genuína (review_status nil, servida via legado) que
-        # der re-sync vazio passa a needs_review — tradeoff seguro e raro (re-revisar reativa).
-        status_value = 'needs_review' unless REVIEW_STATUSES.include?(status_value)
-        guarded_update(token, status: self.class.statuses[:ready], review_status: status_value,
-                              review_summary: prev['review_summary'], review_label: prev['review_label'],
-                              review_reason: prev['review_reason'], quality_score: prev['quality_score'],
-                              confidence: prev['confidence'], reviewed_at: prev['reviewed_at'],
-                              error: nil, sync_status: nil, synced_at: Time.current)
+        guarded_update(token, previous_review_attributes.merge(
+                                status: self.class.statuses[:ready], error: nil, sync_status: nil, synced_at: Time.current
+                              ))
       end
 
       # GAP (A) — mídia de ENVIO: caminho NOVO, sem ingestão. NÃO embeda, NÃO chama a revisora; só
@@ -131,9 +121,16 @@ module Autonomia
                               metadata: new_metadata, synced_at: Time.current)
       end
 
+      # FALHA DE REPROCESSO: begin_ingestion! rebaixou o parecer para needs_review ANTES do reprocesso.
+      # Se a falha for TRANSITÓRIA (embedding fora do ar, timeout), os KnowledgeEntry antigos seguem
+      # INTACTOS (o Ingestor só substitui depois de embedar) — mas sem restaurar o parecer a fonte
+      # ficaria needs_review+failed e o Retriever (que exclui needs_review) apagaria da busca uma base
+      # BOA. Restaura o snapshot do parecer anterior junto com o `failed`: accepted volta a accepted
+      # (entries antigos continuam servíveis); nunca-revisado permanece needs_review (sem promover).
       def mark_failed!(token, message)
-        guarded_update(token, status: self.class.statuses[:failed],
-                              error: message.to_s.truncate(500))
+        guarded_update(token, previous_review_attributes.merge(
+                                status: self.class.statuses[:failed], error: message.to_s.truncate(500)
+                              ))
       end
 
       # Grava o parecer da IA Revisora. Corre DEPOIS de mark_ready! (status já é `ready`), por isso
@@ -150,6 +147,24 @@ module Autonomia
       end
 
       private
+
+      # Snapshot do parecer anterior (metadata['prev_review'], gravado por begin_ingestion!) mapeado
+      # de volta para as colunas de review — fonte ÚNICA de verdade da restauração, usada por
+      # restore_previous_generation! (re-sync vazio) e mark_failed! (falha de reprocesso).
+      # SEGURANÇA "revisado antes de usar": só valores do vocabulário voltam; nil/ausente/inesperado
+      # vira needs_review (NÃO-recuperável): nunca auto-serve conteúdo nunca-revisado (ex.: entries
+      # criados por um job superseded antes do review). needs_resend/needs_review seguem excluídos
+      # (fiel). NOTA: uma fonte legada genuína (review_status nil, servida via legado) que falhar no
+      # re-sync passa a needs_review — tradeoff seguro e raro (re-revisar reativa).
+      def previous_review_attributes
+        prev = (metadata || {})['prev_review'] || {}
+        status_value = prev['review_status']
+        status_value = 'needs_review' unless REVIEW_STATUSES.include?(status_value)
+        { review_status: status_value, review_summary: prev['review_summary'],
+          review_label: prev['review_label'], review_reason: prev['review_reason'],
+          quality_score: prev['quality_score'], confidence: prev['confidence'],
+          reviewed_at: prev['reviewed_at'] }
+      end
 
       # Guard de revisão: escreve só se o sync_token ainda for o desta execução (não exige status —
       # a fonte já está `ready`/`failed`). update_all atômico fecha a janela check→write. true se ganhou.
