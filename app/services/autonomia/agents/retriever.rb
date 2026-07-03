@@ -21,10 +21,7 @@ class Autonomia::Agents::Retriever
     vector = embedding_service.embed(query)
     return [] if vector.blank?
 
-    rows = @agent.knowledge_entries.ready
-                 .where.not(source_id: rejected_source_ids)
-                 .nearest_neighbors(:embedding, vector, distance: 'cosine')
-                 .limit(top_k * 4) # folga p/ rerank, dedup por fonte e merge lexical
+    rows = candidate_rows(vector, top_k) # folga (top_k*4) p/ rerank, dedup por fonte e merge lexical
     # P1.1b — TOP-K com piso FROUXO de segurança (NÃO mais cutoff absoluto 0.45 que zerava tudo).
     # Mantém só o que está abaixo do teto de lixo; entre 0.45 e o teto o trecho ENTRA (recall) e a
     # ancoragem de confiança no Answerer o rebaixa se for fraco. Acima do teto = genuíno fora-de-
@@ -57,6 +54,31 @@ class Autonomia::Agents::Retriever
   end
 
   private
+
+  # B1 — candidatos (top_k*4) pela COLUNA do modelo ativo. 3-small: caminho da gem `neighbor` sobre
+  # :embedding (INALTERADO — sem regressão p/ a base atual e o Captain). 3-large: NN por SQL cru sobre
+  # :embedding_large (halfvec 3072), pois neighbor 0.2.3 não conhece halfvec. Ambos expõem
+  # `neighbor_distance` na MESMA escala (distância de cosseno) — os patamares 0.75/0.45 valem igual.
+  def candidate_rows(vector, top_k)
+    scope = @agent.knowledge_entries.ready.where.not(source_id: rejected_source_ids)
+    if Autonomia::Agents::Config.embedding_large?
+      nearest_by_halfvec(scope, vector, top_k)
+    else
+      scope.nearest_neighbors(:embedding, vector, distance: 'cosine').limit(top_k * 4)
+    end
+  end
+
+  # NN sobre halfvec: operador `<=>` = distância de cosseno (mesma escala do neighbor). Só linhas já
+  # backfilladas (embedding_large IS NOT NULL). Literal pgvector "[...]" + cast ::halfvec, sanitizado.
+  def nearest_by_halfvec(scope, vector, top_k)
+    literal = "[#{vector.join(',')}]"
+    distance = Autonomia::Agents::KnowledgeEntry
+               .sanitize_sql_array(['(embedding_large <=> ?::halfvec)', literal])
+    scope.where.not(embedding_large: nil)
+         .select(Arel.sql("autonomia_agent_knowledge.*, #{distance} AS neighbor_distance"))
+         .order(Arel.sql("#{distance} ASC"))
+         .limit(top_k * 4)
+  end
 
   # Revisor v2 (§2.6): exclui do retrieval o conhecimento de fontes REPROVADAS pela IA Revisora
   # (needs_resend) ou não-avaliáveis sem IA (needs_review). Fontes 'accepted' E ainda-não-revisadas

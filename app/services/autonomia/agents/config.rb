@@ -52,6 +52,34 @@ module Autonomia
       CHUNK_OVERLAP = 80       # overlap (chars) usado SÓ no fallback de janela p/ unidade longa
       # Compat: specs/call-sites legados que referenciam CHUNK_SIZE caem no teto estrutural.
       CHUNK_SIZE = CHUNK_MAX
+
+      # EMBEDDING (B1 Onda 6) — upgrade text-embedding-3-small (1536) -> 3-large (3072), SEM regressão,
+      # via DUAS colunas + cutover por config. FONTE ÚNICA da resolução de modelo (EmbeddingService,
+      # Ingestor e Retriever leem DAQUI p/ query e base ficarem sempre no mesmo modelo/coluna):
+      #   - modelo ativo = InstallationConfig CAPTAIN_EMBEDDING_MODEL (default 3-small do LlmConstants).
+      #   - 3-small -> coluna :embedding (vector 1536, gem neighbor). 3-large -> :embedding_large
+      #     (halfvec 3072, NN por SQL cru no Retriever — a gem não conhece halfvec).
+      # Cutover: o backfill preenche :embedding_large em TODA a base ANTES de a config virar 3-large;
+      # até lá o Retriever consulta :embedding (populada) e não há janela de retrieval vazio.
+      EMBEDDING_MODEL_SMALL = 'text-embedding-3-small'.freeze
+      EMBEDDING_MODEL_LARGE = 'text-embedding-3-large'.freeze
+      EMBEDDING_LARGE_COLUMN = :embedding_large
+      EMBEDDING_SMALL_COLUMN = :embedding
+
+      def self.active_embedding_model
+        InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence ||
+          LlmConstants::DEFAULT_EMBEDDING_MODEL
+      end
+
+      # 3-large (3072) é detectado por substring p/ tolerar variações de nome (ex.: dated snapshots).
+      def self.embedding_large?(model = active_embedding_model)
+        model.to_s.include?('3-large')
+      end
+
+      # Coluna de embedding ativa (símbolo) p/ leitura/escrita coerentes com o modelo ativo.
+      def self.embedding_column(model = active_embedding_model)
+        embedding_large?(model) ? EMBEDDING_LARGE_COLUMN : EMBEDDING_SMALL_COLUMN
+      end
       # KB-quality Bloco A (2026-07-03): qualidade sobre custo (decisão do PO — quem paga é o cliente e
       # quer resposta correta). top_k 8→12 dá mais opções de fundamento ao Answerer (o dedup por fonte
       # continua, então mais fontes distintas chegam). Custo por resposta sobe (mais tokens no prompt).

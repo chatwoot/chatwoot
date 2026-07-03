@@ -62,12 +62,34 @@ module Autonomia
           count
         end
 
+        # Grava o chunk na COLUNA de embedding do modelo ativo (B1): 3-small -> :embedding (a gem
+        # neighbor casta o vetor); 3-large -> :embedding_large (halfvec 3072, escrito por SQL cru
+        # sanitizado, pois neighbor 0.2.3 não conhece halfvec). O vetor foi produzido pelo mesmo modelo
+        # ativo (EmbeddingService lê Config.active_embedding_model), então coluna e vetor são coerentes.
         def create_entry(content, vector, index)
-          KnowledgeEntry.create!(
+          entry = KnowledgeEntry.create!(
             autonomia_agent_id: @agent.id, account_id: @account.id, source_id: @source.id,
-            content: content, embedding: vector, chunk_index: index,
-            status: :ready, metadata: { source_type: @source.source_type }
+            content: content, chunk_index: index, status: :ready,
+            metadata: { source_type: @source.source_type },
+            **small_embedding_attr(vector)
           )
+          write_large_embedding!(entry, vector) if large_embedding?
+        end
+
+        def large_embedding?
+          Config.embedding_column == Config::EMBEDDING_LARGE_COLUMN
+        end
+
+        def small_embedding_attr(vector)
+          large_embedding? ? {} : { embedding: vector }
+        end
+
+        # halfvec via update_all sanitizado: o literal pgvector é "[v1,v2,...]" e o cast ::halfvec é
+        # aplicado no SQL. Escopo por id (uma linha) — não toca a gem neighbor nem a coluna legada.
+        def write_large_embedding!(entry, vector)
+          # update_all: escrita direta do halfvec (vetor recém-embedado, sem validação a rodar).
+          KnowledgeEntry.where(id: entry.id)
+                        .update_all(['embedding_large = ?::halfvec', "[#{vector.join(',')}]"]) # rubocop:disable Rails/SkipsModelValidations
         end
       end
     end
