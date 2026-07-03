@@ -9,6 +9,8 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
+import ContactTableLabels from 'dashboard/components-next/Contacts/ContactsTable/ContactTableLabels.vue';
+
 const props = defineProps({
   contacts: { type: Array, required: true },
 
@@ -31,37 +33,55 @@ const allSelected = computed(
     props.contacts.every(contact => selectedIdsSet.value.has(contact.id))
 );
 
-const SORTABLE_COLUMNS = [
+const someSelected = computed(
+  () =>
+    props.contacts.some(contact => selectedIdsSet.value.has(contact.id)) &&
+    !allSelected.value
+);
+
+const selectPageTitle = computed(() =>
+  t('CONTACTS_LAYOUT.TABLE.SELECT_PAGE', { count: props.contacts.length })
+);
+
+const TABLE_COLUMNS = [
   {
     key: 'name',
-
-    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.NAME'),
+    sortable: true,
+    labelKey: 'NAME',
   },
-
-  {
-    key: 'email',
-
-    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.EMAIL'),
-  },
-
   {
     key: 'document_number',
-
-    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.DOCUMENT_NUMBER'),
+    sortable: true,
+    labelKey: 'IDENTITY',
   },
-
   {
     key: 'phone_number',
-
-    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.PHONE_NUMBER'),
+    sortable: true,
+    labelKey: 'PHONE',
   },
-
+  {
+    key: 'email',
+    sortable: true,
+    labelKey: 'EMAIL',
+  },
+  {
+    key: 'labels',
+    sortable: false,
+    labelKey: 'LABELS',
+  },
+  {
+    key: 'assigned_agent',
+    sortable: false,
+    labelKey: 'ASSIGNED_AGENT',
+  },
   {
     key: 'last_activity_at',
-
-    label: t('CONTACTS_LAYOUT.HEADER.ACTIONS.SORT_BY.OPTIONS.LAST_ACTIVITY'),
+    sortable: true,
+    labelKey: 'LAST_ACTIVITY',
   },
 ];
+
+const columnLabel = labelKey => t(`CONTACTS_LAYOUT.TABLE.COLUMNS.${labelKey}`);
 
 const isSortedBy = key => props.activeSort === key;
 
@@ -85,9 +105,7 @@ const handleHeaderClick = key => {
   emit('update:sort', { sort: key, order });
 };
 
-const toggleSelectAll = () => {
-  const shouldSelect = !allSelected.value;
-
+const toggleSelectAll = shouldSelect => {
   props.contacts.forEach(contact => {
     emit('toggleContact', { id: contact.id, value: shouldSelect });
   });
@@ -116,34 +134,44 @@ const formatLastActivity = timestamp => {
 };
 
 const companyName = contact => contact.additionalAttributes?.companyName || '';
+
+const assignedAgentName = contact =>
+  contact.assignedAgent?.availableName || contact.assignedAgent?.name || '';
 </script>
 
 <template>
   <div class="hidden md:block w-full overflow-x-auto">
-    <table class="w-full table-auto divide-y divide-n-weak">
+    <table class="w-full min-w-[56rem] table-auto divide-y divide-n-weak">
       <thead class="border-t border-n-weak bg-n-surface-2">
         <tr>
-          <th class="py-3 px-4 w-10">
+          <th class="py-2 px-3 w-10">
             <Checkbox
               :model-value="allSelected"
+              :indeterminate="someSelected"
+              :title="selectPageTitle"
               @change="event => toggleSelectAll(event.target.checked)"
             />
           </th>
 
           <th
-            v-for="column in SORTABLE_COLUMNS"
+            v-for="column in TABLE_COLUMNS"
             :key="column.key"
-            class="py-3 px-4 text-start text-xs font-semibold text-n-slate-11 uppercase tracking-wider cursor-pointer select-none hover:text-n-slate-12"
-            @click="handleHeaderClick(column.key)"
+            class="py-2 px-3 text-start text-xs font-semibold text-n-slate-11 uppercase tracking-wider select-none"
+            :class="
+              column.sortable
+                ? 'cursor-pointer hover:text-n-slate-12'
+                : 'cursor-default'
+            "
+            @click="column.sortable && handleHeaderClick(column.key)"
           >
             <span class="inline-flex items-center gap-1">
-              {{ column.label }}
+              {{ columnLabel(column.labelKey) }}
 
               <span
+                v-if="column.sortable"
                 class="size-3.5"
                 :class="[
                   sortIcon(column.key),
-
                   isSortedBy(column.key) ? 'text-n-slate-12' : 'text-n-slate-9',
                 ]"
               />
@@ -165,19 +193,19 @@ const companyName = contact => contact.additionalAttributes?.companyName || '';
           @click="onClickViewDetails(contact.id)"
           @keydown="onRowKeydown($event, contact.id)"
         >
-          <td class="py-3 px-4" @click.stop>
+          <td class="py-2 px-3" @click.stop>
             <Checkbox
               :model-value="selectedIdsSet.has(contact.id)"
               @change="event => toggleContact(contact.id, event.target.checked)"
             />
           </td>
 
-          <td class="py-3 px-4">
-            <div class="flex items-center gap-3">
+          <td class="py-2 px-3 max-w-[14rem]">
+            <div class="flex items-center gap-2">
               <Avatar
                 :name="contact.name"
                 :src="contact.thumbnail"
-                :size="36"
+                :size="28"
                 hide-offline-status
               />
 
@@ -196,25 +224,47 @@ const companyName = contact => contact.additionalAttributes?.companyName || '';
             </div>
           </td>
 
-          <td class="py-3 px-4">
-            <span class="text-sm text-n-slate-11 truncate">{{
-              contact.email || '—'
-            }}</span>
-          </td>
-
-          <td class="py-3 px-4">
+          <td class="py-2 px-3 max-w-[9rem]">
             <span class="text-sm text-n-slate-11 truncate">{{
               contact.documentNumber || '—'
             }}</span>
           </td>
 
-          <td class="py-3 px-4">
+          <td class="py-2 px-3 max-w-[9rem]">
             <span class="text-sm text-n-slate-11 truncate">{{
               contact.phoneNumber || '—'
             }}</span>
           </td>
 
-          <td class="py-3 px-4">
+          <td class="py-2 px-3 max-w-[12rem]">
+            <span class="text-sm text-n-slate-11 truncate">{{
+              contact.email || '—'
+            }}</span>
+          </td>
+
+          <td class="py-2 px-3" @click.stop>
+            <ContactTableLabels :label-titles="contact.labels || []" />
+          </td>
+
+          <td class="py-2 px-3 max-w-[10rem]">
+            <div
+              v-if="assignedAgentName(contact)"
+              class="flex items-center gap-2 min-w-0"
+            >
+              <Avatar
+                :name="assignedAgentName(contact)"
+                :src="contact.assignedAgent?.thumbnail"
+                :size="24"
+                hide-offline-status
+              />
+              <span class="text-sm text-n-slate-11 truncate">
+                {{ assignedAgentName(contact) }}
+              </span>
+            </div>
+            <span v-else class="text-sm text-n-slate-11">—</span>
+          </td>
+
+          <td class="py-2 px-3">
             <span class="text-sm text-n-slate-11 whitespace-nowrap">
               {{ formatLastActivity(contact.lastActivityAt) }}
             </span>

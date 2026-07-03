@@ -20,6 +20,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def index
     @contacts = fetch_contacts(resolved_contacts)
     @contacts_count = @contacts.total_count
+    preload_contact_list_labels
   end
 
   def search
@@ -30,6 +31,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       search: "%#{params[:q].strip}%"
     )
     @contacts = fetch_contacts_with_has_more(contacts)
+    preload_contact_list_labels
   end
 
   def import
@@ -56,6 +58,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                   .get_available_contact_ids(Current.account.id))
     @contacts = fetch_contacts(contacts)
     @contacts_count = @contacts.total_count
+    preload_contact_list_labels
   end
 
   def show; end
@@ -65,6 +68,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     contacts = result[:contacts]
     @contacts_count = result[:count]
     @contacts = fetch_contacts(contacts)
+    preload_contact_list_labels
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,
          CustomExceptions::CustomFilter::InvalidQueryOperator,
@@ -240,6 +244,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def admin?
     Current.account_user&.administrator?
+  end
+
+  def preload_contact_list_labels
+    contact_records = @contacts.respond_to?(:to_a) ? @contacts.to_a : Array(@contacts)
+    @contact_labels_by_id = Contacts::LabelsPreloader.call(
+      account: Current.account,
+      contact_ids: contact_records.map(&:id)
+    )
   end
 end
 

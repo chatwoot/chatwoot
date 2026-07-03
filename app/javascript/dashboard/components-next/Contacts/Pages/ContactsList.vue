@@ -102,8 +102,8 @@ const shouldShowSelection = id => {
   return hoveredAvatarId.value === id || isSelected(id);
 };
 
-const handleSelect = (id, value) => {
-  emit('toggleContact', { id, value });
+const handleSelect = payload => {
+  emit('toggleContact', payload);
 };
 
 const handleAvatarHover = (id, isHovered) => {

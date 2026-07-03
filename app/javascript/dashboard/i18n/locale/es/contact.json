@@ -386,6 +386,18 @@
         }
       }
     },
+    "TABLE": {
+      "SELECT_PAGE": "Seleccionar los {count} contactos de esta página",
+      "COLUMNS": {
+        "NAME": "Nombre",
+        "IDENTITY": "Identidad",
+        "PHONE": "Teléfono",
+        "EMAIL": "E-mail",
+        "LABELS": "Etiquetas",
+        "ASSIGNED_AGENT": "Agente",
+        "LAST_ACTIVITY": "Última actividad"
+      }
+    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Mostrando {startItem} - {endItem} de {totalItems} contactos"
     },
@@ -495,7 +507,16 @@
     },
     "DETAILS": {
       "CREATED_AT": "Creado {date}",
+      "DATE_SEPARATOR": "·",
       "LAST_ACTIVITY": "Última actividad {date}",
+      "SECTIONS": {
+        "CONTACT_DATA": "Datos del contacto",
+        "SOCIAL_PROFILES": "Redes sociales"
+      },
+      "MORE_ACTIONS": {
+        "MERGE": "Combinar contacto",
+        "DELETE": "Eliminar contacto"
+      },
       "ASSIGNEE": {
         "LABEL": "Agente asignado",
         "NONE": "Sin asignar",
@@ -532,9 +553,11 @@
         "ATTRIBUTES": "Atributos",
         "HISTORY": "Historial",
         "NOTES": "Notas",
+        "MEDIA": "Multimedia",
         "MERGE": "Combinar"
       },
       "HISTORY": {
+        "TITLE": "Historial de conversaciones",
         "EMPTY_STATE": "No hay conversaciones previas asociadas a este contacto"
       },
       "ATTRIBUTES": {

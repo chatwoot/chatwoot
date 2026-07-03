@@ -12,7 +12,6 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
 import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
-import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
 
 const store = useStore();
@@ -21,9 +20,11 @@ const router = useRouter();
 
 const contact = useMapGetter('contacts/getContactById');
 const uiFlags = useMapGetter('contacts/getUIFlags');
+const conversations = useMapGetter(
+  'contactConversations/getAllConversationsByContactId'
+);
 
-const activeTab = ref('attributes');
-const contactMergeRef = ref(null);
+const activeTab = ref('history');
 
 const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
 const isMergingContact = computed(() => uiFlags.value.isMerging);
@@ -35,26 +36,30 @@ const showSpinner = computed(
   () => isFetchingItem.value || isMergingContact.value
 );
 
+const conversationCount = computed(
+  () => conversations.value(route.params.contactId)?.length || 0
+);
+
 const { t } = useI18n();
 
 const CONTACT_TABS_OPTIONS = [
-  { key: 'ATTRIBUTES', value: 'attributes' },
   { key: 'HISTORY', value: 'history' },
   { key: 'NOTES', value: 'notes' },
   { key: 'MEDIA', value: 'media' },
-  { key: 'MERGE', value: 'merge' },
+  { key: 'ATTRIBUTES', value: 'attributes' },
 ];
 
-const tabs = computed(() => {
-  return CONTACT_TABS_OPTIONS.map(tab => ({
+const tabs = computed(() =>
+  CONTACT_TABS_OPTIONS.map(tab => ({
     label: t(`CONTACTS_LAYOUT.SIDEBAR.TABS.${tab.key}`),
     value: tab.value,
-  }));
-});
+    count: tab.value === 'history' ? conversationCount.value : undefined,
+  }))
+);
 
-const activeTabIndex = computed(() => {
-  return CONTACT_TABS_OPTIONS.findIndex(v => v.value === activeTab.value);
-});
+const activeTabIndex = computed(() =>
+  CONTACT_TABS_OPTIONS.findIndex(v => v.value === activeTab.value)
+);
 
 const goToContactsList = () => {
   if (window.history.state?.back || window.history.length > 1) {
@@ -129,13 +134,10 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
+    class="flex flex-col justify-between flex-1 w-full min-w-0 h-full m-0 overflow-auto bg-n-surface-1"
   >
     <ContactsDetailsLayout
-      :button-label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"
       :selected-contact="selectedContact"
-      is-detail-view
-      :show-pagination-footer="false"
       :is-updating="isUpdatingContact"
       @go-to-contacts-list="goToContactsList"
       @toggle-block="toggleContactBlock"
@@ -149,10 +151,9 @@ onMounted(() => {
       <ContactDetails
         v-else-if="selectedContact"
         :selected-contact="selectedContact"
-        @go-to-contacts-list="goToContactsList"
       />
       <template #sidebarHeader>
-        <div class="px-6 pt-6 pb-3">
+        <div class="px-4 pt-4 pb-2">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"
@@ -169,19 +170,12 @@ onMounted(() => {
           <Spinner />
         </div>
         <template v-else>
+          <ContactHistory v-if="activeTab === 'history'" />
+          <ContactNotes v-if="activeTab === 'notes'" />
+          <ContactMedia v-if="activeTab === 'media'" />
           <ContactCustomAttributes
             v-if="activeTab === 'attributes'"
             :selected-contact="selectedContact"
-          />
-          <ContactNotes v-if="activeTab === 'notes'" />
-          <ContactHistory v-if="activeTab === 'history'" />
-          <ContactMedia v-if="activeTab === 'media'" />
-          <ContactMerge
-            v-if="activeTab === 'merge'"
-            ref="contactMergeRef"
-            :selected-contact="selectedContact"
-            @go-to-contacts-list="goToContactsList"
-            @reset-tab="handleTabChange(CONTACT_TABS_OPTIONS[0])"
           />
         </template>
       </template>

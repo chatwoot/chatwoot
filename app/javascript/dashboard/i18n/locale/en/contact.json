@@ -387,6 +387,18 @@
         }
       }
     },
+    "TABLE": {
+      "SELECT_PAGE": "Select all {count} contacts on this page",
+      "COLUMNS": {
+        "NAME": "Name",
+        "IDENTITY": "Identity",
+        "PHONE": "Phone",
+        "EMAIL": "Email",
+        "LABELS": "Labels",
+        "ASSIGNED_AGENT": "Agent",
+        "LAST_ACTIVITY": "Last activity"
+      }
+    },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
@@ -496,7 +508,16 @@
     },
     "DETAILS": {
       "CREATED_AT": "Created {date}",
+      "DATE_SEPARATOR": "·",
       "LAST_ACTIVITY": "Last active {date}",
+      "SECTIONS": {
+        "CONTACT_DATA": "Contact data",
+        "SOCIAL_PROFILES": "Social profiles"
+      },
+      "MORE_ACTIONS": {
+        "MERGE": "Merge contact",
+        "DELETE": "Delete contact"
+      },
       "ASSIGNEE": {
         "LABEL": "Assigned agent",
         "NONE": "Unassigned",
@@ -537,6 +558,7 @@
         "MERGE": "Merge"
       },
       "HISTORY": {
+        "TITLE": "Conversation history",
         "EMPTY_STATE": "There are no previous conversations associated to this contact"
       },
       "ATTRIBUTES": {

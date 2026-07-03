@@ -263,7 +263,11 @@ export const actions = {
   },
 
   deleteMany: async ({ commit }, ids) => {
-    const uniqueIds = [...new Set(ids)];
+    const normalizeId = id =>
+      id != null && typeof id === 'object' ? Number(id.id) : Number(id);
+    const uniqueIds = [
+      ...new Set(ids.map(normalizeId).filter(id => !Number.isNaN(id))),
+    ];
     const results = await Promise.allSettled(
       uniqueIds.map(id => ContactAPI.delete(id))
     );

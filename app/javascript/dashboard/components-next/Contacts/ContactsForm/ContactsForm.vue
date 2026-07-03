@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed, reactive, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
@@ -19,6 +19,10 @@ const props = defineProps({
     default: null,
   },
   isDetailsView: {
+    type: Boolean,
+    default: false,
+  },
+  hideDocumentNumber: {
     type: Boolean,
     default: false,
   },
@@ -166,12 +170,60 @@ const countryOptions = computed(() =>
 );
 
 const editDetailsForm = computed(() =>
-  Object.keys(FORM_CONFIG).map(key => ({
-    key,
-    placeholder: t(
-      `CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.${key}.PLACEHOLDER`
-    ),
-  }))
+  Object.keys(FORM_CONFIG)
+    .filter(
+      key =>
+        !(
+          props.isDetailsView &&
+          props.hideDocumentNumber &&
+          key === 'DOCUMENT_NUMBER'
+        )
+    )
+    .map(key => ({
+      key,
+      placeholder: t(
+        `CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.${key}.PLACEHOLDER`
+      ),
+    }))
+);
+
+const hasSocialProfileValues = profiles => {
+  if (!profiles) return false;
+  return Object.values(profiles).some(value => String(value || '').trim());
+};
+
+const isSocialExpanded = ref(
+  props.isDetailsView
+    ? hasSocialProfileValues(
+        props.contactData?.additionalAttributes?.socialProfiles
+      )
+    : true
+);
+
+watch(
+  () => props.contactData?.id,
+  () => {
+    if (!props.isDetailsView) return;
+    isSocialExpanded.value = hasSocialProfileValues(
+      props.contactData?.additionalAttributes?.socialProfiles
+    );
+  }
+);
+
+const toggleSocialExpanded = () => {
+  isSocialExpanded.value = !isSocialExpanded.value;
+};
+
+const contactDataSectionTitle = computed(() =>
+  props.isDetailsView
+    ? t('CONTACTS_LAYOUT.DETAILS.SECTIONS.CONTACT_DATA')
+    : t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE')
+);
+
+const socialSectionTitle = computed(() =>
+  props.isDetailsView
+    ? t('CONTACTS_LAYOUT.DETAILS.SECTIONS.SOCIAL_PROFILES')
+    : t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE')
 );
 
 const socialProfilesForm = computed(() =>
@@ -277,12 +329,12 @@ defineExpose({
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-4">
     <div class="flex flex-col items-start gap-2">
       <span class="py-1 text-sm font-medium text-n-slate-12">
-        {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
+        {{ contactDataSectionTitle }}
       </span>
-      <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
+      <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
@@ -334,10 +386,22 @@ defineExpose({
       </div>
     </div>
     <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
-        {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
-      </span>
-      <div class="flex flex-wrap gap-2">
+      <button
+        type="button"
+        class="flex items-center gap-2 py-1 text-sm font-medium text-n-slate-12"
+        @click="toggleSocialExpanded"
+      >
+        <span
+          class="size-4 text-n-slate-10"
+          :class="
+            isSocialExpanded
+              ? 'i-lucide-chevron-down'
+              : 'i-lucide-chevron-right'
+          "
+        />
+        {{ socialSectionTitle }}
+      </button>
+      <div v-if="isSocialExpanded" class="flex flex-wrap gap-2 w-full">
         <div
           v-for="item in socialProfilesForm"
           :key="item.key"

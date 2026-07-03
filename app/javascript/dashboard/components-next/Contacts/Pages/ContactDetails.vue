@@ -3,15 +3,10 @@ import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { dynamicTime } from 'shared/helpers/timeHelper';
 
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
+import ContactDetailProfileCard from 'dashboard/components-next/Contacts/ContactDetailProfileCard.vue';
 import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/ContactsForm.vue';
-import ConfirmContactDeleteDialog from 'dashboard/components-next/Contacts/ContactsForm/ConfirmContactDeleteDialog.vue';
-import ContactAssigneeSelector from 'dashboard/components-next/Contacts/ContactAssigneeSelector.vue';
-import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   selectedContact: {
@@ -20,24 +15,16 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['goToContactsList']);
-
 const { t } = useI18n();
 const store = useStore();
 
-const confirmDeleteContactDialogRef = ref(null);
-
 const avatarFile = ref(null);
-const avatarUrl = ref('');
-
 const contactsFormRef = ref(null);
+const contactData = ref({});
 
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const isUpdating = computed(() => uiFlags.value.isUpdating);
-
 const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
-
-const contactData = ref({});
 
 const getInitialContactData = () => {
   if (!props.selectedContact) return {};
@@ -46,22 +33,6 @@ const getInitialContactData = () => {
 
 onMounted(() => {
   Object.assign(contactData.value, getInitialContactData());
-});
-
-const createdAt = computed(() => {
-  return contactData.value?.createdAt
-    ? dynamicTime(contactData.value.createdAt)
-    : '';
-});
-
-const lastActivityAt = computed(() => {
-  return contactData.value?.lastActivityAt
-    ? dynamicTime(contactData.value.lastActivityAt)
-    : '';
-});
-
-const avatarSrc = computed(() => {
-  return avatarUrl.value ? avatarUrl.value : contactData.value?.thumbnail;
 });
 
 const handleFormUpdate = updatedData => {
@@ -82,13 +53,8 @@ const updateContact = async () => {
   }
 };
 
-const openConfirmDeleteContactDialog = () => {
-  confirmDeleteContactDialogRef.value?.dialogRef.open();
-};
-
-const handleAvatarUpload = async ({ file, url }) => {
+const handleAvatarUpload = async ({ file }) => {
   avatarFile.value = file;
-  avatarUrl.value = url;
 
   try {
     await store.dispatch('contacts/update', {
@@ -104,12 +70,11 @@ const handleAvatarUpload = async ({ file, url }) => {
 
 const handleAvatarDelete = async () => {
   try {
-    if (props.selectedContact && props.selectedContact.id) {
+    if (props.selectedContact?.id) {
       await store.dispatch('contacts/deleteAvatar', props.selectedContact.id);
       useAlert(t('CONTACTS_LAYOUT.DETAILS.AVATAR.DELETE.SUCCESS_MESSAGE'));
     }
     avatarFile.value = null;
-    avatarUrl.value = '';
     contactData.value.thumbnail = null;
   } catch (error) {
     useAlert(
@@ -122,63 +87,25 @@ const handleAvatarDelete = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start gap-8 pb-6">
-    <div class="flex flex-col items-start gap-3">
-      <Avatar
-        :src="avatarSrc || ''"
-        :name="selectedContact?.name || ''"
-        :size="72"
-        allow-upload
-        @upload="handleAvatarUpload"
-        @delete="handleAvatarDelete"
-      />
-      <div class="flex flex-col gap-1">
-        <h3 class="text-base font-medium text-n-slate-12">
-          {{ selectedContact?.name }}
-        </h3>
-        <div class="flex flex-col gap-1.5">
-          <span
-            v-if="selectedContact?.identifier"
-            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
-          >
-            <span class="i-ph-user-gear text-n-slate-10 size-4" />
-            {{ selectedContact?.identifier }}
-          </span>
-          <span
-            v-if="selectedContact?.documentNumber"
-            class="inline-flex items-center gap-1 text-sm text-n-slate-11"
-          >
-            <span class="i-ph-identification-card text-n-slate-10 size-4" />
-            {{ selectedContact?.documentNumber }}
-          </span>
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
-            <span
-              v-if="selectedContact?.identifier"
-              class="i-ph-activity text-n-slate-10 size-4"
-            />
-            {{ $t('CONTACTS_LAYOUT.DETAILS.CREATED_AT', { date: createdAt }) }}
-            <span class="i-ph-dot text-n-slate-10 size-4" aria-hidden="true" />
-            {{
-              $t('CONTACTS_LAYOUT.DETAILS.LAST_ACTIVITY', {
-                date: lastActivityAt,
-              })
-            }}
-          </span>
-        </div>
-      </div>
-      <ContactLabels :contact-id="selectedContact?.id" />
-      <ContactAssigneeSelector
-        :contact="selectedContact"
-        @update="handleFormUpdate"
-      />
-    </div>
-    <div class="flex flex-col items-start gap-6">
-      <ContactsForm
-        ref="contactsFormRef"
-        :contact-data="contactData"
-        is-details-view
-        @update="handleFormUpdate"
-      />
+  <div class="flex flex-col gap-4 pb-4">
+    <ContactDetailProfileCard
+      :selected-contact="selectedContact"
+      @update="handleFormUpdate"
+      @upload="handleAvatarUpload"
+      @delete-avatar="handleAvatarDelete"
+    />
+
+    <ContactsForm
+      ref="contactsFormRef"
+      :contact-data="contactData"
+      is-details-view
+      hide-document-number
+      @update="handleFormUpdate"
+    />
+
+    <div
+      class="sticky bottom-0 z-10 -mx-6 px-6 py-3 bg-n-surface-1 border-t border-n-weak 3xl:-mx-8 3xl:px-8"
+    >
       <Button
         :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
         size="sm"
@@ -187,29 +114,5 @@ const handleAvatarDelete = async () => {
         @click="updateContact"
       />
     </div>
-    <Policy :permissions="['administrator']">
-      <div
-        class="flex flex-col items-start w-full gap-4 pt-6 border-t border-n-strong"
-      >
-        <div class="flex flex-col gap-2">
-          <h6 class="text-base font-medium text-n-slate-12">
-            {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT') }}
-          </h6>
-          <span class="text-sm text-n-slate-11">
-            {{ t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT_DESCRIPTION') }}
-          </span>
-        </div>
-        <Button
-          :label="t('CONTACTS_LAYOUT.DETAILS.DELETE_CONTACT')"
-          color="ruby"
-          @click="openConfirmDeleteContactDialog"
-        />
-      </div>
-      <ConfirmContactDeleteDialog
-        ref="confirmDeleteContactDialogRef"
-        :selected-contact="selectedContact"
-        @go-to-contacts-list="emit('goToContactsList')"
-      />
-    </Policy>
   </div>
 </template>
