@@ -143,7 +143,9 @@ const saveSettings = async (extra = {}) => {
 };
 
 const onAvatarUpload = async ({ file, url }) => {
-  if (!file || isUploadingAvatar.value) return;
+  // isSaving = updatingItem: também um write do agente (UPSERT). Bail se restore/
+  // save/status está em voo para não reintroduzir instrução/status antigos.
+  if (!file || isUploadingAvatar.value || isSaving.value) return;
   avatarPreviewUrl.value = url;
   isUploadingAvatar.value = true;
   try {
@@ -162,7 +164,7 @@ const onAvatarUpload = async ({ file, url }) => {
 };
 
 const onAvatarDelete = async () => {
-  if (isUploadingAvatar.value) return;
+  if (isUploadingAvatar.value || isSaving.value) return;
   isUploadingAvatar.value = true;
   try {
     await store.dispatch('autonomiaAgents/deleteAvatar', props.agentId);
