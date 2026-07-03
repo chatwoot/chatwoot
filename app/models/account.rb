@@ -54,7 +54,7 @@ class Account < ApplicationRecord
   store_accessor :settings, :captain_models, :captain_features
   store_accessor :settings, :reporting_timezone
   store_accessor :settings, :keep_pending_on_bot_failure
-  store_accessor :settings, :captain_auto_resolve_mode
+  store_accessor :settings, :captain_auto_resolve_mode, :captain_false_promise_harness_enabled
   include AccountCaptainAutoResolve
 
   has_many :account_users, dependent: :destroy_async
@@ -181,7 +181,7 @@ class Account < ApplicationRecord
   end
 
   def clear_unread_conversation_counts_cache
-    ::Conversations::UnreadCounts::Store.clear_all_account!(id)
+    ::Conversations::UnreadCounts::Store.clear_account!(id)
   end
 
   trigger.after(:insert).for_each(:row) do

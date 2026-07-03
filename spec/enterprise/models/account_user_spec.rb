@@ -29,24 +29,6 @@ RSpec.describe AccountUser, type: :model do
     end
   end
 
-  describe 'unread filter count invalidation' do
-    it 'notifies when the assigned custom role changes' do
-      account = create(:account)
-      custom_role = create(:custom_role, account: account)
-      account_user = create(:account_user, account: account)
-      notifier = instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true)
-      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
-
-      account_user.update!(custom_role: custom_role)
-
-      expect(Conversations::UnreadCounts::UserFilterNotifier).to have_received(:new).with(
-        account: account,
-        user: account_user.user
-      )
-      expect(notifier).to have_received(:perform)
-    end
-  end
-
   describe 'audit log' do
     context 'when account user is created' do
       it 'has associated audit log created' do

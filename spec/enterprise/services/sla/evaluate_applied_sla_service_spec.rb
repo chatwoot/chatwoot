@@ -19,6 +19,29 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   end
   let!(:applied_sla) { conversation.applied_sla }
 
+  describe '#perform - blocked contacts' do
+    before do
+      applied_sla.sla_policy.update(first_response_time_threshold: 1.hour, resolution_time_threshold: 1.hour)
+      conversation.contact.update!(blocked: true)
+    end
+
+    it 'does not create SLA events or update SLA status' do
+      described_class.new(applied_sla: applied_sla).perform
+
+      expect(SlaEvent.where(applied_sla: applied_sla)).not_to exist
+      expect(applied_sla.reload.sla_status).to eq('active')
+    end
+
+    it 'does not mark resolved conversations as hit or missed' do
+      conversation.resolved!
+
+      described_class.new(applied_sla: applied_sla).perform
+
+      expect(SlaEvent.where(applied_sla: applied_sla)).not_to exist
+      expect(applied_sla.reload.sla_status).to eq('active')
+    end
+  end
+
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
       before { applied_sla.sla_policy.update(first_response_time_threshold: 1.hour) }
@@ -140,6 +163,71 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       end
     end
 
+    context 'when first response SLA is hit after non-business hours' do
+      let(:created_at) { Time.zone.parse('2026-06-25 00:39:56 UTC') }
+      let(:wall_clock_breach_time) { Time.zone.parse('2026-06-25 01:40:03 UTC') }
+      let(:first_reply_created_at) { Time.zone.parse('2026-06-25 11:45:36 UTC') }
+      let(:post_reply_eval_time) { Time.zone.parse('2026-06-25 11:46:38 UTC') }
+      let(:email_inbox) { create(:inbox, :with_email, account: account, working_hours_enabled: true, timezone: 'America/New_York') }
+      let(:business_hours_sla_policy) do
+        create(
+          :sla_policy,
+          account: account,
+          first_response_time_threshold: 1.hour,
+          next_response_time_threshold: nil,
+          resolution_time_threshold: nil,
+          only_during_business_hours: true
+        )
+      end
+      let(:business_hours_conversation) do
+        create(
+          :conversation,
+          account: account,
+          inbox: email_inbox,
+          sla_policy: business_hours_sla_policy,
+          created_at: created_at,
+          last_activity_at: created_at
+        )
+      end
+      let(:business_hours_applied_sla) { business_hours_conversation.applied_sla }
+
+      before do
+        {
+          0 => [11, 0, 20, 0],
+          1 => [7, 0, 20, 0],
+          2 => [7, 0, 20, 0],
+          3 => [7, 0, 20, 0],
+          4 => [7, 0, 16, 0],
+          5 => [7, 0, 16, 0],
+          6 => [11, 0, 20, 0]
+        }.each do |day_of_week, (open_hour, open_minutes, close_hour, close_minutes)|
+          email_inbox.working_hours.find_by(day_of_week: day_of_week).update!(
+            open_hour: open_hour,
+            open_minutes: open_minutes,
+            close_hour: close_hour,
+            close_minutes: close_minutes,
+            closed_all_day: false,
+            open_all_day: false
+          )
+        end
+      end
+
+      it 'does not mark FRT missed while outside business hours or after an on-time business-hours reply' do
+        travel_to wall_clock_breach_time do
+          described_class.new(applied_sla: business_hours_applied_sla).perform
+        end
+
+        business_hours_conversation.update!(first_reply_created_at: first_reply_created_at, last_activity_at: first_reply_created_at)
+
+        travel_to post_reply_eval_time do
+          described_class.new(applied_sla: business_hours_applied_sla).perform
+        end
+
+        expect(business_hours_applied_sla.reload.sla_status).to eq('active')
+        expect(SlaEvent.where(applied_sla: business_hours_applied_sla, event_type: 'frt')).not_to exist
+      end
+    end
+
     context 'when next response SLA is hit' do
       before do
         applied_sla.sla_policy.update(next_response_time_threshold: 6.hours)
@@ -191,16 +279,16 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       # Simulate conversation timeline
       # Hit frt
       # incoming message from customer
-      create(:message, conversation: conversation, created_at: 6.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 6.hours.ago, message_type: :incoming)
       # outgoing message from agent within frt
-      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 5.hours.ago, message_type: :outgoing)
 
       # Miss nrt first time
-      create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 4.hours.ago, message_type: :incoming)
       described_class.new(applied_sla: applied_sla).perform
 
       # Miss nrt second time
-      create(:message, conversation: conversation, created_at: 3.hours.ago, message_type: :incoming)
+      create(:message, conversation: conversation, account: conversation.account, created_at: 3.hours.ago, message_type: :incoming)
       described_class.new(applied_sla: applied_sla).perform
 
       # Conversation is resolved missing rt

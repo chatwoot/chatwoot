@@ -21,13 +21,6 @@ describe('#mutations', () => {
           6: '7',
           7: 0,
         },
-        mentions_count: '8',
-        participating_count: 9,
-        unattended_count: '10',
-        folders: {
-          11: '12',
-          12: 0,
-        },
       });
 
       expect(state).toEqual({
@@ -35,10 +28,6 @@ describe('#mutations', () => {
         inboxes: { 1: 2 },
         labels: { 4: 5 },
         teams: { 6: 7 },
-        mentionsCount: 8,
-        participatingCount: 9,
-        unattendedCount: 10,
-        folders: { 11: 12 },
       });
     });
 
@@ -48,10 +37,6 @@ describe('#mutations', () => {
         inboxes: { 1: 2 },
         labels: { 4: 5 },
         teams: { 6: 7 },
-        mentionsCount: 8,
-        participatingCount: 9,
-        unattendedCount: 10,
-        folders: { 10: 11 },
       };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {});
@@ -61,10 +46,6 @@ describe('#mutations', () => {
         inboxes: {},
         labels: {},
         teams: {},
-        mentionsCount: 0,
-        participatingCount: 0,
-        unattendedCount: 0,
-        folders: {},
       });
     });
 

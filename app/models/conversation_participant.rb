@@ -28,7 +28,6 @@ class ConversationParticipant < ApplicationRecord
   belongs_to :user
 
   before_validation :ensure_account_id
-  after_commit :notify_unread_filter_counts_changed, on: [:create, :destroy]
 
   private
 
@@ -38,9 +37,5 @@ class ConversationParticipant < ApplicationRecord
 
   def ensure_inbox_access
     errors.add(:user, 'must have inbox access') if conversation && conversation.inbox.assignable_agents.exclude?(user)
-  end
-
-  def notify_unread_filter_counts_changed
-    ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: user).perform
   end
 end

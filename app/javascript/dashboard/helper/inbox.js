@@ -13,6 +13,24 @@ export const INBOX_TYPES = {
   TIKTOK: 'Channel::Tiktok',
 };
 
+// Short channel-type slugs used to identify a channel without leaning on its
+// Channel:: class name — e.g. onboarding channel cards and OAuth provider maps.
+export const CHANNEL_TYPES = {
+  WEBSITE: 'website',
+  WHATSAPP: 'whatsapp',
+  FACEBOOK: 'facebook',
+  INSTAGRAM: 'instagram',
+  TIKTOK: 'tiktok',
+  TELEGRAM: 'telegram',
+  LINE: 'line',
+  GMAIL: 'gmail',
+  OUTLOOK: 'outlook',
+  SMS: 'sms',
+  API: 'api',
+  VOICE: 'voice',
+  EMAIL: 'email',
+};
+
 // Add providers here as they gain voice capability (e.g., WhatsApp Cloud, Twilio WhatsApp)
 export const VOICE_CALL_PROVIDERS = {
   TWILIO: 'twilio',

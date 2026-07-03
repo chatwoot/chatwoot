@@ -23,9 +23,7 @@ class InboxMember < ApplicationRecord
   belongs_to :inbox
 
   after_create :add_agent_to_round_robin
-  before_destroy :cache_unread_filter_notification_context
   after_destroy :remove_agent_from_round_robin
-  after_commit :notify_unread_filter_counts_changed, on: [:create, :destroy]
 
   private
 
@@ -35,16 +33,6 @@ class InboxMember < ApplicationRecord
 
   def remove_agent_from_round_robin
     ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).remove_agent_from_queue(user_id) if inbox.present?
-  end
-
-  def cache_unread_filter_notification_context
-    @unread_filter_account = inbox&.account
-    @unread_filter_user = user
-  end
-
-  def notify_unread_filter_counts_changed
-    account = @unread_filter_account || inbox&.account
-    ::Conversations::UnreadCounts::UserFilterNotifier.new(account: account, user: @unread_filter_user || user).perform
   end
 end
 

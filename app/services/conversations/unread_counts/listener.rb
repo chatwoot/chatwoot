@@ -3,13 +3,10 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def message_created(event)
     message, = extract_message_and_account(event)
+    return unless message.incoming?
     return unless message.account.feature_enabled?('conversation_unread_counts')
 
-    if message.incoming?
-      refresh(message.conversation)
-    else
-      notify_filter_counts_changed(message.conversation)
-    end
+    refresh(message.conversation)
   end
 
   def conversation_status_changed(event)
@@ -18,21 +15,10 @@ class Conversations::UnreadCounts::Listener < BaseListener
   end
 
   def conversation_updated(event)
+    return unless label_changed?(event.data[:changed_attributes])
+
     conversation, = extract_conversation_and_account(event)
-    return unless conversation.account.feature_enabled?('conversation_unread_counts')
-
-    if label_changed?(event.data[:changed_attributes])
-      refresh(conversation, event.data[:changed_attributes])
-    elsif folder_filter_changed?(event.data[:changed_attributes])
-      notify_filter_counts_changed(conversation)
-    end
-  end
-
-  def conversation_contact_changed(event)
-    conversation, = extract_conversation_and_account(event)
-    return unless conversation.account.feature_enabled?('conversation_unread_counts')
-
-    notify_filter_counts_changed(conversation)
+    refresh(conversation, event.data[:changed_attributes])
   end
 
   def assignee_changed(event)
@@ -51,10 +37,7 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
     account = Account.find_by(id: conversation_data[:account_id])
     return unless account&.feature_enabled?('conversation_unread_counts')
-
-    filters_cleared = store.clear_filter_caches!(account.id)
-    memberships_removed = remove_deleted_conversation(account, conversation_data)
-    return unless memberships_removed || filters_cleared
+    return unless remove_deleted_conversation(account, conversation_data)
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation_data: conversation_data.to_h)
   end
@@ -105,16 +88,6 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
     changed_attributes.key?('label_list') || changed_attributes.key?(:label_list) ||
       changed_attributes.key?('cached_label_list') || changed_attributes.key?(:cached_label_list)
-  end
-
-  def folder_filter_changed?(changed_attributes)
-    changed_attributes.present?
-  end
-
-  def notify_filter_counts_changed(conversation)
-    return unless store.clear_filter_caches!(conversation.account_id)
-
-    Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation: conversation)
   end
 
   def store
