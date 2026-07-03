@@ -127,6 +127,10 @@ const buildPayload = (extra = {}) => ({
 });
 
 const saveSettings = async (extra = {}) => {
+  // Único choke point de save do Tune. Bail se qualquer update do agente já está
+  // em voo (isSaving = updatingItem) — inclui um rollback em andamento — para que
+  // duas respostas não sobrescrevam o mesmo record no Vuex.
+  if (isSaving.value) return;
   try {
     await store.dispatch('autonomiaAgents/update', buildPayload(extra));
     useAlert(t('AGENTS.TUNE.SAVE_SUCCESS'));
@@ -515,6 +519,7 @@ onMounted(loadHistory);
         sm
         :label="t('AGENTS.TUNE.SAVE')"
         :is-loading="isSaving"
+        :disabled="isSaving"
         class="w-fit"
         @click="saveSettings()"
       />
