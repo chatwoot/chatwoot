@@ -350,6 +350,7 @@ class Conversation < ApplicationRecord
     return unless @agent_bot_handoff_by_assignee
 
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
+    @agent_bot_handoff_by_assignee = false
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
