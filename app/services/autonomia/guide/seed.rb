@@ -123,7 +123,16 @@ module Autonomia
       def fresh?(agent)
         agent.config.to_h['guide_kb_version'] == self.class.kb_version &&
           agent.knowledge_entries.ready.exists? &&
+          active_column_populated?(agent) &&
           canonical_state?(agent)
+      end
+
+      # B1 — a base do Guia precisa estar na COLUNA do modelo ativo. Se o cutover virou 3-large mas o
+      # Guia foi semeado em 3-small, `embedding_large` está vazia e o Retriever (large) não acha nada:
+      # NÃO é fresh → re-semeia na coluna certa. Checa 1 entry ready com a coluna ativa preenchida.
+      def active_column_populated?(agent)
+        column = ::Autonomia::Agents::Config.embedding_column(::Autonomia::Agents::Config.active_embedding_model)
+        agent.knowledge_entries.ready.where.not(column => nil).exists?
       end
 
       def canonical_state?(agent)
