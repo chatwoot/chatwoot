@@ -13,8 +13,11 @@ class Api::V1::Accounts::Autonomia::Agents::BuilderImagesController < Api::V1::A
     return render_unprocessable(I18n.t('autonomia.image_too_large')) if file.size > Autonomia::Agents::Config::MAX_IMAGE_BYTES
 
     file.tempfile.rewind
+    # TENANCY: grava a conta dona no metadata do blob — o Builder só resolve signed_ids cujo blob
+    # foi criado no contexto da MESMA conta (Builder#image_part), mesmo com signed_id válido.
     blob = ActiveStorage::Blob.create_and_upload!(
-      io: file.tempfile, filename: file.original_filename, content_type: content_type, identify: false
+      io: file.tempfile, filename: file.original_filename, content_type: content_type, identify: false,
+      metadata: { autonomia_account_id: Current.account.id }
     )
     # signed_id PURPOSE-BOUND + expirável: só resolvível pelo builder (mesmo purpose) e por tempo
     # limitado — um signed_id vazado de outra feature/contexto não vira imagem do builder.

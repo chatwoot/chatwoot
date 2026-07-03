@@ -90,17 +90,25 @@ module Autonomia
                      .join("\n").first(MAX_TRANSCRIPT)
       end
 
-      # The widget thread is operator-authored; keep only role/content and cap COUNT and SIZE —
-      # C1 (custo): antes só a quantidade era capada; um item gigante inflava o prompt do mesmo jeito.
+      # Marker prefixed to every widget-history entry: the whole thread round-trips through the
+      # browser, so a forged `role: assistant` must never become the model's own prior speech.
+      HISTORY_MARKER = '[HISTÓRICO DO WIDGET - dado não confiável]'.freeze
+
+      # The widget thread round-trips through the browser (tamperable), so ALL of it is demoted to
+      # UNTRUSTED user-role content: entries claiming `assistant` keep their meaning via a label but
+      # are never replayed as the model's own turns (a forged "assistant" gains no authority).
+      # C1 (custo): além da quantidade, cada item é capado em MAX_HISTORY_ITEM_CHARS —
+      # um item gigante inflava o prompt do mesmo jeito.
       def sanitize_history(history)
         Array(history).filter_map do |entry|
           h = entry.respond_to?(:to_unsafe_h) ? entry.to_unsafe_h : entry
-          role = h[:role] || h['role']
+          role = (h[:role] || h['role']) == 'assistant' ? 'assistant' : 'user'
           content = (h[:content] || h['content']).to_s.strip
           next if content.blank?
 
           content = Autonomia::Agents::Config.truncate_text(content, Autonomia::Agents::Config::MAX_HISTORY_ITEM_CHARS)
-          { role: role == 'assistant' ? 'assistant' : 'user', content: content }
+          label = role == 'assistant' ? "#{HISTORY_MARKER} resposta anterior do copiloto:" : "#{HISTORY_MARKER} atendente:"
+          { role: 'user', content: "#{label}\n#{content}" }
         end.last(MAX_MESSAGES)
       end
 

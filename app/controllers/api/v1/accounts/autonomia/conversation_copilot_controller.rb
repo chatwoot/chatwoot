@@ -69,8 +69,17 @@ class Api::V1::Accounts::Autonomia::ConversationCopilotController < Api::V1::Acc
 
   # Chatwoot identifies conversations by per-account display_id; show? enforces that
   # the agent may actually view this conversation (admin / assigned / inbox member).
+  # On top of that, the CRM `assigned_only` visibility applies (same pattern as
+  # Crm::CardsController#authorize_crm_conversation!): an inbox member who is not the
+  # assignee/participant must not feed the transcript to the LLM. ensure_copilot_enabled
+  # already guarantees the CRM is on, so accounts without CRM never reach this filter.
   def set_conversation
     @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
     authorize @conversation, :show?
+    ::Crm::Conversations::AccessAuthorizer.new(
+      account: Current.account,
+      user: Current.user,
+      account_user: Current.account_user
+    ).authorize!(@conversation)
   end
 end
