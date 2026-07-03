@@ -3,7 +3,7 @@ module AssignmentHandler
   include Events::Types
 
   included do
-    before_validation :ensure_assignee_is_from_team
+    before_save :ensure_assignee_is_from_team
     after_commit :notify_assignment_change, :process_assignment_changes
   end
 
