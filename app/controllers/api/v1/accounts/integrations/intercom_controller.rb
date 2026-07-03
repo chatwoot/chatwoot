@@ -15,12 +15,21 @@ class Api::V1::Accounts::Integrations::IntercomController < Api::V1::Accounts::B
   end
 
   def destroy
-    if active_intercom_import?
+    blocked = false
+    Current.account.with_lock do
+      if active_intercom_import?
+        blocked = true
+        next
+      end
+
+      Current.account.hooks.find_by(app_id: 'intercom')&.destroy!
+    end
+
+    if blocked
       render json: { message: 'Intercom cannot be disconnected while an import is active.' }, status: :unprocessable_entity
       return
     end
 
-    Current.account.hooks.find_by(app_id: 'intercom')&.destroy!
     head :ok
   end
 

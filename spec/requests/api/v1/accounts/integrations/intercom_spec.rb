@@ -120,5 +120,36 @@ RSpec.describe 'Intercom Integration API', type: :request do
       expect(response.parsed_body['message']).to eq('Intercom cannot be disconnected while an import is active.')
       expect(Integrations::Hook.exists?(hook.id)).to be(true)
     end
+
+    it 'does not disconnect Intercom when an import starts inside the account lock' do
+      hook = create(:integrations_hook, :intercom, account: account)
+      import_created = false
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(Account).to receive(:with_lock) do |locked_account, &block|
+        unless import_created
+          import_created = true
+          create(
+            :data_import,
+            account: locked_account,
+            data_type: 'intercom',
+            source_type: 'integration',
+            source_provider: 'intercom',
+            status: :pending,
+            integration_hook: hook,
+            import_file: nil
+          )
+        end
+        block.call
+      end
+      # rubocop:enable RSpec/AnyInstance
+
+      delete api_v1_account_integrations_intercom_url(account_id: account.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Intercom cannot be disconnected while an import is active.')
+      expect(Integrations::Hook.exists?(hook.id)).to be(true)
+    end
   end
 end

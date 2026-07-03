@@ -340,6 +340,7 @@ class DataImports::Intercom::Importer
     attrs = message_attributes(conversation, contact, part, message_source_id, content)
     result = Message.insert_all!([attrs], returning: %w[id])
     message = Message.find(result.rows.first.first)
+    message.reindex_for_search if message.should_index?
     record_mapping('message', message_source_id, message, metadata: message_metadata(part))
     increment_stat('messages', 'imported')
     message

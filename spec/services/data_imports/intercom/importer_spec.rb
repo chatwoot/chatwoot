@@ -120,6 +120,19 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(DataImportMapping.where(data_import: data_import).count).to eq(5)
   end
 
+  it 'indexes imported messages for advanced search' do
+    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+    reindexed_message_ids = []
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(Message).to receive(:reindex_for_search) { |message| reindexed_message_ids << message.id }
+    # rubocop:enable RSpec/AnyInstance
+
+    described_class.new(data_import: data_import).perform
+
+    expect(reindexed_message_ids).to match_array(Message.where(account_id: account.id).pluck(:id))
+  end
+
   describe '#start!' do
     it 'does not overwrite an import abandoned by another process', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
