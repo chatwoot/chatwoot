@@ -66,7 +66,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
     JSON.pretty_generate(assistant_payload)
   end
 
-  def assistant_payload
+  def assistant_payload # rubocop:disable Metrics/AbcSize
     {
       assistant_id: assistant.id,
       account_id: assistant.account_id,
@@ -128,7 +128,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
     )
   end
 
-  def assistant_metadata
+  def assistant_metadata # rubocop:disable Metrics/AbcSize
     {
       id: assistant.id,
       name: assistant.name,

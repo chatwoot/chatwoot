@@ -31,13 +31,16 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
     string :welcome_message, description: 'Exact welcome message copy from instructions only when config welcome_message is blank, or empty string.',
                              max_length: 1000
     string :handoff_message,
-           description: 'Exact human-handoff message copy from instructions only when config handoff_message is blank, or empty string.', max_length: 1000
+           description: 'Exact human-handoff message copy from instructions only when config handoff_message is blank, or empty string.',
+           max_length: 1000
     string :resolution_message,
-           description: 'Exact resolution/closing message copy from instructions only when config resolution_message is blank, or empty string.', max_length: 1000
+           description: 'Exact resolution/closing message copy from instructions only when config resolution_message is blank, or empty string.',
+           max_length: 1000
   end
 
   instruction_items :faq_document_candidates,
-                    description: 'Only factual or product-specific knowledge candidates such as pricing, policy, setup, troubleshooting, or operational details.',
+                    description: 'Only factual or product-specific knowledge candidates such as pricing, policy, setup, troubleshooting, ' \
+                                 'or operational details.',
                     max_items: 25
 
   instruction_items :needs_review,

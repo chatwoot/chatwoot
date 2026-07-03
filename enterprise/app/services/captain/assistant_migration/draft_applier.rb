@@ -70,10 +70,10 @@ class Captain::AssistantMigration::DraftApplier
     item_values(:guardrails)
   end
 
-  def array_change(_field, values)
+  def array_change(field, values)
     return if values.blank?
 
-    current = Array(assistant.public_send(_field)).map(&:to_s)
+    current = Array(assistant.public_send(field)).map(&:to_s)
     return if current == values
 
     { from: current, to: values }
