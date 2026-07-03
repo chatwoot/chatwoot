@@ -27,10 +27,10 @@ module Autonomia
         # embedar (embedding_large NULL). Sem tocar OpenAI nem gravar nada — serve pro abort-se-zero e
         # pro snapshot pré/pós no log do operador. NÃO deleta, NÃO chama provedor.
         def preview
-          ids = account_scope.pluck(:id)
+          scoped = account_scope
           Preview.new(
-            accounts: ids.size,
-            pending: KnowledgeEntry.where(account_id: ids, embedding_large: nil).count
+            accounts: scoped.count,
+            pending: KnowledgeEntry.where(account_id: scoped.select(:id), embedding_large: nil).count
           )
         end
 

@@ -142,5 +142,18 @@ RSpec.describe Autonomia::Agents::Knowledge::EmbeddingBackfiller do
       expect(preview.accounts).to eq(0)
       expect(preview.pending).to eq(0)
     end
+
+    it 'ainda reporta pending>0 quando um vetor voltou blank (postflight bloqueia cutover)' do
+      # Arrange — vetor blank => entry fica com embedding_large NULL (skipped), NÃO pode virar cutover
+      entry(content: 'sem vetor')
+      allow(embedder).to receive(:embed_batch) { |texts| texts.map { [] } }
+      described_class.new.perform
+
+      # Act
+      preview = described_class.new.preview
+
+      # Assert — o postflight enxerga a pendência remanescente
+      expect(preview.pending).to eq(1)
+    end
   end
 end

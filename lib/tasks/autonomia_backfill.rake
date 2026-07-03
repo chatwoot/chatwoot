@@ -37,9 +37,17 @@ namespace :autonomia do
     puts "[autonomia][backfill][done] accounts=#{result.accounts} embedded=#{result.embedded} " \
          "skipped=#{result.skipped} failed_accounts=#{result.failed_accounts.inspect}"
 
-    if result.failed_accounts.any?
-      abort "[autonomia][backfill] FALHA em #{result.failed_accounts.size} conta(s): " \
-            "#{result.failed_accounts.inspect} — corrija a credencial e re-rode (resumível)."
+    # Postflight: reconta o que ainda está pendente (embedding_large NULL). Qualquer resíduo
+    # (conta falha, vetor blank => skipped, ou pendência remanescente) BLOQUEIA o operador com exit 1 —
+    # cutover p/ 3-large com pending>0 sumiria esses entries do retrieval large (embedding_large IS NOT
+    # NULL) = regressão. Resumível: corrija a causa e re-rode até postflight pending=0.
+    postflight = backfiller.preview
+    puts "[autonomia][backfill][postflight] accounts=#{postflight.accounts} pending=#{postflight.pending}"
+
+    if result.failed_accounts.any? || result.skipped.positive? || postflight.pending.positive?
+      abort '[autonomia][backfill] INCOMPLETO — NÃO faça cutover: ' \
+            "failed_accounts=#{result.failed_accounts.inspect} skipped=#{result.skipped} " \
+            "remaining_pending=#{postflight.pending}. Corrija a causa e re-rode (resumível)."
     end
   end
 end
