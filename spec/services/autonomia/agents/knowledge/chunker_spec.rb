@@ -109,4 +109,86 @@ RSpec.describe Autonomia::Agents::Knowledge::Chunker do
     expect(chunks).to all(start_with(heading))
   end
 
+  # B2.1 — perfil ADAPTATIVO: o material_type escolhe o teto de janela por tipo/estilo.
+  describe 'adaptive chunk profile (B2.1)' do
+    it 'classifies a xlsx source as tabular and keeps the small (300) window' do
+      # Arrange — xlsx é tabular por natureza (independe do conteúdo).
+      chunker = described_class.new('Coluna A | Coluna B', source_type: 'xlsx')
+
+      # Assert
+      expect(chunker.material_type).to eq(:tabular)
+      expect(chunker.send(:instance_variable_get, :@max)).to eq(300)
+    end
+
+    it 'classifies continuous prose as prose and uses the large (900) window' do
+      # Arrange — parágrafos contínuos, sem registros/bullets/FAQ.
+      prose = 'O reembolso e processado em ate trinta dias uteis apos a solicitacao formal.'
+      chunker = described_class.new("#{prose}\n\n#{prose}", source_type: 'pdf')
+
+      # Assert
+      expect(chunker.material_type).to eq(:prose)
+      expect(chunker.send(:instance_variable_get, :@max)).to eq(900)
+    end
+
+    it 'classifies a P:/R: document as faq' do
+      # Arrange
+      faq = "P: Voces entregam no domingo?\nR: Sim, das oito as doze horas.\n" \
+            "P: Qual o prazo de troca?\nR: Trinta dias corridos apos o recebimento."
+      chunker = described_class.new(faq, source_type: 'txt')
+
+      # Assert
+      expect(chunker.material_type).to eq(:faq)
+      expect(chunker.send(:instance_variable_get, :@max)).to eq(700)
+    end
+
+    it 'gives prose a larger window than tabular for the SAME long body' do
+      # Arrange — um corpo de prosa acima de 900 chars: perfil prose fatia em MENOS pedaços
+      # (janela 900) que o perfil tabular default (janela 300) — chunks de tamanhos variados.
+      sentence = 'O reembolso e processado em ate trinta dias uteis apos a solicitacao formal. '
+      body = sentence * 20 # ~1560 chars
+      prose_chunks = described_class.new(body, source_type: 'pdf').chunks
+      tabular_chunks = described_class.new(body, source_type: 'xlsx').chunks
+
+      # Assert
+      expect(prose_chunks.size).to be < tabular_chunks.size
+    end
+  end
+
+  # B2.2 — metadata determinística por chunk (custo zero).
+  describe '#chunks_with_metadata (B2.2)' do
+    it 'returns the section_heading, material_type and keywords per chunk' do
+      # Arrange
+      heading = 'POLITICA DE REEMBOLSO'
+      body = 'O reembolso integral e processado em ate trinta dias uteis para o cliente.'
+      document = "#{heading}\n\n#{body}"
+
+      # Act
+      entries = described_class.new(document, source_type: 'pdf').chunks_with_metadata
+
+      # Assert
+      expect(entries).to all(include(:text, :metadata))
+      meta = entries.first[:metadata]
+      expect(meta[:section_heading]).to eq(heading)
+      expect(meta[:material_type]).to eq('prose')
+      expect(meta[:char_span]).to eq(entries.first[:text].length)
+      expect(meta[:keywords]).to include('reembolso', 'trinta')
+    end
+
+    it 'derives keywords from the body, not from the inherited heading, and drops stopwords' do
+      # Arrange — "sobre" e "para" sao stopwords; "reembolso" tem >= 4 chars.
+      entries = described_class.new('Regras sobre o reembolso para o cliente final.', source_type: 'txt')
+                               .chunks_with_metadata
+
+      # Assert
+      keywords = entries.first[:metadata][:keywords]
+      expect(keywords).to include('reembolso', 'regras', 'cliente')
+      expect(keywords).not_to include('sobre', 'para')
+    end
+  end
+
+  # Retrocompat — .chunks continua devolvendo Strings (Reviewer sampling + specs antigos).
+  it 'keeps #chunks returning plain strings (backward compat)' do
+    chunks = described_class.new('Um paragrafo simples de prosa para o cliente.', source_type: 'txt').chunks
+    expect(chunks).to all(be_a(String))
+  end
 end

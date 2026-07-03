@@ -80,6 +80,36 @@ module Autonomia
       def self.embedding_column(model = active_embedding_model)
         embedding_large?(model) ? EMBEDDING_LARGE_COLUMN : EMBEDDING_SMALL_COLUMN
       end
+
+      # KB-quality Bloco B / B2.1 — CHUNKING ADAPTATIVO por TIPO/ESTILO do material (decisão do PO:
+      # qualidade sobre custo). O CHUNK_MAX=600 default é bom p/ tabular/registro, mas fragmenta
+      # PROSA (política/PDF contínuo) no meio de uma seção coerente. Cada PERFIL escolhe o teto de
+      # janela do fallback de acordo com a ASSINATURA do conteúdo (barata, determinística):
+      #   - tabular : 1 registro/linha por chunk (XLSX/JSON). Teto baixo — registro é curto.
+      #   - faq     : 1 par Pergunta+Resposta por chunk (janela média p/ caber P+R).
+      #   - list    : 1 passo/item por chunk (procedimento). Teto baixo.
+      #   - prose   : janela GRANDE p/ não picar uma seção contínua de política/PDF em micro-chunks.
+      # O overlap acompanha o teto (proporcional ao fallback de janela). O piso de merge muda pouco:
+      # tabular/list querem registros isolados (piso baixo), prosa cola parágrafos curtos (piso alto).
+      CHUNK_PROFILES = {
+        tabular: { max: 300, overlap: 60,  merge_floor: 20 },
+        faq: { max: 700, overlap: 120, merge_floor: 45 },
+        list: { max: 300, overlap: 60,  merge_floor: 30 },
+        prose: { max: 900, overlap: 140, merge_floor: 80 }
+      }.freeze
+      # Perfil default quando não há assinatura clara / chamada sem source_type (retrocompat do
+      # Chunker.new(text) sem kwargs → mantém CHUNK_MAX/CHUNK_OVERLAP históricos, specs antigos passam).
+      DEFAULT_CHUNK_PROFILE = { max: CHUNK_MAX, overlap: CHUNK_OVERLAP, merge_floor: 45 }.freeze
+
+      # KB-quality Bloco B / B2.3 — CLASSIFICADOR de documento (1 chamada LLM por FONTE, não por chunk).
+      # Reusa o modelo/effort do Revisor (gpt-5.4, structured output) p/ extrair topics/entities/style do
+      # documento inteiro e carimbar em TODO chunk (metadata.doc) — mais recall por termo de negócio.
+      # Best-effort: erro/credential ausente → classificação vazia, NUNCA derruba a ingestão.
+      DOCUMENT_CLASSIFIER_MODEL = REVIEWER_MODEL # gpt-5.4
+      DOCUMENT_CLASSIFIER_REASONING_EFFORT = 'medium'.freeze
+      # Teto do texto enviado ao classificador (custo/latência): amostra o começo do documento; o
+      # objetivo é rotular o material, não lê-lo inteiro (o Revisor já faz amostra estratificada).
+      DOCUMENT_CLASSIFIER_MAX_CHARS = 8_000
       # KB-quality Bloco A (2026-07-03): qualidade sobre custo (decisão do PO — quem paga é o cliente e
       # quer resposta correta). top_k 8→12 dá mais opções de fundamento ao Answerer (o dedup por fonte
       # continua, então mais fontes distintas chegam). Custo por resposta sobe (mais tokens no prompt).
