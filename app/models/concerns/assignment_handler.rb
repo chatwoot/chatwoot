@@ -14,6 +14,10 @@ module AssignmentHandler
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
+    return if assignee_id.blank?
+
+    self.status = :open if assignee_agent_bot_id.present? && pending?
+    self.assignee_agent_bot = nil
   end
 
   def validate_current_assignee_team
