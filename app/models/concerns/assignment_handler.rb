@@ -3,7 +3,7 @@ module AssignmentHandler
   include Events::Types
 
   included do
-    before_save :ensure_assignee_is_from_team
+    before_validation :ensure_assignee_is_from_team
     after_commit :notify_assignment_change, :process_assignment_changes
   end
 
@@ -14,10 +14,6 @@ module AssignmentHandler
 
     validate_current_assignee_team
     self.assignee ||= find_assignee_from_team
-    return if assignee_id.blank?
-
-    self.status = :open if assignee_agent_bot_id.present? && pending?
-    self.assignee_agent_bot = nil
   end
 
   def validate_current_assignee_team

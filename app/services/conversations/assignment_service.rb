@@ -14,9 +14,8 @@ class Conversations::AssignmentService
   attr_reader :conversation, :assignee_id, :assignee_type
 
   def assign_agent
-    conversation.status = :open if assignee && conversation.assignee_agent_bot_id.present? && conversation.pending?
     conversation.assignee = assignee
-    conversation.assignee_agent_bot = nil
+    conversation.assignee_agent_bot = nil if assignee.blank?
     conversation.save!
     assignee
   end

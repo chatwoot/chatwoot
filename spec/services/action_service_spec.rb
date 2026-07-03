@@ -57,6 +57,18 @@ describe ActionService do
         action_service.assign_agent([agent.id])
         expect(conversation.reload.assignee).to eq(agent)
       end
+
+      it 'opens bot-owned pending conversations when assigning the agent' do
+        inbox_member
+        conversation.update!(assignee: nil, assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
+
+        action_service.assign_agent([agent.id])
+
+        conversation.reload
+        expect(conversation.assignee).to eq(agent)
+        expect(conversation.assignee_agent_bot).to be_nil
+        expect(conversation.status).to eq('open')
+      end
     end
 
     context 'when agent is unconfirmed' do

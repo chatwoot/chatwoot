@@ -274,6 +274,7 @@ class Conversation < ApplicationRecord
   def reset_agent_bot_when_assignee_present
     return if assignee_id.blank?
 
+    self.status = :open if assignee_agent_bot_id.present? && pending?
     self.assignee_agent_bot_id = nil
   end
 
