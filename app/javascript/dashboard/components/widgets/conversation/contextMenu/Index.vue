@@ -365,7 +365,7 @@ export default {
         <template v-else>
           <MenuItem
             v-for="agent in assignableAgents"
-            :key="agent.id"
+            :key="`${agent.assignee_type || 'User'}:${agent.id}`"
             :option="generateMenuLabelConfig(agent, 'agent')"
             variant="agent"
             @click.stop="$emit('assignAgent', agent)"

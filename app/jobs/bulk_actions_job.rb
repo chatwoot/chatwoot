@@ -34,16 +34,22 @@ class BulkActionsJob < ApplicationJob
     end
   end
 
-  # assignee_type is not a Conversation column and bots need dedicated handling,
-  # so assignment is routed through the shared AssignmentService instead of a bare update.
+  # Resolve the assignee in-memory (bots aren't a Conversation column) so the single update
+  # in the caller persists it in one write and skips invalid records instead of aborting.
   def assign_conversation(conversation, params)
     return unless params.key?(:assignee_id)
 
-    Conversations::AssignmentService.new(
-      conversation: conversation,
-      assignee_id: params[:assignee_id],
-      assignee_type: params[:assignee_type]
-    ).perform
+    if params[:assignee_type].to_s == 'AgentBot'
+      conversation.assign_attributes(
+        assignee_agent_bot: AgentBot.accessible_to(@account).find_by(id: params[:assignee_id]),
+        assignee: nil
+      )
+    else
+      conversation.assign_attributes(
+        assignee: @account.users.find_by(id: params[:assignee_id]),
+        assignee_agent_bot: nil
+      )
+    end
   end
 
   def bulk_remove_labels
