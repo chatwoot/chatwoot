@@ -83,6 +83,26 @@ module Crm::Ai::ClassifierPrompt
     data resolvível) ou NÃO houver pedido de retorno, retorne "callback_request": null. NUNCA invente uma data.
   CB
 
+  ATTR_EXTRACTION = <<~ATTR.strip
+    EXTRAÇÃO DE ATRIBUTOS CUSTOMIZADOS:
+    Além de classificar o estágio, extraia atributos customizados quando houver evidência clara na conversa.
+    Os atributos permitidos chegam nos DADOS DE ENTRADA em "attribute_schema", separados em "contact" e
+    "conversation". Use SOMENTE as chaves fornecidas ali, no grupo correto. Nunca invente chaves, nunca mova
+    uma chave entre grupos e nunca use atributos ausentes do schema.
+    Se "attribute_schema" estiver vazio ou não houver evidência clara, retorne arrays vazios em
+    "extracted_attributes.contact" e "extracted_attributes.conversation".
+    Para cada item extraído, preencha "key", "value", "confidence" e "evidence". "evidence" deve ser um
+    trecho curto da conversa que sustente o valor.
+    Regras por tipo:
+    - text/link: retorne texto curto e limpo, sem inventar detalhes.
+    - number/currency/percent: retorne número limpo, sem moeda nem texto. Ex.: "uns 3 mil" -> 3000.
+    - date: retorne data em "YYYY-MM-DD" quando a conversa trouxer data concreta; senão omita.
+    - list: use exatamente uma das "options" informadas no schema; se nenhuma opção encaixar, omita.
+    - checkbox: retorne true ou false apenas com evidência explícita.
+    Em conflito entre valores, use a informação mais recente. Se a fala for ambígua, negativa ou mera hipótese,
+    omita o campo em vez de preencher.
+  ATTR
+
   OUTPUT_DISCIPLINE = <<~OUT.strip
     DISCIPLINA DE SAÍDA:
     - Responda APENAS com um único objeto JSON válido conforme o schema: sem texto fora do JSON,
@@ -114,6 +134,7 @@ module Crm::Ai::ClassifierPrompt
     VALUE,
     HANDOFF,
     CALLBACK,
+    ATTR_EXTRACTION,
     OUTPUT_DISCIPLINE,
     EXAMPLES
   ].join("\n\n").freeze
