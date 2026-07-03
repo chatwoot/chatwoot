@@ -148,9 +148,19 @@ Do plano original de 9 frentes, ficaram de fora (podem virar Onda 5+):
   resolve `AgentInbox` sem escopo de conta — o Operate já revalida depois, então risco é baixo,
   mas vale uniformizar com o padrão fail-closed que os outros leitores ganharam no T5.
 
-**Sugestão de próxima ação**: escolher entre (a) Onda 5 = F1+F2+F4 (produto, visível ao
-cliente) ou (b) Onda 5 = G2+G5+H (robustez/UX interna). Não é óbvio qual prioridade Rodrigo
-quer — perguntar antes de iniciar nova auditoria/plano.
+## Onda 5 — DECIDIDO (Rodrigo, 2026-07-03): Robustez interna
+Escopo: **G2 + G5 + H**. F1/F2/F4 (produto) ficam para depois — não iniciar sem novo 🟢.
+
+| Item | Descrição | Status |
+|---|---|---|
+| G2 | Versionamento da instrução (histórico + rollback visível) | ⏳ não iniciado |
+| G5 | Revisor de base analisa documento inteiro, não só amostra de ~15 chunks | ⏳ não iniciado |
+| H | Abas do painel do agente viram navegação real (URL reflete aba); status ativo/pausado mais visível | ⏳ não iniciado |
+
+**Próxima ação**: planejar Onda 5 (arquitetura de G2 precisa decisão: nova tabela de
+versões vs. coluna jsonb de histórico; G5 precisa decidir custo de reamostrar documento
+inteiro a cada review vs. amostra maior; H é puro frontend/rota). Seguir mesmo gate das
+ondas 1-4: implementar → Codex review → teste real → review final → 🟢 → merge+deploy.
 
 ## Log de entregas
 - 2026-07-03: plano aprovado (sem G3); Onda 1 (A+B) entregue+revisada em `feat/agentes-onda-1`.
