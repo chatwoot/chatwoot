@@ -192,6 +192,16 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when a conversation references an already mapped contact' do
+    it 'reuses the mapped contact without hydrating the sparse reference' do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(client).not_to receive(:retrieve_contact)
+
+      described_class.new(data_import: data_import).import_conversations_page
+    end
+  end
+
   context 'when an existing contact has the same email but a different external id' do
     let!(:existing_contact) { create(:contact, account: account, email: 'customer@example.com', identifier: nil) }
 
@@ -266,6 +276,32 @@ RSpec.describe DataImports::Intercom::Importer do
 
       expect(data_import.items.imported.exists?(source_object_type: 'contact', source_object_id: 'contact_1')).to be(true)
       expect(data_import.import_errors.exists?).to be(false)
+    end
+  end
+
+  context 'when the Intercom source message only has attachments' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'source' => {
+          'subject' => nil,
+          'body' => nil,
+          'attachments' => [{ 'name' => 'invoice.pdf', 'url' => 'https://example.com/invoice.pdf' }]
+        },
+        'conversation_parts' => {
+          'conversation_parts' => []
+        }
+      )
+    end
+
+    it 'imports the source message attachment placeholder', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      expect(conversation.messages.pluck(:content)).to eq(['[Intercom attachment skipped: 1]'])
+      expect(conversation.messages.first.additional_attributes.dig('source', 'attachments')).to eq(
+        [{ 'name' => 'invoice.pdf', 'url' => 'https://example.com/invoice.pdf' }]
+      )
+      expect(data_import.reload.stats.dig('messages', 'imported')).to eq(1)
     end
   end
 

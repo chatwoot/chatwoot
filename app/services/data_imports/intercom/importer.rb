@@ -152,6 +152,11 @@ class DataImports::Intercom::Importer
   end
 
   def import_contact(contact_payload, required_for_conversation: false)
+    source_id = source_id_for(contact_payload)
+    if source_id.present? && (mapping = find_mapping('contact', source_id)) && (mapped_contact = mapping.chatwoot_record)
+      return reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
+    end
+
     contact_payload = retrieve_contact_payload(contact_payload)
     source_id = source_id_for(contact_payload)
     already_handled = item_handled?('contact', source_id)
@@ -197,6 +202,15 @@ class DataImports::Intercom::Importer
     Contact.find(result.rows.first.first)
   rescue ActiveRecord::RecordNotUnique
     find_existing_contact(contact_payload)
+  end
+
+  def reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
+    return mapped_contact if mapping.data_import_id == @data_import.id
+
+    already_handled = item_handled?('contact', source_id)
+    item = import_item('contact', source_id, contact_payload)
+    skip_already_imported_item(item, mapping, already_handled: already_handled)
+    mapped_contact
   end
 
   def update_existing_contact(contact, contact_payload)
@@ -273,7 +287,7 @@ class DataImports::Intercom::Importer
 
   def import_source_message(conversation, chatwoot_conversation, contact)
     source = conversation['source'].to_h
-    return if source['body'].blank? && source['subject'].blank?
+    return if source['body'].blank? && source['subject'].blank? && source['attachments'].blank?
 
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
