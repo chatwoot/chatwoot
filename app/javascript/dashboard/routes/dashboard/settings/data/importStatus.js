@@ -10,6 +10,13 @@ export const ACTIVE_IMPORT_STATUSES = [
 export const isActiveImport = dataImport =>
   ACTIVE_IMPORT_STATUSES.includes(dataImport?.status);
 
+export const isIntercomImport = dataImport =>
+  dataImport?.data_type === 'intercom' &&
+  dataImport?.source_provider === 'intercom';
+
+export const isAbandonableImport = dataImport =>
+  isIntercomImport(dataImport) && isActiveImport(dataImport);
+
 export const importedCount = dataImport =>
   ['contacts', 'conversations', 'messages'].reduce(
     (total, key) => total + Number(dataImport?.stats?.[key]?.imported || 0),

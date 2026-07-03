@@ -22,37 +22,19 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def create
-    if (active_import = active_intercom_import)
-      @data_import = active_import
-      render :show
-      return
-    end
-
-    hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
-    @data_import = Current.account.data_imports.create!(intercom_import_attributes(hook))
-    DataImports::Intercom::ImportJob.perform_later(@data_import)
+    @data_import, enqueue_import = find_or_create_intercom_import
+    DataImports::Intercom::ImportJob.perform_later(@data_import) if enqueue_import
     render :show
   end
 
   def start
-    unless @data_import.restartable?
-      render :show
-      return
-    end
-
-    if (active_import = active_intercom_import)
-      @data_import = active_import
-      render :show
-      return
-    end
-
-    if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
+    restart_result = prepare_intercom_import_restart
+    if restart_result == :intercom_disconnected
       render json: { message: 'Intercom is not connected.' }, status: :unprocessable_entity
       return
     end
 
-    @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil)
-    DataImports::Intercom::ImportJob.perform_later(@data_import)
+    DataImports::Intercom::ImportJob.perform_later(@data_import) if restart_result == :enqueue
     render :show
   end
 
@@ -101,6 +83,37 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
 
   def import_types
     Array(permitted_params[:import_types]).compact_blank.presence || DataImports::Intercom::Importer::DEFAULT_IMPORT_TYPES
+  end
+
+  def find_or_create_intercom_import
+    enqueue_import = false
+    data_import = Current.account.with_lock do
+      active_import = active_intercom_import
+      next active_import if active_import
+
+      hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
+      enqueue_import = true
+      Current.account.data_imports.create!(intercom_import_attributes(hook))
+    end
+
+    [data_import, enqueue_import]
+  end
+
+  def prepare_intercom_import_restart
+    Current.account.with_lock do
+      @data_import.reload
+      next :render_show unless @data_import.restartable?
+
+      if (active_import = active_intercom_import)
+        @data_import = active_import
+        next :render_show
+      end
+
+      next :intercom_disconnected if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
+
+      @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil)
+      :enqueue
+    end
   end
 
   def active_intercom_import

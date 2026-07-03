@@ -73,7 +73,7 @@ class DataImport < ApplicationRecord
   end
 
   def abandonable?
-    pending? || processing?
+    intercom_import? && (pending? || processing?)
   end
 
   private

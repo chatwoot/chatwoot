@@ -23,6 +23,7 @@ import {
   formatStatus,
   importStageKey,
   importedCount,
+  isAbandonableImport,
   isActiveImport,
   statValue,
 } from './importStatus';
@@ -529,9 +530,7 @@ onBeforeUnmount(() => {
                   </td>
                   <td class="px-4 py-3 text-right">
                     <Button
-                      v-if="
-                        ['pending', 'processing'].includes(dataImport.status)
-                      "
+                      v-if="isAbandonableImport(dataImport)"
                       ghost
                       xs
                       ruby

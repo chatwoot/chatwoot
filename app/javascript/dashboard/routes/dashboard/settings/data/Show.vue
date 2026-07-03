@@ -18,6 +18,7 @@ import {
   POLL_INTERVAL_MS,
   importStageKey,
   importedCount as totalImportedCount,
+  isAbandonableImport,
   isActiveImport,
   statValue as importStatValue,
 } from './importStatus';
@@ -155,6 +156,8 @@ const canGoToNextSkipLogsPage = computed(
 );
 
 const hasActiveImport = computed(() => isActiveImport(dataImport.value));
+
+const canAbandonImport = computed(() => isAbandonableImport(dataImport.value));
 
 const title = computed(
   () => dataImport.value?.name || t('DATA_IMPORTS.TABLE.UNNAMED')
@@ -482,7 +485,7 @@ onBeforeUnmount(() => {
             @click="fetchImport({ manual: true })"
           />
           <Button
-            v-if="hasActiveImport"
+            v-if="canAbandonImport"
             ruby
             size="sm"
             :is-loading="isAbandoning"

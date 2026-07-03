@@ -188,6 +188,18 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.reload).to be_completed
       expect(data_import.abandoned_at).to be_nil
     end
+
+    it 'does not abandon legacy contact imports' do
+      legacy_import = create(:data_import, account: account, status: :processing)
+
+      post abandon_api_v1_account_data_import_url(account_id: account.id, id: legacy_import.id),
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(legacy_import.reload).to be_processing
+      expect(legacy_import.abandoned_at).to be_nil
+    end
   end
 
   describe 'GET /api/v1/accounts/:account_id/data_imports/:id' do
