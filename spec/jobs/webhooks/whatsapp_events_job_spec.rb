@@ -408,6 +408,31 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       job.perform_now(wb_params)
     end
 
+    it 'prefers the phone_number_id match when a raw display_phone_number collision exists' do
+      normalized_channel = create(:channel_whatsapp, phone_number: '+5541999887766', provider: 'whatsapp_cloud',
+                                                     sync_templates: false, validate_provider_config: false)
+      create(:channel_whatsapp, phone_number: '+554199887766', provider: 'whatsapp_cloud',
+                                sync_templates: false, validate_provider_config: false).tap do |raw_channel|
+        raw_channel.update!(provider_config: raw_channel.provider_config.merge('phone_number_id' => 'other-id'))
+      end
+      wb_params = {
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              metadata: {
+                phone_number_id: normalized_channel.provider_config['phone_number_id'],
+                display_phone_number: '554199887766'
+              }
+            }
+          }]
+        }]
+      }
+      allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).with(inbox: normalized_channel.inbox, params: wb_params)
+      job.perform_now(wb_params)
+    end
+
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do
       other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
                                                 validate_provider_config: false)
