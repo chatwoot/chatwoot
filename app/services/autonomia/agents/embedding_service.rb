@@ -11,11 +11,13 @@ class Autonomia::Agents::EmbeddingService
   # tempo/erro do batch ingênuo (1 request por chunk) sem mudar o vetor produzido.
   EMBED_BATCH_SIZE = 96
 
-  def initialize(account:)
+  # `model:` explícito (opcional) trava o modelo p/ TODA a operação (Ingestor/Retriever resolvem 1x e
+  # passam aqui) — evita que uma troca de config no meio de embed/retrieve/write compare/grave vetor de
+  # dimensão diferente na coluna errada. Também habilita o backfill (força 3-large sem virar o global).
+  def initialize(account:, model: nil)
     Llm::Config.initialize!
     @account = account
-    # Modelo ativo resolvido no Config (fonte única) — mantém query e base no MESMO modelo/coluna.
-    @model = Autonomia::Agents::Config.active_embedding_model
+    @model = model.presence || Autonomia::Agents::Config.active_embedding_model
   end
 
   # text -> Array<Float> (dim do modelo: 1536 no 3-small, 3072 no 3-large). Retorna [] se vazio.

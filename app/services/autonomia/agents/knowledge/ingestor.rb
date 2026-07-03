@@ -18,6 +18,9 @@ module Autonomia
           @token = token
           @agent = source.agent
           @account = source.account
+          # Resolve o modelo/coluna UMA vez por ingestão: embed e write usam o MESMO modelo, mesmo se a
+          # config global virar no meio (coerência dimensão↔coluna). Backfill pode injetar override aqui.
+          @model = Config.active_embedding_model
         end
 
         def perform
@@ -36,7 +39,7 @@ module Autonomia
           @doc_classification = DocumentClassifier.new(source: @source, text: text).classify
 
           contents = entries.pluck(:text)
-          vectors = Autonomia::Agents::EmbeddingService.new(account: @account).embed_batch(contents)
+          vectors = Autonomia::Agents::EmbeddingService.new(account: @account, model: @model).embed_batch(contents)
           pairs = entries.zip(vectors).select { |_, vector| vector.present? }
           raise EmptyExtraction, 'empty_embeddings' if pairs.empty?
 
@@ -85,7 +88,7 @@ module Autonomia
         end
 
         def large_embedding?
-          Config.embedding_column == Config::EMBEDDING_LARGE_COLUMN
+          Config.embedding_column(@model) == Config::EMBEDDING_LARGE_COLUMN
         end
 
         def small_embedding_attr(vector)

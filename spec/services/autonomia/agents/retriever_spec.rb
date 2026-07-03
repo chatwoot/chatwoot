@@ -49,6 +49,33 @@ RSpec.describe Autonomia::Agents::Retriever do
     end
   end
 
+  # B1 — modelo 3-small ATIVO (default): NN pela coluna legada `embedding` via gem neighbor. Guarda a
+  # não-regressão do caminho vetorial atual com um vizinho REAL no banco (não só o short-circuit da C1).
+  describe 'small embedding path (default 3-small / neighbor gem)' do
+    let(:embedding_service) { instance_double(Autonomia::Agents::EmbeddingService) }
+    let(:vector) { Array.new(1536) { 0.01 } }
+
+    before do
+      allow(embedding_service).to receive(:embed).and_return(vector)
+      allow(Autonomia::Agents::EmbeddingService).to receive(:new).and_return(embedding_service)
+    end
+
+    it 'retrieves via the legacy embedding column and exposes neighbor_distance' do
+      # Arrange — entry com embedding (vector 1536) idêntico à query (distância ~0)
+      entry = agent.knowledge_entries.create!(
+        account: account, content: 'frete grátis acima de R$200', status: :ready,
+        chunk_index: 0, metadata: {}, embedding: vector
+      )
+
+      # Act
+      result = described_class.new(agent: agent).retrieve('frete')
+
+      # Assert
+      expect(result.map(&:id)).to include(entry.id)
+      expect(result.first.neighbor_distance.to_f).to be <= Autonomia::Agents::Config::RETRIEVAL_HARD_CEILING
+    end
+  end
+
   # B1 — modelo 3-large ativo: NN pela coluna halfvec `embedding_large` (SQL cru), não pela gem
   # neighbor sobre :embedding. Prova end-to-end do caminho grande no banco real (halfvec 3072 + hnsw).
   describe 'large embedding path (3-large / halfvec)' do

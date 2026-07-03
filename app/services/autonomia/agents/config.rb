@@ -56,18 +56,22 @@ module Autonomia
       # EMBEDDING (B1 Onda 6) — upgrade text-embedding-3-small (1536) -> 3-large (3072), SEM regressão,
       # via DUAS colunas + cutover por config. FONTE ÚNICA da resolução de modelo (EmbeddingService,
       # Ingestor e Retriever leem DAQUI p/ query e base ficarem sempre no mesmo modelo/coluna):
-      #   - modelo ativo = InstallationConfig CAPTAIN_EMBEDDING_MODEL (default 3-small do LlmConstants).
+      #   - modelo ativo = InstallationConfig AUTONOMIA_EMBEDDING_MODEL (default 3-small do LlmConstants).
       #   - 3-small -> coluna :embedding (vector 1536, gem neighbor). 3-large -> :embedding_large
       #     (halfvec 3072, NN por SQL cru no Retriever — a gem não conhece halfvec).
       # Cutover: o backfill preenche :embedding_large em TODA a base ANTES de a config virar 3-large;
       # até lá o Retriever consulta :embedding (populada) e não há janela de retrieval vazio.
+      # ISOLAMENTO cross-feature (CRÍTICO, regra 2): chave PRÓPRIA `AUTONOMIA_EMBEDDING_MODEL`, NÃO a
+      # `CAPTAIN_EMBEDDING_MODEL` — esta é compartilhada com o Captain/Help Center (colunas vector(1536)
+      # da gem neighbor). Virar 3-large aqui NÃO pode gerar 3072 dims contra as colunas 1536 do Captain.
+      EMBEDDING_MODEL_KEY = 'AUTONOMIA_EMBEDDING_MODEL'.freeze
       EMBEDDING_MODEL_SMALL = 'text-embedding-3-small'.freeze
       EMBEDDING_MODEL_LARGE = 'text-embedding-3-large'.freeze
       EMBEDDING_LARGE_COLUMN = :embedding_large
       EMBEDDING_SMALL_COLUMN = :embedding
 
       def self.active_embedding_model
-        InstallationConfig.find_by(name: 'CAPTAIN_EMBEDDING_MODEL')&.value.presence ||
+        InstallationConfig.find_by(name: EMBEDDING_MODEL_KEY)&.value.presence ||
           LlmConstants::DEFAULT_EMBEDDING_MODEL
       end
 

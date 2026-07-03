@@ -107,4 +107,24 @@ RSpec.describe Autonomia::Agents::Knowledge::Ingestor do
       expect(meta.dig('doc', 'style')).to be_nil
     end
   end
+
+  # B1 — com o modelo 3-large ativo, o Ingestor grava na coluna halfvec `embedding_large` (SQL cru) e
+  # deixa a coluna legada `embedding` (vector 1536) NULL — a base fica pronta p/ o cutover sem misturar.
+  describe '#perform with the large embedding model active' do
+    before do
+      allow(Autonomia::Agents::Config).to receive(:active_embedding_model).and_return('text-embedding-3-large')
+      allow(embedder).to receive(:embed_batch) { |chunks| chunks.map { Array.new(3072, 0.01) } }
+    end
+
+    it 'writes to embedding_large (halfvec) and leaves the legacy embedding NULL' do
+      # Act
+      run!
+
+      # Assert
+      entry = source.reload.knowledge_entries.order(:chunk_index).first
+      expect(entry.read_attribute(:embedding)).to be_nil
+      populated = Autonomia::Agents::KnowledgeEntry.where(id: entry.id).where.not(embedding_large: nil).count
+      expect(populated).to eq(1)
+    end
+  end
 end

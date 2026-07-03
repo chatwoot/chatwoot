@@ -126,6 +126,7 @@ RUN apk update && apk add --no-cache \
   tzdata \
   postgresql-client \
   imagemagick \
+  ghostscript \
   git \
   vips \
   tesseract-ocr \
