@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_03_160000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_03_191000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -2411,7 +2411,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_03_160000) do
   add_foreign_key "crm_calendar_sync_states", "accounts"
   add_foreign_key "crm_calendar_sync_states", "inboxes"
   add_foreign_key "crm_card_conversations", "accounts"
-  add_foreign_key "crm_card_conversations", "conversations"
+  add_foreign_key "crm_card_conversations", "conversations", on_delete: :cascade
   add_foreign_key "crm_card_conversations", "crm_cards", column: "card_id"
   add_foreign_key "crm_card_conversations", "users", column: "linked_by_id"
   add_foreign_key "crm_cards", "accounts"
