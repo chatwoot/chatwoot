@@ -55,6 +55,15 @@ module Autonomia
       # jbuilder (não está na lista de campos seguros do serializer) e nunca vaza a instrução.
       store_accessor :config, :knowledge_refresh_token
 
+      # C3 (custo): agente declarado SEM base de conhecimento. ATENÇÃO ao default histórico: a
+      # AUSÊNCIA da chave `with_knowledge` significa COM base (true) — só o `false` explícito
+      # (boolean ou a string 'false', como o jsonb pode guardar) desliga. Usado p/ pular o
+      # retrieval/embedding no Answerer (agente sem base não paga embedding por mensagem nem
+      # usa entries residuais). Mesmo contrato do jbuilder (`with_knowledge != false`).
+      def knowledge_disabled?
+        [false, 'false'].include?(config.to_h['with_knowledge'])
+      end
+
       # Aplica config gerada pelo Construtor (token-guarded — análogo a ai_guarded_update do
       # EmailCampaign). `build_token` é o token ativo do BuildThread; a escrita só vence se este
       # ainda for o token da geração corrente (idempotência anti-supersede). `attrs` já vem mapeado
