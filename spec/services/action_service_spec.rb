@@ -61,6 +61,7 @@ describe ActionService do
       it 'opens bot-owned pending conversations when assigning the agent' do
         inbox_member
         conversation.update!(assignee: nil, assignee_agent_bot: create(:agent_bot, account: account), status: :pending)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
         action_service.assign_agent([agent.id])
 
@@ -68,6 +69,8 @@ describe ActionService do
         expect(conversation.assignee).to eq(agent)
         expect(conversation.assignee_agent_bot).to be_nil
         expect(conversation.status).to eq('open')
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(Events::Types::CONVERSATION_BOT_HANDOFF, kind_of(Time), hash_including(conversation: conversation))
       end
     end
 
