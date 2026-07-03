@@ -440,6 +440,18 @@ watch(builderPhase, phase => {
           :aria-label="t('AGENTS.TUNE.CONFIDENCE_THRESHOLD')"
           :aria-valuetext="`${Math.round(Number(form.confidence_threshold) * 100)}%`"
         />
+        <!-- Legenda: o slider puro não dizia o que 0.63 significa. -->
+        <div class="flex items-center justify-between text-xs text-n-slate-10">
+          <span>{{ t('AGENTS.TUNE.CONFIDENCE_LOW') }}</span>
+          <span>{{ t('AGENTS.TUNE.CONFIDENCE_HIGH') }}</span>
+        </div>
+        <p class="m-0 text-xs text-n-slate-11">
+          {{
+            t('AGENTS.TUNE.CONFIDENCE_HINT', {
+              pct: Math.round(Number(form.confidence_threshold) * 100),
+            })
+          }}
+        </p>
       </div>
 
       <NextButton

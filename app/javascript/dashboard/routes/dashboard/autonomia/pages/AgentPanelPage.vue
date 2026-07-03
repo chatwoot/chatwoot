@@ -138,6 +138,14 @@ watch(
   { immediate: true }
 );
 
+// A rota reutiliza este componente ao navegar entre agentes (/agents/1 ->
+// /agents/2): onMounted não redispara, então recarrega via watch — senão o
+// cabeçalho/painéis mostram o agente anterior com ações apontando pro novo.
+watch(
+  () => props.agentId,
+  () => store.dispatch('autonomiaAgents/show', Number(props.agentId))
+);
+
 onMounted(() => {
   store.dispatch('autonomiaAgents/show', Number(props.agentId));
 });
@@ -204,9 +212,13 @@ onMounted(() => {
       >
         <Spinner :size="28" />
       </div>
+      <!-- :key remonta o painel ao trocar de agente — os painéis (Conhecimento,
+           Canais) buscam dados no onMounted e sem isso exibiriam a lista do
+           agente anterior. -->
       <component
         :is="activeComponent"
         v-else-if="agent"
+        :key="agentId"
         :agent="agent"
         :agent-id="Number(agentId)"
       />

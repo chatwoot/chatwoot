@@ -76,12 +76,22 @@ const statusLabel = computed(() => {
         <span class="text-sm font-medium truncate text-n-slate-12">
           {{ agent.name }}
         </span>
-        <span
-          class="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full w-fit"
-          :class="statusClass"
-        >
-          <span class="rounded-full size-1.5" :class="statusDotClass" />
-          {{ statusLabel }}
+        <span class="flex flex-wrap items-center gap-1.5">
+          <span
+            class="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-medium rounded-full w-fit"
+            :class="statusClass"
+          >
+            <span class="rounded-full size-1.5" :class="statusDotClass" />
+            {{ statusLabel }}
+          </span>
+          <!-- Interno x externo eram indistinguíveis no hub — selo do copiloto. -->
+          <span
+            v-if="agent.actuation === 'internal'"
+            class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full w-fit bg-n-iris-3 text-n-iris-11"
+          >
+            <span class="i-lucide-headset size-3" />
+            {{ t('AGENTS.HUB.INTERNAL_BADGE') }}
+          </span>
         </span>
       </button>
     </div>

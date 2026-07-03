@@ -20,7 +20,14 @@
       "OPEN": "Open agent",
       "EDIT_AI": "Edit with AI",
       "PUBLISH": "Publish",
-      "DELETE": "Delete"
+      "DELETE": "Delete",
+      "DELETE_DIALOG": {
+        "TITLE": "Delete agent?",
+        "DESCRIPTION": "This will permanently delete {name}, including its knowledge and settings. This action cannot be undone.",
+        "CONFIRM": "Delete",
+        "CANCEL": "Cancel"
+      },
+      "INTERNAL_BADGE": "Team copilot"
     },
     "TYPES": {
       "PICK_TITLE": "What should your agent do?",
@@ -155,7 +162,7 @@
       "SELECT_INBOX": "Choose an inbox",
       "CONNECT_ACTIVATE": "Connect and activate",
       "ACTIVATE_INTERNAL": "Activate copilot",
-      "ACTIVATED_INTERNAL": "Copilot activated. Your team can use it in conversations now.",
+      "ACTIVATED_INTERNAL": "Copilot activated! Open any conversation and find it in the right sidebar.",
       "BACK": "Back"
     },
     "PANEL": {
@@ -259,7 +266,7 @@
       "BLOCKED_RESEND": "Some material needs your attention before continuing.",
       "BLOCKED_REVIEWING": "Reviewing your materials… this only takes a moment.",
       "BLOCKED_EMPTY": "Add a material or use 'Skip' if Iris doesn't need a knowledge base.",
-      "FAILED_REASON": "We couldn't process this file. Try re-uploading.",
+      "FAILED_REASON": "We couldn't read this file. Check that it's under 25MB, not password-protected and in a supported format (PDF, DOCX, XLSX, TXT, MD, JSON), then upload it again.",
       "STEP_PROMPT": "Can I use your materials so Iris can learn? Attach files or skip this step."
     },
     "CHANNELS": {
@@ -326,7 +333,10 @@
         "EXTERNAL": "External (answers customers)",
         "INTERNAL": "Internal (team copilot)",
         "BOTH": "Both"
-      }
+      },
+      "CONFIDENCE_LOW": "Low (hands off rarely)",
+      "CONFIDENCE_HIGH": "High (hands off often)",
+      "CONFIDENCE_HINT": "Below {pct}% confidence, the agent hands the conversation to a human instead of guessing."
     },
     "PERFORMANCE": {
       "RANGE": {
@@ -365,7 +375,7 @@
         "BODY": "Consider adding knowledge about the topics below to let the agent resolve more on its own:",
         "BODY_GENERIC": "Consider adding more knowledge so the agent can resolve more conversations on its own."
       },
-      "EMPTY": "No activity yet. Once your agent starts replying, metrics will appear here.",
+      "EMPTY": "Your agent is ready — metrics will appear here after its first conversations. Meanwhile, try it out in the Test tab.",
       "ERROR": "We couldn't load performance data.",
       "RETRY": "Try again"
     },

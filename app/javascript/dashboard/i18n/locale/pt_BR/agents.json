@@ -20,7 +20,14 @@
       "OPEN": "Abrir agente",
       "EDIT_AI": "Editar com IA",
       "PUBLISH": "Publicar",
-      "DELETE": "Apagar"
+      "DELETE": "Apagar",
+      "DELETE_DIALOG": {
+        "TITLE": "Apagar agente?",
+        "DESCRIPTION": "Isso apaga {name} permanentemente, incluindo conhecimento e configurações. Essa ação não pode ser desfeita.",
+        "CONFIRM": "Apagar",
+        "CANCEL": "Cancelar"
+      },
+      "INTERNAL_BADGE": "Copiloto da equipe"
     },
     "TYPES": {
       "PICK_TITLE": "O que seu agente deve fazer?",
@@ -155,7 +162,7 @@
       "SELECT_INBOX": "Escolha uma caixa de entrada",
       "CONNECT_ACTIVATE": "Conectar e ativar",
       "ACTIVATE_INTERNAL": "Ativar copiloto",
-      "ACTIVATED_INTERNAL": "Copiloto ativado. Sua equipe já pode usá-lo nas conversas.",
+      "ACTIVATED_INTERNAL": "Copiloto ativado! Abra qualquer conversa e encontre-o na barra lateral direita.",
       "BACK": "Voltar"
     },
     "PANEL": {
@@ -259,7 +266,7 @@
       "BLOCKED_RESEND": "Algum material precisa da sua atenção antes de continuar.",
       "BLOCKED_REVIEWING": "Revisando seus materiais… leva só um instante.",
       "BLOCKED_EMPTY": "Adicione um material ou use 'Pular' se a Iris não precisa de base.",
-      "FAILED_REASON": "Não conseguimos processar este arquivo. Tente reenviar.",
+      "FAILED_REASON": "Não conseguimos ler este arquivo. Verifique se tem menos de 25MB, não está protegido por senha e usa um formato suportado (PDF, DOCX, XLSX, TXT, MD, JSON) e envie de novo.",
       "STEP_PROMPT": "Posso usar seus materiais para a Iris aprender? Anexe arquivos ou pule esta etapa."
     },
     "CHANNELS": {
@@ -326,7 +333,10 @@
         "EXTERNAL": "Externo (atende clientes)",
         "INTERNAL": "Interno (copiloto da equipe)",
         "BOTH": "Ambos"
-      }
+      },
+      "CONFIDENCE_LOW": "Baixa (transfere pouco)",
+      "CONFIDENCE_HIGH": "Alta (transfere com frequência)",
+      "CONFIDENCE_HINT": "Abaixo de {pct}% de confiança, o agente transfere a conversa para um humano em vez de arriscar."
     },
     "PERFORMANCE": {
       "RANGE": {
@@ -365,7 +375,7 @@
         "BODY": "Considere adicionar conhecimento sobre os tópicos abaixo para que o agente resolva mais sozinho:",
         "BODY_GENERIC": "Considere adicionar mais conhecimento para que o agente resolva mais conversas sozinho."
       },
-      "EMPTY": "Nenhuma atividade ainda. Assim que seu agente começar a responder, as métricas aparecerão aqui.",
+      "EMPTY": "Seu agente está pronto — as métricas aparecem aqui após as primeiras conversas. Enquanto isso, experimente na aba Testar.",
       "ERROR": "Não foi possível carregar os dados de desempenho.",
       "RETRY": "Tentar novamente"
     },
