@@ -76,13 +76,51 @@ describe('#autonomiaBuildThreads store', () => {
       expect(AutonomiaBuildThreadsAPI.sendMessage).toHaveBeenCalledWith(
         3,
         'b2b',
-        {}
+        {},
+        expect.any(String)
       );
       expect(commit).toHaveBeenCalledWith('APPEND_MESSAGE', {
         role: 'user',
         content: 'b2b',
       });
       expect(dispatch).toHaveBeenCalledWith('poll', { threadId: 3 });
+    });
+
+    it('send reuses the same client_message_id when the same turn is retried after a failure', async () => {
+      const commit = vi.fn();
+      const dispatch = vi.fn();
+      AutonomiaBuildThreadsAPI.sendMessage
+        .mockRejectedValueOnce(new Error('network down'))
+        .mockResolvedValueOnce({
+          data: { payload: { id: 3, status: 'processing' } },
+        });
+
+      await actions
+        .send({ commit, dispatch }, { threadId: 3, content: 'de novo' })
+        .catch(() => {});
+      await actions.send(
+        { commit, dispatch },
+        { threadId: 3, content: 'de novo' }
+      );
+
+      const [firstCall, secondCall] =
+        AutonomiaBuildThreadsAPI.sendMessage.mock.calls;
+      expect(firstCall[3]).toBe(secondCall[3]);
+    });
+
+    it('send mints a fresh client_message_id for a NEW turn with identical content', async () => {
+      const commit = vi.fn();
+      const dispatch = vi.fn();
+      AutonomiaBuildThreadsAPI.sendMessage.mockResolvedValue({
+        data: { payload: { id: 3, status: 'processing' } },
+      });
+
+      await actions.send({ commit, dispatch }, { threadId: 3, content: 'sim' });
+      await actions.send({ commit, dispatch }, { threadId: 3, content: 'sim' });
+
+      const [firstCall, secondCall] =
+        AutonomiaBuildThreadsAPI.sendMessage.mock.calls;
+      expect(firstCall[3]).not.toBe(secondCall[3]);
     });
 
     it('declareNoMaterials sends a silent gate signal with no_materials', () => {
@@ -120,9 +158,10 @@ describe('#autonomiaBuildThreads store', () => {
     it('onSettled continues the interview when ready + needs_more_info', async () => {
       const commit = vi.fn();
       const dispatch = vi.fn();
+      const $state = { messages: [{ role: 'user', content: 'suporte b2b' }] };
 
       await actions.onSettled(
-        { commit, dispatch },
+        { commit, dispatch, state: $state },
         {
           status: 'ready',
           agent_id: null,
@@ -142,6 +181,58 @@ describe('#autonomiaBuildThreads store', () => {
         expect.anything(),
         expect.anything()
       );
+    });
+
+    it('onSettled skips the fallback bubble when the merge already delivered the question as the last turn', async () => {
+      const commit = vi.fn();
+      const dispatch = vi.fn();
+      const $state = {
+        messages: [
+          { role: 'user', content: 'suporte b2b' },
+          { role: 'assistant', content: 'Qual o tom de voz?' },
+        ],
+      };
+
+      await actions.onSettled(
+        { commit, dispatch, state: $state },
+        {
+          status: 'ready',
+          agent_id: null,
+          state: { needs_more_info: true, next_question: 'Qual o tom de voz?' },
+        }
+      );
+
+      expect(commit).not.toHaveBeenCalledWith(
+        'APPEND_MESSAGE',
+        expect.anything()
+      );
+    });
+
+    it('onSettled still shows a legitimate REPEATED question (no global content dedupe)', async () => {
+      const commit = vi.fn();
+      const dispatch = vi.fn();
+      // The Builder asked the same question earlier; the user answered
+      // insufficiently and the Builder re-asks it — the bubble must show again.
+      const $state = {
+        messages: [
+          { role: 'assistant', content: 'Qual o tom de voz?' },
+          { role: 'user', content: 'hm' },
+        ],
+      };
+
+      await actions.onSettled(
+        { commit, dispatch, state: $state },
+        {
+          status: 'ready',
+          agent_id: null,
+          state: { needs_more_info: true, next_question: 'Qual o tom de voz?' },
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith('APPEND_MESSAGE', {
+        role: 'assistant',
+        content: 'Qual o tom de voz?',
+      });
     });
 
     it('onSettled fetches and stores the generated agent when the build completes', async () => {
@@ -188,6 +279,7 @@ describe('#autonomiaBuildThreads store', () => {
       const state = {
         thread: { id: 3 },
         messages: [{ role: 'user' }],
+        mergedCount: 4,
         status: 'ready',
         threadState: 'turn',
         agent: { id: 9 },
@@ -198,6 +290,7 @@ describe('#autonomiaBuildThreads store', () => {
       expect(state).toEqual({
         thread: null,
         messages: [],
+        mergedCount: 0,
         status: null,
         threadState: {},
         agent: null,
@@ -206,12 +299,21 @@ describe('#autonomiaBuildThreads store', () => {
       });
     });
 
-    it('MERGE_MESSAGES appends backend turns without dropping local ones', () => {
+    it('APPEND_MESSAGE tags locally-authored turns so the merge can confirm them later', () => {
+      const state = { messages: [] };
+      mutations.APPEND_MESSAGE(state, { role: 'user', content: 'oi' });
+      expect(state.messages).toEqual([
+        { role: 'user', content: 'oi', local: true },
+      ]);
+    });
+
+    it('MERGE_MESSAGES confirms pending local bubbles and appends new backend turns in order', () => {
       const state = {
         messages: [
-          { role: 'user', content: 'oi' },
-          { role: 'assistant', content: 'Qual o objetivo?' },
+          { role: 'user', content: 'oi', local: true },
+          { role: 'assistant', content: 'Qual o objetivo?', local: true },
         ],
+        mergedCount: 0,
       };
       mutations.MERGE_MESSAGES(state, [
         { role: 'user', content: 'oi' },
@@ -219,9 +321,47 @@ describe('#autonomiaBuildThreads store', () => {
       ]);
       expect(state.messages).toEqual([
         { role: 'user', content: 'oi' },
-        { role: 'assistant', content: 'Qual o objetivo?' },
+        { role: 'assistant', content: 'Qual o objetivo?', local: true },
         { role: 'user', content: 'suporte' },
       ]);
+      expect(state.mergedCount).toBe(2);
+    });
+
+    it('MERGE_MESSAGES is a no-op when the backend list did not grow', () => {
+      const state = {
+        messages: [
+          { role: 'user', content: 'oi' },
+          { role: 'assistant', content: 'Qual o objetivo?', local: true },
+        ],
+        mergedCount: 1,
+      };
+      mutations.MERGE_MESSAGES(state, [{ role: 'user', content: 'oi' }]);
+      expect(state.messages).toEqual([
+        { role: 'user', content: 'oi' },
+        { role: 'assistant', content: 'Qual o objetivo?', local: true },
+      ]);
+      expect(state.mergedCount).toBe(1);
+    });
+
+    it('MERGE_MESSAGES keeps a REPEATED identical assistant turn instead of hiding it', () => {
+      const state = { messages: [], mergedCount: 0 };
+      mutations.MERGE_MESSAGES(state, [
+        { role: 'user', content: 'oi' },
+        { role: 'assistant', content: 'Qual o objetivo?' },
+      ]);
+      // The user answered insufficiently and the Builder re-asked the SAME question.
+      mutations.MERGE_MESSAGES(state, [
+        { role: 'user', content: 'oi' },
+        { role: 'assistant', content: 'Qual o objetivo?' },
+        { role: 'user', content: 'não sei' },
+        { role: 'assistant', content: 'Qual o objetivo?' },
+      ]);
+      expect(state.messages).toHaveLength(4);
+      expect(state.messages[3]).toEqual({
+        role: 'assistant',
+        content: 'Qual o objetivo?',
+      });
+      expect(state.mergedCount).toBe(4);
     });
   });
 });

@@ -36,6 +36,43 @@ RSpec.describe Autonomia::Agents::BuildThread do
     end
   end
 
+  describe '#begin_build! atomic claim (T6)' do
+    it 'lets only one of two competing claims win while the build is fresh' do
+      # Arrange + Act
+      first_token = thread.begin_build!
+      second_token = thread.begin_build!
+
+      # Assert — the loser gets nil and the winner token stays active
+      expect(first_token).to be_present
+      expect(second_token).to be_nil
+      expect(thread.reload.build_token).to eq(first_token)
+    end
+
+    it 'reclaims the slot once the previous processing build went stale' do
+      # Arrange
+      stale_token = thread.begin_build!
+
+      # Act
+      new_token = nil
+      travel_to(10.minutes.from_now) { new_token = thread.begin_build! }
+
+      # Assert
+      expect(new_token).to be_present
+      expect(new_token).not_to eq(stale_token)
+      expect(thread.reload.build_token).to eq(new_token)
+    end
+
+    it 'claims normally from a failed thread' do
+      # Arrange
+      token = thread.begin_build!
+      thread.mark_failed!(token, 'boom')
+
+      # Act + Assert
+      expect(thread.begin_build!).to be_present
+      expect(thread.reload).to be_processing
+    end
+  end
+
   describe '#append_message! dedupe (E4)' do
     it 'no-ops when the same client_message_id is appended twice' do
       # Arrange

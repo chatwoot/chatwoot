@@ -46,9 +46,10 @@ RSpec.describe Autonomia::Agents::Builder do
     end
 
     it 'skips persistence when the generation was superseded (token lost)' do
-      # Arrange
+      # Arrange — o job da 1ª geração morreu (processing além da janela stale) e uma nova
+      # geração reassumiu o slot via claim atômico; o token antigo perdeu.
       stale_token = thread.begin_build!
-      thread.begin_build! # nova geração assumiu; o token antigo perdeu
+      travel_to(10.minutes.from_now) { thread.begin_build! }
 
       # Act
       builder.run!(stale_token)

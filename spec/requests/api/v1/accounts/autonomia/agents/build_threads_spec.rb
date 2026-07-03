@@ -80,21 +80,36 @@ RSpec.describe 'Autonomia agent build threads', type: :request do
     end
   end
 
-  describe 'POST /autonomia/build_threads/:id/messages (E4)' do
-    it 'deduplicates a replayed turn with the same client_message_id end to end' do
+  describe 'POST /autonomia/build_threads/:id/messages (E4/T6 idempotency)' do
+    it 'answers a replayed turn with the same client_message_id idempotently, without a duplicate turn or job' do
       # Arrange
       cid = SecureRandom.uuid
 
-      # Act
+      # Act — the replay hits while the first build is still processing (double-click / network retry)
       post_message(message: 'Quero um agente de suporte', client_message_id: cid)
-      thread.reload.update!(status: :open)
       post_message(message: 'Quero um agente de suporte', client_message_id: cid)
 
-      # Assert
-      expect(response).to have_http_status(:accepted)
+      # Assert — 200 with the current state, single persisted turn, single enqueued job
+      expect(response).to have_http_status(:ok)
       user_turns = Array(thread.reload.messages).select { |m| m['role'] == 'user' }
       expect(user_turns.size).to eq(1)
       expect(user_turns.first['cid']).to eq(cid)
+      expect(Autonomia::Agents::Builder::SubmitJob).to have_received(:perform_later).once
+    end
+
+    it 'treats the same client_message_id as a replay even after the build settled' do
+      # Arrange
+      cid = SecureRandom.uuid
+      post_message(message: 'Quero um agente de suporte', client_message_id: cid)
+      thread.reload.update!(status: :open)
+
+      # Act
+      post_message(message: 'Quero um agente de suporte', client_message_id: cid)
+
+      # Assert
+      expect(response).to have_http_status(:ok)
+      expect(Array(thread.reload.messages).count { |m| m['role'] == 'user' }).to eq(1)
+      expect(Autonomia::Agents::Builder::SubmitJob).to have_received(:perform_later).once
     end
   end
 
