@@ -40,6 +40,12 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
       return
     end
 
+    if (active_import = active_intercom_import)
+      @data_import = active_import
+      render :show
+      return
+    end
+
     if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
       render json: { message: 'Intercom is not connected.' }, status: :unprocessable_entity
       return

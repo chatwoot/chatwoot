@@ -109,6 +109,31 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.reload).to be_processing
     end
 
+    it 'returns the active Intercom import instead of restarting another import' do
+      data_import.update!(status: :abandoned, abandoned_at: 1.hour.ago)
+      active_import = create(
+        :data_import,
+        account: account,
+        data_type: 'intercom',
+        source_type: 'integration',
+        source_provider: 'intercom',
+        import_types: %w[contacts conversations],
+        integration_hook: hook,
+        status: :processing,
+        import_file: nil
+      )
+
+      expect do
+        post start_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['id']).to eq(active_import.id)
+      expect(data_import.reload).to be_abandoned
+    end
+
     it 'does not restart imports when Intercom is disconnected' do
       data_import.update!(status: :abandoned, abandoned_at: 1.hour.ago)
       hook.destroy!
