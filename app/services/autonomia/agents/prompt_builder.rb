@@ -27,7 +27,10 @@ module Autonomia
         }
       }.freeze
 
-      SNIPPET_MAX_CHARS = 800
+      # KB-quality Bloco A (2026-07-03): 800→1500 para o trecho recuperado chegar mais INTEIRO ao LLM
+      # (menos fato cortado no meio). No-op nos chunks atuais de ~600 chars; prepara o Bloco B (chunks
+      # adaptativos maiores). gpt-5.4 (128k) acomoda 12 trechos × 1500 com folga.
+      SNIPPET_MAX_CHARS = 1500
 
       OUTPUT_FORMAT = <<~FORMAT.strip
         # Formato de saída (OBRIGATÓRIO)
