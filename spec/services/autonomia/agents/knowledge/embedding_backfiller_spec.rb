@@ -100,4 +100,47 @@ RSpec.describe Autonomia::Agents::Knowledge::EmbeddingBackfiller do
       expect(result.accounts).to eq(0)
     end
   end
+
+  describe '#preview (preflight read-only, Vermelha)' do
+    it 'conta contas no escopo e entries pendentes sem tocar o provedor' do
+      # Arrange
+      entry(content: 'a')
+      entry(content: 'b')
+
+      # Assert — preview NUNCA chama o embedder
+      expect(embedder).not_to receive(:embed_batch)
+
+      # Act
+      preview = described_class.new.preview
+
+      # Assert
+      expect(preview.accounts).to eq(1)
+      expect(preview.pending).to eq(2)
+    end
+
+    it 'reporta pending=0 depois que tudo já foi embedado (abort-se-zero)' do
+      # Arrange
+      entry(content: 'a')
+      described_class.new.perform
+
+      # Act
+      preview = described_class.new.preview
+
+      # Assert
+      expect(preview.pending).to eq(0)
+    end
+
+    it 'restringe o preview às account_ids dadas' do
+      # Arrange
+      entry(content: 'a')
+      other = create(:account)
+
+      # Act
+      preview = described_class.new(account_ids: [other.id]).preview
+
+      # Assert
+      expect(preview.accounts).to eq(0)
+      expect(preview.pending).to eq(0)
+    end
+  end
 end

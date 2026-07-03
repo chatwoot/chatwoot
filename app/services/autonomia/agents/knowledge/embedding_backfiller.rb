@@ -16,10 +16,22 @@ module Autonomia
         MODEL = Config::EMBEDDING_MODEL_LARGE
 
         Result = Struct.new(:accounts, :embedded, :skipped, :failed_accounts, keyword_init: true)
+        Preview = Struct.new(:accounts, :pending, keyword_init: true)
 
         def initialize(logger: Rails.logger, account_ids: nil)
           @logger = logger
           @account_ids = account_ids
+        end
+
+        # Preflight read-only (Vermelha): quantas contas no escopo e quantos KnowledgeEntry ainda faltam
+        # embedar (embedding_large NULL). Sem tocar OpenAI nem gravar nada — serve pro abort-se-zero e
+        # pro snapshot pré/pós no log do operador. NÃO deleta, NÃO chama provedor.
+        def preview
+          ids = account_scope.pluck(:id)
+          Preview.new(
+            accounts: ids.size,
+            pending: KnowledgeEntry.where(account_id: ids, embedding_large: nil).count
+          )
         end
 
         # Percorre as contas com conhecimento Autônomo e embeda-em-lote o que falta. Devolve um Result
