@@ -34,15 +34,57 @@ module Autonomia
         NUMBERED_HEADING = /\A\d{1,4}\s*[-–.)]\s*\S/
         TERMINAL_PUNCT = /[.!?:;,]\z/
 
-        def initialize(text, max: Config::CHUNK_MAX, overlap: Config::CHUNK_OVERLAP, merge_floor: MERGE_FLOOR)
+        # KB-quality Bloco B / B2.2 — palavras-chave por chunk. Espelha Retriever#lexical_terms /
+        # STOPWORDS_PT (mesma tokenização) p/ o termo indexado no chunk casar com o termo da query. NÃO
+        # importamos do Retriever (arquivo do B3): cópia pequena e comentada evita acoplamento e drift
+        # de carga. Se divergir do Retriever, ambos devem ser atualizados juntos.
+        KEYWORD_STOPWORDS = %w[para com como qual quais quanto quantos onde quando tem teem voce voces
+                               vocês quero sobre nosso nossa email mais menos isso esse essa aqui esta
+                               este pelo pela dos das].freeze
+        KEYWORD_MIN_LEN = 4
+        KEYWORD_MAX = 6
+
+        # Chunk com o texto final (já com herança de cabeçalho) + a metadata determinística do B2.2.
+        Chunk = Struct.new(:text, :heading, :keyword_source, keyword_init: true)
+
+        def initialize(text, source_type: nil, max: nil, overlap: nil, merge_floor: nil)
           @text = normalize(text)
-          @max = max
-          @overlap = [overlap, max - 1].min
-          @merge_floor = merge_floor
+          @source_type = source_type
+          profile = Autonomia::Agents::Knowledge::ChunkProfile.new(@text, source_type: source_type)
+          @material_type = profile.material_type
+          # RETROCOMPAT: a chamada legada Chunker.new(text) (SEM source_type) mantém os parâmetros
+          # HISTÓRICOS (CHUNK_MAX/CHUNK_OVERLAP) — o sizing adaptativo por perfil só entra quando o
+          # chamado informa o source_type (o Ingestor sempre informa). Assim os specs/call-sites
+          # antigos não mudam de tamanho, mas o material_type ainda é rotulado p/ a metadata (B2.2).
+          params = source_type ? profile.params : Autonomia::Agents::Config::DEFAULT_CHUNK_PROFILE
+          @max = max || params[:max]
+          @overlap = [overlap || params[:overlap], @max - 1].min
+          @merge_floor = merge_floor || params[:merge_floor]
         end
 
-        # Array<String> de chunks mono-tópico, ordem preservada do documento.
+        # Material_type escolhido pelo perfil adaptativo (tabular/faq/list/prose). Exposto p/ o
+        # Ingestor carimbar na metadata e p/ specs.
+        attr_reader :material_type
+
+        # Array<String> de chunks mono-tópico, ordem preservada do documento. (Retrocompat: chunker_spec
+        # e a amostragem do Reviewer chamam .chunks e esperam Strings.)
         def chunks
+          build_chunks.map(&:text)
+        end
+
+        # KB-quality Bloco B / B2.2 — Array<{ text:, metadata: }>: cada chunk com sua metadata
+        # determinística (section_heading, material_type, char_span, keywords). Custo zero (sem IA).
+        def chunks_with_metadata
+          build_chunks.each_with_index.map do |chunk, index|
+            { text: chunk.text, metadata: metadata_for(chunk, index) }
+          end
+        end
+
+        private
+
+        # Pipeline estrutural único (fonte de verdade p/ chunks e chunks_with_metadata). Devolve
+        # Array<Chunk> preservando o cabeçalho da seção corrente de cada pedaço.
+        def build_chunks
           return [] if @text.empty?
 
           result = []
@@ -61,7 +103,24 @@ module Autonomia
           result
         end
 
-        private
+        # Metadata determinística do chunk (B2.2). keyword_source = texto ORIGINAL do chunk (sem o
+        # cabeçalho prefixado) p/ as keywords refletirem o conteúdo, não o título repetido.
+        def metadata_for(chunk, index)
+          {
+            section_heading: chunk.heading,
+            material_type: @material_type.to_s,
+            chunk_index: index,
+            char_span: chunk.text.length,
+            keywords: keywords_for(chunk.keyword_source)
+          }
+        end
+
+        # Top KEYWORD_MAX termos de conteúdo (>= KEYWORD_MIN_LEN, sem stopwords PT), dedup, ordem de
+        # aparição. Mesma tokenização do Retriever#lexical_terms (casamento léxico query↔chunk).
+        def keywords_for(text)
+          text.to_s.downcase.scan(/[\p{Alnum}]{#{KEYWORD_MIN_LEN},}/o)
+              .reject { |w| KEYWORD_STOPWORDS.include?(w) }.uniq.first(KEYWORD_MAX)
+        end
 
         # Novo cabeçalho fecha a seção anterior (se o acumulado já pode virar chunk; senão segue
         # acumulando p/ não descartar linha curta) e abre o buffer da nova seção com o título —
@@ -100,14 +159,15 @@ module Autonomia
           text.to_s.gsub("\r\n", "\n").gsub(/[ \t]+/, ' ').gsub(/\n{3,}/, "\n\n").strip
         end
 
-        # Empilha o buffer corrente como chunk (se atinge MIN_CHUNK), herdando o cabeçalho da seção
-        # corrente quando o texto ainda não o contém, e devolve um buffer limpo.
+        # Empilha o buffer corrente como Chunk (se atinge MIN_CHUNK), herdando o cabeçalho da seção
+        # corrente quando o texto ainda não o contém, e devolve um buffer limpo. keyword_source guarda
+        # o corpo ORIGINAL (sem o título prefixado) p/ as keywords (B2.2) refletirem o conteúdo.
         def flush(result, buffer)
-          chunk = buffer.strip
-          return +'' if chunk.empty?
+          body = buffer.strip
+          return +'' if body.empty?
 
-          chunk = inherit_heading(chunk)
-          result << chunk if chunk.length >= MIN_CHUNK
+          text = inherit_heading(body)
+          result << Chunk.new(text: text, heading: @heading, keyword_source: body) if text.length >= MIN_CHUNK
           +''
         end
 
@@ -173,7 +233,7 @@ module Autonomia
           while cursor < length
             stop = boundary_stop(unit, cursor, [cursor + window, length].min, length)
             piece = unit[cursor...stop].strip
-            pieces << inherit_heading(piece) if piece.length >= MIN_CHUNK
+            pieces << Chunk.new(text: inherit_heading(piece), heading: @heading, keyword_source: piece) if piece.length >= MIN_CHUNK
             break if stop >= length
 
             cursor = [stop - @overlap, cursor + 1].max
