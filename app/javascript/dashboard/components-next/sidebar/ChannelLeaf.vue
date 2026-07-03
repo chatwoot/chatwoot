@@ -27,10 +27,6 @@ const props = defineProps({
 const reauthorizationRequired = computed(() => {
   return props.inbox.reauthorization_required;
 });
-
-const inboxDisabled = computed(() => {
-  return props.inbox.active === false;
-});
 </script>
 
 <template>
@@ -38,13 +34,6 @@ const inboxDisabled = computed(() => {
     <ChannelIcon :inbox="inbox" class="size-4" />
   </span>
   <div class="flex-1 truncate min-w-0">{{ label }}</div>
-  <div
-    v-if="inboxDisabled"
-    v-tooltip.top-end="$t('INBOX_MGMT.DISABLED')"
-    class="grid place-content-center size-5 bg-n-ruby-3 rounded-full"
-  >
-    <Icon icon="i-woot-alert" class="size-3 text-n-ruby-9" />
-  </div>
   <SidebarUnreadBadge :count="badgeCount" />
   <div
     v-if="reauthorizationRequired"

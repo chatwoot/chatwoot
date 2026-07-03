@@ -22,7 +22,7 @@ class Messages::MessageBuilder
   end
 
   def perform
-    raise CustomExceptions::Inbox::Disabled unless @conversation.inbox.active?
+    raise CustomExceptions::InboxDisabled unless @conversation.inbox.active?
 
     @message = @conversation.messages.build(message_params)
     process_attachments

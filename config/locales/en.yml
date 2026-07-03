@@ -134,6 +134,7 @@ en:
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
       calls:
         not_enabled: 'Calling is not enabled for this inbox'
+        already_ended: 'This call has already ended'
         no_recording: 'No recording file provided'
         no_message: 'Call has no associated message'
         sdp_offer_required: 'sdp_offer is required'
@@ -574,6 +575,28 @@ en:
     ssl_status:
       custom_domain_not_configured: 'Custom domain is not configured'
   super_admin:
+    captain_model_overrides:
+      form:
+        helper_text: 'Leave a model blank to use the YAML default for that AI feature.'
+        use_default: 'Use default: %{model} (%{model_id})'
+      show:
+        summary: 'View model routing'
+        provider: 'Provider'
+        model: 'Model'
+      sources:
+        account_override: 'Account override'
+        default: 'Default'
+      features:
+        editor: 'Editor'
+        assistant: 'Assistant'
+        copilot: 'Copilot'
+        label_suggestion: 'Label suggestion'
+        document_faq_generation: 'Document FAQ generation'
+        help_center_article_generation: 'Help center article generation'
+        onboarding_content_generation: 'Onboarding content generation'
+        help_center_query_translation: 'Help center query translation'
+        audio_transcription: 'Audio transcription'
+        help_center_search: 'Help center search'
     push_diagnostics:
       user_not_found: 'User not found.'
       no_subscriptions_to_test: 'Select at least one subscription to test.'

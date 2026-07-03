@@ -170,14 +170,8 @@ export default {
         instagramInbox
       );
     },
-    isInboxDisabled() {
-      return this.inbox.active === false;
-    },
 
     replyWindowBannerMessage() {
-      if (this.isInboxDisabled) {
-        return this.$t('CONVERSATION.INBOX_DISABLED');
-      }
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
@@ -200,9 +194,6 @@ export default {
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isInboxDisabled) {
-        return '';
-      }
       if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
       }
@@ -218,9 +209,6 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (this.isInboxDisabled) {
-        return '';
-      }
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||
@@ -467,7 +455,7 @@ export default {
   >
     <div ref="topBannerRef">
       <Banner
-        v-if="isInboxDisabled || !currentChat.can_reply"
+        v-if="!currentChat.can_reply"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="replyWindowBannerMessage"

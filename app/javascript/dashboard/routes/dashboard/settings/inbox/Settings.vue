@@ -91,7 +91,6 @@ export default {
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
-      inboxActive: true,
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
       selectedInboxName: '',
@@ -471,7 +470,6 @@ export default {
       this.businessName = this.inbox.business_name;
       this.allowMessagesAfterResolved =
         this.inbox.allow_messages_after_resolved;
-      this.inboxActive = this.inbox.active !== false;
       this.continuityViaEmail = this.inbox.continuity_via_email;
       this.channelWebsiteUrl = this.inbox.website_url;
       this.channelWelcomeTitle = this.inbox.welcome_title;
@@ -583,7 +581,6 @@ export default {
         const payload = {
           id: this.currentInboxId,
           name: this.selectedInboxName?.trim(),
-          active: this.inboxActive,
           enable_email_collect: this.emailCollectEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
@@ -821,15 +818,6 @@ export default {
                 @on-reset="resetWebhookSecret"
               />
             </SettingsFieldSection>
-
-            <SettingsToggleSection
-              v-model="inboxActive"
-              :header="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_ACTIVE.TITLE')"
-              :description="
-                $t('INBOX_MGMT.SETTINGS_POPUP.INBOX_ACTIVE.DESCRIPTION')
-              "
-              class="mb-4"
-            />
 
             <SettingsFieldSection
               v-if="isAWebWidgetInbox"

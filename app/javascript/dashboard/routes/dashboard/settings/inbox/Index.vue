@@ -139,19 +139,9 @@ const openDelete = inbox => {
               <ChannelIcon class="size-6 text-n-slate-10" :inbox="inbox" />
             </div>
             <div class="flex flex-col items-start gap-1">
-              <div class="flex items-center gap-2 min-w-0">
-                <span
-                  class="block text-heading-3 text-n-slate-12 capitalize truncate"
-                >
-                  {{ inbox.name }}
-                </span>
-                <span
-                  v-if="inbox.active === false"
-                  class="shrink-0 rounded-md bg-n-ruby-3 px-1.5 py-0.5 text-xs font-medium text-n-ruby-11"
-                >
-                  {{ $t('INBOX_MGMT.DISABLED') }}
-                </span>
-              </div>
+              <span class="block text-heading-3 text-n-slate-12 capitalize">
+                {{ inbox.name }}
+              </span>
               <ChannelName
                 :channel-type="inbox.channel_type"
                 :medium="inbox.medium"

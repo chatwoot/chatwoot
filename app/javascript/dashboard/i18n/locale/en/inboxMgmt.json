@@ -748,7 +748,6 @@
       }
     },
     "SETTINGS": "Settings",
-    "DISABLED": "Disabled",
     "FEATURES": {
       "LABEL": "Features",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
@@ -778,10 +777,6 @@
       },
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
-      "INBOX_ACTIVE": {
-        "TITLE": "Enable inbox",
-        "DESCRIPTION": "When disabled, this inbox stays visible but stops new conversations, incoming messages, replies, private notes, automations, and bot processing."
-      },
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",

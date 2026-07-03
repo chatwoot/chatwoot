@@ -3,7 +3,7 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
-    rescue_from CustomExceptions::Inbox::Disabled, with: :render_inbox_disabled_error
+    rescue_from CustomExceptions::InboxDisabled, with: :render_inbox_disabled_error
   end
 
   private

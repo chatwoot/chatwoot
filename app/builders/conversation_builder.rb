@@ -2,7 +2,7 @@ class ConversationBuilder
   pattr_initialize [:params!, :contact_inbox!]
 
   def perform
-    raise CustomExceptions::Inbox::Disabled unless @contact_inbox.inbox.active?
+    raise CustomExceptions::InboxDisabled unless @contact_inbox.inbox.active?
 
     look_up_exising_conversation || create_new_conversation
   end

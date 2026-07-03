@@ -209,9 +209,6 @@ export default {
     },
     messagePlaceHolder() {
       if (this.isEditorDisabled) {
-        if (this.inbox.active === false) {
-          return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_INBOX');
-        }
         if (this.isAWhatsAppChannel) {
           return this.$t('CONVERSATION.FOOTER.MESSAGING_RESTRICTED_WHATSAPP');
         }
@@ -442,10 +439,6 @@ export default {
       return !this.showAudioRecorderEditor && !this.copilot.isActive.value;
     },
     isEditorDisabled() {
-      if (this.inbox.active === false) {
-        return true;
-      }
-
       return (
         (this.isAWhatsAppChannel || this.isAPIInbox) &&
         !this.isOnPrivateNote &&

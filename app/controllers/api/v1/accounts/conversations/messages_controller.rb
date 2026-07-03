@@ -10,7 +10,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
-  rescue CustomExceptions::Inbox::Disabled
+  rescue CustomExceptions::InboxDisabled
     render_inbox_disabled_error
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -35,7 +35,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     service.perform
     message.update!(content_attributes: {})
     ::SendReplyJob.perform_later(message.id)
-  rescue CustomExceptions::Inbox::Disabled
+  rescue CustomExceptions::InboxDisabled
     render_inbox_disabled_error
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -57,6 +57,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
 
     render json: { content: translated_content }
+  rescue Google::Cloud::Error => e
+    # `details` carries the clean human message; `message` includes gRPC debug noise
+    render_could_not_create_error(e.details.presence || e.message)
   end
 
   private

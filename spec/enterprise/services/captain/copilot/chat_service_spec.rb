@@ -68,6 +68,14 @@ RSpec.describe Captain::Copilot::ChatService do
   describe '#generate_response' do
     let(:service) { described_class.new(assistant, config) }
 
+    it 'uses the copilot feature model' do
+      account.update!(captain_models: { 'copilot' => 'gpt-5.2' })
+
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
+
+      described_class.new(assistant, config).generate_response('Hello')
+    end
+
     it 'adds user input to messages when present' do
       expect do
         service.generate_response('Hello')
