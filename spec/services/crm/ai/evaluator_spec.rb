@@ -80,7 +80,7 @@ RSpec.describe Crm::Ai::Evaluator do
   end
 
   it 'applies extracted attributes even when the stage does not change' do
-    ENV['CRM_AI_ATTR_EXTRACTION'] = 'true'
+    ENV.delete('CRM_AI_ATTR_EXTRACTION')
     account, admin = create_account_and_user
     pipeline, stage = create_crm_pipeline(account: account, user: admin)
     pipeline.update!(metadata: { 'ai' => { 'attribute_extraction_enabled' => true, 'attribute_prefix' => 'sw_' } })
