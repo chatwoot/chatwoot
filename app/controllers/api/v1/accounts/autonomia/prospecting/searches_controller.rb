@@ -26,6 +26,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     render json: { error: e.record.errors.full_messages.to_sentence }, status: :unprocessable_entity
   rescue ::Autonomia::Prospecting::SearchRunner::UnsupportedProviderError => e
     render json: { error: e.message }, status: :unprocessable_entity
+  rescue ::Autonomia::Prospecting::SearchRunner::ProviderError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private

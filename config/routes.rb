@@ -307,7 +307,7 @@ Rails.application.routes.draw do
                 post :contact, on: :member, action: :create_contact
               end
               resources :lists, only: [:index, :show, :create]
-              resource :settings, only: [:show]
+              resource :settings, only: [:show, :update]
             end
           end
           namespace :email_campaigns do

@@ -9,7 +9,8 @@
       "CREATE_SEARCH": "Could not run this prospect search.",
       "CREATE_CONTACT": "Could not create this contact.",
       "LOAD_LISTS": "Could not load prospect lists.",
-      "LOAD_SETTINGS": "Could not load prospecting settings."
+      "LOAD_SETTINGS": "Could not load prospecting settings.",
+      "SAVE_SETTINGS": "Could not save prospecting settings."
     },
     "SEARCH": {
       "TITLE": "Buscar leads",
@@ -31,6 +32,7 @@
       "RATING_LABEL": "{rating} estrelas",
       "REVIEWS_LABEL": "{count} avaliações",
       "FIELDS": {
+        "PROVIDER": "Provider",
         "QUERY": "Termo",
         "LOCATION": "Localização",
         "RADIUS": "Raio (m)",
@@ -57,10 +59,22 @@
       "TITLE": "Configurações",
       "ENABLED": "Habilitado",
       "DISABLED": "Desabilitado",
+      "SAVE": "Salvar",
+      "SAVING": "Salvando...",
+      "SAVED": "Configurações salvas.",
+      "API_KEY_CONFIGURED": "Chave configurada. Preencha para substituir.",
+      "API_KEY_EMPTY": "Cole a chave do Google Places",
+      "PROVIDERS": {
+        "MOCK": "Mock",
+        "GOOGLE_PLACES": "Google Places"
+      },
       "FIELDS": {
         "PROVIDER": "Provider",
         "PROVIDER_ENABLED": "Provider habilitado",
+        "GOOGLE_PLACES_API_KEY": "Google Places API key",
+        "CLEAR_API_KEY": "Remover chave atual",
         "DEFAULT_LIMIT": "Limite padrão",
+        "MAX_RESULTS": "Limite por busca",
         "CACHE_TTL": "Cache TTL"
       }
     }

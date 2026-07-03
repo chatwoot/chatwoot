@@ -33,6 +33,10 @@ class AutonomiaProspectingAPI extends ApiClient {
   getSettings() {
     return axios.get(`${this.url}/settings`);
   }
+
+  updateSettings(settings) {
+    return axios.patch(`${this.url}/settings`, { settings });
+  }
 }
 
 export default new AutonomiaProspectingAPI();

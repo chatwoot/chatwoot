@@ -52,4 +52,32 @@ RSpec.describe Autonomia::Prospecting::SearchRunner do
       ).perform
     end.to raise_error(ActiveRecord::RecordInvalid, /less than or equal to 2/)
   end
+
+  it 'rejects google places when account key is missing' do
+    Autonomia::Prospecting::Setting.for_account(account).update!(
+      provider: 'google_places',
+      provider_enabled: true
+    )
+
+    expect do
+      described_class.new(
+        account: account,
+        user: user,
+        params: { query: 'hotel', location: 'Sao Paulo, SP', requested_limit: 1, provider: 'google_places' }
+      ).perform
+    end.to raise_error(Autonomia::Prospecting::SearchRunner::ProviderError, /API key/)
+  end
+
+  it 'uses cache for repeated searches with the same fingerprint' do
+    Autonomia::Prospecting::Setting.for_account(account).update!(cache_ttl_seconds: 3600)
+    params = { query: 'padaria', location: 'Sao Paulo, SP', requested_limit: 1 }
+
+    first = described_class.new(account: account, user: user, params: params).perform
+    second = described_class.new(account: account, user: user, params: params).perform
+
+    expect(first.search).to be_completed
+    expect(second.search).to be_cached
+    expect(second.leads.map(&:id)).to eq(first.leads.map(&:id))
+    expect(second.search.consumed_api_units).to eq(0)
+  end
 end

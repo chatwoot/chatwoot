@@ -1,7 +1,10 @@
+require 'digest'
+
 class Autonomia::Prospecting::SearchRunner
   Result = Struct.new(:search, :leads, keyword_init: true)
 
   class UnsupportedProviderError < StandardError; end
+  class ProviderError < StandardError; end
 
   def initialize(account:, user:, params:)
     @account = account
@@ -12,17 +15,23 @@ class Autonomia::Prospecting::SearchRunner
 
   def perform
     validate!
+    cached = cached_result
+    return cached if cached
 
     search = create_search!
     leads = []
 
     ActiveRecord::Base.transaction do
-      leads = provider.search.map { |attributes| upsert_lead!(search, attributes) }
+      provider_instance = provider
+      leads = provider_instance.search.map { |attributes| upsert_lead!(search, attributes) }
       search.metadata = search.metadata.to_h.merge(
         'lead_ids' => leads.map(&:id),
         'results_count' => leads.size
       )
       search.status = :completed
+      search.consumed_api_units = provider_instance.respond_to?(:api_units) ? provider_instance.api_units.to_i : 0
+      search.cache_fingerprint = cache_fingerprint
+      search.cache_expires_at = cache_expires_at
       search.save!
     end
 
@@ -36,8 +45,9 @@ class Autonomia::Prospecting::SearchRunner
 
   def validate!
     raise ActiveRecord::RecordInvalid.new(search_with_error(:query, "can't be blank")) if query.blank?
-    raise UnsupportedProviderError, 'Only the mock prospecting provider is available in this phase' unless provider_name == 'mock'
+    raise UnsupportedProviderError, 'Unsupported prospecting provider' unless %w[mock google_places].include?(provider_name)
     raise ActiveRecord::RecordInvalid.new(search_with_error(:requested_limit, 'must be greater than 0')) if requested_limit <= 0
+    validate_google_places! if provider_name == 'google_places'
 
     return if requested_limit <= @setting.max_results_per_search
 
@@ -56,18 +66,36 @@ class Autonomia::Prospecting::SearchRunner
       provider: provider_name,
       requested_limit: requested_limit,
       status: :pending,
+      cache_fingerprint: cache_fingerprint,
+      cache_expires_at: cache_expires_at,
       categories: categories,
       metadata: metadata
     )
   end
 
   def provider
-    Autonomia::Prospecting::Providers::MockProvider.new(
-      query: query,
-      location: location,
-      radius: radius,
-      limit: requested_limit
-    )
+    case provider_name
+    when 'google_places'
+      Autonomia::Prospecting::Providers::GooglePlacesProvider.new(
+        query: query,
+        location: location,
+        radius: radius,
+        limit: requested_limit,
+        api_key: @setting.google_places_api_key
+      )
+    else
+      Autonomia::Prospecting::Providers::MockProvider.new(
+        query: query,
+        location: location,
+        radius: radius,
+        limit: requested_limit
+      )
+    end
+  end
+
+  def validate_google_places!
+    raise ProviderError, 'Google Places provider is disabled for this account' unless @setting.provider_enabled?
+    raise ProviderError, 'Google Places API key is not configured for this account' unless @setting.google_places_configured?
   end
 
   def upsert_lead!(search, attributes)
@@ -125,6 +153,53 @@ class Autonomia::Prospecting::SearchRunner
 
   def metadata
     @params[:metadata].presence || {}
+  end
+
+  def cached_result
+    return if @setting.cache_ttl_seconds.to_i <= 0
+
+    search = Autonomia::Prospecting::Search
+             .where(account: @account, provider: provider_name, cache_fingerprint: cache_fingerprint)
+             .where('cache_expires_at > ?', Time.current)
+             .order(created_at: :desc)
+             .first
+    return if search.blank?
+
+    lead_ids = Array(search.metadata.to_h['lead_ids']).map(&:to_i)
+    leads = Autonomia::Prospecting::Lead.where(account: @account, id: lead_ids).index_by(&:id).values_at(*lead_ids).compact
+    cached_search = Autonomia::Prospecting::Search.create!(
+      account: @account,
+      user: @user,
+      query: query,
+      location: location,
+      radius: radius,
+      provider: provider_name,
+      requested_limit: requested_limit,
+      status: :cached,
+      consumed_api_units: 0,
+      cache_fingerprint: cache_fingerprint,
+      cache_expires_at: search.cache_expires_at,
+      categories: categories,
+      metadata: metadata.merge(
+        'lead_ids' => leads.map(&:id),
+        'results_count' => leads.size,
+        'cached_from_search_id' => search.id
+      )
+    )
+
+    Result.new(search: cached_search, leads: leads)
+  end
+
+  def cache_fingerprint
+    @cache_fingerprint ||= Digest::SHA256.hexdigest(
+      [@account.id, provider_name, query.downcase, location.downcase, radius, requested_limit].join(':')
+    )
+  end
+
+  def cache_expires_at
+    return if @setting.cache_ttl_seconds.to_i <= 0
+
+    Time.current + @setting.cache_ttl_seconds.to_i.seconds
   end
 
   def search_with_error(attribute, message)
