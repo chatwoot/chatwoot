@@ -102,6 +102,7 @@
       "RETRY": "Try again",
       "START_ERROR": "We couldn't start the builder. Please try again.",
       "SEND_ERROR": "Your message couldn't be sent. Please try again.",
+      "BUILD_IN_PROGRESS": "The builder is still working on your previous message. Wait a moment and try again.",
       "READY": {
         "TITLE": "Your agent is ready"
       },

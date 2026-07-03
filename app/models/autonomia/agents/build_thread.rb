@@ -60,6 +60,23 @@ module Autonomia
         self.state = merged
       end
 
+      # E3 — janela de "geração presa": o SubmitJob é síncrono e leva segundos; se a thread ficou
+      # `processing` por mais tempo que isto, o job morreu/perdeu-se sem mark_failed! (o token-guard
+      # impede qualquer escrita posterior). Passada a janela, reenvio/retry pode reassumir com um
+      # novo token; dentro dela, um novo turno é rejeitado (custo duplo + supersede do turno vivo).
+      STALE_PROCESSING_AFTER = 5.minutes
+
+      # E3 — há um build vivo agora? (processing e ainda dentro da janela esperada do job).
+      def build_in_progress?
+        processing? && !build_stale?
+      end
+
+      # E3 — build preso: processing além da janela do SubmitJob (updated_at é tocado por
+      # begin_build!, então mede o início da geração ativa).
+      def build_stale?
+        processing? && updated_at < STALE_PROCESSING_AFTER.ago
+      end
+
       # token-guard da geração do construtor (padrão EmailCampaign#ai_begin!): marca processing +
       # novo build_token. Toda escrita posterior (mark_ready!/mark_failed!) só vence se o token ainda
       # for o ativo E o status ainda for processing. Retorna o token p/ o SubmitJob/PollJob.

@@ -102,6 +102,7 @@
       "RETRY": "Tentar novamente",
       "START_ERROR": "Não conseguimos iniciar o construtor. Tente novamente.",
       "SEND_ERROR": "Não foi possível enviar sua mensagem. Tente novamente.",
+      "BUILD_IN_PROGRESS": "O construtor ainda está processando sua mensagem anterior. Aguarde um instante e tente de novo.",
       "READY": {
         "TITLE": "Seu agente está pronto"
       },

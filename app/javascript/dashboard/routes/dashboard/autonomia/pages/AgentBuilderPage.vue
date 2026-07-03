@@ -195,7 +195,12 @@ const handleSend = async ({ content, images = [] }) => {
       extra: { image_signed_ids: imageSignedIds },
     });
   } catch (error) {
-    useAlert(t('AGENTS.BUILDER.SEND_ERROR'));
+    // 409: the previous build is still running — friendlier than a failure.
+    if (error?.response?.status === 409) {
+      useAlert(t('AGENTS.BUILDER.BUILD_IN_PROGRESS'));
+    } else {
+      useAlert(t('AGENTS.BUILDER.SEND_ERROR'));
+    }
   }
 };
 
@@ -352,14 +357,23 @@ const backToConversa = () => {
   wizardStep.value = 'conversa';
 };
 
-// Retry from the error banner. If a thread exists (build failed/timed out while
-// processing) re-poll it. Otherwise the opening `start` failed before any thread
-// existed: resend the last user turn if there is one, else re-open the thread
-// from the chosen type (IA-fala-primeiro opening). Clears the error first.
+// Retry from the error banner. If a thread exists, actually RE-RUN the build via
+// the retry endpoint (a failed build never re-enqueued before — polling a
+// `failed` thread just re-read the failure). If the server refuses (e.g. the
+// build settled meanwhile or is still legitimately processing), fall back to
+// polling so the UI converges. Otherwise the opening `start` failed before any
+// thread existed: resend the last user turn if there is one, else re-open the
+// thread from the chosen type (IA-fala-primeiro opening). Clears the error first.
 const retryBuild = () => {
   store.commit('autonomiaBuildThreads/SET_ERROR', null);
   if (threadId.value) {
-    store.dispatch('autonomiaBuildThreads/poll', { threadId: threadId.value });
+    store
+      .dispatch('autonomiaBuildThreads/retry', { threadId: threadId.value })
+      .catch(() =>
+        store.dispatch('autonomiaBuildThreads/poll', {
+          threadId: threadId.value,
+        })
+      );
     return;
   }
   const lastUser = [...messages.value]

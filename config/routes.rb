@@ -270,7 +270,12 @@ Rails.application.routes.draw do
                                    controller: 'agents/channels', param: :inbox_id
             end
             resources :build_threads, only: [:create, :show], controller: 'agents/build_threads' do
-              member { post :messages }
+              member do
+                post :messages
+                # E2 — reexecuta a geração de uma thread failed/presa (novo build_token + SubmitJob).
+                # Action retry_build porque `retry` é palavra reservada do Ruby.
+                post :retry, action: :retry_build
+              end
             end
             # MULTIMODAL (Construtor/Ajustar): upload de imagem do builder (image-only, retorna signed_id;
             # não cria conhecimento). O turno referencia o signed_id; o Builder a lê inline no job.

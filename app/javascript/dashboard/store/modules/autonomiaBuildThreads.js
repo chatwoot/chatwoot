@@ -151,7 +151,7 @@ export const actions = {
   },
 
   send: async (
-    { commit, dispatch },
+    { commit, dispatch, state: $state },
     { threadId, content, extra = {}, echo = true } = {}
   ) => {
     if (!threadId) return null;
@@ -176,11 +176,41 @@ export const actions = {
       dispatch('poll', { threadId: payload.id });
       return payload;
     } catch (error) {
+      // 409 build_in_progress: the previous build is still running server-side —
+      // this is NOT a failure. Drop the optimistic echo (the turn was rejected),
+      // resume polling the in-flight build and rethrow the raw axios error so
+      // the page can show the friendly "still working" alert.
+      if (error?.response?.status === 409) {
+        const last = $state.messages[$state.messages.length - 1];
+        if (echo && last?.role === 'user' && last.content === content) {
+          commit('SET_MESSAGES', $state.messages.slice(0, -1));
+        }
+        dispatch('poll', { threadId });
+        throw error;
+      }
       commit('SET_ERROR', 'send');
       commit('SET_STATUS', 'failed');
       return throwErrorMessage(error);
     } finally {
       commit('SET_UI_FLAG', { sending: false });
+    }
+  },
+
+  // Re-runs the generation of a `failed` (or stale) thread via the retry
+  // endpoint — unlike the old behavior of just re-polling, this actually
+  // re-enqueues the SubmitJob with a fresh build_token, then polls to settle.
+  retry: async ({ commit, dispatch }, { threadId } = {}) => {
+    if (!threadId) return null;
+    commit('SET_ERROR', null);
+    commit('SET_PHASE', 'interviewing');
+    clearPoll();
+    try {
+      const { data } = await AutonomiaBuildThreadsAPI.retryBuild(threadId);
+      const payload = applyThreadResponse(commit, data);
+      dispatch('poll', { threadId: payload.id });
+      return payload;
+    } catch (error) {
+      return throwErrorMessage(error);
     }
   },
 
@@ -249,7 +279,7 @@ export const actions = {
   //   - needs_more_info=false -> the agent was generated; fetch it and switch to
   //     the `reviewing` phase so the review card can appear.
   //   - failed                -> surface a visible error.
-  onSettled: async ({ commit, dispatch }, payload) => {
+  onSettled: async ({ commit, dispatch, state: $state }, payload) => {
     if (!payload) return;
 
     if (payload.status === 'failed') {
@@ -263,8 +293,14 @@ export const actions = {
     const nextQuestion = (payload.state?.next_question || '').trim();
 
     if (needsMoreInfo) {
-      // Continue the interview: show the question and let the user answer.
-      if (nextQuestion) {
+      // Continue the interview: show the question and let the user answer. The
+      // backend now persists the assistant turn in `messages` (so refreshes keep
+      // the flow), which MERGE_MESSAGES already delivered above — the local
+      // append is only a fallback for payloads that don't carry it yet.
+      const alreadyShown = $state.messages.some(
+        m => m.role === 'assistant' && m.content === nextQuestion
+      );
+      if (nextQuestion && !alreadyShown) {
         commit('APPEND_MESSAGE', { role: 'assistant', content: nextQuestion });
       }
       commit('SET_PHASE', 'interviewing');

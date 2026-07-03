@@ -405,6 +405,8 @@ en:
     image_too_large: 'Image is too large. The maximum size is 5 MB.'
     build_thread:
       message_blank: 'A message is required to talk to the agent builder.'
+      build_in_progress: 'The builder is still working on your previous message. Wait a moment and try again.'
+      retry_unavailable: 'This build cannot be retried right now.'
     source:
       invalid_kind: 'Invalid material kind. Use "knowledge" or "media".'
     agents:
