@@ -134,15 +134,30 @@ class Whatsapp::IncomingMessageBaseService
     attachment_file = download_attachment_file(attachment_payload)
     return if attachment_file.blank?
 
+    content_type = whatsapp_attachment_content_type(attachment_payload, attachment_file)
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),
+      meta: whatsapp_attachment_meta(attachment_payload, message_type),
       file: {
         io: attachment_file,
         filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
+        content_type: content_type
       }
     )
+  end
+
+  def whatsapp_attachment_content_type(attachment_payload, attachment_file)
+    mime = attachment_payload[:mime_type].to_s.split(';').first.strip
+    mime.presence || attachment_file.content_type
+  end
+
+  def whatsapp_attachment_meta(attachment_payload, type)
+    return {} unless file_content_type(type) == :audio
+    return { 'is_voice_message' => true } if attachment_payload[:voice]
+
+    {}
   end
 
   def attach_location

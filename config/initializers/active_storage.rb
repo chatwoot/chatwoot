@@ -5,6 +5,7 @@
 Rails.application.config.active_storage.content_types_allowed_inline += %w[
   audio/webm
   audio/ogg
+  audio/opus
   audio/mpeg
   audio/mp4
   audio/x-m4a
@@ -45,10 +46,25 @@ module ActiveStorageProxyRangeLimit
   end
 end
 
+module ActiveStorageOpusNormalizer
+  extend ActiveSupport::Concern
+
+  included do
+    after_update :normalize_opus_content_type_for_playback, if: :saved_change_to_content_type?
+  end
+
+  def normalize_opus_content_type_for_playback
+    return unless content_type == 'audio/opus'
+
+    update_column(:content_type, 'audio/ogg')
+  end
+end
+
 Rails.application.config.to_prepare do
   unless ActiveStorage::DirectUploadsController < ActiveStorageDirectUploadMetadataFilter
     ActiveStorage::DirectUploadsController.prepend(ActiveStorageDirectUploadMetadataFilter)
   end
 
   ActiveStorage::Streaming.prepend(ActiveStorageProxyRangeLimit) unless ActiveStorage::Streaming < ActiveStorageProxyRangeLimit
+  ActiveStorage::Blob.include(ActiveStorageOpusNormalizer) unless ActiveStorage::Blob < ActiveStorageOpusNormalizer
 end

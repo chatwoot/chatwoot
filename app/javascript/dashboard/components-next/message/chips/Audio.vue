@@ -4,6 +4,7 @@ import {
   onMounted,
   useTemplateRef,
   ref,
+  watch,
   getCurrentInstance,
 } from 'vue';
 import Icon from 'next/icon/Icon.vue';
@@ -72,13 +73,21 @@ const resolveStreamingDuration = () => {
   }
 };
 
-const onLoadedMetadata = () => {
+const syncDurationFromElement = () => {
   const d = audioPlayer.value?.duration;
-  if (!Number.isFinite(d)) {
+  if (!Number.isFinite(d) || d <= 0) {
     resolveStreamingDuration();
     return;
   }
   duration.value = d;
+};
+
+const onLoadedMetadata = () => {
+  syncDurationFromElement();
+};
+
+const onDurationChange = () => {
+  syncDurationFromElement();
 };
 
 const playbackSpeedLabel = computed(() => {
@@ -89,9 +98,20 @@ const playbackSpeedLabel = computed(() => {
 // When the onLoadMetadata is called, so we need to set the duration
 // value when the component is mounted
 onMounted(() => {
-  const d = audioPlayer.value?.duration;
-  if (Number.isFinite(d)) duration.value = d;
+  syncDurationFromElement();
   audioPlayer.value.playbackRate = playbackSpeed.value;
+});
+
+watch(timeStampURL, (url, previousUrl) => {
+  if (!url || url === previousUrl) return;
+
+  const el = audioPlayer.value;
+  if (!el) return;
+
+  el.load();
+  currentTime.value = 0;
+  duration.value = 0;
+  isPlaying.value = false;
 });
 
 // Listen for global audio play events and pause if it's not this audio
@@ -168,6 +188,8 @@ const downloadAudio = async () => {
     class="hidden"
     playsinline
     @loadedmetadata="onLoadedMetadata"
+    @durationchange="onDurationChange"
+    @canplaythrough="onDurationChange"
     @timeupdate="onTimeUpdate"
     @ended="onEnd"
   >
