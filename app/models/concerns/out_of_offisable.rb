@@ -44,7 +44,15 @@ module OutOfOffisable
   def update_working_hours(params)
     ActiveRecord::Base.transaction do
       params.each do |working_hour|
-        working_hours.find_by(day_of_week: working_hour['day_of_week']).update(working_hour.slice(*OFFISABLE_ATTRS))
+        day = working_hour['day_of_week'] || working_hour[:day_of_week]
+        record = working_hours.find_by(day_of_week: day)
+        record ||= working_hours.create!(
+          day_of_week: day,
+          closed_all_day: true,
+          open_all_day: false
+        )
+
+        record.update!(working_hour.slice(*OFFISABLE_ATTRS))
       end
     end
   end
