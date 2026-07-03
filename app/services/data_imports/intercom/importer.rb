@@ -51,6 +51,8 @@ class DataImports::Intercom::Importer
   end
 
   def fail!(error)
+    return if @data_import.reload.abandoned?
+
     record_run_error(error)
     @data_import.update!(status: :failed, last_error_at: Time.current)
   end
@@ -216,7 +218,11 @@ class DataImports::Intercom::Importer
     email = normalized_email(contact_payload)
     phone_number = normalized_phone(contact_payload)
 
-    return @account.contacts.find_by(identifier: identifier) if identifier.present?
+    if identifier.present?
+      contact = @account.contacts.find_by(identifier: identifier)
+      return contact if contact.present?
+    end
+
     return @account.contacts.from_email(email) if email.present?
     return @account.contacts.find_by(phone_number: phone_number) if phone_number.present?
 

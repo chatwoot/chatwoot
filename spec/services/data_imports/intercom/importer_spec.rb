@@ -136,6 +136,24 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  describe '#fail!' do
+    it 'does not overwrite an import abandoned by another process', :aggregate_failures do
+      data_import.update!(status: :processing)
+      importer = described_class.new(data_import: data_import)
+
+      DataImport.find(data_import.id).update!(
+        status: :abandoned,
+        abandoned_at: Time.current
+      )
+
+      importer.fail!(StandardError.new('boom'))
+
+      expect(data_import.reload).to be_abandoned
+      expect(data_import.last_error_at).to be_nil
+      expect(data_import.import_errors.exists?).to be(false)
+    end
+  end
+
   context 'when the Intercom records were imported by an earlier run' do
     let(:next_data_import) do
       create(
@@ -171,6 +189,35 @@ RSpec.describe DataImports::Intercom::Importer do
         'message' => 3
       )
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
+    end
+  end
+
+  context 'when an existing contact has the same email but a different external id' do
+    let!(:existing_contact) { create(:contact, account: account, email: 'customer@example.com', identifier: nil) }
+
+    it 'updates the existing contact instead of creating a duplicate', :aggregate_failures do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(existing_contact.reload.identifier).to eq('external_1')
+      expect(account.contacts.where(email: 'customer@example.com').count).to eq(1)
+      item = data_import.items.imported.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: existing_contact.id)
+    end
+  end
+
+  context 'when an existing contact has the same phone but a different external id' do
+    let(:contact_payload) do
+      super().merge('email' => nil)
+    end
+    let!(:existing_contact) { create(:contact, account: account, phone_number: '+15551234567', identifier: nil) }
+
+    it 'updates the existing contact instead of creating a duplicate', :aggregate_failures do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(existing_contact.reload.identifier).to eq('external_1')
+      expect(account.contacts.where(phone_number: '+15551234567').count).to eq(1)
+      item = data_import.items.imported.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: existing_contact.id)
     end
   end
 

@@ -57,12 +57,21 @@ class DataImports::Intercom::Client
   end
 
   def get(path, query: {})
-    response = HTTParty.get(
-      "#{BASE_URL}#{path}",
-      query: query,
-      headers: headers,
-      timeout: 30
-    )
+    response =
+      begin
+        HTTParty.get(
+          "#{BASE_URL}#{path}",
+          query: query,
+          headers: headers,
+          timeout: 30
+        )
+      rescue StandardError => e
+        raise Error.new(
+          "Intercom API request failed before receiving a response: #{e.message}",
+          body: { transport_error_class: e.class.name }
+        )
+      end
+
     parse_response(response)
   end
 
