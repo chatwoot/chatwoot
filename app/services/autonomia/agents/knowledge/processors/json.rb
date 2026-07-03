@@ -2,52 +2,54 @@ module Autonomia
   module Agents
     module Knowledge
       module Processors
-        # json: JSON.parse e ACHATAMENTO da árvore em linhas "path.to.key: value" (uma por folha),
-        # p/ que cada folha vire um registro mono-tópico — o Chunker reconhece "chave: valor" como
-        # linha-registro e fecha 1 chunk por registro. Objetos aninhados viram prefixo pontuado
-        # (`endereco.cidade: ...`); arrays viram índice no path (`itens.0.sku: ...`). Escalares de um
-        # array simples são agrupados numa única linha "chave: a, b, c". Arrays grandes são LIMITADOS
-        # a ARRAY_CAP itens (evita explodir o texto em catálogos enormes), anexando uma linha de nota.
+        # json: JSON.parse e achatamento em texto plano p/ embeddings, agrupando por ENTRADA
+        # (P1.1a/P1.2). Cada objeto de um array/objeto (ex.: um produto, uma FAQ) vira UMA linha
+        # estilo XLSX com TODOS os seus campos-folha juntos (`Notebook Pro 15 | sku NB-15 | preco
+        # 4999 | garantia 12 meses`), em vez de 1 linha por campo-folha. Assim o Chunker (que fecha
+        # 1 chunk por linha-registro) mantém o fato composto (nome<->preço, Q<->A) num chunk único —
+        # sem isso "Quanto custa o Notebook Pro 15" recuperaria o nome SEM o preço. Escalares de topo
+        # (loja, empresa) ficam cada um em sua linha "chave: valor"; arrays de escalares viram uma
+        # linha "chave: a, b, c".
         class Json < Base
-          # Teto de itens percorridos por array de objetos/aninhados. Além disso, uma linha
-          # "path: (+N itens omitidos)" sinaliza o corte p/ não mascarar dados faltantes.
-          ARRAY_CAP = 200
-
           def extract
             raw = download_bytes.to_s.force_encoding('UTF-8')
             data = JSON.parse(raw)
-            flatten(data).reject(&:empty?).join("\n")
+            lines(data).reject(&:empty?).join("\n")
           rescue JSON::ParserError => e
             raise ExtractionError, "invalid_json: #{e.message}"
           end
 
           private
 
-          # Array<String>: uma linha "path: valor" por folha. `path` é o caminho pontuado até a folha.
-          def flatten(node, path = nil)
+          # Array<String>: uma linha por ENTRADA (objeto) ou por escalar de topo.
+          def lines(node, label = nil)
             case node
-            when Hash then hash_lines(node, path)
-            when Array then array_lines(node, path)
-            else [line(path, node.to_s)]
+            when Hash then hash_lines(node, label)
+            when Array then array_lines(node, label)
+            else [prefixed(label, node.to_s)]
             end
           end
 
-          def hash_lines(hash, path)
-            hash.flat_map { |key, value| flatten(value, join_key(path, key)) }
+          def hash_lines(hash, label)
+            simple, nested = hash.partition { |_, value| scalar?(value) || scalar_array?(value) }
+            entry = simple.map { |key, value| entry_field(key, value) }
+            head = entry.any? ? [prefixed(label, entry.join(' | '))] : []
+            head + nested.flat_map { |key, value| lines(value, join_key(label, key)) }
           end
 
-          # Array de escalares -> uma linha "path: a, b, c". Array com objetos/aninhados -> índice no
-          # path, limitado a ARRAY_CAP itens (com nota de corte).
-          def array_lines(array, path)
-            return [line(path, array.join(', '))] if scalar_array?(array)
-
-            capped = array.take(ARRAY_CAP)
-            lines = capped.each_with_index.flat_map { |value, index| flatten(value, join_key(path, index)) }
-            array.size > ARRAY_CAP ? lines + [line(path, "(+#{array.size - ARRAY_CAP} itens omitidos)")] : lines
+          def array_lines(array, label)
+            scalar_array?(array) ? [prefixed(label, array.join(', '))] : array.flat_map { |value| lines(value, label) }
           end
 
-          def line(path, value)
-            path.to_s.empty? ? value : "#{path}: #{value}"
+          # Campo-folha dentro de uma entrada: "chave valor" (XLSX-like, sem ':' p/ não disparar
+          # múltiplos registros na mesma linha). Escalares aninhados raros caem como texto plano.
+          def entry_field(key, value)
+            value = value.join(', ') if value.is_a?(Array)
+            "#{key} #{value}"
+          end
+
+          def prefixed(label, text)
+            label.to_s.empty? ? text : "#{label}: #{text}"
           end
 
           def scalar?(value)
@@ -55,7 +57,7 @@ module Autonomia
           end
 
           def scalar_array?(value)
-            value.is_a?(Array) && value.any? && value.all? { |v| scalar?(v) }
+            value.is_a?(Array) && value.all? { |v| scalar?(v) }
           end
 
           def join_key(prefix, key)
