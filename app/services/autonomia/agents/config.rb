@@ -52,7 +52,10 @@ module Autonomia
       CHUNK_OVERLAP = 80       # overlap (chars) usado SÓ no fallback de janela p/ unidade longa
       # Compat: specs/call-sites legados que referenciam CHUNK_SIZE caem no teto estrutural.
       CHUNK_SIZE = CHUNK_MAX
-      RETRIEVER_TOP_K = 8
+      # KB-quality Bloco A (2026-07-03): qualidade sobre custo (decisão do PO — quem paga é o cliente e
+      # quer resposta correta). top_k 8→12 dá mais opções de fundamento ao Answerer (o dedup por fonte
+      # continua, então mais fontes distintas chegam). Custo por resposta sobe (mais tokens no prompt).
+      RETRIEVER_TOP_K = 12
 
       # MULTIMODAL (leitura de imagens inline no builder): imagens anexadas à mensagem ATUAL são lidas
       # pelo modelo como input_image (não viram conhecimento). Limites próprios do builder (produto pediu
@@ -72,7 +75,7 @@ module Autonomia
       # Fase 1 tuning: answerer sobe p/ 'medium' (resposta ao cliente com mais raciocínio).
       ANSWERER_REASONING_EFFORT = 'medium'.freeze
       DEFAULT_CONFIDENCE_THRESHOLD = 0.55
-      ANSWER_TOP_K = 8
+      ANSWER_TOP_K = 12 # KB-quality Bloco A: acompanha RETRIEVER_TOP_K (mais fundamento por resposta)
       # Retrieval (P1.1b) — DOIS patamares de distância de cosseno, substituindo o cutoff ABSOLUTO
       # único de 0.45 que zerava o [CONTEXTO] (probe real: "frete grátis"=0.5038, "notebooks"=0.478,
       # "parcela"=0.7382 — todos >0.45, descartados, mesmo com o fato na KB):
@@ -87,7 +90,7 @@ module Autonomia
       # Compat: specs/call-sites legados que referenciam SIMILARITY_MAX_DISTANCE passam a ler o
       # patamar de match forte (rótulo), NÃO um cutoff que descarta.
       SIMILARITY_MAX_DISTANCE = RETRIEVAL_STRONG_MATCH
-      HISTORY_MAX_TURNS = 10 # pares user/assistant considerados no prompt
+      HISTORY_MAX_TURNS = 16 # pares user/assistant no prompt (Bloco A: 10→16, mais contexto de conversa)
 
       # TETOS DE CARACTERES (C1 — custo de IA). Sem teto, um texto colado gigante do usuário ou um
       # histórico de mensagens enormes infla o input do LLM a cada turno (tokens = custo). Valores com
@@ -103,7 +106,7 @@ module Autonomia
       MAX_QUERY_CHARS = 6_000
       MAX_COMPOSED_QUERY_CHARS = 16_000
       MAX_HISTORY_ITEM_CHARS = 4_000
-      MAX_HISTORY_TOTAL_CHARS = 24_000
+      MAX_HISTORY_TOTAL_CHARS = 40_000 # Bloco A: 24k→40k (gpt-5.4 tem 128k; conversa longa preserva mais contexto)
       TRUNCATION_SUFFIX = '…'.freeze
 
       # Truncamento CENTRAL: mantém o COMEÇO da string (o fim é descartado) e sinaliza o corte com o
