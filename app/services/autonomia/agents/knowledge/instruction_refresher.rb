@@ -112,6 +112,15 @@ module Autonomia
             return
           end
 
+          # G2 — snapshot de auditoria (best-effort). refresh_instruction! já deu reload no sucesso,
+          # então @agent.instruction reflete o texto aplicado. Uma falha ao gravar o histórico NÃO
+          # pode derrubar o refresh (efeito colateral de auditoria); degrada para log.
+          begin
+            @agent.record_instruction_version!(reason: 'kb_refresh')
+          rescue StandardError => e
+            Rails.logger.warn("[autonomia][instruction_refresh] version_record_failed agent=#{@agent.id} #{e.class}")
+          end
+
           telemetry(:refreshed)
           updated
         rescue StandardError => e

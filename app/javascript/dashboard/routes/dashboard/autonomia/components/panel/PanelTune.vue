@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed, watch } from 'vue';
+import { ref, reactive, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -262,6 +262,60 @@ watch(builderPhase, phase => {
     useAlert(t('AGENTS.TUNE.SAVE_SUCCESS'));
   }
 });
+
+// G2 — instruction history (safety net). Metadata always; the raw instruction
+// text only comes back for manual agents (guided instruction is IP-protected).
+const instructionVersions = useMapGetter(
+  'autonomiaAgents/getInstructionVersions'
+);
+const isLoadingHistory = ref(false);
+const restoringVersionId = ref(null);
+
+const REASON_LABELS = {
+  kb_refresh: 'AGENTS.TUNE.HISTORY.REASON.KB_REFRESH',
+  manual_edit: 'AGENTS.TUNE.HISTORY.REASON.MANUAL_EDIT',
+  rollback: 'AGENTS.TUNE.HISTORY.REASON.ROLLBACK',
+};
+
+const reasonLabel = reason =>
+  REASON_LABELS[reason] ? t(REASON_LABELS[reason]) : reason;
+
+const formatVersionDate = createdAt =>
+  new Date(createdAt).toLocaleString(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  });
+
+const loadHistory = async () => {
+  isLoadingHistory.value = true;
+  try {
+    await store.dispatch('autonomiaAgents/getInstructionVersions', {
+      agentId: props.agentId,
+    });
+  } catch (error) {
+    useAlert(t('AGENTS.TUNE.HISTORY.LOAD_ERROR'));
+  } finally {
+    isLoadingHistory.value = false;
+  }
+};
+
+const restoreVersion = async versionId => {
+  if (restoringVersionId.value) return;
+  restoringVersionId.value = versionId;
+  try {
+    await store.dispatch('autonomiaAgents/restoreInstructionVersion', {
+      agentId: props.agentId,
+      versionId,
+    });
+    useAlert(t('AGENTS.TUNE.HISTORY.RESTORE_SUCCESS'));
+  } catch (error) {
+    useAlert(t('AGENTS.TUNE.HISTORY.RESTORE_ERROR'));
+  } finally {
+    restoringVersionId.value = null;
+  }
+};
+
+onMounted(loadHistory);
 </script>
 
 <template>
@@ -462,6 +516,59 @@ watch(builderPhase, phase => {
         class="w-fit"
         @click="saveSettings()"
       />
+    </section>
+
+    <!-- G2: instruction history + rollback. -->
+    <section class="flex flex-col gap-4 pt-2 border-t border-n-weak">
+      <div class="flex flex-col">
+        <h3 class="text-sm font-medium text-n-slate-12">
+          {{ t('AGENTS.TUNE.HISTORY.TITLE') }}
+        </h3>
+        <p class="text-xs text-n-slate-10">
+          {{ t('AGENTS.TUNE.HISTORY.HINT') }}
+        </p>
+      </div>
+
+      <p v-if="isLoadingHistory" class="text-xs text-n-slate-10">
+        {{ t('AGENTS.TUNE.HISTORY.LOADING') }}
+      </p>
+      <p
+        v-else-if="!instructionVersions.length"
+        class="text-xs text-n-slate-10"
+      >
+        {{ t('AGENTS.TUNE.HISTORY.EMPTY') }}
+      </p>
+
+      <ul v-else class="flex flex-col gap-2">
+        <li
+          v-for="version in instructionVersions"
+          :key="version.id"
+          class="flex items-center justify-between gap-3 px-4 py-3 border rounded-lg border-n-weak"
+        >
+          <div class="flex flex-col min-w-0 gap-0.5">
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ reasonLabel(version.reason) }}
+            </span>
+            <span class="text-xs text-n-slate-10">
+              {{
+                t('AGENTS.TUNE.HISTORY.META', {
+                  date: formatVersionDate(version.created_at),
+                  author: version.created_by_name,
+                })
+              }}
+            </span>
+          </div>
+          <NextButton
+            outline
+            sm
+            :label="t('AGENTS.TUNE.HISTORY.RESTORE')"
+            :is-loading="restoringVersionId === version.id"
+            :disabled="!!restoringVersionId"
+            class="shrink-0"
+            @click="restoreVersion(version.id)"
+          />
+        </li>
+      </ul>
     </section>
 
     <!-- Guided re-conversation dialog (reuses the Builder chat). -->

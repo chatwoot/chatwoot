@@ -35,6 +35,7 @@ class Api::V1::Accounts::Autonomia::AgentsController < Api::V1::Accounts::Autono
 
   def update
     discard_generated_instruction_on_manual_switch
+    instruction_before = @agent.instruction
     attrs = agent_params
     @agent.assign_attributes(attrs.except(:config))
     merge_config!(attrs[:config]) if attrs.key?(:config)
@@ -42,6 +43,7 @@ class Api::V1::Accounts::Autonomia::AgentsController < Api::V1::Accounts::Autono
 
     apply_manual_scaffold
     @agent.save!
+    record_manual_instruction_version(instruction_before)
     render :show
   end
 
@@ -67,6 +69,20 @@ class Api::V1::Accounts::Autonomia::AgentsController < Api::V1::Accounts::Autono
 
   def fetch_agent
     @agent = agents_scope.find(params[:id])
+  end
+
+  # G2 — grava um snapshot no histórico quando o usuário edita a instrução À MÃO (modo manual) e ela
+  # de fato mudou. record_instruction_version! é idempotente por hash, mas comparar antes/depois evita
+  # até a leitura do último registro num save que não tocou a instrução (ex.: só ajustou o greeting).
+  def record_manual_instruction_version(instruction_before)
+    return unless @agent.manual?
+    return if @agent.instruction.to_s == instruction_before.to_s
+
+    @agent.record_instruction_version!(reason: 'manual_edit', created_by: Current.user)
+  rescue StandardError => e
+    # Best-effort: o histórico é auditoria — falhar aqui NÃO pode derrubar o update do agente que
+    # já foi persistido (mesmo padrão do InstructionRefresher). Loga a classe, nunca o texto.
+    Rails.logger.error("[autonomia][agents] manual instruction version record failed agent=#{@agent.id}: #{e.class.name}")
   end
 
   # Em modo manual o `scaffold` é SEMPRE setado pelo backend (andaime oculto), nunca pelo params.

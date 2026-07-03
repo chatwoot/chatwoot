@@ -5,10 +5,49 @@ import { createStore, generateMutationTypes } from '../storeFactory';
 // action can commit into the same records list (UPSERT) the CRUD actions use.
 const mutationTypes = generateMutationTypes('AutonomiaAgents');
 
+// G2 — instruction version history lives alongside the agent records list. It is
+// a per-agent lookup (not paginated CRUD), so it gets its own state slice +
+// dedicated mutation, kept out of the factory's generic `records`.
+const SET_INSTRUCTION_VERSIONS = 'SET_AUTONOMIA_INSTRUCTION_VERSIONS';
+
 export default createStore({
   name: 'AutonomiaAgents',
   API: AutonomiaAgentsAPI,
+  state: () => ({
+    instructionVersions: [],
+  }),
+  getters: {
+    getInstructionVersions: state => state.instructionVersions,
+  },
+  mutations: {
+    [SET_INSTRUCTION_VERSIONS](state, versions) {
+      state.instructionVersions = versions;
+    },
+  },
   actions: () => ({
+    // Load the instruction history for one agent (newest first from the API).
+    async getInstructionVersions({ commit }, { agentId }) {
+      const { data } = await AutonomiaAgentsAPI.getInstructionVersions(agentId);
+      commit(SET_INSTRUCTION_VERSIONS, data.payload);
+      return data.payload;
+    },
+
+    // Roll the agent's instruction back to a past version. The backend returns
+    // the updated agent (new head) — UPSERT it so the panel/form refresh, then
+    // re-fetch the history (a new 'rollback' version was just recorded).
+    async restoreInstructionVersion(
+      { commit, dispatch },
+      { agentId, versionId }
+    ) {
+      const { data } = await AutonomiaAgentsAPI.restoreInstructionVersion(
+        agentId,
+        versionId
+      );
+      commit(mutationTypes.UPSERT, data);
+      await dispatch('getInstructionVersions', { agentId });
+      return data;
+    },
+
     // Sandbox test of a draft/live agent. Returns the full evaluation
     // ({ reply, confidence, handoff, used_knowledge }) for the Test tab to
     // render; it is transient (not persisted to the records list).

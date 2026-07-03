@@ -337,7 +337,23 @@
       },
       "CONFIDENCE_LOW": "Low (hands off rarely)",
       "CONFIDENCE_HIGH": "High (hands off often)",
-      "CONFIDENCE_HINT": "Below {pct}% confidence, the agent hands the conversation to a human instead of guessing."
+      "CONFIDENCE_HINT": "Below {pct}% confidence, the agent hands the conversation to a human instead of guessing.",
+      "HISTORY": {
+        "TITLE": "Instruction history",
+        "HINT": "Every automatic refresh and manual edit is saved. Restore a previous version if something goes wrong.",
+        "LOADING": "Loading history…",
+        "EMPTY": "No versions yet.",
+        "META": "{date} · {author}",
+        "RESTORE": "Restore",
+        "REASON": {
+          "KB_REFRESH": "Knowledge base update",
+          "MANUAL_EDIT": "Manual edit",
+          "ROLLBACK": "Restored version"
+        },
+        "LOAD_ERROR": "We couldn't load the instruction history.",
+        "RESTORE_SUCCESS": "Instruction restored.",
+        "RESTORE_ERROR": "We couldn't restore this version. Please try again."
+      }
     },
     "PERFORMANCE": {
       "RANGE": {
