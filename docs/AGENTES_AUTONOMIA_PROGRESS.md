@@ -103,7 +103,11 @@ Onda 1 (branch `feat/agentes-onda-1`, 3 commits): A+B **DONE + Codex review apli
   `spec/services/autonomia/sso/` (diff não toca SSO); pós-fix, áreas afetadas 100+28 examples
   0 failures; rubocop limpo; eslint 0 erros (warnings i18n pré-existentes); vitest stores T6 verde.
 
-**Próxima ação:** 🟢 Rodrigo → merge `feat/agentes-ondas-1-4` → main (auto-deploy blue-green
+- Vitest local bloqueado por FS degradado (ETIMEDOUT em node_modules, mesmo do vite build);
+  evidência válida: JS integrado byte-idêntico ao worktree T6 onde vitest passou 26/26. CI valida no PR.
+- **PR #105 (draft)**: https://github.com/autonom-ia2/chat/pull/105
+
+**Próxima ação:** CI verde no PR #105 → 🟢 Rodrigo → merge → main (auto-deploy blue-green
 nos 2 stacks) → smoke pós-deploy. Lembrete: deploy Autonomia ainda bloqueado pelo IAM (PR #103).
 
 ## Log de entregas
