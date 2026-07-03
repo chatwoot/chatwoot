@@ -309,7 +309,10 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Action = [
           "ssm:PutParameter"
         ]
-        Resource = aws_ssm_parameter.chatwoot_ec2_runtime_image.arn
+        Resource = [
+          aws_ssm_parameter.chatwoot_ec2_env.arn,
+          aws_ssm_parameter.chatwoot_ec2_runtime_image.arn
+        ]
       },
       {
         Effect = "Allow"
