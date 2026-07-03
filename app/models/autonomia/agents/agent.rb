@@ -85,12 +85,19 @@ module Autonomia
       end
 
       # #3 INSTRUÇÃO VIVA — Atualiza a instrução fora do fluxo do Construtor (a KB mudou, não há
-      # BuildThread em geração). SEM token: não há geração concorrente do usuário aqui. Toca SÓ a
+      # BuildThread em geração). Escrita CONDICIONAL ATÔMICA (G1, anti-corrida check→write): só
+      # vence se o agente CONTINUA `guided` (modo manual = instrução escrita à mão pelo usuário,
+      # intocável pelo refresh automático) E a instrução no banco ainda é a que o refresh fotografou
+      # (`expected_instruction` — uma edição concorrente do painel perde de propósito). Toca SÓ a
       # coluna `instruction` (oculta); `config` — topic_map/knowledge_summary/confidence — acabou de
       # ser gravado por recompute_overall! no mesmo agente, então NÃO é tocado (preservado por
       # omissão). Não dispara recompute_overall! de volta (não mexe em config/sources): sem loop.
-      def refresh_instruction!(new_instruction)
-        update!(instruction: new_instruction)
+      # Agent não tem callbacks → update_all é seguro. Retorna true se ganhou a escrita.
+      def refresh_instruction!(new_instruction, expected_instruction:)
+        rows = self.class.where(id: id, mode: self.class.modes[:guided], instruction: expected_instruction)
+                   .update_all(instruction: new_instruction, updated_at: Time.current)
+        reload if rows.positive?
+        rows.positive?
       end
 
       # #3 INSTRUÇÃO VIVA (B): grava um token de coalescência novo no jsonb `config` e o retorna.

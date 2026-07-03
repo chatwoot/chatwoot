@@ -96,7 +96,22 @@ module Autonomia
             return
           end
 
-          @agent.refresh_instruction!(updated)
+          # G1 pós-LLM: o usuário pode ter mudado o agente para MANUAL enquanto o modelo redigia.
+          # Se a instrução não mudou junto, o guard acima não pega — e o apply pisaria numa
+          # instrução que agora é do usuário. Revalida o modo depois do reload e descarta.
+          if @agent.manual?
+            telemetry(:skipped_manual)
+            return
+          end
+
+          # Apply condicional ATÔMICO (fecha a janela reload→write): refresh_instruction! só vence
+          # se o agente CONTINUA `guided` e a instrução no banco ainda é a fotografada. Perdeu = outra
+          # escrita (flip p/ manual ou edição do painel) chegou primeiro; descarta como superseded.
+          unless @agent.refresh_instruction!(updated, expected_instruction: before_instruction)
+            telemetry(:superseded)
+            return
+          end
+
           telemetry(:refreshed)
           updated
         rescue StandardError => e

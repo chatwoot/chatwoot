@@ -38,6 +38,15 @@ module Autonomia
       # Escopo do parecer aceito — usado pelo retrieval e pelos resumos do Construtor.
       scope :accepted, -> { where(review_status: 'accepted') }
 
+      # G6 — fontes SERVÍVEIS: aceitas E com geração de entries vigente — `ready` (caminho normal)
+      # OU `failed` transitório (mark_failed! restaurou o parecer 'accepted'; os KnowledgeEntry
+      # antigos seguem intactos e servidos pelo Retriever). Usado por Reviewer.recompute_overall!
+      # para uma fonte que falhou num re-sync transitório NÃO sumir do topic_map/knowledge_summary
+      # (o que faria o InstructionRefresher apagar esse escopo da instrução — exatamente a regressão
+      # que a restauração do parecer evita). Fontes failed NUNCA-aceitas ficam de fora: o
+      # previous_review_attributes as restaura como needs_review, e `accepted` já as exclui.
+      scope :servable, -> { accepted.where(status: [statuses[:ready], statuses[:failed]]) }
+
       SOURCE_TYPES = %w[link pdf xlsx docx json txt md].freeze
       # Teto de tamanho do ANEXO comprimido (defesa contra upload gigante / zip-bomb). O cap do
       # tamanho DESCOMPRIMIDO de docx/xlsx é aplicado no processor.
