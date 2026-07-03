@@ -58,6 +58,33 @@ RSpec.describe 'Intercom Integration API', type: :request do
       expect(response.parsed_body['message']).to eq('Intercom cannot be connected while an import is active.')
       expect(hook.reload.access_token).to eq('existing-token')
     end
+
+    it 'does not overwrite the token when an import starts while validating Intercom' do
+      hook = create(:integrations_hook, :intercom, account: account, access_token: 'existing-token')
+      client = instance_double(DataImports::Intercom::Client)
+      allow(DataImports::Intercom::Client).to receive(:new).with(access_token: 'new-token').and_return(client)
+      allow(client).to receive(:validate!) do
+        create(
+          :data_import,
+          account: account,
+          data_type: 'intercom',
+          source_type: 'integration',
+          source_provider: 'intercom',
+          status: :pending,
+          integration_hook: hook,
+          import_file: nil
+        )
+      end
+
+      post api_v1_account_integrations_intercom_url(account_id: account.id),
+           params: { access_token: 'new-token' },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to eq('Intercom cannot be connected while an import is active.')
+      expect(hook.reload.access_token).to eq('existing-token')
+    end
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/intercom' do

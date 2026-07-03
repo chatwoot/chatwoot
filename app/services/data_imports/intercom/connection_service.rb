@@ -9,7 +9,11 @@ class DataImports::Intercom::ConnectionService
     raise ArgumentError, 'Intercom cannot be connected while an import is active.' if active_intercom_import?
 
     client.validate!
-    upsert_hook
+    @account.with_lock do
+      raise ArgumentError, 'Intercom cannot be connected while an import is active.' if active_intercom_import?
+
+      upsert_hook
+    end
   end
 
   private

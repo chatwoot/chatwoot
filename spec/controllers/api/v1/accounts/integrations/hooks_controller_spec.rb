@@ -87,6 +87,29 @@ RSpec.describe 'Integration Hooks API', type: :request do
         data = response.parsed_body
         expect(data['app_id']).to eq 'slack'
       end
+
+      it 'does not update an Intercom hook while an import is active' do
+        intercom_hook = create(:integrations_hook, :intercom, account: account, status: :enabled)
+        create(
+          :data_import,
+          account: account,
+          data_type: 'intercom',
+          source_type: 'integration',
+          source_provider: 'intercom',
+          status: :processing,
+          integration_hook: intercom_hook,
+          import_file: nil
+        )
+
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
+              params: { status: 'disabled' },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
+        expect(intercom_hook.reload).to be_enabled
+      end
     end
   end
 
@@ -144,6 +167,28 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Integrations::Hook.exists?(hook.id)).to be false
+      end
+
+      it 'does not delete an Intercom hook while an import is active' do
+        intercom_hook = create(:integrations_hook, :intercom, account: account)
+        create(
+          :data_import,
+          account: account,
+          data_type: 'intercom',
+          source_type: 'integration',
+          source_provider: 'intercom',
+          status: :processing,
+          integration_hook: intercom_hook,
+          import_file: nil
+        )
+
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
+        expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
       end
     end
   end

@@ -7,6 +7,8 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
   end
 
   def update
+    return render_active_intercom_import_error if intercom_hook_with_active_import?
+
     @hook.update!(permitted_params.slice(:status, :settings))
   end
 
@@ -25,6 +27,8 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
   end
 
   def destroy
+    return render_active_intercom_import_error if intercom_hook_with_active_import?
+
     @hook.destroy!
     head :ok
   end
@@ -37,6 +41,14 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def check_authorization
     authorize(:hook)
+  end
+
+  def intercom_hook_with_active_import?
+    @hook.app_id == 'intercom' && Current.account.data_imports.exists?(source_provider: 'intercom', status: [:pending, :processing])
+  end
+
+  def render_active_intercom_import_error
+    render json: { message: 'Intercom cannot be changed while an import is active.' }, status: :unprocessable_entity
   end
 
   def permitted_params
