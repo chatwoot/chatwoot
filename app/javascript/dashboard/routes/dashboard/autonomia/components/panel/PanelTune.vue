@@ -300,7 +300,9 @@ const loadHistory = async () => {
 };
 
 const restoreVersion = async versionId => {
-  if (restoringVersionId.value) return;
+  // isSaving = the shared `updatingItem` flag; bail if a status toggle (or another
+  // restore) is mid-flight so the two writes to this agent never race.
+  if (restoringVersionId.value || isSaving.value) return;
   restoringVersionId.value = versionId;
   try {
     await store.dispatch('autonomiaAgents/restoreInstructionVersion', {
@@ -563,7 +565,7 @@ onMounted(loadHistory);
             sm
             :label="t('AGENTS.TUNE.HISTORY.RESTORE')"
             :is-loading="restoringVersionId === version.id"
-            :disabled="!!restoringVersionId"
+            :disabled="!!restoringVersionId || isSaving"
             class="shrink-0"
             @click="restoreVersion(version.id)"
           />

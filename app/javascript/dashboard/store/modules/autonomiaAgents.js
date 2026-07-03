@@ -39,13 +39,21 @@ export default createStore({
       { commit, dispatch },
       { agentId, versionId }
     ) {
-      const { data } = await AutonomiaAgentsAPI.restoreInstructionVersion(
-        agentId,
-        versionId
-      );
-      commit(mutationTypes.UPSERT, data);
-      await dispatch('getInstructionVersions', { agentId });
-      return data;
+      // Reuse the CRUD `updatingItem` flag so a rollback and the header
+      // pause/activate toggle can't write the same agent concurrently (the
+      // last response would otherwise clobber the other's record in Vuex).
+      commit(mutationTypes.SET_UI_FLAG, { updatingItem: true });
+      try {
+        const { data } = await AutonomiaAgentsAPI.restoreInstructionVersion(
+          agentId,
+          versionId
+        );
+        commit(mutationTypes.UPSERT, data);
+        await dispatch('getInstructionVersions', { agentId });
+        return data;
+      } finally {
+        commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
+      }
     },
 
     // Sandbox test of a draft/live agent. Returns the full evaluation
