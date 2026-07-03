@@ -66,7 +66,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
-  before_validation :reset_agent_bot_when_assignee_present
+  before_validation :handle_agent_bot_takeover_by_assignee
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -271,10 +271,10 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def reset_agent_bot_when_assignee_present
-    return if assignee_id.blank?
+  def handle_agent_bot_takeover_by_assignee
+    return if assignee_id.blank? || assignee_agent_bot_id.blank?
 
-    self.status = :open if assignee_agent_bot_id.present? && pending?
+    self.status = :open if pending?
     self.assignee_agent_bot_id = nil
   end
 
