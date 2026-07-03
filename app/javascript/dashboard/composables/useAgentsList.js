@@ -39,7 +39,9 @@ export function useAgentsList(includeNoneAgent = true) {
    * @type {import('vue').ComputedRef<Array>}
    */
   const assignableAgents = computed(() => {
-    return inboxId.value ? assignable.value(inboxId.value) : [];
+    return inboxId.value
+      ? assignable.value(inboxId.value, { includeAgentBots: true })
+      : [];
   });
 
   /**
