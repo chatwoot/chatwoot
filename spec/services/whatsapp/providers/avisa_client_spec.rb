@@ -43,4 +43,37 @@ RSpec.describe Whatsapp::Providers::AvisaClient do
       expect(extract('status' => 'success', 'data' => {})).to be_nil
     end
   end
+
+  # CUSTOMIZAÇÃO_SYNAPSEOS: a Avisa mudou o envelope da resposta de send*
+  # (~jun/2026) de data.response.data para data.data. O extrator rígido parou de
+  # achar o Id → 100% das outgoing viravam "sem Id" (source_id null, marcadas
+  # failed) mesmo entregues (26/06→30/06). extract_send_result é robusto ao shape.
+  describe '#extract_send_result' do
+    def result(resp)
+      client.send(:extract_send_result, resp)
+    end
+
+    it 'acha o Id no shape ANTIGO data.response.data' do
+      resp = { 'data' => { 'response' => { 'data' => { 'Id' => '3EB0ADEDE7B1', 'Timestamp' => 111 } } } }
+      expect(result(resp)).to eq(id: '3EB0ADEDE7B1', timestamp: 111)
+    end
+
+    it 'acha o Id no shape NOVO data.data (mesmo do /instance/status)' do
+      resp = { 'status' => true, 'data' => { 'code' => 200, 'data' => { 'Id' => 'BAE5F00D1234', 'Timestamp' => 222 }, 'success' => true } }
+      expect(result(resp)[:id]).to eq('BAE5F00D1234')
+    end
+
+    it 'acha o Id via busca recursiva em shape inesperado' do
+      expect(result('x' => { 'y' => [{ 'Id' => '3AF0FEEDCAFE99' }] })[:id]).to eq('3AF0FEEDCAFE99')
+    end
+
+    it 'retorna id nil quando a resposta não traz Id (envio não confirmado)' do
+      resp = { 'status' => true, 'data' => { 'code' => 200, 'data' => { 'Connected' => true }, 'success' => true } }
+      expect(result(resp)[:id]).to be_nil
+    end
+
+    it 'não confunde Jid/code com o Id da mensagem' do
+      expect(result('data' => { 'data' => { 'Jid' => '5534@s.whatsapp.net', 'code' => 200 } })[:id]).to be_nil
+    end
+  end
 end

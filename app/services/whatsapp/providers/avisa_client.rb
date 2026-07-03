@@ -19,8 +19,7 @@ class Whatsapp::Providers::AvisaClient
   # Retorna hash com { id:, timestamp: } em caso de sucesso.
   def send_text(number:, message:)
     response = post('/actions/sendMessage', { number: normalize_number(number), message: message.to_s })
-    inner = response.dig('data', 'response', 'data') || {}
-    { id: inner['Id'], timestamp: inner['Timestamp'] }
+    extract_send_result(response)
   end
 
   # POST /actions/sendMedia — endpoint unificado que aceita URL pública.
@@ -32,8 +31,7 @@ class Whatsapp::Providers::AvisaClient
     body[:fileName] = file_name.to_s if file_name.present?
 
     response = post('/actions/sendMedia', body)
-    inner = response.dig('data', 'response', 'data') || {}
-    { id: inner['Id'], timestamp: inner['Timestamp'] }
+    extract_send_result(response)
   end
 
   # POST /actions/sendImage — aceita data URI base64 (dispensa URL pública).
@@ -42,8 +40,7 @@ class Whatsapp::Providers::AvisaClient
     body[:message] = caption.to_s if caption.present?
 
     response = post('/actions/sendImage', body)
-    inner = response.dig('data', 'response', 'data') || {}
-    { id: inner['Id'], timestamp: inner['Timestamp'] }
+    extract_send_result(response)
   end
 
   # POST /actions/sendDocument — aceita data URI base64, fileName e caption.
@@ -53,8 +50,7 @@ class Whatsapp::Providers::AvisaClient
     body[:caption] = caption.to_s if caption.present?
 
     response = post('/actions/sendDocument', body)
-    inner = response.dig('data', 'response', 'data') || {}
-    { id: inner['Id'], timestamp: inner['Timestamp'] }
+    extract_send_result(response)
   end
 
   # POST /actions/sendAudio — base64 puro (sem prefixo data:), formato OGG/Opus.
@@ -62,8 +58,7 @@ class Whatsapp::Providers::AvisaClient
     body = { number: normalize_number(number), audio: base64_payload }
 
     response = post('/actions/sendAudio', body)
-    inner = response.dig('data', 'response', 'data') || {}
-    { id: inner['Id'], timestamp: inner['Timestamp'] }
+    extract_send_result(response)
   end
 
   # POST /user/parselid — resolve LID (ex: "12345@lid") pra JID real.
@@ -124,6 +119,50 @@ class Whatsapp::Providers::AvisaClient
   end
 
   private
+
+  # Extrai { id:, timestamp: } da resposta de um /actions/send*. ROBUSTO ao
+  # shape: a Avisa mudou o envelope (~jun/2026) de `data.response.data` para
+  # `data.data` (mesmo shape do /instance/status e do download). O parser rígido
+  # antigo parava de achar o `Id` → TODO envio ficava com id nil → marcado como
+  # falha/preso (source_id null) MESMO tendo sido entregue (repro 26/06→30/06,
+  # 100% das outgoing da Elisa). Espelha a estratégia do extract_base64.
+  def extract_send_result(response)
+    inner = response.dig('data', 'response', 'data') ||
+            response.dig('data', 'data') ||
+            (response.is_a?(Hash) ? response['data'] : nil)
+    inner = {} unless inner.is_a?(Hash)
+    id = inner['Id'].presence || inner['id'].presence || inner['messageId'].presence ||
+         deep_find_id(response, 0)
+    { id: id.presence, timestamp: inner['Timestamp'] || inner['timestamp'] }
+  end
+
+  # Chaves EXATAS do id da mensagem (não substring — evita casar 'Jid'/'code').
+  MSG_ID_KEYS = %w[Id id ID messageId MessageId message_id].freeze
+
+  # Busca recursiva do id da mensagem em qualquer shape (fallback do
+  # extract_send_result). Só aceita string plausível de id de mensagem WhatsApp.
+  def deep_find_id(obj, depth = 0)
+    return nil if depth > 5
+
+    case obj
+    when Hash
+      MSG_ID_KEYS.each do |k|
+        v = obj[k]
+        return v if v.is_a?(String) && v.length >= 8 && v.match?(%r{\A[A-Za-z0-9._:/@-]+\z})
+      end
+      obj.values.each do |v|
+        found = deep_find_id(v, depth + 1)
+        return found if found
+      end
+      nil
+    when Array
+      obj.each do |v|
+        found = deep_find_id(v, depth + 1)
+        return found if found
+      end
+      nil
+    end
+  end
 
   # Chaves prováveis do base64, checadas antes do fallback recursivo.
   B64_KEYS = %w[base64 Base64 b64 data Data file File media Media content Content buffer audio].freeze
