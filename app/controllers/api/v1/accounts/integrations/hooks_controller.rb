@@ -27,9 +27,18 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
   end
 
   def destroy
-    return render_active_intercom_import_error if intercom_hook_with_active_import?
+    blocked = false
+    Current.account.with_lock do
+      if intercom_hook_with_active_import?
+        blocked = true
+        next
+      end
 
-    @hook.destroy!
+      @hook.destroy!
+    end
+
+    return render_active_intercom_import_error if blocked
+
     head :ok
   end
 

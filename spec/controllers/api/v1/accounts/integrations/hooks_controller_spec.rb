@@ -190,6 +190,37 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
         expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
       end
+
+      it 'does not delete an Intercom hook when an import starts inside the account lock' do
+        intercom_hook = create(:integrations_hook, :intercom, account: account)
+        import_created = false
+        # rubocop:disable RSpec/AnyInstance
+        allow_any_instance_of(Account).to receive(:with_lock) do |locked_account, &block|
+          unless import_created
+            import_created = true
+            create(
+              :data_import,
+              account: locked_account,
+              data_type: 'intercom',
+              source_type: 'integration',
+              source_provider: 'intercom',
+              status: :pending,
+              integration_hook: intercom_hook,
+              import_file: nil
+            )
+          end
+          block.call
+        end
+        # rubocop:enable RSpec/AnyInstance
+
+        delete api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
+               headers: admin.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
+        expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
+      end
     end
   end
 end
