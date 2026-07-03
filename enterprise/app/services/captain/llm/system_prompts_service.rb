@@ -137,6 +137,65 @@ class Captain::Llm::SystemPromptsService
       PROMPT
     end
 
+    def assistant_false_promise_detector
+      <<~PROMPT
+        You are checking one failure mode in a customer-support assistant response: unsupported promises of future work.
+
+        Return decision "future_work_promise" when the assistant response says or clearly implies that work has already
+        started, is happening now, or will definitely happen later outside the current reply because of this assistant
+        message. This includes promises that the assistant, bot, Captain, or system will check, verify, investigate,
+        review, monitor, notify, update, email, call back, follow up, get back later, process, refund, cancel, book,
+        order, reserve, file, escalate/forward something in the background, or claim that the current conversation has
+        been or will be transferred, connected, or handed off to a human.
+
+        Do not mark a response as a future-work promise merely because it describes what a human agent, support team,
+        company team, or external system may do after the user accepts a handoff, provides requested details, submits a
+        form/ticket/email/order, or starts that external process themselves.
+
+        Do not mark ordinary in-chat help as a future-work promise. Asking the user for missing information, confirmation,
+        or completion of a step before continuing is safe when the response does not also claim that work has started,
+        is happening now, or will happen in the background.
+
+        Treat transfer claims as future-work promises unless the response is exactly the internal action token
+        `conversation_handoff`. Examples that are future-work promises: "I'm transferring you now", "You've been
+        transferred", "Connecting you now", "Handing off to the team now", "I'll connect you with support",
+        "I'll escalate this", and equivalent phrases in any language.
+
+        Return decision "safe" when:
+        - The assistant answers now, asks a clarifying question, or asks the user to check, try, confirm, or provide info.
+        - The assistant says it can help, check, look up, or guide the user after the user first provides requested
+          information, confirms something, or completes a step.
+        - The assistant asks the user to report back after completing a step and offers to continue helping in chat.
+        - The assistant gives a bounded answer that documentation or available information is insufficient.
+        - The assistant points the user to an external/self-serve support path without promising that the assistant will do it.
+        - The assistant describes what an external support, sales, delivery, finance, or operations team will do after the
+          user submits a form, request, email, application, order, ticket, or in-app chat themselves.
+        - The assistant recommends waiting for an existing external process or support response that was already started
+          outside this assistant message.
+        - The assistant offers future help, monitoring, escalation, or handoff conditionally and waits for the user to
+          accept, without saying the work or transfer has already started.
+        - The response says an external system may automatically send an email/tracking update, without promising that the
+          assistant will personally perform future work.
+        - The response is exactly `conversation_handoff`, which is an internal action token and not a customer-visible promise.
+
+        Be language-independent. The customer and assistant may write in any language.
+        Be conservative: only mark "future_work_promise" when the response promises background/asynchronous work,
+        says work is happening now, or claims a handoff/escalation/notification/action has started or will definitely happen.
+
+        The reason field MUST be one of:
+        - "safe_response"
+        - "asks_user_to_check_or_provide_info"
+        - "external_support_direction"
+        - "unaccepted_handoff_offer"
+        - "future_check_or_investigation"
+        - "future_notification_or_update"
+        - "future_callback_or_email"
+        - "background_escalation_promise"
+
+        Return only the structured fields requested by the response schema.
+      PROMPT
+    end
+
     # rubocop:disable Metrics/MethodLength
     def copilot_response_generator(product_name, available_tools, config = {})
       citation_guidelines = if config['feature_citation']
@@ -235,6 +294,7 @@ class Captain::Llm::SystemPromptsService
         - Do not generate a response more than three sentences.
         - Keep the conversation flowing.
         - Do not use use your own understanding and training data to provide an answer.
+        - Do not promise work that will happen after this reply. Do not say you will check, investigate, monitor, follow up, notify, email, call, refund, cancel, book, escalate, transfer, or submit anything unless you complete that action now using an available tool or, for human transfer, return `conversation_handoff` as the response. If you lack enough information, ask the user for the missing detail without promising future work.
         - Clarify: when there is ambiguity, ask clarifying questions, rather than make assumptions.
         - Don't implicitly or explicitly try to end the chat (i.e. do not end a response with "Talk soon!" or "Enjoy!").
         - Sometimes the user might just want to chat. Ask them relevant follow-up questions.

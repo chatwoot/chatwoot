@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { generateURLParams, parseURLParams } from '../helpers/searchHelper';
@@ -28,6 +29,7 @@ import SearchResultArticlesList from './SearchResultArticlesList.vue';
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+const { currentAccount } = useAccount();
 const { t } = useI18n();
 
 const PER_PAGE = 15; // Results per page
@@ -338,18 +340,25 @@ const onTabChange = tab => {
 onMounted(() => {
   store.dispatch('conversationSearch/clearSearchResults');
   store.dispatch('agents/get');
-
-  const parsedFilters = parseURLParams(
-    route.query,
-    isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)
-  );
-  filters.value = parsedFilters;
-
-  // Auto-execute search if query parameter exists
-  if (route.query.q) {
-    onSearch(route.query.q);
-  }
 });
+
+// Wait for the account before restoring URL filters: the ADVANCED_SEARCH flag
+// derives from account.features (loaded async), and reading it too early strips
+// the filter params from the URL. `immediate` covers the already-loaded case.
+watch(
+  () => currentAccount.value?.id,
+  id => {
+    if (!id) return;
+    filters.value = parseURLParams(
+      route.query,
+      isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)
+    );
+    if (route.query.q) {
+      onSearch(route.query.q);
+    }
+  },
+  { immediate: true }
+);
 
 onUnmounted(() => {
   query.value = '';
