@@ -1,4 +1,5 @@
 /* global axios */
+import getUuid from 'widget/helpers/uuid';
 import ApiClient from '../ApiClient';
 
 // The Builder conversation: an AI that interviews the user and, when it has
@@ -26,6 +27,9 @@ class AutonomiaBuildThreadsAPI extends ApiClient {
     return axios.post(this.url, {
       message,
       autonomia_agent_id: agentId,
+      // Idempotency id for this turn: the backend no-ops a repeated append with
+      // the same client_message_id (double-click / network retry).
+      client_message_id: getUuid(),
       ...rest,
     });
   }
@@ -38,11 +42,25 @@ class AutonomiaBuildThreadsAPI extends ApiClient {
   // carries optional flags merged into the body (e.g. `no_materials: true` when
   // the user declares they have no materials so the gate can close the
   // instruction without waiting for sources).
-  sendMessage(threadId, message, extra = {}) {
+  //
+  // `clientMessageId` is the idempotency id of the TURN, minted by the store
+  // when the user sends the message and reused across retries/replays of that
+  // same message — a uuid generated per CALL would never dedupe a double-click
+  // or a network replay server-side. Falls back to a fresh uuid for callers
+  // that don't track turns.
+  sendMessage(threadId, message, extra = {}, clientMessageId = getUuid()) {
     return axios.post(`${this.url}/${threadId}/messages`, {
       message,
+      client_message_id: clientMessageId,
       ...extra,
     });
+  }
+
+  // Re-runs the generation of a failed (or stale-processing) thread: the backend
+  // issues a new build_token and enqueues the SubmitJob again. Nothing is added
+  // to the conversation history.
+  retryBuild(threadId) {
+    return axios.post(`${this.url}/${threadId}/retry`);
   }
 }
 
