@@ -119,6 +119,23 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(DataImportMapping.where(data_import: data_import).count).to eq(5)
   end
 
+  describe '#finish!' do
+    it 'does not overwrite an import abandoned by another process' do
+      data_import.update!(status: :processing)
+      importer = described_class.new(data_import: data_import)
+
+      DataImport.find(data_import.id).update!(
+        status: :abandoned,
+        abandoned_at: Time.current
+      )
+
+      importer.finish!
+
+      expect(data_import.reload).to be_abandoned
+      expect(data_import.completed_at).to be_nil
+    end
+  end
+
   context 'when the Intercom records were imported by an earlier run' do
     let(:next_data_import) do
       create(
@@ -154,6 +171,54 @@ RSpec.describe DataImports::Intercom::Importer do
         'message' => 3
       )
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
+    end
+  end
+
+  context 'when Intercom rate limits a conversation detail request' do
+    before do
+      allow(client).to receive(:retrieve_conversation).with('conversation_1').and_raise(
+        DataImports::Intercom::Client::RateLimitError.new('rate limited', status: 429)
+      )
+    end
+
+    it 're-raises the provider error so the page job can retry', :aggregate_failures do
+      expect { described_class.new(data_import: data_import).import_conversations_page }
+        .to raise_error(DataImports::Intercom::Client::RateLimitError)
+
+      item = data_import.items.find_by!(source_object_type: 'conversation', source_object_id: 'conversation_1')
+      expect(item).to be_processing
+      expect(data_import.import_errors.exists?).to be(false)
+    end
+  end
+
+  context 'when Intercom rate limits a contact hydration request' do
+    before do
+      allow(client).to receive(:retrieve_contact).with('contact_1').and_raise(
+        DataImports::Intercom::Client::RateLimitError.new('rate limited', status: 429)
+      )
+    end
+
+    it 're-raises the provider error instead of importing a sparse contact', :aggregate_failures do
+      expect { described_class.new(data_import: data_import).import_conversations_page }
+        .to raise_error(DataImports::Intercom::Client::RateLimitError)
+
+      expect(data_import.items.exists?(source_object_type: 'contact')).to be(false)
+      expect(data_import.import_errors.exists?).to be(false)
+    end
+  end
+
+  context 'when Intercom no longer has a sparse contact referenced by a conversation' do
+    before do
+      allow(client).to receive(:retrieve_contact).with('contact_1').and_raise(
+        DataImports::Intercom::Client::Error.new('not found', status: 404)
+      )
+    end
+
+    it 'falls back to the conversation contact reference', :aggregate_failures do
+      expect { described_class.new(data_import: data_import).import_conversations_page }.not_to raise_error
+
+      expect(data_import.items.imported.exists?(source_object_type: 'contact', source_object_id: 'contact_1')).to be(true)
+      expect(data_import.import_errors.exists?).to be(false)
     end
   end
 
@@ -239,6 +304,37 @@ RSpec.describe DataImports::Intercom::Importer do
         error_code: 'DataImports::Intercom::SkippedMessage'
       )
       expect(next_data_import.reload.stats.dig('messages', 'skipped')).to eq(2)
+    end
+  end
+
+  context 'when Intercom omits older conversation parts from the retrieved conversation' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'conversation_parts' => {
+          'total_count' => 503
+        },
+        'statistics' => {
+          'count_conversation_parts' => 503
+        }
+      )
+    end
+
+    it 'records an incomplete import error and completes with errors', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      error = data_import.import_errors.non_skip_logs.find_by!(
+        source_object_type: 'conversation',
+        source_object_id: 'conversation_1',
+        error_code: 'DataImports::Intercom::TruncatedConversationParts'
+      )
+      expect(error.message).to eq('Intercom returned 2 of 503 conversation parts.')
+      expect(error.details).to include(
+        'kind' => 'incomplete',
+        'imported_parts_count' => 2,
+        'total_parts_count' => 503
+      )
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.stats.dig('errors', 'count')).to eq(1)
     end
   end
 

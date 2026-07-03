@@ -10,6 +10,7 @@ class DataImports::Intercom::Importer
   PROVIDER = 'intercom'.freeze
   ALREADY_IMPORTED_ERROR_CODE = 'DataImports::Intercom::AlreadyImported'.freeze
   SKIPPED_MESSAGE_ERROR_CODE = 'DataImports::Intercom::SkippedMessage'.freeze
+  TRUNCATED_PARTS_ERROR_CODE = 'DataImports::Intercom::TruncatedConversationParts'.freeze
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
   INTERCOM_NUMBER_REGEX = /\A[1-9]\d{1,14}\z/
 
@@ -36,6 +37,8 @@ class DataImports::Intercom::Importer
   end
 
   def finish!
+    return if @data_import.reload.abandoned?
+
     has_failures = @data_import.import_errors.non_skip_logs.exists? || @data_import.import_errors.failed.exists?
     status = has_failures ? :completed_with_errors : :completed
     @data_import.update!(
@@ -139,6 +142,8 @@ class DataImports::Intercom::Importer
     import_conversation_parts(conversation, chatwoot_conversation, contact)
     update_conversation_activity(chatwoot_conversation)
   rescue StandardError => e
+    raise if e.is_a?(DataImports::Intercom::Client::Error)
+
     fail_item(item, e)
   ensure
     persist_stats
@@ -164,6 +169,8 @@ class DataImports::Intercom::Importer
     increment_stat('contacts', 'imported') unless already_handled
     contact
   rescue StandardError => e
+    raise if e.is_a?(DataImports::Intercom::Client::Error)
+
     fail_item(item, e)
     raise if required_for_conversation
   ensure
@@ -176,7 +183,9 @@ class DataImports::Intercom::Importer
     return contact_payload if contact_payload['id'].blank?
 
     @client.retrieve_contact(contact_payload['id'])
-  rescue DataImports::Intercom::Client::Error
+  rescue DataImports::Intercom::Client::Error => e
+    raise unless e.status == 404
+
     contact_payload
   end
 
@@ -275,7 +284,10 @@ class DataImports::Intercom::Importer
   end
 
   def import_conversation_parts(conversation, chatwoot_conversation, contact)
-    parts = conversation.dig('conversation_parts', 'conversation_parts') || []
+    parts_payload = conversation['conversation_parts'].to_h
+    parts = Array(parts_payload['conversation_parts'])
+    record_truncated_conversation_parts(conversation, parts.size)
+
     parts.each do |part|
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
       if part['body'].blank? && part['attachments'].blank?
@@ -562,6 +574,39 @@ class DataImports::Intercom::Importer
     )
   end
 
+  def record_truncated_conversation_parts(conversation, imported_parts_count)
+    total_parts_count = total_conversation_parts_count(conversation)
+    return if total_parts_count <= imported_parts_count
+
+    source_id = source_id_for(conversation)
+    already_recorded = @data_import.import_errors.exists?(
+      source_object_type: 'conversation',
+      source_object_id: source_id,
+      error_code: TRUNCATED_PARTS_ERROR_CODE
+    )
+    record_import_error(
+      source_object_type: 'conversation',
+      source_object_id: source_id,
+      error_code: TRUNCATED_PARTS_ERROR_CODE,
+      message: "Intercom returned #{imported_parts_count} of #{total_parts_count} conversation parts.",
+      details: {
+        kind: 'incomplete',
+        source_provider: PROVIDER,
+        imported_parts_count: imported_parts_count,
+        total_parts_count: total_parts_count
+      }
+    )
+    increment_stat('errors', 'count') unless already_recorded
+  end
+
+  def total_conversation_parts_count(conversation)
+    [
+      conversation.dig('conversation_parts', 'total_count'),
+      conversation.dig('statistics', 'count_conversation_parts'),
+      conversation.dig('statistics', 'count_conversations_parts')
+    ].compact.map(&:to_i).max || 0
+  end
+
   def skip_log_recorded?(source_object_type, source_object_id, error_code)
     @data_import.import_errors.skip_logs.exists?(
       source_object_type: source_object_type,
@@ -583,6 +628,10 @@ class DataImports::Intercom::Importer
   end
 
   def record_skip_log(attributes)
+    record_import_error(attributes)
+  end
+
+  def record_import_error(attributes)
     @data_import.import_errors.find_or_initialize_by(
       data_import_item: attributes[:data_import_item],
       source_object_type: attributes[:source_object_type],
