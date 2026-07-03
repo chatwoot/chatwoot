@@ -133,6 +133,20 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(reindexed_message_ids).to match_array(Message.where(account_id: account.id).pluck(:id))
   end
 
+  it 'records the message mapping before reindexing imported messages' do
+    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+    # rubocop:disable RSpec/AnyInstance
+    allow_any_instance_of(Message).to receive(:reindex_for_search).and_raise(StandardError, 'search unavailable')
+    # rubocop:enable RSpec/AnyInstance
+
+    described_class.new(data_import: data_import).perform
+
+    message = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:source:source_1')
+    mapping = data_import.mappings.find_by!(source_object_type: 'message', source_object_id: 'conversation:conversation_1:source:source_1')
+    expect(mapping.chatwoot_record).to eq(message)
+  end
+
   describe '#start!' do
     it 'does not overwrite an import abandoned by another process', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
