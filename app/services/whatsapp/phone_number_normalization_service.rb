@@ -1,5 +1,5 @@
 # Service to handle phone number normalization for WhatsApp messages
-# Currently supports Brazil and Argentina phone number format variations
+# Currently supports Brazil, Argentina, and Mexico phone number format variations
 # Supports both WhatsApp Cloud API and Twilio WhatsApp providers
 class Whatsapp::PhoneNumberNormalizationService
   def initialize(inbox)
@@ -64,6 +64,7 @@ class Whatsapp::PhoneNumberNormalizationService
 
   NORMALIZERS = [
     Whatsapp::PhoneNormalizers::BrazilPhoneNormalizer,
-    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer
+    Whatsapp::PhoneNormalizers::ArgentinaPhoneNormalizer,
+    Whatsapp::PhoneNormalizers::MexicoPhoneNormalizer
   ].freeze
 end

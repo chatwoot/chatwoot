@@ -224,6 +224,49 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    describe 'when the incoming waid is a Mexican number with 1 after country code' do
+      let(:mexico_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Maria Lopez' }, wa_id: '5215512345678' }],
+                messages: [{
+                  from: '5215512345678',
+                  id: 'wamid.cloud-mexico-message',
+                  text: { body: 'Test message from Mexico' },
+                  timestamp: '1664799904',
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'appends to existing contact when a contact inbox exists without the extra 1' do
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '525512345678')
+        last_conversation = create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: mexico_params).perform
+
+        expect(whatsapp_channel.inbox.conversations.count).to eq(1)
+        expect(last_conversation.messages.last.content).to eq('Test message from Mexico')
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq('525512345678')
+      end
+
+      it 'creates a contact inbox with the incoming waid when no existing contact matches' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: mexico_params).perform
+
+        expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+        expect(whatsapp_channel.inbox.contacts.first.name).to eq('Maria Lopez')
+        expect(whatsapp_channel.inbox.messages.first.content).to eq('Test message from Mexico')
+        expect(whatsapp_channel.inbox.contact_inboxes.first.source_id).to eq('5215512345678')
+      end
+    end
+
     context 'when invalid params' do
       it 'will not throw error' do
         described_class.new(inbox: whatsapp_channel.inbox, params: { phone_number: whatsapp_channel.phone_number,
