@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_02_000002) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_03_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -320,6 +320,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_02_000002) do
     t.index ["agent_bot_id"], name: "index_autonomia_agent_inboxes_on_agent_bot_id"
     t.index ["autonomia_agent_id"], name: "index_autonomia_agent_inboxes_on_autonomia_agent_id"
     t.index ["inbox_id"], name: "idx_autonomia_agent_inboxes_on_inbox_uniq", unique: true
+  end
+
+  create_table "autonomia_agent_instruction_versions", force: :cascade do |t|
+    t.bigint "autonomia_agent_id", null: false
+    t.bigint "account_id", null: false
+    t.text "instruction", null: false
+    t.string "instruction_hash", null: false
+    t.string "reason", null: false
+    t.bigint "created_by_id"
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "idx_autonomia_instruction_versions_on_account_id"
+    t.index ["autonomia_agent_id", "created_at"], name: "idx_autonomia_instruction_versions_agent_created"
+    t.index ["autonomia_agent_id"], name: "idx_autonomia_instruction_versions_on_agent_id"
+    t.index ["created_by_id"], name: "idx_autonomia_instruction_versions_on_created_by"
   end
 
   create_table "autonomia_agent_knowledge", force: :cascade do |t|
@@ -2356,6 +2372,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_02_000002) do
   add_foreign_key "autonomia_agent_inboxes", "agent_bots"
   add_foreign_key "autonomia_agent_inboxes", "autonomia_agents"
   add_foreign_key "autonomia_agent_inboxes", "inboxes"
+  add_foreign_key "autonomia_agent_instruction_versions", "accounts"
+  add_foreign_key "autonomia_agent_instruction_versions", "autonomia_agents", on_delete: :cascade
+  add_foreign_key "autonomia_agent_instruction_versions", "users", column: "created_by_id", on_delete: :nullify
   add_foreign_key "autonomia_agent_knowledge", "accounts"
   add_foreign_key "autonomia_agent_knowledge", "autonomia_agents"
   add_foreign_key "autonomia_agent_sources", "accounts"

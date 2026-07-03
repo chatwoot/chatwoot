@@ -189,8 +189,15 @@ module Autonomia
           }
         }.freeze
 
-        SAMPLE_CHUNKS = 15
+        # Amostragem estratificada (G5): a revisora precisa "ver" o documento inteiro (início, meio e
+        # fim), não só o começo. Escolhemos até SAMPLE_MAX_CHUNKS chunks espaçados uniformemente pela
+        # ordem completa, sempre incluindo o primeiro e o último.
+        SAMPLE_MAX_CHUNKS = 40
         SAMPLE_CHUNK_CHARS = 600
+        # Teto de custo do texto agregado. DIMENSIONADO ACIMA do máximo que a amostra pode produzir
+        # (SAMPLE_MAX_CHUNKS * SAMPLE_CHUNK_CHARS + separadores) para NUNCA cortar um chunk amostrado —
+        # em especial o último. É rede de segurança para overflow patológico, não um limite ativo.
+        SAMPLE_TOTAL_CHARS = (SAMPLE_MAX_CHUNKS * SAMPLE_CHUNK_CHARS) + 2_000
         # CAP determinístico do topic_map (defesa em profundidade do §6.2): mesmo que o modelo
         # devolva mais temas ou variações do mesmo, normalizamos para no máximo N itens deduplicados.
         TOPIC_MAP_CAP = 10
@@ -416,13 +423,25 @@ module Autonomia
           @agent.human_card.presence || @agent.agent_type.to_s
         end
 
-        # Primeiros ~15 chunks da fonte, truncados (mesma forma do knowledge_context do Construtor).
+        # Amostra estratificada da fonte que atravessa o documento inteiro (G5), truncada por chunk.
+        # 1) Puxa só os chunk_index prontos (barato); 2) decide quais manter; 3) carrega só esses.
         def sample_chunks_text
-          @source.knowledge_entries
-                 .where(status: Autonomia::Agents::KnowledgeEntry.statuses[:ready])
-                 .order(:chunk_index).limit(SAMPLE_CHUNKS)
-                 .map { |k| k.content.to_s.strip.truncate(SAMPLE_CHUNK_CHARS) }
-                 .join("\n---\n")
+          ready = @source.knowledge_entries.where(status: Autonomia::Agents::KnowledgeEntry.statuses[:ready])
+          indexes = stratified_indexes(ready.order(:chunk_index).pluck(:chunk_index))
+          return '' if indexes.empty?
+
+          parts = ready.where(chunk_index: indexes).order(:chunk_index)
+                       .map { |k| k.content.to_s.strip.truncate(SAMPLE_CHUNK_CHARS) }
+          parts.join("\n---\n").truncate(SAMPLE_TOTAL_CHARS, separator: "\n---\n")
+        end
+
+        # Até SAMPLE_MAX_CHUNKS índices espaçados uniformemente, sempre com o primeiro e o último.
+        def stratified_indexes(all_indexes)
+          return all_indexes if all_indexes.size <= SAMPLE_MAX_CHUNKS
+
+          last = all_indexes.size - 1
+          stride = last.fdiv(SAMPLE_MAX_CHUNKS - 1)
+          (0...SAMPLE_MAX_CHUNKS).map { |i| all_indexes[(i * stride).round] }.uniq
         end
 
         def overall_input_text(agent, summaries)

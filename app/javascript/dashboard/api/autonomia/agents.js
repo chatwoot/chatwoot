@@ -37,6 +37,17 @@ class AutonomiaAgentsAPI extends ApiClient {
   analytics(agentId, { range = '7d' } = {}) {
     return axios.get(`${this.url}/${agentId}/analytics`, { params: { range } });
   }
+
+  // G2 — instruction version history (metadata always; instruction text only for manual agents).
+  getInstructionVersions(agentId) {
+    return axios.get(`${this.url}/${agentId}/instruction_versions`);
+  }
+
+  restoreInstructionVersion(agentId, versionId) {
+    return axios.post(
+      `${this.url}/${agentId}/instruction_versions/${versionId}/restore`
+    );
+  }
 }
 
 export default new AutonomiaAgentsAPI();

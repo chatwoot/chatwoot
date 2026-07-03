@@ -3,6 +3,7 @@ import { computed, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -114,12 +115,37 @@ const statusClass = computed(() => {
   }
 });
 
+// User-initiated tab click: push so each tab becomes a history entry and the
+// browser Back button walks between tabs (auto-redirects below stay replace).
 const onTabChanged = key => {
   if (key === props.tab) return;
-  router.replace({
+  router.push({
     name: 'autonomia_agent_panel',
     params: { agentId: props.agentId, tab: key },
   });
+};
+
+// Pause an active agent / re-activate a paused one from the panel header. The
+// agents `update` endpoint accepts status; toggle to the opposite state.
+const isTogglingStatus = computed(() => uiFlags.value.updatingItem);
+
+const toggleStatus = async () => {
+  const nextStatus = agent.value?.status === 'active' ? 'paused' : 'active';
+  try {
+    await store.dispatch('autonomiaAgents/update', {
+      id: Number(props.agentId),
+      status: nextStatus,
+    });
+    useAlert(
+      t(
+        nextStatus === 'active'
+          ? 'AGENTS.PANEL.STATUS_CONTROL.ACTIVATED'
+          : 'AGENTS.PANEL.STATUS_CONTROL.PAUSED'
+      )
+    );
+  } catch (error) {
+    useAlert(t('AGENTS.PANEL.STATUS_CONTROL.ERROR'));
+  }
 };
 
 // Deep-linking straight to /channels for an internal agent (hidden tab) would
@@ -162,12 +188,35 @@ onMounted(() => {
           <h1 class="text-base font-medium truncate text-n-slate-12">
             {{ agent.name }}
           </h1>
-          <span
-            class="px-2 py-0.5 mt-0.5 text-xs font-medium rounded-full w-fit"
-            :class="statusClass"
-          >
-            {{ statusLabel }}
-          </span>
+          <div class="flex items-center gap-2 mt-0.5">
+            <span
+              class="px-2 py-0.5 text-xs font-medium rounded-full w-fit"
+              :class="statusClass"
+            >
+              {{ statusLabel }}
+            </span>
+            <!-- Pausar/ativar direto no cabeçalho. Só aparece quando o agente já
+                 saiu do rascunho (draft ativa pela superfície de publicação). -->
+            <button
+              v-if="agent.status === 'active' || agent.status === 'paused'"
+              type="button"
+              :disabled="isTogglingStatus"
+              class="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded-full transition-colors text-n-slate-11 hover:text-n-slate-12 bg-n-alpha-1 hover:bg-n-alpha-2 disabled:opacity-50"
+              @click="toggleStatus"
+            >
+              <i
+                :class="
+                  agent.status === 'active' ? 'i-lucide-pause' : 'i-lucide-play'
+                "
+                class="size-3.5"
+              />
+              {{
+                agent.status === 'active'
+                  ? t('AGENTS.PANEL.STATUS_CONTROL.PAUSE')
+                  : t('AGENTS.PANEL.STATUS_CONTROL.ACTIVATE')
+              }}
+            </button>
+          </div>
         </div>
       </div>
       <div v-else class="h-10" />

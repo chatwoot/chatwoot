@@ -100,14 +100,17 @@ export const createCrudActions = (API, mutationTypes) => ({
  * @returns {Object} Vuex module configuration
  */
 export const createVuexStore = options => {
-  const { name, API, actions, getters, mutations } = options;
+  const { name, API, actions, getters, mutations, state } = options;
 
   const mutationTypes = generateMutationTypes(name);
   const customActions = actions ? actions(mutationTypes) : {};
 
   return {
     namespaced: true,
-    state: createInitialState(),
+    state: {
+      ...createInitialState(),
+      ...(state ? state() : {}),
+    },
     getters: {
       ...createGetters(),
       ...(getters || {}),
