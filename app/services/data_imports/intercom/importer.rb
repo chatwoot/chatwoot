@@ -23,7 +23,8 @@ class DataImports::Intercom::Importer
   end
 
   def perform
-    start!
+    return unless start!
+
     import_contacts if import_type?('contacts')
     import_conversations if import_type?('conversations')
     finish!
@@ -33,6 +34,8 @@ class DataImports::Intercom::Importer
   end
 
   def start!
+    return if @data_import.reload.abandoned?
+
     @data_import.update!(status: :processing, started_at: @data_import.started_at || Time.current)
   end
 
@@ -244,7 +247,7 @@ class DataImports::Intercom::Importer
   end
 
   def contact_attributes(contact_payload)
-    {
+    attrs = {
       account_id: @account.id,
       name: contact_payload['name'].presence || contact_payload['email'].presence || '',
       email: normalized_email(contact_payload),
@@ -263,6 +266,8 @@ class DataImports::Intercom::Importer
         intercom_external_id: contact_payload['external_id']
       }.compact
     }
+    attrs[:contact_type] = Contact.contact_types[:lead] if attrs[:email].present? || attrs[:phone_number].present?
+    attrs
   end
 
   def create_conversation(conversation, contact, contact_inbox, inbox, source_type)

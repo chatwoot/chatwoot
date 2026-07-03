@@ -90,6 +90,7 @@ RSpec.describe DataImports::Intercom::Importer do
     contact = account.contacts.find_by!(email: 'customer@example.com')
     expect(contact.name).to eq('Customer One')
     expect(contact.phone_number).to eq('+15551234567')
+    expect(contact).to be_lead
     expect(contact.custom_attributes).to include('intercom_contact_id' => 'contact_1')
 
     inbox = account.inboxes.find_by!(name: 'Intercom Import - Email')
@@ -117,6 +118,37 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(data_import.processed_records).to eq(5)
     expect(data_import.items.imported.count).to eq(2)
     expect(DataImportMapping.where(data_import: data_import).count).to eq(5)
+  end
+
+  describe '#start!' do
+    it 'does not overwrite an import abandoned by another process', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+
+      DataImport.find(data_import.id).update!(
+        status: :abandoned,
+        abandoned_at: Time.current
+      )
+
+      expect(importer.start!).to be_nil
+      expect(data_import.reload).to be_abandoned
+      expect(data_import.started_at).to be_nil
+    end
+  end
+
+  describe '#perform' do
+    it 'stops when the import was abandoned before processing starts' do
+      importer = described_class.new(data_import: data_import)
+      DataImport.find(data_import.id).update!(
+        status: :abandoned,
+        abandoned_at: Time.current
+      )
+
+      expect(client).not_to receive(:list_contacts)
+
+      importer.perform
+
+      expect(data_import.reload).to be_abandoned
+    end
   end
 
   describe '#finish!' do
