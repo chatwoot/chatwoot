@@ -114,14 +114,21 @@ module Autonomia
         # Prependa o título da seção corrente ao chunk — a menos que o texto já o contenha
         # (primeiro chunk da seção nasce com o título no buffer; não duplicar).
         def inherit_heading(chunk)
-          return chunk if @heading.nil? || chunk.include?(@heading)
+          # start_with?, não include?: só evita duplicar quando o título já ABRE o
+          # chunk (primeiro chunk da seção). Título que apareça no meio do corpo
+          # não impede o prefixo de contexto no início.
+          return chunk if @heading.nil? || chunk.start_with?(@heading)
 
           "#{@heading}\n#{chunk}"
         end
 
         def heading?(text, record)
           return false if record || text.length > HEADING_MAX
-          return true if text.match?(MARKDOWN_HEADING) || text.match?(NUMBERED_HEADING)
+          return true if text.match?(MARKDOWN_HEADING)
+          # Numeração ("47-", "12.") só é título se NÃO terminar em pontuação de
+          # frase — senão item de lista/instrução ("1. Escolha a opção.") viraria
+          # falso título e poluiria os chunks seguintes com prefixo errado.
+          return true if text.match?(NUMBERED_HEADING) && !text.match?(TERMINAL_PUNCT)
 
           # Linha "gritada" (sem minúsculas, sem pontuação final) tem cara de título de seção de
           # PDF/apólice. Linha curta em caixa normal NÃO é título — segue sendo seção mono-tópico

@@ -93,4 +93,20 @@ RSpec.describe Autonomia::Agents::Knowledge::Chunker do
       end
     end
   end
+
+  it 'does not treat a numbered list sentence as a section heading' do
+    body = 'x' * 700
+    text = "1. Escolha a opcao desejada.\n\n#{body}"
+    chunks = described_class.new(text).chunks
+    expect(chunks).to all(satisfy { |c| !c.start_with?('1. Escolha a opcao desejada.') || c == '1. Escolha a opcao desejada.' })
+    expect(chunks.any? { |c| c.include?('1. Escolha a opcao desejada.') && c.include?('x' * 50) }).to be(false)
+  end
+
+  it 'inherits a heading that legitimately reappears in the body' do
+    heading = '47- CANCELAMENTO PLUS REASON'
+    body = "motivo A. #{heading} tambem cobre. " + ('detalhe ' * 120)
+    chunks = described_class.new("#{heading}\n\n#{body}").chunks
+    expect(chunks).to all(start_with(heading))
+  end
+
 end
