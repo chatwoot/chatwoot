@@ -6,6 +6,7 @@ import { useToggle } from '@vueuse/core';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import MultiselectDropdownItems from 'shared/components/ui/MultiselectDropdownItems.vue';
 
 const props = defineProps({
@@ -36,6 +37,10 @@ const props = defineProps({
   inputPlaceholder: {
     type: String,
     default: 'Search',
+  },
+  showEmojiIcon: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -96,8 +101,18 @@ const hasIcon = computed(() => {
           hide-offline-status
           rounded-full
         />
+        <div
+          v-if="hasValue && hasIcon && showEmojiIcon"
+          class="flex items-center justify-center flex-shrink-0 text-sm rounded-full size-6 outline outline-1 -outline-offset-1 outline-n-weak"
+        >
+          <EmojiIcon
+            :value="selectedItem.icon"
+            :color="selectedItem.icon_color"
+            class="size-3.5 !text-sm"
+          />
+        </div>
         <Icon
-          v-if="hasValue && hasIcon"
+          v-else-if="hasValue && hasIcon"
           :icon="selectedItem.icon"
           class="size-5 text-n-slate-11"
         />
@@ -124,6 +139,7 @@ const hasIcon = computed(() => {
           :has-thumbnail="hasThumbnail"
           :input-placeholder="inputPlaceholder"
           :no-search-result="noSearchResult"
+          :show-emoji-icon="showEmojiIcon"
           @select="onClickSelectItem"
         />
       </div>

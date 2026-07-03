@@ -253,6 +253,12 @@
   display_title: 'Cloud Plans'
   value:
   description: 'Config to store stripe plans for cloud'
+- name: MARKETING_CONVERSION_TRACKING_CONFIG
+  value:
+  display_title: 'Marketing Conversion Tracking Config'
+  description: 'JSON config for Chatwoot Cloud signup and plan activation conversion tracking'
+  locked: true
+  type: code
 - name: CHATWOOT_CLOUD_PLAN_FEATURES
   display_title: 'Planwise Features List'
   value:
