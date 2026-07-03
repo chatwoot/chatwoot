@@ -19,6 +19,14 @@ describe Conversations::AssignmentService do
         expect(conversation.assignee_id).to be_nil
         expect(conversation.assignee_agent_bot_id).to be_nil
       end
+
+      it 'preserves conversation status' do
+        conversation.update!(status: :snoozed, snoozed_until: 1.day.from_now)
+
+        described_class.new(conversation: conversation, assignee_id: nil).perform
+
+        expect(conversation.reload.status).to eq('snoozed')
+      end
     end
 
     context 'when assigning a user' do
@@ -38,6 +46,14 @@ describe Conversations::AssignmentService do
 
       it 'preserves status for ordinary human assignment changes' do
         conversation.update!(assignee_agent_bot: nil, status: :resolved)
+
+        described_class.new(conversation: conversation, assignee_id: agent.id).perform
+
+        expect(conversation.reload.status).to eq('resolved')
+      end
+
+      it 'preserves status when taking over a bot-owned non-pending conversation' do
+        conversation.update!(assignee_agent_bot: agent_bot, status: :resolved)
 
         described_class.new(conversation: conversation, assignee_id: agent.id).perform
 
