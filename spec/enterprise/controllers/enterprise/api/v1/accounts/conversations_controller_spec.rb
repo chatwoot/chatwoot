@@ -36,6 +36,19 @@ RSpec.describe 'Enterprise Conversations API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(JSON.parse(response.body, symbolize_names: true)[:message]).to eq('Sla policy conversation already has a different sla')
       end
+
+      it 'throws error if conversation contact is blocked' do
+        conversation.contact.update!(blocked: true)
+
+        patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+              params: params,
+              headers: agent.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(JSON.parse(response.body, symbolize_names: true)[:message])
+          .to eq('Sla policy cannot be assigned to conversations with blocked contacts')
+      end
     end
   end
 end
