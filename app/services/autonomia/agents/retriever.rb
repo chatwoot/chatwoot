@@ -12,6 +12,12 @@ class Autonomia::Agents::Retriever
   # Escopo SEMPRE por agente (isolamento de conta/agente). Cada record expõe
   # .neighbor_distance. Retorna [] se o embedding vier vazio.
   def retrieve(query, top_k: Autonomia::Agents::Config::RETRIEVER_TOP_K)
+    # C1 (custo) — teto da query ANTES do embedding: sem isso, uma mensagem colada gigante viraria um
+    # embedding igualmente gigante (custo por token / limite do provider) mesmo com o PromptBuilder
+    # capando depois. Defesa CENTRAL aqui (único funil): cobre Answerer (Testar/copiloto/operate),
+    # Guide::Chat e context_for sem repetir truncamento em cada caller. O mesmo texto truncado segue
+    # para o reforço lexical (merge_lexical), mantendo vetorial e lexical coerentes entre si.
+    query = Autonomia::Agents::Config.truncate_text(query, Autonomia::Agents::Config::MAX_QUERY_CHARS)
     vector = embedding_service.embed(query)
     return [] if vector.blank?
 

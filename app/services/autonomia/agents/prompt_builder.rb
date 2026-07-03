@@ -74,7 +74,9 @@ module Autonomia
       # :system independentemente do que foi passado.
       def initialize(agent:, query:, history: [], snippets: [], images: [], audience: :customer)
         @agent = agent
-        @query = query.to_s
+        # C1 (custo): teto no que vai ao LLM — a query composta pode embutir transcrição+moldura do
+        # copiloto, por isso o teto próprio (maior que MAX_QUERY_CHARS). Corta do FIM (mantém o começo).
+        @query = Autonomia::Agents::Config.truncate_text(query, Autonomia::Agents::Config::MAX_COMPOSED_QUERY_CHARS)
         @history = Array(history)
         @snippets = Array(snippets)
         @images = Array(images).compact_blank
@@ -229,11 +231,27 @@ module Autonomia
         TEXT
       end
 
-      # Últimos HISTORY_MAX_TURNS pares (user/assistant) -> mensagens normalizadas.
+      # Últimos HISTORY_MAX_TURNS pares (user/assistant) -> mensagens normalizadas, sob os tetos de
+      # custo (C1): cada item capado em MAX_HISTORY_ITEM_CHARS e o conjunto em MAX_HISTORY_TOTAL_CHARS.
       def history_messages
-        @history
-          .filter_map { |item| normalize_history_item(item) }
-          .last(Autonomia::Agents::Config::HISTORY_MAX_TURNS * 2)
+        capped_history_items.map { |item| message(item[:role], item[:content]) }
+      end
+
+      # C1: orçamento TOTAL de chars do histórico. Percorre do MAIS RECENTE ao mais antigo acumulando;
+      # quando o próximo (mais antigo) não cabe no orçamento, para — as mensagens recentes sempre vencem.
+      def capped_history_items
+        items = @history
+                .filter_map { |item| normalize_history_item(item) }
+                .last(Autonomia::Agents::Config::HISTORY_MAX_TURNS * 2)
+        budget = Autonomia::Agents::Config::MAX_HISTORY_TOTAL_CHARS
+        kept = []
+        items.reverse_each do |item|
+          break if item[:content].length > budget
+
+          budget -= item[:content].length
+          kept.unshift(item)
+        end
+        kept
       end
 
       def normalize_history_item(item)
@@ -242,7 +260,8 @@ module Autonomia
 
         role = item[:role].to_s
         role = 'user' unless %w[user assistant].include?(role)
-        message(role, text)
+        # C1: teto POR ITEM — uma única mensagem gigante no histórico não pode inflar o prompt.
+        { role: role, content: Autonomia::Agents::Config.truncate_text(text, Autonomia::Agents::Config::MAX_HISTORY_ITEM_CHARS) }
       end
 
       def context_message

@@ -24,9 +24,11 @@ module Autonomia
       def initialize(conversation:, task:, draft: nil, tone: nil, instruction: nil)
         @conversation = conversation
         @task = task.to_s
-        @draft = draft.to_s
+        # C1 (custo): teto nos textos autorais do atendente (draft a reescrever/refinar e a instrução
+        # de refino) — sem teto, um texto colado gigante vira input do LLM sem limite.
+        @draft = Autonomia::Agents::Config.truncate_text(draft, Autonomia::Agents::Config::MAX_QUERY_CHARS)
         @tone = tone.to_s
-        @instruction = instruction.to_s
+        @instruction = Autonomia::Agents::Config.truncate_text(instruction, Autonomia::Agents::Config::MAX_QUERY_CHARS)
       end
 
       def perform
