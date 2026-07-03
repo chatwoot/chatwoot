@@ -14,8 +14,9 @@ class DataImports::Intercom::Importer
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
   INTERCOM_NUMBER_REGEX = /\A[1-9]\d{1,14}\z/
 
-  def initialize(data_import:)
+  def initialize(data_import:, run_id: nil)
     @data_import = data_import
+    @run_id = run_id
     @account = data_import.account
     @client = DataImports::Intercom::Client.new(access_token: data_import.integration_hook.access_token)
     @placeholder_inboxes = DataImports::Intercom::PlaceholderInboxBuilder.new(account: @account)
@@ -62,7 +63,13 @@ class DataImports::Intercom::Importer
 
   def import_contacts_page(starting_after: cursor_for('contacts'))
     response = @client.list_contacts(starting_after: starting_after)
-    Array(response['data'] || response['contacts']).each { |contact| import_contact(contact) }
+    Array(response['data'] || response['contacts']).each do |contact|
+      break if import_stopped?
+
+      import_contact(contact)
+    end
+    return PageResult.new(next_cursor: nil) if import_stopped?
+
     next_cursor = response.dig('pages', 'next', 'starting_after')
     update_cursor('contacts', next_cursor)
     PageResult.new(next_cursor: next_cursor)
@@ -70,7 +77,13 @@ class DataImports::Intercom::Importer
 
   def import_conversations_page(starting_after: cursor_for('conversations'))
     response = @client.list_conversations(starting_after: starting_after)
-    Array(response['data'] || response['conversations']).each { |conversation_summary| import_conversation_from_summary(conversation_summary) }
+    Array(response['data'] || response['conversations']).each do |conversation_summary|
+      break if import_stopped?
+
+      import_conversation_from_summary(conversation_summary)
+    end
+    return PageResult.new(next_cursor: nil) if import_stopped?
+
     next_cursor = response.dig('pages', 'next', 'starting_after')
     update_cursor('conversations', next_cursor)
     PageResult.new(next_cursor: next_cursor)
@@ -152,6 +165,18 @@ class DataImports::Intercom::Importer
     fail_item(item, e)
   ensure
     persist_stats
+  end
+
+  def import_stopped?
+    return true if @import_stopped
+
+    @data_import.reload
+    @import_stopped = @data_import.abandoned? || @data_import.completed? || @data_import.completed_with_errors? || stale_import_run?
+  end
+
+  def stale_import_run?
+    active_run_id = @data_import.active_intercom_import_run_id
+    @run_id.present? && active_run_id.present? && active_run_id != @run_id
   end
 
   def import_contact(contact_payload, required_for_conversation: false)

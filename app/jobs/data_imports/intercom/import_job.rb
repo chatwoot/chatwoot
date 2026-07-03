@@ -2,7 +2,7 @@ class DataImports::Intercom::ImportJob < DataImports::Intercom::BaseJob
   def perform(data_import, run_id = nil)
     return if skip_import?(data_import, run_id)
 
-    importer = importer_for(data_import)
+    importer = importer_for(data_import, run_id)
     return unless importer.start!
 
     enqueue_next_stage(data_import, importer, run_id)

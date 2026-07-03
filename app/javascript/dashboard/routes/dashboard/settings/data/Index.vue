@@ -11,6 +11,7 @@ import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useStoreGetters } from 'dashboard/composables/store';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
@@ -29,6 +30,7 @@ import {
 } from './importStatus';
 
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 const getters = useStoreGetters();
 const router = useRouter();
 
@@ -340,7 +342,11 @@ onBeforeUnmount(() => {
                 {{ $t('DATA_IMPORTS.INTERCOM.TITLE') }}
               </h2>
               <p class="text-body-main text-n-slate-11 mt-1 max-w-3xl">
-                {{ $t('DATA_IMPORTS.INTERCOM.DESCRIPTION') }}
+                {{
+                  replaceInstallationName(
+                    $t('DATA_IMPORTS.INTERCOM.DESCRIPTION')
+                  )
+                }}
               </p>
             </div>
             <router-link v-if="!intercomConnected" :to="intercomSettingsRoute">

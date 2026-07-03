@@ -20,7 +20,7 @@ RSpec.describe DataImports::Intercom::ImportJob do
 
   before do
     data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
-    allow(DataImports::Intercom::Importer).to receive(:new).with(data_import: data_import).and_return(importer)
+    allow(DataImports::Intercom::Importer).to receive(:new).with(data_import: data_import, run_id: run_id).and_return(importer)
   end
 
   describe DataImports::Intercom::BaseJob do
@@ -126,6 +126,21 @@ RSpec.describe DataImports::Intercom::ImportJob do
 
       described_class.perform_now(data_import, 'current-contact-cursor', 'old-run')
     end
+
+    it 'does not enqueue another stage when the page import becomes stale' do
+      result = DataImports::Intercom::Importer::PageResult.new(next_cursor: nil)
+      allow(importer).to receive_messages(contacts_completed?: false, finish!: true)
+      allow(importer).to receive(:import_contacts_page).with(starting_after: 'current-contact-cursor') do
+        data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        result
+      end
+
+      expect do
+        described_class.perform_now(data_import, 'current-contact-cursor', run_id)
+      end.not_to have_enqueued_job
+
+      expect(importer).not_to have_received(:finish!)
+    end
   end
 
   describe DataImports::Intercom::ConversationsPageJob do
@@ -157,6 +172,21 @@ RSpec.describe DataImports::Intercom::ImportJob do
       expect(DataImports::Intercom::Importer).not_to receive(:new)
 
       described_class.perform_now(data_import, 'current-conversation-cursor', 'old-run')
+    end
+
+    it 'does not finish when the page import becomes stale' do
+      result = DataImports::Intercom::Importer::PageResult.new(next_cursor: nil)
+      allow(importer).to receive_messages(conversations_completed?: false, finish!: true)
+      allow(importer).to receive(:import_conversations_page).with(starting_after: 'current-conversation-cursor') do
+        data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        result
+      end
+
+      expect do
+        described_class.perform_now(data_import, 'current-conversation-cursor', run_id)
+      end.not_to have_enqueued_job
+
+      expect(importer).not_to have_received(:finish!)
     end
   end
 end

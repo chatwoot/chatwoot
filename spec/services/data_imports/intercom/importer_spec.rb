@@ -178,6 +178,27 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  describe '#import_conversations_page' do
+    it 'stops an in-flight page when a newer import run takes over', :aggregate_failures do
+      run_id = 'intercom-run-1'
+      data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
+      allow(client).to receive(:list_conversations).with(starting_after: nil).and_return(
+        'conversations' => [{ 'id' => 'conversation_1' }, { 'id' => 'conversation_2' }],
+        'pages' => { 'next' => { 'starting_after' => 'next-conversation-cursor' } }
+      )
+      allow(client).to receive(:retrieve_conversation).with('conversation_1') do
+        data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'new-run' })
+        conversation_payload
+      end
+
+      result = described_class.new(data_import: data_import, run_id: run_id).import_conversations_page
+
+      expect(result).to be_done
+      expect(client).not_to have_received(:retrieve_conversation).with('conversation_2')
+      expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to be_nil
+    end
+  end
+
   describe '#finish!' do
     it 'does not overwrite an import abandoned by another process' do
       data_import.update!(status: :processing)
