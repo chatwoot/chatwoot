@@ -91,11 +91,20 @@ Onda 1 (branch `feat/agentes-onda-1`, 3 commits): A+B **DONE + Codex review apli
 5. 🟢 Rodrigo → merge+deploy (blue-green auto nos 2 stacks).
 - Onda 1 já está commitada em `feat/agentes-onda-1` (NÃO worktree) — 2 commits + review.
 
-**Próxima ação (pós-compact):** Codex review T3/T4/T5/T6; integrar todos os branches
-numa branch de release por onda (ou uma só); rodada final (Codex + Claude); teste real;
-🟢 Rodrigo → merge+deploy. Integração = `git -C <worktree> diff main...HEAD` por track,
-cherry-pick/merge na branch alvo; cuidado só com C2 (web search) se algum track tocou
-os mesmos call sites.
+## Integração (2026-07-03) — branch `feat/agentes-ondas-1-4`
+- Merge dos 7 branches (Onda1 base + T2→T3→T4→T7→T5→T6). 2 conflitos resolvidos à mão:
+  `conversation_chat.rb` (T4 cap por item + T5 marcador/rebaixamento COMBINADOS) e
+  `build_thread_spec.rb` (add/add, specs unidos).
+- Rodada final Codex no diff integrado: FAIL → 2 achados corrigidos no commit de integração:
+  (Alto) retrieval do copiloto chat embedava transcript e cortava a pergunta → `retrieval_query:`
+  no Answerer/Copilot, ConversationChat passa a pergunta crua; (Médio) supersede de
+  `apply_builder_config!` escopado por `account_id`. Re-check Codex: **PASS**.
+- Teste real: rspec autonomia integral 153 examples / 4 failures — TODAS pré-existentes em
+  `spec/services/autonomia/sso/` (diff não toca SSO); pós-fix, áreas afetadas 100+28 examples
+  0 failures; rubocop limpo; eslint 0 erros (warnings i18n pré-existentes); vitest stores T6 verde.
+
+**Próxima ação:** 🟢 Rodrigo → merge `feat/agentes-ondas-1-4` → main (auto-deploy blue-green
+nos 2 stacks) → smoke pós-deploy. Lembrete: deploy Autonomia ainda bloqueado pelo IAM (PR #103).
 
 ## Log de entregas
 - 2026-07-03: plano aprovado (sem G3); Onda 1 (A+B) entregue+revisada em `feat/agentes-onda-1`.
