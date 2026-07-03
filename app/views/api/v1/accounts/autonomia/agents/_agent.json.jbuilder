@@ -13,7 +13,12 @@ json.fallback_message agent.fallback_message
 json.handoff_rule agent.handoff_rule
 json.starter_questions agent.starter_questions
 json.tone agent.tone
-json.config agent.config
+# ALLOWLIST do jsonb `config`: só as chaves que o FE consome (PanelTune/PanelKnowledge/PanelPublish
+# leem handoff_strategy/confidence_threshold/knowledge_confidence; with_knowledge/knowledge_summary
+# acompanham por contrato). Chaves INTERNAS (knowledge_refresh_token, builder_active_thread_id,
+# system_key, guide_*, test_allowlist_phones, topic_map bruto...) NUNCA saem por aqui.
+json.config agent.config.to_h.slice('handoff_strategy', 'handoff_target_id', 'confidence_threshold',
+                                    'with_knowledge', 'knowledge_confidence', 'knowledge_summary')
 # Revisor v2: MAPA DE TEMAS + confiança geral + resumo da base (UI de Conhecimento). Seguros de
 # expor (vêm do jsonb `config`, NUNCA de instruction/scaffold). Já estão dentro de `config`; expô-los
 # no topo dá chaves estáveis ao FE.
