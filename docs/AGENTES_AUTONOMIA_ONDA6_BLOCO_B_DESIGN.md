@@ -29,28 +29,35 @@ Portanto o upgrade de modelo **tem** de usar `dimensions: 1536` (Matryoshka da O
 
 ---
 
-## B1 — Upgrade de embedding: `3-small` → `3-large @ 1536 dims`
+## B1 — Upgrade de embedding: `3-small` → `3-large @ 3072 dims` (DECISÃO RODRIGO: 3072 full)
 
-**O quê:** trocar o modelo de embedding mantendo 1536 dims (coluna e índice intactos).
+**O quê:** trocar o modelo p/ `text-embedding-3-large` na dimensionalidade CHEIA (3072) — máxima
+qualidade semântica. Escolha do Rodrigo (qualidade sobre custo/latência).
 
-**Como (raiz, sem gambiarra):**
-- `EmbeddingService#embed` passa `dimensions: 1536` quando o modelo for `3-large`
-  (`context.embed(text, model:, dimensions:)` — RubyLLM/OpenAI aceitam). `3-small` fica sem o param.
-- Ligar via `InstallationConfig CAPTAIN_EMBEDDING_MODEL=text-embedding-3-large` (hook já existe;
-  não hardcodar). Constante `DEFAULT_EMBEDDING_MODEL` em `lib/llm_constants.rb` permanece `3-small`
-  como fallback seguro.
-- **Coerência query↔base:** o retriever usa o MESMO `EmbeddingService` (mesma leitura de config),
-  então query e base ficam no mesmo modelo automaticamente — desde que a base seja **totalmente
-  re-embedada** (misturar vetores 3-small e 3-large no mesmo espaço é inválido).
+**⚠️ PRÉ-REQUISITO DURO a verificar ANTES de construir (não inventar):** 3072 dims **excede o teto
+2000** dos índices `ivfflat`/`hnsw` sobre `vector`. O caminho raiz-limpo p/ manter índice em 3072 é
+`halfvec(3072)` (16-bit) + índice **hnsw** (halfvec indexa até 4000 dims), disponível na **extensão
+pgvector ≥ 0.7.0**. Ação obrigatória no início do B1:
+```sql
+SELECT extversion FROM pg_extension WHERE extname='vector';  -- read-only, seguro
+```
+- **Se ≥ 0.7.0:** coluna vira `halfvec(3072)` + índice hnsw cosine. 3072 indexado, retrieval rápido.
+- **Se < 0.7.0:** duas saídas — (a) fazer upgrade da extensão pgvector no banco de prod (mudança de
+  infra → 🔴 própria, avaliar cross-project), ou (b) cair p/ `3-large @ 1536` (mantém ivfflat atual).
+  **Trazer ao Rodrigo qual saída** — não decidir sozinho.
 
-**Por que não 3072 dims:** perderia o índice ivfflat → latência de retrieval explode. 1536-reduzido
-do 3-large ainda supera o 3-small em qualidade (benchmark OpenAI MTEB), sem regressão de índice.
+**Como (após pré-requisito):**
+- migração: `embedding vector(1536)` → `halfvec(3072)` (nova coluna/índice; backfill preenche).
+- `EmbeddingService#embed`: `3-large` sem `dimensions` (padrão 3072); cast p/ halfvec na escrita.
+- Ligar via `InstallationConfig CAPTAIN_EMBEDDING_MODEL=text-embedding-3-large` (hook já existe).
+  `DEFAULT_EMBEDDING_MODEL` em `lib/llm_constants.rb` fica `3-small` como fallback.
+- **Coerência query↔base:** retriever usa o MESMO `EmbeddingService` → query e base no mesmo modelo,
+  desde que a base seja **totalmente re-embedada** (misturar 3-small e 3-large é inválido).
 
-**Custo:** 3-large ≈ 6,5× o preço/token do 3-small no embedding. É custo de **ingestão** (uma vez por
-documento + re-embed pontual), não por resposta. Alinhado a "qualidade sobre custo".
+**Custo:** 3-large ≈ 6,5× o preço/token do 3-small; 3072 dobra bytes/vetor vs 1536 (halfvec corta
+pela metade o storage do float full). Custo de **ingestão**, não por resposta.
 
-**Bônus barato:** trocar `embed_batch` (hoje 1 request/chunk) por batch real (a API de embeddings
-aceita array de inputs) — corta latência/erro de ingestão sem mudar qualidade. Baixo risco.
+**Bônus barato:** `embed_batch` real (hoje 1 request/chunk) — corta latência/erro de ingestão.
 
 ---
 
@@ -115,7 +122,8 @@ Sem migração; sem tocar o teto 0.75 nem o portão 0.55.
 
 Auditar e endurecer cada processador (confirmar gaps no build; sinalizados na auditoria):
 - **pdf.rb:** fallback OCR quando a extração de texto vier quase-vazia (PDF escaneado) — hoje vira
-  `EmptyExtraction`→`failed` silencioso. Avaliar `rtesseract`/`pdf-reader`+OCR. **Decisão de dep.**
+  `EmptyExtraction`→`failed` silencioso. **DECISÃO: fazer agora** com `tesseract` (dep de sistema na
+  imagem custom dos 2 stacks — tratar no Dockerfile, validar build/tamanho; regra 2 cross-project).
 - **xlsx.rb:** prefixar nome da aba como heading do bloco (achabilidade + herança de heading).
 - **docx.rb:** preservar linhas de tabela (hoje achatadas) como registros tabulares.
 - **json.rb:** achatar aninhamento em "caminho: valor" p/ virar registros mono-tópico.
@@ -129,30 +137,34 @@ Cada fix é isolado por tipo, testável com fixture, sem tocar chunk/embedding.
 **Ordem de construção (PRs pequenos, gate por track igual Onda 5):**
 1. **B4 extração** (aditivo, sem reprocessar) → merge/deploy → re-sync das fontes que estavam `failed`.
 2. **B2 chunker+metadata** + **B3 rerank** (código; passa a valer p/ ingestões novas).
-3. **B1 embedding 3-large@1536** (código + ligar config).
-4. **Backfill controlado** (re-chunk + re-embed de TODA a base) — a parte 🔴 de prod-data.
+3. **B1 embedding 3-large@3072** (pré-req halfvec/pgvector≥0.7.0 + migração de coluna/índice + config).
+4. **Backfill BIG-BANG** (re-chunk + re-embed de TODA a base de uma vez) — a parte 🔴 de prod-data.
 
 **Backfill (Vermelha — precisa plano de rollback + validação, regra 3):**
 - Job idempotente por fonte reusando `Ingestor` (extract→chunk→embed→replace com token-guard, que já
-  existe e é seguro contra race). Rodar por **ondas de conta**, não big-bang.
-- **Rollback:** o `replace_knowledge` é transacional; se uma conta regredir, re-embedar com o modelo
-  antigo restaura. Guardar contagem de chunks/fonte antes e depois; abortar a onda se cair a zero.
+  existe e é seguro contra race). **Big-bang** (decisão Rodrigo) — todas as contas de uma vez.
+- **Rollback pré-aprovado:** o `replace_knowledge` é transacional; regressão → re-embedar com o modelo
+  antigo restaura. Guardar contagem de chunks/fonte antes; **abortar** se qualquer fonte cair a zero.
 - **Validação pós-backfill:** bateria de probes de recall (as já usadas nos incidentes: "frete
-  grátis", "PLUS REASON", SKU, "domingo") comparando hit@k antes/depois por conta. Sem regressão =
-  segue a próxima onda; regressão = pausa + investiga.
-- **Custo:** re-embed de N chunks × preço 3-large. Estimar por conta antes de rodar (contar chunks).
+  grátis", "PLUS REASON", SKU, "domingo") comparando hit@k antes/depois. Regressão = investigar.
+- **Custo:** Σ chunks × preço 3-large. Estimar (contar chunks totais) e trazer ao Rodrigo antes de disparar.
 
 ---
 
-## Decisões que preciso do Rodrigo (regra 7) antes de construir
+## Decisões (RESOLVIDAS pelo Rodrigo, 2026-07-03)
 
-1. **Dims do 3-large:** `1536` reduzido (mantém índice ivfflat — **recomendado**) vs `3072`
-   (qualidade máxima porém **perde o índice**, retrieval vira seq scan). Recomendo 1536.
-2. **Metadado:** determinístico-only (custo zero) vs **híbrido** com 1 classificação LLM por
-   documento (**recomendado**, custo O(docs) limitado, dá o sinal rico que você pediu).
-3. **OCR de PDF escaneado (B4):** adiciona dependência (tesseract) ao build/imagem. Fazer agora vs
-   deixar como fase 2. Recomendo **fase 2** (isolar; não atrasar B1/B2/B3).
-4. **Backfill:** ondas por conta com gate de validação (**recomendado**) vs big-bang. Recomendo ondas.
+1. **Dims do 3-large → `3072` FULL.** Qualidade máxima. Requer `halfvec(3072)`+hnsw (pgvector ≥0.7.0)
+   — pré-requisito duro verificado no início do B1 (ver B1). Se a extensão for antiga, trazer as duas
+   saídas (upgrade da extensão vs cair p/ 1536) ao Rodrigo antes de seguir.
+2. **Metadado → HÍBRIDO** (determinístico + 1 classificação LLM por documento). ✅ como no design.
+3. **OCR de PDF escaneado → FAZER AGORA (nesta onda).** Adiciona dep de sistema **tesseract** à
+   imagem custom dos 2 stacks (Hub2You + Autonomia). Tratar no Dockerfile; validar que não quebra o
+   build/tamanho da imagem (regra 2 cross-project — mesma imagem base dos 2 stacks).
+4. **Backfill → BIG-BANG** (não ondas). Reprocessa toda a base de uma vez. **Salvaguardas da regra 3
+   permanecem obrigatórias** (não são afrouxadas pela escolha de velocidade): backup/contagem de
+   chunks antes; abort se qualquer fonte cair a zero; probes de recall pós-backfill; rollback
+   pré-aprovado = re-embed com modelo antigo. Estimar custo total (Σ chunks × preço 3-large) e trazer
+   antes de disparar.
 
 ---
 
