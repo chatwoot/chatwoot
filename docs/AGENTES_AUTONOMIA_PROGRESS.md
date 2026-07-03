@@ -172,6 +172,40 @@ pré-existente do store factory, não introduzido pela Onda 5. Chip criado em se
 **Backlog remanescente (próxima leva, precisa novo 🟢)**: F1 (portão de confiança por conta),
 F2 (modo `:attendant` no copiloto), F4 (aviso de base fraca ao publicar). F3/G3 = decididos NÃO.
 
+## Onda 6 — Qualidade da base de conhecimento (DECIDIDO Rodrigo, 2026-07-03)
+Origem: F4 virou muito mais amplo — não é só "avisar base fraca", é **elevar a qualidade de todo
+o pipeline** (extração → chunking → vetorização → retrieval → resposta). Auditoria de 3 agentes
+(read-only) confirmou: pipeline bem construído e já tunado uma vez, mas calibrado conservador/
+custo-first + lacunas de extração. **Filosofia: qualidade sobre custo — quem paga é o cliente e
+quer resposta correta.**
+
+**Decisões (Rodrigo):**
+- Embedding **text-embedding-3-large** (hoje `text-embedding-3-small` 1536). Maior alavanca de acerto.
+- Portão de confiança 0.55 **NÃO mexer** (manter conservador — handoff quando fraco > errar).
+- Sequência **Bloco A agora → Bloco B em seguida**, com ênfase forte em **chunking inteligente**.
+
+### Bloco A — ganhos rápidos de config (SEM reprocessar) — PR #108, aguardando 🟢
+| Knob | De → Para | Efeito |
+|---|---|---|
+| RETRIEVER_TOP_K / ANSWER_TOP_K | 8 → 12 | mais trechos de fundamento (dedup por fonte mantém) |
+| SNIPPET_MAX_CHARS | 800 → 1500 | trecho chega mais inteiro ao LLM |
+| HISTORY_MAX_TURNS | 10 → 16 | mais contexto de conversa |
+| MAX_HISTORY_TOTAL_CHARS | 24k → 40k | idem (gpt-5.4 tem 128k) |
+Commit `1c6e946c9`; rubocop 0, rspec 13/0, Codex PASS. **Não mergeado** — precisa 🟢.
+
+### Bloco B — programa de reprocessamento (Onda 6 propriamente, A DESENHAR/aprovar)
+Exige job de backfill/re-ingestão de todas as bases + validação. Escopo:
+1. **Embedding 3-large** (re-embeddar acervo; decidir 1536 dims reduzidas vs 3072 + storage).
+2. **Chunker adaptativo** (ênfase do Rodrigo): tamanho **variável por tipo/estilo de material**
+   (FAQ vs manual vs tabela de preço vs contrato/política), inteligência de cortar no ponto certo,
+   e **metadados ricos por chunk** (tipo de doc, seção/título, tópico, entidades/keywords) para
+   achar melhor. Hoje: CHUNK_MAX=600 fixo, metadata só `source_type`.
+3. **Retrieval usa os metadados** (filtro/híbrido) — hoje é vetor puro + reforço lexical.
+4. **Fixes de extração** (texto que não entra não pode ser respondido): OCR de PDF escaneado
+   (hoje falha silenciosa), nome de aba do XLSX, tabelas do DOCX (hoje achatadas), JSON aninhado.
+Mesmo gate: implementar → Codex review → teste real → review final → 🟢 → merge+deploy (backfill
+em prod exige plano de rollback + validação pós-backfill).
+
 ## Log de entregas
 - 2026-07-03: plano aprovado (sem G3); Onda 1 (A+B) entregue+revisada em `feat/agentes-onda-1`.
   6 tracks disparados em worktrees paralelos; T2/T3/T4/T7 done, T5/T6 rodando.
