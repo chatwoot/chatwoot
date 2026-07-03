@@ -75,7 +75,8 @@ module Crm
       end
 
       def self.attribute_extraction_enabled?
-        enabled? && BOOLEAN.cast(ENV.fetch('CRM_AI_ATTR_EXTRACTION', false))
+        raw = ENV.fetch('CRM_AI_ATTR_EXTRACTION', nil)
+        enabled? && (raw.blank? || BOOLEAN.cast(raw))
       end
 
       def self.pipeline_attribute_extraction_enabled?(pipeline)

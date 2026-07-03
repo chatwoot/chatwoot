@@ -1056,6 +1056,8 @@
       "LOADING": "Loading AI settings...",
       "ENABLED": "AI enabled for this pipeline",
       "AUTO_MOVE": "Auto-move cards",
+      "ATTRIBUTE_EXTRACTION": "Update custom fields from the conversation",
+      "ATTRIBUTE_EXTRACTION_HELP": "Extracts data such as city, segment, bill value, and decision maker, then writes it to sw_ custom fields.",
       "CALLBACK": "Create a reminder when the customer asks for a callback",
       "CALLBACK_HELP": "When a customer asks to be contacted on a date (\"call me next Tuesday\"), a reminder is created automatically on the calendar.",
       "CALLBACK_MODE": "When the date arrives",

@@ -24,6 +24,12 @@ module Crm
         # segue mandando tudo, sem regressão). Espelha a salvaguarda que já existia p/ auto_followup.
         ai['enabled'] = cast_boolean(@params[:enabled], default: true) if @params.key?(:enabled)
         ai['auto_move_enabled'] = cast_boolean(@params[:auto_move_enabled], default: false) if @params.key?(:auto_move_enabled)
+        if @params.key?(:attribute_extraction_enabled)
+          ai['attribute_extraction_enabled'] = cast_boolean(
+            @params[:attribute_extraction_enabled],
+            default: false
+          )
+        end
         ai['callback_enabled'] = cast_boolean(@params[:callback_enabled], default: true) if @params.key?(:callback_enabled)
         ai['callback_mode'] = normalize_callback_mode(@params[:callback_mode]) if @params.key?(:callback_mode)
         ai['stale_hours'] = (@params[:stale_hours].presence || Config::DEFAULT_STALE_HOURS).to_i if @params.key?(:stale_hours)

@@ -21,6 +21,7 @@ const loadFailed = ref(false);
 const form = reactive({
   enabled: true,
   autoMoveEnabled: false,
+  attributeExtractionEnabled: false,
   callbackEnabled: true,
   callbackMode: 'reminder',
   staleHours: 48,
@@ -63,6 +64,8 @@ const loadSettings = async () => {
     const payload = response.data.payload || {};
     form.enabled = payload.enabled !== false;
     form.autoMoveEnabled = payload.auto_move_enabled === true;
+    form.attributeExtractionEnabled =
+      payload.attribute_extraction_enabled === true;
     form.callbackEnabled = payload.callback_enabled !== false;
     form.callbackMode = ['reminder', 'message', 'both'].includes(
       payload.callback_mode
@@ -109,6 +112,7 @@ const saveSettings = async ({ silent = false } = {}) => {
       ai_settings: {
         enabled: form.enabled,
         auto_move_enabled: form.autoMoveEnabled,
+        attribute_extraction_enabled: form.attributeExtractionEnabled,
         callback_enabled: form.callbackEnabled,
         callback_mode: form.callbackMode,
         stale_hours: form.staleHours,
@@ -130,6 +134,8 @@ const saveSettings = async ({ silent = false } = {}) => {
     const payload = response.data.payload || {};
     form.enabled = payload.enabled !== false;
     form.autoMoveEnabled = payload.auto_move_enabled === true;
+    form.attributeExtractionEnabled =
+      payload.attribute_extraction_enabled === true;
     form.callbackEnabled = payload.callback_enabled !== false;
     form.callbackMode = ['reminder', 'message', 'both'].includes(
       payload.callback_mode
@@ -197,6 +203,20 @@ watch(
           class="rounded border-n-weak"
         />
         {{ t('CRM_KANBAN.AI_SETTINGS.AUTO_MOVE') }}
+      </label>
+
+      <label class="flex items-start gap-2 text-sm text-n-slate-12">
+        <input
+          v-model="form.attributeExtractionEnabled"
+          type="checkbox"
+          class="mt-0.5 rounded border-n-weak"
+        />
+        <span class="grid gap-0.5">
+          <span>{{ t('CRM_KANBAN.AI_SETTINGS.ATTRIBUTE_EXTRACTION') }}</span>
+          <span class="text-xs text-n-slate-11">
+            {{ t('CRM_KANBAN.AI_SETTINGS.ATTRIBUTE_EXTRACTION_HELP') }}
+          </span>
+        </span>
       </label>
 
       <label class="flex items-start gap-2 text-sm text-n-slate-12">
