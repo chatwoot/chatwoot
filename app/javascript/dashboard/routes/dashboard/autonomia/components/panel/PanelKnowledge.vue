@@ -7,6 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import MaterialCard from '../builder/MaterialCard.vue';
 import MaterialDropzone from '../builder/MaterialDropzone.vue';
 import SourceAddDialog from './SourceAddDialog.vue';
@@ -36,6 +37,10 @@ const allReviewed = useMapGetter('autonomiaSources/getAllReviewed');
 const uiFlags = useMapGetter('autonomiaSources/getUIFlags');
 
 const addDialogRef = ref(null);
+// Removing a material is destructive and has no undo — hold the pending source
+// so the confirm dialog can name it, and only delete after the user confirms.
+const removeDialogRef = ref(null);
+const pendingRemove = ref(null);
 // The store uiFlags are module-wide, so track the in-flight row id locally to
 // keep the spinner on a single card, not every card.
 const resyncingId = ref(null);
@@ -109,16 +114,35 @@ const onResync = async sourceId => {
   }
 };
 
-const onRemove = async sourceId => {
+// Trash click no longer deletes on the spot: open a confirm dialog naming the
+// material (destructive, no undo — the old silent delete looked like "nothing
+// happened" on a missed click and risked wiping the base by accident).
+const askRemove = sourceId => {
+  pendingRemove.value = sources.value.find(source => source.id === sourceId);
+  if (pendingRemove.value) removeDialogRef.value?.open();
+};
+
+const removeName = computed(
+  () => pendingRemove.value?.title || pendingRemove.value?.reference || ''
+);
+
+const confirmRemove = async () => {
+  const sourceId = pendingRemove.value?.id;
+  if (!sourceId) return;
+
   removingId.value = sourceId;
   try {
     await store.dispatch('autonomiaSources/remove', {
       agentId: props.agentId,
       sourceId,
     });
+    removeDialogRef.value?.close();
+    useAlert(t('AGENTS.KNOWLEDGE.REMOVE_SUCCESS'));
     // Removing a material re-scores the base; refresh the confidence bar.
     refreshAgent();
   } catch (error) {
+    // Keep the dialog open on failure so the user can retry (pendingRemove is
+    // cleared by the dialog's @close, not here).
     useAlert(t('AGENTS.KNOWLEDGE.REMOVE_ERROR'));
   } finally {
     removingId.value = null;
@@ -218,7 +242,7 @@ onBeforeUnmount(() => {
           :resyncing="resyncingId === source.id"
           :removing="removingId === source.id"
           @resync="onResync"
-          @remove="onRemove"
+          @remove="askRemove"
         />
       </li>
     </ul>
@@ -227,6 +251,19 @@ onBeforeUnmount(() => {
       ref="addDialogRef"
       :agent-id="agentId"
       @added="onSourceAdded"
+    />
+
+    <Dialog
+      ref="removeDialogRef"
+      type="alert"
+      :title="t('AGENTS.KNOWLEDGE.REMOVE_CONFIRM_TITLE')"
+      :description="
+        t('AGENTS.KNOWLEDGE.REMOVE_CONFIRM_DESC', { name: removeName })
+      "
+      :confirm-button-label="t('AGENTS.KNOWLEDGE.REMOVE_CONFIRM_BUTTON')"
+      :is-loading="removingId !== null"
+      @confirm="confirmRemove"
+      @close="pendingRemove = null"
     />
   </div>
 </template>

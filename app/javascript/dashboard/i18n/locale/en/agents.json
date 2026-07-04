@@ -217,6 +217,10 @@
       "ADD_ERROR": "We couldn't add that knowledge. Please try again.",
       "REMOVE_ERROR": "We couldn't remove that item. Please try again.",
       "RESYNC_ERROR": "We couldn't re-sync that item. Please try again.",
+      "REMOVE_CONFIRM_TITLE": "Remove this material?",
+      "REMOVE_CONFIRM_DESC": "\"{name}\" and its indexed passages will be removed from the agent's knowledge base. This can't be undone.",
+      "REMOVE_CONFIRM_BUTTON": "Remove",
+      "REMOVE_SUCCESS": "Material removed.",
       "STATUS": {
         "IN_PROGRESS": "Processing",
         "READY": "Ready",
