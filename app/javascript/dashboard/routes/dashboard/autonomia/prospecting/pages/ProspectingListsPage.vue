@@ -1,13 +1,16 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 
 const { t } = useI18n();
+const route = useRoute();
 
 const isLoading = ref(true);
 const isCreating = ref(false);
 const busyLeadId = ref(null);
+const convertingLeadId = ref(null);
 const error = ref('');
 const notice = ref('');
 const lists = ref([]);
@@ -36,6 +39,26 @@ const formatLeadAddress = lead =>
   [lead.address, [lead.city, lead.state].filter(Boolean).join(' ')]
     .filter(Boolean)
     .join(t('PROSPECTING.SEARCH.ADDRESS_SEPARATOR'));
+
+const contactUrl = contactId =>
+  `/app/accounts/${route.params.accountId}/contacts/${contactId}`;
+
+const replaceLead = updatedLead => {
+  if (!updatedLead?.id) return;
+
+  allLeads.value = allLeads.value.map(lead =>
+    lead.id === updatedLead.id ? updatedLead : lead
+  );
+
+  if (selectedList.value?.leads) {
+    selectedList.value = {
+      ...selectedList.value,
+      leads: selectedList.value.leads.map(lead =>
+        lead.id === updatedLead.id ? updatedLead : lead
+      ),
+    };
+  }
+};
 
 const fetchLists = async () => {
   const { data } = await AutonomiaProspectingAPI.getLists();
@@ -139,6 +162,24 @@ const removeLead = async lead => {
       e?.response?.data?.error || t('PROSPECTING.ERRORS.REMOVE_LEAD_FROM_LIST');
   } finally {
     busyLeadId.value = null;
+  }
+};
+
+const createContact = async lead => {
+  if (!lead?.id || lead.contact_id || convertingLeadId.value) return;
+
+  convertingLeadId.value = lead.id;
+  error.value = '';
+  notice.value = '';
+  try {
+    const { data } = await AutonomiaProspectingAPI.createLeadContact(lead.id);
+    replaceLead(data.payload?.lead);
+    notice.value = t('PROSPECTING.SEARCH.CONTACT_CREATED');
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
+  } finally {
+    convertingLeadId.value = null;
   }
 };
 
@@ -289,7 +330,7 @@ onMounted(loadPage);
               <article
                 v-for="lead in listLeads"
                 :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem]"
+                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem_8rem]"
               >
                 <div class="min-w-0">
                   <h3 class="truncate font-medium text-n-slate-12">
@@ -301,6 +342,31 @@ onMounted(loadPage);
                   <p class="truncate text-n-slate-10">
                     {{ lead.phone || '-' }}
                   </p>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                  <a
+                    v-if="lead.contact_id"
+                    :href="contactUrl(lead.contact_id)"
+                    class="text-xs font-medium text-n-brand underline"
+                  >
+                    {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
+                  </a>
+                  <button
+                    v-else
+                    type="button"
+                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="convertingLeadId === lead.id"
+                    @click="createContact(lead)"
+                  >
+                    {{
+                      convertingLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
+                        : t('PROSPECTING.SEARCH.CREATE_CONTACT')
+                    }}
+                  </button>
+                  <span v-if="lead.contact_id" class="text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+                  </span>
                 </div>
                 <button
                   type="button"
