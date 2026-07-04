@@ -33,7 +33,7 @@ const label = computed(() => {
     class="flex flex-shrink-0 items-center gap-1 rounded-md border border-n-weak bg-n-alpha-1 px-1.5 py-0.5"
   >
     <span class="size-1.5 flex-shrink-0 rounded-full" :style="dotStyle" />
-    <span class="max-w-[8rem] truncate text-xs text-n-slate-11">{{
+    <span class="max-w-[13rem] truncate text-xs text-n-slate-11">{{
       label
     }}</span>
   </div>
