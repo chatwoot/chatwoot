@@ -132,6 +132,21 @@ RSpec.describe Autonomia::Agents::Answerer do
       expect(result.answered_from_knowledge).to be(false)
     end
 
+    it 'blocks the natural third-person form even with a LOW configured threshold' do
+      # Arrange - "O plano cobre..." (sem 1a pessoa) + threshold 0.1: o ramo direto do portao
+      # independe do threshold (Codex HIGH 2a rodada).
+      allow(agent_with_kb).to receive(:confidence_threshold).and_return(0.1)
+      stub_model(reply: 'O plano cobre COVID e o prazo de reembolso e de 30 dias.', confidence: 0.95,
+                 should_handoff: false, handoff_reason: nil, used_snippet_ids: [],
+                 answered_from_knowledge: false)
+
+      # Act
+      result = described_class.new(agent: agent_with_kb, query: 'cobre covid?').answer
+
+      # Assert
+      expect(result.handoff[:should]).to be(true)
+    end
+
     it 'lets genuine world knowledge through (no first-person business claim)' do
       # Arrange - fato publico estavel, sem 1a pessoa do negocio
       stub_model(reply: 'O Tratado de Schengen exige seguro viagem com cobertura minima de 30 mil euros.',

@@ -46,6 +46,12 @@ module Autonomia
       UNGROUNDED_BUSINESS_CLAIM_PATTERNS = [
         /\bnoss[oa]s?\s+(?:plano|ap[óo]lice|cobertura|contrato|empresa|pol[íi]tica|pre[çc]o|valor|taxa|prazo)/i,
         /\b(?:cobrimos|oferecemos|garantimos|reembolsamos|entregamos)\b/i,
+        # Entidade do negócio como SUJEITO + verbo assertivo ("O plano cobre X", "A apólice garante Y",
+        # "Este seguro inclui Z") — 2ª rodada Codex: a forma natural sem 1ª pessoa também é claim.
+        /\b(?:o|a|este|esta|seu|sua)\s+(?:plano|ap[óo]lice|cobertura|contrato|seguro|franquia)\b[^.!?\n]{0,40}
+         \b(?:cobre|inclui|garante|autoriza|reembolsa|custa|vence|oferece|permite|d[áa]\s+direito|[ée]\s+de)\b/xi,
+        # "O prazo/reembolso/valor ... é/são/leva/custa/vale ..." — número operacional do negócio.
+        /\b(?:o|a)\s+(?:prazo|reembolso|pre[çc]o|valor|taxa|car[êe]ncia|franquia)\b[^.!?\n]{0,30}\b(?:[ée]|s[ãa]o|leva|custa|vale)\b/i,
         /\bcusta\s+R?\$?\s?\d/i
       ].freeze
 
@@ -190,6 +196,9 @@ module Autonomia
       # dos snippets que o modelo declarou usar (fallback: todos os recuperados). NÃO altera o teto do portão,
       # apenas REBAIXA confiança quando nada relevante foi recuperado e a resposta não veio da instrução.
       def anchored_confidence(self_conf, parsed, snippets, used, reply_present, grounded_by_instruction)
+        # Cinto avaliado aqui (única passada com `used`+flags) e memorizado no ivar p/ o ramo direto
+        # do handoff? — instância é por-resposta, sem estado entre chamadas.
+        @unanchored_business_claim = unanchored_business_claim?(parsed, used, reply_present, grounded_by_instruction)
         return self_conf unless reply_present # recusa/handoff: deixa o portão agir com o self-report
 
         # Recusa em banda (injeção/fora-de-escopo): reply presente, mas o modelo NÃO afirma ter respondido do
@@ -200,8 +209,8 @@ module Autonomia
           [self_conf, 0.29].min # "não achei" determinístico: nunca > 0.3 (resolve S01 frete 0.95)
         elsif !claims_knowledge
           # Recusa em banda (injeção/fora-de-escopo) E conhecimento geral do mundo: respeita o
-          # self-report — SALVO fato do negócio afirmado sem base (cinto acima): rebaixa < threshold.
-          ungrounded_business_claim?(parsed, used) ? [self_conf, 0.50].min : self_conf
+          # self-report — SALVO fato do negócio afirmado sem base (cinto): piso da recusa (0.29).
+          @unanchored_business_claim ? [self_conf, 0.29].min : self_conf
         elsif retrieval_strong?(snippets, used) || grounded_by_instruction
           self_conf # ancorado em chunk forte ou em fato da instrução: respeita o self-report
         else
@@ -266,6 +275,7 @@ module Autonomia
       def handoff?(parsed, confidence, answered, snippets, reply_present, grounded_by_instruction = false)
         parsed['should_handoff'] == true ||
           confidence < threshold ||
+          @unanchored_business_claim == true || # cinto: fato do negócio sem base NUNCA passa (Codex #118)
           (!reply_present && !answered && snippets.empty?) ||
           improvised_specifics_without_kb?(snippets, reply_present, grounded_by_instruction, parsed)
       end
@@ -275,11 +285,18 @@ module Autonomia
           !agent_has_kb? && asks_for_specifics?(parsed)
       end
 
-      # Reply sem snippet usado que AFIRMA fato do próprio negócio (1ª pessoa / verbo de oferta /
-      # preço) — o caso que o auto-rótulo "geral" não pode liberar. Ver UNGROUNDED_BUSINESS_CLAIM_PATTERNS.
-      def ungrounded_business_claim?(parsed, used)
-        return false if used.any?
+      # Cinto do conhecimento geral (Codex HIGH #118, 2ª rodada): reply que AFIRMA fato do negócio
+      # sem estar ancorada (sem snippet usado, sem âncora, sem claim de conhecimento) força handoff
+      # DIRETO no portão — independente do confidence_threshold configurado no agente (um threshold
+      # <= 0.5 tornaria só o rebaixamento inócuo).
+      def unanchored_business_claim?(parsed, used, reply_present, grounded_by_instruction)
+        reply_present && parsed['answered_from_knowledge'] != true &&
+          !grounded_by_instruction && used.empty? && business_claim?(parsed)
+      end
 
+      # Reply que AFIRMA fato do próprio negócio (1ª pessoa, entidade-sujeito + verbo assertivo,
+      # número operacional, preço) — o caso que o auto-rótulo "geral" não pode liberar.
+      def business_claim?(parsed)
         text = parsed['reply'].to_s
         UNGROUNDED_BUSINESS_CLAIM_PATTERNS.any? { |re| text.match?(re) }
       end
