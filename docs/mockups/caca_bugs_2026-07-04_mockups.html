@@ -1,0 +1,460 @@
+<style>
+  .mk {
+    --bg: #f4f6f8;
+    --panel: #ffffff;
+    --ink: #111a24;
+    --muted: #64748b;
+    --faint: #8a97a6;
+    --line: #e6e9ee;
+    --line-strong: #d3d9e0;
+    --brand: #1f6feb;
+    --brand-weak: #eaf1fe;
+    --teal: #0d8f78;
+    --teal-weak: #e6f6f2;
+    --amber: #c77800;
+    --amber-weak: #fdf3e3;
+    --iris: #5b57e0;
+    --iris-weak: #eeedfc;
+    --field: #f3f5f8;
+    --shadow: 0 1px 2px rgba(16,26,36,.06), 0 4px 16px rgba(16,26,36,.05);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    background:
+      radial-gradient(1200px 500px at 80% -10%, #eef3fb 0%, transparent 60%),
+      var(--bg);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 20px 80px;
+  }
+  .mk * { box-sizing: border-box; }
+  .mk .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .mk .eyebrow {
+    font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--iris); font-weight: 700; margin: 0 0 8px;
+  }
+  .mk h1 { font-size: 30px; line-height: 1.15; margin: 0 0 10px; letter-spacing: -.02em; text-wrap: balance; }
+  .mk .lede { color: var(--muted); font-size: 15px; max-width: 62ch; margin: 0 0 22px; }
+  .mk .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 12.5px; color: var(--muted); margin: 0 0 34px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .mk .legend b { color: var(--ink); }
+  .mk .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+  .mk section { margin: 0 0 52px; }
+  .mk .sec-head { display: flex; align-items: baseline; gap: 12px; margin: 0 0 6px; }
+  .mk .sec-num { font-size: 12px; font-weight: 700; color: #fff; background: var(--iris); border-radius: 6px; padding: 3px 8px; letter-spacing: .04em; }
+  .mk .sec-head h2 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
+  .mk .sec-sub { color: var(--muted); font-size: 14px; margin: 0 0 18px; max-width: 74ch; }
+  .mk .sec-sub code { background: var(--field); border: 1px solid var(--line); border-radius: 5px; padding: 1px 6px; font-size: 12.5px; }
+
+  .mk .frame { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+  .mk .topbar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: linear-gradient(#fbfcfe, #f7f9fc); }
+  .mk .tb-dots { display: flex; gap: 6px; margin-right: 6px; }
+  .mk .tb-dots i { width: 11px; height: 11px; border-radius: 50%; background: #dfe4ea; display: block; }
+  .mk .tb-url { font: 12px/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace; color: var(--faint); background: #fff; border: 1px solid var(--line); border-radius: 7px; padding: 6px 10px; }
+  .mk .tag-after { margin-left: auto; font-size: 11px; font-weight: 700; letter-spacing: .04em; color: var(--teal); background: var(--teal-weak); border: 1px solid #bfe6dc; border-radius: 999px; padding: 3px 10px; }
+
+  .mk .scr { padding: 26px 30px 30px; }
+  .mk .crumb { color: var(--faint); font-size: 13px; margin: 0 0 4px; }
+  .mk .scr h3 { font-size: 22px; margin: 0 0 4px; letter-spacing: -.01em; }
+  .mk .scr .intro { color: var(--muted); font-size: 13.5px; max-width: 60ch; margin: 0 0 22px; }
+  .mk .cols { display: grid; grid-template-columns: minmax(0, 27rem) minmax(0, 1fr); gap: 34px; align-items: start; }
+  @media (max-width: 820px) { .mk .cols { grid-template-columns: 1fr; gap: 26px; } }
+
+  .mk label.fl { display: block; font-size: 12.5px; font-weight: 600; color: #33414f; margin: 0 0 6px; }
+  .mk .field { width: 100%; background: var(--field); border: 1px solid var(--line-strong); border-radius: 9px; padding: 10px 12px; font-size: 13.5px; color: #55606c; margin: 0 0 16px; }
+  .mk .field.ph { color: var(--faint); }
+  .mk .redirect { display: flex; align-items: center; gap: 10px; background: var(--field); border: 1px dashed var(--line-strong); border-radius: 9px; padding: 10px 12px; margin: 0 0 18px; }
+  .mk .redirect code { flex: 1; font: 12.5px/1.3 ui-monospace, Menlo, monospace; color: #3a4653; word-break: break-all; }
+  .mk .redirect .copy { font-size: 12px; font-weight: 600; color: var(--brand); background: #fff; border: 1px solid var(--line-strong); border-radius: 7px; padding: 6px 12px; white-space: nowrap; }
+  .mk .btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--brand); color: #fff; border: none; border-radius: 9px; padding: 11px 18px; font-size: 14px; font-weight: 600; box-shadow: 0 1px 2px rgba(31,111,235,.35); }
+  .mk .btn-primary .ms-ico { width: 15px; height: 15px; display: inline-grid; grid-template-columns: 1fr 1fr; gap: 1.5px; }
+  .mk .btn-primary .ms-ico i { display:block; border-radius: 1px; }
+
+  .mk aside.guide { background: linear-gradient(#fbfcff, #f6f9ff); border: 1px solid #e2e9f6; border-radius: 14px; padding: 22px 22px 8px; }
+  .mk aside.guide .gh { display: flex; align-items: center; gap: 9px; margin: 0 0 4px; }
+  .mk aside.guide .gh .ic { width: 26px; height: 26px; border-radius: 8px; background: var(--brand-weak); color: var(--brand); display: grid; place-items: center; font-size: 15px; }
+  .mk aside.guide .gh.google .ic { background: #fef3f2; color: #d64b3b; }
+  .mk aside.guide h4 { font-size: 15px; margin: 0; }
+  .mk aside.guide .gsub { color: var(--muted); font-size: 12.5px; margin: 0 0 16px 35px; }
+  .mk ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  .mk ol.steps li { counter-increment: s; position: relative; padding: 0 0 16px 38px; font-size: 13px; color: #37424e; }
+  .mk ol.steps li::before {
+    content: counter(s); position: absolute; left: 0; top: -1px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: #fff; border: 1.5px solid var(--brand); color: var(--brand);
+    font-size: 12px; font-weight: 700; display: grid; place-items: center;
+  }
+  .mk aside.guide.google ol.steps li::before { border-color: #d64b3b; color: #d64b3b; }
+  .mk ol.steps li:not(:last-child)::after {
+    content: ""; position: absolute; left: 11.5px; top: 25px; bottom: 3px; width: 1.5px; background: #dbe4f3;
+  }
+  .mk aside.guide.google ol.steps li:not(:last-child)::after { background: #f3dcd8; }
+  .mk ol.steps b { color: var(--ink); font-weight: 600; }
+  .mk ol.steps a { color: var(--brand); text-decoration: none; border-bottom: 1px solid #bcd3f7; }
+  .mk aside.guide.google ol.steps a { color: #c23c2d; border-bottom-color: #f0c9c3; }
+  .mk .perms { margin: 6px 0 4px 38px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .mk .perms .p { font: 11.5px/1 ui-monospace, Menlo, monospace; background: #fff; border: 1px solid var(--line-strong); border-radius: 6px; padding: 5px 8px; color: #3a4653; }
+  .mk .perms .p.cal { background: var(--iris-weak); border-color: #d3d0f5; color: var(--iris); font-family: inherit; font-weight: 600; }
+  .mk .calnote { margin: 6px 0 2px 38px; font-size: 11.5px; line-height: 1.45; color: #5b57e0; background: #f6f5fe; border: 1px solid #e6e4fb; border-radius: 8px; padding: 7px 10px; }
+  .mk .calnote b { color: #46429e; }
+
+  .mk .flowgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 820px){ .mk .flowgrid { grid-template-columns: 1fr; } }
+  .mk .state-cap { display: flex; align-items: center; gap: 8px; font-size: 12.5px; font-weight: 600; color: var(--muted); margin: 0 0 10px; }
+  .mk .state-cap .n { width: 20px; height: 20px; border-radius: 50%; background: var(--iris); color: #fff; font-size: 11px; display: grid; place-items: center; }
+  .mk .agent-hd { display: flex; align-items: center; gap: 11px; padding: 14px 18px; border-bottom: 1px solid var(--line); }
+  .mk .av { width: 34px; height: 34px; border-radius: 50%; background: var(--iris-weak); color: var(--iris); font-weight: 700; font-size: 13px; display: grid; place-items: center; }
+  .mk .agent-hd .nm { font-weight: 600; font-size: 14px; }
+  .mk .agent-hd .st { font-size: 11px; color: var(--teal); background: var(--teal-weak); border-radius: 999px; padding: 2px 8px; margin-left: 2px; }
+  .mk .agent-hd .tabs { margin-left: auto; display: flex; gap: 4px; font-size: 12px; color: var(--faint); }
+  .mk .agent-hd .tabs .on { color: var(--ink); font-weight: 600; background: var(--field); border-radius: 7px; padding: 4px 10px; }
+  .mk .agent-hd .tabs span:not(.on) { padding: 4px 10px; }
+  .mk .kbbody { padding: 22px; }
+  .mk .steplabel { font-size: 14px; font-weight: 600; margin: 0 0 3px; }
+  .mk .stephint { font-size: 12.5px; color: var(--muted); margin: 0 0 16px; }
+  .mk .dropzone { border: 1.5px dashed var(--line-strong); border-radius: 14px; background: var(--field); text-align: center; padding: 34px 20px; }
+  .mk .dropzone .up { width: 40px; height: 40px; border-radius: 11px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; margin: 0 auto 12px; font-size: 18px; color: var(--muted); }
+  .mk .dropzone .dt { font-size: 14px; font-weight: 600; }
+  .mk .dropzone .df { font-size: 12px; color: var(--faint); margin-top: 4px; }
+  .mk .banner { display: flex; gap: 10px; align-items: flex-start; margin: 16px 0 0; padding: 12px 14px; background: var(--amber-weak); border: 1px solid #f0dcb4; border-radius: 11px; font-size: 12.5px; color: #7a5411; }
+  .mk .banner .bi { flex-shrink: 0; }
+  .mk .kbrow { display: flex; align-items: center; gap: 11px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 11px; margin: 12px 0 0; }
+  .mk .kbrow .fi { width: 30px; height: 30px; border-radius: 8px; background: var(--field); display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+  .mk .kbrow .fn { font-size: 13px; font-weight: 500; }
+  .mk .kbrow .pg { margin-left: auto; font-size: 11.5px; color: var(--amber); display: flex; align-items: center; gap: 6px; }
+  .mk .spin { width: 13px; height: 13px; border: 2px solid #eabf7a; border-top-color: var(--amber); border-radius: 50%; }
+  .mk .foot { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 0; }
+  .mk .btn-ghost { background: transparent; border: 1px solid var(--line-strong); color: #44515e; border-radius: 9px; padding: 9px 15px; font-size: 13px; font-weight: 600; }
+  .mk .cnt { font-size: 12px; color: var(--faint); }
+
+  .mk .chat { padding: 18px 20px; min-height: 190px; display: flex; flex-direction: column; gap: 12px; }
+  .mk .ok { display: flex; gap: 8px; align-items: center; font-size: 12.5px; color: var(--teal); background: var(--teal-weak); border: 1px solid #bfe6dc; border-radius: 10px; padding: 9px 12px; }
+  .mk .bubble { max-width: 82%; font-size: 13px; padding: 10px 13px; border-radius: 13px; }
+  .mk .bubble.ag { background: var(--field); color: #2a3641; border-bottom-left-radius: 4px; }
+  .mk .bubble.me { background: var(--brand); color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
+  .mk .composer { margin: auto 0 0; display: flex; gap: 8px; align-items: center; border: 1px solid var(--line-strong); border-radius: 11px; padding: 9px 12px; color: var(--faint); font-size: 13px; }
+  .mk .composer .send { margin-left: auto; width: 28px; height: 28px; border-radius: 8px; background: var(--brand); color: #fff; display: grid; place-items: center; }
+
+  .mk .badge-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 820px){ .mk .badge-demo { grid-template-columns: 1fr; } }
+  .mk .conv { border: 1px solid var(--line); border-radius: 12px; padding: 14px 15px; background: #fff; }
+  .mk .conv .who { font-size: 13.5px; font-weight: 600; }
+  .mk .conv .pv { font-size: 12px; color: var(--muted); margin: 2px 0 10px; }
+  .mk .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .mk .chip { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; border-radius: 999px; padding: 3px 9px; border: 1px solid; white-space: nowrap; }
+  .mk .chip.f { background: var(--iris-weak); color: var(--iris); border-color: #d9d7f6; }
+  .mk .chip.clip { max-width: 128px; overflow: hidden; text-overflow: ellipsis; }
+  .mk .chip .fdot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .mk .mini-cap { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; margin: 0 0 8px; }
+  .mk .mini-cap.b { color: var(--faint); }
+  .mk .mini-cap.a { color: var(--teal); }
+
+  .mk .note { font-size: 12.5px; color: var(--muted); margin: 12px 2px 0; }
+  .mk .note b { color: var(--ink); }
+
+  /* ---- meta campaign badge + filter ---- */
+  .mk .chip.meta { background: #e7f0ff; color: #0a63d6; border-color: #c3dbff; font-weight: 600; }
+  .mk .chip.meta .mi { font-size: 11px; }
+  .mk .camp-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+  @media (max-width: 820px){ .mk .camp-demo { grid-template-columns: 1fr; } }
+  .mk .kanban-col { background: #f6f8fb; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+  .mk .kanban-col .kh { display: flex; align-items: center; gap: 7px; font-size: 12.5px; font-weight: 700; color: #37424e; margin: 2px 4px 12px; }
+  .mk .kanban-col .kh .cnt2 { font-size: 11px; color: var(--faint); background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 1px 7px; }
+  .mk .kcard { background: #fff; border: 1px solid var(--line); border-radius: 11px; padding: 12px 13px; box-shadow: 0 1px 2px rgba(16,26,36,.05); }
+  .mk .kcard + .kcard { margin-top: 9px; }
+  .mk .kcard .kn { font-size: 13px; font-weight: 600; }
+  .mk .kcard .kp { font-size: 11.5px; color: var(--muted); margin: 2px 0 9px; }
+  .mk .kcard .kchips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .mk .attrs { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .mk .attrs .ah { font-size: 12px; font-weight: 700; letter-spacing: .03em; text-transform: uppercase; color: var(--faint); padding: 11px 14px; border-bottom: 1px solid var(--line); background: #fafbfc; }
+  .mk .attrs .arow { display: flex; justify-content: space-between; gap: 12px; padding: 9px 14px; font-size: 12.5px; border-bottom: 1px solid #f1f3f6; }
+  .mk .attrs .arow:last-child { border-bottom: none; }
+  .mk .attrs .ak { color: var(--muted); }
+  .mk .attrs .av2 { color: var(--ink); font-weight: 500; text-align: right; }
+  .mk .attrs .av2.mono { font: 11.5px/1.4 ui-monospace, Menlo, monospace; color: #55606c; }
+  .mk .filterbar { border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; background: #fff; }
+  .mk .filterbar .fbh { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; margin-bottom: 12px; }
+  .mk .selectbox { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line-strong); border-radius: 9px; padding: 9px 12px; font-size: 13px; color: #37424e; }
+  .mk .selectbox .lbl { color: var(--muted); }
+  .mk .selectbox .cv { margin-left: auto; color: var(--faint); }
+  .mk .dropdown { margin-top: 8px; border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); overflow: hidden; }
+  .mk .dropdown .di { display: flex; align-items: center; gap: 9px; padding: 9px 13px; font-size: 12.5px; border-bottom: 1px solid #f1f3f6; }
+  .mk .dropdown .di:last-child { border-bottom: none; }
+  .mk .dropdown .di.sel { background: #eef4ff; font-weight: 600; }
+  .mk .dropdown .di .ck { margin-left: auto; color: var(--brand); }
+  .mk .dropdown .di .cn { margin-left: auto; font-size: 11px; color: var(--faint); }
+</style>
+
+<div class="mk">
+<div class="wrap">
+
+  <p class="eyebrow">Caça a bugs · v2 · para aprovação</p>
+  <h1>Mockups das telas</h1>
+  <p class="lede">Reproduções fiéis do visual atual do Chat2You. Aprove cada tela ou peça ajuste — só implemento depois do seu OK. Nada aqui está em produção.</p>
+
+  <div class="legend">
+    <span><span class="dot" style="background:#0d8f78"></span><b>Depois</b> = como fica com a mudança</span>
+    <span><span class="dot" style="background:#8a97a6"></span><b>Antes</b> = como está hoje</span>
+    <span>Telas: onboarding e-mail (MS/Google), fluxo base-primeiro, etiqueta do funil</span>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">1a</span><h2>Onboarding do e-mail — Microsoft</h2></div>
+    <p class="sec-sub">Input mais estreito à esquerda; o espaço vazio à direita vira um guia passo-a-passo para criar o app no Azure. Uma mudança só (componente <code>OAuthChannel.vue</code>) cobre Microsoft e Google.</p>
+
+    <div class="frame">
+      <div class="topbar">
+        <span class="tb-dots"><i></i><i></i><i></i></span>
+        <span class="tb-url">chat.hub2you.ai/app/accounts/3/settings/inboxes/new/email</span>
+        <span class="tag-after">Depois</span>
+      </div>
+      <div class="scr">
+        <p class="crumb">‹ Anterior &nbsp;·&nbsp; Caixas de Entrada</p>
+        <h3>Microsoft Email</h3>
+        <p class="intro">Conecte a caixa da Microsoft. Siga o guia ao lado para criar o app e cole as credenciais aqui.</p>
+
+        <div class="cols">
+          <div>
+            <p style="font-size:11px;color:#8a97a6;margin:0 0 6px">URL de redirecionamento (cole no seu app)</p>
+            <div class="redirect">
+              <code>https://chat.hub2you.ai/microsoft/callback</code>
+              <span class="copy">Copiar</span>
+            </div>
+            <label class="fl">ID do aplicativo (cliente)</label>
+            <div class="field ph">00000000-0000-0000-0000-000000000000</div>
+            <label class="fl">Segredo do cliente</label>
+            <div class="field ph">Cole o valor do segredo</div>
+            <label class="fl">Tenant ID (ID do diretório)</label>
+            <div class="field ph">common</div>
+            <button class="btn-primary"><span class="ms-ico"><i style="background:#f25022"></i><i style="background:#7fba00"></i><i style="background:#00a4ef"></i><i style="background:#ffb900"></i></span> Entrar com a Microsoft</button>
+          </div>
+
+          <aside class="guide">
+            <div class="gh"><span class="ic">🔑</span><h4>Como criar seu app da Microsoft</h4></div>
+            <p class="gsub">Leva ~4 minutos. Você faz uma vez.</p>
+            <ol class="steps">
+              <li>Abra o <a>Portal do Microsoft Entra</a> e vá em <b>Entra ID → Registros de aplicativo → Novo registro</b>.</li>
+              <li>Dê um nome (ex.: "Hub2You E-mail"). Se for uso interno da empresa, escolha <b>Somente organização atual (single-tenant)</b>.</li>
+              <li>Em <b>URI de Redirecionamento</b>, tipo <b>Web</b>, cole o URL mostrado ao lado. Clique <b>Registrar</b>.</li>
+              <li>Na <b>Visão geral</b>, copie o <b>ID do aplicativo (cliente)</b> e o <b>ID do diretório (locatário)</b> → campos ao lado.</li>
+              <li>Em <b>Permissões de API → Microsoft Graph → Delegadas</b>, adicione:
+                <div class="perms"><span class="p">IMAP.AccessAsUser.All</span><span class="p">Mail.Send</span><span class="p">Mail.ReadWrite</span><span class="p">offline_access</span><span class="p">openid</span><span class="p">profile</span><span class="p">email</span></div>
+                <div class="perms"><span class="p cal">📅 Calendars.ReadWrite</span></div>
+                <p class="calnote">📅 <b>Agenda</b> — <b>necessário</b> para o CRM Calendário e as reuniões. Mesmo login: um consentimento libera e-mail + agenda.</p>
+              </li>
+              <li>Clique <b>Conceder consentimento de administrador</b> e confirme.</li>
+              <li>Em <b>Certificados e segredos → Novo segredo</b>, copie o <b>Valor</b> (não o ID) → campo "Segredo do cliente".</li>
+              <li>Volte aqui, cole as credenciais e clique em conectar. <a>Ver documentação →</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <p class="note"><b>Antes:</b> os 3 campos ocupavam a largura toda e o lado direito ficava vazio, sem nenhuma ajuda de como criar o app.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">1b</span><h2>Onboarding do e-mail — Google</h2></div>
+    <p class="sec-sub">Mesmo layout, passos do Google Cloud. Escopo real que o sistema pede: <code>https://mail.google.com/</code> (caixa completa via IMAP/SMTP).</p>
+
+    <div class="frame">
+      <div class="topbar">
+        <span class="tb-dots"><i></i><i></i><i></i></span>
+        <span class="tb-url">chat.hub2you.ai/app/accounts/3/settings/inboxes/new/email</span>
+        <span class="tag-after">Depois</span>
+      </div>
+      <div class="scr">
+        <p class="crumb">‹ Anterior &nbsp;·&nbsp; Caixas de Entrada</p>
+        <h3>E-mail do Google</h3>
+        <p class="intro">Conecte a caixa do Google. Siga o guia ao lado para criar o cliente OAuth e cole as credenciais aqui.</p>
+
+        <div class="cols">
+          <div>
+            <p style="font-size:11px;color:#8a97a6;margin:0 0 6px">URL de redirecionamento (cole no seu app)</p>
+            <div class="redirect">
+              <code>https://chat.hub2you.ai/google/callback</code>
+              <span class="copy">Copiar</span>
+            </div>
+            <label class="fl">ID do cliente</label>
+            <div class="field ph">xxxx.apps.googleusercontent.com</div>
+            <label class="fl">Segredo do cliente</label>
+            <div class="field ph">Cole o valor do segredo</div>
+            <button class="btn-primary" style="background:#1a73e8;box-shadow:0 1px 2px rgba(26,115,232,.35)">Entrar com o Google</button>
+          </div>
+
+          <aside class="guide google">
+            <div class="gh google"><span class="ic">📧</span><h4>Como criar seu cliente do Google</h4></div>
+            <p class="gsub">Leva ~5 minutos. Você faz uma vez.</p>
+            <ol class="steps">
+              <li>Abra o <a>Google Cloud Console</a> e crie ou selecione um <b>projeto</b>.</li>
+              <li>Em <b>APIs e serviços → Biblioteca</b>, procure <b>Gmail API</b> e clique <b>Ativar</b>.
+                <p class="calnote">📅 Ative também a <b>Google Calendar API</b> aqui — <b>necessária</b> para o CRM Calendário. Sem ela a agenda dá erro, mesmo com o escopo liberado.</p>
+              </li>
+              <li>Em <b>Google Auth Platform → Público</b>, escolha tipo <b>Externo</b> e preencha nome + e-mails de contato.</li>
+              <li>Na etapa <b>Escopos</b>, adicione:
+                <div class="perms"><span class="p">https://mail.google.com/</span></div>
+                <div class="perms"><span class="p cal">📅 .../auth/calendar</span></div>
+                <p class="calnote">📅 <b>Agenda</b> — <b>necessário</b> para o CRM Calendário e as reuniões. Mesmo login: um consentimento libera e-mail + agenda.</p>
+              </li>
+              <li>Em <b>Clientes → Criar cliente</b>, tipo <b>Aplicativo da Web</b>.</li>
+              <li>Em <b>URIs de redirecionamento autorizados</b>, cole o URL mostrado ao lado. Clique <b>Criar</b>.</li>
+              <li>Copie o <b>ID do cliente</b> e o <b>Segredo</b> → campos ao lado.</li>
+              <li>Se o app ficar em <b>Teste</b>, adicione o e-mail da caixa em <b>Usuários de teste</b>. <a>Ver documentação →</a></li>
+            </ol>
+          </aside>
+        </div>
+      </div>
+    </div>
+    <p class="note"><b>Observação:</b> como o sistema também envia e-mail, o escopo é a caixa completa (<code>mail.google.com/</code>) — não basta só leitura.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">2</span><h2>Criação do agente — base primeiro</h2></div>
+    <p class="sec-sub">Quando o usuário escolhe agente <b>com base de conhecimento</b> (interno ou externo), primeiro aparece <b>só a caixa da base</b>. Ao terminar de processar, o chat abre sozinho já conhecendo o conteúdo. Se desistir da base, um botão <b>Pular</b> leva direto ao agente.</p>
+
+    <div class="flowgrid">
+      <div>
+        <div class="state-cap"><span class="n">1</span> Só a base — antes do chat</div>
+        <div class="frame">
+          <div class="agent-hd">
+            <span class="av">AM</span>
+            <div><div class="nm">Ana Maciel</div></div>
+            <span class="st">Rascunho</span>
+            <div class="tabs"><span class="on">Base</span><span>Conversa</span></div>
+          </div>
+          <div class="kbbody">
+            <p class="steplabel">Envie a base de conhecimento</p>
+            <p class="stephint">Suba os documentos que o agente vai usar para responder. Depois o chat abre automaticamente.</p>
+            <div class="dropzone">
+              <div class="up">⬆</div>
+              <div class="dt">Arraste arquivos ou clique para enviar</div>
+              <div class="df">PDF, DOCX, XLSX, TXT, MD, JSON · até 30 materiais</div>
+            </div>
+            <div class="banner">
+              <span class="bi">⏱️</span>
+              <span>Processar toda a base pode levar <b>até 5 minutos</b>. Pode deixar a página aberta — avisamos quando terminar.</span>
+            </div>
+            <div class="kbrow">
+              <span class="fi">📄</span>
+              <span class="fn">condicoes-gerais-gta.pdf</span>
+              <span class="pg"><span class="spin"></span> Processando…</span>
+            </div>
+            <div class="foot">
+              <span class="cnt">1 de 30 materiais</span>
+              <button class="btn-ghost">Pular e ir para o agente →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="state-cap"><span class="n">2</span> Base pronta — chat abre sozinho</div>
+        <div class="frame">
+          <div class="agent-hd">
+            <span class="av">AM</span>
+            <div><div class="nm">Ana Maciel</div></div>
+            <span class="st">Rascunho</span>
+            <div class="tabs"><span>Base</span><span class="on">Conversa</span></div>
+          </div>
+          <div class="chat">
+            <div class="ok">✓ Base pronta — 4 materiais analisados. O construtor já conhece o conteúdo.</div>
+            <div class="bubble ag">Sua base está pronta! Já li os 4 materiais da GTA. Quer que eu foque em quais assuntos primeiro — cotação, coberturas ou emissão?</div>
+            <div class="bubble me">Coberturas e destinos que exigem seguro.</div>
+            <div class="composer">Escreva sua resposta… <span class="send">↑</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note"><b>Regra:</b> vale para agente interno e externo. Base primeiro só quando o usuário pediu "com base". Botão <b>Pular</b> sempre disponível (se desistir ou um arquivo falhar).</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">3</span><h2>Etiqueta do funil na conversa</h2></div>
+    <p class="sec-sub">Com mais de um funil, o rótulo <code>funil · etapa</code> estourava a largura fixa (<code>8rem</code>) e cortava a etapa. Depois: largura maior + quebra elegante, sem cortar.</p>
+
+    <div class="badge-demo">
+      <div>
+        <p class="mini-cap b">Antes — corta</p>
+        <div class="conv">
+          <div class="who">Maria Souza</div>
+          <div class="pv">Perfeito, vou aguardar o retorno então…</div>
+          <div class="chips">
+            <span class="chip f clip"><span class="fdot"></span>Vendas GTA · Propos</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p class="mini-cap a">Depois — completo</p>
+        <div class="conv">
+          <div class="who">Maria Souza</div>
+          <div class="pv">Perfeito, vou aguardar o retorno então…</div>
+          <div class="chips">
+            <span class="chip f"><span class="fdot"></span>Vendas GTA · Proposta enviada</span>
+            <span class="chip f"><span class="fdot"></span>Pós-venda · Onboarding</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note">Mudança pequena de CSS no <b>CrmConversationStageChip</b>. Sem risco de backend.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="sec-num">5</span><h2>Campanha da Meta — etiqueta no Kanban + filtro</h2></div>
+    <p class="sec-sub">Quando a conversa chega de um <b>anúncio click-to-WhatsApp</b>, ela ganha uma etiqueta <b>Meta Ads</b> com o nome da campanha. A etiqueta aparece na conversa e no card do Kanban, e dá para <b>filtrar</b> o funil por campanha.</p>
+
+    <div class="camp-demo">
+      <div>
+        <p class="mini-cap a">Na conversa</p>
+        <div class="conv" style="margin-bottom:16px">
+          <div class="who">João Pereira</div>
+          <div class="pv">Vi o anúncio de vocês, queria uma cotação…</div>
+          <div class="chips">
+            <span class="chip meta"><span class="mi">📣</span> Meta Ads · Promo Julho</span>
+            <span class="chip f"><span class="fdot"></span>Vendas GTA · Novo lead</span>
+          </div>
+        </div>
+        <p class="mini-cap a">Painel de atributos da conversa</p>
+        <div class="attrs">
+          <div class="ah">Campanha</div>
+          <div class="arow"><span class="ak">Origem</span><span class="av2">Meta Ads (click-to-WhatsApp)</span></div>
+          <div class="arow"><span class="ak">Campanha</span><span class="av2">Promo Julho</span></div>
+          <div class="arow"><span class="ak">Anúncio (ID)</span><span class="av2 mono">120210847…</span></div>
+          <div class="arow"><span class="ak">Clique (ctwa_clid)</span><span class="av2 mono">Aa1Bb2Cc…</span></div>
+        </div>
+      </div>
+
+      <div>
+        <p class="mini-cap a">No card do Kanban</p>
+        <div class="kanban-col" style="margin-bottom:16px">
+          <div class="kh">Novo lead <span class="cnt2">2</span></div>
+          <div class="kcard">
+            <div class="kn">João Pereira</div>
+            <div class="kp">GTA · cotação seguro viagem</div>
+            <div class="kchips"><span class="chip meta"><span class="mi">📣</span> Promo Julho</span></div>
+          </div>
+          <div class="kcard">
+            <div class="kn">Marina Alves</div>
+            <div class="kp">GTA · dúvida cobertura</div>
+            <div class="kchips"><span class="chip meta"><span class="mi">📣</span> Remarketing Ago</span></div>
+          </div>
+        </div>
+
+        <p class="mini-cap a">Filtrar o funil por campanha</p>
+        <div class="filterbar">
+          <div class="fbh">🔎 Filtros</div>
+          <div class="selectbox"><span class="lbl">Campanha:</span> <b>Promo Julho</b> <span class="cv">▾</span></div>
+          <div class="dropdown">
+            <div class="di">Todas as campanhas</div>
+            <div class="di sel">📣 Promo Julho <span class="ck">✓</span></div>
+            <div class="di">📣 Remarketing Ago <span class="cn">3</span></div>
+            <div class="di">📣 Institucional <span class="cn">7</span></div>
+            <div class="di" style="color:#8a97a6">Sem campanha <span class="cn">42</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="note"><b>Como funciona:</b> o dado da campanha já chega junto da 1ª mensagem do anúncio (Meta manda automático). A gente grava na conversa como etiqueta <code>Meta Ads</code> + atributo, e o card do Kanban espelha. <b>Tráfego → landing page</b> usa a mesma etiqueta quando o link da LP traz o código da campanha (depende do marketing padronizar).</p>
+  </section>
+
+</div>
+</div>
