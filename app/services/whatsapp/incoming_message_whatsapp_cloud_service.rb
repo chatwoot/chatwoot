@@ -20,10 +20,17 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     return unless url_response.success?
 
     downloaded_file = Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
-    # WhatsApp Cloud sends the original filename in the payload; preserve it so accented
-    # names keep their correct extension instead of relying on the mangled remote metadata.
-    filename = attachment_payload[:filename]
+    # Voice notes omit filename; without an .ogg extension Marcel may misidentify the blob.
+    filename = attachment_payload[:filename].presence || default_download_filename(attachment_payload)
     downloaded_file.define_singleton_method(:original_filename) { filename } if filename.present?
     downloaded_file
+  end
+
+  def default_download_filename(attachment_payload)
+    mime = attachment_payload[:mime_type].to_s.split(';').first.strip
+    return unless mime.start_with?('audio/')
+
+    extension = mime == 'audio/mpeg' ? 'mp3' : mime.split('/').last
+    "whatsapp-audio-#{attachment_payload[:id]}.#{extension}"
   end
 end

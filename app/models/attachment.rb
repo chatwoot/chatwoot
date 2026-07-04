@@ -42,6 +42,7 @@ class Attachment < ApplicationRecord
   belongs_to :message
   has_one_attached :file
   before_save :set_extension
+  after_create_commit :normalize_opus_audio_content_type!
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
@@ -181,6 +182,17 @@ class Attachment < ApplicationRecord
     return if extension.present?
 
     self.extension = File.extname(file.filename.to_s).delete_prefix('.').presence
+  end
+
+  # Marcel may re-identify OGG/Opus voice notes as audio/opus after attach. Browsers
+  # and ActiveStorage inline playback expect audio/ogg (see active_storage.rb).
+  def normalize_opus_audio_content_type!
+    return unless audio? && file.attached?
+
+    blob = file.blob
+    return unless blob.content_type == 'audio/opus'
+
+    blob.update(content_type: 'audio/ogg')
   end
 
   def should_validate_file?
