@@ -23,8 +23,11 @@ module Autonomia
       # Fix UX "erro fantasma" (2026-07-04): quando o agente NÃO TEM a resposta na base (portão
       # suprimiu a reply e não há fallback/raw), o widget mostrava "Houve um erro ao gerar a
       # resposta" — falha técnica falsa. Agora devolve esta resposta honesta como turno normal.
-      NO_ANSWER_TEXT = 'Não encontrei essa informação na base de conhecimento deste agente. ' \
-                       'Se esse conteúdo deveria existir, adicione o material na base dele em Agentes.'.freeze
+      # Fraseio do PO (2026-07-04). ÚLTIMO recurso: só aparece quando o modelo não produziu NENHUM
+      # texto (nem raw). No caminho normal, o próprio modelo formula o "não sei" humanizado no
+      # contexto da conversa (andaime: "VARIE o fraseio das recusas").
+      NO_ANSWER_TEXT = 'Infelizmente eu não tenho a resposta para essa pergunta. ' \
+                       'Se eu puder te apoiar em outra coisa, pode contar.'.freeze
 
       # history: Array<{ role: 'user'|'assistant', content: String }> (the local widget thread)
       def initialize(conversation:, agent_id:, message:, history: [])
