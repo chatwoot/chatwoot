@@ -28,6 +28,15 @@ module Autonomia
         # source_types que já são tabulares por natureza — assinatura forte independente do conteúdo.
         TABULAR_SOURCE_TYPES = %w[xlsx json].freeze
 
+        # FAQ por DENSIDADE de perguntas (fix GTA 2026-07-04): PDF de condições gerais em estilo
+        # pergunta/resposta sai da extração como texto CORRIDO ("… urgência e emergência ? Considera-se: …")
+        # — a assinatura por LINHA (FAQ_LINE) nunca dispara (nenhuma linha termina em "?") e o doc caía em
+        # :prose (1931/1931 chunks da conta 3). Sinal complementar: muitos "?" no corpo = FAQ, mesmo sem
+        # quebra de linha. Limiares conservadores p/ prosa normal (com "?" esporádico) seguir :prose.
+        QUESTION_SAMPLE_CHARS = 6000
+        QUESTION_MIN_COUNT = 5
+        QUESTION_MIN_DENSITY = 1.0 / 800 # >= 1 pergunta a cada ~800 chars da amostra
+
         def initialize(text, source_type: nil)
           @text = text.to_s
           @source_type = source_type.to_s
@@ -53,7 +62,7 @@ module Autonomia
           lines = sample_lines
           return :prose if lines.empty?
 
-          return :faq     if signature?(lines, FAQ_LINE)
+          return :faq     if signature?(lines, FAQ_LINE) || question_dense?
           return :tabular if signature?(lines, RECORD_LINE)
           return :list    if signature?(lines, LIST_LINE)
 
@@ -62,6 +71,16 @@ module Autonomia
 
         def sample_lines
           @text.split("\n").map(&:strip).reject(&:empty?).first(SAMPLE_LINES)
+        end
+
+        # FAQ em texto corrido (PDF): a amostra tem perguntas em quantidade E densidade — "?" esporádico
+        # de prosa comum não dispara nenhum dos dois limiares juntos.
+        def question_dense?
+          sample = @text[0, QUESTION_SAMPLE_CHARS].to_s
+          return false if sample.empty?
+
+          questions = sample.count('?')
+          questions >= QUESTION_MIN_COUNT && (questions.to_f / sample.length) >= QUESTION_MIN_DENSITY
         end
 
         def signature?(lines, pattern)

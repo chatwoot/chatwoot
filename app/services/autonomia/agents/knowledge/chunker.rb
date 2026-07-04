@@ -182,7 +182,15 @@ module Autonomia
           "#{@heading}\n#{chunk}"
         end
 
+        # Pergunta de FAQ extraída do fim de um segmento corrido: a última sentença terminando em "?"
+        # (8..180 chars, sem cruzar pontuação de sentença anterior). Vira o "cabeçalho" do par P+R.
+        FAQ_QUESTION_TAIL = /[^.!?\n]{8,180}[ \t]*\?\z/
+
         def heading?(text, record)
+          # Fix GTA 2026-07-04: em material FAQ, a PERGUNTA é o cabeçalho da seção — a resposta herda a
+          # pergunta em todo chunk (inclusive respostas longas fatiadas), e section_heading deixa de sair
+          # vazio. Era o recall-miss do estilo P+R: janela cega cortava resposta longe da sua pergunta.
+          return true if record == :question
           return false if record || text.length > HEADING_MAX
           return true if text.match?(MARKDOWN_HEADING)
           # Numeração ("47-", "12.") só é título se NÃO terminar em pontuação de
@@ -190,9 +198,13 @@ module Autonomia
           # falso título e poluiria os chunks seguintes com prefixo errado.
           return true if text.match?(NUMBERED_HEADING) && !text.match?(TERMINAL_PUNCT)
 
-          # Linha "gritada" (sem minúsculas, sem pontuação final) tem cara de título de seção de
-          # PDF/apólice. Linha curta em caixa normal NÃO é título — segue sendo seção mono-tópico
-          # própria (frete/troca/parcelamento), preservando a calibração do MERGE_FLOOR.
+          shouted_line?(text)
+        end
+
+        # Linha "gritada" (sem minúsculas, sem pontuação final) tem cara de título de seção de
+        # PDF/apólice. Linha curta em caixa normal NÃO é título — segue sendo seção mono-tópico
+        # própria (frete/troca/parcelamento), preservando a calibração do MERGE_FLOOR.
+        def shouted_line?(text)
           text.match?(/[[:alpha:]]/) && !text.match?(/[[:lower:]]/) && !text.match?(TERMINAL_PUNCT)
         end
 
@@ -205,10 +217,31 @@ module Autonomia
         end
 
         def split_paragraph(para)
+          return faq_units(para) if @material_type == :faq
+
           lines = para.split("\n").map(&:strip).reject(&:empty?)
           return [[para.strip, false]] if lines.size <= 1
 
           record_lines?(lines) ? lines.map { |line| [line, true] } : [[lines.join(' '), false]]
+        end
+
+        # Fix GTA 2026-07-04 — material FAQ: quebra o parágrafo NAS PERGUNTAS (mesmo em texto corrido
+        # de PDF, sem quebras de linha). Cada segmento que termina em "?" fecha na pergunta: o rabo
+        # vira unidade :question (→ cabeçalho da seção via heading?); o que vem antes dela é resto da
+        # RESPOSTA anterior (unidade comum). Resultado: chunk = "Pergunta?\nResposta…" — a resposta
+        # nunca nasce órfã da pergunta, e a busca pela pergunta acha a resposta.
+        def faq_units(para)
+          para.split(/(?<=\?)\s+/).flat_map do |segment|
+            segment = segment.strip
+            next [] if segment.empty?
+            next [[segment, false]] unless segment.end_with?('?')
+
+            question = segment[FAQ_QUESTION_TAIL] || segment
+            lead = segment[0...-question.length].strip
+            units = []
+            units << [lead, false] unless lead.empty?
+            units << [question.strip, :question]
+          end
         end
 
         # Heurística barata: o parágrafo é "tabular/registro" se a maioria das linhas tem cara de

@@ -1477,7 +1477,7 @@
   "AUTONOMIA_COPILOT": {
     "TITLE": "Copiloto Autonom.ia",
     "RESET": "Nova conversa",
-    "KICK_OFF": "Pergunte ao copiloto sobre esta conversa — resumo, próximos passos, rascunho de resposta.",
+    "KICK_OFF": "Pergunte ao copiloto sobre esta conversa: resumo, próximos passos, rascunho de resposta.",
     "NO_AGENTS": "Nenhum agente copiloto interno disponível ainda. Crie um no hub de Agentes.",
     "UNAVAILABLE": "O copiloto está indisponível no momento.",
     "ERROR": "Não foi possível falar com o copiloto. Tente novamente.",

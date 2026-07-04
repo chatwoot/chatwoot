@@ -191,4 +191,36 @@ RSpec.describe Autonomia::Agents::Knowledge::Chunker do
     chunks = described_class.new('Um paragrafo simples de prosa para o cliente.', source_type: 'txt').chunks
     expect(chunks).to all(be_a(String))
   end
+
+  # Fix GTA 2026-07-04 - FAQ em texto corrido de PDF: perfil por densidade de "?" + par P+R por chunk.
+  describe 'flowing-PDF FAQ (question density)' do
+    let(:qa_text) do
+      'O que podemos considerar como urgencia e emergencia? Considera-se emergencia a situacao onde o ' \
+        'segurado necessita de atendimento imediato por risco de vida constatado por profissional. ' \
+        'O seguro cobre COVID? Sim, sera autorizado o atendimento medico e hospitalar ao passageiro ate o ' \
+        'limite estabelecido do plano contratado na apolice vigente. ' \
+        'Como aciono a assistencia em viagem? Ligue para a central de atendimento com o numero da apolice ' \
+        'em maos, a qualquer hora do dia, em portugues ou ingles. ' \
+        'Qual o prazo para reembolso? Trinta dias uteis apos a entrega completa dos documentos exigidos ' \
+        'pela seguradora conforme as condicoes gerais. ' \
+        'Quem pode ser beneficiario do seguro? Qualquer pessoa fisica indicada pelo titular no momento da ' \
+        'contratacao do plano de viagem.'
+    end
+
+    it 'classifies flowing question-dense text as faq (line signature never fires)' do
+      expect(described_class.new(qa_text, source_type: 'pdf').material_type).to eq(:faq)
+    end
+
+    it 'keeps each answer attached to its question and uses the question as section_heading' do
+      # Act
+      entries = described_class.new(qa_text, source_type: 'pdf').chunks_with_metadata
+
+      # Assert - o chunk do COVID contem pergunta E resposta juntas; heading = a pergunta
+      covid = entries.find { |e| e[:text].include?('COVID') }
+      expect(covid[:text]).to include('O seguro cobre COVID?')
+      expect(covid[:text]).to include('Sim, sera autorizado')
+      expect(covid[:metadata][:section_heading]).to eq('O seguro cobre COVID?')
+      expect(covid[:metadata][:material_type]).to eq('faq')
+    end
+  end
 end
