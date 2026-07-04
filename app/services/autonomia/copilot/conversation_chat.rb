@@ -20,6 +20,15 @@ module Autonomia
 
       Result = Struct.new(:text, :grounded, :available, :reply_suggestion, keyword_init: true)
 
+      # Fix UX "erro fantasma" (2026-07-04): quando o agente NÃO TEM a resposta na base (portão
+      # suprimiu a reply e não há fallback/raw), o widget mostrava "Houve um erro ao gerar a
+      # resposta" — falha técnica falsa. Agora devolve esta resposta honesta como turno normal.
+      # Fraseio do PO (2026-07-04). ÚLTIMO recurso: só aparece quando o modelo não produziu NENHUM
+      # texto (nem raw). No caminho normal, o próprio modelo formula o "não sei" humanizado no
+      # contexto da conversa (andaime: "VARIE o fraseio das recusas").
+      NO_ANSWER_TEXT = 'Infelizmente eu não tenho a resposta para essa pergunta. ' \
+                       'Se eu puder te apoiar em outra coisa, pode contar.'.freeze
+
       # history: Array<{ role: 'user'|'assistant', content: String }> (the local widget thread)
       def initialize(conversation:, agent_id:, message:, history: [])
         @conversation = conversation
@@ -42,12 +51,7 @@ module Autonomia
         result = Autonomia::Agents::Copilot.new(
           agent: agent, message: operator_query, history: @history, retrieval_query: @message
         ).suggest
-        text = clean(result.reply.presence || result.raw_reply)
-        return unavailable if text.blank?
-
-        # reply_suggestion drives the "Use" button: a draft worth inserting into the editor.
-        # Grounded when the agent answered from its own knowledge.
-        Result.new(text: text, grounded: !!result.answered_from_knowledge, available: true, reply_suggestion: true)
+        chat_result(result)
       rescue StandardError => e
         Rails.logger.error("Autonomia copilot chat failed (conv #{@conversation&.id}): #{e.class.name}")
         unavailable
@@ -56,6 +60,20 @@ module Autonomia
       private
 
       attr_reader :conversation
+
+      # Mapeia o AnswerResult do agente para o turno do widget:
+      # - texto presente → turno normal (reply_suggestion habilita o botão "Use isto");
+      # - vazio COM result.error (credencial/timeout/pgvector) → unavailable (o widget mostra o erro
+      #   REAL, "tente novamente");
+      # - vazio SEM erro → o agente só NÃO TEM a resposta na base: turno honesto (NO_ANSWER_TEXT),
+      #   nunca mais o "erro fantasma" que assustava o operador.
+      def chat_result(result)
+        text = clean(result.reply.presence || result.raw_reply)
+        return unavailable if text.blank? && result.error.present?
+        return Result.new(text: NO_ANSWER_TEXT, grounded: false, available: true, reply_suggestion: false) if text.blank?
+
+        Result.new(text: text, grounded: !!result.answered_from_knowledge, available: true, reply_suggestion: true)
+      end
 
       def account
         @account ||= conversation.account

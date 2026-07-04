@@ -1477,7 +1477,7 @@
   "AUTONOMIA_COPILOT": {
     "TITLE": "Autonom.ia Copilot",
     "RESET": "New chat",
-    "KICK_OFF": "Ask the copilot about this conversation — summary, next steps, a reply draft.",
+    "KICK_OFF": "Ask the copilot about this conversation: summary, next steps, a reply draft.",
     "NO_AGENTS": "No internal copilot agent is available yet. Create one in the Agents hub.",
     "UNAVAILABLE": "The copilot is unavailable right now.",
     "ERROR": "Could not reach the copilot. Try again.",
