@@ -101,4 +101,49 @@ RSpec.describe Autonomia::Agents::Answerer do
       described_class.new(agent: agent, query: 'oi', trust_instruction: true).answer
     end
   end
+
+  # Cinto do desbloqueio de conhecimento geral (Codex HIGH #118): auto-rotulo "geral" nao libera
+  # fato do NEGOCIO sem base; fato geral do MUNDO continua passando.
+  describe 'ungrounded business claim belt' do
+    let(:agent_with_kb) do
+      agent = create_agent({})
+      allow(agent).to receive(:accepted_sources).and_return(instance_double(ActiveRecord::Relation, exists?: true))
+      allow(Autonomia::Agents::Retriever).to receive(:new)
+        .and_return(instance_double(Autonomia::Agents::Retriever, retrieve: []))
+      agent
+    end
+
+    def stub_model(reply_hash)
+      client = instance_double(Crm::Ai::ResponsesClient, create: { text: reply_hash.to_json })
+      allow(Crm::Ai::ResponsesClient).to receive(:new).and_return(client)
+    end
+
+    it 'blocks a business fact mislabeled as general knowledge (no snippet, high confidence)' do
+      # Arrange - modelo alucina fato do negocio e se auto-rotula "geral"
+      stub_model(reply: 'Nosso plano cobre COVID ate o limite contratado.', confidence: 0.95,
+                 should_handoff: false, handoff_reason: nil, used_snippet_ids: [],
+                 answered_from_knowledge: false)
+
+      # Act
+      result = described_class.new(agent: agent_with_kb, query: 'cobre covid?').answer
+
+      # Assert - rebaixado (0.50 < threshold 0.55) => handoff, nunca chega como resposta
+      expect(result.handoff[:should]).to be(true)
+      expect(result.answered_from_knowledge).to be(false)
+    end
+
+    it 'lets genuine world knowledge through (no first-person business claim)' do
+      # Arrange - fato publico estavel, sem 1a pessoa do negocio
+      stub_model(reply: 'O Tratado de Schengen exige seguro viagem com cobertura minima de 30 mil euros.',
+                 confidence: 0.9, should_handoff: false, handoff_reason: nil, used_snippet_ids: [],
+                 answered_from_knowledge: false)
+
+      # Act
+      result = described_class.new(agent: agent_with_kb, query: 'paises do schengen?').answer
+
+      # Assert
+      expect(result.handoff[:should]).to be(false)
+      expect(result.reply).to include('Schengen')
+    end
+  end
 end

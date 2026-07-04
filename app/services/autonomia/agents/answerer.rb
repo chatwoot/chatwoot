@@ -35,6 +35,20 @@ module Autonomia
         /\b[A-Z]{2,}-\d{2,}\b/                   # SKU/código tipo ST-045
       ].freeze
 
+      # Cinto determinístico do desbloqueio de conhecimento geral (fix Schengen C, 2026-07-04 — Codex
+      # HIGH #118): o ramo !claims_knowledge do portão confia no auto-rótulo do modelo. Se ele rotular
+      # ERRADO um fato do NEGÓCIO como "geral" (answered_from_knowledge=false, confiança alta, sem
+      # snippet), a alucinação passaria. Reply NÃO-ancorada que afirma fato do PRÓPRIO negócio em
+      # primeira pessoa ("nosso plano/nossa apólice…", "cobrimos/oferecemos/garantimos", "custa R$")
+      # é rebaixada p/ < threshold → handoff. Fato geral do MUNDO ("o Tratado de Schengen exige…")
+      # não casa (sem 1ª pessoa do negócio) e segue passando. Recusa de injeção não casa (curta,
+      # neutra, sem afirmação de negócio) → invariante P1 preservada.
+      UNGROUNDED_BUSINESS_CLAIM_PATTERNS = [
+        /\bnoss[oa]s?\s+(?:plano|ap[óo]lice|cobertura|contrato|empresa|pol[íi]tica|pre[çc]o|valor|taxa|prazo)/i,
+        /\b(?:cobrimos|oferecemos|garantimos|reembolsamos|entregamos)\b/i,
+        /\bcusta\s+R?\$?\s?\d/i
+      ].freeze
+
       def initialize(agent:, query:, history: [], images: [], allow_web_search: true, trust_instruction: false,
                      audience: :customer, retrieval_query: nil)
         @agent = agent
@@ -185,7 +199,9 @@ module Autonomia
         if used.empty? && refusal_no_info?(parsed)
           [self_conf, 0.29].min # "não achei" determinístico: nunca > 0.3 (resolve S01 frete 0.95)
         elsif !claims_knowledge
-          self_conf # recusa em banda (injeção/fora-de-escopo): respeita should_handoff + self-report
+          # Recusa em banda (injeção/fora-de-escopo) E conhecimento geral do mundo: respeita o
+          # self-report — SALVO fato do negócio afirmado sem base (cinto acima): rebaixa < threshold.
+          ungrounded_business_claim?(parsed, used) ? [self_conf, 0.50].min : self_conf
         elsif retrieval_strong?(snippets, used) || grounded_by_instruction
           self_conf # ancorado em chunk forte ou em fato da instrução: respeita o self-report
         else
@@ -257,6 +273,15 @@ module Autonomia
       def improvised_specifics_without_kb?(snippets, reply_present, grounded_by_instruction, parsed)
         reply_present && snippets.empty? && !grounded_by_instruction &&
           !agent_has_kb? && asks_for_specifics?(parsed)
+      end
+
+      # Reply sem snippet usado que AFIRMA fato do próprio negócio (1ª pessoa / verbo de oferta /
+      # preço) — o caso que o auto-rótulo "geral" não pode liberar. Ver UNGROUNDED_BUSINESS_CLAIM_PATTERNS.
+      def ungrounded_business_claim?(parsed, used)
+        return false if used.any?
+
+        text = parsed['reply'].to_s
+        UNGROUNDED_BUSINESS_CLAIM_PATTERNS.any? { |re| text.match?(re) }
       end
 
       # Heurística leve: a reply contém especificidade fabricável (preço, horário, passo numerado, SKU)?

@@ -223,4 +223,31 @@ RSpec.describe Autonomia::Agents::Knowledge::Chunker do
       expect(covid[:metadata][:material_type]).to eq('faq')
     end
   end
+
+  # Codex HIGH #118: pergunta longa (>180 chars) fica INTEIRA no heading; o comeco dela nao vaza
+  # como "resposta" do par anterior.
+  describe 'long FAQ question (no 180-char cap)' do
+    it 'keeps the whole long question as the section_heading of its own pair' do
+      # Arrange - 5 perguntas p/ densidade; a quarta e LONGA (>180 chars)
+      long_q = 'Em quais situacoes de emergencia medica ocorridas durante a viagem internacional o ' \
+               'segurado tem direito ao reembolso integral das despesas hospitalares e farmaceuticas ' \
+               'previstas nas condicoes gerais da apolice contratada?'
+      text = 'Voces entregam no domingo? Sim, das oito as doze horas em todo o territorio nacional. ' \
+             'Qual o prazo de troca? Trinta dias corridos apos o recebimento do produto pelo cliente. ' \
+             'O seguro cobre COVID? Sim, ate o limite estabelecido do plano contratado na apolice. ' \
+             "#{long_q} O reembolso integral e devido sempre que a rede credenciada nao estiver disponivel. " \
+             'Quem pode ser beneficiario? Qualquer pessoa fisica indicada pelo titular na contratacao.'
+
+      # Act
+      entries = described_class.new(text, source_type: 'pdf').chunks_with_metadata
+
+      # Assert
+      expect(long_q.length).to be > 180
+      pair = entries.find { |e| e[:metadata][:section_heading].to_s.include?('reembolso integral das despesas') }
+      expect(pair[:metadata][:section_heading]).to eq(long_q)
+      expect(pair[:text]).to include('sempre que a rede credenciada')
+      covid = entries.find { |e| e[:text].include?('COVID') }
+      expect(covid[:text]).not_to include('Em quais situacoes de emergencia')
+    end
+  end
 end

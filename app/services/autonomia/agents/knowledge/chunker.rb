@@ -182,10 +182,6 @@ module Autonomia
           "#{@heading}\n#{chunk}"
         end
 
-        # Pergunta de FAQ extraída do fim de um segmento corrido: a última sentença terminando em "?"
-        # (8..180 chars, sem cruzar pontuação de sentença anterior). Vira o "cabeçalho" do par P+R.
-        FAQ_QUESTION_TAIL = /[^.!?\n]{8,180}[ \t]*\?\z/
-
         def heading?(text, record)
           # Fix GTA 2026-07-04: em material FAQ, a PERGUNTA é o cabeçalho da seção — a resposta herda a
           # pergunta em todo chunk (inclusive respostas longas fatiadas), e section_heading deixa de sair
@@ -236,12 +232,23 @@ module Autonomia
             next [] if segment.empty?
             next [[segment, false]] unless segment.end_with?('?')
 
-            question = segment[FAQ_QUESTION_TAIL] || segment
-            lead = segment[0...-question.length].strip
+            lead, question = question_split(segment)
             units = []
             units << [lead, false] unless lead.empty?
-            units << [question.strip, :question]
+            units << [question, :question]
           end
+        end
+
+        # Divide um segmento "resto-da-resposta-anterior + Pergunta?" na ÚLTIMA fronteira de sentença
+        # ([.!?] + espaço) antes do "?" final: tudo após a fronteira é a pergunta INTEIRA (sem teto de
+        # chars — Codex HIGH #118: o teto de 180 truncava pergunta longa e o começo dela vazava como
+        # "resposta" do par anterior). Sem fronteira, o segmento todo é a pergunta.
+        def question_split(segment)
+          body = segment[0...-1] # o "?" final não conta como fronteira
+          boundary = body.rindex(/[.!?]\s/)
+          return ['', segment] unless boundary
+
+          [segment[0..boundary].strip, segment[(boundary + 1)..].strip]
         end
 
         # Heurística barata: o parágrafo é "tabular/registro" se a maioria das linhas tem cara de
