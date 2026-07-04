@@ -306,8 +306,11 @@ Rails.application.routes.draw do
               resources :leads, only: [:index, :show] do
                 post :contact, on: :member, action: :create_contact
               end
-              resources :lists, only: [:index, :show, :create]
-              resource :settings, only: [:show]
+              resources :lists, only: [:index, :show, :create] do
+                post 'leads', on: :member, action: :add_lead
+                delete 'leads/:lead_id', on: :member, action: :remove_lead
+              end
+              resource :settings, only: [:show, :update]
             end
           end
           namespace :email_campaigns do
