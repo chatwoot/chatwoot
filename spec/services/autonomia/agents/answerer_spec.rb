@@ -147,6 +147,22 @@ RSpec.describe Autonomia::Agents::Answerer do
       expect(result.handoff[:should]).to be(true)
     end
 
+    it 'blocks passive/existential business claim phrasings (Codex round 3)' do
+      # Arrange/Act/Assert - cada forma comum de claim sem sujeito explicito deve cair no cinto
+      [
+        'COVID esta coberto ate o limite contratado.',
+        'Ha cobertura para COVID ate o limite contratado.',
+        'A cobertura para COVID esta incluida no plano.',
+        'O reembolso acontece em ate 30 dias.',
+        'Plano contratado cobre COVID ate o limite.'
+      ].each do |claim|
+        stub_model(reply: claim, confidence: 0.95, should_handoff: false, handoff_reason: nil,
+                   used_snippet_ids: [], answered_from_knowledge: false)
+        result = described_class.new(agent: agent_with_kb, query: 'cobre covid?').answer
+        expect(result.handoff[:should]).to be(true), "esperava handoff para: #{claim}"
+      end
+    end
+
     it 'lets genuine world knowledge through (no first-person business claim)' do
       # Arrange - fato publico estavel, sem 1a pessoa do negocio
       stub_model(reply: 'O Tratado de Schengen exige seguro viagem com cobertura minima de 30 mil euros.',

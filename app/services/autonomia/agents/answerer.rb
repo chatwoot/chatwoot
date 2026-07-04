@@ -50,8 +50,15 @@ module Autonomia
         # "Este seguro inclui Z") — 2ª rodada Codex: a forma natural sem 1ª pessoa também é claim.
         /\b(?:o|a|este|esta|seu|sua)\s+(?:plano|ap[óo]lice|cobertura|contrato|seguro|franquia)\b[^.!?\n]{0,40}
          \b(?:cobre|inclui|garante|autoriza|reembolsa|custa|vence|oferece|permite|d[áa]\s+direito|[ée]\s+de)\b/xi,
-        # "O prazo/reembolso/valor ... é/são/leva/custa/vale ..." — número operacional do negócio.
-        /\b(?:o|a)\s+(?:prazo|reembolso|pre[çc]o|valor|taxa|car[êe]ncia|franquia)\b[^.!?\n]{0,30}\b(?:[ée]|s[ãa]o|leva|custa|vale)\b/i,
+        # "O prazo/reembolso/valor ... é/são/leva/custa/vale/acontece/ocorre/em até ..." — número operacional.
+        /\b(?:o|a)?\s?(?:prazo|reembolso|pre[çc]o|valor|taxa|car[êe]ncia|franquia|an[áa]lise)\b[^.!?\n]{0,40}
+         \b(?:[ée]|s[ãa]o|leva|custa|vale|acontece|ocorre|[ée]\s+feit[oa]|em\s+at[ée])\b/xi,
+        # Voz passiva/existencial (3ª rodada Codex): "está coberto/incluído", "há/existe cobertura",
+        # "plano contratado cobre" — claim de negócio sem sujeito explícito.
+        /\best[áa]\s+(?:cobert[oa]|inclu[íi]d[oa])\b/i,
+        /\b(?:h[áa]|existe)\s+cobertura\b/i,
+        /\bplano\s+contratado\b/i,
+        /\bem\s+at[ée]\s+\d+\s+(?:dias?|horas?|meses)\b/i,
         /\bcusta\s+R?\$?\s?\d/i
       ].freeze
 
