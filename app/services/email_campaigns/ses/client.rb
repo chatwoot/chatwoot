@@ -69,10 +69,18 @@ module EmailCampaigns
 
       def signer
         @signer ||= Aws::Sigv4::Signer.new(
-          service: 'ses', region: EmailCampaigns::Config.region,
-          access_key_id: EmailCampaigns::Config.access_key_id,
-          secret_access_key: EmailCampaigns::Config.secret_access_key
+          service: 'ses', region: EmailCampaigns::Config.region, **signer_credentials
         )
+      end
+
+      # Static keys when explicitly configured; otherwise the default provider chain
+      # resolves the EC2 instance-role creds (temporary, auto-rotating, with session token)
+      # via IMDS — so SES works without any static secret in the environment.
+      def signer_credentials
+        static = EmailCampaigns::Config.static_credentials
+        return { credentials: static } if static
+
+        { credentials_provider: Aws::CredentialProviderChain.new.resolve }
       end
 
       def get(path)
