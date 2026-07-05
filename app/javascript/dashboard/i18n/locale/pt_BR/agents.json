@@ -131,6 +131,12 @@
         "ADDED": "Link adicionado ao conhecimento. Estamos processando agora.",
         "ERROR": "Não foi possível adicionar esse link. Tente novamente.",
         "FALLBACK_NAME": "seu agente"
+      },
+      "BASE": {
+        "TITLE": "Envie a base de conhecimento",
+        "SUBTITLE": "Envie o que seu agente precisa saber. Revisamos cada arquivo e, quando a base fica pronta, a conversa abre automaticamente.",
+        "PROCESSING_HINT": "Processar toda a base pode levar até 5 minutos.",
+        "SKIP": "Pular e ir para o agente"
       }
     },
     "WIZARD": {
@@ -227,6 +233,8 @@
         "MEDIA": "Mídias p/ enviar"
       },
       "CONFIDENCE_OVERALL": "Confiança geral",
+      "COUNT": "{count} de {limit} materiais",
+      "LIMIT_REACHED": "Limite atingido. Remova um para adicionar mais.",
       "CONFIDENCE_BAR": {
         "LABEL": "Confiança da base"
       },
