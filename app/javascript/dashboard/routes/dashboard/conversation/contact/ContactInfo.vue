@@ -207,7 +207,7 @@ export default {
           />
           <h3
             v-else
-            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
+            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
             :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
             @click="startEditingName"
           >
@@ -231,6 +231,7 @@ export default {
               target="_blank"
               rel="noopener nofollow noreferrer"
               class="leading-3"
+              :aria-label="$t('CONTACT_PANEL.VIEW_PROFILE')"
             >
               <span class="i-lucide-external-link text-sm text-n-slate-10" />
             </a>
@@ -304,6 +305,7 @@ export default {
           <template #trigger>
             <NextButton
               v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
+              :aria-label="$t('CONTACT_PANEL.NEW_MESSAGE')"
               icon="i-ph-chat-circle-dots"
               slate
               faded
@@ -323,6 +325,7 @@ export default {
         />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          :aria-label="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"
           slate
           faded
@@ -333,6 +336,7 @@ export default {
           <template #trigger>
             <NextButton
               v-tooltip.top-end="$t('CONTACT_PANEL.MERGE_CONTACT')"
+              :aria-label="$t('CONTACT_PANEL.MERGE_CONTACT')"
               icon="i-ph-arrows-merge"
               slate
               faded
@@ -349,6 +353,7 @@ export default {
           <template #trigger>
             <NextButton
               v-tooltip.top-end="$t('DELETE_CONTACT.BUTTON_LABEL')"
+              :aria-label="$t('DELETE_CONTACT.BUTTON_LABEL')"
               icon="i-ph-trash"
               slate
               faded
