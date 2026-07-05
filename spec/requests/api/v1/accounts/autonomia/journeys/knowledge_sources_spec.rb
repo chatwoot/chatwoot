@@ -65,6 +65,21 @@ RSpec.describe 'Autonomia journeys - knowledge sources', type: :request do
     expect(Autonomia::Agents::Source.find_by(id: foreign_source.id)).to be_present
   end
 
+  it 'returns 422 when the knowledge source cap is reached' do
+    # Arrange — teto baixo só no teste; 1 fonte knowledge já satura.
+    stub_const('Autonomia::Agents::Source::MAX_KNOWLEDGE_SOURCES', 1)
+    create_source(agent)
+
+    # Act — nova fonte knowledge estoura o teto.
+    post "/api/v1/accounts/#{account.id}/autonomia/agents/#{agent.id}/sources",
+         params: { source: { source_type: 'txt', reference: 'faq2.txt' } },
+         headers: administrator.create_new_auth_token, as: :json
+
+    # Assert — barrado no servidor, nada criado além da fonte inicial.
+    expect(response).to have_http_status(:unprocessable_entity)
+    expect(agent.sources.knowledge_sources.count).to eq(1)
+  end
+
   it 'rejects a source with an unknown kind with 422 instead of a 500' do
     # Act — kind fora do enum (knowledge|media) cai no guard resolved_kind.
     post "/api/v1/accounts/#{account.id}/autonomia/agents/#{agent.id}/sources",
