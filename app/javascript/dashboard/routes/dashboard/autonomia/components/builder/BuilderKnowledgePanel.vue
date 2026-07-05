@@ -33,7 +33,9 @@ const store = useStore();
 const knowledgeSources = useMapGetter('autonomiaSources/getKnowledgeSources');
 const mediaSources = useMapGetter('autonomiaSources/getMediaSources');
 const hasMediaKind = useMapGetter('autonomiaSources/hasMediaKind');
-const allReviewed = useMapGetter('autonomiaSources/getAllReviewed');
+// Confiança é sobre a base de CONHECIMENTO — o poll assenta quando a knowledge revisou (mídia,
+// que não passa pelo Revisor, não deve manter o poll rodando até o cap).
+const allReviewed = useMapGetter('autonomiaSources/getKnowledgeReviewed');
 const uiFlags = useMapGetter('autonomiaSources/getUIFlags');
 
 // Live base confidence (0..1) recomputed by the Revisor after each review. The
@@ -118,8 +120,19 @@ const uploadFiles = async files => {
     useAlert(t('AGENTS.MATERIALS.NEED_START'));
     return;
   }
+  // Teto de conhecimento: corta o lote pelas vagas restantes (o servidor 422 cobre o resto). Mídia
+  // não tem limite. Sem vaga, avisa e não sobe nada.
+  let batch = files;
+  if (activeKind.value === 'knowledge') {
+    const remaining = KNOWLEDGE_LIMIT - knowledgeCount.value;
+    if (remaining <= 0) {
+      useAlert(t('AGENTS.MATERIALS.LIMIT_REACHED'));
+      return;
+    }
+    batch = files.slice(0, remaining);
+  }
   const results = await Promise.allSettled(
-    files.map(file =>
+    batch.map(file =>
       store.dispatch('autonomiaSources/create', {
         agentId: props.agentId,
         descriptor: { file, kind: activeKind.value },
@@ -172,6 +185,11 @@ const addDialogRef = ref(null);
 const openAddDialog = () => {
   if (!props.agentId) {
     useAlert(t('AGENTS.MATERIALS.NEED_START'));
+    return;
+  }
+  // Links sempre viram conhecimento — respeita o mesmo teto do dropzone.
+  if (knowledgeLimitReached.value) {
+    useAlert(t('AGENTS.MATERIALS.LIMIT_REACHED'));
     return;
   }
   addDialogRef.value?.open();
@@ -248,7 +266,7 @@ onBeforeUnmount(() => {
         xs
         icon="i-lucide-link"
         :label="t('AGENTS.MATERIALS.ADD_LINK')"
-        :disabled="!hasAgent || isUploading"
+        :disabled="!hasAgent || isUploading || knowledgeLimitReached"
         @click="openAddDialog"
       />
     </div>

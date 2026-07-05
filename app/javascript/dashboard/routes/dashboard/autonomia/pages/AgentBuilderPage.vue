@@ -60,8 +60,10 @@ const eligibleInboxes = useMapGetter('autonomiaChannels/getEligible');
 const channelFlags = useMapGetter('autonomiaChannels/getUIFlags');
 const sources = useMapGetter('autonomiaSources/getSources');
 const sourceFlags = useMapGetter('autonomiaSources/getUIFlags');
-const allReviewed = useMapGetter('autonomiaSources/getAllReviewed');
-const needsAttention = useMapGetter('autonomiaSources/getNeedsAttention');
+const knowledgeReviewed = useMapGetter('autonomiaSources/getKnowledgeReviewed');
+const knowledgeNeedsAttention = useMapGetter(
+  'autonomiaSources/getKnowledgeNeedsAttention'
+);
 
 // base -> conversa -> revisao. `phase` drives the conversa/revisao transition; the
 // base step (KB-first) is a FE-only gate before the chat.
@@ -78,8 +80,11 @@ const baseHeadingRef = ref(null);
 // sinal que o backend lê (with_knowledge no start) para criar o rascunho cedo, dando o agentId que
 // o dropzone precisa. Sem base (withKnowledge=false) o fluxo antigo começa direto na conversa.
 const isKnowledgeFirst = computed(() => withKnowledge.value);
-// Base pronta = há material E todos assentaram num veredito aceitável, sem pendência (resend/falha).
-const baseReady = computed(() => allReviewed.value && !needsAttention.value);
+// Base pronta = há material de conhecimento E todos assentaram num veredito aceitável, sem
+// pendência (resend/falha). Escopado à knowledge: mídia não passa pelo Revisor e travaria o gate.
+const baseReady = computed(
+  () => knowledgeReviewed.value && !knowledgeNeedsAttention.value
+);
 // Onde o wizard começa: etapa base quando com conhecimento, senão direto na conversa.
 const startStep = () => (isKnowledgeFirst.value ? 'base' : 'conversa');
 
