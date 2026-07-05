@@ -170,3 +170,10 @@ email_campaign_guardrail_sweep_job:
   cron: '*/10 * * * *'
   class: 'EmailCampaigns::GuardrailSweepJob'
   queue: scheduled_jobs
+
+# executed every 6 hours; reaps orphan guided builder drafts (draft + disabled, no activity for 48h).
+# window tunable via AUTONOMIA_DRAFT_REAP_HOURS.
+autonomia_reap_stale_drafts_job:
+  cron: '0 */6 * * *'
+  class: 'Autonomia::Agents::ReapStaleDraftsJob'
+  queue: scheduled_jobs
