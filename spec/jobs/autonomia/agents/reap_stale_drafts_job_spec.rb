@@ -93,4 +93,15 @@ RSpec.describe Autonomia::Agents::ReapStaleDraftsJob, type: :job do
 
     expect(Autonomia::Agents::Agent.exists?(manual.id)).to be(true)
   end
+
+  it 'clamps a non-positive window to the default instead of a future cutoff' do
+    # janela negativa jogaria o cutoff no futuro e varreria até o rascunho fresco; o clamp evita isso.
+    fresh = create_agent(updated_ago: 1.hour)
+
+    with_modified_env AUTONOMIA_DRAFT_REAP_HOURS: '-1' do
+      described_class.new.perform
+    end
+
+    expect(Autonomia::Agents::Agent.exists?(fresh.id)).to be(true)
+  end
 end
