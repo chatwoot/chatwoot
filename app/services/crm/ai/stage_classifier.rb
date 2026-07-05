@@ -116,12 +116,7 @@ module Crm
 
       def user_input
         {
-          card: {
-            id: @card.id,
-            title: @card.title,
-            current_stage_id: @context[:current_stage][:id],
-            current_stage_name: @context[:current_stage][:name]
-          },
+          card: card_payload,
           stages: @stages.map { |stage| stage_payload(stage) },
           conversation_summary: @context[:summary],
           recent_messages: @context[:recent_messages],
@@ -132,8 +127,33 @@ module Crm
           weekday: @context.dig(:temporal, :weekday),
           timezone: @context.dig(:temporal, :timezone),
           default_hour: @context.dig(:temporal, :default_hour) || 9,
-          attribute_schema: @attribute_schema
+          attribute_schema: @attribute_schema,
+          known_attributes: known_attributes_payload
         }.to_json
+      end
+
+      # Valores já salvos, restritos às chaves do attribute_schema (conjunto pequeno definido pelo
+      # admin) — evita mandar atributos de integrações/ruído e limita o tamanho do input.
+      def known_attributes_payload
+        known = @context[:known_attributes] || {}
+        {
+          contact: scope_to_schema(known[:contact], @attribute_schema[:contact]),
+          conversation: scope_to_schema(known[:conversation], @attribute_schema[:conversation])
+        }
+      end
+
+      def scope_to_schema(values, definitions)
+        allowed = Array(definitions).map { |definition| definition[:key].to_s }
+        values.to_h.select { |key, _value| allowed.include?(key.to_s) }
+      end
+
+      def card_payload
+        {
+          id: @card.id,
+          title: @card.title,
+          current_stage_id: @context[:current_stage][:id],
+          current_stage_name: @context[:current_stage][:name]
+        }
       end
 
       def stage_payload(stage)
