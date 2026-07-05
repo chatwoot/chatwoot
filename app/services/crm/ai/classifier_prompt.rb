@@ -103,6 +103,15 @@ module Crm::Ai::ClassifierPrompt
     omita o campo em vez de preencher.
   ATTR
 
+  KNOWN_ATTRS = <<~KNOWN.strip
+    ATRIBUTOS JÁ CONHECIDOS:
+    Os DADOS DE ENTRADA trazem em "known_attributes" os valores JÁ salvos deste card, separados em
+    "contact" e "conversation". Trate-os como verdade estabelecida sobre o cliente/negócio e use-os como
+    contexto ao decidir o estágio (ex.: um valor já registrado pode sustentar que uma etapa foi concluída).
+    Não repita em "extracted_attributes" um valor que já conste igual em "known_attributes"; só extraia
+    quando a conversa trouxer um valor NOVO ou uma correção do que já está salvo.
+  KNOWN
+
   OUTPUT_DISCIPLINE = <<~OUT.strip
     DISCIPLINA DE SAÍDA:
     - Responda APENAS com um único objeto JSON válido conforme o schema: sem texto fora do JSON,
@@ -135,6 +144,7 @@ module Crm::Ai::ClassifierPrompt
     HANDOFF,
     CALLBACK,
     ATTR_EXTRACTION,
+    KNOWN_ATTRS,
     OUTPUT_DISCIPLINE,
     EXAMPLES
   ].join("\n\n").freeze

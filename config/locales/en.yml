@@ -409,6 +409,7 @@ en:
       retry_unavailable: 'This build cannot be retried right now.'
     source:
       invalid_kind: 'Invalid material kind. Use "knowledge" or "media".'
+      limit_reached: 'This agent already has the maximum of %{limit} knowledge materials. Remove one before adding another.'
     agents:
       operate:
         handoff_default: "Thanks for reaching out! I'm connecting you with a member of our team who will continue from here."

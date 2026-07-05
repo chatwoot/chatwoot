@@ -15,11 +15,31 @@ module Crm
             id: @card.stage_id,
             name: @card.stage&.name
           },
+          known_attributes: known_attributes,
           temporal: temporal_context
         }
       end
 
       private
+
+      # Valores JÁ salvos dos atributos customizados (contato + conversa). O classificador recebe o
+      # SCHEMA (chaves permitidas) em attribute_schema; aqui vão os VALORES atuais, para ele decidir o
+      # estágio ciente do que já se sabe e não re-extrair o que não mudou.
+      def known_attributes
+        {
+          contact: attribute_values(@card.try(:contact)),
+          conversation: attribute_values(@card.primary_conversation)
+        }
+      end
+
+      def attribute_values(record)
+        attributes = record.try(:custom_attributes)
+        return {} unless attributes.is_a?(Hash)
+
+        # compact_blank descartaria `false` (false.blank? == true), mas checkbox salvo como
+        # false é valor real. Removemos só nil/""/coleções vazias, preservando false e 0.
+        attributes.reject { |_key, value| value != false && value.blank? }
+      end
 
       # Âncora temporal para a IA resolver datas relativas ("amanhã", "terça que vem") em data real.
       # Fuso resolvido como nos follow-ups (contato → account.reporting_timezone → UTC).

@@ -887,6 +887,15 @@ module Autonomia
         @thread.state.to_h.fetch('with_knowledge', true) != false
       end
 
+      # KB-first (§9) — opt-in EXPLÍCITO de base na abertura: o dono escolheu "com base" no seletor, então
+      # o state carrega a chave `with_knowledge` (≠ false). Só o explícito conta — o default true (threads
+      # legadas ou sem passar pelo seletor) NÃO entra, para não recriar o vazamento de rascunhos órfãos que
+      # o gate do 1º turno evita (ver apply_result). Espelha o padrão key?+≠false de effective_with_knowledge.
+      def knowledge_first_optin?
+        state = @thread.state.to_h
+        state.key?('with_knowledge') && state['with_knowledge'] != false
+      end
+
       # CONSTRUTOR (P1) — orçamento de turnos. Quando o nº de respostas `user` já dadas atinge
       # MAX_INTERVIEW_QUESTIONS, injeta um bloco de CONTEXTO INTERNO mandando o modelo FECHAR agora
       # (sem novas perguntas, assumindo padrões sensatos). É a metade "via prompt" do limite de
@@ -1018,7 +1027,10 @@ module Autonomia
           # IA-fala-primeiro (ainda sem fala do usuário) NÃO criamos agente: do contrário, só
           # ABRIR o construtor e sair já lotaria o Hub de rascunhos "Novo agente" vazios. O agentId
           # passa a existir na 1ª resposta do usuário (quando os Materiais começam a fazer sentido).
-          ensure_agent(token) if Array(@thread.messages).any? { |m| m['role'] == 'user' }
+          # EXCEÇÃO KB-first (§9): se o dono escolheu EXPLICITAMENTE criar com base, o rascunho precisa
+          # existir ANTES do chat (a etapa de anexar materiais exige agentId no dropzone), então criamos já
+          # na abertura. Órfãos abandonados nesse ramo são varridos pelo reaper (causa-raiz do vazamento).
+          ensure_agent(token) if Array(@thread.messages).any? { |m| m['role'] == 'user' } || knowledge_first_optin?
           # E1 — persiste o turno do assistant no histórico do thread: a pergunta da entrevista ia só
           # no state (next_question) e o FE a injetava localmente — um refresh perdia o fio e o LLM
           # recebia a resposta ("sim/isso/o segundo") sem a pergunta anterior. Só grava se o

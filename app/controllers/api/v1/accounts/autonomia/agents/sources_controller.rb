@@ -10,6 +10,12 @@ class Api::V1::Accounts::Autonomia::Agents::SourcesController < Api::V1::Account
     kind = resolved_kind
     return render_unprocessable(I18n.t('autonomia.source.invalid_kind')) if kind.nil?
 
+    if knowledge_limit_reached?(kind)
+      return render_unprocessable(
+        I18n.t('autonomia.source.limit_reached', limit: Autonomia::Agents::Source::MAX_KNOWLEDGE_SOURCES)
+      )
+    end
+
     @source = @agent.sources.new(source_params)
     @source.account = Current.account
     @source.kind = kind
@@ -64,6 +70,14 @@ class Api::V1::Accounts::Autonomia::Agents::SourcesController < Api::V1::Account
            params[:kind].presence ||
            'knowledge').to_s
     Autonomia::Agents::Source.kinds.key?(raw) ? raw : nil
+  end
+
+  # Teto só para CONHECIMENTO (mídia de envio tem pipeline próprio, sem limite). Conta as fontes
+  # knowledge já existentes do agente; ao atingir o teto, o create responde 422 (o FE já desabilita
+  # o dropzone, isto é a defesa de servidor).
+  def knowledge_limit_reached?(kind)
+    kind == 'knowledge' &&
+      @agent.sources.knowledge_sources.count >= Autonomia::Agents::Source::MAX_KNOWLEDGE_SOURCES
   end
 
   def fetch_agent

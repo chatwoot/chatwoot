@@ -33,7 +33,9 @@ const store = useStore();
 const knowledgeSources = useMapGetter('autonomiaSources/getKnowledgeSources');
 const mediaSources = useMapGetter('autonomiaSources/getMediaSources');
 const hasMediaKind = useMapGetter('autonomiaSources/hasMediaKind');
-const allReviewed = useMapGetter('autonomiaSources/getAllReviewed');
+// Confiança é sobre a base de CONHECIMENTO — o poll assenta quando a knowledge revisou (mídia,
+// que não passa pelo Revisor, não deve manter o poll rodando até o cap).
+const allReviewed = useMapGetter('autonomiaSources/getKnowledgeReviewed');
 const uiFlags = useMapGetter('autonomiaSources/getUIFlags');
 
 // Live base confidence (0..1) recomputed by the Revisor after each review. The
@@ -93,6 +95,21 @@ const visibleSources = computed(() =>
 const hasAgent = computed(() => !!props.agentId);
 const isUploading = computed(() => uiFlags.value?.creatingItem);
 
+// Teto de fontes de CONHECIMENTO por agente — espelha Source::MAX_KNOWLEDGE_SOURCES (o backend
+// responde 422 ao estourar). Mídias de envio têm pipeline próprio, sem limite.
+const KNOWLEDGE_LIMIT = 30;
+const knowledgeCount = computed(() => knowledgeSources.value.length);
+const knowledgeLimitReached = computed(
+  () => knowledgeCount.value >= KNOWLEDGE_LIMIT
+);
+// Dropzone bloqueia por teto só na aba de conhecimento (defesa de UX antes do 422 do servidor).
+const dropzoneDisabled = computed(
+  () =>
+    isUploading.value ||
+    !hasAgent.value ||
+    (activeKind.value === 'knowledge' && knowledgeLimitReached.value)
+);
+
 const onTabChanged = tab => {
   const index = tabs.value.findIndex(item => item.key === tab.key);
   if (index !== -1) activeTabIndex.value = index;
@@ -103,8 +120,19 @@ const uploadFiles = async files => {
     useAlert(t('AGENTS.MATERIALS.NEED_START'));
     return;
   }
+  // Teto de conhecimento: corta o lote pelas vagas restantes (o servidor 422 cobre o resto). Mídia
+  // não tem limite. Sem vaga, avisa e não sobe nada.
+  let batch = files;
+  if (activeKind.value === 'knowledge') {
+    const remaining = KNOWLEDGE_LIMIT - knowledgeCount.value;
+    if (remaining <= 0) {
+      useAlert(t('AGENTS.MATERIALS.LIMIT_REACHED'));
+      return;
+    }
+    batch = files.slice(0, remaining);
+  }
   const results = await Promise.allSettled(
-    files.map(file =>
+    batch.map(file =>
       store.dispatch('autonomiaSources/create', {
         agentId: props.agentId,
         descriptor: { file, kind: activeKind.value },
@@ -157,6 +185,11 @@ const addDialogRef = ref(null);
 const openAddDialog = () => {
   if (!props.agentId) {
     useAlert(t('AGENTS.MATERIALS.NEED_START'));
+    return;
+  }
+  // Links sempre viram conhecimento — respeita o mesmo teto do dropzone.
+  if (knowledgeLimitReached.value) {
+    useAlert(t('AGENTS.MATERIALS.LIMIT_REACHED'));
     return;
   }
   addDialogRef.value?.open();
@@ -233,7 +266,7 @@ onBeforeUnmount(() => {
         xs
         icon="i-lucide-link"
         :label="t('AGENTS.MATERIALS.ADD_LINK')"
-        :disabled="!hasAgent || isUploading"
+        :disabled="!hasAgent || isUploading || knowledgeLimitReached"
         @click="openAddDialog"
       />
     </div>
@@ -288,7 +321,7 @@ onBeforeUnmount(() => {
       <MaterialDropzone
         compact
         :kind="activeKind"
-        :disabled="isUploading || !hasAgent"
+        :disabled="dropzoneDisabled"
         @files="uploadFiles"
       />
       <div
@@ -325,7 +358,7 @@ onBeforeUnmount(() => {
       <MaterialDropzone
         class="w-full"
         :kind="activeKind"
-        :disabled="isUploading || !hasAgent"
+        :disabled="dropzoneDisabled"
         @files="uploadFiles"
       />
       <div
@@ -342,6 +375,24 @@ onBeforeUnmount(() => {
             : t('AGENTS.MATERIALS.NEED_START')
         }}
       </p>
+    </div>
+
+    <!-- Contador X/30 (aba conhecimento): espelha o teto do servidor; avisa quando cheio. -->
+    <div
+      v-if="activeKind === 'knowledge'"
+      class="flex items-center justify-between flex-shrink-0 gap-2 px-4 py-2.5 text-xs border-t border-n-weak"
+    >
+      <span class="tabular-nums text-n-slate-11">
+        {{
+          t('AGENTS.MATERIALS.COUNT', {
+            count: knowledgeCount,
+            limit: KNOWLEDGE_LIMIT,
+          })
+        }}
+      </span>
+      <span v-if="knowledgeLimitReached" class="font-medium text-n-amber-11">
+        {{ t('AGENTS.MATERIALS.LIMIT_REACHED') }}
+      </span>
     </div>
 
     <SourceAddDialog

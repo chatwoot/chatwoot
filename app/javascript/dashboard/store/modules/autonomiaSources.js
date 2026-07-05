@@ -85,6 +85,24 @@ export const getters = {
       )
     );
   },
+  // KB-first: a etapa base fecha pela CONHECIMENTO só (mídia de envio não passa pelo Revisor, logo
+  // nunca ficaria "revisada" e travaria o gate). Espelha getAllReviewed restrito à knowledge.
+  getKnowledgeReviewed($state, $getters) {
+    const knowledge = $getters.getKnowledgeSources;
+    return (
+      knowledge.length > 0 &&
+      knowledge.every(record =>
+        ['accepted', 'needs_review'].includes(record.review?.status)
+      )
+    );
+  },
+  // Pendência (resend/falha) restrita à knowledge — mesmo motivo do escopo acima.
+  getKnowledgeNeedsAttention($state, $getters) {
+    return $getters.getKnowledgeSources.some(
+      record =>
+        record.review?.status === 'needs_resend' || record.status === 'failed'
+    );
+  },
 };
 
 const upsertItem = (items, item) => {

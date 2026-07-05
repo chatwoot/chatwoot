@@ -372,10 +372,11 @@ Metrics/MethodLength:
     - 'db/migrate/20260616120000_create_autonomia_agent_tables.rb'
     - 'db/migrate/20260622000001_create_crm_meetings.rb'
 
-# Offense count: 4
+# Offense count: 5
 # Configuration parameters: CountComments, Max, CountAsOne.
 Metrics/ModuleLength:
   Exclude:
+    - 'app/services/crm/ai/classifier_prompt.rb'
     - 'app/services/csat_template_utility_rubric.rb'
     - 'app/services/email_campaigns/ai/prompt_builder.rb'
     - 'enterprise/app/models/enterprise/account/plan_usage_and_limits.rb'

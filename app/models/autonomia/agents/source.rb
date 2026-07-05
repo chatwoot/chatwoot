@@ -47,6 +47,10 @@ module Autonomia
       # previous_review_attributes as restaura como needs_review, e `accepted` já as exclui.
       scope :servable, -> { accepted.where(status: [statuses[:ready], statuses[:failed]]) }
 
+      # Teto de fontes de CONHECIMENTO por agente (base-primeiro §c). Mídias de envio ficam fora do
+      # limite (pipeline distinto). Aplicado no SourcesController#create e refletido no dropzone do FE.
+      MAX_KNOWLEDGE_SOURCES = 30
+
       SOURCE_TYPES = %w[link pdf xlsx docx json txt md].freeze
       # Teto de tamanho do ANEXO comprimido (defesa contra upload gigante / zip-bomb). O cap do
       # tamanho DESCOMPRIMIDO de docx/xlsx é aplicado no processor.
