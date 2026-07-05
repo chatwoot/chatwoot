@@ -1266,7 +1266,20 @@
       "SAVE_ERROR": "Could not save the credentials. Please check the values and try again.",
       "USING_ACCOUNT_APP": "Using this account's own application.",
       "EDIT_APP": "Edit credentials",
-      "OAUTH_CALLBACK_ERROR": "Microsoft/Google authorization failed ({code}). Check the account's OAuth app settings."
+      "OAUTH_CALLBACK_ERROR": "Microsoft/Google authorization failed ({code}). Check the account's OAuth app settings.",
+      "GUIDE_TITLE": "What this connection does",
+      "GUIDE_CAPABILITY_INBOX": "Receives incoming emails through IMAP",
+      "GUIDE_CAPABILITY_OUTBOX_MICROSOFT": "Sends replies through the Microsoft Graph mail API",
+      "GUIDE_CAPABILITY_OUTBOX_GOOGLE": "Sends replies through your Gmail account over SMTP (XOAUTH2)",
+      "GUIDE_AFTER_AUTH_TITLE": "After you authorize",
+      "GUIDE_AFTER_AUTH_TEXT": "Your mailbox syncs automatically and replies are sent from your address. Calendar access is optional and stays off unless you enable it.",
+      "GUIDE_NEXT_STEPS_TITLE": "Next steps",
+      "GUIDE_NEXT_STEP_1": "Save your OAuth app credentials",
+      "GUIDE_NEXT_STEP_2": "Authorize access to your mailbox",
+      "GUIDE_NEXT_STEP_3": "Finish the inbox setup and start receiving emails",
+      "GUIDE_SCOPES_EXPAND": "View the permissions requested",
+      "GUIDE_SCOPES_MICROSOFT": "offline_access, IMAP.AccessAsUser.All, Mail.Send, Mail.ReadWrite, openid, profile, email (Calendars.ReadWrite only when meetings are enabled).",
+      "GUIDE_SCOPES_GOOGLE": "email, profile, https://mail.google.com/ (Google Calendar only when meetings are enabled)."
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
