@@ -156,7 +156,7 @@
       "SAVED": "First message saved.",
       "STARTERS": "Suggested questions",
       "APPROVED_SUMMARY": "{count} materials approved · {pct}% confidence",
-      "TEST_FIRST": "Test first",
+      "TEST_OPTIONAL": "Test",
       "CONNECT_TITLE": "Connect to an inbox",
       "INTERNAL_TITLE": "Internal agent (team copilot)",
       "INTERNAL_HINT": "This agent helps your team inside conversations and never talks to customers, so there's no inbox to connect.",

@@ -251,39 +251,40 @@ const onConnect = () => {
       <div
         class="flex flex-col gap-2 pt-2 border-t sm:flex-row sm:items-center sm:justify-between border-n-weak"
       >
+        <!-- Primary CTA: activate is the main action; testing is optional, not a gate. -->
         <NextButton
-          outline
-          slate
-          icon="i-lucide-flask-conical"
-          :label="t('AGENTS.REVIEW.TEST_FIRST')"
-          @click="emit('test')"
+          v-if="!isInternal"
+          solid
+          blue
+          icon="i-lucide-plug"
+          :label="t('AGENTS.REVIEW.CONNECT_ACTIVATE')"
+          :is-loading="isConnecting"
+          :disabled="!canConnect"
+          @click="onConnect"
+        />
+        <!-- Interno (copiloto): não há canal para conectar — ativa direto. -->
+        <NextButton
+          v-else
+          solid
+          blue
+          icon="i-lucide-headset"
+          :label="t('AGENTS.REVIEW.ACTIVATE_INTERNAL')"
+          :is-loading="isConnecting"
+          @click="emit('activate')"
         />
         <div class="flex gap-2">
           <NextButton
             outline
             slate
+            icon="i-lucide-flask-conical"
+            :label="t('AGENTS.REVIEW.TEST_OPTIONAL')"
+            @click="emit('test')"
+          />
+          <NextButton
+            outline
+            slate
             :label="t('AGENTS.REVIEW.BACK')"
             @click="emit('back')"
-          />
-          <NextButton
-            v-if="!isInternal"
-            solid
-            blue
-            icon="i-lucide-plug"
-            :label="t('AGENTS.REVIEW.CONNECT_ACTIVATE')"
-            :is-loading="isConnecting"
-            :disabled="!canConnect"
-            @click="onConnect"
-          />
-          <!-- Interno (copiloto): não há canal para conectar — ativa direto. -->
-          <NextButton
-            v-else
-            solid
-            blue
-            icon="i-lucide-headset"
-            :label="t('AGENTS.REVIEW.ACTIVATE_INTERNAL')"
-            :is-loading="isConnecting"
-            @click="emit('activate')"
           />
         </div>
       </div>
