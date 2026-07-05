@@ -110,12 +110,15 @@ These carry `platform_managed: true` (column on `agent_bots`, `webhooks`,
   guards (`check_webhooks_quota` / `check_agent_bots_quota`). So infrastructure
   provisions even when the tenant is at their cap.
 
-The flag is only honored on **administrator-only** create paths (Application-API
-`webhooks`/`agent_bots`) and the **super-admin** Platform-API `account_users`
-create. Since the only administrator in this SaaS is the platform's service user
-(operators SSO in as `role: agent`), tenants cannot self-exempt. Tenant-created
-resources omit the flag and count normally — the change is fully backward
-compatible. See [ADR-0005](./adr/0005-platform-managed-resources.md).
+On the Application API (`webhooks`/`agent_bots`), the flag is honored **only when
+the acting identity is itself platform-managed** — `Current.account_user.platform_managed?`
+(`Custom::Concerns::PlatformActor`). Any other caller, including a tenant
+`administrator`, has the `platform_managed` key stripped from permitted params, so
+they cannot self-exempt and the resource still counts against the plan. The
+Platform-API `account_users` create sets the flag directly and is safe by
+construction (super-admin platform token only). Tenant-created resources omit the
+flag and count normally — the change is fully backward compatible.
+See [ADR-0005](./adr/0005-platform-managed-resources.md).
 
 ## Error contract
 
