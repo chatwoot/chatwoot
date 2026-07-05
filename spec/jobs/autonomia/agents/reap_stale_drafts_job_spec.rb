@@ -29,6 +29,8 @@ RSpec.describe Autonomia::Agents::ReapStaleDraftsJob, type: :job do
     source = Autonomia::Agents::Source.create!(
       account: account, agent: orphan, source_type: 'txt', reference: 'faq.txt'
     )
+    # fonte também velha, senão a proteção de atividade recente pouparia o agente.
+    source.update_column(:updated_at, 3.days.ago) # rubocop:disable Rails/SkipsModelValidations
 
     described_class.new.perform
 
@@ -51,6 +53,29 @@ RSpec.describe Autonomia::Agents::ReapStaleDraftsJob, type: :job do
     described_class.new.perform
 
     expect(Autonomia::Agents::Agent.exists?(fresh.id)).to be(true)
+  end
+
+  it 'spares a stale draft that has a recently uploaded source (KB-first user)' do
+    agent = create_agent
+    # fonte recém-criada (upload horas depois, sem conversar) mantém o agente vivo.
+    Autonomia::Agents::Source.create!(
+      account: account, agent: agent, source_type: 'txt', reference: 'faq.txt'
+    )
+
+    described_class.new.perform
+
+    expect(Autonomia::Agents::Agent.exists?(agent.id)).to be(true)
+  end
+
+  it 'still reaps the orphan when an unrelated recent thread has a nil agent (NULL subquery guard)' do
+    orphan = create_agent
+    # thread recém-criada SEM agente (nasce antes do link) — um NULL na subquery de NOT IN
+    # zeraria toda a varredura se não fosse filtrado.
+    Autonomia::Agents::BuildThread.create!(account: account)
+
+    described_class.new.perform
+
+    expect(Autonomia::Agents::Agent.exists?(orphan.id)).to be(false)
   end
 
   it 'never reaps an active agent even when stale' do

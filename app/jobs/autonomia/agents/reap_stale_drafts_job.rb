@@ -3,14 +3,15 @@
 # abrir o Construtor e sair deixa um agente "Novo agente" vazio pendurado no Hub. Também limpa o leak
 # pré-existente (rascunhos abandonados após o 1º turno), que nunca teve cleanup.
 #
-# Varre agentes GUIADOS ainda em `draft` + `enabled:false` cuja última atividade — do próprio agente E
-# de TODAS as suas build threads — é mais velha que a janela, e os destrói (cascateando
+# Varre agentes GUIADOS ainda em `draft` + `enabled:false` cuja última atividade — do próprio agente,
+# de qualquer build thread E de qualquer fonte — é mais velha que a janela, e os destrói (cascateando
 # sources/knowledge_entries via dependent: :destroy; threads viram nil por dependent: :nullify).
 # Escopo estreito (guided + draft + disabled) nunca toca agente ativo/pausado ou manual.
 #
 # Janela ampla (48h default, ajustável por ENV) protege rascunho em construção lenta: qualquer
-# geração/edição/upload toca o updated_at do agente ou da thread e reabre a janela. Idempotente;
-# cap por execução evita pico de exclusão. Roda de tempos em tempos (schedule.yml).
+# geração/edição/upload toca o updated_at do agente, da thread ou da fonte e reabre a janela.
+# Idempotente; recheck sob lock por registro (defesa em job destrutivo); cap por execução evita pico
+# de exclusão. Roda de tempos em tempos (schedule.yml).
 class Autonomia::Agents::ReapStaleDraftsJob < ApplicationJob
   queue_as :scheduled_jobs
 
@@ -19,7 +20,7 @@ class Autonomia::Agents::ReapStaleDraftsJob < ApplicationJob
 
   def perform
     cutoff = stale_hours.hours.ago
-    reaped = stale_drafts(cutoff).limit(BATCH_LIMIT).count(&:destroy!)
+    reaped = stale_drafts(cutoff).limit(BATCH_LIMIT).count { |agent| reap_if_still_stale(agent, cutoff) }
     return unless reaped.positive?
 
     Rails.logger.info("[Autonomia::ReapStaleDrafts] reaped=#{reaped} cutoff=#{cutoff.iso8601}")
@@ -27,20 +28,41 @@ class Autonomia::Agents::ReapStaleDraftsJob < ApplicationJob
 
   private
 
-  # Rascunhos guiados órfãos: draft + desabilitado + sem atividade recente (nem do agente nem de
-  # qualquer thread sua) dentro da janela.
+  # Recheca o critério sob lock antes de destruir: entre a seleção e o destroy o dono pode ter
+  # retomado (nova geração/upload). Só apaga se o registro AINDA casar como órfão.
+  def reap_if_still_stale(agent, cutoff)
+    agent.with_lock do
+      next false unless stale_drafts(cutoff).exists?(agent.id)
+
+      agent.destroy!
+      true
+    end
+  end
+
+  # Rascunhos guiados órfãos: draft + desabilitado + updated_at velho + sem atividade recente em
+  # thread NEM fonte. Os dois where.not encadeados = poupa quem tem thread OU fonte recente
+  # (id ∉ recent_threads AND id ∉ recent_sources ⇒ reaped só se ausente de ambos).
   def stale_drafts(cutoff)
-    active_thread_agent_ids = Autonomia::Agents::BuildThread
-                              .where('updated_at >= ?', cutoff)
-                              .select(:autonomia_agent_id)
     Autonomia::Agents::Agent
       .guided.draft.where(enabled: false)
       .where('autonomia_agents.updated_at < ?', cutoff)
-      .where.not(id: active_thread_agent_ids)
+      .where.not(id: recent_activity_agent_ids(Autonomia::Agents::BuildThread, cutoff))
+      .where.not(id: recent_activity_agent_ids(Autonomia::Agents::Source, cutoff))
   end
 
+  # IDs de agente com atividade recente na relação dada. where.not(autonomia_agent_id: nil) é
+  # OBRIGATÓRIO: a thread nasce antes do agente (agent_id nil), e um NULL na subquery de um
+  # `id NOT IN (...)` tornaria o predicado UNKNOWN, zerando toda a varredura.
+  def recent_activity_agent_ids(relation, cutoff)
+    relation.where('updated_at >= ?', cutoff)
+            .where.not(autonomia_agent_id: nil)
+            .select(:autonomia_agent_id)
+  end
+
+  # Janela positiva sempre: 0/negativo (cutoff no futuro varreria rascunhos demais) cai no default.
   def stale_hours
-    Integer(ENV.fetch('AUTONOMIA_DRAFT_REAP_HOURS', DEFAULT_STALE_HOURS))
+    hours = Integer(ENV.fetch('AUTONOMIA_DRAFT_REAP_HOURS', DEFAULT_STALE_HOURS))
+    hours.positive? ? hours : DEFAULT_STALE_HOURS
   rescue ArgumentError, TypeError
     DEFAULT_STALE_HOURS
   end
