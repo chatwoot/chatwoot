@@ -79,4 +79,27 @@ RSpec.describe Custom::Concerns::QuotaGuard do
       expect(build(:agent_bot, account: nil)).to be_valid
     end
   end
+
+  describe 'platform-managed records bypass the guard (ADR-0005)' do
+    it 'allows a platform-managed agent bot at the cap' do
+      account.update!(limits: { agent_bots: 1 })
+      create(:agent_bot, account: account)
+
+      expect(build(:agent_bot, account: account, platform_managed: true)).to be_valid
+    end
+
+    it 'allows a platform-managed webhook at the cap' do
+      account.update!(limits: { webhooks: 1 })
+      create(:webhook, account: account)
+
+      expect(build(:webhook, account: account, url: 'https://example.com/platform', platform_managed: true)).to be_valid
+    end
+
+    it 'allows a platform-managed account user at the cap' do
+      account.update!(limits: { agents: 1 })
+      create(:account_user, account: account, user: create(:user))
+
+      expect(build(:account_user, account: account, user: create(:user), platform_managed: true)).to be_valid
+    end
+  end
 end

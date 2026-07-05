@@ -5,12 +5,18 @@ class Custom::EntitlementService
     end
   end
 
+  # Platform-managed resources are infrastructure owned by the control plane (the
+  # system AI AgentBot, its account webhook, the automation account_user), not
+  # tenant-billable seats. They carry `platform_managed: true` and are excluded
+  # from every usage count, so a tenant is never charged a plan slot for the
+  # platform's own automation. Tenant-created resources (default
+  # `platform_managed: false`) count as before. See docs/fork/adr/0002.
   RESOURCE_COUNTERS = {
-    agents: ->(account) { account.account_users.count },
+    agents: ->(account) { account.account_users.where(platform_managed: false).count },
     teams: ->(account) { account.teams.count },
     inboxes: ->(account) { account.inboxes.count },
-    agent_bots: ->(account) { account.agent_bots.count },
-    webhooks: ->(account) { account.webhooks.count },
+    agent_bots: ->(account) { account.agent_bots.where(platform_managed: false).count },
+    webhooks: ->(account) { account.webhooks.where(platform_managed: false).count },
     labels: ->(account) { account.labels.count },
     custom_attribute_definitions: ->(account) { account.custom_attribute_definitions.count },
     automation_rules: ->(account) { account.automation_rules.count },

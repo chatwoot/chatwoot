@@ -12,6 +12,9 @@ module Custom::Concerns::QuotaGuard
 
   def ensure_quota_capacity
     return if account.blank?
+    # Platform-managed infrastructure is exempt: never counted, never blocked
+    # by the tenant's plan (docs/fork/adr/0002).
+    return if respond_to?(:platform_managed?) && platform_managed?
 
     resource = Custom::EntitlementService::MODEL_RESOURCES.fetch(self.class.name)
     result = Custom::EntitlementService.new(account).check(resource)

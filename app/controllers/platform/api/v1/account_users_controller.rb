@@ -27,3 +27,5 @@ class Platform::Api::V1::AccountUsersController < PlatformController
     params.permit(:user_id, :role)
   end
 end
+
+Platform::Api::V1::AccountUsersController.prepend_mod_with('Platform::Api::V1::AccountUsersController')

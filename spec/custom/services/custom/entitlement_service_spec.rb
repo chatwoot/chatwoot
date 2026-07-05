@@ -53,4 +53,35 @@ RSpec.describe Custom::EntitlementService do
       expect { service.check(:bogus) }.to raise_error(KeyError)
     end
   end
+
+  describe 'platform-managed resources (ADR-0005)' do
+    it 'excludes platform-managed agent bots from the count' do
+      create(:agent_bot, account: account)
+      create(:agent_bot, account: account, platform_managed: true)
+
+      expect(service.usage(:agent_bots).current).to eq 1
+    end
+
+    it 'excludes platform-managed webhooks from the count' do
+      create(:webhook, account: account, url: 'https://example.com/tenant')
+      create(:webhook, account: account, url: 'https://example.com/platform', platform_managed: true)
+
+      expect(service.usage(:webhooks).current).to eq 1
+    end
+
+    it 'excludes platform-managed account users from the agents count' do
+      create(:account_user, account: account, user: create(:user))
+      create(:account_user, account: account, user: create(:user), platform_managed: true)
+
+      expect(service.usage(:agents).current).to eq 1
+    end
+
+    it 'still allows the tenant to fill their cap alongside platform infrastructure' do
+      account.update!(limits: { agent_bots: 1 })
+      create(:agent_bot, account: account, platform_managed: true)
+
+      expect(service.check(:agent_bots).allowed?).to be true
+      expect(service.usage(:agent_bots).current).to eq 0
+    end
+  end
 end
