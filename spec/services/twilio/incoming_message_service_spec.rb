@@ -548,6 +548,37 @@ describe Twilio::IncomingMessageService do
           )
         end
 
+        it 'promotes the referral to a conversation campaign attribute and applies the meta_ctwa label' do
+          params = {
+            SmsSid: 'SMxx',
+            From: 'whatsapp:+491741763110',
+            AccountSid: 'ACxxx',
+            MessagingServiceSid: whatsapp_twilio_channel.messaging_service_sid,
+            Body: 'Hallo! Kann ich hierzu mehr Informationen erhalten?',
+            ReferralCtwaClid: 'AfjyUDlaIoiweZDnlzmDTEaG',
+            ReferralSourceId: '120237244350960485',
+            ReferralSourceUrl: 'https://fb.me/4tBfhWhjr',
+            ReferralSourceType: 'ad',
+            ReferralHeadline: 'German citizenship lawyer',
+            ReferralBody: 'Fast-track your German citizenship',
+            ReferralNumMedia: '0'
+          }
+
+          described_class.new(params: params).perform
+
+          conversation = whatsapp_twilio_channel.inbox.conversations.last
+          expect(conversation.additional_attributes['campaign']).to include(
+            'source' => 'meta_ctwa',
+            'source_id' => '120237244350960485',
+            'source_url' => 'https://fb.me/4tBfhWhjr',
+            'source_type' => 'ad',
+            'headline' => 'German citizenship lawyer',
+            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG'
+          )
+          expect(conversation.label_list).to include('meta_ctwa')
+          expect(account.labels.find_by(title: 'meta_ctwa').color).to eq('#25D366')
+        end
+
         it 'does not add referral attributes when ReferralSourceId is absent' do
           params = {
             SmsSid: 'SMxx',

@@ -22,6 +22,10 @@ class Twilio::IncomingMessageService
     attach_files
     attach_location if location_message?
     @message.save!
+
+    # Promote a Click-to-WhatsApp ad referral into a conversation-level campaign attribute
+    # + label (Kanban badge/filter). Idempotent; only WhatsApp channels carry CTWA referrals.
+    Ctwa::CampaignBuilder.attribute!(@conversation, referral_attributes) if twilio_channel.whatsapp?
   end
 
   private

@@ -50,6 +50,17 @@ class Whatsapp::IncomingMessageBaseService
       set_conversation
       create_messages
     end
+
+    attribute_ctwa_campaign
+  end
+
+  # Promote a Click-to-WhatsApp ad referral into a conversation-level campaign attribute
+  # + label so it drives the Kanban badge/filter. Best-effort enrichment after the message
+  # is safely persisted; idempotent so redeliveries are a no-op.
+  def attribute_ctwa_campaign
+    return if outgoing_echo
+
+    Ctwa::CampaignBuilder.attribute!(@conversation, messages_data.first[:referral])
   end
 
   # AUTONOMIA (Onda 2b): só captura reação quando (a) é evento de reação de entrada, (b) a inbox tem um

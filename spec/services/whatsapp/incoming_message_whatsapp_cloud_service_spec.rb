@@ -376,6 +376,70 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
         )
       end
+
+      it 'promotes the referral to a conversation campaign attribute and applies the meta_ctwa label' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.additional_attributes['campaign']).to include(
+          'source' => 'meta_ctwa',
+          'source_id' => '52558118838064',
+          'source_url' => 'https://fb.me/3TYpooaRT',
+          'source_type' => 'ad',
+          'headline' => 'Diana Digital',
+          'media_type' => 'video',
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+        )
+        expect(conversation.label_list).to include('meta_ctwa')
+        label = whatsapp_channel.account.labels.find_by(title: 'meta_ctwa')
+        expect(label.color).to eq('#25D366')
+      end
+
+      it 'attributes the campaign only once across multiple messages in the conversation' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+
+        second_message = referral_params.deep_dup
+        payload = second_message.dig(:entry, 0, :changes, 0, :value, :messages, 0)
+        payload[:id] = 'wamid.SECOND_MESSAGE'
+        payload[:text] = { body: 'follow up' }
+        described_class.new(inbox: whatsapp_channel.inbox, params: second_message).perform
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.additional_attributes['campaign']['source_id']).to eq('52558118838064')
+        expect(conversation.label_list.count('meta_ctwa')).to eq(1)
+        expect(whatsapp_channel.account.labels.where(title: 'meta_ctwa').count).to eq(1)
+      end
+    end
+
+    context 'when message has no referral data' do
+      let(:plain_text_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Mom' }, wa_id: '255718573302' }],
+                messages: [{
+                  from: '255718573302',
+                  id: 'wamid.PLAIN_TEXT_MESSAGE',
+                  timestamp: '1780649766',
+                  text: { body: 'Hello without referral' },
+                  type: 'text'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'does not attribute a campaign or apply the meta_ctwa label' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: plain_text_params).perform
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.additional_attributes).not_to have_key('campaign')
+        expect(conversation.label_list).not_to include('meta_ctwa')
+      end
     end
 
     context 'when message is a reply (has context)' do
