@@ -50,6 +50,9 @@ module Chatwoot
     # rubocop:enable Rails/FilePath
     # Add enterprise views to the view paths
     config.paths['app/views'].unshift('enterprise/app/views')
+    # Fork overlay: custom views take precedence over enterprise/OSS (used for
+    # white-label mailer template overrides — see docs/fork/WHITE_LABEL.md)
+    config.paths['app/views'].unshift('custom/app/views')
 
     # Load enterprise initializers alongside standard initializers
     enterprise_initializers = Rails.root.join('enterprise/config/initializers')

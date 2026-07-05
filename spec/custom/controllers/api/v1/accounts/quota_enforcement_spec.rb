@@ -136,4 +136,42 @@ RSpec.describe 'Quota enforcement on account APIs', type: :request do
 
     it_behaves_like 'a quota guarded create endpoint'
   end
+
+  describe 'platform-managed creates bypass the controller quota guard (ADR-0005)' do
+    it 'allows a platform-managed webhook at the cap and persists the flag' do
+      account.update!(limits: { webhooks: 1 })
+      create(:webhook, account: account)
+
+      post "/api/v1/accounts/#{account.id}/webhooks",
+           params: { webhook: { url: 'https://example.com/platform', subscriptions: ['message_created'], platform_managed: true } },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.webhooks.find_by(url: 'https://example.com/platform').platform_managed).to be true
+    end
+
+    it 'allows a platform-managed agent bot at the cap and persists the flag' do
+      account.update!(limits: { agent_bots: 1 })
+      create(:agent_bot, account: account)
+
+      post "/api/v1/accounts/#{account.id}/agent_bots",
+           params: { name: 'System AI', outgoing_url: 'https://example.com/bot', platform_managed: true },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.agent_bots.find_by(name: 'System AI').platform_managed).to be true
+    end
+
+    it 'still blocks a tenant (non-managed) webhook at the cap' do
+      account.update!(limits: { webhooks: 1 })
+      create(:webhook, account: account)
+
+      post "/api/v1/accounts/#{account.id}/webhooks",
+           params: { webhook: { url: 'https://example.com/tenant', subscriptions: ['message_created'] } },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:payment_required)
+      expect(response.parsed_body['error_code']).to eq('quota_exceeded')
+    end
+  end
 end

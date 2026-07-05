@@ -4,6 +4,15 @@ The AI orchestrator is an **external service** (LangGraph pipeline). This repo
 contributes zero new endpoints to the loop — only per-tenant provisioning.
 Everything below rides on contracts Chatwoot already ships.
 
+> **Status (2026-07-03): Chatwoot side complete; orchestrator lives elsewhere.**
+> No Chatwoot code change was needed — the signing recipe, `X-Chatwoot-Delivery`
+> idempotency key, and the `message_type == "incoming"` self-loop guard are all
+> stock and are pinned by `spec/custom/contracts/ai_reply_loop_contract_spec.rb`
+> (green). Provisioning of the webhook + AI reply token per tenant is documented and
+> spec-verified (see PROVISIONING.md). The signature/idempotency/filter/reply
+> **implementation** and the manual end-to-end run belong to the external
+> orchestrator repo — the contract it must honor is CHATWOOT_ENGINE_INTEGRATION.md.
+
 ## Sequence
 
 ```text
@@ -11,7 +20,7 @@ Contact sends message
   → Chatwoot fires account webhook `message_created` (signed)
     → Orchestrator: verify signature → dedupe → filter → enqueue → 200 OK
       → Worker: fetch context → LangGraph → reply | no-op
-        → POST message-create API (bot token) → Chatwoot delivers to contact
+        → POST message-create API (AI reply token) → Chatwoot delivers to contact
 ```
 
 ## Per-tenant provisioning (the only Chatwoot-side work)
@@ -20,11 +29,15 @@ For each tenant account, the control plane provisions via existing APIs:
 
 1. An **account webhook** subscribed to `message_created` (optionally
    `conversation_status_changed`), pointing at the orchestrator's ingest URL,
-   with a per-tenant secret. Webhook quota (ENTITLEMENTS.md) must reserve/
-   allow this system webhook.
-2. A **bot identity** to author replies: an `AgentBot` attached to the target
-   inboxes (preferred — bots have first-class handoff semantics), or a
-   dedicated agent user + access token if bot capabilities are insufficient.
+   with a per-tenant secret. Created with `platform_managed: true`, so it is
+   excluded from the tenant's `webhooks` quota (ENTITLEMENTS.md, ADR-0005) — no
+   slot is reserved.
+2. An **AI reply identity** to author replies: a per-tenant `role: agent`
+   `account_user` (the canonical AI identity, ADR-0006) added as a member of the
+   target inboxes, created with `platform_managed: true` so it never burns a human
+   `agents` seat (excluded from the count, ADR-0005). Its `access_token` authors the
+   `outgoing` replies. (ADR-0002 proposed an `AgentBot` here; never built, and
+   `platform_managed` made it unnecessary.)
 3. Orchestrator-side tenant record mapping `account_id` → webhook secret, API
    token, LangGraph config.
 
@@ -67,7 +80,7 @@ Process the event only if **all** hold:
 | It's a message event | `event == "message_created"` |
 | Inbound from the contact | `message_type == "incoming"` |
 | Not a private note | `private == false` |
-| Authored by a contact | `sender.type`/sender shape is Contact, not User/AgentBot |
+| Authored by a contact | `sender.type`/sender shape is Contact, not User |
 | Not the bot's own message | sender id ≠ provisioned bot identity |
 | Conversation eligible | `conversation.status` is `open`/`pending` per product rules; skip when a human has taken over (e.g. handoff label/attribute) |
 

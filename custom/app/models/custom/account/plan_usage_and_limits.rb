@@ -1,6 +1,14 @@
 module Custom::Account::PlanUsageAndLimits
   QUOTA_RESOURCES = %w[teams webhooks agent_bots labels custom_attribute_definitions automation_rules integrations].freeze
 
+  # Limit keys stored in accounts.limits but NOT enforced by Chatwoot: the
+  # agentic-AI (automated-workflow) cap is enforced by the external NestJS
+  # backend and only displayed in the dashboard (docs/fork/ENTITLEMENTS.md,
+  # CHATWOOT_ENGINE_INTEGRATION.md §5). They must pass schema validation so the
+  # control plane can write them via the Platform API, but they get no
+  # EntitlementService counter/guard.
+  EXTERNAL_LIMIT_KEYS = %w[agentic_ai].freeze
+
   # Fork keys resolve from the per-account limits jsonb only (the same source
   # Custom::EntitlementService enforces from) — no GlobalConfig fallback.
   def usage_limits
@@ -22,7 +30,7 @@ module Custom::Account::PlanUsageAndLimits
     base_keys = %w[inboxes agents captain_responses captain_documents emails]
     limit_schema = {
       'type' => 'object',
-      'properties' => (base_keys + QUOTA_RESOURCES).index_with { { 'type': 'number' } },
+      'properties' => (base_keys + QUOTA_RESOURCES + EXTERNAL_LIMIT_KEYS).index_with { { 'type': 'number' } },
       'required' => [],
       'additionalProperties' => false
     }

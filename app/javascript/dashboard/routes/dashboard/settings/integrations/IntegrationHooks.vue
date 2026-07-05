@@ -3,6 +3,7 @@ import { isEmptyObject } from '../../../../helper/commons';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
+import { useQuota } from 'dashboard/composables/useQuota';
 import NewHook from './NewHook.vue';
 import SingleIntegrationHooks from './SingleIntegrationHooks.vue';
 import MultipleIntegrationHooks from './MultipleIntegrationHooks.vue';
@@ -33,11 +34,17 @@ export default {
       isHookTypeInbox,
     } = useIntegrationHook(integrationId);
 
+    // Mirrors the backend hooks quota (Custom::EntitlementService :integrations,
+    // counted across all apps) — disables the add/connect buttons at the cap.
+    const { atQuotaLimit, quotaTitle } = useQuota('integrations');
+
     return {
       integration,
       isIntegrationMultiple,
       isIntegrationSingle,
       isHookTypeInbox,
+      atQuotaLimit,
+      quotaTitle,
     };
   },
   data() {
@@ -131,6 +138,8 @@ export default {
           <MultipleIntegrationHooks
             :integration-id="integrationId"
             :show-add-button="showAddButton"
+            :at-quota-limit="atQuotaLimit"
+            :quota-title="quotaTitle"
             @add="openAddHookModal"
             @delete="openDeletePopup"
           />
@@ -139,6 +148,8 @@ export default {
         <div v-if="isIntegrationSingle">
           <SingleIntegrationHooks
             :integration-id="integrationId"
+            :at-quota-limit="atQuotaLimit"
+            :quota-title="quotaTitle"
             @add="openAddHookModal"
             @delete="openDeletePopup"
           />

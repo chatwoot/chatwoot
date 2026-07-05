@@ -5,11 +5,46 @@ Chatwoot fork into the conversation layer of a multi-tenant SaaS (quota
 enforcement, AI reply loop, white-label) **without breaking any upstream
 Chatwoot API or webhook contract**.
 
+## Status at a glance (2026-07-04)
+
+**Code-complete.** Every phase's code is shipped in the `custom/` overlay;
+`spec/custom` is green. What's built:
+
+- **Quota enforcement** — 9 capacity resources capped per tenant via
+  `Account#usage_limits` + `accounts.limits` jsonb, guarded at controller **and**
+  model layer so no create path (API, channel onboarding, OAuth callback, clone,
+  Platform API) can bypass. Denials return the additive `402` shape.
+- **Platform-managed exclusion** — the AI reply user (`role: agent`, ADR-0006), the
+  ingest webhook, and the platform service admin `account_user` carry
+  `platform_managed: true` and are excluded from the `agents`/`webhooks` counts, so
+  the platform's own automation never costs a tenant a plan slot (ADR-0005).
+- **Agentic-AI limit (display-only)** — the automated-workflow cap is enforced by
+  the external NestJS backend; Chatwoot stores it in the limits jsonb
+  (`EXTERNAL_LIMIT_KEYS`) and only surfaces a dashboard warning banner.
+- **AI reply loop** — rides stock signed webhooks + the message-create API; the
+  Chatwoot-side contract is locked by a spec. Orchestrator itself is external.
+- **Auth lockdown** — optional `ENABLE_SSO_ONLY_LOGIN` refuses password/MFA
+  (sessions overlay) **and** Google OAuth/SAML (omniauth overlay, shared
+  `SsoOnlyLogin` gate) server-side; inert by default.
+- **White-label** — copy, installation configs, mailers, and MFA issuer branded
+  ("Meta CRM"); inert until configured.
+
+**Not-code remaining:** brand asset files (logos/favicons/PWA), deploy-time
+branding config values, and the manual cross-repo AI-loop run. See
+[IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for the phase-by-phase status
+and [UPSTREAM_DIFF.md](./UPSTREAM_DIFF.md) for the exact change inventory.
+
 Read in this order:
 
 | File | Purpose |
 | --- | --- |
+| [HOW_IT_WORKS.md](./HOW_IT_WORKS.md) | **Plain-English, diagram-first overview for non-technical readers** — what the product does, what we added, and how it talks to the external Next.js frontend and NestJS + LangGraph backend |
+| [ROLES_AND_CONTROL.md](./ROLES_AND_CONTROL.md) | **Plain-English roles & control guide** — who controls what (super admin, brain, AI robot, human agent, tenant, customer), the limits we enforce, and why our additions won't cause upstream merge conflicts |
+| [VENDOR_DATA_HANDLING.md](./VENDOR_DATA_HANDLING.md) | **Plain-English data guide** — how each vendor (tenant) company's data is stored, isolated, secured, what reaches the AI, and how offboarding wipes it |
 | [SPEC.md](./SPEC.md) | The optimized product/engineering spec (source of truth for scope and acceptance) |
+| [SYSTEM_ARCHITECTURE.md](./SYSTEM_ARCHITECTURE.md) | **Cross-repo architecture contract** — the five systems (Next.js / NestJS / LangGraph / Chatwoot / Meta), ownership matrix, and sequence diagrams (onboarding, AI reply, over-limit, handoff, quota). Authoritative for both repos. |
+| [adr/](./adr/README.md) | **Architecture Decision Records** — the load-bearing cross-repo decisions (gateway, AI reply identity, webhook subscriptions, external agentic-AI enforcement, platform-managed resources) |
+| [INTEGRATION_RECONCILIATION.md](./INTEGRATION_RECONCILIATION.md) | **meta-saas ↔ Chatwoot reconciliation** — verified match/divergence table between the two integration contracts + a local side-by-side dev runbook |
 | [ARCHITECTURE.md](./ARCHITECTURE.md) | Target architecture, verified extension points in this codebase, `custom/` overlay layout |
 | [ENTITLEMENTS.md](./ENTITLEMENTS.md) | Quota/entitlement design: limit catalog, policy service, error contract, UI rules |
 | [AI_REPLY_LOOP.md](./AI_REPLY_LOOP.md) | Webhook → LangGraph → message-API reply loop: signature verification, idempotency, loop prevention |
@@ -17,6 +52,8 @@ Read in this order:
 | [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) | Phased execution plan with per-phase commands, tests, and merge checklist |
 | [INVENTORY.md](./INVENTORY.md) | Phase 1 output: every create path per quota resource, bypass risks, existing limit plumbing |
 | [PROVISIONING.md](./PROVISIONING.md) | Phase 4 output: reference tenant provisioning flow (Platform API, limits, AI-loop plumbing) |
+| [CHATWOOT_ENGINE_INTEGRATION.md](./CHATWOOT_ENGINE_INTEGRATION.md) | **Self-contained contract for the external repo** (NestJS control plane + AI orchestrator): auth, provisioning, quotas, agentic-AI limit, and the signed webhook reply loop. Hand this file to that repo. |
+| [UPSTREAM_DIFF.md](./UPSTREAM_DIFF.md) | **Complete inventory of every change vs. upstream Chatwoot** — how the fork stays additive, overlay-only, and pull-request friendly (audit + reproduce commands) |
 | [error-log/](./error-log/README.md) | Running log of errors hit during implementation and how they were fixed |
 
 ## Ground rules (apply to every phase)

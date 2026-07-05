@@ -68,3 +68,5 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     'Unknown'
   end
 end
+
+AdministratorNotifications::AccountNotificationMailer.prepend_mod_with('AdministratorNotifications::AccountNotificationMailer')

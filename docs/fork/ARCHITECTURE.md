@@ -1,5 +1,11 @@
 # Fork Architecture
 
+> **Status (2026-07-03): built as described.** The `custom/` overlay, the
+> `config/application.rb` bootstrap, and the `spec/custom` wiring below all exist
+> and are green. The bootstrap/layout sections read as instructions but document
+> what is already in the tree — file paths match. Line-number anchors are from
+> the `develop` snapshot; re-verify after upstream merges.
+
 ## System overview
 
 ```text
@@ -66,9 +72,14 @@ check `spec/spec_helper.rb` / `.rspec` before assuming).
 custom/
   app/
     models/custom/account/plan_usage_and_limits.rb   # extends usage_limits with new keys
-    models/custom/concerns/...                       # model-level create guards
-    controllers/custom/api/v1/accounts/...           # controller guard overrides
+    models/custom/concerns/...                       # model-level create guards (QuotaGuard)
+    controllers/custom/api/v1/accounts/...           # controller quota-guard overrides
+    controllers/custom/concerns/...                  # shared controller mixins (QuotaEnforcement, SsoOnlyLogin)
+    controllers/custom/devise_overrides/...          # SSO-only auth lockdown (sessions + omniauth)
+    controllers/custom/enterprise/api/v1/...         # limits endpoint + agentic-AI display
     services/custom/entitlement_service.rb           # thin policy façade (see ENTITLEMENTS.md)
+    services/custom/branding_setup.rb                # white-label config upsert (see WHITE_LABEL.md)
+    mailers/ + views/                                # branded transactional emails
   lib/
 docs/fork/                                           # this documentation
 spec/custom/                                         # fork specs, mirroring OSS layout
@@ -83,15 +94,21 @@ injector; only place brand-new classes (not overrides) as plain classes under
 `prepend_mod_with` applies `enterprise` then `custom` (order of
 `ChatwootApp.extensions`), so `Custom::Account::PlanUsageAndLimits` can call
 `super` to get the enterprise plan engine's result and merge fork keys on top.
+The same ordering matters when both overlays touch one class: e.g.
+`Custom::DeviseOverrides::OmniauthCallbacksController` prepends **ahead of**
+`Enterprise::DeviseOverrides::OmniauthCallbacksController`, so its
+`omniauth_success` runs first and can short-circuit the SSO-only lock before the
+enterprise SAML handling (`super`) ever runs.
 
 ## Where each concern lives
 
 | Concern | Lives in | Never in |
 | --- | --- | --- |
 | Quota limits & guards | `custom/` overlay + `accounts.limits` jsonb | UI-only checks, new tables |
+| Auth lockdown (SSO-only) | `custom/` devise overlays (`sessions` + `omniauth_callbacks`) sharing `Custom::Concerns::SsoOnlyLogin`, gated by `ENABLE_SSO_ONLY_LOGIN` | UI-only hiding of login buttons; a second store of the flag |
 | Tenant provisioning | External control plane via Platform API / Super Admin | Fork-specific provisioning routes |
 | AI orchestration | External service (LangGraph) | Chatwoot controllers/jobs |
-| Branding | Installation configs, assets, `en.yml`/`en.json` | Route or header renames |
+| Branding | Installation configs, assets, `en.yml`/`en.json`, `Custom::BrandingSetup`, `custom/app/views` mailer overrides | Route or header renames |
 | Fork docs / error log | `docs/fork/` | — |
 
 ## Compatibility invariants
