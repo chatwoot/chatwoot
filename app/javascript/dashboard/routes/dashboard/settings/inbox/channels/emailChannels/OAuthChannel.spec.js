@@ -82,8 +82,8 @@ describe('OAuthChannel onboarding redesign', () => {
     await flushPromises();
 
     const links = wrapper.find('aside').findAll('a[target="_blank"]');
-    // App registration link + calendar setup link + docs link.
-    expect(links.length).toBeGreaterThanOrEqual(3);
+    // App registration link + calendar setup link.
+    expect(links.length).toBeGreaterThanOrEqual(2);
     const hrefs = links.map(a => a.attributes('href'));
     expect(hrefs.some(h => h.includes('portal.azure.com'))).toBe(true);
     expect(hrefs.some(h => h.includes('learn.microsoft.com'))).toBe(true);
@@ -107,6 +107,29 @@ describe('OAuthChannel onboarding redesign', () => {
     expect(aside.text()).toContain('Gmail');
     expect(aside.text()).not.toContain('Microsoft Graph');
     expect(aside.html()).toContain('console.cloud.google.com');
+  });
+
+  it('tells google users to enable the Gmail API, not just the Calendar API', async () => {
+    const wrapper = mountChannel('google');
+    await flushPromises();
+
+    // The mailbox path is IMAP/SMTP (mail.google.com scope), which lives under the
+    // Gmail API — enabling only the Calendar API would leave the inbox unauthorized.
+    const guide = wrapper.find('aside').text();
+    expect(guide).toContain('Gmail API');
+    expect(guide).toContain('Google Calendar API');
+  });
+
+  it('renders the callback url as a read-only field that does not wrap mid-word', async () => {
+    const wrapper = mountChannel('microsoft');
+    await flushPromises();
+
+    const callback = wrapper.find('input[readonly]');
+    expect(callback.exists()).toBe(true);
+    expect(callback.element.value).toBe('https://example.test/callback');
+    // truncate (single line + ellipsis) replaces the old break-all wrapping.
+    expect(callback.classes()).toContain('truncate');
+    expect(wrapper.html()).not.toContain('break-all');
   });
 
   it('renders only the authorize form (not credentials) when already configured', async () => {
