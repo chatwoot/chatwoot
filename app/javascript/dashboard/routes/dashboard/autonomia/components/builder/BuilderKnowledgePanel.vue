@@ -93,6 +93,21 @@ const visibleSources = computed(() =>
 const hasAgent = computed(() => !!props.agentId);
 const isUploading = computed(() => uiFlags.value?.creatingItem);
 
+// Teto de fontes de CONHECIMENTO por agente — espelha Source::MAX_KNOWLEDGE_SOURCES (o backend
+// responde 422 ao estourar). Mídias de envio têm pipeline próprio, sem limite.
+const KNOWLEDGE_LIMIT = 30;
+const knowledgeCount = computed(() => knowledgeSources.value.length);
+const knowledgeLimitReached = computed(
+  () => knowledgeCount.value >= KNOWLEDGE_LIMIT
+);
+// Dropzone bloqueia por teto só na aba de conhecimento (defesa de UX antes do 422 do servidor).
+const dropzoneDisabled = computed(
+  () =>
+    isUploading.value ||
+    !hasAgent.value ||
+    (activeKind.value === 'knowledge' && knowledgeLimitReached.value)
+);
+
 const onTabChanged = tab => {
   const index = tabs.value.findIndex(item => item.key === tab.key);
   if (index !== -1) activeTabIndex.value = index;
@@ -288,7 +303,7 @@ onBeforeUnmount(() => {
       <MaterialDropzone
         compact
         :kind="activeKind"
-        :disabled="isUploading || !hasAgent"
+        :disabled="dropzoneDisabled"
         @files="uploadFiles"
       />
       <div
@@ -325,7 +340,7 @@ onBeforeUnmount(() => {
       <MaterialDropzone
         class="w-full"
         :kind="activeKind"
-        :disabled="isUploading || !hasAgent"
+        :disabled="dropzoneDisabled"
         @files="uploadFiles"
       />
       <div
@@ -342,6 +357,24 @@ onBeforeUnmount(() => {
             : t('AGENTS.MATERIALS.NEED_START')
         }}
       </p>
+    </div>
+
+    <!-- Contador X/30 (aba conhecimento): espelha o teto do servidor; avisa quando cheio. -->
+    <div
+      v-if="activeKind === 'knowledge'"
+      class="flex items-center justify-between flex-shrink-0 gap-2 px-4 py-2.5 text-xs border-t border-n-weak"
+    >
+      <span class="tabular-nums text-n-slate-11">
+        {{
+          t('AGENTS.MATERIALS.COUNT', {
+            count: knowledgeCount,
+            limit: KNOWLEDGE_LIMIT,
+          })
+        }}
+      </span>
+      <span v-if="knowledgeLimitReached" class="font-medium text-n-amber-11">
+        {{ t('AGENTS.MATERIALS.LIMIT_REACHED') }}
+      </span>
     </div>
 
     <SourceAddDialog

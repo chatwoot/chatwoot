@@ -60,15 +60,28 @@ const eligibleInboxes = useMapGetter('autonomiaChannels/getEligible');
 const channelFlags = useMapGetter('autonomiaChannels/getUIFlags');
 const sources = useMapGetter('autonomiaSources/getSources');
 const sourceFlags = useMapGetter('autonomiaSources/getUIFlags');
+const allReviewed = useMapGetter('autonomiaSources/getAllReviewed');
+const needsAttention = useMapGetter('autonomiaSources/getNeedsAttention');
 
-// conversa <-> revisao. `phase` drives the transition; the materials panel rides
-// alongside the conversation in the conversa step.
+// base -> conversa -> revisao. `phase` drives the conversa/revisao transition; the
+// base step (KB-first) is a FE-only gate before the chat.
 const wizardStep = ref('conversa');
 const isSavingGreeting = ref(false);
 
 // Step headings, focused on each transition for keyboard/screen-reader users.
 const conversaHeadingRef = ref(null);
 const revisaoStepRef = ref(null);
+const baseHeadingRef = ref(null);
+
+// KB-first (§9): quando o dono optou por criar COM base, uma ETAPA de base vem ANTES do chat — ele
+// sobe os materiais, espera a base ficar pronta, e o chat abre sozinho. withKnowledge é o MESMO
+// sinal que o backend lê (with_knowledge no start) para criar o rascunho cedo, dando o agentId que
+// o dropzone precisa. Sem base (withKnowledge=false) o fluxo antigo começa direto na conversa.
+const isKnowledgeFirst = computed(() => withKnowledge.value);
+// Base pronta = há material E todos assentaram num veredito aceitável, sem pendência (resend/falha).
+const baseReady = computed(() => allReviewed.value && !needsAttention.value);
+// Onde o wizard começa: etapa base quando com conhecimento, senão direto na conversa.
+const startStep = () => (isKnowledgeFirst.value ? 'base' : 'conversa');
 
 const threadId = computed(() => thread.value?.id);
 const agentId = computed(
@@ -125,7 +138,15 @@ const canAdvance = computed(
     !!agentId.value
 );
 
-const currentStep = computed(() => wizardStep.value);
+// A etapa base é sub-fase visual do passo 1 — o step bar destaca "conversa" durante ela.
+const currentStep = computed(() =>
+  wizardStep.value === 'base' ? 'conversa' : wizardStep.value
+);
+
+// "Pular e ir para o agente": segue pro chat sem esperar a base (sempre disponível na etapa base).
+const skipBaseStep = () => {
+  if (wizardStep.value === 'base') wizardStep.value = 'conversa';
+};
 
 const approvedCount = computed(
   () =>
@@ -159,6 +180,7 @@ const onPickType = ({
   if (pickedActuation) actuation.value = pickedActuation;
   if (typeof pickedKnowledge === 'boolean')
     withKnowledge.value = pickedKnowledge;
+  wizardStep.value = startStep();
   startThread();
 };
 
@@ -466,11 +488,17 @@ watch(
   }
 );
 
+// KB-first: base pronta abre o chat sozinho (mock estado 2). Só a partir da etapa base.
+watch(baseReady, ready => {
+  if (ready && wizardStep.value === 'base') wizardStep.value = 'conversa';
+});
+
 // Move focus to the new step's heading on each transition so keyboard and
 // screen-reader users follow the wizard. Headings carry `tabindex="-1"`.
 const STEP_FOCUS_REFS = {
   revisao: () => revisaoStepRef.value,
   conversa: () => conversaHeadingRef.value,
+  base: () => baseHeadingRef.value,
 };
 watch(wizardStep, step => {
   nextTick(() => {
@@ -489,7 +517,10 @@ onMounted(() => {
   // Then open the thread WITHOUT a user message so the Construtor speaks first
   // (IA-fala-primeiro). The opening turn arrives via polling.
   store.commit('autonomiaBuildThreads/RESET');
-  if (agentType.value) startThread();
+  if (agentType.value) {
+    wizardStep.value = startStep();
+    startThread();
+  }
 });
 
 onBeforeUnmount(() => {
@@ -556,6 +587,52 @@ onBeforeUnmount(() => {
             class="shrink-0 -my-1"
             @click="retryBuild"
           />
+        </div>
+
+        <!-- Step KB-first: só a base, ANTES do chat. Sobe os materiais, espera
+             ficar pronta; o chat abre sozinho (ou Pular a qualquer momento). -->
+        <div
+          v-if="wizardStep === 'base'"
+          class="flex flex-col flex-1 min-h-0 gap-4"
+        >
+          <div class="flex flex-col items-center gap-2 text-center shrink-0">
+            <span
+              class="flex items-center justify-center rounded-full size-14 bg-n-iris-3 text-n-iris-10 ring-4 ring-n-iris-2"
+            >
+              <i class="i-lucide-book-open size-7" />
+            </span>
+            <h2
+              ref="baseHeadingRef"
+              tabindex="-1"
+              class="text-base font-medium outline-none text-n-slate-12"
+            >
+              {{ t('AGENTS.BUILDER.BASE.TITLE') }}
+            </h2>
+            <p class="max-w-md text-sm leading-relaxed text-n-slate-11">
+              {{ t('AGENTS.BUILDER.BASE.SUBTITLE') }}
+            </p>
+          </div>
+
+          <div
+            class="flex items-center gap-2 px-3 py-2 text-xs rounded-lg shrink-0 bg-n-amber-3 text-n-amber-11"
+          >
+            <i class="i-lucide-clock size-4 shrink-0" />
+            <span>{{ t('AGENTS.BUILDER.BASE.PROCESSING_HINT') }}</span>
+          </div>
+
+          <BuilderKnowledgePanel :agent-id="agentId" class="flex-1 min-h-0" />
+
+          <div class="flex justify-end shrink-0">
+            <NextButton
+              ghost
+              slate
+              sm
+              trailing-icon
+              icon="i-lucide-arrow-right"
+              :label="t('AGENTS.BUILDER.BASE.SKIP')"
+              @click="skipBaseStep"
+            />
+          </div>
         </div>
 
         <!-- Step 1: CONVERSA + MATERIAIS (two columns) -->

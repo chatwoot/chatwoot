@@ -131,6 +131,12 @@
         "ADDED": "Link added to knowledge. We're processing it now.",
         "ERROR": "We couldn't add that link. Please try again.",
         "FALLBACK_NAME": "your agent"
+      },
+      "BASE": {
+        "TITLE": "Send the knowledge base",
+        "SUBTITLE": "Upload what your agent should know. We review each file and, once the base is ready, the conversation opens automatically.",
+        "PROCESSING_HINT": "Processing the whole base can take up to 5 minutes.",
+        "SKIP": "Skip and go to the agent"
       }
     },
     "WIZARD": {
@@ -238,6 +244,8 @@
         "MEDIA": "Media to send"
       },
       "CONFIDENCE_OVERALL": "Overall confidence",
+      "COUNT": "{count} of {limit} materials",
+      "LIMIT_REACHED": "Limit reached. Remove one to add more.",
       "CONFIDENCE_BAR": {
         "LABEL": "Knowledge confidence"
       },
