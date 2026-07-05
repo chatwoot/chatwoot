@@ -45,16 +45,17 @@ const mountChannel = provider =>
   });
 
 describe('OAuthChannel onboarding redesign', () => {
-  it('renders a two-column layout with a guide panel', async () => {
+  it('renders a form-narrow, guide-dominant layout (not the old 3-col grid)', async () => {
     const wrapper = mountChannel('microsoft');
     await flushPromises();
 
-    expect(wrapper.html()).toContain('lg:grid-cols-3');
+    // The rejected layout used lg:grid-cols-3 with the form at col-span-2 (form-dominant).
+    expect(wrapper.html()).not.toContain('lg:grid-cols-3');
+    // Form is a fixed narrow column; the guide takes the remaining width.
+    expect(wrapper.html()).toContain('lg:w-[340px]');
     const aside = wrapper.find('aside');
     expect(aside.exists()).toBe(true);
-    expect(aside.text()).toContain('What this connection does');
-    // Guide surfaces the requested scopes for transparency.
-    expect(aside.text()).toContain('View the permissions requested');
+    expect(aside.classes()).toContain('lg:flex-1');
   });
 
   it('keeps the credentials form alongside the guide', async () => {
@@ -65,22 +66,47 @@ describe('OAuthChannel onboarding redesign', () => {
     expect(wrapper.find('aside').exists()).toBe(true);
   });
 
-  it('shows the Microsoft Graph send capability for the microsoft provider', async () => {
+  it('surfaces calendar as a required capability and setup step', async () => {
     const wrapper = mountChannel('microsoft');
     await flushPromises();
 
     const guide = wrapper.find('aside').text();
-    expect(guide).toContain('Microsoft Graph');
-    expect(guide).not.toContain('Gmail');
+    expect(guide).toContain('Calendar');
+    // GUIDE_BADGE_REQUIRED (capability) + GUIDE_BADGE_MANDATORY (setup step).
+    expect(guide).toContain('Required');
+    expect(guide).toContain('Mandatory');
   });
 
-  it('shows the Gmail capability for the google provider', async () => {
+  it('includes clickable documentation links in the guide', async () => {
+    const wrapper = mountChannel('microsoft');
+    await flushPromises();
+
+    const links = wrapper.find('aside').findAll('a[target="_blank"]');
+    // App registration link + calendar setup link + docs link.
+    expect(links.length).toBeGreaterThanOrEqual(3);
+    const hrefs = links.map(a => a.attributes('href'));
+    expect(hrefs.some(h => h.includes('portal.azure.com'))).toBe(true);
+    expect(hrefs.some(h => h.includes('learn.microsoft.com'))).toBe(true);
+  });
+
+  it('adapts send capability and app link for the microsoft provider', async () => {
+    const wrapper = mountChannel('microsoft');
+    await flushPromises();
+
+    const aside = wrapper.find('aside');
+    expect(aside.text()).toContain('Microsoft Graph');
+    expect(aside.text()).not.toContain('Gmail');
+    expect(aside.html()).toContain('portal.azure.com');
+  });
+
+  it('adapts send capability and app link for the google provider', async () => {
     const wrapper = mountChannel('google');
     await flushPromises();
 
-    const guide = wrapper.find('aside').text();
-    expect(guide).toContain('Gmail');
-    expect(guide).not.toContain('Microsoft Graph');
+    const aside = wrapper.find('aside');
+    expect(aside.text()).toContain('Gmail');
+    expect(aside.text()).not.toContain('Microsoft Graph');
+    expect(aside.html()).toContain('console.cloud.google.com');
   });
 
   it('renders only the authorize form (not credentials) when already configured', async () => {

@@ -18,9 +18,8 @@ module MicrosoftConcern
 
   def scope
     # IMAP.AccessAsUser.All: entrada (IMAP). Graph Mail.Send/ReadWrite: saída via Graph
-    # (substitui o SMTP.Send, imune ao Security Defaults). Calendars.ReadWrite só é
-    # somado quando a feature de reuniões está ligada (agenda = capacidade da caixa),
-    # mantendo SEMPRE o escopo de e-mail completo (IMAP + openid) no consentimento.
+    # (substitui o SMTP.Send, imune ao Security Defaults). Calendars.ReadWrite é SEMPRE
+    # solicitado (agenda = capacidade da caixa Microsoft), num único consentimento.
     parts = [
       'offline_access',
       'https://outlook.office.com/IMAP.AccessAsUser.All',
@@ -32,18 +31,10 @@ module MicrosoftConcern
     parts.join(' ')
   end
 
+  # Calendar is a first-class capability of every Microsoft mailbox connection: the scope is
+  # always requested (single consent) unless a self-hosted install explicitly disables it via
+  # EMAIL_OAUTH_CALENDAR_SCOPE_ENABLED (distinct from the CRM meetings product flag).
   def request_calendar_scope?
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('CRM_CALENDAR_MEETINGS_ENABLED', false)) || calendar_oauth_intent?
-  end
-
-  def calendar_oauth_intent?
-    state_params = (session[:oauth_state_params] || {}).with_indifferent_access
-
-    params[:calendar_intent].present? ||
-      params[:intent].to_s == 'calendar' ||
-      params[:oauth_intent].to_s == 'calendar' ||
-      state_params[:calendar_intent].present? ||
-      state_params[:intent].to_s == 'calendar' ||
-      state_params[:oauth_intent].to_s == 'calendar'
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('EMAIL_OAUTH_CALENDAR_SCOPE_ENABLED', true))
   end
 end

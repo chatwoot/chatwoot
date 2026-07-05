@@ -57,6 +57,18 @@ const canSave = computed(
   () => clientId.value.trim() !== '' && clientSecret.value.trim() !== ''
 );
 
+const appRegistrationUrl = computed(() =>
+  isMicrosoft.value
+    ? 'https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade'
+    : 'https://console.cloud.google.com/apis/credentials'
+);
+const calendarSetupUrl = computed(() =>
+  isMicrosoft.value
+    ? 'https://learn.microsoft.com/graph/permissions-reference'
+    : 'https://console.cloud.google.com/apis/library/calendar-json.googleapis.com'
+);
+const docsUrl = 'https://chatwoot.help/hc/handbook';
+
 onMounted(async () => {
   try {
     const { data } = await EmailOauthAppAPI.get(props.provider);
@@ -126,8 +138,8 @@ const requestAuthorization = async () => {
       {{ tk('LOADING') }}
     </div>
 
-    <div v-else class="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-      <div class="lg:col-span-2">
+    <div v-else class="mt-6 flex flex-col lg:flex-row gap-8 items-start">
+      <div class="w-full lg:w-[340px] lg:flex-none">
         <form
           v-if="!configured"
           class="flex flex-col gap-4 max-w-xl"
@@ -235,15 +247,13 @@ const requestAuthorization = async () => {
 
       <aside
         aria-labelledby="oauth-guide-title"
-        class="lg:col-span-1 flex flex-col gap-4 p-4 h-fit rounded-lg bg-n-alpha-1 border border-n-weak"
+        class="w-full lg:flex-1 flex flex-col gap-5 p-5 h-fit rounded-lg bg-n-alpha-1 border border-n-weak"
       >
         <h3 id="oauth-guide-title" class="text-sm font-medium text-n-slate-12">
           {{ tk('GUIDE_TITLE') }}
         </h3>
 
-        <ul
-          class="list-disc list-inside flex flex-col gap-1 text-sm text-n-slate-11"
-        >
+        <ul class="flex flex-col gap-2.5 text-sm text-n-slate-11">
           <li>{{ tk('GUIDE_CAPABILITY_INBOX') }}</li>
           <li>
             {{
@@ -251,6 +261,19 @@ const requestAuthorization = async () => {
                 ? tk('GUIDE_CAPABILITY_OUTBOX_MICROSOFT')
                 : tk('GUIDE_CAPABILITY_OUTBOX_GOOGLE')
             }}
+          </li>
+          <li class="flex flex-col gap-0.5">
+            <span class="flex items-center gap-2">
+              {{ tk('GUIDE_CAPABILITY_CALENDAR') }}
+              <span
+                class="px-1.5 py-0.5 text-xs font-semibold uppercase rounded text-n-amber-11 bg-n-amber-3"
+              >
+                {{ tk('GUIDE_BADGE_REQUIRED') }}
+              </span>
+            </span>
+            <span class="text-xs text-n-slate-10">
+              {{ tk('GUIDE_CAPABILITY_CALENDAR_DESC') }}
+            </span>
           </li>
         </ul>
 
@@ -263,17 +286,79 @@ const requestAuthorization = async () => {
           </p>
         </div>
 
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-2">
           <h4 class="text-xs font-medium text-n-slate-12">
-            {{ tk('GUIDE_NEXT_STEPS_TITLE') }}
+            {{ tk('GUIDE_STEPS_TITLE') }}
           </h4>
           <ol
-            class="list-decimal list-inside flex flex-col gap-1 text-sm text-n-slate-11"
+            class="list-decimal list-inside flex flex-col gap-2 text-sm text-n-slate-11 marker:text-n-slate-10"
           >
-            <li>{{ tk('GUIDE_NEXT_STEP_1') }}</li>
-            <li>{{ tk('GUIDE_NEXT_STEP_2') }}</li>
-            <li>{{ tk('GUIDE_NEXT_STEP_3') }}</li>
+            <li>
+              {{ tk('GUIDE_STEP_APP') }} — {{ tk('GUIDE_STEP_APP_DESC') }}
+              <a
+                :href="appRegistrationUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-n-brand hover:underline"
+              >
+                {{
+                  isMicrosoft
+                    ? tk('GUIDE_STEP_APP_LINK_MICROSOFT')
+                    : tk('GUIDE_STEP_APP_LINK_GOOGLE')
+                }}
+              </a>
+            </li>
+            <li>
+              <span class="inline-flex items-center gap-2">
+                {{ tk('GUIDE_STEP_CALENDAR') }}
+                <span
+                  class="px-1.5 py-0.5 text-xs font-semibold uppercase rounded text-n-amber-11 bg-n-amber-3"
+                >
+                  {{ tk('GUIDE_BADGE_MANDATORY') }}
+                </span>
+              </span>
+              —
+              {{
+                isMicrosoft
+                  ? tk('GUIDE_STEP_CALENDAR_MICROSOFT')
+                  : tk('GUIDE_STEP_CALENDAR_GOOGLE')
+              }}
+              <a
+                :href="calendarSetupUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-n-brand hover:underline"
+              >
+                {{
+                  isMicrosoft
+                    ? tk('GUIDE_STEP_CALENDAR_LINK_MICROSOFT')
+                    : tk('GUIDE_STEP_CALENDAR_LINK_GOOGLE')
+                }}
+              </a>
+            </li>
+            <li>
+              {{ tk('GUIDE_STEP_REDIRECT') }} —
+              {{ tk('GUIDE_STEP_REDIRECT_DESC') }}
+            </li>
+            <li>
+              {{ tk('GUIDE_STEP_SAVE') }} — {{ tk('GUIDE_STEP_SAVE_DESC') }}
+            </li>
           </ol>
+        </div>
+
+        <div
+          class="flex flex-col gap-1 p-3 rounded-lg bg-n-amber-2 border border-n-amber-5"
+        >
+          <h4 class="text-xs font-medium text-n-amber-11">
+            {{ tk('GUIDE_REQUIREMENT_TITLE') }}
+          </h4>
+          <p class="text-sm text-n-slate-11">
+            {{
+              isMicrosoft
+                ? tk('GUIDE_REQUIREMENT_MICROSOFT')
+                : tk('GUIDE_REQUIREMENT_GOOGLE')
+            }}
+          </p>
         </div>
 
         <details class="text-sm text-n-slate-11">
@@ -288,6 +373,15 @@ const requestAuthorization = async () => {
             }}
           </p>
         </details>
+
+        <a
+          :href="docsUrl"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm text-n-brand hover:underline"
+        >
+          {{ tk('GUIDE_DOCS_LINK') }}
+        </a>
       </aside>
     </div>
   </div>

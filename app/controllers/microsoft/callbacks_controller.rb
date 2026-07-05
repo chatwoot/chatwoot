@@ -18,6 +18,14 @@ class Microsoft::CallbacksController < OauthCallbackController
     'microsoft'
   end
 
+  # Azure v2 mints an IMAP-scoped access token at the callback, so the token response never
+  # echoes the calendar grant (unlike Google's single multi-scope token). Calendar is always
+  # part of the consent when requested, and a successful callback means it was granted, so
+  # mark the mailbox calendar-capable based on the requested scope instead of the token echo.
+  def calendar_scope_granted?
+    request_calendar_scope?
+  end
+
   def imap_address
     'outlook.office365.com'
   end

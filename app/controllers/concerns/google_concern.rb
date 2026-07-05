@@ -22,21 +22,10 @@ module GoogleConcern
     "#{base_scope} #{GOOGLE_CALENDAR_SCOPE}"
   end
 
-  # Calendar = a capability of the agent's mailbox: when the meetings feature is
-  # on, every Google mailbox connect also requests calendar access (one consent),
-  # so scheduling works without a second OAuth round.
+  # Calendar is a first-class capability of every Google mailbox connection: the scope is
+  # always requested (one consent) unless a self-hosted install explicitly disables it via
+  # EMAIL_OAUTH_CALENDAR_SCOPE_ENABLED (distinct from the CRM meetings product flag).
   def request_calendar_scope?
-    ActiveModel::Type::Boolean.new.cast(ENV.fetch('CRM_CALENDAR_MEETINGS_ENABLED', false)) || calendar_oauth_intent?
-  end
-
-  def calendar_oauth_intent?
-    state_params = (session[:oauth_state_params] || {}).with_indifferent_access
-
-    params[:calendar_intent].present? ||
-      params[:intent].to_s == 'calendar' ||
-      params[:oauth_intent].to_s == 'calendar' ||
-      state_params[:calendar_intent].present? ||
-      state_params[:intent].to_s == 'calendar' ||
-      state_params[:oauth_intent].to_s == 'calendar'
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('EMAIL_OAUTH_CALENDAR_SCOPE_ENABLED', true))
   end
 end

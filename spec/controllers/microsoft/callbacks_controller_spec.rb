@@ -49,6 +49,30 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(inbox.channel.imap_address).to eq 'outlook.office365.com'
     end
 
+    it 'marks the mailbox calendar-enabled since calendar is part of the Microsoft consent' do
+      stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+        .with(body: token_body)
+        .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      get microsoft_callback_url, params: { code: code, state: state }
+
+      channel = account.inboxes.last.channel.reload
+      expect(channel.calendar_enabled).to be(true)
+      expect(channel.calendar_scope_granted).to be(true)
+    end
+
+    it 'does not mark calendar-enabled when the calendar scope is disabled for the install' do
+      with_modified_env EMAIL_OAUTH_CALENDAR_SCOPE_ENABLED: 'false' do
+        stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+          .with(body: token_body)
+          .to_return(status: 200, body: response_body_success.to_json, headers: { 'Content-Type' => 'application/json' })
+
+        get microsoft_callback_url, params: { code: code, state: state }
+
+        expect(account.inboxes.last.channel.reload.calendar_enabled).to be_falsey
+      end
+    end
+
     it 'exchanges the code on the tenant-specific endpoint when the account app has a tenant_id' do
       create_account_app(tenant_id: tenant_guid)
       tenant_token_request = stub_request(:post, "https://login.microsoftonline.com/#{tenant_guid}/oauth2/v2.0/token")

@@ -19,6 +19,28 @@ RSpec.describe Microsoft::GraphTokenService do
     expect(token).to eq(graph_response[:access_token])
   end
 
+  it 'requests a calendar-capable Graph token when the mailbox is calendar-enabled' do
+    channel.update!(calendar_enabled: true)
+    calendar_request = stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+                       .with(body: hash_including('scope' => Microsoft::Scopes::GRAPH_WITH_CALENDAR))
+                       .to_return(status: 200, body: graph_response.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    described_class.new(channel: channel).access_token
+
+    expect(calendar_request).to have_been_requested
+  end
+
+  it 'keeps the mail-only Graph scope for a mailbox without calendar access' do
+    channel.update!(calendar_enabled: false)
+    mail_only_request = stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
+                        .with(body: hash_including('scope' => Microsoft::Scopes::GRAPH))
+                        .to_return(status: 200, body: graph_response.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    described_class.new(channel: channel).access_token
+
+    expect(mail_only_request).to have_been_requested
+  end
+
   it 'uses the tenant-specific endpoint when the channel account has a tenant_id' do
     tenant = 'a1b2c3d4-1111-2222-3333-444455556666'
     channel.account.email_oauth_apps.create!(

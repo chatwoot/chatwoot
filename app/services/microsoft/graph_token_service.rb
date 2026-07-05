@@ -40,8 +40,16 @@ class Microsoft::GraphTokenService
       client_secret: creds[:client_secret],
       refresh_token: provider_config['refresh_token'],
       grant_type: 'refresh_token',
-      scope: ::Microsoft::Scopes::GRAPH
+      scope: graph_scope
     }
+  end
+
+  # Calendar Graph calls need a token carrying Calendars.ReadWrite. Only mailboxes that
+  # consented to calendar (calendar_enabled) can mint it; requesting it for a mailbox that
+  # never granted calendar would fail the refresh (AADSTS65001) and break sending, so those
+  # keep the mail-only GRAPH scope.
+  def graph_scope
+    channel.calendar_enabled? ? ::Microsoft::Scopes::GRAPH_WITH_CALENDAR : ::Microsoft::Scopes::GRAPH
   end
 
   # Endpoint tenant-aware (app single-tenant falha no /common — AADSTS50194).
