@@ -4,6 +4,14 @@ Compatibility-first multi-tenant SaaS fork: quota enforcement, AI reply loop,
 white-label — built on Chatwoot's existing extension points instead of parallel
 infrastructure.
 
+> **Status (2026-07-03): implemented.** Every acceptance criterion below is met
+> in code and covered by `spec/custom` (83 examples, green). This document
+> remains the source of truth for *scope and intent*; for what shipped and
+> where, see [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) (phase status)
+> and [UPSTREAM_DIFF.md](./UPSTREAM_DIFF.md) (change inventory). Only non-code
+> items remain: brand asset files, deploy-time config values, and the manual
+> cross-repo AI-loop run.
+
 ## What changed vs. the original spec, and why
 
 The original spec was written as if the fork needed a new entitlement system,
@@ -139,6 +147,12 @@ Safety invariants (detailed in AI_REPLY_LOOP.md):
 - **Tenant agent**: works conversations; cannot create capacity resources.
 - Enforcement lives in controllers/policies/jobs — menu hiding alone is never
   sufficient.
+- **Auth entry point**: optional SSO-only lockdown (`ENABLE_SSO_ONLY_LOGIN`)
+  makes the external stack's Platform SSO token the sole way into a tenant
+  account — password, MFA-token, Google OAuth, and SAML are all refused
+  server-side (session + omniauth controllers), never by UI hiding alone.
+  Super admin uses a separate Devise scope and is unaffected. Inert by default.
+  Contract in CHATWOOT_ENGINE_INTEGRATION.md §4.5–4.6.
 
 ## White-label
 

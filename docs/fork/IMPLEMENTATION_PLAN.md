@@ -5,7 +5,36 @@ Phased so every phase leaves the app releasable. All commands run in Docker
 `docker compose run --rm vite pnpm ...` for JS. Log every error you fix in
 `docs/fork/error-log/` before moving on.
 
-## Phase 0 — Environment sanity
+## Status (2026-07-03)
+
+**All fork code is shipped — no unimplemented Ruby/JS remains.** Phases 0–4 and
+6 are complete; Phases 5 and 7 have only non-code items left (see below).
+
+| Phase | Status |
+| --- | --- |
+| 0 — Environment sanity | ✅ Done |
+| 1 — Inventory | ✅ Done (`INVENTORY.md`) |
+| 2 — Overlay bootstrap + entitlement service | ✅ Done |
+| 3 — Backend guards | ✅ Done (7 controller + 8 model guards, both concerns, specs) |
+| 4 — Provisioning glue | ✅ Done (`PROVISIONING.md`, `CHATWOOT_ENGINE_INTEGRATION.md`) |
+| 5 — AI loop verification | ◑ Contract specs done; manual cross-repo run outstanding |
+| 6 — UI adaptation | ✅ Done (`useQuota`, banner, at-cap disabling, quota i18n) |
+| 7 — Branding pass | ◑ Copy/config/mailers/MFA done; assets + deploy config deferred |
+
+### Remaining work (not code)
+
+1. **Brand assets (Phase 7, Layer 3)** — supply logo / logo-dark / thumbnail /
+   favicon / PWA manifest image files, then point the installation configs at
+   them. Blocked on brand image files, not on code.
+2. **Deploy-time config (Phase 7)** — set `BRAND_URL`, `WIDGET_BRAND_URL`,
+   `TERMS_URL`, `PRIVACY_URL`, `MAILER_SENDER_EMAIL`, and the support-contact
+   address at deploy. Values only; `BrandingSetup` already consumes them.
+3. **Manual AI-loop run (Phase 5)** — exercise incoming → webhook → orchestrator
+   stub → API reply end-to-end (exactly one reply, no self-trigger). Requires the
+   external orchestrator repo; the Chatwoot-side contract is already spec-covered
+   by `spec/custom/contracts/ai_reply_loop_contract_spec.rb`.
+
+## Phase 0 — Environment sanity ✅ Done
 
 - `docker compose build base rails vite` (first time), then
   `docker compose up rails sidekiq vite`.
@@ -17,7 +46,7 @@ Phased so every phase leaves the app releasable. All commands run in Docker
   error log if it required fixing.
 - Smoke: `docker compose run --rm rails bundle exec rails runner "puts Account.count"`.
 
-## Phase 1 — Inventory (read-only)
+## Phase 1 — Inventory (read-only) ✅ Done
 
 Deliverable: `docs/fork/INVENTORY.md` with:
 
@@ -29,7 +58,7 @@ Deliverable: `docs/fork/INVENTORY.md` with:
   invites → AgentBuilder) with file:line.
 - Existing limit UI (enterprise banners/paywalls) worth reusing.
 
-## Phase 2 — Overlay bootstrap + entitlement service
+## Phase 2 — Overlay bootstrap + entitlement service ✅ Done
 
 1. Create `custom/` skeleton (ARCHITECTURE.md layout) and the
    `config/application.rb` bootstrap block; verify injector picks up a trivial
@@ -43,7 +72,7 @@ Deliverable: `docs/fork/INVENTORY.md` with:
 Gate: `docker compose run --rm rails bundle exec rspec spec/custom` green;
 `docker compose run --rm rails bundle exec rspec spec/models/account_spec.rb spec/enterprise` green (no regression).
 
-## Phase 3 — Backend guards
+## Phase 3 — Backend guards ✅ Done
 
 Per resource in the ENTITLEMENTS.md catalog (do one resource end-to-end, then
 replicate the pattern):
@@ -60,7 +89,7 @@ replicate the pattern):
 Gate: full backend suite `docker compose run --rm rails bundle exec rspec`
 green, plus `docker compose run --rm rails bundle exec rubocop`.
 
-## Phase 4 — Provisioning glue
+## Phase 4 — Provisioning glue ✅ Done
 
 - Confirm the control plane can set `accounts.limits` through the existing
   enterprise accounts API / Super Admin (no new endpoints).
@@ -68,7 +97,7 @@ green, plus `docker compose run --rm rails bundle exec rubocop`.
   user → inbox → webhook → agent bot + token) as a runnable doc/example, not
   production code in this repo.
 
-## Phase 5 — AI loop verification (contract side)
+## Phase 5 — AI loop verification (contract side) ◑ Contract done; manual run outstanding
 
 This repo's responsibility is only that contracts hold:
 
@@ -80,7 +109,7 @@ This repo's responsibility is only that contracts hold:
 - Manual loop test against a local orchestrator stub (per AI_REPLY_LOOP.md):
   incoming → webhook → stub → API reply → exactly one reply, no self-trigger.
 
-## Phase 6 — UI adaptation
+## Phase 6 — UI adaptation ✅ Done
 
 - Extend the account payload/store with the new `usage_limits` keys (verify
   serializer path found in Phase 1).
@@ -89,9 +118,12 @@ This repo's responsibility is only that contracts hold:
   on 402 everywhere.
 - `docker compose run --rm vite pnpm eslint` and `pnpm test` green.
 
-## Phase 7 — Branding pass
+## Phase 7 — Branding pass ◑ Copy/config done; assets + deploy config deferred
 
-Per WHITE_LABEL.md, then full build + click-through.
+Per WHITE_LABEL.md, then full build + click-through. Copy, installation configs,
+mailers, and MFA issuer are done; the deferred items (Layer-3 brand assets and
+deploy-time config values) are listed under **Remaining work** above and in
+WHITE_LABEL.md's "Deferred" section.
 
 ## Merge checklist (all must pass)
 

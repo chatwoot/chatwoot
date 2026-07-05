@@ -1,5 +1,15 @@
 # Phase 1 Inventory — Resource Creation Paths
 
+> **Status (2026-07-03): baseline snapshot — bypass gaps now closed.** The
+> "Guarded today?" columns below record the **pre-fork** state (mostly ❌). Every
+> ❌ create path here has since been guarded: single-path resources at the
+> controller layer, multi-path resources (Inbox, AgentBot, Label,
+> Integrations::Hook, plus AccountUser for agents) at the model layer via
+> `Custom::<Model>` + `QuotaGuard`, and the automation-rule `clone` action at the
+> controller. The five "Risky paths" and every "must-have bypass spec" in §Risky
+> paths are covered green in `spec/custom`. Keep this doc as the create-path map;
+> it is no longer a to-do list.
+
 Snapshot taken 2026-07-02 on branch `develop` (63b23b2). Line numbers are
 anchors; re-verify after upstream merges. Seeder paths
 (`lib/seeders/`, `lib/test_data/`) are listed once here and **exempt from
@@ -56,8 +66,9 @@ alone covers 1 of 10 paths.
 | --- | --- | --- |
 | API create | `app/controllers/api/v1/accounts/webhooks_controller.rb:10` | ❌ |
 
-Single path. Remember: AI-loop provisioning consumes one webhook slot per
-tenant (see AI_REPLY_LOOP.md) — plan defaults accordingly.
+Single path. The AI-loop provisioning webhook is created `platform_managed:
+true` and is **exempt** from this quota (ADR-0005), so it does not consume a
+tenant slot — see AI_REPLY_LOOP.md.
 
 ## Labels
 
