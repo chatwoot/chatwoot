@@ -46,12 +46,19 @@ excluded from all entitlement counts and are never blocked by tenant quotas.**
   (`Custom::Concerns::QuotaGuard#ensure_quota_capacity`) and the controller guards
   (`check_webhooks_quota` / `check_agent_bots_quota`). Infrastructure is therefore
   never counted **and** never rejected, even when the tenant is at their cap.
-- The flag is set only on **administrator-only** create paths (Application-API
-  `webhooks`/`agent_bots`, guarded by `WebhookPolicy`/`AgentBotPolicy#create?`)
-  and the **super-admin** Platform-API `account_users` create. In this SaaS the
-  only administrator is the platform's own service user (human operators SSO in as
-  `role: agent`, and native login is locked down — ADR + `SsoOnlyLogin`), so the
-  flag is not tenant-settable in practice.
+- On the Application API (`webhooks`/`agent_bots`), the flag is honored **only when
+  the acting identity is itself platform-managed** — i.e. `Current.account_user`
+  is a `platform_managed` account_user (the control plane's service user). Any
+  other caller (including a tenant `administrator`) has the `platform_managed` key
+  **stripped from permitted params** (`Custom::Concerns::PlatformActor#platform_actor?`,
+  applied in the custom `webhooks`/`agent_bots` controllers), so it can never be
+  persisted `true` and never skips the quota guard. This is an *enforced* check, not
+  a deployment assumption: even a tenant identity promoted to `administrator` is not
+  platform-managed and so cannot self-exempt.
+- The **super-admin** Platform-API `account_users` create still sets the flag
+  directly. That surface requires the platform app token the control plane alone
+  holds (there is no `Current.account_user` context to gate on), so it is
+  platform-only by construction and needs no additional check.
 - **Tenant-created resources keep `platform_managed: false` and count exactly as
   before.** The change is backward-compatible: the column defaults to `false`, so
   existing rows and all tenant self-service creates are unaffected.
@@ -65,12 +72,14 @@ excluded from all entitlement counts and are never blocked by tenant quotas.**
 - Provisioning must set `platform_managed: true` when creating the system AgentBot,
   the account webhook, and the automation service `account_user`. Human handoff
   agents are created **without** the flag and still count toward `agents`.
-- The trust boundary rests on "only the platform is an administrator." If a
-  deployment ever grants a tenant the `administrator` role with API access, that
-  tenant could self-exempt webhooks/bots from their cap — so keep the SSO-only
-  lockdown and agent-only handoff model in force. A future hardening could gate the
-  flag behind a super-admin-only context on the Application API if that assumption
-  changes.
+- The trust boundary is enforced in code, not by deployment assumption: the
+  Application-API exemption is keyed off the acting identity's own `platform_managed`
+  flag (`PlatformActor#platform_actor?`), so granting a tenant the `administrator`
+  role would **not** let them self-exempt — a tenant admin's `platform_managed: true`
+  is stripped and the resource still counts. The SSO-only lockdown and agent-only
+  handoff model remain the primary boundary, but they are now backed by a
+  fail-closed param filter rather than relied upon alone. (Original loophole raised
+  by the fork review — `platform_managed` flag abuse on `agent_bots`/`webhooks`.)
 - Scope is limited to resources that are genuinely platform infrastructure
   (`agents`, `agent_bots`, `webhooks`). `teams`, `inboxes`, `labels`, etc. remain
   purely tenant-owned and are unaffected.

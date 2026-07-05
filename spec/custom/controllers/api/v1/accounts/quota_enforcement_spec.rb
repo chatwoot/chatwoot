@@ -4,6 +4,15 @@ RSpec.describe 'Quota enforcement on account APIs', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  # The control plane's service identity: an administrator whose account_user is
+  # itself platform-managed. Only this identity may set the `platform_managed`
+  # exemption flag (docs/fork/adr/0005).
+  let(:platform_admin) do
+    user = create(:user, account: account, role: :administrator)
+    account.account_users.find_by(user_id: user.id).update!(platform_managed: true)
+    user
+  end
+
   shared_examples 'a quota guarded create endpoint' do
     it 'rejects creation at the cap with the shared 402 contract' do
       account.update!(limits: { resource => 1 })
@@ -144,7 +153,7 @@ RSpec.describe 'Quota enforcement on account APIs', type: :request do
 
       post "/api/v1/accounts/#{account.id}/webhooks",
            params: { webhook: { url: 'https://example.com/platform', subscriptions: ['message_created'], platform_managed: true } },
-           headers: admin.create_new_auth_token, as: :json
+           headers: platform_admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
       expect(account.webhooks.find_by(url: 'https://example.com/platform').platform_managed).to be true
@@ -156,7 +165,7 @@ RSpec.describe 'Quota enforcement on account APIs', type: :request do
 
       post "/api/v1/accounts/#{account.id}/agent_bots",
            params: { name: 'System AI', outgoing_url: 'https://example.com/bot', platform_managed: true },
-           headers: admin.create_new_auth_token, as: :json
+           headers: platform_admin.create_new_auth_token, as: :json
 
       expect(response).to have_http_status(:success)
       expect(account.agent_bots.find_by(name: 'System AI').platform_managed).to be true
@@ -172,6 +181,58 @@ RSpec.describe 'Quota enforcement on account APIs', type: :request do
 
       expect(response).to have_http_status(:payment_required)
       expect(response.parsed_body['error_code']).to eq('quota_exceeded')
+    end
+  end
+
+  # Regression for the platform_managed privilege-escalation loophole: a tenant
+  # admin is NOT a platform actor, so a tenant-supplied `platform_managed: true`
+  # must be stripped — the flag is ignored and the resource still counts against
+  # the plan (docs/fork/adr/0005).
+  describe 'tenant admins cannot self-grant the platform-managed exemption' do
+    it 'blocks a webhook even when the tenant admin supplies platform_managed: true' do
+      account.update!(limits: { webhooks: 1 })
+      create(:webhook, account: account)
+
+      post "/api/v1/accounts/#{account.id}/webhooks",
+           params: { webhook: { url: 'https://example.com/sneaky', subscriptions: ['message_created'], platform_managed: true } },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:payment_required)
+      expect(response.parsed_body['error_code']).to eq('quota_exceeded')
+    end
+
+    it 'strips the flag on a below-cap webhook so it still counts against the plan' do
+      account.update!(limits: { webhooks: 5 })
+
+      post "/api/v1/accounts/#{account.id}/webhooks",
+           params: { webhook: { url: 'https://example.com/counted', subscriptions: ['message_created'], platform_managed: true } },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.webhooks.find_by(url: 'https://example.com/counted').platform_managed).to be false
+    end
+
+    it 'blocks an agent bot even when the tenant admin supplies platform_managed: true' do
+      account.update!(limits: { agent_bots: 1 })
+      create(:agent_bot, account: account)
+
+      post "/api/v1/accounts/#{account.id}/agent_bots",
+           params: { name: 'Sneaky Bot', outgoing_url: 'https://example.com/bot', platform_managed: true },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:payment_required)
+      expect(response.parsed_body['error_code']).to eq('quota_exceeded')
+    end
+
+    it 'strips the flag on a below-cap agent bot so it still counts against the plan' do
+      account.update!(limits: { agent_bots: 5 })
+
+      post "/api/v1/accounts/#{account.id}/agent_bots",
+           params: { name: 'Counted Bot', outgoing_url: 'https://example.com/bot', platform_managed: true },
+           headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.agent_bots.find_by(name: 'Counted Bot').platform_managed).to be false
     end
   end
 end
