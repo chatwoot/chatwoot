@@ -36,6 +36,14 @@ RSpec.describe Custom::Account::PlanUsageAndLimits do
       expect(account).to be_valid
     end
 
+    it 'accepts the externally-enforced agentic_ai key' do
+      # The control plane writes this cap via the Platform API; the schema must
+      # allow it even though Chatwoot never enforces it (display-only).
+      account.assign_attributes(limits: { agentic_ai: 500 })
+
+      expect(account).to be_valid
+    end
+
     it 'rejects unknown keys' do
       account.assign_attributes(limits: { bogus: 1 })
 

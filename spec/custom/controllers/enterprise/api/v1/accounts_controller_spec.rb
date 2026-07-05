@@ -32,6 +32,22 @@ RSpec.describe 'Enterprise Accounts API (fork quota limits)', type: :request do
       expect(response.parsed_body['limits']['labels']).to eq('allowed' => nil, 'consumed' => 0)
     end
 
+    it 'surfaces the externally-enforced agentic_ai limit when a cap is set' do
+      account.update!(limits: { agentic_ai: 500 }, custom_attributes: { agentic_ai_usage: 500 })
+
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['limits']['agentic_ai']).to eq('allowed' => 500, 'consumed' => 500)
+    end
+
+    it 'omits agentic_ai when no cap is provisioned' do
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['limits']).not_to have_key('agentic_ai')
+    end
+
     it 'requires authentication' do
       get "/enterprise/api/v1/accounts/#{account.id}/limits", as: :json
 
