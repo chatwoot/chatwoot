@@ -64,10 +64,40 @@ So out of the box the console is reachable at a **public password form**
 (`/super_admin/sign_in`) with throttling but **no MFA**. The password + network
 posture is therefore the real protection — see §5.
 
+### 3.1 What changed — why it's more secure now
+
+The fork's first-boot bootstrap (§4.1) replaces stock Chatwoot's insecure defaults:
+
+| | Stock Chatwoot | This fork (after `fork:super_admin:bootstrap`) |
+| --- | --- | --- |
+| Initial operator | hardcoded seed `john@acme.inc / Password1!` (well-known) | env-driven, strong, per-operator credential from your secrets manager |
+| Weak / blank password | accepted by the seed | **fails loud** — boot errors rather than ship a weak operator |
+| Default seed in prod | lingers until manually deleted | removed on boot with `SUPER_ADMIN_REMOVE_DEFAULT_SEED=true` |
+| Public self-signup | on by default | off with `SUPER_ADMIN_DISABLE_SIGNUP=true` |
+| Password rotation | manual console only | idempotent `SUPER_ADMIN_ROTATE_PASSWORD=true` on the same task |
+| Tenant → super-admin escalation | n/a | impossible by construction (provisioning only ever mints plain `User`s) |
+| Repeatability / audit | ad-hoc console commands | one idempotent task, covered by `spec/custom` |
+
+**Still unchanged from upstream — the deployment must close these:** there is **no
+MFA** on the `super_admin` login path and **no network restriction** by default. Those
+are §5 items 2 and 7; treat them as required for production.
+
 ## 4. Managing Super Admins (operator runbook)
 
-**Access the console:** browse to `https://<chatwoot-host>/super_admin` and sign in
-with a SuperAdmin credential (redirects to `/super_admin/sign_in` when unauthenticated).
+### 4.0 Logging in (the operator)
+
+1. Go to **`https://<chatwoot-host>/super_admin`** — unauthenticated visits redirect
+   to `/super_admin/sign_in`. This is a **separate** login from any tenant/agent
+   dashboard; your tenant SSO session does **not** grant it.
+2. Enter your **Super Admin** email + password (provisioned by the bootstrap §4.1, or
+   created in §4.2). On success you land on the accounts list (`super_admin/accounts`).
+3. Background queues are at **`/monitoring/sidekiq`** (same session). Sign out at
+   **`/super_admin/logout`**.
+
+There is **no** self-serve password-reset UI and no email flow for this scope — rotate
+via the bootstrap or the console (§4.1 / §4.2). If you are locked out, you need host /
+DB access to reset it. Because there is no MFA on this path, **do not expose
+`/super_admin` publicly** — reach it over VPN / an IP allowlist (§5).
 
 ### 4.1 First-boot bootstrap (recommended) — `fork:super_admin:bootstrap`
 
