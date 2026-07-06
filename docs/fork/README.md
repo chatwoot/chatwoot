@@ -40,6 +40,7 @@ Read in this order:
 | --- | --- |
 | [HOW_IT_WORKS.md](./HOW_IT_WORKS.md) | **Plain-English, diagram-first overview for non-technical readers** — what the product does, what we added, and how it talks to the external Next.js frontend and NestJS + LangGraph backend |
 | [ROLES_AND_CONTROL.md](./ROLES_AND_CONTROL.md) | **Plain-English roles & control guide** — who controls what (super admin, brain, AI robot, human agent, tenant, customer), the limits we enforce, and why our additions won't cause upstream merge conflicts |
+| [SUPER_ADMIN.md](./SUPER_ADMIN.md) | **Super Admin operator guide** — what the `/super_admin` console controls (accounts, users, Platform Apps/`PLATFORM_TOKEN`, installation configs, Sidekiq), who can reach it, how it's protected today (separate Devise scope, throttle, no MFA), how to create/rotate operators, and the production hardening checklist |
 | [VENDOR_DATA_HANDLING.md](./VENDOR_DATA_HANDLING.md) | **Plain-English data guide** — how each vendor (tenant) company's data is stored, isolated, secured, what reaches the AI, and how offboarding wipes it |
 | [SPEC.md](./SPEC.md) | The optimized product/engineering spec (source of truth for scope and acceptance) |
 | [SYSTEM_ARCHITECTURE.md](./SYSTEM_ARCHITECTURE.md) | **Cross-repo architecture contract** — the five systems (Next.js / NestJS / LangGraph / Chatwoot / Meta), ownership matrix, and sequence diagrams (onboarding, AI reply, over-limit, handoff, quota). Authoritative for both repos. |

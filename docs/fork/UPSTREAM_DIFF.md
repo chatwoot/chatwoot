@@ -46,7 +46,7 @@ pulling future upstream releases. It is generated from an actual
 | Fork specs | `spec/custom/**` | none | fork test suite |
 | Extension points | ~15 OSS/ent files, **+1–2 lines each** | trivial (append-only at EOF) | canonical `prepend_mod_with` hooks |
 | Bootstrap | `config/application.rb` | trivial (adjacent to enterprise lines) | eager-load + view path for `custom/` |
-| Frontend integration | ~12 OSS Vue/JS files | low (additive, isolated) | banner mount, quota UI, SSO redirect |
+| Frontend integration | ~13 OSS Vue/JS files | low (additive, isolated) | banner mount, quota UI, SSO redirect |
 | Branding | `config/locales/en.yml` + ~16 `en*.json`/Vue literals | low (value-only swaps) | "Chatwoot" → "Meta CRM" display copy |
 
 ## 2. Fork-owned trees (new files — no upstream overlap)
@@ -65,11 +65,19 @@ Everything here is net-new; pulling upstream can never conflict with it.
     webhooks, labels, automation_rules, custom_attribute_definitions, agent_bots,
     integrations/hooks).
   - Platform-managed flag permit: `custom/app/controllers/custom/platform/api/v1/account_users_controller.rb`.
+  - Agents list scoping: `custom/app/controllers/custom/api/v1/accounts/agents_controller.rb`
+    (overrides `agents` → excludes `platform_managed` seats from the list, the
+    create-guard count, and edit/destroy lookup, ADR-0005).
   - Limits read API + agentic-AI display:
-    `custom/app/controllers/custom/enterprise/api/v1/accounts_controller.rb`.
+    `custom/app/controllers/custom/enterprise/api/v1/accounts_controller.rb`
+    (also re-derives `agents.consumed` from the entitlement service so the UI
+    count excludes platform-managed infra).
   - Auth lockdown: `custom/app/controllers/custom/devise_overrides/sessions_controller.rb`
     (password/MFA) + `.../omniauth_callbacks_controller.rb` (Google OAuth + SAML),
     sharing `custom/app/controllers/custom/concerns/sso_only_login.rb`.
+  - Super Admin bootstrap: `custom/app/services/custom/super_admin_bootstrap.rb`
+    (env-driven first-boot operator + seed removal + baseline hardening; run via the
+    net-new task `lib/tasks/fork/super_admin.rake` → `fork:super_admin:bootstrap`).
   - Branding/MFA/mailers: `custom/app/services/custom/branding_setup.rb`,
     `custom/app/services/custom/mfa/management_service.rb`,
     `custom/app/mailers/custom/administrator_notifications/account_notification_mailer.rb`,
@@ -137,11 +145,12 @@ all are **additive and inert by default**:
 - **Quota UI composable** — new files
   `app/javascript/dashboard/composables/useQuota.js` and
   `.../i18n/locale/en/quota.json` (+ one register line in `.../en/index.js`).
-- **At-cap disabling** — the six settings list pages (`teams`, `labels`,
-  `attributes`, `automation`, `agentBots`, `integrations/Webhooks`) and the three
-  `IntegrationHooks*.vue` components gained `:disabled="atQuotaLimit"` +
+- **At-cap disabling** — the seven settings list pages (`agents`, `teams`,
+  `labels`, `attributes`, `automation`, `agentBots`, `integrations/Webhooks`) and
+  the three `IntegrationHooks*.vue` components gained `:disabled="atQuotaLimit"` +
   `:title="quotaTitle"` (props default `false`/`undefined` → identical to
-  upstream until a cap is hit).
+  upstream until a cap is hit). `agents/Index.vue` uses `useQuota('agents')`, whose
+  `consumed` now excludes platform-managed infra (backend override above).
 - **SSO-expiry redirect** — `app/javascript/v3/views/login/Index.vue` (+6) reads
   `window.globalConfig?.EXTERNAL_LOGIN_URL` (populated by
   `DashboardController#app_config`) and bounces bare/expired logins to the
