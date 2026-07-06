@@ -138,6 +138,8 @@ class DataImports::Intercom::Importer
     mapping = find_mapping('conversation', source_id)
 
     conversation = @client.retrieve_conversation(source_id)
+    return if import_stopped?
+
     contact = import_contact(primary_conversation_contact(conversation), required_for_conversation: true)
     source_type = conversation_source_type(conversation, conversation_summary)
     inbox = @placeholder_inboxes.inbox_for(source_type)

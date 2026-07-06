@@ -201,6 +201,8 @@ RSpec.describe DataImports::Intercom::Importer do
 
       expect(result).to be_done
       expect(client).not_to have_received(:retrieve_conversation).with('conversation_2')
+      expect(account.conversations.where(identifier: 'intercom:conversation_1')).to be_empty
+      expect(account.contacts.where(email: 'customer@example.com')).to be_empty
       expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to be_nil
     end
 
