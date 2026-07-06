@@ -137,7 +137,7 @@ class Telegram::SendAttachmentsService
     response_body = begin
       JSON.parse(response.body)
     rescue JSON::ParserError
-      {}
+      { 'ok' => false }
     end
     OpenStruct.new(success?: response.success?, code: response.status, parsed_response: response_body, body: response.body)
   end
