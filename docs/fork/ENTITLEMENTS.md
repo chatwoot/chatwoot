@@ -104,7 +104,13 @@ These carry `platform_managed: true` (column on `agent_bots`, `webhooks`,
 `account_users`; default `false`) and are **excluded from entitlements entirely**:
 
 - **Counted out** — `RESOURCE_COUNTERS` for `agents`/`agent_bots`/`webhooks` filter
-  `where(platform_managed: false)`.
+  `where(platform_managed: false)`. For `agents` this is enforced end-to-end:
+  `Custom::Api::V1::Accounts::AgentsController#agents` scopes the tenant-facing
+  finder to `platform_managed: false`, so infra is excluded from the **agents list**
+  (`index`), the **create-guard count** (`can_add_agent?` builds on the same
+  finder), **edit/destroy lookup** (`fetch_agent` → 404 on an infra id, protecting
+  the service admin whose token is the account credential), and the limits
+  endpoint's `agents.consumed` (re-derived via `Custom::EntitlementService`).
 - **Never blocked** — both guard layers short-circuit for a platform-managed
   create: the model guard (`QuotaGuard#ensure_quota_capacity`) and the controller
   guards (`check_webhooks_quota` / `check_agent_bots_quota`). So infrastructure

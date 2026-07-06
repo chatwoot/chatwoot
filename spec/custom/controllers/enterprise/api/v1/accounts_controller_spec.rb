@@ -25,6 +25,18 @@ RSpec.describe 'Enterprise Accounts API (fork quota limits)', type: :request do
                                      'custom_attribute_definitions', 'automation_rules', 'integrations')
     end
 
+    it 'counts only tenant seats for agents.consumed, excluding platform-managed infra' do
+      account.update!(limits: { agents: 3 })
+      # One real seat (admin) + one platform-managed infrastructure user.
+      infra = create(:user)
+      create(:account_user, account: account, user: infra, role: :administrator, platform_managed: true)
+
+      get "/enterprise/api/v1/accounts/#{account.id}/limits",
+          headers: admin.create_new_auth_token, as: :json
+
+      expect(response.parsed_body['limits']['agents']).to eq('allowed' => 3, 'consumed' => 1)
+    end
+
     it 'marks unconfigured resources as unlimited via a null allowance' do
       get "/enterprise/api/v1/accounts/#{account.id}/limits",
           headers: admin.create_new_auth_token, as: :json
