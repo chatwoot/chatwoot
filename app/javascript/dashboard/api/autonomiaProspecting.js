@@ -14,12 +14,28 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.get(`${this.url}/searches/${searchId}`);
   }
 
+  getLocationSuggestions(query) {
+    return axios.get(`${this.url}/searches/location_suggestions`, {
+      params: { query },
+    });
+  }
+
+  getLocationDetails(placeId) {
+    return axios.get(`${this.url}/searches/location_details`, {
+      params: { place_id: placeId },
+    });
+  }
+
   createSearch(search) {
     return axios.post(`${this.url}/searches`, { search });
   }
 
   updateSearch(searchId, search) {
     return axios.patch(`${this.url}/searches/${searchId}`, { search });
+  }
+
+  deleteSearch(searchId) {
+    return axios.delete(`${this.url}/searches/${searchId}`);
   }
 
   getLeads(params = {}) {

@@ -18,6 +18,31 @@ RSpec.describe Autonomia::Prospecting::SearchRunner do
     expect(result.search.metadata['lead_ids']).to match_array(result.leads.map(&:id))
   end
 
+  it 'stores location metadata in the saved search' do
+    result = described_class.new(
+      account: account,
+      user: user,
+      params: {
+        query: 'restaurante',
+        location: 'Divinopolis, MG',
+        requested_limit: 1,
+        metadata: {
+          'location_place_id' => 'places/divinopolis',
+          'location_latitude' => -20.1446,
+          'location_longitude' => -44.8912,
+          'location_label' => 'Divinopolis, MG, Brasil'
+        }
+      }
+    ).perform
+
+    expect(result.search.metadata).to include(
+      'location_place_id' => 'places/divinopolis',
+      'location_latitude' => -20.1446,
+      'location_longitude' => -44.8912,
+      'location_label' => 'Divinopolis, MG, Brasil'
+    )
+  end
+
   it 'deduplicates leads inside the same account' do
     params = { query: 'restaurante', location: 'Sao Paulo, SP', requested_limit: 2 }
 
