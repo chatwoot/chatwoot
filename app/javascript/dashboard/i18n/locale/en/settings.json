@@ -467,7 +467,18 @@
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "RENEWS_ON": "Renews on",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
@@ -503,6 +514,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "RETRY": "Retry",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
