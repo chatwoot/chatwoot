@@ -9,6 +9,7 @@ class Whatsapp::WebhookTeardownService
     api_client = Whatsapp::FacebookApiClient.new(provider_config['api_key'])
 
     clear_phone_number_override(api_client)
+    deregister_phone_number(api_client)
     unsubscribe_app_if_last_inbox(api_client)
   rescue StandardError => e
     # before_destroy must never block a channel delete — log and move on.
@@ -36,6 +37,18 @@ class Whatsapp::WebhookTeardownService
     Rails.logger.info "[WHATSAPP] Phone-level webhook override cleared for channel #{@channel.id}"
   rescue StandardError => e
     Rails.logger.error "[WHATSAPP] Phone-level webhook clear failed for channel #{@channel.id}: #{e.message}"
+  end
+
+  # Releases the number from the app so the customer can re-add it elsewhere. Without this the
+  # number stays registered and Meta reports "already in a partner app".
+  def deregister_phone_number(api_client)
+    phone_number_id = provider_config['phone_number_id']
+    return if phone_number_id.blank?
+
+    api_client.deregister_phone_number(phone_number_id)
+    Rails.logger.info "[WHATSAPP] Phone number deregistered for channel #{@channel.id}"
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Phone deregistration failed for channel #{@channel.id}: #{e.message}"
   end
 
   # The app subscription is shared by every inbox on the WABA, so only unsubscribe when this is the last one.
