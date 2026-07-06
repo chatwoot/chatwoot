@@ -215,10 +215,10 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
-- name: quoted_email_reply
-  display_name: Quoted Email Reply
+- name: branded_email_templates
+  display_name: Branded Email Templates
   enabled: false
-  deprecated: true
+  premium: true
 - name: companies
   display_name: Companies
   enabled: false

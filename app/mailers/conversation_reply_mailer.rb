@@ -69,6 +69,8 @@ class ConversationReplyMailer < ApplicationMailer
     @agent = @conversation.assignee
     @inbox = @conversation.inbox
     @channel = @inbox.channel
+    Current.account = @account
+    Current.inbox = @inbox
   end
 
   def should_use_conversation_email_address?
@@ -200,8 +202,23 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def choose_layout
+    return 'mailer/base' if branded_email_layout_action?
     return false if action_name == 'reply_without_summary' || action_name == 'email_reply'
 
     'mailer/base'
+  end
+
+  def branded_email_layout_action?
+    return false unless action_name.in?(%w[email_reply reply_without_summary])
+
+    @inbox&.branded_email_layout_available?
+  end
+
+  def liquid_droppables
+    super.merge({
+                  agent: @agent,
+                  contact: @contact,
+                  message: @message || @messages&.last
+                })
   end
 end

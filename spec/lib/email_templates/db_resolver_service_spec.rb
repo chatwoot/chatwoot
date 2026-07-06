@@ -4,6 +4,10 @@ describe EmailTemplates::DbResolverService do
   subject(:resolver) { described_class.using(EmailTemplate, {}) }
 
   describe '#find_templates' do
+    after do
+      Current.reset
+    end
+
     context 'when template does not exist in db' do
       it 'return empty array' do
         expect(resolver.find_templates('test', '', false, [])).to eq([])
@@ -53,7 +57,6 @@ describe EmailTemplates::DbResolverService do
             "DB Template - #{account_template.id}", handler, **template_details
           ).inspect
         )
-        Current.account = nil
       end
 
       it 'return installation template when current account dont have template' do
@@ -73,7 +76,40 @@ describe EmailTemplates::DbResolverService do
             "DB Template - #{installation_template.id}", handler, **template_details
           ).inspect
         )
-        Current.account = nil
+      end
+    end
+
+    context 'when inbox template exists in db' do
+      let(:account) { create(:account) }
+      let(:inbox) { create(:inbox, :with_email, account: account) }
+      let!(:inbox_template) { create(:email_template, :layout, account: account, inbox: inbox, body: 'inbox {{ content_for_layout }}') }
+
+      before do
+        create(:email_template, :layout, body: 'global {{ content_for_layout }}')
+        create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}')
+      end
+
+      it 'returns inbox template when branded email templates feature is enabled' do
+        account.enable_features!(:branded_email_templates)
+        Current.account = account
+        Current.inbox = inbox
+
+        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first.source).to eq(inbox_template.body)
+      end
+
+      it 'ignores branded layout templates when the feature is disabled' do
+        Current.account = account
+        Current.inbox = inbox
+
+        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] })).to be_empty
+      end
+
+      it 'falls back to english when requested locale does not have a template' do
+        account.enable_features!(:branded_email_templates)
+        Current.account = account
+        Current.inbox = inbox
+
+        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:fr] }).first.source).to eq(inbox_template.body)
       end
     end
   end

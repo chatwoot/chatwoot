@@ -213,6 +213,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         described_class::BUSINESS_PLAN_FEATURES.each do |feature|
           expect(account).not_to be_feature_enabled(feature)
         end
+        expect(account).not_to be_feature_enabled('branded_email_templates')
 
         described_class::ENTERPRISE_PLAN_FEATURES.each do |feature|
           expect(account).not_to be_feature_enabled(feature)
@@ -235,6 +236,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         described_class::BUSINESS_PLAN_FEATURES.each do |feature|
           expect(account).to be_feature_enabled(feature)
         end
+        expect(account).to be_feature_enabled('branded_email_templates')
 
         described_class::ENTERPRISE_PLAN_FEATURES.each do |feature|
           expect(account).not_to be_feature_enabled(feature)
@@ -257,6 +259,7 @@ describe Enterprise::Billing::HandleStripeEventService do
         described_class::BUSINESS_PLAN_FEATURES.each do |feature|
           expect(account).to be_feature_enabled(feature)
         end
+        expect(account).to be_feature_enabled('branded_email_templates')
 
         described_class::ENTERPRISE_PLAN_FEATURES.each do |feature|
           expect(account).to be_feature_enabled(feature)

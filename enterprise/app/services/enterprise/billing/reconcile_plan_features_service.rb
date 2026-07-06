@@ -25,6 +25,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     custom_roles
     csat_review_notes
     conversation_required_attributes
+    branded_email_templates
     advanced_assignment
     custom_tools
     companies
