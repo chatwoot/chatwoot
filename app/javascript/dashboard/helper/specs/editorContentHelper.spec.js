@@ -131,6 +131,20 @@ describe('getContentNode', () => {
         '{{contact.email}}'
       );
     });
+
+    it('should keep the placeholder when the value contains Liquid syntax', () => {
+      getContentNode(
+        editorView,
+        'variable',
+        'contact.name',
+        { from: 0, to: 10 },
+        { 'contact.name': '{{agent.email}}' }
+      );
+
+      expect(editorView.state.schema.text).toHaveBeenCalledWith(
+        '{{contact.name}}'
+      );
+    });
   });
 
   describe('getEmojiNode', () => {

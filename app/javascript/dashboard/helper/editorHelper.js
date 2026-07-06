@@ -428,6 +428,9 @@ export function stripUnsupportedFormatting(content, schema) {
  * - emoji
  */
 
+// Liquid delimiters ({{ }} or {% %}) that the backend evaluates on send.
+const LIQUID_SYNTAX = /\{\{|\{%/;
+
 /**
  * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
  * @param {Object} editorView - The editor view instance.
@@ -498,11 +501,12 @@ const nodeCreators = {
     };
   },
   variable: (editorView, content, from, to, variables) => {
-    // Insert the resolved value when available, else keep the {{placeholder}}
-    // so the backend can still resolve it at send time.
+    // Insert the resolved value, but keep the {{placeholder}} when it's empty or
+    // itself contains Liquid syntax, so the backend resolves it safely on send.
     const value = variables?.[content];
-    const hasValue = value !== undefined && value !== null && value !== '';
-    const text = hasValue ? String(value) : `{{${content}}}`;
+    const resolved = value == null ? '' : String(value);
+    const text =
+      resolved && !LIQUID_SYNTAX.test(resolved) ? resolved : `{{${content}}}`;
     return {
       node: createNode(editorView, 'variable', text),
       from,
