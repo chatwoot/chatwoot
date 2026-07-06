@@ -30,7 +30,11 @@ class Enterprise::Billing::HandleStripeEventService
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+    sync_subscription_credits(plan, previous_usage)
+    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
+  end
 
+  def sync_subscription_credits(plan, previous_usage)
     if billing_period_renewed?
       ActiveRecord::Base.transaction do
         handle_subscription_credits(plan, previous_usage)
@@ -64,6 +68,23 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_ends_on' => Time.zone.at(subscription['current_period_end'])
       )
     )
+  end
+
+  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
+    subscription_plan = subscription['plan']
+
+    Internal::Accounts::CloudPlanActivationConversionService.new(
+      account: account,
+      previous_plan_name: previous_plan_name,
+      current_plan_name: current_plan_name,
+      activated_at: Time.zone.at(@event.created),
+      conversion_value: subscription_conversion_value(subscription_plan),
+      currency_code: subscription_plan['currency'].upcase
+    ).perform
+  end
+
+  def subscription_conversion_value(subscription_plan)
+    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
   end
 
   def process_subscription_deleted
@@ -141,7 +162,17 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def find_plan(plan_id)
-    cloud_plans = InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
     cloud_plans.find { |config| config['product_id'].include?(plan_id) }
+  end
+
+  def previous_plan_name
+    stripe_plan = previous_attributes['plan']
+    return if stripe_plan.blank?
+
+    find_plan(stripe_plan['product'])&.dig('name')
+  end
+
+  def cloud_plans
+    @cloud_plans ||= InstallationConfig.find_by(name: CLOUD_PLANS_CONFIG)&.value || []
   end
 end

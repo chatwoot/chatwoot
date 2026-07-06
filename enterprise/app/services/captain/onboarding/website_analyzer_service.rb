@@ -4,7 +4,7 @@ class Captain::Onboarding::WebsiteAnalyzerService < Llm::BaseAiService
   MAX_CONTENT_LENGTH = 8000
 
   def initialize(website_url)
-    super()
+    super(feature: 'onboarding_content_generation')
     @website_url = normalize_url(website_url)
     @website_content = nil
     @favicon_url = nil

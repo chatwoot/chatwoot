@@ -8,6 +8,11 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     let!(:hit_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'hit') }
     let!(:miss_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'missed') }
     let!(:active_with_misses_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active_with_misses') }
+    let!(:blocked_contact_applied_sla) { create(:applied_sla, account: account, sla_policy: sla_policy, sla_status: 'active') }
+
+    before do
+      blocked_contact_applied_sla.conversation.contact.update!(blocked: true)
+    end
 
     it 'enqueues the job' do
       expect { described_class.perform_later(account) }.to have_enqueued_job(described_class)
@@ -18,6 +23,7 @@ RSpec.describe Sla::ProcessAccountAppliedSlasJob do
     it 'calls the ProcessAppliedSlaJob for both active and active_with_misses' do
       expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(active_with_misses_applied_sla).and_call_original
       expect(Sla::ProcessAppliedSlaJob).to receive(:perform_later).with(applied_sla).and_call_original
+      expect(Sla::ProcessAppliedSlaJob).not_to receive(:perform_later).with(blocked_contact_applied_sla)
       described_class.perform_now(account)
     end
 

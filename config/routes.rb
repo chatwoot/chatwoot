@@ -502,6 +502,7 @@ Rails.application.routes.draw do
               get :conversations
               get :conversations_summary
               get :conversation_traffic
+              get :drilldown
               get :bot_metrics
               get :inbox_label_matrix
               get :first_response_time_distribution
