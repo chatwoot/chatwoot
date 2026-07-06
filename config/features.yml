@@ -112,10 +112,9 @@
   display_name: Message Reply To
   enabled: false
   deprecated: true
-- name: insert_article_in_reply
-  display_name: Insert Article in Reply
+- name: branded_email_templates
+  display_name: Branded Email Templates
   enabled: false
-  deprecated: true
 - name: inbox_view
   display_name: Inbox View
   enabled: false
@@ -215,10 +214,10 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
-- name: branded_email_templates
-  display_name: Branded Email Templates
+- name: quoted_email_reply
+  display_name: Quoted Email Reply
   enabled: false
-  premium: true
+  deprecated: true
 - name: companies
   display_name: Companies
   enabled: false
