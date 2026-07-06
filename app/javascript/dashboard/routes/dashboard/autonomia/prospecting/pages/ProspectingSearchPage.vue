@@ -132,12 +132,6 @@ const canSearch = computed(
     !isSearching.value
 );
 const hasSelectedLeads = computed(() => selectedLeadIds.value.length > 0);
-const selectedPipelineName = computed(() => {
-  const pipeline = crmPipelines.value.find(
-    item => Number(item.id) === Number(crmForm.value.pipeline_id)
-  );
-  return pipeline?.name || t('PROSPECTING.SEARCH.CRM_DISABLED_SHORT');
-});
 const selectedStageName = computed(() => {
   const stage = crmStages.value.find(
     item => Number(item.id) === Number(crmForm.value.stage_id)
@@ -524,43 +518,6 @@ const replaceLead = updatedLead => {
   );
 };
 
-const updateLeadQuality = async (lead, status) => {
-  if (!lead?.id || lead.status === status) return;
-
-  let discardReason = lead.discard_reason || '';
-  if (status === 'discarded' && !discardReason) {
-    discardReason =
-      window.prompt(t('PROSPECTING.QUALITY.DISCARD_REASON_PROMPT')) || '';
-    if (!discardReason.trim()) return;
-  }
-
-  try {
-    const { data } = await AutonomiaProspectingAPI.updateLead(lead.id, {
-      status,
-      discard_reason: discardReason,
-    });
-    replaceLead(data.payload);
-  } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.UPDATE_LEAD');
-  }
-};
-
-const updateDiscardReason = async lead => {
-  if (!lead?.id || lead.status !== 'discarded') return;
-
-  try {
-    const { data } = await AutonomiaProspectingAPI.updateLead(lead.id, {
-      status: lead.status,
-      discard_reason: lead.discard_reason,
-    });
-    replaceLead(data.payload);
-  } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.UPDATE_LEAD');
-  }
-};
-
 const createContact = async lead => {
   if (!lead?.id || lead.contact_id || convertingLeadId.value) return;
 
@@ -875,48 +832,6 @@ onMounted(async () => {
               class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
             />
           </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
-            </span>
-            <select
-              v-model="crmForm.pipeline_id"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              @change="fetchCrmStages(crmForm.pipeline_id)"
-            >
-              <option value="">
-                {{ t('PROSPECTING.SEARCH.CRM_DISABLED_SHORT') }}
-              </option>
-              <option
-                v-for="pipeline in crmPipelines"
-                :key="pipeline.id"
-                :value="pipeline.id"
-              >
-                {{ pipeline.name }}
-              </option>
-            </select>
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-            </span>
-            <select
-              v-model="crmForm.stage_id"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              :disabled="!crmStages.length"
-            >
-              <option value="">
-                {{ t('PROSPECTING.SEARCH.CRM_STAGE_EMPTY') }}
-              </option>
-              <option
-                v-for="stage in crmStages"
-                :key="stage.id"
-                :value="stage.id"
-              >
-                {{ stage.name }}
-              </option>
-            </select>
-          </label>
         </section>
 
         <section class="grid content-start gap-3">
@@ -943,12 +858,6 @@ onMounted(async () => {
                 <dt>{{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}</dt>
                 <dd class="font-medium text-n-slate-12">
                   {{ form.radius_km }}
-                </dd>
-              </div>
-              <div class="flex justify-between gap-3">
-                <dt>{{ t('PROSPECTING.SEARCH.CRM_TARGET') }}</dt>
-                <dd class="truncate font-medium text-n-slate-12">
-                  {{ selectedPipelineName }} / {{ selectedStageName }}
                 </dd>
               </div>
             </dl>
@@ -1276,35 +1185,6 @@ onMounted(async () => {
             </div>
           </div>
 
-          <div
-            v-if="hasSelectedLeads"
-            class="flex flex-wrap items-center gap-2 border-b border-n-weak bg-n-solid-2 px-4 py-3 text-sm text-n-slate-11"
-          >
-            <span>
-              {{
-                t('PROSPECTING.SEARCH.SELECTED_COUNT', {
-                  count: selectedLeadIds.length,
-                })
-              }}
-            </span>
-            <button
-              type="button"
-              class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-              :disabled="bulkAction === 'contacts'"
-              @click="runBulkAction('contacts')"
-            >
-              {{ t('PROSPECTING.SEARCH.BULK_CONTACTS') }}
-            </button>
-            <button
-              type="button"
-              class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-              :disabled="bulkAction === 'crm_cards' || !canCreateCrmCard"
-              @click="runBulkAction('crm_cards')"
-            >
-              {{ t('PROSPECTING.SEARCH.BULK_CRM_CARDS') }}
-            </button>
-          </div>
-
           <div class="flex min-h-0 flex-1 flex-col">
             <section class="border-b border-n-weak p-4">
               <div class="mb-3 flex items-start justify-between gap-3">
@@ -1353,7 +1233,7 @@ onMounted(async () => {
                 </button>
               </div>
             </section>
-            <div class="min-h-0 overflow-y-auto">
+            <div class="min-h-0 overflow-x-hidden overflow-y-auto">
               <div
                 v-if="isSearching || isLoading"
                 class="px-4 py-8 text-sm text-n-slate-11"
@@ -1372,16 +1252,47 @@ onMounted(async () => {
               >
                 {{ t('PROSPECTING.QUALITY.NO_STATUS_RESULTS') }}
               </div>
-              <div v-else class="grid gap-3 p-4">
-                <div class="flex items-center justify-between text-xs">
-                  <button
-                    type="button"
-                    class="font-medium text-n-brand hover:underline disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="!sortedLeads.length"
-                    @click="toggleAllVisibleLeads"
-                  >
-                    {{ t('PROSPECTING.SEARCH.SELECT_VISIBLE') }}
-                  </button>
+              <div v-else class="grid min-w-0 gap-3 p-4">
+                <div
+                  class="flex flex-wrap items-center justify-between gap-2 text-xs"
+                >
+                  <div class="flex flex-wrap items-center gap-3">
+                    <button
+                      type="button"
+                      class="font-medium text-n-brand hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="!sortedLeads.length"
+                      @click="toggleAllVisibleLeads"
+                    >
+                      {{ t('PROSPECTING.SEARCH.SELECT_VISIBLE') }}
+                    </button>
+                    <template v-if="hasSelectedLeads">
+                      <span class="text-n-slate-10">
+                        {{
+                          t('PROSPECTING.SEARCH.SELECTED_COUNT', {
+                            count: selectedLeadIds.length,
+                          })
+                        }}
+                      </span>
+                      <button
+                        type="button"
+                        class="h-7 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                        :disabled="bulkAction === 'contacts'"
+                        @click="runBulkAction('contacts')"
+                      >
+                        {{ t('PROSPECTING.SEARCH.BULK_CONTACTS') }}
+                      </button>
+                      <button
+                        type="button"
+                        class="h-7 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                        :disabled="
+                          bulkAction === 'crm_cards' || !canCreateCrmCard
+                        "
+                        @click="runBulkAction('crm_cards')"
+                      >
+                        {{ t('PROSPECTING.SEARCH.BULK_CRM_CARDS') }}
+                      </button>
+                    </template>
+                  </div>
                   <span class="text-n-slate-10">
                     {{
                       t('PROSPECTING.SEARCH.VISIBLE_COUNT', {
@@ -1393,9 +1304,9 @@ onMounted(async () => {
                 <article
                   v-for="lead in sortedLeads"
                   :key="lead.id"
-                  class="grid gap-3 rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
+                  class="grid min-w-0 gap-3 overflow-hidden rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
                 >
-                  <div class="flex items-start gap-3">
+                  <div class="flex min-w-0 items-start gap-3">
                     <input
                       type="checkbox"
                       class="mt-1 size-4"
@@ -1410,35 +1321,34 @@ onMounted(async () => {
                       >
                         <div class="min-w-0">
                           <h3
-                            class="truncate text-base font-semibold text-n-slate-12"
+                            class="break-words text-base font-semibold text-n-slate-12"
                           >
                             {{ lead.name }}
                           </h3>
-                          <p class="mt-1 text-sm text-n-slate-10">
+                          <p class="mt-1 break-words text-sm text-n-slate-10">
                             {{ formatLeadAddress(lead) || '-' }}
                           </p>
-                        </div>
-                        <div class="flex shrink-0 flex-wrap gap-2">
-                          <span
-                            class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
-                          >
-                            {{
-                              t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`)
-                            }}
-                          </span>
-                          <span
-                            class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
-                          >
-                            {{ lead.source_label || lead.provider }}
-                          </span>
                         </div>
                       </div>
                       <div class="mt-3 grid gap-3 md:grid-cols-3">
                         <div class="text-n-slate-11">
                           <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
+                            {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY_STATUS') }}
                           </div>
-                          <div>{{ lead.category || '-' }}</div>
+                          <div class="break-words">
+                            {{ lead.category || '-' }}
+                          </div>
+                          <div class="text-xs text-n-slate-10">
+                            {{
+                              t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`)
+                            }}
+                          </div>
+                        </div>
+                        <div class="text-n-slate-11">
+                          <div class="text-xs text-n-slate-10">
+                            {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+                          </div>
+                          <div class="break-words">{{ selectedStageName }}</div>
                         </div>
                         <div class="text-n-slate-11">
                           <div class="text-xs text-n-slate-10">
@@ -1453,26 +1363,7 @@ onMounted(async () => {
                           >
                             {{ t('PROSPECTING.SEARCH.OPEN_SITE') }}
                           </a>
-                          <div>{{ lead.phone || '-' }}</div>
-                        </div>
-                        <div class="text-n-slate-11">
-                          <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.REPUTATION') }}
-                          </div>
-                          <div>
-                            {{
-                              t('PROSPECTING.SEARCH.RATING_LABEL', {
-                                rating: lead.rating || '-',
-                              })
-                            }}
-                          </div>
-                          <div>
-                            {{
-                              t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
-                                count: lead.reviews_count || 0,
-                              })
-                            }}
-                          </div>
+                          <div class="break-words">{{ lead.phone || '-' }}</div>
                         </div>
                       </div>
                     </div>
@@ -1540,26 +1431,6 @@ onMounted(async () => {
                           : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
                       }}
                     </button>
-                    <select
-                      :value="lead.status"
-                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                      @change="updateLeadQuality(lead, $event.target.value)"
-                    >
-                      <option
-                        v-for="status in statusOptions"
-                        :key="status"
-                        :value="status"
-                      >
-                        {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                      </option>
-                    </select>
-                    <input
-                      v-if="lead.status === 'discarded'"
-                      v-model="lead.discard_reason"
-                      class="h-8 min-w-[12rem] rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                      :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
-                      @blur="updateDiscardReason(lead)"
-                    />
                   </div>
                 </article>
               </div>
@@ -1642,24 +1513,25 @@ onMounted(async () => {
             <div class="grid gap-3 sm:grid-cols-2">
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">
                 <div class="text-xs font-medium text-n-slate-10">
-                  {{ t('PROSPECTING.QUALITY.SOURCE') }}
+                  {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY_STATUS') }}
                 </div>
                 <div class="mt-2 text-sm text-n-slate-12">
-                  {{
-                    selectedLeadDetail.source_label ||
-                    selectedLeadDetail.provider
-                  }}
+                  {{ selectedLeadDetail.category || '-' }}
                 </div>
-                <div class="break-all text-xs text-n-slate-10">
-                  {{ selectedLeadDetail.provider_place_id || '-' }}
+                <div class="mt-1 text-xs text-n-slate-10">
+                  {{
+                    t(
+                      `PROSPECTING.QUALITY.STATUSES.${selectedLeadDetail.status}`
+                    )
+                  }}
                 </div>
               </div>
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">
                 <div class="text-xs font-medium text-n-slate-10">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
+                  {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
                 </div>
                 <div class="mt-2 text-sm text-n-slate-12">
-                  {{ selectedLeadDetail.category || '-' }}
+                  {{ selectedStageName }}
                 </div>
               </div>
             </div>
@@ -1677,39 +1549,17 @@ onMounted(async () => {
               </div>
             </div>
 
-            <label class="grid gap-1">
-              <span class="text-xs font-medium text-n-slate-11">
-                {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
-              </span>
-              <select
-                :value="selectedLeadDetail.status"
-                class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                @change="
-                  updateLeadQuality(selectedLeadDetail, $event.target.value)
-                "
-              >
-                <option
-                  v-for="status in statusOptions"
-                  :key="status"
-                  :value="status"
-                >
-                  {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                </option>
-              </select>
-            </label>
-            <label
-              v-if="selectedLeadDetail.status === 'discarded'"
-              class="grid gap-1"
+            <div
+              v-if="selectedLeadDetail.discard_reason"
+              class="rounded-md border border-n-weak bg-n-solid-2 p-3"
             >
-              <span class="text-xs font-medium text-n-slate-11">
+              <div class="text-xs font-medium text-n-slate-10">
                 {{ t('PROSPECTING.QUALITY.DISCARD_REASON') }}
-              </span>
-              <input
-                v-model="selectedLeadDetail.discard_reason"
-                class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                @blur="updateDiscardReason(selectedLeadDetail)"
-              />
-            </label>
+              </div>
+              <div class="mt-2 text-sm text-n-slate-12">
+                {{ selectedLeadDetail.discard_reason }}
+              </div>
+            </div>
           </section>
         </div>
 
