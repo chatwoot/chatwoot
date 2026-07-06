@@ -40,9 +40,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // When true, filtering is delegated to the parent (which updates `options`
+  // in response to the `search` event) instead of filtering `options` locally.
+  serverSearch: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'search']);
 
 const { t } = useI18n();
 
@@ -53,11 +59,17 @@ const dropdownRef = ref(null);
 const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
+  if (props.serverSearch) return props.options;
   const searchTerm = search.value.toLowerCase();
   return props.options.filter(option =>
     option.label?.toLowerCase().includes(searchTerm)
   );
 });
+
+const onSearch = value => {
+  search.value = value;
+  emit('search', value);
+};
 
 const selectPlaceholder = computed(() => {
   return props.placeholder || t('COMBOBOX.PLACEHOLDER');
@@ -164,7 +176,7 @@ defineExpose({
         :empty-state="emptyState"
         multiple
         :selected-values="selectedValues"
-        @update:search-value="search = $event"
+        @update:search-value="onSearch"
         @select="toggleOption"
       />
 

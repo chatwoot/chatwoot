@@ -14,6 +14,19 @@ module PortalConfigSchema
     'additionalProperties' => false
   }.freeze
 
+  # Per-locale "recommended content" curated by an admin and shown as pill rows
+  # in the public portal hero. `category_ids` drive the "Recommended topics" row
+  # and `article_ids` the "Recommended articles" row. When empty, the portal
+  # falls back to its defaults (top categories by position for documentation).
+  POPULAR_CONTENT_SCHEMA = {
+    'type' => 'object',
+    'properties' => {
+      'category_ids' => { 'type' => %w[array null], 'items' => { 'type' => 'integer' } },
+      'article_ids' => { 'type' => %w[array null], 'items' => { 'type' => 'integer' } }
+    },
+    'additionalProperties' => false
+  }.freeze
+
   CONFIG_PARAMS_SCHEMA = {
     'type' => 'object',
     'properties' => {
@@ -27,6 +40,10 @@ module PortalConfigSchema
       'locale_translations' => {
         'type' => %w[object null],
         'additionalProperties' => LOCALE_TRANSLATION_SCHEMA
+      },
+      'popular_content' => {
+        'type' => %w[object null],
+        'additionalProperties' => POPULAR_CONTENT_SCHEMA
       }
     },
     'required' => [],

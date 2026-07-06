@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import LocaleCard from 'dashboard/components-next/HelpCenter/LocaleCard/LocaleCard.vue';
 import LocaleContentDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/LocaleContentDialog.vue';
+import PopularContentDialog from 'dashboard/components-next/HelpCenter/Pages/LocalePage/PopularContentDialog.vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -26,6 +27,7 @@ const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 
 const contentDialogRef = ref(null);
+const popularContentDialogRef = ref(null);
 
 const isLocaleDefault = code => {
   return props.portal?.meta?.default_locale === code;
@@ -154,6 +156,8 @@ const handleAction = ({ action }, localeCode) => {
     publishLocale({ localeCode: localeCode });
   } else if (action === 'customize-content') {
     contentDialogRef.value.openForLocale(localeCode);
+  } else if (action === 'select-popular-content') {
+    popularContentDialogRef.value.openForLocale(localeCode);
   } else if (action === 'delete') {
     deletePortalLocale({ localeCode: localeCode });
   }
@@ -174,5 +178,6 @@ const handleAction = ({ action }, localeCode) => {
       @action="handleAction($event, locale.code)"
     />
     <LocaleContentDialog ref="contentDialogRef" :portal="portal" />
+    <PopularContentDialog ref="popularContentDialogRef" :portal="portal" />
   </ul>
 </template>

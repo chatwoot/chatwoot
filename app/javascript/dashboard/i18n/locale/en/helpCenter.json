@@ -716,7 +716,28 @@
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
           "CUSTOMIZE_CONTENT": "Localize content",
+          "SELECT_POPULAR_CONTENT": "Select recommended content",
           "DELETE": "Delete"
+        }
+      },
+      "POPULAR_CONTENT_DIALOG": {
+        "TITLE": "Recommended content",
+        "DESCRIPTION": "Choose up to 3 categories and 3 articles to recommend on the public help center home page for this locale. Leave empty to fall back to the defaults.",
+        "SEARCH": "Search...",
+        "EMPTY": "No matching results",
+        "LOADING": "Loading…",
+        "SELECTION_COUNT": "{count} of {max} selected",
+        "CATEGORIES": {
+          "LABEL": "Recommended categories",
+          "PLACEHOLDER": "Select categories..."
+        },
+        "ARTICLES": {
+          "LABEL": "Recommended articles",
+          "PLACEHOLDER": "Select articles..."
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Recommended content updated successfully",
+          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
         }
       },
       "CONTENT_DIALOG": {

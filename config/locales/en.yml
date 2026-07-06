@@ -465,7 +465,8 @@ en:
       browse_by_topic_subtitle: Find guides, tutorials, and answers organised by category.
       popular_articles: Popular articles
       popular_articles_subtitle: What other people are reading right now.
-      popular_label: 'Popular topics:'
+      popular_label: 'Recommended topics:'
+      popular_articles_label: 'Recommended articles:'
       authors_others: "%{names} and %{count} others"
       primary_nav: Primary
     hero:
