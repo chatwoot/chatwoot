@@ -730,7 +730,7 @@ onMounted(async () => {
       </button>
     </header>
 
-    <section class="min-h-0 flex-1 overflow-y-auto px-6 py-5">
+    <section class="flex min-h-0 flex-1 flex-col overflow-hidden px-6 py-5">
       <div
         v-if="error"
         class="mb-4 rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
@@ -740,7 +740,7 @@ onMounted(async () => {
 
       <form
         v-if="showNewSearch"
-        class="grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 xl:grid-cols-[minmax(24rem,1.2fr)_minmax(18rem,.8fr)_minmax(16rem,.7fr)]"
+        class="grid min-h-0 gap-4 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1 p-4 xl:grid-cols-[minmax(24rem,1.2fr)_minmax(18rem,.8fr)_minmax(16rem,.7fr)]"
         @submit.prevent="submitSearch"
       >
         <section class="grid gap-3">
@@ -879,7 +879,7 @@ onMounted(async () => {
 
       <div
         v-else
-        class="grid min-h-[34rem] gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]"
+        class="grid min-h-0 flex-1 gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]"
       >
         <aside
           class="flex min-h-0 flex-col overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
@@ -902,14 +902,19 @@ onMounted(async () => {
             <article
               v-for="search in searches"
               :key="search.id"
-              class="mb-3 rounded-md border border-n-weak bg-n-solid-1 last:mb-0"
+              class="relative mb-3 overflow-hidden rounded-md border border-n-weak bg-n-solid-1 transition last:mb-0 hover:border-n-slate-7 hover:bg-n-solid-2"
               :class="{
-                'border-n-brand bg-n-brand-2': selectedSearchId === search.id,
+                'border-n-brand bg-n-brand-2 shadow-sm ring-1 ring-n-brand/30':
+                  selectedSearchId === search.id,
               }"
             >
+              <span
+                v-if="selectedSearchId === search.id"
+                class="absolute inset-y-0 left-0 w-1 bg-n-brand"
+              />
               <button
                 type="button"
-                class="grid w-full gap-2 p-3 text-left"
+                class="grid w-full gap-2 p-3 pl-4 text-left"
                 @click="openSearch(search)"
               >
                 <div class="flex items-start justify-between gap-2">
@@ -923,6 +928,9 @@ onMounted(async () => {
                   </div>
                   <span
                     class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                    :class="{
+                      'bg-n-brand text-white': selectedSearchId === search.id,
+                    }"
                   >
                     {{ search.results_count || 0 }}
                   </span>
