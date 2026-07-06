@@ -15,10 +15,15 @@ import EditAgent from './EditAgent.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { useQuota } from 'dashboard/composables/useQuota';
 
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+// Disable "Add Agent" at the plan cap (docs/fork/ENTITLEMENTS.md). Inert until a
+// cap is reached: `allowed: null` (unlimited) keeps `atQuotaLimit` false, so this
+// is identical to upstream on installs with no `agents` limit set.
+const { atQuotaLimit, quotaTitle } = useQuota('agents');
 
 const loading = ref({});
 const showAddPopup = ref(false);
@@ -169,6 +174,8 @@ const confirmDeletion = () => {
           <Button
             :label="$t('AGENT_MGMT.HEADER_BTN_TXT')"
             size="sm"
+            :disabled="atQuotaLimit"
+            :title="quotaTitle"
             @click="openAddPopup"
           />
         </template>
