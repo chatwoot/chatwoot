@@ -524,109 +524,132 @@ onMounted(loadPage);
               <article
                 v-for="lead in listLeads"
                 :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem_8rem_8rem_10rem]"
+                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0"
               >
-                <div class="min-w-0">
-                  <h3 class="truncate font-medium text-n-slate-12">
-                    {{ lead.name }}
-                  </h3>
-                  <p class="truncate text-n-slate-10">
-                    {{ formatLeadAddress(lead) }}
-                  </p>
-                  <p class="truncate text-n-slate-10">
-                    {{ lead.phone || '-' }}
-                  </p>
-                  <p class="truncate text-xs text-n-slate-10">
-                    {{ t('PROSPECTING.QUALITY.SOURCE') }}:
-                    {{ lead.source_label || lead.provider }}
-                    {{
-                      lead.provider_place_id
-                        ? `- ${lead.provider_place_id}`
-                        : ''
-                    }}
-                  </p>
-                </div>
-                <div class="flex flex-col items-start gap-1">
-                  <a
-                    v-if="lead.contact_id"
-                    :href="contactUrl(lead.contact_id)"
-                    class="text-xs font-medium text-n-brand underline"
-                  >
-                    {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
-                  </a>
-                  <button
-                    v-else
-                    type="button"
-                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="convertingLeadId === lead.id"
-                    @click="createContact(lead)"
-                  >
-                    {{
-                      convertingLeadId === lead.id
-                        ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
-                        : t('PROSPECTING.SEARCH.CREATE_CONTACT')
-                    }}
-                  </button>
-                  <span v-if="lead.contact_id" class="text-xs text-n-slate-10">
-                    {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
-                  </span>
-                </div>
-                <div class="flex flex-col items-start gap-1">
-                  <a
-                    v-if="lead.crm_card_id"
-                    :href="crmCardUrl(lead.crm_card_id)"
-                    class="text-xs font-medium text-n-brand underline"
-                  >
-                    {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
-                  </a>
-                  <button
-                    v-else
-                    type="button"
-                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="
-                      convertingCrmLeadId === lead.id || !canCreateCrmCard
-                    "
-                    @click="createCrmCard(lead)"
-                  >
-                    {{
-                      convertingCrmLeadId === lead.id
-                        ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
-                        : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
-                    }}
-                  </button>
-                  <span v-if="lead.crm_card_id" class="text-xs text-n-slate-10">
-                    {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
-                  :disabled="busyLeadId === lead.id"
-                  @click="removeLead(lead)"
+                <div
+                  class="min-w-0 rounded-md border border-n-weak bg-n-solid-2 p-3"
                 >
-                  {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
-                </button>
-                <div class="flex flex-col gap-1">
-                  <select
-                    :value="lead.status"
-                    class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                    @change="updateLeadQuality(lead, $event.target.value)"
+                  <div
+                    class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between"
                   >
-                    <option
-                      v-for="status in statusOptions"
-                      :key="status"
-                      :value="status"
+                    <div class="min-w-0">
+                      <h3 class="break-words font-semibold text-n-slate-12">
+                        {{ lead.name }}
+                      </h3>
+                      <p class="mt-1 break-words text-n-slate-10">
+                        {{ formatLeadAddress(lead) || '-' }}
+                      </p>
+                      <p class="mt-1 text-n-slate-10">
+                        {{ lead.phone || '-' }}
+                      </p>
+                    </div>
+                    <div class="flex shrink-0 flex-wrap gap-2">
+                      <span
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                      >
+                        {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
+                      </span>
+                      <span
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                      >
+                        {{ lead.source_label || lead.provider }}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="mt-2 break-all text-xs text-n-slate-10">
+                    {{ lead.provider_place_id || '-' }}
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                  <div class="flex flex-col items-start gap-1">
+                    <a
+                      v-if="lead.contact_id"
+                      :href="contactUrl(lead.contact_id)"
+                      class="text-xs font-medium text-n-brand underline"
                     >
-                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                    </option>
-                  </select>
-                  <input
-                    v-if="lead.status === 'discarded'"
-                    v-model="lead.discard_reason"
-                    class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                    :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
-                    @blur="updateDiscardReason(lead)"
-                  />
+                      {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
+                    </a>
+                    <button
+                      v-else
+                      type="button"
+                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="convertingLeadId === lead.id"
+                      @click="createContact(lead)"
+                    >
+                      {{
+                        convertingLeadId === lead.id
+                          ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
+                          : t('PROSPECTING.SEARCH.CREATE_CONTACT')
+                      }}
+                    </button>
+                    <span
+                      v-if="lead.contact_id"
+                      class="text-xs text-n-slate-10"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+                    </span>
+                  </div>
+                  <div class="flex flex-col items-start gap-1">
+                    <a
+                      v-if="lead.crm_card_id"
+                      :href="crmCardUrl(lead.crm_card_id)"
+                      class="text-xs font-medium text-n-brand underline"
+                    >
+                      {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
+                    </a>
+                    <button
+                      v-else
+                      type="button"
+                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="
+                        convertingCrmLeadId === lead.id || !canCreateCrmCard
+                      "
+                      @click="createCrmCard(lead)"
+                    >
+                      {{
+                        convertingCrmLeadId === lead.id
+                          ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
+                          : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
+                      }}
+                    </button>
+                    <span
+                      v-if="lead.crm_card_id"
+                      class="text-xs text-n-slate-10"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="busyLeadId === lead.id"
+                    @click="removeLead(lead)"
+                  >
+                    {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
+                  </button>
+                  <div class="flex flex-col gap-1">
+                    <select
+                      :value="lead.status"
+                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                      @change="updateLeadQuality(lead, $event.target.value)"
+                    >
+                      <option
+                        v-for="status in statusOptions"
+                        :key="status"
+                        :value="status"
+                      >
+                        {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                      </option>
+                    </select>
+                    <input
+                      v-if="lead.status === 'discarded'"
+                      v-model="lead.discard_reason"
+                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                      :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
+                      @blur="updateDiscardReason(lead)"
+                    />
+                  </div>
                 </div>
               </article>
             </div>
