@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_03_191000) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_06_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -434,6 +434,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_03_191000) do
     t.string "category"
     t.string "dedupe_key", null: false
     t.integer "status", default: 0, null: false
+    t.string "discard_reason"
     t.jsonb "raw_payload", default: {}, null: false
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
@@ -506,10 +507,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_03_191000) do
     t.integer "cache_ttl_seconds", default: 86400, null: false
     t.boolean "enrichment_enabled", default: false, null: false
     t.string "google_places_api_key"
+    t.bigint "default_crm_pipeline_id"
+    t.bigint "default_crm_stage_id"
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_autonomia_prospecting_settings_on_account_id", unique: true
+    t.index ["default_crm_pipeline_id"], name: "idx_autonomia_prospecting_settings_default_pipeline"
+    t.index ["default_crm_stage_id"], name: "idx_autonomia_prospecting_settings_default_stage"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -2396,6 +2401,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_03_191000) do
   add_foreign_key "autonomia_prospecting_searches", "accounts", on_delete: :cascade
   add_foreign_key "autonomia_prospecting_searches", "users", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_settings", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_settings", "crm_pipeline_stages", column: "default_crm_stage_id", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_settings", "crm_pipelines", column: "default_crm_pipeline_id", on_delete: :nullify
   add_foreign_key "crm_activities", "accounts"
   add_foreign_key "crm_activities", "conversations"
   add_foreign_key "crm_activities", "crm_cards", column: "card_id"

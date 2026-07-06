@@ -18,6 +18,10 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.post(`${this.url}/searches`, { search });
   }
 
+  updateSearch(searchId, search) {
+    return axios.patch(`${this.url}/searches/${searchId}`, { search });
+  }
+
   getLeads(params = {}) {
     return axios.get(`${this.url}/leads`, { params });
   }
@@ -30,6 +34,10 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.post(`${this.url}/leads/${leadId}/crm_card`, {
       crm_card: crmCard,
     });
+  }
+
+  updateLead(leadId, lead) {
+    return axios.patch(`${this.url}/leads/${leadId}`, { lead });
   }
 
   getLists() {

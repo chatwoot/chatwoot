@@ -68,6 +68,47 @@ RSpec.describe Autonomia::Prospecting::SearchRunner do
     end.to raise_error(Autonomia::Prospecting::SearchRunner::ProviderError, /API key/)
   end
 
+  it 'rejects google places when daily usage limit is exhausted' do
+    Autonomia::Prospecting::Setting.for_account(account).update!(
+      provider: 'google_places',
+      provider_enabled: true,
+      google_places_api_key: 'secret-key',
+      daily_limit: 1
+    )
+    Autonomia::Prospecting::Search.create!(
+      account: account,
+      user: user,
+      query: 'padaria',
+      requested_limit: 1,
+      consumed_api_units: 1
+    )
+
+    expect do
+      described_class.new(
+        account: account,
+        user: user,
+        params: { query: 'hotel', location: 'Sao Paulo, SP', requested_limit: 1 }
+      ).perform
+    end.to raise_error(Autonomia::Prospecting::SearchRunner::ProviderError, /Daily limit/)
+  end
+
+  it 'stores the default CRM target in new searches' do
+    pipeline, stage = create_crm_pipeline(account: account, user: user)
+    Autonomia::Prospecting::Setting.for_account(account).update!(
+      default_crm_pipeline: pipeline,
+      default_crm_stage: stage
+    )
+
+    result = described_class.new(
+      account: account,
+      user: user,
+      params: { query: 'clinica', location: 'Curitiba, PR', requested_limit: 1 }
+    ).perform
+
+    expect(result.search.metadata['crm_pipeline_id']).to eq(pipeline.id)
+    expect(result.search.metadata['crm_stage_id']).to eq(stage.id)
+  end
+
   it 'uses cache for repeated searches with the same fingerprint' do
     Autonomia::Prospecting::Setting.for_account(account).update!(cache_ttl_seconds: 3600)
     params = { query: 'padaria', location: 'Sao Paulo, SP', requested_limit: 1 }
