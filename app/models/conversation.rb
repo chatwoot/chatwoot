@@ -121,7 +121,7 @@ class Conversation < ApplicationRecord
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
-  after_update_commit :execute_after_update_commit_callbacks, :dispatch_agent_bot_handoff
+  after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
   before_destroy :set_unread_count_deletion_data
@@ -277,7 +277,6 @@ class Conversation < ApplicationRecord
     if pending?
       self.status = :open
       self.waiting_since ||= Time.current
-      @agent_bot_handoff_by_assignee = true
     end
 
     self.assignee_agent_bot_id = nil
@@ -339,6 +338,7 @@ class Conversation < ApplicationRecord
       CONVERSATION_OPENED => -> { saved_change_to_status? && open? },
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_STATUS_CHANGED => -> { saved_change_to_status? },
+      CONVERSATION_BOT_HANDOFF => -> { agent_bot_takeover_by_assignee? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
@@ -346,11 +346,11 @@ class Conversation < ApplicationRecord
     end
   end
 
-  def dispatch_agent_bot_handoff
-    return unless @agent_bot_handoff_by_assignee
-
-    dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
-    @agent_bot_handoff_by_assignee = false
+  def agent_bot_takeover_by_assignee?
+    assignee_id.present? &&
+      saved_change_to_status == %w[pending open] &&
+      saved_change_to_assignee_agent_bot_id&.first.present? &&
+      saved_change_to_assignee_agent_bot_id&.last.blank?
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
