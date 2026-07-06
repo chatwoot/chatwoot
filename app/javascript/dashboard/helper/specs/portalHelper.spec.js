@@ -74,15 +74,18 @@ describe('PortalHelper', () => {
   });
 
   describe('buildLocaleMenuItems', () => {
-    it('disables other actions but keeps customize enabled for the default locale', () => {
+    it('disables other actions but keeps content actions enabled for the default locale', () => {
       const items = buildLocaleMenuItems({ isDefault: true, isDraft: false });
-      const customize = items.find(item => item.action === 'customize-content');
+      const enabledActions = ['customize-content', 'select-popular-content'];
 
-      expect(customize).toBeTruthy();
-      expect(customize.disabled).toBeFalsy();
+      enabledActions.forEach(action => {
+        expect(
+          items.find(item => item.action === action)?.disabled
+        ).toBeFalsy();
+      });
       expect(
         items
-          .filter(item => item.action !== 'customize-content')
+          .filter(item => !enabledActions.includes(item.action))
           .every(item => item.disabled)
       ).toBe(true);
     });
@@ -106,6 +109,7 @@ describe('PortalHelper', () => {
         'change-default',
         'move-to-draft',
         'customize-content',
+        'select-popular-content',
         'delete',
       ]);
     });
