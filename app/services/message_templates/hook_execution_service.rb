@@ -21,8 +21,7 @@ class MessageTemplates::HookExecutionService
 
   def should_send_out_of_office_message?
     return false if conversation.campaign.present?
-    # should not send if its a tweet message
-    return false if conversation.tweet?
+    return false if review_inbox_or_tweet_conversation?
     # should not send for outbound messages
     return false unless message.incoming?
     # prevents sending out-of-office message if an agent has sent a message in last 5 minutes
@@ -38,10 +37,13 @@ class MessageTemplates::HookExecutionService
 
   def should_send_greeting?
     return false if conversation.campaign.present?
-    # should not send if its a tweet message
-    return false if conversation.tweet?
+    return false if review_inbox_or_tweet_conversation?
 
     first_message_from_contact? && inbox.greeting_enabled? && inbox.greeting_message.present?
+  end
+
+  def review_inbox_or_tweet_conversation?
+    conversation.tweet? || inbox.app_store?
   end
 
   def email_collect_was_sent?

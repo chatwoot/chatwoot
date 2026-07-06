@@ -11,6 +11,7 @@ export const INBOX_TYPES = {
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
   TIKTOK: 'Channel::Tiktok',
+  APP_STORE: 'Channel::AppStore',
 };
 
 // Short channel-type slugs used to identify a channel without leaning on its
@@ -71,6 +72,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
+  [INBOX_TYPES.APP_STORE]: 'i-ri-app-store-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -86,6 +88,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.LINE]: 'i-woot-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
   [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
+  [INBOX_TYPES.APP_STORE]: 'i-ri-app-store-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -134,6 +137,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.LINE:
       return 'line';
+
+    case INBOX_TYPES.APP_STORE:
+      return 'app_store';
 
     default:
       return 'chat';

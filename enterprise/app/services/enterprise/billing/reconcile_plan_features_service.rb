@@ -11,6 +11,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     channel_facebook
     channel_email
     channel_instagram
+    channel_app_store
     channel_tiktok
     captain_integration
     captain_document_auto_sync

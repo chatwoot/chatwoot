@@ -50,6 +50,23 @@ RSpec.describe Account do
     end
   end
 
+  describe 'app store channel feature flag' do
+    let(:account) { create(:account) }
+
+    it 'stores app store channel feature state in feature flags' do
+      expect(account.feature_enabled?(:channel_app_store)).to be false
+
+      account.enable_features!(:channel_app_store)
+
+      expect(account.reload.feature_enabled?(:channel_app_store)).to be true
+      expect(account.enabled_features).to include('channel_app_store' => true)
+
+      account.disable_features!(:channel_app_store)
+
+      expect(account.reload.feature_enabled?(:channel_app_store)).to be false
+    end
+  end
+
   describe 'conversation unread counts feature flag' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }

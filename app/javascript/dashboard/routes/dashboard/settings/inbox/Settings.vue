@@ -267,6 +267,13 @@ export default {
         ];
       }
 
+      if (this.isAnAppStoreChannel) {
+        const unsupportedKeys = ['business-hours', 'csat', 'bot-configuration'];
+        visibleToAllChannelTabs = visibleToAllChannelTabs.filter(
+          tab => !unsupportedKeys.includes(tab.key)
+        );
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -300,6 +307,9 @@ export default {
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
       }
+      if (this.isAnAppStoreChannel && this.inbox.app_id) {
+        return `${this.inbox.name} (${this.inbox.app_id})`;
+      }
       return this.inbox.name;
     },
     canLocktoSingleConversation() {
@@ -311,6 +321,7 @@ export default {
         this.isAnInstagramChannel ||
         this.isALineChannel ||
         this.isATiktokChannel ||
+        this.isAnAppStoreChannel ||
         this.isATelegramChannel
       );
     },
@@ -847,6 +858,7 @@ export default {
             </SettingsFieldSection>
 
             <SettingsFieldSection
+              v-if="!isAnAppStoreChannel"
               :label="$t('INBOX_MGMT.HELP_CENTER.LABEL')"
               :help-text="$t('INBOX_MGMT.HELP_CENTER.SUB_TEXT')"
             >
@@ -1146,6 +1158,7 @@ export default {
             </SettingsAccordion>
 
             <SettingsAccordion
+              v-if="!isAnAppStoreChannel"
               :title="$t('INBOX_MGMT.CHANNEL_PREFERENCES')"
               class="mt-6"
             >

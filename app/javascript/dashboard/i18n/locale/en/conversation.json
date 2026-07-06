@@ -237,6 +237,8 @@
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "COPILOT_THINKING": "Copilot is thinking",
+      "APP_STORE_RESPONSE_DELAY": "Apple may take up to 24 hours to make submitted replies or updates public.",
+      "APP_STORE_RESPONSE_UPDATE": "This review already has a reply. Apple may take up to 24 hours to make submitted replies or updates public. Sending another reply updates the existing public App Store response.",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Add bcc",

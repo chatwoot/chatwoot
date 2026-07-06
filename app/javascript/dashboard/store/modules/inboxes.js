@@ -156,7 +156,8 @@ export const getters = {
   },
   dialogFlowEnabledInboxes($state) {
     return $state.records.filter(
-      item => item.channel_type !== INBOX_TYPES.EMAIL
+      item =>
+        ![INBOX_TYPES.EMAIL, INBOX_TYPES.APP_STORE].includes(item.channel_type)
     );
   },
   getFacebookInboxByInstagramId: $state => instagramId => {

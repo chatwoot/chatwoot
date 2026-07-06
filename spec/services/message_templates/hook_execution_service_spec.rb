@@ -270,4 +270,28 @@ describe MessageTemplates::HookExecutionService do
       expect(out_of_office_service).not_to receive(:perform)
     end
   end
+
+  context 'when the inbox is an App Store Reviews channel' do
+    let(:channel) { create(:channel_app_store) }
+    let(:inbox) { channel.inbox }
+    let(:conversation) { create(:conversation, inbox: inbox, account: channel.account) }
+
+    it 'does not fire the greeting template even when greeting_enabled is true' do
+      inbox.update!(greeting_enabled: true, greeting_message: 'Thanks for reviewing!')
+      allow(MessageTemplates::Template::Greeting).to receive(:new)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(MessageTemplates::Template::Greeting).not_to have_received(:new)
+    end
+
+    it 'does not fire the out-of-office template even when configured' do
+      inbox.update!(working_hours_enabled: true, out_of_office_message: 'Back tomorrow')
+      allow(MessageTemplates::Template::OutOfOffice).to receive(:new)
+
+      create(:message, conversation: conversation, account: conversation.account)
+
+      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
+    end
+  end
 end
