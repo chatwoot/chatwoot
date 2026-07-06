@@ -148,6 +148,7 @@ class DataImports::Intercom::Importer
       skip_already_imported_item(item, mapping, already_handled: already_handled)
       import_source_message(conversation, mapped_conversation, contact)
       import_conversation_parts(conversation, mapped_conversation, contact)
+      update_conversation_activity(mapped_conversation)
       return
     end
 

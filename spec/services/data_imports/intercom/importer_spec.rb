@@ -311,6 +311,33 @@ RSpec.describe DataImports::Intercom::Importer do
       )
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
     end
+
+    it 'updates conversation activity when a later import adds new messages to the mapped conversation', :aggregate_failures do
+      new_part = {
+        'id' => 'part_3',
+        'part_type' => 'comment',
+        'body' => '<p>Follow-up reply</p>',
+        'created_at' => 1_700_000_300,
+        'updated_at' => 1_700_000_300,
+        'author' => { 'type' => 'admin', 'id' => 'admin_1' },
+        'attachments' => []
+      }
+      updated_conversation_payload = conversation_payload.deep_dup
+      updated_conversation_payload['updated_at'] = 1_700_000_300
+      updated_conversation_payload['conversation_parts']['conversation_parts'] << new_part
+      allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(
+        conversation_payload,
+        updated_conversation_payload
+      )
+
+      described_class.new(data_import: data_import).perform
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+
+      described_class.new(data_import: next_data_import).perform
+
+      expect(conversation.reload.last_activity_at).to eq(Time.zone.at(1_700_000_300))
+      expect(conversation.messages.find_by!(source_id: 'intercom:conversation:conversation_1:part:part_3').content).to eq('Follow-up reply')
+    end
   end
 
   context 'when a conversation references an already mapped contact' do
