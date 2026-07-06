@@ -77,6 +77,19 @@ class DataImport < ApplicationRecord
     intercom_import? && (pending? || processing?)
   end
 
+  def abandon!
+    self.class.transaction do
+      abandonable_import = self.class.lock.find_by(
+        id: id,
+        data_type: 'intercom',
+        source_provider: 'intercom',
+        status: [:pending, :processing]
+      )
+      abandonable_import&.update!(status: :abandoned, abandoned_at: Time.current)
+    end
+    reload
+  end
+
   def active_intercom_import_run_id
     source_metadata.to_h[ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY]
   end

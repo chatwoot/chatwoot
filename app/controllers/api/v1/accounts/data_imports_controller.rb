@@ -39,7 +39,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def abandon
-    @data_import.update!(status: :abandoned, abandoned_at: Time.current) if @data_import.abandonable?
+    @data_import.abandon!
     render :show
   end
 
