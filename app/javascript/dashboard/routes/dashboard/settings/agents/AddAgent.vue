@@ -419,18 +419,26 @@ const addAgent = async () => {
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
         <Button
-          faded
-          slate
-          type="reset"
-          :label="$t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+          v-if="manualInvitation"
+          type="button"
+          :label="$t('AGENT_MGMT.ADD.CLOSE_BUTTON_TEXT')"
           @click.prevent="emit('close')"
         />
-        <Button
-          type="submit"
-          :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-          :disabled="!canSubmit"
-          :is-loading="uiFlags.isCreating"
-        />
+        <template v-else>
+          <Button
+            faded
+            slate
+            type="reset"
+            :label="$t('AGENT_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+            @click.prevent="emit('close')"
+          />
+          <Button
+            type="submit"
+            :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
+            :disabled="!canSubmit"
+            :is-loading="uiFlags.isCreating"
+          />
+        </template>
       </div>
     </form>
 
