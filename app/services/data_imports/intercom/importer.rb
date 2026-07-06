@@ -337,7 +337,7 @@ class DataImports::Intercom::Importer
 
   def import_source_message(conversation, chatwoot_conversation, contact)
     source = conversation['source'].to_h
-    return if source['body'].blank? && source['subject'].blank? && source['attachments'].blank?
+    return unless source_message_importable?(source)
 
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
@@ -356,7 +356,7 @@ class DataImports::Intercom::Importer
   def import_conversation_parts(conversation, chatwoot_conversation, contact)
     parts_payload = conversation['conversation_parts'].to_h
     parts = Array(parts_payload['conversation_parts'])
-    record_truncated_conversation_parts(conversation, parts.size)
+    record_truncated_conversation_parts(conversation, returned_conversation_parts_count(conversation, parts.size))
 
     parts.each do |part|
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
@@ -632,12 +632,8 @@ class DataImports::Intercom::Importer
       source_object_type: 'message',
       source_object_id: message_source_id,
       error_code: SKIPPED_MESSAGE_ERROR_CODE,
-      message: 'Intercom message part skipped because it has no importable content.',
-      details: message_metadata(part).merge(
-        kind: 'skipped',
-        reason: 'blank_or_unsupported_intercom_part',
-        conversation_id: conversation.identifier
-      )
+      message: skipped_message_log_message(part),
+      details: skipped_message_details(conversation, part)
     )
   end
 
@@ -685,11 +681,57 @@ class DataImports::Intercom::Importer
   end
 
   def total_conversation_parts_count(conversation)
+    conversation_parts_total_count = conversation.dig('conversation_parts', 'total_count')
+    return conversation_parts_total_count.to_i if conversation_parts_total_count.present?
+
     [
-      conversation.dig('conversation_parts', 'total_count'),
       conversation.dig('statistics', 'count_conversation_parts'),
       conversation.dig('statistics', 'count_conversations_parts')
     ].compact.map(&:to_i).max || 0
+  end
+
+  def returned_conversation_parts_count(conversation, conversation_parts_count)
+    source_part_count = source_message_importable?(conversation['source'].to_h) ? 1 : 0
+    conversation_parts_count + source_part_count
+  end
+
+  def source_message_importable?(source)
+    source['body'].present? || source['subject'].present? || source['attachments'].present?
+  end
+
+  def skipped_message_log_message(part)
+    "Skipped Intercom #{intercom_event_name(part)} event#{intercom_part_id_suffix(part)}: #{skipped_message_reason_details(part)}."
+  end
+
+  def skipped_message_details(conversation, part)
+    author = part['author'].to_h
+    message_metadata(part).merge(
+      {
+        kind: 'skipped',
+        reason: 'blank_or_unsupported_intercom_part',
+        reason_details: skipped_message_reason_details(part),
+        event_name: intercom_event_name(part),
+        event_type: part['part_type'],
+        author_type: author['type'],
+        author_name: author['name'],
+        conversation_id: conversation.identifier
+      }.compact
+    )
+  end
+
+  def skipped_message_reason_details(part)
+    return 'message body did not contain readable text after HTML sanitization' if part['body'].present?
+    return 'attachments are present but no importable message text was found' if Array(part['attachments']).present?
+
+    'no message body or attachments to import'
+  end
+
+  def intercom_event_name(part)
+    part['part_type'].to_s.tr('_', ' ').presence || 'message part'
+  end
+
+  def intercom_part_id_suffix(part)
+    part['id'].present? ? " #{part['id']}" : ''
   end
 
   def skip_log_recorded?(source_object_type, source_object_id, error_code)

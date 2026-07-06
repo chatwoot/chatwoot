@@ -517,11 +517,16 @@ RSpec.describe DataImports::Intercom::Importer do
       skip_log = data_import.import_errors.skip_logs.find_by!(source_object_type: 'message')
       expect(skip_log).to have_attributes(
         source_object_id: 'conversation:conversation_1:part:blank_part',
-        error_code: 'DataImports::Intercom::SkippedMessage'
+        error_code: 'DataImports::Intercom::SkippedMessage',
+        message: 'Skipped Intercom assignment event blank_part: no message body or attachments to import.'
       )
       expect(skip_log.details).to include(
         'kind' => 'skipped',
-        'reason' => 'blank_or_unsupported_intercom_part'
+        'reason' => 'blank_or_unsupported_intercom_part',
+        'reason_details' => 'no message body or attachments to import',
+        'event_name' => 'assignment',
+        'event_type' => 'assignment',
+        'author_type' => 'admin'
       )
       expect(data_import.reload.stats.dig('messages', 'skipped')).to eq(1)
     end
@@ -574,14 +579,57 @@ RSpec.describe DataImports::Intercom::Importer do
         source_object_id: 'conversation_1',
         error_code: 'DataImports::Intercom::TruncatedConversationParts'
       )
-      expect(error.message).to eq('Intercom returned 2 of 503 conversation parts.')
+      expect(error.message).to eq('Intercom returned 3 of 503 conversation parts.')
       expect(error.details).to include(
         'kind' => 'incomplete',
-        'imported_parts_count' => 2,
+        'imported_parts_count' => 3,
         'total_parts_count' => 503
       )
       expect(data_import.reload).to be_completed_with_errors
       expect(data_import.stats.dig('errors', 'count')).to eq(1)
+    end
+  end
+
+  context 'when Intercom includes the root source message in the conversation parts total' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'conversation_parts' => {
+          'total_count' => 3
+        },
+        'statistics' => {
+          'count_conversation_parts' => 3
+        }
+      )
+    end
+
+    it 'does not record a truncated parts error', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      expect(data_import.import_errors.non_skip_logs).to be_empty
+      expect(data_import.reload).to be_completed
+      expect(data_import.stats.dig('errors', 'count')).to eq(0)
+    end
+  end
+
+  context 'when Intercom statistics count is higher than the conversation parts total' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'source' => {},
+        'conversation_parts' => {
+          'total_count' => 2
+        },
+        'statistics' => {
+          'count_conversation_parts' => 3
+        }
+      )
+    end
+
+    it 'trusts the returned conversation parts total over the statistics counter', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      expect(data_import.import_errors.non_skip_logs).to be_empty
+      expect(data_import.reload).to be_completed
+      expect(data_import.stats.dig('errors', 'count')).to eq(0)
     end
   end
 
