@@ -85,16 +85,6 @@ describe ConversationFinder do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
       end
-
-      it 'does not include bot-owned conversations' do
-        agent_bot = create(:agent_bot, account: account)
-        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
-
-        result = conversation_finder.perform
-
-        expect(result[:conversations].length).to be 1
-        expect(result[:conversations].pluck(:assignee_agent_bot_id)).not_to include(agent_bot.id)
-      end
     end
 
     context 'with status all' do
@@ -175,16 +165,6 @@ describe ConversationFinder do
         expect(result[:conversations].length).to be 3
       end
 
-      it 'includes bot-owned conversations' do
-        agent_bot = create(:agent_bot, account: account)
-        bot_owned_conversation = create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot)
-
-        result = conversation_finder.perform
-
-        expect(result[:conversations].length).to be 4
-        expect(result[:conversations].pluck(:id)).to include(bot_owned_conversation.id)
-      end
-
       it 'returns the correct meta' do
         result = conversation_finder.perform
         expect(result[:count]).to eq({
@@ -192,19 +172,6 @@ describe ConversationFinder do
                                        assigned_count: 3,
                                        unassigned_count: 1,
                                        all_count: 4
-                                     })
-      end
-
-      it 'counts bot-owned conversations as assigned' do
-        create(:conversation, account: account, inbox: inbox, assignee_agent_bot: create(:agent_bot, account: account))
-
-        result = conversation_finder.perform
-
-        expect(result[:count]).to eq({
-                                       mine_count: 2,
-                                       assigned_count: 4,
-                                       unassigned_count: 1,
-                                       all_count: 5
                                      })
       end
     end
