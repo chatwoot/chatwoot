@@ -103,7 +103,7 @@ class ReusableAttachment < ApplicationRecord
   end
 
   def image_content_type?(content_type)
-    %w[image/jpeg image/png image/gif image/bmp image/webp image].include?(content_type)
+    %w[image/jpeg image/jpg image/png image/gif image/bmp image/webp image].include?(content_type)
   end
 
   def video_content_type?(content_type)
@@ -113,10 +113,11 @@ class ReusableAttachment < ApplicationRecord
   def acceptable_file_size
     return unless file.attached?
 
-    max_size = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', '40').to_i.megabytes
+    max_size = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', '40').to_i
+    max_size = 40 if max_size <= 0
 
-    return unless file.blob.byte_size > max_size
+    return unless file.blob.byte_size > max_size.megabytes
 
-    errors.add(:file, "size should be less than #{max_size / 1.megabyte}MB")
+    errors.add(:file, "size should be less than #{max_size}MB")
   end
 end
