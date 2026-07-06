@@ -10,6 +10,23 @@ to it as root access to the platform.
 > vendor, agent, or tenant user can ever reach it. Keep it up, lock it down, and
 > restrict it at the network layer.
 
+> ⚠️ **Rotate your password now if the initial one was ever displayed or shared.**
+> Any password that was printed to a terminal, a chat/log, a CI variable, or handed
+> over by another person must be treated as burned — rotate it on first login. It
+> takes seconds:
+>
+> ```bash
+> docker exec \
+>   -e SUPER_ADMIN_EMAIL='<your-operator-email>' \
+>   -e SUPER_ADMIN_PASSWORD='<new-strong-password>' \
+>   -e SUPER_ADMIN_ROTATE_PASSWORD=true \
+>   chatwoot-rails-1 bundle exec rails fork:super_admin:bootstrap
+> ```
+>
+> (Or the console form in §4.2.) The new password must satisfy Chatwoot's policy
+> — upper + lower + digit + special — or the task fails loud. See §4.1 for all
+> bootstrap options.
+
 ## 1. What it controls (blast radius)
 
 Routes live under `namespace :super_admin` in `config/routes.rb`, guarded by
