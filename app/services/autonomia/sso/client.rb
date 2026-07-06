@@ -26,6 +26,20 @@ class Autonomia::Sso::Client
     )
   end
 
+  def refresh_token!(refresh_token:)
+    response = post_form(token_endpoint, {
+                           grant_type: 'refresh_token',
+                           client_id: client_id,
+                           refresh_token: refresh_token
+                         })
+    Token.new(
+      access_token: response.fetch('access_token'),
+      id_token: response['id_token'],
+      refresh_token: response['refresh_token'].presence || refresh_token,
+      expires_in: response['expires_in']
+    )
+  end
+
   def fetch_context!(access_token)
     get_json(context_endpoint, access_token)
   end
