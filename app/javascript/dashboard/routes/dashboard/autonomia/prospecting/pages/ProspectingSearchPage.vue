@@ -30,6 +30,7 @@ const statusFilter = ref('');
 const sortKey = ref('created_desc');
 const editingSearchConfigId = ref(null);
 const showNewSearch = ref(false);
+const showFilters = ref(false);
 const deletingSearchId = ref(null);
 let locationSuggestionTimer;
 
@@ -150,6 +151,18 @@ const selectedLeadObjects = computed(() => {
 const activeAdvancedFiltersCount = computed(
   () => Object.values(advancedFilters.value).filter(Boolean).length
 );
+const activeFiltersCount = computed(
+  () => activeAdvancedFiltersCount.value + (statusFilter.value ? 1 : 0)
+);
+const autocompleteHint = computed(() => {
+  if (isSuggestingLocations.value) {
+    return t('PROSPECTING.SEARCH.SUGGESTING_LOCATIONS');
+  }
+
+  return settings.value?.has_google_places_api_key
+    ? t('PROSPECTING.SEARCH.AUTOCOMPLETE_READY_HINT')
+    : t('PROSPECTING.SEARCH.AUTOCOMPLETE_DISABLED_HINT');
+});
 const selectedMapQuery = computed(() => {
   if (
     selectedSearch.value?.location_latitude &&
@@ -236,6 +249,15 @@ const markerStyle = lead => {
   return {
     left: `${Math.max(6, Math.min(94, left))}%`,
     top: `${Math.max(6, Math.min(94, top))}%`,
+  };
+};
+
+const radiusCircleStyle = radius => {
+  const kilometers = Number(radius || 5000) / 1000;
+  const size = Math.max(84, Math.min(260, 72 + kilometers * 14));
+  return {
+    width: `${size}px`,
+    height: `${size}px`,
   };
 };
 
@@ -739,8 +761,15 @@ onMounted(async () => {
         class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-n-brand px-4 text-sm font-medium text-white"
         @click="showNewSearch = !showNewSearch"
       >
-        <span class="i-lucide-plus size-4" />
-        {{ t('PROSPECTING.SEARCH.NEW_SEARCH') }}
+        <span
+          class="size-4"
+          :class="showNewSearch ? 'i-lucide-arrow-left' : 'i-lucide-plus'"
+        />
+        {{
+          showNewSearch
+            ? t('PROSPECTING.SEARCH.BACK_TO_RESULTS')
+            : t('PROSPECTING.SEARCH.NEW_SEARCH')
+        }}
       </button>
     </header>
 
@@ -754,7 +783,7 @@ onMounted(async () => {
 
       <form
         v-if="showNewSearch"
-        class="mb-4 grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 xl:grid-cols-[minmax(20rem,1.1fr)_minmax(18rem,.9fr)_minmax(16rem,.7fr)]"
+        class="grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 xl:grid-cols-[minmax(24rem,1.2fr)_minmax(18rem,.8fr)_minmax(16rem,.7fr)]"
         @submit.prevent="submitSearch"
       >
         <section class="grid gap-3">
@@ -796,11 +825,7 @@ onMounted(async () => {
               />
             </datalist>
             <span class="text-xs text-n-slate-10">
-              {{
-                isSuggestingLocations
-                  ? t('PROSPECTING.SEARCH.SUGGESTING_LOCATIONS')
-                  : t('PROSPECTING.SEARCH.AUTOCOMPLETE_HINT')
-              }}
+              {{ autocompleteHint }}
             </span>
           </label>
           <label class="grid gap-1">
@@ -815,13 +840,19 @@ onMounted(async () => {
               class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
             />
           </label>
-          <div class="h-56 overflow-hidden rounded-md border border-n-weak">
+          <div
+            class="relative h-72 overflow-hidden rounded-md border border-n-weak"
+          >
             <iframe
               :src="previewMapUrl"
               class="size-full border-0"
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
               :title="t('PROSPECTING.SEARCH.MAP_PREVIEW')"
+            />
+            <div
+              class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
+              :style="radiusCircleStyle(Number(form.radius_km) * 1000)"
             />
           </div>
         </section>
@@ -937,7 +968,10 @@ onMounted(async () => {
         </section>
       </form>
 
-      <div class="grid min-h-[34rem] gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]">
+      <div
+        v-else
+        class="grid min-h-[34rem] gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]"
+      >
         <aside
           class="flex min-h-0 flex-col overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
         >
@@ -1099,141 +1133,146 @@ onMounted(async () => {
                 }}
               </p>
             </div>
-            <div class="flex flex-wrap items-end gap-2">
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
-                </span>
-                <select
-                  v-model="statusFilter"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                >
-                  <option value="">
-                    {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
-                  </option>
-                  <option
-                    v-for="status in statusOptions"
-                    :key="status"
-                    :value="status"
-                  >
-                    {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                  </option>
-                </select>
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.SORT') }}
-                </span>
-                <select
-                  v-model="sortKey"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                >
-                  <option value="created_desc">
-                    {{ t('PROSPECTING.SEARCH.SORT.CREATED_DESC') }}
-                  </option>
-                  <option value="created_asc">
-                    {{ t('PROSPECTING.SEARCH.SORT.CREATED_ASC') }}
-                  </option>
-                  <option value="rating_desc">
-                    {{ t('PROSPECTING.SEARCH.SORT.RATING_DESC') }}
-                  </option>
-                  <option value="reviews_desc">
-                    {{ t('PROSPECTING.SEARCH.SORT.REVIEWS_DESC') }}
-                  </option>
-                  <option value="name_asc">
-                    {{ t('PROSPECTING.SEARCH.SORT.NAME_ASC') }}
-                  </option>
-                </select>
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.HAS_SITE') }}
-                </span>
-                <select
-                  v-model="advancedFilters.has_website"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                >
-                  <option value="">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
-                  </option>
-                  <option value="yes">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
-                  </option>
-                  <option value="no">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
-                  </option>
-                </select>
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHONE') }}
-                </span>
-                <select
-                  v-model="advancedFilters.has_phone"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                >
-                  <option value="">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
-                  </option>
-                  <option value="yes">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
-                  </option>
-                  <option value="no">
-                    {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
-                  </option>
-                </select>
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MIN') }}
-                </span>
-                <input
-                  v-model="advancedFilters.rating_min"
-                  type="number"
-                  min="0"
-                  max="5"
-                  step="0.1"
-                  class="h-9 w-24 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                />
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.REVIEWS_MIN') }}
-                </span>
-                <input
-                  v-model="advancedFilters.reviews_min"
-                  type="number"
-                  min="0"
-                  class="h-9 w-24 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                />
-              </label>
-              <span
-                v-if="activeAdvancedFiltersCount"
-                class="mb-1 rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
-              >
-                {{
-                  t('PROSPECTING.SEARCH.ACTIVE_FILTERS', {
-                    count: activeAdvancedFiltersCount,
-                  })
-                }}
-              </span>
+            <div class="relative flex items-center gap-2">
               <button
                 type="button"
-                class="h-9 rounded-md border border-n-weak px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
-                :disabled="!sortedLeads.length"
-                @click="toggleAllVisibleLeads"
+                class="relative flex size-9 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
+                :title="t('PROSPECTING.SEARCH.FILTER_BUTTON')"
+                @click="showFilters = !showFilters"
               >
-                {{ t('PROSPECTING.SEARCH.SELECT_VISIBLE') }}
+                <span class="i-lucide-sliders-horizontal size-4" />
+                <span
+                  v-if="activeFiltersCount"
+                  class="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-n-brand text-[10px] font-semibold text-white"
+                >
+                  {{ activeFiltersCount }}
+                </span>
               </button>
               <button
                 type="button"
-                class="inline-flex h-9 items-center justify-center gap-2 rounded-md border border-n-weak px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                class="flex size-9 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
                 :disabled="!sortedLeads.length"
+                :title="t('PROSPECTING.SEARCH.CSV_EXPORT')"
                 @click="exportCsv"
               >
                 <span class="i-lucide-download size-4" />
-                {{ t('PROSPECTING.SEARCH.CSV_EXPORT') }}
               </button>
+              <div
+                v-if="showFilters"
+                class="absolute right-0 top-11 z-20 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
+              >
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
+                  </span>
+                  <select
+                    v-model="statusFilter"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
+                    </option>
+                    <option
+                      v-for="status in statusOptions"
+                      :key="status"
+                      :value="status"
+                    >
+                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.SORT') }}
+                  </span>
+                  <select
+                    v-model="sortKey"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="created_desc">
+                      {{ t('PROSPECTING.SEARCH.SORT.CREATED_DESC') }}
+                    </option>
+                    <option value="created_asc">
+                      {{ t('PROSPECTING.SEARCH.SORT.CREATED_ASC') }}
+                    </option>
+                    <option value="rating_desc">
+                      {{ t('PROSPECTING.SEARCH.SORT.RATING_DESC') }}
+                    </option>
+                    <option value="reviews_desc">
+                      {{ t('PROSPECTING.SEARCH.SORT.REVIEWS_DESC') }}
+                    </option>
+                    <option value="name_asc">
+                      {{ t('PROSPECTING.SEARCH.SORT.NAME_ASC') }}
+                    </option>
+                  </select>
+                </label>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.HAS_SITE') }}
+                    </span>
+                    <select
+                      v-model="advancedFilters.has_website"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    >
+                      <option value="">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                      </option>
+                      <option value="yes">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                      </option>
+                      <option value="no">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                      </option>
+                    </select>
+                  </label>
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHONE') }}
+                    </span>
+                    <select
+                      v-model="advancedFilters.has_phone"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    >
+                      <option value="">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                      </option>
+                      <option value="yes">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                      </option>
+                      <option value="no">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MIN') }}
+                    </span>
+                    <input
+                      v-model="advancedFilters.rating_min"
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    />
+                  </label>
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.REVIEWS_MIN') }}
+                    </span>
+                    <input
+                      v-model="advancedFilters.reviews_min"
+                      type="number"
+                      min="0"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    />
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1266,7 +1305,54 @@ onMounted(async () => {
             </button>
           </div>
 
-          <div class="grid min-h-0 flex-1 lg:grid-cols-[minmax(0,1fr)_18rem]">
+          <div class="flex min-h-0 flex-1 flex-col">
+            <section class="border-b border-n-weak p-4">
+              <div class="mb-3 flex items-start justify-between gap-3">
+                <div>
+                  <h3 class="text-sm font-semibold text-n-slate-12">
+                    {{ t('PROSPECTING.SEARCH.MAP_TITLE') }}
+                  </h3>
+                  <p class="mt-1 text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.MAP_HINT') }}
+                  </p>
+                </div>
+                <span class="text-xs text-n-slate-10">
+                  {{ formatRadius(selectedSearch?.radius || 0) }}
+                </span>
+              </div>
+              <div
+                class="relative h-80 overflow-hidden rounded-md border border-n-weak bg-n-solid-2"
+              >
+                <iframe
+                  :src="selectedMapUrl"
+                  class="absolute inset-0 size-full border-0 opacity-60"
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  :title="t('PROSPECTING.SEARCH.MAP_TITLE')"
+                />
+                <div
+                  class="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
+                  :style="radiusCircleStyle(selectedSearch?.radius || 5000)"
+                />
+                <div
+                  v-if="!mapLeads.length"
+                  class="absolute inset-0 z-20 flex items-center justify-center px-4 text-center text-xs text-n-slate-10"
+                >
+                  {{ t('PROSPECTING.SEARCH.MAP_NO_COORDINATES') }}
+                </div>
+                <button
+                  v-for="lead in mapLeads"
+                  :key="`map-${lead.id}`"
+                  type="button"
+                  class="absolute z-20 flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-n-brand text-xs font-semibold text-white shadow-md ring-2 ring-white"
+                  :style="markerStyle(lead)"
+                  :title="lead.name"
+                  @click="selectedLeadDetailId = lead.id"
+                >
+                  {{ sortedLeads.findIndex(item => item.id === lead.id) + 1 }}
+                </button>
+              </div>
+            </section>
             <div class="min-h-0 overflow-y-auto">
               <div
                 v-if="isSearching || isLoading"
@@ -1287,6 +1373,23 @@ onMounted(async () => {
                 {{ t('PROSPECTING.QUALITY.NO_STATUS_RESULTS') }}
               </div>
               <div v-else class="grid gap-3 p-4">
+                <div class="flex items-center justify-between text-xs">
+                  <button
+                    type="button"
+                    class="font-medium text-n-brand hover:underline disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="!sortedLeads.length"
+                    @click="toggleAllVisibleLeads"
+                  >
+                    {{ t('PROSPECTING.SEARCH.SELECT_VISIBLE') }}
+                  </button>
+                  <span class="text-n-slate-10">
+                    {{
+                      t('PROSPECTING.SEARCH.VISIBLE_COUNT', {
+                        count: sortedLeads.length,
+                      })
+                    }}
+                  </span>
+                </div>
                 <article
                   v-for="lead in sortedLeads"
                   :key="lead.id"
@@ -1461,74 +1564,6 @@ onMounted(async () => {
                 </article>
               </div>
             </div>
-
-            <aside class="hidden border-l border-n-weak lg:block">
-              <div class="border-b border-n-weak px-4 py-3">
-                <h3 class="text-sm font-semibold text-n-slate-12">
-                  {{ t('PROSPECTING.SEARCH.MAP_TITLE') }}
-                </h3>
-                <p class="mt-1 text-xs text-n-slate-10">
-                  {{ t('PROSPECTING.SEARCH.MAP_HINT') }}
-                </p>
-              </div>
-              <div class="grid gap-3 p-3">
-                <div
-                  class="relative h-72 overflow-hidden rounded-md border border-n-weak bg-n-solid-2"
-                >
-                  <div class="absolute inset-0 opacity-70">
-                    <div
-                      class="size-full bg-[linear-gradient(90deg,var(--slate-4)_1px,transparent_1px),linear-gradient(0deg,var(--slate-4)_1px,transparent_1px)] bg-[size:32px_32px]"
-                    />
-                  </div>
-                  <div
-                    v-if="!mapLeads.length"
-                    class="absolute inset-0 flex items-center justify-center px-4 text-center text-xs text-n-slate-10"
-                  >
-                    {{ t('PROSPECTING.SEARCH.MAP_NO_COORDINATES') }}
-                  </div>
-                  <button
-                    v-for="lead in mapLeads"
-                    :key="`map-${lead.id}`"
-                    type="button"
-                    class="absolute flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-n-brand text-xs font-semibold text-white shadow-md ring-2 ring-white"
-                    :style="markerStyle(lead)"
-                    :title="lead.name"
-                    @click="selectedLeadDetailId = lead.id"
-                  >
-                    {{ sortedLeads.findIndex(item => item.id === lead.id) + 1 }}
-                  </button>
-                </div>
-                <div
-                  class="max-h-40 overflow-y-auto rounded-md border border-n-weak"
-                >
-                  <button
-                    v-for="lead in mapLeads"
-                    :key="`map-list-${lead.id}`"
-                    type="button"
-                    class="grid w-full gap-1 border-b border-n-weak px-3 py-2 text-left text-xs last:border-b-0 hover:bg-n-solid-2"
-                    @click="selectedLeadDetailId = lead.id"
-                  >
-                    <span class="truncate font-medium text-n-slate-12">
-                      {{ lead.name }}
-                    </span>
-                    <span class="truncate text-n-slate-10">
-                      {{ formatLeadAddress(lead) || '-' }}
-                    </span>
-                  </button>
-                </div>
-                <div
-                  class="h-48 overflow-hidden rounded-md border border-n-weak"
-                >
-                  <iframe
-                    :src="selectedMapUrl"
-                    class="size-full border-0"
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    :title="t('PROSPECTING.SEARCH.MAP_TITLE')"
-                  />
-                </div>
-              </div>
-            </aside>
           </div>
         </section>
       </div>
