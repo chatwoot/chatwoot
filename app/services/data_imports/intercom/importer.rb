@@ -367,7 +367,7 @@ class DataImports::Intercom::Importer
     message = Message.find(result.rows.first.first)
     record_mapping('message', message_source_id, message, metadata: message_metadata(part))
     increment_stat('messages', 'imported')
-    message.reindex_for_search if message.should_index?
+    message.__send__(:reindex_for_search) if message.should_index?
     message
   end
 
