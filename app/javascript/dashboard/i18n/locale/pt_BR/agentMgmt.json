@@ -26,6 +26,7 @@
       "TITLE": "Adicionar agente a seu time",
       "DESC": "Você pode adicionar pessoas que poderão acompanhar o suporte de suas caixas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CLOSE_BUTTON_TEXT": "Fechar",
       "FORM": {
         "NAME": {
           "LABEL": "Nome do Agente",
