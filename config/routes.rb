@@ -305,6 +305,7 @@ Rails.application.routes.draw do
               resources :searches, only: [:index, :show, :create]
               resources :leads, only: [:index, :show] do
                 post :contact, on: :member, action: :create_contact
+                post :crm_card, on: :member, action: :create_crm_card
               end
               resources :lists, only: [:index, :show, :create] do
                 post 'leads', on: :member, action: :add_lead

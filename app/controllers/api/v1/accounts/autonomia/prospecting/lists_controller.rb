@@ -62,10 +62,11 @@ class Api::V1::Accounts::Autonomia::Prospecting::ListsController < Api::V1::Acco
     lead.as_json(
       only: [
         :id, :provider, :provider_place_id, :name, :phone, :website, :address, :city, :state, :country,
-        :latitude, :longitude, :rating, :reviews_count, :category, :status, :contact_id, :created_at, :updated_at
+        :latitude, :longitude, :rating, :reviews_count, :category, :status, :contact_id, :crm_card_id, :created_at, :updated_at
       ]
     ).merge(
-      contact_status: lead.contact_id.present? ? 'created' : 'pending'
+      contact_status: lead.contact_id.present? ? 'created' : 'pending',
+      crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
     )
   end
 end

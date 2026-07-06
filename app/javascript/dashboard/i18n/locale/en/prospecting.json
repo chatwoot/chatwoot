@@ -8,6 +8,8 @@
       "LOAD_SEARCH": "Could not load this prospect search.",
       "CREATE_SEARCH": "Could not run this prospect search.",
       "CREATE_CONTACT": "Could not create this contact.",
+      "CREATE_CRM_CARD": "Could not create this CRM card.",
+      "LOAD_CRM": "Could not load CRM pipelines.",
       "LOAD_LISTS": "Could not load prospect lists.",
       "LOAD_LIST": "Could not load this prospect list.",
       "CREATE_LIST": "Could not create this prospect list.",
@@ -28,6 +30,11 @@
       "CREATING_CONTACT": "Criando...",
       "CONTACT_CREATED": "Contato criado",
       "OPEN_CONTACT": "Abrir contato",
+      "CREATE_CRM_CARD": "Criar card",
+      "CREATING_CRM_CARD": "Criando...",
+      "CRM_CARD_CREATED": "Card criado",
+      "OPEN_CRM_CARD": "Abrir card",
+      "CRM_DISABLED": "Configure um funil CRM ativo para criar cards.",
       "EMPTY": "Nenhuma busca registrada.",
       "RESULTS_EMPTY": "Execute uma busca ou selecione uma busca do histórico.",
       "RESULTS_EMPTY_AFTER_SEARCH": "Nenhum lead encontrado para esta busca.",
@@ -40,7 +47,9 @@
         "QUERY": "Termo",
         "LOCATION": "Localização",
         "RADIUS": "Raio (m)",
-        "LIMIT": "Limite"
+        "LIMIT": "Limite",
+        "CRM_PIPELINE": "Funil CRM",
+        "CRM_STAGE": "Etapa CRM"
       },
       "COLUMNS": {
         "QUERY": "Busca",

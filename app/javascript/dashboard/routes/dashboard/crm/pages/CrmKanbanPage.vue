@@ -88,6 +88,7 @@ const showDrawer = ref(false);
 // Which tab the card drawer lands on when opened ('followups' from the calendar
 // quick-add "Continuar"; null → default summary).
 const drawerInitialTab = ref(null);
+const openedRouteCardId = ref(null);
 const pipelineDrawerMode = ref('create');
 const showPipelineDrawer = ref(false);
 const pipelineInboxes = ref([]);
@@ -701,6 +702,14 @@ const openCardDrawer = async (card, { initialTab = null } = {}) => {
   } catch {
     useAlert(t('CRM_KANBAN.ALERTS.CARD_LOAD_ERROR'));
   }
+};
+
+const openRouteCardIfNeeded = async () => {
+  const cardId = route.query.card_id;
+  if (!cardId || openedRouteCardId.value === String(cardId)) return;
+
+  openedRouteCardId.value = String(cardId);
+  await openCardDrawer({ id: Number(cardId) });
 };
 
 const closeDrawer = () => {
@@ -1378,6 +1387,13 @@ watch(viewMode, async () => {
   await loadActiveView(true);
 });
 
+watch(
+  () => route.query.card_id,
+  () => {
+    openRouteCardIfNeeded();
+  }
+);
+
 const setViewMode = mode => {
   viewMode.value = mode;
 };
@@ -1392,6 +1408,7 @@ onMounted(async () => {
     store.dispatch('crmKanban/loadListPrefs', currentPipelineId.value);
     fetchSavedViews();
   }
+  await openRouteCardIfNeeded();
 });
 </script>
 

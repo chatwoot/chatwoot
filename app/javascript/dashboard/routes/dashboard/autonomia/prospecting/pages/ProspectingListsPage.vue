@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
+import CrmKanbanAPI from 'dashboard/api/crmKanban';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -11,14 +12,21 @@ const isLoading = ref(true);
 const isCreating = ref(false);
 const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
+const convertingCrmLeadId = ref(null);
 const error = ref('');
 const notice = ref('');
 const lists = ref([]);
 const selectedList = ref(null);
 const allLeads = ref([]);
+const crmPipelines = ref([]);
+const crmStages = ref([]);
 const form = ref({
   name: '',
   description: '',
+});
+const crmForm = ref({
+  pipeline_id: '',
+  stage_id: '',
 });
 
 const selectedLeadIds = computed(
@@ -29,6 +37,9 @@ const availableLeads = computed(() =>
   allLeads.value.filter(lead => !selectedLeadIds.value.has(Number(lead.id)))
 );
 const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
+const canCreateCrmCard = computed(() =>
+  Boolean(crmForm.value.pipeline_id && crmForm.value.stage_id)
+);
 
 const formatDate = value => {
   if (!value) return '-';
@@ -42,6 +53,9 @@ const formatLeadAddress = lead =>
 
 const contactUrl = contactId =>
   `/app/accounts/${route.params.accountId}/contacts/${contactId}`;
+
+const crmCardUrl = cardId =>
+  `/app/accounts/${route.params.accountId}/crm?card_id=${cardId}`;
 
 const replaceLead = updatedLead => {
   if (!updatedLead?.id) return;
@@ -57,6 +71,28 @@ const replaceLead = updatedLead => {
         lead.id === updatedLead.id ? updatedLead : lead
       ),
     };
+  }
+};
+
+const fetchCrmStages = async pipelineId => {
+  crmStages.value = [];
+  crmForm.value.stage_id = '';
+  if (!pipelineId) return;
+
+  const { data } = await CrmKanbanAPI.getStages(pipelineId);
+  crmStages.value = data.payload || [];
+  crmForm.value.stage_id = crmStages.value[0]?.id || '';
+};
+
+const fetchCrmPipelines = async () => {
+  try {
+    const { data } = await CrmKanbanAPI.getPipelines();
+    crmPipelines.value = data.payload || [];
+    crmForm.value.pipeline_id = crmPipelines.value[0]?.id || '';
+    await fetchCrmStages(crmForm.value.pipeline_id);
+  } catch {
+    crmPipelines.value = [];
+    crmStages.value = [];
   }
 };
 
@@ -87,7 +123,7 @@ const loadPage = async () => {
   isLoading.value = true;
   error.value = '';
   try {
-    await Promise.all([fetchLists(), fetchAllLeads()]);
+    await Promise.all([fetchLists(), fetchAllLeads(), fetchCrmPipelines()]);
     if (lists.value.length) {
       await selectList(lists.value[0]);
     }
@@ -180,6 +216,34 @@ const createContact = async lead => {
       e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
   } finally {
     convertingLeadId.value = null;
+  }
+};
+
+const createCrmCard = async lead => {
+  if (
+    !lead?.id ||
+    lead.crm_card_id ||
+    convertingCrmLeadId.value ||
+    !canCreateCrmCard.value
+  ) {
+    return;
+  }
+
+  convertingCrmLeadId.value = lead.id;
+  error.value = '';
+  notice.value = '';
+  try {
+    const { data } = await AutonomiaProspectingAPI.createLeadCrmCard(lead.id, {
+      pipeline_id: crmForm.value.pipeline_id,
+      stage_id: crmForm.value.stage_id,
+    });
+    replaceLead(data.payload?.lead);
+    notice.value = t('PROSPECTING.SEARCH.CRM_CARD_CREATED');
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CRM_CARD');
+  } finally {
+    convertingCrmLeadId.value = null;
   }
 };
 
@@ -313,6 +377,47 @@ onMounted(loadPage);
               >
                 {{ selectedList.description }}
               </p>
+              <div class="mt-3 grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
+                  </span>
+                  <select
+                    v-model="crmForm.pipeline_id"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    @change="fetchCrmStages(crmForm.pipeline_id)"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.CRM_DISABLED') }}
+                    </option>
+                    <option
+                      v-for="pipeline in crmPipelines"
+                      :key="pipeline.id"
+                      :value="pipeline.id"
+                    >
+                      {{ pipeline.name }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+                  </span>
+                  <select
+                    v-model="crmForm.stage_id"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    :disabled="!crmStages.length"
+                  >
+                    <option
+                      v-for="stage in crmStages"
+                      :key="stage.id"
+                      :value="stage.id"
+                    >
+                      {{ stage.name }}
+                    </option>
+                  </select>
+                </label>
+              </div>
             </div>
             <div
               v-if="!hasSelectedList"
@@ -330,7 +435,7 @@ onMounted(loadPage);
               <article
                 v-for="lead in listLeads"
                 :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem_8rem]"
+                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem_8rem_8rem]"
               >
                 <div class="min-w-0">
                   <h3 class="truncate font-medium text-n-slate-12">
@@ -366,6 +471,33 @@ onMounted(loadPage);
                   </button>
                   <span v-if="lead.contact_id" class="text-xs text-n-slate-10">
                     {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+                  </span>
+                </div>
+                <div class="flex flex-col items-start gap-1">
+                  <a
+                    v-if="lead.crm_card_id"
+                    :href="crmCardUrl(lead.crm_card_id)"
+                    class="text-xs font-medium text-n-brand underline"
+                  >
+                    {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
+                  </a>
+                  <button
+                    v-else
+                    type="button"
+                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="
+                      convertingCrmLeadId === lead.id || !canCreateCrmCard
+                    "
+                    @click="createCrmCard(lead)"
+                  >
+                    {{
+                      convertingCrmLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
+                        : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
+                    }}
+                  </button>
+                  <span v-if="lead.crm_card_id" class="text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
                   </span>
                 </div>
                 <button
