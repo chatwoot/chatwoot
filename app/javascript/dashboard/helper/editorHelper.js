@@ -5,6 +5,7 @@ import {
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
+import { inputRules, InputRule } from 'prosemirror-inputrules';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
@@ -428,8 +429,31 @@ export function stripUnsupportedFormatting(content, schema) {
  * - emoji
  */
 
-// Liquid delimiters ({{ }} or {% %}) that the backend evaluates on send.
+// Liquid delimiters the backend evaluates on send; values holding these keep
+// their {{placeholder}} so we never re-inject Liquid into the message body.
 const LIQUID_SYNTAX = /\{\{|\{%/;
+
+// Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
+export const resolveVariableText = (key, variables) => {
+  const value = String(variables?.[key] ?? '');
+  return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
+};
+
+// Resolves a manually typed {{variable}} to its value on the closing braces.
+// Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
+export const createVariableInputRule = ({ isPrivate, getVariables }) => {
+  const rule = new InputRule(
+    /\{\{([^{}]+)\}\}$/,
+    (editorState, match, from, to) => {
+      if (isPrivate()) return null;
+      const [, key] = match;
+      const text = resolveVariableText(key, getVariables());
+      if (text === `{{${key}}}`) return null;
+      return editorState.tr.insertText(text, from, to);
+    }
+  );
+  return inputRules({ rules: [rule] });
+};
 
 /**
  * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
@@ -500,19 +524,15 @@ const nodeCreators = {
       to,
     };
   },
-  variable: (editorView, content, from, to, variables) => {
-    // Insert the resolved value, but keep the {{placeholder}} when it's empty or
-    // itself contains Liquid syntax, so the backend resolves it safely on send.
-    const value = variables?.[content];
-    const resolved = value == null ? '' : String(value);
-    const text =
-      resolved && !LIQUID_SYNTAX.test(resolved) ? resolved : `{{${content}}}`;
-    return {
-      node: createNode(editorView, 'variable', text),
-      from,
-      to,
-    };
-  },
+  variable: (editorView, content, from, to, variables) => ({
+    node: createNode(
+      editorView,
+      'variable',
+      resolveVariableText(content, variables)
+    ),
+    from,
+    to,
+  }),
   emoji: (editorView, content, from, to) => ({
     node: createNode(editorView, 'emoji', content),
     from,
