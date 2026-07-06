@@ -48,7 +48,7 @@ const buildOptions = (selectedIds, results, labelById = {}) => {
   selectedIds.forEach(id => {
     optionsById.set(id, {
       value: id,
-      label: labelById[id] ?? (isLoading.value ? loadingLabel : id),
+      label: labelById[id] ?? (isLoading.value ? loadingLabel : String(id)),
     });
   });
   results.forEach(option => optionsById.set(option.value, option));

@@ -4,21 +4,28 @@ module PortalHomeData
   private
 
   def load_home_data
-    base_articles = @portal.articles.published.where(locale: @locale).includes(:author, :category)
+    load_recommended_content
+    # The classic hero only needs the recommendations above; the rest is
+    # documentation-layout home data (also used on custom-domain home pages).
+    return unless @portal.layout == 'documentation'
+
     @visible_categories = @portal.categories
                                  .where(locale: @locale)
                                  .joins(:articles).where(articles: { status: :published })
                                  .order(position: :asc)
                                  .group('categories.id')
-
-    @recommended_categories = recommended_categories
-    @recommended_articles = recommended_articles(base_articles)
-
-    # Documentation falls back to the top categories by position when nothing is
-    # recommended; classic renders the chips only when recommendations exist.
     @popular_topics = @recommended_categories.presence || @visible_categories.first(3)
     @featured = base_articles.order_by_views.limit(6)
     @category_contributors = build_category_contributors(@visible_categories)
+  end
+
+  def load_recommended_content
+    @recommended_categories = recommended_categories
+    @recommended_articles = recommended_articles
+  end
+
+  def base_articles
+    @base_articles ||= @portal.articles.published.where(locale: @locale).includes(:author, :category)
   end
 
   # Admin-recommended categories for the locale, in the chosen order. Unlike the
@@ -30,7 +37,7 @@ module PortalHomeData
 
   # Admin-recommended articles for the locale, in the chosen order, limited to
   # published articles that still exist.
-  def recommended_articles(base_articles)
+  def recommended_articles
     ids = @portal.popular_article_ids(@locale)
     ordered_by_ids(base_articles.where(id: ids), ids)
   end
