@@ -26,6 +26,12 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.post(`${this.url}/leads/${leadId}/contact`);
   }
 
+  createLeadCrmCard(leadId, crmCard) {
+    return axios.post(`${this.url}/leads/${leadId}/crm_card`, {
+      crm_card: crmCard,
+    });
+  }
+
   getLists() {
     return axios.get(`${this.url}/lists`);
   }

@@ -18,6 +18,7 @@ RSpec.describe 'Autonomia prospecting leads API', type: :request do
 
   before do
     Autonomia::Prospecting::Config.enable_for!(account)
+    allow(Crm::Config).to receive(:enabled?).and_return(true)
   end
 
   it 'converts a prospecting lead into a Chatwoot contact' do
@@ -40,6 +41,35 @@ RSpec.describe 'Autonomia prospecting leads API', type: :request do
 
     expect(response).to have_http_status(:ok)
     expect(account.contacts.count).to eq(1)
+  end
+
+  it 'creates a CRM card from a prospecting lead' do
+    pipeline, stage = create_crm_pipeline(account: account, user: admin)
+
+    post "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}/crm_card",
+         params: { crm_card: { pipeline_id: pipeline.id, stage_id: stage.id } },
+         headers: auth_headers(admin)
+
+    expect(response).to have_http_status(:created)
+    payload = response.parsed_body['payload']
+    expect(payload.dig('lead', 'crm_card_id')).to be_present
+    expect(payload.dig('lead', 'crm_status')).to eq('created')
+    expect(payload.dig('crm_card', 'pipeline_id')).to eq(pipeline.id)
+    expect(payload.dig('crm_card', 'stage_id')).to eq(stage.id)
+    expect(lead.reload.crm_card_id).to eq(payload.dig('crm_card', 'id'))
+  end
+
+  it 'does not create a duplicate CRM card when called twice' do
+    pipeline, stage = create_crm_pipeline(account: account, user: admin)
+
+    2.times do
+      post "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}/crm_card",
+           params: { crm_card: { pipeline_id: pipeline.id, stage_id: stage.id } },
+           headers: auth_headers(admin)
+    end
+
+    expect(response).to have_http_status(:ok)
+    expect(account.crm_cards.count).to eq(1)
   end
 
   def auth_headers(user)
