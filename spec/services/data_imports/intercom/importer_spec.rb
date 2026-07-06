@@ -136,7 +136,7 @@ RSpec.describe DataImports::Intercom::Importer do
     Message.__send__(:private, :reindex_for_search)
   end
 
-  it 'records the message mapping before reindexing imported messages' do
+  it 'keeps imported messages successful when search reindexing fails', :aggregate_failures do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
     # rubocop:disable RSpec/AnyInstance
@@ -148,6 +148,9 @@ RSpec.describe DataImports::Intercom::Importer do
     message = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:source:source_1')
     mapping = data_import.mappings.find_by!(source_object_type: 'message', source_object_id: 'conversation:conversation_1:source:source_1')
     expect(mapping.chatwoot_record).to eq(message)
+    expect(data_import.reload).to be_completed
+    expect(data_import.import_errors.exists?).to be(false)
+    expect(data_import.stats.dig('messages', 'imported')).to eq(3)
   end
 
   describe '#start!' do
@@ -199,6 +202,41 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(result).to be_done
       expect(client).not_to have_received(:retrieve_conversation).with('conversation_2')
       expect(data_import.reload.cursor.dig('conversations', 'starting_after')).to be_nil
+    end
+
+    it 'rolls back a newly inserted conversation when mapping persistence fails', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        raise StandardError, 'mapping failed' if object_type == 'conversation'
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_conversations_page
+
+      expect(account.conversations.where(identifier: 'intercom:conversation_1')).to be_empty
+      item = data_import.items.find_by!(source_object_type: 'conversation', source_object_id: 'conversation_1')
+      expect(item).to be_failed
+      expect(item.last_error_message).to eq('mapping failed')
+    end
+
+    it 'rolls back a newly inserted message when mapping persistence fails', :aggregate_failures do
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        raise StandardError, 'mapping failed' if object_type == 'message'
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_conversations_page
+
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      expect(conversation.messages.where(source_id: 'intercom:conversation:conversation_1:source:source_1')).to be_empty
+      error = data_import.import_errors.find_by!(
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:source:source_1'
+      )
+      expect(error).to have_attributes(error_code: 'StandardError', message: 'mapping failed')
     end
   end
 

@@ -152,7 +152,9 @@ class DataImports::Intercom::Importer
     end
 
     chatwoot_conversation = mapped_conversation || create_conversation(conversation, contact, contact_inbox, inbox, source_type)
-    record_mapping('conversation', source_id, chatwoot_conversation, metadata: conversation_metadata(conversation, inbox, source_type))
+    if mapped_conversation
+      record_mapping('conversation', source_id, chatwoot_conversation, metadata: conversation_metadata(conversation, inbox, source_type))
+    end
     item.update!(status: :imported, chatwoot_record_type: 'Conversation', chatwoot_record_id: chatwoot_conversation.id)
     increment_stat('conversations', 'imported') unless already_handled
 
@@ -297,6 +299,13 @@ class DataImports::Intercom::Importer
   end
 
   def create_conversation(conversation, contact, contact_inbox, inbox, source_type)
+    source_id = source_id_for(conversation)
+    metadata = conversation_metadata(conversation, inbox, source_type)
+    if (existing_conversation = @account.conversations.find_by(identifier: conversation_identifier(conversation)))
+      record_mapping('conversation', source_id, existing_conversation, metadata: metadata)
+      return existing_conversation
+    end
+
     attrs = {
       account_id: @account.id,
       inbox_id: inbox.id,
@@ -304,16 +313,23 @@ class DataImports::Intercom::Importer
       contact_id: contact.id,
       contact_inbox_id: contact_inbox.id,
       identifier: conversation_identifier(conversation),
-      additional_attributes: conversation_metadata(conversation, inbox, source_type),
-      custom_attributes: { intercom_conversation_id: source_id_for(conversation) },
+      additional_attributes: metadata,
+      custom_attributes: { intercom_conversation_id: source_id },
       created_at: timestamp_for(conversation['created_at']),
       updated_at: timestamp_for(conversation['updated_at']),
       last_activity_at: timestamp_for(conversation['updated_at'])
     }
-    result = Conversation.insert_all!([attrs], returning: %w[id])
-    Conversation.find(result.rows.first.first)
+
+    Conversation.transaction do
+      result = Conversation.insert_all!([attrs], returning: %w[id])
+      chatwoot_conversation = Conversation.find(result.rows.first.first)
+      record_mapping('conversation', source_id, chatwoot_conversation, metadata: metadata)
+      chatwoot_conversation
+    end
   rescue ActiveRecord::RecordNotUnique
-    @account.conversations.find_by!(identifier: conversation_identifier(conversation))
+    @account.conversations.find_by!(identifier: conversation_identifier(conversation)).tap do |chatwoot_conversation|
+      record_mapping('conversation', source_id, chatwoot_conversation, metadata: metadata)
+    end
   end
 
   def import_source_message(conversation, chatwoot_conversation, contact)
@@ -363,12 +379,26 @@ class DataImports::Intercom::Importer
     return record_skipped_message(conversation, message_source_id, part) if content.blank?
 
     attrs = message_attributes(conversation, contact, part, message_source_id, content)
-    result = Message.insert_all!([attrs], returning: %w[id])
-    message = Message.find(result.rows.first.first)
-    record_mapping('message', message_source_id, message, metadata: message_metadata(part))
+    message = nil
+    Message.transaction do
+      message = conversation.messages.find_by(source_id: attrs[:source_id])
+      unless message
+        result = Message.insert_all!([attrs], returning: %w[id])
+        message = Message.find(result.rows.first.first)
+      end
+      record_mapping('message', message_source_id, message, metadata: message_metadata(part))
+    end
     increment_stat('messages', 'imported')
-    message.__send__(:reindex_for_search) if message.should_index?
+    reindex_message_for_search(message)
     message
+  end
+
+  def reindex_message_for_search(message)
+    return unless message.should_index?
+
+    message.__send__(:reindex_for_search)
+  rescue StandardError => e
+    Rails.logger.warn("Intercom import message reindex failed for message #{message.id}: #{e.class} - #{e.message}")
   end
 
   def record_skipped_message(conversation, message_source_id, part)

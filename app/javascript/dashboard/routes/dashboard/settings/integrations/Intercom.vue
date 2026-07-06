@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import { useBranding } from 'shared/composables/useBranding';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -13,6 +14,7 @@ import IntegrationsAPI from 'dashboard/api/integrations';
 
 const { t } = useI18n();
 const store = useStore();
+const { replaceInstallationName } = useBranding();
 
 const accessToken = ref('');
 const hook = ref(null);
@@ -85,7 +87,11 @@ onMounted(async () => {
     <template #header>
       <BaseSettingsHeader
         :title="$t('INTEGRATION_SETTINGS.INTERCOM.HEADER')"
-        :description="$t('INTEGRATION_SETTINGS.INTERCOM.DESCRIPTION')"
+        :description="
+          replaceInstallationName(
+            $t('INTEGRATION_SETTINGS.INTERCOM.DESCRIPTION')
+          )
+        "
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       />
     </template>
