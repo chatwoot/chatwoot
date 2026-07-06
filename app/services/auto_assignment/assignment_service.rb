@@ -29,7 +29,8 @@ class AutoAssignment::AssignmentService
 
   def assignable?(conversation)
     conversation.status == 'open' &&
-      conversation.assignee_id.nil?
+      conversation.assignee_id.nil? &&
+      conversation.assignee_agent_bot_id.nil?
   end
 
   def unassigned_conversations(limit)
@@ -105,7 +106,7 @@ class AutoAssignment::AssignmentService
 
     Conversation.transaction do
       locked = inbox.conversations
-                    .where(id: conversation.id, assignee_id: nil)
+                    .where(id: conversation.id, assignee_id: nil, assignee_agent_bot_id: nil)
                     .lock('FOR UPDATE SKIP LOCKED')
                     .first
       next false unless locked
