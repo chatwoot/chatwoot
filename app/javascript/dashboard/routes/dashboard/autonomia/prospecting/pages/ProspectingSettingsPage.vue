@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
+import CrmKanbanAPI from 'dashboard/api/crmKanban';
 
 const { t } = useI18n();
 
@@ -10,12 +11,18 @@ const isSaving = ref(false);
 const error = ref('');
 const notice = ref('');
 const settings = ref(null);
+const crmPipelines = ref([]);
+const crmStages = ref([]);
 const form = ref({
   provider: 'mock',
   provider_enabled: false,
   default_limit: 20,
   max_results_per_search: 20,
+  daily_limit: '',
+  monthly_limit: '',
   cache_ttl_seconds: 86400,
+  default_crm_pipeline_id: '',
+  default_crm_stage_id: '',
   google_places_api_key: '',
   clear_google_places_api_key: false,
 });
@@ -27,18 +34,46 @@ const syncForm = payload => {
     provider_enabled: Boolean(payload.provider_enabled),
     default_limit: payload.default_limit || 20,
     max_results_per_search: payload.max_results_per_search || 20,
+    daily_limit: payload.daily_limit || '',
+    monthly_limit: payload.monthly_limit || '',
     cache_ttl_seconds: payload.cache_ttl_seconds || 86400,
+    default_crm_pipeline_id: payload.default_crm_pipeline_id || '',
+    default_crm_stage_id: payload.default_crm_stage_id || '',
     google_places_api_key: '',
     clear_google_places_api_key: false,
   };
+};
+
+const fetchCrmStages = async pipelineId => {
+  crmStages.value = [];
+  form.value.default_crm_stage_id = '';
+  if (!pipelineId) return;
+
+  const { data } = await CrmKanbanAPI.getStages(pipelineId);
+  crmStages.value = data.payload || [];
+  form.value.default_crm_stage_id =
+    settings.value?.default_crm_stage_id || crmStages.value[0]?.id || '';
+};
+
+const fetchCrmPipelines = async () => {
+  try {
+    const { data } = await CrmKanbanAPI.getPipelines();
+    crmPipelines.value = data.payload || [];
+  } catch {
+    crmPipelines.value = [];
+  }
 };
 
 const fetchSettings = async () => {
   isLoading.value = true;
   error.value = '';
   try {
-    const { data } = await AutonomiaProspectingAPI.getSettings();
+    const [{ data }] = await Promise.all([
+      AutonomiaProspectingAPI.getSettings(),
+      fetchCrmPipelines(),
+    ]);
     syncForm(data.payload || {});
+    await fetchCrmStages(form.value.default_crm_pipeline_id);
   } catch {
     error.value = t('PROSPECTING.ERRORS.LOAD_SETTINGS');
   } finally {
@@ -57,7 +92,15 @@ const saveSettings = async () => {
       provider_enabled: form.value.provider_enabled,
       default_limit: Number(form.value.default_limit),
       max_results_per_search: Number(form.value.max_results_per_search),
+      daily_limit: form.value.daily_limit
+        ? Number(form.value.daily_limit)
+        : null,
+      monthly_limit: form.value.monthly_limit
+        ? Number(form.value.monthly_limit)
+        : null,
       cache_ttl_seconds: Number(form.value.cache_ttl_seconds),
+      default_crm_pipeline_id: form.value.default_crm_pipeline_id || null,
+      default_crm_stage_id: form.value.default_crm_stage_id || null,
       google_places_api_key: form.value.google_places_api_key,
       clear_google_places_api_key: form.value.clear_google_places_api_key,
     });
@@ -131,6 +174,52 @@ onMounted(fetchSettings);
           </span>
         </label>
 
+        <div class="grid gap-3 md:grid-cols-2">
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_PIPELINE') }}
+            </span>
+            <select
+              v-model="form.default_crm_pipeline_id"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              @change="fetchCrmStages(form.default_crm_pipeline_id)"
+            >
+              <option value="">
+                {{ t('PROSPECTING.SETTINGS.CRM_EMPTY') }}
+              </option>
+              <option
+                v-for="pipeline in crmPipelines"
+                :key="pipeline.id"
+                :value="pipeline.id"
+              >
+                {{ pipeline.name }}
+              </option>
+            </select>
+          </label>
+
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_STAGE') }}
+            </span>
+            <select
+              v-model="form.default_crm_stage_id"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              :disabled="!crmStages.length"
+            >
+              <option value="">
+                {{ t('PROSPECTING.SETTINGS.CRM_STAGE_EMPTY') }}
+              </option>
+              <option
+                v-for="stage in crmStages"
+                :key="stage.id"
+                :value="stage.id"
+              >
+                {{ stage.name }}
+              </option>
+            </select>
+          </label>
+        </div>
+
         <label class="grid gap-1">
           <span class="text-xs font-medium text-n-slate-11">
             {{ t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_PLACES_API_KEY') }}
@@ -156,7 +245,7 @@ onMounted(fetchSettings);
           <span>{{ t('PROSPECTING.SETTINGS.FIELDS.CLEAR_API_KEY') }}</span>
         </label>
 
-        <div class="grid gap-3 md:grid-cols-3">
+        <div class="grid gap-3 md:grid-cols-5">
           <label class="grid gap-1">
             <span class="text-xs font-medium text-n-slate-11">
               {{ t('PROSPECTING.SETTINGS.FIELDS.DEFAULT_LIMIT') }}
@@ -190,6 +279,51 @@ onMounted(fetchSettings);
               class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
             />
           </label>
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.FIELDS.DAILY_LIMIT') }}
+            </span>
+            <input
+              v-model="form.daily_limit"
+              type="number"
+              min="1"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+            />
+          </label>
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.FIELDS.MONTHLY_LIMIT') }}
+            </span>
+            <input
+              v-model="form.monthly_limit"
+              type="number"
+              min="1"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+            />
+          </label>
+        </div>
+
+        <div
+          class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3 md:grid-cols-2"
+        >
+          <div>
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.USAGE_DAILY') }}
+            </span>
+            <p class="text-sm text-n-slate-12">
+              {{ settings.usage?.daily_used || 0 }} /
+              {{ form.daily_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
+            </p>
+          </div>
+          <div>
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.SETTINGS.USAGE_MONTHLY') }}
+            </span>
+            <p class="text-sm text-n-slate-12">
+              {{ settings.usage?.monthly_used || 0 }} /
+              {{ form.monthly_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
+            </p>
+          </div>
         </div>
 
         <button

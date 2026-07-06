@@ -17,6 +17,7 @@ class Autonomia::Prospecting::Lead < ApplicationRecord
   validates :name, presence: true
   validates :provider, presence: true
   validates :dedupe_key, presence: true, uniqueness: { scope: :account_id }
+  validates :discard_reason, presence: true, if: :discarded?
   validate :linked_records_must_belong_to_account
 
   private

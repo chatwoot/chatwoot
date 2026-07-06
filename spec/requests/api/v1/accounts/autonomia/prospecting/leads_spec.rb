@@ -72,6 +72,19 @@ RSpec.describe 'Autonomia prospecting leads API', type: :request do
     expect(account.crm_cards.count).to eq(1)
   end
 
+  it 'updates lead quality status and discard reason' do
+    patch "/api/v1/accounts/#{account.id}/autonomia/prospecting/leads/#{lead.id}",
+          params: { lead: { status: 'discarded', discard_reason: 'Fora do perfil' } },
+          headers: auth_headers(admin)
+
+    expect(response).to have_http_status(:ok)
+    payload = response.parsed_body['payload']
+    expect(payload['status']).to eq('discarded')
+    expect(payload['discard_reason']).to eq('Fora do perfil')
+    expect(payload['source_label']).to eq('Mock')
+    expect(lead.reload).to be_discarded
+  end
+
   def auth_headers(user)
     { 'api_access_token' => user.access_token.token }
   end

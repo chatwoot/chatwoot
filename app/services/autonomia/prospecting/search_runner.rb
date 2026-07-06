@@ -17,6 +17,7 @@ class Autonomia::Prospecting::SearchRunner
     validate!
     cached = cached_result
     return cached if cached
+    validate_usage_limits!
 
     search = create_search!
     leads = []
@@ -69,7 +70,7 @@ class Autonomia::Prospecting::SearchRunner
       cache_fingerprint: cache_fingerprint,
       cache_expires_at: cache_expires_at,
       categories: categories,
-      metadata: metadata
+      metadata: metadata.merge(crm_target_metadata)
     )
   end
 
@@ -140,7 +141,7 @@ class Autonomia::Prospecting::SearchRunner
   end
 
   def provider_name
-    @provider_name ||= @params[:provider].presence || @setting.provider.presence || 'mock'
+    @provider_name ||= @setting.provider.presence || 'mock'
   end
 
   def requested_limit
@@ -153,6 +154,13 @@ class Autonomia::Prospecting::SearchRunner
 
   def metadata
     @params[:metadata].presence || {}
+  end
+
+  def crm_target_metadata
+    {
+      'crm_pipeline_id' => crm_pipeline_id,
+      'crm_stage_id' => crm_stage_id
+    }.compact
   end
 
   def cached_result
@@ -180,7 +188,7 @@ class Autonomia::Prospecting::SearchRunner
       cache_fingerprint: cache_fingerprint,
       cache_expires_at: search.cache_expires_at,
       categories: categories,
-      metadata: metadata.merge(
+      metadata: metadata.merge(crm_target_metadata).merge(
         'lead_ids' => leads.map(&:id),
         'results_count' => leads.size,
         'cached_from_search_id' => search.id
@@ -206,5 +214,37 @@ class Autonomia::Prospecting::SearchRunner
     search = Autonomia::Prospecting::Search.new
     search.errors.add(attribute, message)
     search
+  end
+
+  def validate_usage_limits!
+    return if estimated_api_units.zero?
+
+    validate_usage_limit!(:daily_limit, Time.current.beginning_of_day)
+    validate_usage_limit!(:monthly_limit, Time.current.beginning_of_month)
+  end
+
+  def validate_usage_limit!(limit_attribute, period_start)
+    limit = @setting.public_send(limit_attribute).to_i
+    return if limit <= 0
+
+    usage = Autonomia::Prospecting::Search
+            .where(account: @account)
+            .where('created_at >= ?', period_start)
+            .sum(:consumed_api_units)
+    return if usage + estimated_api_units <= limit
+
+    raise ProviderError, "#{limit_attribute.to_s.humanize} exceeded for prospecting"
+  end
+
+  def estimated_api_units
+    @estimated_api_units ||= provider_name == 'google_places' ? 1 : 0
+  end
+
+  def crm_pipeline_id
+    @crm_pipeline_id ||= @params[:crm_pipeline_id].presence || @setting.default_crm_pipeline_id
+  end
+
+  def crm_stage_id
+    @crm_stage_id ||= @params[:crm_stage_id].presence || @setting.default_crm_stage_id
   end
 end

@@ -9,6 +9,8 @@
       "CREATE_SEARCH": "Could not run this prospect search.",
       "CREATE_CONTACT": "Could not create this contact.",
       "CREATE_CRM_CARD": "Could not create this CRM card.",
+      "UPDATE_LEAD": "Could not update this lead.",
+      "UPDATE_SEARCH": "Could not update this search.",
       "LOAD_CRM": "Could not load CRM pipelines.",
       "LOAD_LISTS": "Could not load prospect lists.",
       "LOAD_LIST": "Could not load this prospect list.",
@@ -35,6 +37,11 @@
       "CRM_CARD_CREATED": "Card criado",
       "OPEN_CRM_CARD": "Abrir card",
       "CRM_DISABLED": "Configure um funil CRM ativo para criar cards.",
+      "CRM_STAGE_EMPTY": "Selecione uma etapa.",
+      "CRM_TARGET": "Funil CRM",
+      "CRM_CONFIG_HINT": "O funil CRM desta busca usa o padrão da conta, exceto quando alterado no histórico.",
+      "CONFIGURE_SEARCH": "Configurações",
+      "SAVE_CONFIG": "Salvar",
       "EMPTY": "Nenhuma busca registrada.",
       "RESULTS_EMPTY": "Execute uma busca ou selecione uma busca do histórico.",
       "RESULTS_EMPTY_AFTER_SEARCH": "Nenhum lead encontrado para esta busca.",
@@ -89,6 +96,21 @@
         "CREATED_AT": "Criada em"
       }
     },
+    "QUALITY": {
+      "ALL_STATUSES": "Todos",
+      "DISCARD_REASON": "Motivo",
+      "DISCARD_REASON_PROMPT": "Informe o motivo do descarte",
+      "NO_STATUS_RESULTS": "Nenhum lead encontrado para este status.",
+      "SOURCE": "Origem",
+      "STATUS_FILTER": "Status",
+      "STATUSES": {
+        "new_lead": "Novo",
+        "qualified": "Qualificado",
+        "discarded": "Descartado",
+        "no_consent": "Sem consentimento",
+        "ready_for_campaign": "Pronto para campanha"
+      }
+    },
     "SETTINGS": {
       "TITLE": "Configurações",
       "ENABLED": "Habilitado",
@@ -98,6 +120,11 @@
       "SAVED": "Configurações salvas.",
       "API_KEY_CONFIGURED": "Chave configurada. Preencha para substituir.",
       "API_KEY_EMPTY": "Cole a chave do Google Places",
+      "CRM_EMPTY": "Nenhum funil padrão",
+      "CRM_STAGE_EMPTY": "Nenhuma etapa padrão",
+      "USAGE_DAILY": "Consumo diário",
+      "USAGE_MONTHLY": "Consumo mensal",
+      "UNLIMITED": "sem limite",
       "PROVIDERS": {
         "MOCK": "Mock",
         "GOOGLE_PLACES": "Google Places"
@@ -107,9 +134,13 @@
         "PROVIDER_ENABLED": "Provider habilitado",
         "GOOGLE_PLACES_API_KEY": "Google Places API key",
         "CLEAR_API_KEY": "Remover chave atual",
+        "CRM_PIPELINE": "Funil CRM padrão",
+        "CRM_STAGE": "Etapa CRM padrão",
         "DEFAULT_LIMIT": "Limite padrão",
         "MAX_RESULTS": "Limite por busca",
-        "CACHE_TTL": "Cache TTL"
+        "CACHE_TTL": "Cache TTL",
+        "DAILY_LIMIT": "Limite diário",
+        "MONTHLY_LIMIT": "Limite mensal"
       }
     }
   }

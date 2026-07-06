@@ -302,8 +302,8 @@ Rails.application.routes.draw do
               get :payments
             end
             namespace :prospecting do
-              resources :searches, only: [:index, :show, :create]
-              resources :leads, only: [:index, :show] do
+              resources :searches, only: [:index, :show, :create, :update]
+              resources :leads, only: [:index, :show, :update] do
                 post :contact, on: :member, action: :create_contact
                 post :crm_card, on: :member, action: :create_crm_card
               end

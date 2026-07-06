@@ -7,6 +7,17 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
     render json: { payload: lead_payload(leads_scope.find(params[:id])) }
   end
 
+  def update
+    lead = leads_scope.find(params[:id])
+    lead.update!(lead_params)
+
+    render json: { payload: lead_payload(lead.reload) }
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { error: e.record.errors.full_messages.to_sentence }, status: :unprocessable_entity
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   def create_contact
     result = ::Autonomia::Prospecting::ContactConverter.new(
       lead: leads_scope.find(params[:id]),
@@ -52,18 +63,27 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
   private
 
   def filtered_leads_scope
-    return leads_scope if params[:list_id].blank?
+    scope = if params[:list_id].blank?
+              leads_scope
+            else
+              lists_scope.find(params[:list_id]).leads
+            end
 
-    lists_scope.find(params[:list_id]).leads
+    return scope if params[:status].blank?
+    return scope.none unless ::Autonomia::Prospecting::Lead.statuses.key?(params[:status])
+
+    scope.where(status: params[:status])
   end
 
   def lead_payload(lead)
     lead.as_json(
       only: [
         :id, :provider, :provider_place_id, :name, :phone, :website, :address, :city, :state, :country,
-        :latitude, :longitude, :rating, :reviews_count, :category, :status, :contact_id, :crm_card_id, :created_at, :updated_at
+        :latitude, :longitude, :rating, :reviews_count, :category, :status, :discard_reason,
+        :contact_id, :crm_card_id, :created_at, :updated_at
       ]
     ).merge(
+      source_label: lead.provider.to_s.humanize,
       contact_status: lead.contact_id.present? ? 'created' : 'pending',
       crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
     )
@@ -81,5 +101,11 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
 
   def crm_card_params
     params.require(:crm_card).permit(:pipeline_id, :stage_id)
+  end
+
+  def lead_params
+    params.require(:lead).permit(:status, :discard_reason).tap do |attributes|
+      attributes[:discard_reason] = nil unless attributes[:status] == 'discarded'
+    end
   end
 end
