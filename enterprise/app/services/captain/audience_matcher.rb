@@ -24,70 +24,61 @@ class Captain::AudienceMatcher
   def matches?(contact, conversation)
     return true if @root.blank?
 
-    evaluate(@root, contact, conversation)
+    @contact = contact
+    @conversation = conversation
+    matches_node?(@root)
   end
 
   private
 
-  def evaluate(node, contact, conversation)
+  def matches_node?(node)
     node = node.with_indifferent_access
-    return evaluate_group(node, contact, conversation) if node.key?(:conditions)
-
-    evaluate_leaf(node, contact, conversation)
+    node.key?(:conditions) ? matches_group?(node) : matches_leaf?(node)
   end
 
-  def evaluate_group(node, contact, conversation)
-    results = Array(node[:conditions]).map { |child| evaluate(child, contact, conversation) }
-    node[:operator].to_s.casecmp?('or') ? results.any? : results.all?
-  end
-
-  def evaluate_leaf(node, contact, conversation)
-    key = node[:attribute_key]
-    actual = resolve_value(key, contact, conversation)
-    apply_operator(node[:filter_operator], key, actual, node[:values])
-  end
-
-  def resolve_value(key, contact, conversation)
-    case key
-    when *CONTACT_STANDARD then contact.public_send(key)
-    when *CONTACT_ADDITIONAL then contact.additional_attributes[key]
-    when 'labels' then contact.label_list
-    else resolve_conversation_value(key, contact, conversation)
+  def matches_group?(group)
+    conditions = Array(group[:conditions])
+    if group[:operator].to_s.casecmp?('or')
+      conditions.any? { |child| matches_node?(child) }
+    else
+      conditions.all? { |child| matches_node?(child) }
     end
   end
 
-  def resolve_conversation_value(key, contact, conversation)
-    case key
-    when *CONVERSATION_ADDITIONAL then conversation.additional_attributes[key]
-    when 'hmac_verified' then conversation.contact_inbox&.hmac_verified || false
-    else contact.custom_attributes[key]
-    end
-  end
+  def matches_leaf?(leaf)
+    key = leaf[:attribute_key]
+    actual = attribute_value(key)
+    expected = Array(leaf[:values]).first
 
-  def apply_operator(operator, key, actual, values)
-    expected = values.is_a?(Array) ? values.first : values
-
-    case operator
-    when 'equal_to'       then value_equal?(key, actual, expected)
-    when 'not_equal_to'   then !value_equal?(key, actual, expected)
+    case leaf[:filter_operator]
     when 'is_present'     then actual.present?
     when 'is_not_present' then actual.blank?
-    else extended_operator(operator, actual, expected)
+    when 'equal_to'       then value_equal?(key, actual, expected)
+    when 'not_equal_to'   then !value_equal?(key, actual, expected)
+    else matches_text_or_range?(leaf[:filter_operator], actual, expected)
     end
   end
 
-  def extended_operator(operator, actual, expected)
-    case operator
-    when 'contains'         then downcase(actual).include?(downcase(expected))
-    when 'does_not_contain' then downcase(actual).exclude?(downcase(expected))
-    when 'starts_with'      then downcase(actual).start_with?(downcase(expected))
-    when 'is_greater_than'  then compare(actual, expected, :>)
-    when 'is_less_than'     then compare(actual, expected, :<)
-    when 'days_before'      then date_before?(actual, expected)
-    else false
+  # Where each attribute lives: contact columns, contact additional/custom attributes,
+  # or the conversation-scoped fields.
+  def attribute_value(key)
+    case key
+    when *CONTACT_STANDARD        then @contact[key]
+    when *CONTACT_ADDITIONAL      then @contact.additional_attributes[key]
+    when 'labels'                 then @contact.label_list
+    when *CONVERSATION_ADDITIONAL then @conversation.additional_attributes[key]
+    when 'hmac_verified'          then hmac_verified?
+    else @contact.custom_attributes[key]
     end
   end
 
+  def hmac_verified?
+    @conversation.contact_inbox&.hmac_verified || false
+  end
+
+  # equal_to / not_equal_to have attribute-specific semantics: labels is a has-tag check,
+  # booleans cast the expected string ("true" => true), phone numbers ignore the "+" prefix,
+  # and text compares case-insensitively.
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
     return ActiveModel::Type::Boolean.new.cast(expected) == actual if [true, false].include?(actual)
@@ -97,50 +88,42 @@ class Captain::AudienceMatcher
 
   def normalize(key, value)
     return value if value.nil?
+    return "+#{value.to_s.delete('+')}" if key == 'phone_number'
 
-    case key
-    when 'phone_number' then "+#{value.to_s.delete('+')}"
-    when 'country_code' then value.to_s.downcase
-    else value.is_a?(String) ? value.downcase : value
+    value.is_a?(String) ? value.downcase : value
+  end
+
+  # The remaining operators need no attribute-specific handling: substring checks work on the
+  # downcased text; greater/less compare numbers, or timestamps for date attributes.
+  def matches_text_or_range?(operator, actual, expected)
+    case operator
+    when 'contains'         then actual.to_s.downcase.include?(expected.to_s.downcase)
+    when 'does_not_contain' then actual.to_s.downcase.exclude?(expected.to_s.downcase)
+    when 'starts_with'      then actual.to_s.downcase.start_with?(expected.to_s.downcase)
+    when 'is_greater_than'  then compare(actual, expected) == 1
+    when 'is_less_than'     then compare(actual, expected) == -1
+    when 'days_before'      then older_than_days?(actual, expected)
+    else false
     end
   end
 
-  def downcase(value)
-    value.to_s.downcase
-  end
+  # Returns -1/0/1 like <=>, or nil when either side is blank or unparseable (never matches).
+  def compare(actual, expected)
+    return nil if actual.blank?
 
-  def compare(actual, expected, operator)
-    return false if actual.blank?
-
-    actual_value, expected_value = coerce_pair(actual, expected)
-    return false if actual_value.nil? || expected_value.nil?
-
-    actual_value.public_send(operator, expected_value)
-  end
-
-  def coerce_pair(actual, expected)
-    if date_like?(actual)
-      [actual.to_time, parse_time(expected)]
+    if actual.is_a?(Date) || actual.acts_like?(:time)
+      actual.to_time <=> Time.zone.parse(expected.to_s)
     else
-      [BigDecimal(actual.to_s), BigDecimal(expected.to_s)]
+      BigDecimal(actual.to_s) <=> BigDecimal(expected.to_s)
     end
   rescue ArgumentError, TypeError
-    [nil, nil]
+    nil
   end
 
-  def date_before?(actual, expected)
-    actual_date = to_date(actual)
-    return false if actual_date.nil?
-
-    actual_date < (Time.zone.today - expected.to_i.days)
-  end
-
-  def date_like?(value)
-    value.is_a?(Date) || value.is_a?(Time) || value.is_a?(ActiveSupport::TimeWithZone)
-  end
-
-  def parse_time(value)
-    Time.zone.parse(value.to_s)
+  # days_before: the value is a date more than N days in the past.
+  def older_than_days?(actual, days)
+    date = to_date(actual)
+    date.present? && date < Time.zone.today - days.to_i.days
   end
 
   def to_date(value)
