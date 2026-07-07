@@ -22,6 +22,7 @@ class Api::V1::Accounts::Autonomia::Prospecting::ListsController < Api::V1::Acco
     was_new = list_lead.new_record?
     list_lead.account = Current.account
     list_lead.save!
+    lead.ready_for_campaign! unless lead.ready_for_campaign?
 
     render json: { payload: list_payload(list.reload, include_leads: true) }, status: was_new ? :created : :ok
   rescue ActionController::ParameterMissing => e
