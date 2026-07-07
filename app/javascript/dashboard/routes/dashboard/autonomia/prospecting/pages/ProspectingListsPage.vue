@@ -99,6 +99,12 @@ const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
 const canCreateCrmCard = computed(() =>
   Boolean(crmForm.value.pipeline_id && crmForm.value.stage_id)
 );
+const selectedStageName = computed(() => {
+  const stage = crmStages.value.find(
+    item => Number(item.id) === Number(crmForm.value.stage_id)
+  );
+  return stage?.name || t('PROSPECTING.SEARCH.CRM_STAGE_EMPTY');
+});
 const campaignReadyLeads = computed(() =>
   (selectedList.value?.leads || []).filter(
     lead => lead.status === 'ready_for_campaign'
@@ -133,6 +139,14 @@ const contactUrl = contactId =>
 
 const crmCardUrl = cardId =>
   `/app/accounts/${route.params.accountId}/crm?card_id=${cardId}`;
+
+const googleMapsLeadUrl = lead => {
+  const query =
+    lead.latitude && lead.longitude
+      ? `${lead.latitude},${lead.longitude}`
+      : [lead.name, formatLeadAddress(lead)].filter(Boolean).join(' ');
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+};
 
 const replaceLead = updatedLead => {
   if (!updatedLead?.id) return;
@@ -790,40 +804,71 @@ onMounted(loadPage);
               <article
                 v-for="lead in listLeads"
                 :key="lead.id"
-                class="grid min-w-0 gap-3 rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
+                class="grid min-w-0 gap-3 overflow-hidden rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
               >
-                <div
-                  class="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between"
-                >
-                  <div class="min-w-0">
-                    <h3 class="break-words font-semibold text-n-slate-12">
-                      {{ lead.name }}
-                    </h3>
-                    <p class="mt-1 break-words text-n-slate-10">
-                      {{ formatLeadAddress(lead) || '-' }}
-                    </p>
-                    <p class="mt-1 text-n-slate-10">
-                      {{ lead.phone || '-' }}
-                    </p>
-                  </div>
-                  <div class="flex shrink-0 flex-wrap gap-2">
-                    <span
-                      class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                <div class="flex min-w-0 items-start gap-3">
+                  <div class="min-w-0 flex-1">
+                    <div
+                      class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between"
                     >
-                      {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
-                    </span>
-                    <span
-                      v-if="lead.contact_id"
-                      class="rounded-md bg-n-teal-3 px-2 py-1 text-xs text-n-teal-11"
-                    >
-                      {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
-                    </span>
-                    <span
-                      v-if="lead.crm_card_id"
-                      class="rounded-md bg-n-blue-3 px-2 py-1 text-xs text-n-blue-11"
-                    >
-                      {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
-                    </span>
+                      <div class="min-w-0">
+                        <h3
+                          class="break-words text-base font-semibold text-n-slate-12"
+                        >
+                          {{ lead.name }}
+                        </h3>
+                        <p class="mt-1 break-words text-sm text-n-slate-10">
+                          {{ formatLeadAddress(lead) || '-' }}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="mt-3 grid gap-3 md:grid-cols-3">
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
+                        </div>
+                        <div class="break-words">
+                          {{ lead.category || '-' }}
+                        </div>
+                        <div
+                          class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
+                        >
+                          <span class="i-lucide-star size-4 text-amber-500" />
+                          <span class="text-n-slate-12">
+                            {{ lead.rating || '-' }}
+                          </span>
+                          <span>·</span>
+                          <span>
+                            {{
+                              t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
+                                count: lead.reviews_count || 0,
+                              })
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+                        </div>
+                        <div class="break-words">{{ selectedStageName }}</div>
+                      </div>
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.CONTACT_DATA') }}
+                        </div>
+                        <a
+                          v-if="lead.website"
+                          :href="lead.website"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-n-brand underline"
+                        >
+                          {{ t('PROSPECTING.SEARCH.OPEN_SITE') }}
+                        </a>
+                        <div class="break-words">{{ lead.phone || '-' }}</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -831,16 +876,25 @@ onMounted(loadPage);
                   class="flex flex-wrap items-center gap-2 border-t border-n-weak pt-3"
                 >
                   <a
+                    :href="googleMapsLeadUrl(lead)"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2"
+                  >
+                    <span class="i-lucide-map-pin size-3.5" />
+                    {{ t('PROSPECTING.SEARCH.OPEN_MAP') }}
+                  </a>
+                  <a
                     v-if="lead.contact_id"
                     :href="contactUrl(lead.contact_id)"
-                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
+                    class="inline-flex h-8 items-center rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
                   >
                     {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
                   </a>
                   <button
                     v-else
                     type="button"
-                    class="inline-flex h-8 items-center gap-1 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
                     :disabled="convertingLeadId === lead.id"
                     @click="createContact(lead)"
                   >
@@ -853,14 +907,14 @@ onMounted(loadPage);
                   <a
                     v-if="lead.crm_card_id"
                     :href="crmCardUrl(lead.crm_card_id)"
-                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
+                    class="inline-flex h-8 items-center rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
                   >
                     {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
                   </a>
                   <button
                     v-else
                     type="button"
-                    class="inline-flex h-8 items-center gap-1 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
                     :disabled="
                       convertingCrmLeadId === lead.id || !canCreateCrmCard
                     "
@@ -1151,9 +1205,11 @@ onMounted(loadPage);
             </div>
           </div>
         </div>
-        <div class="grid gap-3 md:grid-cols-2">
+        <div class="grid gap-3 md:grid-cols-2 md:items-end">
           <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
+            <span
+              class="flex h-4 items-center text-xs font-medium text-n-slate-11"
+            >
               {{ t('PROSPECTING.LISTS.FIELDS.SEGMENT_NAME') }}
             </span>
             <input
@@ -1163,7 +1219,9 @@ onMounted(loadPage);
             />
           </label>
           <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
+            <span
+              class="flex h-4 items-center text-xs font-medium text-n-slate-11"
+            >
               {{ t('PROSPECTING.LISTS.FIELDS.CAMPAIGN') }}
             </span>
             <select
