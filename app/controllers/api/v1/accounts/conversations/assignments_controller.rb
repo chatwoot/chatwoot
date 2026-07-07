@@ -34,11 +34,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
   end
 
   def set_team
-    @team = Conversations::AssignmentService.new(
-      conversation: @conversation,
-      team_id: params[:team_id]
-    ).perform
-
+    @team = Current.account.teams.find_by(id: params[:team_id])
+    @conversation.update!(team: @team)
     render json: @team
   end
 

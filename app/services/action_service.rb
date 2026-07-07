@@ -41,7 +41,7 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
-    return assign_conversation_agent(nil) if agent_ids[0] == 'nil'
+    return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
 
     agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
     return unless agent_belongs_to_inbox?(agent_ids)
@@ -49,7 +49,7 @@ class ActionService
     @agent = @account.users.find_by(id: agent_ids)
     return unless @agent.present? && @agent.confirmed?
 
-    assign_conversation_agent(@agent.id)
+    @conversation.update!(assignee_id: @agent.id)
   end
 
   def remove_label(labels)
@@ -62,21 +62,21 @@ class ActionService
   def assign_team(team_ids = [])
     # Keep nil/0 handling for existing automation and macro payloads.
     should_unassign = team_ids.blank? || %w[nil 0].include?(team_ids[0].to_s)
-    return assign_conversation_team(nil) if should_unassign
+    return @conversation.update!(team_id: nil) if should_unassign
 
     # check if team belongs to account only if team_id is present
     # if team_id is nil, then it means that the team is being unassigned
     return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
-    assign_conversation_team(team_ids[0])
+    @conversation.update!(team_id: team_ids[0])
   end
 
   def remove_assigned_agent(_params)
-    assign_conversation_agent(nil)
+    @conversation.update!(assignee_id: nil)
   end
 
   def remove_assigned_team(_params)
-    assign_conversation_team(nil)
+    @conversation.update!(team_id: nil)
   end
 
   def send_email_transcript(emails)
@@ -97,14 +97,6 @@ class ActionService
 
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id
-  end
-
-  def assign_conversation_agent(assignee_id)
-    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: assignee_id).perform
-  end
-
-  def assign_conversation_team(team_id)
-    Conversations::AssignmentService.new(conversation: @conversation, team_id: team_id).perform
   end
 
   def agent_belongs_to_inbox?(agent_ids)
