@@ -153,6 +153,7 @@ class Message < ApplicationRecord
     )
     data[:echo_id] = echo_id if echo_id.present?
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+    data[:reactions] = message_reactions.active.map(&:push_event_data) if message_reactions.active.present?
     merge_sender_attributes(data)
   end
 

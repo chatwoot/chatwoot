@@ -152,6 +152,16 @@ RSpec.describe Message do
     it 'returns push event payload' do
       expect(push_event_data).to eq(expected_data)
     end
+
+    it 'includes active reactions' do
+      message = create(:message)
+      active_reaction = create(:message_reaction, message: message, conversation: message.conversation,
+                                                  inbox: message.inbox, account: message.account)
+      create(:message_reaction, :removed, message: message, conversation: message.conversation,
+                                         inbox: message.inbox, account: message.account)
+
+      expect(message.push_event_data[:reactions]).to eq([active_reaction.push_event_data])
+    end
   end
 
   describe 'message create event' do

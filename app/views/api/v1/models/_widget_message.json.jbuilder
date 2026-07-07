@@ -6,4 +6,5 @@ json.content_attributes resource.content_attributes
 json.created_at resource.created_at.to_i
 json.conversation_id resource.conversation.display_id
 json.attachments resource.attachments.map(&:push_event_data) if resource.attachments.present?
+json.reactions resource.message_reactions.active.map(&:push_event_data) if resource.message_reactions.active.present?
 json.sender resource.sender.push_event_data if resource.sender
