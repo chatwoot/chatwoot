@@ -38,6 +38,8 @@ RSpec.describe 'Autonomia prospecting lists API', type: :request do
     expect(response).to have_http_status(:ok)
     expect(list.list_leads.count).to eq(1)
     expect(response.parsed_body.dig('payload', 'lead_ids')).to eq([lead.id])
+    expect(response.parsed_body.dig('payload', 'leads', 0, 'status')).to eq('ready_for_campaign')
+    expect(lead.reload).to be_ready_for_campaign
 
     delete "/api/v1/accounts/#{account.id}/autonomia/prospecting/lists/#{list.id}/leads/#{lead.id}",
            headers: auth_headers(admin)
