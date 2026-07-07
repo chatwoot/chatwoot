@@ -16,7 +16,7 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       set_instagram_id(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     end
-  rescue CustomExceptions::Base => e
+  rescue CustomExceptions::Inbox::LimitExceeded => e
     render_error_response(e)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception

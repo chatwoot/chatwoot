@@ -42,8 +42,6 @@ module RequestExceptionHandler
   end
 
   def render_could_not_create_error(error)
-    return render_error_response(error) if error.is_a?(CustomExceptions::Base)
-
     render json: { error: sanitized_error_message(error) }, status: :unprocessable_entity
   end
 

@@ -11,6 +11,8 @@ class Instagram::CallbacksController < ApplicationController
     end
 
     process_successful_authorization
+  rescue CustomExceptions::Inbox::LimitExceeded => e
+    handle_limit_error(e)
   rescue StandardError => e
     handle_error(e)
   end
@@ -47,11 +49,17 @@ class Instagram::CallbacksController < ApplicationController
     redirect_to_error_page(error_info)
   end
 
+  def handle_limit_error(error)
+    redirect_to_error_page(
+      'error_type' => error.class.name,
+      'code' => Rack::Utils.status_code(error.http_status),
+      'error_message' => error.message
+    )
+  end
+
   # Extract error details from the exception
   def extract_error_info(error)
-    if error.is_a?(CustomExceptions::Base)
-      { 'error_type' => error.class.name, 'code' => Rack::Utils.status_code(error.http_status), 'error_message' => error.message }
-    elsif error.is_a?(OAuth2::Error)
+    if error.is_a?(OAuth2::Error)
       begin
         # Instagram returns JSON error response which we parse to extract error details
         JSON.parse(error.message)
