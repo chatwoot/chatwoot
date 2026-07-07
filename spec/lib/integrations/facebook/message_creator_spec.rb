@@ -99,5 +99,55 @@ RSpec.describe Integrations::Facebook::MessageCreator do
           .and not_change(MessageReaction, :count)
       end
     end
+
+    context 'when the reaction target message id is blank' do
+      let!(:nil_source_message) { create(:message, account: channel.account, inbox: inbox, conversation: conversation, source_id: nil) }
+
+      let(:blank_target_payload) do
+        JSON.parse(base_payload).tap do |payload|
+          payload['messaging']['sender']['id'] = 'New-sender-id'
+          payload['messaging']['reaction'].delete('mid')
+        end.to_json
+      end
+
+      it 'does not create a contact, conversation, message, or reaction' do
+        parser = Integrations::Facebook::MessageParser.new(blank_target_payload)
+        expect(Rails.logger).to receive(:warn)
+
+        expect { described_class.new(parser).perform }
+          .to not_change(Contact, :count)
+          .and not_change(ContactInbox, :count)
+          .and not_change(Conversation, :count)
+          .and not_change(Message, :count)
+          .and not_change(MessageReaction, :count)
+      end
+    end
+
+    context 'when another inbox has a message with the same source id' do
+      let!(:other_channel) { create(:channel_facebook_page) }
+      let!(:other_contact) { create(:contact, account: other_channel.account) }
+      let!(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: other_channel.inbox, source_id: source_id) }
+      let!(:other_conversation) do
+        create(:conversation, contact: other_contact, inbox: other_channel.inbox, contact_inbox: other_contact_inbox, account: other_channel.account)
+      end
+      let!(:other_target_message) do
+        create(:message, account: other_channel.account, inbox: other_channel.inbox, conversation: other_conversation,
+                         source_id: 'shared-provider-message-id')
+      end
+      let!(:target_message) do
+        create(:message, account: channel.account, inbox: inbox, conversation: conversation, source_id: other_target_message.source_id)
+      end
+
+      it 'attaches the reaction to the message in the webhook recipient inbox' do
+        parser = Integrations::Facebook::MessageParser.new(base_payload)
+
+        described_class.new(parser).perform
+
+        reaction = MessageReaction.last
+        expect(reaction.message).to eq(target_message)
+        expect(reaction.inbox).to eq(inbox)
+        expect(reaction.message).not_to eq(other_target_message)
+      end
+    end
   end
 end

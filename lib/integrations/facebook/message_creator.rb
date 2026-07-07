@@ -24,9 +24,25 @@ class Integrations::Facebook::MessageCreator
   private
 
   def process_reaction
-    target_message = Message.find_by(source_id: response.reaction_mid)
-    return log_missing_reaction_target if target_message.blank?
+    return log_missing_reaction_target if response.reaction_mid.blank?
 
+    processed = false
+    Channel::FacebookPage.where(page_id: response.recipient_id).each do |page|
+      processed = process_reaction_for_page(page) || processed
+    end
+
+    log_missing_reaction_target unless processed
+  end
+
+  def process_reaction_for_page(page)
+    target_message = page.inbox.messages.find_by(source_id: response.reaction_mid)
+    return false if target_message.blank?
+
+    upsert_reaction(target_message)
+    true
+  end
+
+  def upsert_reaction(target_message)
     contact = reaction_contact(target_message.inbox)
     return if contact.blank?
 
