@@ -28,7 +28,6 @@ const locationDetails = ref(null);
 const confirmedLocation = ref('');
 const selectedSearchId = ref(null);
 const selectedLeadDetailId = ref(null);
-const statusFilter = ref('');
 const sortKey = ref('created_desc');
 const editingSearchConfigId = ref(null);
 const showNewSearch = ref(false);
@@ -57,18 +56,9 @@ const searchConfigForm = ref({
   crm_stage_id: '',
 });
 
-const statusOptions = [
-  'new_lead',
-  'qualified',
-  'discarded',
-  'no_consent',
-  'ready_for_campaign',
-];
-
 const hasResults = computed(() => leads.value.length > 0);
 const filteredLeads = computed(() => {
   return leads.value.filter(lead => {
-    if (statusFilter.value && lead.status !== statusFilter.value) return false;
     if (advancedFilters.value.has_website === 'yes' && !lead.website)
       return false;
     if (advancedFilters.value.has_website === 'no' && lead.website)
@@ -150,9 +140,7 @@ const selectedLeadObjects = computed(() => {
 const activeAdvancedFiltersCount = computed(
   () => Object.values(advancedFilters.value).filter(Boolean).length
 );
-const activeFiltersCount = computed(
-  () => activeAdvancedFiltersCount.value + (statusFilter.value ? 1 : 0)
-);
+const activeFiltersCount = computed(() => activeAdvancedFiltersCount.value);
 const autocompleteHint = computed(() => {
   if (isSuggestingLocations.value) {
     return t('PROSPECTING.SEARCH.SUGGESTING_LOCATIONS');
@@ -169,35 +157,9 @@ const autocompleteHint = computed(() => {
 const selectedLocationLabel = computed(
   () => locationDetails.value?.label || confirmedLocation.value
 );
-const recentLocations = computed(() =>
-  searches.value
-    .filter(search => search.location)
-    .reduce((items, search) => {
-      if (items.some(item => item.text === search.location)) return items;
-
-      return [
-        ...items,
-        {
-          text: search.location,
-          place_id: search.location_place_id || '',
-          latitude: search.location_latitude,
-          longitude: search.location_longitude,
-          label: search.location_label || search.location,
-        },
-      ];
-    }, [])
-    .slice(0, 8)
-);
-const recentLocationSuggestions = computed(() =>
-  recentLocations.value.map(location => ({ ...location }))
-);
 const combinedLocationSuggestions = computed(() => {
-  const items = [
-    ...locationSuggestions.value,
-    ...recentLocationSuggestions.value,
-  ];
   const seen = new Set();
-  return items.filter(item => {
+  return locationSuggestions.value.filter(item => {
     const key = item.place_id || item.text;
     if (!key || seen.has(key)) return false;
     seen.add(key);
@@ -1058,26 +1020,6 @@ onMounted(async () => {
                 v-if="showFilters"
                 class="absolute right-0 top-11 z-30 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
               >
-                <label class="grid gap-1">
-                  <span class="text-xs font-medium text-n-slate-11">
-                    {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
-                  </span>
-                  <select
-                    v-model="statusFilter"
-                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                  >
-                    <option value="">
-                      {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
-                    </option>
-                    <option
-                      v-for="status in statusOptions"
-                      :key="status"
-                      :value="status"
-                    >
-                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                    </option>
-                  </select>
-                </label>
                 <label class="grid gap-1">
                   <span class="text-xs font-medium text-n-slate-11">
                     {{ t('PROSPECTING.SEARCH.FIELDS.SORT') }}
