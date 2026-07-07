@@ -6,8 +6,6 @@ class OauthCallbackController < ApplicationController
     )
 
     handle_response
-  rescue CustomExceptions::Base
-    raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to '/'

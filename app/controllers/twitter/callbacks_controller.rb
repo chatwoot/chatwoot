@@ -3,8 +3,6 @@ class Twitter::CallbacksController < Twitter::BaseController
 
   def show
     process_callback
-  rescue CustomExceptions::Base
-    raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to twitter_app_redirect_url

@@ -11,8 +11,6 @@ class Instagram::CallbacksController < ApplicationController
     end
 
     process_successful_authorization
-  rescue CustomExceptions::Base
-    raise
   rescue StandardError => e
     handle_error(e)
   end
@@ -51,7 +49,9 @@ class Instagram::CallbacksController < ApplicationController
 
   # Extract error details from the exception
   def extract_error_info(error)
-    if error.is_a?(OAuth2::Error)
+    if error.is_a?(CustomExceptions::Base)
+      { 'error_type' => error.class.name, 'code' => Rack::Utils.status_code(error.http_status), 'error_message' => error.message }
+    elsif error.is_a?(OAuth2::Error)
       begin
         # Instagram returns JSON error response which we parse to extract error details
         JSON.parse(error.message)

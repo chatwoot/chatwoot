@@ -6,8 +6,6 @@ class Tiktok::CallbacksController < ApplicationController
     return handle_ungranted_scopes_error unless all_scopes_granted?
 
     process_successful_authorization
-  rescue CustomExceptions::Base
-    raise
   rescue StandardError => e
     handle_error(e)
   end
@@ -35,7 +33,8 @@ class Tiktok::CallbacksController < ApplicationController
     Rails.logger.error("TikTok Channel creation Error: #{error.message}")
     ChatwootExceptionTracker.new(error).capture_exception
 
-    redirect_to_error_page(error_type: error.class.name, code: 500, error_message: error.message)
+    code = error.is_a?(CustomExceptions::Base) ? Rack::Utils.status_code(error.http_status) : 500
+    redirect_to_error_page(error_type: error.class.name, code: code, error_message: error.message)
   end
 
   # Handles the case when a user denies permissions or cancels the authorization flow
