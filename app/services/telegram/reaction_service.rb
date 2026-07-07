@@ -24,8 +24,11 @@ class Telegram::ReactionService
     @message_reaction ||= params[:message_reaction]
   end
 
+  # Telegram's message_id is only unique within a single chat/bot, not globally, so the lookup
+  # must be scoped to this inbox -- otherwise a reaction could resolve to another tenant's
+  # message that happens to share the same message_id.
   def target_message
-    @target_message ||= Message.find_by(source_id: message_reaction[:message_id].to_s)
+    @target_message ||= inbox.messages.find_by(source_id: message_reaction[:message_id].to_s)
   end
 
   def new_reaction
@@ -87,6 +90,14 @@ class Telegram::ReactionService
     @contact = contact_inbox.contact
   end
 
+  # Telegram's update_id is only unique within a single bot's update stream, not globally --
+  # two different Telegram channels can emit the same update_id. Scope it by inbox so it stays
+  # globally unique (MessageReaction#source_id has a global uniqueness constraint) while still
+  # deduping redelivery of the same bot event.
+  def source_id
+    "#{inbox.id}:#{params[:update_id]}"
+  end
+
   def upsert_reaction
     Messages::Reactions::UpsertService.new(
       account: target_message.account,
@@ -95,7 +106,7 @@ class Telegram::ReactionService
       message: target_message,
       sender: @contact,
       actor_external_id: actor_id.to_s,
-      source_id: params[:update_id].to_s,
+      source_id: source_id,
       external_message_id: message_reaction[:message_id].to_s,
       emoji: emoji,
       reaction_type: reaction_type,

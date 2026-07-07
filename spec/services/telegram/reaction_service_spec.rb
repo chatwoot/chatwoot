@@ -112,5 +112,29 @@ RSpec.describe Telegram::ReactionService do
         expect(reaction.sender.name).to eq('Some Channel')
       end
     end
+
+    context 'when a different Telegram channel reuses the same update_id' do
+      let!(:other_telegram_channel) { create(:channel_telegram, bot_token: 'other-bot-token') }
+      let!(:other_inbox) { other_telegram_channel.inbox }
+      let!(:other_contact) { create(:contact, account: other_telegram_channel.account) }
+      let!(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: other_inbox, source_id: '111') }
+      let!(:other_conversation) { create(:conversation, contact: other_contact, inbox: other_inbox, contact_inbox: other_contact_inbox) }
+      let!(:other_target_message) { create(:message, conversation: other_conversation, source_id: '555') }
+
+      it 'creates independent reactions scoped to each inbox instead of colliding on a global source_id' do
+        described_class.new(inbox: inbox, params: base_params).perform
+
+        expect { described_class.new(inbox: other_inbox, params: base_params).perform }
+          .to change(MessageReaction, :count).by(1)
+
+        reaction = MessageReaction.find_by(message: target_message)
+        other_reaction = MessageReaction.find_by(message: other_target_message)
+
+        expect(reaction).to be_present
+        expect(other_reaction).to be_present
+        expect(reaction.id).not_to eq(other_reaction.id)
+        expect(reaction.account_id).not_to eq(other_reaction.account_id)
+      end
+    end
   end
 end
