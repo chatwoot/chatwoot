@@ -164,8 +164,8 @@ class Conversation < ApplicationRecord
   end
 
   def bot_handoff!
-    update(waiting_since: Time.current) if waiting_since.blank?
-    open!
+    mark_bot_handoff
+    save!
     dispatcher_dispatch(CONVERSATION_BOT_HANDOFF)
   end
 
@@ -274,12 +274,13 @@ class Conversation < ApplicationRecord
   def handle_agent_bot_takeover_by_assignee
     return if assignee_id.blank? || assignee_agent_bot_id.blank?
 
-    if pending?
-      self.status = :open
-      self.waiting_since ||= Time.current
-    end
-
+    mark_bot_handoff if pending?
     self.assignee_agent_bot_id = nil
+  end
+
+  def mark_bot_handoff
+    self.waiting_since ||= Time.current
+    self.status = :open
   end
 
   def determine_conversation_status
@@ -348,9 +349,9 @@ class Conversation < ApplicationRecord
 
   def agent_bot_takeover_by_assignee?
     assignee_id.present? &&
-      saved_change_to_status == %w[pending open] &&
-      saved_change_to_assignee_agent_bot_id&.first.present? &&
-      saved_change_to_assignee_agent_bot_id&.last.blank?
+      saved_change_to_status?(from: 'pending', to: 'open') &&
+      saved_change_to_assignee_agent_bot_id? &&
+      assignee_agent_bot_id.blank?
   end
 
   def dispatcher_dispatch(event_name, changed_attributes = nil)
