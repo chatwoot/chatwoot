@@ -65,6 +65,21 @@ RSpec.describe 'Super Admin accounts API', type: :request do
 
         expect(editor_select.at_css('option[value=""]').text.squish).to eq("Use default: #{default_model} (#{default_model_id})")
       end
+
+      it 'shows the Captain V2 assistant default in the model selector', if: ChatwootApp.enterprise? do
+        account.enable_features!('captain_integration_v2')
+        sign_in(super_admin, scope: :super_admin)
+
+        get "/super_admin/accounts/#{account.id}/edit"
+
+        document = Nokogiri::HTML(response.body)
+        assistant_select = document.at_css('select[name="account[captain_models][assistant]"]')
+        default_model_id = Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL
+        default_model = Llm::Models.model_config(default_model_id)['display_name']
+
+        expect(response).to have_http_status(:success)
+        expect(assistant_select.at_css('option[value=""]').text.squish).to eq("Use default: #{default_model} (#{default_model_id})")
+      end
     end
   end
 
