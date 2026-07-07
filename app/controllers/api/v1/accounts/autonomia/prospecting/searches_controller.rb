@@ -11,11 +11,13 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     query = params[:query].to_s.strip
     return render json: { payload: [] } if query.length < 3
 
-    setting = ::Autonomia::Prospecting::Config.for_account(Current.account)
     return render json: { payload: [] } unless setting.google_places_configured?
 
     render json: { payload: google_place_predictions(query, setting.google_places_api_key) }
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.warn(
+      "[Autonomia::Prospecting] location_suggestions failed account_id=#{Current.account&.id} error=#{e.class.name}: #{e.message}"
+    )
     render json: { payload: [] }
   end
 
@@ -23,11 +25,13 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     place_id = params[:place_id].to_s.strip
     return render json: { payload: {} } if place_id.blank?
 
-    setting = ::Autonomia::Prospecting::Config.for_account(Current.account)
     return render json: { payload: {} } unless setting.google_places_configured?
 
     render json: { payload: google_place_details(place_id, setting.google_places_api_key) }
-  rescue StandardError
+  rescue StandardError => e
+    Rails.logger.warn(
+      "[Autonomia::Prospecting] location_details failed account_id=#{Current.account&.id} error=#{e.class.name}: #{e.message}"
+    )
     render json: { payload: {} }
   end
 
@@ -126,7 +130,12 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     ) do |http|
       http.request(request)
     end
-    return [] unless response.is_a?(Net::HTTPSuccess)
+    unless response.is_a?(Net::HTTPSuccess)
+      Rails.logger.warn(
+        "[Autonomia::Prospecting] Google Places autocomplete failed account_id=#{Current.account&.id} status=#{response.code} body=#{response.body.to_s.truncate(500)}"
+      )
+      return []
+    end
 
     Array(JSON.parse(response.body)['suggestions'])
       .filter_map do |item|
@@ -155,7 +164,12 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     ) do |http|
       http.request(request)
     end
-    return {} unless response.is_a?(Net::HTTPSuccess)
+    unless response.is_a?(Net::HTTPSuccess)
+      Rails.logger.warn(
+        "[Autonomia::Prospecting] Google Places details failed account_id=#{Current.account&.id} status=#{response.code} body=#{response.body.to_s.truncate(500)}"
+      )
+      return {}
+    end
 
     body = JSON.parse(response.body)
     {
