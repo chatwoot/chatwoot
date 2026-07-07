@@ -15,10 +15,6 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     }
   end
 
-  def inbox_limit
-    get_limits(:inboxes).to_i
-  end
-
   def increment_response_usage
     increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
