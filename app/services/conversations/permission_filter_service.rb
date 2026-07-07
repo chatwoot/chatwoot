@@ -16,7 +16,16 @@ class Conversations::PermissionFilterService
   private
 
   def accessible_conversations
-    conversations.where(inbox: user.inboxes.where(account_id: account.id))
+    inbox_scoped = conversations.where(inbox: user.inboxes.where(account_id: account.id))
+
+    # Within the inboxes the agent can access, hide conversations that belong to a
+    # team the agent isn't a member of. Conversations with no team yet (pending triage)
+    # remain visible to everyone with inbox access.
+    inbox_scoped.where(team_id: nil).or(inbox_scoped.where(team: user_teams))
+  end
+
+  def user_teams
+    user.teams.where(account_id: account.id)
   end
 
   def account_user
