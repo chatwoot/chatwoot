@@ -16,7 +16,7 @@ class Captain::AssistantPolicy < ApplicationPolicy
   end
 
   def drilldown?
-    true
+    @account_user.administrator?
   end
 
   def tools?
