@@ -438,6 +438,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_120000) do
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discard_reason"
     t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
     t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
     t.index ["account_id", "status"], name: "index_autonomia_prospecting_leads_on_account_id_and_status"
@@ -509,7 +510,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_120000) do
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "default_crm_pipeline_id"
+    t.bigint "default_crm_stage_id"
     t.index ["account_id"], name: "index_autonomia_prospecting_settings_on_account_id", unique: true
+    t.index ["default_crm_pipeline_id"], name: "idx_autonomia_prospecting_settings_default_pipeline"
+    t.index ["default_crm_stage_id"], name: "idx_autonomia_prospecting_settings_default_stage"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -2397,6 +2402,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_120000) do
   add_foreign_key "autonomia_prospecting_searches", "accounts", on_delete: :cascade
   add_foreign_key "autonomia_prospecting_searches", "users", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_settings", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_settings", "crm_pipeline_stages", column: "default_crm_stage_id", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_settings", "crm_pipelines", column: "default_crm_pipeline_id", on_delete: :nullify
   add_foreign_key "crm_activities", "accounts"
   add_foreign_key "crm_activities", "conversations"
   add_foreign_key "crm_activities", "crm_cards", column: "card_id"

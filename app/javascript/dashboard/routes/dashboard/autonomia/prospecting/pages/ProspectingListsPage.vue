@@ -3,6 +3,8 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
+import CampaignsAPI from 'dashboard/api/campaigns';
+import CrmKanbanAPI from 'dashboard/api/crmKanban';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -11,24 +13,79 @@ const isLoading = ref(true);
 const isCreating = ref(false);
 const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
+const convertingCrmLeadId = ref(null);
+const isCreatingCampaignSegment = ref(false);
 const error = ref('');
 const notice = ref('');
 const lists = ref([]);
 const selectedList = ref(null);
 const allLeads = ref([]);
+const campaigns = ref([]);
+const settings = ref(null);
+const crmPipelines = ref([]);
+const crmStages = ref([]);
+const statusFilter = ref('');
+const campaignSegmentForm = ref({
+  campaign_id: '',
+  segment_name: '',
+});
 const form = ref({
   name: '',
   description: '',
 });
+const crmForm = ref({
+  pipeline_id: '',
+  stage_id: '',
+});
+const statusOptions = [
+  'new_lead',
+  'qualified',
+  'discarded',
+  'no_consent',
+  'ready_for_campaign',
+];
 
 const selectedLeadIds = computed(
   () => new Set((selectedList.value?.lead_ids || []).map(Number))
 );
-const listLeads = computed(() => selectedList.value?.leads || []);
+const listLeads = computed(() => {
+  const leads = selectedList.value?.leads || [];
+  if (!statusFilter.value) return leads;
+
+  return leads.filter(lead => lead.status === statusFilter.value);
+});
 const availableLeads = computed(() =>
-  allLeads.value.filter(lead => !selectedLeadIds.value.has(Number(lead.id)))
+  allLeads.value.filter(lead => {
+    if (selectedLeadIds.value.has(Number(lead.id))) return false;
+    if (!statusFilter.value) return true;
+
+    return lead.status === statusFilter.value;
+  })
 );
 const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
+const canCreateCrmCard = computed(() =>
+  Boolean(crmForm.value.pipeline_id && crmForm.value.stage_id)
+);
+const campaignReadyLeads = computed(() =>
+  (selectedList.value?.leads || []).filter(
+    lead => lead.status === 'ready_for_campaign'
+  )
+);
+const campaignBlockedLeads = computed(() =>
+  (selectedList.value?.leads || []).filter(
+    lead => lead.status !== 'ready_for_campaign'
+  )
+);
+const availableCampaigns = computed(() =>
+  campaigns.value.filter(
+    campaign =>
+      campaign.campaign_type === 'one_off' &&
+      campaign.campaign_status === 'active'
+  )
+);
+const currentCampaignSegment = computed(
+  () => selectedList.value?.campaign_segment || null
+);
 
 const formatDate = value => {
   if (!value) return '-';
@@ -42,6 +99,9 @@ const formatLeadAddress = lead =>
 
 const contactUrl = contactId =>
   `/app/accounts/${route.params.accountId}/contacts/${contactId}`;
+
+const crmCardUrl = cardId =>
+  `/app/accounts/${route.params.accountId}/crm?card_id=${cardId}`;
 
 const replaceLead = updatedLead => {
   if (!updatedLead?.id) return;
@@ -60,6 +120,35 @@ const replaceLead = updatedLead => {
   }
 };
 
+const fetchCrmStages = async (pipelineId, preferredStageId = '') => {
+  crmStages.value = [];
+  crmForm.value.stage_id = '';
+  if (!pipelineId) return;
+
+  const { data } = await CrmKanbanAPI.getStages(pipelineId);
+  crmStages.value = data.payload || [];
+  crmForm.value.stage_id =
+    preferredStageId ||
+    settings.value?.default_crm_stage_id ||
+    crmStages.value[0]?.id ||
+    '';
+};
+
+const fetchCrmPipelines = async () => {
+  try {
+    const { data } = await CrmKanbanAPI.getPipelines();
+    crmPipelines.value = data.payload || [];
+    crmForm.value.pipeline_id = settings.value?.default_crm_pipeline_id || '';
+    await fetchCrmStages(
+      crmForm.value.pipeline_id,
+      settings.value?.default_crm_stage_id
+    );
+  } catch {
+    crmPipelines.value = [];
+    crmStages.value = [];
+  }
+};
+
 const fetchLists = async () => {
   const { data } = await AutonomiaProspectingAPI.getLists();
   lists.value = data.payload || [];
@@ -70,6 +159,20 @@ const fetchAllLeads = async () => {
   allLeads.value = data.payload || [];
 };
 
+const fetchCampaigns = async () => {
+  try {
+    const { data } = await CampaignsAPI.get();
+    campaigns.value = data || [];
+  } catch {
+    campaigns.value = [];
+  }
+};
+
+const fetchSettings = async () => {
+  const { data } = await AutonomiaProspectingAPI.getSettings();
+  settings.value = data.payload || {};
+};
+
 const selectList = async list => {
   if (!list?.id) return;
 
@@ -78,6 +181,10 @@ const selectList = async list => {
   try {
     const { data } = await AutonomiaProspectingAPI.getList(list.id);
     selectedList.value = data.payload || null;
+    campaignSegmentForm.value = {
+      campaign_id: currentCampaignSegment.value?.campaign_id || '',
+      segment_name: selectedList.value?.name || '',
+    };
   } catch {
     error.value = t('PROSPECTING.ERRORS.LOAD_LIST');
   }
@@ -87,7 +194,13 @@ const loadPage = async () => {
   isLoading.value = true;
   error.value = '';
   try {
-    await Promise.all([fetchLists(), fetchAllLeads()]);
+    await fetchSettings();
+    await Promise.all([
+      fetchLists(),
+      fetchAllLeads(),
+      fetchCrmPipelines(),
+      fetchCampaigns(),
+    ]);
     if (lists.value.length) {
       await selectList(lists.value[0]);
     }
@@ -180,6 +293,106 @@ const createContact = async lead => {
       e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
   } finally {
     convertingLeadId.value = null;
+  }
+};
+
+const createCrmCard = async lead => {
+  if (
+    !lead?.id ||
+    lead.crm_card_id ||
+    convertingCrmLeadId.value ||
+    !canCreateCrmCard.value
+  ) {
+    return;
+  }
+
+  convertingCrmLeadId.value = lead.id;
+  error.value = '';
+  notice.value = '';
+  try {
+    const { data } = await AutonomiaProspectingAPI.createLeadCrmCard(lead.id, {
+      pipeline_id: crmForm.value.pipeline_id,
+      stage_id: crmForm.value.stage_id,
+    });
+    replaceLead(data.payload?.lead);
+    notice.value = t('PROSPECTING.SEARCH.CRM_CARD_CREATED');
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CRM_CARD');
+  } finally {
+    convertingCrmLeadId.value = null;
+  }
+};
+
+const createCampaignSegment = async () => {
+  if (
+    !selectedList.value?.id ||
+    isCreatingCampaignSegment.value ||
+    !campaignReadyLeads.value.length
+  ) {
+    return;
+  }
+
+  isCreatingCampaignSegment.value = true;
+  error.value = '';
+  notice.value = '';
+  try {
+    const { data } = await AutonomiaProspectingAPI.createCampaignSegment(
+      selectedList.value.id,
+      {
+        campaign_id: campaignSegmentForm.value.campaign_id,
+        segment_name:
+          campaignSegmentForm.value.segment_name || selectedList.value.name,
+      }
+    );
+    selectedList.value = data.payload?.list || selectedList.value;
+    await fetchLists();
+    notice.value = t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATED', {
+      label: data.payload?.segment?.label?.title || '-',
+    });
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error ||
+      t('PROSPECTING.ERRORS.CREATE_CAMPAIGN_SEGMENT');
+  } finally {
+    isCreatingCampaignSegment.value = false;
+  }
+};
+
+const updateLeadQuality = async (lead, status) => {
+  if (!lead?.id || lead.status === status) return;
+
+  let discardReason = lead.discard_reason || '';
+  if (status === 'discarded' && !discardReason) {
+    discardReason =
+      window.prompt(t('PROSPECTING.QUALITY.DISCARD_REASON_PROMPT')) || '';
+    if (!discardReason.trim()) return;
+  }
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.updateLead(lead.id, {
+      status,
+      discard_reason: discardReason,
+    });
+    replaceLead(data.payload);
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.UPDATE_LEAD');
+  }
+};
+
+const updateDiscardReason = async lead => {
+  if (!lead?.id || lead.status !== 'discarded') return;
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.updateLead(lead.id, {
+      status: lead.status,
+      discard_reason: lead.discard_reason,
+    });
+    replaceLead(data.payload);
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error || t('PROSPECTING.ERRORS.UPDATE_LEAD');
   }
 };
 
@@ -313,6 +526,166 @@ onMounted(loadPage);
               >
                 {{ selectedList.description }}
               </p>
+              <div class="mt-3 grid gap-2 sm:grid-cols-3">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
+                  </span>
+                  <select
+                    v-model="statusFilter"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
+                    </option>
+                    <option
+                      v-for="status in statusOptions"
+                      :key="status"
+                      :value="status"
+                    >
+                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
+                  </span>
+                  <select
+                    v-model="crmForm.pipeline_id"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    @change="fetchCrmStages(crmForm.pipeline_id)"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.CRM_DISABLED') }}
+                    </option>
+                    <option
+                      v-for="pipeline in crmPipelines"
+                      :key="pipeline.id"
+                      :value="pipeline.id"
+                    >
+                      {{ pipeline.name }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+                  </span>
+                  <select
+                    v-model="crmForm.stage_id"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    :disabled="!crmStages.length"
+                  >
+                    <option
+                      v-for="stage in crmStages"
+                      :key="stage.id"
+                      :value="stage.id"
+                    >
+                      {{ stage.name }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+              <div
+                v-if="hasSelectedList"
+                class="mt-4 rounded-md border border-n-weak bg-n-solid-2 p-3"
+              >
+                <div
+                  class="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between"
+                >
+                  <div class="min-w-0">
+                    <h3 class="text-sm font-semibold text-n-slate-12">
+                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE') }}
+                    </h3>
+                    <p class="mt-1 text-xs text-n-slate-10">
+                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_HINT') }}
+                    </p>
+                    <div
+                      class="mt-2 flex flex-wrap items-center gap-2 text-xs text-n-slate-10"
+                    >
+                      <span
+                        class="rounded-md bg-n-teal-3 px-2 py-1 text-n-teal-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_READY_COUNT', {
+                            count: campaignReadyLeads.length,
+                          })
+                        }}
+                      </span>
+                      <span
+                        class="rounded-md bg-n-amber-3 px-2 py-1 text-n-amber-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_BLOCKED_COUNT', {
+                            count: campaignBlockedLeads.length,
+                          })
+                        }}
+                      </span>
+                      <span
+                        v-if="currentCampaignSegment"
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-n-slate-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_LABEL', {
+                            label: currentCampaignSegment.label_title,
+                          })
+                        }}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="grid min-w-0 gap-2 sm:grid-cols-[minmax(10rem,1fr)_minmax(12rem,1fr)_auto]"
+                  >
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.LISTS.FIELDS.SEGMENT_NAME') }}
+                      </span>
+                      <input
+                        v-model="campaignSegmentForm.segment_name"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
+                        :placeholder="selectedList.name"
+                      />
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.LISTS.FIELDS.CAMPAIGN') }}
+                      </span>
+                      <select
+                        v-model="campaignSegmentForm.campaign_id"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{
+                            t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_ONLY_LABEL')
+                          }}
+                        </option>
+                        <option
+                          v-for="campaign in availableCampaigns"
+                          :key="campaign.id"
+                          :value="campaign.id"
+                        >
+                          {{ campaign.title }}
+                        </option>
+                      </select>
+                    </label>
+                    <button
+                      type="button"
+                      class="h-9 self-end rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="
+                        isCreatingCampaignSegment || !campaignReadyLeads.length
+                      "
+                      @click="createCampaignSegment"
+                    >
+                      {{
+                        isCreatingCampaignSegment
+                          ? t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATING')
+                          : t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATE')
+                      }}
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               v-if="!hasSelectedList"
@@ -330,52 +703,133 @@ onMounted(loadPage);
               <article
                 v-for="lead in listLeads"
                 :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0 md:grid-cols-[minmax(0,1fr)_8rem_8rem]"
+                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0"
               >
-                <div class="min-w-0">
-                  <h3 class="truncate font-medium text-n-slate-12">
-                    {{ lead.name }}
-                  </h3>
-                  <p class="truncate text-n-slate-10">
-                    {{ formatLeadAddress(lead) }}
-                  </p>
-                  <p class="truncate text-n-slate-10">
-                    {{ lead.phone || '-' }}
-                  </p>
-                </div>
-                <div class="flex flex-col items-start gap-1">
-                  <a
-                    v-if="lead.contact_id"
-                    :href="contactUrl(lead.contact_id)"
-                    class="text-xs font-medium text-n-brand underline"
-                  >
-                    {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
-                  </a>
-                  <button
-                    v-else
-                    type="button"
-                    class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="convertingLeadId === lead.id"
-                    @click="createContact(lead)"
-                  >
-                    {{
-                      convertingLeadId === lead.id
-                        ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
-                        : t('PROSPECTING.SEARCH.CREATE_CONTACT')
-                    }}
-                  </button>
-                  <span v-if="lead.contact_id" class="text-xs text-n-slate-10">
-                    {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
-                  </span>
-                </div>
-                <button
-                  type="button"
-                  class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
-                  :disabled="busyLeadId === lead.id"
-                  @click="removeLead(lead)"
+                <div
+                  class="min-w-0 rounded-md border border-n-weak bg-n-solid-2 p-3"
                 >
-                  {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
-                </button>
+                  <div
+                    class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between"
+                  >
+                    <div class="min-w-0">
+                      <h3 class="break-words font-semibold text-n-slate-12">
+                        {{ lead.name }}
+                      </h3>
+                      <p class="mt-1 break-words text-n-slate-10">
+                        {{ formatLeadAddress(lead) || '-' }}
+                      </p>
+                      <p class="mt-1 text-n-slate-10">
+                        {{ lead.phone || '-' }}
+                      </p>
+                    </div>
+                    <div class="flex shrink-0 flex-wrap gap-2">
+                      <span
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                      >
+                        {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
+                      </span>
+                      <span
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                      >
+                        {{ lead.source_label || lead.provider }}
+                      </span>
+                    </div>
+                  </div>
+                  <p class="mt-2 break-all text-xs text-n-slate-10">
+                    {{ lead.provider_place_id || '-' }}
+                  </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                  <div class="flex flex-col items-start gap-1">
+                    <a
+                      v-if="lead.contact_id"
+                      :href="contactUrl(lead.contact_id)"
+                      class="text-xs font-medium text-n-brand underline"
+                    >
+                      {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
+                    </a>
+                    <button
+                      v-else
+                      type="button"
+                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="convertingLeadId === lead.id"
+                      @click="createContact(lead)"
+                    >
+                      {{
+                        convertingLeadId === lead.id
+                          ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
+                          : t('PROSPECTING.SEARCH.CREATE_CONTACT')
+                      }}
+                    </button>
+                    <span
+                      v-if="lead.contact_id"
+                      class="text-xs text-n-slate-10"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+                    </span>
+                  </div>
+                  <div class="flex flex-col items-start gap-1">
+                    <a
+                      v-if="lead.crm_card_id"
+                      :href="crmCardUrl(lead.crm_card_id)"
+                      class="text-xs font-medium text-n-brand underline"
+                    >
+                      {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
+                    </a>
+                    <button
+                      v-else
+                      type="button"
+                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="
+                        convertingCrmLeadId === lead.id || !canCreateCrmCard
+                      "
+                      @click="createCrmCard(lead)"
+                    >
+                      {{
+                        convertingCrmLeadId === lead.id
+                          ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
+                          : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
+                      }}
+                    </button>
+                    <span
+                      v-if="lead.crm_card_id"
+                      class="text-xs text-n-slate-10"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="busyLeadId === lead.id"
+                    @click="removeLead(lead)"
+                  >
+                    {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
+                  </button>
+                  <div class="flex flex-col gap-1">
+                    <select
+                      :value="lead.status"
+                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                      @change="updateLeadQuality(lead, $event.target.value)"
+                    >
+                      <option
+                        v-for="status in statusOptions"
+                        :key="status"
+                        :value="status"
+                      >
+                        {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                      </option>
+                    </select>
+                    <input
+                      v-if="lead.status === 'discarded'"
+                      v-model="lead.discard_reason"
+                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                      :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
+                      @blur="updateDiscardReason(lead)"
+                    />
+                  </div>
+                </div>
               </article>
             </div>
           </div>
@@ -412,6 +866,10 @@ onMounted(loadPage);
                   </h3>
                   <p class="truncate text-n-slate-10">
                     {{ formatLeadAddress(lead) }}
+                  </p>
+                  <p class="truncate text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.QUALITY.SOURCE') }}:
+                    {{ lead.source_label || lead.provider }}
                   </p>
                 </div>
                 <button

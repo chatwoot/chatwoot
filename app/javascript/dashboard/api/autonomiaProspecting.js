@@ -14,8 +14,28 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.get(`${this.url}/searches/${searchId}`);
   }
 
+  getLocationSuggestions(query) {
+    return axios.get(`${this.url}/searches/location_suggestions`, {
+      params: { query },
+    });
+  }
+
+  getLocationDetails(placeId) {
+    return axios.get(`${this.url}/searches/location_details`, {
+      params: { place_id: placeId },
+    });
+  }
+
   createSearch(search) {
     return axios.post(`${this.url}/searches`, { search });
+  }
+
+  updateSearch(searchId, search) {
+    return axios.patch(`${this.url}/searches/${searchId}`, { search });
+  }
+
+  deleteSearch(searchId) {
+    return axios.delete(`${this.url}/searches/${searchId}`);
   }
 
   getLeads(params = {}) {
@@ -24,6 +44,16 @@ class AutonomiaProspectingAPI extends ApiClient {
 
   createLeadContact(leadId) {
     return axios.post(`${this.url}/leads/${leadId}/contact`);
+  }
+
+  createLeadCrmCard(leadId, crmCard) {
+    return axios.post(`${this.url}/leads/${leadId}/crm_card`, {
+      crm_card: crmCard,
+    });
+  }
+
+  updateLead(leadId, lead) {
+    return axios.patch(`${this.url}/leads/${leadId}`, { lead });
   }
 
   getLists() {
@@ -44,6 +74,12 @@ class AutonomiaProspectingAPI extends ApiClient {
 
   removeLeadFromList(listId, leadId) {
     return axios.delete(`${this.url}/lists/${listId}/leads/${leadId}`);
+  }
+
+  createCampaignSegment(listId, campaignSegment = {}) {
+    return axios.post(`${this.url}/lists/${listId}/campaign_segment`, {
+      campaign_segment: campaignSegment,
+    });
   }
 
   getSettings() {

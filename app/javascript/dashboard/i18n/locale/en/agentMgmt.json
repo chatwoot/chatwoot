@@ -26,6 +26,7 @@
       "TITLE": "Add agent to your team",
       "DESC": "You can add people who will be able to handle support for your inboxes.",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "CLOSE_BUTTON_TEXT": "Close",
       "FORM": {
         "NAME": {
           "LABEL": "Agent Name",

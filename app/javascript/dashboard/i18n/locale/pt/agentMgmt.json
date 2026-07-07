@@ -26,6 +26,7 @@
       "TITLE": "Adicionar agente à sua equipa",
       "DESC": "Pode adicionar pessoas que serão capazes de lidar com o suporte das suas caixas de entrada.",
       "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CLOSE_BUTTON_TEXT": "Fechar",
       "FORM": {
         "NAME": {
           "LABEL": "Nome do agente",

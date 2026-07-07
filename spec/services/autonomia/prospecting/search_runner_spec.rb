@@ -18,6 +18,31 @@ RSpec.describe Autonomia::Prospecting::SearchRunner do
     expect(result.search.metadata['lead_ids']).to match_array(result.leads.map(&:id))
   end
 
+  it 'stores location metadata in the saved search' do
+    result = described_class.new(
+      account: account,
+      user: user,
+      params: {
+        query: 'restaurante',
+        location: 'Divinopolis, MG',
+        requested_limit: 1,
+        metadata: {
+          'location_place_id' => 'places/divinopolis',
+          'location_latitude' => -20.1446,
+          'location_longitude' => -44.8912,
+          'location_label' => 'Divinopolis, MG, Brasil'
+        }
+      }
+    ).perform
+
+    expect(result.search.metadata).to include(
+      'location_place_id' => 'places/divinopolis',
+      'location_latitude' => -20.1446,
+      'location_longitude' => -44.8912,
+      'location_label' => 'Divinopolis, MG, Brasil'
+    )
+  end
+
   it 'deduplicates leads inside the same account' do
     params = { query: 'restaurante', location: 'Sao Paulo, SP', requested_limit: 2 }
 
@@ -66,6 +91,47 @@ RSpec.describe Autonomia::Prospecting::SearchRunner do
         params: { query: 'hotel', location: 'Sao Paulo, SP', requested_limit: 1, provider: 'google_places' }
       ).perform
     end.to raise_error(Autonomia::Prospecting::SearchRunner::ProviderError, /API key/)
+  end
+
+  it 'rejects google places when daily usage limit is exhausted' do
+    Autonomia::Prospecting::Setting.for_account(account).update!(
+      provider: 'google_places',
+      provider_enabled: true,
+      google_places_api_key: 'secret-key',
+      daily_limit: 1
+    )
+    Autonomia::Prospecting::Search.create!(
+      account: account,
+      user: user,
+      query: 'padaria',
+      requested_limit: 1,
+      consumed_api_units: 1
+    )
+
+    expect do
+      described_class.new(
+        account: account,
+        user: user,
+        params: { query: 'hotel', location: 'Sao Paulo, SP', requested_limit: 1 }
+      ).perform
+    end.to raise_error(Autonomia::Prospecting::SearchRunner::ProviderError, /Daily limit/)
+  end
+
+  it 'stores the default CRM target in new searches' do
+    pipeline, stage = create_crm_pipeline(account: account, user: user)
+    Autonomia::Prospecting::Setting.for_account(account).update!(
+      default_crm_pipeline: pipeline,
+      default_crm_stage: stage
+    )
+
+    result = described_class.new(
+      account: account,
+      user: user,
+      params: { query: 'clinica', location: 'Curitiba, PR', requested_limit: 1 }
+    ).perform
+
+    expect(result.search.metadata['crm_pipeline_id']).to eq(pipeline.id)
+    expect(result.search.metadata['crm_stage_id']).to eq(stage.id)
   end
 
   it 'uses cache for repeated searches with the same fingerprint' do
