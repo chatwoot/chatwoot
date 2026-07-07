@@ -48,8 +48,6 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def create_inbox
-    Inbox.ensure_create_permitted!(account)
-
     twitter_profile = account.twitter_profiles.create!(
       twitter_access_token: parsed_body['oauth_token'],
       twitter_access_token_secret: parsed_body['oauth_token_secret'],

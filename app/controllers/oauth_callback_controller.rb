@@ -73,8 +73,6 @@ class OauthCallbackController < ApplicationController
   end
 
   def create_channel_with_inbox
-    Inbox.ensure_create_permitted!(account)
-
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
 
