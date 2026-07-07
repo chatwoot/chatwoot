@@ -114,5 +114,4 @@ module Api::V1::InboxesHelper
       'sms' => Current.account.sms_channels
     }[permitted_params[:channel][:type]]
   end
-
 end
