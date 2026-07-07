@@ -10,8 +10,8 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   # then process without the lock instead of dropping the webhook.
   retry_on_lock_conflict wait: ->(executions) { executions.seconds }, attempts: 3, on_exhaustion: :process_without_lock
 
-  # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  # @return [Array] We will support further events like seen in future
+  SUPPORTED_EVENTS = [:message, :read, :reaction].freeze
 
   def perform(entries)
     @entries = entries
@@ -126,7 +126,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def event_name(messaging)
-    @event_name ||= SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
+    SUPPORTED_EVENTS.find { |key| messaging.key?(key) }
   end
 
   def message(messaging, channel)
@@ -140,6 +140,10 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
+  end
+
+  def reaction(messaging, channel)
+    ::Instagram::ReactionService.new(params: messaging, channel: channel).perform
   end
 
   def messages(entry)
