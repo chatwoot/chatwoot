@@ -34,7 +34,7 @@ class AutoAssignment::AssignmentService
   end
 
   def unassigned_conversations(limit)
-    scope = inbox.conversations.unassigned.open
+    scope = inbox.conversations.unassigned.where(assignee_agent_bot_id: nil).open
 
     # Skip stale backlog with no activity beyond the policy's age threshold (defaults to 7 days)
     policy = inbox.assignment_policy
