@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
 
@@ -9,13 +10,10 @@ const { t } = useI18n();
 const isLoading = ref(true);
 const isSaving = ref(false);
 const error = ref('');
-const notice = ref('');
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
 const form = ref({
-  provider: 'mock',
-  provider_enabled: false,
   default_limit: 20,
   max_results_per_search: 20,
   daily_limit: '',
@@ -32,8 +30,6 @@ const form = ref({
 const syncForm = payload => {
   settings.value = payload;
   form.value = {
-    provider: payload.provider || 'mock',
-    provider_enabled: Boolean(payload.provider_enabled),
     default_limit: payload.default_limit || 20,
     max_results_per_search: payload.max_results_per_search || 20,
     daily_limit: payload.daily_limit || '',
@@ -87,13 +83,11 @@ const fetchSettings = async () => {
 
 const saveSettings = async () => {
   isSaving.value = true;
-  error.value = '';
-  notice.value = '';
 
   try {
     const { data } = await AutonomiaProspectingAPI.updateSettings({
-      provider: form.value.provider,
-      provider_enabled: form.value.provider_enabled,
+      provider: 'google_places',
+      provider_enabled: true,
       default_limit: Number(form.value.default_limit),
       max_results_per_search: Number(form.value.max_results_per_search),
       daily_limit: form.value.daily_limit
@@ -112,13 +106,22 @@ const saveSettings = async () => {
         form.value.clear_google_maps_browser_api_key,
     });
     syncForm(data.payload || {});
-    notice.value = t('PROSPECTING.SETTINGS.SAVED');
+    useAlert(t('PROSPECTING.SETTINGS.SAVED'));
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.SAVE_SETTINGS');
+    useAlert(e?.response?.data?.error || t('PROSPECTING.ERRORS.SAVE_SETTINGS'));
   } finally {
     isSaving.value = false;
   }
+};
+
+const clearGooglePlacesApiKey = () => {
+  form.value.google_places_api_key = '';
+  form.value.clear_google_places_api_key = true;
+};
+
+const clearGoogleMapsBrowserApiKey = () => {
+  form.value.google_maps_browser_api_key = '';
+  form.value.clear_google_maps_browser_api_key = true;
 };
 
 onMounted(fetchSettings);
@@ -150,37 +153,6 @@ onMounted(fetchSettings);
         class="grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 text-sm"
         @submit.prevent="saveSettings"
       >
-        <div
-          v-if="notice"
-          class="rounded-md bg-n-teal-3 px-3 py-2 text-n-teal-11"
-        >
-          {{ notice }}
-        </div>
-
-        <label class="grid gap-1">
-          <span class="text-xs font-medium text-n-slate-11">
-            {{ t('PROSPECTING.SETTINGS.FIELDS.PROVIDER') }}
-          </span>
-          <select
-            v-model="form.provider"
-            class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-          >
-            <option value="mock">
-              {{ t('PROSPECTING.SETTINGS.PROVIDERS.MOCK') }}
-            </option>
-            <option value="google_places">
-              {{ t('PROSPECTING.SETTINGS.PROVIDERS.GOOGLE_PLACES') }}
-            </option>
-          </select>
-        </label>
-
-        <label class="flex items-center gap-2 text-n-slate-12">
-          <input v-model="form.provider_enabled" type="checkbox" />
-          <span>
-            {{ t('PROSPECTING.SETTINGS.FIELDS.PROVIDER_ENABLED') }}
-          </span>
-        </label>
-
         <div class="grid gap-3 md:grid-cols-2">
           <label class="grid gap-1">
             <span class="text-xs font-medium text-n-slate-11">
@@ -233,35 +205,33 @@ onMounted(fetchSettings);
               <span class="text-xs font-medium text-n-slate-11">
                 {{ t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_PLACES_API_KEY') }}
               </span>
-              <input
-                v-model="form.google_places_api_key"
-                type="password"
-                autocomplete="off"
-                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                :placeholder="
-                  settings.has_google_places_api_key
-                    ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
-                    : t('PROSPECTING.SETTINGS.API_KEY_EMPTY')
-                "
-              />
+              <span class="flex gap-2">
+                <input
+                  v-model="form.google_places_api_key"
+                  type="password"
+                  autocomplete="off"
+                  class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                  :placeholder="
+                    settings.has_google_places_api_key
+                      ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
+                      : t('PROSPECTING.SETTINGS.API_KEY_EMPTY')
+                  "
+                />
+                <button
+                  v-if="settings.has_google_places_api_key"
+                  type="button"
+                  class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
+                  :title="t('PROSPECTING.SETTINGS.FIELDS.CLEAR_PLACES_API_KEY')"
+                  @click="clearGooglePlacesApiKey"
+                >
+                  <span class="i-lucide-eraser size-4" />
+                </button>
+              </span>
             </label>
 
             <p class="text-xs text-n-slate-10">
               {{ t('PROSPECTING.SETTINGS.GOOGLE_PLACES_API_KEY_HINT') }}
             </p>
-
-            <label
-              v-if="settings.has_google_places_api_key"
-              class="flex items-center gap-2 text-n-slate-12"
-            >
-              <input
-                v-model="form.clear_google_places_api_key"
-                type="checkbox"
-              />
-              <span>
-                {{ t('PROSPECTING.SETTINGS.FIELDS.CLEAR_PLACES_API_KEY') }}
-              </span>
-            </label>
           </div>
 
           <div class="grid gap-2 rounded-md border border-n-weak p-3">
@@ -271,37 +241,35 @@ onMounted(fetchSettings);
                   t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_MAPS_BROWSER_API_KEY')
                 }}
               </span>
-              <input
-                v-model="form.google_maps_browser_api_key"
-                type="password"
-                autocomplete="off"
-                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                :placeholder="
-                  settings.has_google_maps_browser_api_key
-                    ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
-                    : t('PROSPECTING.SETTINGS.MAPS_API_KEY_EMPTY')
-                "
-              />
+              <span class="flex gap-2">
+                <input
+                  v-model="form.google_maps_browser_api_key"
+                  type="password"
+                  autocomplete="off"
+                  class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                  :placeholder="
+                    settings.has_google_maps_browser_api_key
+                      ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
+                      : t('PROSPECTING.SETTINGS.MAPS_API_KEY_EMPTY')
+                  "
+                />
+                <button
+                  v-if="settings.has_google_maps_browser_api_key"
+                  type="button"
+                  class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
+                  :title="
+                    t('PROSPECTING.SETTINGS.FIELDS.CLEAR_MAPS_BROWSER_API_KEY')
+                  "
+                  @click="clearGoogleMapsBrowserApiKey"
+                >
+                  <span class="i-lucide-eraser size-4" />
+                </button>
+              </span>
             </label>
 
             <p class="text-xs text-n-slate-10">
               {{ t('PROSPECTING.SETTINGS.GOOGLE_MAPS_BROWSER_API_KEY_HINT') }}
             </p>
-
-            <label
-              v-if="settings.has_google_maps_browser_api_key"
-              class="flex items-center gap-2 text-n-slate-12"
-            >
-              <input
-                v-model="form.clear_google_maps_browser_api_key"
-                type="checkbox"
-              />
-              <span>
-                {{
-                  t('PROSPECTING.SETTINGS.FIELDS.CLEAR_MAPS_BROWSER_API_KEY')
-                }}
-              </span>
-            </label>
           </div>
         </div>
 

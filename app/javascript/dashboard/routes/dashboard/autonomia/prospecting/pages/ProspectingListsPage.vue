@@ -25,15 +25,12 @@ const campaigns = ref([]);
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
-const statusFilter = ref('');
 const addLeadStatusFilter = ref('');
 const addLeadQuery = ref('');
 const selectedAddLeadIds = ref([]);
 const showCreateListModal = ref(false);
 const showAddLeadsModal = ref(false);
 const showCampaignModal = ref(false);
-const showStatusFilterMenu = ref(false);
-const showCrmConfigMenu = ref(false);
 const campaignSegmentForm = ref({
   campaign_id: '',
   segment_name: '',
@@ -67,12 +64,7 @@ const formatLeadAddress = lead =>
 const selectedLeadIds = computed(
   () => new Set((selectedList.value?.lead_ids || []).map(Number))
 );
-const listLeads = computed(() => {
-  const leads = selectedList.value?.leads || [];
-  if (!statusFilter.value) return leads;
-
-  return leads.filter(lead => lead.status === statusFilter.value);
-});
+const listLeads = computed(() => selectedList.value?.leads || []);
 const availableLeads = computed(() =>
   allLeads.value.filter(lead => {
     if (selectedLeadIds.value.has(Number(lead.id))) return false;
@@ -128,12 +120,6 @@ const selectedListContactCount = computed(
 const selectedListCrmCount = computed(
   () =>
     (selectedList.value?.leads || []).filter(lead => lead.crm_card_id).length
-);
-const selectedPipelineName = computed(
-  () =>
-    crmPipelines.value.find(
-      pipeline => String(pipeline.id) === String(crmForm.value.pipeline_id)
-    )?.name || t('PROSPECTING.SEARCH.CRM_DISABLED_SHORT')
 );
 const selectedStageName = computed(
   () =>
@@ -668,126 +654,10 @@ onMounted(loadPage);
                   {{ selectedList.description }}
                 </p>
               </div>
-              <div
-                v-if="hasSelectedList"
-                class="flex flex-wrap items-center gap-2"
-              >
-                <div class="relative">
-                  <button
-                    type="button"
-                    class="inline-flex h-8 items-center gap-2 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2"
-                    @click="
-                      showStatusFilterMenu = !showStatusFilterMenu;
-                      showCrmConfigMenu = false;
-                    "
-                  >
-                    <span class="i-lucide-filter size-3.5" />
-                    {{ t('PROSPECTING.SEARCH.FILTER_BUTTON') }}
-                  </button>
-                  <div
-                    v-if="showStatusFilterMenu"
-                    class="absolute right-0 z-20 mt-2 w-56 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
-                  >
-                    <label class="grid gap-1">
-                      <span class="text-xs font-medium text-n-slate-11">
-                        {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
-                      </span>
-                      <select
-                        v-model="statusFilter"
-                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                      >
-                        <option value="">
-                          {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
-                        </option>
-                        <option
-                          v-for="status in statusOptions"
-                          :key="status"
-                          :value="status"
-                        >
-                          {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                        </option>
-                      </select>
-                    </label>
-                  </div>
-                </div>
-                <div class="relative">
-                  <button
-                    type="button"
-                    class="inline-flex h-8 items-center gap-2 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2"
-                    @click="
-                      showCrmConfigMenu = !showCrmConfigMenu;
-                      showStatusFilterMenu = false;
-                    "
-                  >
-                    <span class="i-lucide-settings size-3.5" />
-                    {{ t('PROSPECTING.SEARCH.CONFIGURE_SEARCH') }}
-                  </button>
-                  <div
-                    v-if="showCrmConfigMenu"
-                    class="absolute right-0 z-20 mt-2 grid w-72 gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
-                  >
-                    <label class="grid gap-1">
-                      <span class="text-xs font-medium text-n-slate-11">
-                        {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
-                      </span>
-                      <select
-                        v-model="crmForm.pipeline_id"
-                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                        @change="fetchCrmStages(crmForm.pipeline_id)"
-                      >
-                        <option value="">
-                          {{ t('PROSPECTING.SEARCH.CRM_DISABLED') }}
-                        </option>
-                        <option
-                          v-for="pipeline in crmPipelines"
-                          :key="pipeline.id"
-                          :value="pipeline.id"
-                        >
-                          {{ pipeline.name }}
-                        </option>
-                      </select>
-                    </label>
-                    <label class="grid gap-1">
-                      <span class="text-xs font-medium text-n-slate-11">
-                        {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-                      </span>
-                      <select
-                        v-model="crmForm.stage_id"
-                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                        :disabled="!crmStages.length"
-                      >
-                        <option
-                          v-for="stage in crmStages"
-                          :key="stage.id"
-                          :value="stage.id"
-                        >
-                          {{ stage.name }}
-                        </option>
-                      </select>
-                    </label>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  class="flex size-8 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
-                  :title="t('PROSPECTING.LISTS.ADD_LEADS_TITLE')"
-                  @click="openAddLeadsModal(selectedList)"
-                >
-                  <span class="i-lucide-user-plus size-4" />
-                </button>
-                <button
-                  type="button"
-                  class="flex size-8 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
-                  :title="t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE')"
-                  @click="openCampaignModal(selectedList)"
-                >
-                  <span class="i-lucide-megaphone size-4" />
-                </button>
-              </div>
             </div>
             <div
               v-if="hasSelectedList"
-              class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-6"
+              class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4"
             >
               <div
                 class="rounded-md border border-n-weak bg-n-solid-2 px-3 py-2"
@@ -827,26 +697,6 @@ onMounted(loadPage);
                 </div>
                 <div class="text-sm font-semibold text-n-slate-12">
                   {{ selectedListCrmCount }}
-                </div>
-              </div>
-              <div
-                class="rounded-md border border-n-weak bg-n-solid-2 px-3 py-2"
-              >
-                <div class="text-xs text-n-slate-10">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
-                </div>
-                <div class="truncate text-sm font-semibold text-n-slate-12">
-                  {{ selectedPipelineName }}
-                </div>
-              </div>
-              <div
-                class="rounded-md border border-n-weak bg-n-solid-2 px-3 py-2"
-              >
-                <div class="text-xs text-n-slate-10">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-                </div>
-                <div class="truncate text-sm font-semibold text-n-slate-12">
-                  {{ selectedStageName }}
                 </div>
               </div>
             </div>
@@ -993,11 +843,12 @@ onMounted(loadPage);
                   </button>
                   <button
                     type="button"
-                    class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    class="flex size-8 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    :title="t('PROSPECTING.LISTS.REMOVE_LEAD')"
                     :disabled="busyLeadId === lead.id"
                     @click="removeLead(lead)"
                   >
-                    {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
+                    <span class="i-lucide-trash-2 size-4" />
                   </button>
                 </div>
               </article>

@@ -121,6 +121,9 @@ const sortedLeads = computed(() => {
 const selectedSearch = computed(() =>
   searches.value.find(search => search.id === selectedSearchId.value)
 );
+const selectedSearchConfig = computed(() =>
+  searches.value.find(search => search.id === editingSearchConfigId.value)
+);
 const selectedLeadDetail = computed(() =>
   leads.value.find(lead => lead.id === selectedLeadDetailId.value)
 );
@@ -414,25 +417,6 @@ const openSearch = async search => {
   }
 };
 
-const repeatSearch = async search => {
-  form.value = {
-    query: search.query || '',
-    location: search.location || '',
-    radius_km: Math.max(Number(search.radius || 5000) / 1000, 0.1),
-    requested_limit:
-      search.requested_limit || settings.value?.default_limit || 20,
-  };
-  locationDetails.value = {
-    place_id: search.location_place_id,
-    latitude: search.location_latitude,
-    longitude: search.location_longitude,
-    label: search.location_label || search.location,
-  };
-  confirmedLocation.value = search.location_label || search.location || '';
-  await applyCrmTarget(search);
-  showNewSearch.value = true;
-};
-
 const toggleNewSearch = () => {
   selectedLeadDetailId.value = null;
   showNewSearch.value = !showNewSearch.value;
@@ -654,8 +638,7 @@ const fetchSearchConfigStages = async (pipelineId, options = {}) => {
 };
 
 const openSearchConfig = async search => {
-  editingSearchConfigId.value =
-    editingSearchConfigId.value === search.id ? null : search.id;
+  editingSearchConfigId.value = search.id;
   searchConfigForm.value = {
     crm_pipeline_id:
       search.crm_pipeline_id || settings.value?.default_crm_pipeline_id || '',
@@ -668,6 +651,8 @@ const openSearchConfig = async search => {
 };
 
 const saveSearchConfig = async search => {
+  if (!search?.id) return;
+
   try {
     const { data } = await AutonomiaProspectingAPI.updateSearch(search.id, {
       crm_pipeline_id: searchConfigForm.value.crm_pipeline_id,
@@ -777,8 +762,8 @@ onMounted(async () => {
 
         <section class="grid gap-5 p-5 xl:grid-cols-[minmax(0,1fr)_20rem]">
           <div class="grid content-start gap-5">
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-              <label class="grid gap-1 md:col-span-2">
+            <div class="grid gap-4">
+              <label class="grid gap-1">
                 <span class="text-xs font-medium text-n-slate-11">
                   {{ t('PROSPECTING.SEARCH.FIELDS.QUERY') }}
                 </span>
@@ -788,75 +773,80 @@ onMounted(async () => {
                   :placeholder="t('PROSPECTING.SEARCH.QUERY_PLACEHOLDER')"
                 />
               </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}
-                </span>
-                <input
-                  v-model="form.radius_km"
-                  type="number"
-                  min="0.1"
-                  step="0.5"
-                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                />
-              </label>
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.LIMIT') }}
-                </span>
-                <input
-                  v-model="form.requested_limit"
-                  type="number"
-                  min="1"
-                  max="50"
-                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                />
-              </label>
-            </div>
 
-            <div class="grid gap-2">
-              <label class="grid gap-1">
-                <span class="text-xs font-medium text-n-slate-11">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}
-                </span>
-                <input
-                  v-model="form.location"
-                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                  :placeholder="t('PROSPECTING.SEARCH.LOCATION_PLACEHOLDER')"
-                  autocomplete="off"
-                  @input="handleLocationInput"
-                />
-              </label>
-              <div class="flex items-center justify-between gap-3">
-                <span class="text-xs text-n-slate-10">
-                  {{ autocompleteHint }}
-                </span>
-                <span
-                  v-if="confirmedLocation"
-                  class="inline-flex items-center gap-1 text-xs font-medium text-n-teal-11"
-                >
-                  <span class="i-lucide-check size-3.5" />
-                  {{ selectedLocationLabel }}
-                </span>
-              </div>
-              <div
-                v-if="combinedLocationSuggestions.length && !confirmedLocation"
-                class="overflow-hidden rounded-md border border-n-weak bg-n-solid-1"
-              >
-                <button
-                  v-for="suggestion in combinedLocationSuggestions"
-                  :key="suggestion.place_id || suggestion.text"
-                  type="button"
-                  class="flex w-full items-center justify-between gap-3 border-b border-n-weak px-3 py-2 text-left text-sm last:border-b-0 hover:bg-n-solid-2"
-                  @click="confirmLocationSuggestion(suggestion)"
-                >
-                  <span class="min-w-0 truncate text-n-slate-12">
-                    {{ suggestion.text }}
+              <div class="grid gap-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}
+                  </span>
+                  <input
+                    v-model="form.location"
+                    class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                    :placeholder="t('PROSPECTING.SEARCH.LOCATION_PLACEHOLDER')"
+                    autocomplete="off"
+                    @input="handleLocationInput"
+                  />
+                </label>
+                <div class="flex items-center justify-between gap-3">
+                  <span class="text-xs text-n-slate-10">
+                    {{ autocompleteHint }}
                   </span>
                   <span
-                    class="i-lucide-map-pin size-4 shrink-0 text-n-slate-10"
+                    v-if="confirmedLocation"
+                    class="inline-flex items-center gap-1 text-xs font-medium text-n-teal-11"
+                  >
+                    <span class="i-lucide-check size-3.5" />
+                    {{ selectedLocationLabel }}
+                  </span>
+                </div>
+                <div
+                  v-if="
+                    combinedLocationSuggestions.length && !confirmedLocation
+                  "
+                  class="overflow-hidden rounded-md border border-n-weak bg-n-solid-1"
+                >
+                  <button
+                    v-for="suggestion in combinedLocationSuggestions"
+                    :key="suggestion.place_id || suggestion.text"
+                    type="button"
+                    class="flex w-full items-center justify-between gap-3 border-b border-n-weak px-3 py-2 text-left text-sm last:border-b-0 hover:bg-n-solid-2"
+                    @click="confirmLocationSuggestion(suggestion)"
+                  >
+                    <span class="min-w-0 truncate text-n-slate-12">
+                      {{ suggestion.text }}
+                    </span>
+                    <span
+                      class="i-lucide-map-pin size-4 shrink-0 text-n-slate-10"
+                    />
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid gap-4 md:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}
+                  </span>
+                  <input
+                    v-model="form.radius_km"
+                    type="number"
+                    min="0.1"
+                    step="0.5"
+                    class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
                   />
-                </button>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.LIMIT') }}
+                  </span>
+                  <input
+                    v-model="form.requested_limit"
+                    type="number"
+                    min="1"
+                    max="50"
+                    class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                  />
+                </label>
               </div>
             </div>
 
@@ -997,14 +987,6 @@ onMounted(async () => {
               >
                 <button
                   type="button"
-                  class="inline-flex h-8 flex-1 items-center justify-center gap-1 rounded-md border border-n-weak px-2 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2"
-                  @click="repeatSearch(search)"
-                >
-                  <span class="i-lucide-rotate-cw size-3.5" />
-                  {{ t('PROSPECTING.SEARCH.REPEAT_SEARCH') }}
-                </button>
-                <button
-                  type="button"
                   class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-2"
                   :title="t('PROSPECTING.SEARCH.CONFIGURE_SEARCH')"
                   @click.stop="openSearchConfig(search)"
@@ -1019,51 +1001,6 @@ onMounted(async () => {
                   @click.stop="deleteSearch(search)"
                 >
                   <span class="i-lucide-trash-2 size-4" />
-                </button>
-              </div>
-              <div
-                v-if="editingSearchConfigId === search.id"
-                class="relative z-30 grid gap-2 border-t border-n-weak bg-n-solid-1 px-3 pb-3 pt-2"
-              >
-                <select
-                  v-model="searchConfigForm.crm_pipeline_id"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                  @change="
-                    fetchSearchConfigStages(searchConfigForm.crm_pipeline_id)
-                  "
-                >
-                  <option value="">
-                    {{ t('PROSPECTING.SEARCH.CRM_DISABLED_SHORT') }}
-                  </option>
-                  <option
-                    v-for="pipeline in crmPipelines"
-                    :key="pipeline.id"
-                    :value="pipeline.id"
-                  >
-                    {{ pipeline.name }}
-                  </option>
-                </select>
-                <select
-                  v-model="searchConfigForm.crm_stage_id"
-                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                >
-                  <option value="">
-                    {{ t('PROSPECTING.SEARCH.CRM_STAGE_EMPTY') }}
-                  </option>
-                  <option
-                    v-for="stage in searchConfigStages"
-                    :key="stage.id"
-                    :value="stage.id"
-                  >
-                    {{ stage.name }}
-                  </option>
-                </select>
-                <button
-                  type="button"
-                  class="h-9 rounded-md bg-n-brand px-3 text-sm font-medium text-white"
-                  @click="saveSearchConfig(search)"
-                >
-                  {{ t('PROSPECTING.SEARCH.SAVE_CONFIG') }}
                 </button>
               </div>
             </article>
@@ -1484,6 +1421,92 @@ onMounted(async () => {
         </section>
       </div>
     </section>
+
+    <div
+      v-if="selectedSearchConfig && !showNewSearch"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-n-slate-12/30 px-4"
+      @click.self="editingSearchConfigId = null"
+    >
+      <section
+        class="grid w-full max-w-md gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-5 shadow-xl"
+      >
+        <header class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h2 class="text-base font-semibold text-n-slate-12">
+              {{ t('PROSPECTING.SEARCH.CONFIGURE_SEARCH') }}
+            </h2>
+            <p class="mt-1 truncate text-sm text-n-slate-10">
+              {{ selectedSearchConfig.query }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="flex size-8 shrink-0 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-2"
+            :title="t('PROSPECTING.SEARCH.CLOSE_DETAILS')"
+            @click="editingSearchConfigId = null"
+          >
+            <span class="i-lucide-x size-4" />
+          </button>
+        </header>
+        <label class="grid gap-1">
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
+          </span>
+          <select
+            v-model="searchConfigForm.crm_pipeline_id"
+            class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+            @change="fetchSearchConfigStages(searchConfigForm.crm_pipeline_id)"
+          >
+            <option value="">
+              {{ t('PROSPECTING.SEARCH.CRM_DISABLED_SHORT') }}
+            </option>
+            <option
+              v-for="pipeline in crmPipelines"
+              :key="pipeline.id"
+              :value="pipeline.id"
+            >
+              {{ pipeline.name }}
+            </option>
+          </select>
+        </label>
+        <label class="grid gap-1">
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+          </span>
+          <select
+            v-model="searchConfigForm.crm_stage_id"
+            class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+          >
+            <option value="">
+              {{ t('PROSPECTING.SEARCH.CRM_STAGE_EMPTY') }}
+            </option>
+            <option
+              v-for="stage in searchConfigStages"
+              :key="stage.id"
+              :value="stage.id"
+            >
+              {{ stage.name }}
+            </option>
+          </select>
+        </label>
+        <footer class="flex justify-end gap-2">
+          <button
+            type="button"
+            class="h-9 rounded-md px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2"
+            @click="editingSearchConfigId = null"
+          >
+            {{ t('PROSPECTING.LISTS.CANCEL') }}
+          </button>
+          <button
+            type="button"
+            class="h-9 rounded-md bg-n-brand px-3 text-sm font-medium text-white"
+            @click="saveSearchConfig(selectedSearchConfig)"
+          >
+            {{ t('PROSPECTING.SEARCH.SAVE_CONFIG') }}
+          </button>
+        </footer>
+      </section>
+    </div>
 
     <div
       v-if="selectedLeadDetail && !showNewSearch"
