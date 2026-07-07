@@ -51,6 +51,7 @@
       "TEAM_NAME": "Nome do Time",
       "CONVERSATION_IDENTIFIER": "Identificador da conversa",
       "CAMPAIGN_NAME": "Nome da campanha",
+      "CAMPAIGN_SOURCE": "Campanha (anúncio)",
       "LABELS": "Etiquetas",
       "BROWSER_LANGUAGE": "Idioma do navegador",
       "PRIORITY": "Prioridade",

@@ -8,6 +8,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { defaultFilters } from 'dashboard/store/modules/crmKanban';
 import { useCrmPermissions } from '../composables/useCrmPermissions';
 import crmMeetingsAPI from 'dashboard/api/crmMeetings';
+import CtwaCampaignsAPI from 'dashboard/api/ctwaCampaigns';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import Draggable from 'vuedraggable';
 
@@ -58,6 +59,7 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const inboxes = useMapGetter('inboxes/getInboxes');
 const agents = useMapGetter('agents/getAgents');
 const teams = useMapGetter('teams/getTeams');
+const accountLabels = useMapGetter('labels/getLabels');
 const { canManageCards, canMoveCards, canManagePipelines, canManageAi } =
   useCrmPermissions();
 
@@ -167,6 +169,34 @@ const linkedOptions = computed(() => [
   { value: 'false', label: t('CRM_KANBAN.LINKED_FILTER.LINKED') },
   { value: 'true', label: t('CRM_KANBAN.LINKED_FILTER.STANDALONE') },
 ]);
+const labelOptions = computed(() =>
+  accountLabels.value.map(label => ({
+    value: label.id,
+    label: label.title,
+    color: label.color,
+  }))
+);
+// Opções de campanha CTWA (headline + nº de conversas por anúncio), carregadas
+// do endpoint único /ctwa_campaigns. `value` fica String — source_id de anúncio
+// Meta estoura Number.MAX_SAFE_INTEGER, então nada de coerção numérica.
+const campaignOptions = ref([]);
+const campaignFilterOptions = computed(() =>
+  campaignOptions.value.map(option => ({
+    value: String(option.source_id),
+    label: option.headline || String(option.source_id),
+    count: option.count,
+  }))
+);
+
+const loadCampaignOptions = async () => {
+  try {
+    const response = await CtwaCampaignsAPI.get();
+    campaignOptions.value = response.data.payload || [];
+  } catch {
+    // Sem opções o grupo mostra só o placeholder; não bloqueia o board.
+    campaignOptions.value = [];
+  }
+};
 
 const filtersPopover = ref(null);
 
@@ -180,6 +210,34 @@ const toggleStageFilter = stageId => {
 
 const isStageSelected = stageId =>
   (filters.value.stageIds || []).some(id => Number(id) === Number(stageId));
+
+// Toggle a label id in the multi-select label filter (same Number-compare
+// contract as stages: label ids are plain integers).
+const toggleLabelFilter = labelId => {
+  const current = filters.value.labelIds || [];
+  filters.value.labelIds = current.some(id => Number(id) === Number(labelId))
+    ? current.filter(id => Number(id) !== Number(labelId))
+    : [...current, labelId];
+};
+
+const isLabelSelected = labelId =>
+  (filters.value.labelIds || []).some(id => Number(id) === Number(labelId));
+
+// Toggle de campanha por source_id — comparação SEMPRE por String (ids Meta
+// não cabem em Number com segurança).
+const toggleCampaignFilter = sourceId => {
+  const current = filters.value.campaignSourceIds || [];
+  filters.value.campaignSourceIds = current.some(
+    id => String(id) === String(sourceId)
+  )
+    ? current.filter(id => String(id) !== String(sourceId))
+    : [...current, String(sourceId)];
+};
+
+const isCampaignSelected = sourceId =>
+  (filters.value.campaignSourceIds || []).some(
+    id => String(id) === String(sourceId)
+  );
 
 const labelForOption = (options, value) =>
   options.value.find(option => String(option.value) === String(value))?.label ||
@@ -241,6 +299,26 @@ const activeFilterChips = computed(() => {
     chips.push({
       key: 'stageIds',
       label: `${t('CRM_KANBAN.FILTERS.STAGE')}: ${names}`,
+    });
+  }
+  if (f.labelIds?.length) {
+    const names = f.labelIds
+      .map(id => labelForOption(labelOptions, id))
+      .join(', ');
+    chips.push({
+      key: 'labelIds',
+      label: `${t('CRM_KANBAN.FILTERS.LABELS')}: ${names}`,
+    });
+  }
+  if (f.campaignSourceIds?.length) {
+    // labelForOption cai para o próprio source_id quando a option não carrega
+    // headline (mesmo fallback do multi-select).
+    const names = f.campaignSourceIds
+      .map(id => labelForOption(campaignFilterOptions, id))
+      .join(', ');
+    chips.push({
+      key: 'campaignSourceIds',
+      label: `${t('CRM_KANBAN.FILTERS.CAMPAIGN')}: ${names}`,
     });
   }
   if (f.teamId) {
@@ -419,6 +497,10 @@ const refreshData = async () => {
       store.dispatch('inboxes/get'),
       store.dispatch('agents/get'),
       store.dispatch('teams/get'),
+      // Labels hidratam as opções do filtro de etiquetas e as cores dos cards
+      // (deep-link direto no CRM não passa pela sidebar, que normalmente carrega).
+      store.dispatch('labels/get'),
+      loadCampaignOptions(),
     ]);
     const fetchedPipelines = await store.dispatch('crmKanban/fetchPipelines');
     if (fetchedPipelines.length > 0) {
@@ -1702,6 +1784,70 @@ onMounted(async () => {
                     class="text-xs text-n-slate-10"
                   >
                     {{ t('CRM_KANBAN.FILTERS.STAGE_PLACEHOLDER') }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('CRM_KANBAN.FILTERS.LABELS') }}
+                </span>
+                <div
+                  class="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto rounded-lg bg-n-alpha-black2 p-2 outline outline-1 outline-n-weak"
+                >
+                  <button
+                    v-for="label in labelOptions"
+                    :key="label.value"
+                    type="button"
+                    class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors"
+                    :class="
+                      isLabelSelected(label.value)
+                        ? 'bg-n-brand text-white'
+                        : 'bg-n-alpha-2 text-n-slate-11 hover:text-n-slate-12'
+                    "
+                    @click="toggleLabelFilter(label.value)"
+                  >
+                    <span
+                      class="size-1.5 shrink-0 rounded-full"
+                      :style="{ backgroundColor: label.color }"
+                    />
+                    {{ label.label }}
+                  </button>
+                  <span
+                    v-if="!labelOptions.length"
+                    class="text-xs text-n-slate-10"
+                  >
+                    {{ t('CRM_KANBAN.FILTERS.LABELS_PLACEHOLDER') }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('CRM_KANBAN.FILTERS.CAMPAIGN') }}
+                </span>
+                <div
+                  class="flex max-h-28 flex-wrap gap-1.5 overflow-y-auto rounded-lg bg-n-alpha-black2 p-2 outline outline-1 outline-n-weak"
+                >
+                  <button
+                    v-for="campaign in campaignFilterOptions"
+                    :key="campaign.value"
+                    type="button"
+                    class="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors"
+                    :class="
+                      isCampaignSelected(campaign.value)
+                        ? 'bg-n-brand text-white'
+                        : 'bg-n-alpha-2 text-n-slate-11 hover:text-n-slate-12'
+                    "
+                    @click="toggleCampaignFilter(campaign.value)"
+                  >
+                    {{ campaign.label }} ({{ campaign.count }})
+                  </button>
+                  <span
+                    v-if="!campaignFilterOptions.length"
+                    class="text-xs text-n-slate-10"
+                  >
+                    {{ t('CRM_KANBAN.FILTERS.CAMPAIGN_PLACEHOLDER') }}
                   </span>
                 </div>
               </div>

@@ -548,7 +548,7 @@ describe Twilio::IncomingMessageService do
           )
         end
 
-        it 'promotes the referral to a conversation campaign attribute and applies the meta_ctwa label' do
+        it 'promotes the referral to conversation campaign attributes without creating any label' do
           params = {
             SmsSid: 'SMxx',
             From: 'whatsapp:+491741763110',
@@ -573,10 +573,16 @@ describe Twilio::IncomingMessageService do
             'source_url' => 'https://fb.me/4tBfhWhjr',
             'source_type' => 'ad',
             'headline' => 'German citizenship lawyer',
-            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG'
+            'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG',
+            'touched_at' => be_present
           )
-          expect(conversation.label_list).to include('meta_ctwa')
-          expect(account.labels.find_by(title: 'meta_ctwa').color).to eq('#25D366')
+          touches = conversation.additional_attributes['campaign_touches']
+          expect(touches.length).to eq(1)
+          expect(touches.first).to include('source_id' => '120237244350960485', 'ctwa_clid' => 'AfjyUDlaIoiweZDnlzmDTEaG')
+          expect(touches.first).not_to have_key('body')
+          expect(conversation.additional_attributes['campaign_source_ids']).to eq(['120237244350960485'])
+          expect(conversation.label_list).to be_empty
+          expect(account.labels.find_by(title: 'meta_ctwa')).to be_nil
         end
 
         it 'does not add referral attributes when ReferralSourceId is absent' do

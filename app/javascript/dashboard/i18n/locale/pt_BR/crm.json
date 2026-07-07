@@ -259,7 +259,11 @@
       "ALL": "Todos",
       "ALL_FEMININE": "Todas",
       "ACTIVE_COUNT": "{count} ativo(s)",
-      "PANEL_TITLE": "Filtros"
+      "PANEL_TITLE": "Filtros",
+      "LABELS": "Etiquetas",
+      "LABELS_PLACEHOLDER": "Nenhuma etiqueta",
+      "CAMPAIGN": "Campanha",
+      "CAMPAIGN_PLACEHOLDER": "Nenhuma campanha"
     },
     "RESPONSIBLE_FILTER": {
       "AGENT": "Qualquer agente",
@@ -730,7 +734,8 @@
       "FOLLOW_UP_AI": "Follow-up automático (IA)",
       "FOLLOW_UP_MANUAL": "Lembrete manual",
       "HANDOFF_INVITE_PENDING": "Convite de handoff pendente: prazo de pega no horário exibido",
-      "HANDOFF_INVITE_OVERDUE": "Convite de handoff vencido: ninguém pegou no prazo"
+      "HANDOFF_INVITE_OVERDUE": "Convite de handoff vencido: ninguém pegou no prazo",
+      "CAMPAIGN_FALLBACK": "Anúncio Meta"
     },
     "DRAWER": {
       "CREATE_TITLE": "Novo card",

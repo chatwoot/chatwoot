@@ -45,6 +45,20 @@ class Crm::ConversationObserverListener < BaseListener
     Crm::SyncConversationCardJob.perform_later(conversation.id)
   end
 
+  # Labels live on the conversation, not the card, so a label change never triggers
+  # a card upsert: re-broadcast the linked cards instead so the board pill/filters
+  # stay consistent in realtime. changed_attributes carries previous_changes, whose
+  # keys are strings ('label_list' is in Conversation#list_of_keys).
+  def conversation_updated(event)
+    return unless Crm::Config.enabled?
+
+    conversation, = extract_conversation_and_account(event)
+    return if conversation&.id.blank?
+    return unless event.data[:changed_attributes]&.key?('label_list')
+
+    Crm::Cards::RebroadcastConversationCardsJob.perform_later(conversation.id)
+  end
+
   private
 
   # Telemetria de pega do convite R3 (só quando IA está ligada; o job é no-op

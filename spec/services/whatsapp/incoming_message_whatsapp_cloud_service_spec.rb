@@ -377,7 +377,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         )
       end
 
-      it 'promotes the referral to a conversation campaign attribute and applies the meta_ctwa label' do
+      it 'promotes the referral to conversation campaign attributes without creating any label' do
         described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
 
         conversation = whatsapp_channel.inbox.conversations.last
@@ -388,14 +388,19 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           'source_type' => 'ad',
           'headline' => 'Diana Digital',
           'media_type' => 'video',
-          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+          'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi',
+          'touched_at' => be_present
         )
-        expect(conversation.label_list).to include('meta_ctwa')
-        label = whatsapp_channel.account.labels.find_by(title: 'meta_ctwa')
-        expect(label.color).to eq('#25D366')
+        touches = conversation.additional_attributes['campaign_touches']
+        expect(touches.length).to eq(1)
+        expect(touches.first).to include('source_id' => '52558118838064', 'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi')
+        expect(touches.first).not_to have_key('body')
+        expect(conversation.additional_attributes['campaign_source_ids']).to eq(['52558118838064'])
+        expect(conversation.label_list).to be_empty
+        expect(whatsapp_channel.account.labels.find_by(title: 'meta_ctwa')).to be_nil
       end
 
-      it 'attributes the campaign only once across multiple messages in the conversation' do
+      it 'does not duplicate the touch when a later message carries the same click id' do
         described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
 
         second_message = referral_params.deep_dup
@@ -406,8 +411,25 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         conversation = whatsapp_channel.inbox.conversations.last
         expect(conversation.additional_attributes['campaign']['source_id']).to eq('52558118838064')
-        expect(conversation.label_list.count('meta_ctwa')).to eq(1)
-        expect(whatsapp_channel.account.labels.where(title: 'meta_ctwa').count).to eq(1)
+        expect(conversation.additional_attributes['campaign_touches'].length).to eq(1)
+        expect(conversation.additional_attributes['campaign_source_ids']).to eq(['52558118838064'])
+      end
+
+      it 'appends a new touch when a later message carries a different click id' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: referral_params).perform
+
+        second_message = referral_params.deep_dup
+        payload = second_message.dig(:entry, 0, :changes, 0, :value, :messages, 0)
+        payload[:id] = 'wamid.SECOND_CLICK'
+        payload[:referral][:ctwa_clid] = 'AfNEWCLICKID'
+        payload[:referral][:source_id] = '120252613195760416'
+        described_class.new(inbox: whatsapp_channel.inbox, params: second_message).perform
+
+        conversation = whatsapp_channel.inbox.conversations.last
+        expect(conversation.additional_attributes['campaign']['ctwa_clid']).to eq('AfhcQdP2E4A8wWpeb1FqUzUi')
+        expect(conversation.additional_attributes['campaign_touches'].map { |touch| touch['ctwa_clid'] })
+          .to eq(%w[AfhcQdP2E4A8wWpeb1FqUzUi AfNEWCLICKID])
+        expect(conversation.additional_attributes['campaign_source_ids']).to eq(%w[52558118838064 120252613195760416])
       end
     end
 
@@ -433,12 +455,14 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         }.with_indifferent_access
       end
 
-      it 'does not attribute a campaign or apply the meta_ctwa label' do
+      it 'does not attribute a campaign or create any label' do
         described_class.new(inbox: whatsapp_channel.inbox, params: plain_text_params).perform
 
         conversation = whatsapp_channel.inbox.conversations.last
         expect(conversation.additional_attributes).not_to have_key('campaign')
-        expect(conversation.label_list).not_to include('meta_ctwa')
+        expect(conversation.additional_attributes).not_to have_key('campaign_touches')
+        expect(conversation.label_list).to be_empty
+        expect(whatsapp_channel.account.labels).to be_empty
       end
     end
 

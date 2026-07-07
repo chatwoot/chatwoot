@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import ContactAPI from 'dashboard/api/contacts';
+import CtwaCampaignsAPI from 'dashboard/api/ctwaCampaigns';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConversationFilterContext } from '../provider';
 import {
@@ -12,6 +13,12 @@ import {
 vi.mock('dashboard/api/contacts', () => ({
   default: {
     search: vi.fn(),
+  },
+}));
+
+vi.mock('dashboard/api/ctwaCampaigns', () => ({
+  default: {
+    get: vi.fn(),
   },
 }));
 
@@ -151,6 +158,24 @@ describe('filterHelper', () => {
       const result = buildAttributesFilterTypes([], mockGetOperatorTypes);
       expect(result).toEqual([]);
     });
+
+    it('excludes custom attributes colliding with campaign_source_ids', () => {
+      const attributes = [
+        {
+          attributeKey: 'campaign_source_ids',
+          attributeDisplayName: 'Colliding Attribute',
+          attributeDisplayType: 'text',
+          attributeValues: [],
+        },
+      ];
+
+      const result = buildAttributesFilterTypes(
+        attributes,
+        mockGetOperatorTypes
+      );
+
+      expect(result).toEqual([]);
+    });
   });
 
   describe('replaceUnderscoreWithSpace', () => {
@@ -173,10 +198,16 @@ const storeValues = {
   'campaigns/getAllCampaigns': ref([]),
 };
 
+const flushPromises = () =>
+  new Promise(resolve => {
+    setTimeout(resolve);
+  });
+
 describe('useConversationFilterContext', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     useMapGetter.mockImplementation(key => storeValues[key] || ref([]));
+    CtwaCampaignsAPI.get.mockResolvedValue({ data: { payload: [] } });
   });
 
   it('exposes contact as an async searchable conversation filter', () => {
@@ -222,5 +253,63 @@ describe('useConversationFilterContext', () => {
       { id: 2, name: 'alex@example.com' },
       { id: 3, name: 'Contact #3' },
     ]);
+  });
+
+  it('exposes the CTWA campaign filter with containment and presence operators', () => {
+    const { filterTypes } = useConversationFilterContext();
+    const campaignFilter = filterTypes.value.find(
+      filter =>
+        filter.attributeKey === CONVERSATION_ATTRIBUTES.CAMPAIGN_SOURCE_IDS
+    );
+
+    expect(campaignFilter).toMatchObject({
+      attributeKey: 'campaign_source_ids',
+      label: 'FILTER.ATTRIBUTES.CAMPAIGN_SOURCE',
+      inputType: 'searchSelect',
+      dataType: 'text',
+      attributeModel: 'additional',
+    });
+    expect(
+      campaignFilter.filterOperators.map(operator => operator.value)
+    ).toEqual(['contains', 'does_not_contain', 'is_present', 'is_not_present']);
+  });
+
+  it('builds CTWA campaign options with quoted source_id tokens and headline names', async () => {
+    CtwaCampaignsAPI.get.mockResolvedValue({
+      data: {
+        payload: [
+          { source_id: '120247112194560621', headline: 'Summer promo' },
+          { source_id: '120252613195760416', headline: null },
+        ],
+      },
+    });
+
+    const { filterTypes } = useConversationFilterContext();
+    await flushPromises();
+
+    const campaignFilter = filterTypes.value.find(
+      filter =>
+        filter.attributeKey === CONVERSATION_ATTRIBUTES.CAMPAIGN_SOURCE_IDS
+    );
+
+    expect(CtwaCampaignsAPI.get).toHaveBeenCalled();
+    expect(campaignFilter.options).toEqual([
+      { id: '"120247112194560621"', name: 'Summer promo' },
+      { id: '"120252613195760416"', name: '120252613195760416' },
+    ]);
+  });
+
+  it('keeps CTWA campaign options empty when the endpoint fails', async () => {
+    CtwaCampaignsAPI.get.mockRejectedValue(new Error('boom'));
+
+    const { filterTypes } = useConversationFilterContext();
+    await flushPromises();
+
+    const campaignFilter = filterTypes.value.find(
+      filter =>
+        filter.attributeKey === CONVERSATION_ATTRIBUTES.CAMPAIGN_SOURCE_IDS
+    );
+
+    expect(campaignFilter.options).toEqual([]);
   });
 });

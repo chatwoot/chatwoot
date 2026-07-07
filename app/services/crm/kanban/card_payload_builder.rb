@@ -78,8 +78,31 @@ class Crm::Kanban::CardPayloadBuilder
       owner: compact_user(@card.owner),
       responsible: @card.responsible_descriptor,
       inbox: compact_inbox,
-      conversation: compact_conversation
+      conversation: compact_conversation,
+      labels: labels_payload,
+      campaigns: campaigns_payload
     }
+  end
+
+  # Label titles (strings) of the PRIMARY conversation only, in cached_label_list
+  # order — color/id resolution happens client-side against the labels store.
+  # [] when the primary conversation is hidden/absent (same gate as SLA/summary).
+  # Shape mirrored in Crm::Cards::PayloadBuilder — keep both identical.
+  def labels_payload
+    conversation = visible_primary_conversation
+    return [] if conversation.blank?
+
+    conversation.cached_label_list_array
+  end
+
+  # CTWA multi-touch: aggregated campaign touches of the card, first touch -> last;
+  # the pill uses campaigns[0].headline and the badge uses length-1. [] when the
+  # primary conversation is hidden. Delegates to Crm::Cards::PayloadBuilder
+  # (single source of truth) so board/list/websocket shapes never drift.
+  def campaigns_payload
+    return [] if visible_primary_conversation.blank?
+
+    Crm::Cards::PayloadBuilder.aggregated_campaigns_for(@card)
   end
 
   def compact_contact

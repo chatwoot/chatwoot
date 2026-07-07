@@ -55,8 +55,49 @@ RSpec.describe Crm::ConversationObserverListener do
     expect(Crm::SyncConversationCardJob).not_to have_been_enqueued
   end
 
+  it 'enqueues card rebroadcast when the conversation label list changes' do
+    account, user = create_account_and_user
+    inbox = create_crm_inbox(account: account, members: [user])
+    contact = account.contacts.create!(name: 'Listener Label', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: user)
+    clear_enqueued_jobs
+
+    described_class.instance.conversation_updated(update_event_for(conversation, changed_attributes: { 'label_list' => [[], ['vip']] }))
+
+    expect(Crm::Cards::RebroadcastConversationCardsJob).to have_been_enqueued.with(conversation.id)
+  end
+
+  it 'does not enqueue card rebroadcast for updates without label changes' do
+    account, user = create_account_and_user
+    inbox = create_crm_inbox(account: account, members: [user])
+    contact = account.contacts.create!(name: 'Listener Sem Label', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: user)
+    clear_enqueued_jobs
+
+    described_class.instance.conversation_updated(update_event_for(conversation, changed_attributes: { 'status' => %w[open resolved] }))
+
+    expect(Crm::Cards::RebroadcastConversationCardsJob).not_to have_been_enqueued
+  end
+
+  it 'does not enqueue card rebroadcast when the CRM feature flag is disabled' do
+    account, user = create_account_and_user
+    inbox = create_crm_inbox(account: account, members: [user])
+    contact = account.contacts.create!(name: 'Listener Label Flag', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: user)
+    clear_enqueued_jobs
+    ENV['CRM_KANBAN_ENABLED'] = 'false'
+
+    described_class.instance.conversation_updated(update_event_for(conversation, changed_attributes: { 'label_list' => [[], ['vip']] }))
+
+    expect(Crm::Cards::RebroadcastConversationCardsJob).not_to have_been_enqueued
+  end
+
   def event_for(message)
     instance_double(Events::Base, data: { message: message })
+  end
+
+  def update_event_for(conversation, changed_attributes:)
+    instance_double(Events::Base, data: { conversation: conversation, changed_attributes: changed_attributes })
   end
 
   def create_message(conversation:, sender:, content: 'Oi', message_type: :incoming, private: false)

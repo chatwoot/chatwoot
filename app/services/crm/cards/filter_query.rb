@@ -44,7 +44,7 @@ class Crm::Cards::FilterQuery
   end
 
   def base_scope
-    @scope.includes(:contact, :owner, :inbox, :stage, :pipeline,
+    @scope.includes(:contact, :owner, :inbox, :stage, :pipeline, :linked_conversations,
                     primary_conversation: [:conversation_participants, { applied_sla: :sla_policy }])
   end
 
@@ -59,6 +59,8 @@ class Crm::Cards::FilterQuery
     cards = apply_value_range_filter(cards)
     cards = apply_stale_filter(cards)
     cards = apply_responsible_filter(cards)
+    cards = apply_label_filter(cards)
+    cards = apply_campaign_filter(cards)
     apply_ai_pending_filter(cards)
   end
 

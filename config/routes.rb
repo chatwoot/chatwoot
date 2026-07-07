@@ -159,6 +159,9 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          # Opções de campanha CTWA (filtros de Conversas e Kanban) — fora do
+          # namespace :crm de propósito: não depende do gate ensure_crm_enabled.
+          resources :ctwa_campaigns, only: [:index]
           namespace :crm do
             resources :pipelines, only: [:index, :create, :show, :update, :destroy] do
               resources :stages, only: [:index, :create]

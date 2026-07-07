@@ -4,10 +4,12 @@
 # every new param MUST be honored here and mirrored client-side in cardMatchesFilters
 # (crmKanban.js) OR force a refetch-on-realtime. Per-filter realtime contract:
 #   * client-predicate (mirrored in cardMatchesFilters): stage_ids, value_min/value_max,
-#     stale_days, standalone, team_id, priority, inbox_id, owner_id, search, follow_up.
+#     stale_days, standalone, team_id, priority, inbox_id, owner_id, search, follow_up,
+#     campaign_source_ids (mirrored via card.campaigns.some(t => ids.includes(t.source_id))).
 #   * server-only + refetch-on-realtime (cannot be derived from a single upsert payload):
-#     responsible_kind (bot/none rely on the agent_bot_inbox join + conversation assignee)
-#     and ai_pending (the pending-suggestion set is computed per board load).
+#     responsible_kind (bot/none rely on the agent_bot_inbox join + conversation assignee),
+#     ai_pending (the pending-suggestion set is computed per board load) and label_ids
+#     (matches taggings of the primary conversation, source of truth for labels).
 module Crm::Cards::SharedFilters
   RESPONSIBLE_KINDS = %w[agent bot none].freeze
 
@@ -65,6 +67,53 @@ module Crm::Cards::SharedFilters
     end
   end
 
+  # Campaign filter (CTWA multi-touch): campaign_source_ids is a csv of ad source_ids
+  # with OR semantics — a card matches when ANY touch of ANY linked conversation
+  # (crm_card_conversations OR the direct primary conversation_id) hits any of the ids.
+  # It probes the `campaign_source_ids` jsonb-array mirror rendered as text with a
+  # quoted token (ILIKE '%"<id>"%'), so substrings of other ids never false-positive
+  # and the trigram index on the mirror is used. Standalone cards (no conversations)
+  # are always excluded.
+  def apply_campaign_filter(cards)
+    source_ids = parse_campaign_source_ids
+    return cards if source_ids.blank?
+
+    tokens = source_ids.map { |source_id| "%\"#{ActiveRecord::Base.sanitize_sql_like(source_id)}\"%" }
+    mirror_predicates = tokens.map { "conversations.additional_attributes ->> 'campaign_source_ids' ILIKE ?" }
+    cards.where(<<~SQL.squish, *tokens)
+      EXISTS (
+        SELECT 1 FROM conversations
+        WHERE conversations.account_id = crm_cards.account_id
+          AND (conversations.id = crm_cards.conversation_id
+               OR conversations.id IN (SELECT ccc.conversation_id FROM crm_card_conversations ccc WHERE ccc.card_id = crm_cards.id))
+          AND (#{mirror_predicates.join(' OR ')})
+      )
+    SQL
+  end
+
+  # Label filter: label_ids is a csv of Label ids (OR semantics) matched against the
+  # PRIMARY conversation only (mirrors the card `labels` payload). Chatwoot labels are
+  # acts-as-taggable tags — the account-scoped Label row is metadata whose `title`
+  # equals `tags.name` — so the join goes Label(id) -> title -> tags.name -> taggings
+  # of the conversation. EXISTS keeps one row per card (no duplicate when a
+  # conversation carries several of the selected labels).
+  def apply_label_filter(cards)
+    label_ids = parse_label_ids
+    return cards if label_ids.blank?
+
+    cards.where(<<~SQL.squish, label_ids)
+      EXISTS (
+        SELECT 1 FROM taggings
+        INNER JOIN tags ON tags.id = taggings.tag_id
+        INNER JOIN labels ON labels.title = tags.name AND labels.account_id = crm_cards.account_id
+        WHERE taggings.taggable_type = 'Conversation'
+          AND taggings.context = 'labels'
+          AND taggings.taggable_id = crm_cards.conversation_id
+          AND labels.id IN (?)
+      )
+    SQL
+  end
+
   private
 
   # A human is responsible when the linked conversation has an assignee, or (for cards
@@ -78,6 +127,22 @@ module Crm::Cards::SharedFilters
     Array(@params[:stage_ids].presence || @params[:stage_id].presence)
       .flat_map { |stage_id| stage_id.to_s.split(',') }
       .filter_map { |stage_id| Integer(stage_id, exception: false) }
+      .uniq
+  end
+
+  def parse_label_ids
+    Array(@params[:label_ids].presence)
+      .flat_map { |label_id| label_id.to_s.split(',') }
+      .filter_map { |label_id| Integer(label_id, exception: false) }
+      .uniq
+  end
+
+  # source_ids are opaque Meta ad ids — keep them as strings (never Integer-cast).
+  def parse_campaign_source_ids
+    Array(@params[:campaign_source_ids].presence)
+      .flat_map { |source_id| source_id.to_s.split(',') }
+      .map(&:strip)
+      .reject(&:blank?)
       .uniq
   end
 

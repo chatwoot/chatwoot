@@ -1,8 +1,9 @@
-import { computed, h } from 'vue';
+import { computed, h, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useOperators } from './operators';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useChannelIcon } from 'next/icon/provider';
+import CtwaCampaignsAPI from 'dashboard/api/ctwaCampaigns';
 import { createContactSearcher } from 'dashboard/components-next/NewConversation/helpers/composeConversationHelper';
 import {
   buildAttributesFilterTypes,
@@ -62,12 +63,39 @@ export function useConversationFilterContext() {
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
 
   const {
+    operators,
     equalityOperators,
     presenceOperators,
     containmentOperators,
     dateOperators,
     getOperatorTypes,
   } = useOperators();
+
+  /** @type {import('vue').ComputedRef<FilterOperator[]>} */
+  const campaignSourceOperators = computed(() => [
+    operators.value.contains,
+    operators.value.does_not_contain,
+    operators.value.is_present,
+    operators.value.is_not_present,
+  ]);
+
+  /** @type {import('vue').Ref<FilterOption[]>} */
+  const ctwaCampaignOptions = ref([]);
+
+  const loadCtwaCampaignOptions = async () => {
+    try {
+      const { data } = await CtwaCampaignsAPI.get();
+      ctwaCampaignOptions.value = (data.payload || []).map(campaign => ({
+        // The id keeps the embedded double quotes so the backend ILIKE matches
+        // the exact token inside the jsonb array text (campaign_source_ids)
+        id: `"${campaign.source_id}"`,
+        name: campaign.headline || campaign.source_id,
+      }));
+    } catch {
+      ctwaCampaignOptions.value = [];
+    }
+  };
+  loadCtwaCampaignOptions();
 
   const searchContacts = createContactSearcher();
 
@@ -262,6 +290,17 @@ export function useConversationFilterContext() {
       inputType: 'plainText',
       dataType: 'text',
       filterOperators: containmentOperators.value,
+      attributeModel: 'additional',
+    },
+    {
+      attributeKey: CONVERSATION_ATTRIBUTES.CAMPAIGN_SOURCE_IDS,
+      value: CONVERSATION_ATTRIBUTES.CAMPAIGN_SOURCE_IDS,
+      attributeName: t('FILTER.ATTRIBUTES.CAMPAIGN_SOURCE'),
+      label: t('FILTER.ATTRIBUTES.CAMPAIGN_SOURCE'),
+      inputType: 'searchSelect',
+      options: ctwaCampaignOptions.value,
+      dataType: 'text',
+      filterOperators: campaignSourceOperators.value,
       attributeModel: 'additional',
     },
     {
