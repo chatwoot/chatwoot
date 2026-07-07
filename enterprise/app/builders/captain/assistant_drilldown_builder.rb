@@ -108,10 +108,11 @@ class Captain::AssistantDrilldownBuilder
   # was also handed off, mirroring AssistantStatsBuilder#resolved_clause so the
   # drilldown lists exactly the conversations the auto-resolution card counted.
   def resolved_events
+    handoff_ids = account.reporting_events.where(name: HANDOFF_EVENT_NAMES, created_at: range).select(:conversation_id)
     account.reporting_events
            .where(name: RESOLVED_EVENT_NAMES, created_at: range, conversation_id: handled_conversation_ids)
-           .where.not(name: Captain::AssistantStatsBuilder::BOT_RESOLVED_EVENT_NAME,
-                      conversation_id: account.reporting_events.where(name: HANDOFF_EVENT_NAMES, created_at: range).select(:conversation_id))
+           .where("NOT (name = ? AND conversation_id IN (#{handoff_ids.to_sql}))",
+                  Captain::AssistantStatsBuilder::BOT_RESOLVED_EVENT_NAME)
   end
 
   # Auto-resolved conversations that reopened at/after their Captain resolve,

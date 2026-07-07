@@ -126,8 +126,11 @@ class Captain::AssistantStatsBuilder
   # that goes quiet and gets closed would otherwise count as an auto-resolution too;
   # the reports bot_resolutions metric applies the same exclusion (:exclude_bot_handoffs).
   def resolved_clause(range)
-    "name IN (#{quoted(RESOLVED_EVENT_NAMES)}) AND " \
-      "(name != #{quote(BOT_RESOLVED_EVENT_NAME)} OR conversation_id NOT IN (#{handoff_conversation_ids(range).to_sql}))"
+    "name IN (#{quoted(RESOLVED_EVENT_NAMES)}) AND #{bot_resolve_handoff_exclusion(range)}"
+  end
+
+  def bot_resolve_handoff_exclusion(range)
+    "NOT (name = #{quote(BOT_RESOLVED_EVENT_NAME)} AND conversation_id IN (#{handoff_conversation_ids(range).to_sql}))"
   end
 
   def handoff_conversation_ids(range)
@@ -164,7 +167,7 @@ class Captain::AssistantStatsBuilder
     resolved_scope = account.reporting_events
                             .where(name: RESOLVED_EVENT_NAMES, created_at: range,
                                    conversation_id: handled_scope(range).select(:conversation_id))
-                            .where.not(name: BOT_RESOLVED_EVENT_NAME, conversation_id: handoff_conversation_ids(range))
+                            .where(bot_resolve_handoff_exclusion(range))
     # event_end_time on a reopen is when it actually reopened. Join it to the conversation's own
     # Captain resolves and keep only reopens at/after one of them, so a human resolve/reopen earlier
     # in the same window isn't mistaken for a reopen-after-Captain-resolve. (Comparing the reopen's
