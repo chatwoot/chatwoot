@@ -2,7 +2,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   include WidgetHelper
 
   before_action :validate_hmac, only: [:set_user]
-  before_action :validate_hmac_for_identified_update, only: [:update]
 
   def show; end
 
@@ -47,16 +46,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     @contact.identifier.present? && @contact.identifier != permitted_params[:identifier]
   end
 
-  # The plain update endpoint is also used for anonymous prechat updates
-  # (name/email/phone/custom_attributes with no identifier), which must keep
-  # working on hmac_mandatory inboxes. Only the identity-binding path, where an
-  # identifier is supplied and the contact can be rebound, requires HMAC.
-  def validate_hmac_for_identified_update
-    return if params[:identifier].blank?
-
-    validate_hmac
-  end
-
   def validate_hmac
     return unless should_verify_hmac?
 
@@ -73,15 +62,11 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def valid_hmac?
-    expected_hash = OpenSSL::HMAC.hexdigest(
+    params[:identifier_hash] == OpenSSL::HMAC.hexdigest(
       'sha256',
       @web_widget.hmac_token,
       params[:identifier].to_s
     )
-    identifier_hash = params[:identifier_hash].to_s
-    return false unless identifier_hash.bytesize == expected_hash.bytesize
-
-    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
   end
 
   def permitted_params

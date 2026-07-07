@@ -7,7 +7,6 @@ import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 
 const route = useRoute();
 const router = useRouter();
@@ -24,7 +23,6 @@ const PROVIDER_TYPES = {
 
 const hasWhatsappAppId = computed(() => {
   return (
-    !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
     window.chatwootConfig?.whatsappAppId &&
     window.chatwootConfig.whatsappAppId !== 'none'
   );

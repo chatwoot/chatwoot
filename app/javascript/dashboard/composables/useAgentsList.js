@@ -10,14 +10,9 @@ import {
  * A composable function that provides a list of agents for assignment.
  *
  * @param {boolean} [includeNoneAgent=true] - Whether to include a 'None' agent option.
- * @param {Object} [options] - Options for the assignable agents list.
- * @param {boolean} [options.includeAgentBots=false] - Whether to include AgentBot assignees. Only pass this from surfaces that thread `assignee_type` through the assignment request.
  * @returns {Object} An object containing the agents list and assignable agents.
  */
-export function useAgentsList(
-  includeNoneAgent = true,
-  { includeAgentBots = false } = {}
-) {
+export function useAgentsList(includeNoneAgent = true) {
   const { t } = useI18n();
   const currentUser = useMapGetter('getCurrentUser');
   const currentChat = useMapGetter('getSelectedChat');
@@ -44,9 +39,7 @@ export function useAgentsList(
    * @type {import('vue').ComputedRef<Array>}
    */
   const assignableAgents = computed(() => {
-    return inboxId.value
-      ? assignable.value(inboxId.value, { includeAgentBots })
-      : [];
+    return inboxId.value ? assignable.value(inboxId.value) : [];
   });
 
   /**

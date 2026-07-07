@@ -66,7 +66,6 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
       config = Llm::Models.feature_config(feature_key)
       route = Llm::FeatureRouter.resolve(feature: feature_key, account: Current.account)
       config.merge(
-        default: default_model_for(feature_key),
         enabled: account_features[feature_key] == true,
         model: route[:model],
         selected: route[:model],
@@ -74,11 +73,5 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
         source: route[:source]
       )
     end
-  end
-
-  def default_model_for(feature_key)
-    return Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL if feature_key == 'assistant' && Current.account.feature_enabled?('captain_integration_v2')
-
-    Llm::Models.default_model_for(feature_key)
   end
 end
