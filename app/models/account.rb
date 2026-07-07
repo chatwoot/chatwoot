@@ -153,10 +153,6 @@ class Account < ApplicationRecord
     }
   end
 
-  def inbox_limit
-    usage_limits[:inboxes]
-  end
-
   def locale_english_name
     # the locale can also be something like pt_BR, en_US, fr_FR, etc.
     # the format is `<locale_code>_<country_code>`
