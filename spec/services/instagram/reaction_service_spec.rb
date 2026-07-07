@@ -73,10 +73,11 @@ RSpec.describe Instagram::ReactionService do
         expect(Rails.logger).to receive(:warn)
 
         expect { described_class.new(params: missing_target_params, channel: channel).perform }
-          .not_to change(MessageReaction, :count)
-
-        expect(Contact.where(account: channel.account).count).to eq(1)
-        expect(inbox.messages.count).to eq(1)
+          .to not_change(Contact, :count)
+          .and not_change(ContactInbox, :count)
+          .and not_change(Conversation, :count)
+          .and not_change(Message, :count)
+          .and not_change(MessageReaction, :count)
       end
     end
   end
