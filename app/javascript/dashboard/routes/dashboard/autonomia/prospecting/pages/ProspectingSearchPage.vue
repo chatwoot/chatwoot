@@ -1193,7 +1193,7 @@ onMounted(async () => {
             </div>
           </div>
 
-          <div class="flex min-h-0 flex-1 flex-col">
+          <div class="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
             <section class="border-b border-n-weak p-4">
               <div class="mb-3 flex items-start justify-between gap-3">
                 <div>
@@ -1241,7 +1241,7 @@ onMounted(async () => {
                 </button>
               </div>
             </section>
-            <div class="min-h-0 overflow-x-hidden overflow-y-auto">
+            <div>
               <div
                 v-if="isSearching || isLoading"
                 class="px-4 py-8 text-sm text-n-slate-11"
@@ -1341,15 +1341,26 @@ onMounted(async () => {
                       <div class="mt-3 grid gap-3 md:grid-cols-3">
                         <div class="text-n-slate-11">
                           <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY_STATUS') }}
+                            {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
                           </div>
                           <div class="break-words">
                             {{ lead.category || '-' }}
                           </div>
-                          <div class="text-xs text-n-slate-10">
-                            {{
-                              t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`)
-                            }}
+                          <div
+                            class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
+                          >
+                            <span class="i-lucide-star size-4 text-amber-500" />
+                            <span class="text-n-slate-12">
+                              {{ lead.rating || '-' }}
+                            </span>
+                            <span>·</span>
+                            <span>
+                              {{
+                                t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
+                                  count: lead.reviews_count || 0,
+                                })
+                              }}
+                            </span>
                           </div>
                         </div>
                         <div class="text-n-slate-11">
@@ -1521,17 +1532,26 @@ onMounted(async () => {
             <div class="grid gap-3 sm:grid-cols-2">
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">
                 <div class="text-xs font-medium text-n-slate-10">
-                  {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY_STATUS') }}
+                  {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
                 </div>
                 <div class="mt-2 text-sm text-n-slate-12">
                   {{ selectedLeadDetail.category || '-' }}
                 </div>
-                <div class="mt-1 text-xs text-n-slate-10">
-                  {{
-                    t(
-                      `PROSPECTING.QUALITY.STATUSES.${selectedLeadDetail.status}`
-                    )
-                  }}
+                <div
+                  class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
+                >
+                  <span class="i-lucide-star size-4 text-amber-500" />
+                  <span class="text-n-slate-12">
+                    {{ selectedLeadDetail.rating || '-' }}
+                  </span>
+                  <span>·</span>
+                  <span>
+                    {{
+                      t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
+                        count: selectedLeadDetail.reviews_count || 0,
+                      })
+                    }}
+                  </span>
                 </div>
               </div>
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">
