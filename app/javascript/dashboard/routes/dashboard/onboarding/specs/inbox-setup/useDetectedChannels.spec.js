@@ -6,6 +6,13 @@ import { useDetectedChannels } from '../../inbox-setup/useDetectedChannels';
 
 vi.mock('vue-router');
 
+// Neutralize the temporary Instagram/WhatsApp kill switch so these specs keep
+// covering the credential-based gating it currently short-circuits.
+vi.mock('dashboard/constants/globals', async importOriginal => ({
+  ...(await importOriginal()),
+  IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED: false,
+}));
+
 // Mounts the composable against a real store and the real useAccount (only
 // useRoute and the underlying getters are faked), so a change to how useAccount
 // resolves the current account is exercised here too. The real ./constants are
