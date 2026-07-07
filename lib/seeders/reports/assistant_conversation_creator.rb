@@ -90,9 +90,9 @@ class Seeders::Reports::AssistantConversationCreator
     return unless rand < 0.6
 
     travel(rand((1.minute)..(10.minutes)))
-    incoming_message(conversation)
+    follow_up = incoming_message(conversation)
     travel(rand((20.seconds)..(5.minutes)))
-    assistant_reply(conversation, waiting_since: Time.current)
+    assistant_reply(conversation, waiting_since: follow_up.created_at)
   end
 
   def apply_outcome(conversation, created_at, outcome)
