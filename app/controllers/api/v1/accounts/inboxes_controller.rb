@@ -168,7 +168,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update_branded_email_layout
     return true unless params.key?(:branded_email_layout)
 
+    branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
+
     unless Current.account.feature_enabled?(:branded_email_templates)
+      return true if branded_email_layout.blank?
+
       render_could_not_create_error('Branded email templates feature is not enabled')
       return false
     end
@@ -178,7 +182,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       return false
     end
 
-    branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
     @inbox.update_branded_email_layout!(branded_email_layout)
     true
   rescue ActiveRecord::RecordInvalid => e
