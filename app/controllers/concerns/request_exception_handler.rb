@@ -45,10 +45,16 @@ module RequestExceptionHandler
 
   def render_record_invalid(exception)
     log_handled_error(exception)
+    return render_payment_required(exception.record.errors.full_messages.join(', ')) if account_inbox_limit_exceeded?(exception.record)
+
     render json: {
       message: exception.record.errors.full_messages.join(', '),
       attributes: exception.record.errors.attribute_names
     }, status: :unprocessable_entity
+  end
+
+  def account_inbox_limit_exceeded?(record)
+    record.respond_to?(:account_inbox_limit_exceeded?, true) && record.send(:account_inbox_limit_exceeded?)
   end
 
   def render_error_response(exception)

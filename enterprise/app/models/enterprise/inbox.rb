@@ -38,4 +38,10 @@ module Enterprise::Inbox
 
     errors.add(:auto_assignment_config, 'max_assignment_limit must be greater than 0')
   end
+
+  def ensure_within_account_inbox_limit
+    return if account.inboxes.count < account.usage_limits[:inboxes]
+
+    errors.add(:base, ::Inbox::ACCOUNT_INBOX_LIMIT_ERROR, message: 'Account limit exceeded. Upgrade to a higher plan')
+  end
 end
