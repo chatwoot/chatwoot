@@ -22,6 +22,7 @@ class Channel::Telegram < ApplicationRecord
 
   self.table_name = 'channel_telegram'
   EDITABLE_ATTRS = [:bot_token].freeze
+  ALLOWED_WEBHOOK_UPDATES = %w[message edited_message business_message edited_business_message callback_query message_reaction].freeze
 
   before_validation :ensure_valid_bot_token, on: :create
   validates :bot_token, presence: true, uniqueness: true
@@ -96,7 +97,8 @@ class Channel::Telegram < ApplicationRecord
     HTTParty.post("#{telegram_api_url}/deleteWebhook")
     response = HTTParty.post("#{telegram_api_url}/setWebhook",
                              body: {
-                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
+                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}",
+                               allowed_updates: ALLOWED_WEBHOOK_UPDATES.to_json
                              })
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end

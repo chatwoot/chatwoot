@@ -155,6 +155,30 @@ RSpec.describe Channel::Telegram do
     end
   end
 
+  describe '#setup_telegram_webhook' do
+    it 'calls setWebhook with the full allowed_updates list, including callback_query' do
+      channel = described_class.new(bot_token: 'webhook-test-token', account: create(:account))
+      allow(channel).to receive(:ensure_valid_bot_token)
+
+      delete_stub = stub_request(:post, 'https://api.telegram.org/botwebhook-test-token/deleteWebhook')
+                    .to_return(status: 200, body: { ok: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+      set_webhook_stub = stub_request(:post, 'https://api.telegram.org/botwebhook-test-token/setWebhook')
+                         .with(
+                           body: {
+                             url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/webhook-test-token",
+                             allowed_updates: %w[message edited_message business_message edited_business_message callback_query
+                                                 message_reaction].to_json
+                           }
+                         )
+                         .to_return(status: 200, body: { ok: true }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      channel.save!
+
+      expect(delete_stub).to have_been_requested
+      expect(set_webhook_stub).to have_been_requested
+    end
+  end
+
   context 'when message contains attachments' do
     let(:message) do
       create(:message, message_type: :outgoing, content: nil,
