@@ -73,7 +73,13 @@ export default {
       this.$refs.searchbar.focus();
     },
     isActive(option) {
-      return this.selectedItems.some(item => item && option.id === item.id);
+      return this.selectedItems.some(item => {
+        if (!item || option.id !== item.id) return false;
+
+        return (
+          (option.assignee_type || 'User') === (item.assignee_type || 'User')
+        );
+      });
     },
   },
 };
@@ -94,7 +100,10 @@ export default {
     <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
       <div class="w-full max-h-[10rem]">
         <WootDropdownMenu>
-          <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
+          <WootDropdownItem
+            v-for="option in filteredOptions"
+            :key="`${option.assignee_type || 'User'}-${option.id}`"
+          >
             <NextButton
               slate
               :variant="isActive(option) ? 'faded' : 'ghost'"
@@ -114,16 +123,38 @@ export default {
                 </span>
               </div>
               <Avatar
-                v-if="hasThumbnail && !option.icon"
+                v-if="
+                  hasThumbnail &&
+                  (!option.icon || option.assignee_type === 'AgentBot')
+                "
                 :src="option.thumbnail"
                 :name="option.name"
                 :status="option.availability_status"
+                :icon-name="
+                  option.assignee_type === 'AgentBot'
+                    ? 'i-lucide-bot'
+                    : undefined
+                "
                 :size="24"
                 hide-offline-status
                 rounded-full
-              />
+              >
+                <template
+                  v-if="option.assignee_type === 'AgentBot' && option.thumbnail"
+                  #badge
+                >
+                  <div
+                    class="absolute z-20 flex items-center justify-center rounded-full outline outline-1 outline-n-weak bg-n-solid-1 -bottom-0.5 ltr:-right-0.5 rtl:-left-0.5 size-3.5"
+                  >
+                    <Icon
+                      icon="i-lucide-bot"
+                      class="text-n-slate-11 size-2.5"
+                    />
+                  </div>
+                </template>
+              </Avatar>
               <div
-                v-if="option.icon && showEmojiIcon"
+                v-else-if="option.icon && showEmojiIcon"
                 class="flex items-center justify-center flex-shrink-0 text-sm rounded-full size-6 outline outline-1 -outline-offset-1 outline-n-weak"
               >
                 <EmojiIcon
