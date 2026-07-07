@@ -121,7 +121,7 @@ const metrics = computed(() => [
       <CaptainPaywall />
     </template>
     <template #body>
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 pb-8">
         <InboxBanner />
 
         <CoverageBanner :knowledge="stats?.knowledge" />
