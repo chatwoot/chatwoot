@@ -5,11 +5,12 @@ defineProps({
   greeting: { type: String, required: true },
   subtitle: { type: String, default: '' },
   continueLabel: { type: String, default: 'Continue' },
+  skipLabel: { type: String, default: '' },
   isLoading: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
 });
 
-defineEmits(['continue']);
+defineEmits(['continue', 'skip']);
 </script>
 
 <template>
@@ -20,7 +21,7 @@ defineEmits(['continue']);
     <div
       class="absolute inset-0 bg-[size:96px_96px] bg-[image:linear-gradient(to_right,rgb(var(--border-weak))_1px,transparent_1px),linear-gradient(to_bottom,rgb(var(--border-weak))_1px,transparent_1px)] [mask-image:radial-gradient(ellipse_80%_80%_at_100%_0%,black_5%,transparent_50%),radial-gradient(ellipse_80%_80%_at_0%_100%,black_5%,transparent_50%)] [mask-composite:add] [-webkit-mask-composite:source-over]"
     />
-    <div class="relative w-full max-w-[580px]">
+    <div class="relative w-full max-w-[40rem]">
       <div class="relative ps-12">
         <!-- Timeline dotted line -->
         <svg
@@ -104,16 +105,30 @@ defineEmits(['continue']);
         >
           <path d="M6 0L0 3L6 6Z" fill="rgb(var(--blue-9))" />
         </svg>
-        <NextButton
-          type="submit"
-          blue
-          :is-loading="isLoading"
-          :disabled="disabled"
-          class="w-full justify-center"
-          @click="$emit('continue')"
-        >
-          {{ continueLabel }}
-        </NextButton>
+        <div class="flex items-center gap-3">
+          <NextButton
+            type="submit"
+            blue
+            :is-loading="isLoading"
+            :disabled="disabled"
+            :class="
+              skipLabel ? 'flex-1 justify-center' : 'w-full justify-center'
+            "
+            @click="$emit('continue')"
+          >
+            {{ continueLabel }}
+          </NextButton>
+          <NextButton
+            v-if="skipLabel"
+            type="button"
+            slate
+            outline
+            class="flex-1 justify-center"
+            @click="$emit('skip')"
+          >
+            {{ skipLabel }}
+          </NextButton>
+        </div>
       </div>
     </div>
   </div>

@@ -144,7 +144,7 @@ jobs:
   # Backend tests with parallelization
   backend-tests:
     <<: *defaults
-    parallelism: 20
+    parallelism: 18
     steps:
       - checkout
       - node/install:
