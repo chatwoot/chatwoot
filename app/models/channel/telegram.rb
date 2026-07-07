@@ -81,6 +81,18 @@ class Channel::Telegram < ApplicationRecord
     message.content_attributes['in_reply_to_external_id']
   end
 
+  # Public so migration/backfill jobs can re-register the webhook (e.g. after the
+  # allowed_updates list changes) without going through the before_save callback.
+  def setup_telegram_webhook
+    HTTParty.post("#{telegram_api_url}/deleteWebhook")
+    response = HTTParty.post("#{telegram_api_url}/setWebhook",
+                             body: {
+                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}",
+                               allowed_updates: ALLOWED_WEBHOOK_UPDATES.to_json
+                             })
+    errors.add(:bot_token, 'error setting up the webook') unless response.success?
+  end
+
   private
 
   def ensure_valid_bot_token
@@ -91,16 +103,6 @@ class Channel::Telegram < ApplicationRecord
     end
 
     self.bot_name = response.parsed_response['result']['username']
-  end
-
-  def setup_telegram_webhook
-    HTTParty.post("#{telegram_api_url}/deleteWebhook")
-    response = HTTParty.post("#{telegram_api_url}/setWebhook",
-                             body: {
-                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}",
-                               allowed_updates: ALLOWED_WEBHOOK_UPDATES.to_json
-                             })
-    errors.add(:bot_token, 'error setting up the webook') unless response.success?
   end
 
   def send_message(message)
