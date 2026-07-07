@@ -62,6 +62,21 @@ RSpec.describe BulkActionsJob do
       expect(conversation_3.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'clears bot ownership when bulk assigning a human' do
+      agent_bot = create(:agent_bot, account: account)
+      conversation_1.update!(assignee_agent_bot: agent_bot)
+      params = {
+        type: 'Conversation',
+        fields: { assignee_id: agent.id },
+        ids: [conversation_1.display_id]
+      }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      expect(conversation_1.reload.assignee_id).to eq(agent.id)
+      expect(conversation_1.assignee_agent_bot_id).to be_nil
+    end
+
     it 'bulk updates the snoozed_until' do
       params = {
         type: 'Conversation',
