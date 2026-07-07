@@ -3,12 +3,17 @@
 # window, plus a derived trend.
 #
 # Queries are batched to cut round trips: the message-derived counts (handled,
-# public replies, depth) and the average reply time are each computed for both
-# windows in a single scan via conditional FILTER aggregation.
+# public replies, depth) are computed for both windows in a single scan via
+# conditional FILTER aggregation.
 class Captain::AssistantStatsBuilder
   RESOLVED_EVENT_NAMES = %w[conversation_captain_inference_resolved conversation_bot_resolved].freeze
   HANDOFF_EVENT_NAMES = %w[conversation_captain_inference_handoff conversation_bot_handoff].freeze
   BOT_RESOLVED_EVENT_NAME = 'conversation_bot_resolved'.freeze
+
+  # Assumed agent effort displaced by each public assistant reply. Reporting data
+  # only captures reply latency (customer wait time), not handling effort, so hours
+  # saved is a count-times-assumed-effort estimate rather than a measured duration.
+  SECONDS_SAVED_PER_REPLY = 2.minutes.to_i
 
   attr_reader :assistant, :account
 
@@ -26,9 +31,8 @@ class Captain::AssistantStatsBuilder
 
   def metrics
     messages = message_window_metrics
-    reply_times = avg_reply_times
-    current = window_metrics(current_range, messages[:current], reply_times[:current])
-    previous = window_metrics(previous_range, messages[:previous], reply_times[:previous])
+    current = window_metrics(current_range, messages[:current])
+    previous = window_metrics(previous_range, messages[:previous])
 
     build_metrics(current, previous)
   end
@@ -57,8 +61,8 @@ class Captain::AssistantStatsBuilder
     }
   end
 
-  # Combines the per-window message counts and reply time with the reporting-event metrics for one window.
-  def window_metrics(range, message_counts, avg_reply)
+  # Combines the per-window message counts with the reporting-event metrics for one window.
+  def window_metrics(range, message_counts)
     handled = message_counts[:handled]
     public_count = message_counts[:public_count]
     depth_conversations = message_counts[:depth_conversations]
@@ -68,7 +72,7 @@ class Captain::AssistantStatsBuilder
       handled: handled,
       auto_resolution: rate(resolution[:resolved], handled),
       handoff: rate(resolution[:handoff], handled),
-      hours_saved: (public_count * avg_reply / 3600.0).round,
+      hours_saved: (public_count * SECONDS_SAVED_PER_REPLY / 3600.0).round,
       reopen: reopen_rate(range),
       depth: depth_conversations.zero? ? 0 : (public_count.to_f / depth_conversations).round(1)
     }
@@ -94,15 +98,6 @@ class Captain::AssistantStatsBuilder
       current: { handled: row[0], public_count: row[2], depth_conversations: row[4] },
       previous: { handled: row[1], public_count: row[3], depth_conversations: row[5] }
     }
-  end
-
-  # Average reply time (seconds) for both windows in one scan.
-  def avg_reply_times
-    row = account.reporting_events.where(name: 'reply_time', created_at: full_span).reorder(nil).pick(
-      Arel.sql("AVG(value) FILTER (WHERE #{window_clause(current_range)})"),
-      Arel.sql("AVG(value) FILTER (WHERE #{window_clause(previous_range)})")
-    )
-    { current: row[0].to_f, previous: row[1].to_f }
   end
 
   # Resolved and handed-off conversation counts for one window, in a single scan
