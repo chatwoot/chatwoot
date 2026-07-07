@@ -12,23 +12,16 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       create(:inbox, account: account)
     end
 
-    it 'returns payment required when account inbox limit is reached' do
-      post "/api/v1/accounts/#{account.id}/inboxes",
-           headers: admin.create_new_auth_token,
-           params: valid_params,
-           as: :json
-
-      expect(response).to have_http_status(:payment_required)
-      expect(response.parsed_body['error']).to eq('Account limit exceeded. Upgrade to a higher plan')
-    end
-
-    it 'does not create the channel when account inbox limit is reached' do
+    it 'returns payment required without creating the channel when account inbox limit is reached' do
       expect do
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
              params: valid_params,
              as: :json
       end.not_to change(Channel::WebWidget, :count)
+
+      expect(response).to have_http_status(:payment_required)
+      expect(response.parsed_body['error']).to eq('Account limit exceeded. Upgrade to a higher plan')
     end
   end
 end
