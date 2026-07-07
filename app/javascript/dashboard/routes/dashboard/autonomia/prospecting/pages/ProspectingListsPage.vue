@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
+import CampaignsAPI from 'dashboard/api/campaigns';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
 
 const { t } = useI18n();
@@ -13,15 +14,21 @@ const isCreating = ref(false);
 const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
+const isCreatingCampaignSegment = ref(false);
 const error = ref('');
 const notice = ref('');
 const lists = ref([]);
 const selectedList = ref(null);
 const allLeads = ref([]);
+const campaigns = ref([]);
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
 const statusFilter = ref('');
+const campaignSegmentForm = ref({
+  campaign_id: '',
+  segment_name: '',
+});
 const form = ref({
   name: '',
   description: '',
@@ -58,6 +65,26 @@ const availableLeads = computed(() =>
 const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
 const canCreateCrmCard = computed(() =>
   Boolean(crmForm.value.pipeline_id && crmForm.value.stage_id)
+);
+const campaignReadyLeads = computed(() =>
+  (selectedList.value?.leads || []).filter(
+    lead => lead.status === 'ready_for_campaign'
+  )
+);
+const campaignBlockedLeads = computed(() =>
+  (selectedList.value?.leads || []).filter(
+    lead => lead.status !== 'ready_for_campaign'
+  )
+);
+const availableCampaigns = computed(() =>
+  campaigns.value.filter(
+    campaign =>
+      campaign.campaign_type === 'one_off' &&
+      campaign.campaign_status === 'active'
+  )
+);
+const currentCampaignSegment = computed(
+  () => selectedList.value?.campaign_segment || null
 );
 
 const formatDate = value => {
@@ -132,6 +159,15 @@ const fetchAllLeads = async () => {
   allLeads.value = data.payload || [];
 };
 
+const fetchCampaigns = async () => {
+  try {
+    const { data } = await CampaignsAPI.get();
+    campaigns.value = data || [];
+  } catch {
+    campaigns.value = [];
+  }
+};
+
 const fetchSettings = async () => {
   const { data } = await AutonomiaProspectingAPI.getSettings();
   settings.value = data.payload || {};
@@ -145,6 +181,10 @@ const selectList = async list => {
   try {
     const { data } = await AutonomiaProspectingAPI.getList(list.id);
     selectedList.value = data.payload || null;
+    campaignSegmentForm.value = {
+      campaign_id: currentCampaignSegment.value?.campaign_id || '',
+      segment_name: selectedList.value?.name || '',
+    };
   } catch {
     error.value = t('PROSPECTING.ERRORS.LOAD_LIST');
   }
@@ -155,7 +195,12 @@ const loadPage = async () => {
   error.value = '';
   try {
     await fetchSettings();
-    await Promise.all([fetchLists(), fetchAllLeads(), fetchCrmPipelines()]);
+    await Promise.all([
+      fetchLists(),
+      fetchAllLeads(),
+      fetchCrmPipelines(),
+      fetchCampaigns(),
+    ]);
     if (lists.value.length) {
       await selectList(lists.value[0]);
     }
@@ -276,6 +321,41 @@ const createCrmCard = async lead => {
       e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CRM_CARD');
   } finally {
     convertingCrmLeadId.value = null;
+  }
+};
+
+const createCampaignSegment = async () => {
+  if (
+    !selectedList.value?.id ||
+    isCreatingCampaignSegment.value ||
+    !campaignReadyLeads.value.length
+  ) {
+    return;
+  }
+
+  isCreatingCampaignSegment.value = true;
+  error.value = '';
+  notice.value = '';
+  try {
+    const { data } = await AutonomiaProspectingAPI.createCampaignSegment(
+      selectedList.value.id,
+      {
+        campaign_id: campaignSegmentForm.value.campaign_id,
+        segment_name:
+          campaignSegmentForm.value.segment_name || selectedList.value.name,
+      }
+    );
+    selectedList.value = data.payload?.list || selectedList.value;
+    await fetchLists();
+    notice.value = t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATED', {
+      label: data.payload?.segment?.label?.title || '-',
+    });
+  } catch (e) {
+    error.value =
+      e?.response?.data?.error ||
+      t('PROSPECTING.ERRORS.CREATE_CAMPAIGN_SEGMENT');
+  } finally {
+    isCreatingCampaignSegment.value = false;
   }
 };
 
@@ -506,6 +586,105 @@ onMounted(loadPage);
                     </option>
                   </select>
                 </label>
+              </div>
+              <div
+                v-if="hasSelectedList"
+                class="mt-4 rounded-md border border-n-weak bg-n-solid-2 p-3"
+              >
+                <div
+                  class="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between"
+                >
+                  <div class="min-w-0">
+                    <h3 class="text-sm font-semibold text-n-slate-12">
+                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE') }}
+                    </h3>
+                    <p class="mt-1 text-xs text-n-slate-10">
+                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_HINT') }}
+                    </p>
+                    <div
+                      class="mt-2 flex flex-wrap items-center gap-2 text-xs text-n-slate-10"
+                    >
+                      <span
+                        class="rounded-md bg-n-teal-3 px-2 py-1 text-n-teal-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_READY_COUNT', {
+                            count: campaignReadyLeads.length,
+                          })
+                        }}
+                      </span>
+                      <span
+                        class="rounded-md bg-n-amber-3 px-2 py-1 text-n-amber-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_BLOCKED_COUNT', {
+                            count: campaignBlockedLeads.length,
+                          })
+                        }}
+                      </span>
+                      <span
+                        v-if="currentCampaignSegment"
+                        class="rounded-md bg-n-solid-3 px-2 py-1 text-n-slate-11"
+                      >
+                        {{
+                          t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_LABEL', {
+                            label: currentCampaignSegment.label_title,
+                          })
+                        }}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="grid min-w-0 gap-2 sm:grid-cols-[minmax(10rem,1fr)_minmax(12rem,1fr)_auto]"
+                  >
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.LISTS.FIELDS.SEGMENT_NAME') }}
+                      </span>
+                      <input
+                        v-model="campaignSegmentForm.segment_name"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
+                        :placeholder="selectedList.name"
+                      />
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.LISTS.FIELDS.CAMPAIGN') }}
+                      </span>
+                      <select
+                        v-model="campaignSegmentForm.campaign_id"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{
+                            t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_ONLY_LABEL')
+                          }}
+                        </option>
+                        <option
+                          v-for="campaign in availableCampaigns"
+                          :key="campaign.id"
+                          :value="campaign.id"
+                        >
+                          {{ campaign.title }}
+                        </option>
+                      </select>
+                    </label>
+                    <button
+                      type="button"
+                      class="h-9 self-end rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="
+                        isCreatingCampaignSegment || !campaignReadyLeads.length
+                      "
+                      @click="createCampaignSegment"
+                    >
+                      {{
+                        isCreatingCampaignSegment
+                          ? t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATING')
+                          : t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATE')
+                      }}
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             <div

@@ -17,6 +17,7 @@
       "CREATE_LIST": "Could not create this prospect list.",
       "ADD_LEAD_TO_LIST": "Could not add this lead to the list.",
       "REMOVE_LEAD_FROM_LIST": "Could not remove this lead from the list.",
+      "CREATE_CAMPAIGN_SEGMENT": "Não foi possível criar o público de campanha.",
       "LOAD_SETTINGS": "Could not load prospecting settings.",
       "SAVE_SETTINGS": "Could not save prospecting settings.",
       "DELETE_SEARCH": "Could not delete this prospect search."
@@ -141,6 +142,15 @@
       "REMOVE_LEAD": "Remover",
       "LEAD_ADDED": "Lead adicionado à lista.",
       "LEAD_REMOVED": "Lead removido da lista.",
+      "CAMPAIGN_SEGMENT_TITLE": "Campanha",
+      "CAMPAIGN_SEGMENT_HINT": "Crie um público por etiqueta para usar em campanhas existentes. Nada será disparado automaticamente.",
+      "CAMPAIGN_SEGMENT_CREATE": "Criar público",
+      "CAMPAIGN_SEGMENT_CREATING": "Criando...",
+      "CAMPAIGN_SEGMENT_CREATED": "Público criado com a etiqueta {label}.",
+      "CAMPAIGN_SEGMENT_ONLY_LABEL": "Criar apenas etiqueta",
+      "CAMPAIGN_SEGMENT_LABEL": "Etiqueta: {label}",
+      "CAMPAIGN_READY_COUNT": "{count} prontos para campanha",
+      "CAMPAIGN_BLOCKED_COUNT": "{count} bloqueados por status/consentimento",
       "SELECT_EMPTY": "Selecione uma lista para ver os leads.",
       "SELECT_TO_ADD": "Selecione uma lista para adicionar leads.",
       "LEADS_EMPTY": "Esta lista ainda não tem leads.",
@@ -150,7 +160,9 @@
       "LEADS_COUNT": "{count} leads",
       "FIELDS": {
         "NAME": "Nome",
-        "DESCRIPTION": "Descrição"
+        "DESCRIPTION": "Descrição",
+        "SEGMENT_NAME": "Nome do público",
+        "CAMPAIGN": "Campanha existente"
       },
       "COLUMNS": {
         "NAME": "Lista",
