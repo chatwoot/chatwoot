@@ -980,7 +980,7 @@ onMounted(async () => {
               </div>
               <div
                 v-if="editingSearchConfigId === search.id"
-                class="grid gap-2 border-t border-n-weak px-3 pb-3 pt-2"
+                class="relative z-30 grid gap-2 border-t border-n-weak bg-n-solid-1 px-3 pb-3 pt-2"
               >
                 <select
                   v-model="searchConfigForm.crm_pipeline_id"
@@ -1076,7 +1076,7 @@ onMounted(async () => {
               </button>
               <div
                 v-if="showFilters"
-                class="absolute right-0 top-11 z-20 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
+                class="absolute right-0 top-11 z-30 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
               >
                 <label class="grid gap-1">
                   <span class="text-xs font-medium text-n-slate-11">
