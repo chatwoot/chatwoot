@@ -133,8 +133,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
-    global_limit = GlobalConfig.get_value(config_name)
-    return global_limit if global_limit.present?
+    return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
   end
