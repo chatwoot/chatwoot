@@ -22,6 +22,6 @@ class Api::V1::Accounts::AssignableAgentsController < Api::V1::Accounts::BaseCon
   end
 
   def permitted_params
-    params.permit(:include_agent_bots, inbox_ids: [])
+    params.permit(inbox_ids: [])
   end
 end
