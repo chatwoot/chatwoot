@@ -144,7 +144,8 @@ RSpec.describe 'Applied SLAs API', type: :request do
         csv_data = CSV.parse(response.body)
         csv_data.reject! { |row| row.all?(&:nil?) }
         expect(csv_data.size).to eq(3)
-        expect(csv_data[1][0].to_i).to eq(conversation1.display_id)
+        conversation_ids = csv_data.drop(1).map { |row| row[0].to_i }
+        expect(conversation_ids).to contain_exactly(conversation1.display_id, conversation2.display_id)
       end
 
       it 'excludes conversations with blocked contacts from the CSV file' do

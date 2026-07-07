@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { formatTime } from '@chatwoot/utils';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import { useReportDrilldown } from '../composables/useReportDrilldown';
 import ReportDrilldownCard from './ReportDrilldownCard.vue';
 
@@ -195,7 +196,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection to="body">
     <Transition name="report-drilldown-fade">
       <div
         v-if="isOpen"
@@ -205,7 +206,7 @@ onBeforeUnmount(() => {
       >
         <aside
           ref="drawerRef"
-          class="fixed inset-y-0 right-0 flex w-full max-w-xl flex-col bg-n-solid-1 shadow-xl outline outline-1 outline-n-container"
+          class="fixed inset-y-0 end-0 flex w-full max-w-xl flex-col bg-n-solid-1 shadow-xl outline outline-1 outline-n-container"
           role="dialog"
           aria-modal="true"
           :aria-label="title"
@@ -240,6 +241,7 @@ onBeforeUnmount(() => {
                 slate
                 size="sm"
                 icon="i-ph-caret-left"
+                class="rtl:rotate-180"
                 :disabled="!canPrev"
                 :aria-label="$t('REPORT.DRILLDOWN.PREVIOUS_BUCKET')"
                 @click="navigate(-1)"
@@ -249,6 +251,7 @@ onBeforeUnmount(() => {
                 slate
                 size="sm"
                 icon="i-ph-caret-right"
+                class="rtl:rotate-180"
                 :disabled="!canNext"
                 :aria-label="$t('REPORT.DRILLDOWN.NEXT_BUCKET')"
                 @click="navigate(1)"
@@ -308,5 +311,5 @@ onBeforeUnmount(() => {
         </aside>
       </div>
     </Transition>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
