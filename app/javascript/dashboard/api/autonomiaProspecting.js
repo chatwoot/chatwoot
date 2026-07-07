@@ -76,6 +76,12 @@ class AutonomiaProspectingAPI extends ApiClient {
     return axios.delete(`${this.url}/lists/${listId}/leads/${leadId}`);
   }
 
+  createCampaignSegment(listId, campaignSegment = {}) {
+    return axios.post(`${this.url}/lists/${listId}/campaign_segment`, {
+      campaign_segment: campaignSegment,
+    });
+  }
+
   getSettings() {
     return axios.get(`${this.url}/settings`);
   }

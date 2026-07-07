@@ -313,6 +313,7 @@ Rails.application.routes.draw do
               resources :lists, only: [:index, :show, :create] do
                 post 'leads', on: :member, action: :add_lead
                 delete 'leads/:lead_id', on: :member, action: :remove_lead
+                post :campaign_segment, on: :member
               end
               resource :settings, only: [:show, :update]
             end
