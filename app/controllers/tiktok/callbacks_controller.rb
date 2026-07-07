@@ -6,6 +6,8 @@ class Tiktok::CallbacksController < ApplicationController
     return handle_ungranted_scopes_error unless all_scopes_granted?
 
     process_successful_authorization
+  rescue CustomExceptions::Base
+    raise
   rescue StandardError => e
     handle_error(e)
   end
@@ -86,6 +88,8 @@ class Tiktok::CallbacksController < ApplicationController
   end
 
   def create_channel_with_inbox(business_details)
+    Inbox.ensure_within_account_limit!(account)
+
     ActiveRecord::Base.transaction do
       channel_tiktok = Channel::Tiktok.create!(
         account: account,

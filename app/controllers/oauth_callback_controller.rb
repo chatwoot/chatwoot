@@ -6,6 +6,8 @@ class OauthCallbackController < ApplicationController
     )
 
     handle_response
+  rescue CustomExceptions::Base
+    raise
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     redirect_to '/'
@@ -73,6 +75,8 @@ class OauthCallbackController < ApplicationController
   end
 
   def create_channel_with_inbox
+    Inbox.ensure_within_account_limit!(account)
+
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
 

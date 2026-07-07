@@ -2,6 +2,17 @@ class Twitter::CallbacksController < Twitter::BaseController
   include TwitterConcern
 
   def show
+    process_callback
+  rescue CustomExceptions::Base
+    raise
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e).capture_exception
+    redirect_to twitter_app_redirect_url
+  end
+
+  private
+
+  def process_callback
     return redirect_to twitter_app_redirect_url if permitted_params[:denied]
 
     @response = ensure_access_token
@@ -13,12 +24,7 @@ class Twitter::CallbacksController < Twitter::BaseController
       ::Twitter::WebhookSubscribeService.new(inbox_id: inbox.id).perform
       redirect_to app_twitter_inbox_agents_url(account_id: account.id, inbox_id: inbox.id)
     end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-    redirect_to twitter_app_redirect_url
   end
-
-  private
 
   def parsed_body
     @parsed_body ||= Rack::Utils.parse_nested_query(@response.raw_response.body)
@@ -44,6 +50,8 @@ class Twitter::CallbacksController < Twitter::BaseController
   end
 
   def create_inbox
+    Inbox.ensure_within_account_limit!(account)
+
     twitter_profile = account.twitter_profiles.create!(
       twitter_access_token: parsed_body['oauth_token'],
       twitter_access_token_secret: parsed_body['oauth_token_secret'],
