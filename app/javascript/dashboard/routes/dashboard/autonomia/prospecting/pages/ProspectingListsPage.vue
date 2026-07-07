@@ -15,6 +15,7 @@ const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
 const isCreatingCampaignSegment = ref(false);
+const isAddingSelectedLeads = ref(false);
 const error = ref('');
 const notice = ref('');
 const lists = ref([]);
@@ -25,6 +26,12 @@ const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
 const statusFilter = ref('');
+const addLeadStatusFilter = ref('');
+const addLeadQuery = ref('');
+const selectedAddLeadIds = ref([]);
+const showCreateListModal = ref(false);
+const showAddLeadsModal = ref(false);
+const showCampaignModal = ref(false);
 const campaignSegmentForm = ref({
   campaign_id: '',
   segment_name: '',
@@ -45,6 +52,16 @@ const statusOptions = [
   'ready_for_campaign',
 ];
 
+const formatDate = value => {
+  if (!value) return '-';
+  return new Date(value).toLocaleDateString();
+};
+
+const formatLeadAddress = lead =>
+  [lead.address, [lead.city, lead.state].filter(Boolean).join(' ')]
+    .filter(Boolean)
+    .join(t('PROSPECTING.SEARCH.ADDRESS_SEPARATOR'));
+
 const selectedLeadIds = computed(
   () => new Set((selectedList.value?.lead_ids || []).map(Number))
 );
@@ -57,9 +74,25 @@ const listLeads = computed(() => {
 const availableLeads = computed(() =>
   allLeads.value.filter(lead => {
     if (selectedLeadIds.value.has(Number(lead.id))) return false;
-    if (!statusFilter.value) return true;
 
-    return lead.status === statusFilter.value;
+    return true;
+  })
+);
+const filteredAvailableLeads = computed(() =>
+  availableLeads.value.filter(lead => {
+    if (
+      addLeadStatusFilter.value &&
+      lead.status !== addLeadStatusFilter.value
+    ) {
+      return false;
+    }
+
+    const query = addLeadQuery.value.trim().toLowerCase();
+    if (!query) return true;
+
+    return [lead.name, lead.phone, formatLeadAddress(lead), lead.category]
+      .filter(Boolean)
+      .some(value => value.toLowerCase().includes(query));
   })
 );
 const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
@@ -86,16 +119,14 @@ const availableCampaigns = computed(() =>
 const currentCampaignSegment = computed(
   () => selectedList.value?.campaign_segment || null
 );
-
-const formatDate = value => {
-  if (!value) return '-';
-  return new Date(value).toLocaleDateString();
-};
-
-const formatLeadAddress = lead =>
-  [lead.address, [lead.city, lead.state].filter(Boolean).join(' ')]
-    .filter(Boolean)
-    .join(t('PROSPECTING.SEARCH.ADDRESS_SEPARATOR'));
+const selectedAddLeadsCount = computed(() => selectedAddLeadIds.value.length);
+const selectedListContactCount = computed(
+  () => (selectedList.value?.leads || []).filter(lead => lead.contact_id).length
+);
+const selectedListCrmCount = computed(
+  () =>
+    (selectedList.value?.leads || []).filter(lead => lead.crm_card_id).length
+);
 
 const contactUrl = contactId =>
   `/app/accounts/${route.params.accountId}/contacts/${contactId}`;
@@ -225,6 +256,7 @@ const createList = async () => {
     form.value = { name: '', description: '' };
     await fetchLists();
     await selectList(data.payload);
+    showCreateListModal.value = false;
     notice.value = t('PROSPECTING.LISTS.CREATED');
   } catch (e) {
     error.value =
@@ -234,25 +266,78 @@ const createList = async () => {
   }
 };
 
-const addLead = async lead => {
-  if (!selectedList.value?.id || !lead?.id || busyLeadId.value) return;
+const openCreateListModal = () => {
+  form.value = { name: '', description: '' };
+  showCreateListModal.value = true;
+};
 
-  busyLeadId.value = lead.id;
+const openAddLeadsModal = async list => {
+  if (list?.id && list.id !== selectedList.value?.id) {
+    await selectList(list);
+  }
+  selectedAddLeadIds.value = [];
+  addLeadQuery.value = '';
+  addLeadStatusFilter.value = '';
+  showAddLeadsModal.value = true;
+};
+
+const openCampaignModal = async list => {
+  if (list?.id && list.id !== selectedList.value?.id) {
+    await selectList(list);
+  }
+  campaignSegmentForm.value = {
+    campaign_id: currentCampaignSegment.value?.campaign_id || '',
+    segment_name: selectedList.value?.name || '',
+  };
+  showCampaignModal.value = true;
+};
+
+const toggleAddLeadSelection = leadId => {
+  const id = Number(leadId);
+  const ids = new Set(selectedAddLeadIds.value.map(Number));
+  if (ids.has(id)) {
+    ids.delete(id);
+  } else {
+    ids.add(id);
+  }
+  selectedAddLeadIds.value = [...ids];
+};
+
+const addSelectedLeads = async () => {
+  if (
+    !selectedList.value?.id ||
+    isAddingSelectedLeads.value ||
+    !selectedAddLeadIds.value.length
+  ) {
+    return;
+  }
+
+  isAddingSelectedLeads.value = true;
   error.value = '';
   notice.value = '';
   try {
-    const { data } = await AutonomiaProspectingAPI.addLeadToList(
-      selectedList.value.id,
-      lead.id
-    );
-    selectedList.value = data.payload || selectedList.value;
-    await fetchLists();
-    notice.value = t('PROSPECTING.LISTS.LEAD_ADDED');
+    const addedCount = selectedAddLeadIds.value.length;
+    let payload = selectedList.value;
+    await selectedAddLeadIds.value.reduce(async (previousRequest, leadId) => {
+      await previousRequest;
+      const { data } = await AutonomiaProspectingAPI.addLeadToList(
+        selectedList.value.id,
+        leadId
+      );
+      payload = data.payload || payload;
+    }, Promise.resolve());
+    selectedList.value = payload;
+    await Promise.all([fetchLists(), fetchAllLeads()]);
+    selectedAddLeadIds.value = [];
+    showAddLeadsModal.value = false;
+    notice.value = t('PROSPECTING.LISTS.LEADS_ADDED', {
+      count: addedCount,
+    });
   } catch (e) {
     error.value =
       e?.response?.data?.error || t('PROSPECTING.ERRORS.ADD_LEAD_TO_LIST');
   } finally {
-    busyLeadId.value = null;
+    isAddingSelectedLeads.value = false;
   }
 };
 
@@ -350,6 +435,7 @@ const createCampaignSegment = async () => {
     notice.value = t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATED', {
       label: data.payload?.segment?.label?.title || '-',
     });
+    showCampaignModal.value = false;
   } catch (e) {
     error.value =
       e?.response?.data?.error ||
@@ -400,20 +486,450 @@ onMounted(loadPage);
 </script>
 
 <template>
-  <main class="flex min-h-full flex-col bg-n-background">
-    <header class="border-b border-n-weak px-6 py-4">
-      <h1 class="text-xl font-semibold text-n-slate-12">
-        {{ t('PROSPECTING.LISTS.TITLE') }}
-      </h1>
+  <main class="flex h-full min-h-0 flex-col overflow-hidden bg-n-background">
+    <header
+      class="flex items-center justify-between gap-4 border-b border-n-weak px-6 py-4"
+    >
+      <div class="min-w-0">
+        <h1 class="text-xl font-semibold text-n-slate-12">
+          {{ t('PROSPECTING.LISTS.TITLE') }}
+        </h1>
+        <p class="mt-1 text-sm text-n-slate-10">
+          {{
+            t('PROSPECTING.LISTS.HEADER_SUMMARY', {
+              lists: lists.length,
+              leads: allLeads.length,
+            })
+          }}
+        </p>
+      </div>
+      <button
+        type="button"
+        class="flex size-9 items-center justify-center rounded-md bg-n-brand text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        :title="t('PROSPECTING.LISTS.NEW_LIST')"
+        @click="openCreateListModal"
+      >
+        <span class="i-lucide-plus size-4" />
+      </button>
     </header>
 
     <section
-      class="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 py-5"
+      class="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-6 py-5"
+    >
+      <div
+        v-if="notice"
+        class="rounded-md bg-n-teal-3 px-4 py-3 text-sm text-n-teal-11"
+      >
+        {{ notice }}
+      </div>
+      <div
+        v-if="error"
+        class="rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
+      >
+        {{ error }}
+      </div>
+
+      <div class="grid min-h-0 flex-1 gap-4 xl:grid-cols-[22rem_minmax(0,1fr)]">
+        <aside class="flex min-h-0 flex-col overflow-hidden">
+          <div class="mb-3 flex items-center justify-between gap-3">
+            <h2 class="text-sm font-semibold text-n-slate-12">
+              {{ t('PROSPECTING.LISTS.ALL_LISTS') }}
+            </h2>
+            <span class="text-xs text-n-slate-10">
+              {{
+                t('PROSPECTING.LISTS.LISTS_COUNT', {
+                  count: lists.length,
+                })
+              }}
+            </span>
+          </div>
+          <div
+            v-if="isLoading"
+            class="rounded-md border border-n-weak bg-n-solid-1 px-4 py-8 text-sm text-n-slate-11"
+          >
+            {{ t('PROSPECTING.STATES.LOADING') }}
+          </div>
+          <div
+            v-else-if="!lists.length"
+            class="rounded-md border border-n-weak bg-n-solid-1 px-4 py-8 text-sm text-n-slate-11"
+          >
+            {{ t('PROSPECTING.LISTS.EMPTY') }}
+          </div>
+          <div v-else class="min-h-0 flex-1 overflow-y-auto pr-1">
+            <article
+              v-for="list in lists"
+              :key="list.id"
+              class="relative mb-3 overflow-hidden rounded-md border border-n-weak bg-n-solid-1 transition last:mb-0 hover:border-n-slate-7 hover:bg-n-solid-2"
+              :class="{
+                'border-n-brand bg-n-brand-2 shadow-sm ring-1 ring-n-brand/30':
+                  selectedList?.id === list.id,
+              }"
+            >
+              <span
+                v-if="selectedList?.id === list.id"
+                class="absolute inset-y-0 left-0 w-1 bg-n-brand"
+              />
+              <button
+                type="button"
+                class="grid w-full gap-2 p-3 pl-4 text-left"
+                @click="selectList(list)"
+              >
+                <div class="flex items-start justify-between gap-3">
+                  <div class="min-w-0">
+                    <h3 class="truncate text-sm font-semibold text-n-slate-12">
+                      {{ list.name }}
+                    </h3>
+                    <p class="mt-1 truncate text-xs text-n-slate-10">
+                      {{
+                        list.description ||
+                        t('PROSPECTING.LISTS.NO_DESCRIPTION')
+                      }}
+                    </p>
+                  </div>
+                  <span
+                    class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                    :class="{
+                      'bg-n-brand text-white': selectedList?.id === list.id,
+                    }"
+                  >
+                    {{ list.leads_count || 0 }}
+                  </span>
+                </div>
+                <div
+                  class="flex flex-wrap items-center gap-2 text-xs text-n-slate-10"
+                >
+                  <span>{{ formatDate(list.created_at) }}</span>
+                  <span v-if="list.campaign_segment">·</span>
+                  <span v-if="list.campaign_segment" class="text-n-teal-11">
+                    {{ t('PROSPECTING.LISTS.SEGMENT_READY') }}
+                  </span>
+                </div>
+              </button>
+              <div
+                class="flex items-center gap-1 border-t border-n-weak px-2 py-2"
+              >
+                <button
+                  type="button"
+                  class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-3"
+                  :title="t('PROSPECTING.LISTS.ADD_LEADS_TITLE')"
+                  @click.stop="openAddLeadsModal(list)"
+                >
+                  <span class="i-lucide-user-plus size-4" />
+                </button>
+                <button
+                  type="button"
+                  class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-3"
+                  :title="t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE')"
+                  @click.stop="openCampaignModal(list)"
+                >
+                  <span class="i-lucide-megaphone size-4" />
+                </button>
+              </div>
+            </article>
+          </div>
+        </aside>
+
+        <section
+          class="flex min-h-0 flex-col overflow-hidden rounded-md border border-n-weak bg-n-solid-1"
+        >
+          <div class="border-b border-n-weak px-4 py-3">
+            <div
+              class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between"
+            >
+              <div class="min-w-0">
+                <h2 class="truncate text-base font-semibold text-n-slate-12">
+                  {{
+                    hasSelectedList
+                      ? selectedList.name
+                      : t('PROSPECTING.LISTS.DETAIL_TITLE')
+                  }}
+                </h2>
+                <p
+                  v-if="selectedList?.description"
+                  class="mt-1 truncate text-sm text-n-slate-10"
+                >
+                  {{ selectedList.description }}
+                </p>
+              </div>
+              <div
+                v-if="hasSelectedList"
+                class="flex flex-wrap items-center gap-2"
+              >
+                <button
+                  type="button"
+                  class="flex size-8 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
+                  :title="t('PROSPECTING.LISTS.ADD_LEADS_TITLE')"
+                  @click="openAddLeadsModal(selectedList)"
+                >
+                  <span class="i-lucide-user-plus size-4" />
+                </button>
+                <button
+                  type="button"
+                  class="flex size-8 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
+                  :title="t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE')"
+                  @click="openCampaignModal(selectedList)"
+                >
+                  <span class="i-lucide-megaphone size-4" />
+                </button>
+              </div>
+            </div>
+            <div v-if="hasSelectedList" class="mt-3 grid gap-2 md:grid-cols-4">
+              <div class="rounded-md bg-n-solid-2 px-3 py-2">
+                <div class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.LISTS.METRICS.LEADS') }}
+                </div>
+                <div class="text-sm font-semibold text-n-slate-12">
+                  {{ selectedList.leads_count || 0 }}
+                </div>
+              </div>
+              <div class="rounded-md bg-n-solid-2 px-3 py-2">
+                <div class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.LISTS.METRICS.READY') }}
+                </div>
+                <div class="text-sm font-semibold text-n-teal-11">
+                  {{ campaignReadyLeads.length }}
+                </div>
+              </div>
+              <div class="rounded-md bg-n-solid-2 px-3 py-2">
+                <div class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.LISTS.METRICS.CONTACTS') }}
+                </div>
+                <div class="text-sm font-semibold text-n-slate-12">
+                  {{ selectedListContactCount }}
+                </div>
+              </div>
+              <div class="rounded-md bg-n-solid-2 px-3 py-2">
+                <div class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.LISTS.METRICS.CRM') }}
+                </div>
+                <div class="text-sm font-semibold text-n-slate-12">
+                  {{ selectedListCrmCount }}
+                </div>
+              </div>
+            </div>
+            <div
+              v-if="hasSelectedList"
+              class="mt-3 grid gap-2 md:grid-cols-[minmax(12rem,1fr)_minmax(12rem,1fr)_minmax(12rem,1fr)]"
+            >
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
+                </span>
+                <select
+                  v-model="statusFilter"
+                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                >
+                  <option value="">
+                    {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
+                  </option>
+                  <option
+                    v-for="status in statusOptions"
+                    :key="status"
+                    :value="status"
+                  >
+                    {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                  </option>
+                </select>
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
+                </span>
+                <select
+                  v-model="crmForm.pipeline_id"
+                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  @change="fetchCrmStages(crmForm.pipeline_id)"
+                >
+                  <option value="">
+                    {{ t('PROSPECTING.SEARCH.CRM_DISABLED') }}
+                  </option>
+                  <option
+                    v-for="pipeline in crmPipelines"
+                    :key="pipeline.id"
+                    :value="pipeline.id"
+                  >
+                    {{ pipeline.name }}
+                  </option>
+                </select>
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
+                </span>
+                <select
+                  v-model="crmForm.stage_id"
+                  class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  :disabled="!crmStages.length"
+                >
+                  <option
+                    v-for="stage in crmStages"
+                    :key="stage.id"
+                    :value="stage.id"
+                  >
+                    {{ stage.name }}
+                  </option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="min-h-0 flex-1 overflow-y-auto">
+            <div
+              v-if="!hasSelectedList"
+              class="px-4 py-8 text-sm text-n-slate-11"
+            >
+              {{ t('PROSPECTING.LISTS.SELECT_EMPTY') }}
+            </div>
+            <div
+              v-else-if="!listLeads.length"
+              class="px-4 py-8 text-sm text-n-slate-11"
+            >
+              {{ t('PROSPECTING.LISTS.LEADS_EMPTY') }}
+            </div>
+            <div v-else class="grid gap-3 p-4">
+              <article
+                v-for="lead in listLeads"
+                :key="lead.id"
+                class="grid min-w-0 gap-3 rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
+              >
+                <div
+                  class="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-start lg:justify-between"
+                >
+                  <div class="min-w-0">
+                    <h3 class="break-words font-semibold text-n-slate-12">
+                      {{ lead.name }}
+                    </h3>
+                    <p class="mt-1 break-words text-n-slate-10">
+                      {{ formatLeadAddress(lead) || '-' }}
+                    </p>
+                    <p class="mt-1 text-n-slate-10">
+                      {{ lead.phone || '-' }}
+                    </p>
+                  </div>
+                  <div class="flex shrink-0 flex-wrap gap-2">
+                    <span
+                      class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                    >
+                      {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
+                    </span>
+                    <span
+                      v-if="lead.contact_id"
+                      class="rounded-md bg-n-teal-3 px-2 py-1 text-xs text-n-teal-11"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
+                    </span>
+                    <span
+                      v-if="lead.crm_card_id"
+                      class="rounded-md bg-n-blue-3 px-2 py-1 text-xs text-n-blue-11"
+                    >
+                      {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  class="flex flex-wrap items-center gap-2 border-t border-n-weak pt-3"
+                >
+                  <a
+                    v-if="lead.contact_id"
+                    :href="contactUrl(lead.contact_id)"
+                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
+                  >
+                    {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
+                  </a>
+                  <button
+                    v-else
+                    type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="convertingLeadId === lead.id"
+                    @click="createContact(lead)"
+                  >
+                    {{
+                      convertingLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
+                        : t('PROSPECTING.SEARCH.CREATE_CONTACT')
+                    }}
+                  </button>
+                  <a
+                    v-if="lead.crm_card_id"
+                    :href="crmCardUrl(lead.crm_card_id)"
+                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-brand underline"
+                  >
+                    {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
+                  </a>
+                  <button
+                    v-else
+                    type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="
+                      convertingCrmLeadId === lead.id || !canCreateCrmCard
+                    "
+                    @click="createCrmCard(lead)"
+                  >
+                    {{
+                      convertingCrmLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
+                        : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
+                    }}
+                  </button>
+                  <button
+                    type="button"
+                    class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="busyLeadId === lead.id"
+                    @click="removeLead(lead)"
+                  >
+                    {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
+                  </button>
+                  <select
+                    :value="lead.status"
+                    class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                    @change="updateLeadQuality(lead, $event.target.value)"
+                  >
+                    <option
+                      v-for="status in statusOptions"
+                      :key="status"
+                      :value="status"
+                    >
+                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+                    </option>
+                  </select>
+                  <input
+                    v-if="lead.status === 'discarded'"
+                    v-model="lead.discard_reason"
+                    class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
+                    :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
+                    @blur="updateDiscardReason(lead)"
+                  />
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <div
+      v-if="showCreateListModal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-n-slate-12/40 p-4"
+      @click.self="showCreateListModal = false"
     >
       <form
-        class="grid gap-3 rounded-lg border border-n-weak bg-n-solid-1 p-4 md:grid-cols-[minmax(12rem,1fr)_minmax(18rem,2fr)_9rem]"
+        class="grid w-full max-w-md gap-4 rounded-md border border-n-weak bg-n-solid-1 p-4 shadow-xl"
         @submit.prevent="createList"
       >
+        <div class="flex items-start justify-between gap-3">
+          <h2 class="text-base font-semibold text-n-slate-12">
+            {{ t('PROSPECTING.LISTS.CREATE_MODAL_TITLE') }}
+          </h2>
+          <button
+            type="button"
+            class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-2"
+            :title="t('PROSPECTING.LISTS.CLOSE')"
+            @click="showCreateListModal = false"
+          >
+            <span class="i-lucide-x size-4" />
+          </button>
+        </div>
         <label class="grid gap-1">
           <span class="text-xs font-medium text-n-slate-11">
             {{ t('PROSPECTING.LISTS.FIELDS.NAME') }}
@@ -434,457 +950,264 @@ onMounted(loadPage);
             :placeholder="t('PROSPECTING.LISTS.DESCRIPTION_PLACEHOLDER')"
           />
         </label>
-        <button
-          type="submit"
-          class="self-end rounded-md bg-n-brand px-4 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60 md:h-10"
-          :disabled="isCreating || !form.name.trim()"
-        >
-          {{
-            isCreating
-              ? t('PROSPECTING.LISTS.CREATING')
-              : t('PROSPECTING.LISTS.CREATE')
-          }}
-        </button>
-      </form>
-
-      <div
-        v-if="notice"
-        class="rounded-md bg-n-teal-3 px-4 py-3 text-sm text-n-teal-11"
-      >
-        {{ notice }}
-      </div>
-      <div
-        v-if="error"
-        class="rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
-      >
-        {{ error }}
-      </div>
-
-      <div
-        class="grid min-h-[32rem] gap-4 lg:grid-cols-[minmax(16rem,22rem)_minmax(0,1fr)]"
-      >
-        <aside
-          class="overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
-        >
-          <div class="border-b border-n-weak px-4 py-3">
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.LISTS.ALL_LISTS') }}
-            </h2>
-          </div>
-          <div v-if="isLoading" class="px-4 py-8 text-sm text-n-slate-11">
-            {{ t('PROSPECTING.STATES.LOADING') }}
-          </div>
-          <div
-            v-else-if="!lists.length"
-            class="px-4 py-8 text-sm text-n-slate-11"
+        <div class="flex justify-end gap-2">
+          <button
+            type="button"
+            class="h-9 rounded-md border border-n-weak px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2"
+            @click="showCreateListModal = false"
           >
-            {{ t('PROSPECTING.LISTS.EMPTY') }}
+            {{ t('PROSPECTING.LISTS.CANCEL') }}
+          </button>
+          <button
+            type="submit"
+            class="h-9 rounded-md bg-n-brand px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="isCreating || !form.name.trim()"
+          >
+            {{
+              isCreating
+                ? t('PROSPECTING.LISTS.CREATING')
+                : t('PROSPECTING.LISTS.CREATE')
+            }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div
+      v-if="showAddLeadsModal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-n-slate-12/40 p-4"
+      @click.self="showAddLeadsModal = false"
+    >
+      <section
+        class="flex max-h-[85vh] w-full max-w-3xl flex-col overflow-hidden rounded-md border border-n-weak bg-n-solid-1 shadow-xl"
+      >
+        <header
+          class="flex items-start justify-between gap-3 border-b border-n-weak px-4 py-3"
+        >
+          <div class="min-w-0">
+            <h2 class="truncate text-base font-semibold text-n-slate-12">
+              {{ t('PROSPECTING.LISTS.ADD_LEADS_TITLE') }}
+            </h2>
+            <p class="mt-1 truncate text-xs text-n-slate-10">
+              {{ selectedList?.name }}
+            </p>
           </div>
-          <div v-else class="max-h-[36rem] overflow-y-auto">
-            <button
-              v-for="list in lists"
-              :key="list.id"
-              type="button"
-              class="grid w-full gap-1 border-b border-n-weak px-4 py-3 text-left text-sm last:border-b-0 hover:bg-n-solid-2"
-              :class="{ 'bg-n-solid-2': selectedList?.id === list.id }"
-              @click="selectList(list)"
+          <button
+            type="button"
+            class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-2"
+            :title="t('PROSPECTING.LISTS.CLOSE')"
+            @click="showAddLeadsModal = false"
+          >
+            <span class="i-lucide-x size-4" />
+          </button>
+        </header>
+        <div
+          class="grid gap-3 border-b border-n-weak p-4 md:grid-cols-[minmax(0,1fr)_12rem]"
+        >
+          <input
+            v-model="addLeadQuery"
+            class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+            :placeholder="t('PROSPECTING.LISTS.SEARCH_AVAILABLE_LEADS')"
+          />
+          <select
+            v-model="addLeadStatusFilter"
+            class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+          >
+            <option value="">
+              {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
+            </option>
+            <option
+              v-for="status in statusOptions"
+              :key="status"
+              :value="status"
             >
-              <span class="truncate font-medium text-n-slate-12">
-                {{ list.name }}
+              {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
+            </option>
+          </select>
+        </div>
+        <div class="min-h-0 flex-1 overflow-y-auto p-4">
+          <div
+            v-if="!filteredAvailableLeads.length"
+            class="py-8 text-sm text-n-slate-11"
+          >
+            {{ t('PROSPECTING.LISTS.NO_AVAILABLE_LEADS') }}
+          </div>
+          <div v-else class="grid gap-2">
+            <label
+              v-for="lead in filteredAvailableLeads"
+              :key="lead.id"
+              class="flex cursor-pointer items-start gap-3 rounded-md border border-n-weak p-3 hover:bg-n-solid-2"
+            >
+              <input
+                type="checkbox"
+                class="mt-1 size-4"
+                :checked="
+                  selectedAddLeadIds.map(Number).includes(Number(lead.id))
+                "
+                @change="toggleAddLeadSelection(lead.id)"
+              />
+              <span class="min-w-0 flex-1">
+                <span
+                  class="block truncate text-sm font-medium text-n-slate-12"
+                >
+                  {{ lead.name }}
+                </span>
+                <span class="mt-1 block truncate text-xs text-n-slate-10">
+                  {{ formatLeadAddress(lead) || lead.phone || '-' }}
+                </span>
               </span>
-              <span class="text-xs text-n-slate-10">
-                {{
-                  t('PROSPECTING.LISTS.LEADS_COUNT', {
-                    count: list.leads_count || 0,
-                  })
-                }}
+              <span
+                class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+              >
+                {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
               </span>
-              <span class="text-xs text-n-slate-10">
-                {{ formatDate(list.created_at) }}
-              </span>
+            </label>
+          </div>
+        </div>
+        <footer
+          class="flex flex-wrap items-center justify-between gap-3 border-t border-n-weak px-4 py-3"
+        >
+          <span class="text-xs text-n-slate-10">
+            {{
+              t('PROSPECTING.LISTS.SELECTED_LEADS_COUNT', {
+                count: selectedAddLeadsCount,
+              })
+            }}
+          </span>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="h-9 rounded-md border border-n-weak px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2"
+              @click="showAddLeadsModal = false"
+            >
+              {{ t('PROSPECTING.LISTS.CANCEL') }}
+            </button>
+            <button
+              type="button"
+              class="h-9 rounded-md bg-n-brand px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="isAddingSelectedLeads || !selectedAddLeadsCount"
+              @click="addSelectedLeads"
+            >
+              {{
+                isAddingSelectedLeads
+                  ? t('PROSPECTING.LISTS.ADDING_LEADS')
+                  : t('PROSPECTING.LISTS.ADD_SELECTED_LEADS')
+              }}
             </button>
           </div>
-        </aside>
+        </footer>
+      </section>
+    </div>
 
-        <section
-          class="grid min-h-0 gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,24rem)]"
-        >
-          <div
-            class="overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
+    <div
+      v-if="showCampaignModal"
+      class="fixed inset-0 z-40 flex items-center justify-center bg-n-slate-12/40 p-4"
+      @click.self="showCampaignModal = false"
+    >
+      <section
+        class="grid w-full max-w-2xl gap-4 rounded-md border border-n-weak bg-n-solid-1 p-4 shadow-xl"
+      >
+        <div class="flex items-start justify-between gap-3">
+          <div class="min-w-0">
+            <h2 class="text-base font-semibold text-n-slate-12">
+              {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE') }}
+            </h2>
+            <p class="mt-1 text-sm text-n-slate-10">
+              {{ selectedList?.name }}
+            </p>
+          </div>
+          <button
+            type="button"
+            class="flex size-8 items-center justify-center rounded-md text-n-slate-11 hover:bg-n-solid-2"
+            :title="t('PROSPECTING.LISTS.CLOSE')"
+            @click="showCampaignModal = false"
           >
-            <div class="border-b border-n-weak px-4 py-3">
-              <h2 class="text-sm font-semibold text-n-slate-12">
-                {{
-                  hasSelectedList
-                    ? selectedList.name
-                    : t('PROSPECTING.LISTS.DETAIL_TITLE')
-                }}
-              </h2>
-              <p
-                v-if="selectedList?.description"
-                class="mt-1 text-sm text-n-slate-10"
-              >
-                {{ selectedList.description }}
-              </p>
-              <div class="mt-3 grid gap-2 sm:grid-cols-3">
-                <label class="grid gap-1">
-                  <span class="text-xs font-medium text-n-slate-11">
-                    {{ t('PROSPECTING.QUALITY.STATUS_FILTER') }}
-                  </span>
-                  <select
-                    v-model="statusFilter"
-                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                  >
-                    <option value="">
-                      {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
-                    </option>
-                    <option
-                      v-for="status in statusOptions"
-                      :key="status"
-                      :value="status"
-                    >
-                      {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                    </option>
-                  </select>
-                </label>
-                <label class="grid gap-1">
-                  <span class="text-xs font-medium text-n-slate-11">
-                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_PIPELINE') }}
-                  </span>
-                  <select
-                    v-model="crmForm.pipeline_id"
-                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                    @change="fetchCrmStages(crmForm.pipeline_id)"
-                  >
-                    <option value="">
-                      {{ t('PROSPECTING.SEARCH.CRM_DISABLED') }}
-                    </option>
-                    <option
-                      v-for="pipeline in crmPipelines"
-                      :key="pipeline.id"
-                      :value="pipeline.id"
-                    >
-                      {{ pipeline.name }}
-                    </option>
-                  </select>
-                </label>
-                <label class="grid gap-1">
-                  <span class="text-xs font-medium text-n-slate-11">
-                    {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-                  </span>
-                  <select
-                    v-model="crmForm.stage_id"
-                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-                    :disabled="!crmStages.length"
-                  >
-                    <option
-                      v-for="stage in crmStages"
-                      :key="stage.id"
-                      :value="stage.id"
-                    >
-                      {{ stage.name }}
-                    </option>
-                  </select>
-                </label>
-              </div>
-              <div
-                v-if="hasSelectedList"
-                class="mt-4 rounded-md border border-n-weak bg-n-solid-2 p-3"
-              >
-                <div
-                  class="flex flex-col gap-3 xl:flex-row xl:items-end xl:justify-between"
-                >
-                  <div class="min-w-0">
-                    <h3 class="text-sm font-semibold text-n-slate-12">
-                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_TITLE') }}
-                    </h3>
-                    <p class="mt-1 text-xs text-n-slate-10">
-                      {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_HINT') }}
-                    </p>
-                    <div
-                      class="mt-2 flex flex-wrap items-center gap-2 text-xs text-n-slate-10"
-                    >
-                      <span
-                        class="rounded-md bg-n-teal-3 px-2 py-1 text-n-teal-11"
-                      >
-                        {{
-                          t('PROSPECTING.LISTS.CAMPAIGN_READY_COUNT', {
-                            count: campaignReadyLeads.length,
-                          })
-                        }}
-                      </span>
-                      <span
-                        class="rounded-md bg-n-amber-3 px-2 py-1 text-n-amber-11"
-                      >
-                        {{
-                          t('PROSPECTING.LISTS.CAMPAIGN_BLOCKED_COUNT', {
-                            count: campaignBlockedLeads.length,
-                          })
-                        }}
-                      </span>
-                      <span
-                        v-if="currentCampaignSegment"
-                        class="rounded-md bg-n-solid-3 px-2 py-1 text-n-slate-11"
-                      >
-                        {{
-                          t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_LABEL', {
-                            label: currentCampaignSegment.label_title,
-                          })
-                        }}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    class="grid min-w-0 gap-2 sm:grid-cols-[minmax(10rem,1fr)_minmax(12rem,1fr)_auto]"
-                  >
-                    <label class="grid gap-1">
-                      <span class="text-xs font-medium text-n-slate-11">
-                        {{ t('PROSPECTING.LISTS.FIELDS.SEGMENT_NAME') }}
-                      </span>
-                      <input
-                        v-model="campaignSegmentForm.segment_name"
-                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
-                        :placeholder="selectedList.name"
-                      />
-                    </label>
-                    <label class="grid gap-1">
-                      <span class="text-xs font-medium text-n-slate-11">
-                        {{ t('PROSPECTING.LISTS.FIELDS.CAMPAIGN') }}
-                      </span>
-                      <select
-                        v-model="campaignSegmentForm.campaign_id"
-                        class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-sm text-n-slate-12"
-                      >
-                        <option value="">
-                          {{
-                            t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_ONLY_LABEL')
-                          }}
-                        </option>
-                        <option
-                          v-for="campaign in availableCampaigns"
-                          :key="campaign.id"
-                          :value="campaign.id"
-                        >
-                          {{ campaign.title }}
-                        </option>
-                      </select>
-                    </label>
-                    <button
-                      type="button"
-                      class="h-9 self-end rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                      :disabled="
-                        isCreatingCampaignSegment || !campaignReadyLeads.length
-                      "
-                      @click="createCampaignSegment"
-                    >
-                      {{
-                        isCreatingCampaignSegment
-                          ? t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATING')
-                          : t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATE')
-                      }}
-                    </button>
-                  </div>
-                </div>
-              </div>
+            <span class="i-lucide-x size-4" />
+          </button>
+        </div>
+        <div class="grid gap-2 md:grid-cols-3">
+          <div class="rounded-md bg-n-solid-2 px-3 py-2">
+            <div class="text-xs text-n-slate-10">
+              {{ t('PROSPECTING.LISTS.METRICS.READY') }}
             </div>
-            <div
-              v-if="!hasSelectedList"
-              class="px-4 py-8 text-sm text-n-slate-11"
-            >
-              {{ t('PROSPECTING.LISTS.SELECT_EMPTY') }}
-            </div>
-            <div
-              v-else-if="!listLeads.length"
-              class="px-4 py-8 text-sm text-n-slate-11"
-            >
-              {{ t('PROSPECTING.LISTS.LEADS_EMPTY') }}
-            </div>
-            <div v-else class="max-h-[36rem] overflow-y-auto">
-              <article
-                v-for="lead in listLeads"
-                :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0"
-              >
-                <div
-                  class="min-w-0 rounded-md border border-n-weak bg-n-solid-2 p-3"
-                >
-                  <div
-                    class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between"
-                  >
-                    <div class="min-w-0">
-                      <h3 class="break-words font-semibold text-n-slate-12">
-                        {{ lead.name }}
-                      </h3>
-                      <p class="mt-1 break-words text-n-slate-10">
-                        {{ formatLeadAddress(lead) || '-' }}
-                      </p>
-                      <p class="mt-1 text-n-slate-10">
-                        {{ lead.phone || '-' }}
-                      </p>
-                    </div>
-                    <div class="flex shrink-0 flex-wrap gap-2">
-                      <span
-                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
-                      >
-                        {{ t(`PROSPECTING.QUALITY.STATUSES.${lead.status}`) }}
-                      </span>
-                      <span
-                        class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
-                      >
-                        {{ lead.source_label || lead.provider }}
-                      </span>
-                    </div>
-                  </div>
-                  <p class="mt-2 break-all text-xs text-n-slate-10">
-                    {{ lead.provider_place_id || '-' }}
-                  </p>
-                </div>
-
-                <div class="flex flex-wrap items-center gap-2">
-                  <div class="flex flex-col items-start gap-1">
-                    <a
-                      v-if="lead.contact_id"
-                      :href="contactUrl(lead.contact_id)"
-                      class="text-xs font-medium text-n-brand underline"
-                    >
-                      {{ t('PROSPECTING.SEARCH.OPEN_CONTACT') }}
-                    </a>
-                    <button
-                      v-else
-                      type="button"
-                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                      :disabled="convertingLeadId === lead.id"
-                      @click="createContact(lead)"
-                    >
-                      {{
-                        convertingLeadId === lead.id
-                          ? t('PROSPECTING.SEARCH.CREATING_CONTACT')
-                          : t('PROSPECTING.SEARCH.CREATE_CONTACT')
-                      }}
-                    </button>
-                    <span
-                      v-if="lead.contact_id"
-                      class="text-xs text-n-slate-10"
-                    >
-                      {{ t('PROSPECTING.SEARCH.CONTACT_CREATED') }}
-                    </span>
-                  </div>
-                  <div class="flex flex-col items-start gap-1">
-                    <a
-                      v-if="lead.crm_card_id"
-                      :href="crmCardUrl(lead.crm_card_id)"
-                      class="text-xs font-medium text-n-brand underline"
-                    >
-                      {{ t('PROSPECTING.SEARCH.OPEN_CRM_CARD') }}
-                    </a>
-                    <button
-                      v-else
-                      type="button"
-                      class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                      :disabled="
-                        convertingCrmLeadId === lead.id || !canCreateCrmCard
-                      "
-                      @click="createCrmCard(lead)"
-                    >
-                      {{
-                        convertingCrmLeadId === lead.id
-                          ? t('PROSPECTING.SEARCH.CREATING_CRM_CARD')
-                          : t('PROSPECTING.SEARCH.CREATE_CRM_CARD')
-                      }}
-                    </button>
-                    <span
-                      v-if="lead.crm_card_id"
-                      class="text-xs text-n-slate-10"
-                    >
-                      {{ t('PROSPECTING.SEARCH.CRM_CARD_CREATED') }}
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    class="h-8 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
-                    :disabled="busyLeadId === lead.id"
-                    @click="removeLead(lead)"
-                  >
-                    {{ t('PROSPECTING.LISTS.REMOVE_LEAD') }}
-                  </button>
-                  <div class="flex flex-col gap-1">
-                    <select
-                      :value="lead.status"
-                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                      @change="updateLeadQuality(lead, $event.target.value)"
-                    >
-                      <option
-                        v-for="status in statusOptions"
-                        :key="status"
-                        :value="status"
-                      >
-                        {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-                      </option>
-                    </select>
-                    <input
-                      v-if="lead.status === 'discarded'"
-                      v-model="lead.discard_reason"
-                      class="h-8 rounded-md border border-n-weak bg-n-solid-2 px-2 text-xs text-n-slate-12"
-                      :placeholder="t('PROSPECTING.QUALITY.DISCARD_REASON')"
-                      @blur="updateDiscardReason(lead)"
-                    />
-                  </div>
-                </div>
-              </article>
+            <div class="text-sm font-semibold text-n-teal-11">
+              {{ campaignReadyLeads.length }}
             </div>
           </div>
-
-          <div
-            class="overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
-          >
-            <div class="border-b border-n-weak px-4 py-3">
-              <h2 class="text-sm font-semibold text-n-slate-12">
-                {{ t('PROSPECTING.LISTS.ADD_LEADS_TITLE') }}
-              </h2>
+          <div class="rounded-md bg-n-solid-2 px-3 py-2">
+            <div class="text-xs text-n-slate-10">
+              {{ t('PROSPECTING.LISTS.METRICS.BLOCKED') }}
             </div>
-            <div
-              v-if="!hasSelectedList"
-              class="px-4 py-8 text-sm text-n-slate-11"
-            >
-              {{ t('PROSPECTING.LISTS.SELECT_TO_ADD') }}
-            </div>
-            <div
-              v-else-if="!availableLeads.length"
-              class="px-4 py-8 text-sm text-n-slate-11"
-            >
-              {{ t('PROSPECTING.LISTS.NO_AVAILABLE_LEADS') }}
-            </div>
-            <div v-else class="max-h-[36rem] overflow-y-auto">
-              <article
-                v-for="lead in availableLeads"
-                :key="lead.id"
-                class="grid gap-3 border-b border-n-weak px-4 py-4 text-sm last:border-b-0"
-              >
-                <div class="min-w-0">
-                  <h3 class="truncate font-medium text-n-slate-12">
-                    {{ lead.name }}
-                  </h3>
-                  <p class="truncate text-n-slate-10">
-                    {{ formatLeadAddress(lead) }}
-                  </p>
-                  <p class="truncate text-xs text-n-slate-10">
-                    {{ t('PROSPECTING.QUALITY.SOURCE') }}:
-                    {{ lead.source_label || lead.provider }}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  class="h-8 rounded-md bg-n-brand px-3 text-xs font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-                  :disabled="busyLeadId === lead.id"
-                  @click="addLead(lead)"
-                >
-                  {{ t('PROSPECTING.LISTS.ADD_LEAD') }}
-                </button>
-              </article>
+            <div class="text-sm font-semibold text-n-amber-11">
+              {{ campaignBlockedLeads.length }}
             </div>
           </div>
-        </section>
-      </div>
-    </section>
+          <div class="rounded-md bg-n-solid-2 px-3 py-2">
+            <div class="text-xs text-n-slate-10">
+              {{ t('PROSPECTING.LISTS.METRICS.SEGMENT') }}
+            </div>
+            <div class="truncate text-sm font-semibold text-n-slate-12">
+              {{ currentCampaignSegment?.label_title || '-' }}
+            </div>
+          </div>
+        </div>
+        <div class="grid gap-3 md:grid-cols-2">
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.LISTS.FIELDS.SEGMENT_NAME') }}
+            </span>
+            <input
+              v-model="campaignSegmentForm.segment_name"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              :placeholder="selectedList?.name"
+            />
+          </label>
+          <label class="grid gap-1">
+            <span class="text-xs font-medium text-n-slate-11">
+              {{ t('PROSPECTING.LISTS.FIELDS.CAMPAIGN') }}
+            </span>
+            <select
+              v-model="campaignSegmentForm.campaign_id"
+              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+            >
+              <option value="">
+                {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_ONLY_LABEL') }}
+              </option>
+              <option
+                v-for="campaign in availableCampaigns"
+                :key="campaign.id"
+                :value="campaign.id"
+              >
+                {{ campaign.title }}
+              </option>
+            </select>
+          </label>
+        </div>
+        <p class="text-xs text-n-slate-10">
+          {{ t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_HINT') }}
+        </p>
+        <div class="flex justify-end gap-2">
+          <button
+            type="button"
+            class="h-9 rounded-md border border-n-weak px-3 text-sm font-medium text-n-slate-12 hover:bg-n-solid-2"
+            @click="showCampaignModal = false"
+          >
+            {{ t('PROSPECTING.LISTS.CANCEL') }}
+          </button>
+          <button
+            type="button"
+            class="h-9 rounded-md bg-n-brand px-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+            :disabled="isCreatingCampaignSegment || !campaignReadyLeads.length"
+            @click="createCampaignSegment"
+          >
+            {{
+              isCreatingCampaignSegment
+                ? t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATING')
+                : t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATE')
+            }}
+          </button>
+        </div>
+      </section>
+    </div>
   </main>
 </template>
