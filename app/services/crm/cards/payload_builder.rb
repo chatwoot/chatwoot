@@ -18,6 +18,36 @@ class Crm::Cards::PayloadBuilder
     conversation: :conversation_payload
   }.freeze
 
+  # CTWA multi-touch: aggregates campaign_touches from ALL conversations linked to
+  # the card (crm_card_conversations, plus the primary as fallback for legacy cards
+  # without a link row), ordered first touch -> last. Slim item (no body/ctwa_clid):
+  # {source_id, headline, source_url, touched_at, conversation_id}. Single source of
+  # truth for the shape — Crm::Kanban::CardPayloadBuilder delegates here so board,
+  # list and websocket payloads never drift. Legacy touches without touched_at sort
+  # first via to_s -> '' (they are the origin touch, so oldest-first stays correct).
+  def self.aggregated_campaigns_for(card)
+    conversations = (card.linked_conversations.to_a + [card.primary_conversation]).compact.uniq(&:id)
+    conversations.flat_map { |conversation| campaign_touches_for(conversation) }
+                 .sort_by { |touch| touch[:touched_at].to_s }
+  end
+
+  def self.campaign_touches_for(conversation)
+    touches = conversation.additional_attributes&.dig('campaign_touches')
+    return [] unless touches.is_a?(Array)
+
+    touches.filter_map do |touch|
+      next unless touch.is_a?(Hash)
+
+      {
+        source_id: touch['source_id'],
+        headline: touch['headline'],
+        source_url: touch['source_url'],
+        touched_at: touch['touched_at'],
+        conversation_id: conversation.id
+      }
+    end
+  end
+
   def initialize(card, user: nil, account_user: nil, conversation_visibility: nil)
     @card = card
     @user = user
@@ -43,6 +73,8 @@ class Crm::Cards::PayloadBuilder
 
   def append_nested_payloads(payload)
     payload[:is_standalone] = @card.standalone?
+    payload[:labels] = labels_payload
+    payload[:campaigns] = campaigns_payload
     payload[:ai_summary] = ai_summary_payload
     payload[:ai_value] = ai_value_payload
     payload[:handoff_invite] = handoff_invite_payload
@@ -52,6 +84,23 @@ class Crm::Cards::PayloadBuilder
       value = send(method_name)
       payload[key] = value if value.present?
     end
+  end
+
+  # Label titles (strings) of the PRIMARY conversation only, in cached_label_list
+  # order — color/id resolution happens client-side against the labels store.
+  # [] when the primary conversation is hidden/absent (same gate as ai_summary).
+  # Shape mirrored in Crm::Kanban::CardPayloadBuilder — keep both identical.
+  def labels_payload
+    return [] unless primary_conversation_visible?
+
+    primary_conversation.cached_label_list_array
+  end
+
+  # See .aggregated_campaigns_for — gated on primary visibility like the summary.
+  def campaigns_payload
+    return [] unless primary_conversation_visible?
+
+    self.class.aggregated_campaigns_for(@card)
   end
 
   # Typed AI summary surfaced to the card drawer. Gated on conversation

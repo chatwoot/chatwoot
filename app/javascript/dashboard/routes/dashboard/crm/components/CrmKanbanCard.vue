@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
 import {
   dynamicTime,
   shortTimestamp,
@@ -10,6 +11,7 @@ import {
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 import CrmCardPill from './CrmCardPill.vue';
 
@@ -164,6 +166,27 @@ const followUp = computed(() => {
   };
 });
 
+// Etiquetas normais da conversa PRIMÁRIA (card.labels = array de titles);
+// CardLabels resolve cor/truncagem cruzando com as labels da conta no store
+// (mesmo padrão da lista de Conversas), evitando prop-drilling pelo board.
+const accountLabels = useMapGetter('labels/getLabels');
+
+// Pill de campanha CTWA (card.campaigns = toques agregados, 1º toque primeiro).
+// Texto = headline do 1º toque (fallback i18n quando o anúncio não tem headline);
+// tooltip lista todos os toques; "+N" sinaliza os toques além do primeiro.
+const campaignPill = computed(() => {
+  const touches = props.card.campaigns || [];
+  if (!touches.length) return null;
+
+  const headlineFor = touch =>
+    touch.headline || t('CRM_KANBAN.CARD.CAMPAIGN_FALLBACK');
+  return {
+    label: headlineFor(touches[0]),
+    title: touches.map(headlineFor).join(' · '),
+    extraCount: touches.length - 1,
+  };
+});
+
 // Convite de handoff em aberto (payload handoff_invite): âmbar dentro do
 // prazo de pega, ruby quando o prazo estourou. Some quando o ciclo fecha
 // (alguém pega, expira ou escala).
@@ -231,6 +254,31 @@ const handoffInvite = computed(() => {
     >
       {{ card.description }}
     </p>
+
+    <!-- Etiquetas normais (conversa primária) — mesma linha de labels da
+         lista de Conversas, cor resolvida via store -->
+    <CardLabels
+      v-if="card.labels?.length"
+      class="mt-2"
+      :conversation-labels="card.labels"
+      :account-labels="accountLabels"
+    />
+
+    <!-- Campanha CTWA — linha própria, separada das signal pills -->
+    <div v-if="campaignPill" class="mt-2 flex items-center">
+      <CrmCardPill
+        icon="i-lucide-megaphone"
+        tone="teal"
+        :title="campaignPill.title"
+      >
+        {{ campaignPill.label }}
+        <template v-if="campaignPill.extraCount > 0" #trail>
+          <span class="shrink-0 font-semibold">
+            +{{ campaignPill.extraCount }}
+          </span>
+        </template>
+      </CrmCardPill>
+    </div>
 
     <!-- Signal pills -->
     <div class="mt-2.5 flex flex-wrap items-center gap-1.5">

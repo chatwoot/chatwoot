@@ -70,6 +70,8 @@ class Crm::Kanban::BoardPayloadBuilder
     cards = apply_value_range_filter(cards)
     cards = apply_stale_filter(cards)
     cards = apply_responsible_filter(cards)
+    cards = apply_label_filter(cards)
+    cards = apply_campaign_filter(cards)
     apply_ai_pending_filter(cards)
   end
 
@@ -135,7 +137,7 @@ class Crm::Kanban::BoardPayloadBuilder
     cards_scope = base_scope.order(id: :desc)
     cards_scope = cards_scope.where('crm_cards.id < ?', cursor_for(stage)) if cursor_for(stage).present?
     cards = cards_scope.preload(
-      :contact, :owner,
+      :contact, :owner, :linked_conversations,
       { inbox: { agent_bot_inbox: :agent_bot } },
       { primary_conversation: [:conversation_participants, :assignee, { applied_sla: :sla_policy }, { inbox: { agent_bot_inbox: :agent_bot } }] }
     ).limit(limit_per_stage + 1).to_a

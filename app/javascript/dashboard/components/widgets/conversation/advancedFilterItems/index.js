@@ -5,6 +5,25 @@ import {
   OPERATOR_TYPES_5,
 } from '../../FilterInput/FilterOperatorTypes';
 
+const CAMPAIGN_SOURCE_OPERATORS = [
+  {
+    value: 'contains',
+    label: 'Contains',
+  },
+  {
+    value: 'does_not_contain',
+    label: 'Does not contain',
+  },
+  {
+    value: 'is_present',
+    label: 'Is present',
+  },
+  {
+    value: 'is_not_present',
+    label: 'Is not present',
+  },
+];
+
 const filterTypes = [
   {
     attributeKey: 'status',
@@ -95,6 +114,14 @@ const filterTypes = [
     attributeModel: 'additional',
   },
   {
+    attributeKey: 'campaign_source_ids',
+    attributeI18nKey: 'CAMPAIGN_SOURCE',
+    inputType: 'search_select',
+    dataType: 'text',
+    filterOperators: CAMPAIGN_SOURCE_OPERATORS,
+    attributeModel: 'additional',
+  },
+  {
     attributeKey: 'created_at',
     attributeI18nKey: 'CREATED_AT',
     inputType: 'date',
@@ -178,6 +205,10 @@ export const filterAttributeGroups = [
       {
         key: 'referer',
         i18nKey: 'REFERER_LINK',
+      },
+      {
+        key: 'campaign_source_ids',
+        i18nKey: 'CAMPAIGN_SOURCE',
       },
     ],
   },

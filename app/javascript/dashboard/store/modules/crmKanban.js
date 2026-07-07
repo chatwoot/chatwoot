@@ -24,10 +24,13 @@ export const defaultFilters = () => ({
   // shapes the List default — surfaced by the status tabs in the list toolbar.
   result: 'open',
   // PR14.7b/c high-value filters. Realtime contract per filter:
-  //  - stageIds / teamId / valueMin / valueMax / staleDays are evaluable from a
-  //    single card payload and ARE mirrored in cardMatchesFilters below.
-  //  - responsibleKind (bot/none) and aiPending are server-truth only; a realtime
-  //    upsert cannot be reliably classified client-side, so they force a refetch
+  //  - stageIds / teamId / valueMin / valueMax / staleDays / campaignSourceIds
+  //    are evaluable from a single card payload and ARE mirrored in
+  //    cardMatchesFilters below (campaignSourceIds reads card.campaigns, the
+  //    CTWA multi-touch aggregate carried by both payload builders).
+  //  - responsibleKind (bot/none), aiPending and labelIds are server-truth only;
+  //    a realtime upsert cannot be reliably classified client-side (label
+  //    add/remove never emits a card upsert), so they force a refetch
   //    (see SERVER_ONLY_FILTER_KEYS / hasServerOnlyFilters).
   stageIds: [],
   teamId: '',
@@ -36,13 +39,25 @@ export const defaultFilters = () => ({
   staleDays: '',
   responsibleKind: '',
   aiPending: false,
+  // Label ids (Number) of the account's labels; matches the PRIMARY linked
+  // conversation server-side. Server-only: see SERVER_ONLY_FILTER_KEYS.
+  labelIds: [],
+  // CTWA ad source_ids (String — Meta ids overflow Number.MAX_SAFE_INTEGER).
+  // OR semantics: matches ANY touch of ANY linked conversation.
+  campaignSourceIds: [],
 });
 
 // Filters that cannot be evaluated from a single realtime card payload. When any
 // of these is active we refetch the active view on a realtime card event instead
 // of trusting cardMatchesFilters (which would let a non-matching card slip in or a
 // matching card drop out — the exact class of bug the old Status filter caused).
-export const SERVER_ONLY_FILTER_KEYS = ['responsibleKind', 'aiPending'];
+// labelIds is here because adding/removing a label on a conversation does NOT
+// broadcast a card upsert, so the payload's labels can be stale mid-session.
+export const SERVER_ONLY_FILTER_KEYS = [
+  'responsibleKind',
+  'aiPending',
+  'labelIds',
+];
 
 export const hasServerOnlyFilters = filters =>
   SERVER_ONLY_FILTER_KEYS.some(key => {
@@ -240,6 +255,9 @@ const normalizeFilters = filters => {
   // List-only "Resultado" filter; the board strips it in fetchBoard.
   if (filters.result) params.result = filters.result;
   if (filters.stageIds?.length) params.stage_ids = filters.stageIds.join(',');
+  if (filters.labelIds?.length) params.label_ids = filters.labelIds.join(',');
+  if (filters.campaignSourceIds?.length)
+    params.campaign_source_ids = filters.campaignSourceIds.join(',');
   if (filters.teamId) params.team_id = filters.teamId;
   // Value range is entered in major currency units; the backend stores cents.
   const valueMinCents = toCents(filters.valueMin);
@@ -346,9 +364,21 @@ const cardMatchesFilters = (card, filters) => {
   ) {
     return false;
   }
-  // responsibleKind and aiPending are intentionally NOT evaluated here — they are
-  // server-truth filters (see SERVER_ONLY_FILTER_KEYS). When active, the page
-  // refetches on realtime instead of relying on this predicate.
+  // Campaign filter mirror: OR over the card's aggregated CTWA touches
+  // (card.campaigns carries one slim touch per linked-conversation click).
+  // source_id comparison is String-based on BOTH sides — Meta ad ids overflow
+  // Number.MAX_SAFE_INTEGER, so Number() coercion would corrupt them.
+  if (filters.campaignSourceIds?.length) {
+    const touchIds = (card.campaigns || []).map(touch =>
+      String(touch.source_id)
+    );
+    if (!filters.campaignSourceIds.some(id => touchIds.includes(String(id)))) {
+      return false;
+    }
+  }
+  // responsibleKind, aiPending and labelIds are intentionally NOT evaluated here —
+  // they are server-truth filters (see SERVER_ONLY_FILTER_KEYS). When active, the
+  // page refetches on realtime instead of relying on this predicate.
   return true;
 };
 

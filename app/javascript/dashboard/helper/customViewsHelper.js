@@ -80,6 +80,20 @@ const getValuesForPriority = (values, priority) => {
   return priority.filter(option => values.includes(option.id));
 };
 
+const getValuesForCampaignSource = (values, ctwaCampaigns) => {
+  // Saved values keep the embedded double quotes ('"<source_id>"') so the
+  // backend matches the exact token inside the jsonb array text. Strip them
+  // only for display; the id stays quoted so re-applying the view works.
+  const quotedId = values[0];
+  const sourceId =
+    typeof quotedId === 'string' ? quotedId.replaceAll('"', '') : quotedId;
+  const campaign = ctwaCampaigns?.find(item => item.source_id === sourceId);
+  return {
+    id: quotedId,
+    name: campaign?.headline || sourceId,
+  };
+};
+
 export const getValuesForFilter = (filter, params) => {
   const { attribute_key, values } = filter;
   const {
@@ -89,6 +103,7 @@ export const getValuesForFilter = (filter, params) => {
     inboxes,
     teams,
     campaigns,
+    ctwaCampaigns,
     labels,
     priority,
     contacts,
@@ -106,6 +121,8 @@ export const getValuesForFilter = (filter, params) => {
       return getValuesForContact(values, contacts);
     case 'campaign_id':
       return getValuesName(values, campaigns, 'id', 'title');
+    case 'campaign_source_ids':
+      return getValuesForCampaignSource(values, ctwaCampaigns);
     case 'labels':
       return getValuesForLabels(values, labels);
     case 'priority':

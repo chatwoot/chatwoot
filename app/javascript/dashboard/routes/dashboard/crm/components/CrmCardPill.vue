@@ -7,11 +7,12 @@ defineProps({
     type: String,
     default: '',
   },
-  // Visual tone. 'default' = slate; 'ruby'/'amber'/'blue' for signals.
+  // Visual tone. 'default' = slate; 'ruby'/'amber'/'blue'/'teal' for signals.
   tone: {
     type: String,
     default: 'default',
-    validator: value => ['default', 'ruby', 'amber', 'blue'].includes(value),
+    validator: value =>
+      ['default', 'ruby', 'amber', 'blue', 'teal'].includes(value),
   },
   // Optional tooltip text (e.g. absolute timestamp behind a relative label).
   title: {
@@ -25,6 +26,7 @@ const toneClasses = {
   ruby: 'bg-n-ruby-3 text-n-ruby-11',
   amber: 'bg-n-amber-3 text-n-amber-11',
   blue: 'bg-n-blue-3 text-n-blue-11',
+  teal: 'bg-n-teal-3 text-n-teal-11',
 };
 </script>
 
@@ -40,5 +42,8 @@ const toneClasses = {
       <Icon v-if="icon" :icon="icon" class="size-3 shrink-0" />
     </slot>
     <span class="truncate"><slot /></span>
+    <!-- Trailing affix (e.g. "+N" badge) — outside the truncating span so it
+         is never clipped by a long main label. -->
+    <slot name="trail" />
   </span>
 </template>

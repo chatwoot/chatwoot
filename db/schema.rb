@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_06_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_06_120000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -434,11 +434,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_000001) do
     t.string "category"
     t.string "dedupe_key", null: false
     t.integer "status", default: 0, null: false
-    t.string "discard_reason"
     t.jsonb "raw_payload", default: {}, null: false
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "discard_reason"
     t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
     t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
     t.index ["account_id", "status"], name: "index_autonomia_prospecting_leads_on_account_id_and_status"
@@ -507,11 +507,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_000001) do
     t.integer "cache_ttl_seconds", default: 86400, null: false
     t.boolean "enrichment_enabled", default: false, null: false
     t.string "google_places_api_key"
-    t.bigint "default_crm_pipeline_id"
-    t.bigint "default_crm_stage_id"
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "default_crm_pipeline_id"
+    t.bigint "default_crm_stage_id"
     t.index ["account_id"], name: "index_autonomia_prospecting_settings_on_account_id", unique: true
     t.index ["default_crm_pipeline_id"], name: "idx_autonomia_prospecting_settings_default_pipeline"
     t.index ["default_crm_stage_id"], name: "idx_autonomia_prospecting_settings_default_stage"
@@ -1059,6 +1059,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_000001) do
     t.datetime "waiting_since"
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
+    t.index "((additional_attributes ->> 'campaign_source_ids'::text)) gin_trgm_ops", name: "idx_conversations_campaign_source_ids_trgm", using: :gin
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"

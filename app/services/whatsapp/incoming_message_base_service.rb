@@ -54,9 +54,9 @@ class Whatsapp::IncomingMessageBaseService
     attribute_ctwa_campaign
   end
 
-  # Promote a Click-to-WhatsApp ad referral into a conversation-level campaign attribute
-  # + label so it drives the Kanban badge/filter. Best-effort enrichment after the message
-  # is safely persisted; idempotent so redeliveries are a no-op.
+  # Promote a Click-to-WhatsApp ad referral into conversation-level campaign attributes
+  # (origin + touch history) so it drives the Kanban pill/filters. Best-effort enrichment
+  # after the message is safely persisted; idempotent per click, so redeliveries are a no-op.
   def attribute_ctwa_campaign
     return if outgoing_echo
 

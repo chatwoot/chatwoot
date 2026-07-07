@@ -1,3 +1,36 @@
+# == Schema Information
+#
+# Table name: autonomia_prospecting_settings
+#
+#  id                      :bigint           not null, primary key
+#  cache_ttl_seconds       :integer          default(86400), not null
+#  daily_limit             :integer
+#  default_limit           :integer          default(20), not null
+#  enrichment_enabled      :boolean          default(FALSE), not null
+#  google_places_api_key   :string
+#  max_results_per_search  :integer          default(20), not null
+#  metadata                :jsonb            not null
+#  monthly_limit           :integer
+#  provider                :string           default("mock"), not null
+#  provider_enabled        :boolean          default(FALSE), not null
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint           not null
+#  default_crm_pipeline_id :bigint
+#  default_crm_stage_id    :bigint
+#
+# Indexes
+#
+#  idx_autonomia_prospecting_settings_default_pipeline  (default_crm_pipeline_id)
+#  idx_autonomia_prospecting_settings_default_stage     (default_crm_stage_id)
+#  index_autonomia_prospecting_settings_on_account_id   (account_id) UNIQUE
+#
+# Foreign Keys
+#
+#  fk_rails_...  (account_id => accounts.id) ON DELETE => cascade
+#  fk_rails_...  (default_crm_pipeline_id => crm_pipelines.id) ON DELETE => nullify
+#  fk_rails_...  (default_crm_stage_id => crm_pipeline_stages.id) ON DELETE => nullify
+#
 class Autonomia::Prospecting::Setting < ApplicationRecord
   self.table_name = 'autonomia_prospecting_settings'
 

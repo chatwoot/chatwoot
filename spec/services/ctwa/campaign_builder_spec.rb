@@ -44,4 +44,172 @@ RSpec.describe Ctwa::CampaignBuilder do
       expect(described_class.build(ctwa_clid: 'Afxyz')).to include('source' => 'meta_ctwa', 'ctwa_clid' => 'Afxyz')
     end
   end
+
+  describe '.attribute!' do
+    let(:conversation) { create(:conversation) }
+    let(:iso8601_utc) { /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/ }
+
+    let(:first_referral) do
+      {
+        'source_url' => 'https://fb.me/3TYpooaRT',
+        'source_id' => '52558118838064',
+        'source_type' => 'ad',
+        'headline' => 'Diana Digital',
+        'body' => 'washa data tu',
+        'media_type' => 'video',
+        'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+      }
+    end
+
+    let(:second_referral) do
+      {
+        'source_url' => 'https://fb.me/other',
+        'source_id' => '120252613195760416',
+        'source_type' => 'ad',
+        'headline' => 'Outro Anúncio',
+        'body' => 'segundo clique',
+        'media_type' => 'image',
+        'ctwa_clid' => 'AfSECONDCLICKID'
+      }
+    end
+
+    it 'records the first touch as origin, slim touch and mirror in a single write' do
+      described_class.attribute!(conversation, first_referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign']).to include(
+        'source' => 'meta_ctwa',
+        'source_id' => '52558118838064',
+        'headline' => 'Diana Digital',
+        'body' => 'washa data tu',
+        'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+      )
+      expect(attrs['campaign']['touched_at']).to match(iso8601_utc)
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign_touches'].first).not_to have_key('body')
+      expect(attrs['campaign_touches'].first).to include(
+        'source' => 'meta_ctwa',
+        'source_id' => '52558118838064',
+        'headline' => 'Diana Digital',
+        'ctwa_clid' => 'AfhcQdP2E4A8wWpeb1FqUzUi'
+      )
+      expect(attrs['campaign_touches'].first['touched_at']).to match(iso8601_utc)
+      expect(attrs['campaign_source_ids']).to eq(['52558118838064'])
+    end
+
+    it 'appends a second touch with a new click id and keeps the origin untouched' do
+      described_class.attribute!(conversation, first_referral)
+      described_class.attribute!(conversation, second_referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign']['source_id']).to eq('52558118838064')
+      expect(attrs['campaign_touches'].map { |touch| touch['ctwa_clid'] })
+        .to eq(%w[AfhcQdP2E4A8wWpeb1FqUzUi AfSECONDCLICKID])
+      expect(attrs['campaign_touches'].last).not_to have_key('body')
+      expect(attrs['campaign_source_ids']).to eq(%w[52558118838064 120252613195760416])
+    end
+
+    it 'is a no-op when the same click id is redelivered' do
+      described_class.attribute!(conversation, first_referral)
+      described_class.attribute!(conversation, first_referral.merge('body' => 'redelivered payload'))
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign']['body']).to eq('washa data tu')
+    end
+
+    it 'falls back to source_id dedup when the referral has no click id' do
+      no_clid = first_referral.except('ctwa_clid')
+
+      described_class.attribute!(conversation, no_clid)
+      described_class.attribute!(conversation, no_clid)
+
+      expect(conversation.reload.additional_attributes['campaign_touches'].length).to eq(1)
+    end
+
+    it 'migrates a legacy single-touch record on the next touch' do
+      legacy_campaign = described_class.build(first_referral)
+      conversation.update!(additional_attributes: { 'campaign' => legacy_campaign })
+
+      described_class.attribute!(conversation, second_referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign']).to include(legacy_campaign)
+      expect(attrs['campaign']['touched_at']).to eq(conversation.created_at.utc.iso8601)
+      expect(attrs['campaign_touches'].length).to eq(2)
+      expect(attrs['campaign_touches'].first).to include(
+        'source_id' => '52558118838064',
+        'touched_at' => conversation.created_at.utc.iso8601
+      )
+      expect(attrs['campaign_touches'].first).not_to have_key('body')
+      expect(attrs['campaign_source_ids']).to eq(%w[52558118838064 120252613195760416])
+    end
+
+    it 'migrates a legacy single-touch record even when the click is a duplicate redelivery' do
+      legacy_campaign = described_class.build(first_referral)
+      conversation.update!(additional_attributes: { 'campaign' => legacy_campaign })
+
+      described_class.attribute!(conversation, first_referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign_touches'].first).to include('source_id' => '52558118838064')
+      expect(attrs['campaign_touches'].first).not_to have_key('body')
+      expect(attrs['campaign_source_ids']).to eq(['52558118838064'])
+    end
+
+    it 'stops appending at MAX_TOUCHES' do
+      touches = Array.new(described_class::MAX_TOUCHES) do |index|
+        { 'source' => 'meta_ctwa', 'source_id' => "ad-#{index}", 'ctwa_clid' => "clid-#{index}", 'touched_at' => '2026-07-01T00:00:00Z' }
+      end
+      conversation.update!(additional_attributes: { 'campaign' => touches.first, 'campaign_touches' => touches })
+
+      described_class.attribute!(conversation, second_referral)
+
+      expect(conversation.reload.additional_attributes['campaign_touches'].length).to eq(described_class::MAX_TOUCHES)
+    end
+
+    it 'keeps the mirror free of blanks and duplicates' do
+      described_class.attribute!(conversation, 'ctwa_clid' => 'AfNOSOURCE')
+      described_class.attribute!(conversation, first_referral)
+      described_class.attribute!(conversation, first_referral.merge('ctwa_clid' => 'AfSAMEADNEWCLICK'))
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign_touches'].length).to eq(3)
+      expect(attrs['campaign_source_ids']).to eq(['52558118838064'])
+    end
+
+    it 'does not create any label' do
+      described_class.attribute!(conversation, first_referral)
+
+      expect(conversation.account.labels).to be_empty
+      expect(conversation.reload.label_list).to be_empty
+    end
+
+    it 'enqueues a card rebroadcast after a successful append when CRM is enabled' do
+      with_modified_env CRM_KANBAN_ENABLED: 'true' do
+        expect do
+          described_class.attribute!(conversation, first_referral)
+        end.to have_enqueued_job(Crm::Cards::RebroadcastConversationCardsJob).with(conversation.id)
+      end
+    end
+
+    it 'does not enqueue a rebroadcast for a deduped touch even with CRM enabled' do
+      described_class.attribute!(conversation, first_referral)
+
+      with_modified_env CRM_KANBAN_ENABLED: 'true' do
+        expect do
+          described_class.attribute!(conversation, first_referral)
+        end.not_to have_enqueued_job(Crm::Cards::RebroadcastConversationCardsJob)
+      end
+    end
+
+    it 'does not enqueue a rebroadcast when CRM is disabled' do
+      with_modified_env CRM_KANBAN_ENABLED: 'false' do
+        expect do
+          described_class.attribute!(conversation, first_referral)
+        end.not_to have_enqueued_job(Crm::Cards::RebroadcastConversationCardsJob)
+      end
+    end
+  end
 end

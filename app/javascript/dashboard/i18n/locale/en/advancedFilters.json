@@ -54,6 +54,7 @@
       "CONTACT": "Contact",
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
+      "CAMPAIGN_SOURCE": "Campaign (ad)",
       "LABELS": "Labels",
       "BROWSER_LANGUAGE": "Browser language",
       "PRIORITY": "Priority",

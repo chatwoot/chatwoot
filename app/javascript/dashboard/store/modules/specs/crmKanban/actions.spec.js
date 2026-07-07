@@ -345,6 +345,175 @@ describe('#crmKanban board filters', () => {
     expect(sentParams.result).toBeUndefined();
   });
 
+  it('maps labelIds and campaignSourceIds to comma-joined params on board fetch', async () => {
+    const commit = vi.fn();
+    CrmKanbanAPI.getBoard.mockResolvedValue({
+      data: { payload: { pipeline: { id: 7 }, stages: [] } },
+    });
+
+    await actions.fetchBoard(
+      {
+        commit,
+        state: {
+          filters: {
+            ...defaultFilters(),
+            labelIds: [4, 9],
+            // Meta ad ids overflow Number.MAX_SAFE_INTEGER: the csv must keep
+            // them as intact strings, never Number-coerced.
+            campaignSourceIds: ['120247112194560621', '99'],
+          },
+        },
+      },
+      { pipelineId: 7 }
+    );
+
+    expect(CrmKanbanAPI.getBoard.mock.calls[0][0]).toMatchObject({
+      label_ids: '4,9',
+      campaign_source_ids: '120247112194560621,99',
+    });
+  });
+
+  it('omits label_ids and campaign_source_ids params when those filters are empty', async () => {
+    const commit = vi.fn();
+    CrmKanbanAPI.getCards.mockResolvedValue({
+      data: { payload: [], meta: { count: 0 } },
+    });
+
+    await actions.fetchCardsList(
+      { commit, state: { filters: defaultFilters() } },
+      { pipelineId: 7 }
+    );
+
+    const sentParams = CrmKanbanAPI.getCards.mock.calls[0][0];
+    expect(sentParams.label_ids).toBeUndefined();
+    expect(sentParams.campaign_source_ids).toBeUndefined();
+  });
+
+  it('propagates label_ids and campaign_source_ids to the cards list fetch', async () => {
+    const commit = vi.fn();
+    CrmKanbanAPI.getCards.mockResolvedValue({
+      data: { payload: [], meta: { count: 0 } },
+    });
+
+    await actions.fetchCardsList(
+      {
+        commit,
+        state: {
+          filters: {
+            ...defaultFilters(),
+            labelIds: [4],
+            campaignSourceIds: ['120247112194560621'],
+          },
+        },
+      },
+      { pipelineId: 7 }
+    );
+
+    expect(CrmKanbanAPI.getCards.mock.calls[0][0]).toMatchObject({
+      label_ids: '4',
+      campaign_source_ids: '120247112194560621',
+    });
+  });
+
+  it('refetches (emits CRM_BOARD_REFETCH) instead of upserting when the label filter is active', () => {
+    const commit = vi.fn();
+    actions.handleRealtimeCardEvent(
+      {
+        commit,
+        state: {
+          board: { pipeline: { id: 7 } },
+          // Label add/remove never broadcasts a card upsert, so labelIds is
+          // server-only: any realtime event must defer to a refetch.
+          filters: { ...defaultFilters(), labelIds: [4] },
+        },
+      },
+      { event: 'crm.card.updated', card: { id: 1, pipeline_id: 7 } }
+    );
+
+    expect(emitter.emit).toHaveBeenCalledWith(BUS_EVENTS.CRM_BOARD_REFETCH);
+    expect(commit).not.toHaveBeenCalledWith(
+      types.UPSERT_CRM_KANBAN_CARD,
+      expect.anything()
+    );
+  });
+
+  it('upserts a card whose campaigns include a selected source_id in any touch position', () => {
+    const commit = vi.fn();
+    const card = {
+      id: 1,
+      pipeline_id: 7,
+      campaigns: [
+        { source_id: '111', headline: 'Primeiro anúncio' },
+        { source_id: '120247112194560621', headline: 'Anúncio filtrado' },
+      ],
+    };
+    actions.handleRealtimeCardEvent(
+      {
+        commit,
+        state: {
+          board: { pipeline: { id: 7 } },
+          filters: {
+            ...defaultFilters(),
+            campaignSourceIds: ['120247112194560621'],
+          },
+        },
+      },
+      { event: 'crm.card.updated', card }
+    );
+
+    expect(emitter.emit).not.toHaveBeenCalled();
+    expect(commit).toHaveBeenCalledWith(types.UPSERT_CRM_KANBAN_CARD, card);
+  });
+
+  it('removes a card whose campaigns miss every selected source_id', () => {
+    const commit = vi.fn();
+    actions.handleRealtimeCardEvent(
+      {
+        commit,
+        state: {
+          board: { pipeline: { id: 7 } },
+          filters: {
+            ...defaultFilters(),
+            campaignSourceIds: ['120247112194560621'],
+          },
+        },
+      },
+      {
+        event: 'crm.card.updated',
+        card: { id: 1, pipeline_id: 7, campaigns: [{ source_id: '111' }] },
+      }
+    );
+
+    expect(commit).toHaveBeenCalledWith(types.REMOVE_CRM_KANBAN_CARD, 1);
+    expect(commit).not.toHaveBeenCalledWith(
+      types.UPSERT_CRM_KANBAN_CARD,
+      expect.anything()
+    );
+  });
+
+  it('removes a card without a campaigns payload when the campaign filter is active', () => {
+    const commit = vi.fn();
+    actions.handleRealtimeCardEvent(
+      {
+        commit,
+        state: {
+          board: { pipeline: { id: 7 } },
+          filters: {
+            ...defaultFilters(),
+            campaignSourceIds: ['120247112194560621'],
+          },
+        },
+      },
+      { event: 'crm.card.updated', card: { id: 1, pipeline_id: 7 } }
+    );
+
+    expect(commit).toHaveBeenCalledWith(types.REMOVE_CRM_KANBAN_CARD, 1);
+    expect(commit).not.toHaveBeenCalledWith(
+      types.UPSERT_CRM_KANBAN_CARD,
+      expect.anything()
+    );
+  });
+
   it('refetches (emits CRM_BOARD_REFETCH) instead of upserting when a server-only filter is active', () => {
     const commit = vi.fn();
     actions.handleRealtimeCardEvent(

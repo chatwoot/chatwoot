@@ -259,7 +259,11 @@
       "ALL": "All",
       "ALL_FEMININE": "All",
       "ACTIVE_COUNT": "{count} active",
-      "PANEL_TITLE": "Filters"
+      "PANEL_TITLE": "Filters",
+      "LABELS": "Labels",
+      "LABELS_PLACEHOLDER": "No labels yet",
+      "CAMPAIGN": "Campaign",
+      "CAMPAIGN_PLACEHOLDER": "No campaigns yet"
     },
     "RESPONSIBLE_FILTER": {
       "AGENT": "Any agent",
@@ -730,7 +734,8 @@
       "FOLLOW_UP_AI": "Automatic follow-up (AI)",
       "FOLLOW_UP_MANUAL": "Manual reminder",
       "HANDOFF_INVITE_PENDING": "Handoff invite pending: pickup due at the time shown",
-      "HANDOFF_INVITE_OVERDUE": "Handoff invite overdue: nobody picked it up in time"
+      "HANDOFF_INVITE_OVERDUE": "Handoff invite overdue: nobody picked it up in time",
+      "CAMPAIGN_FALLBACK": "Meta ad"
     },
     "DRAWER": {
       "CREATE_TITLE": "New card",

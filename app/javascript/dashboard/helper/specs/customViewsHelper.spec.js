@@ -202,6 +202,34 @@ describe('customViewsHelper', () => {
         name: 1,
       });
     });
+
+    it('keeps the quoted id and shows the headline for campaign_source_ids', () => {
+      const filter = {
+        attribute_key: 'campaign_source_ids',
+        values: ['"120247112194560621"'],
+      };
+      const params = {
+        ctwaCampaigns: [
+          { source_id: '120247112194560621', headline: 'Summer promo' },
+        ],
+      };
+      expect(getValuesForFilter(filter, params)).toEqual({
+        id: '"120247112194560621"',
+        name: 'Summer promo',
+      });
+    });
+
+    it('falls back to the unquoted source_id when the campaign is unknown', () => {
+      const filter = {
+        attribute_key: 'campaign_source_ids',
+        values: ['"120247112194560621"'],
+      };
+      const params = {};
+      expect(getValuesForFilter(filter, params)).toEqual({
+        id: '"120247112194560621"',
+        name: '120247112194560621',
+      });
+    });
   });
 
   describe('#generateValuesForEditCustomViews', () => {
@@ -289,6 +317,26 @@ describe('customViewsHelper', () => {
       expect(generateValuesForEditCustomViews(filter, params)).toEqual({
         id: 123,
         name: 'John Doe',
+      });
+    });
+
+    it('rehydrates campaign_source_ids folders through the legacy filter types', () => {
+      const filter = {
+        attribute_key: 'campaign_source_ids',
+        filter_operator: 'contains',
+        values: ['"120247112194560621"'],
+      };
+      const params = {
+        filterTypes: advancedFilterTypes,
+        allCustomAttributes: [],
+        ctwaCampaigns: [
+          { source_id: '120247112194560621', headline: 'Summer promo' },
+        ],
+      };
+
+      expect(generateValuesForEditCustomViews(filter, params)).toEqual({
+        id: '"120247112194560621"',
+        name: 'Summer promo',
       });
     });
 
