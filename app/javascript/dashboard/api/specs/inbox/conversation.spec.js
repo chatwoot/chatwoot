@@ -90,11 +90,16 @@ describe('#ConversationAPI', () => {
     });
 
     it('#assignAgent', () => {
-      conversationAPI.assignAgent({ conversationId: 12, agentId: 34 });
+      conversationAPI.assignAgent({
+        conversationId: 12,
+        agentId: 34,
+        assigneeType: 'AgentBot',
+      });
       expect(axiosMock.post).toHaveBeenCalledWith(
         `/api/v1/conversations/12/assignments`,
         {
           assignee_id: 34,
+          assignee_type: 'AgentBot',
         }
       );
     });
