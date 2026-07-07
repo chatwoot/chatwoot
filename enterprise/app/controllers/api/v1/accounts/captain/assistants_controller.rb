@@ -2,7 +2,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   before_action :current_account
   before_action -> { check_authorization(Captain::Assistant) }
 
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :stats, :summary]
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :stats, :summary, :drilldown]
 
   def index
     @assistants = account_assistants.ordered
@@ -57,7 +57,17 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     end
   end
 
+  def drilldown
+    return head :unprocessable_entity unless Captain::AssistantDrilldownBuilder.supported_metric?(params[:metric])
+
+    render json: Captain::AssistantDrilldownBuilder.new(@assistant, drilldown_params).build
+  end
+
   private
+
+  def drilldown_params
+    params.permit(:metric, :range, :timezone_offset, :page, :per_page)
+  end
 
   def cached_or_generated_summary(builder)
     cache_key = summary_cache_key(builder.range)

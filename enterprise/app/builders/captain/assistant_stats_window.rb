@@ -4,6 +4,10 @@
 # preceding N days for day ranges, or the preceding month for month ranges.
 # `timezone_offset` is the viewer's UTC offset in hours (as the reports API sends
 # it), so month/day boundaries anchor to the viewer's day rather than UTC.
+#
+# Shared by Captain::AssistantStatsBuilder (which needs both windows) and
+# Captain::AssistantDrilldownBuilder (which drills into the current window), so a
+# drilldown always covers exactly the rows its stat card counted.
 class Captain::AssistantStatsWindow
   include TimezoneHelper
 
