@@ -291,7 +291,10 @@ class Conversation < ApplicationRecord
 
   def set_active_bot_conversation
     self.status = :pending
-    self.assignee_agent_bot = inbox.agent_bot if inbox.agent_bot_inbox&.active? && assignee_id.blank?
+    return unless inbox.agent_bot_inbox&.active? && assignee_id.blank?
+
+    self.assignee = nil
+    self.assignee_agent_bot = inbox.agent_bot
   end
 
   def notify_conversation_creation
