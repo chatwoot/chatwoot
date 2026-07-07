@@ -24,13 +24,15 @@ RSpec.describe Integrations::Facebook::MessageParser do
       parser = described_class.new(payload)
 
       expect(parser).to be_reaction
-      expect(parser.reaction_mid).to eq('message-id-to-react-to')
-      expect(parser.reaction_action).to eq('react')
-      expect(parser.reaction_type).to eq('like')
-      expect(parser.reaction_emoji).to eq('👍')
-      expect(parser.sender_id).to eq('sender-id')
-      expect(parser.recipient_id).to eq('page-id')
-      expect(parser.time_stamp).to eq(1_772_452_164_516)
+      expect(parser).to have_attributes(
+        reaction_mid: 'message-id-to-react-to',
+        reaction_action: 'react',
+        reaction_type: 'like',
+        reaction_emoji: '👍',
+        sender_id: 'sender-id',
+        recipient_id: 'page-id',
+        time_stamp: 1_772_452_164_516
+      )
     end
   end
 end

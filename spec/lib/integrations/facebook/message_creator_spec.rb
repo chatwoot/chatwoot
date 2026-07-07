@@ -40,13 +40,15 @@ RSpec.describe Integrations::Facebook::MessageCreator do
         .and not_change(Message, :count)
 
       reaction = MessageReaction.last
-      expect(reaction.message).to eq(target_message)
-      expect(reaction.emoji).to eq('👍')
-      expect(reaction.reaction_type).to eq('like')
-      expect(reaction.status).to eq('active')
-      expect(reaction.actor_external_id).to eq(source_id)
-      expect(reaction.sender).to eq(contact)
-      expect(reaction.external_message_id).to eq(target_message.source_id)
+      expect(reaction).to have_attributes(
+        message: target_message,
+        emoji: '👍',
+        reaction_type: 'like',
+        status: 'active',
+        actor_external_id: source_id,
+        sender: contact,
+        external_message_id: target_message.source_id
+      )
       expect(reaction.external_created_at.to_i).to eq(parser.time_stamp / 1000)
     end
 
@@ -101,7 +103,7 @@ RSpec.describe Integrations::Facebook::MessageCreator do
     end
 
     context 'when the reaction target message id is blank' do
-      let!(:nil_source_message) { create(:message, account: channel.account, inbox: inbox, conversation: conversation, source_id: nil) }
+      let(:nil_source_message) { create(:message, account: channel.account, inbox: inbox, conversation: conversation, source_id: nil) }
 
       let(:blank_target_payload) do
         JSON.parse(base_payload).tap do |payload|
@@ -111,6 +113,7 @@ RSpec.describe Integrations::Facebook::MessageCreator do
       end
 
       it 'does not create a contact, conversation, message, or reaction' do
+        nil_source_message
         parser = Integrations::Facebook::MessageParser.new(blank_target_payload)
         expect(Rails.logger).to receive(:warn)
 
