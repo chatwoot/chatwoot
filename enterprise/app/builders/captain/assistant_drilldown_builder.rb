@@ -121,6 +121,7 @@ class Captain::AssistantDrilldownBuilder
     ids = account.reporting_events
                  .where(name: 'conversation_opened')
                  .where('reporting_events.value > 0')
+                 .where('reporting_events.event_end_time <= ?', range.last)
                  .joins("INNER JOIN (#{resolved_events.to_sql}) resolves " \
                         'ON resolves.conversation_id = reporting_events.conversation_id ' \
                         'AND reporting_events.event_end_time >= resolves.event_end_time')

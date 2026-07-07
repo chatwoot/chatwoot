@@ -180,6 +180,23 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(described_class.new(assistant, '30').metrics[:reopen_rate][:current]).to eq(50.0)
     end
 
+    it 'ignores a reopen that landed after a completed window ended' do
+      travel_to(Time.utc(2026, 7, 15)) do
+        convo = create(:conversation, account: account, inbox: inbox)
+        create(:message, account: account, inbox: inbox, conversation: convo,
+                         sender: assistant, message_type: :outgoing, private: false, created_at: Time.utc(2026, 6, 10))
+        create(:reporting_event, account: account, inbox: inbox, conversation: convo,
+                                 name: 'conversation_bot_resolved', created_at: Time.utc(2026, 6, 12),
+                                 event_start_time: Time.utc(2026, 6, 12), event_end_time: Time.utc(2026, 6, 12))
+        # Reopened on July 1, after the June window closed; June's rate must not count it.
+        create(:reporting_event, account: account, inbox: inbox, conversation: convo,
+                                 name: 'conversation_opened', value: 120,
+                                 event_start_time: Time.utc(2026, 6, 12), event_end_time: Time.utc(2026, 7, 1))
+
+        expect(described_class.new(assistant, 'last_month').metrics[:reopen_rate][:current]).to eq(0.0)
+      end
+    end
+
     it 'derives the cohort from handled conversations, not current inbox membership' do
       create(:reporting_event, account: account, inbox: inbox, conversation: conversation,
                                name: 'conversation_captain_inference_resolved', event_start_time: 6.days.ago, event_end_time: 6.days.ago)

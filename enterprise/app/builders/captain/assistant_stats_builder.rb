@@ -173,9 +173,12 @@ class Captain::AssistantStatsBuilder
     # in the same window isn't mistaken for a reopen-after-Captain-resolve. (Comparing the reopen's
     # start time instead would misfire: the inference event is dispatched just after the generic
     # conversation_resolved that seeds event_start_time, so it can land after the reopen's start.)
+    # The reopen itself must also fall inside the window, so a completed range (last_month, the
+    # previous window) doesn't count reopens that happened after it ended.
     reopened = account.reporting_events
                       .where(name: 'conversation_opened')
                       .where('reporting_events.value > 0')
+                      .where('reporting_events.event_end_time <= ?', range.last)
                       .joins("INNER JOIN (#{resolved_scope.to_sql}) resolves " \
                              'ON resolves.conversation_id = reporting_events.conversation_id ' \
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
