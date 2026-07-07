@@ -35,4 +35,15 @@ RSpec.describe Channel::FacebookPage do
   it 'has a valid name' do
     expect(channel.name).to eq('Facebook')
   end
+
+  describe '#subscribe' do
+    it 'subscribes to Messenger reaction events' do
+      expect(Facebook::Messenger::Subscriptions).to receive(:subscribe).with(
+        access_token: channel.page_access_token,
+        subscribed_fields: include('message_reactions')
+      )
+
+      channel.subscribe
+    end
+  end
 end
