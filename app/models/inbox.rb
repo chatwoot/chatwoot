@@ -77,19 +77,12 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
-  before_create :ensure_create_permitted
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
 
   scope :order_by_name, -> { order('lower(name) ASC') }
-
-  def self.ensure_create_permitted!(account)
-    return if account.inboxes.count < account.inbox_limit
-
-    raise CustomExceptions::Inbox::LimitExceeded.new({})
-  end
 
   # Adds multiple members to the inbox
   # @param user_ids [Array<Integer>] Array of user IDs to add as members
@@ -262,10 +255,6 @@ class Inbox < ApplicationRecord
 
   def ensure_valid_max_assignment_limit
     # overridden in enterprise/app/models/enterprise/inbox.rb
-  end
-
-  def ensure_create_permitted
-    self.class.ensure_create_permitted!(account)
   end
 
   def delete_round_robin_agents

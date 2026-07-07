@@ -1,4 +1,8 @@
 module Enterprise::Inbox
+  def self.prepended(base)
+    base.before_create :ensure_create_permitted
+  end
+
   def member_ids_with_assignment_capacity
     return super unless enable_auto_assignment?
     return filter_by_capacity(available_agents).map(&:user_id) if auto_assignment_v2_enabled?
@@ -37,5 +41,11 @@ module Enterprise::Inbox
     return if auto_assignment_config['max_assignment_limit'].to_i.positive?
 
     errors.add(:auto_assignment_config, 'max_assignment_limit must be greater than 0')
+  end
+
+  def ensure_create_permitted
+    return if account.inboxes.count < account.inbox_limit
+
+    raise CustomExceptions::Inbox::LimitExceeded.new({})
   end
 end
