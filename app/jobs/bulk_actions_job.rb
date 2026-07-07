@@ -27,28 +27,7 @@ class BulkActionsJob < ApplicationJob
     records.each do |conversation|
       bulk_add_labels(conversation)
       bulk_snoozed_until(conversation)
-      next unless params
-
-      assign_conversation(conversation, params)
-      conversation.update(params.except(:assignee_id, :assignee_type))
-    end
-  end
-
-  # Resolve the assignee in-memory (bots aren't a Conversation column) so the single update
-  # in the caller persists it in one write and skips invalid records instead of aborting.
-  def assign_conversation(conversation, params)
-    return unless params.key?(:assignee_id)
-
-    if params[:assignee_type].to_s == 'AgentBot'
-      conversation.assign_attributes(
-        assignee_agent_bot: AgentBot.accessible_to(@account).find_by(id: params[:assignee_id]),
-        assignee: nil
-      )
-    else
-      conversation.assign_attributes(
-        assignee: @account.users.find_by(id: params[:assignee_id]),
-        assignee_agent_bot: nil
-      )
+      conversation.update(params) if params
     end
   end
 

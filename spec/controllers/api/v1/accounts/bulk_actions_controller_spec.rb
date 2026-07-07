@@ -122,26 +122,6 @@ RSpec.describe 'Api::V1::Accounts::BulkActionsController', type: :request do
         expect(Conversation.first.status).to eq('open')
       end
 
-      it 'Bulk assigns an agent bot when assignee_type is AgentBot' do
-        agent_bot = create(:agent_bot, account: account)
-        params = {
-          type: 'Conversation',
-          fields: { assignee_id: agent_bot.id, assignee_type: 'AgentBot' },
-          ids: Conversation.first(3).pluck(:display_id)
-        }
-
-        perform_enqueued_jobs do
-          post "/api/v1/accounts/#{account.id}/bulk_actions",
-               headers: agent.create_new_auth_token,
-               params: params
-
-          expect(response).to have_http_status(:success)
-        end
-
-        expect(Conversation.first.assignee_agent_bot_id).to eq(agent_bot.id)
-        expect(Conversation.first.assignee_id).to be_nil
-      end
-
       it 'Bulk remove assignee id from conversations' do
         Conversation.first.update(assignee_id: agent_1.id)
         Conversation.second.update(assignee_id: agent_2.id)

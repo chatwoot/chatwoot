@@ -188,7 +188,7 @@ export default {
     filteredAgentOnAvailability() {
       const agents = this.$store.getters[
         'inboxAssignableAgents/getAssignableAgents'
-      ](this.inboxId, { includeAgentBots: true });
+      ](this.inboxId);
       const agentsByUpdatedPresence = getAgentsByUpdatedPresence(
         agents,
         this.currentUser,
@@ -218,10 +218,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('inboxAssignableAgents/fetch', {
-      inboxIds: [this.inboxId],
-      includeAgentBots: true,
-    });
+    this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
   },
   methods: {
     isAllowed(keys) {
@@ -272,8 +269,6 @@ export default {
         ...(type === 'label' && { color: option.color }),
         ...(type === 'agent' && { thumbnail: option.thumbnail }),
         ...(type === 'agent' && { status: option.availability_status }),
-        ...(type === 'agent' &&
-          option.assignee_type === 'AgentBot' && { iconName: 'i-lucide-bot' }),
         ...(type === 'text' && { label: option.label }),
         ...(type === 'label' && { label: option.title }),
         ...(type === 'agent' && { label: option.name }),
@@ -365,7 +360,7 @@ export default {
         <template v-else>
           <MenuItem
             v-for="agent in assignableAgents"
-            :key="`${agent.assignee_type || 'User'}:${agent.id}`"
+            :key="agent.id"
             :option="generateMenuLabelConfig(agent, 'agent')"
             variant="agent"
             @click.stop="$emit('assignAgent', agent)"
