@@ -17,7 +17,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   end
 
   def process_create
-    Inbox.ensure_within_account_limit!(Current.account)
+    Inbox.ensure_create_permitted!(Current.account)
 
     ActiveRecord::Base.transaction do
       authenticate_twilio

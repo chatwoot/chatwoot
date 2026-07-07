@@ -127,7 +127,7 @@ class Instagram::CallbacksController < ApplicationController
   end
 
   def create_channel_with_inbox(user_details)
-    Inbox.ensure_within_account_limit!(account)
+    Inbox.ensure_create_permitted!(account)
 
     ActiveRecord::Base.transaction do
       expires_at = Time.current + @long_lived_token_response['expires_in'].seconds

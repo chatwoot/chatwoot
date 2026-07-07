@@ -77,7 +77,7 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
-  before_create :ensure_within_account_inbox_limit
+  before_create :ensure_create_permitted
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
@@ -85,7 +85,7 @@ class Inbox < ApplicationRecord
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
-  def self.ensure_within_account_limit!(account)
+  def self.ensure_create_permitted!(account)
     return if account.inboxes.count < account.inbox_limit
 
     raise CustomExceptions::Inbox::LimitExceeded.new({})
@@ -264,8 +264,8 @@ class Inbox < ApplicationRecord
     # overridden in enterprise/app/models/enterprise/inbox.rb
   end
 
-  def ensure_within_account_inbox_limit
-    self.class.ensure_within_account_limit!(account)
+  def ensure_create_permitted
+    self.class.ensure_create_permitted!(account)
   end
 
   def delete_round_robin_agents

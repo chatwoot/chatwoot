@@ -88,7 +88,7 @@ class Tiktok::CallbacksController < ApplicationController
   end
 
   def create_channel_with_inbox(business_details)
-    Inbox.ensure_within_account_limit!(account)
+    Inbox.ensure_create_permitted!(account)
 
     ActiveRecord::Base.transaction do
       channel_tiktok = Channel::Tiktok.create!(

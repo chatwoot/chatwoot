@@ -1,6 +1,6 @@
 class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
   before_action :inbox, only: [:reauthorize_page]
-  before_action :ensure_within_account_inbox_limit, only: [:register_facebook_page]
+  before_action :ensure_create_permitted, only: [:register_facebook_page]
 
   def register_facebook_page
     user_access_token = params[:user_access_token]
@@ -76,8 +76,8 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     @inbox = Current.account.inboxes.find_by(id: params[:inbox_id])
   end
 
-  def ensure_within_account_inbox_limit
-    Inbox.ensure_within_account_limit!(Current.account)
+  def ensure_create_permitted
+    Inbox.ensure_create_permitted!(Current.account)
   end
 
   def update_fb_page(fb_page_id, access_token)

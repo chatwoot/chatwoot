@@ -38,8 +38,4 @@ module Enterprise::Inbox
 
     errors.add(:auto_assignment_config, 'max_assignment_limit must be greater than 0')
   end
-
-  def ensure_within_account_inbox_limit
-    self.class.ensure_within_account_limit!(account)
-  end
 end
