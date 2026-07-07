@@ -49,6 +49,11 @@ const resolveTrendGood = (trendValue, direction) => {
 // :point, and a plain number for :absolute counts like conversation depth.
 const TREND_SUFFIX = { percent: '%', point: ' pts', absolute: '' };
 
+// Hours-saved is reported in hours, but large values read better as days. Past
+// 100h we switch the unit so the card stays legible.
+const formatDuration = hours =>
+  hours >= 100 ? `${Math.round(hours / 24)}d` : `${hours}h`;
+
 const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
   const data = stats.value?.[statKey];
   if (!data) return { value: '—', trend: '', trendGood: null };
@@ -84,7 +89,7 @@ const metrics = computed(() => [
     key: 'hoursSaved',
     label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    ...metricFor('hours_saved', v => `${v}h`, 'up'),
+    ...metricFor('hours_saved', formatDuration, 'up'),
   },
   {
     key: 'reopen',

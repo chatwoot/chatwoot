@@ -427,8 +427,8 @@
           "HINT": "Share of handled conversations escalated to a human agent."
         },
         "HOURS_SAVED": {
-          "LABEL": "Hours saved",
-          "HINT": "Estimate: Captain replies times the team's average response time. Directional, not measured labor."
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
