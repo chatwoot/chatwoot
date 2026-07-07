@@ -4,6 +4,7 @@
 class Whatsapp::IncomingMessageBaseService
   include ::Whatsapp::IncomingMessageServiceHelpers
   include ::Whatsapp::IncomingMessageIdentifierHelper
+  include ::Whatsapp::IncomingMessageReactionHandler
 
   pattr_initialize [:inbox!, :params!, :outgoing_echo]
 
