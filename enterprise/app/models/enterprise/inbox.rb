@@ -40,8 +40,6 @@ module Enterprise::Inbox
   end
 
   def ensure_within_account_inbox_limit
-    return if account.inboxes.count < account.inbox_limit
-
-    raise CustomExceptions::Inbox::LimitExceeded.new({})
+    self.class.ensure_within_account_limit!(account)
   end
 end

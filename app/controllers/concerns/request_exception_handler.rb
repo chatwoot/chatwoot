@@ -9,7 +9,7 @@ module RequestExceptionHandler
 
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
-    rescue_from CustomExceptions::Inbox::LimitExceeded, with: :render_error_response
+    rescue_from CustomExceptions::Inbox::LimitExceeded, with: :render_inbox_limit_exceeded
   end
 
   private
@@ -62,6 +62,11 @@ module RequestExceptionHandler
   end
 
   def render_error_response(exception)
+    log_handled_error(exception)
+    render json: exception.to_hash, status: exception.http_status
+  end
+
+  def render_inbox_limit_exceeded(exception)
     log_handled_error(exception)
     render json: exception.to_hash, status: exception.http_status
   end

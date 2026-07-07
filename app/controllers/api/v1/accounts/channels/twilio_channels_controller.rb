@@ -6,6 +6,8 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
 
   def create
     process_create
+  rescue CustomExceptions::Inbox::LimitExceeded
+    raise
   rescue StandardError => e
     render_could_not_create_error(e.message)
   end
@@ -17,6 +19,8 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   end
 
   def process_create
+    Inbox.ensure_within_account_limit!(Current.account)
+
     ActiveRecord::Base.transaction do
       authenticate_twilio
       build_inbox

@@ -6,8 +6,11 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   # If inbox_id is present in params, it performs reauthorization
   def create
     validate_embedded_signup_params!
+    Inbox.ensure_within_account_limit!(Current.account) if params[:inbox_id].blank?
     channel = process_embedded_signup
     render_success_response(channel.inbox)
+  rescue CustomExceptions::Inbox::LimitExceeded
+    raise
   rescue StandardError => e
     render_error_response(e)
   end

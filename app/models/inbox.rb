@@ -85,6 +85,12 @@ class Inbox < ApplicationRecord
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
+  def self.ensure_within_account_limit!(account)
+    return if account.inboxes.count < account.inbox_limit
+
+    raise CustomExceptions::Inbox::LimitExceeded.new({})
+  end
+
   # Adds multiple members to the inbox
   # @param user_ids [Array<Integer>] Array of user IDs to add as members
   # @return [void]
@@ -259,7 +265,7 @@ class Inbox < ApplicationRecord
   end
 
   def ensure_within_account_inbox_limit
-    # overridden in enterprise/app/models/enterprise/inbox.rb
+    self.class.ensure_within_account_limit!(account)
   end
 
   def delete_round_robin_agents

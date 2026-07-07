@@ -30,6 +30,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    Inbox.ensure_within_account_limit!(Current.account)
+
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
