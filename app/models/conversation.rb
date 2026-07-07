@@ -282,28 +282,16 @@ class Conversation < ApplicationRecord
 
     return handle_campaign_status if campaign.present?
 
-    return unless inbox.active_bot?
-
-    self.status = :pending
-    assign_connected_agent_bot if connected_agent_bot_inbox?
+    set_active_bot_conversation if inbox.active_bot?
   end
 
   def handle_campaign_status
-    return unless campaign.sender_id.nil? && inbox.active_bot?
+    set_active_bot_conversation if campaign.sender_id.nil? && inbox.active_bot?
+  end
 
+  def set_active_bot_conversation
     self.status = :pending
-    assign_connected_agent_bot if connected_agent_bot_inbox?
-  end
-
-  def connected_agent_bot_inbox?
-    inbox.agent_bot_inbox&.active?
-  end
-
-  def assign_connected_agent_bot
-    return if assignee_id.present?
-
-    self.assignee = nil
-    self.assignee_agent_bot = inbox.agent_bot
+    self.assignee_agent_bot = inbox.agent_bot if inbox.agent_bot_inbox&.active? && assignee_id.blank?
   end
 
   def notify_conversation_creation
