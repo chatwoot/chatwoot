@@ -24,6 +24,7 @@ const crmStages = ref([]);
 const searchConfigStages = ref([]);
 const locationSuggestions = ref([]);
 const locationDetails = ref(null);
+const confirmedLocation = ref('');
 const selectedSearchId = ref(null);
 const selectedLeadDetailId = ref(null);
 const statusFilter = ref('');
@@ -128,7 +129,7 @@ const canCreateCrmCard = computed(() =>
 const canSearch = computed(
   () =>
     form.value.query.trim().length > 0 &&
-    form.value.location.trim().length > 0 &&
+    confirmedLocation.value.trim().length > 0 &&
     !isSearching.value
 );
 const hasSelectedLeads = computed(() => selectedLeadIds.value.length > 0);
@@ -153,10 +154,17 @@ const autocompleteHint = computed(() => {
     return t('PROSPECTING.SEARCH.SUGGESTING_LOCATIONS');
   }
 
+  if (confirmedLocation.value) {
+    return t('PROSPECTING.SEARCH.LOCATION_CONFIRMED');
+  }
+
   return settings.value?.has_google_places_api_key
     ? t('PROSPECTING.SEARCH.AUTOCOMPLETE_READY_HINT')
     : t('PROSPECTING.SEARCH.AUTOCOMPLETE_DISABLED_HINT');
 });
+const selectedLocationLabel = computed(
+  () => locationDetails.value?.label || confirmedLocation.value
+);
 const selectedMapQuery = computed(() => {
   if (
     selectedSearch.value?.location_latitude &&
@@ -179,7 +187,7 @@ const selectedMapQuery = computed(() => {
   return form.value.location || 'Brasil';
 });
 const searchPreviewQuery = computed(() =>
-  [form.value.query, form.value.location].filter(Boolean).join(' ')
+  [form.value.query, selectedLocationLabel.value].filter(Boolean).join(' ')
 );
 const recentLocations = computed(() =>
   [
@@ -223,7 +231,7 @@ const mapUrlFor = query =>
 
 const selectedMapUrl = computed(() => mapUrlFor(selectedMapQuery.value));
 const previewMapUrl = computed(() =>
-  mapUrlFor(searchPreviewQuery.value || form.value.location || 'Brasil')
+  confirmedLocation.value ? mapUrlFor(searchPreviewQuery.value) : ''
 );
 
 const markerStyle = lead => {
@@ -322,9 +330,18 @@ const fetchLocationSuggestions = () => {
   }, 280);
 };
 
+const handleLocationInput = () => {
+  confirmedLocation.value = '';
+  locationDetails.value = null;
+  fetchLocationSuggestions();
+};
+
 const fetchLocationDetails = async suggestion => {
   if (!suggestion?.place_id) {
-    locationDetails.value = null;
+    locationDetails.value = suggestion?.text
+      ? { label: suggestion.text, place_id: '' }
+      : null;
+    confirmedLocation.value = suggestion?.text || '';
     return;
   }
 
@@ -335,18 +352,22 @@ const fetchLocationDetails = async suggestion => {
     locationDetails.value = data.payload || null;
     if (locationDetails.value?.label) {
       form.value.location = locationDetails.value.label;
+      confirmedLocation.value = locationDetails.value.label;
+    } else {
+      confirmedLocation.value = suggestion.text || form.value.location.trim();
     }
   } catch {
     locationDetails.value = null;
+    confirmedLocation.value = '';
   }
 };
 
-const selectLocationSuggestion = async () => {
-  const typedLocation = form.value.location.trim();
-  const selectedSuggestion = combinedLocationSuggestions.value.find(
-    item => item.text === typedLocation
-  );
-  await fetchLocationDetails(selectedSuggestion);
+const confirmLocationSuggestion = async suggestion => {
+  if (!suggestion?.text) return;
+
+  form.value.location = suggestion.text;
+  await fetchLocationDetails(suggestion);
+  locationSuggestions.value = [];
 };
 
 const applyCrmTarget = async search => {
@@ -387,7 +408,7 @@ const submitSearch = async () => {
         location_latitude: locationDetails.value?.latitude,
         location_longitude: locationDetails.value?.longitude,
         location_label:
-          locationDetails.value?.label || form.value.location.trim(),
+          selectedLocationLabel.value || form.value.location.trim(),
       },
     });
 
@@ -406,6 +427,7 @@ const submitSearch = async () => {
 const openSearch = async search => {
   selectedSearchId.value = search.id;
   selectedLeadIds.value = [];
+  selectedLeadDetailId.value = null;
   error.value = '';
   isLoading.value = true;
 
@@ -433,8 +455,14 @@ const repeatSearch = async search => {
     longitude: search.location_longitude,
     label: search.location_label || search.location,
   };
+  confirmedLocation.value = search.location_label || search.location || '';
   await applyCrmTarget(search);
   showNewSearch.value = true;
+};
+
+const toggleNewSearch = () => {
+  selectedLeadDetailId.value = null;
+  showNewSearch.value = !showNewSearch.value;
 };
 
 const deleteSearch = async search => {
@@ -716,7 +744,7 @@ onMounted(async () => {
       <button
         type="button"
         class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-n-brand px-4 text-sm font-medium text-white"
-        @click="showNewSearch = !showNewSearch"
+        @click="toggleNewSearch"
       >
         <span
           class="size-4"
@@ -740,140 +768,187 @@ onMounted(async () => {
 
       <form
         v-if="showNewSearch"
-        class="grid min-h-0 gap-4 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1 p-4 xl:grid-cols-[minmax(24rem,1.2fr)_minmax(18rem,.8fr)_minmax(16rem,.7fr)]"
+        class="min-h-0 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1"
         @submit.prevent="submitSearch"
       >
-        <section class="grid gap-3">
-          <div>
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.SEARCH.SECTIONS.WHERE') }}
-            </h2>
-            <p class="mt-1 text-xs text-n-slate-10">
-              {{ t('PROSPECTING.SEARCH.LOCATION_HINT') }}
-            </p>
-          </div>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.QUERY') }}
-            </span>
-            <input
-              v-model="form.query"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              :placeholder="t('PROSPECTING.SEARCH.QUERY_PLACEHOLDER')"
-            />
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}
-            </span>
-            <input
-              v-model="form.location"
-              list="prospecting-location-suggestions"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              :placeholder="t('PROSPECTING.SEARCH.LOCATION_PLACEHOLDER')"
-              @input="fetchLocationSuggestions"
-              @change="selectLocationSuggestion"
-            />
-            <datalist id="prospecting-location-suggestions">
-              <option
-                v-for="suggestion in combinedLocationSuggestions"
-                :key="suggestion.place_id || suggestion.text"
-                :value="suggestion.text"
-              />
-            </datalist>
-            <span class="text-xs text-n-slate-10">
-              {{ autocompleteHint }}
-            </span>
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}
-            </span>
-            <input
-              v-model="form.radius_km"
-              type="number"
-              min="0.1"
-              step="0.5"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
+        <section class="border-b border-n-weak px-5 py-4">
           <div
-            class="relative h-72 overflow-hidden rounded-md border border-n-weak"
+            class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between"
           >
-            <iframe
-              :src="previewMapUrl"
-              class="size-full border-0"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              :title="t('PROSPECTING.SEARCH.MAP_PREVIEW')"
-            />
+            <div>
+              <h2 class="text-base font-semibold text-n-slate-12">
+                {{ t('PROSPECTING.SEARCH.SECTIONS.WHERE') }}
+              </h2>
+              <p class="mt-1 text-sm text-n-slate-10">
+                {{ t('PROSPECTING.SEARCH.LOCATION_HINT') }}
+              </p>
+            </div>
+            <button
+              type="submit"
+              class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-n-brand px-4 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
+              :disabled="!canSearch"
+            >
+              <span class="i-lucide-search size-4" />
+              {{
+                isSearching
+                  ? t('PROSPECTING.SEARCH.SEARCHING')
+                  : t('PROSPECTING.SEARCH.ACTION')
+              }}
+            </button>
+          </div>
+        </section>
+
+        <section class="grid gap-5 p-5 xl:grid-cols-[minmax(0,1fr)_20rem]">
+          <div class="grid content-start gap-5">
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              <label class="grid gap-1 md:col-span-2">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.QUERY') }}
+                </span>
+                <input
+                  v-model="form.query"
+                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                  :placeholder="t('PROSPECTING.SEARCH.QUERY_PLACEHOLDER')"
+                />
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}
+                </span>
+                <input
+                  v-model="form.radius_km"
+                  type="number"
+                  min="0.1"
+                  step="0.5"
+                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                />
+              </label>
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.LIMIT') }}
+                </span>
+                <input
+                  v-model="form.requested_limit"
+                  type="number"
+                  min="1"
+                  max="50"
+                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                />
+              </label>
+            </div>
+
+            <div class="grid gap-2">
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}
+                </span>
+                <input
+                  v-model="form.location"
+                  class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                  :placeholder="t('PROSPECTING.SEARCH.LOCATION_PLACEHOLDER')"
+                  autocomplete="off"
+                  @input="handleLocationInput"
+                />
+              </label>
+              <div class="flex items-center justify-between gap-3">
+                <span class="text-xs text-n-slate-10">
+                  {{ autocompleteHint }}
+                </span>
+                <span
+                  v-if="confirmedLocation"
+                  class="inline-flex items-center gap-1 text-xs font-medium text-n-teal-11"
+                >
+                  <span class="i-lucide-check size-3.5" />
+                  {{ selectedLocationLabel }}
+                </span>
+              </div>
+              <div
+                v-if="combinedLocationSuggestions.length && !confirmedLocation"
+                class="overflow-hidden rounded-md border border-n-weak bg-n-solid-1"
+              >
+                <button
+                  v-for="suggestion in combinedLocationSuggestions"
+                  :key="suggestion.place_id || suggestion.text"
+                  type="button"
+                  class="flex w-full items-center justify-between gap-3 border-b border-n-weak px-3 py-2 text-left text-sm last:border-b-0 hover:bg-n-solid-2"
+                  @click="confirmLocationSuggestion(suggestion)"
+                >
+                  <span class="min-w-0 truncate text-n-slate-12">
+                    {{ suggestion.text }}
+                  </span>
+                  <span
+                    class="i-lucide-map-pin size-4 shrink-0 text-n-slate-10"
+                  />
+                </button>
+              </div>
+            </div>
+
             <div
-              class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
-              :style="radiusCircleStyle(Number(form.radius_km) * 1000)"
-            />
+              v-if="confirmedLocation"
+              class="relative h-80 overflow-hidden rounded-md border border-n-weak"
+            >
+              <iframe
+                :src="previewMapUrl"
+                class="size-full border-0"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                :title="t('PROSPECTING.SEARCH.MAP_PREVIEW')"
+              />
+              <div
+                class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
+                :style="radiusCircleStyle(Number(form.radius_km) * 1000)"
+              />
+            </div>
           </div>
-        </section>
 
-        <section class="grid content-start gap-3">
-          <div>
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.SEARCH.SECTIONS.DECIDER') }}
-            </h2>
-          </div>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SEARCH.FIELDS.LIMIT') }}
-            </span>
-            <input
-              v-model="form.requested_limit"
-              type="number"
-              min="1"
-              max="50"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-        </section>
-
-        <section class="grid content-start gap-3">
-          <div>
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.SEARCH.SECTIONS.RUN') }}
-            </h2>
-          </div>
-          <div class="rounded-md border border-n-weak bg-n-solid-2 p-3 text-sm">
-            <dl class="grid gap-2 text-n-slate-11">
-              <div class="flex justify-between gap-3">
-                <dt>{{ t('PROSPECTING.SEARCH.FIELDS.QUERY') }}</dt>
-                <dd class="truncate font-medium text-n-slate-12">
+          <aside
+            class="grid content-start gap-3 rounded-md border border-n-weak bg-n-solid-2 p-4"
+          >
+            <div>
+              <h2 class="text-sm font-semibold text-n-slate-12">
+                {{ t('PROSPECTING.SEARCH.SECTIONS.RUN') }}
+              </h2>
+              <p class="mt-1 text-xs text-n-slate-10">
+                {{ t('PROSPECTING.SEARCH.SEARCH_SUMMARY_HINT') }}
+              </p>
+            </div>
+            <dl class="grid gap-3 text-sm text-n-slate-11">
+              <div class="grid gap-1">
+                <dt class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.QUERY') }}
+                </dt>
+                <dd class="break-words font-medium text-n-slate-12">
                   {{ form.query || '-' }}
                 </dd>
               </div>
-              <div class="flex justify-between gap-3">
-                <dt>{{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}</dt>
-                <dd class="truncate font-medium text-n-slate-12">
-                  {{ form.location || '-' }}
+              <div class="grid gap-1">
+                <dt class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.LOCATION') }}
+                </dt>
+                <dd class="break-words font-medium text-n-slate-12">
+                  {{ selectedLocationLabel || '-' }}
                 </dd>
               </div>
-              <div class="flex justify-between gap-3">
-                <dt>{{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}</dt>
-                <dd class="font-medium text-n-slate-12">
-                  {{ form.radius_km }}
-                </dd>
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <dt class="text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.RADIUS_KM') }}
+                  </dt>
+                  <dd class="font-medium text-n-slate-12">
+                    {{ form.radius_km }}
+                  </dd>
+                </div>
+                <div>
+                  <dt class="text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.LIMIT') }}
+                  </dt>
+                  <dd class="font-medium text-n-slate-12">
+                    {{ form.requested_limit }}
+                  </dd>
+                </div>
               </div>
             </dl>
-          </div>
-          <button
-            type="submit"
-            class="inline-flex h-10 items-center justify-center gap-2 rounded-md bg-n-brand px-4 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-60"
-            :disabled="!canSearch"
-          >
-            <span class="i-lucide-search size-4" />
-            {{
-              isSearching
-                ? t('PROSPECTING.SEARCH.SEARCHING')
-                : t('PROSPECTING.SEARCH.ACTION')
-            }}
-          </button>
+          </aside>
         </section>
       </form>
 
@@ -1460,7 +1535,7 @@ onMounted(async () => {
     </section>
 
     <div
-      v-if="selectedLeadDetail"
+      v-if="selectedLeadDetail && !showNewSearch"
       class="fixed inset-0 z-40 bg-n-slate-12/30"
       @click.self="selectedLeadDetailId = null"
     >

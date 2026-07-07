@@ -38,6 +38,8 @@
       "AUTOCOMPLETE_READY_HINT": "Digite e selecione uma localização sugerida.",
       "AUTOCOMPLETE_DISABLED_HINT": "Configure a chave do Google Places para ativar sugestões.",
       "SUGGESTING_LOCATIONS": "Buscando sugestões...",
+      "LOCATION_CONFIRMED": "Localização confirmada.",
+      "SEARCH_SUMMARY_HINT": "Confira os parâmetros antes de executar.",
       "ACTION": "Buscar",
       "SEARCHING": "Buscando...",
       "REPEAT_SEARCH": "Repetir",
