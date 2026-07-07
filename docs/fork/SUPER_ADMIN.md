@@ -27,6 +27,50 @@ to it as root access to the platform.
 > — upper + lower + digit + special — or the task fails loud. See §4.1 for all
 > bootstrap options.
 
+## 0. Quick access — this local Docker instance
+
+If you just want to log in **right now** on your machine, here are the concrete
+values for the running dev instance (the abstract `<chatwoot-host>` placeholders
+elsewhere in this doc resolve to these locally):
+
+| Thing | Value (this local instance) |
+| --- | --- |
+| **URL (browser)** | **`http://localhost:3000/super_admin`** — visiting it unauthenticated redirects to `http://localhost:3000/super_admin/sign_in`. |
+| **Login email** | **`tools.meshever@gmail.com`** — the only Super Admin on this instance (`SuperAdmin` id `109`). |
+| **Password** | The one you set when you created this operator. It is **not** stored in `chatwoot/.env` (no `SUPER_ADMIN_*` vars) and cannot be read back — it's a bcrypt hash in the DB. If you've forgotten it, reset it with the command below. |
+| **After login** | You land on the accounts list (`/super_admin/accounts`). Background jobs: **`http://localhost:3000/monitoring/sidekiq`**. Sign out: **`http://localhost:3000/super_admin/logout`**. |
+| **Rails container** | `chatwoot-rails-1` (from `docker ps`). Port 3000 is published to the host; `FRONTEND_URL=http://localhost:3000`. |
+
+> **How this operator was created:** manually on the host (not via the dev seed and
+> not via the `.env` bootstrap — those vars aren't set here). There is **no**
+> `john@acme.inc` seed admin on this instance, which is the secure state. Confirm
+> anytime with:
+> ```bash
+> docker exec chatwoot-rails-1 bundle exec rails runner 'pp SuperAdmin.pluck(:id, :email)'
+> # => [[109, "tools.meshever@gmail.com"]]
+> ```
+
+**Forgot / want to change the password?** There is no email reset for this scope —
+reset it directly (pick a strong value: upper + lower + digit + special, or Chatwoot
+rejects it):
+
+```bash
+docker exec \
+  -e NEW_SUPER_ADMIN_PASSWORD='<new-strong-password>' \
+  chatwoot-rails-1 bundle exec rails runner '
+    sa = SuperAdmin.find_by!(email: "tools.meshever@gmail.com")
+    sa.password = ENV.fetch("NEW_SUPER_ADMIN_PASSWORD"); sa.save!
+    puts "password reset for #{sa.email}"'
+```
+
+Then log in at `http://localhost:3000/super_admin` with `tools.meshever@gmail.com`
+and the new password.
+
+> **Local dev only.** These values (localhost, single operator) describe your laptop
+> instance. In any shared/production deployment, follow §4.1 (env-driven bootstrap)
+> and §5 (network-restrict `/super_admin`, no public exposure) instead — never expose
+> a password-only console like this to the internet.
+
 ## 1. What it controls (blast radius)
 
 Routes live under `namespace :super_admin` in `config/routes.rb`, guarded by
@@ -118,12 +162,35 @@ DB access to reset it. Because there is no MFA on this path, **do not expose
 
 ### 4.1 First-boot bootstrap (recommended) — `fork:super_admin:bootstrap`
 
-The fork ships an **idempotent bootstrap** so a fresh instance comes up with a real,
-env-driven operator instead of the insecure dev seed. It is safe to run on every boot.
+The fork ships an **idempotent bootstrap script** so a fresh instance comes up with a
+real, env-driven operator instead of the insecure dev seed. It is safe to run on every
+boot. This is the **"preloaded credential from `.env`"** mechanism: you put the
+operator's email + password in `.env` (or your secrets manager), and the script reads
+those vars and materialises the `SuperAdmin` row — you never type credentials into a UI.
 
-- Service: `custom/app/services/custom/super_admin_bootstrap.rb` (fork-owned).
-- Task: `lib/tasks/fork/super_admin.rake` → `bundle exec rails fork:super_admin:bootstrap`.
-- Tests: `spec/custom/services/super_admin_bootstrap_spec.rb`.
+**The script — two files, one entry point:**
+
+- **Task (thin shim):** `lib/tasks/fork/super_admin.rake` → run with
+  `bundle exec rails fork:super_admin:bootstrap`. This is what you invoke.
+- **Service (the logic):** `custom/app/services/custom/super_admin_bootstrap.rb`
+  (`Custom::SuperAdminBootstrap`) — fork-owned so upstream merges never touch it.
+- **Tests:** `spec/custom/services/super_admin_bootstrap_spec.rb`.
+
+**What one run does**, in order:
+1. **Ensure operator** — if no `SuperAdmin` with `SUPER_ADMIN_EMAIL` exists, create it
+   with `SUPER_ADMIN_PASSWORD` (confirmation skipped, since this scope has no email
+   flow). If it already exists, leave the password **untouched** — *unless*
+   `SUPER_ADMIN_ROTATE_PASSWORD=true`, in which case reset it. A weak password **fails
+   loud** (raises) so the instance never boots operator-less with a bad credential.
+2. **Remove dev seed** — if `SUPER_ADMIN_REMOVE_DEFAULT_SEED=true`, delete the
+   `john@acme.inc` seed admin (never the configured operator).
+3. **Baseline hardening** — if `SUPER_ADMIN_DISABLE_SIGNUP=true`, set
+   `ENABLE_ACCOUNT_SIGNUP=false` in `InstallationConfig` + clear the config cache.
+
+If `SUPER_ADMIN_EMAIL`/`SUPER_ADMIN_PASSWORD` are unset, the script logs
+`… not set — skipping Super Admin bootstrap` and does nothing — which is exactly the
+state on the current local instance (see §0: the operator there was created manually,
+not preloaded this way).
 
 **Environment** (put in your secrets manager / Chatwoot `.env`):
 
@@ -140,6 +207,33 @@ Behavior: creates the operator only when missing; leaves an existing password al
 unless `ROTATE`; only writes configs that changed. It intentionally does **not** flip
 `ENABLE_SSO_ONLY_LOGIN` (a tenant-facing control with lockout risk — enable that
 separately per `../../../meta-saas/docs/operations/chatwoot-access-lockdown.md`).
+
+**Preload a fresh operator** (first time — email not yet in the DB):
+
+```bash
+docker exec \
+  -e SUPER_ADMIN_EMAIL='ops@yourcompany.com' \
+  -e SUPER_ADMIN_PASSWORD='<strong-password>' \
+  chatwoot-rails-1 bundle exec rails fork:super_admin:bootstrap
+# → "Created Super Admin ops@yourcompany.com"
+```
+
+**Rotate an existing operator's password** — same task, but you must add
+`SUPER_ADMIN_ROTATE_PASSWORD=true`, or the run is a no-op that just logs
+`… already present — unchanged`:
+
+```bash
+docker exec \
+  -e SUPER_ADMIN_EMAIL='ops@yourcompany.com' \
+  -e SUPER_ADMIN_PASSWORD='<new-strong-password>' \
+  -e SUPER_ADMIN_ROTATE_PASSWORD=true \
+  chatwoot-rails-1 bundle exec rails fork:super_admin:bootstrap
+# → "Rotated Super Admin password for ops@yourcompany.com"
+```
+
+Both are idempotent — re-running with the same values changes nothing. `SUPER_ADMIN_*`
+must be reachable by the process: pass them inline as above (one-shot), or add them to
+Chatwoot's `.env` so every boot re-asserts the operator.
 
 **Wire it into first boot.** In your deploy (`docker-compose*.yaml` / k8s), run it
 after DB prepare and before the server starts — e.g. the rails service `command`:

@@ -33,6 +33,62 @@ upstream specs that mock GlobalConfig strictly (see error log,
 2026-07-02 GlobalConfig strict-mock entry). Upstream's own `agents`/`inboxes`
 keys keep their enterprise resolution chain untouched.
 
+## Current plan catalog — what a new / free account gets
+
+A brand-new tenant starts on the **Trial** (free, $0) plan. The control plane
+(meta-saas) seeds three plans (`meta-saas/apps/api/prisma/seed.ts`); a tenant's
+`TenantEntitlement` overrides win when set. `PlanLimitsSyncService` pushes the
+**Chatwoot-enforced** subset (agents/teams/inboxes) into `accounts.limits` on
+provisioning and on every plan change — which is why a trial account shows
+`limits = {"teams" => 1, "agents" => 1, "inboxes" => 2}`.
+
+| Cap | **Trial (free)** | Starter | Pro | Enforced by |
+| --- | --- | --- | --- | --- |
+| Agents | **1** | 3 | 25 | **Chatwoot** — `accounts.limits.agents` (402 quota modal) |
+| Teams | **1** | 2 | 10 | **Chatwoot** — `accounts.limits.teams` |
+| Inboxes (vendor) | **1** (+1 system → `inboxes: 2`) | 3 (→4) | 25 (→26) | **Chatwoot** — `accounts.limits.inboxes` |
+| Messages / window | **500** | 5,000 | 50,000 | NestJS control plane |
+| LLM tokens / window | **100,000** | 2,000,000 | 20,000,000 | NestJS control plane |
+| Tool calls / window | **500** | 5,000 | 50,000 | NestJS control plane |
+| KB documents | **20** | 200 | 2,000 | NestJS control plane |
+| Allowed tools | **`kb_search`** | + `crm_lookup`, `order_lookup` | + `booking`, `ticketing` | NestJS policy engine |
+
+Notes:
+
+- **The `+1` system inbox** is the platform "AI Handoff" API inbox
+  (`SYSTEM_RESERVED_INBOXES`), reserved on top of the plan so a `maxInboxes: 1`
+  trial still lets the vendor create **1** of their own channels (see
+  `plan-limits-sync.service.ts`).
+- **"per window"** = a **rolling 15-day** usage window (`QUOTA_WINDOW_DAYS`,
+  default 15). Exceeding messages/tokens/tool-calls flips the tenant's
+  `aiEnabled` to `false` (reason `message_quota_exceeded` / `token_quota_exceeded`)
+  → **the AI stops auto-replying**. The window renews and the block **self-lifts**;
+  human replies in Chatwoot are never blocked and no data is deleted. This is the
+  `agentic_ai` limit surfaced here display-only (see the last section) but enforced
+  in NestJS.
+- **None of these are login / access gates.** They cap capacity and automation, not
+  whether you can open or sign into an account — see the next section.
+
+## Not a limit: why a day-old account seems "inaccessible"
+
+A common confusion: *"I registered an account yesterday and can't get into it today,
+but creating a new one drops me straight into Chatwoot — is the free plan limiting
+me?"* **No.** The account still exists with its normal caps; this is the **SSO-only
+lockdown**, not a quota:
+
+- `ENABLE_SSO_ONLY_LOGIN=true` → **native Chatwoot login is refused**. A tenant reaches
+  Chatwoot **only** by bouncing through the meta-saas login, which mints a fresh
+  Chatwoot session.
+- That session **expires** (it's not a permanent login). A day later, navigating to
+  Chatwoot directly can't sign you in, because native login is off.
+- **Re-enter through the meta-saas dashboard** (`EXTERNAL_LOGIN_URL`, e.g.
+  `http://localhost:3002/login`) with your vendor credentials — it re-bounces you into
+  your **existing** account. "Opening a new account" simply runs that same fresh SSO
+  bounce, which is why *that* lands you in Chatwoot.
+
+See [`chatwoot-access-lockdown.md`](../../../meta-saas/docs/operations/chatwoot-access-lockdown.md)
+for the lockdown mechanism and [`SUPER_ADMIN.md`](./SUPER_ADMIN.md) for operator access.
+
 ## Fork extension: `Custom::Account::PlanUsageAndLimits`
 
 `custom/app/models/custom/account/plan_usage_and_limits.rb`, prepended onto
