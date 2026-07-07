@@ -597,6 +597,45 @@ RSpec.describe Conversation do
     end
   end
 
+  describe 'unread_incoming_activities_count' do
+    subject(:unread_incoming_activities_count) { conversation.unread_incoming_activities_count }
+
+    let(:conversation) { create(:conversation, agent_last_seen_at: 1.hour.ago) }
+    let(:message) { create(:message, message_type: :outgoing, conversation: conversation, account: conversation.account, inbox: conversation.inbox) }
+
+    it 'counts incoming active reactions after agent_last_seen_at as unread activity' do
+      create(:message_reaction, message: message, conversation: conversation, created_at: Time.current)
+
+      expect(conversation.unread_incoming_messages.count).to eq(0)
+      expect(unread_incoming_activities_count).to eq(1)
+    end
+
+    it 'ignores reactions created before agent_last_seen_at' do
+      create(:message_reaction, message: message, conversation: conversation, created_at: 1.month.ago)
+
+      expect(unread_incoming_activities_count).to eq(0)
+    end
+
+    it 'ignores outgoing reactions' do
+      create(:message_reaction, message: message, conversation: conversation, direction: :outgoing, created_at: Time.current)
+
+      expect(unread_incoming_activities_count).to eq(0)
+    end
+
+    it 'ignores removed reactions' do
+      create(:message_reaction, message: message, conversation: conversation, status: :removed, created_at: Time.current)
+
+      expect(unread_incoming_activities_count).to eq(0)
+    end
+
+    it 'counts reactions even if the agent has not seen the conversation' do
+      conversation.update!(agent_last_seen_at: nil)
+      create(:message_reaction, message: message, conversation: conversation, created_at: 1.month.ago)
+
+      expect(unread_incoming_activities_count).to eq(1)
+    end
+  end
+
   describe '#push_event_data' do
     subject(:push_event_data) { conversation.push_event_data }
 

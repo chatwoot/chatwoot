@@ -46,18 +46,35 @@ class Conversations::UnreadCounts::Builder
   def unread_conversations
     account.conversations
            .open
-           .joins(:messages)
-           .merge(Message.incoming.reorder(nil))
-           .where(messages: { account_id: account.id })
+           .left_joins(:messages, :message_reactions)
            .where(unread_since_last_seen_condition)
            .distinct
   end
 
   def unread_since_last_seen_condition
-    conversations = Conversation.arel_table
+    unread_message_condition.or(unread_reaction_condition)
+  end
+
+  def unread_message_condition
     messages = Message.arel_table
 
-    conversations[:agent_last_seen_at].eq(nil).or(messages[:created_at].gt(conversations[:agent_last_seen_at]))
+    messages[:account_id].eq(account.id)
+                         .and(messages[:message_type].eq(Message.message_types[:incoming]))
+                         .and(last_seen_null_or_before(messages[:created_at]))
+  end
+
+  def unread_reaction_condition
+    reactions = MessageReaction.arel_table
+
+    reactions[:account_id].eq(account.id)
+                          .and(reactions[:direction].eq(MessageReaction.directions[:incoming]))
+                          .and(reactions[:status].eq(MessageReaction.statuses[:active]))
+                          .and(last_seen_null_or_before(reactions[:created_at]))
+  end
+
+  def last_seen_null_or_before(timestamp_column)
+    conversations = Conversation.arel_table
+    conversations[:agent_last_seen_at].eq(nil).or(timestamp_column.gt(conversations[:agent_last_seen_at]))
   end
 
   def label_ids_for(cached_label_list)

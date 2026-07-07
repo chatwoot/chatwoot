@@ -41,6 +41,60 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
   end
 
+  it 'refreshes unread counts when a message reaction is created' do
+    account.enable_features!(:conversation_unread_counts)
+    event = Events::Base.new('message.reaction.created', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_created(event)
+
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: nil)
+    expect(notifier).to have_received(:perform)
+  end
+
+  it 'ignores message reaction creation when conversation unread counts are disabled' do
+    event = Events::Base.new('message.reaction.created', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_created(event)
+
+    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+  end
+
+  it 'refreshes unread counts when a message reaction is updated' do
+    account.enable_features!(:conversation_unread_counts)
+    event = Events::Base.new('message.reaction.updated', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_updated(event)
+
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: nil)
+    expect(notifier).to have_received(:perform)
+  end
+
+  it 'ignores message reaction updates when conversation unread counts are disabled' do
+    event = Events::Base.new('message.reaction.updated', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_updated(event)
+
+    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+  end
+
+  it 'refreshes unread counts when a message reaction is removed' do
+    account.enable_features!(:conversation_unread_counts)
+    event = Events::Base.new('message.reaction.removed', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_removed(event)
+
+    expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: nil)
+    expect(notifier).to have_received(:perform)
+  end
+
+  it 'ignores message reaction removal when conversation unread counts are disabled' do
+    event = Events::Base.new('message.reaction.removed', Time.zone.now, conversation: conversation)
+
+    listener.message_reaction_removed(event)
+
+    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
+  end
+
   it 'refreshes unread counts when conversation status changes' do
     changed_attributes = { 'status' => %w[open resolved] }
     event = Events::Base.new('conversation.status_changed', Time.zone.now, conversation: conversation, changed_attributes: changed_attributes)
