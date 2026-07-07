@@ -181,6 +181,8 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               headers: { 'X-Auth-Token' => token },
               as: :json
 
+        expect(victim.reload.email).to be_nil
+        expect(Contact.from_email('prechat@test.com')).to be_present
         expect(response).to have_http_status(:success)
       end
     end
