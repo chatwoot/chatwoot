@@ -51,6 +51,7 @@ class Api::V1::Accounts::Autonomia::Prospecting::SettingsController < Api::V1::A
       ]
     ).merge(
       has_google_places_api_key: current_setting.google_places_configured?,
+      google_maps_api_key: current_setting.google_places_api_key,
       usage: usage_payload(current_setting)
     )
   end

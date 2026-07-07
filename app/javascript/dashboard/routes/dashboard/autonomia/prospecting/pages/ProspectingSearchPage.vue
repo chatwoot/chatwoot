@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
+import ProspectingGoogleMap from '../components/ProspectingGoogleMap.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -165,37 +166,27 @@ const autocompleteHint = computed(() => {
 const selectedLocationLabel = computed(
   () => locationDetails.value?.label || confirmedLocation.value
 );
-const selectedMapQuery = computed(() => {
-  if (
-    selectedSearch.value?.location_latitude &&
-    selectedSearch.value?.location_longitude
-  ) {
-    return `${selectedSearch.value.location_latitude},${selectedSearch.value.location_longitude}`;
-  }
-
-  const leadWithCoordinates = leads.value.find(
-    lead => lead.latitude && lead.longitude
-  );
-  if (leadWithCoordinates) {
-    return `${leadWithCoordinates.latitude},${leadWithCoordinates.longitude}`;
-  }
-
-  if (selectedSearch.value?.location) {
-    return `${selectedSearch.value.query || ''} ${selectedSearch.value.location}`;
-  }
-
-  return form.value.location || 'Brasil';
-});
-const searchPreviewQuery = computed(() =>
-  [form.value.query, selectedLocationLabel.value].filter(Boolean).join(' ')
-);
 const recentLocations = computed(() =>
-  [
-    ...new Set(searches.value.map(search => search.location).filter(Boolean)),
-  ].slice(0, 8)
+  searches.value
+    .filter(search => search.location)
+    .reduce((items, search) => {
+      if (items.some(item => item.text === search.location)) return items;
+
+      return [
+        ...items,
+        {
+          text: search.location,
+          place_id: search.location_place_id || '',
+          latitude: search.location_latitude,
+          longitude: search.location_longitude,
+          label: search.location_label || search.location,
+        },
+      ];
+    }, [])
+    .slice(0, 8)
 );
 const recentLocationSuggestions = computed(() =>
-  recentLocations.value.map(location => ({ text: location, place_id: '' }))
+  recentLocations.value.map(location => ({ ...location }))
 );
 const combinedLocationSuggestions = computed(() => {
   const items = [
@@ -213,55 +204,32 @@ const combinedLocationSuggestions = computed(() => {
 const mapLeads = computed(() =>
   sortedLeads.value.filter(lead => lead.latitude && lead.longitude)
 );
-const mapBounds = computed(() => {
-  if (!mapLeads.value.length) return null;
+const googleMapsApiKey = computed(
+  () => settings.value?.google_maps_api_key || ''
+);
+const previewMapCenter = computed(() => {
+  if (!locationDetails.value?.latitude || !locationDetails.value?.longitude) {
+    return null;
+  }
 
-  const latitudes = mapLeads.value.map(lead => Number(lead.latitude));
-  const longitudes = mapLeads.value.map(lead => Number(lead.longitude));
   return {
-    minLat: Math.min(...latitudes),
-    maxLat: Math.max(...latitudes),
-    minLng: Math.min(...longitudes),
-    maxLng: Math.max(...longitudes),
+    lat: Number(locationDetails.value.latitude),
+    lng: Number(locationDetails.value.longitude),
   };
 });
+const resultsMapCenter = computed(() => {
+  if (
+    selectedSearch.value?.location_latitude &&
+    selectedSearch.value?.location_longitude
+  ) {
+    return {
+      lat: Number(selectedSearch.value.location_latitude),
+      lng: Number(selectedSearch.value.location_longitude),
+    };
+  }
 
-const mapUrlFor = query =>
-  `https://maps.google.com/maps?q=${encodeURIComponent(query || 'Brasil')}&z=12&output=embed`;
-
-const selectedMapUrl = computed(() => mapUrlFor(selectedMapQuery.value));
-const previewMapUrl = computed(() =>
-  confirmedLocation.value ? mapUrlFor(searchPreviewQuery.value) : ''
-);
-
-const markerStyle = lead => {
-  if (!mapBounds.value) return { left: '50%', top: '50%' };
-
-  const latitudeRange = mapBounds.value.maxLat - mapBounds.value.minLat || 0.01;
-  const longitudeRange =
-    mapBounds.value.maxLng - mapBounds.value.minLng || 0.01;
-  const left =
-    ((Number(lead.longitude) - mapBounds.value.minLng) / longitudeRange) * 84 +
-    8;
-  const top =
-    (1 - (Number(lead.latitude) - mapBounds.value.minLat) / latitudeRange) *
-      84 +
-    8;
-
-  return {
-    left: `${Math.max(6, Math.min(94, left))}%`,
-    top: `${Math.max(6, Math.min(94, top))}%`,
-  };
-};
-
-const radiusCircleStyle = radius => {
-  const kilometers = Number(radius || 5000) / 1000;
-  const size = Math.max(84, Math.min(260, 72 + kilometers * 14));
-  return {
-    width: `${size}px`,
-    height: `${size}px`,
-  };
-};
+  return null;
+});
 
 const fetchSettings = async () => {
   try {
@@ -339,9 +307,14 @@ const handleLocationInput = () => {
 const fetchLocationDetails = async suggestion => {
   if (!suggestion?.place_id) {
     locationDetails.value = suggestion?.text
-      ? { label: suggestion.text, place_id: '' }
+      ? {
+          label: suggestion.label || suggestion.text,
+          place_id: '',
+          latitude: suggestion.latitude,
+          longitude: suggestion.longitude,
+        }
       : null;
-    confirmedLocation.value = suggestion?.text || '';
+    confirmedLocation.value = suggestion?.label || suggestion?.text || '';
     return;
   }
 
@@ -883,22 +856,13 @@ onMounted(async () => {
               </div>
             </div>
 
-            <div
-              v-if="confirmedLocation"
-              class="relative h-80 overflow-hidden rounded-md border border-n-weak"
-            >
-              <iframe
-                :src="previewMapUrl"
-                class="size-full border-0"
-                loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"
-                :title="t('PROSPECTING.SEARCH.MAP_PREVIEW')"
-              />
-              <div
-                class="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
-                :style="radiusCircleStyle(Number(form.radius_km) * 1000)"
-              />
-            </div>
+            <ProspectingGoogleMap
+              v-if="confirmedLocation && previewMapCenter"
+              :api-key="googleMapsApiKey"
+              :center="previewMapCenter"
+              :radius="Number(form.radius_km) * 1000"
+              height-class="h-80"
+            />
           </div>
 
           <aside
@@ -1283,37 +1247,20 @@ onMounted(async () => {
                   {{ formatRadius(selectedSearch?.radius || 0) }}
                 </span>
               </div>
+              <ProspectingGoogleMap
+                v-if="mapLeads.length || resultsMapCenter"
+                :api-key="googleMapsApiKey"
+                :center="resultsMapCenter"
+                :radius="selectedSearch?.radius || 5000"
+                :leads="mapLeads"
+                height-class="h-80"
+                @select-lead="selectedLeadDetailId = $event.id"
+              />
               <div
-                class="relative h-80 overflow-hidden rounded-md border border-n-weak bg-n-solid-2"
+                v-else
+                class="flex h-80 items-center justify-center rounded-md border border-n-weak bg-n-solid-2 px-4 text-center text-xs text-n-slate-10"
               >
-                <iframe
-                  :src="selectedMapUrl"
-                  class="absolute inset-0 size-full border-0 opacity-60"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  :title="t('PROSPECTING.SEARCH.MAP_TITLE')"
-                />
-                <div
-                  class="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-dashed border-n-brand bg-n-brand/10"
-                  :style="radiusCircleStyle(selectedSearch?.radius || 5000)"
-                />
-                <div
-                  v-if="!mapLeads.length"
-                  class="absolute inset-0 z-20 flex items-center justify-center px-4 text-center text-xs text-n-slate-10"
-                >
-                  {{ t('PROSPECTING.SEARCH.MAP_NO_COORDINATES') }}
-                </div>
-                <button
-                  v-for="lead in mapLeads"
-                  :key="`map-${lead.id}`"
-                  type="button"
-                  class="absolute z-20 flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-n-brand text-xs font-semibold text-white shadow-md ring-2 ring-white"
-                  :style="markerStyle(lead)"
-                  :title="lead.name"
-                  @click="selectedLeadDetailId = lead.id"
-                >
-                  {{ sortedLeads.findIndex(item => item.id === lead.id) + 1 }}
-                </button>
+                {{ t('PROSPECTING.SEARCH.MAP_NO_COORDINATES') }}
               </div>
             </section>
             <div>

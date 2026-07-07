@@ -77,6 +77,8 @@
       "MAP_HINT": "Visualização da região e dos leads encontrados.",
       "MAP_PREVIEW": "Preview do mapa",
       "MAP_NO_COORDINATES": "Os leads desta busca ainda não possuem coordenadas para posicionar marcadores.",
+      "MAP_API_KEY_MISSING": "Configure a chave do Google Places para exibir o mapa.",
+      "MAP_LOAD_ERROR": "Não foi possível carregar o mapa.",
       "ADDRESS_SEPARATOR": " - ",
       "RATING_LABEL": "{rating} estrelas",
       "REVIEWS_LABEL": "{count} avaliações",
