@@ -67,6 +67,50 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
           source: 'default'
         )
       end
+
+      it 'returns the assistant YAML default for V1 accounts' do
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::Models.default_model_for('assistant'),
+          selected: Llm::Models.default_model_for('assistant'),
+          source: 'default'
+        )
+      end
+
+      it 'returns GPT-5.2 as the assistant default for V2 accounts' do
+        account.enable_features!('captain_integration_v2')
+
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          selected: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          source: 'default'
+        )
+      end
+
+      it 'keeps the V2 assistant default when an account override is selected' do
+        account.enable_features!('captain_integration_v2')
+        account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
+
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          selected: 'gpt-5.1',
+          source: 'account_override'
+        )
+      end
     end
   end
 
