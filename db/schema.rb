@@ -1035,6 +1035,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_06_30_000000) do
     t.index ["created_at"], name: "index_messages_on_created_at"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
     t.index ["sender_type", "sender_id", "created_at"], name: "index_messages_on_sender_and_created"
+    t.index ["sender_type", "sender_id"], name: "index_messages_on_sender_type_and_sender_id"
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
