@@ -27,4 +27,20 @@ class MessageReaction < ApplicationRecord
       updated_at: updated_at.to_i
     }
   end
+
+  def webhook_data
+    {
+      id: id,
+      emoji: emoji,
+      reaction_type: reaction_type,
+      direction: direction,
+      status: status,
+      sender: sender.try(:webhook_data),
+      message: message.webhook_data,
+      conversation: conversation.webhook_data,
+      account: account.webhook_data,
+      inbox: inbox.webhook_data,
+      created_at: created_at
+    }
+  end
 end

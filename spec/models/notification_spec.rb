@@ -66,6 +66,22 @@ has been assigned to you"
 
       expect(notification.push_message_title).to eq "You have been mentioned in conversation (##{notification.primary_actor.display_id})"
     end
+
+    it 'returns appropriate title suited for the notification type assigned_conversation_message_reaction' do
+      message_reaction = create(:message_reaction)
+      notification = create(:notification, notification_type: 'assigned_conversation_message_reaction',
+                                           primary_actor: message_reaction.conversation, secondary_actor: message_reaction)
+
+      expect(notification.push_message_title).to eq "A new reaction is added in conversation (##{notification.primary_actor.display_id})"
+    end
+
+    it 'returns appropriate title suited for the notification type participating_conversation_message_reaction' do
+      message_reaction = create(:message_reaction)
+      notification = create(:notification, notification_type: 'participating_conversation_message_reaction',
+                                           primary_actor: message_reaction.conversation, secondary_actor: message_reaction)
+
+      expect(notification.push_message_title).to eq "A new reaction is added in conversation (##{notification.primary_actor.display_id})"
+    end
   end
 
   context 'when push_message_body is called' do
@@ -159,6 +175,22 @@ has been assigned to you"
       message = create(:message, sender: create(:user), content: content, conversation: conversation)
       notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
       expect(notification.push_message_body).to eq "#{message.sender.name}: Please review @user@domain.com"
+    end
+
+    it 'returns appropriate body suited for the notification type assigned_conversation_message_reaction' do
+      conversation = create(:conversation)
+      message_reaction = create(:message_reaction, conversation: conversation, sender: conversation.contact)
+      notification = create(:notification, notification_type: 'assigned_conversation_message_reaction', primary_actor: conversation,
+                                           secondary_actor: message_reaction)
+      expect(notification.push_message_body).to eq "#{message_reaction.sender.name} reacted #{message_reaction.emoji} to a message"
+    end
+
+    it 'returns appropriate body suited for the notification type participating_conversation_message_reaction' do
+      conversation = create(:conversation)
+      message_reaction = create(:message_reaction, conversation: conversation, sender: conversation.contact)
+      notification = create(:notification, notification_type: 'participating_conversation_message_reaction', primary_actor: conversation,
+                                           secondary_actor: message_reaction)
+      expect(notification.push_message_body).to eq "#{message_reaction.sender.name} reacted #{message_reaction.emoji} to a message"
     end
 
     it 'calls remove duplicate notification job' do

@@ -91,7 +91,27 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def message_reaction_created(event)
+    deliver_message_reaction_webhook(event, __method__.to_s)
+  end
+
+  def message_reaction_updated(event)
+    deliver_message_reaction_webhook(event, __method__.to_s)
+  end
+
+  def message_reaction_removed(event)
+    deliver_message_reaction_webhook(event, __method__.to_s)
+  end
+
   private
+
+  def deliver_message_reaction_webhook(event, event_name)
+    message_reaction = event.data[:message_reaction]
+    account = event.data[:account]
+
+    payload = message_reaction.webhook_data.merge(event: event_name)
+    deliver_account_webhooks(payload, account)
+  end
 
   def handle_typing_status(event_name, event)
     conversation = event.data[:conversation]
