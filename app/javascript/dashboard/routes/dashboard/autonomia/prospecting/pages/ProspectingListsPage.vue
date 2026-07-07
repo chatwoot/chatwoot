@@ -498,7 +498,9 @@ onMounted(loadPage);
 </script>
 
 <template>
-  <main class="flex h-full min-h-0 flex-col overflow-hidden bg-n-background">
+  <main
+    class="flex h-full min-h-0 w-full flex-col overflow-hidden bg-n-background"
+  >
     <header
       class="flex items-center justify-between gap-4 border-b border-n-weak px-6 py-4"
     >
@@ -527,7 +529,7 @@ onMounted(loadPage);
     </header>
 
     <section
-      class="flex min-h-0 flex-1 flex-col gap-4 overflow-hidden px-6 py-5"
+      class="flex min-h-0 w-full flex-1 flex-col gap-4 overflow-hidden px-6 py-5"
     >
       <div
         v-if="notice"
@@ -542,7 +544,9 @@ onMounted(loadPage);
         {{ error }}
       </div>
 
-      <div class="grid min-h-0 flex-1 gap-4 xl:grid-cols-[22rem_minmax(0,1fr)]">
+      <div
+        class="grid min-h-0 w-full flex-1 gap-4 xl:grid-cols-[22rem_minmax(0,1fr)]"
+      >
         <aside class="flex min-h-0 flex-col overflow-hidden">
           <div class="mb-3 flex items-center justify-between gap-3">
             <h2 class="text-sm font-semibold text-n-slate-12">

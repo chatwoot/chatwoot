@@ -702,7 +702,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <main class="flex h-full min-h-0 flex-col overflow-hidden bg-n-background">
+  <main
+    class="flex h-full min-h-0 w-full flex-col overflow-hidden bg-n-background"
+  >
     <header
       class="flex flex-col gap-3 border-b border-n-weak px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
     >
@@ -731,7 +733,9 @@ onMounted(async () => {
       </button>
     </header>
 
-    <section class="flex min-h-0 flex-1 flex-col overflow-hidden px-6 py-5">
+    <section
+      class="flex min-h-0 w-full flex-1 flex-col overflow-hidden px-6 py-5"
+    >
       <div
         v-if="error"
         class="mb-4 rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
@@ -918,7 +922,7 @@ onMounted(async () => {
 
       <div
         v-else
-        class="grid min-h-0 flex-1 gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]"
+        class="grid min-h-0 w-full flex-1 gap-4 xl:grid-cols-[21rem_minmax(0,1fr)]"
       >
         <aside
           class="flex min-h-0 flex-col overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
