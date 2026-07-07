@@ -67,14 +67,11 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
 
   def find_account_template
     return unless Current.account
-    return if conversation_layout_lookup? && !branded_layout_lookup_enabled?
 
     find_template_for(@@model.where(account: Current.account, inbox: nil))
   end
 
   def find_installation_template
-    return if conversation_layout_lookup? && !branded_layout_lookup_enabled?
-
     find_template_for(@@model.where(account: nil, inbox: nil))
   end
 

@@ -83,11 +83,8 @@ describe EmailTemplates::DbResolverService do
       let(:account) { create(:account) }
       let(:inbox) { create(:inbox, :with_email, account: account) }
       let!(:inbox_template) { create(:email_template, :layout, account: account, inbox: inbox, body: 'inbox {{ content_for_layout }}') }
-
-      before do
-        create(:email_template, :layout, body: 'global {{ content_for_layout }}')
-        create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}')
-      end
+      let!(:installation_template) { create(:email_template, :layout, body: 'global {{ content_for_layout }}') }
+      let!(:account_template) { create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}') }
 
       it 'returns inbox template when branded email templates feature is enabled' do
         account.enable_features!(:branded_email_templates)
@@ -97,11 +94,19 @@ describe EmailTemplates::DbResolverService do
         expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first.source).to eq(inbox_template.body)
       end
 
-      it 'ignores branded layout templates when the feature is disabled' do
+      it 'falls back to account template when branded email templates feature is disabled' do
         Current.account = account
         Current.inbox = inbox
 
-        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] })).to be_empty
+        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first.source).to eq(account_template.body)
+      end
+
+      it 'falls back to installation template when current inbox is not email' do
+        other_account = create(:account)
+        Current.account = other_account
+        Current.inbox = create(:inbox, account: other_account)
+
+        expect(resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first.source).to eq(installation_template.body)
       end
 
       it 'falls back to english when requested locale does not have a template' do
