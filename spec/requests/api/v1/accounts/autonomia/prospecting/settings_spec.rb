@@ -8,7 +8,7 @@ RSpec.describe 'Autonomia prospecting settings API', type: :request do
     Autonomia::Prospecting::Config.enable_for!(account)
   end
 
-  it 'updates Google Places settings without exposing the API key' do
+  it 'updates Google settings without exposing the backend Places API key' do
     pipeline, stage = create_crm_pipeline(account: account, user: admin)
 
     patch "/api/v1/accounts/#{account.id}/autonomia/prospecting/settings",
@@ -23,7 +23,8 @@ RSpec.describe 'Autonomia prospecting settings API', type: :request do
               cache_ttl_seconds: 600,
               default_crm_pipeline_id: pipeline.id,
               default_crm_stage_id: stage.id,
-              google_places_api_key: 'secret-key'
+              google_places_api_key: 'server-secret-key',
+              google_maps_browser_api_key: 'browser-restricted-key'
             }
           },
           headers: auth_headers(admin)
@@ -38,20 +39,36 @@ RSpec.describe 'Autonomia prospecting settings API', type: :request do
     expect(payload['default_crm_stage_id']).to eq(stage.id)
     expect(payload.dig('usage', 'daily_used')).to eq(0)
     expect(payload).not_to have_key('google_places_api_key')
-    expect(Autonomia::Prospecting::Setting.for_account(account).google_places_api_key).to eq('secret-key')
+    expect(payload['has_google_maps_browser_api_key']).to be(true)
+    expect(payload['google_maps_api_key']).to eq('browser-restricted-key')
+
+    saved_setting = Autonomia::Prospecting::Setting.for_account(account)
+    expect(saved_setting.google_places_api_key).to eq('server-secret-key')
+    expect(saved_setting.google_maps_browser_api_key).to eq('browser-restricted-key')
   end
 
-  it 'clears the stored Google Places key explicitly' do
+  it 'clears the stored Google keys explicitly' do
     setting = Autonomia::Prospecting::Setting.for_account(account)
-    setting.update!(google_places_api_key: 'secret-key')
+    setting.update!(
+      google_places_api_key: 'server-secret-key',
+      google_maps_browser_api_key: 'browser-restricted-key'
+    )
 
     patch "/api/v1/accounts/#{account.id}/autonomia/prospecting/settings",
-          params: { settings: { clear_google_places_api_key: true } },
+          params: {
+            settings: {
+              clear_google_places_api_key: true,
+              clear_google_maps_browser_api_key: true
+            }
+          },
           headers: auth_headers(admin)
 
     expect(response).to have_http_status(:ok)
     expect(response.parsed_body.dig('payload', 'has_google_places_api_key')).to be(false)
+    expect(response.parsed_body.dig('payload', 'has_google_maps_browser_api_key')).to be(false)
+    expect(response.parsed_body.dig('payload', 'google_maps_api_key')).to be_blank
     expect(setting.reload.google_places_api_key).to be_blank
+    expect(setting.reload.google_maps_browser_api_key).to be_blank
   end
 
   def auth_headers(user)

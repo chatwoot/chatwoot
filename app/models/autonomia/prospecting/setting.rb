@@ -7,7 +7,8 @@
 #  daily_limit             :integer
 #  default_limit           :integer          default(20), not null
 #  enrichment_enabled      :boolean          default(FALSE), not null
-#  google_places_api_key   :string
+#  google_maps_browser_api_key :string
+#  google_places_api_key       :string
 #  max_results_per_search  :integer          default(20), not null
 #  metadata                :jsonb            not null
 #  monthly_limit           :integer
@@ -38,7 +39,10 @@ class Autonomia::Prospecting::Setting < ApplicationRecord
   belongs_to :default_crm_pipeline, class_name: 'Crm::Pipeline', optional: true
   belongs_to :default_crm_stage, class_name: 'Crm::PipelineStage', optional: true
 
-  encrypts :google_places_api_key if Chatwoot.encryption_configured?
+  if Chatwoot.encryption_configured?
+    encrypts :google_places_api_key
+    encrypts :google_maps_browser_api_key
+  end
 
   validates :provider, presence: true
   validates :provider, inclusion: { in: %w[mock google_places] }
@@ -56,6 +60,10 @@ class Autonomia::Prospecting::Setting < ApplicationRecord
 
   def google_places_configured?
     google_places_api_key.present?
+  end
+
+  def google_maps_browser_configured?
+    google_maps_browser_api_key.present?
   end
 
   private

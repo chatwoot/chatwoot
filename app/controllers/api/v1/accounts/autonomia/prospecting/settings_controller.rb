@@ -7,6 +7,7 @@ class Api::V1::Accounts::Autonomia::Prospecting::SettingsController < Api::V1::A
     current_setting = setting
     current_setting.assign_attributes(settings_attributes)
     current_setting.google_places_api_key = nil if clear_google_places_api_key?
+    current_setting.google_maps_browser_api_key = nil if clear_google_maps_browser_api_key?
     current_setting.save!
 
     render json: { payload: setting_payload(current_setting) }
@@ -28,18 +29,28 @@ class Api::V1::Accounts::Autonomia::Prospecting::SettingsController < Api::V1::A
       :default_crm_pipeline_id,
       :default_crm_stage_id,
       :google_places_api_key,
-      :clear_google_places_api_key
+      :clear_google_places_api_key,
+      :google_maps_browser_api_key,
+      :clear_google_maps_browser_api_key
     )
   end
 
   def settings_attributes
-    settings_params.to_h.symbolize_keys.except(:clear_google_places_api_key).tap do |attributes|
+    settings_params.to_h.symbolize_keys.except(
+      :clear_google_places_api_key,
+      :clear_google_maps_browser_api_key
+    ).tap do |attributes|
       attributes.delete(:google_places_api_key) if attributes[:google_places_api_key].blank?
+      attributes.delete(:google_maps_browser_api_key) if attributes[:google_maps_browser_api_key].blank?
     end
   end
 
   def clear_google_places_api_key?
     ActiveModel::Type::Boolean.new.cast(settings_params.to_h['clear_google_places_api_key'])
+  end
+
+  def clear_google_maps_browser_api_key?
+    ActiveModel::Type::Boolean.new.cast(settings_params.to_h['clear_google_maps_browser_api_key'])
   end
 
   def setting_payload(current_setting)
@@ -51,6 +62,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::SettingsController < Api::V1::A
       ]
     ).merge(
       has_google_places_api_key: current_setting.google_places_configured?,
+      has_google_maps_browser_api_key: current_setting.google_maps_browser_configured?,
+      google_maps_api_key: current_setting.google_maps_browser_api_key,
       usage: usage_payload(current_setting)
     )
   end
