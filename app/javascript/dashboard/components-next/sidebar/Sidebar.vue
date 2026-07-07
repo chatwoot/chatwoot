@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import { useWindowSize, useEventListener } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -186,6 +187,13 @@ useEventListener(document, 'touchmove', onResizeMove, { passive: false });
 useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
+const hasVoiceInboxes = computed(
+  () =>
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CHANNEL_VOICE
+    ) && inboxes.value.some(isVoiceCallEnabled)
+);
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const allUnreadCount = useMapGetter(
   'conversationUnreadCounts/getAllUnreadCount'
@@ -513,6 +521,17 @@ const menuItems = computed(() => {
         },
       ],
     },
+    ...(hasVoiceInboxes.value
+      ? [
+          {
+            name: 'Calls',
+            label: t('SIDEBAR.CALLS'),
+            icon: 'i-lucide-phone',
+            to: accountScopedRoute('calls_dashboard_index'),
+            activeOn: ['calls_dashboard_index'],
+          },
+        ]
+      : []),
     {
       name: 'Contacts',
       label: t('SIDEBAR.CONTACTS'),
