@@ -8,7 +8,10 @@ module Whatsapp::IncomingMessageReactionHandler
     return unless Whatsapp::MessageDedupLock.new(message[:id]).acquire!
 
     reaction_payload = message[:reaction]
-    target_message = Message.find_by(source_id: reaction_payload[:message_id])
+    # WhatsApp's wamid is platform-globally-unique, but we scope the lookup to this inbox
+    # anyway to stay consistent with the other channels and not rely solely on that external
+    # provider invariant.
+    target_message = inbox.messages.find_by(source_id: reaction_payload[:message_id])
     return log_missing_reaction_target(reaction_payload) if target_message.blank?
 
     set_contact

@@ -754,6 +754,25 @@ describe Whatsapp::IncomingMessageService do
           expect(whatsapp_channel.inbox.messages.count).to eq(1) # only target_message
         end
       end
+
+      context 'when another inbox happens to have a message with the same source_id' do
+        let!(:other_whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
+        let!(:other_contact) { create(:contact, account: other_whatsapp_channel.account) }
+        let!(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: other_whatsapp_channel.inbox, source_id: wa_id) }
+        let!(:other_conversation) do
+          create(:conversation, contact: other_contact, inbox: other_whatsapp_channel.inbox, contact_inbox: other_contact_inbox)
+        end
+        let!(:other_target_message) { create(:message, conversation: other_conversation, source_id: target_message.source_id) }
+
+        it 'resolves the reaction target scoped to this inbox instead of any inbox that shares the source_id' do
+          expect { described_class.new(inbox: whatsapp_channel.inbox, params: reaction_params).perform }
+            .to change(MessageReaction, :count).by(1)
+
+          reaction = MessageReaction.last
+          expect(reaction.message).to eq(target_message)
+          expect(reaction.message).not_to eq(other_target_message)
+        end
+      end
     end
   end
 end
