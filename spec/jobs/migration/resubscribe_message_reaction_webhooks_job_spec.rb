@@ -15,9 +15,7 @@ RSpec.describe Migration::ResubscribeMessageReactionWebhooksJob do
     allow(Channel::Instagram).to receive(:find_each).and_yield(instagram_channel)
     allow(Channel::Telegram).to receive(:find_each).and_yield(telegram_channel)
 
-    whatsapp_relation = instance_double(ActiveRecord::Relation)
-    allow(whatsapp_relation).to receive(:find_each).and_yield(whatsapp_channel)
-    allow(Channel::Whatsapp).to receive(:where).with(provider: 'whatsapp_cloud').and_return(whatsapp_relation)
+    allow(Channel::Whatsapp).to receive(:find_each).and_yield(whatsapp_channel)
 
     webhook_setup_service = instance_double(Whatsapp::WebhookSetupService, perform: true)
     allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_setup_service)
@@ -31,6 +29,46 @@ RSpec.describe Migration::ResubscribeMessageReactionWebhooksJob do
 
     expect { described_class.perform_now }.not_to raise_error
     expect(telegram_channel).to have_received(:setup_telegram_webhook)
+  end
+
+  it 'returns and logs stats counting checked, succeeded, and failed channels' do
+    allow(facebook_channel).to receive(:subscribe).and_raise(StandardError, 'boom')
+    allow(telegram_channel).to receive(:setup_telegram_webhook).and_return(true)
+    allow(Rails.logger).to receive(:info)
+
+    stats = described_class.perform_now
+
+    expect(Rails.logger).to have_received(:info).with(/\[MessageReactions\] Resubscribe complete:/)
+    expect(stats).to eq(checked: 4, succeeded: 3, failed: 1, skipped: 0)
+  end
+
+  it 'counts non whatsapp_cloud channels as skipped rather than processing them' do
+    allow(facebook_channel).to receive(:subscribe).and_return(true)
+    allow(telegram_channel).to receive(:setup_telegram_webhook).and_return(true)
+    allow(whatsapp_channel).to receive(:provider).and_return('default')
+
+    stats = described_class.perform_now
+
+    expect(Whatsapp::WebhookSetupService).not_to have_received(:new)
+    expect(stats).to eq(checked: 4, succeeded: 3, failed: 0, skipped: 1)
+  end
+
+  it 'counts a Telegram webhook setup failure as failed without raising' do
+    allow(facebook_channel).to receive(:subscribe).and_return(true)
+
+    telegram_channel.singleton_class.send(:remove_method, :setup_telegram_webhook)
+    stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/deleteWebhook")
+    stub_request(:post, "https://api.telegram.org/bot#{telegram_channel.bot_token}/setWebhook")
+      .to_return(status: 400, body: { ok: false }.to_json, headers: { 'Content-Type' => 'application/json' })
+
+    allow(Rails.logger).to receive(:error)
+
+    stats = nil
+    expect { stats = described_class.perform_now }.not_to raise_error
+
+    expect(Rails.logger).to have_received(:error).with(/Failed to resubscribe channel Channel::Telegram##{telegram_channel.id}/)
+
+    expect(stats).to eq(checked: 4, succeeded: 3, failed: 1, skipped: 0)
   end
 
   it 'subscribes Facebook pages with message_reactions in the field list' do
