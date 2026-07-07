@@ -35,11 +35,25 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   end
 
   def valid_hmac?
-    params[:identifier_hash] == OpenSSL::HMAC.hexdigest(
+    expected_identifier = hmac_identifier
+    return false if expected_identifier.blank?
+    return false unless params[:identifier].to_s == expected_identifier
+
+    expected_hash = OpenSSL::HMAC.hexdigest(
       'sha256',
       @inbox_channel.hmac_token,
-      params[:identifier].to_s
+      expected_identifier
     )
+    identifier_hash = params[:identifier_hash].to_s
+    return false unless identifier_hash.bytesize == expected_hash.bytesize
+
+    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
+  end
+
+  def hmac_identifier
+    return params[:identifier].to_s if @contact_inbox.blank?
+
+    @contact_inbox.contact.identifier.to_s
   end
 
   def permitted_params
