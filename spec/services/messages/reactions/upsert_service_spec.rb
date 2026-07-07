@@ -155,6 +155,26 @@ RSpec.describe Messages::Reactions::UpsertService do
       expect(dispatcher).to have_received(:dispatch).with(Events::Types::MESSAGE_REACTION_REMOVED, anything, anything).once
     end
 
+    it 'reactivates the same row on react after unreact and dispatches MESSAGE_REACTION_UPDATED' do
+      created = perform_service(source_id: 'reaction-event-1', action: :react)
+      perform_service(source_id: 'reaction-event-2', action: :unreact)
+
+      expect do
+        perform_service(source_id: 'reaction-event-3', action: :react, emoji: '👍')
+      end.not_to change(MessageReaction, :count)
+
+      created.reload
+      expect(created.status).to eq('active')
+
+      expect(dispatcher).to have_received(:dispatch).with(Events::Types::MESSAGE_REACTION_CREATED, anything, anything).once
+      expect(dispatcher).to have_received(:dispatch).with(Events::Types::MESSAGE_REACTION_REMOVED, anything, anything).once
+      expect(dispatcher).to have_received(:dispatch).with(
+        Events::Types::MESSAGE_REACTION_UPDATED,
+        kind_of(Time),
+        hash_including(message_reaction: created)
+      ).once
+    end
+
     it 'does not re-dispatch for a true duplicate react (same emoji, same status, new source_id)' do
       perform_service(source_id: 'reaction-event-1', emoji: '👍')
 

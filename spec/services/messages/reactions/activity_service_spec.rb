@@ -85,4 +85,14 @@ RSpec.describe Messages::Reactions::ActivityService do
       expect(conversation.reload.last_activity_at).to be_within(1.second).of(2.days.ago)
     end
   end
+
+  context 'when a removed reaction is reactivated (react after unreact)' do
+    it 'dispatches MESSAGE_REACTION_UPDATED rather than CREATED' do
+      perform(previous_status: 'removed')
+
+      expect(dispatcher).to have_received(:dispatch).with(Events::Types::MESSAGE_REACTION_UPDATED, kind_of(Time), anything)
+      expect(dispatcher).not_to have_received(:dispatch).with(Events::Types::MESSAGE_REACTION_CREATED, anything, anything)
+      expect(conversation.reload.last_activity_at).to be_within(5.seconds).of(Time.current)
+    end
+  end
 end
