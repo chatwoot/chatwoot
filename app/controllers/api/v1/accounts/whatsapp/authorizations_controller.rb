@@ -9,8 +9,6 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     Inbox.ensure_within_account_limit!(Current.account) if params[:inbox_id].blank?
     channel = process_embedded_signup
     render_success_response(channel.inbox)
-  rescue CustomExceptions::Inbox::LimitExceeded
-    raise
   rescue StandardError => e
     render_error_response(e)
   end
@@ -59,6 +57,8 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   end
 
   def render_error_response(error)
+    return super(error) if error.is_a?(CustomExceptions::Base)
+
     Rails.logger.error "[WHATSAPP AUTHORIZATION] Embedded signup error: #{error.message}"
     Rails.logger.error error.backtrace.join("\n")
     render json: {

@@ -6,10 +6,8 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
 
   def create
     process_create
-  rescue CustomExceptions::Inbox::LimitExceeded
-    raise
   rescue StandardError => e
-    render_could_not_create_error(e.message)
+    render_could_not_create_error(e)
   end
 
   private
