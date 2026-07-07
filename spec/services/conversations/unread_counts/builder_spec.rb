@@ -37,6 +37,19 @@ RSpec.describe Conversations::UnreadCounts::Builder do
       expect(redis_set_members(store.team_inbox_key(account.id, team.id, inbox.id))).to contain_exactly(reaction_only_conversation.id.to_s)
     end
 
+    it 'counts a conversation with multiple unread messages and multiple unread reactions exactly once' do
+      conversation = create(:conversation, account: account, inbox: inbox, agent_last_seen_at: 1.hour.ago)
+      create_list(:message, 3, account: account, inbox: inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+      outgoing_message = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing,
+                                          created_at: 1.month.ago)
+      create_list(:message_reaction, 2, account: account, inbox: inbox, conversation: conversation, message: outgoing_message,
+                                        created_at: 5.minutes.ago)
+
+      unread_conversation_ids = described_class.new(account).send(:unread_conversations).pluck(:id)
+
+      expect(unread_conversation_ids).to contain_exactly(conversation.id)
+    end
+
     it 'clears assignment-aware cache data before rebuilding base data' do
       assigned_conversation = create_unread_conversation(
         account: account,

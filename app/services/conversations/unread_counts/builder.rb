@@ -43,16 +43,33 @@ class Conversations::UnreadCounts::Builder
     end
   end
 
+  # Uses EXISTS subqueries (rather than LEFT JOINs on :messages and :message_reactions) so each
+  # conversation is scanned once instead of producing a messages x reactions cartesian product
+  # per conversation, and so we never touch outgoing messages, which this check never needed.
   def unread_conversations
     account.conversations
            .open
-           .left_joins(:messages, :message_reactions)
-           .where(unread_since_last_seen_condition)
-           .distinct
+           .where(unread_message_exists.or(unread_reaction_exists))
   end
 
-  def unread_since_last_seen_condition
-    unread_message_condition.or(unread_reaction_condition)
+  def unread_message_exists
+    Arel::Nodes::Exists.new(unread_message_subquery.arel)
+  end
+
+  def unread_reaction_exists
+    Arel::Nodes::Exists.new(unread_reaction_subquery.arel)
+  end
+
+  def unread_message_subquery
+    Message.select(1).where(unread_message_condition).where(correlate_to_conversation(Message.arel_table))
+  end
+
+  def unread_reaction_subquery
+    MessageReaction.select(1).where(unread_reaction_condition).where(correlate_to_conversation(MessageReaction.arel_table))
+  end
+
+  def correlate_to_conversation(table)
+    table[:conversation_id].eq(Conversation.arel_table[:id])
   end
 
   def unread_message_condition
