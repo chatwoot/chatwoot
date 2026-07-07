@@ -651,6 +651,21 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_inbox.reload.branded_email_layout).to be_nil
       end
 
+      it 'clears branded email layout when null string value is passed' do
+        account.enable_features!(:branded_email_templates)
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: 'null' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(email_inbox.reload.branded_email_layout).to be_nil
+      end
+
       it 'rejects branded email layout when feature is disabled' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)

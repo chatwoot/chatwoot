@@ -178,7 +178,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       return false
     end
 
-    @inbox.update_branded_email_layout!(params[:branded_email_layout])
+    branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
+    @inbox.update_branded_email_layout!(branded_email_layout)
     true
   rescue ActiveRecord::RecordInvalid => e
     render_could_not_create_error(e.record.errors.full_messages.join(', '))
