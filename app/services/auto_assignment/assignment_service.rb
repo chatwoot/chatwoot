@@ -29,12 +29,11 @@ class AutoAssignment::AssignmentService
 
   def assignable?(conversation)
     conversation.status == 'open' &&
-      conversation.assignee_id.nil? &&
-      conversation.assignee_agent_bot_id.nil?
+      conversation.assignee_id.nil?
   end
 
   def unassigned_conversations(limit)
-    scope = inbox.conversations.unassigned.where(assignee_agent_bot_id: nil).open
+    scope = inbox.conversations.unassigned.open
 
     # Skip stale backlog with no activity beyond the policy's age threshold (defaults to 7 days)
     policy = inbox.assignment_policy
@@ -106,7 +105,7 @@ class AutoAssignment::AssignmentService
 
     Conversation.transaction do
       locked = inbox.conversations
-                    .where(id: conversation.id, assignee_id: nil, assignee_agent_bot_id: nil)
+                    .where(id: conversation.id, assignee_id: nil)
                     .lock('FOR UPDATE SKIP LOCKED')
                     .first
       next false unless locked

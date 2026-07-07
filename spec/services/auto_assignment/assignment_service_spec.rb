@@ -107,17 +107,6 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(unassigned_conversation.reload.assignee).to eq(agent)
       end
 
-      it 'does not reassign bot-owned conversations' do
-        agent_bot = create(:agent_bot, account: account)
-        conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
-
-        assigned_count = service.perform_bulk_assignment(limit: 10)
-
-        expect(assigned_count).to eq(0)
-        expect(conversation.reload.assignee).to be_nil
-        expect(conversation.assignee_agent_bot).to eq(agent_bot)
-      end
-
       it 'dispatches assignee changed event' do
         conversation # ensure it exists
         conversation.update!(assignee_id: nil)
