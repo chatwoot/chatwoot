@@ -68,7 +68,6 @@ Rails.application.routes.draw do
                 post :playground
                 get :stats
                 get :summary
-                get :drilldown
               end
               collection do
                 get :tools
