@@ -8,6 +8,7 @@
 class Captain::AssistantStatsBuilder
   RESOLVED_EVENT_NAMES = %w[conversation_captain_inference_resolved conversation_bot_resolved].freeze
   HANDOFF_EVENT_NAMES = %w[conversation_captain_inference_handoff conversation_bot_handoff].freeze
+  BOT_RESOLVED_EVENT_NAME = 'conversation_bot_resolved'.freeze
 
   attr_reader :assistant, :account
 
@@ -113,10 +114,24 @@ class Captain::AssistantStatsBuilder
                         conversation_id: handled_scope(range).select(:conversation_id))
                  .reorder(nil)
                  .pick(
-                   Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE name IN (#{quoted(RESOLVED_EVENT_NAMES)}))"),
+                   Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{resolved_clause(range)})"),
                    Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE name IN (#{quoted(HANDOFF_EVENT_NAMES)}))")
                  )
     { resolved: row[0], handoff: row[1] }
+  end
+
+  # A countable resolve is any inference resolve, or a bot resolve on a conversation
+  # with no handoff in the window. conversation_bot_resolved fires on any resolve
+  # without an agent message (reporting_event_listener), so a handed-off conversation
+  # that goes quiet and gets closed would otherwise count as an auto-resolution too;
+  # the reports bot_resolutions metric applies the same exclusion (:exclude_bot_handoffs).
+  def resolved_clause(range)
+    "name IN (#{quoted(RESOLVED_EVENT_NAMES)}) AND " \
+      "(name != #{quote(BOT_RESOLVED_EVENT_NAME)} OR conversation_id NOT IN (#{handoff_conversation_ids(range).to_sql}))"
+  end
+
+  def handoff_conversation_ids(range)
+    account.reporting_events.where(name: HANDOFF_EVENT_NAMES, created_at: range).select(:conversation_id)
   end
 
   # Conversations the assistant participated in (authored any message).
@@ -146,8 +161,10 @@ class Captain::AssistantStatsBuilder
   # inbox reassignment doesn't drop historical resolves, and covers both the evaluated (inference)
   # and time-based (bot) resolve paths so the denominator matches auto_resolution_rate.
   def reopen_rate(range)
-    resolved_scope = account.reporting_events.where(name: RESOLVED_EVENT_NAMES, created_at: range,
-                                                    conversation_id: handled_scope(range).select(:conversation_id))
+    resolved_scope = account.reporting_events
+                            .where(name: RESOLVED_EVENT_NAMES, created_at: range,
+                                   conversation_id: handled_scope(range).select(:conversation_id))
+                            .where.not(name: BOT_RESOLVED_EVENT_NAME, conversation_id: handoff_conversation_ids(range))
     # event_end_time on a reopen is when it actually reopened. Join it to the conversation's own
     # Captain resolves and keep only reopens at/after one of them, so a human resolve/reopen earlier
     # in the same window isn't mistaken for a reopen-after-Captain-resolve. (Comparing the reopen's

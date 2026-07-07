@@ -52,6 +52,32 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(metrics[:handoff_rate][:current]).to eq(50.0)
     end
 
+    it 'does not count a bot resolve as an auto-resolution when the conversation was handed off' do
+      # Handoff, customer goes quiet, resolve lands without an agent message, so the
+      # listener still emits conversation_bot_resolved for the handed-off conversation.
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_bot_handoff')
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_bot_resolved')
+
+      metrics = described_class.new(assistant, '30').metrics
+
+      expect(metrics[:auto_resolution_rate][:current]).to eq(0.0)
+      expect(metrics[:handoff_rate][:current]).to eq(50.0)
+    end
+
+    it 'still counts an inference resolve when the conversation was also handed off' do
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_captain_inference_handoff')
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_captain_inference_resolved')
+
+      metrics = described_class.new(assistant, '30').metrics
+
+      expect(metrics[:auto_resolution_rate][:current]).to eq(50.0)
+      expect(metrics[:handoff_rate][:current]).to eq(50.0)
+    end
+
     it 'excludes resolution events that fall outside the current window' do
       create(:reporting_event, account: account, conversation: current_convo_a,
                                name: 'conversation_captain_inference_resolved', created_at: 60.days.ago)

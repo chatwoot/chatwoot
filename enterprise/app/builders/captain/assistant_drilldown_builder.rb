@@ -65,7 +65,7 @@ class Captain::AssistantDrilldownBuilder
   def drilldown_scope
     case metric
     when 'conversations_handled' then handled_conversations
-    when 'auto_resolution_rate' then event_conversations(RESOLVED_EVENT_NAMES)
+    when 'auto_resolution_rate' then conversations_for(resolved_events.select(:conversation_id))
     when 'handoff_rate' then event_conversations(HANDOFF_EVENT_NAMES)
     when 'hours_saved' then public_reply_messages
     when 'reopen_rate' then reopened_conversations
@@ -104,15 +104,23 @@ class Captain::AssistantDrilldownBuilder
     conversations_for(ids)
   end
 
+  # Captain resolves in the window, excluding bot-resolved rows whose conversation
+  # was also handed off, mirroring AssistantStatsBuilder#resolved_clause so the
+  # drilldown lists exactly the conversations the auto-resolution card counted.
+  def resolved_events
+    account.reporting_events
+           .where(name: RESOLVED_EVENT_NAMES, created_at: range, conversation_id: handled_conversation_ids)
+           .where.not(name: Captain::AssistantStatsBuilder::BOT_RESOLVED_EVENT_NAME,
+                      conversation_id: account.reporting_events.where(name: HANDOFF_EVENT_NAMES, created_at: range).select(:conversation_id))
+  end
+
   # Auto-resolved conversations that reopened at/after their Captain resolve,
   # mirroring AssistantStatsBuilder#reopen_rate's numerator cohort.
   def reopened_conversations
-    resolved_scope = account.reporting_events.where(name: RESOLVED_EVENT_NAMES, created_at: range,
-                                                    conversation_id: handled_conversation_ids)
     ids = account.reporting_events
                  .where(name: 'conversation_opened')
                  .where('reporting_events.value > 0')
-                 .joins("INNER JOIN (#{resolved_scope.to_sql}) resolves " \
+                 .joins("INNER JOIN (#{resolved_events.to_sql}) resolves " \
                         'ON resolves.conversation_id = reporting_events.conversation_id ' \
                         'AND reporting_events.event_end_time >= resolves.event_end_time')
                  .select('reporting_events.conversation_id')
