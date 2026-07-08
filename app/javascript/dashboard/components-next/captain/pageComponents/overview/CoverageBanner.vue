@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { LocalStorage } from 'shared/helpers/localStorage';
 
@@ -19,8 +19,16 @@ const DISMISS_STORE = 'captain_overview_coverage_banner';
 const accountId = computed(() => route.params.accountId);
 const assistantId = computed(() => route.params.assistantId);
 
-const dismissed = ref(
-  LocalStorage.getFlag(DISMISS_STORE, accountId.value, assistantId.value)
+// Re-read the stored flag whenever the assistant changes, otherwise the banner
+// would keep the first assistant's dismissed state after switching.
+const dismissed = ref(false);
+
+watch(
+  [accountId, assistantId],
+  ([account, assistant]) => {
+    dismissed.value = LocalStorage.getFlag(DISMISS_STORE, account, assistant);
+  },
+  { immediate: true }
 );
 
 // Thin coverage paired with a large review backlog: approving the pending FAQs

@@ -427,8 +427,8 @@
           "HINT": "Share of handled conversations escalated to a human agent."
         },
         "HOURS_SAVED": {
-          "LABEL": "Hours saved",
-          "HINT": "Estimate: Captain replies times the team's average response time. Directional, not measured labor."
+          "LABEL": "Time saved",
+          "HINT": "Estimate: Captain replies times ~2 minutes of assumed agent effort per reply. Directional, not measured labor."
         },
         "REOPEN": {
           "LABEL": "Reopen rate",
@@ -438,14 +438,6 @@
           "LABEL": "Messages / conversation",
           "HINT": "Average replies the assistant sends per conversation."
         }
-      },
-      "DRILLDOWN": {
-        "CLOSE": "Close details",
-        "EMPTY": "No records found for this metric.",
-        "ERROR": "Could not load records. Please try again.",
-        "LOAD_MORE": "Load more",
-        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-        "RESULT_COUNT_MESSAGE": "{count} message | {count} messages"
       },
       "KNOWLEDGE": {
         "TITLE": "Knowledge coverage",

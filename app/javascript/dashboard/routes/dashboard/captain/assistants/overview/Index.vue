@@ -6,10 +6,10 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
+import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
 import RangeSelector from 'dashboard/components-next/captain/pageComponents/overview/RangeSelector.vue';
 import WelcomeCard from 'dashboard/components-next/captain/pageComponents/overview/WelcomeCard.vue';
 import MetricCard from 'dashboard/components-next/captain/pageComponents/overview/MetricCard.vue';
-import AssistantDrilldownDrawer from 'dashboard/components-next/captain/pageComponents/overview/AssistantDrilldownDrawer.vue';
 import KnowledgeCard from 'dashboard/components-next/captain/pageComponents/overview/KnowledgeCard.vue';
 import QuickLinks from 'dashboard/components-next/captain/pageComponents/overview/QuickLinks.vue';
 import InboxBanner from 'dashboard/components-next/captain/pageComponents/overview/InboxBanner.vue';
@@ -49,6 +49,11 @@ const resolveTrendGood = (trendValue, direction) => {
 // :point, and a plain number for :absolute counts like conversation depth.
 const TREND_SUFFIX = { percent: '%', point: ' pts', absolute: '' };
 
+// Hours-saved is reported in hours, but large values read better as days. Past
+// 100h we switch the unit so the card stays legible.
+const formatDuration = hours =>
+  hours >= 100 ? `${Math.round(hours / 24)}d` : `${hours}h`;
+
 const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
   const data = stats.value?.[statKey];
   if (!data) return { value: '—', trend: '', trendGood: null };
@@ -64,42 +69,36 @@ const metricFor = (statKey, formatValue, direction, trendKind = 'percent') => {
 const metrics = computed(() => [
   {
     key: 'handled',
-    metric: 'conversations_handled',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDLED.HINT'),
     ...metricFor('conversations_handled', v => v.toLocaleString(), 'up'),
   },
   {
     key: 'autoResolution',
-    metric: 'auto_resolution_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.AUTO_RESOLUTION.HINT'),
     ...metricFor('auto_resolution_rate', v => `${v}%`, 'up', 'point'),
   },
   {
     key: 'handoff',
-    metric: 'handoff_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HANDOFF.HINT'),
     ...metricFor('handoff_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'hoursSaved',
-    metric: 'hours_saved',
     label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    ...metricFor('hours_saved', v => `${v}h`, 'up'),
+    ...metricFor('hours_saved', formatDuration, 'up'),
   },
   {
     key: 'reopen',
-    metric: 'reopen_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.HINT'),
     ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
     key: 'depth',
-    metric: 'conversation_depth',
     label: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.HINT'),
     ...metricFor(
@@ -110,22 +109,6 @@ const metrics = computed(() => [
     ),
   },
 ]);
-
-const drilldown = ref({ metric: '', label: '', value: '' });
-const isDrilldownOpen = ref(false);
-
-const openDrilldown = metric => {
-  drilldown.value = {
-    metric: metric.metric,
-    label: metric.label,
-    value: metric.value,
-  };
-  isDrilldownOpen.value = true;
-};
-
-const closeDrilldown = () => {
-  isDrilldownOpen.value = false;
-};
 </script>
 
 <template>
@@ -139,8 +122,11 @@ const closeDrilldown = () => {
     <template #headerActions>
       <RangeSelector v-model="selectedRange" />
     </template>
+    <template #paywall>
+      <CaptainPaywall />
+    </template>
     <template #body>
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-6 pb-8">
         <InboxBanner />
 
         <CoverageBanner :knowledge="stats?.knowledge" />
@@ -158,8 +144,6 @@ const closeDrilldown = () => {
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
-            clickable
-            @click="openDrilldown(metric)"
           />
         </div>
 
@@ -167,16 +151,6 @@ const closeDrilldown = () => {
 
         <QuickLinks />
       </div>
-
-      <AssistantDrilldownDrawer
-        :open="isDrilldownOpen"
-        :assistant-id="assistantId"
-        :metric="drilldown.metric"
-        :metric-name="drilldown.label"
-        :metric-value="drilldown.value"
-        :range="selectedRange"
-        @close="closeDrilldown"
-      />
     </template>
   </PageLayout>
 </template>

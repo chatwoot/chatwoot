@@ -70,7 +70,6 @@ const handleAction = ({ value }) => {
     />
     <DropdownMenu
       v-if="showDropdown"
-      :menu-items="menuItems"
       :menu-sections="menuSections"
       class="mt-1 ltr:right-0 rtl:left-0 top-full"
       @action="handleAction($event)"

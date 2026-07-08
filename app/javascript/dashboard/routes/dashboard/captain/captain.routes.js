@@ -136,7 +136,7 @@ export const routes = [
       return {
         name: 'captain_assistants_index',
         params: {
-          navigationPath: 'captain_assistants_responses_index',
+          navigationPath: 'captain_assistants_overview_index',
           ...to.params,
         },
       };

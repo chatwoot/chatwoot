@@ -52,6 +52,37 @@ RSpec.describe Captain::AssistantStatsBuilder do
       expect(metrics[:handoff_rate][:current]).to eq(50.0)
     end
 
+    it 'does not count a bot resolve as an auto-resolution when the conversation was handed off' do
+      # convo_a: handoff, customer goes quiet, resolve lands without an agent message, so the
+      # listener still emits conversation_bot_resolved for the handed-off conversation. It must
+      # not count as an auto-resolution, but still counts as a handoff.
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_bot_handoff')
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_bot_resolved')
+      # convo_b: a clean bot resolve with no handoff still counts, so the exclusion is scoped
+      # to handed-off conversations and doesn't drop every bot resolve.
+      create(:reporting_event, account: account, conversation: current_convo_b,
+                               name: 'conversation_bot_resolved')
+
+      metrics = described_class.new(assistant, '30').metrics
+
+      expect(metrics[:auto_resolution_rate][:current]).to eq(50.0)
+      expect(metrics[:handoff_rate][:current]).to eq(50.0)
+    end
+
+    it 'still counts an inference resolve when the conversation was also handed off' do
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_captain_inference_handoff')
+      create(:reporting_event, account: account, conversation: current_convo_a,
+                               name: 'conversation_captain_inference_resolved')
+
+      metrics = described_class.new(assistant, '30').metrics
+
+      expect(metrics[:auto_resolution_rate][:current]).to eq(50.0)
+      expect(metrics[:handoff_rate][:current]).to eq(50.0)
+    end
+
     it 'excludes resolution events that fall outside the current window' do
       create(:reporting_event, account: account, conversation: current_convo_a,
                                name: 'conversation_captain_inference_resolved', created_at: 60.days.ago)
@@ -147,6 +178,23 @@ RSpec.describe Captain::AssistantStatsBuilder do
                                name: 'conversation_bot_resolved', event_start_time: 6.days.ago, event_end_time: 6.days.ago)
 
       expect(described_class.new(assistant, '30').metrics[:reopen_rate][:current]).to eq(50.0)
+    end
+
+    it 'ignores a reopen that landed after a completed window ended' do
+      travel_to(Time.utc(2026, 7, 15)) do
+        convo = create(:conversation, account: account, inbox: inbox)
+        create(:message, account: account, inbox: inbox, conversation: convo,
+                         sender: assistant, message_type: :outgoing, private: false, created_at: Time.utc(2026, 6, 10))
+        create(:reporting_event, account: account, inbox: inbox, conversation: convo,
+                                 name: 'conversation_bot_resolved', created_at: Time.utc(2026, 6, 12),
+                                 event_start_time: Time.utc(2026, 6, 12), event_end_time: Time.utc(2026, 6, 12))
+        # Reopened on July 1, after the June window closed; June's rate must not count it.
+        create(:reporting_event, account: account, inbox: inbox, conversation: convo,
+                                 name: 'conversation_opened', value: 120,
+                                 event_start_time: Time.utc(2026, 6, 12), event_end_time: Time.utc(2026, 7, 1))
+
+        expect(described_class.new(assistant, 'last_month').metrics[:reopen_rate][:current]).to eq(0.0)
+      end
     end
 
     it 'derives the cohort from handled conversations, not current inbox membership' do

@@ -65,7 +65,7 @@ const routeToLastActiveAssistant = () => {
 
   const navigateTo = isAValidRoute
     ? navigationPath
-    : 'captain_assistants_responses_index';
+    : 'captain_assistants_overview_index';
 
   return routeToView(navigateTo, {
     accountId: route.params.accountId,

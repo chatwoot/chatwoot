@@ -3,11 +3,17 @@
 # window, plus a derived trend.
 #
 # Queries are batched to cut round trips: the message-derived counts (handled,
-# public replies, depth) and the average reply time are each computed for both
-# windows in a single scan via conditional FILTER aggregation.
+# public replies, depth) are computed for both windows in a single scan via
+# conditional FILTER aggregation.
 class Captain::AssistantStatsBuilder
   RESOLVED_EVENT_NAMES = %w[conversation_captain_inference_resolved conversation_bot_resolved].freeze
   HANDOFF_EVENT_NAMES = %w[conversation_captain_inference_handoff conversation_bot_handoff].freeze
+  BOT_RESOLVED_EVENT_NAME = 'conversation_bot_resolved'.freeze
+
+  # Assumed agent effort displaced by each public assistant reply. Reporting data
+  # only captures reply latency (customer wait time), not handling effort, so hours
+  # saved is a count-times-assumed-effort estimate rather than a measured duration.
+  SECONDS_SAVED_PER_REPLY = 2.minutes.to_i
 
   attr_reader :assistant, :account
 
@@ -25,9 +31,8 @@ class Captain::AssistantStatsBuilder
 
   def metrics
     messages = message_window_metrics
-    reply_times = avg_reply_times
-    current = window_metrics(current_range, messages[:current], reply_times[:current])
-    previous = window_metrics(previous_range, messages[:previous], reply_times[:previous])
+    current = window_metrics(current_range, messages[:current])
+    previous = window_metrics(previous_range, messages[:previous])
 
     build_metrics(current, previous)
   end
@@ -56,8 +61,8 @@ class Captain::AssistantStatsBuilder
     }
   end
 
-  # Combines the per-window message counts and reply time with the reporting-event metrics for one window.
-  def window_metrics(range, message_counts, avg_reply)
+  # Combines the per-window message counts with the reporting-event metrics for one window.
+  def window_metrics(range, message_counts)
     handled = message_counts[:handled]
     public_count = message_counts[:public_count]
     depth_conversations = message_counts[:depth_conversations]
@@ -67,7 +72,7 @@ class Captain::AssistantStatsBuilder
       handled: handled,
       auto_resolution: rate(resolution[:resolved], handled),
       handoff: rate(resolution[:handoff], handled),
-      hours_saved: (public_count * avg_reply / 3600.0).round,
+      hours_saved: (public_count * SECONDS_SAVED_PER_REPLY / 3600.0).round,
       reopen: reopen_rate(range),
       depth: depth_conversations.zero? ? 0 : (public_count.to_f / depth_conversations).round(1)
     }
@@ -95,15 +100,6 @@ class Captain::AssistantStatsBuilder
     }
   end
 
-  # Average reply time (seconds) for both windows in one scan.
-  def avg_reply_times
-    row = account.reporting_events.where(name: 'reply_time', created_at: full_span).reorder(nil).pick(
-      Arel.sql("AVG(value) FILTER (WHERE #{window_clause(current_range)})"),
-      Arel.sql("AVG(value) FILTER (WHERE #{window_clause(previous_range)})")
-    )
-    { current: row[0].to_f, previous: row[1].to_f }
-  end
-
   # Resolved and handed-off conversation counts for one window, in a single scan
   # of the handled set's reporting events.
   def resolution_counts(range)
@@ -113,10 +109,27 @@ class Captain::AssistantStatsBuilder
                         conversation_id: handled_scope(range).select(:conversation_id))
                  .reorder(nil)
                  .pick(
-                   Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE name IN (#{quoted(RESOLVED_EVENT_NAMES)}))"),
+                   Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE #{resolved_clause(range)})"),
                    Arel.sql("COUNT(DISTINCT conversation_id) FILTER (WHERE name IN (#{quoted(HANDOFF_EVENT_NAMES)}))")
                  )
     { resolved: row[0], handoff: row[1] }
+  end
+
+  # A countable resolve is any inference resolve, or a bot resolve on a conversation
+  # with no handoff in the window. conversation_bot_resolved fires on any resolve
+  # without an agent message (reporting_event_listener), so a handed-off conversation
+  # that goes quiet and gets closed would otherwise count as an auto-resolution too;
+  # the reports bot_resolutions metric applies the same exclusion (:exclude_bot_handoffs).
+  def resolved_clause(range)
+    "name IN (#{quoted(RESOLVED_EVENT_NAMES)}) AND #{bot_resolve_handoff_exclusion(range)}"
+  end
+
+  def bot_resolve_handoff_exclusion(range)
+    "NOT (name = #{quote(BOT_RESOLVED_EVENT_NAME)} AND conversation_id IN (#{handoff_conversation_ids(range).to_sql}))"
+  end
+
+  def handoff_conversation_ids(range)
+    account.reporting_events.where(name: HANDOFF_EVENT_NAMES, created_at: range).select(:conversation_id)
   end
 
   # Conversations the assistant participated in (authored any message).
@@ -146,16 +159,21 @@ class Captain::AssistantStatsBuilder
   # inbox reassignment doesn't drop historical resolves, and covers both the evaluated (inference)
   # and time-based (bot) resolve paths so the denominator matches auto_resolution_rate.
   def reopen_rate(range)
-    resolved_scope = account.reporting_events.where(name: RESOLVED_EVENT_NAMES, created_at: range,
-                                                    conversation_id: handled_scope(range).select(:conversation_id))
+    resolved_scope = account.reporting_events
+                            .where(name: RESOLVED_EVENT_NAMES, created_at: range,
+                                   conversation_id: handled_scope(range).select(:conversation_id))
+                            .where(bot_resolve_handoff_exclusion(range))
     # event_end_time on a reopen is when it actually reopened. Join it to the conversation's own
     # Captain resolves and keep only reopens at/after one of them, so a human resolve/reopen earlier
     # in the same window isn't mistaken for a reopen-after-Captain-resolve. (Comparing the reopen's
     # start time instead would misfire: the inference event is dispatched just after the generic
     # conversation_resolved that seeds event_start_time, so it can land after the reopen's start.)
+    # The reopen itself must also fall inside the window, so a completed range (last_month, the
+    # previous window) doesn't count reopens that happened after it ended.
     reopened = account.reporting_events
                       .where(name: 'conversation_opened')
                       .where('reporting_events.value > 0')
+                      .where('reporting_events.event_end_time <= ?', range.last)
                       .joins("INNER JOIN (#{resolved_scope.to_sql}) resolves " \
                              'ON resolves.conversation_id = reporting_events.conversation_id ' \
                              'AND reporting_events.event_end_time >= resolves.event_end_time')
