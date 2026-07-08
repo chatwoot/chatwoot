@@ -27,10 +27,7 @@ class Label < ApplicationRecord
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 
-  after_create_commit :invalidate_filtered_unread_count_visibility_create, if: :show_on_sidebar?
   after_update_commit :update_associated_models
-  after_update_commit :invalidate_filtered_unread_count_visibility_update, if: :show_on_sidebar_previously_changed?
-  after_destroy_commit :invalidate_filtered_unread_count_visibility_destroy, if: :show_on_sidebar?
   default_scope { order(:title) }
 
   before_validation do
@@ -55,24 +52,5 @@ class Label < ApplicationRecord
     return unless title_previously_changed?
 
     Labels::UpdateJob.perform_later(title, title_previously_was, account_id)
-  end
-
-  def invalidate_filtered_unread_count_visibility_create
-    invalidate_filtered_unread_count_visibility
-  end
-
-  def invalidate_filtered_unread_count_visibility_update
-    invalidate_filtered_unread_count_visibility
-  end
-
-  def invalidate_filtered_unread_count_visibility_destroy
-    invalidate_filtered_unread_count_visibility
-  end
-
-  def invalidate_filtered_unread_count_visibility
-    return if account.blank?
-
-    invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
-    account.account_users.find_each { |account_user| invalidator.user_visibility_changed!(user_id: account_user.user_id) }
   end
 end

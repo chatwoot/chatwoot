@@ -64,6 +64,6 @@ class CustomRole < ApplicationRecord
 
   def invalidate_filtered_unread_count_visibility(user_ids)
     invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
-    Array(user_ids).each { |user_id| invalidator.user_visibility_changed!(user_id: user_id) }
+    invalidator.users_visibility_changed!(user_ids: user_ids)
   end
 end

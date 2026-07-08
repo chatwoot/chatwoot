@@ -271,7 +271,7 @@ class Inbox < ApplicationRecord
 
   def invalidate_filtered_unread_count_user_visibility
     invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
-    Array(@filtered_unread_count_user_ids).each { |user_id| invalidator.user_visibility_changed!(user_id: user_id) }
+    invalidator.users_visibility_changed!(user_ids: @filtered_unread_count_user_ids)
   end
 
   def check_channel_type?
