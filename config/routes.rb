@@ -66,6 +66,9 @@ Rails.application.routes.draw do
             resources :assistants do
               member do
                 post :playground
+                get :stats
+                get :summary
+                get :drilldown
               end
               collection do
                 get :tools
@@ -501,6 +504,7 @@ Rails.application.routes.draw do
               get :conversations
               get :conversations_summary
               get :conversation_traffic
+              get :drilldown
               get :bot_metrics
               get :inbox_label_matrix
               get :first_response_time_distribution
@@ -527,9 +531,11 @@ Rails.application.routes.draw do
             member do
               post :checkout
               post :subscription
+              post :select_billing_currency
               get :limits
               post :toggle_deletion
               post :topup_checkout
+              get :topup_options
             end
           end
         end

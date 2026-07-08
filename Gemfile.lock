@@ -126,7 +126,7 @@ GEM
       jbuilder (~> 2)
       rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
-    ai-agents (0.10.0)
+    ai-agents (0.12.0)
       ruby_llm (~> 1.14)
     annotaterb (4.20.0)
       activerecord (>= 6.0.0)
@@ -198,7 +198,7 @@ GEM
     crack (1.0.0)
       bigdecimal
       rexml
-    crass (1.0.6)
+    crass (1.0.7)
     cronex (0.15.0)
       tzinfo
       unicode (>= 0.4.4.5)
@@ -570,7 +570,7 @@ GEM
     minitest (5.25.5)
     mock_redis (0.36.0)
       ruby2_keywords
-    msgpack (1.8.0)
+    msgpack (1.8.3)
     multi_json (1.15.0)
     multi_xml (0.9.1)
       bigdecimal (>= 3.1, < 5)
@@ -1058,7 +1058,7 @@ DEPENDENCIES
   administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.3)
   administrate-field-belongs_to_search (>= 0.9.0)
-  ai-agents (>= 0.10.0)
+  ai-agents (>= 0.12.0)
   annotaterb
   attr_extras
   audited (~> 5.4, >= 5.4.1)

@@ -36,7 +36,9 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def perform
     account.disable_features(*PREMIUM_PLAN_FEATURES)
+    account.disable_features('captain_integration_v2') if default_plan?
     account.enable_features(*current_plan_features)
+    account.enable_features('captain_integration_v2') if captain_v2_default_eligible?
     account.enable_features(*manually_managed_features)
     account.save!
   end
@@ -68,5 +70,9 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
 
   def manually_managed_features
     @manually_managed_features ||= Internal::Accounts::InternalAttributesService.new(account).manually_managed_features
+  end
+
+  def captain_v2_default_eligible?
+    !default_plan? && account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE] == true
   end
 end
