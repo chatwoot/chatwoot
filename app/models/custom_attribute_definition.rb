@@ -48,6 +48,8 @@ class CustomAttributeDefinition < ApplicationRecord
   belongs_to :account
   after_update :update_widget_pre_chat_custom_fields, unless: :company_attribute?
   after_destroy :sync_widget_pre_chat_custom_fields, unless: :company_attribute?
+  after_update_commit :invalidate_filtered_unread_count_filters_update, if: :conversation_attribute_before_or_after?
+  after_destroy_commit :invalidate_filtered_unread_count_filters_destroy, if: :conversation_attribute?
 
   private
 
@@ -62,6 +64,27 @@ class CustomAttributeDefinition < ApplicationRecord
 
   def update_widget_pre_chat_custom_fields
     ::Inboxes::UpdateWidgetPreChatCustomFieldsJob.perform_later(account, self)
+  end
+
+  def invalidate_filtered_unread_count_filters_update
+    invalidate_filtered_unread_count_filters
+  end
+
+  def invalidate_filtered_unread_count_filters_destroy
+    invalidate_filtered_unread_count_filters
+  end
+
+  def invalidate_filtered_unread_count_filters
+    filters_changed = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).custom_attribute_definition_changed!(self)
+    dispatch_account_cache_invalidated if filters_changed
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
+  end
+
+  def conversation_attribute_before_or_after?
+    conversation_attribute? || attribute_model_previously_was == 'conversation_attribute'
   end
 
   def attribute_must_not_conflict

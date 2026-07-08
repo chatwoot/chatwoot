@@ -11,7 +11,7 @@ class FilterService
   }.with_indifferent_access
 
   def initialize(params, user)
-    @params = normalize_params(params)
+    @params = params
     @user = user
     file = File.read('./lib/filters/filter_keys.yml')
     @filters = YAML.safe_load(file)
@@ -139,16 +139,6 @@ class FilterService
   end
 
   private
-
-  def normalize_params(params)
-    return params unless params.respond_to?(:with_indifferent_access)
-
-    normalized_params = params.with_indifferent_access
-    normalized_params[:payload] = Array(normalized_params[:payload]).map do |condition|
-      condition.respond_to?(:with_indifferent_access) ? condition.with_indifferent_access : condition
-    end
-    normalized_params
-  end
 
   def standard_attribute_data_type(attribute_key)
     @filters.each_value do |section|

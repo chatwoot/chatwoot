@@ -4,7 +4,16 @@ import { mutations } from '../../conversationUnreadCounts';
 describe('#mutations', () => {
   describe('#SET_CONVERSATION_UNREAD_COUNTS', () => {
     it('normalizes unread count payload', () => {
-      const state = { allCount: 0, inboxes: {}, labels: {}, teams: {} };
+      const state = {
+        allCount: 0,
+        inboxes: {},
+        labels: {},
+        teams: {},
+        mentionsCount: 0,
+        participatingCount: 0,
+        unattendedCount: 0,
+        folders: {},
+      };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {
         all_count: '3',
@@ -23,10 +32,10 @@ describe('#mutations', () => {
         },
         mentions_count: '8',
         participating_count: 9,
-        unattended_count: '10',
+        unattended_count: 0,
         folders: {
-          11: '12',
-          12: 0,
+          10: '11',
+          12: -1,
         },
       });
 
@@ -37,8 +46,8 @@ describe('#mutations', () => {
         teams: { 6: 7 },
         mentionsCount: 8,
         participatingCount: 9,
-        unattendedCount: 10,
-        folders: { 11: 12 },
+        unattendedCount: 0,
+        folders: { 10: 11 },
       });
     });
 
@@ -51,7 +60,7 @@ describe('#mutations', () => {
         mentionsCount: 8,
         participatingCount: 9,
         unattendedCount: 10,
-        folders: { 10: 11 },
+        folders: { 11: 12 },
       };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {});
@@ -69,13 +78,28 @@ describe('#mutations', () => {
     });
 
     it('normalizes invalid aggregate counts to zero', () => {
-      const state = { allCount: 2, inboxes: {}, labels: {}, teams: {} };
+      const state = {
+        allCount: 2,
+        inboxes: {},
+        labels: {},
+        teams: {},
+        mentionsCount: 2,
+        participatingCount: 3,
+        unattendedCount: 4,
+        folders: {},
+      };
 
       mutations[types.SET_CONVERSATION_UNREAD_COUNTS](state, {
         all_count: 'invalid',
+        mentions_count: 'invalid',
+        participating_count: -1,
+        unattended_count: 0,
       });
 
       expect(state.allCount).toBe(0);
+      expect(state.mentionsCount).toBe(0);
+      expect(state.participatingCount).toBe(0);
+      expect(state.unattendedCount).toBe(0);
     });
   });
 });

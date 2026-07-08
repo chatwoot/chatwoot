@@ -78,3 +78,7 @@ export default {
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
+
+// Temporarily disables WhatsApp embedded signup and WhatsApp Call inbox
+// creation. Flip to false when the channel is brought back.
+export const IS_WHATSAPP_INBOX_CREATION_DISABLED = true;

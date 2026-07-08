@@ -6,7 +6,7 @@ class Captain::Llm::ArticleWriterService < Captain::BaseTaskService
   pattr_initialize [:account!, :source_pages!, { hint_title: nil }]
 
   def perform
-    response = make_api_call(model: writer_model, messages: messages, schema: RESPONSE_SCHEMA)
+    response = make_api_call(feature: 'help_center_article_generation', messages: messages, schema: RESPONSE_SCHEMA)
     return response if response[:error]
 
     response.merge(message: extract_payload(response[:message]))
@@ -90,10 +90,6 @@ class Captain::Llm::ArticleWriterService < Captain::BaseTaskService
   # debit the customer's captain_responses quota.
   def counts_toward_usage?
     false
-  end
-
-  def writer_model
-    'gpt-5.2'
   end
 
   def build_follow_up_context?

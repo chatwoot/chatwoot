@@ -10,37 +10,48 @@ RSpec.describe CustomRole, type: :model do
     it { is_expected.to validate_presence_of(:name) }
   end
 
-  describe 'unread filter count invalidation' do
-    it 'notifies assigned users when permissions change' do
-      account = create(:account)
-      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
-      account_user = create(:account_user, account: account, custom_role: custom_role)
-      notifier = instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true)
-      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
+    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, users_visibility_changed!: true) }
 
-      custom_role.update!(permissions: ['conversation_manage'])
-
-      expect(Conversations::UnreadCounts::UserFilterNotifier).to have_received(:new).with(
-        account: account,
-        user: account_user.user
-      )
-      expect(notifier).to have_received(:perform)
+    before do
+      create(:account_user, account: account, user: user, custom_role: custom_role)
+      create(:account_user, account: account, user: other_user, custom_role: custom_role)
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
     end
 
-    it 'notifies assigned users when the custom role is destroyed' do
-      account = create(:account)
-      custom_role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
-      account_user = create(:account_user, account: account, custom_role: custom_role)
-      notifier = instance_double(Conversations::UnreadCounts::UserFilterNotifier, perform: true)
-      allow(Conversations::UnreadCounts::UserFilterNotifier).to receive(:new).and_return(notifier)
+    it 'invalidates filtered counts for assigned users when permissions change' do
+      custom_role.update!(permissions: ['conversation_participating_manage'])
 
+      expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+
+    it 'does not invalidate filtered counts when permissions are unchanged' do
+      custom_role.update!(name: 'Support manager')
+
+      expect(invalidator).not_to have_received(:users_visibility_changed!)
+    end
+
+    it 'invalidates filtered counts for assigned users when the role is deleted' do
       custom_role.destroy!
 
-      expect(Conversations::UnreadCounts::UserFilterNotifier).to have_received(:new).with(
+      expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
         account: account,
-        user: account_user.user
+        cache_keys: account.cache_keys
       )
-      expect(notifier).to have_received(:perform)
     end
   end
 end

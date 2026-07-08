@@ -30,8 +30,8 @@ RSpec.describe Conversations::UnreadCounts::Notifier do
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
     end
 
-    it 'dispatches unread count changed event when user filter caches were cleared' do
-      allow(Conversations::UnreadCounts::Store).to receive(:clear_filter_caches!).and_return(true)
+    it 'dispatches unread count changed event when filtered counts are enabled' do
+      conversation.account.enable_features!(:unread_count_for_filters)
 
       described_class.new(conversation).perform
 

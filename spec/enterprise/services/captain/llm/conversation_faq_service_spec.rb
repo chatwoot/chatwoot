@@ -33,6 +33,23 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
       end
 
+      it 'uses the document FAQ generation feature model' do
+        expect(RubyLLM).to receive(:chat).with(
+          model: Llm::Models.default_model_for('document_faq_generation')
+        ).and_return(mock_chat)
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
+      it 'resolves the feature model from the conversation account' do
+        expect(Llm::FeatureRouter).to receive(:resolve).with(
+          feature: 'document_faq_generation',
+          account: conversation.account
+        ).and_call_original
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
       it 'creates new FAQs for valid conversation content' do
         expect do
           service.generate_and_deduplicate

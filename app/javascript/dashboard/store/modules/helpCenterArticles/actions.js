@@ -7,7 +7,7 @@ import types from '../../mutation-types';
 export const actions = {
   index: async (
     { commit },
-    { pageNumber, portalSlug, locale, status, authorId, categorySlug }
+    { pageNumber, portalSlug, locale, status, authorId, categorySlug, query }
   ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
@@ -18,6 +18,7 @@ export const actions = {
         status,
         authorId,
         categorySlug,
+        query,
       });
       const payload = camelcaseKeys(data.payload);
       const meta = camelcaseKeys(data.meta);
@@ -156,11 +157,13 @@ export const actions = {
     // Update positions in the store immediately so subsequent mutations preserve correct positions
     commit(types.SET_ARTICLE_POSITIONS, reorderedGroup);
     try {
-      await articlesAPI.reorderArticles({
+      const { data } = await articlesAPI.reorderArticles({
         portalSlug,
         reorderedGroup,
         categorySlug,
       });
+      // Adopt the backend's re-spaced positions so the next reorder isn't computed from stale local values.
+      if (data?.positions) commit(types.SET_ARTICLE_POSITIONS, data.positions);
     } catch (error) {
       commit(types.SET_ARTICLE_POSITIONS, oldPositions);
       throw error;
