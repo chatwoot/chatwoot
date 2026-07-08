@@ -15,7 +15,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = LlmConstants::PDF_PROCESSING_MODEL
+    @model = Llm::FeatureRouter.resolve(feature: 'pdf_faq_generation', account: document.account)[:model]
   end
 
   def generate
@@ -51,7 +51,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       account_id: @document&.account_id,
       feature_name: 'faq_generation',
       model: @model,
-      messages: params[:messages]
+      messages: params[:messages],
+      metadata: document_metadata
     }
 
     response = instrument_llm_call(instrumentation_params) do
@@ -214,12 +215,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       feature_name: 'paginated_faq_generation',
       model: @model,
       messages: params[:messages],
-      metadata: {
-        document_id: @document&.id,
-        start_page: start_page,
-        end_page: end_page,
-        iteration: @iterations_completed + 1
-      }
+      metadata: document_metadata.merge(start_page: start_page, end_page: end_page, iteration: @iterations_completed + 1)
     }
+  end
+
+  def document_metadata
+    @document&.to_llm_metadata || {}
   end
 end

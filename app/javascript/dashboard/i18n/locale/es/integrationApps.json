@@ -46,6 +46,7 @@
           "PLACEHOLDER": "Seleccione una bandeja de entrada"
         },
         "SUBMIT": "Crear",
+        "VALIDATING_OPENAI": "Validating with OpenAI...",
         "CANCEL": "Cancelar"
       },
       "API": {

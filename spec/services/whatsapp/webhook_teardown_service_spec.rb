@@ -14,26 +14,26 @@ RSpec.describe Whatsapp::WebhookTeardownService do
           provider: 'whatsapp_cloud',
           provider_config: {
             'source' => 'embedded_signup',
-            'business_account_id' => 'test_waba_id',
+            'phone_number_id' => 'test_phone_id',
             'api_key' => 'test_api_key'
           }
         )
       end
 
-      it 'calls unsubscribe_waba_webhook on Facebook API client' do
+      it 'calls clear_phone_number_callback_override on Facebook API client' do
         api_client = instance_double(Whatsapp::FacebookApiClient)
         allow(Whatsapp::FacebookApiClient).to receive(:new).with('test_api_key').and_return(api_client)
-        allow(api_client).to receive(:unsubscribe_waba_webhook).with('test_waba_id')
+        allow(api_client).to receive(:clear_phone_number_callback_override).with('test_phone_id')
 
         service.perform
 
-        expect(api_client).to have_received(:unsubscribe_waba_webhook).with('test_waba_id')
+        expect(api_client).to have_received(:clear_phone_number_callback_override).with('test_phone_id')
       end
 
       it 'handles errors gracefully without raising' do
         api_client = instance_double(Whatsapp::FacebookApiClient)
         allow(Whatsapp::FacebookApiClient).to receive(:new).and_return(api_client)
-        allow(api_client).to receive(:unsubscribe_waba_webhook).and_raise(StandardError, 'API Error')
+        allow(api_client).to receive(:clear_phone_number_callback_override).and_raise(StandardError, 'API Error')
 
         expect { service.perform }.not_to raise_error
       end

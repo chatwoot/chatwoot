@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import ChannelSelector from '../ChannelSelector.vue';
+import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 
 const props = defineProps({
   channel: {
@@ -20,7 +21,10 @@ const hasFbConfigured = computed(() => {
 });
 
 const hasInstagramConfigured = computed(() => {
-  return window.chatwootConfig?.instagramAppId;
+  return (
+    !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
+    window.chatwootConfig?.instagramAppId
+  );
 });
 
 const hasTiktokConfigured = computed(() => {
@@ -56,6 +60,15 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_voice;
   }
 
+  if (key === 'whatsapp_call') {
+    return (
+      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
+      props.enabledFeatures.channel_voice &&
+      !!window.chatwootConfig?.whatsappAppId &&
+      window.chatwootConfig.whatsappAppId !== 'none'
+    );
+  }
+
   return [
     'website',
     'twilio',
@@ -77,6 +90,17 @@ const isComingSoon = computed(() => {
   return ['voice'].includes(key) && !isActive.value;
 });
 
+const isBeta = computed(() => {
+  return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
+});
+
+const hasVoiceBadge = computed(() => {
+  return (
+    ['voice', 'whatsapp_call'].includes(props.channel.key) &&
+    !!props.enabledFeatures.channel_voice
+  );
+});
+
 const onItemClick = () => {
   if (isActive.value) {
     emit('channelItemClick', props.channel.key);
@@ -90,6 +114,8 @@ const onItemClick = () => {
     :description="channel.description"
     :icon="channel.icon"
     :is-coming-soon="isComingSoon"
+    :is-beta="isBeta"
+    :has-voice-badge="hasVoiceBadge"
     :disabled="!isActive"
     @click="onItemClick"
   />

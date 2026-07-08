@@ -8,7 +8,7 @@ RSpec.describe AgentBots::WebhookJob do
   let(:url) { 'https://test.com' }
   let(:payload) { { name: 'test' } }
   let(:webhook_type) { :agent_bot_webhook }
-  let(:retryable_error) { RestClient::InternalServerError.new(nil, 500) }
+  let(:retryable_error) { Webhooks::Trigger::RetryableError.new(status: 500, message: '500 Internal Server Error') }
 
   before do
     ActiveJob::Base.queue_adapter = :test
@@ -33,7 +33,7 @@ RSpec.describe AgentBots::WebhookJob do
   it 'configures retry handlers for 429 and 500 errors' do
     handlers = described_class.rescue_handlers.map(&:first)
 
-    expect(handlers).to include('RestClient::TooManyRequests', 'RestClient::InternalServerError')
+    expect(handlers).to include('Webhooks::Trigger::RetryableError')
   end
 
   it 'retries 3 times and handles failure after retries are exhausted' do
@@ -43,7 +43,7 @@ RSpec.describe AgentBots::WebhookJob do
     allow(Rails.logger).to receive(:warn)
 
     expect(Webhooks::Trigger).to receive(:execute).exactly(3).times
-    expect(trigger_instance).to receive(:handle_failure).with(instance_of(RestClient::InternalServerError)).once
+    expect(trigger_instance).to receive(:handle_failure).with(instance_of(Webhooks::Trigger::RetryableError)).once
     expect(Rails.logger).to receive(:warn).with(/AgentBots::WebhookJob/).exactly(3).times
 
     perform_enqueued_jobs { job }

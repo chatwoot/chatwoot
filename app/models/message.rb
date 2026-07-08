@@ -34,7 +34,7 @@
 #  index_messages_on_conversation_id                    (conversation_id)
 #  index_messages_on_created_at                         (created_at)
 #  index_messages_on_inbox_id                           (inbox_id)
-#  index_messages_on_sender_type_and_sender_id          (sender_type,sender_id)
+#  index_messages_on_sender_and_created                 (sender_type,sender_id,created_at)
 #  index_messages_on_source_id                          (source_id)
 #
 
@@ -170,13 +170,20 @@ class Message < ApplicationRecord
     data
   end
 
+  def webhook_push_event_data
+    push_event_data.merge(
+      content: Messages::WebhookContentNormalizer.normalize(content),
+      processed_message_content: Messages::WebhookContentNormalizer.normalize(processed_message_content)
+    )
+  end
+
   def webhook_data
     data = {
       account: account.webhook_data,
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
       content_type: content_type,
-      content: outgoing_content,
+      content: webhook_content,
       conversation: conversation.webhook_data,
       created_at: created_at,
       id: id,
@@ -193,6 +200,11 @@ class Message < ApplicationRecord
   # Method to get content with survey URL for outgoing channel delivery
   def outgoing_content
     MessageContentPresenter.new(self).outgoing_content
+  end
+
+  # Raw content with survey URL (no markdown rendering) for webhook consumers
+  def webhook_content
+    MessageContentPresenter.new(self).webhook_content
   end
 
   def email_notifiable_message?
@@ -445,3 +457,4 @@ class Message < ApplicationRecord
 end
 
 Message.prepend_mod_with('Message')
+Message.include_mod_with('Concerns::Message')

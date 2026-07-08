@@ -12,6 +12,7 @@ class ConversationFinder
     'waiting_since_asc' => %w[sort_on_waiting_since asc],
     'waiting_since_desc' => %w[sort_on_waiting_since desc],
     'priority_desc_created_at_asc' => %w[sort_on_priority_created_at desc],
+    'unread' => %w[sort_on_unread desc],
 
     # To be removed in v3.5.0
     'latest' => %w[sort_on_last_activity_at desc],
@@ -40,7 +41,7 @@ class ConversationFinder
   def perform
     set_up
 
-    mine_count, unassigned_count, all_count, = set_count_for_all_conversations
+    mine_count, unassigned_count, all_count = set_count_for_all_conversations
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
@@ -184,6 +185,17 @@ class ConversationFinder
   end
 
   def set_count_for_all_conversations
+    return legacy_count_for_all_conversations if @conversations.limit_value || @conversations.offset_value || @conversations.eager_loading?
+
+    counts = @conversations.unscope(:order).pick(
+      Arel.sql("COUNT(*) FILTER (WHERE assignee_id = #{current_user.id})"),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL)'),
+      Arel.sql('COUNT(*)')
+    )
+    counts || [0, 0, 0]
+  end
+
+  def legacy_count_for_all_conversations
     [
       @conversations.assigned_to(current_user).count,
       @conversations.unassigned.count,

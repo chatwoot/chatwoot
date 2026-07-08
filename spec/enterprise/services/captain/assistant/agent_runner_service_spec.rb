@@ -10,7 +10,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:scenario) { create(:captain_scenario, assistant: assistant, enabled: true) }
 
-  let(:mock_runner) { instance_double(Agents::Runner) }
+  let(:mock_runner) { instance_double(Agents::AgentRunner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
   let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
@@ -31,6 +31,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     allow(scenario).to receive(:agent).and_return(mock_scenario_agent)
     allow(Agents::Runner).to receive(:with_agents).and_return(mock_runner)
     allow(mock_runner).to receive(:run).and_return(mock_result)
+    allow(mock_runner).to receive(:on_tool_complete).and_return(mock_runner)
+    allow(mock_runner).to receive(:on_run_complete).and_return(mock_runner)
     allow(mock_agent).to receive(:register_handoffs)
     allow(mock_scenario_agent).to receive(:register_handoffs)
   end
@@ -91,7 +93,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
         context: expected_context,
-        max_turns: 100
+        max_turns: 10
       )
 
       service.generate_response(message_history: message_history)
@@ -117,7 +119,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           expect(input.text).to eq('What does this error mean?')
           expect(input.attachments.first.source.to_s).to eq('https://example.com/error.png')
           expect(context[:conversation_history]).to eq([{ role: :assistant, content: 'Please share a screenshot', agent_name: nil }])
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -145,7 +147,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
             { type: 'text', text: 'Here is my error screenshot' },
             { type: 'image_url', image_url: { url: 'https://example.com/error.png' } }
           )
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: history_with_prior_image)
@@ -155,7 +157,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).to receive(:run) do |_input, context:, max_turns:|
           expect(context[:captain_v2_trace_input]).to include('image_url')
           expect(context[:captain_v2_trace_current_input]).to include('image_url')
-          expect(max_turns).to eq(100)
+          expect(max_turns).to eq(10)
         end
 
         service.generate_response(message_history: multimodal_message_history)
@@ -165,7 +167,24 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil })
+      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil, 'handoff_tool_called' => false })
+    end
+
+    context 'when handoff tool was called during agent execution' do
+      let(:runner_context) { { captain_v2_handoff_tool_called: true } }
+      let(:mock_result) do
+        instance_double(Agents::RunResult, output: { 'response' => 'Let me connect you' }, context: runner_context)
+      end
+
+      it 'includes handoff_tool_called flag in response' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).to eq({
+                               'response' => 'Let me connect you',
+                               'agent_name' => nil,
+                               'handoff_tool_called' => true
+                             })
+      end
     end
 
     context 'when no scenarios are enabled' do
@@ -192,7 +211,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result).to eq({
                                'response' => 'Simple string response',
                                'reasoning' => 'Processed by agent',
-                               'agent_name' => nil
+                               'agent_name' => nil,
+                               'handoff_tool_called' => false
                              })
       end
     end
@@ -214,7 +234,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
         expect(result).to eq({
                                'response' => 'conversation_handoff',
-                               'reasoning' => 'Error occurred: Test error'
+                               'reasoning' => 'Error occurred: Test error',
+                               'handoff_tool_called' => false
                              })
       end
 
@@ -235,7 +256,32 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
           expect(result).to eq({
                                  'response' => 'conversation_handoff',
-                                 'reasoning' => 'Error occurred: Test error'
+                                 'reasoning' => 'Error occurred: Test error',
+                                 'handoff_tool_called' => false
+                               })
+        end
+      end
+
+      context 'when HandoffTool fired before the runner errored' do
+        # The stubbed runner never invokes the on_tool_complete callback, so we call
+        # track_handoff_usage directly to simulate the flag being set before the raise.
+        before do
+          allow(mock_runner).to receive(:run) do
+            service.send(:track_handoff_usage,
+                         Captain::Tools::HandoffTool.new(assistant).name,
+                         Captain::Tools::HandoffTool.new(assistant).name,
+                         Struct.new(:context).new({}))
+            raise error
+          end
+        end
+
+        it 'surfaces handoff_tool_called in error_response so the job routes to the V2 path' do
+          result = service.generate_response(message_history: message_history)
+
+          expect(result).to eq({
+                                 'response' => 'conversation_handoff',
+                                 'reasoning' => 'Error occurred: Test error',
+                                 'handoff_tool_called' => true
                                })
         end
       end
@@ -359,6 +405,47 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
   end
 
+  describe 'InstrumentationAttributeProvider' do
+    subject(:provider) { Captain::Assistant::InstrumentationAttributeProvider.new(service) }
+
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+
+    it 'delegates root trace attributes to the service' do
+      context = {
+        state: {
+          account_id: account.id,
+          assistant_id: assistant.id,
+          conversation: { id: conversation.id, display_id: conversation.display_id }
+        }
+      }
+      context_wrapper = Struct.new(:context).new(context)
+
+      attributes = provider.call(context_wrapper)
+
+      expect(attributes).to include(
+        'langfuse.user.id' => account.id.to_s,
+        'langfuse.trace.metadata.assistant_id' => assistant.id.to_s
+      )
+    end
+
+    it 'marks final response generations for observation-level evaluators' do
+      message = instance_double(RubyLLM::Message, tool_calls: {})
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('final_response')
+    end
+
+    it 'marks tool call generations separately from final responses' do
+      tool_call = instance_double(RubyLLM::ToolCall)
+      message = instance_double(RubyLLM::Message, tool_calls: { 'call_1' => tool_call })
+
+      attributes = provider.generation_attributes(nil, nil, message)
+
+      expect(attributes['langfuse.observation.metadata.generation_stage']).to eq('tool_call')
+    end
+  end
+
   describe '#build_state' do
     subject(:service) { described_class.new(assistant: assistant, conversation: conversation) }
 
@@ -393,7 +480,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       )
     end
 
-    it 'includes contact attributes when contact is present' do
+    it 'always includes contact attributes in state for tool access' do
       state = service.send(:build_state)
 
       expect(state[:contact]).to include(
@@ -477,6 +564,38 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
       run_complete_callback.call('assistant', nil, context_wrapper)
+    end
+
+    it 'registers handoff tracking callback when OTEL is disabled' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      tool_complete_callback = nil
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete) do |&block|
+        tool_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      context_wrapper = Struct.new(:context).new({})
+
+      expect(tool_complete_callback).not_to be_nil
+      tool_complete_callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'ok', context_wrapper)
+
+      expect(context_wrapper.context[:captain_v2_handoff_tool_called]).to be true
+    end
+
+    it 'does not register OTEL run callback when OTEL is disabled' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      expect(runner).not_to receive(:on_run_complete)
+
+      service.send(:add_usage_metadata_callback, runner)
     end
 
     it 'sets credit_used=true when handoff tool is not used' do

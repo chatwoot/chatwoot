@@ -256,6 +256,14 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
                { 'name' => 'Hacker', 'product_id' => ['prod_hacker'], 'price_ids' => ['price_hacker'] },
                { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
              ])
+      create(:installation_config, name: 'CAPTAIN_TOPUP_OPTIONS', value: {
+               'usd' => [
+                 { 'credits' => 1000, 'amount' => 20.0 },
+                 { 'credits' => 2500, 'amount' => 50.0 },
+                 { 'credits' => 6000, 'amount' => 100.0 },
+                 { 'credits' => 12_000, 'amount' => 200.0 }
+               ]
+             })
     end
 
     it 'returns unauthorized for unauthenticated user' do
@@ -281,6 +289,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
         allow(Stripe::Invoice).to receive(:create).and_return(stripe_invoice)
         allow(Stripe::InvoiceItem).to receive(:create)
         allow(Stripe::Invoice).to receive(:finalize_invoice)
+        allow(Stripe::Invoice).to receive(:retrieve).and_return(Struct.new(:status).new('open'))
         allow(Stripe::Invoice).to receive(:pay)
         allow(Stripe::Billing::CreditGrant).to receive(:create)
       end

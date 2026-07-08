@@ -19,7 +19,17 @@ module OutOfOffisable
   end
 
   def weekly_schedule
-    working_hours.order(day_of_week: :asc).select(*OFFISABLE_ATTRS).as_json(except: :id)
+    working_hours.sort_by(&:day_of_week).map do |wh|
+      {
+        'day_of_week' => wh.day_of_week,
+        'closed_all_day' => wh.closed_all_day,
+        'open_hour' => wh.open_hour,
+        'open_minutes' => wh.open_minutes,
+        'close_hour' => wh.close_hour,
+        'close_minutes' => wh.close_minutes,
+        'open_all_day' => wh.open_all_day
+      }
+    end
   end
 
   # accepts an array of hashes similiar to the format of weekly_schedule

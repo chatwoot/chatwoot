@@ -32,6 +32,7 @@ const emit = defineEmits(['dismiss']);
       xs
       slate
       icon="i-lucide-x"
+      class="flex-shrink-0"
       @click.stop="emit('dismiss')"
     />
   </div>

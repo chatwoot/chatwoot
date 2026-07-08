@@ -712,8 +712,10 @@ describe('#mutations', () => {
       mutations[types.ASSIGN_AGENT](state, {
         conversationId: 1,
         assignee,
+        assigneeType: 'AgentBot',
       });
       expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+      expect(state.allConversations[0].meta.assignee_type).toEqual('AgentBot');
       expect(state.allConversations[1].meta.assignee).toBeUndefined();
     });
   });
@@ -786,9 +788,55 @@ describe('#mutations', () => {
       });
     });
 
-    it('should add conversation if not found', () => {
+    it('should add conversation if not found on normal view', () => {
       const state = {
         allConversations: [],
+        conversationFilters: {},
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([conversation]);
+    });
+
+    it('should not add conversation if not found on participating view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'participating' },
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([]);
+    });
+
+    it('should not add conversation if not found on mention view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'mention' },
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'open',
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations).toEqual([]);
+    });
+
+    it('should add conversation if not found on unattended view', () => {
+      const state = {
+        allConversations: [],
+        conversationFilters: { conversationType: 'unattended' },
       };
 
       const conversation = {

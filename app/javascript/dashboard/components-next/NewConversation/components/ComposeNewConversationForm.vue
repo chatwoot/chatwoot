@@ -2,7 +2,7 @@
 import { ref, computed } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { INBOX_TYPES, isVoiceCallEnabled } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
@@ -99,6 +99,8 @@ const whatsappMessageTemplates = computed(() =>
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 
 const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const voiceCallEnabled = computed(() => isVoiceCallEnabled(props.targetInbox));
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
@@ -361,7 +363,7 @@ useKeyboardEvents({
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
+    class="w-full md:w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
     <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
       <ContactSelector
@@ -442,6 +444,7 @@ useKeyboardEvents({
       :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
+      :voice-enabled="voiceCallEnabled"
       :is-loading="isCreating"
       :disable-send-button="isCreating"
       :has-selected-inbox="!!targetInbox"

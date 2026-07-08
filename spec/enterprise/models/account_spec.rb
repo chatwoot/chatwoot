@@ -222,6 +222,104 @@ RSpec.describe Account, type: :model do
     end
   end
 
+  describe 'default features' do
+    before do
+      InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
+        value: Featurable::FEATURE_LIST,
+        locked: true
+      )
+    end
+
+    it 'enables Captain V2 for new self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+
+      account = create(:account)
+
+      expect(account).to be_feature_enabled('captain_integration')
+      expect(account).to be_feature_enabled('captain_integration_v2')
+      expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+      expect(account.captain_models).to be_nil
+    end
+
+    it 'marks new cloud accounts as eligible for the Captain V2 paid-plan default' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+      account = create(:account)
+
+      expect(account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE]).to be true
+      expect(account).not_to be_feature_enabled('captain_integration')
+      expect(account).not_to be_feature_enabled('captain_integration_v2')
+    end
+  end
+
+  describe 'captain document sync cadence' do
+    let(:account) { create(:account) }
+
+    it 'has no cadence when installation config is missing' do
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'uses configured plan intervals from installation config' do
+      intervals = {
+        business: 48,
+        enterprise: 24
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to eq(2.days)
+    end
+
+    it 'normalizes configured plan name casing' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: 24 }.to_json)
+      account.update!(custom_attributes: { plan_name: 'Business' })
+
+      expect(account.captain_document_sync_interval).to eq(1.day)
+    end
+
+    it 'uses the enterprise cadence for self-hosted enterprise installs without a plan_name' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { enterprise: 6 }.to_json)
+      account.update!(custom_attributes: {})
+
+      expect(account.captain_document_sync_interval).to eq(6.hours)
+    end
+
+    it 'allows installation config to disable a plan cadence' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: { business: nil }.to_json)
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'has no cadence when installation config is invalid' do
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: 'invalid-json')
+      account.update!(custom_attributes: { plan_name: 'business' })
+
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+
+    it 'treats invalid plan interval values as disabled' do
+      intervals = {
+        business: false,
+        enterprise: { hours: 6 },
+        startups: '168'
+      }
+      create(:installation_config, name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS', value: intervals.to_json)
+
+      account.update!(custom_attributes: { plan_name: 'business' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'enterprise' })
+      expect(account.captain_document_sync_interval).to be_nil
+
+      account.update!(custom_attributes: { plan_name: 'startups' })
+      expect(account.captain_document_sync_interval).to be_nil
+    end
+  end
+
   describe 'account deletion' do
     let(:account) { create(:account) }
     let(:admin) { create(:user, account: account, role: :administrator) }

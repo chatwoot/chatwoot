@@ -1,39 +1,39 @@
 {
   "REPORT": {
     "HEADER": "Conversations",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "LOADING_CHART": "ჩატვირთვა დიაგრამის მონაცემები...",
+    "NO_ENOUGH_DATA": "რეპორტის გენერირებისთვის საკმარისი მონაცემები არ გვაქვს მიღებული, გთხოვთ, სცადეთ მოგვიანებით.",
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "შეხვედრები",
+        "DESC": "( ჯამში )"
       },
       "INCOMING_MESSAGES": {
         "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "DESC": "( ჯამში )"
       },
       "OUTGOING_MESSAGES": {
         "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "DESC": "( ჯამში )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
+        "DESC": "( საშუალოდ )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
+        "NAME": "გადაწყვეტის დრო",
+        "DESC": "( საშუალოდ )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "გადაწყვეტის რაოდენობა",
+        "DESC": "( ჯამში )"
       },
       "BOT_RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
@@ -61,8 +61,8 @@
       "CUSTOM_DATE_RANGE": "Custom date range"
     },
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "გამოყენება",
+      "PLACEHOLDER": "აირჩიეთ თარიღის დიაპაზონი"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
@@ -127,12 +127,12 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Agents Overview",
+    "HEADER": "აგენტების მიმოხილვა",
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_AGENT_REPORTS": "Download agent reports",
-    "FILTER_DROPDOWN_LABEL": "Select Agent",
+    "LOADING_CHART": "გრაფიკის მონაცემების ჩატვირთვა...",
+    "NO_ENOUGH_DATA": "რეპორტის გენერირებისთვის საკმარისი მონაცემები არ გვაქვს, გთხოვთ, სცადეთ მოგვიანებით.",
+    "DOWNLOAD_AGENT_REPORTS": "აგენტების ანგარიშების ჩამოტვირთვა",
+    "FILTER_DROPDOWN_LABEL": "აირჩიეთ აგენტი",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "AGENTS": "Search agents"
@@ -140,72 +140,72 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "შეტყობინებები",
+        "DESC": "(სულ)"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "მომავალი შეტყობინებები",
+        "DESC": "( ჯამში )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "გამავალი შეტყობინებები",
+        "DESC": "( ჯამში )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
+        "DESC": "( საშუალოდ )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
+        "NAME": "გადაჭრის დრო",
+        "DESC": "(საშუალო)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "გადაჭრის რაოდენობა",
+        "DESC": "(სულ)"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "ბოლო 7 დღე"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "ბოლო 30 დღე"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "ბოლო 3 თვე"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "ბოლო 6 თვე"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ბოლო წელი"
       },
       {
         "id": 5,
-        "name": "Custom date range"
+        "name": "მორგებული თარიღის დიაპაზონი"
       }
     ],
     "CUSTOM_DATE_RANGE": {
-      "CONFIRM": "Apply",
-      "PLACEHOLDER": "Select date range"
+      "CONFIRM": "გამოყენება",
+      "PLACEHOLDER": "აირჩიეთ თარიღის დიაპაზონი"
     }
   },
   "LABEL_REPORTS": {
-    "HEADER": "Labels Overview",
+    "HEADER": "ლეიბლების მიმოხილვა",
     "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
-    "LOADING_CHART": "Loading chart data...",
-    "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
-    "DOWNLOAD_LABEL_REPORTS": "Download label reports",
-    "FILTER_DROPDOWN_LABEL": "Select Label",
+    "LOADING_CHART": "გრაფიკის მონაცემების ჩატვირთვა...",
+    "NO_ENOUGH_DATA": "რეპორტის გენერირებისთვის საკმარისი მონაცემები არ გვაქვს, გთხოვთ, სცადეთ მოგვიანებით.",
+    "DOWNLOAD_LABEL_REPORTS": "ლეიბლების რეპორტების ჩამოტვირთვა",
+    "FILTER_DROPDOWN_LABEL": "ლეიბლის არჩევა",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {
         "LABELS": "Search labels"
@@ -213,54 +213,54 @@
     },
     "METRICS": {
       "CONVERSATIONS": {
-        "NAME": "Conversations",
-        "DESC": "( Total )"
+        "NAME": "შეტყობინებები",
+        "DESC": "( ჯამში )"
       },
       "INCOMING_MESSAGES": {
-        "NAME": "Incoming Messages",
-        "DESC": "( Total )"
+        "NAME": "მომავალი შეტყობინებები",
+        "DESC": "( ჯამში )"
       },
       "OUTGOING_MESSAGES": {
-        "NAME": "Outgoing Messages",
-        "DESC": "( Total )"
+        "NAME": "გამავალი შეტყობინებები",
+        "DESC": "( ჯამში )"
       },
       "FIRST_RESPONSE_TIME": {
         "NAME": "First Response Time",
-        "DESC": "( Avg )",
+        "DESC": "( საშუალოდ )",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
-        "NAME": "Resolution Time",
-        "DESC": "( Avg )",
+        "NAME": "გადაჭრის დრო",
+        "DESC": "(საშუალო)",
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
-        "NAME": "Resolution Count",
-        "DESC": "( Total )"
+        "NAME": "გადაჭრის რაოდენობა",
+        "DESC": "(სულ)"
       }
     },
     "DATE_RANGE": [
       {
         "id": 0,
-        "name": "Last 7 days"
+        "name": "ბოლო 7 დღე"
       },
       {
         "id": 1,
-        "name": "Last 30 days"
+        "name": "ბოლო 30 დღე"
       },
       {
         "id": 2,
-        "name": "Last 3 months"
+        "name": "ბოლო 3 თვე"
       },
       {
         "id": 3,
-        "name": "Last 6 months"
+        "name": "ბოლო 6 თვე"
       },
       {
         "id": 4,
-        "name": "Last year"
+        "name": "ბოლო წელი"
       },
       {
         "id": 5,
@@ -424,7 +424,7 @@
     }
   },
   "CSAT_REPORTS": {
-    "HEADER": "CSAT Reports",
+    "HEADER": "CSAT ანგარიშები",
     "NO_RECORDS": "No responses yet",
     "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Download CSAT Reports",
@@ -454,10 +454,10 @@
     },
     "TABLE": {
       "HEADER": {
-        "CONTACT_NAME": "Contact",
+        "CONTACT_NAME": "კონტაქტი",
         "AGENT_NAME": "Agent",
-        "RATING": "Rating",
-        "FEEDBACK_TEXT": "Feedback comment",
+        "RATING": "რეიტინგი",
+        "FEEDBACK_TEXT": "მიმოხილვის კომენტარი",
         "CONVERSATION": "Conversation",
         "CUSTOMER": "Customer",
         "RESPONSE": "Response",
@@ -469,16 +469,16 @@
     "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
-        "LABEL": "Total responses",
-        "TOOLTIP": "Total number of responses collected"
+        "LABEL": "საერთო პასუხები",
+        "TOOLTIP": "შეგროვებული პასუხების საერთო რაოდენობა"
       },
       "SATISFACTION_SCORE": {
-        "LABEL": "Satisfaction score",
-        "TOOLTIP": "Total number of positive responses / Total number of responses * 100"
+        "LABEL": "კმაყოფილების ქულა",
+        "TOOLTIP": "დადებითი პასუხების საერთო რაოდენობა / პასუხების საერთო რაოდენობა * 100"
       },
       "RESPONSE_RATE": {
-        "LABEL": "Response rate",
-        "TOOLTIP": "Total number of responses / Total number of CSAT survey messages sent * 100"
+        "LABEL": "პასუხის მაჩვენებელი",
+        "TOOLTIP": "პასუხების საერთო რაოდენობა / გაგზავნილი CSAT გამოკითხვის შეტყობინებების საერთო რაოდენობა * 100"
       },
       "RATING_DISTRIBUTION": "Rating distribution"
     },
