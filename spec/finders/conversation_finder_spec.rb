@@ -10,6 +10,8 @@ describe ConversationFinder do
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
   let!(:contact_inbox) { create(:contact_inbox, inbox: inbox, source_id: 'testing_source_id') }
   let!(:restricted_inbox) { create(:inbox, account: account) }
+  let!(:agent_bot) { create(:agent_bot, account: account) }
+  let!(:bot_owned_conversation) { create(:conversation, account: account, inbox: inbox, assignee_agent_bot: agent_bot) }
 
   before do
     create(:inbox_member, user: user_1, inbox: inbox)
@@ -74,7 +76,7 @@ describe ConversationFinder do
 
       it 'filter conversations by assignee type all' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 4
+        expect(result[:conversations].length).to be 5
       end
     end
 
@@ -83,7 +85,10 @@ describe ConversationFinder do
 
       it 'filter conversations by assignee type unassigned' do
         result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
         expect(result[:conversations].length).to be 1
+        expect(conversation_ids).not_to include(bot_owned_conversation.id)
       end
     end
 
@@ -92,7 +97,7 @@ describe ConversationFinder do
 
       it 'returns all conversations' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 5
+        expect(result[:conversations].length).to be 6
       end
     end
 
@@ -162,16 +167,19 @@ describe ConversationFinder do
 
       it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 3
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(result[:conversations].length).to be 4
+        expect(conversation_ids).to include(bot_owned_conversation.id)
       end
 
       it 'returns the correct meta' do
         result = conversation_finder.perform
         expect(result[:count]).to eq({
                                        mine_count: 2,
-                                       assigned_count: 3,
+                                       assigned_count: 4,
                                        unassigned_count: 1,
-                                       all_count: 4
+                                       all_count: 5
                                      })
       end
     end
@@ -213,7 +221,7 @@ describe ConversationFinder do
 
       it 'returns conversations with any source' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 4
+        expect(result[:conversations].length).to be 5
       end
     end
 
@@ -264,9 +272,9 @@ describe ConversationFinder do
         result = conversation_finder.perform_meta_only
         expect(result[:count]).to eq({
                                        mine_count: 2,
-                                       assigned_count: 3,
+                                       assigned_count: 4,
                                        unassigned_count: 1,
-                                       all_count: 4
+                                       all_count: 5
                                      })
       end
 
