@@ -86,11 +86,13 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
       :query,
       :location,
       :radius,
+      :area_type,
       :requested_limit,
       :limit,
       :crm_pipeline_id,
       :crm_stage_id,
       categories: [],
+      area_config: {},
       metadata: [
         :location_place_id,
         :location_latitude,
@@ -201,7 +203,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
   def search_payload(search, include_leads: false)
     payload = search.as_json(
       only: [
-        :id, :query, :location, :radius, :provider, :status, :requested_limit, :created_at, :updated_at
+        :id, :query, :location, :radius, :area_type, :area_config, :provider, :status, :requested_limit,
+        :created_at, :updated_at
       ]
     )
     lead_ids = Array(search.metadata.to_h['lead_ids'])

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_08_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -496,10 +496,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000001) do
     t.integer "consumed_api_units", default: 0, null: false
     t.string "cache_fingerprint"
     t.datetime "cache_expires_at"
+    t.string "area_type", default: "radius", null: false
+    t.jsonb "area_config", default: {}, null: false
     t.jsonb "categories", default: [], null: false
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "area_type"], name: "idx_autonomia_prospecting_searches_acc_area"
     t.index ["account_id", "cache_fingerprint"], name: "idx_autonomia_prospecting_searches_acc_cache_fp"
     t.index ["account_id", "created_at"], name: "idx_autonomia_prospecting_searches_acc_created"
     t.index ["account_id"], name: "index_autonomia_prospecting_searches_on_account_id"
