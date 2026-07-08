@@ -13,7 +13,6 @@ module Enterprise::Concerns::Inbox
   end
 
   def ensure_create_permitted
-    inbox_limit = account[:limits]['inboxes']
-    raise CustomExceptions::Inbox::LimitExceeded.new({}) if inbox_limit.present? && account.inboxes.count >= inbox_limit.to_i
+    raise CustomExceptions::Inbox::LimitExceeded.new({}) if account.inboxes.count >= account.usage_limits[:inboxes]
   end
 end
