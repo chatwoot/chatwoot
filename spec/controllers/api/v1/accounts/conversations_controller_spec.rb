@@ -162,6 +162,9 @@ RSpec.describe 'Conversations API', type: :request do
 
         it 'returns filtered unread counts when the filtered count feature is enabled' do
           account.enable_features!(:unread_count_for_filters)
+          allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:summarize_request) do |**_attributes, &block|
+            block.call
+          end
           mentioned = create_unread_conversation(account: account, inbox: visible_inbox)
           create(:mention, account: account, conversation: mentioned, user: agent)
 
@@ -176,6 +179,7 @@ RSpec.describe 'Conversations API', type: :request do
             'unattended_count' => 1,
             'folders' => {}
           )
+          expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:summarize_request).with(account_id: account.id)
         end
       end
 

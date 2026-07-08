@@ -213,6 +213,65 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
     expect(store.filter_count(account_id: account.id, filter_id: custom_filter.id)).to be_nil
   end
 
+  it 'records snapshot lifecycle instrumentation while calculating counts' do
+    allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:observe) do |_operation, _attributes, &block|
+      block.call
+    end
+    allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:increment)
+
+    counter.perform
+
+    expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:observe).with(:counter_perform, account_id: account.id)
+    expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:observe).with(
+      :snapshot_build,
+      account_id: account.id,
+      snapshot_scope: :built_in_filter
+    )
+    expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:increment).with(
+      :snapshot_state,
+      account_id: account.id,
+      snapshot_scope: :built_in_filter,
+      snapshot_status: :missing
+    )
+    expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:increment).with(
+      :refresh_claim,
+      account_id: account.id,
+      snapshot_scope: :built_in_filter,
+      claimed: true
+    )
+  end
+
+  it 'records acquired build locks when snapshot builds fail' do
+    error = StandardError.new('snapshot failed')
+    lock_manager = instance_double(Redis::LockManager)
+    resolver = Conversations::UnreadCounts::FilteredCountSnapshotResolver.new(
+      account: account,
+      now: now,
+      store: store,
+      lock_manager: lock_manager
+    )
+    state = Conversations::UnreadCounts::FilteredCountStore::SnapshotResult.new(status: :missing, payload: nil)
+
+    allow(lock_manager).to receive(:with_lock)
+      .with('lock-key', Conversations::UnreadCounts::FilteredCountSnapshotResolver::BUILD_LOCK_TTL)
+      .and_yield
+      .and_return(true)
+    allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:observe) do |_operation, _attributes, &block|
+      block.call
+    end
+    allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:increment)
+
+    expect do
+      resolver.resolve(scope: :built_in_filter, state: state, lock_key: 'lock-key', claim_refresh: -> { true }) { raise error }
+    end.to raise_error(error)
+    expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:increment).with(
+      :build_lock,
+      account_id: account.id,
+      snapshot_scope: :built_in_filter,
+      acquired: true
+    )
+  end
+
   it 'omits saved folders with malformed query payloads' do
     custom_filter = create(
       :custom_filter,

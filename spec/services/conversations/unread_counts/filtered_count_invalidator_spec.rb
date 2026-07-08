@@ -20,6 +20,21 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountInvalidator do
       expect { invalidator.conversation_changed! }.to change { store.conversation_version(account.id) }.by(1)
     end
 
+    it 'records invalidation instrumentation when the feature is enabled' do
+      account.enable_features!(:unread_count_for_filters)
+      allow(Conversations::UnreadCounts::FilteredCountInstrumentation).to receive(:increment)
+
+      invalidator.conversation_changed!
+
+      expect(Conversations::UnreadCounts::FilteredCountInstrumentation).to have_received(:increment).with(
+        :invalidation,
+        account_id: account.id,
+        invalidation_scope: :conversation,
+        reason: :conversation_changed,
+        version: 1
+      )
+    end
+
     it 'does not write Redis keys when the feature is disabled' do
       expect { invalidator.conversation_changed! }.not_to(change { store.conversation_version(account.id) })
     end

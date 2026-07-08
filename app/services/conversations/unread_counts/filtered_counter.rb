@@ -1,6 +1,5 @@
 class Conversations::UnreadCounts::FilteredCounter
   FEATURE_FLAG = 'unread_count_for_filters'.freeze
-  BUILD_LOCK_TTL = 15.minutes.to_i
   EMPTY_COUNTS = {
     mentions_count: 0,
     participating_count: 0,
@@ -18,7 +17,7 @@ class Conversations::UnreadCounts::FilteredCounter
     @now = now
   end
 
-  def perform = built_in_counts.merge(folders: folder_counts)
+  def perform = instrumentation.observe(:counter_perform, account_id: account.id) { built_in_counts.merge(folders: folder_counts) }
 
   private
 
@@ -27,6 +26,7 @@ class Conversations::UnreadCounts::FilteredCounter
   def built_in_counts_snapshot
     versions = version_cache.built_in_filter
     snapshot_or_build(
+      scope: :built_in_filter,
       state: store.built_in_filter_counts_state(account_id: account.id, user_id: user.id, versions: versions, now: now),
       lock_key: store.built_in_filter_build_lock_key(account.id, user.id),
       claim_refresh: -> { store.claim_built_in_filter_refresh!(account_id: account.id, user_id: user.id) }
@@ -49,6 +49,7 @@ class Conversations::UnreadCounts::FilteredCounter
   def folder_index_snapshot
     versions = version_cache.folder_index
     snapshot_or_build(
+      scope: :folder_index,
       state: store.folder_index_state(account_id: account.id, user_id: user.id, versions: versions, now: now),
       lock_key: store.folder_index_build_lock_key(account.id, user.id),
       claim_refresh: -> { store.claim_folder_index_refresh!(account_id: account.id, user_id: user.id) }
@@ -58,6 +59,7 @@ class Conversations::UnreadCounts::FilteredCounter
   def filter_count(filter_id)
     versions = version_cache.filter(filter_id)
     snapshot = snapshot_or_build(
+      scope: :filter,
       state: store.filter_count_state(account_id: account.id, filter_id: filter_id, owner_user_id: user.id, versions: versions, now: now),
       lock_key: store.filter_build_lock_key(account.id, filter_id),
       claim_refresh: -> { filter_build_available? && store.claim_filter_refresh!(account_id: account.id, filter_id: filter_id) }
@@ -69,25 +71,9 @@ class Conversations::UnreadCounts::FilteredCounter
     snapshot&.fetch(:count, nil)
   end
 
-  def snapshot_or_build(state:, lock_key:, claim_refresh:)
-    return state.payload if state.fresh?
-
-    stale_payload = state.payload if state.stale?
-    return stale_payload if refresh_pending?(stale_payload)
-    return stale_payload unless claim_refresh.call
-
-    built_payload = nil
-    lock_acquired = false
-    lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) do
-      lock_acquired = true
-      built_payload = yield
-    rescue ActiveRecord::StatementInvalid
-      built_payload = stale_payload
-    end
-    lock_acquired ? built_payload : stale_payload
+  def snapshot_or_build(scope:, state:, lock_key:, claim_refresh:, &)
+    snapshot_resolver.resolve(scope: scope, state: state, lock_key: lock_key, claim_refresh: claim_refresh, &)
   end
-
-  def refresh_pending?(stale_payload) = stale_payload.present? && !store.refresh_due?(stale_payload, now: now)
 
   def filter_build_available? = @inline_filter_builds.to_i < Conversations::UnreadCounts::MAX_INLINE_FILTER_BUILDS
 
@@ -130,11 +116,10 @@ class Conversations::UnreadCounts::FilteredCounter
   end
 
   def build_folder_index!(versions)
-    filter_ids = folder_filter_ids_from_database
     store.write_folder_index!(
       account_id: account.id,
       user_id: user.id,
-      filter_ids: filter_ids,
+      filter_ids: folder_filter_ids_from_database,
       folder_index_version: versions.fetch(:folder_index_version),
       built_at: now
     )
@@ -180,7 +165,7 @@ class Conversations::UnreadCounts::FilteredCounter
     )
   end
 
-  def version_cache = @version_cache ||= VersionCache.new(account: account, user: user, store: store)
+  def version_cache = @version_cache ||= ::Conversations::UnreadCounts::FilteredCountVersionCache.new(account: account, user: user, store: store)
 
   def delete_filter_count!(filter_id) = store.delete_filter_count!(account_id: account.id, filter_id: filter_id).then { nil }
 
@@ -212,5 +197,20 @@ class Conversations::UnreadCounts::FilteredCounter
 
   def lock_manager = @lock_manager ||= Redis::LockManager.new
 
-  def store = ::Conversations::UnreadCounts::FilteredCountStore
+  def snapshot_resolver
+    @snapshot_resolver ||= ::Conversations::UnreadCounts::FilteredCountSnapshotResolver.new(
+      account: account,
+      now: now,
+      store: store,
+      lock_manager: lock_manager
+    )
+  end
+
+  def store
+    ::Conversations::UnreadCounts::FilteredCountStore
+  end
+
+  def instrumentation
+    ::Conversations::UnreadCounts::FilteredCountInstrumentation
+  end
 end
