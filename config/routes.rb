@@ -66,6 +66,9 @@ Rails.application.routes.draw do
             resources :assistants do
               member do
                 post :playground
+                get :stats
+                get :summary
+                get :drilldown
               end
               collection do
                 get :tools
