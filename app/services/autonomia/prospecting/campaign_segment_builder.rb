@@ -60,7 +60,11 @@ class Autonomia::Prospecting::CampaignSegmentBuilder
   end
 
   def eligible?(lead)
-    lead.status == ELIGIBLE_STATUS
+    lead.status == ELIGIBLE_STATUS && whatsapp_verified?(lead)
+  end
+
+  def whatsapp_verified?(lead)
+    lead.metadata.to_h.dig('whatsapp_verification', 'status') == 'verified'
   end
 
   def ensure_label!

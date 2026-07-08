@@ -100,6 +100,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::ListsController < Api::V1::Acco
       source_label: lead.provider.to_s.humanize,
       contact_status: lead.contact_id.present? ? 'created' : 'pending',
       crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
+    ).merge(
+      whatsapp_payload(lead)
     )
   end
 

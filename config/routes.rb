@@ -312,6 +312,7 @@ Rails.application.routes.draw do
               resources :leads, only: [:index, :show, :update] do
                 post :contact, on: :member, action: :create_contact
                 post :crm_card, on: :member, action: :create_crm_card
+                post :whatsapp_verification, on: :member, action: :verify_whatsapp
               end
               resources :lists, only: [:index, :show, :create] do
                 post 'leads', on: :member, action: :add_lead

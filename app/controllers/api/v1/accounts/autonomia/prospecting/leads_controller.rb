@@ -60,6 +60,23 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def verify_whatsapp
+    result = ::Autonomia::Prospecting::WhatsappVerifier.new(
+      lead: leads_scope.find(params[:id])
+    ).perform
+
+    render json: {
+      payload: {
+        lead: lead_payload(result.lead),
+        exists: result.exists,
+        phone: result.phone,
+        chat_id: result.chat_id
+      }
+    }
+  rescue ::Autonomia::Prospecting::WhatsappVerifier::Error => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   private
 
   def filtered_leads_scope
@@ -87,6 +104,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
       source_label: lead.provider.to_s.humanize,
       contact_status: lead.contact_id.present? ? 'created' : 'pending',
       crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
+    ).merge(
+      whatsapp_payload(lead)
     )
   end
 

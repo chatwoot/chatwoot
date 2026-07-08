@@ -1,3 +1,5 @@
+require 'uri'
+
 module Waha
   # Cliente HTTP fino do motor externo (WAHA). Autentica via X-Api-Key. Levanta
   # Waha::Client::Error em qualquer falha, com status + corpo para diagnóstico.
@@ -61,6 +63,11 @@ module Waha
 
     def delete_app(app_id)
       delete("/api/apps/#{app_id}")
+    end
+
+    def check_contact_exists(phone:, session:)
+      query = URI.encode_www_form(phone: phone, session: session)
+      get("/api/contacts/check-exists?#{query}")
     end
 
     private

@@ -103,7 +103,7 @@ export const leadPrioritySignals = lead => {
 
   signals.push({
     key: 'website',
-    label: hasSite ? 'Tem site' : 'Sem site',
+    label: hasSite ? 'Abrir site' : 'Sem site',
     icon: hasSite ? 'i-lucide-globe' : 'i-lucide-globe-2',
     ...toneClass(hasSite ? 'positive' : 'pain'),
   });
