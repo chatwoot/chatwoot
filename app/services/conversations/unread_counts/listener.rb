@@ -3,32 +3,46 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def message_created(event)
     message, = extract_message_and_account(event)
-    return unless message.incoming?
-    return unless message.account.feature_enabled?('conversation_unread_counts')
+    account = message.account
+    return unless account.feature_enabled?('conversation_unread_counts') || account.feature_enabled?(filtered_count_feature_flag)
 
-    refresh(message.conversation)
+    conversation = message.conversation
+    refresh(conversation) if message.incoming? && account.feature_enabled?('conversation_unread_counts')
+
+    invalidate_filtered_conversation(conversation)
   end
 
   def conversation_status_changed(event)
     conversation, = extract_conversation_and_account(event)
-    refresh(conversation, event.data[:changed_attributes])
+    refresh_then_invalidate(conversation, event.data[:changed_attributes])
   end
 
   def conversation_updated(event)
+    conversation, = extract_conversation_and_account(event)
     return unless label_changed?(event.data[:changed_attributes])
 
-    conversation, = extract_conversation_and_account(event)
     refresh(conversation, event.data[:changed_attributes])
+  end
+
+  def conversation_contact_changed(event)
+    conversation, = extract_conversation_and_account(event)
+    invalidate_filtered_conversation(conversation)
   end
 
   def assignee_changed(event)
     conversation, = extract_conversation_and_account(event)
-    refresh(conversation, event.data[:changed_attributes])
+    refresh_then_invalidate(conversation, event.data[:changed_attributes])
   end
 
   def team_changed(event)
     conversation, = extract_conversation_and_account(event)
-    refresh(conversation, event.data[:changed_attributes])
+    refresh_then_invalidate(conversation, event.data[:changed_attributes])
+  end
+
+  def conversation_mentioned(event)
+    conversation, = extract_conversation_and_account(event)
+    user = event.data[:user]
+    filtered_count_invalidator(conversation.account).user_visibility_changed!(user_id: user&.id)
   end
 
   def conversation_deleted(event)
@@ -36,13 +50,19 @@ class Conversations::UnreadCounts::Listener < BaseListener
     return if conversation_data.blank?
 
     account = Account.find_by(id: conversation_data[:account_id])
-    return unless account&.feature_enabled?('conversation_unread_counts')
-    return unless remove_deleted_conversation(account, conversation_data)
+    removed = account&.feature_enabled?('conversation_unread_counts') && remove_deleted_conversation(account, conversation_data)
+    filtered_count_invalidator(account).conversation_changed!
+    return unless removed
 
     Rails.configuration.dispatcher.dispatch(CONVERSATION_UNREAD_COUNT_CHANGED, Time.zone.now, conversation_data: conversation_data.to_h)
   end
 
   private
+
+  def refresh_then_invalidate(conversation, changed_attributes = nil)
+    refresh(conversation, changed_attributes)
+    invalidate_filtered_conversation(conversation)
+  end
 
   def refresh(conversation, changed_attributes = nil)
     ::Conversations::UnreadCounts::Notifier.new(conversation, changed_attributes: changed_attributes).perform
@@ -88,6 +108,18 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
     changed_attributes.key?('label_list') || changed_attributes.key?(:label_list) ||
       changed_attributes.key?('cached_label_list') || changed_attributes.key?(:cached_label_list)
+  end
+
+  def invalidate_filtered_conversation(conversation)
+    filtered_count_invalidator(conversation.account).conversation_changed!
+  end
+
+  def filtered_count_invalidator(account)
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
+  end
+
+  def filtered_count_feature_flag
+    ::Conversations::UnreadCounts::FilteredCountInvalidator::FEATURE_FLAG
   end
 
   def store

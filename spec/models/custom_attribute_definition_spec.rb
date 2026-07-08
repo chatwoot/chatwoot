@@ -68,5 +68,37 @@ RSpec.describe CustomAttributeDefinition do
         expect(cad.attribute_display_name).to eq('Order Date')
       end
     end
+
+    describe 'filtered unread count invalidation' do
+      let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, custom_attribute_definition_changed!: true) }
+
+      before do
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Order Date')
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+      end
+
+      it 'invalidates conversation filters when a conversation custom attribute definition is deleted' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'conversation_attribute')
+
+        cad.destroy!
+
+        expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+      end
+
+      it 'ignores contact custom attribute definition changes' do
+        cad = create(:custom_attribute_definition, account: account, attribute_model: 'contact_attribute')
+
+        cad.update!(attribute_display_name: 'Updated Contact Field')
+
+        expect(invalidator).not_to have_received(:custom_attribute_definition_changed!)
+      end
+    end
   end
 end

@@ -42,4 +42,36 @@ RSpec.describe AccountUser do
       expect(user.assigned_conversations.count).to eq(0)
     end
   end
+
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:user) { create(:user) }
+    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true) }
+
+    before do
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+    end
+
+    it 'invalidates filtered counts when the user is added to an account' do
+      create(:account_user, account: account, user: user)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+    end
+
+    it 'invalidates filtered counts when the user role changes' do
+      account_user = create(:account_user, account: account, user: user)
+
+      account_user.update!(role: :administrator)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
+    end
+
+    it 'invalidates filtered counts when the user is removed from an account' do
+      account_user = create(:account_user, account: account, user: user)
+
+      account_user.destroy!
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
+    end
+  end
 end

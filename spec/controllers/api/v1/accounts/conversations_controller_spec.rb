@@ -865,6 +865,19 @@ RSpec.describe 'Conversations API', type: :request do
         Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
 
+      it 'invalidates filtered unread counts when conversation is marked read' do
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        account.enable_features!(:unread_count_for_filters)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to change { Conversations::UnreadCounts::FilteredCountStore.conversation_version(account.id) }.by(1)
+        expect(response).to have_http_status(:success)
+      end
+
       it 'updates both if one timestamp is old even when the other is recent' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older than assignee_last_seen_at (no unread messages)
@@ -950,6 +963,18 @@ RSpec.describe 'Conversations API', type: :request do
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
       ensure
         Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
+      it 'invalidates filtered unread counts when conversation is marked unread' do
+        conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
+        account.enable_features!(:unread_count_for_filters)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to change { Conversations::UnreadCounts::FilteredCountStore.conversation_version(account.id) }.by(1)
+        expect(response).to have_http_status(:success)
       end
     end
   end

@@ -53,6 +53,7 @@ class Campaign < ApplicationRecord
 
   before_validation :ensure_correct_campaign_attributes
   after_commit :set_display_id, unless: :display_id?
+  after_destroy_commit :invalidate_filtered_unread_count_filters
 
   def trigger!
     return unless one_off?
@@ -86,6 +87,10 @@ class Campaign < ApplicationRecord
     when 'Whatsapp'
       Whatsapp::OneoffCampaignService.new(campaign: self).perform
     end
+  end
+
+  def invalidate_filtered_unread_count_filters
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
   end
 
   def set_display_id

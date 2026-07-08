@@ -3,9 +3,28 @@
 require 'rails_helper'
 
 RSpec.describe Campaign do
+  let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
+  end
+
+  describe '#destroy' do
+    let(:account) { create(:account) }
+    let(:campaign) { create(:campaign, account: account) }
+
+    after do
+      Redis::Alfred.delete(store.conversation_version_key(account.id))
+    end
+
+    it 'invalidates filtered counts when conversations are detached from a deleted campaign' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect do
+        campaign.destroy!
+      end.to change { store.conversation_version(account.id) }.by(1)
+    end
   end
 
   describe '.before_create' do
