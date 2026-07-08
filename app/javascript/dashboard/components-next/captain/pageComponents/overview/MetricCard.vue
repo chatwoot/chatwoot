@@ -17,7 +17,19 @@ const trendClass = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 p-5 group bg-n-solid-1">
+  <div
+    class="flex flex-col gap-3 p-5 group bg-n-solid-1"
+    :class="
+      clickable
+        ? 'cursor-pointer transition-colors hover:bg-n-slate-2/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand'
+        : ''
+    "
+    :role="clickable ? 'button' : undefined"
+    :tabindex="clickable ? 0 : undefined"
+    @click="onActivate"
+    @keydown.enter.self.prevent="onActivate"
+    @keydown.space.self.prevent="onActivate"
+  >
     <div class="flex items-center gap-1.5">
       <span class="text-sm font-medium text-n-slate-11">{{ label }}</span>
       <span
