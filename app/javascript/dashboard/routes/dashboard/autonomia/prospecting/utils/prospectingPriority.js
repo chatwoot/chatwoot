@@ -53,19 +53,19 @@ const toneClass = tone => {
   const classes = {
     pain: {
       card: 'bg-red-50 border-red-100 text-red-800',
-      icon: 'text-red-600',
+      iconClass: 'text-red-600',
     },
     opportunity: {
       card: 'bg-amber-50 border-amber-100 text-amber-800',
-      icon: 'text-amber-600',
+      iconClass: 'text-amber-600',
     },
     positive: {
       card: 'bg-emerald-50 border-emerald-100 text-emerald-800',
-      icon: 'text-emerald-700',
+      iconClass: 'text-emerald-700',
     },
     neutral: {
-      card: 'bg-n-solid-2 border-n-weak text-n-slate-11',
-      icon: 'text-n-slate-10',
+      card: 'bg-gray-50 border-gray-100 text-gray-700',
+      iconClass: 'text-gray-500',
     },
   };
 

@@ -14,6 +14,8 @@ const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
 const scoringProfiles = ref([]);
+const activeSettingsTab = ref('general');
+const CUSTOM_SCORING_PROFILE_VALUE = 'custom';
 const scoringWeightKeys = [
   'rating',
   'reviews_count',
@@ -34,7 +36,7 @@ const form = ref({
   clear_google_places_api_key: false,
   google_maps_browser_api_key: '',
   clear_google_maps_browser_api_key: false,
-  scoring_mode: 'profile',
+  scoring_profile_option: '',
   scoring_profile_id: '',
   custom_scoring_weights: {
     rating: 25,
@@ -48,12 +50,16 @@ const form = ref({
 
 const selectedScoringProfile = computed(() =>
   scoringProfiles.value.find(
-    profile => Number(profile.id) === Number(form.value.scoring_profile_id)
+    profile => Number(profile.id) === Number(form.value.scoring_profile_option)
   )
 );
 
+const isCustomScoringProfile = computed(
+  () => form.value.scoring_profile_option === CUSTOM_SCORING_PROFILE_VALUE
+);
+
 const displayedScoringWeights = computed(() => {
-  if (form.value.scoring_mode === 'custom') {
+  if (isCustomScoringProfile.value) {
     return form.value.custom_scoring_weights;
   }
 
@@ -82,7 +88,10 @@ const syncForm = payload => {
     clear_google_places_api_key: false,
     google_maps_browser_api_key: '',
     clear_google_maps_browser_api_key: false,
-    scoring_mode: payload.scoring_mode || 'profile',
+    scoring_profile_option:
+      payload.scoring_mode === 'custom'
+        ? CUSTOM_SCORING_PROFILE_VALUE
+        : payload.scoring_profile_id || defaultProfile?.id || '',
     scoring_profile_id: payload.scoring_profile_id || defaultProfile?.id || '',
     custom_scoring_weights: {
       ...form.value.custom_scoring_weights,
@@ -112,6 +121,9 @@ const fetchCrmPipelines = async () => {
     crmPipelines.value = [];
   }
 };
+
+const weightPercent = key =>
+  Math.max(0, Math.min(100, Number(displayedScoringWeights.value[key] || 0)));
 
 const fetchSettings = async () => {
   isLoading.value = true;
@@ -149,11 +161,10 @@ const saveSettings = async () => {
       cache_ttl_seconds: Number(form.value.cache_ttl_seconds),
       default_crm_pipeline_id: form.value.default_crm_pipeline_id || null,
       default_crm_stage_id: form.value.default_crm_stage_id || null,
-      scoring_mode: form.value.scoring_mode,
-      scoring_profile_id:
-        form.value.scoring_mode === 'profile'
-          ? form.value.scoring_profile_id || null
-          : null,
+      scoring_mode: isCustomScoringProfile.value ? 'custom' : 'profile',
+      scoring_profile_id: isCustomScoringProfile.value
+        ? null
+        : form.value.scoring_profile_option || null,
       custom_scoring_weights: scoringWeightKeys.reduce((weights, key) => {
         weights[key] = Number(form.value.custom_scoring_weights[key] || 0);
         return weights;
@@ -210,90 +221,278 @@ onMounted(fetchSettings);
         class="grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 text-sm"
         @submit.prevent="saveSettings"
       >
-        <div class="grid gap-3 md:grid-cols-2">
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_PIPELINE') }}
-            </span>
-            <select
-              v-model="form.default_crm_pipeline_id"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              @change="fetchCrmStages(form.default_crm_pipeline_id)"
-            >
-              <option value="">
-                {{ t('PROSPECTING.SETTINGS.CRM_EMPTY') }}
-              </option>
-              <option
-                v-for="pipeline in crmPipelines"
-                :key="pipeline.id"
-                :value="pipeline.id"
-              >
-                {{ pipeline.name }}
-              </option>
-            </select>
-          </label>
-
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_STAGE') }}
-            </span>
-            <select
-              v-model="form.default_crm_stage_id"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-              :disabled="!crmStages.length"
-            >
-              <option value="">
-                {{ t('PROSPECTING.SETTINGS.CRM_STAGE_EMPTY') }}
-              </option>
-              <option
-                v-for="stage in crmStages"
-                :key="stage.id"
-                :value="stage.id"
-              >
-                {{ stage.name }}
-              </option>
-            </select>
-          </label>
+        <div class="flex border-b border-n-weak">
+          <button
+            type="button"
+            class="-mb-px px-4 py-2 text-sm font-medium"
+            :class="
+              activeSettingsTab === 'general'
+                ? 'border-b-2 border-n-brand text-n-brand'
+                : 'text-n-slate-10 hover:text-n-slate-12'
+            "
+            @click="activeSettingsTab = 'general'"
+          >
+            {{ t('PROSPECTING.SETTINGS.TABS.GENERAL') }}
+          </button>
+          <button
+            type="button"
+            class="-mb-px px-4 py-2 text-sm font-medium"
+            :class="
+              activeSettingsTab === 'score'
+                ? 'border-b-2 border-n-brand text-n-brand'
+                : 'text-n-slate-10 hover:text-n-slate-12'
+            "
+            @click="activeSettingsTab = 'score'"
+          >
+            {{ t('PROSPECTING.SETTINGS.TABS.SCORE') }}
+          </button>
         </div>
 
-        <div
-          class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3"
-        >
-          <div class="flex flex-col gap-1">
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.SETTINGS.SCORING_TITLE') }}
-            </h2>
-            <p class="text-xs text-n-slate-10">
-              {{ t('PROSPECTING.SETTINGS.SCORING_HINT') }}
-            </p>
-          </div>
-
+        <div v-show="activeSettingsTab === 'general'" class="grid gap-4">
           <div class="grid gap-3 md:grid-cols-2">
             <label class="grid gap-1">
               <span class="text-xs font-medium text-n-slate-11">
-                {{ t('PROSPECTING.SETTINGS.FIELDS.SCORING_MODE') }}
+                {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_PIPELINE') }}
               </span>
               <select
-                v-model="form.scoring_mode"
-                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+                v-model="form.default_crm_pipeline_id"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                @change="fetchCrmStages(form.default_crm_pipeline_id)"
               >
-                <option value="profile">
-                  {{ t('PROSPECTING.SETTINGS.SCORING_MODES.PROFILE') }}
+                <option value="">
+                  {{ t('PROSPECTING.SETTINGS.CRM_EMPTY') }}
                 </option>
-                <option value="custom">
-                  {{ t('PROSPECTING.SETTINGS.SCORING_MODES.CUSTOM') }}
+                <option
+                  v-for="pipeline in crmPipelines"
+                  :key="pipeline.id"
+                  :value="pipeline.id"
+                >
+                  {{ pipeline.name }}
                 </option>
               </select>
             </label>
 
             <label class="grid gap-1">
               <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.CRM_STAGE') }}
+              </span>
+              <select
+                v-model="form.default_crm_stage_id"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                :disabled="!crmStages.length"
+              >
+                <option value="">
+                  {{ t('PROSPECTING.SETTINGS.CRM_STAGE_EMPTY') }}
+                </option>
+                <option
+                  v-for="stage in crmStages"
+                  :key="stage.id"
+                  :value="stage.id"
+                >
+                  {{ stage.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-2">
+            <div class="grid gap-2 rounded-md border border-n-weak p-3">
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_PLACES_API_KEY') }}
+                </span>
+                <span class="flex gap-2">
+                  <input
+                    v-model="form.google_places_api_key"
+                    type="password"
+                    autocomplete="off"
+                    class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                    :placeholder="
+                      settings.has_google_places_api_key
+                        ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
+                        : t('PROSPECTING.SETTINGS.API_KEY_EMPTY')
+                    "
+                  />
+                  <button
+                    v-if="settings.has_google_places_api_key"
+                    type="button"
+                    class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
+                    :title="
+                      t('PROSPECTING.SETTINGS.FIELDS.CLEAR_PLACES_API_KEY')
+                    "
+                    @click="clearGooglePlacesApiKey"
+                  >
+                    <span class="i-lucide-eraser size-4" />
+                  </button>
+                </span>
+              </label>
+
+              <p class="text-xs text-n-slate-10">
+                {{ t('PROSPECTING.SETTINGS.GOOGLE_PLACES_API_KEY_HINT') }}
+              </p>
+            </div>
+
+            <div class="grid gap-2 rounded-md border border-n-weak p-3">
+              <label class="grid gap-1">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{
+                    t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_MAPS_BROWSER_API_KEY')
+                  }}
+                </span>
+                <span class="flex gap-2">
+                  <input
+                    v-model="form.google_maps_browser_api_key"
+                    type="password"
+                    autocomplete="off"
+                    class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+                    :placeholder="
+                      settings.has_google_maps_browser_api_key
+                        ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
+                        : t('PROSPECTING.SETTINGS.MAPS_API_KEY_EMPTY')
+                    "
+                  />
+                  <button
+                    v-if="settings.has_google_maps_browser_api_key"
+                    type="button"
+                    class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
+                    :title="
+                      t(
+                        'PROSPECTING.SETTINGS.FIELDS.CLEAR_MAPS_BROWSER_API_KEY'
+                      )
+                    "
+                    @click="clearGoogleMapsBrowserApiKey"
+                  >
+                    <span class="i-lucide-eraser size-4" />
+                  </button>
+                </span>
+              </label>
+
+              <p class="text-xs text-n-slate-10">
+                {{ t('PROSPECTING.SETTINGS.GOOGLE_MAPS_BROWSER_API_KEY_HINT') }}
+              </p>
+            </div>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-5">
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.DEFAULT_LIMIT') }}
+              </span>
+              <input
+                v-model="form.default_limit"
+                type="number"
+                min="1"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              />
+            </label>
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.MAX_RESULTS') }}
+              </span>
+              <input
+                v-model="form.max_results_per_search"
+                type="number"
+                min="1"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              />
+            </label>
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.CACHE_TTL') }}
+              </span>
+              <input
+                v-model="form.cache_ttl_seconds"
+                type="number"
+                min="0"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              />
+            </label>
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.DAILY_LIMIT') }}
+              </span>
+              <input
+                v-model="form.daily_limit"
+                type="number"
+                min="1"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              />
+            </label>
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.MONTHLY_LIMIT') }}
+              </span>
+              <input
+                v-model="form.monthly_limit"
+                type="number"
+                min="1"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
+              />
+            </label>
+          </div>
+
+          <div
+            class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3 md:grid-cols-2"
+          >
+            <div>
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.USAGE_DAILY') }}
+              </span>
+              <p class="text-sm text-n-slate-12">
+                {{ settings.usage?.daily_used || 0 }} /
+                {{ form.daily_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
+              </p>
+            </div>
+            <div>
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.USAGE_MONTHLY') }}
+              </span>
+              <p class="text-sm text-n-slate-12">
+                {{ settings.usage?.monthly_used || 0 }} /
+                {{ form.monthly_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div v-show="activeSettingsTab === 'score'" class="grid gap-5">
+          <div
+            class="rounded-lg border border-n-weak bg-n-solid-2 p-4 shadow-sm"
+          >
+            <div
+              class="flex flex-col gap-3 md:flex-row md:items-start md:justify-between"
+            >
+              <div class="grid gap-1">
+                <h2 class="text-base font-semibold text-n-slate-12">
+                  {{ t('PROSPECTING.SETTINGS.SCORING_TITLE') }}
+                </h2>
+                <p class="max-w-2xl text-sm text-n-slate-10">
+                  {{ t('PROSPECTING.SETTINGS.SCORING_HINT') }}
+                </p>
+              </div>
+              <span
+                class="inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-xs font-semibold"
+                :class="
+                  isCustomScoringProfile
+                    ? 'border-amber-200 bg-amber-50 text-amber-800'
+                    : 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                "
+              >
+                {{
+                  isCustomScoringProfile
+                    ? t('PROSPECTING.SETTINGS.SCORING_PROFILE_CUSTOM')
+                    : t('PROSPECTING.SETTINGS.SCORING_PROFILE_GLOBAL')
+                }}
+              </span>
+            </div>
+
+            <label class="mt-4 grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
                 {{ t('PROSPECTING.SETTINGS.FIELDS.SCORING_PROFILE') }}
               </span>
               <select
-                v-model="form.scoring_profile_id"
-                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12 disabled:opacity-60"
-                :disabled="form.scoring_mode !== 'profile'"
+                v-model="form.scoring_profile_option"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
               >
                 <option
                   v-for="profile in scoringProfiles"
@@ -302,189 +501,62 @@ onMounted(fetchSettings);
                 >
                   {{ profile.name }}
                 </option>
+                <option :value="CUSTOM_SCORING_PROFILE_VALUE">
+                  {{ t('PROSPECTING.SETTINGS.SCORING_PROFILE_CUSTOM') }}
+                </option>
               </select>
             </label>
           </div>
 
-          <div class="grid gap-3 md:grid-cols-3">
-            <label
+          <div
+            class="overflow-hidden rounded-lg border border-n-weak bg-n-solid-1 shadow-sm"
+          >
+            <div class="border-b border-n-weak px-4 py-3">
+              <h3 class="text-sm font-semibold text-n-slate-12">
+                {{ t('PROSPECTING.SETTINGS.SCORING_WEIGHTS_TITLE') }}
+              </h3>
+              <p class="text-xs text-n-slate-10">
+                {{
+                  isCustomScoringProfile
+                    ? t('PROSPECTING.SETTINGS.SCORING_CUSTOM_HINT')
+                    : t('PROSPECTING.SETTINGS.SCORING_PROFILE_HINT')
+                }}
+              </p>
+            </div>
+
+            <div
               v-for="key in scoringWeightKeys"
               :key="key"
-              class="grid gap-1"
+              class="grid items-center gap-3 px-4 py-3 md:grid-cols-[160px_1fr_90px]"
+              :class="{
+                'border-b border-n-weak':
+                  key !== scoringWeightKeys[scoringWeightKeys.length - 1],
+              }"
             >
-              <span class="text-xs font-medium text-n-slate-11">
+              <label class="text-sm font-medium text-n-slate-11">
                 {{ t(`PROSPECTING.SETTINGS.SCORING_WEIGHTS.${key}`) }}
-              </span>
+              </label>
+              <div class="h-2 overflow-hidden rounded-full bg-n-solid-3">
+                <div
+                  class="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500"
+                  :style="{ width: `${weightPercent(key)}%` }"
+                />
+              </div>
               <input
-                v-if="form.scoring_mode === 'custom'"
+                v-if="isCustomScoringProfile"
                 v-model="form.custom_scoring_weights[key]"
                 type="number"
                 min="0"
                 max="100"
-                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+                class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-center text-sm text-n-slate-12"
               />
               <div
                 v-else
-                class="flex h-10 items-center rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+                class="flex h-9 items-center justify-center rounded-md border border-n-weak bg-n-solid-2 text-sm font-semibold text-n-slate-12"
               >
                 {{ displayedScoringWeights[key] || 0 }}
               </div>
-            </label>
-          </div>
-        </div>
-
-        <div class="grid gap-3 md:grid-cols-2">
-          <div class="grid gap-2 rounded-md border border-n-weak p-3">
-            <label class="grid gap-1">
-              <span class="text-xs font-medium text-n-slate-11">
-                {{ t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_PLACES_API_KEY') }}
-              </span>
-              <span class="flex gap-2">
-                <input
-                  v-model="form.google_places_api_key"
-                  type="password"
-                  autocomplete="off"
-                  class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                  :placeholder="
-                    settings.has_google_places_api_key
-                      ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
-                      : t('PROSPECTING.SETTINGS.API_KEY_EMPTY')
-                  "
-                />
-                <button
-                  v-if="settings.has_google_places_api_key"
-                  type="button"
-                  class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
-                  :title="t('PROSPECTING.SETTINGS.FIELDS.CLEAR_PLACES_API_KEY')"
-                  @click="clearGooglePlacesApiKey"
-                >
-                  <span class="i-lucide-eraser size-4" />
-                </button>
-              </span>
-            </label>
-
-            <p class="text-xs text-n-slate-10">
-              {{ t('PROSPECTING.SETTINGS.GOOGLE_PLACES_API_KEY_HINT') }}
-            </p>
-          </div>
-
-          <div class="grid gap-2 rounded-md border border-n-weak p-3">
-            <label class="grid gap-1">
-              <span class="text-xs font-medium text-n-slate-11">
-                {{
-                  t('PROSPECTING.SETTINGS.FIELDS.GOOGLE_MAPS_BROWSER_API_KEY')
-                }}
-              </span>
-              <span class="flex gap-2">
-                <input
-                  v-model="form.google_maps_browser_api_key"
-                  type="password"
-                  autocomplete="off"
-                  class="h-10 min-w-0 flex-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-                  :placeholder="
-                    settings.has_google_maps_browser_api_key
-                      ? t('PROSPECTING.SETTINGS.API_KEY_CONFIGURED')
-                      : t('PROSPECTING.SETTINGS.MAPS_API_KEY_EMPTY')
-                  "
-                />
-                <button
-                  v-if="settings.has_google_maps_browser_api_key"
-                  type="button"
-                  class="flex size-10 shrink-0 items-center justify-center rounded-md border border-n-weak text-n-slate-11 hover:bg-n-solid-2"
-                  :title="
-                    t('PROSPECTING.SETTINGS.FIELDS.CLEAR_MAPS_BROWSER_API_KEY')
-                  "
-                  @click="clearGoogleMapsBrowserApiKey"
-                >
-                  <span class="i-lucide-eraser size-4" />
-                </button>
-              </span>
-            </label>
-
-            <p class="text-xs text-n-slate-10">
-              {{ t('PROSPECTING.SETTINGS.GOOGLE_MAPS_BROWSER_API_KEY_HINT') }}
-            </p>
-          </div>
-        </div>
-
-        <div class="grid gap-3 md:grid-cols-5">
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.DEFAULT_LIMIT') }}
-            </span>
-            <input
-              v-model="form.default_limit"
-              type="number"
-              min="1"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.MAX_RESULTS') }}
-            </span>
-            <input
-              v-model="form.max_results_per_search"
-              type="number"
-              min="1"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.CACHE_TTL') }}
-            </span>
-            <input
-              v-model="form.cache_ttl_seconds"
-              type="number"
-              min="0"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.DAILY_LIMIT') }}
-            </span>
-            <input
-              v-model="form.daily_limit"
-              type="number"
-              min="1"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-          <label class="grid gap-1">
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.FIELDS.MONTHLY_LIMIT') }}
-            </span>
-            <input
-              v-model="form.monthly_limit"
-              type="number"
-              min="1"
-              class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
-            />
-          </label>
-        </div>
-
-        <div
-          class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3 md:grid-cols-2"
-        >
-          <div>
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.USAGE_DAILY') }}
-            </span>
-            <p class="text-sm text-n-slate-12">
-              {{ settings.usage?.daily_used || 0 }} /
-              {{ form.daily_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
-            </p>
-          </div>
-          <div>
-            <span class="text-xs font-medium text-n-slate-11">
-              {{ t('PROSPECTING.SETTINGS.USAGE_MONTHLY') }}
-            </span>
-            <p class="text-sm text-n-slate-12">
-              {{ settings.usage?.monthly_used || 0 }} /
-              {{ form.monthly_limit || t('PROSPECTING.SETTINGS.UNLIMITED') }}
-            </p>
+            </div>
           </div>
         </div>
 
