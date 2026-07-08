@@ -946,6 +946,7 @@ Rails.application.routes.draw do
         post :reset_cache, on: :member
         post :toggle_prospecting, on: :member
       end
+      resources :prospecting_scoring_profiles, except: [:show]
       resources :users, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
       end

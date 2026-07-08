@@ -79,6 +79,12 @@
       "MAP_NO_COORDINATES": "Os leads desta busca ainda não possuem coordenadas para posicionar marcadores.",
       "MAP_API_KEY_MISSING": "Configure a chave browser do Google Maps para exibir o mapa.",
       "MAP_LOAD_ERROR": "Não foi possível carregar o mapa.",
+      "PRIORITY_GOOGLE_RANK": "G #{rank}",
+      "PRIORITY_POSITION": "Posição {position}",
+      "PRIORITY_POSITION_IN_LIST": "Posição {position} da lista",
+      "PRIORITY_FIRST_CALL_SHORT": "Ligar 1º",
+      "PRIORITY_FIRST_CALL": "Ligar primeiro",
+      "SCORE_BASE": "Score base {score}",
       "ADDRESS_SEPARATOR": " - ",
       "RATING_LABEL": "{rating} estrelas",
       "REVIEWS_LABEL": "{count} avaliações",
@@ -103,6 +109,8 @@
         "NO": "Não"
       },
       "SORT": {
+        "PRIORITY_DESC": "Maior prioridade",
+        "SCORE_DESC": "Maior score",
         "CREATED_DESC": "Mais recentes",
         "CREATED_ASC": "Mais antigos",
         "RATING_DESC": "Melhor avaliação",
@@ -119,6 +127,7 @@
         "CRM_PIPELINE": "Funil CRM",
         "CRM_STAGE": "Etapa CRM",
         "CATEGORY": "Categoria",
+        "PRIORITY": "Prioridade",
         "SORT": "Ordenar",
         "HAS_SITE": "Site",
         "HAS_PHONE": "Telefone",
@@ -222,6 +231,8 @@
       "MAPS_API_KEY_EMPTY": "Cole a chave do mapa",
       "GOOGLE_PLACES_API_KEY_HINT": "Usada para buscar sugestões de cidade ou região e consultar empresas no Google.",
       "GOOGLE_MAPS_BROWSER_API_KEY_HINT": "Usada para mostrar o mapa e os pontos dos leads na tela.",
+      "SCORING_TITLE": "Score e priorização",
+      "SCORING_HINT": "Escolha um perfil global definido pelo superadmin ou personalize os pesos desta conta.",
       "CRM_EMPTY": "Nenhum funil padrão",
       "CRM_STAGE_EMPTY": "Nenhuma etapa padrão",
       "USAGE_DAILY": "Consumo diário",
@@ -230,6 +241,18 @@
       "PROVIDERS": {
         "MOCK": "Mock",
         "GOOGLE_PLACES": "Google Places"
+      },
+      "SCORING_MODES": {
+        "PROFILE": "Usar perfil existente",
+        "CUSTOM": "Personalizado da conta"
+      },
+      "SCORING_WEIGHTS": {
+        "rating": "Avaliação",
+        "reviews_count": "Quantidade de avaliações",
+        "website": "Possui site",
+        "phone": "Possui telefone",
+        "google_rank": "Ranking Google",
+        "query_relevance": "Relevância da busca"
       },
       "FIELDS": {
         "PROVIDER": "Provider",
@@ -240,6 +263,8 @@
         "CLEAR_MAPS_BROWSER_API_KEY": "Limpar chave do mapa",
         "CRM_PIPELINE": "Funil CRM padrão",
         "CRM_STAGE": "Etapa CRM padrão",
+        "SCORING_MODE": "Modo de score",
+        "SCORING_PROFILE": "Perfil de score",
         "DEFAULT_LIMIT": "Limite padrão",
         "MAX_RESULTS": "Limite por busca",
         "CACHE_TTL": "Cache TTL",

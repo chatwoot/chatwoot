@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
@@ -13,6 +13,15 @@ const hasLoadError = ref(false);
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
+const scoringProfiles = ref([]);
+const scoringWeightKeys = [
+  'rating',
+  'reviews_count',
+  'website',
+  'phone',
+  'google_rank',
+  'query_relevance',
+];
 const form = ref({
   default_limit: 20,
   max_results_per_search: 20,
@@ -25,10 +34,42 @@ const form = ref({
   clear_google_places_api_key: false,
   google_maps_browser_api_key: '',
   clear_google_maps_browser_api_key: false,
+  scoring_mode: 'profile',
+  scoring_profile_id: '',
+  custom_scoring_weights: {
+    rating: 25,
+    reviews_count: 20,
+    website: 15,
+    phone: 15,
+    google_rank: 15,
+    query_relevance: 10,
+  },
+});
+
+const selectedScoringProfile = computed(() =>
+  scoringProfiles.value.find(
+    profile => Number(profile.id) === Number(form.value.scoring_profile_id)
+  )
+);
+
+const displayedScoringWeights = computed(() => {
+  if (form.value.scoring_mode === 'custom') {
+    return form.value.custom_scoring_weights;
+  }
+
+  return (
+    selectedScoringProfile.value?.weights ||
+    settings.value?.active_scoring_weights ||
+    form.value.custom_scoring_weights
+  );
 });
 
 const syncForm = payload => {
   settings.value = payload;
+  scoringProfiles.value = payload.scoring_profiles || [];
+  const defaultProfile =
+    scoringProfiles.value.find(profile => profile.default) ||
+    scoringProfiles.value[0];
   form.value = {
     default_limit: payload.default_limit || 20,
     max_results_per_search: payload.max_results_per_search || 20,
@@ -41,6 +82,14 @@ const syncForm = payload => {
     clear_google_places_api_key: false,
     google_maps_browser_api_key: '',
     clear_google_maps_browser_api_key: false,
+    scoring_mode: payload.scoring_mode || 'profile',
+    scoring_profile_id: payload.scoring_profile_id || defaultProfile?.id || '',
+    custom_scoring_weights: {
+      ...form.value.custom_scoring_weights,
+      ...(payload.custom_scoring_weights ||
+        payload.active_scoring_weights ||
+        {}),
+    },
   };
 };
 
@@ -100,6 +149,15 @@ const saveSettings = async () => {
       cache_ttl_seconds: Number(form.value.cache_ttl_seconds),
       default_crm_pipeline_id: form.value.default_crm_pipeline_id || null,
       default_crm_stage_id: form.value.default_crm_stage_id || null,
+      scoring_mode: form.value.scoring_mode,
+      scoring_profile_id:
+        form.value.scoring_mode === 'profile'
+          ? form.value.scoring_profile_id || null
+          : null,
+      custom_scoring_weights: scoringWeightKeys.reduce((weights, key) => {
+        weights[key] = Number(form.value.custom_scoring_weights[key] || 0);
+        return weights;
+      }, {}),
       google_places_api_key: form.value.google_places_api_key,
       clear_google_places_api_key: form.value.clear_google_places_api_key,
       google_maps_browser_api_key: form.value.google_maps_browser_api_key,
@@ -196,6 +254,83 @@ onMounted(fetchSettings);
               </option>
             </select>
           </label>
+        </div>
+
+        <div
+          class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3"
+        >
+          <div class="flex flex-col gap-1">
+            <h2 class="text-sm font-semibold text-n-slate-12">
+              {{ t('PROSPECTING.SETTINGS.SCORING_TITLE') }}
+            </h2>
+            <p class="text-xs text-n-slate-10">
+              {{ t('PROSPECTING.SETTINGS.SCORING_HINT') }}
+            </p>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-2">
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.SCORING_MODE') }}
+              </span>
+              <select
+                v-model="form.scoring_mode"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+              >
+                <option value="profile">
+                  {{ t('PROSPECTING.SETTINGS.SCORING_MODES.PROFILE') }}
+                </option>
+                <option value="custom">
+                  {{ t('PROSPECTING.SETTINGS.SCORING_MODES.CUSTOM') }}
+                </option>
+              </select>
+            </label>
+
+            <label class="grid gap-1">
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.SCORING_PROFILE') }}
+              </span>
+              <select
+                v-model="form.scoring_profile_id"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12 disabled:opacity-60"
+                :disabled="form.scoring_mode !== 'profile'"
+              >
+                <option
+                  v-for="profile in scoringProfiles"
+                  :key="profile.id"
+                  :value="profile.id"
+                >
+                  {{ profile.name }}
+                </option>
+              </select>
+            </label>
+          </div>
+
+          <div class="grid gap-3 md:grid-cols-3">
+            <label
+              v-for="key in scoringWeightKeys"
+              :key="key"
+              class="grid gap-1"
+            >
+              <span class="text-xs font-medium text-n-slate-11">
+                {{ t(`PROSPECTING.SETTINGS.SCORING_WEIGHTS.${key}`) }}
+              </span>
+              <input
+                v-if="form.scoring_mode === 'custom'"
+                v-model="form.custom_scoring_weights[key]"
+                type="number"
+                min="0"
+                max="100"
+                class="h-10 rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+              />
+              <div
+                v-else
+                class="flex h-10 items-center rounded-md border border-n-weak bg-n-solid-1 px-3 text-sm text-n-slate-12"
+              >
+                {{ displayedScoringWeights[key] || 0 }}
+              </div>
+            </label>
+          </div>
         </div>
 
         <div class="grid gap-3 md:grid-cols-2">

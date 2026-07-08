@@ -6,6 +6,12 @@ import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
 import ProspectingGoogleMap from '../components/ProspectingGoogleMap.vue';
+import ProspectingPriorityRing from '../components/ProspectingPriorityRing.vue';
+import {
+  leadPrioritySignals,
+  priorityTheme,
+  priorityValue,
+} from '../utils/prospectingPriority';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -28,7 +34,7 @@ const locationDetails = ref(null);
 const confirmedLocation = ref('');
 const selectedSearchId = ref(null);
 const selectedLeadDetailId = ref(null);
-const sortKey = ref('created_desc');
+const sortKey = ref('priority_desc');
 const editingSearchConfigId = ref(null);
 const showNewSearch = ref(false);
 const showFilters = ref(false);
@@ -83,6 +89,29 @@ const sortedLeads = computed(() => {
     Number(lead[key] || fallback);
 
   return leadsToSort.sort((first, second) => {
+    if (sortKey.value === 'priority_desc') {
+      const firstPosition = numberValue(
+        first,
+        'priority_position',
+        Number.MAX_SAFE_INTEGER
+      );
+      const secondPosition = numberValue(
+        second,
+        'priority_position',
+        Number.MAX_SAFE_INTEGER
+      );
+      if (firstPosition !== secondPosition) {
+        return firstPosition - secondPosition;
+      }
+
+      return (
+        numberValue(second, 'priority_score') -
+        numberValue(first, 'priority_score')
+      );
+    }
+    if (sortKey.value === 'score_desc') {
+      return numberValue(second, 'score') - numberValue(first, 'score');
+    }
     if (sortKey.value === 'rating_desc') {
       return numberValue(second, 'rating') - numberValue(first, 'rating');
     }
@@ -169,6 +198,12 @@ const combinedLocationSuggestions = computed(() => {
 const mapLeads = computed(() =>
   sortedLeads.value.filter(lead => lead.latitude && lead.longitude)
 );
+const leadPriority = lead => priorityValue(lead);
+const leadPriorityTheme = lead => {
+  const priority = leadPriority(lead);
+  return priority === null ? null : priorityTheme(priority);
+};
+const leadSignals = lead => leadPrioritySignals(lead);
 const googleMapsApiKey = computed(
   () => settings.value?.google_maps_api_key || ''
 );
@@ -1024,6 +1059,12 @@ onMounted(async () => {
                     v-model="sortKey"
                     class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
                   >
+                    <option value="priority_desc">
+                      {{ t('PROSPECTING.SEARCH.SORT.PRIORITY_DESC') }}
+                    </option>
+                    <option value="score_desc">
+                      {{ t('PROSPECTING.SEARCH.SORT.SCORE_DESC') }}
+                    </option>
                     <option value="created_desc">
                       {{ t('PROSPECTING.SEARCH.SORT.CREATED_DESC') }}
                     </option>
@@ -1213,84 +1254,146 @@ onMounted(async () => {
                 <article
                   v-for="lead in sortedLeads"
                   :key="lead.id"
-                  class="grid min-w-0 gap-3 overflow-hidden rounded-md border border-n-weak bg-n-solid-1 p-4 text-sm"
+                  class="grid min-w-0 gap-3 overflow-hidden rounded-lg border border-n-weak bg-n-solid-1 text-sm transition-colors hover:border-n-slate-5"
                 >
-                  <div class="flex min-w-0 items-start gap-3">
+                  <div class="flex min-w-0 items-start gap-3 p-4 pb-2">
+                    <ProspectingPriorityRing
+                      :priority="leadPriority(lead)"
+                      :size="56"
+                    />
+                    <div class="min-w-0 flex-1">
+                      <div class="flex flex-wrap items-center gap-1.5">
+                        <span
+                          v-if="lead.search_rank"
+                          class="inline-flex items-center rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold leading-tight text-amber-800 ring-1 ring-amber-200"
+                        >
+                          {{
+                            t('PROSPECTING.SEARCH.PRIORITY_GOOGLE_RANK', {
+                              rank: lead.search_rank,
+                            })
+                          }}
+                        </span>
+                        <span
+                          v-if="lead.priority_position"
+                          class="text-[11px] text-n-slate-10"
+                        >
+                          {{
+                            t('PROSPECTING.SEARCH.PRIORITY_POSITION', {
+                              position: lead.priority_position,
+                            })
+                          }}
+                        </span>
+                        <span
+                          v-if="lead.priority_position === 1"
+                          class="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-emerald-700 ring-1 ring-emerald-200"
+                        >
+                          <span class="i-lucide-zap size-3" />
+                          {{
+                            t('PROSPECTING.SEARCH.PRIORITY_FIRST_CALL_SHORT')
+                          }}
+                        </span>
+                      </div>
+                      <h3
+                        class="mt-1 break-words text-base font-semibold leading-tight text-n-slate-12"
+                      >
+                        {{ lead.name }}
+                      </h3>
+                      <div class="mt-1 flex flex-wrap items-baseline gap-1.5">
+                        <span
+                          v-if="leadPriorityTheme(lead)"
+                          class="text-xs font-medium"
+                          :class="leadPriorityTheme(lead).titleClass"
+                        >
+                          {{ leadPriorityTheme(lead).title }}
+                        </span>
+                        <span
+                          v-if="leadPriorityTheme(lead)"
+                          class="text-n-slate-6"
+                        >
+                          ·
+                        </span>
+                        <span class="break-words text-sm text-n-slate-10">
+                          {{ formatLeadAddress(lead) || '-' }}
+                        </span>
+                      </div>
+                    </div>
                     <input
                       type="checkbox"
-                      class="mt-1 size-4"
+                      class="mt-1 size-4 shrink-0"
                       :checked="
                         selectedLeadIds.map(Number).includes(Number(lead.id))
                       "
                       @change="toggleLeadSelection(lead.id)"
                     />
-                    <div class="min-w-0 flex-1">
-                      <div
-                        class="flex flex-col gap-2 md:flex-row md:items-start md:justify-between"
-                      >
-                        <div class="min-w-0">
-                          <h3
-                            class="break-words text-base font-semibold text-n-slate-12"
-                          >
-                            {{ lead.name }}
-                          </h3>
-                          <p class="mt-1 break-words text-sm text-n-slate-10">
-                            {{ formatLeadAddress(lead) || '-' }}
-                          </p>
+                  </div>
+
+                  <div
+                    v-if="leadSignals(lead).length"
+                    class="flex flex-wrap gap-1.5 px-4 pb-2"
+                  >
+                    <span
+                      v-for="signal in leadSignals(lead)"
+                      :key="signal.key"
+                      class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
+                      :class="signal.card"
+                    >
+                      <span :class="signal.icon" class="size-3" />
+                      {{ signal.label }}
+                    </span>
+                  </div>
+
+                  <div class="px-4 pb-3">
+                    <div class="grid gap-3 md:grid-cols-3">
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
+                        </div>
+                        <div class="break-words">
+                          {{ lead.category || '-' }}
+                        </div>
+                        <div
+                          class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
+                        >
+                          <span class="i-lucide-star size-4 text-amber-500" />
+                          <span class="text-n-slate-12">
+                            {{ lead.rating || '-' }}
+                          </span>
+                          <span>·</span>
+                          <span>
+                            {{
+                              t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
+                                count: lead.reviews_count || 0,
+                              })
+                            }}
+                          </span>
                         </div>
                       </div>
-                      <div class="mt-3 grid gap-3 md:grid-cols-3">
-                        <div class="text-n-slate-11">
-                          <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
-                          </div>
-                          <div class="break-words">
-                            {{ lead.category || '-' }}
-                          </div>
-                          <div
-                            class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
-                          >
-                            <span class="i-lucide-star size-4 text-amber-500" />
-                            <span class="text-n-slate-12">
-                              {{ lead.rating || '-' }}
-                            </span>
-                            <span>·</span>
-                            <span>
-                              {{
-                                t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
-                                  count: lead.reviews_count || 0,
-                                })
-                              }}
-                            </span>
-                          </div>
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
                         </div>
-                        <div class="text-n-slate-11">
-                          <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-                          </div>
-                          <div class="break-words">{{ selectedStageName }}</div>
+                        <div class="break-words">{{ selectedStageName }}</div>
+                      </div>
+                      <div class="text-n-slate-11">
+                        <div class="text-xs text-n-slate-10">
+                          {{ t('PROSPECTING.SEARCH.CONTACT_DATA') }}
                         </div>
-                        <div class="text-n-slate-11">
-                          <div class="text-xs text-n-slate-10">
-                            {{ t('PROSPECTING.SEARCH.CONTACT_DATA') }}
-                          </div>
-                          <a
-                            v-if="lead.website"
-                            :href="lead.website"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="text-n-brand underline"
-                          >
-                            {{ t('PROSPECTING.SEARCH.OPEN_SITE') }}
-                          </a>
-                          <div class="break-words">{{ lead.phone || '-' }}</div>
-                        </div>
+                        <a
+                          v-if="lead.website"
+                          :href="lead.website"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="text-n-brand underline"
+                        >
+                          {{ t('PROSPECTING.SEARCH.OPEN_SITE') }}
+                        </a>
+                        <div class="break-words">{{ lead.phone || '-' }}</div>
                       </div>
                     </div>
                   </div>
 
                   <div
-                    class="flex flex-wrap items-center gap-2 border-t border-n-weak pt-3"
+                    class="flex flex-wrap items-center gap-2 border-t border-n-weak px-4 pb-4 pt-3"
                   >
                     <a
                       :href="googleMapsLeadUrl(lead)"
@@ -1458,6 +1561,35 @@ onMounted(async () => {
           class="flex items-start justify-between gap-3 border-b border-n-weak px-5 py-4"
         >
           <div class="min-w-0">
+            <div class="mb-2 flex flex-wrap items-center gap-2">
+              <span
+                v-if="selectedLeadDetail.search_rank"
+                class="inline-flex items-center rounded-md bg-amber-100 px-1.5 py-0.5 text-[11px] font-bold text-amber-800 ring-1 ring-amber-200"
+              >
+                {{
+                  t('PROSPECTING.SEARCH.PRIORITY_GOOGLE_RANK', {
+                    rank: selectedLeadDetail.search_rank,
+                  })
+                }}
+              </span>
+              <span
+                v-if="selectedLeadDetail.priority_position"
+                class="text-xs text-n-slate-10"
+              >
+                {{
+                  t('PROSPECTING.SEARCH.PRIORITY_POSITION_IN_LIST', {
+                    position: selectedLeadDetail.priority_position,
+                  })
+                }}
+              </span>
+              <span
+                v-if="selectedLeadDetail.priority_position === 1"
+                class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200"
+              >
+                <span class="i-lucide-zap size-3" />
+                {{ t('PROSPECTING.SEARCH.PRIORITY_FIRST_CALL') }}
+              </span>
+            </div>
             <h2 class="break-words text-lg font-semibold text-n-slate-12">
               {{ selectedLeadDetail.name }}
             </h2>
@@ -1477,6 +1609,57 @@ onMounted(async () => {
 
         <div class="min-h-0 flex-1 overflow-y-auto px-5 py-4">
           <section class="grid gap-3">
+            <div
+              class="rounded-xl border border-n-weak px-5 py-4"
+              :class="[
+                leadPriorityTheme(selectedLeadDetail)?.cardBg || 'bg-n-solid-2',
+              ]"
+            >
+              <div class="flex items-center gap-4">
+                <ProspectingPriorityRing
+                  :priority="leadPriority(selectedLeadDetail)"
+                  :size="92"
+                />
+                <div class="min-w-0 flex-1">
+                  <p
+                    class="text-base font-semibold leading-snug"
+                    :class="[
+                      leadPriorityTheme(selectedLeadDetail)?.titleClass ||
+                        'text-n-slate-12',
+                    ]"
+                  >
+                    {{
+                      leadPriorityTheme(selectedLeadDetail)?.title ||
+                      t('PROSPECTING.SEARCH.FIELDS.PRIORITY')
+                    }}
+                  </p>
+                  <p class="mt-1 text-sm leading-relaxed text-n-slate-11">
+                    {{
+                      selectedLeadDetail.human_insight ||
+                      t('PROSPECTING.SEARCH.SCORE_BASE', {
+                        score: selectedLeadDetail.score || '-',
+                      })
+                    }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div
+              v-if="leadSignals(selectedLeadDetail).length"
+              class="flex flex-wrap gap-1.5"
+            >
+              <span
+                v-for="signal in leadSignals(selectedLeadDetail)"
+                :key="signal.key"
+                class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
+                :class="signal.card"
+              >
+                <span :class="signal.icon" class="size-3" />
+                {{ signal.label }}
+              </span>
+            </div>
+
             <div class="grid gap-3 sm:grid-cols-2">
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">
                 <div class="text-xs font-medium text-n-slate-10">
