@@ -15,10 +15,6 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     }
   end
 
-  def inbox_limit
-    get_limits(:inboxes).to_i
-  end
-
   def increment_response_usage
     increment_custom_attribute(CAPTAIN_RESPONSES_USAGE)
   end
@@ -137,8 +133,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
     config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
-    global_limit = GlobalConfig.get_value(config_name)
-    return global_limit if global_limit.present?
+    return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
   end

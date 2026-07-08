@@ -1,6 +1,11 @@
 module Enterprise::Api::V1::Accounts::InboxesController
   extend ActiveSupport::Concern
 
+  def create
+    Current.account.inboxes.build.ensure_create_permitted
+    super
+  end
+
   def inbox_attributes
     super + ee_inbox_attributes
   end

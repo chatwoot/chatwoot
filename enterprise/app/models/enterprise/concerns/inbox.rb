@@ -13,6 +13,12 @@ module Enterprise::Concerns::Inbox
   end
 
   def ensure_create_permitted
-    raise CustomExceptions::Inbox::LimitExceeded.new({}) if account.inboxes.count >= account.inbox_limit
+    raise CustomExceptions::Inbox::LimitExceeded.new({}) if account.inboxes.count >= inbox_limit
+  end
+
+  private
+
+  def inbox_limit
+    account[:limits]['inboxes'].presence || GlobalConfig.get_value('ACCOUNT_INBOXES_LIMIT').presence || ChatwootApp.max_limit
   end
 end
