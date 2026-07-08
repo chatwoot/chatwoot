@@ -214,3 +214,5 @@ class Conversations::UnreadCounts::FilteredCounter
     ::Conversations::UnreadCounts::FilteredCountInstrumentation
   end
 end
+
+require_dependency 'conversations/unread_counts/filtered_counter/version_cache'
