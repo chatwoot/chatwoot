@@ -272,7 +272,10 @@ class DataImports::Intercom::Importer
       return contact if contact.present?
     end
 
-    return @account.contacts.from_email(email) if email.present?
+    if email.present?
+      contact = @account.contacts.from_email(email)
+      return contact if contact.present?
+    end
     return @account.contacts.find_by(phone_number: phone_number) if phone_number.present?
 
     nil

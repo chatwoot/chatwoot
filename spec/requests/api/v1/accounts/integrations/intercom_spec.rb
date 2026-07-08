@@ -13,6 +13,17 @@ RSpec.describe 'Intercom Integration API', type: :request do
       expect(response).to have_http_status(:ok)
       expect(response.parsed_body).to be_nil
     end
+
+    it 'returns null when the Intercom hook is disabled' do
+      create(:integrations_hook, :intercom, account: account, status: :disabled)
+
+      get api_v1_account_integrations_intercom_url(account_id: account.id),
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body).to be_nil
+    end
   end
 
   describe 'POST /api/v1/accounts/:account_id/integrations/intercom' do

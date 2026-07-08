@@ -2,7 +2,7 @@ class Api::V1::Accounts::Integrations::IntercomController < Api::V1::Accounts::B
   before_action :check_authorization
 
   def show
-    @hook = Current.account.hooks.find_by(app_id: 'intercom')
+    @hook = Current.account.hooks.enabled.find_by(app_id: 'intercom')
   end
 
   def create

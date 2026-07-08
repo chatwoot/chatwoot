@@ -418,6 +418,20 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when an existing contact has the same phone but Intercom sends a new email' do
+    let!(:existing_contact) { create(:contact, account: account, phone_number: '+15551234567', identifier: nil) }
+
+    it 'falls through to the phone match after the email lookup misses', :aggregate_failures do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(existing_contact.reload.email).to eq('customer@example.com')
+      expect(existing_contact.identifier).to eq('external_1')
+      expect(account.contacts.where(phone_number: '+15551234567').count).to eq(1)
+      item = data_import.items.imported.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: existing_contact.id)
+    end
+  end
+
   context 'when an existing visitor contact matches the Intercom external id' do
     let!(:existing_contact) { create(:contact, account: account, identifier: 'external_1') }
 
