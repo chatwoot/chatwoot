@@ -14,18 +14,18 @@ RSpec.describe Featurable do
         1 => :feature_inbound_emails,
         2 => :feature_ip_lookup
       )
-      expect(mappings['feature_flags_ext_2']).to eq({})
+      expect(mappings['feature_flags_ext_1']).to eq({})
     end
 
-    it 'maps extension flags to feature_flags_ext_2 with independent bit positions' do
+    it 'maps extension flags to feature_flags_ext_1 with independent bit positions' do
       mappings = described_class.feature_flag_mappings_for([
                                                              { 'name' => 'inbound_emails' },
-                                                             { 'name' => 'ext_one', 'column' => 'feature_flags_ext_2' },
-                                                             { 'name' => 'ext_two', 'column' => 'feature_flags_ext_2' }
+                                                             { 'name' => 'ext_one', 'column' => 'feature_flags_ext_1' },
+                                                             { 'name' => 'ext_two', 'column' => 'feature_flags_ext_1' }
                                                            ])
 
       expect(mappings['feature_flags']).to eq(1 => :feature_inbound_emails)
-      expect(mappings['feature_flags_ext_2']).to eq(
+      expect(mappings['feature_flags_ext_1']).to eq(
         1 => :feature_ext_one,
         2 => :feature_ext_two
       )

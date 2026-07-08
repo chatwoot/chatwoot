@@ -2,7 +2,7 @@ module Featurable
   extend ActiveSupport::Concern
 
   DEFAULT_FEATURE_FLAG_COLUMN = 'feature_flags'.freeze
-  FEATURE_FLAG_COLUMNS = [DEFAULT_FEATURE_FLAG_COLUMN, 'feature_flags_ext_2'].freeze
+  FEATURE_FLAG_COLUMNS = [DEFAULT_FEATURE_FLAG_COLUMN, 'feature_flags_ext_1'].freeze
   MAX_FEATURES_PER_COLUMN = 63
 
   QUERY_MODE = {

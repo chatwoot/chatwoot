@@ -54,13 +54,13 @@ describe ConfigLoader do
           - name: extension_feature
             display_name: Extension Feature
             enabled: false
-            column: feature_flags_ext_2
+            column: feature_flags_ext_1
         YAML
 
         described_class.new.process(config_path: config_path)
 
         expect(InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').value).to include(
-          a_hash_including('name' => 'extension_feature', 'column' => 'feature_flags_ext_2')
+          a_hash_including('name' => 'extension_feature', 'column' => 'feature_flags_ext_1')
         )
       end
     end
