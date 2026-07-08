@@ -18,6 +18,9 @@ global.chatwootConfig = {
   websocketURL: 'wss://test.chatwoot.com',
 };
 
+const mockRetryJitter = value =>
+  vi.spyOn(Math, 'random').mockReturnValue(value);
+
 describe('ActionCableConnector - Copilot Tests', () => {
   let store;
   let actionCable;
@@ -40,6 +43,8 @@ describe('ActionCableConnector - Copilot Tests', () => {
   });
 
   afterEach(() => {
+    vi.restoreAllMocks();
+    vi.clearAllTimers();
     vi.useRealTimers();
   });
   describe('copilot event handlers', () => {
@@ -84,6 +89,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
     it('should refetch unread counts when unread count changes', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+      mockRetryJitter(0.5);
 
       actionCable.onReceived({
         event: 'conversation.unread_count_changed',
@@ -92,7 +98,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
 
       expect(mockDispatch).toHaveBeenCalledWith('conversationUnreadCounts/get');
 
-      vi.advanceTimersByTime(29999);
+      vi.advanceTimersByTime(37499);
       expect(mockDispatch).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(1);
@@ -119,7 +125,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
 
       expect(mockDispatch).toHaveBeenCalledTimes(1);
 
-      vi.advanceTimersByTime(30000);
+      vi.advanceTimersByTime(45000);
       expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 
@@ -148,9 +154,34 @@ describe('ActionCableConnector - Copilot Tests', () => {
       expect(mockDispatch).toHaveBeenCalledWith('conversationUnreadCounts/get');
     });
 
+    it('does not schedule mention unread count fetches when filtered counts are disabled', () => {
+      vi.useFakeTimers();
+      store.$store.getters[
+        'accounts/isFeatureEnabledonAccount'
+      ].mockImplementation(
+        (_, featureFlag) =>
+          featureFlag === FEATURE_FLAGS.CONVERSATION_UNREAD_COUNTS
+      );
+
+      const conversation = { id: 1, account_id: 1 };
+
+      actionCable.onReceived({
+        event: 'conversation.mentioned',
+        data: conversation,
+      });
+
+      expect(mockDispatch).toHaveBeenCalledWith('addMentions', conversation);
+
+      vi.advanceTimersByTime(45000);
+      expect(mockDispatch).not.toHaveBeenCalledWith(
+        'conversationUnreadCounts/get'
+      );
+    });
+
     it('retries mentioned unread counts after the backend refresh window', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+      mockRetryJitter(0.5);
 
       actionCable.onReceived({
         event: 'conversation.mentioned',
@@ -165,7 +196,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
       vi.advanceTimersByTime(5000);
       expect(unreadCountFetches()).toHaveLength(1);
 
-      vi.advanceTimersByTime(24999);
+      vi.advanceTimersByTime(32499);
       expect(unreadCountFetches()).toHaveLength(1);
 
       vi.advanceTimersByTime(1);
@@ -175,6 +206,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
     it('reschedules mentioned unread count retries for later invalidations', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+      mockRetryJitter(0);
 
       const unreadCountFetches = () =>
         mockDispatch.mock.calls.filter(
@@ -208,6 +240,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
     it('refetches filtered unread counts after account cache invalidation', () => {
       vi.useFakeTimers();
       vi.setSystemTime(new Date('2026-01-01T00:00:00Z'));
+      mockRetryJitter(0.5);
 
       const cacheKeys = {
         label: 'label-key',
@@ -235,7 +268,10 @@ describe('ActionCableConnector - Copilot Tests', () => {
       });
       expect(unreadCountFetches()).toHaveLength(1);
 
-      vi.advanceTimersByTime(30000);
+      vi.advanceTimersByTime(37499);
+      expect(unreadCountFetches()).toHaveLength(1);
+
+      vi.advanceTimersByTime(1);
       expect(unreadCountFetches()).toHaveLength(2);
     });
 
@@ -264,7 +300,7 @@ describe('ActionCableConnector - Copilot Tests', () => {
         'conversationUnreadCounts/get'
       );
 
-      vi.advanceTimersByTime(30000);
+      vi.advanceTimersByTime(45000);
       expect(mockDispatch).not.toHaveBeenCalledWith(
         'conversationUnreadCounts/get'
       );

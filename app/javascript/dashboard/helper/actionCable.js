@@ -18,8 +18,12 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const { isImpersonating } = useImpersonation();
 const UNREAD_COUNTS_REFETCH_THROTTLE_MS = 5000;
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
 const MENTION_UNREAD_COUNTS_REFETCH_DELAY_MS =
   UNREAD_COUNTS_REFETCH_THROTTLE_MS;
+const getFilteredUnreadCountsRefreshRetryDelay = () =>
+  FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
+  Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -183,6 +187,8 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   scheduleMentionUnreadCountsFetch = () => {
+    if (!this.isFilteredUnreadCountsEnabled()) return;
+
     // Mention invalidation runs through the async dispatcher, and stale snapshots
     // can be served until the filtered-count backend refresh window opens.
     this.scheduleUnreadCountsFetchAfter(
@@ -191,7 +197,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     );
     this.scheduleUnreadCountsFetchAfter(
       'mentionUnreadCountsRetryTimer',
-      FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS,
+      getFilteredUnreadCountsRefreshRetryDelay(),
       { reset: true }
     );
   };
@@ -203,7 +209,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     // refresh window opens.
     this.scheduleUnreadCountsFetchAfter(
       'filteredUnreadCountsRetryTimer',
-      FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS,
+      getFilteredUnreadCountsRefreshRetryDelay(),
       { reset: true }
     );
   };

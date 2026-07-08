@@ -51,6 +51,8 @@ class Conversations::UnreadCounts::FilteredCountSnapshotResolver
       lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) do
         lock_acquired = true
         built_payload = instrumentation.observe(:snapshot_build, account_id: account.id, snapshot_scope: scope, &)
+      rescue ActiveRecord::StatementInvalid
+        built_payload = stale_payload
       end
     ensure
       instrumentation.increment(:build_lock, account_id: account.id, snapshot_scope: scope, acquired: lock_acquired)

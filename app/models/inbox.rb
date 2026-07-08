@@ -82,7 +82,7 @@ class Inbox < ApplicationRecord
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
-  after_destroy_commit :invalidate_filtered_unread_count_user_visibility
+  after_destroy_commit :invalidate_filtered_unread_counts_after_destroy
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
@@ -269,9 +269,10 @@ class Inbox < ApplicationRecord
     @filtered_unread_count_user_ids = (inbox_members.pluck(:user_id) + account.account_users.administrator.pluck(:user_id)).uniq
   end
 
-  def invalidate_filtered_unread_count_user_visibility
+  def invalidate_filtered_unread_counts_after_destroy
     invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
-    Array(@filtered_unread_count_user_ids).each { |user_id| invalidator.user_visibility_changed!(user_id: user_id) }
+    invalidator.conversation_changed!
+    invalidator.users_visibility_changed!(user_ids: @filtered_unread_count_user_ids)
   end
 
   def check_channel_type?

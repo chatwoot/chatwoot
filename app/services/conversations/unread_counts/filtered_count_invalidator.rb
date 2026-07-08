@@ -23,6 +23,18 @@ class Conversations::UnreadCounts::FilteredCountInvalidator
     true
   end
 
+  def users_visibility_changed!(user_ids:)
+    return false unless enabled?
+
+    user_ids = Array(user_ids).compact_blank.uniq
+    return false if user_ids.blank?
+
+    bump_built_in_filter_versions(user_ids).each_value do |version|
+      record_invalidation(:built_in_filter, reason: :user_visibility_changed, version: version)
+    end
+    true
+  end
+
   def custom_filter_created!(custom_filter)
     return false unless conversation_filter?(custom_filter)
 
@@ -63,6 +75,18 @@ class Conversations::UnreadCounts::FilteredCountInvalidator
   end
 
   private
+
+  def bump_built_in_filter_versions(user_ids)
+    results = Redis::Alfred.pipelined do |pipeline|
+      user_ids.each do |user_id|
+        key = store.built_in_filter_version_key(account.id, user_id)
+        pipeline.incr(key)
+        pipeline.expire(key, Conversations::UnreadCounts::FILTERED_COUNT_VERSION_TTL)
+      end
+    end
+
+    user_ids.zip(results.each_slice(2).map(&:first)).to_h
+  end
 
   def enabled?
     account&.feature_enabled?(FEATURE_FLAG)

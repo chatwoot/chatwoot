@@ -7,7 +7,11 @@ const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
 
+const mockRetryJitter = value =>
+  vi.spyOn(Math, 'random').mockReturnValue(value);
+
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.clearAllTimers();
   vi.useRealTimers();
 });
@@ -67,6 +71,7 @@ describe('#actions', () => {
     });
     it('refetches unread counts when the current user starts watching', async () => {
       vi.useFakeTimers();
+      mockRetryJitter(0.5);
       const dispatch = vi.fn();
       const moduleState = { records: { 2: [] } };
       const mutatingCommit = vi.fn((mutation, payload) => {
@@ -92,7 +97,7 @@ describe('#actions', () => {
         { root: true }
       );
 
-      vi.advanceTimersByTime(29999);
+      vi.advanceTimersByTime(37499);
       expect(dispatch).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(1);

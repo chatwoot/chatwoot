@@ -8,6 +8,10 @@ const VIEW_TYPES = {
   CONTACT: 'contact',
 };
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
+const getFilteredUnreadCountsRefreshRetryDelay = () =>
+  FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
+  Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
 
 // use to normalize the filter type
 const FILTER_KEYS = {
@@ -51,7 +55,7 @@ const refreshConversationUnreadCounts = (
   dispatchConversationUnreadCounts(dispatch);
   setTimeout(
     () => dispatchConversationUnreadCounts(dispatch),
-    FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS
+    getFilteredUnreadCountsRefreshRetryDelay()
   );
 };
 

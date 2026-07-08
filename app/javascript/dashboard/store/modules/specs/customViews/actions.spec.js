@@ -12,6 +12,9 @@ const commit = vi.fn();
 global.axios = axios;
 vi.mock('axios');
 
+const mockRetryJitter = value =>
+  vi.spyOn(Math, 'random').mockReturnValue(value);
+
 const conversationUnreadCountsEnabledRootGetters = {
   getCurrentAccountId: 1,
   'accounts/isFeatureEnabledonAccount': vi.fn((_, featureFlag) =>
@@ -23,6 +26,7 @@ const conversationUnreadCountsEnabledRootGetters = {
 };
 
 afterEach(() => {
+  vi.restoreAllMocks();
   vi.clearAllTimers();
   vi.useRealTimers();
 });
@@ -68,6 +72,7 @@ describe('#actions', () => {
 
     it('refetches unread counts after creating a conversation folder', async () => {
       vi.useFakeTimers();
+      mockRetryJitter(0.5);
       const dispatch = vi.fn();
       const firstItem = customViewList[0];
       axios.post.mockResolvedValue({ data: firstItem });
@@ -87,7 +92,7 @@ describe('#actions', () => {
         { root: true }
       );
 
-      vi.advanceTimersByTime(29999);
+      vi.advanceTimersByTime(37499);
       expect(dispatch).toHaveBeenCalledTimes(1);
 
       vi.advanceTimersByTime(1);

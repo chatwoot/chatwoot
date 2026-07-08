@@ -54,6 +54,20 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
     expect(described_class.new(account: account, user: agent, now: now + 31.seconds).perform[:mentions_count]).to eq(2)
   end
 
+  it 'returns stale built-in counts when a refresh build hits a database error' do
+    mentioned = create_visible_unread_conversation
+    create(:mention, account: account, conversation: mentioned, user: agent)
+
+    expect(counter.perform[:mentions_count]).to eq(1)
+
+    store.bump_conversation_version!(account.id)
+    Redis::Alfred.delete(store.built_in_filter_refresh_throttle_key(account.id, agent.id))
+    failing_counter = described_class.new(account: account, user: agent, now: now + 31.seconds)
+    allow(failing_counter).to receive(:built_in_counts_from_database).and_raise(ActiveRecord::StatementInvalid.new('statement timeout'))
+
+    expect(failing_counter.perform[:mentions_count]).to eq(1)
+  end
+
   it 'tags built-in snapshots with versions captured before the DB read' do
     race_counter = described_class.new(account: account, user: agent, now: now)
     allow(race_counter).to receive(:built_in_counts_from_database) do
@@ -75,7 +89,7 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
       []
     end
 
-    race_counter.send(:build_folder_index!)
+    race_counter.send(:build_folder_index!, race_counter.send(:version_cache).folder_index)
 
     snapshot = store.folder_index(account_id: account.id, user_id: agent.id)
     expect(snapshot[:folder_index_version]).to eq(0)
@@ -100,6 +114,49 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
     expect(resolved.reload.status).to eq('resolved')
   end
 
+  it 'caps inline saved filter builds per request' do
+    create_visible_unread_conversation(status: :open)
+    max_inline_filter_builds = Conversations::UnreadCounts::MAX_INLINE_FILTER_BUILDS
+    custom_filters = Array.new(max_inline_filter_builds + 1) do
+      create(
+        :custom_filter,
+        account: account,
+        user: agent,
+        filter_type: :conversation,
+        query: filter_query(attribute_key: 'status', values: ['open'])
+      )
+    end
+    query_counter = instance_double(Conversations::UnreadCounts::FilterQueryCounter, perform: 1)
+    allow(Conversations::UnreadCounts::FilterQueryCounter).to receive(:new).and_return(query_counter)
+
+    result = counter.perform
+
+    expect(result[:folders].size).to eq(max_inline_filter_builds)
+    expect(Conversations::UnreadCounts::FilterQueryCounter).to have_received(:new).exactly(max_inline_filter_builds).times
+    expect(custom_filters.count { |custom_filter| store.filter_count(account_id: account.id, filter_id: custom_filter.id).present? }).to eq(
+      max_inline_filter_builds
+    )
+  end
+
+  it 'reuses shared versions while resolving multiple saved filters' do
+    create_visible_unread_conversation(status: :open)
+    2.times do
+      create(
+        :custom_filter,
+        account: account,
+        user: agent,
+        filter_type: :conversation,
+        query: filter_query(attribute_key: 'status', values: ['open'])
+      )
+    end
+    query_counter = instance_double(Conversations::UnreadCounts::FilterQueryCounter, perform: 1)
+    allow(Conversations::UnreadCounts::FilterQueryCounter).to receive(:new).and_return(query_counter)
+    expect(store).to receive(:conversation_version).with(account.id).once.and_call_original
+    expect(store).to receive(:built_in_filter_version).with(account_id: account.id, user_id: agent.id).once.and_call_original
+
+    expect(counter.perform[:folders].size).to eq(2)
+  end
+
   it 'tags saved filter counts with versions captured before the DB read' do
     custom_filter = create(
       :custom_filter,
@@ -114,7 +171,7 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
       1
     end
 
-    race_counter.send(:build_filter_count!, custom_filter.id)
+    race_counter.send(:build_filter_count!, custom_filter.id, race_counter.send(:version_cache).filter(custom_filter.id))
 
     snapshot = store.filter_count(account_id: account.id, filter_id: custom_filter.id)
     expect(snapshot[:filter_version]).to eq(0)
@@ -136,7 +193,7 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
       custom_filter
     end
 
-    counter.send(:build_filter_count!, custom_filter.id)
+    counter.send(:build_filter_count!, custom_filter.id, counter.send(:version_cache).filter(custom_filter.id))
 
     snapshot = store.filter_count(account_id: account.id, filter_id: custom_filter.id)
     expect(snapshot[:filter_version]).to eq(0)

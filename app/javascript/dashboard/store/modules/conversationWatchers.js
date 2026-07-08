@@ -5,6 +5,10 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ConversationInboxApi from '../../api/inbox/conversation';
 
 const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS = 30000;
+const FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS = 15000;
+const getFilteredUnreadCountsRefreshRetryDelay = () =>
+  FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS +
+  Math.random() * FILTERED_UNREAD_COUNTS_REFRESH_RETRY_JITTER_MS;
 
 const state = {
   records: {},
@@ -39,7 +43,7 @@ const refreshConversationUnreadCounts = dispatch => {
   dispatch('conversationUnreadCounts/get', {}, { root: true });
   setTimeout(
     () => dispatch('conversationUnreadCounts/get', {}, { root: true }),
-    FILTERED_UNREAD_COUNTS_REFRESH_RETRY_MS
+    getFilteredUnreadCountsRefreshRetryDelay()
   );
 };
 

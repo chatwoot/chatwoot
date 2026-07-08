@@ -33,7 +33,7 @@ class Team < ApplicationRecord
             uniqueness: { scope: :account_id }
 
   before_validation do
-    self.name = name.downcase if attribute_present?('name')
+    self.name = name.gsub(/[[:cntrl:]]/, '').strip.downcase if attribute_present?('name')
   end
 
   # Adds multiple members to the team
@@ -82,7 +82,7 @@ class Team < ApplicationRecord
   def invalidate_filtered_unread_counts_after_destroy
     invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
     invalidator.conversation_changed!
-    Array(@filtered_unread_count_member_ids).each { |user_id| invalidator.user_visibility_changed!(user_id: user_id) }
+    invalidator.users_visibility_changed!(user_ids: @filtered_unread_count_member_ids)
   end
 end
 
