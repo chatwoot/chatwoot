@@ -6,6 +6,7 @@ import CaptainPageRouteView from './pages/CaptainPageRouteView.vue';
 import AssistantsIndexPage from './pages/AssistantsIndexPage.vue';
 import AssistantEmptyStateIndex from './assistants/Index.vue';
 
+import AssistantOverviewIndex from './assistants/overview/Index.vue';
 import AssistantSettingsIndex from './assistants/settings/Settings.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import AssistantPlaygroundIndex from './assistants/playground/Index.vue';
@@ -36,6 +37,12 @@ const metaV2 = {
 };
 
 const assistantRoutes = [
+  {
+    path: frontendURL('accounts/:accountId/captain/:assistantId/overview'),
+    component: AssistantOverviewIndex,
+    name: 'captain_assistants_overview_index',
+    meta,
+  },
   {
     path: frontendURL('accounts/:accountId/captain/:assistantId/faqs'),
     component: ResponsesIndex,
@@ -129,7 +136,7 @@ export const routes = [
       return {
         name: 'captain_assistants_index',
         params: {
-          navigationPath: 'captain_assistants_responses_index',
+          navigationPath: 'captain_assistants_overview_index',
           ...to.params,
         },
       };

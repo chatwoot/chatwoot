@@ -66,6 +66,9 @@ Rails.application.routes.draw do
             resources :assistants do
               member do
                 post :playground
+                get :stats
+                get :summary
+                get :drilldown
               end
               collection do
                 get :tools
@@ -536,9 +539,11 @@ Rails.application.routes.draw do
             member do
               post :checkout
               post :subscription
+              post :select_billing_currency
               get :limits
               post :toggle_deletion
               post :topup_checkout
+              get :topup_options
             end
           end
         end
