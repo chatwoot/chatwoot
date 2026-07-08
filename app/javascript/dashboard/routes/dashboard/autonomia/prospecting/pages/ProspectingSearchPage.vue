@@ -21,6 +21,7 @@ const isSearching = ref(false);
 const isSuggestingLocations = ref(false);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
+const verifyingWhatsAppLeadIds = ref([]);
 const selectedLeadIds = ref([]);
 const bulkAction = ref('');
 const searches = ref([]);
@@ -40,6 +41,9 @@ const showNewSearch = ref(false);
 const showFilters = ref(false);
 const deletingSearchId = ref(null);
 let locationSuggestionTimer;
+const whatsappVerificationRequested = new Set();
+let replaceLead = () => {};
+let verifyLeadsWhatsApp = () => {};
 
 const form = ref({
   query: '',
@@ -359,6 +363,7 @@ const selectSearchPayload = async payload => {
   selectedLeadIds.value = [];
   selectedLeadDetailId.value = null;
   await applyCrmTarget(payload.search || payload);
+  verifyLeadsWhatsApp(leads.value);
 };
 
 const alertError = (error, fallbackMessage) => {
@@ -492,7 +497,71 @@ const googleMapsLeadUrl = lead => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 };
 
-const replaceLead = updatedLead => {
+const normalizedLeadPhone = lead => {
+  const raw = String(lead?.whatsapp_phone || lead?.phone || '').trim();
+  const digits = raw.replace(/\D/g, '');
+  if (!digits) return '';
+  if (raw.startsWith('+')) return `+${digits}`;
+  if (digits.startsWith('55')) return `+${digits}`;
+  if ([10, 11].includes(digits.length)) return `+55${digits}`;
+  return `+${digits}`;
+};
+
+const leadPhoneUrl = lead => {
+  const phone = normalizedLeadPhone(lead);
+  return phone ? `tel:${phone}` : '';
+};
+
+const leadWhatsAppUrl = lead => {
+  const verifiedUrl = lead?.whatsapp_url;
+  if (verifiedUrl) return verifiedUrl;
+
+  const phone = normalizedLeadPhone(lead);
+  return phone ? `https://wa.me/${phone.replace(/\D/g, '')}` : '';
+};
+
+const isWhatsAppVerified = lead => lead?.whatsapp_verified === true;
+const isWhatsAppUnavailable = lead =>
+  lead?.whatsapp_verification_status === 'not_whatsapp';
+const isWhatsAppChecking = lead =>
+  verifyingWhatsAppLeadIds.value.map(Number).includes(Number(lead?.id));
+
+const shouldVerifyWhatsApp = lead =>
+  lead?.id &&
+  normalizedLeadPhone(lead) &&
+  !lead?.whatsapp_verification_status &&
+  !whatsappVerificationRequested.has(Number(lead.id));
+
+async function verifyLeadWhatsApp(lead) {
+  if (!shouldVerifyWhatsApp(lead)) return;
+
+  const leadId = Number(lead.id);
+  whatsappVerificationRequested.add(leadId);
+  verifyingWhatsAppLeadIds.value = [...verifyingWhatsAppLeadIds.value, leadId];
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.verifyLeadWhatsApp(lead.id);
+    replaceLead(data.payload?.lead);
+  } catch {
+    // Falha de WAHA/configuração não deve bloquear o trabalho com o lead.
+  } finally {
+    verifyingWhatsAppLeadIds.value = verifyingWhatsAppLeadIds.value.filter(
+      id => Number(id) !== leadId
+    );
+  }
+}
+
+verifyLeadsWhatsApp = leadsToVerify => {
+  leadsToVerify
+    .filter(shouldVerifyWhatsApp)
+    .slice(0, 25)
+    .reduce(
+      (promise, lead) => promise.then(() => verifyLeadWhatsApp(lead)),
+      Promise.resolve()
+    );
+};
+
+replaceLead = updatedLead => {
   if (!updatedLead?.id) return;
   leads.value = leads.value.map(item =>
     item.id === updatedLead.id ? updatedLead : item
@@ -824,7 +893,7 @@ onMounted(async () => {
                     v-model="form.radius_km"
                     type="number"
                     min="0.1"
-                    step="0.5"
+                    step="any"
                     class="h-10 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
                   />
                 </label>
@@ -1335,8 +1404,26 @@ onMounted(async () => {
                     v-if="leadSignals(lead).length"
                     class="flex flex-wrap gap-1.5 px-4 pb-2"
                   >
-                    <span
+                    <a
                       v-for="signal in leadSignals(lead)"
+                      v-show="signal.key === 'website' && lead.website"
+                      :key="`${signal.key}-link`"
+                      :href="lead.website"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium hover:underline"
+                      :class="signal.card"
+                    >
+                      <span
+                        :class="[signal.icon, signal.iconClass]"
+                        class="size-3"
+                      />
+                      {{ signal.label }}
+                    </a>
+                    <span
+                      v-for="signal in leadSignals(lead).filter(
+                        item => item.key !== 'website' || !lead.website
+                      )"
                       :key="signal.key"
                       class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
                       :class="signal.card"
@@ -1347,40 +1434,6 @@ onMounted(async () => {
                       />
                       {{ signal.label }}
                     </span>
-                  </div>
-
-                  <div class="px-4 pb-3">
-                    <div class="grid gap-3 md:grid-cols-3">
-                      <div class="text-n-slate-11">
-                        <div class="text-xs text-n-slate-10">
-                          {{ t('PROSPECTING.SEARCH.FIELDS.CATEGORY') }}
-                        </div>
-                        <div class="break-words">
-                          {{ lead.category || '-' }}
-                        </div>
-                      </div>
-                      <div class="text-n-slate-11">
-                        <div class="text-xs text-n-slate-10">
-                          {{ t('PROSPECTING.SEARCH.FIELDS.CRM_STAGE') }}
-                        </div>
-                        <div class="break-words">{{ selectedStageName }}</div>
-                      </div>
-                      <div class="text-n-slate-11">
-                        <div class="text-xs text-n-slate-10">
-                          {{ t('PROSPECTING.SEARCH.CONTACT_DATA') }}
-                        </div>
-                        <a
-                          v-if="lead.website"
-                          :href="lead.website"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          class="text-n-brand underline"
-                        >
-                          {{ t('PROSPECTING.SEARCH.OPEN_SITE') }}
-                        </a>
-                        <div class="break-words">{{ lead.phone || '-' }}</div>
-                      </div>
-                    </div>
                   </div>
 
                   <div
@@ -1403,6 +1456,49 @@ onMounted(async () => {
                       <span class="i-lucide-panel-right-open size-3.5" />
                       {{ t('PROSPECTING.SEARCH.OPEN_DETAILS') }}
                     </button>
+                    <span
+                      v-if="lead.phone && isWhatsAppChecking(lead)"
+                      class="inline-flex h-8 items-center gap-1.5 rounded-md border border-n-weak bg-n-solid-2 px-3 text-xs font-medium text-n-slate-10"
+                    >
+                      <span
+                        class="size-3 animate-spin rounded-full border-2 border-n-slate-5 border-t-n-slate-11"
+                      />
+                      {{ t('PROSPECTING.SEARCH.CHECKING_WHATSAPP') }}
+                    </span>
+                    <a
+                      v-else-if="
+                        lead.phone &&
+                        !isWhatsAppUnavailable(lead) &&
+                        leadWhatsAppUrl(lead)
+                      "
+                      :href="leadWhatsAppUrl(lead)"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      class="inline-flex h-8 items-center gap-1 rounded-md px-3 text-xs font-semibold transition-colors"
+                      :class="
+                        isWhatsAppVerified(lead)
+                          ? 'bg-n-teal-9 text-white shadow-sm hover:bg-n-teal-10'
+                          : 'border border-n-teal-5 bg-n-solid-1 text-n-teal-11 hover:bg-n-teal-2'
+                      "
+                    >
+                      <span class="i-lucide-message-circle size-3.5" />
+                      {{ t('PROSPECTING.SEARCH.WHATSAPP') }}
+                    </a>
+                    <span
+                      v-else
+                      class="inline-flex h-8 cursor-not-allowed items-center gap-1 rounded-md border border-n-weak bg-n-solid-2 px-3 text-xs font-medium text-n-slate-8"
+                    >
+                      <span class="i-lucide-message-circle size-3.5" />
+                      {{ t('PROSPECTING.SEARCH.NO_WHATSAPP') }}
+                    </span>
+                    <a
+                      v-if="leadPhoneUrl(lead)"
+                      :href="leadPhoneUrl(lead)"
+                      class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-semibold text-n-slate-12 transition-colors hover:bg-n-solid-2"
+                    >
+                      <span class="i-lucide-phone size-3.5" />
+                      {{ t('PROSPECTING.SEARCH.CALL') }}
+                    </a>
                     <a
                       v-if="lead.contact_id"
                       :href="contactUrl(lead.contact_id)"

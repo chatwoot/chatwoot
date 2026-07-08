@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
+import BaseSettingsHeader from '../../../settings/components/BaseSettingsHeader.vue';
 
 const { t } = useI18n();
 
@@ -199,6 +200,12 @@ onMounted(fetchSettings);
 
 <template>
   <main class="flex min-h-full w-full flex-col">
+    <div class="mb-6">
+      <BaseSettingsHeader
+        :title="t('PROSPECTING.SETTINGS.TITLE')"
+        :description="t('PROSPECTING.SETTINGS.DESCRIPTION')"
+      />
+    </div>
     <section class="grid w-full gap-3">
       <div
         v-if="isLoading"
@@ -218,7 +225,7 @@ onMounted(fetchSettings);
         <div class="flex border-b border-n-weak">
           <button
             type="button"
-            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
+            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
             :class="
               activeSettingsTab === 'general'
                 ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
@@ -230,7 +237,7 @@ onMounted(fetchSettings);
           </button>
           <button
             type="button"
-            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
+            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-0 after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
             :class="
               activeSettingsTab === 'score'
                 ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'

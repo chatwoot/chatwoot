@@ -52,6 +52,10 @@ class AutonomiaProspectingAPI extends ApiClient {
     });
   }
 
+  verifyLeadWhatsApp(leadId) {
+    return axios.post(`${this.url}/leads/${leadId}/whatsapp_verification`);
+  }
+
   updateLead(leadId, lead) {
     return axios.patch(`${this.url}/leads/${leadId}`, { lead });
   }
