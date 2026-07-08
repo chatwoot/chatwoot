@@ -84,6 +84,7 @@ export default {
           name: 'settings_integrations_intercom',
           component: Intercom,
           meta: {
+            featureFlag: FEATURE_FLAGS.DATA_IMPORT,
             permissions: ['administrator'],
           },
         },

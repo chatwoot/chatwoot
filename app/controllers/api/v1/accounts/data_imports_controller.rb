@@ -1,10 +1,12 @@
 require 'csv'
 
 class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseController
+  DATA_IMPORT_FEATURE = 'data_import'.freeze
   IMPORT_ERRORS_PER_PAGE = 15
   SKIP_LOG_SOURCE_OBJECT_TYPES = %w[contact conversation message].freeze
   SKIP_LOGS_PER_PAGE = 15
 
+  before_action :ensure_data_import_feature_enabled
   before_action :set_data_import, only: [:show, :start, :abandon, :skip_logs]
   before_action :check_authorization
 
@@ -52,6 +54,10 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   private
+
+  def ensure_data_import_feature_enabled
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
+  end
 
   def intercom_import_attributes(hook)
     {

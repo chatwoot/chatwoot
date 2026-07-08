@@ -1,4 +1,7 @@
 class Api::V1::Accounts::Integrations::IntercomController < Api::V1::Accounts::BaseController
+  DATA_IMPORT_FEATURE = 'data_import'.freeze
+
+  before_action :ensure_data_import_feature_enabled
   before_action :check_authorization
 
   def show
@@ -34,6 +37,10 @@ class Api::V1::Accounts::Integrations::IntercomController < Api::V1::Accounts::B
   end
 
   private
+
+  def ensure_data_import_feature_enabled
+    raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
+  end
 
   def check_authorization
     authorize(:hook)

@@ -71,6 +71,7 @@ RSpec.describe DataImports::Intercom::Importer do
   end
 
   before do
+    account.enable_features!('data_import')
     allow(DataImports::Intercom::Client).to receive(:new).with(access_token: 'intercom-token').and_return(client)
     allow(client).to receive(:list_contacts).with(starting_after: nil).and_return(
       'data' => [contact_payload],

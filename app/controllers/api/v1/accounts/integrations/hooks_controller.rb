@@ -1,5 +1,8 @@
 class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::BaseController
+  DATA_IMPORT_FEATURE = 'data_import'.freeze
+
   before_action :fetch_hook, except: [:create]
+  before_action :ensure_intercom_data_import_feature_enabled, only: [:create, :update, :destroy]
   before_action :check_authorization
 
   def create
@@ -50,6 +53,19 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def check_authorization
     authorize(:hook)
+  end
+
+  def ensure_intercom_data_import_feature_enabled
+    return unless intercom_hook_request?
+    return if Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
+
+    raise Pundit::NotAuthorizedError
+  end
+
+  def intercom_hook_request?
+    return @hook.app_id == 'intercom' if @hook.present?
+
+    params[:app_id] == 'intercom' || params.dig(:hook, :app_id) == 'intercom'
   end
 
   def intercom_hook_with_active_import?

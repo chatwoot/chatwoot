@@ -19,6 +19,7 @@ RSpec.describe DataImports::Intercom::ImportJob do
   let(:run_id) { 'intercom-run-1' }
 
   before do
+    account.enable_features!('data_import')
     data_import.update!(source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => run_id })
     allow(DataImports::Intercom::Importer).to receive(:new).with(data_import: data_import, run_id: run_id).and_return(importer)
   end

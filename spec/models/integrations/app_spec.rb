@@ -108,6 +108,20 @@ RSpec.describe Integrations::App do
       end
     end
 
+    context 'when the app has a configured feature flag' do
+      let(:app_name) { 'intercom' }
+
+      it 'returns false if the feature is disabled' do
+        expect(app.active?(account)).to be false
+      end
+
+      it 'returns true if the feature is enabled' do
+        account.enable_features('data_import')
+
+        expect(app.active?(account)).to be true
+      end
+    end
+
     context 'when other apps are queried' do
       let(:app_name) { 'webhook' }
 

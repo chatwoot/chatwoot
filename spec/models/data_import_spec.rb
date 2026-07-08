@@ -37,6 +37,10 @@ RSpec.describe DataImport do
       )
     end
 
+    before do
+      account.enable_features!('data_import')
+    end
+
     it 'abandons active Intercom imports', :aggregate_failures do
       data_import.abandon!
 

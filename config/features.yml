@@ -249,3 +249,7 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: data_import
+  display_name: Data Import
+  enabled: false
+  column: feature_flags_ext_1

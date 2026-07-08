@@ -4,7 +4,21 @@ RSpec.describe 'Intercom Integration API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  before do
+    account.enable_features!('data_import')
+  end
+
   describe 'GET /api/v1/accounts/:account_id/integrations/intercom' do
+    it 'returns unauthorized when data import is disabled' do
+      account.disable_features!('data_import')
+
+      get api_v1_account_integrations_intercom_url(account_id: account.id),
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
     it 'returns null when Intercom is not connected' do
       get api_v1_account_integrations_intercom_url(account_id: account.id),
           headers: admin.create_new_auth_token,
@@ -29,6 +43,19 @@ RSpec.describe 'Intercom Integration API', type: :request do
   describe 'POST /api/v1/accounts/:account_id/integrations/intercom' do
     let(:service) { instance_double(DataImports::Intercom::ConnectionService, perform: hook) }
     let(:hook) { create(:integrations_hook, :intercom, account: account, access_token: 'intercom-token') }
+
+    it 'returns unauthorized when data import is disabled' do
+      account.disable_features!('data_import')
+
+      expect(DataImports::Intercom::ConnectionService).not_to receive(:new)
+
+      post api_v1_account_integrations_intercom_url(account_id: account.id),
+           params: { access_token: 'intercom-token' },
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
 
     it 'connects Intercom through the connection service' do
       allow(DataImports::Intercom::ConnectionService).to receive(:new)
@@ -99,6 +126,18 @@ RSpec.describe 'Intercom Integration API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/intercom' do
+    it 'returns unauthorized when data import is disabled' do
+      hook = create(:integrations_hook, :intercom, account: account)
+      account.disable_features!('data_import')
+
+      delete api_v1_account_integrations_intercom_url(account_id: account.id),
+             headers: admin.create_new_auth_token,
+             as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Integrations::Hook.exists?(hook.id)).to be(true)
+    end
+
     it 'disconnects Intercom' do
       hook = create(:integrations_hook, :intercom, account: account)
 

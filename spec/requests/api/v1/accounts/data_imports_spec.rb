@@ -4,8 +4,26 @@ RSpec.describe 'Data Imports API', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
 
+  before do
+    account.enable_features!('data_import')
+  end
+
   describe 'POST /api/v1/accounts/:account_id/data_imports' do
     let!(:hook) { create(:integrations_hook, :intercom, account: account) }
+
+    it 'returns unauthorized and does not enqueue imports when data import is disabled' do
+      account.disable_features!('data_import')
+
+      expect do
+        post api_v1_account_data_imports_url(account_id: account.id),
+             params: { name: 'Migration run', import_types: %w[contacts conversations] },
+             headers: admin.create_new_auth_token,
+             as: :json
+      end.not_to have_enqueued_job(DataImports::Intercom::ImportJob)
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(account.data_imports).to be_empty
+    end
 
     it 'creates and enqueues an Intercom import' do
       expect do
