@@ -23,18 +23,36 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
                     description: 'Refusal rules, escalation boundaries, source boundaries, safety limits, and things the assistant must not do.',
                     max_items: 20
 
-  instruction_items :scenarios_procedures,
-                    description: 'Only clear multi-step workflows, routing logic, qualification flows, handoff flows, or tool-use procedures.',
-                    max_items: 15
+  array :scenario_candidates,
+        description: 'Review-stage specialized-agent candidates with domain-specific routing and evidence-backed tool use.',
+        max_items: 15 do
+    object do
+      string :title,
+             description: 'Short scenario agent title for a distinct user-intent workflow.',
+             max_length: 80
+      string :description,
+             description: 'When this specialized scenario should be used. This is shown to the orchestrator for routing.',
+             max_length: 300
+      string :instruction,
+             description: 'How the specialized agent should handle the workflow. Include only evidence-backed markdown tool links.',
+             max_length: 2000
+      array :tool_ids,
+            description: 'Available tool IDs explicitly referenced in instruction using markdown links. Empty when no tools are required.',
+            max_items: 10,
+            of: :string
+      string :confidence, description: 'One of: high, medium, low.', max_length: 20
+      string :review_reason, description: 'Why this candidate needs review. Empty string when confidence is high.', max_length: 300
+    end
+  end
 
-  object :conversation_messages, description: 'Exact customer-facing message copy found in instructions and not already present in config.' do
-    string :welcome_message, description: 'Exact welcome message copy from instructions only when config welcome_message is blank, or empty string.',
+  object :conversation_messages, description: 'Exact globally reusable customer-facing message copy found in instructions.' do
+    string :welcome_message, description: 'Exact globally reusable initial greeting copy from instructions, or empty string.',
                              max_length: 1000
     string :handoff_message,
-           description: 'Exact human-handoff message copy from instructions only when config handoff_message is blank, or empty string.',
+           description: 'Exact globally reusable human-handoff message copy from instructions, or empty string.',
            max_length: 1000
     string :resolution_message,
-           description: 'Exact resolution/closing message copy from instructions only when config resolution_message is blank, or empty string.',
+           description: 'Exact globally reusable resolution/closing message copy from instructions, or empty string.',
            max_length: 1000
   end
 

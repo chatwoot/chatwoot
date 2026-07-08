@@ -49,7 +49,7 @@ class Captain::AssistantMigration::DraftApplier
         description: change[:description],
         instruction: change[:instruction],
         enabled: true,
-        tools: []
+        tools: change[:tool_ids] || []
       )
       scenario.save!
     end
@@ -107,16 +107,44 @@ class Captain::AssistantMigration::DraftApplier
   def scenario_changes
     return [] unless apply_scenarios
 
-    item_values(:scenarios_procedures).map.with_index(1) do |instruction, index|
+    structured_scenario_changes.presence || legacy_scenario_changes
+  end
+
+  def structured_scenario_changes
+    Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
+      next unless candidate.is_a?(Hash)
+
+      candidate = candidate.deep_symbolize_keys
+      instruction = candidate[:instruction].to_s.squish
+      title = candidate[:title].to_s.squish
+      description = candidate[:description].to_s.squish
+      next if title.blank? || description.blank? || instruction.blank?
+
       {
-        title: scenario_title(instruction, index),
-        description: instruction.truncate(200),
-        instruction: instruction
+        title: title.truncate(80),
+        description: description.truncate(300),
+        instruction: instruction,
+        tool_ids: scenario_tool_ids(candidate[:tool_ids])
       }
     end
   end
 
-  def scenario_title(instruction, index)
+  def legacy_scenario_changes
+    item_values(:scenarios_procedures).map.with_index(1) do |instruction, index|
+      {
+        title: legacy_scenario_title(instruction, index),
+        description: instruction.truncate(200),
+        instruction: instruction,
+        tool_ids: []
+      }
+    end
+  end
+
+  def scenario_tool_ids(tool_ids)
+    Array(tool_ids).filter_map { |tool_id| tool_id.to_s.squish.presence }.uniq
+  end
+
+  def legacy_scenario_title(instruction, index)
     title = instruction.to_s.split(/[.\n]/).first.to_s.squish
     title = "Migrated scenario #{index}" if title.blank?
     title.truncate(80)

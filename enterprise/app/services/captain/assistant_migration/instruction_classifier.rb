@@ -1,12 +1,12 @@
 class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskService
   RESPONSE_SCHEMA = Captain::AssistantMigration::InstructionClassifierSchema
-  FEATURE = 'onboarding_content_generation'.freeze
+  CLASSIFIER_MODEL = 'gpt-5.2'.freeze
   MAX_INSTRUCTIONS_LENGTH = 20_000
 
   pattr_initialize [:assistant!]
 
   def perform
-    response = make_api_call(feature: FEATURE, messages: messages, schema: RESPONSE_SCHEMA)
+    response = make_api_call(model: CLASSIFIER_MODEL, messages: messages, schema: RESPONSE_SCHEMA)
     return error_response(response) if response[:error]
 
     {
@@ -38,7 +38,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       1. Business/Product Context
       2. Response Guidelines
       3. Guardrails
-      4. Scenarios/Procedures
+      4. Scenario Candidates
       5. Conversation Messages
       6. FAQs/Documents Candidates
       7. Needs Review
@@ -48,17 +48,42 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       - Do not duplicate the same content across sections.
       - Return clean migrated values only. Do not include source excerpts, source labels, citations, or "Source:" text in any migrated field.
       - Do not rewrite customer-facing message copy unless necessary to classify an exact copy from instructions.
-      - Existing welcome_message, handoff_message, and resolution_message are provided separately.
-      - If an existing welcome_message, handoff_message, or resolution_message is already present in config, leave the corresponding conversation_messages field empty even if similar copy exists in instructions.
-      - Only fill conversation_messages when exact customer-facing welcome, handoff, or resolution copy is found in instructions and the corresponding config value is blank.
-      - Only create scenarios for clear multi-step workflows, routing logic, qualification, handoff behavior, or tool-use procedures.
-      - Do not classify simple tone, language, answer length, or short-reply rules as scenarios.
+      - Existing welcome_message, handoff_message, and resolution_message config values are provided separately.
+      - Treat welcome_message, handoff_message, and resolution_message as Captain conversation message config fields.
+      - Extract exact welcome, handoff, or resolution message copy from instructions into conversation_messages when present.
+      - Do not copy message values from existing config into conversation_messages.
+      - Do not decide whether existing config values should be overwritten. Migration code handles applying extracted
+        conversation_messages only when the corresponding config value is blank.
+      - In the current architecture, a scenario becomes a specialized sub-agent with its own title, description,
+        instructions, and optional tools.
+      - Only create scenario candidates for distinct user-intent workflows that should be routed to a specialized agent.
+        A candidate must be narrow enough to become a named specialist assistant with domain-specific handling instructions.
+      - Good scenario candidates include multi-step intake workflows, qualification flows, specialized troubleshooting
+        workflows, or tool-use procedures for a specific user intent.
+      - Do not create scenario candidates for global escalation rules, generic handoff policy, missing-information
+        behavior, source-boundary rules, refusal rules, tone, formatting, answer length, or one-step fallback behavior.
+      - Do not create scenario candidates whose main purpose is to escalate or hand off. "Identify the trigger, avoid
+        guessing, tell the user support will review, and hand off" is a guardrail/handoff boundary, not a scenario,
+        even though it contains multiple statements.
+      - Handoff behavior is a scenario candidate only when part of a larger intake, qualification, or specialized handling workflow.
+      - Global rules like "if not in docs, escalate", "ask one clarifying question", "do not answer account-specific
+        questions", or "tell the user support will review" belong in Guardrails or Response Guidelines, not Scenario Candidates.
+      - Broad buckets like "account-specific issue escalation", "unknown question escalation", "contact support",
+        "fallback to human", or "documentation unavailable" are not scenario candidates.
+      - If a scenario candidate requires tools, reference the available tool explicitly inside the scenario instruction
+        using markdown tool links such as [Handoff to Human](tool://handoff).
+      - Use only tool IDs listed in available_agent_tools. If a needed tool is unavailable or the workflow depends on
+        unavailable runtime data such as FAQ relevance scores or business-hours status, place it in Needs Review instead.
       - Only factual or product-specific knowledge should become FAQs/Documents candidates.
-      - Generic capability statements such as "answer product questions", "help with billing", "troubleshoot common issues", or "direct to documentation" are not FAQ/document candidates. Put them in Business/Product Context or Response Guidelines when useful.
-      - Product facts, pricing, policies, setup steps, troubleshooting facts, support hours, emergency contacts, and operational details should become FAQs/Documents candidates, not trusted approved knowledge.
+      - Generic capability statements such as "answer product questions", "help with billing",
+        "troubleshoot common issues", or "direct to documentation" are not FAQ/document candidates.
+        Put them in Business/Product Context or Response Guidelines when useful.
+      - Product facts, pricing, policies, setup steps, troubleshooting facts, support hours, emergency contacts,
+        and operational details should become FAQs/Documents candidates, not trusted approved knowledge.
       - If unsure, place content in Needs Review with a reason.
       - Use "high", "medium", or "low" confidence values only.
       - Return data that matches the provided schema.
+
     PROMPT
   end
 
@@ -81,6 +106,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       existing_response_guidelines: assistant.response_guidelines || [],
       existing_guardrails: assistant.guardrails || [],
       existing_scenarios: existing_scenarios,
+      available_agent_tools: available_agent_tools,
       feature_settings: feature_settings
     }
   end
@@ -104,6 +130,11 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
     end
   end
 
+  def available_agent_tools
+    tools = assistant.respond_to?(:available_agent_tools) ? assistant.available_agent_tools : Captain::Assistant.built_in_agent_tools
+    tools.map { |tool| tool.slice(:id, :title, :description) }
+  end
+
   def feature_settings
     assistant.config.slice(
       'feature_faq',
@@ -120,7 +151,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       business_product_context: [],
       response_guidelines: [],
       guardrails: [],
-      scenarios_procedures: [],
+      scenario_candidates: [],
       conversation_messages: {},
       faq_document_candidates: [],
       needs_review: [],
