@@ -1,9 +1,16 @@
 module RequestExceptionHandler
   extend ActiveSupport::Concern
 
+  QUERY_CANCELED_ERROR_MESSAGE_PATTERNS = [
+    'ActiveRecord::QueryCanceled',
+    'PG::QueryCanceled',
+    'canceling statement due to statement timeout'
+  ].freeze
+
   included do
     rescue_from ActiveRecord::RecordInvalid, with: :render_record_invalid
     rescue_from CustomExceptions::InboxDisabled, with: :render_inbox_disabled_error
+    rescue_from CustomExceptions::Inbox::LimitExceeded, with: :render_error_response
   end
 
   private
@@ -19,6 +26,9 @@ module RequestExceptionHandler
   rescue ActionController::ParameterMissing => e
     log_handled_error(e)
     render_could_not_create_error(e.message)
+  rescue ActiveRecord::QueryCanceled => e
+    log_handled_error(e)
+    render_could_not_create_error(database_query_canceled_message)
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
     Current.reset
@@ -32,8 +42,8 @@ module RequestExceptionHandler
     render json: { error: message }, status: :not_found
   end
 
-  def render_could_not_create_error(message)
-    render json: { error: message }, status: :unprocessable_entity
+  def render_could_not_create_error(error)
+    render json: { error: sanitized_error_message(error) }, status: :unprocessable_entity
   end
 
   def render_inbox_disabled_error(_exception = nil)
@@ -66,5 +76,20 @@ module RequestExceptionHandler
 
   def log_handled_error(exception)
     logger.info("Handled error: #{exception.inspect}")
+  end
+
+  def sanitized_error_message(message)
+    return database_query_canceled_message if database_query_canceled_message?(message)
+
+    message
+  end
+
+  def database_query_canceled_message?(message)
+    error_message = message.to_s
+    QUERY_CANCELED_ERROR_MESSAGE_PATTERNS.any? { |pattern| error_message.include?(pattern) }
+  end
+
+  def database_query_canceled_message
+    I18n.t('errors.database.query_canceled')
   end
 end
