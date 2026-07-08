@@ -117,6 +117,7 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
       next :intercom_disconnected if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
 
       @data_import.assign_active_intercom_import_run_id
+      DataImportError.where(data_import_id: @data_import.id).delete_all
       @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil, started_at: nil)
       :enqueue
     end

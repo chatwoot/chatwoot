@@ -106,6 +106,16 @@ RSpec.describe 'Data Imports API', type: :request do
         abandoned_at: 1.hour.ago,
         source_metadata: { DataImport::ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY => 'previous-run' }
       )
+      data_import.import_errors.create!(
+        error_code: 'StandardError',
+        message: 'old run error',
+        details: { kind: 'run_error' }
+      )
+      data_import.import_errors.create!(
+        error_code: DataImports::Intercom::Importer::ALREADY_IMPORTED_ERROR_CODE,
+        message: 'old skip log',
+        details: { kind: 'skipped' }
+      )
 
       expect do
         post start_api_v1_account_data_import_url(account_id: account.id, id: data_import.id),
@@ -118,6 +128,7 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.abandoned_at).to be_nil
       expect(data_import.started_at).to be_nil
       expect(data_import.active_intercom_import_run_id).not_to eq('previous-run')
+      expect(data_import.import_errors).to be_empty
     end
 
     it 'does not enqueue duplicate jobs for active imports' do
