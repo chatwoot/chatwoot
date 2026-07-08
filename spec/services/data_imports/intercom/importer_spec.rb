@@ -347,6 +347,31 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(next_data_import.import_errors.skip_logs.pluck(:details).map { |details| details['reason'] }.uniq).to eq(['already_imported'])
     end
 
+    it 'recreates messages when existing message mappings point to deleted records', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+      conversation = account.conversations.find_by!(identifier: 'intercom:conversation_1')
+      Message.where(conversation_id: conversation.id).delete_all
+
+      described_class.new(data_import: next_data_import).perform
+
+      expect(conversation.reload.messages.pluck(:source_id)).to match_array(
+        %w[
+          intercom:conversation:conversation_1:source:source_1
+          intercom:conversation:conversation_1:part:part_1
+          intercom:conversation:conversation_1:part:part_2
+        ]
+      )
+      expect(next_data_import.reload.stats).to include(
+        'contacts' => { 'imported' => 0, 'skipped' => 1 },
+        'conversations' => { 'imported' => 0, 'skipped' => 1 },
+        'messages' => { 'imported' => 3, 'skipped' => 0 },
+        'errors' => { 'count' => 0 }
+      )
+      expect(next_data_import.import_errors.skip_logs.where(source_object_type: 'message')).to be_empty
+      message_mappings = DataImportMapping.where(account: account, source_provider: 'intercom', source_object_type: 'message')
+      expect(message_mappings.filter_map(&:chatwoot_record).count).to eq(3)
+    end
+
     it 'updates conversation activity when a later import adds new messages to the mapped conversation', :aggregate_failures do
       new_part = {
         'id' => 'part_3',

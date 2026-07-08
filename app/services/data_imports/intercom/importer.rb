@@ -346,7 +346,7 @@ class DataImports::Intercom::Importer
 
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
-    if (mapping = find_mapping('message', message_source_id))
+    if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping)
       return if mapping.data_import_id == @data_import.id
 
       skip_existing_message_mapping(chatwoot_conversation, mapping, source_part)
@@ -369,7 +369,7 @@ class DataImports::Intercom::Importer
         record_skipped_message(chatwoot_conversation, message_source_id, part)
         next
       end
-      if (mapping = find_mapping('message', message_source_id))
+      if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping)
         next if mapping.data_import_id == @data_import.id
 
         skip_existing_message_mapping(chatwoot_conversation, mapping, part)
@@ -604,6 +604,10 @@ class DataImports::Intercom::Importer
       record_already_imported_log(source_object_type: 'message', source_object_id: mapping.source_object_id, mapping: mapping)
     end
     increment_stat('messages', 'skipped') unless already_recorded
+  end
+
+  def message_mapping_handled?(mapping)
+    mapping.metadata['skipped'] || mapping.chatwoot_record.present?
   end
 
   def fail_item(item, error)
