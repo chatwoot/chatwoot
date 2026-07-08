@@ -4,7 +4,21 @@
 
 json.meta do
   json.sender do
-    json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+    if conversation.contact.present?
+      json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+    else
+      json.additional_attributes({})
+      json.availability_status 'offline'
+      json.email nil
+      json.id conversation.contact_id
+      json.name 'Contato removido'
+      json.phone_number nil
+      json.blocked false
+      json.identifier nil
+      json.company_id nil if Current.account&.feature_enabled?('companies')
+      json.thumbnail nil
+      json.custom_attributes({})
+    end
   end
   json.channel conversation.inbox.try(:channel_type)
   if conversation.assigned_entity.is_a?(AgentBot)
