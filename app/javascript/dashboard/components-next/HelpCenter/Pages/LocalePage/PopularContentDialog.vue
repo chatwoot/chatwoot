@@ -7,7 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import categoriesAPI from 'dashboard/api/helpCenter/categories';
 import articlesAPI from 'dashboard/api/helpCenter/articles';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import ReorderableMultiSelect from 'dashboard/components-next/combobox/ReorderableMultiSelect.vue';
 
 const props = defineProps({
   portal: {
@@ -16,56 +16,49 @@ const props = defineProps({
   },
 });
 
-const MAX_SELECTION = 3;
+const MAX_CATEGORIES = 3;
+const MAX_ARTICLES = 6;
+const KEY = 'HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG';
 
 const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
 const activeLocale = ref('');
-const isLoading = ref(false);
+// One flag per picker so each shows its skeleton until its own data loads.
+const categoriesLoading = ref(false);
+const articlesLoading = ref(false);
 
-const categoryResults = ref([]);
+const categoryOptions = ref([]);
 const selectedCategoryIds = ref([]);
 
-// Articles are searched server-side, so cache labels for selected items that
+// Articles are searched server-side, so cache options for selected items that
 // fall outside the current results.
 const articleResults = ref([]);
-const articleLabelById = ref({});
+const articleOptionById = ref({});
 const selectedArticleIds = ref([]);
 
 const popularContent = computed(
   () => props.portal?.config?.popular_content || {}
 );
 
-// A selected id shows its cached label, a loading placeholder while fetching, or
-// the raw id if loading fails; fetched results fill the rest of the dropdown.
-const buildOptions = (selectedIds, results, labelById = {}) => {
-  const loadingLabel = t(
-    'HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.LOADING'
-  );
-  const optionsById = new Map();
-  selectedIds.forEach(id => {
-    optionsById.set(id, {
-      value: id,
-      label: labelById[id] ?? (isLoading.value ? loadingLabel : String(id)),
-    });
+const articleOptions = computed(() => {
+  const options = new Map();
+  selectedArticleIds.value.forEach(id => {
+    if (articleOptionById.value[id])
+      options.set(id, articleOptionById.value[id]);
   });
-  results.forEach(option => optionsById.set(option.value, option));
-  return [...optionsById.values()];
-};
+  articleResults.value.forEach(option => options.set(option.value, option));
+  return [...options.values()];
+});
 
-const categoryOptions = computed(() =>
-  buildOptions(selectedCategoryIds.value, categoryResults.value)
-);
-
-const articleOptions = computed(() =>
-  buildOptions(
-    selectedArticleIds.value,
-    articleResults.value,
-    articleLabelById.value
-  )
-);
+const toArticleOption = article => ({
+  value: article.id,
+  label: article.title,
+  subtitle: t(`${KEY}.ARTICLES.IN_CATEGORY`, {
+    category: article.category?.name || t(`${KEY}.ARTICLES.UNCATEGORIZED`),
+  }),
+});
 
 const fetchCategories = async localeCode => {
   const {
@@ -74,9 +67,14 @@ const fetchCategories = async localeCode => {
     portalSlug: props.portal?.slug,
     locale: localeCode,
   });
-  categoryResults.value = payload.map(category => ({
+  categoryOptions.value = payload.map(category => ({
     value: category.id,
     label: category.name,
+    subtitle: t(`${KEY}.CATEGORIES.ARTICLES_COUNT`, {
+      count: category.meta?.articles_count || 0,
+    }),
+    icon: category.icon,
+    iconColor: category.icon_color,
   }));
 };
 
@@ -89,17 +87,18 @@ const searchArticles = async (query = '') => {
     query,
   });
   articleResults.value = data.payload.map(article => {
-    articleLabelById.value[article.id] = article.title;
-    return { value: article.id, label: article.title };
+    const option = toArticleOption(article);
+    articleOptionById.value[article.id] = option;
+    return option;
   });
 };
 
 const onArticleSearch = useDebounceFn(searchArticles, 300);
 
-// Resolve titles for pre-selected articles that aren't in the current results.
-const cacheSelectedArticleLabels = async () => {
+// Resolve options for pre-selected articles that aren't in the current results.
+const cacheSelectedArticleOptions = async () => {
   const unknownIds = selectedArticleIds.value.filter(
-    id => !articleLabelById.value[id]
+    id => !articleOptionById.value[id]
   );
   await Promise.all(
     unknownIds.map(async id => {
@@ -108,7 +107,7 @@ const cacheSelectedArticleLabels = async () => {
           id,
           portalSlug: props.portal?.slug,
         });
-        articleLabelById.value[id] = data.payload.title;
+        articleOptionById.value[id] = toArticleOption(data.payload);
       } catch {
         // Deleted since it was picked; leave it for the id fallback.
       }
@@ -116,46 +115,41 @@ const cacheSelectedArticleLabels = async () => {
   );
 };
 
-const openForLocale = async localeCode => {
+const loadCategories = async localeCode => {
+  categoriesLoading.value = true;
+  try {
+    await fetchCategories(localeCode);
+  } catch (error) {
+    useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
+  } finally {
+    categoriesLoading.value = false;
+  }
+};
+
+const loadArticles = async () => {
+  articlesLoading.value = true;
+  try {
+    await Promise.all([cacheSelectedArticleOptions(), searchArticles()]);
+  } catch (error) {
+    useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
+  } finally {
+    articlesLoading.value = false;
+  }
+};
+
+const openForLocale = localeCode => {
   const existing = popularContent.value[localeCode] || {};
   activeLocale.value = localeCode;
   selectedCategoryIds.value = [...(existing.category_ids || [])];
   selectedArticleIds.value = [...(existing.article_ids || [])];
-  categoryResults.value = [];
+  categoryOptions.value = [];
   articleResults.value = [];
-  articleLabelById.value = {};
+  articleOptionById.value = {};
   dialogRef.value?.open();
 
-  isLoading.value = true;
-  try {
-    await Promise.all([
-      fetchCategories(localeCode),
-      cacheSelectedArticleLabels(),
-      searchArticles(),
-    ]);
-  } catch (error) {
-    useAlert(
-      error?.message ||
-        t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.API.ERROR_MESSAGE')
-    );
-  } finally {
-    isLoading.value = false;
-  }
+  loadCategories(localeCode);
+  loadArticles();
 };
-
-const onCategoriesUpdate = ids => {
-  selectedCategoryIds.value = ids.slice(0, MAX_SELECTION);
-};
-
-const onArticlesUpdate = ids => {
-  selectedArticleIds.value = ids.slice(0, MAX_SELECTION);
-};
-
-const selectionMessage = count =>
-  t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.SELECTION_COUNT', {
-    count,
-    max: MAX_SELECTION,
-  });
 
 const onConfirm = async () => {
   const updated = { ...popularContent.value };
@@ -176,14 +170,9 @@ const onConfirm = async () => {
       config: { popular_content: updated },
     });
     dialogRef.value?.close();
-    useAlert(
-      t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.API.SUCCESS_MESSAGE')
-    );
+    useAlert(t(`${KEY}.API.SUCCESS_MESSAGE`));
   } catch (error) {
-    useAlert(
-      error?.message ||
-        t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.API.ERROR_MESSAGE')
-    );
+    useAlert(error?.message || t(`${KEY}.API.ERROR_MESSAGE`));
   }
 };
 
@@ -194,67 +183,45 @@ defineExpose({ openForLocale });
   <Dialog
     ref="dialogRef"
     type="edit"
-    :title="t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.TITLE')"
-    :description="
-      t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.DESCRIPTION')
-    "
+    :title="t(`${KEY}.TITLE`)"
+    :description="t(`${KEY}.DESCRIPTION`)"
+    :confirm-button-label="t(`${KEY}.CONFIRM`)"
     @confirm="onConfirm"
   >
-    <div class="flex flex-col gap-4">
-      <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium text-n-slate-12">
-          {{
-            t(
-              'HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.CATEGORIES.LABEL'
-            )
-          }}
-        </label>
-        <TagMultiSelectComboBox
-          :model-value="selectedCategoryIds"
-          :options="categoryOptions"
-          :disabled="isLoading"
-          :placeholder="
-            t(
-              'HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.CATEGORIES.PLACEHOLDER'
-            )
-          "
-          :search-placeholder="
-            t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.SEARCH')
-          "
-          :empty-state="
-            t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.EMPTY')
-          "
-          :message="selectionMessage(selectedCategoryIds.length)"
-          @update:model-value="onCategoriesUpdate"
-        />
-      </div>
-      <div class="flex flex-col gap-1">
-        <label class="text-sm font-medium text-n-slate-12">
-          {{
-            t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.ARTICLES.LABEL')
-          }}
-        </label>
-        <TagMultiSelectComboBox
-          server-search
-          :model-value="selectedArticleIds"
-          :options="articleOptions"
-          :disabled="isLoading"
-          :placeholder="
-            t(
-              'HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.ARTICLES.PLACEHOLDER'
-            )
-          "
-          :search-placeholder="
-            t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.SEARCH')
-          "
-          :empty-state="
-            t('HELP_CENTER.LOCALES_PAGE.POPULAR_CONTENT_DIALOG.EMPTY')
-          "
-          :message="selectionMessage(selectedArticleIds.length)"
-          @update:model-value="onArticlesUpdate"
-          @search="onArticleSearch"
-        />
-      </div>
+    <div class="flex flex-col gap-5">
+      <ReorderableMultiSelect
+        v-model="selectedCategoryIds"
+        :options="categoryOptions"
+        :max="MAX_CATEGORIES"
+        :label="t(`${KEY}.CATEGORIES.LABEL`)"
+        :add-label="t(`${KEY}.ADD_ANOTHER`)"
+        :search-placeholder="t(`${KEY}.SEARCH`)"
+        :empty-state="t(`${KEY}.EMPTY`)"
+        fallback-icon="i-lucide-folder"
+        :loading="categoriesLoading"
+      >
+        <template #counter="{ remaining }">
+          {{ t(`${KEY}.SLOTS_LEFT`, { count: remaining }) }}
+        </template>
+        <template #note>{{ t(`${KEY}.OVERRIDING_DEFAULTS`) }}</template>
+      </ReorderableMultiSelect>
+      <ReorderableMultiSelect
+        v-model="selectedArticleIds"
+        server-search
+        :options="articleOptions"
+        :max="MAX_ARTICLES"
+        :label="t(`${KEY}.ARTICLES.LABEL`)"
+        :add-label="t(`${KEY}.ADD_ANOTHER`)"
+        :search-placeholder="t(`${KEY}.SEARCH`)"
+        :empty-state="t(`${KEY}.EMPTY`)"
+        :loading="articlesLoading"
+        @search="onArticleSearch"
+      >
+        <template #counter="{ remaining }">
+          {{ t(`${KEY}.SLOTS_LEFT`, { count: remaining }) }}
+        </template>
+        <template #note>{{ t(`${KEY}.OVERRIDING_DEFAULTS`) }}</template>
+      </ReorderableMultiSelect>
     </div>
   </Dialog>
 </template>

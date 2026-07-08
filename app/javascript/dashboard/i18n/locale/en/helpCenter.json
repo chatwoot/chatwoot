@@ -722,18 +722,21 @@
       },
       "POPULAR_CONTENT_DIALOG": {
         "TITLE": "Recommended content",
-        "DESCRIPTION": "Choose up to 3 categories and 3 articles to recommend on the public help center home page for this locale. Leave empty to fall back to the defaults.",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on the help center home page for this locale. Drag to reorder — the order here is the order visitors see.",
         "SEARCH": "Search...",
         "EMPTY": "No matching results",
-        "LOADING": "Loading…",
-        "SELECTION_COUNT": "{count} of {max} selected",
+        "ADD_ANOTHER": "Add another...",
+        "SLOTS_LEFT": "{count} slots left",
+        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
+        "CONFIRM": "Save recommendations",
         "CATEGORIES": {
           "LABEL": "Recommended categories",
-          "PLACEHOLDER": "Select categories..."
+          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
         },
         "ARTICLES": {
           "LABEL": "Recommended articles",
-          "PLACEHOLDER": "Select articles..."
+          "IN_CATEGORY": "in {category}",
+          "UNCATEGORIZED": "Uncategorized"
         },
         "API": {
           "SUCCESS_MESSAGE": "Recommended content updated successfully",

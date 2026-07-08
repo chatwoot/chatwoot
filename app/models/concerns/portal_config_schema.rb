@@ -14,10 +14,9 @@ module PortalConfigSchema
     'additionalProperties' => false
   }.freeze
 
-  # Per-locale "recommended content" curated by an admin and shown as pill rows
-  # in the public portal hero. `category_ids` drive the "Recommended topics" row
-  # and `article_ids` the "Recommended articles" row. When empty, the portal
-  # falls back to its defaults (top categories by position for documentation).
+  # Per-locale recommended content for the portal home page: an ordered list of
+  # `category_ids` (the hero's "Recommended topics" pills) and `article_ids` (the
+  # "Recommended" articles section). When empty, the portal uses its defaults.
   POPULAR_CONTENT_SCHEMA = {
     'type' => 'object',
     'properties' => {

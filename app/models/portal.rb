@@ -57,7 +57,8 @@ class Portal < ApplicationRecord
                         popular_content].freeze
 
   # Max number of recommended categories/articles shown per locale.
-  POPULAR_CONTENT_LIMIT = 3
+  POPULAR_CATEGORY_LIMIT = 3
+  POPULAR_ARTICLE_LIMIT = 6
 
   def file_base_data
     {
@@ -120,11 +121,11 @@ class Portal < ApplicationRecord
   end
 
   def popular_category_ids(locale = default_locale)
-    Array(config.dig('popular_content', locale.to_s, 'category_ids')).first(POPULAR_CONTENT_LIMIT)
+    Array(config.dig('popular_content', locale.to_s, 'category_ids')).first(POPULAR_CATEGORY_LIMIT)
   end
 
   def popular_article_ids(locale = default_locale)
-    Array(config.dig('popular_content', locale.to_s, 'article_ids')).first(POPULAR_CONTENT_LIMIT)
+    Array(config.dig('popular_content', locale.to_s, 'article_ids')).first(POPULAR_ARTICLE_LIMIT)
   end
 
   def social_profiles
