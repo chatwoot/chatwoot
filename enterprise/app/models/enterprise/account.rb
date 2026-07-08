@@ -1,4 +1,9 @@
 module Enterprise::Account
+  # Transitional marker for the Captain V1 to V2 rollout. New cloud accounts get
+  # this marker so plan reconciliation can enable V2 for them without upgrading
+  # existing paid accounts. Remove once every account is migrated to V2.
+  CAPTAIN_V2_DEFAULT_ELIGIBLE = 'captain_v2_default_eligible'.freeze
+
   class << self
     def captain_document_sync_intervals
       parse_captain_document_sync_intervals(InstallationConfig.find_by(name: 'CAPTAIN_DOCUMENT_AUTO_SYNC_INTERVALS')&.value)
@@ -68,7 +73,40 @@ module Enterprise::Account
     saml_settings&.saml_enabled? || false
   end
 
+  def billing_currency
+    # Feature off => everyone is billed in USD (legacy behaviour).
+    return Enterprise::Billing::Currencies::DEFAULT unless Enterprise::Billing::Currencies.enabled?
+
+    stored = custom_attributes&.dig('billing_currency')
+    return Enterprise::Billing::Currencies.normalize(stored) if Enterprise::Billing::Currencies.supported?(stored)
+
+    # Existing Stripe customers stay on USD (webhook backfills the real currency);
+    # only brand-new accounts infer from locale, so existing pt_BR users aren't charged BRL.
+    return Enterprise::Billing::Currencies::DEFAULT if custom_attributes&.dig('stripe_customer_id').present?
+
+    Enterprise::Billing::Currencies.for_locale(locale)
+  end
+
+  # New accounts whose locale maps to a non-USD currency get to pick USD or that
+  # currency before the Stripe customer is created; everyone else proceeds in USD.
+  def billing_currency_selection_required?
+    return false unless Enterprise::Billing::Currencies.enabled?
+    return false if custom_attributes&.dig('stripe_customer_id').present?
+    return false if Enterprise::Billing::Currencies.supported?(custom_attributes&.dig('billing_currency'))
+
+    Enterprise::Billing::Currencies.for_locale(locale) != Enterprise::Billing::Currencies::DEFAULT
+  end
+
   private
+
+  def enable_default_features
+    super
+    if ChatwootApp.self_hosted_enterprise?
+      enable_features('captain_integration', 'captain_integration_v2')
+    elsif ChatwootApp.chatwoot_cloud?
+      internal_attributes[CAPTAIN_V2_DEFAULT_ELIGIBLE] = true
+    end
+  end
 
   def sync_assignment_features
     if feature_enabled?('assignment_v2')
