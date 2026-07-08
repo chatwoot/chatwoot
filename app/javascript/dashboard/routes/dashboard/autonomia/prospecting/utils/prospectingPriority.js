@@ -11,9 +11,9 @@ export const priorityTheme = priority => {
       ring: '#10b981',
       ringBg: '#d1fae5',
       ringText: '#065f46',
-      cardBg: 'bg-gradient-to-br from-emerald-50 to-white',
+      cardBg: 'bg-n-teal-2',
       title: 'Lead muito quente',
-      titleClass: 'text-emerald-700',
+      titleClass: 'text-n-teal-11',
     };
   }
 
@@ -22,9 +22,9 @@ export const priorityTheme = priority => {
       ring: '#3b82f6',
       ringBg: '#dbeafe',
       ringText: '#1e40af',
-      cardBg: 'bg-gradient-to-br from-blue-50 to-white',
+      cardBg: 'bg-n-blue-2',
       title: 'Oportunidade alta',
-      titleClass: 'text-blue-700',
+      titleClass: 'text-n-blue-11',
     };
   }
 
@@ -33,9 +33,9 @@ export const priorityTheme = priority => {
       ring: '#f59e0b',
       ringBg: '#fef3c7',
       ringText: '#92400e',
-      cardBg: 'bg-gradient-to-br from-amber-50 to-white',
+      cardBg: 'bg-n-amber-2',
       title: 'Lead morno',
-      titleClass: 'text-amber-700',
+      titleClass: 'text-n-amber-11',
     };
   }
 
@@ -43,29 +43,29 @@ export const priorityTheme = priority => {
     ring: '#ef4444',
     ringBg: '#fee2e2',
     ringText: '#991b1b',
-    cardBg: 'bg-gradient-to-br from-red-50 to-white',
+    cardBg: 'bg-n-ruby-2',
     title: 'Prioridade baixa',
-    titleClass: 'text-red-700',
+    titleClass: 'text-n-ruby-11',
   };
 };
 
 const toneClass = tone => {
   const classes = {
     pain: {
-      card: 'bg-red-50 border-red-100 text-red-800',
-      iconClass: 'text-red-600',
+      card: 'bg-n-ruby-2 border-n-ruby-5 text-n-ruby-11',
+      iconClass: 'text-n-ruby-11',
     },
     opportunity: {
-      card: 'bg-amber-50 border-amber-100 text-amber-800',
-      iconClass: 'text-amber-600',
+      card: 'bg-n-amber-2 border-n-amber-5 text-n-amber-11',
+      iconClass: 'text-n-amber-11',
     },
     positive: {
-      card: 'bg-emerald-50 border-emerald-100 text-emerald-800',
-      iconClass: 'text-emerald-700',
+      card: 'bg-n-teal-2 border-n-teal-5 text-n-teal-11',
+      iconClass: 'text-n-teal-11',
     },
     neutral: {
-      card: 'bg-gray-50 border-gray-100 text-gray-700',
-      iconClass: 'text-gray-500',
+      card: 'bg-n-slate-2 border-n-slate-5 text-n-slate-11',
+      iconClass: 'text-n-slate-10',
     },
   };
 

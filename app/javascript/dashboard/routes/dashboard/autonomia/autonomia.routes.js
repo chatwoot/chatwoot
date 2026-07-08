@@ -11,8 +11,6 @@ const ProspectingSearchPage = () =>
   import('./prospecting/pages/ProspectingSearchPage.vue');
 const ProspectingListsPage = () =>
   import('./prospecting/pages/ProspectingListsPage.vue');
-const ProspectingSettingsPage = () =>
-  import('./prospecting/pages/ProspectingSettingsPage.vue');
 const InviteConnectionPage = () => import('./pages/InviteConnectionPage.vue');
 
 // Admin-only: every Autonomia backend endpoint enforces
@@ -108,7 +106,10 @@ export const routes = [
     name: 'autonomia_prospecting_settings',
     meta,
     beforeEnter: ensureProspectingEnabled,
-    component: ProspectingSettingsPage,
+    redirect: to => ({
+      name: 'settings_prospecting_index',
+      params: to.params,
+    }),
   },
 ];
 

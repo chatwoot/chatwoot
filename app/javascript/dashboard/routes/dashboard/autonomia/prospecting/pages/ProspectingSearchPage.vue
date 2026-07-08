@@ -1265,7 +1265,7 @@ onMounted(async () => {
                       <div class="flex flex-wrap items-center gap-1.5">
                         <span
                           v-if="lead.search_rank"
-                          class="inline-flex items-center rounded bg-amber-50 px-1.5 py-0.5 text-[10px] font-bold leading-tight text-amber-800 ring-1 ring-amber-200"
+                          class="inline-flex items-center rounded bg-n-amber-2 px-1.5 py-0.5 text-[10px] font-bold leading-tight text-n-amber-11 ring-1 ring-n-amber-5"
                         >
                           {{
                             t('PROSPECTING.SEARCH.PRIORITY_GOOGLE_RANK', {
@@ -1285,7 +1285,7 @@ onMounted(async () => {
                         </span>
                         <span
                           v-if="lead.priority_position === 1"
-                          class="inline-flex items-center gap-0.5 rounded-full bg-emerald-100 px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-emerald-700 ring-1 ring-emerald-200"
+                          class="inline-flex items-center gap-0.5 rounded-full bg-n-teal-2 px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-n-teal-11 ring-1 ring-n-teal-5"
                         >
                           <span class="i-lucide-zap size-3" />
                           {{
@@ -1299,18 +1299,18 @@ onMounted(async () => {
                         {{ lead.name }}
                       </h3>
                       <div
-                        class="mt-1 flex min-w-0 max-w-full items-baseline gap-1.5"
+                        class="mt-1 grid min-w-0 max-w-full grid-cols-[auto_auto_minmax(0,1fr)] items-baseline gap-1.5 overflow-hidden"
                       >
                         <span
                           v-if="leadPriorityTheme(lead)"
-                          class="shrink-0 text-xs font-medium"
+                          class="text-xs font-medium"
                           :class="leadPriorityTheme(lead).titleClass"
                         >
                           {{ leadPriorityTheme(lead).title }}
                         </span>
                         <span
                           v-if="leadPriorityTheme(lead)"
-                          class="shrink-0 text-n-slate-6"
+                          class="text-n-slate-6"
                         >
                           ·
                         </span>
@@ -1555,7 +1555,7 @@ onMounted(async () => {
             <div class="mb-2 flex flex-wrap items-center gap-2">
               <span
                 v-if="selectedLeadDetail.search_rank"
-                class="inline-flex items-center rounded-md bg-amber-100 px-1.5 py-0.5 text-[11px] font-bold text-amber-800 ring-1 ring-amber-200"
+                class="inline-flex items-center rounded-md bg-n-amber-2 px-1.5 py-0.5 text-[11px] font-bold text-n-amber-11 ring-1 ring-n-amber-5"
               >
                 {{
                   t('PROSPECTING.SEARCH.PRIORITY_GOOGLE_RANK', {
@@ -1575,7 +1575,7 @@ onMounted(async () => {
               </span>
               <span
                 v-if="selectedLeadDetail.priority_position === 1"
-                class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200"
+                class="inline-flex items-center gap-1 rounded-full bg-n-teal-2 px-2 py-0.5 text-[11px] font-semibold text-n-teal-11 ring-1 ring-n-teal-5"
               >
                 <span class="i-lucide-zap size-3" />
                 {{ t('PROSPECTING.SEARCH.PRIORITY_FIRST_CALL') }}

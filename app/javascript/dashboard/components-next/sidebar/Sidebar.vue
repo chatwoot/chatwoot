@@ -651,7 +651,6 @@ const menuItems = computed(() => {
             activeOn: [
               'autonomia_prospecting_search',
               'autonomia_prospecting_lists',
-              'autonomia_prospecting_settings',
             ],
             children: [
               {
@@ -665,12 +664,6 @@ const menuItems = computed(() => {
                 label: t('SIDEBAR.PROSPECTING_LISTS'),
                 to: accountScopedRoute('autonomia_prospecting_lists'),
                 activeOn: ['autonomia_prospecting_lists'],
-              },
-              {
-                name: 'Prospecting Settings',
-                label: t('SIDEBAR.PROSPECTING_SETTINGS'),
-                to: accountScopedRoute('autonomia_prospecting_settings'),
-                activeOn: ['autonomia_prospecting_settings'],
               },
             ],
           },
@@ -988,6 +981,20 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('general_settings_index'),
         },
+        ...(autonomiaProspectingEnabled.value
+          ? [
+              {
+                name: 'Settings Prospecting',
+                label: t('SIDEBAR.PROSPECTING'),
+                icon: 'i-lucide-search',
+                activeOn: [
+                  'settings_prospecting_index',
+                  'autonomia_prospecting_settings',
+                ],
+                to: accountScopedRoute('settings_prospecting_index'),
+              },
+            ]
+          : []),
         // {
         //   name: 'Settings Captain',
         //   label: t('SIDEBAR.CAPTAIN_AI'),
