@@ -138,10 +138,7 @@ const applyMoreFilter = ({ action, value }) => {
 <template>
   <div class="flex flex-wrap items-center justify-between gap-3">
     <div class="flex flex-wrap items-center gap-3">
-      <span
-        v-if="!activity"
-        class="text-sm font-medium text-n-slate-11 shrink-0"
-      >
+      <span v-if="!activity" class="text-heading-3 text-n-slate-11 shrink-0">
         {{
           totalCount === null
             ? t('CALLS_PAGE.ALL_CALLS')
@@ -190,7 +187,7 @@ const applyMoreFilter = ({ action, value }) => {
         <DropdownMenu
           v-if="openMenu === 'activity'"
           :menu-items="otherActivityItems"
-          class="mt-1 ltr:left-0 rtl:right-0 top-full w-44"
+          class="mt-1 start-0 top-full w-44"
           @action="setActivity($event.value)"
         />
       </OnClickOutside>
@@ -212,7 +209,7 @@ const applyMoreFilter = ({ action, value }) => {
           v-if="openMenu === 'assignee'"
           :menu-items="assigneeItems"
           show-search
-          class="mt-1 ltr:right-0 rtl:left-0 top-full w-56 max-h-72"
+          class="mt-1 end-0 top-full w-56 max-h-72"
           @action="setAssignee"
         />
       </OnClickOutside>
@@ -234,7 +231,7 @@ const applyMoreFilter = ({ action, value }) => {
         <DropdownMenu
           v-if="openMenu === 'more'"
           :menu-sections="moreFiltersSections"
-          class="mt-1 ltr:right-0 rtl:left-0 top-full w-56 max-h-80"
+          class="mt-1 end-0 top-full w-56 max-h-80"
           @action="applyMoreFilter"
         />
       </OnClickOutside>

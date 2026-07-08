@@ -2,16 +2,10 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import {
-  format,
-  fromUnixTime,
-  isThisYear,
-  isToday,
-  isYesterday,
-} from 'date-fns';
+import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import CallRecordingPlayer from './CallRecordingPlayer.vue';
+import AudioPlayer from 'dashboard/components-next/audio/AudioPlayer.vue';
 import CallStatusBadge from './CallStatusBadge.vue';
 import { CALL_KIND, getCallKind } from './constants';
 
@@ -53,13 +47,9 @@ const providerIcon = computed(() =>
   props.call.provider === 'whatsapp' ? 'i-woot-whatsapp' : 'i-lucide-phone'
 );
 
-const createdAtLabel = computed(() => {
-  const date = fromUnixTime(props.call.createdAt);
-  if (isToday(date)) return format(date, 'h:mm a');
-  if (isYesterday(date)) return t('CALLS_PAGE.ROW.YESTERDAY');
-  if (isThisYear(date)) return format(date, 'MMM d');
-  return format(date, 'MMM d, yyyy');
-});
+const createdAtLabel = computed(() =>
+  relativeDayTimestamp(props.call.createdAt, t('CALLS_PAGE.ROW.YESTERDAY'))
+);
 
 const conversationRoute = computed(() => ({
   name: 'inbox_conversation',
@@ -130,7 +120,7 @@ const conversationRoute = computed(() => ({
           {{ resultLabel }}
         </span>
       </div>
-      <CallRecordingPlayer
+      <AudioPlayer
         v-if="call.recordingUrl"
         :src="call.recordingUrl"
         :fallback-duration="call.durationSeconds || 0"
