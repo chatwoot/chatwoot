@@ -18,10 +18,12 @@ class Autonomia::Prospecting::Providers::GooglePlacesProvider
 
   attr_reader :api_units
 
-  def initialize(query:, location:, radius:, limit:, api_key:)
+  def initialize(query:, location:, radius:, area_type: 'radius', area_config: {}, limit:, api_key:)
     @query = query.to_s.strip
     @location = location.to_s.strip
     @radius = radius.to_i
+    @area_type = area_type.to_s
+    @area_config = area_config.to_h.deep_stringify_keys
     @limit = limit.to_i
     @api_key = api_key.to_s
     @api_units = 0
@@ -53,6 +55,47 @@ class Autonomia::Prospecting::Providers::GooglePlacesProvider
       maxResultCount: [@limit, 20].min,
       languageCode: 'pt-BR',
       regionCode: 'BR'
+    }.merge(location_bias_payload)
+  end
+
+  def location_bias_payload
+    rectangle = rectangle_bias
+    return { locationBias: { rectangle: rectangle } } if rectangle.present?
+
+    circle = circle_bias
+    return { locationBias: { circle: circle } } if circle.present?
+
+    {}
+  end
+
+  def rectangle_bias
+    return unless @area_type == 'viewport'
+
+    bounds = @area_config['bounds']
+    return if bounds.blank?
+
+    {
+      low: {
+        latitude: bounds['south'].to_f,
+        longitude: bounds['west'].to_f
+      },
+      high: {
+        latitude: bounds['north'].to_f,
+        longitude: bounds['east'].to_f
+      }
+    }
+  end
+
+  def circle_bias
+    center = @area_config['center']
+    return if center.blank?
+
+    {
+      center: {
+        latitude: center['lat'].to_f,
+        longitude: center['lng'].to_f
+      },
+      radius: [@radius, 50_000].min
     }
   end
 

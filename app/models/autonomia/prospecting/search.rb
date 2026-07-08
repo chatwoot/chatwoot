@@ -9,6 +9,7 @@ class Autonomia::Prospecting::Search < ApplicationRecord
 
   validates :query, presence: true
   validates :provider, presence: true
+  validates :area_type, inclusion: { in: %w[radius viewport] }
   validates :requested_limit, numericality: { only_integer: true, greater_than: 0 }
   validates :consumed_api_units, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 end

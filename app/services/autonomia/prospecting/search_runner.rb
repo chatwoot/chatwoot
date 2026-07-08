@@ -1,6 +1,9 @@
 require 'digest'
+require 'json'
 
 class Autonomia::Prospecting::SearchRunner
+  AREA_TYPES = %w[radius viewport].freeze
+
   Result = Struct.new(:search, :leads, keyword_init: true)
 
   class UnsupportedProviderError < StandardError; end
@@ -67,6 +70,8 @@ class Autonomia::Prospecting::SearchRunner
       query: query,
       location: location,
       radius: radius,
+      area_type: area_type,
+      area_config: area_config,
       provider: provider_name,
       requested_limit: requested_limit,
       status: :pending,
@@ -84,6 +89,8 @@ class Autonomia::Prospecting::SearchRunner
         query: query,
         location: location,
         radius: radius,
+        area_type: area_type,
+        area_config: area_config,
         limit: requested_limit,
         api_key: @setting.google_places_api_key
       )
@@ -92,6 +99,8 @@ class Autonomia::Prospecting::SearchRunner
         query: query,
         location: location,
         radius: radius,
+        area_type: area_type,
+        area_config: area_config,
         limit: requested_limit
       )
     end
@@ -163,6 +172,17 @@ class Autonomia::Prospecting::SearchRunner
     @radius ||= @params[:radius].presence&.to_i || 5000
   end
 
+  def area_type
+    @area_type ||= begin
+      requested_type = @params[:area_type].to_s
+      AREA_TYPES.include?(requested_type) ? requested_type : 'radius'
+    end
+  end
+
+  def area_config
+    @area_config ||= normalized_area_config
+  end
+
   def provider_name
     @provider_name ||= @setting.provider.presence || 'mock'
   end
@@ -176,7 +196,97 @@ class Autonomia::Prospecting::SearchRunner
   end
 
   def metadata
-    @params[:metadata].presence || {}
+    @metadata ||= begin
+      raw_metadata = @params[:metadata].presence || {}
+      raw_metadata = raw_metadata.to_unsafe_h if raw_metadata.respond_to?(:to_unsafe_h)
+      raw_metadata = raw_metadata.to_h if raw_metadata.respond_to?(:to_h)
+      raw_metadata.deep_stringify_keys
+    end
+  end
+
+  def normalized_area_config
+    raw_config = @params[:area_config].presence || {}
+    raw_config = raw_config.to_unsafe_h if raw_config.respond_to?(:to_unsafe_h)
+    raw_config = raw_config.to_h if raw_config.respond_to?(:to_h)
+    raw_config = raw_config.deep_stringify_keys
+
+    center = normalize_center(raw_config['center']) || metadata_center
+    base = {
+      'label' => metadata['location_label'].presence || location.presence,
+      'place_id' => metadata['location_place_id'].presence
+    }.compact
+
+    if area_type == 'viewport'
+      bounds = normalize_bounds(raw_config['bounds'])
+      center ||= center_from_bounds(bounds)
+
+      return base.merge(
+        {
+          'bounds' => bounds,
+          'center' => center,
+          'radius' => radius
+        }.compact
+      )
+    end
+
+    base.merge(
+      {
+        'center' => center,
+        'radius' => radius
+      }.compact
+    )
+  end
+
+  def metadata_center
+    lat = metadata['location_latitude'].presence
+    lng = metadata['location_longitude'].presence
+    normalize_center('lat' => lat, 'lng' => lng)
+  end
+
+  def normalize_center(value)
+    return if value.blank?
+
+    hash = value.respond_to?(:to_h) ? value.to_h.deep_stringify_keys : {}
+    lat = numeric_value(hash['lat'] || hash['latitude'])
+    lng = numeric_value(hash['lng'] || hash['longitude'])
+    return if lat.nil? || lng.nil?
+
+    { 'lat' => lat, 'lng' => lng }
+  end
+
+  def normalize_bounds(value)
+    return if value.blank?
+
+    hash = value.respond_to?(:to_h) ? value.to_h.deep_stringify_keys : {}
+    north = numeric_value(hash['north'])
+    south = numeric_value(hash['south'])
+    east = numeric_value(hash['east'])
+    west = numeric_value(hash['west'])
+    return if [north, south, east, west].any?(&:nil?)
+
+    {
+      'north' => [north, south].max,
+      'south' => [north, south].min,
+      'east' => east,
+      'west' => west
+    }
+  end
+
+  def center_from_bounds(bounds)
+    return if bounds.blank?
+
+    {
+      'lat' => ((bounds['north'].to_f + bounds['south'].to_f) / 2.0).round(6),
+      'lng' => ((bounds['east'].to_f + bounds['west'].to_f) / 2.0).round(6)
+    }
+  end
+
+  def numeric_value(value)
+    return if value.blank?
+
+    Float(value).round(6)
+  rescue ArgumentError, TypeError
+    nil
   end
 
   def crm_target_metadata
@@ -204,6 +314,8 @@ class Autonomia::Prospecting::SearchRunner
       query: query,
       location: location,
       radius: radius,
+      area_type: area_type,
+      area_config: area_config,
       provider: provider_name,
       requested_limit: requested_limit,
       status: :cached,
@@ -229,6 +341,8 @@ class Autonomia::Prospecting::SearchRunner
         query.downcase,
         location.downcase,
         radius,
+        area_type,
+        JSON.generate(area_config),
         requested_limit,
         @setting.scoring_mode,
         @setting.scoring_profile_id,

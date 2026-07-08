@@ -33,6 +33,7 @@ const searchConfigStages = ref([]);
 const locationSuggestions = ref([]);
 const locationDetails = ref(null);
 const confirmedLocation = ref('');
+const previewViewport = ref(null);
 const selectedSearchId = ref(null);
 const selectedLeadDetailId = ref(null);
 const sortKey = ref('priority_desc');
@@ -48,6 +49,7 @@ let verifyLeadsWhatsApp = () => {};
 const form = ref({
   query: '',
   location: '',
+  area_type: 'radius',
   radius_km: 5,
   requested_limit: 20,
 });
@@ -221,7 +223,20 @@ const previewMapCenter = computed(() => {
     lng: Number(locationDetails.value.longitude),
   };
 });
+const previewAreaBounds = computed(() =>
+  form.value.area_type === 'viewport' ? previewViewport.value?.bounds : null
+);
+const previewMapRadius = computed(() =>
+  form.value.area_type === 'radius' ? Number(form.value.radius_km) * 1000 : 0
+);
 const resultsMapCenter = computed(() => {
+  if (selectedSearch.value?.area_config?.center) {
+    return {
+      lat: Number(selectedSearch.value.area_config.center.lat),
+      lng: Number(selectedSearch.value.area_config.center.lng),
+    };
+  }
+
   if (
     selectedSearch.value?.location_latitude &&
     selectedSearch.value?.location_longitude
@@ -234,6 +249,16 @@ const resultsMapCenter = computed(() => {
 
   return null;
 });
+const selectedSearchAreaBounds = computed(() =>
+  selectedSearch.value?.area_type === 'viewport'
+    ? selectedSearch.value?.area_config?.bounds
+    : null
+);
+const selectedSearchMapRadius = computed(() =>
+  selectedSearch.value?.area_type === 'radius'
+    ? selectedSearch.value?.radius || 5000
+    : 0
+);
 
 const fetchSettings = async () => {
   try {
@@ -305,6 +330,7 @@ const fetchLocationSuggestions = () => {
 const handleLocationInput = () => {
   confirmedLocation.value = '';
   locationDetails.value = null;
+  previewViewport.value = null;
   fetchLocationSuggestions();
 };
 
@@ -319,6 +345,7 @@ const fetchLocationDetails = async suggestion => {
         }
       : null;
     confirmedLocation.value = suggestion?.label || suggestion?.text || '';
+    previewViewport.value = null;
     return;
   }
 
@@ -333,9 +360,11 @@ const fetchLocationDetails = async suggestion => {
     } else {
       confirmedLocation.value = suggestion.text || form.value.location.trim();
     }
+    previewViewport.value = null;
   } catch {
     locationDetails.value = null;
     confirmedLocation.value = '';
+    previewViewport.value = null;
   }
 };
 
@@ -370,6 +399,29 @@ const alertError = (error, fallbackMessage) => {
   useAlert(error?.response?.data?.error || fallbackMessage);
 };
 
+const handlePreviewViewportChange = viewport => {
+  previewViewport.value = viewport;
+};
+
+const buildAreaConfig = () => {
+  const center = previewViewport.value?.center || previewMapCenter.value;
+  const base = {
+    center,
+    label: selectedLocationLabel.value || form.value.location.trim(),
+    place_id: locationDetails.value?.place_id,
+    radius: Number(form.value.radius_km) * 1000,
+  };
+
+  if (form.value.area_type === 'viewport') {
+    return {
+      ...base,
+      bounds: previewViewport.value?.bounds,
+    };
+  }
+
+  return base;
+};
+
 const submitSearch = async () => {
   if (!canSearch.value) return;
 
@@ -381,6 +433,8 @@ const submitSearch = async () => {
       query: form.value.query.trim(),
       location: form.value.location.trim(),
       radius: Number(form.value.radius_km) * 1000,
+      area_type: form.value.area_type,
+      area_config: buildAreaConfig(),
       requested_limit: Number(form.value.requested_limit),
       crm_pipeline_id: crmForm.value.pipeline_id,
       crm_stage_id: crmForm.value.stage_id,
@@ -474,6 +528,14 @@ const formatRadius = radius => {
   return t('PROSPECTING.SEARCH.RADIUS_KM_VALUE', {
     value: Number.isInteger(kilometers) ? kilometers : kilometers.toFixed(1),
   });
+};
+
+const formatSearchArea = search => {
+  if (search?.area_type === 'viewport') {
+    return t('PROSPECTING.SEARCH.AREA_VIEWPORT_SHORT');
+  }
+
+  return formatRadius(search?.radius || 0);
 };
 
 const formatLeadAddress = lead => {
@@ -884,6 +946,47 @@ onMounted(async () => {
                 </div>
               </div>
 
+              <div class="grid gap-2">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.AREA_TYPE') }}
+                </span>
+                <div
+                  class="grid grid-cols-2 overflow-hidden rounded-md border border-n-weak bg-n-solid-2 p-1"
+                >
+                  <button
+                    type="button"
+                    class="h-9 rounded px-3 text-sm font-medium transition"
+                    :class="
+                      form.area_type === 'radius'
+                        ? 'bg-n-solid-1 text-n-slate-12 shadow-sm'
+                        : 'text-n-slate-10 hover:text-n-slate-12'
+                    "
+                    @click="form.area_type = 'radius'"
+                  >
+                    {{ t('PROSPECTING.SEARCH.AREA_RADIUS') }}
+                  </button>
+                  <button
+                    type="button"
+                    class="h-9 rounded px-3 text-sm font-medium transition"
+                    :class="
+                      form.area_type === 'viewport'
+                        ? 'bg-n-solid-1 text-n-slate-12 shadow-sm'
+                        : 'text-n-slate-10 hover:text-n-slate-12'
+                    "
+                    @click="form.area_type = 'viewport'"
+                  >
+                    {{ t('PROSPECTING.SEARCH.AREA_VIEWPORT') }}
+                  </button>
+                </div>
+                <p class="text-xs text-n-slate-10">
+                  {{
+                    form.area_type === 'viewport'
+                      ? t('PROSPECTING.SEARCH.AREA_VIEWPORT_HINT')
+                      : t('PROSPECTING.SEARCH.AREA_RADIUS_HINT')
+                  }}
+                </p>
+              </div>
+
               <div class="grid gap-4 md:grid-cols-2">
                 <label class="grid gap-1">
                   <span class="text-xs font-medium text-n-slate-11">
@@ -916,8 +1019,11 @@ onMounted(async () => {
               v-if="confirmedLocation && previewMapCenter"
               :api-key="googleMapsApiKey"
               :center="previewMapCenter"
-              :radius="Number(form.radius_km) * 1000"
+              :radius="previewMapRadius"
+              :bounds="previewAreaBounds"
+              :fit-on-render="form.area_type === 'radius'"
               height-class="h-80"
+              @viewport-change="handlePreviewViewportChange"
             />
           </div>
 
@@ -947,6 +1053,18 @@ onMounted(async () => {
                 </dt>
                 <dd class="break-words font-medium text-n-slate-12">
                   {{ selectedLocationLabel || '-' }}
+                </dd>
+              </div>
+              <div class="grid gap-1">
+                <dt class="text-xs text-n-slate-10">
+                  {{ t('PROSPECTING.SEARCH.FIELDS.AREA_TYPE') }}
+                </dt>
+                <dd class="font-medium text-n-slate-12">
+                  {{
+                    form.area_type === 'viewport'
+                      ? t('PROSPECTING.SEARCH.AREA_VIEWPORT_SHORT')
+                      : t('PROSPECTING.SEARCH.AREA_RADIUS')
+                  }}
                 </dd>
               </div>
               <div class="grid grid-cols-2 gap-3">
@@ -1018,7 +1136,7 @@ onMounted(async () => {
                       {{ search.query }}
                     </h3>
                     <p class="truncate text-xs text-n-slate-10">
-                      {{ search.location }} · {{ formatRadius(search.radius) }}
+                      {{ search.location }} · {{ formatSearchArea(search) }}
                     </p>
                   </div>
                   <span
@@ -1233,14 +1351,15 @@ onMounted(async () => {
                   </p>
                 </div>
                 <span class="text-xs text-n-slate-10">
-                  {{ formatRadius(selectedSearch?.radius || 0) }}
+                  {{ formatSearchArea(selectedSearch) }}
                 </span>
               </div>
               <ProspectingGoogleMap
                 v-if="mapLeads.length || resultsMapCenter"
                 :api-key="googleMapsApiKey"
                 :center="resultsMapCenter"
-                :radius="selectedSearch?.radius || 5000"
+                :radius="selectedSearchMapRadius"
+                :bounds="selectedSearchAreaBounds"
                 :leads="mapLeads"
                 height-class="h-80"
                 @select-lead="selectedLeadDetailId = $event.id"
