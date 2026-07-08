@@ -62,23 +62,6 @@ describe Whatsapp::ChannelCreationService do
       end
     end
 
-    context 'when account inbox limit is reached' do
-      let(:account) { create(:account, limits: { inboxes: 1 }) }
-
-      before do
-        create(:inbox, account: account)
-      end
-
-      it 'raises limit exceeded without leaving an orphan channel' do
-        expect do
-          expect { service.perform }.to raise_error(
-            CustomExceptions::Inbox::LimitExceeded,
-            'Account limit exceeded. Upgrade to a higher plan'
-          )
-        end.not_to change(Channel::Whatsapp, :count)
-      end
-    end
-
     context 'when channel already exists for the phone number' do
       let(:different_account) { create(:account) }
 

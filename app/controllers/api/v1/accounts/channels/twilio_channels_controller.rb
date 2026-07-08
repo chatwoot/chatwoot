@@ -9,7 +9,7 @@ class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts:
   rescue CustomExceptions::Inbox::LimitExceeded => e
     render_error_response(e)
   rescue StandardError => e
-    render_could_not_create_error(e)
+    render_could_not_create_error(e.message)
   end
 
   private
