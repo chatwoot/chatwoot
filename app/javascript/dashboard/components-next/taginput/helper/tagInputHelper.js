@@ -1,5 +1,6 @@
 import { parsePhoneNumber, isValidPhoneNumber } from 'libphonenumber-js';
 import { email } from '@vuelidate/validators';
+import { getActiveCountryCode } from 'shared/components/PhoneInput/helper';
 
 export const MODE = {
   SINGLE: 'single',
@@ -12,10 +13,21 @@ export const INPUT_TYPES = {
   TEXT: 'text',
 };
 
+// Digits with optional leading + and common separators — at least one digit.
+const PHONE_LIKE_REGEX = /^\+?[\d\s().-]*\d[\d\s().-]*$/;
+
+export const isPhoneLikeInput = value =>
+  PHONE_LIKE_REGEX.test(value?.trim() || '');
+
+export const detectInputType = value =>
+  isPhoneLikeInput(value) ? INPUT_TYPES.TEL : INPUT_TYPES.EMAIL;
+
+const defaultCountry = () => getActiveCountryCode() || undefined;
+
 export const validatePhoneNumber = value => {
   if (!value) return true;
   try {
-    return isValidPhoneNumber(value);
+    return isValidPhoneNumber(value, defaultCountry());
   } catch (error) {
     return false;
   }
@@ -23,13 +35,23 @@ export const validatePhoneNumber = value => {
 
 export const formatPhoneNumber = value => {
   try {
-    const phoneNumber = parsePhoneNumber(value);
+    const phoneNumber = parsePhoneNumber(value, defaultCountry());
     return {
       isValid: phoneNumber?.isValid() || false,
       formattedValue: phoneNumber?.formatInternational() || value,
     };
   } catch (error) {
     return { isValid: false, formattedValue: value };
+  }
+};
+
+export const normalizePhoneNumber = value => {
+  if (!value) return null;
+  try {
+    const phoneNumber = parsePhoneNumber(value, defaultCountry());
+    return phoneNumber?.isValid() ? phoneNumber.number : null;
+  } catch (error) {
+    return null;
   }
 };
 
