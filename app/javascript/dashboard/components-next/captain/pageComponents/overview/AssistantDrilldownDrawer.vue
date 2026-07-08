@@ -39,7 +39,7 @@ let previousActiveElement = null;
 const isOpen = computed(() => props.open);
 const title = computed(() => props.metricName || '');
 
-const conversationCount = computed(() => {
+const subtitle = computed(() => {
   if (!meta.value.conversation_count) return '';
 
   return t('CAPTAIN.OVERVIEW.DRILLDOWN.RESULT_COUNT_CONVERSATION', {
@@ -47,25 +47,7 @@ const conversationCount = computed(() => {
   });
 });
 
-// Message-backed metrics (e.g. hours saved) count individual messages, so the
-// message total adds context beyond the conversation count.
-const messageCount = computed(() => {
-  if (meta.value.record_type !== 'message' || !meta.value.total_count)
-    return '';
-
-  return t('CAPTAIN.OVERVIEW.DRILLDOWN.RESULT_COUNT_MESSAGE', {
-    count: meta.value.total_count,
-  });
-});
-
-const subtitle = computed(() =>
-  [messageCount.value, conversationCount.value].filter(Boolean).join(' ⋅ ')
-);
-
-const recordKey = record =>
-  `${record.record_type}-${record.message?.id || record.conversation?.id}-${
-    record.occurred_at
-  }`;
+const recordKey = record => `${record.conversation?.id}-${record.occurred_at}`;
 
 const restoreFocus = () => {
   if (previousActiveElement?.isConnected) {

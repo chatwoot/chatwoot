@@ -94,13 +94,6 @@ const metrics = computed(() => [
     ...metricFor('handoff_rate', v => `${v}%`, 'down', 'point'),
   },
   {
-    key: 'hoursSaved',
-    metric: 'hours_saved',
-    label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
-    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
-    ...metricFor('hours_saved', formatDuration, 'up'),
-  },
-  {
     key: 'reopen',
     metric: 'reopen_rate',
     label: t('CAPTAIN.OVERVIEW.METRICS.REOPEN.LABEL'),
@@ -108,8 +101,13 @@ const metrics = computed(() => [
     ...metricFor('reopen_rate', v => `${v}%`, 'down', 'point'),
   },
   {
+    key: 'hoursSaved',
+    label: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.LABEL'),
+    hint: t('CAPTAIN.OVERVIEW.METRICS.HOURS_SAVED.HINT'),
+    ...metricFor('hours_saved', formatDuration, 'up'),
+  },
+  {
     key: 'depth',
-    metric: 'conversation_depth',
     label: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.LABEL'),
     hint: t('CAPTAIN.OVERVIEW.METRICS.DEPTH.HINT'),
     ...metricFor(
@@ -171,7 +169,7 @@ const closeDrilldown = () => {
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
-            :clickable="canDrilldown"
+            :clickable="canDrilldown && Boolean(metric.metric)"
             @click="openDrilldown(metric)"
           />
         </div>
