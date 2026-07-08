@@ -5,6 +5,7 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountInvalidator do
 
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
+  let(:other_user) { create(:user, account: account) }
   let(:filter_id) { 123 }
   let(:store) { Conversations::UnreadCounts::FilteredCountStore }
 
@@ -31,6 +32,27 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountInvalidator do
       expect do
         invalidator.user_visibility_changed!(user_id: user.id)
       end.to change { store.built_in_filter_version(account_id: account.id, user_id: user.id) }.by(1)
+    end
+  end
+
+  describe '#users_visibility_changed!' do
+    it 'pipelines built-in filter version bumps for multiple users' do
+      account.enable_features!(:unread_count_for_filters)
+      user_ids = [user.id, other_user.id]
+      allow(Redis::Alfred).to receive(:pipelined).and_call_original
+
+      expect do
+        invalidator.users_visibility_changed!(user_ids: user_ids + [user.id, nil])
+      end.to change { built_in_filter_version_for(user) }.by(1)
+                                                         .and change { built_in_filter_version_for(other_user) }.by(1)
+
+      expect(Redis::Alfred).to have_received(:pipelined).once
+    end
+
+    it 'does not write Redis keys when no user ids are present' do
+      account.enable_features!(:unread_count_for_filters)
+
+      expect(invalidator.users_visibility_changed!(user_ids: [nil, ''])).to be(false)
     end
   end
 
@@ -179,6 +201,10 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountInvalidator do
     custom_filters.to_h { |custom_filter| [custom_filter.id, store.filter_version(account_id: account.id, filter_id: custom_filter.id)] }
   end
 
+  def built_in_filter_version_for(user)
+    store.built_in_filter_version(account_id: account.id, user_id: user.id)
+  end
+
   def redis_keys
     base_redis_keys + custom_filter_version_keys
   end
@@ -186,11 +212,15 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountInvalidator do
   def base_redis_keys
     [
       store.conversation_version_key(account.id),
-      store.built_in_filter_version_key(account.id, user.id),
+      *built_in_filter_version_keys,
       store.folder_index_version_key(account.id, user.id),
       store.filter_version_key(account.id, filter_id),
       store.filter_count_key(account.id, filter_id)
     ]
+  end
+
+  def built_in_filter_version_keys
+    [user.id, other_user.id].map { |user_id| store.built_in_filter_version_key(account.id, user_id) }
   end
 
   def custom_filter_version_keys

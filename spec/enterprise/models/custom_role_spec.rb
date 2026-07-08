@@ -15,7 +15,7 @@ RSpec.describe CustomRole, type: :model do
     let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
     let(:user) { create(:user) }
     let(:other_user) { create(:user) }
-    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true) }
+    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, users_visibility_changed!: true) }
 
     before do
       create(:account_user, account: account, user: user, custom_role: custom_role)
@@ -27,8 +27,7 @@ RSpec.describe CustomRole, type: :model do
     it 'invalidates filtered counts for assigned users when permissions change' do
       custom_role.update!(permissions: ['conversation_participating_manage'])
 
-      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
-      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: other_user.id)
+      expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
       expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
         'account.cache_invalidated',
         kind_of(Time),
@@ -40,14 +39,19 @@ RSpec.describe CustomRole, type: :model do
     it 'does not invalidate filtered counts when permissions are unchanged' do
       custom_role.update!(name: 'Support manager')
 
-      expect(invalidator).not_to have_received(:user_visibility_changed!)
+      expect(invalidator).not_to have_received(:users_visibility_changed!)
     end
 
     it 'invalidates filtered counts for assigned users when the role is deleted' do
       custom_role.destroy!
 
-      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
-      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: other_user.id)
+      expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
   end
 end

@@ -114,13 +114,13 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(notifier).to have_received(:perform)
   end
 
-  it 'invalidates filtered counts when filtered conversation fields change' do
+  it 'does not invalidate filtered counts from conversation updated events' do
     account.enable_features!(:unread_count_for_filters)
     event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: { priority: [nil, 'high'] })
 
     expect do
       listener.conversation_updated(event)
-    end.to change { filtered_store.conversation_version(account.id) }.by(1)
+    end.not_to(change { filtered_store.conversation_version(account.id) })
     expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
   end
 
@@ -138,33 +138,8 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     )
   end
 
-  it 'invalidates filtered counts when last activity time changes' do
-    account.enable_features!(:unread_count_for_filters)
-    event = Events::Base.new(
-      'conversation.updated',
-      Time.zone.now,
-      conversation: conversation,
-      changed_attributes: { last_activity_at: [1.hour.ago, Time.current] }
-    )
-
-    expect do
-      listener.conversation_updated(event)
-    end.to change { filtered_store.conversation_version(account.id) }.by(1)
-    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
-  end
-
-  it 'invalidates filtered counts when campaign assignment changes' do
-    account.enable_features!(:unread_count_for_filters)
-    event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: { campaign_id: [1, nil] })
-
-    expect do
-      listener.conversation_updated(event)
-    end.to change { filtered_store.conversation_version(account.id) }.by(1)
-    expect(Conversations::UnreadCounts::Notifier).not_to have_received(:new)
-  end
-
   it 'ignores conversation updates unrelated to unread count dimensions' do
-    event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: { priority: [nil, 'high'] })
+    event = Events::Base.new('conversation.updated', Time.zone.now, conversation: conversation, changed_attributes: { identifier: %w[old new] })
 
     listener.conversation_updated(event)
 

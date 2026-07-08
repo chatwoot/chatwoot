@@ -29,13 +29,11 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def conversation_updated(event)
     conversation, = extract_conversation_and_account(event)
-    if filtered_conversation_update_changed?(event.data[:changed_attributes])
-      invalidate_filtered_conversation(conversation)
-      notify_filtered_count_change(conversation)
-    end
-    return unless label_changed?(event.data[:changed_attributes])
+    changed_attributes = event.data[:changed_attributes]
+    notify_filtered_count_change(conversation) if filtered_conversation_update_changed?(changed_attributes) && !label_changed?(changed_attributes)
+    return unless label_changed?(changed_attributes)
 
-    refresh(conversation, event.data[:changed_attributes])
+    refresh(conversation, changed_attributes)
   end
 
   def conversation_contact_changed(event)

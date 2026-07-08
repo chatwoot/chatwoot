@@ -53,6 +53,22 @@ RSpec.describe Inbox do
     end
   end
 
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+    let(:store) { Conversations::UnreadCounts::FilteredCountStore }
+
+    before do
+      account.enable_features!(:unread_count_for_filters)
+    end
+
+    it 'invalidates saved folder snapshots when destroyed' do
+      expect do
+        inbox.destroy!
+      end.to change { store.conversation_version(account.id) }.by(1)
+    end
+  end
+
   describe '#add_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
 

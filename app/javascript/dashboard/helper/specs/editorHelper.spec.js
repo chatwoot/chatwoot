@@ -1,4 +1,9 @@
-import { EditorState, EditorView } from '@chatwoot/prosemirror-schema';
+import {
+  EditorState,
+  EditorView,
+  buildMessageSchema,
+  MessageMarkdownTransformer,
+} from '@chatwoot/prosemirror-schema';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { Schema } from 'prosemirror-model';
 import {
@@ -978,13 +983,77 @@ describe('stripUnsupportedFormatting', () => {
       );
     });
 
-    it('strips links but keeps text', () => {
+    it('keeps link text and URL when schema does not support links', () => {
       expect(
         stripUnsupportedFormatting(
           'Check [this link](https://example.com)',
           emptySchema
         )
-      ).toBe('Check this link');
+      ).toBe('Check this link: https://example.com');
+    });
+
+    it('drops the hidden link title when preserving the URL', () => {
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](https://example.com "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
+
+      expect(
+        stripUnsupportedFormatting(
+          'Check [docs](<https://example.com> "Docs")',
+          emptySchema
+        )
+      ).toBe('Check docs: https://example.com');
+    });
+
+    // Output is re-parsed before sending, so assert the final text
+    // (strip + re-parse); the re-parse turns serializer escapes into literals.
+    describe('links round-trip through re-parse without crashing', () => {
+      const smsSchema = buildMessageSchema([], []); // no marks, no nodes
+      const sendAs = md =>
+        new MessageMarkdownTransformer(smsSchema).parse(
+          stripUnsupportedFormatting(md, smsSchema)
+        ).textContent;
+
+      it('keeps escaped parens/underscores anywhere in the URL', () => {
+        expect(
+          sendAs('See [wiki](https://en.wikipedia.org/wiki/Foo\\_\\(bar\\))')
+        ).toBe('See wiki: https://en.wikipedia.org/wiki/Foo_(bar)');
+        expect(sendAs('See [wiki](https://host/a\\_\\(b\\)c)')).toBe(
+          'See wiki: https://host/a_(b)c'
+        );
+      });
+
+      it('drops the label when it equals the URL even when escaped', () => {
+        expect(
+          sendAs(
+            '[www.example.com/Foo\\_\\(bar\\)](www.example.com/Foo\\_\\(bar\\))'
+          )
+        ).toBe('www.example.com/Foo_(bar)');
+      });
+
+      it('does not reintroduce emphasis from an escaped label', () => {
+        expect(sendAs('[Use \\_id\\_](https://example.com)')).toBe(
+          'Use _id_: https://example.com'
+        );
+      });
+
+      it('flattens a label containing an escaped closing bracket', () => {
+        expect(sendAs('[FAQ \\[v2\\]](https://example.com)')).toBe(
+          'FAQ [v2]: https://example.com'
+        );
+      });
+    });
+
+    it('leaves bare URLs untouched so channels can auto-link them', () => {
+      expect(
+        stripUnsupportedFormatting('Visit www.example.com now', emptySchema)
+      ).toBe('Visit www.example.com now');
+      expect(
+        stripUnsupportedFormatting('Visit <https://example.com>', emptySchema)
+      ).toBe('Visit https://example.com');
     });
 
     it('converts autolinks to plain URLs when schema does not support links', () => {
@@ -1049,7 +1118,7 @@ describe('stripUnsupportedFormatting', () => {
     it('handles complex content with multiple formatting types', () => {
       const content =
         '**Bold** and *italic* with `code` and [link](url)\n- list item';
-      const expected = 'Bold and italic with code and link\nlist item';
+      const expected = 'Bold and italic with code and link: url\nlist item';
       expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
   });

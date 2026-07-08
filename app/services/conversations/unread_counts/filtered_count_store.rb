@@ -48,10 +48,10 @@ class Conversations::UnreadCounts::FilteredCountStore
       read_snapshot(built_in_filter_counts_key(account_id, user_id))
     end
 
-    def built_in_filter_counts_state(account_id:, user_id:, now: Time.current)
+    def built_in_filter_counts_state(account_id:, user_id:, versions: nil, now: Time.current)
       snapshot_state(
         built_in_filter_counts(account_id: account_id, user_id: user_id),
-        versions: {
+        versions: versions || {
           account_version: conversation_version(account_id),
           built_in_filter_version: built_in_filter_version(account_id: account_id, user_id: user_id)
         },
@@ -72,10 +72,10 @@ class Conversations::UnreadCounts::FilteredCountStore
       read_snapshot(folder_index_key(account_id, user_id))
     end
 
-    def folder_index_state(account_id:, user_id:, now: Time.current)
+    def folder_index_state(account_id:, user_id:, versions: nil, now: Time.current)
       snapshot_state(
         folder_index(account_id: account_id, user_id: user_id),
-        versions: { folder_index_version: folder_index_version(account_id: account_id, user_id: user_id) },
+        versions: versions || { folder_index_version: folder_index_version(account_id: account_id, user_id: user_id) },
         now: now
       )
     end
@@ -99,14 +99,14 @@ class Conversations::UnreadCounts::FilteredCountStore
       read_snapshot(filter_count_key(account_id, filter_id))
     end
 
-    def filter_count_state(account_id:, filter_id:, owner_user_id: nil, now: Time.current)
+    def filter_count_state(account_id:, filter_id:, owner_user_id: nil, versions: nil, now: Time.current)
       snapshot = filter_count(account_id: account_id, filter_id: filter_id)
       return SnapshotResult.new(status: :missing, payload: nil) if snapshot.blank?
 
       owner_user_id ||= snapshot[:user_id]
       snapshot_state(
         snapshot,
-        versions: {
+        versions: versions || {
           account_version: conversation_version(account_id),
           filter_version: filter_version(account_id: account_id, filter_id: filter_id),
           owner_built_in_filter_version: built_in_filter_version(account_id: account_id, user_id: owner_user_id)
@@ -139,8 +139,12 @@ class Conversations::UnreadCounts::FilteredCountStore
 
     def bump_version_for!(scope, *key_args)
       key = public_send(VERSION_KEY_METHODS.fetch(scope), *key_args)
-      Redis::Alfred.incr(key).tap do
-        Redis::Alfred.expire(key, Conversations::UnreadCounts::FILTERED_COUNT_VERSION_TTL)
+
+      Redis::Alfred.with do |conn|
+        conn.multi do |transaction|
+          transaction.incr(key)
+          transaction.expire(key, Conversations::UnreadCounts::FILTERED_COUNT_VERSION_TTL)
+        end.first
       end
     end
 
