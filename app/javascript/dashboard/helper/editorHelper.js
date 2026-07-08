@@ -444,9 +444,14 @@ export const createVariableInputRule = ({ isPrivate, getVariables }) => {
   const rule = new InputRule(
     /\{\{([^{}]+)\}\}$/,
     (editorState, match, from, to) => {
+      // Inline code: an applied code mark, or a still-open backtick span
+      // (the mark only appears once the closing backtick is typed).
       const { code } = editorState.schema.marks;
-      const inCode = code && editorState.doc.rangeHasMark(from, to, code);
-      if (isPrivate() || inCode) return null;
+      const hasCodeMark = code && editorState.doc.rangeHasMark(from, to, code);
+      const $from = editorState.doc.resolve(from);
+      const textBefore = $from.parent.textBetween(0, $from.parentOffset);
+      const inOpenBacktick = (textBefore.match(/`/g) || []).length % 2 === 1;
+      if (isPrivate() || hasCodeMark || inOpenBacktick) return null;
       const [, key] = match;
       const text = resolveVariableText(key, getVariables());
       if (text === `{{${key}}}`) return null;

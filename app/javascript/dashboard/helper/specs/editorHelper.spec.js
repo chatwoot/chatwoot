@@ -1342,6 +1342,28 @@ describe('createVariableInputRule', () => {
     view.destroy();
   });
 
+  it('does not resolve inside an unclosed backtick span', () => {
+    const view = buildView('see `{{contact.name}', {
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('see `{{contact.name}}');
+    view.destroy();
+  });
+
+  it('resolves after a closed backtick pair', () => {
+    const view = buildView('`code` {{contact.name}', {
+      variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('`code` John');
+    view.destroy();
+  });
+
   it('does not resolve inside a code block', () => {
     const view = buildView('{{contact.name}', {
       variables: { 'contact.name': 'John' },
