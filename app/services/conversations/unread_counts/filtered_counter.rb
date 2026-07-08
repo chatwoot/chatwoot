@@ -22,26 +22,24 @@ class Conversations::UnreadCounts::FilteredCounter
 
   private
 
-  def built_in_counts
-    counts_from_built_in_snapshot(built_in_counts_snapshot) || self.class.empty_counts.except(:folders)
-  end
+  def built_in_counts = counts_from_built_in_snapshot(built_in_counts_snapshot) || self.class.empty_counts.except(:folders)
 
   def built_in_counts_snapshot
+    versions = version_cache.built_in_filter
     snapshot_or_build(
-      state: store.built_in_filter_counts_state(account_id: account.id, user_id: user.id, now: now),
+      state: store.built_in_filter_counts_state(account_id: account.id, user_id: user.id, versions: versions, now: now),
       lock_key: store.built_in_filter_build_lock_key(account.id, user.id),
       claim_refresh: -> { store.claim_built_in_filter_refresh!(account_id: account.id, user_id: user.id) }
-    ) { build_built_in_counts! }
+    ) { build_built_in_counts!(versions) }
   end
 
-  def counts_from_built_in_snapshot(snapshot)
-    snapshot&.fetch(:counts, nil)&.slice(:mentions_count, :participating_count, :unattended_count)
-  end
+  def counts_from_built_in_snapshot(snapshot) = snapshot&.fetch(:counts, nil)&.slice(:mentions_count, :participating_count, :unattended_count)
 
   def folder_counts
     folder_index = folder_index_snapshot
     return {} if folder_index.blank?
 
+    @inline_filter_builds = 0
     folder_index[:filter_ids].each_with_object({}) do |filter_id, counts|
       count = filter_count(filter_id)
       counts[filter_id.to_s] = count if count.to_i.positive?
@@ -49,29 +47,33 @@ class Conversations::UnreadCounts::FilteredCounter
   end
 
   def folder_index_snapshot
+    versions = version_cache.folder_index
     snapshot_or_build(
-      state: store.folder_index_state(account_id: account.id, user_id: user.id, now: now),
+      state: store.folder_index_state(account_id: account.id, user_id: user.id, versions: versions, now: now),
       lock_key: store.folder_index_build_lock_key(account.id, user.id),
       claim_refresh: -> { store.claim_folder_index_refresh!(account_id: account.id, user_id: user.id) }
-    ) { build_folder_index! }
+    ) { build_folder_index!(versions) }
   end
 
   def filter_count(filter_id)
+    versions = version_cache.filter(filter_id)
     snapshot = snapshot_or_build(
-      state: store.filter_count_state(account_id: account.id, filter_id: filter_id, owner_user_id: user.id, now: now),
+      state: store.filter_count_state(account_id: account.id, filter_id: filter_id, owner_user_id: user.id, versions: versions, now: now),
       lock_key: store.filter_build_lock_key(account.id, filter_id),
-      claim_refresh: -> { store.claim_filter_refresh!(account_id: account.id, filter_id: filter_id) }
-    ) { build_filter_count!(filter_id) }
+      claim_refresh: -> { filter_build_available? && store.claim_filter_refresh!(account_id: account.id, filter_id: filter_id) }
+    ) do
+      track_filter_build!
+      build_filter_count!(filter_id, versions)
+    end
 
     snapshot&.fetch(:count, nil)
   end
 
-  # Version mismatches make a snapshot stale immediately, but refresh_after keeps DB rebuilds throttled.
   def snapshot_or_build(state:, lock_key:, claim_refresh:)
     return state.payload if state.fresh?
 
     stale_payload = state.payload if state.stale?
-    return stale_payload if stale_payload.present? && !store.refresh_due?(stale_payload, now: now)
+    return stale_payload if refresh_pending?(stale_payload)
     return stale_payload unless claim_refresh.call
 
     built_payload = nil
@@ -79,25 +81,30 @@ class Conversations::UnreadCounts::FilteredCounter
     lock_manager.with_lock(lock_key, BUILD_LOCK_TTL) do
       lock_acquired = true
       built_payload = yield
+    rescue ActiveRecord::StatementInvalid
+      built_payload = stale_payload
     end
     lock_acquired ? built_payload : stale_payload
   end
 
-  def build_built_in_counts!
-    store.write_built_in_filter_counts!(**built_in_count_snapshot_payload)
+  def refresh_pending?(stale_payload) = stale_payload.present? && !store.refresh_due?(stale_payload, now: now)
+
+  def filter_build_available? = @inline_filter_builds.to_i < Conversations::UnreadCounts::MAX_INLINE_FILTER_BUILDS
+
+  def track_filter_build! = @inline_filter_builds = @inline_filter_builds.to_i + 1
+
+  def build_built_in_counts!(versions)
+    store.write_built_in_filter_counts!(**built_in_count_snapshot_payload(versions))
     store.built_in_filter_counts(account_id: account.id, user_id: user.id)
   end
 
-  def built_in_count_snapshot_payload
-    account_version = store.conversation_version(account.id)
-    built_in_filter_version = store.built_in_filter_version(account_id: account.id, user_id: user.id)
-
+  def built_in_count_snapshot_payload(versions)
     {
       account_id: account.id,
       user_id: user.id,
       counts: built_in_counts_from_database,
-      account_version: account_version,
-      built_in_filter_version: built_in_filter_version,
+      account_version: versions.fetch(:account_version),
+      built_in_filter_version: versions.fetch(:built_in_filter_version),
       built_at: now
     }
   end
@@ -122,14 +129,13 @@ class Conversations::UnreadCounts::FilteredCounter
       .where(conversation_participants: { user_id: user.id })
   end
 
-  def build_folder_index!
-    folder_index_version = store.folder_index_version(account_id: account.id, user_id: user.id)
+  def build_folder_index!(versions)
     filter_ids = folder_filter_ids_from_database
     store.write_folder_index!(
       account_id: account.id,
       user_id: user.id,
       filter_ids: filter_ids,
-      folder_index_version: folder_index_version,
+      folder_index_version: versions.fetch(:folder_index_version),
       built_at: now
     )
     store.folder_index(account_id: account.id, user_id: user.id)
@@ -137,18 +143,14 @@ class Conversations::UnreadCounts::FilteredCounter
 
   def folder_filter_ids_from_database = account.custom_filters.where(user_id: user.id, filter_type: :conversation).pluck(:id)
 
-  # rubocop:disable Metrics/AbcSize
-  def build_filter_count!(filter_id)
-    account_version = store.conversation_version(account.id)
-    filter_version = store.filter_version(account_id: account.id, filter_id: filter_id)
-    owner_built_in_filter_version = store.built_in_filter_version(account_id: account.id, user_id: user.id)
+  def build_filter_count!(filter_id, versions)
     custom_filter = account.custom_filters.find_by(id: filter_id, user_id: user.id, filter_type: :conversation)
     return delete_filter_count!(filter_id) if custom_filter.blank?
 
     count = filter_query_count(custom_filter)
     return delete_filter_count!(filter_id) if count.nil?
 
-    write_filter_count!(filter_id, count, account_version, filter_version, owner_built_in_filter_version)
+    write_filter_count!(filter_id, count, versions)
     store.filter_count(account_id: account.id, filter_id: filter_id)
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,
@@ -156,7 +158,6 @@ class Conversations::UnreadCounts::FilteredCounter
          CustomExceptions::CustomFilter::InvalidValue
     delete_filter_count!(filter_id)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def filter_query_count(custom_filter)
     ::Conversations::UnreadCounts::FilterQueryCounter.new(
@@ -166,23 +167,22 @@ class Conversations::UnreadCounts::FilteredCounter
     ).perform
   end
 
-  def write_filter_count!(filter_id, count, account_version, filter_version, owner_built_in_filter_version)
+  def write_filter_count!(filter_id, count, versions)
     store.write_filter_count!(
       account_id: account.id,
       filter_id: filter_id,
       user_id: user.id,
       count: count,
-      account_version: account_version,
-      filter_version: filter_version,
-      owner_built_in_filter_version: owner_built_in_filter_version,
+      account_version: versions.fetch(:account_version),
+      filter_version: versions.fetch(:filter_version),
+      owner_built_in_filter_version: versions.fetch(:owner_built_in_filter_version),
       built_at: now
     )
   end
 
-  def delete_filter_count!(filter_id)
-    store.delete_filter_count!(account_id: account.id, filter_id: filter_id)
-    nil
-  end
+  def version_cache = @version_cache ||= VersionCache.new(account: account, user: user, store: store)
+
+  def delete_filter_count!(filter_id) = store.delete_filter_count!(account_id: account.id, filter_id: filter_id).then { nil }
 
   def unread_open_accessible_conversations
     @unread_open_accessible_conversations ||= Conversations::PermissionFilterService.new(
