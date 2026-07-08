@@ -8,12 +8,19 @@ const props = defineProps({
   hint: { type: String, default: '' },
   // null = neutral, true = good direction, false = bad direction
   trendGood: { type: Boolean, default: null },
+  clickable: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['click']);
 
 const trendClass = computed(() => {
   if (props.trendGood === null) return 'text-n-slate-11';
   return props.trendGood ? 'text-n-teal-11' : 'text-n-ruby-11';
 });
+
+const onActivate = () => {
+  if (props.clickable) emit('click');
+};
 </script>
 
 <template>
