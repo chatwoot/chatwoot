@@ -393,7 +393,17 @@ export default {
         contact: this.currentContact,
         inbox: this.inbox,
       });
-      return variables;
+      // The backend renders {{agent.*}} as the message sender, not the assignee.
+      const names = (this.currentUser.name || '')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1));
+      return {
+        ...variables,
+        'agent.name': names.join(' '),
+        'agent.first_name': names[0],
+        'agent.last_name': names.length > 1 ? names[names.length - 1] : '',
+        'agent.email': this.currentUser.email,
+      };
     },
     connectedPortalSlug() {
       const { help_center: portal = {} } = this.inbox;
