@@ -79,7 +79,6 @@ export default {
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
 
-// Temporarily disables Instagram and WhatsApp inbox creation
-// (WhatsApp embedded signup popup, Instagram OAuth, WhatsApp Call).
-// Flip to false when the channels are brought back.
-export const IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED = true;
+// Temporarily disables WhatsApp embedded signup and WhatsApp Call inbox
+// creation. Flip to false when the channel is brought back.
+export const IS_WHATSAPP_INBOX_CREATION_DISABLED = true;
