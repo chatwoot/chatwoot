@@ -13,6 +13,7 @@ import {
   createNewTagMenuItem,
   canAddTag,
   findMatchingMenuItem,
+  resolveDropdownSelection,
 } from '../tagInputHelper';
 import { email } from '@vuelidate/validators';
 import { getActiveCountryCode } from 'shared/components/PhoneInput/helper';
@@ -496,6 +497,68 @@ describe('tagInputHelper', () => {
           INPUT_TYPES.TEL
         );
         expect(result).toBeUndefined();
+      });
+    });
+  });
+
+  describe('resolveDropdownSelection', () => {
+    const emailContact = {
+      email: 'jane@example.com',
+      phoneNumber: null,
+      label: 'Jane',
+    };
+    const phoneContact = {
+      email: null,
+      phoneNumber: '+19017880795',
+      label: 'Jane',
+    };
+
+    it('selects by email for email input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.EMAIL, emailContact)).toEqual(
+        {
+          isEmail: true,
+          tagValue: 'jane@example.com',
+          shouldValidate: true,
+        }
+      );
+    });
+
+    it('selects by phone number for tel input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEL, phoneContact)).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: true,
+      });
+    });
+
+    it('selects an email-only item as email in tel mode without validation', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEL, emailContact)).toEqual({
+        isEmail: true,
+        tagValue: 'jane@example.com',
+        shouldValidate: false,
+      });
+    });
+
+    it('prefers the phone number when an item has both in tel mode', () => {
+      const contactWithBoth = {
+        email: 'jane@example.com',
+        phoneNumber: '+19017880795',
+        label: 'Jane',
+      };
+      expect(
+        resolveDropdownSelection(INPUT_TYPES.TEL, contactWithBoth)
+      ).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: true,
+      });
+    });
+
+    it('falls back to the item value without validation for text input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEXT, phoneContact)).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: false,
       });
     });
   });

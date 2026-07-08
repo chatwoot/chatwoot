@@ -162,3 +162,21 @@ export const findMatchingMenuItem = (
   }
   return menuItems.find(item => item.email === value);
 };
+
+// A tel search can match an email-only contact (numeric name/identifier);
+// select it as email and skip the mismatched phone validation.
+export const resolveDropdownSelection = (
+  type,
+  { email: emailAddress, phoneNumber, label }
+) => {
+  const isEmailOnlyItem = !phoneNumber && !!emailAddress;
+  const isEmail =
+    type === INPUT_TYPES.EMAIL || (type === INPUT_TYPES.TEL && isEmailOnlyItem);
+  return {
+    isEmail,
+    tagValue: isEmail ? emailAddress : phoneNumber || label,
+    shouldValidate:
+      type === INPUT_TYPES.EMAIL ||
+      (type === INPUT_TYPES.TEL && !isEmailOnlyItem),
+  };
+};
