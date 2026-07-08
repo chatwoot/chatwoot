@@ -250,16 +250,34 @@ class DataImports::Intercom::Importer
     attrs = contact_attributes(contact_payload)
     updates = {}
     updates[:name] = attrs[:name] if contact.name.blank? && attrs[:name].present?
-    updates[:email] = attrs[:email] if contact.email.blank? && attrs[:email].present?
-    updates[:phone_number] = attrs[:phone_number] if contact.phone_number.blank? && attrs[:phone_number].present?
+    updates[:email] = attrs[:email] if contact_email_available?(contact, attrs[:email])
+    updates[:phone_number] = attrs[:phone_number] if contact_phone_number_available?(contact, attrs[:phone_number])
     updates[:identifier] = attrs[:identifier] if contact.identifier.blank? && attrs[:identifier].present?
     updates[:last_activity_at] = attrs[:last_activity_at] if contact.last_activity_at.blank? && attrs[:last_activity_at].present?
     updates[:additional_attributes] = contact.additional_attributes.to_h.deep_merge(attrs[:additional_attributes])
     updates[:custom_attributes] = contact.custom_attributes.to_h.deep_merge(attrs[:custom_attributes])
-    updates[:contact_type] = attrs[:contact_type] if contact.visitor? && attrs[:contact_type].present?
+    if contact.visitor? && attrs[:contact_type].present? && contact_resolved_after_update?(contact, updates)
+      updates[:contact_type] = attrs[:contact_type]
+    end
     updates[:updated_at] = Time.current
     contact.update_columns(updates) if updates.present?
     contact.reload
+  end
+
+  def contact_email_available?(contact, email)
+    return false if contact.email.present? || email.blank?
+
+    @account.contacts.where.not(id: contact.id).where('LOWER(email) = ?', email.downcase).empty?
+  end
+
+  def contact_phone_number_available?(contact, phone_number)
+    return false if contact.phone_number.present? || phone_number.blank?
+
+    @account.contacts.where.not(id: contact.id).where(phone_number: phone_number).empty?
+  end
+
+  def contact_resolved_after_update?(contact, updates)
+    contact.email.present? || contact.phone_number.present? || updates[:email].present? || updates[:phone_number].present?
   end
 
   def find_existing_contact(contact_payload)

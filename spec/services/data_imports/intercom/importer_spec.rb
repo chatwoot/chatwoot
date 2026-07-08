@@ -472,6 +472,27 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when an identifier match has contact details owned by another contact' do
+    let!(:existing_contact) { create(:contact, account: account, identifier: 'external_1') }
+    let!(:email_owner) { create(:contact, account: account, email: 'customer@example.com') }
+    let!(:phone_owner) { create(:contact, account: account, phone_number: '+15551234567') }
+
+    it 'does not copy the conflicting email or phone number', :aggregate_failures do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      expect(existing_contact.reload.email).to be_nil
+      expect(existing_contact.phone_number).to be_nil
+      expect(existing_contact).to be_visitor
+      expect(email_owner.reload.email).to eq('customer@example.com')
+      expect(phone_owner.reload.phone_number).to eq('+15551234567')
+      expect(account.contacts.where(email: 'customer@example.com').count).to eq(1)
+      expect(account.contacts.where(phone_number: '+15551234567').count).to eq(1)
+
+      item = data_import.items.imported.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: existing_contact.id)
+    end
+  end
+
   context 'when Intercom rate limits a conversation detail request' do
     before do
       allow(client).to receive(:retrieve_conversation).with('conversation_1').and_raise(
