@@ -120,6 +120,39 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(DataImportMapping.where(data_import: data_import).count).to eq(5)
   end
 
+  context 'when Intercom contact activity timestamps are available' do
+    let(:contact_payload) do
+      super().merge('last_seen_at' => 1_700_000_050, 'last_replied_at' => 1_700_000_090)
+    end
+
+    it 'prefers last_seen_at for contact activity' do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      contact = account.contacts.find_by!(email: 'customer@example.com')
+      expect(contact.last_activity_at).to eq(Time.zone.at(1_700_000_050))
+    end
+  end
+
+  context 'when Intercom contact last_seen_at is unavailable' do
+    let(:contact_payload) do
+      super().merge('last_seen_at' => nil, 'last_replied_at' => 1_700_000_090)
+    end
+
+    it 'falls back to last_replied_at for contact activity' do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      contact = account.contacts.find_by!(email: 'customer@example.com')
+      expect(contact.last_activity_at).to eq(Time.zone.at(1_700_000_090))
+    end
+  end
+
+  it 'leaves contact activity blank when Intercom activity timestamps are unavailable' do
+    described_class.new(data_import: data_import).import_contacts_page
+
+    contact = account.contacts.find_by!(email: 'customer@example.com')
+    expect(contact.last_activity_at).to be_nil
+  end
+
   it 'indexes imported messages for advanced search' do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
@@ -353,12 +386,16 @@ RSpec.describe DataImports::Intercom::Importer do
   end
 
   context 'when an existing contact has the same email but a different external id' do
+    let(:contact_payload) do
+      super().merge('last_replied_at' => 1_700_000_090)
+    end
     let!(:existing_contact) { create(:contact, account: account, email: 'customer@example.com', identifier: nil) }
 
     it 'updates the existing contact instead of creating a duplicate', :aggregate_failures do
       described_class.new(data_import: data_import).import_contacts_page
 
       expect(existing_contact.reload.identifier).to eq('external_1')
+      expect(existing_contact.last_activity_at).to eq(Time.zone.at(1_700_000_090))
       expect(account.contacts.where(email: 'customer@example.com').count).to eq(1)
       item = data_import.items.imported.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
       expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: existing_contact.id)

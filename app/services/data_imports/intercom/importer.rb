@@ -253,6 +253,7 @@ class DataImports::Intercom::Importer
     updates[:email] = attrs[:email] if contact.email.blank? && attrs[:email].present?
     updates[:phone_number] = attrs[:phone_number] if contact.phone_number.blank? && attrs[:phone_number].present?
     updates[:identifier] = attrs[:identifier] if contact.identifier.blank? && attrs[:identifier].present?
+    updates[:last_activity_at] = attrs[:last_activity_at] if contact.last_activity_at.blank? && attrs[:last_activity_at].present?
     updates[:additional_attributes] = contact.additional_attributes.to_h.deep_merge(attrs[:additional_attributes])
     updates[:custom_attributes] = contact.custom_attributes.to_h.deep_merge(attrs[:custom_attributes])
     updates[:contact_type] = attrs[:contact_type] if contact.visitor? && attrs[:contact_type].present?
@@ -284,6 +285,7 @@ class DataImports::Intercom::Importer
       email: normalized_email(contact_payload),
       phone_number: normalized_phone(contact_payload),
       identifier: normalized_identifier(contact_payload),
+      last_activity_at: contact_activity_at(contact_payload),
       additional_attributes: {
         source: {
           provider: PROVIDER,
@@ -511,6 +513,13 @@ class DataImports::Intercom::Importer
     phone = contact_payload['phone'].to_s.strip
     phone = "+#{phone}" if phone.match?(INTERCOM_NUMBER_REGEX)
     phone.match?(E164_REGEX) ? phone : nil
+  end
+
+  def contact_activity_at(contact_payload)
+    return timestamp_for(contact_payload['last_seen_at']) if contact_payload['last_seen_at'].present?
+    return timestamp_for(contact_payload['last_replied_at']) if contact_payload['last_replied_at'].present?
+
+    nil
   end
 
   def source_id_for(payload)
