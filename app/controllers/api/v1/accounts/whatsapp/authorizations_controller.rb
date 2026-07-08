@@ -77,5 +77,3 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     raise ArgumentError, "Required parameters are missing: #{missing_params.join(', ')}"
   end
 end
-
-Api::V1::Accounts::Whatsapp::AuthorizationsController.prepend_mod_with('Api::V1::Accounts::Whatsapp::AuthorizationsController')

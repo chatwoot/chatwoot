@@ -84,3 +84,5 @@ class Whatsapp::EmbeddedSignupService
     raise ArgumentError, "Required parameters are missing: #{missing_params.join(', ')}"
   end
 end
+
+Whatsapp::EmbeddedSignupService.prepend_mod_with('Whatsapp::EmbeddedSignupService')

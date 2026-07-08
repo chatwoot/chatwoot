@@ -12,8 +12,8 @@ RSpec.describe 'Enterprise WhatsApp Authorization API', type: :request do
       create(:inbox, account: account)
     end
 
-    it 'returns payment required before processing embedded signup when account inbox limit is reached' do
-      expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
+    it 'returns payment required before exchanging the Meta code when account inbox limit is reached' do
+      expect(Whatsapp::TokenExchangeService).not_to receive(:new)
 
       post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
            headers: admin.create_new_auth_token,
