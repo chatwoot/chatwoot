@@ -446,17 +446,6 @@
         "PENDING": "Pending FAQs",
         "DOCUMENTS": "Documents"
       },
-      "FLAGGED": {
-        "TITLE": "Response quality",
-        "TOTAL": "{count} flagged · {rate}"
-      },
-      "CREDITS": {
-        "TITLE": "Credit usage",
-        "UNIT": "credits",
-        "LEGEND": "Daily credits used",
-        "AXIS_START": "{count}d ago",
-        "AXIS_END": "Today"
-      },
       "LINKS": {
         "DOCS": {
           "TITLE": "Captain docs",
@@ -470,13 +459,6 @@
           "TITLE": "Billing",
           "DESCRIPTION": "Manage credits and plan"
         }
-      },
-      "FLAG_REASONS": {
-        "INCORRECT": "Incorrect info",
-        "INCOMPLETE": "Incomplete",
-        "OUTDATED": "Outdated",
-        "INAPPROPRIATE": "Inappropriate",
-        "OTHER": "Other"
       }
     },
     "ASSISTANT_SWITCHER": {
