@@ -148,7 +148,7 @@ describe('#normalizeSidebarSortPreferences', () => {
 
   it('falls back to defaults for unsupported preferences', () => {
     const preferences = normalizeSidebarSortPreferences({
-      [SIDEBAR_SORT_SECTIONS.FOLDERS]: SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+      [SIDEBAR_SORT_SECTIONS.FOLDERS]: 'unsupported_sort',
     });
 
     expect(preferences).toEqual(DEFAULT_SIDEBAR_SORT_PREFERENCES);
@@ -171,8 +171,27 @@ describe('#getSidebarSortOptions', () => {
     expect(options).toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC);
   });
 
+  it('keeps folder unread count options when filtered unread counts are enabled', () => {
+    const options = getSidebarSortOptions(SIDEBAR_SORT_SECTIONS.FOLDERS, {
+      hasUnreadCounts: true,
+    });
+
+    expect(options).toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC);
+    expect(options).toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC);
+  });
+
   it('removes unread count options when unread counts are disabled', () => {
     const options = getSidebarSortOptions(SIDEBAR_SORT_SECTIONS.TEAMS, {
+      hasUnreadCounts: false,
+    });
+
+    expect(options).not.toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC);
+    expect(options).not.toContain(SIDEBAR_SORT_KEYS.UNREAD_COUNT_ASC);
+    expect(options).toContain(SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC);
+  });
+
+  it('removes folder unread count options when filtered unread counts are disabled', () => {
+    const options = getSidebarSortOptions(SIDEBAR_SORT_SECTIONS.FOLDERS, {
       hasUnreadCounts: false,
     });
 
@@ -196,6 +215,16 @@ describe('#resolveSidebarSort', () => {
   it('falls back to alphabetical sort when unread counts are disabled', () => {
     const sortBy = resolveSidebarSort(
       SIDEBAR_SORT_SECTIONS.TEAMS,
+      SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
+      { hasUnreadCounts: false }
+    );
+
+    expect(sortBy).toBe(SIDEBAR_SORT_KEYS.ALPHABETICAL_ASC);
+  });
+
+  it('falls back to alphabetical sort for folders when filtered unread counts are disabled', () => {
+    const sortBy = resolveSidebarSort(
+      SIDEBAR_SORT_SECTIONS.FOLDERS,
       SIDEBAR_SORT_KEYS.UNREAD_COUNT_DESC,
       { hasUnreadCounts: false }
     );
