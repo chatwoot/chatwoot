@@ -50,6 +50,56 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         described_class.new(captain_assistant, conversation).generate_and_deduplicate
       end
 
+      it 'sends only customer and human support agent messages to the LLM' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer question')
+        create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                                      content: 'Bot answer that should not become knowledge')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         content: 'Human answer')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         private: true, content: 'Private note')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         message_type: :activity, content: 'Activity message')
+
+        service.generate_and_deduplicate
+
+        expected_content = satisfy do |content|
+          content.include?('User: Customer question') &&
+            content.include?('Support Agent: Human answer') &&
+            !content.include?('Bot answer that should not become knowledge') &&
+            !content.include?('Private note') &&
+            !content.include?('Activity message')
+        end
+        expect(mock_chat).to have_received(:ask).with(expected_content)
+      end
+
+      it 'uses the human-only conversation transcript for instrumentation' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer asks something')
+        create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                                      content: 'Bot-only answer')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         content: 'Agent gives a public answer')
+
+        expect(service).to receive(:instrument_llm_call) do |params, &block|
+          user_message = params[:messages].find { |message| message[:role] == 'user' }[:content]
+
+          expect(user_message).to include('User: Customer asks something')
+          expect(user_message).to include('Support Agent: Agent gives a public answer')
+          expect(user_message).not_to include('Bot-only answer')
+
+          block.call
+        end
+
+        service.generate_and_deduplicate
+      end
+
       it 'creates new FAQs for valid conversation content' do
         expect do
           service.generate_and_deduplicate

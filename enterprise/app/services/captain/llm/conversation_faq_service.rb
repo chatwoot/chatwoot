@@ -7,7 +7,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     super(feature: 'document_faq_generation', account: conversation.account)
     @assistant = assistant
     @conversation = conversation
-    @content = conversation.to_llm_text
+    @content = conversation_faq_content
   end
 
   # Generates and deduplicates FAQs from conversation content
@@ -26,6 +26,34 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   private
 
   attr_reader :content, :conversation, :assistant
+
+  def conversation_faq_content
+    [
+      "Conversation ID: ##{conversation.display_id}",
+      "Channel: #{conversation.inbox.channel.name}",
+      'Message History:',
+      conversation_faq_messages
+    ].join("\n")
+  end
+
+  def conversation_faq_messages
+    messages = conversation
+               .messages
+               .where(message_type: %i[incoming outgoing], private: false, sender_type: %w[Contact User])
+               .order(created_at: :asc)
+
+    return "No messages in this conversation\n" if messages.empty?
+
+    messages.filter_map { |message| format_conversation_faq_message(message) }.join
+  end
+
+  def format_conversation_faq_message(message)
+    content = message.content_for_llm
+    return if content.blank?
+
+    sender = message.sender_type == 'User' ? 'Support Agent' : 'User'
+    "#{sender}: #{content}\n"
+  end
 
   def no_human_interaction?
     conversation.first_reply_created_at.nil?

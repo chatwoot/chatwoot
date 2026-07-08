@@ -128,7 +128,7 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-5.2
   pdf_faq_generation:
     models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
     default: gpt-4.1-mini
