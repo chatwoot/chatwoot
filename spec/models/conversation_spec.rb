@@ -347,6 +347,14 @@ RSpec.describe Conversation do
       expect(conversation.reload.status).to eq('open')
     end
 
+    it 'clears agent bot ownership' do
+      conversation.update!(assignee_agent_bot: create(:agent_bot, account: conversation.account))
+
+      conversation.bot_handoff!
+
+      expect(conversation.reload.assignee_agent_bot).to be_nil
+    end
+
     it 'dispatches CONVERSATION_BOT_HANDOFF event' do
       expect(Rails.configuration.dispatcher).to receive(:dispatch)
         .with(described_class::CONVERSATION_BOT_HANDOFF, anything, hash_including(conversation: conversation))
