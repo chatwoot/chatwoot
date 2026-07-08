@@ -165,7 +165,7 @@ class Conversations::UnreadCounts::FilteredCounter
     )
   end
 
-  def version_cache = @version_cache ||= VersionCache.new(account: account, user: user, store: store)
+  def version_cache = @version_cache ||= ::Conversations::UnreadCounts::FilteredCountVersionCache.new(account: account, user: user, store: store)
 
   def delete_filter_count!(filter_id) = store.delete_filter_count!(account_id: account.id, filter_id: filter_id).then { nil }
 
@@ -214,5 +214,3 @@ class Conversations::UnreadCounts::FilteredCounter
     ::Conversations::UnreadCounts::FilteredCountInstrumentation
   end
 end
-
-require_dependency 'conversations/unread_counts/filtered_counter/version_cache'

@@ -1,4 +1,4 @@
-class Conversations::UnreadCounts::FilteredCounter::VersionCache
+class Conversations::UnreadCounts::FilteredCountVersionCache
   attr_reader :account, :user, :store
 
   def initialize(account:, user:, store:)
