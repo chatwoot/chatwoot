@@ -89,17 +89,17 @@ const dropdownOptions = computed(() => {
   );
 });
 
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
-  if (isOpen.value) {
-    searchQuery.value = '';
-    nextTick(() => dropdownRef.value?.focus());
-  }
-};
-
 const onSearch = value => {
   searchQuery.value = value;
   emit('search', value);
+};
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+  if (isOpen.value) {
+    onSearch('');
+    nextTick(() => dropdownRef.value?.focus());
+  }
 };
 
 const onSelect = option => {
