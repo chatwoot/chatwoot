@@ -1298,21 +1298,25 @@ onMounted(async () => {
                       >
                         {{ lead.name }}
                       </h3>
-                      <div class="mt-1 flex flex-wrap items-baseline gap-1.5">
+                      <div
+                        class="mt-1 flex min-w-0 max-w-full items-baseline gap-1.5"
+                      >
                         <span
                           v-if="leadPriorityTheme(lead)"
-                          class="text-xs font-medium"
+                          class="shrink-0 text-xs font-medium"
                           :class="leadPriorityTheme(lead).titleClass"
                         >
                           {{ leadPriorityTheme(lead).title }}
                         </span>
                         <span
                           v-if="leadPriorityTheme(lead)"
-                          class="text-n-slate-6"
+                          class="shrink-0 text-n-slate-6"
                         >
                           ·
                         </span>
-                        <span class="break-words text-sm text-n-slate-10">
+                        <span
+                          class="min-w-0 flex-1 truncate text-sm text-n-slate-10"
+                        >
                           {{ formatLeadAddress(lead) || '-' }}
                         </span>
                       </div>
@@ -1337,7 +1341,10 @@ onMounted(async () => {
                       class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
                       :class="signal.card"
                     >
-                      <span :class="signal.icon" class="size-3" />
+                      <span
+                        :class="[signal.icon, signal.iconClass]"
+                        class="size-3"
+                      />
                       {{ signal.label }}
                     </span>
                   </div>
@@ -1350,22 +1357,6 @@ onMounted(async () => {
                         </div>
                         <div class="break-words">
                           {{ lead.category || '-' }}
-                        </div>
-                        <div
-                          class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
-                        >
-                          <span class="i-lucide-star size-4 text-amber-500" />
-                          <span class="text-n-slate-12">
-                            {{ lead.rating || '-' }}
-                          </span>
-                          <span>·</span>
-                          <span>
-                            {{
-                              t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
-                                count: lead.reviews_count || 0,
-                              })
-                            }}
-                          </span>
                         </div>
                       </div>
                       <div class="text-n-slate-11">
@@ -1655,7 +1646,7 @@ onMounted(async () => {
                 class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
                 :class="signal.card"
               >
-                <span :class="signal.icon" class="size-3" />
+                <span :class="[signal.icon, signal.iconClass]" class="size-3" />
                 {{ signal.label }}
               </span>
             </div>
@@ -1706,22 +1697,6 @@ onMounted(async () => {
                 </div>
                 <div class="mt-2 text-sm text-n-slate-12">
                   {{ selectedLeadDetail.category || '-' }}
-                </div>
-                <div
-                  class="mt-2 flex flex-wrap items-center gap-1 text-sm text-n-slate-10"
-                >
-                  <span class="i-lucide-star size-4 text-amber-500" />
-                  <span class="text-n-slate-12">
-                    {{ selectedLeadDetail.rating || '-' }}
-                  </span>
-                  <span>·</span>
-                  <span>
-                    {{
-                      t('PROSPECTING.SEARCH.REVIEWS_LABEL', {
-                        count: selectedLeadDetail.reviews_count || 0,
-                      })
-                    }}
-                  </span>
                 </div>
               </div>
               <div class="rounded-md border border-n-weak bg-n-solid-2 p-3">

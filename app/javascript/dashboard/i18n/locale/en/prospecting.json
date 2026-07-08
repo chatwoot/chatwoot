@@ -233,11 +233,20 @@
       "GOOGLE_MAPS_BROWSER_API_KEY_HINT": "Usada para mostrar o mapa e os pontos dos leads na tela.",
       "SCORING_TITLE": "Score e priorização",
       "SCORING_HINT": "Escolha um perfil global definido pelo superadmin ou personalize os pesos desta conta.",
+      "SCORING_PROFILE_GLOBAL": "Perfil global",
+      "SCORING_PROFILE_CUSTOM": "Customizado",
+      "SCORING_PROFILE_HINT": "Pesos definidos pelo perfil selecionado. Para alterar, escolha Customizado.",
+      "SCORING_CUSTOM_HINT": "Edite os pesos que serão usados apenas nesta conta.",
+      "SCORING_WEIGHTS_TITLE": "Pesos do perfil",
       "CRM_EMPTY": "Nenhum funil padrão",
       "CRM_STAGE_EMPTY": "Nenhuma etapa padrão",
       "USAGE_DAILY": "Consumo diário",
       "USAGE_MONTHLY": "Consumo mensal",
       "UNLIMITED": "sem limite",
+      "TABS": {
+        "GENERAL": "Geral",
+        "SCORE": "Score"
+      },
       "PROVIDERS": {
         "MOCK": "Mock",
         "GOOGLE_PLACES": "Google Places"
