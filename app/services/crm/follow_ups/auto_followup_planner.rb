@@ -63,8 +63,7 @@ module Crm
         return false if last_inbound.blank?
         return false if last_inbound.created_at > cutoff
 
-        create_first_touch(card, last_inbound)
-        true
+        create_first_touch(card, last_inbound).present?
       end
 
       # Só inicia se a conversa principal teve mão dupla real: >= 2 mensagens do cliente E >= 2 do
@@ -105,12 +104,16 @@ module Crm
       end
 
       def create_first_touch(card, last_inbound)
-        due_at = compute_first_due(last_inbound.created_at, card)
+        timezone = resolved_timezone(card)
+        return unresolvable_timezone(card) if timezone.blank?
+
+        due_at = compute_first_due(last_inbound.created_at, timezone)
 
         follow_up = Crm::FollowUps::AutoFollowupTouchBuilder.new(
           card: card,
           touch: 1,
-          due_at: due_at
+          due_at: due_at,
+          timezone: timezone
         ).perform
 
         write_state(card, due_at)
@@ -119,22 +122,29 @@ module Crm
         follow_up
       end
 
+      # Fail-closed: no resolvable tz => do NOT schedule touch #1 at a guessed UTC
+      # wall time. Skip + log; the card is re-eligible once a valid tz exists.
+      def unresolvable_timezone(card)
+        Rails.logger.warn("[crm][auto_followup] skip card=#{card.id} no resolvable timezone")
+        nil
+      end
+
       # Touch #1 fires intervals_hours[0] after the last inbound — the SAME value
       # that gates eligibility — so once a card is picked up the send time is
       # "now or just past" and fires on the next quiet-hours slot, never late.
-      def compute_first_due(last_inbound_at, card)
+      def compute_first_due(last_inbound_at, timezone)
         target = last_inbound_at + first_interval_hours.hours
         target = @now if target < @now
-        clamp_into_quiet_hours(target, card)
+        clamp_into_quiet_hours(target, timezone)
       end
 
-      def clamp_into_quiet_hours(time, card)
+      def clamp_into_quiet_hours(time, timezone)
         quiet = @config[:quiet_hours].to_h
         start_hour = quiet['start'].to_i
         end_hour = quiet['end'].to_i
         return time if start_hour >= end_hour
 
-        zone = quiet_hours_zone(card)
+        zone = ActiveSupport::TimeZone[timezone]
         local = time.in_time_zone(zone)
         if local.hour < start_hour
           local.change(hour: start_hour, min: 0, sec: 0).utc
@@ -145,18 +155,11 @@ module Crm
         end
       end
 
-      # Quiet-hours zone resolution. MUST stay byte-for-byte identical to
-      # AutoFollowupRunner#quiet_time_zone so touch #1 (planner) and touch #2+
-      # (runner) clamp to the SAME local window: prefer the contact's
-      # additional_attributes['timezone'], else account.reporting_timezone, else
-      # 'UTC'; any value that is not a real ActiveSupport::TimeZone falls through.
-      def quiet_hours_zone(card)
-        contact = card.contact
-        contact_tz = contact&.additional_attributes.to_h['timezone'].presence
-        return contact_tz if ActiveSupport::TimeZone[contact_tz.to_s].present?
-
-        account_tz = @pipeline.account.try(:reporting_timezone).presence
-        ActiveSupport::TimeZone[account_tz.to_s].present? ? account_tz : 'UTC'
+      # Resolves the cadence timezone (contact -> account.reporting_timezone),
+      # fail-open to nil. MUST match AutoFollowupRunner#resolved_timezone so touch #1
+      # (planner) and touch #2+ (runner) clamp to the SAME local window. nil => skip.
+      def resolved_timezone(card)
+        Crm::Timezone::Resolver.new(contact: card.contact, account: @pipeline.account).name
       end
 
       # Seed the full cadence-state shape the runner and the card drawer rely on:

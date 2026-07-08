@@ -48,7 +48,7 @@ class Crm::StageAutomations::StepExecutor
       follow_up_type: config['follow_up_type'].presence || 'task',
       automation_mode: config['automation_mode'].presence || 'reminder_only',
       due_at: due_at,
-      timezone: config['timezone'].presence || @card.account.try(:reporting_timezone).presence || 'UTC',
+      timezone: config['timezone'],
       metadata: build_follow_up_metadata
     }
 

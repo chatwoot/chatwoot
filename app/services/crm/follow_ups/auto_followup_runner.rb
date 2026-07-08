@@ -282,7 +282,10 @@ module Crm
       end
 
       def reschedule_for_cap
-        next_due = compute_due(@now + MARKETING_CAP_WINDOW)
+        timezone = resolved_timezone
+        return stop_cadence('unresolvable_timezone') if timezone.blank?
+
+        next_due = compute_due(@now + MARKETING_CAP_WINDOW, timezone)
         @follow_up.update!(due_at: next_due)
         merge_state!('next_due_at' => next_due.iso8601)
         log_activity('ai_followup_capped', next_due_at: next_due.iso8601, touch: touch)
@@ -348,8 +351,11 @@ module Crm
       def schedule_next_touch
         if touch < max_touches
           next_touch = touch + 1
-          due_at = compute_due(last_inbound_at + interval_hours(next_touch).hours)
-          Crm::FollowUps::AutoFollowupTouchBuilder.new(card: @card, touch: next_touch, due_at: due_at).perform
+          timezone = resolved_timezone
+          return mark_cadence_unresolvable if timezone.blank?
+
+          due_at = compute_due(last_inbound_at + interval_hours(next_touch).hours, timezone)
+          Crm::FollowUps::AutoFollowupTouchBuilder.new(card: @card, touch: next_touch, due_at: due_at, timezone: timezone).perform
           merge_state!('active' => true, 'touch' => next_touch, 'next_due_at' => due_at.iso8601)
         else
           # (3) cadence reached its budget — mark the card spent so the planner
@@ -492,13 +498,15 @@ module Crm
       # [start, end) in the contact's timezone (fallback account tz). If the
       # candidate falls before start, push to start the same day; if at/after end,
       # push to start the next day. No jitter in MVP.
-      def compute_due(candidate)
+      def compute_due(candidate, timezone = resolved_timezone)
+        return candidate if timezone.blank?
+
         quiet = config['quiet_hours'].to_h
         start_hour = quiet['start'].presence&.to_i
         end_hour = quiet['end'].presence&.to_i
         return candidate if start_hour.blank? || end_hour.blank?
 
-        local = candidate.in_time_zone(quiet_time_zone)
+        local = candidate.in_time_zone(ActiveSupport::TimeZone[timezone])
         window_start = local.change(hour: start_hour, min: 0, sec: 0)
         window_end = local.change(hour: end_hour, min: 0, sec: 0)
 
@@ -508,18 +516,19 @@ module Crm
         candidate
       end
 
-      # Quiet-hours zone resolution. MUST stay byte-for-byte identical to
-      # AutoFollowupPlanner#quiet_hours_zone so touch #1 (planner) and touch #2+
-      # (runner) clamp to the SAME local window: prefer the contact's
-      # additional_attributes['timezone'], else account.reporting_timezone, else
-      # 'UTC'; any value that is not a real ActiveSupport::TimeZone falls through.
-      def quiet_time_zone
-        contact = @follow_up.contact || @card.contact
-        contact_tz = contact&.additional_attributes.to_h['timezone'].presence
-        return contact_tz if ActiveSupport::TimeZone[contact_tz.to_s].present?
+      # MUST match AutoFollowupPlanner#resolved_timezone. Fail-open to nil.
+      def resolved_timezone
+        Crm::Timezone::Resolver.new(
+          contact: @follow_up.contact || @card.contact, account: @card.account
+        ).name
+      end
 
-        account_tz = @card.account.try(:reporting_timezone).presence
-        ActiveSupport::TimeZone[account_tz.to_s].present? ? account_tz : 'UTC'
+      # Fail-closed: no resolvable tz => stop the cadence rather than schedule the
+      # next touch at a guessed UTC wall time.
+      def mark_cadence_unresolvable
+        merge_state!('active' => false, 'spent' => true,
+                     'stopped_reason' => 'unresolvable_timezone', 'next_due_at' => nil)
+        log_activity('ai_followup_stopped', touch: touch, reason: 'unresolvable_timezone')
       end
 
       def last_inbound_at

@@ -65,10 +65,12 @@ module Crm
       end
 
       def time_zone
-        @time_zone ||= ActiveSupport::TimeZone[profile.resolved_timezone] || ActiveSupport::TimeZone['UTC']
+        @time_zone ||= (ActiveSupport::TimeZone[profile.resolved_timezone] if profile.resolved_timezone.present?)
       end
 
       def local_day
+        return nil if time_zone.blank?
+
         @local_day ||= begin
           time_zone.parse("#{date} 00:00:00")
         rescue ArgumentError, TypeError

@@ -35,6 +35,7 @@ RSpec.describe Crm::StageAutomations::Runner do
 
   it 'runs on_enter automations and creates a follow-up' do
     account, admin = create_account_and_user
+    account.update!(reporting_timezone: 'America/Sao_Paulo')
     pipeline, stage = create_crm_pipeline(account: account, user: admin)
     card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'Lead')
 
@@ -92,6 +93,7 @@ RSpec.describe Crm::StageAutomations::Runner do
 
   it 'does not rerun the same automation for the same trigger token' do
     account, admin = create_account_and_user
+    account.update!(reporting_timezone: 'America/Sao_Paulo')
     pipeline, stage = create_crm_pipeline(account: account, user: admin)
     card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'Lead')
 

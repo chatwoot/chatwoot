@@ -57,12 +57,15 @@ module Crm
         @inbox = inbox
         @date = date
         @duration_minutes = positive_duration(duration_minutes)
-        @timezone = timezone.presence || default_timezone
+        @timezone = timezone.presence ||
+                    Crm::Timezone::Resolver.new(account: card.account, contact: card.contact).name
         @agent = agent
       end
 
       # Returns an Array (≤ MAX_SUGGESTIONS) of { starts_at: ISO8601 String, reason: String|nil }.
       def perform
+        return [] if timezone.blank?
+
         slots = free_slots
         return [] if slots.empty?
 
@@ -174,7 +177,7 @@ module Crm
       end
 
       def time_zone
-        @time_zone ||= ActiveSupport::TimeZone[timezone] || ActiveSupport::TimeZone['UTC']
+        @time_zone ||= (ActiveSupport::TimeZone[timezone] if timezone.present?)
       end
 
       def local_day
@@ -200,10 +203,6 @@ module Crm
 
       def account
         @account ||= card.account
-      end
-
-      def default_timezone
-        Crm::Ai::Config.resolved_timezone(account: card.account, contact: card.contact)
       end
 
       def instructions

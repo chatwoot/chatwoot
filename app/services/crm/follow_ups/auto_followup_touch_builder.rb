@@ -19,10 +19,11 @@ module Crm
     class AutoFollowupTouchBuilder
       PLACEHOLDER_BODY = '...'.freeze
 
-      def initialize(card:, touch:, due_at:, template_metadata: {})
+      def initialize(card:, touch:, due_at:, timezone: nil, template_metadata: {})
         @card = card
         @touch = touch.to_i
         @due_at = due_at
+        @timezone = timezone
         @template_metadata = (template_metadata || {}).to_h.stringify_keys
       end
 
@@ -62,7 +63,8 @@ module Crm
       end
 
       def timezone
-        @card.account.try(:reporting_timezone).presence || 'UTC'
+        @timezone.presence ||
+          Crm::Timezone::Resolver.new(contact: @card.contact, account: @card.account).name!
       end
 
       def metadata

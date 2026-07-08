@@ -38,8 +38,15 @@ module WhatsappApiCampaigns
         template_snapshot: template_snapshot(template, message_body),
         media_snapshot: media_snapshot,
         media_file_pending: @params[:media_file].present?,
-        scheduled_at: Time.zone.parse(permitted[:scheduled_at].to_s)
+        scheduled_at: scheduled_at
       }
+    end
+
+    def scheduled_at
+      zone = Crm::Timezone::Resolver.new(account: @account).zone
+      raise ArgumentError, 'unresolvable_timezone_for_schedule' if zone.nil?
+
+      zone.parse(permitted[:scheduled_at].to_s)
     end
 
     def fetch_inbox

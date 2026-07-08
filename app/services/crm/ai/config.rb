@@ -98,11 +98,7 @@ module Crm
       # (additional_attributes['timezone']) → account.reporting_timezone → 'UTC'. Espelha o
       # AutoFollowupPlanner (quiet hours) para consistência. Sempre devolve um nome de tz VÁLIDO.
       def self.resolved_timezone(account:, contact: nil)
-        contact_tz = contact&.additional_attributes.to_h['timezone'].presence
-        return contact_tz if ActiveSupport::TimeZone[contact_tz.to_s].present?
-
-        account_tz = account&.try(:reporting_timezone).presence
-        ActiveSupport::TimeZone[account_tz.to_s].present? ? account_tz : 'UTC'
+        Crm::Timezone::Resolver.new(contact: contact, account: account).name || 'UTC'
       end
 
       # Media enrichment (PR13.1): audio via transcription, image via vision caption.

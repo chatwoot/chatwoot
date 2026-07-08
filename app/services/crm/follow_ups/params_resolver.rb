@@ -38,7 +38,15 @@ class Crm::FollowUps::ParamsResolver
   end
 
   def resolved_timezone
-    @attributes[:timezone].presence || @account.try(:reporting_timezone).presence || 'UTC'
+    Crm::Timezone::Resolver.new(
+      explicit: @attributes[:timezone],
+      contact: contact,
+      account: @account
+    ).name!
+  end
+
+  def contact
+    @contact ||= @card.try(:contact) || @conversation&.contact
   end
 
   def sanitized_metadata

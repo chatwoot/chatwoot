@@ -46,7 +46,9 @@ module Crm
 
       # "YYYY-MM-DDTHH:MM" (hora LOCAL) -> Time UTC, validando fuso, futuro e horizonte.
       def resolve_due_at
-        zone = ActiveSupport::TimeZone[timezone] || ActiveSupport::TimeZone['UTC']
+        return if timezone.blank?
+
+        zone = ActiveSupport::TimeZone[timezone]
         local = zone.parse(@callback[:requested_at].to_s)
         return if local.blank?
 
@@ -136,7 +138,7 @@ module Crm
       end
 
       def timezone
-        @timezone ||= Config.resolved_timezone(account: @card.account, contact: contact)
+        @timezone ||= Crm::Timezone::Resolver.new(contact: contact, account: @card.account).name
       end
 
       def contact
