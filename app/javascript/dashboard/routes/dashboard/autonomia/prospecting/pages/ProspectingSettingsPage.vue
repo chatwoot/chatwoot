@@ -224,11 +224,11 @@ onMounted(fetchSettings);
         <div class="flex border-b border-n-weak">
           <button
             type="button"
-            class="-mb-px px-4 py-2 text-sm font-medium"
+            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
             :class="
               activeSettingsTab === 'general'
-                ? 'border-b-2 border-n-brand text-n-brand'
-                : 'text-n-slate-10 hover:text-n-slate-12'
+                ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
+                : 'text-n-slate-11 after:bg-transparent after:opacity-0 hover:text-n-slate-12'
             "
             @click="activeSettingsTab = 'general'"
           >
@@ -236,11 +236,11 @@ onMounted(fetchSettings);
           </button>
           <button
             type="button"
-            class="-mb-px px-4 py-2 text-sm font-medium"
+            class="relative px-4 py-2 text-sm font-medium after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200"
             :class="
               activeSettingsTab === 'score'
-                ? 'border-b-2 border-n-brand text-n-brand'
-                : 'text-n-slate-10 hover:text-n-slate-12'
+                ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
+                : 'text-n-slate-11 after:bg-transparent after:opacity-0 hover:text-n-slate-12'
             "
             @click="activeSettingsTab = 'score'"
           >
@@ -474,8 +474,8 @@ onMounted(fetchSettings);
                 class="inline-flex w-fit items-center rounded-full border px-2.5 py-1 text-xs font-semibold"
                 :class="
                   isCustomScoringProfile
-                    ? 'border-amber-200 bg-amber-50 text-amber-800'
-                    : 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                    ? 'border-n-amber-5 bg-n-amber-2 text-n-amber-11'
+                    : 'border-n-teal-5 bg-n-teal-2 text-n-teal-11'
                 "
               >
                 {{
@@ -538,7 +538,7 @@ onMounted(fetchSettings);
               </label>
               <div class="h-2 overflow-hidden rounded-full bg-n-solid-3">
                 <div
-                  class="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500"
+                  class="h-full rounded-full bg-gradient-to-r from-n-blue-9 to-n-teal-9"
                   :style="{ width: `${weightPercent(key)}%` }"
                 />
               </div>
@@ -548,11 +548,11 @@ onMounted(fetchSettings);
                 type="number"
                 min="0"
                 max="100"
-                class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-center text-sm text-n-slate-12"
+                class="h-9 rounded-md border border-n-weak bg-n-solid-1 px-2 text-center text-sm text-n-slate-12"
               />
               <div
                 v-else
-                class="flex h-9 items-center justify-center rounded-md border border-n-weak bg-n-solid-2 text-sm font-semibold text-n-slate-12"
+                class="flex h-9 items-center justify-center rounded-md border border-n-weak bg-n-solid-3 text-sm font-semibold text-n-slate-10"
               >
                 {{ displayedScoringWeights[key] || 0 }}
               </div>
