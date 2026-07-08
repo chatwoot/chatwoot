@@ -67,7 +67,7 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
 
   def find_account_template
     return unless Current.account
-    return if conversation_layout_lookup? && !branded_layout_lookup_enabled?
+    return if email_inbox_layout_lookup? && !branded_layout_lookup_enabled?
 
     find_template_for(@@model.where(account: Current.account, inbox: nil))
   end
@@ -80,8 +80,12 @@ class ::EmailTemplates::DbResolverService < ActionView::Resolver
     @template_type == 'layout' && Current.inbox.present?
   end
 
+  def email_inbox_layout_lookup?
+    conversation_layout_lookup? && Current.inbox.email?
+  end
+
   def branded_layout_lookup_enabled?
-    conversation_layout_lookup? && Current.inbox.email? && Current.account&.feature_enabled?(:branded_email_templates)
+    email_inbox_layout_lookup? && Current.account&.feature_enabled?(:branded_email_templates)
   end
 
   def find_template_for(relation)
