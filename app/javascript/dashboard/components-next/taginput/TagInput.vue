@@ -101,7 +101,11 @@ const filteredMenuItems = computed(() => {
 });
 
 const emitDataOnAdd = value => {
-  const matchingMenuItem = findMatchingMenuItem(props.menuItems, value);
+  const matchingMenuItem = findMatchingMenuItem(
+    props.menuItems,
+    value,
+    props.type
+  );
   return matchingMenuItem
     ? emit('add', { value: value, ...matchingMenuItem })
     : emit('add', { value: value, action: 'create' });

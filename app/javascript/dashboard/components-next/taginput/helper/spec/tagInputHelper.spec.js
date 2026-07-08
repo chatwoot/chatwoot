@@ -445,5 +445,58 @@ describe('tagInputHelper', () => {
       const result = findMatchingMenuItem([], 'test@example.com');
       expect(result).toBeUndefined();
     });
+
+    describe('with tel type', () => {
+      const phoneMenuItems = [
+        { phoneNumber: '+19017880795', label: 'Jane', email: null },
+        { phoneNumber: '+918283838283', label: 'Ravi', email: null },
+      ];
+
+      it('matches by exact E.164 value', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '+19017880795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toEqual(phoneMenuItems[0]);
+      });
+
+      it('matches formatted input against stored E.164', () => {
+        getActiveCountryCode.mockReturnValue('CA');
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '901-788-0795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toEqual(phoneMenuItems[0]);
+      });
+
+      it('returns undefined when the number is not in the list', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '+15550001111',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+
+      it('returns undefined for unparseable input', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '123',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+
+      it('ignores items without a phoneNumber', () => {
+        const result = findMatchingMenuItem(
+          [{ email: 'a@b.com', label: 'A' }],
+          '+19017880795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+    });
   });
 });

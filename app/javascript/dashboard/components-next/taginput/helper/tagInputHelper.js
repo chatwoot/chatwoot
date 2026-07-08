@@ -146,5 +146,19 @@ export const buildTagMenuItems = ({
 export const canAddTag = (mode, tagsLength) =>
   !(mode === MODE.SINGLE && tagsLength >= 1);
 
-export const findMatchingMenuItem = (menuItems, value) =>
-  menuItems.find(item => item.email === value);
+export const findMatchingMenuItem = (
+  menuItems,
+  value,
+  type = INPUT_TYPES.EMAIL
+) => {
+  if (type === INPUT_TYPES.TEL) {
+    const normalized = normalizePhoneNumber(value);
+    if (!normalized) return undefined;
+    return menuItems.find(
+      item =>
+        item.phoneNumber &&
+        normalizePhoneNumber(item.phoneNumber) === normalized
+    );
+  }
+  return menuItems.find(item => item.email === value);
+};
