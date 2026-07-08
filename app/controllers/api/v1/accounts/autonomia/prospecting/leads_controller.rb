@@ -80,6 +80,7 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
       only: [
         :id, :provider, :provider_place_id, :name, :phone, :website, :address, :city, :state, :country,
         :latitude, :longitude, :rating, :reviews_count, :category, :status, :discard_reason,
+        :score, :priority_score, :priority_position, :search_rank, :score_breakdown, :negative_factors, :human_insight,
         :contact_id, :crm_card_id, :created_at, :updated_at
       ]
     ).merge(

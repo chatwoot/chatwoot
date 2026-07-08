@@ -1,0 +1,37 @@
+<div class="p-8">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold text-slate-900">Prospecting Scoring Profiles</h1>
+      <p class="mt-1 text-sm text-slate-600">Global scoring templates available to all prospecting-enabled accounts.</p>
+    </div>
+    <%= link_to 'New profile', new_super_admin_prospecting_scoring_profile_path, class: 'rounded bg-woot-500 px-4 py-2 text-sm font-medium text-white hover:bg-woot-600' %>
+  </div>
+
+  <div class="mt-6 overflow-hidden rounded border border-slate-200 bg-white">
+    <table class="w-full text-left text-sm">
+      <thead class="border-b border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
+        <tr>
+          <th class="px-4 py-3">Name</th>
+          <th class="px-4 py-3">Default</th>
+          <th class="px-4 py-3">Weights</th>
+          <th class="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @profiles.each do |profile| %>
+          <tr class="border-b border-slate-100">
+            <td class="px-4 py-3 font-medium text-slate-900"><%= profile.name %></td>
+            <td class="px-4 py-3 text-slate-700"><%= profile.default? ? 'Yes' : 'No' %></td>
+            <td class="px-4 py-3 text-slate-700">
+              <%= profile.weights_with_defaults.map { |key, value| "#{key}: #{value}" }.join(' · ') %>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <%= link_to 'Edit', edit_super_admin_prospecting_scoring_profile_path(profile), class: 'text-woot-600 hover:underline' %>
+              <%= button_to 'Delete', super_admin_prospecting_scoring_profile_path(profile), method: :delete, class: 'ml-3 inline text-red-600 hover:underline', form: { class: 'inline' } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

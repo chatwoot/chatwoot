@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_07_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_08_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -439,8 +439,18 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_07_000001) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "discard_reason"
+    t.decimal "score", precision: 5, scale: 2
+    t.decimal "priority_score", precision: 5, scale: 2
+    t.integer "priority_position"
+    t.integer "search_rank"
+    t.jsonb "score_breakdown", default: {}, null: false
+    t.jsonb "negative_factors", default: [], null: false
+    t.string "human_insight"
     t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
     t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
+    t.index ["account_id", "priority_score"], name: "idx_autonomia_prospecting_leads_account_priority"
+    t.index ["account_id", "score"], name: "idx_autonomia_prospecting_leads_account_score"
+    t.index ["account_id", "search_rank"], name: "idx_autonomia_prospecting_leads_account_search_rank"
     t.index ["account_id", "status"], name: "index_autonomia_prospecting_leads_on_account_id_and_status"
     t.index ["account_id"], name: "index_autonomia_prospecting_leads_on_account_id"
     t.index ["contact_id"], name: "index_autonomia_prospecting_leads_on_contact_id"
@@ -496,6 +506,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_07_000001) do
     t.index ["user_id"], name: "index_autonomia_prospecting_searches_on_user_id"
   end
 
+  create_table "autonomia_prospecting_scoring_profiles", force: :cascade do |t|
+    t.string "name", default: "Padrão", null: false
+    t.jsonb "weights", default: {}, null: false
+    t.boolean "default", default: false, null: false
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_by_id"], name: "index_autonomia_prospecting_scoring_profiles_on_created_by_id"
+    t.index ["default"], name: "idx_autonomia_prospecting_scoring_profiles_default", unique: true, where: "(\"default\" = true)"
+    t.index ["updated_by_id"], name: "index_autonomia_prospecting_scoring_profiles_on_updated_by_id"
+  end
+
   create_table "autonomia_prospecting_settings", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.boolean "provider_enabled", default: false, null: false
@@ -513,9 +536,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_07_000001) do
     t.datetime "updated_at", null: false
     t.bigint "default_crm_pipeline_id"
     t.bigint "default_crm_stage_id"
+    t.string "scoring_mode", default: "profile", null: false
+    t.bigint "scoring_profile_id"
+    t.jsonb "custom_scoring_weights", default: {}, null: false
     t.index ["account_id"], name: "index_autonomia_prospecting_settings_on_account_id", unique: true
     t.index ["default_crm_pipeline_id"], name: "idx_autonomia_prospecting_settings_default_pipeline"
     t.index ["default_crm_stage_id"], name: "idx_autonomia_prospecting_settings_default_stage"
+    t.index ["scoring_profile_id"], name: "idx_autonomia_prospecting_settings_scoring_profile"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -2403,8 +2430,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_07_000001) do
   add_foreign_key "autonomia_prospecting_searches", "accounts", on_delete: :cascade
   add_foreign_key "autonomia_prospecting_searches", "users", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_settings", "accounts", on_delete: :cascade
+  add_foreign_key "autonomia_prospecting_settings", "autonomia_prospecting_scoring_profiles", column: "scoring_profile_id", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_settings", "crm_pipeline_stages", column: "default_crm_stage_id", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_settings", "crm_pipelines", column: "default_crm_pipeline_id", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_scoring_profiles", "users", column: "created_by_id", on_delete: :nullify
+  add_foreign_key "autonomia_prospecting_scoring_profiles", "users", column: "updated_by_id", on_delete: :nullify
   add_foreign_key "crm_activities", "accounts"
   add_foreign_key "crm_activities", "conversations"
   add_foreign_key "crm_activities", "crm_cards", column: "card_id"

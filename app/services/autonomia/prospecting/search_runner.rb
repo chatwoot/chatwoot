@@ -24,7 +24,10 @@ class Autonomia::Prospecting::SearchRunner
 
     ActiveRecord::Base.transaction do
       provider_instance = provider
-      leads = provider_instance.search.map { |attributes| upsert_lead!(search, attributes) }
+      leads = provider_instance.search.each_with_index.map do |attributes, index|
+        upsert_lead!(search, attributes, google_rank: index + 1)
+      end
+      assign_priority_positions!(leads)
       search.metadata = search.metadata.to_h.merge(
         'lead_ids' => leads.map(&:id),
         'results_count' => leads.size
@@ -99,12 +102,32 @@ class Autonomia::Prospecting::SearchRunner
     raise ProviderError, 'Google Places API key is not configured for this account' unless @setting.google_places_configured?
   end
 
-  def upsert_lead!(search, attributes)
+  def upsert_lead!(search, attributes, google_rank:)
     dedupe_key = dedupe_key_for(attributes)
     lead = find_existing_lead(attributes, dedupe_key) || Autonomia::Prospecting::Lead.new(account: @account)
-    lead.assign_attributes(attributes.merge(search: search, dedupe_key: dedupe_key))
+    scoring_attributes = score_for(attributes, google_rank)
+    lead.assign_attributes(
+      attributes.merge(scoring_attributes).merge(search: search, dedupe_key: dedupe_key, search_rank: google_rank)
+    )
     lead.save!
     lead
+  end
+
+  def score_for(attributes, google_rank)
+    Autonomia::Prospecting::LeadScorer.new(
+      lead_attributes: attributes,
+      query: query,
+      google_rank: google_rank,
+      weights: @setting.active_scoring_weights
+    ).perform
+  end
+
+  def assign_priority_positions!(leads)
+    leads.compact
+         .sort_by { |lead| [-lead.priority_score.to_f, lead.name.to_s] }
+         .each_with_index do |lead, index|
+           lead.update_column(:priority_position, index + 1)
+         end
   end
 
   def find_existing_lead(attributes, dedupe_key)
@@ -200,7 +223,17 @@ class Autonomia::Prospecting::SearchRunner
 
   def cache_fingerprint
     @cache_fingerprint ||= Digest::SHA256.hexdigest(
-      [@account.id, provider_name, query.downcase, location.downcase, radius, requested_limit].join(':')
+      [
+        @account.id,
+        provider_name,
+        query.downcase,
+        location.downcase,
+        radius,
+        requested_limit,
+        @setting.scoring_mode,
+        @setting.scoring_profile_id,
+        @setting.active_scoring_weights.sort.to_h
+      ].join(':')
     )
   end
 
