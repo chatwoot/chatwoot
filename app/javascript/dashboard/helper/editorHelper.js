@@ -438,20 +438,13 @@ export const resolveVariableText = (key, variables) => {
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
 
-// Resolves a typed {{variable}} to its value on the closing braces; keeps the
-// placeholder for empty/Liquid values, private notes, and inline code.
+// Resolves a manually typed {{variable}} to its value on the closing braces.
+// Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
 export const createVariableInputRule = ({ isPrivate, getVariables }) => {
   const rule = new InputRule(
     /\{\{([^{}]+)\}\}$/,
     (editorState, match, from, to) => {
-      // Inline code: an applied code mark, or a still-open backtick span
-      // (the mark only appears once the closing backtick is typed).
-      const { code } = editorState.schema.marks;
-      const hasCodeMark = code && editorState.doc.rangeHasMark(from, to, code);
-      const $from = editorState.doc.resolve(from);
-      const textBefore = $from.parent.textBetween(0, $from.parentOffset);
-      const inOpenBacktick = (textBefore.match(/`/g) || []).length % 2 === 1;
-      if (isPrivate() || hasCodeMark || inOpenBacktick) return null;
+      if (isPrivate()) return null;
       const [, key] = match;
       const text = resolveVariableText(key, getVariables());
       if (text === `{{${key}}}`) return null;
