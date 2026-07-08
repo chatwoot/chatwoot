@@ -1,5 +1,5 @@
 class Conversations::UnreadCounts::FilteredCountSnapshotResolver
-  BUILD_LOCK_TTL = 15.minutes.to_i
+  BUILD_LOCK_TTL = 5.minutes.to_i
 
   attr_reader :account, :now, :store, :lock_manager
 
