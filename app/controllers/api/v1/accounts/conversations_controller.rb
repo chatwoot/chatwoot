@@ -163,8 +163,8 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.update_columns(updates)
     # rubocop:enable Rails/SkipsModelValidations
 
-    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(Current.account).conversation_changed!
     ::Conversations::UnreadCounts::Notifier.new(@conversation).perform
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(Current.account).conversation_changed!
   end
 
   def should_update_last_seen?
