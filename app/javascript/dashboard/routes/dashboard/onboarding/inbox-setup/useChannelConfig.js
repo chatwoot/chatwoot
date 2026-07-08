@@ -1,5 +1,5 @@
 import { useMapGetter } from 'dashboard/composables/store';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
+import { IS_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 
 // OAuth/SDK channels need installation-level app credentials to be usable. When
 // the credential is missing the channel is "not configured" and is hidden from
@@ -14,14 +14,12 @@ export function useChannelConfig() {
     // WhatsApp is onboarded only via Meta embedded signup, which needs both the
     // app id (not the 'none' sentinel) and the signup configuration id.
     whatsapp: () =>
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
+      !IS_WHATSAPP_INBOX_CREATION_DISABLED &&
       Boolean(installationConfig.whatsappAppId) &&
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),
     facebook: () => Boolean(installationConfig.fbAppId),
-    instagram: () =>
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-      Boolean(installationConfig.instagramAppId),
+    instagram: () => Boolean(installationConfig.instagramAppId),
     tiktok: () => Boolean(installationConfig.tiktokAppId),
     gmail: () => Boolean(installationConfig.googleOAuthClientId),
     outlook: () => Boolean(globalConfig.value.azureAppId),
