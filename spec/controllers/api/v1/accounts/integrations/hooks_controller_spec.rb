@@ -55,6 +55,17 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(account.hooks.where(app_id: 'intercom')).to be_empty
       end
 
+      it 'does not create Intercom hooks through the generic hook endpoint' do
+        post api_v1_account_integrations_hooks_url(account_id: account.id),
+             params: { app_id: 'intercom', status: 'enabled' },
+             headers: admin.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Intercom must be connected from the Intercom integration settings.')
+        expect(account.hooks.where(app_id: 'intercom')).to be_empty
+      end
+
       it 'validates Cloudflare RealtimeKit credentials before creating the hook' do
         allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
           .and_return(Integrations::Cloudflare::RealtimeKitCredentialsValidator::Result.new(false, :invalid_api_token))

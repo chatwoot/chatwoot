@@ -3,6 +3,7 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   before_action :fetch_hook, except: [:create]
   before_action :ensure_intercom_data_import_feature_enabled, only: [:create, :update, :destroy]
+  before_action :reject_intercom_hook_create, only: [:create]
   before_action :check_authorization
 
   def create
@@ -60,6 +61,12 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
     return if Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
 
     raise Pundit::NotAuthorizedError
+  end
+
+  def reject_intercom_hook_create
+    return unless intercom_hook_request?
+
+    render json: { message: 'Intercom must be connected from the Intercom integration settings.' }, status: :unprocessable_entity
   end
 
   def intercom_hook_request?
