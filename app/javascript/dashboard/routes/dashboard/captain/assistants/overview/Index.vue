@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import CaptainAssistant from 'dashboard/api/captain/assistant';
 
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
@@ -17,6 +18,9 @@ import CoverageBanner from 'dashboard/components-next/captain/pageComponents/ove
 
 const { t } = useI18n();
 const route = useRoute();
+// Drilldown is admin-only; the backend policy enforces the same restriction.
+const { checkPermissions } = usePolicy();
+const canDrilldown = computed(() => checkPermissions(['administrator']));
 
 const selectedRange = ref('this_month');
 
@@ -144,6 +148,8 @@ const metrics = computed(() => [
             :trend="metric.trend"
             :hint="metric.hint"
             :trend-good="metric.trendGood"
+            :clickable="canDrilldown"
+            @click="openDrilldown(metric)"
           />
         </div>
 
@@ -151,6 +157,17 @@ const metrics = computed(() => [
 
         <QuickLinks />
       </div>
+
+      <AssistantDrilldownDrawer
+        v-if="canDrilldown"
+        :open="isDrilldownOpen"
+        :assistant-id="assistantId"
+        :metric="drilldown.metric"
+        :metric-name="drilldown.label"
+        :metric-value="drilldown.value"
+        :range="selectedRange"
+        @close="closeDrilldown"
+      />
     </template>
   </PageLayout>
 </template>
