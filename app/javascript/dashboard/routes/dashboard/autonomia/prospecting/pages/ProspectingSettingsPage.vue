@@ -9,7 +9,7 @@ const { t } = useI18n();
 
 const isLoading = ref(true);
 const isSaving = ref(false);
-const error = ref('');
+const hasLoadError = ref(false);
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
@@ -66,7 +66,7 @@ const fetchCrmPipelines = async () => {
 
 const fetchSettings = async () => {
   isLoading.value = true;
-  error.value = '';
+  hasLoadError.value = false;
   try {
     const [{ data }] = await Promise.all([
       AutonomiaProspectingAPI.getSettings(),
@@ -75,7 +75,8 @@ const fetchSettings = async () => {
     syncForm(data.payload || {});
     await fetchCrmStages(form.value.default_crm_pipeline_id);
   } catch {
-    error.value = t('PROSPECTING.ERRORS.LOAD_SETTINGS');
+    hasLoadError.value = true;
+    useAlert(t('PROSPECTING.ERRORS.LOAD_SETTINGS'));
   } finally {
     isLoading.value = false;
   }
@@ -143,11 +144,9 @@ onMounted(fetchSettings);
         {{ t('PROSPECTING.STATES.LOADING') }}
       </div>
       <div
-        v-else-if="error"
-        class="rounded-lg border border-n-weak bg-n-solid-1 px-4 py-8 text-sm text-n-ruby-11"
-      >
-        {{ error }}
-      </div>
+        v-else-if="hasLoadError"
+        class="rounded-lg border border-n-weak bg-n-solid-1 px-4 py-8"
+      />
       <form
         v-else
         class="grid gap-4 rounded-lg border border-n-weak bg-n-solid-1 p-4 text-sm"

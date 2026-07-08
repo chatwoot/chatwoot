@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
 import ProspectingGoogleMap from '../components/ProspectingGoogleMap.vue';
@@ -16,7 +17,6 @@ const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
 const selectedLeadIds = ref([]);
 const bulkAction = ref('');
-const error = ref('');
 const searches = ref([]);
 const leads = ref([]);
 const settings = ref(null);
@@ -326,11 +326,14 @@ const selectSearchPayload = async payload => {
   await applyCrmTarget(payload.search || payload);
 };
 
+const alertError = (error, fallbackMessage) => {
+  useAlert(error?.response?.data?.error || fallbackMessage);
+};
+
 const submitSearch = async () => {
   if (!canSearch.value) return;
 
   isSearching.value = true;
-  error.value = '';
   leads.value = [];
 
   try {
@@ -355,8 +358,7 @@ const submitSearch = async () => {
     await selectSearchPayload(payload);
     showNewSearch.value = false;
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_SEARCH');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_SEARCH'));
   } finally {
     isSearching.value = false;
   }
@@ -366,14 +368,13 @@ const openSearch = async search => {
   selectedSearchId.value = search.id;
   selectedLeadIds.value = [];
   selectedLeadDetailId.value = null;
-  error.value = '';
   isLoading.value = true;
 
   try {
     const { data } = await AutonomiaProspectingAPI.getSearch(search.id);
     await selectSearchPayload(data.payload || {});
   } catch {
-    error.value = t('PROSPECTING.ERRORS.LOAD_SEARCH');
+    useAlert(t('PROSPECTING.ERRORS.LOAD_SEARCH'));
   } finally {
     isLoading.value = false;
   }
@@ -388,7 +389,6 @@ const deleteSearch = async search => {
   if (!search?.id || deletingSearchId.value) return;
 
   deletingSearchId.value = search.id;
-  error.value = '';
   try {
     await AutonomiaProspectingAPI.deleteSearch(search.id);
     searches.value = searches.value.filter(item => item.id !== search.id);
@@ -400,8 +400,7 @@ const deleteSearch = async search => {
       if (selectedSearchId.value) await openSearch(searches.value[0]);
     }
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.DELETE_SEARCH');
+    alertError(e, t('PROSPECTING.ERRORS.DELETE_SEARCH'));
   } finally {
     deletingSearchId.value = null;
   }
@@ -465,24 +464,25 @@ const replaceLead = updatedLead => {
   );
 };
 
-const createContact = async lead => {
+const createContact = async (lead, options = {}) => {
   if (!lead?.id || lead.contact_id || convertingLeadId.value) return;
 
   convertingLeadId.value = lead.id;
-  error.value = '';
 
   try {
     const { data } = await AutonomiaProspectingAPI.createLeadContact(lead.id);
     replaceLead(data.payload?.lead);
+    if (options.showAlert !== false) {
+      useAlert(t('PROSPECTING.SEARCH.CONTACT_CREATED'));
+    }
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_CONTACT'));
   } finally {
     convertingLeadId.value = null;
   }
 };
 
-const createCrmCard = async lead => {
+const createCrmCard = async (lead, options = {}) => {
   if (
     !lead?.id ||
     lead.crm_card_id ||
@@ -493,7 +493,6 @@ const createCrmCard = async lead => {
   }
 
   convertingCrmLeadId.value = lead.id;
-  error.value = '';
 
   try {
     const { data } = await AutonomiaProspectingAPI.createLeadCrmCard(lead.id, {
@@ -501,9 +500,11 @@ const createCrmCard = async lead => {
       stage_id: crmForm.value.stage_id,
     });
     replaceLead(data.payload?.lead);
+    if (options.showAlert !== false) {
+      useAlert(t('PROSPECTING.SEARCH.CRM_CARD_CREATED'));
+    }
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CRM_CARD');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_CRM_CARD'));
   } finally {
     convertingCrmLeadId.value = null;
   }
@@ -513,25 +514,28 @@ const runBulkAction = async action => {
   if (!hasSelectedLeads.value || bulkAction.value) return;
 
   bulkAction.value = action;
-  error.value = '';
 
   try {
     if (action === 'contacts') {
       await selectedLeadObjects.value
         .filter(item => !item.contact_id)
         .reduce(
-          (promise, lead) => promise.then(() => createContact(lead)),
+          (promise, lead) =>
+            promise.then(() => createContact(lead, { showAlert: false })),
           Promise.resolve()
         );
+      useAlert(t('PROSPECTING.SEARCH.CONTACT_CREATED'));
     }
 
     if (action === 'crm_cards') {
       await selectedLeadObjects.value
         .filter(item => !item.crm_card_id)
         .reduce(
-          (promise, lead) => promise.then(() => createCrmCard(lead)),
+          (promise, lead) =>
+            promise.then(() => createCrmCard(lead, { showAlert: false })),
           Promise.resolve()
         );
+      useAlert(t('PROSPECTING.SEARCH.CRM_CARD_CREATED'));
     }
   } finally {
     bulkAction.value = '';
@@ -628,8 +632,7 @@ const saveSearchConfig = async search => {
       await applyCrmTarget(data.payload);
     }
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.UPDATE_SEARCH');
+    alertError(e, t('PROSPECTING.ERRORS.UPDATE_SEARCH'));
   }
 };
 
@@ -641,7 +644,7 @@ onMounted(async () => {
     await fetchSearches();
     if (searches.value.length) await openSearch(searches.value[0]);
   } catch {
-    error.value = t('PROSPECTING.ERRORS.LOAD_SEARCHES');
+    useAlert(t('PROSPECTING.ERRORS.LOAD_SEARCHES'));
   } finally {
     isLoading.value = false;
   }
@@ -683,13 +686,6 @@ onMounted(async () => {
     <section
       class="flex min-h-0 w-full flex-1 flex-col overflow-hidden px-6 py-5"
     >
-      <div
-        v-if="error"
-        class="mb-4 rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
-      >
-        {{ error }}
-      </div>
-
       <form
         v-if="showNewSearch"
         class="min-h-0 overflow-y-auto rounded-lg border border-n-weak bg-n-solid-1"
