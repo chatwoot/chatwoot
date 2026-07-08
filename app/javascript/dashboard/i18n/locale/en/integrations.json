@@ -439,6 +439,14 @@
           "HINT": "Average replies the assistant sends per conversation."
         }
       },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
+        "RESULT_COUNT_MESSAGE": "{count} message | {count} messages"
+      },
       "KNOWLEDGE": {
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
