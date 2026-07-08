@@ -2,6 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CampaignsAPI from 'dashboard/api/campaigns';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
@@ -16,8 +17,6 @@ const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
 const isCreatingCampaignSegment = ref(false);
 const isAddingSelectedLeads = ref(false);
-const error = ref('');
-const notice = ref('');
 const lists = ref([]);
 const selectedList = ref(null);
 const allLeads = ref([]);
@@ -150,6 +149,10 @@ const googleMapsLeadUrl = lead => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 };
 
+const alertError = (error, fallbackMessage) => {
+  useAlert(error?.response?.data?.error || fallbackMessage);
+};
+
 const replaceLead = updatedLead => {
   if (!updatedLead?.id) return;
 
@@ -223,8 +226,6 @@ const fetchSettings = async () => {
 const selectList = async list => {
   if (!list?.id) return;
 
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.getList(list.id);
     selectedList.value = data.payload || null;
@@ -233,13 +234,12 @@ const selectList = async list => {
       segment_name: selectedList.value?.name || '',
     };
   } catch {
-    error.value = t('PROSPECTING.ERRORS.LOAD_LIST');
+    useAlert(t('PROSPECTING.ERRORS.LOAD_LIST'));
   }
 };
 
 const loadPage = async () => {
   isLoading.value = true;
-  error.value = '';
   try {
     await fetchSettings();
     await Promise.all([
@@ -252,7 +252,7 @@ const loadPage = async () => {
       await selectList(lists.value[0]);
     }
   } catch {
-    error.value = t('PROSPECTING.ERRORS.LOAD_LISTS');
+    useAlert(t('PROSPECTING.ERRORS.LOAD_LISTS'));
   } finally {
     isLoading.value = false;
   }
@@ -262,8 +262,6 @@ const createList = async () => {
   if (!form.value.name.trim() || isCreating.value) return;
 
   isCreating.value = true;
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.createList({
       name: form.value.name.trim(),
@@ -273,10 +271,9 @@ const createList = async () => {
     await fetchLists();
     await selectList(data.payload);
     showCreateListModal.value = false;
-    notice.value = t('PROSPECTING.LISTS.CREATED');
+    useAlert(t('PROSPECTING.LISTS.CREATED'));
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_LIST');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_LIST'));
   } finally {
     isCreating.value = false;
   }
@@ -348,8 +345,6 @@ const addSelectedLeads = async () => {
   }
 
   isAddingSelectedLeads.value = true;
-  error.value = '';
-  notice.value = '';
   try {
     const addedCount = selectedAddLeadIds.value.length;
     let payload = selectedList.value;
@@ -365,12 +360,13 @@ const addSelectedLeads = async () => {
     await Promise.all([fetchLists(), fetchAllLeads()]);
     selectedAddLeadIds.value = [];
     showAddLeadsModal.value = false;
-    notice.value = t('PROSPECTING.LISTS.LEADS_ADDED', {
-      count: addedCount,
-    });
+    useAlert(
+      t('PROSPECTING.LISTS.LEADS_ADDED', {
+        count: addedCount,
+      })
+    );
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.ADD_LEAD_TO_LIST');
+    alertError(e, t('PROSPECTING.ERRORS.ADD_LEAD_TO_LIST'));
   } finally {
     isAddingSelectedLeads.value = false;
   }
@@ -380,8 +376,6 @@ const removeLead = async lead => {
   if (!selectedList.value?.id || !lead?.id || busyLeadId.value) return;
 
   busyLeadId.value = lead.id;
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.removeLeadFromList(
       selectedList.value.id,
@@ -389,10 +383,9 @@ const removeLead = async lead => {
     );
     selectedList.value = data.payload || selectedList.value;
     await fetchLists();
-    notice.value = t('PROSPECTING.LISTS.LEAD_REMOVED');
+    useAlert(t('PROSPECTING.LISTS.LEAD_REMOVED'));
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.REMOVE_LEAD_FROM_LIST');
+    alertError(e, t('PROSPECTING.ERRORS.REMOVE_LEAD_FROM_LIST'));
   } finally {
     busyLeadId.value = null;
   }
@@ -402,15 +395,12 @@ const createContact = async lead => {
   if (!lead?.id || lead.contact_id || convertingLeadId.value) return;
 
   convertingLeadId.value = lead.id;
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.createLeadContact(lead.id);
     replaceLead(data.payload?.lead);
-    notice.value = t('PROSPECTING.SEARCH.CONTACT_CREATED');
+    useAlert(t('PROSPECTING.SEARCH.CONTACT_CREATED'));
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CONTACT');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_CONTACT'));
   } finally {
     convertingLeadId.value = null;
   }
@@ -427,18 +417,15 @@ const createCrmCard = async lead => {
   }
 
   convertingCrmLeadId.value = lead.id;
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.createLeadCrmCard(lead.id, {
       pipeline_id: crmForm.value.pipeline_id,
       stage_id: crmForm.value.stage_id,
     });
     replaceLead(data.payload?.lead);
-    notice.value = t('PROSPECTING.SEARCH.CRM_CARD_CREATED');
+    useAlert(t('PROSPECTING.SEARCH.CRM_CARD_CREATED'));
   } catch (e) {
-    error.value =
-      e?.response?.data?.error || t('PROSPECTING.ERRORS.CREATE_CRM_CARD');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_CRM_CARD'));
   } finally {
     convertingCrmLeadId.value = null;
   }
@@ -454,8 +441,6 @@ const createCampaignSegment = async () => {
   }
 
   isCreatingCampaignSegment.value = true;
-  error.value = '';
-  notice.value = '';
   try {
     const { data } = await AutonomiaProspectingAPI.createCampaignSegment(
       selectedList.value.id,
@@ -467,14 +452,14 @@ const createCampaignSegment = async () => {
     );
     selectedList.value = data.payload?.list || selectedList.value;
     await fetchLists();
-    notice.value = t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATED', {
-      label: data.payload?.segment?.label?.title || '-',
-    });
+    useAlert(
+      t('PROSPECTING.LISTS.CAMPAIGN_SEGMENT_CREATED', {
+        label: data.payload?.segment?.label?.title || '-',
+      })
+    );
     showCampaignModal.value = false;
   } catch (e) {
-    error.value =
-      e?.response?.data?.error ||
-      t('PROSPECTING.ERRORS.CREATE_CAMPAIGN_SEGMENT');
+    alertError(e, t('PROSPECTING.ERRORS.CREATE_CAMPAIGN_SEGMENT'));
   } finally {
     isCreatingCampaignSegment.value = false;
   }
@@ -517,19 +502,6 @@ onMounted(loadPage);
     <section
       class="flex min-h-0 w-full flex-1 flex-col gap-4 overflow-hidden px-6 py-5"
     >
-      <div
-        v-if="notice"
-        class="rounded-md bg-n-teal-3 px-4 py-3 text-sm text-n-teal-11"
-      >
-        {{ notice }}
-      </div>
-      <div
-        v-if="error"
-        class="rounded-md bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
-      >
-        {{ error }}
-      </div>
-
       <div
         class="grid min-h-0 w-full flex-1 gap-4 xl:grid-cols-[22rem_minmax(0,1fr)]"
       >
