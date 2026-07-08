@@ -45,6 +45,19 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountStore do
       expect(described_class.bump_filter_version!(account_id: account_id, filter_id: filter_id)).to eq(1)
     end
 
+    it 'increments and expires version keys in one Redis transaction' do
+      key = described_class.conversation_version_key(account_id)
+      connection = instance_double(Redis)
+      transaction = instance_double(Redis::MultiConnection)
+
+      allow(Redis::Alfred).to receive(:with).and_yield(connection)
+      expect(connection).to receive(:multi).and_yield(transaction).and_return([1, true])
+      expect(transaction).to receive(:incr).with(key)
+      expect(transaction).to receive(:expire).with(key, Conversations::UnreadCounts::FILTERED_COUNT_VERSION_TTL)
+
+      expect(described_class.bump_conversation_version!(account_id)).to eq(1)
+    end
+
     it 'expires version keys after bumping them' do
       described_class.bump_conversation_version!(account_id)
       described_class.bump_built_in_filter_version!(account_id: account_id, user_id: user_id)
@@ -138,6 +151,42 @@ RSpec.describe Conversations::UnreadCounts::FilteredCountStore do
 
       described_class.delete_filter_count!(account_id: account_id, filter_id: filter_id)
       expect(described_class.filter_count(account_id: account_id, filter_id: filter_id)).to be_nil
+    end
+
+    it 'uses caller-provided versions when classifying snapshots' do
+      account_version = described_class.bump_conversation_version!(account_id)
+      filter_version = described_class.bump_filter_version!(account_id: account_id, filter_id: filter_id)
+      owner_built_in_filter_version = described_class.bump_built_in_filter_version!(account_id: account_id, user_id: user_id)
+
+      described_class.write_filter_count!(
+        account_id: account_id,
+        filter_id: filter_id,
+        user_id: user_id,
+        count: 7,
+        account_version: account_version,
+        filter_version: filter_version,
+        owner_built_in_filter_version: owner_built_in_filter_version,
+        built_at: built_at
+      )
+
+      versions = {
+        account_version: account_version,
+        filter_version: filter_version,
+        owner_built_in_filter_version: owner_built_in_filter_version
+      }
+
+      expect(described_class).not_to receive(:conversation_version)
+      expect(described_class).not_to receive(:filter_version)
+      expect(described_class).not_to receive(:built_in_filter_version)
+
+      expect(
+        described_class.filter_count_state(
+          account_id: account_id,
+          filter_id: filter_id,
+          versions: versions,
+          now: built_at + 1.minute
+        )
+      ).to be_fresh
     end
   end
 

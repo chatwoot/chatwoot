@@ -15,6 +15,15 @@ describe Enterprise::Billing::TopupCheckoutService do
              { 'name' => 'Business', 'product_id' => ['prod_business'], 'price_ids' => ['price_business'] }
            ])
 
+    create(:installation_config, name: 'CAPTAIN_TOPUP_OPTIONS', value: {
+             'usd' => [
+               { 'credits' => 1000, 'amount' => 20.0 },
+               { 'credits' => 2500, 'amount' => 50.0 },
+               { 'credits' => 6000, 'amount' => 100.0 },
+               { 'credits' => 12_000, 'amount' => 200.0 }
+             ]
+           })
+
     account.update!(
       custom_attributes: { plan_name: 'Business', stripe_customer_id: stripe_customer_id },
       limits: { 'captain_responses' => 500 }
