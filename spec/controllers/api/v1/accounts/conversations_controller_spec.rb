@@ -159,6 +159,24 @@ RSpec.describe 'Conversations API', type: :request do
           expect(response).to have_http_status(:success)
           expect(response.parsed_body['payload']['teams']).to eq(team.id.to_s => 1)
         end
+
+        it 'returns filtered unread counts when the filtered count feature is enabled' do
+          account.enable_features!(:unread_count_for_filters)
+          mentioned = create_unread_conversation(account: account, inbox: visible_inbox)
+          create(:mention, account: account, conversation: mentioned, user: agent)
+
+          get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+              headers: agent.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(response.parsed_body['payload']).to include(
+            'mentions_count' => 1,
+            'participating_count' => 0,
+            'unattended_count' => 1,
+            'folders' => {}
+          )
+        end
       end
 
       it 'returns forbidden when conversation unread counts feature is disabled' do
@@ -865,6 +883,25 @@ RSpec.describe 'Conversations API', type: :request do
         Conversations::UnreadCounts::Store.clear_account!(account.id)
       end
 
+      it 'refreshes unread count cache before invalidating filtered counts when conversation is marked read' do
+        account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        notifier = instance_double(Conversations::UnreadCounts::Notifier)
+        invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+        allow(Conversations::UnreadCounts::Notifier).to receive(:new).with(conversation).and_return(notifier)
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        expect(notifier).to receive(:perform).ordered.and_return(true)
+        expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
       it 'invalidates filtered unread counts when conversation is marked read' do
         conversation.update!(agent_last_seen_at: 1.hour.ago)
         create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
@@ -963,6 +1000,24 @@ RSpec.describe 'Conversations API', type: :request do
         expect(Conversations::UnreadCounts::Store.counts_for_keys([inbox_key])).to eq(inbox_key => 1)
       ensure
         Conversations::UnreadCounts::Store.clear_account!(account.id)
+      end
+
+      it 'refreshes unread count cache before invalidating filtered counts when conversation is marked unread' do
+        account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+        conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
+        notifier = instance_double(Conversations::UnreadCounts::Notifier)
+        invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+        allow(Conversations::UnreadCounts::Notifier).to receive(:new).with(conversation).and_return(notifier)
+        allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        expect(notifier).to receive(:perform).ordered.and_return(true)
+        expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
       end
 
       it 'invalidates filtered unread counts when conversation is marked unread' do
