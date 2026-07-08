@@ -198,14 +198,8 @@ onMounted(fetchSettings);
 </script>
 
 <template>
-  <main class="flex min-h-full w-full flex-col bg-n-background">
-    <header class="border-b border-n-weak px-6 py-4">
-      <h1 class="text-xl font-semibold text-n-slate-12">
-        {{ t('PROSPECTING.SETTINGS.TITLE') }}
-      </h1>
-    </header>
-
-    <section class="grid w-full gap-3 px-6 py-5">
+  <main class="flex min-h-full w-full flex-col">
+    <section class="grid w-full gap-3">
       <div
         v-if="isLoading"
         class="rounded-lg border border-n-weak bg-n-solid-1 px-4 py-8 text-sm text-n-slate-11"

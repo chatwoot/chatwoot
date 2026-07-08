@@ -1049,27 +1049,92 @@ onMounted(loadPage);
             <label
               v-for="lead in filteredAvailableLeads"
               :key="lead.id"
-              class="flex min-w-0 cursor-pointer items-start gap-3 overflow-hidden rounded-md border border-n-weak p-3 hover:bg-n-solid-2"
+              class="grid min-w-0 cursor-pointer gap-2 overflow-hidden rounded-lg border border-n-weak bg-n-solid-1 p-3 text-sm transition-colors hover:border-n-slate-5 hover:bg-n-solid-2"
             >
-              <input
-                type="checkbox"
-                class="mt-1 size-4"
-                :checked="
-                  selectedAddLeadIds.map(Number).includes(Number(lead.id))
-                "
-                @change="toggleAddLeadSelection(lead.id)"
-              />
-              <span class="min-w-0 flex-1">
+              <span class="flex min-w-0 items-start gap-3">
+                <input
+                  type="checkbox"
+                  class="mt-1 size-4 shrink-0"
+                  :checked="
+                    selectedAddLeadIds.map(Number).includes(Number(lead.id))
+                  "
+                  @change="toggleAddLeadSelection(lead.id)"
+                />
+                <ProspectingPriorityRing
+                  :priority="leadPriority(lead)"
+                  :size="44"
+                />
+                <span class="min-w-0 flex-1">
+                  <span class="flex flex-wrap items-center gap-1.5">
+                    <span
+                      v-if="lead.search_rank"
+                      class="inline-flex items-center rounded bg-n-amber-2 px-1.5 py-0.5 text-[10px] font-bold leading-tight text-n-amber-11 ring-1 ring-n-amber-5"
+                    >
+                      {{
+                        t('PROSPECTING.SEARCH.PRIORITY_GOOGLE_RANK', {
+                          rank: lead.search_rank,
+                        })
+                      }}
+                    </span>
+                    <span
+                      v-if="lead.priority_position"
+                      class="text-[11px] text-n-slate-10"
+                    >
+                      {{
+                        t('PROSPECTING.SEARCH.PRIORITY_POSITION', {
+                          position: lead.priority_position,
+                        })
+                      }}
+                    </span>
+                    <span
+                      v-if="lead.priority_position === 1"
+                      class="inline-flex items-center gap-0.5 rounded-full bg-n-teal-2 px-1.5 py-0.5 text-[10px] font-semibold leading-tight text-n-teal-11 ring-1 ring-n-teal-5"
+                    >
+                      <span class="i-lucide-zap size-3" />
+                      {{ t('PROSPECTING.SEARCH.PRIORITY_FIRST_CALL_SHORT') }}
+                    </span>
+                  </span>
+                  <span
+                    class="mt-1 block break-words text-sm font-semibold leading-tight text-n-slate-12"
+                  >
+                    {{ lead.name }}
+                  </span>
+                  <span
+                    class="mt-1 grid min-w-0 max-w-full grid-cols-[auto_auto_minmax(0,1fr)] items-baseline gap-1.5 overflow-hidden"
+                  >
+                    <span
+                      v-if="leadPriorityTheme(lead)"
+                      class="text-xs font-medium"
+                      :class="leadPriorityTheme(lead).titleClass"
+                    >
+                      {{ leadPriorityTheme(lead).title }}
+                    </span>
+                    <span v-if="leadPriorityTheme(lead)" class="text-n-slate-6">
+                      ·
+                    </span>
+                    <span
+                      class="min-w-0 flex-1 truncate text-xs text-n-slate-10"
+                    >
+                      {{ formatLeadAddress(lead) || lead.phone || '-' }}
+                    </span>
+                  </span>
+                </span>
+              </span>
+              <span
+                v-if="leadSignals(lead).length"
+                class="flex flex-wrap gap-1.5 pl-20"
+              >
                 <span
-                  class="block break-words text-sm font-medium text-n-slate-12"
+                  v-for="signal in leadSignals(lead)"
+                  :key="signal.key"
+                  class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium"
+                  :class="signal.card"
                 >
-                  {{ lead.name }}
-                </span>
-                <span class="mt-1 block break-words text-xs text-n-slate-10">
-                  {{ formatLeadAddress(lead) || lead.phone || '-' }}
-                </span>
-                <span class="mt-1 block text-xs text-n-slate-10">
-                  {{ lead.category || '-' }}
+                  <span
+                    :class="[signal.icon, signal.iconClass]"
+                    class="size-3"
+                  />
+                  {{ signal.label }}
                 </span>
               </span>
             </label>
