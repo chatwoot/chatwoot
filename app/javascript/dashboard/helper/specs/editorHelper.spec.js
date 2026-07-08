@@ -1231,16 +1231,34 @@ describe('Menu positioning helpers', () => {
 });
 
 describe('createVariableInputRule', () => {
+  const codeSchema = new Schema({
+    nodes: {
+      doc: { content: 'block+' },
+      paragraph: { content: 'inline*', group: 'block', toDOM: () => ['p', 0] },
+      code_block: {
+        content: 'text*',
+        group: 'block',
+        code: true,
+        toDOM: () => ['pre', 0],
+      },
+      text: { group: 'inline' },
+    },
+    marks: { code: { toDOM: () => ['code', 0] } },
+  });
+
   // Editor holding `{{key}` so we can simulate typing the final `}`.
-  const buildView = (typed, { isPrivate = false, variables = {} } = {}) => {
+  const buildView = (
+    typed,
+    { isPrivate = false, variables = {}, marks = [], block = 'paragraph' } = {}
+  ) => {
     const plugin = createVariableInputRule({
       isPrivate: () => isPrivate,
       getVariables: () => variables,
     });
     const state = EditorState.create({
-      schema,
-      doc: schema.node('doc', null, [
-        schema.node('paragraph', null, [schema.text(typed)]),
+      schema: codeSchema,
+      doc: codeSchema.node('doc', null, [
+        codeSchema.node(block, null, [codeSchema.text(typed, marks)]),
       ]),
       plugins: [plugin],
     });
@@ -1304,6 +1322,30 @@ describe('createVariableInputRule', () => {
     const view = buildView('{{contact.name}', {
       isPrivate: true,
       variables: { 'contact.name': 'John' },
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
+  });
+
+  it('does not resolve inside inline code', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': 'John' },
+      marks: [codeSchema.marks.code.create()],
+    });
+
+    typeClosingBrace(view);
+
+    expect(view.state.doc.textContent).toBe('{{contact.name}}');
+    view.destroy();
+  });
+
+  it('does not resolve inside a code block', () => {
+    const view = buildView('{{contact.name}', {
+      variables: { 'contact.name': 'John' },
+      block: 'code_block',
     });
 
     typeClosingBrace(view);

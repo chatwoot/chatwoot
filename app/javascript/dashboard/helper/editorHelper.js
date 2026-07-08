@@ -5,11 +5,11 @@ import {
   Selection,
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
-import { inputRules, InputRule } from 'prosemirror-inputrules';
 import * as Sentry from '@sentry/vue';
 import camelcaseKeys from 'camelcase-keys';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import { InputRule, inputRules } from 'prosemirror-inputrules';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -429,8 +429,7 @@ export function stripUnsupportedFormatting(content, schema) {
  * - emoji
  */
 
-// Liquid delimiters the backend evaluates on send; values holding these keep
-// their {{placeholder}} so we never re-inject Liquid into the message body.
+// Liquid delimiters ({{ }} / {% %}) the backend evaluates on send.
 const LIQUID_SYNTAX = /\{\{|\{%/;
 
 // Value when set (and not itself Liquid), else the {{placeholder}} for the backend.
@@ -439,13 +438,15 @@ export const resolveVariableText = (key, variables) => {
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
 
-// Resolves a manually typed {{variable}} to its value on the closing braces.
-// Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
+// Resolves a typed {{variable}} to its value on the closing braces; keeps the
+// placeholder for empty/Liquid values, private notes, and inline code.
 export const createVariableInputRule = ({ isPrivate, getVariables }) => {
   const rule = new InputRule(
     /\{\{([^{}]+)\}\}$/,
     (editorState, match, from, to) => {
-      if (isPrivate()) return null;
+      const { code } = editorState.schema.marks;
+      const inCode = code && editorState.doc.rangeHasMark(from, to, code);
+      if (isPrivate() || inCode) return null;
       const [, key] = match;
       const text = resolveVariableText(key, getVariables());
       if (text === `{{${key}}}`) return null;
