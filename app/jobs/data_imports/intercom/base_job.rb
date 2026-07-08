@@ -21,7 +21,8 @@ class DataImports::Intercom::BaseJob < ApplicationJob
 
   def skip_import?(data_import, run_id = nil)
     data_import.reload
-    data_import.abandoned? || data_import.completed? || data_import.completed_with_errors? || stale_import_run?(data_import, run_id)
+    data_import.abandoned? || data_import.failed? || data_import.completed? ||
+      data_import.completed_with_errors? || stale_import_run?(data_import, run_id)
   end
 
   def stale_import_run?(data_import, run_id)

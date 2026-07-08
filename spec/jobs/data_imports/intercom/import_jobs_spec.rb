@@ -127,6 +127,14 @@ RSpec.describe DataImports::Intercom::ImportJob do
       described_class.perform_now(data_import, 'current-contact-cursor', 'old-run')
     end
 
+    it 'skips failed page jobs from backend retries' do
+      data_import.update!(status: :failed)
+
+      expect(DataImports::Intercom::Importer).not_to receive(:new)
+
+      described_class.perform_now(data_import, 'current-contact-cursor', run_id)
+    end
+
     it 'does not enqueue another stage when the page import becomes stale' do
       result = DataImports::Intercom::Importer::PageResult.new(next_cursor: nil)
       allow(importer).to receive_messages(contacts_completed?: false, finish!: true)
