@@ -62,8 +62,13 @@ class Conversation < ApplicationRecord
   include PushDataHelper
   include ConversationMuteHelpers
 
-  FILTERABLE_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
-  private_constant :FILTERABLE_ADDITIONAL_ATTRIBUTE_KEYS
+  CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS = %w[conversation_language].freeze
+  FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS = %w[browser_language conversation_language mail_subject referer].freeze
+  FILTERED_UNREAD_COUNT_UPDATE_KEYS = %w[
+    cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until waiting_since
+  ].freeze
+  private_constant :CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS, :FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS,
+                   :FILTERED_UNREAD_COUNT_UPDATE_KEYS
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -250,6 +255,7 @@ class Conversation < ApplicationRecord
     handle_resolved_status_change
     notify_status_change
     create_activity
+    invalidate_filtered_unread_count_conversation
     notify_conversation_updation
   end
 
@@ -311,14 +317,28 @@ class Conversation < ApplicationRecord
   end
 
   def list_of_keys
-    %w[campaign_id team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
-       first_reply_created_at priority last_activity_at]
+    %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
+       first_reply_created_at priority]
   end
 
   def allowed_keys?
-    additional_attributes_change = previous_changes['additional_attributes']
     previous_changes.keys.intersect?(list_of_keys) ||
-      Array(additional_attributes_change).compact.any? { |attributes| attributes.keys.intersect?(FILTERABLE_ADDITIONAL_ATTRIBUTE_KEYS) }
+      additional_attributes_changed?(CONVERSATION_UPDATED_ADDITIONAL_ATTRIBUTE_KEYS)
+  end
+
+  def invalidate_filtered_unread_count_conversation
+    return unless filtered_unread_count_update?
+
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).conversation_changed!
+  end
+
+  def filtered_unread_count_update?
+    previous_changes.keys.intersect?(FILTERED_UNREAD_COUNT_UPDATE_KEYS) ||
+      additional_attributes_changed?(FILTERED_UNREAD_COUNT_ADDITIONAL_ATTRIBUTE_KEYS)
+  end
+
+  def additional_attributes_changed?(keys)
+    Array(previous_changes['additional_attributes']).compact.any? { |attributes| attributes.keys.intersect?(keys) }
   end
 
   def load_attributes_created_by_db_triggers

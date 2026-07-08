@@ -1,12 +1,6 @@
 class Conversations::UnreadCounts::Listener < BaseListener
   include Events::Types
 
-  FILTERED_CONVERSATION_UPDATE_KEYS = %w[
-    additional_attributes cached_label_list campaign_id custom_attributes first_reply_created_at label_list last_activity_at priority snoozed_until
-    waiting_since
-  ].freeze
-  private_constant :FILTERED_CONVERSATION_UPDATE_KEYS
-
   def message_created(event)
     message, = extract_message_and_account(event)
     account = message.account
@@ -28,7 +22,6 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
   def conversation_updated(event)
     conversation, = extract_conversation_and_account(event)
-    invalidate_filtered_conversation(conversation) if filtered_conversation_update_changed?(event.data[:changed_attributes])
     return unless label_changed?(event.data[:changed_attributes])
 
     refresh(conversation, event.data[:changed_attributes])
@@ -115,12 +108,6 @@ class Conversations::UnreadCounts::Listener < BaseListener
 
     changed_attributes.key?('label_list') || changed_attributes.key?(:label_list) ||
       changed_attributes.key?('cached_label_list') || changed_attributes.key?(:cached_label_list)
-  end
-
-  def filtered_conversation_update_changed?(changed_attributes)
-    return false if changed_attributes.blank?
-
-    changed_attributes.keys.map(&:to_s).intersect?(FILTERED_CONVERSATION_UPDATE_KEYS)
   end
 
   def invalidate_filtered_conversation(conversation)

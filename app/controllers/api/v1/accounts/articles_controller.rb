@@ -40,8 +40,8 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   end
 
   def reorder
-    Article.update_positions(portal: @portal, positions_hash: params[:positions_hash])
-    head :ok
+    positions = Article.update_positions(portal: @portal, positions_hash: params[:positions_hash])
+    render json: { positions: positions }
   end
 
   private

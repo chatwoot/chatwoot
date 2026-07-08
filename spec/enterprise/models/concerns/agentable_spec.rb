@@ -179,6 +179,14 @@ RSpec.describe Concerns::Agentable do
       expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
     end
 
+    it 'returns the Captain V2 default when Captain V2 is enabled' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      account.enable_features!('captain_integration_v2')
+
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
+      expect(account.reload.captain_models).to be_nil
+    end
+
     it 'returns the assistant feature default model when account is nil' do
       agent = dummy_class.new(account: nil)
 

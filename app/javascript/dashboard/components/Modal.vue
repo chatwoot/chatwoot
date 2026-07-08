@@ -123,6 +123,10 @@ onMounted(() => {
       a {
         @apply p-4;
       }
+
+      .ProseMirror a {
+        @apply p-0;
+      }
     }
   }
 }

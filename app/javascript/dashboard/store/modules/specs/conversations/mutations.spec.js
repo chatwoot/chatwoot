@@ -712,8 +712,10 @@ describe('#mutations', () => {
       mutations[types.ASSIGN_AGENT](state, {
         conversationId: 1,
         assignee,
+        assigneeType: 'AgentBot',
       });
       expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+      expect(state.allConversations[0].meta.assignee_type).toEqual('AgentBot');
       expect(state.allConversations[1].meta.assignee).toBeUndefined();
     });
   });
