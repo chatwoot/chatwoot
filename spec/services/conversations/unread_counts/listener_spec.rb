@@ -22,6 +22,19 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     expect(notifier).to have_received(:perform)
   end
 
+  it 'refreshes unread count memberships before invalidating filtered counts when an incoming message is created' do
+    account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+    message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming)
+    event = Events::Base.new('message.created', Time.zone.now, message: message)
+    invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+    allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+    expect(notifier).to receive(:perform).ordered.and_return(true)
+    expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+    listener.message_created(event)
+  end
+
   it 'ignores outgoing message creation' do
     message = create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing)
     event = Events::Base.new('message.created', Time.zone.now, message: message)
@@ -76,6 +89,19 @@ RSpec.describe Conversations::UnreadCounts::Listener do
 
     expect(Conversations::UnreadCounts::Notifier).to have_received(:new).with(conversation, changed_attributes: changed_attributes)
     expect(notifier).to have_received(:perform)
+  end
+
+  it 'refreshes unread count memberships before invalidating filtered counts when conversation status changes' do
+    account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+    changed_attributes = { 'status' => %w[open resolved] }
+    event = Events::Base.new('conversation.status_changed', Time.zone.now, conversation: conversation, changed_attributes: changed_attributes)
+    invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+    allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+    expect(notifier).to receive(:perform).ordered.and_return(true)
+    expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+    listener.conversation_status_changed(event)
   end
 
   it 'invalidates filtered counts when conversation status changes' do
@@ -195,6 +221,19 @@ RSpec.describe Conversations::UnreadCounts::Listener do
     )
   end
 
+  it 'refreshes unread count memberships before invalidating filtered counts when assignee changes' do
+    account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+    changed_attributes = { assignee_id: [nil, 1] }
+    event = Events::Base.new('assignee.changed', Time.zone.now, conversation: conversation, changed_attributes: changed_attributes)
+    invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+    allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+    expect(notifier).to receive(:perform).ordered.and_return(true)
+    expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+    listener.assignee_changed(event)
+  end
+
   it 'invalidates filtered counts when a user is mentioned' do
     account.enable_features!(:unread_count_for_filters)
     user = create(:user, account: account)
@@ -294,6 +333,29 @@ RSpec.describe Conversations::UnreadCounts::Listener do
       kind_of(Time),
       conversation_data: conversation_data.stringify_keys
     )
+  ensure
+    store.clear_account!(account.id)
+  end
+
+  it 'removes unread count memberships before invalidating filtered counts when a conversation is deleted' do
+    account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+    conversation_data = deleted_conversation_data(conversation)
+    invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator)
+
+    store.mark_base_ready!(account.id)
+    store.add_base_membership(
+      account_id: account.id,
+      inbox_id: conversation.inbox_id,
+      label_ids: [],
+      conversation_id: conversation.id
+    )
+
+    allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+    allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    expect(store).to receive(:remove_base_membership).ordered.and_call_original
+    expect(invalidator).to receive(:conversation_changed!).ordered.and_return(true)
+
+    listener.conversation_deleted(Events::Base.new('conversation.deleted', Time.zone.now, conversation_data: conversation_data))
   ensure
     store.clear_account!(account.id)
   end
