@@ -915,6 +915,27 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
       end
 
+      it 'notifies clients when marking read only affects filtered counts' do
+        account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming, created_at: 5.minutes.ago)
+        allow(Conversations::UnreadCounts::Refresher).to receive(:new).and_return(
+          instance_double(Conversations::UnreadCounts::Refresher, perform: false)
+        )
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'conversation.unread_count_changed',
+          kind_of(Time),
+          conversation: conversation
+        )
+      end
+
       it 'updates both if one timestamp is old even when the other is recent' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older than assignee_last_seen_at (no unread messages)
@@ -1030,6 +1051,26 @@ RSpec.describe 'Conversations API', type: :request do
                as: :json
         end.to change { Conversations::UnreadCounts::FilteredCountStore.conversation_version(account.id) }.by(1)
         expect(response).to have_http_status(:success)
+      end
+
+      it 'notifies clients when marking unread only affects filtered counts' do
+        account.enable_features!(:conversation_unread_counts, :unread_count_for_filters)
+        conversation.update!(agent_last_seen_at: 1.minute.from_now, assignee_last_seen_at: 1.minute.from_now)
+        allow(Conversations::UnreadCounts::Refresher).to receive(:new).and_return(
+          instance_double(Conversations::UnreadCounts::Refresher, perform: false)
+        )
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'conversation.unread_count_changed',
+          kind_of(Time),
+          conversation: conversation
+        )
       end
     end
   end

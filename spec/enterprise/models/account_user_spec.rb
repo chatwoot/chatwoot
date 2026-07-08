@@ -38,10 +38,17 @@ RSpec.describe AccountUser, type: :model do
       invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true)
 
       allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
       account_user.update!(custom_role_id: custom_role.id)
 
       expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
   end
 

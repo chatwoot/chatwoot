@@ -50,6 +50,7 @@ RSpec.describe AccountUser do
 
     before do
       allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
     end
 
     it 'invalidates filtered counts when the user is added to an account' do
@@ -64,6 +65,12 @@ RSpec.describe AccountUser do
       account_user.update!(role: :administrator)
 
       expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
 
     it 'invalidates filtered counts when the user is removed from an account' do

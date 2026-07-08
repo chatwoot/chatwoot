@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Conversations::UnreadCounts::FilteredCounter do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:other_agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
   let(:account_user) { account.account_users.find_by(user: agent) }
   let(:store) { Conversations::UnreadCounts::FilteredCountStore }
@@ -19,13 +20,15 @@ RSpec.describe Conversations::UnreadCounts::FilteredCounter do
   it 'counts participating conversations inside the permission-filtered accessible set' do
     assigned_participating = create_unread_conversation(account: account, inbox: inbox, assignee: agent)
     unassigned_participating = create_unread_conversation(account: account, inbox: inbox)
+    assigned_to_other_participating = create_unread_conversation(account: account, inbox: inbox, assignee: other_agent)
     assigned_not_participating = create_unread_conversation(account: account, inbox: inbox, assignee: agent)
     create(:conversation_participant, account: account, conversation: assigned_participating, user: agent)
     create(:conversation_participant, account: account, conversation: unassigned_participating, user: agent)
+    create(:conversation_participant, account: account, conversation: assigned_to_other_participating, user: agent)
 
     result = described_class.new(account: account, user: agent).perform
 
-    expect(result[:participating_count]).to eq(1)
+    expect(result[:participating_count]).to eq(3)
     expect(result[:mentions_count]).to eq(0)
     expect(result[:folders]).to eq({})
     expect(assigned_not_participating.assignee).to eq(agent)

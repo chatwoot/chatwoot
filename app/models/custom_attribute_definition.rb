@@ -75,7 +75,12 @@ class CustomAttributeDefinition < ApplicationRecord
   end
 
   def invalidate_filtered_unread_count_filters
-    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).custom_attribute_definition_changed!(self)
+    filters_changed = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account).custom_attribute_definition_changed!(self)
+    dispatch_account_cache_invalidated if filters_changed
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
   end
 
   def conversation_attribute_before_or_after?

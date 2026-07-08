@@ -74,6 +74,7 @@ RSpec.describe CustomAttributeDefinition do
 
       before do
         allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
       end
 
       it 'invalidates conversation filters when a conversation custom attribute definition changes' do
@@ -82,6 +83,12 @@ RSpec.describe CustomAttributeDefinition do
         cad.update!(attribute_display_name: 'Updated Order Date')
 
         expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
       end
 
       it 'invalidates conversation filters when a conversation custom attribute definition is deleted' do
@@ -90,6 +97,12 @@ RSpec.describe CustomAttributeDefinition do
         cad.destroy!
 
         expect(invalidator).to have_received(:custom_attribute_definition_changed!).with(cad)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+          'account.cache_invalidated',
+          kind_of(Time),
+          account: account,
+          cache_keys: account.cache_keys
+        )
       end
 
       it 'ignores contact custom attribute definition changes' do
@@ -98,6 +111,7 @@ RSpec.describe CustomAttributeDefinition do
         cad.update!(attribute_display_name: 'Updated Contact Field')
 
         expect(invalidator).not_to have_received(:custom_attribute_definition_changed!)
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
       end
     end
   end

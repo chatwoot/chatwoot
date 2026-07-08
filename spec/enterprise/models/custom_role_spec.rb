@@ -21,12 +21,19 @@ RSpec.describe CustomRole, type: :model do
       create(:account_user, account: account, user: user, custom_role: custom_role)
       create(:account_user, account: account, user: other_user, custom_role: custom_role)
       allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).with(account).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
     end
 
     it 'invalidates filtered counts for assigned users when permissions change' do
       custom_role.update!(permissions: ['conversation_participating_manage'])
 
       expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
 
     it 'does not invalidate filtered counts when permissions are unchanged' do
@@ -39,6 +46,12 @@ RSpec.describe CustomRole, type: :model do
       custom_role.destroy!
 
       expect(invalidator).to have_received(:users_visibility_changed!).with(user_ids: contain_exactly(user.id, other_user.id))
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
   end
 end

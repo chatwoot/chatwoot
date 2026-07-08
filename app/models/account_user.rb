@@ -91,7 +91,11 @@ class AccountUser < ApplicationRecord
   end
 
   def invalidate_filtered_unread_count_visibility_update
-    invalidate_filtered_unread_count_visibility
+    dispatch_account_cache_invalidated if invalidate_filtered_unread_count_visibility
+  end
+
+  def dispatch_account_cache_invalidated
+    Rails.configuration.dispatcher.dispatch(ACCOUNT_CACHE_INVALIDATED, Time.zone.now, account: account, cache_keys: account.cache_keys)
   end
 end
 
