@@ -4,6 +4,7 @@ import { useStore } from 'vuex';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import wootConstants from 'dashboard/constants/globals';
 
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -55,16 +56,24 @@ const showSelfAssignBanner = computed(() => {
   );
 });
 
+const isPendingConversation = computed(
+  () => currentChat.value?.status === wootConstants.STATUS_TYPE.PENDING
+);
+
 const showBotHandoffBanner = computed(() => {
-  return (
-    hasMessage.value && currentChat.value?.meta?.assignee_type === 'AgentBot'
-  );
+  return isPendingConversation.value;
 });
 
-const botHandoffActionLabel = computed(() => {
-  return assignedAgent.value?.id === currentUser.value?.id
-    ? t('CONVERSATION.BOT_HANDOFF_REOPEN_ACTION')
-    : t('CONVERSATION.BOT_HANDOFF_ACTION');
+const isAgentBotOwned = computed(
+  () => currentChat.value?.meta?.assignee_type === 'AgentBot'
+);
+
+const botAssigneeName = computed(() => {
+  if (isAgentBotOwned.value && assignedAgent.value?.name) {
+    return assignedAgent.value.name;
+  }
+
+  return t('CONVERSATION.BOT_HANDOFF_FALLBACK_ASSIGNEE');
 });
 
 const selfAssignConversation = async () => {
@@ -96,7 +105,7 @@ const onClickBotHandoff = async () => {
   try {
     await reopenConversation();
 
-    if (needsAssignmentToCurrentUser.value) {
+    if (isPendingConversation.value || needsAssignmentToCurrentUser.value) {
       await selfAssignConversation();
     }
 
@@ -123,9 +132,13 @@ const onClickBotHandoff = async () => {
     action-button-variant="ghost"
     color-scheme="secondary"
     class="mx-2 mb-2 rounded-lg !py-2"
-    :banner-message="$t('CONVERSATION.BOT_HANDOFF_MESSAGE')"
+    :banner-message="
+      $t('CONVERSATION.BOT_HANDOFF_MESSAGE', {
+        assigneeName: botAssigneeName,
+      })
+    "
     has-action-button
-    :action-button-label="botHandoffActionLabel"
+    :action-button-label="$t('CONVERSATION.BOT_HANDOFF_ACTION')"
     @primary-action="onClickBotHandoff"
   />
 </template>

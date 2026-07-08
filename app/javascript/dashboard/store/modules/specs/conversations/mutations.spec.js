@@ -731,6 +731,33 @@ describe('#mutations', () => {
 
       expect(state.allConversations[0].meta.assignee_type).toEqual('User');
     });
+
+    it('should infer user assignee type when assignee type is omitted', () => {
+      const assignee = { id: 1, name: 'Agent' };
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee_type: 'AgentBot' } }],
+      };
+
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee,
+      });
+
+      expect(state.allConversations[0].meta.assignee_type).toEqual('User');
+    });
+
+    it('should clear assignee type when assignee type and assignee are omitted', () => {
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee_type: 'AgentBot' } }],
+      };
+
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee: null,
+      });
+
+      expect(state.allConversations[0].meta.assignee_type).toBeNull();
+    });
   });
 
   describe('#ASSIGN_PRIORITY', () => {
