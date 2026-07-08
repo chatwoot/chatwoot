@@ -722,7 +722,7 @@
       },
       "POPULAR_CONTENT_DIALOG": {
         "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on the help center home page for this locale. Drag to reorder — the order here is the order visitors see.",
+        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
         "SEARCH": "Search...",
         "EMPTY": "No matching results",
         "ADD_ANOTHER": "Add another...",

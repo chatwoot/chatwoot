@@ -235,6 +235,7 @@ const onDragEnd = () => {
               ghost
               slate
               xs
+              no-animation
               icon="i-lucide-x"
               class="flex-shrink-0"
               @click="removeItem(row.value)"
@@ -248,6 +249,7 @@ const onDragEnd = () => {
             ghost
             slate
             sm
+            no-animation
             justify="start"
             icon="i-lucide-search"
             :label="addLabel"
@@ -270,7 +272,7 @@ const onDragEnd = () => {
     </OnClickOutside>
 
     <p
-      v-if="selectedIds.length && !loading && $slots.note"
+      v-if="selectedIds.length && $slots.note"
       class="flex items-center gap-1.5 mt-1.5 mb-0 text-xs text-n-slate-11"
     >
       <span class="rounded-full size-1.5 bg-n-teal-9" />
