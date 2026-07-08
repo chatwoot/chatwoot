@@ -21,6 +21,20 @@ jobs:
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
 
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run Brakeman
+        run: bundle exec brakeman -q --no-pager
+      - name: Run bundle-audit
+        run: |
+          bundle exec bundle-audit update
+          bundle exec bundle-audit check
+
   lint-frontend:
     runs-on: ubuntu-latest
     steps:
