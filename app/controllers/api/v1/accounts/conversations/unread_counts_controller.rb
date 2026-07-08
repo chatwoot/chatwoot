@@ -3,7 +3,7 @@ class Api::V1::Accounts::Conversations::UnreadCountsController < Api::V1::Accoun
 
   def index
     counts = if filtered_unread_counts_enabled?
-               instrumentation.observe(:api_response, account_id: Current.account.id) { unread_counts }
+               instrumentation.summarize_request(account_id: Current.account.id) { unread_counts }
              else
                unread_counts
              end
