@@ -1,7 +1,7 @@
 require 'agents'
 require 'agents/instrumentation'
 
-class Captain::Assistant::AgentRunnerService
+class Captain::Assistant::AgentRunnerService # rubocop:disable Metrics/ClassLength
   include Integrations::LlmInstrumentationConstants
   include Captain::Assistant::RunnerCallbacksHelper
   include Captain::Assistant::TracePayloadHelper
@@ -19,6 +19,9 @@ class Captain::Assistant::AgentRunnerService
   CONTACT_INBOX_STATE_ATTRIBUTES = %i[id hmac_verified].freeze
 
   CAMPAIGN_STATE_ATTRIBUTES = %i[id title message campaign_type description].freeze
+
+  attr_reader :last_run_result
+
   def initialize(assistant:, conversation: nil, callbacks: {}, source: nil)
     @assistant = assistant
     @conversation = conversation
@@ -29,9 +32,9 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 10)
+    @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
 
-    process_agent_result(result)
+    process_agent_result(@last_run_result)
   rescue StandardError => e
     # In rake/local runs, conversation may not be present, so account is optional here.
     ChatwootExceptionTracker.new(e, account: @conversation&.account).capture_exception
