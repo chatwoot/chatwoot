@@ -120,6 +120,16 @@ watch(
   }
 );
 
+// The drawer's headline value is a snapshot of the previous assistant's card,
+// so switching assistants (e.g. browser Back/Forward) closes it instead of
+// refetching records that would no longer match the header.
+watch(
+  () => props.assistantId,
+  () => {
+    if (props.open) closeDrawer();
+  }
+);
+
 onBeforeUnmount(() => {
   restoreFocus();
 });
