@@ -9,20 +9,36 @@ class Crm::FollowUps::DueProcessor
 
   private
 
+  # One bad row must never abort the whole sweep: any failure while processing a
+  # single follow_up is logged with context and swallowed so the remaining due
+  # rows (across all accounts) still get processed.
   def process(follow_up)
     follow_up.with_lock do
       next unless follow_up.pending? && follow_up.due_at <= @now
 
-      if follow_up.auto_send_message? && ai_followup?(follow_up)
-        process_ai_followup(follow_up)
-      elsif follow_up.auto_send_message? && ai_callback?(follow_up)
-        process_ai_callback(follow_up)
-      elsif follow_up.auto_send_message?
-        process_auto_send(follow_up)
-      else
-        process_overdue(follow_up)
-      end
+      dispatch(follow_up)
     end
+  rescue StandardError => e
+    log_processing_error(follow_up, e)
+  end
+
+  def dispatch(follow_up)
+    if follow_up.auto_send_message? && ai_followup?(follow_up)
+      process_ai_followup(follow_up)
+    elsif follow_up.auto_send_message? && ai_callback?(follow_up)
+      process_ai_callback(follow_up)
+    elsif follow_up.auto_send_message?
+      process_auto_send(follow_up)
+    else
+      process_overdue(follow_up)
+    end
+  end
+
+  def log_processing_error(follow_up, error)
+    Rails.logger.error(
+      "[crm][follow_ups][due_processor] follow_up_id=#{follow_up.id} " \
+      "error_class=#{error.class.name} message=#{error.message}"
+    )
   end
 
   def ai_followup?(follow_up)
@@ -33,9 +49,26 @@ class Crm::FollowUps::DueProcessor
     follow_up.metadata.to_h['source'] == 'ai_callback'
   end
 
+  # AI kill-switch re-checked at execution (not just at scan/plan time): global
+  # CRM_AI_ENABLED plus the pipeline's own auto-follow-up toggle.
+  def ai_followup_enabled?(follow_up)
+    Crm::Ai::Config.enabled? &&
+      Crm::Ai::Config.auto_followup_settings(follow_up.card.pipeline)[:enabled]
+  end
+
+  def ai_callback_enabled?(follow_up)
+    Crm::Ai::Config.enabled? &&
+      Crm::Ai::Config.pipeline_callback_enabled?(follow_up.card.pipeline)
+  end
+
   # Retorno por data (one-shot). O CallbackRunner ENVIA (free_form/template) ou devolve :fallback
   # quando não dá (sem template / encerramento / canal) — aí vira LEMBRETE pro humano (popup).
   def process_ai_callback(follow_up)
+    # Kill-switch honored at EXECUTION: when AI is globally off or the pipeline
+    # disabled callbacks, leave the row pending (do nothing) so it resumes if
+    # re-enabled — never dispatch the runner (which would spend an AI call).
+    return unless ai_callback_enabled?(follow_up)
+
     result = Crm::FollowUps::CallbackRunner.new(follow_up: follow_up, now: @now).perform
 
     case result.status
@@ -60,6 +93,12 @@ class Crm::FollowUps::DueProcessor
   # final status exactly like process_auto_send does. process_auto_send /
   # process_overdue stay byte-for-byte unchanged for manual + stage automations.
   def process_ai_followup(follow_up)
+    # Kill-switch honored at EXECUTION: when AI is globally off or the pipeline
+    # auto-follow-up is disabled, leave the row pending (do nothing) so it
+    # resumes if re-enabled — never dispatch the runner (which would spend an AI
+    # call). The scan/planner flag alone never protected an already-scheduled row.
+    return unless ai_followup_enabled?(follow_up)
+
     result = Crm::FollowUps::AutoFollowupRunner.new(follow_up: follow_up, now: @now).perform
 
     case result.status

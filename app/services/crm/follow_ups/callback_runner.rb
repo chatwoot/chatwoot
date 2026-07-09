@@ -77,7 +77,7 @@ module Crm
 
       def compose
         client = Crm::Ai::ResponsesClient.new(
-          credential: Crm::Ai::CredentialResolver.new(account: @card.account).resolve,
+          credential: resolved_credential,
           feature: 'follow_up', account: @card.account, pipeline: @card.pipeline
         )
         context = Crm::Ai::ContextBuilder.new(card: @card).perform
@@ -95,6 +95,15 @@ module Crm
           },
           reasoning_effort: Crm::Ai::Config::CALLBACK_REASONING_EFFORT
         ).perform
+      end
+
+      # Fail closed: sem credencial vira transitório rescued (fail_or_fallback) e não
+      # NoMethodError cru dentro do ResponsesClient (@credential[:api_key]).
+      def resolved_credential
+        credential = Crm::Ai::CredentialResolver.new(account: @card.account).resolve
+        raise Crm::Ai::ResponsesClient::Error, 'missing_ai_credential' if credential.blank?
+
+        credential
       end
 
       def closure?(composition)

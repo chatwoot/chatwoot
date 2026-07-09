@@ -141,8 +141,14 @@ module Crm
       # @send_mode is decided in #perform (free_form inside 24h, choose_template
       # outside) so the composer gets the right mode + candidate list.
       def compose
+        credential = credential_resolver.resolve
+        # Fail closed: a missing OpenAI credential becomes a rescued transient
+        # (routed through fail_touch) instead of a NoMethodError inside
+        # ResponsesClient (@credential[:api_key]) that would abort the sweep.
+        raise Crm::Ai::ResponsesClient::Error, 'missing_ai_credential' if credential.blank?
+
         client = Crm::Ai::ResponsesClient.new(
-          credential: credential_resolver.resolve,
+          credential: credential,
           feature: 'follow_up', account: @card.account, pipeline: @card.pipeline
         )
         context = Crm::Ai::ContextBuilder.new(card: @card).perform
