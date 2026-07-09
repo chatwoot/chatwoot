@@ -105,8 +105,6 @@ module Crm
 
       def create_first_touch(card, last_inbound)
         timezone = resolved_timezone(card)
-        return unresolvable_timezone(card) if timezone.blank?
-
         due_at = compute_first_due(last_inbound.created_at, timezone)
 
         follow_up = Crm::FollowUps::AutoFollowupTouchBuilder.new(
@@ -120,13 +118,6 @@ module Crm
         Crm::FollowUps::CardNextDueUpdater.update(card)
         log_planned(card, follow_up, last_inbound)
         follow_up
-      end
-
-      # Fail-closed: no resolvable tz => do NOT schedule touch #1 at a guessed UTC
-      # wall time. Skip + log; the card is re-eligible once a valid tz exists.
-      def unresolvable_timezone(card)
-        Rails.logger.warn("[crm][auto_followup] skip card=#{card.id} no resolvable timezone")
-        nil
       end
 
       # Touch #1 fires intervals_hours[0] after the last inbound — the SAME value
@@ -155,11 +146,12 @@ module Crm
         end
       end
 
-      # Resolves the cadence timezone (contact -> account.reporting_timezone),
-      # fail-open to nil. MUST match AutoFollowupRunner#resolved_timezone so touch #1
-      # (planner) and touch #2+ (runner) clamp to the SAME local window. nil => skip.
+      # Resolves the cadence timezone (contact -> contact country -> account
+      # reporting_timezone -> configurable default). MUST match
+      # AutoFollowupRunner#resolved_timezone so touch #1 (planner) and touch #2+
+      # (runner) clamp to the SAME local window. Never blank.
       def resolved_timezone(card)
-        Crm::Timezone::Resolver.new(contact: card.contact, account: @pipeline.account).name
+        Crm::Timezone::Resolver.new(contact: card.contact, account: @pipeline.account).name_or_default
       end
 
       # Seed the full cadence-state shape the runner and the card drawer rely on:

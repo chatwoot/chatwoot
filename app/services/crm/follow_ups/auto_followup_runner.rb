@@ -283,8 +283,6 @@ module Crm
 
       def reschedule_for_cap
         timezone = resolved_timezone
-        return stop_cadence('unresolvable_timezone') if timezone.blank?
-
         next_due = compute_due(@now + MARKETING_CAP_WINDOW, timezone)
         @follow_up.update!(due_at: next_due)
         merge_state!('next_due_at' => next_due.iso8601)
@@ -352,8 +350,6 @@ module Crm
         if touch < max_touches
           next_touch = touch + 1
           timezone = resolved_timezone
-          return mark_cadence_unresolvable if timezone.blank?
-
           due_at = compute_due(last_inbound_at + interval_hours(next_touch).hours, timezone)
           Crm::FollowUps::AutoFollowupTouchBuilder.new(card: @card, touch: next_touch, due_at: due_at, timezone: timezone).perform
           merge_state!('active' => true, 'touch' => next_touch, 'next_due_at' => due_at.iso8601)
@@ -499,8 +495,6 @@ module Crm
       # candidate falls before start, push to start the same day; if at/after end,
       # push to start the next day. No jitter in MVP.
       def compute_due(candidate, timezone = resolved_timezone)
-        return candidate if timezone.blank?
-
         quiet = config['quiet_hours'].to_h
         start_hour = quiet['start'].presence&.to_i
         end_hour = quiet['end'].presence&.to_i
@@ -516,19 +510,13 @@ module Crm
         candidate
       end
 
-      # MUST match AutoFollowupPlanner#resolved_timezone. Fail-open to nil.
+      # MUST match AutoFollowupPlanner#resolved_timezone. Never blank (falls back
+      # to the configurable default so the next touch always anchors to a real
+      # local wall time).
       def resolved_timezone
         Crm::Timezone::Resolver.new(
           contact: @follow_up.contact || @card.contact, account: @card.account
-        ).name
-      end
-
-      # Fail-closed: no resolvable tz => stop the cadence rather than schedule the
-      # next touch at a guessed UTC wall time.
-      def mark_cadence_unresolvable
-        merge_state!('active' => false, 'spent' => true,
-                     'stopped_reason' => 'unresolvable_timezone', 'next_due_at' => nil)
-        log_activity('ai_followup_stopped', touch: touch, reason: 'unresolvable_timezone')
+        ).name_or_default
       end
 
       def last_inbound_at

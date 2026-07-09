@@ -42,7 +42,7 @@ class Crm::FollowUps::ParamsResolver
       explicit: @attributes[:timezone],
       contact: contact,
       account: @account
-    ).name!
+    ).name_or_default
   end
 
   def contact

@@ -64,7 +64,7 @@ module Crm
 
       def timezone
         @timezone.presence ||
-          Crm::Timezone::Resolver.new(contact: @card.contact, account: @card.account).name!
+          Crm::Timezone::Resolver.new(contact: @card.contact, account: @card.account).name_or_default
       end
 
       def metadata

@@ -155,15 +155,29 @@ class Api::V1::Accounts::Crm::MeetingsController < Api::V1::Accounts::Crm::BaseC
 
   def reschedule_params
     raw = parameter_set(:meeting).permit(:starts_at, :ends_at, :timezone).to_h.with_indifferent_access
+    reject_invalid_timezone!(raw[:timezone])
 
-    timezone = raw[:timezone].presence || @meeting.timezone.presence || 'UTC'
-    raise ArgumentError, 'invalid_timezone' if ActiveSupport::TimeZone[timezone].blank?
+    timezone = Crm::Timezone::Resolver.new(
+      explicit: raw[:timezone].presence || @meeting.timezone.presence,
+      contact: @meeting.card&.contact,
+      account: Current.account
+    ).name_or_default
 
     {
       starts_at: parse_iso8601_with_offset!(raw[:starts_at], :starts_at),
       ends_at: parse_iso8601_with_offset!(raw[:ends_at], :ends_at),
       timezone: timezone
     }
+  end
+
+  # A client-supplied timezone must be a real IANA zone. Absent tz is fine (the
+  # Resolver fills the default); a present-but-garbage tz is rejected (422) to
+  # stay consistent with the strict starts_at/ends_at validation beside it,
+  # instead of being silently swapped for the default.
+  def reject_invalid_timezone!(raw_timezone)
+    return if raw_timezone.blank?
+
+    raise ArgumentError, 'invalid_timezone' if ActiveSupport::TimeZone[raw_timezone].blank?
   end
 
   def ensure_calendar_meetings_enabled
@@ -206,8 +220,12 @@ class Api::V1::Accounts::Crm::MeetingsController < Api::V1::Accounts::Crm::BaseC
       :reminder_minutes_before, extra_guests: []
     ).to_h.with_indifferent_access
 
-    timezone = raw[:timezone].presence || 'UTC'
-    raise ArgumentError, 'invalid_timezone' if ActiveSupport::TimeZone[timezone].blank?
+    reject_invalid_timezone!(raw[:timezone])
+    timezone = Crm::Timezone::Resolver.new(
+      explicit: raw[:timezone],
+      contact: card&.contact,
+      account: Current.account
+    ).name_or_default
 
     raw.merge(
       starts_at: parse_iso8601_with_offset!(raw[:starts_at], :starts_at),

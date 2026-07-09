@@ -34,11 +34,19 @@ RSpec.describe Crm::FollowUps::CallbackScheduler do
     expect(follow_up.due_at.utc.hour).to eq(11)
   end
 
-  it 'returns nil (no follow-up) when the timezone is unresolvable' do
+  # Reason (CHANGED from fail-closed): with NO contact tz and NO account
+  # reporting_timezone the callback must still schedule, anchoring the 08:00 local
+  # request to the São Paulo default (11:00 UTC) instead of returning nil. A
+  # missing tz can no longer silently swallow a detected callback.
+  it 'defaults to America/Sao_Paulo and still schedules (08:00 local => 11:00 UTC)' do
     account, user = create_account_and_user
     card = setup_card(account: account, user: user)
     local_date = (3.days.from_now).strftime('%Y-%m-%d')
 
-    expect(described_class.new(card: card, callback: callback_at(local_date)).perform).to be_nil
+    follow_up = described_class.new(card: card, callback: callback_at(local_date)).perform
+
+    expect(follow_up).to be_present
+    expect(follow_up.timezone).to eq('America/Sao_Paulo')
+    expect(follow_up.due_at.utc.hour).to eq(11)
   end
 end

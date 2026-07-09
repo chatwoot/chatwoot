@@ -43,10 +43,10 @@ module WhatsappApiCampaigns
     end
 
     def scheduled_at
-      zone = Crm::Timezone::Resolver.new(account: @account).zone
-      raise ArgumentError, 'unresolvable_timezone_for_schedule' if zone.nil?
-
-      zone.parse(permitted[:scheduled_at].to_s)
+      # Anchor the campaign's wall-clock schedule to the account timezone, falling
+      # back to the configurable CRM default (never silent UTC) so a missing
+      # reporting_timezone can no longer shift every send by hours.
+      Crm::Timezone::Resolver.new(account: @account).zone_or_default.parse(permitted[:scheduled_at].to_s)
     end
 
     def fetch_inbox

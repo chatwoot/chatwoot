@@ -95,10 +95,11 @@ module Crm
       end
 
       # Timezone EFETIVO para ancorar "amanhã 10h" e gravar o lembrete: contato
-      # (additional_attributes['timezone']) → account.reporting_timezone → 'UTC'. Espelha o
+      # (additional_attributes['timezone']) → país do contato → account.reporting_timezone →
+      # default configurável (ENV['CRM_DEFAULT_TIMEZONE'] ou 'America/Sao_Paulo'). Espelha o
       # AutoFollowupPlanner (quiet hours) para consistência. Sempre devolve um nome de tz VÁLIDO.
       def self.resolved_timezone(account:, contact: nil)
-        Crm::Timezone::Resolver.new(contact: contact, account: account).name || 'UTC'
+        Crm::Timezone::Resolver.new(contact: contact, account: account).name_or_default
       end
 
       # Media enrichment (PR13.1): audio via transcription, image via vision caption.

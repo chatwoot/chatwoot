@@ -46,7 +46,7 @@ class Crm::AgentBookingProfile < ApplicationRecord
   scope :enabled, -> { where(enabled: true) }
 
   def resolved_timezone
-    Crm::Timezone::Resolver.new(explicit: timezone, account: account).name
+    Crm::Timezone::Resolver.new(explicit: timezone, account: account).name_or_default
   end
 
   def start_hour

@@ -33,9 +33,13 @@ RSpec.describe Crm::StageAutomations::Runner do
     automation
   end
 
-  it 'runs on_enter automations and creates a follow-up' do
+  # Reason (CHANGED from fail-closed): the account has NO reporting_timezone, so
+  # the create_follow_up step used to raise Unresolvable through ParamsResolver and
+  # the automation execution would fail. It must now complete and persist the
+  # follow-up anchored to the São Paulo default.
+  it 'runs on_enter automations and creates a follow-up defaulting to America/Sao_Paulo when no account tz is set' do
     account, admin = create_account_and_user
-    account.update!(reporting_timezone: 'America/Sao_Paulo')
+    account.update!(reporting_timezone: nil)
     pipeline, stage = create_crm_pipeline(account: account, user: admin)
     card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'Lead')
 
@@ -62,6 +66,7 @@ RSpec.describe Crm::StageAutomations::Runner do
     follow_up = account.crm_follow_ups.last
     expect(follow_up.title).to eq('Retornar contato')
     expect(follow_up.metadata['source']).to eq('stage_automation')
+    expect(follow_up.timezone).to eq('America/Sao_Paulo')
     expect(account.crm_stage_automation_executions.completed.count).to eq(1)
   end
 

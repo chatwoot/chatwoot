@@ -33,13 +33,34 @@ RSpec.describe Crm::FollowUps::AutoFollowupTouchBuilder do
     expect(follow_up.timezone).to eq('America/Sao_Paulo')
   end
 
-  it 'raises when no timezone can be resolved' do
+  # Reason (CHANGED from fail-closed): with no explicit tz, no contact tz and no
+  # account reporting_timezone, the cadence touch must still be created anchored to
+  # the São Paulo default instead of raising Unresolvable — an unresolved tz can no
+  # longer silently drop touch #1.
+  it 'defaults the stored timezone to America/Sao_Paulo when nothing resolves' do
     account, user = create_account_and_user
     account.update!(reporting_timezone: nil)
     card = setup_card(account: account, user: user)
 
-    expect do
-      described_class.new(card: card, touch: 1, due_at: Time.current).perform
-    end.to raise_error(Crm::Timezone::Resolver::Unresolvable)
+    follow_up = described_class.new(card: card, touch: 1, due_at: Time.current).perform
+
+    expect(follow_up).to be_persisted
+    expect(follow_up.timezone).to eq('America/Sao_Paulo')
+  end
+
+  # Reason: a single-timezone country on the contact pins the cadence tz over the
+  # account default (foreigner correctness through the AI follow-up path).
+  it 'derives a single-timezone country from the contact when no tz is passed (FR -> Europe/Paris)' do
+    account, user = create_account_and_user
+    account.update!(reporting_timezone: nil)
+    card = setup_card(account: account, user: user)
+    # The resolver reads the ISO code from additional_attributes['country_code']
+    # (geocoder-populated), NOT the contact.country_code column (which holds the
+    # country NAME). Set the ISO code the way the geocoder does.
+    card.contact.update!(additional_attributes: { 'country_code' => 'FR' })
+
+    follow_up = described_class.new(card: card, touch: 1, due_at: Time.current).perform
+
+    expect(follow_up.timezone).to eq('Europe/Paris')
   end
 end
