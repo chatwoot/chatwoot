@@ -94,11 +94,20 @@ const hasMessageOrMedia = computed(
   () => state.messageBody.trim().length > 0 || !!state.mediaFile
 );
 
+const isScheduledAtValid = computed(() => {
+  if (!state.scheduledAt) return false;
+
+  return (
+    new Date(state.scheduledAt).getTime() >=
+    new Date(currentDateTime.value).getTime()
+  );
+});
+
 const canSubmit = computed(
   () =>
     state.title.trim() &&
     state.inboxId &&
-    state.scheduledAt &&
+    isScheduledAtValid.value &&
     state.selectedAudience.length > 0 &&
     hasMessageOrMedia.value
 );
@@ -393,12 +402,18 @@ const submit = async () => {
           />
         </div>
 
-        <Input
-          v-model="state.scheduledAt"
-          :label="t('CAMPAIGN.WHATSAPP_API.CREATE.FORM.SCHEDULED_AT.LABEL')"
-          type="datetime-local"
-          :min="currentDateTime"
-        />
+        <div class="relative flex min-w-0 flex-col gap-1">
+          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+            {{ t('CAMPAIGN.WHATSAPP_API.CREATE.FORM.SCHEDULED_AT.LABEL') }}
+          </label>
+          <input
+            :value="state.scheduledAt || ''"
+            type="datetime-local"
+            class="block h-10 w-full rounded-lg border-0 bg-n-alpha-black2 !px-3 !py-2.5 text-sm text-n-slate-12 outline outline-1 outline-offset-[-1px] outline-n-weak reset-base !mb-0 hover:outline-n-slate-6 focus:outline-n-brand"
+            @input="state.scheduledAt = $event.target.value"
+            @change="state.scheduledAt = $event.target.value"
+          />
+        </div>
       </div>
     </div>
 

@@ -671,6 +671,7 @@ const isWhatsAppUnavailable = lead =>
   lead?.whatsapp_verification_status === 'not_whatsapp';
 const isWhatsAppChecking = lead =>
   verifyingWhatsAppLeadIds.value.map(Number).includes(Number(lead?.id));
+const isLeadEnriched = lead => lead?.enrichment_status === 'completed';
 
 const shouldVerifyWhatsApp = lead =>
   lead?.id &&
@@ -1259,17 +1260,19 @@ onMounted(async () => {
               />
               <button
                 type="button"
-                class="grid w-full gap-2 p-3 pl-4 text-left"
+                class="grid min-w-0 w-full gap-2 overflow-hidden p-3 pl-4 text-left"
                 @click="openSearch(search)"
               >
-                <div class="flex items-start justify-between gap-2">
-                  <div class="min-w-0 flex-1">
+                <div
+                  class="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-2 overflow-hidden"
+                >
+                  <div class="min-w-0 overflow-hidden">
                     <h3
-                      class="max-w-full truncate text-sm font-semibold text-n-slate-12"
+                      class="block w-full truncate text-sm font-semibold text-n-slate-12"
                     >
                       {{ search.query }}
                     </h3>
-                    <p class="max-w-full truncate text-xs text-n-slate-10">
+                    <p class="block w-full truncate text-xs text-n-slate-10">
                       {{ search.location }} · {{ formatSearchArea(search) }}
                     </p>
                   </div>
@@ -1283,9 +1286,9 @@ onMounted(async () => {
                   </span>
                 </div>
                 <div
-                  class="flex min-w-0 items-center justify-between gap-2 text-xs text-n-slate-10"
+                  class="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-center gap-2 overflow-hidden text-xs text-n-slate-10"
                 >
-                  <span class="min-w-0 truncate">
+                  <span class="block min-w-0 truncate">
                     {{
                       t('PROSPECTING.SEARCH.RECENT_METRICS', {
                         leads: search.results_count || 0,
@@ -1773,11 +1776,26 @@ onMounted(async () => {
                   </div>
 
                   <div
-                    v-if="lead.decision_name || lead.enrichment_summary"
-                    class="grid gap-1 px-4 pb-2 text-xs text-n-slate-11"
+                    v-if="
+                      lead.enrichment_status === 'completed' ||
+                      lead.decision_name ||
+                      lead.enrichment_summary
+                    "
+                    class="mx-4 mb-3 grid gap-2 rounded-md border border-emerald-100 bg-emerald-50/70 p-3 text-xs text-emerald-950"
                   >
-                    <div v-if="lead.decision_name" class="truncate">
-                      <span class="font-medium text-n-slate-12">
+                    <div class="flex flex-wrap items-center gap-2">
+                      <span
+                        class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 ring-1 ring-emerald-200"
+                      >
+                        <span class="i-lucide-sparkles size-3" />
+                        {{ t('PROSPECTING.SEARCH.ENRICHMENT_TITLE') }}
+                      </span>
+                      <span class="text-[11px] font-medium text-emerald-700">
+                        {{ t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED') }}
+                      </span>
+                    </div>
+                    <div v-if="lead.decision_name" class="leading-relaxed">
+                      <span class="font-semibold text-emerald-950">
                         {{ t('PROSPECTING.SEARCH.DECISION_MAKER') }}:
                       </span>
                       {{ lead.decision_name }}
@@ -1785,7 +1803,10 @@ onMounted(async () => {
                         · {{ lead.decision_role }}
                       </span>
                     </div>
-                    <div v-if="lead.enrichment_summary" class="truncate">
+                    <div
+                      v-if="lead.enrichment_summary"
+                      class="whitespace-pre-line break-words leading-relaxed"
+                    >
                       {{ lead.enrichment_summary }}
                     </div>
                   </div>
@@ -1812,18 +1833,26 @@ onMounted(async () => {
                     </button>
                     <button
                       type="button"
-                      class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                      class="inline-flex h-8 items-center gap-1 rounded-md px-3 text-xs font-semibold transition-colors disabled:cursor-not-allowed"
+                      :class="
+                        isLeadEnriched(lead)
+                          ? 'bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200'
+                          : 'border border-n-weak text-n-slate-12 hover:bg-n-solid-2 disabled:opacity-60'
+                      "
                       :disabled="
+                        isLeadEnriched(lead) ||
                         enrichingLeadId === lead.id ||
                         !settings?.enrichment_enabled ||
                         !lead.website
                       "
                       :title="
-                        !settings?.enrichment_enabled
-                          ? t('PROSPECTING.SEARCH.ENRICHMENT_DISABLED')
-                          : !lead.website
-                            ? t('PROSPECTING.SEARCH.ENRICHMENT_NO_SITE')
-                            : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                        isLeadEnriched(lead)
+                          ? t('PROSPECTING.SEARCH.ENRICHED')
+                          : !settings?.enrichment_enabled
+                            ? t('PROSPECTING.SEARCH.ENRICHMENT_DISABLED')
+                            : !lead.website
+                              ? t('PROSPECTING.SEARCH.ENRICHMENT_NO_SITE')
+                              : t('PROSPECTING.SEARCH.ENRICH_LEAD')
                       "
                       @click="enrichLead(lead)"
                     >
@@ -1832,13 +1861,17 @@ onMounted(async () => {
                         :class="
                           enrichingLeadId === lead.id
                             ? 'animate-spin rounded-full border-2 border-n-slate-5 border-t-n-slate-11'
-                            : 'i-lucide-sparkles'
+                            : isLeadEnriched(lead)
+                              ? 'i-lucide-check-circle-2'
+                              : 'i-lucide-sparkles'
                         "
                       />
                       {{
                         enrichingLeadId === lead.id
                           ? t('PROSPECTING.SEARCH.ENRICHING')
-                          : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                          : isLeadEnriched(lead)
+                            ? t('PROSPECTING.SEARCH.ENRICHED')
+                            : t('PROSPECTING.SEARCH.ENRICH_LEAD')
                       }}
                     </button>
                     <span
@@ -2130,6 +2163,119 @@ onMounted(async () => {
                 <span :class="[signal.icon, signal.iconClass]" class="size-3" />
                 {{ signal.label }}
               </span>
+            </div>
+
+            <div
+              v-if="
+                selectedLeadDetail.enrichment_status === 'completed' ||
+                selectedLeadDetail.decision_name ||
+                selectedLeadDetail.enrichment_summary
+              "
+              class="rounded-md border border-emerald-100 bg-emerald-50/70 p-4 text-sm text-emerald-950"
+            >
+              <div class="mb-3 flex flex-wrap items-center gap-2">
+                <span
+                  class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-800 ring-1 ring-emerald-200"
+                >
+                  <span class="i-lucide-sparkles size-3.5" />
+                  {{ t('PROSPECTING.SEARCH.ENRICHMENT_TITLE') }}
+                </span>
+                <span class="text-xs font-medium text-emerald-700">
+                  {{ t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED') }}
+                </span>
+              </div>
+
+              <div class="grid gap-3">
+                <div v-if="selectedLeadDetail.enrichment_summary">
+                  <div class="text-xs font-semibold text-emerald-800">
+                    {{ t('PROSPECTING.SEARCH.ENRICHMENT_SUMMARY') }}
+                  </div>
+                  <div
+                    class="mt-1 whitespace-pre-line break-words leading-relaxed"
+                  >
+                    {{ selectedLeadDetail.enrichment_summary }}
+                  </div>
+                </div>
+
+                <div v-if="selectedLeadDetail.decision_name">
+                  <div class="text-xs font-semibold text-emerald-800">
+                    {{ t('PROSPECTING.SEARCH.DECISION_MAKER') }}
+                  </div>
+                  <div class="mt-1 break-words leading-relaxed">
+                    {{ selectedLeadDetail.decision_name }}
+                    <span v-if="selectedLeadDetail.decision_role">
+                      · {{ selectedLeadDetail.decision_role }}
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  v-if="
+                    selectedLeadDetail.enriched_email ||
+                    selectedLeadDetail.enriched_whatsapp ||
+                    selectedLeadDetail.enriched_instagram ||
+                    selectedLeadDetail.enriched_facebook ||
+                    selectedLeadDetail.enriched_linkedin ||
+                    selectedLeadDetail.enriched_cnpj
+                  "
+                  class="grid gap-2 sm:grid-cols-2"
+                >
+                  <div
+                    v-if="selectedLeadDetail.enriched_email"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_EMAIL') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_email }}
+                  </div>
+                  <div
+                    v-if="selectedLeadDetail.enriched_whatsapp"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_WHATSAPP') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_whatsapp }}
+                  </div>
+                  <div
+                    v-if="selectedLeadDetail.enriched_instagram"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_INSTAGRAM') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_instagram }}
+                  </div>
+                  <div
+                    v-if="selectedLeadDetail.enriched_facebook"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_FACEBOOK') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_facebook }}
+                  </div>
+                  <div
+                    v-if="selectedLeadDetail.enriched_linkedin"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_LINKEDIN') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_linkedin }}
+                  </div>
+                  <div
+                    v-if="selectedLeadDetail.enriched_cnpj"
+                    class="break-words"
+                  >
+                    <span class="font-semibold">
+                      {{ t('PROSPECTING.SEARCH.ENRICHED_CNPJ') }}:
+                    </span>
+                    {{ selectedLeadDetail.enriched_cnpj }}
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div class="grid gap-3 sm:grid-cols-2">
