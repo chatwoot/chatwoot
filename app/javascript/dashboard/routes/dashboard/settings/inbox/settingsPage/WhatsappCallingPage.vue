@@ -1,6 +1,7 @@
 <script>
 import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -61,9 +62,14 @@ export default {
         await InboxesAPI.setInboundCalls(this.inbox.id, newValue);
         await this.$store.dispatch('inboxes/get', this.inbox.id);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (_) {
+      } catch (error) {
         this.inboundCallsEnabled = previousValue;
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+        const apiError = parseAPIErrorResponse(error);
+        useAlert(
+          typeof apiError === 'string'
+            ? apiError
+            : this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       } finally {
         this.isTogglingInbound = false;
       }
@@ -81,12 +87,15 @@ export default {
         }
         await this.$store.dispatch('inboxes/get', this.inbox.id);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
-      } catch (_) {
+      } catch (error) {
         this.callingEnabled = previousValue;
         const fallbackKey = newValue
           ? 'INBOX_MGMT.WHATSAPP_CALLING.ENABLE_FAILED'
           : 'INBOX_MGMT.EDIT.API.ERROR_MESSAGE';
-        useAlert(this.$t(fallbackKey));
+        const apiError = parseAPIErrorResponse(error);
+        useAlert(
+          typeof apiError === 'string' ? apiError : this.$t(fallbackKey)
+        );
       } finally {
         this.isTogglingCalling = false;
       }
@@ -107,10 +116,12 @@ export default {
         });
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        const message =
-          error?.response?.data?.message ||
-          this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE');
-        useAlert(message);
+        const apiError = parseAPIErrorResponse(error);
+        useAlert(
+          typeof apiError === 'string'
+            ? apiError
+            : this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
       } finally {
         this.isUpdating = false;
       }
