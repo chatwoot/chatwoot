@@ -1,9 +1,19 @@
 class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
-  # Retry budget (19 × 2s = 38s) must exceed the 30s lock TTL set in `perform`, otherwise
-  # a webhook that arrives just after the lock is acquired can exhaust retries before the
-  # holder finishes and silently drop its message.
-  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 20
+
+  # Generous on purpose: a history chunk can carry many threads/messages, and this lock must
+  # cover the whole import so a concurrent redelivery of the same chunk (Meta retries on
+  # non-2xx) can't race the per-message `Message.find_by(source_id:)` dedupe check in
+  # Whatsapp::HistoryMessageService (which alone is not atomic). Acquired here (job layer, not
+  # inside the service) so a conflict raises LockAcquisitionError and is retried by ActiveJob
+  # instead of the service silently skipping the chunk after the webhook already returned 200.
+  HISTORY_SYNC_LOCK_TTL = 5.minutes
+
+  # Retry budget must exceed the largest with_lock TTL used in this job, otherwise a webhook
+  # that arrives just after the lock is acquired can exhaust retries before the holder finishes
+  # and silently drop its message/chunk. The largest TTL is HISTORY_SYNC_LOCK_TTL (5min = 300s);
+  # 160 attempts x 2s wait = 320s > 300s. (The 30s per-sender mutex in `perform` is covered too.)
+  retry_on LockAcquisitionError, wait: 2.seconds, attempts: 160
 
   def perform(params = {})
     channel = find_channel_from_whatsapp_business_payload(params)
@@ -27,11 +37,47 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   def process_events(channel, params)
+    # Coexistence history-sync events are routed here (before the echo/message branching) so
+    # they never reach handle_message_events — keeping the Enterprise `calls` overlay untouched.
+    return handle_history_event(channel, params) if history_event?(params)
+    return handle_state_sync_event(channel, params) if state_sync_event?(params)
+
     if message_echo_event?(params)
       handle_message_echo(channel, params)
     else
       handle_message_events(channel, params)
     end
+  end
+
+  # WhatsApp Coexistence: 6-month messaging-history backfill (field: "history").
+  def history_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'history'
+  end
+
+  # WhatsApp Coexistence: contact roster add/remove sync (field: "smb_app_state_sync").
+  def state_sync_event?(params)
+    params.dig(:entry, 0, :changes, 0, :field) == 'smb_app_state_sync'
+  end
+
+  def handle_history_event(channel, params)
+    unless Whatsapp::HistorySync.enabled?
+      Rails.logger.info('[WHATSAPP] Ignoring history webhook: WHATSAPP_HISTORY_SYNC_ENABLED is off')
+      return
+    end
+
+    lock_key = format(::Redis::Alfred::WHATSAPP_HISTORY_SYNC_MUTEX, inbox_id: channel.inbox.id)
+    with_lock(lock_key, HISTORY_SYNC_LOCK_TTL) do
+      Whatsapp::HistoryMessageService.new(inbox: channel.inbox, params: params).perform
+    end
+  end
+
+  def handle_state_sync_event(channel, params)
+    unless Whatsapp::HistorySync.enabled?
+      Rails.logger.info('[WHATSAPP] Ignoring smb_app_state_sync webhook: WHATSAPP_HISTORY_SYNC_ENABLED is off')
+      return
+    end
+
+    Whatsapp::ContactStateSyncService.new(inbox: channel.inbox, params: params).perform
   end
 
   # Detects if the webhook is an SMB message echo event (message sent from WhatsApp Business app)

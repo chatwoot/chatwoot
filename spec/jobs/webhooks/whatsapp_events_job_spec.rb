@@ -227,6 +227,97 @@ RSpec.describe Webhooks::WhatsappEventsJob do
     end
   end
 
+  context 'when Coexistence history-sync events' do
+    let(:history_params) do
+      wb = params.deep_dup
+      wb[:entry].first[:changes].first[:field] = 'history'
+      wb[:entry].first[:changes].first[:value][:history] = [{ metadata: { phase: 0 }, threads: [] }]
+      wb
+    end
+    let(:state_sync_params) do
+      wb = params.deep_dup
+      wb[:entry].first[:changes].first[:field] = 'smb_app_state_sync'
+      wb[:entry].first[:changes].first[:value][:state_sync] = []
+      wb
+    end
+
+    it 'routes history webhooks to Whatsapp::HistoryMessageService when the flag is on' do
+      # Reason: history payloads must reach the dedicated importer, not the live message pipeline.
+      allow(Whatsapp::HistoryMessageService).to receive(:new).and_return(process_service)
+      with_modified_env WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+        expect(Whatsapp::HistoryMessageService).to receive(:new).with(inbox: channel.inbox, params: history_params)
+        job.perform_now(history_params)
+      end
+    end
+
+    it 'acquires and releases the per-inbox history-sync lock around a normal import' do
+      # Reason: the lock now lives at the job layer (moved out of the service) so a conflict
+      # raises LockAcquisitionError and is retried by ActiveJob instead of silently skipping.
+      lock_key = format(Redis::Alfred::WHATSAPP_HISTORY_SYNC_MUTEX, inbox_id: channel.inbox.id)
+      allow(Whatsapp::HistoryMessageService).to receive(:new).and_return(process_service)
+
+      with_modified_env WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+        expect(Redis::LockManager.new.locked?(lock_key)).to be false
+        job.perform_now(history_params)
+        expect(Redis::LockManager.new.locked?(lock_key)).to be false
+      end
+      expect(process_service).to have_received(:perform)
+    end
+
+    context 'when a history import is already in progress for the channel' do
+      let(:lock_key) { format(Redis::Alfred::WHATSAPP_HISTORY_SYNC_MUTEX, inbox_id: channel.inbox.id) }
+
+      after { Redis::Alfred.delete(lock_key) }
+
+      it 'raises LockAcquisitionError instead of skipping the chunk, so ActiveJob retries it' do
+        # Reason: the webhook already returned 200 to Meta, which will not re-deliver on 2xx.
+        # A silent skip here would permanently lose the chunk; raising lets `retry_on` in this
+        # job re-attempt until the holder releases the lock.
+        expect(Redis::LockManager.new.lock(lock_key, 5.minutes)).to be true
+        allow(Whatsapp::HistoryMessageService).to receive(:new)
+
+        with_modified_env WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+          expect do
+            job.new.perform(history_params)
+          end.to raise_error(MutexApplicationJob::LockAcquisitionError)
+        end
+        expect(Whatsapp::HistoryMessageService).not_to have_received(:new)
+      end
+    end
+
+    it 'routes smb_app_state_sync webhooks to Whatsapp::ContactStateSyncService when the flag is on' do
+      # Reason: contact-roster payloads seed/update contacts via their own handler.
+      allow(Whatsapp::ContactStateSyncService).to receive(:new).and_return(process_service)
+      with_modified_env WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+        expect(Whatsapp::ContactStateSyncService).to receive(:new).with(inbox: channel.inbox, params: state_sync_params)
+        job.perform_now(state_sync_params)
+      end
+    end
+
+    it 'ignores history webhooks (no handler) when the flag is off' do
+      # Reason: flag off means the pipeline is inert even if a webhook slips through.
+      allow(Whatsapp::HistoryMessageService).to receive(:new)
+      expect(Whatsapp::HistoryMessageService).not_to receive(:new)
+      job.perform_now(history_params)
+    end
+  end
+
+  context 'when Enterprise calls overlay is present' do
+    let(:calls_params) do
+      wb = params.deep_dup
+      wb[:entry].first[:changes].first[:field] = 'calls'
+      wb[:entry].first[:changes].first[:value][:calls] = [{ id: 'call_1', event: 'connect' }]
+      wb
+    end
+
+    it 'still routes calls events to the Enterprise call handler (history routing did not break it)' do
+      # Reason: new history routing sits before message handling and must not swallow `calls` events.
+      allow(Whatsapp::IncomingCallService).to receive(:new).and_return(process_service)
+      expect(Whatsapp::IncomingCallService).to receive(:new)
+      job.perform_now(calls_params)
+    end
+  end
+
   context 'when default provider' do
     it 'enqueue Whatsapp::IncomingMessageService' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')

@@ -61,6 +61,24 @@ describe Whatsapp::EmbeddedSignupService do
       expect(result).to eq(channel)
     end
 
+    context 'when gating the history sync flag' do
+      it 'never constructs Whatsapp::HistorySyncService when the flag is off' do
+        # Reason: the gate must live at the call site, not just inside the service, so flag OFF
+        # means zero new code executes in the onboarding flow.
+        expect(Whatsapp::HistorySyncService).not_to receive(:new)
+        service.perform
+      end
+
+      it 'triggers Whatsapp::HistorySyncService when the flag is on' do
+        history_sync_service = instance_double(Whatsapp::HistorySyncService, perform: nil)
+        expect(Whatsapp::HistorySyncService).to receive(:new).with(channel).and_return(history_sync_service)
+
+        with_modified_env WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+          service.perform
+        end
+      end
+    end
+
     it 'checks health status after channel creation' do
       health_service = instance_double(Whatsapp::HealthService)
       allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)

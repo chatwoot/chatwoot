@@ -323,6 +323,12 @@ class Message < ApplicationRecord
   end
 
   def execute_after_create_commit_callbacks
+    # WhatsApp Coexistence history-import messages are a backfill of past chats. They must NOT
+    # trigger new-message side effects: no notifications, no automation/webhook dispatch, no
+    # CRM/reporting bumps, and critically no SendReplyJob (which would re-send historical
+    # outgoing messages back out through WhatsApp). The importer marks them via content_attributes.
+    return if content_attributes['history_import']
+
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
     mark_pending_conversation_as_open_for_human_response

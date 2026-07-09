@@ -305,6 +305,14 @@ class Conversation < ApplicationRecord
   end
 
   def notify_conversation_creation
+    # WhatsApp Coexistence history-import conversations are a backfill of past chats and must NOT
+    # fire CONVERSATION_CREATED: it would flood automation rules, notifications, webhooks and the
+    # CRM board with historical noise. The importer marks them via additional_attributes (String
+    # key on purpose — this callback reads the in-memory record, not a DB reload).
+    # Accepted side effect: imported conversations don't broadcast live via ActionCable; they show
+    # up on the next reload instead.
+    return if additional_attributes['history_import']
+
     dispatcher_dispatch(CONVERSATION_CREATED)
   end
 
