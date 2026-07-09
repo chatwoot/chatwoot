@@ -15,7 +15,7 @@
 <header class="mb-8">
   <div class="flex items-center gap-4">
     <% if category.icon.present? %>
-      <span class="shrink-0 flex items-center justify-center w-14 h-14 text-3xl rounded-2xl bg-n-slate-1 border border-solid border-n-weak shadow-sm"><%= category.icon %></span>
+      <span class="shrink-0 flex items-center justify-center w-14 h-14 text-3xl rounded-2xl bg-n-slate-1 border border-solid border-n-weak shadow-sm"><%= render_emoji_or_icon(category.icon, category.icon_color) %></span>
     <% end %>
     <div class="min-w-0">
       <h1 class="text-3xl leading-snug font-620 tracking-tight text-n-slate-12 text-balance"><%= category.name %></h1>

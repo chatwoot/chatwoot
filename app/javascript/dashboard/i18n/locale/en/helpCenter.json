@@ -552,6 +552,7 @@
         "LOCALE": {
           "ALL": "All locales"
         },
+        "SEARCH_PLACEHOLDER": "Search articles...",
         "NEW_ARTICLE": "New article"
       },
       "EMPTY_STATE": {
@@ -579,6 +580,10 @@
         "CATEGORY": {
           "TITLE": "There are no articles in this category",
           "SUBTITLE": "Articles in this category will appear here"
+        },
+        "SEARCH": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
         }
       },
       "BULK_TRANSLATE": {
@@ -624,6 +629,7 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "New category",
         "EDIT_CATEGORY": "Edit category",
+        "SEARCH_PLACEHOLDER": "Search categories...",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categories ({localeCode})",
@@ -633,6 +639,10 @@
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "No categories found",
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+      },
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching categories",
+        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
@@ -691,6 +701,11 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_EMPTY_STATE": {
+        "TITLE": "No matching locales",
+        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+      },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",

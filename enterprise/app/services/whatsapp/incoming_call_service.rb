@@ -1,6 +1,9 @@
 class Whatsapp::IncomingCallService
   pattr_initialize [:inbox!, :params!]
 
+  # Lifespan of a terminate-before-connect tombstone; the paired connect arrives within ~1s.
+  TERMINATE_TOMBSTONE_TTL = 60
+
   def perform
     return unless inbox.channel.voice_enabled?
 
@@ -72,17 +75,39 @@ class Whatsapp::IncomingCallService
   end
 
   def create_inbound_call(payload)
+    unless inbox.channel.inbound_calls_enabled?
+      Rails.logger.info "[WHATSAPP CALL] Inbound calls disabled for inbox #{inbox.id}; rejecting call #{payload[:id]}"
+      inbox.channel.provider_service.reject_call(payload[:id])
+      return
+    end
+
     sdp_offer = payload.dig(:session, :sdp)
+    call = build_inbound_call(payload, sdp_offer)
+
+    return if call.terminal? # terminated before pickup; no ringing widget to surface
+
+    update_conversation(call)
+    broadcast_incoming(call, sdp_offer)
+  end
+
+  # If a terminate already arrived (caller hung up before pickup), finalize it in the
+  # SAME transaction as the build so the message's after_create_commit fires (at outer
+  # commit) already terminal, never `ringing` — agents aren't rung for a dead call.
+  def build_inbound_call(payload, sdp_offer)
+    ActiveRecord::Base.transaction do
+      call = Voice::InboundCallBuilder.perform!(inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
+                                                provider: :whatsapp, extra_meta: inbound_extra_meta(payload, sdp_offer))
+      tombstone = consume_terminate_tombstone(payload[:id])
+      finalize_terminate(call, tombstone['duration'], tombstone['terminate_reason']) if tombstone
+      call
+    end
+  end
+
+  def inbound_extra_meta(payload, sdp_offer)
     extra_meta = { 'sdp_offer' => sdp_offer, 'ice_servers' => Call.default_ice_servers }
     name = caller_profile_name(payload)
     extra_meta['contact_name'] = name if name.present?
-
-    call = Voice::InboundCallBuilder.perform!(
-      inbox: inbox, from_number: "+#{payload[:from]}", call_sid: payload[:id],
-      provider: :whatsapp, extra_meta: extra_meta
-    )
-    update_conversation(call)
-    broadcast_incoming(call, sdp_offer)
+    extra_meta
   end
 
   # Match strictly on wa_id (== calls[].from): in a batched payload missing this
@@ -116,28 +141,51 @@ class Whatsapp::IncomingCallService
   def handle_terminate(payload)
     call = Call.whatsapp.find_by(provider_call_id: payload[:id])
     if call.nil?
-      # No row yet means either an out-of-order terminate (rare in practice — Meta
-      # delivery is FIFO) or, more dangerously, an outbound terminate landing in
-      # the window between the controller's Meta API call and Call.create!.
-      # Materialising as inbound here would collide with the unique
-      # (provider, provider_call_id) index. Skip; controller commits seal it.
-      Rails.logger.warn "[WHATSAPP CALL] Terminate for unknown call #{payload[:id]}; skipping"
+      # Terminate overtook its connect (Meta isn't strictly ordered); tombstone it for the
+      # connect handler to consume. An outbound tombstone just expires unused.
+      record_terminate_tombstone(payload)
       return
     end
 
+    finalize_terminate(call, payload[:duration], payload[:terminate_reason])
+  end
+
+  def finalize_terminate(call, duration, reason)
+    duration = duration&.to_i
+    reason = reason.to_s
     call.with_lock do
       # Webhook retries can re-deliver terminate after we've already finalized the
       # call; don't recompute status or a duration=0 retry can flip a completed
       # short call back to no_answer.
       next if call.terminal?
 
-      duration = payload[:duration]&.to_i
-      reason = payload[:terminate_reason].to_s
       status = derive_terminate_status(call, duration, reason)
       meta = (call.meta || {}).merge('ended_at' => Time.zone.now.to_i)
       update_call!(call, status, duration_seconds: duration, end_reason: reason, meta: meta)
       broadcast(call, 'voice_call.ended', status: call.display_status, duration_seconds: call.duration_seconds)
     end
+  end
+
+  def record_terminate_tombstone(payload)
+    Redis::Alfred.setex(
+      terminate_tombstone_key(payload[:id]),
+      { 'duration' => payload[:duration], 'terminate_reason' => payload[:terminate_reason] }.to_json,
+      TERMINATE_TOMBSTONE_TTL
+    )
+    Rails.logger.info "[WHATSAPP CALL] Terminate before connect for #{payload[:id]}; tombstoned"
+  end
+
+  def consume_terminate_tombstone(provider_call_id)
+    key = terminate_tombstone_key(provider_call_id)
+    raw = Redis::Alfred.get(key)
+    return nil if raw.blank?
+
+    Redis::Alfred.delete(key)
+    JSON.parse(raw)
+  end
+
+  def terminate_tombstone_key(provider_call_id)
+    format(Redis::Alfred::WHATSAPP_CALL_TERMINATE_TOMBSTONE, call_id: provider_call_id)
   end
 
   # Provider-reported failures trump the answered/no_answer heuristic. An

@@ -27,6 +27,7 @@ export default {
     WAITING_SINCE_ASC: 'waiting_since_asc',
     WAITING_SINCE_DESC: 'waiting_since_desc',
     PRIORITY_DESC_CREATED_AT_ASC: 'priority_desc_created_at_asc',
+    UNREAD: 'unread',
   },
   ARTICLE_STATUS_TYPES: {
     DRAFT: 0,
@@ -77,3 +78,8 @@ export default {
   },
 };
 export const DEFAULT_REDIRECT_URL = '/app/';
+
+// Temporarily disables Instagram and WhatsApp inbox creation
+// (WhatsApp embedded signup popup, Instagram OAuth, WhatsApp Call).
+// Flip to false when the channels are brought back.
+export const IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED = true;

@@ -37,12 +37,18 @@ class WebsiteBrandingService
   private
 
   def fetch_page
-    response = HTTParty.get(@url, follow_redirects: true, timeout: 15)
-    @http_status = response.code
-    return nil unless response.success?
+    body = nil
+    SafeFetch.fetch(@url, validate_content_type: false) do |result|
+      body = result.tempfile.read
+    end
+    @http_status = 200
+    return nil if body.blank?
 
-    Nokogiri::HTML(response.body)
-  rescue StandardError => e
+    Nokogiri::HTML(body)
+  rescue SafeFetch::HttpError => e
+    @http_status = e.message.to_i
+    nil
+  rescue SafeFetch::Error => e
     Rails.logger.error "[WebsiteBranding] Failed to fetch #{@url}: #{e.message}"
     nil
   end

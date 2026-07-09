@@ -2,10 +2,10 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   queue_as :low
 
   retry_on Firecrawl::FirecrawlError, wait: :polynomially_longer, attempts: 3 do |job, error|
-    _account_id, _portal_id, user_id, generation_id = job.arguments
+    _account_id, _portal_id, _user_id, generation_id = job.arguments
     reason = "firecrawl exhausted: #{error.message}"
     Rails.logger.warn "[HelpCenterGenerationJob] gen=#{generation_id} #{reason}"
-    job.send(:skip_and_broadcast, user: User.find_by(id: user_id), generation_id: generation_id, reason: reason)
+    job.send(:skip_generation, generation_id: generation_id, reason: reason)
   end
 
   def perform(account_id, portal_id, user_id, generation_id)
@@ -19,7 +19,17 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
     )
   rescue Onboarding::HelpCenterErrors::CurationSkipped => e
     Rails.logger.info "[HelpCenterGenerationJob] gen=#{generation_id} skipped: #{e.message}"
-    skip_and_broadcast(user: User.find_by(id: user_id), generation_id: generation_id, reason: e.message)
+    skip_generation(generation_id: generation_id, reason: e.message)
+  rescue Firecrawl::FirecrawlError
+    # Must propagate untouched: retry_on handles it, and recording a skipped
+    # state here would make the retries no-op via the state guard above.
+    raise
+  rescue StandardError => e
+    # Any other failure is terminal (missing LLM config, code bug). Record a
+    # skipped state so the onboarding status row stops polling instead of
+    # showing "generating" forever, then re-raise for error tracking.
+    skip_generation(generation_id: generation_id, reason: "#{e.class}: #{e.message}")
+    raise
   end
 
   private
@@ -89,15 +99,12 @@ class Onboarding::HelpCenterArticleGenerationJob < ApplicationJob
   def enqueue_writer_jobs(account_id:, portal_id:, user_id:, generation_id:, articles:)
     articles.each do |article|
       Onboarding::HelpCenterArticleWriterJob.perform_later(
-        account_id, portal_id, user_id, generation_id, { article: article }
+        account_id, portal_id, user_id, generation_id, article
       )
     end
   end
 
-  def skip_and_broadcast(user:, generation_id:, reason:)
+  def skip_generation(generation_id:, reason:)
     Onboarding::HelpCenterGenerationState.skip(generation_id, reason: reason)
-    Onboarding::HelpCenterBroadcaster.completed(
-      user: user, generation_id: generation_id, status: 'skipped', skip_reason: reason
-    )
   end
 end

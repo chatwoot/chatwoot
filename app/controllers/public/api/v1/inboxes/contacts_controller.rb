@@ -18,7 +18,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
       contact: @contact_inbox.contact,
       params: permitted_params.to_h.deep_symbolize_keys.except(:identifier)
     )
-    render json: contact_identify_action.perform
+    contact_identify_action.perform
+    @contact_inbox.reload
   end
 
   private
@@ -35,11 +36,15 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   end
 
   def valid_hmac?
-    params[:identifier_hash] == OpenSSL::HMAC.hexdigest(
+    expected_hash = OpenSSL::HMAC.hexdigest(
       'sha256',
       @inbox_channel.hmac_token,
       params[:identifier].to_s
     )
+    identifier_hash = params[:identifier_hash].to_s
+    return false unless identifier_hash.bytesize == expected_hash.bytesize
+
+    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
   end
 
   def permitted_params
