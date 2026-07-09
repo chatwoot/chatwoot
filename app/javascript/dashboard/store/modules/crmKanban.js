@@ -285,17 +285,26 @@ const followUpDate = value => {
   return Number.isNaN(numeric) ? new Date(value) : new Date(numeric * 1000);
 };
 
-// Board payload serializes last_message_at as epoch seconds; a card is stale when
-// it has had no message for more than `days` (or never, i.e. null).
-const isStale = (card, days) => {
-  const value = card.last_message_at;
-  if (!value) return true;
-  const lastMessageAt =
+// Same epoch-seconds (board) vs iso8601 (realtime) duality as followUpDate above.
+const toDate = value => {
+  if (!value) return null;
+  const date =
     typeof value === 'number' ? new Date(value * 1000) : new Date(value);
-  if (Number.isNaN(lastMessageAt.getTime())) return true;
+  return Number.isNaN(date.getTime()) ? null : date;
+};
+
+// Mirrors Crm::Cards::SharedFilters#apply_stale_filter: "no activity for `days`"
+// means no real message AND no stage movement (GREATEST of both, NULL-safe).
+// A card is stale when the latest of last_message_at/entered_stage_at is more
+// than `days` old, or when both are absent.
+const isStale = (card, days) => {
+  const latest = [toDate(card.last_message_at), toDate(card.entered_stage_at)]
+    .filter(Boolean)
+    .sort((a, b) => b - a)[0];
+  if (!latest) return true;
   const threshold = new Date();
   threshold.setDate(threshold.getDate() - days);
-  return lastMessageAt < threshold;
+  return latest < threshold;
 };
 
 const cardMatchesFilters = (card, filters) => {

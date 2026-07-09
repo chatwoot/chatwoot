@@ -96,4 +96,42 @@ RSpec.describe Crm::Kanban::BoardPayloadBuilder do
 
     expect(cards.pluck(:id)).to eq([matched.id])
   end
+
+  # Reason: owner_id is not part of the staleness formula (GREATEST(last_message_at,
+  # entered_stage_at)) — a recent reassignment must not mask a card that has had no
+  # real message and no stage movement in `stale_days`.
+  it 'stale_days: a card recently reassigned but with no message/stage movement stays stale' do
+    card = create_card(conversation: create_conversation)
+    card.update!(last_message_at: 10.days.ago, entered_stage_at: 10.days.ago, owner_id: admin.id)
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to contain_exactly(card.id)
+  end
+
+  # Reason: new semantics — "no activity" means no real message AND no stage
+  # movement. A recent entered_stage_at must keep an otherwise old card active.
+  it 'stale_days: a recent stage movement keeps an otherwise old card out of the stale set' do
+    card = create_card(conversation: create_conversation)
+    card.update!(last_message_at: 10.days.ago, entered_stage_at: 1.day.ago)
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to be_empty
+  end
+
+  # Reason: GREATEST(NULL, NULL) is NULL in Postgres — a card with neither field
+  # set must be treated as stale (never messaged, never moved).
+  it 'stale_days: a card with neither a real message nor a stage movement is stale' do
+    card = create_card(conversation: create_conversation)
+    # ensure_activity_defaults backfills entered_stage_at on validation, so bypass
+    # callbacks to actually persist both fields as NULL for this scenario.
+    # rubocop:disable Rails/SkipsModelValidations
+    card.update_columns(last_message_at: nil, entered_stage_at: nil)
+    # rubocop:enable Rails/SkipsModelValidations
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to contain_exactly(card.id)
+  end
 end

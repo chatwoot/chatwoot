@@ -129,15 +129,27 @@ class Crm::Conversations::CardSyncer
       contact_id: @conversation.contact_id,
       inbox_id: @conversation.inbox_id,
       source: @conversation.inbox&.channel_type,
-      last_message_at: last_message_at,
-      last_activity_at: last_message_at,
       metadata: refreshed_metadata(card)
     }.compact
 
+    merge_activity_attributes(attributes)
     attributes[:conversation_id] = @conversation.id if card.conversation_id.blank?
     attributes[:owner_id] = @conversation.assignee_id if sync_assignment?(card)
     attributes[:team_id] = @conversation.team_id if sync_team?(card)
     attributes.reject { |key, value| values_equal?(card.public_send(key), value) }
+  end
+
+  # Assignment/team syncs arrive without @message; they must not move the card's
+  # activity clock — stage moves and linkers legitimately set last_activity_at to
+  # Time.current, and a stale real-message date would regress it.
+  def merge_activity_attributes(attributes)
+    return if @message.blank?
+
+    real_message_at = last_message_at
+    return if real_message_at.blank?
+
+    attributes[:last_message_at] = real_message_at
+    attributes[:last_activity_at] = real_message_at
   end
 
   # Auto-synced cards mirror the conversation assignee exactly (set on assign,
@@ -162,7 +174,7 @@ class Crm::Conversations::CardSyncer
   end
 
   def last_message_at
-    @message&.created_at || @conversation.last_activity_at
+    Crm::Conversations::LastRealMessageAt.for(@conversation)
   end
 
   def auto_sync_metadata

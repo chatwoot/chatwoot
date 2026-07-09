@@ -26,11 +26,13 @@ module Crm::Cards::SharedFilters
     cards
   end
 
+  # No real message AND no stage movement in N days (GREATEST is NULL-safe).
   def apply_stale_filter(cards)
     days = @params[:stale_days].presence&.to_i
     return cards if days.blank? || days <= 0
 
-    cards.where('crm_cards.last_message_at IS NULL OR crm_cards.last_message_at < ?', days.days.ago)
+    stale_sql = 'GREATEST(crm_cards.last_message_at, crm_cards.entered_stage_at)'
+    cards.where("#{stale_sql} IS NULL OR #{stale_sql} < ?", days.days.ago)
   end
 
   def apply_team_filter(cards)

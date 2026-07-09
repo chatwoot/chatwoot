@@ -39,7 +39,7 @@ module Crm
         card.team = @conversation.team
         card.source = @conversation.inbox&.channel_type
         card.title = derived_title if card.title.blank?
-        card.last_message_at ||= @conversation.last_activity_at
+        card.last_message_at ||= Crm::Conversations::LastRealMessageAt.for(@conversation)
         card.last_activity_at ||= @conversation.last_activity_at
         card.metadata = conversation_metadata(card)
       end
