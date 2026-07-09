@@ -102,7 +102,7 @@ function changeAvailabilityStatus(availability) {
               </div>
             </Button>
           </template>
-          <DropdownBody class="min-w-32 z-20">
+          <DropdownBody class="sidebar-branded-dropdown min-w-32 z-20">
             <DropdownItem
               v-for="status in availabilityStatuses"
               :key="status.value"

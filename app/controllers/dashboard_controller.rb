@@ -86,7 +86,8 @@ class DashboardController < ActionController::Base
       CRM_AI_ENABLED: ActiveModel::Type::Boolean.new.cast(ENV.fetch('CRM_AI_ENABLED', false)).to_s,
       AUTONOMIA_AGENTS_ENABLED: ActiveModel::Type::Boolean.new.cast(ENV.fetch('AUTONOMIA_AGENTS_ENABLED', false)).to_s,
       EMAIL_CAMPAIGN_ENABLED: ActiveModel::Type::Boolean.new.cast(ENV.fetch('EMAIL_CAMPAIGN_ENABLED', false)).to_s,
-      SIDEBAR_BACKGROUND_COLOR: GlobalConfigService.load('SIDEBAR_BACKGROUND_COLOR', ''),
+      SIDEBAR_BACKGROUND_COLOR: ENV['SIDEBAR_BACKGROUND_COLOR'].presence ||
+        GlobalConfigService.load('SIDEBAR_BACKGROUND_COLOR', ''),
       IS_ENTERPRISE: ChatwootApp.enterprise?,
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH,
