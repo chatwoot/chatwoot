@@ -1,7 +1,13 @@
 import { computed, ref } from 'vue';
 import ReportsAPI from 'dashboard/api/reports';
 
-export function useReportDrilldown() {
+// `fetcher` is any `({ ...request, page, signal }) => Promise` returning the
+// shared drilldown envelope (`{ data: { meta, payload } }`), so the same paging
+// and abort machinery backs both the reports and Captain assistant drilldowns.
+// The default is wrapped so `ReportsAPI` stays the receiver when invoked.
+export function useReportDrilldown(
+  fetcher = params => ReportsAPI.getDrilldown(params)
+) {
   const activeRequest = ref(null);
   const records = ref([]);
   const meta = ref({});
@@ -20,17 +26,7 @@ export function useReportDrilldown() {
   const isCurrentRequest = token =>
     token === requestToken && !!activeRequest.value;
 
-  const requestFingerprint = request =>
-    JSON.stringify({
-      metric: request.metric,
-      bucketTimestamp: request.bucketTimestamp,
-      from: request.from,
-      to: request.to,
-      type: request.type,
-      id: request.id,
-      groupBy: request.groupBy,
-      businessHours: request.businessHours,
-    });
+  const requestFingerprint = request => JSON.stringify(request);
 
   const abortActiveRequest = () => {
     if (!activeRequestController) return;
@@ -55,7 +51,7 @@ export function useReportDrilldown() {
     hasError.value = false;
 
     try {
-      const response = await ReportsAPI.getDrilldown({
+      const response = await fetcher({
         ...request,
         page,
         signal: controller.signal,
