@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import ChannelSelector from '../ChannelSelector.vue';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 const props = defineProps({
   channel: {
@@ -15,20 +15,22 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
+const { isOnChatwootCloud } = useAccount();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
 });
 
 const hasInstagramConfigured = computed(() => {
-  return (
-    !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-    window.chatwootConfig?.instagramAppId
-  );
+  return window.chatwootConfig?.instagramAppId;
 });
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
+});
+
+const isWhatsappEmbeddedSignupRestricted = computed(() => {
+  return isOnChatwootCloud.value;
 });
 
 const isActive = computed(() => {
@@ -62,7 +64,7 @@ const isActive = computed(() => {
 
   if (key === 'whatsapp_call') {
     return (
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
+      !isWhatsappEmbeddedSignupRestricted.value &&
       props.enabledFeatures.channel_voice &&
       !!window.chatwootConfig?.whatsappAppId &&
       window.chatwootConfig.whatsappAppId !== 'none'
