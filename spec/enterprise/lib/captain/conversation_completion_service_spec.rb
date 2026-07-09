@@ -68,6 +68,74 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
+    context 'when building evaluation context' do
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          content: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          input_tokens: 100,
+          output_tokens: 20
+        )
+      end
+
+      it 'includes conversation status and speaker labels' do
+        conversation.update!(status: :pending, waiting_since: 2.hours.ago)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'I need help with a refund')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to support for review.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Conversation transcript:',
+            'Customer: I need help with a refund',
+            'Captain: I will transfer this to support for review.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+
+      it 'includes pending captain handoff evidence in the transcript' do
+        conversation.update!(status: :pending)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'Please cancel my order')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to a specialist and they will follow up here.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Captain: I will transfer this to a specialist and they will follow up here.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+    end
+
     context 'when conversation has no messages' do
       it 'returns incomplete with appropriate reason' do
         result = service.perform
