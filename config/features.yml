@@ -223,10 +223,10 @@
   display_name: Reply Mailer Migration
   enabled: false
   chatwoot_internal: true
-- name: quoted_email_reply
-  display_name: Quoted Email Reply
+- name: unread_count_for_filters
+  display_name: Unread Count For Filters
   enabled: false
-  deprecated: true
+  chatwoot_internal: true
 - name: companies
   display_name: Companies
   enabled: false

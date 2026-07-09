@@ -77,10 +77,12 @@ class Inbox < ApplicationRecord
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
+  before_destroy :capture_filtered_unread_count_user_ids, prepend: true
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
+  after_destroy_commit :invalidate_filtered_unread_counts_after_destroy
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
@@ -259,6 +261,18 @@ class Inbox < ApplicationRecord
 
   def delete_round_robin_agents
     ::AutoAssignment::InboxRoundRobinService.new(inbox: self).clear_queue
+  end
+
+  def capture_filtered_unread_count_user_ids
+    return if account.blank?
+
+    @filtered_unread_count_user_ids = (inbox_members.pluck(:user_id) + account.account_users.administrator.pluck(:user_id)).uniq
+  end
+
+  def invalidate_filtered_unread_counts_after_destroy
+    invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
+    invalidator.conversation_changed!
+    invalidator.users_visibility_changed!(user_ids: @filtered_unread_count_user_ids)
   end
 
   def check_channel_type?

@@ -263,7 +263,7 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "MESSAGE": "Your account has been suspended after we detected activity that may violate our policies or put other users at risk. If you believe this is a mistake, please contact our support team."
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
