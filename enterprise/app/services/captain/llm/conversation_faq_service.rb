@@ -39,7 +39,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def conversation_faq_messages
     messages = conversation
                .messages
-               .where(message_type: %i[incoming outgoing], private: false, sender_type: %w[Contact User])
+               .where(message_type: %i[incoming outgoing], private: false)
                .order(created_at: :asc)
 
     return "No messages in this conversation\n" if messages.empty?
@@ -48,11 +48,27 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def format_conversation_faq_message(message)
+    return unless faq_source_message?(message)
+
     content = message.content_for_llm
     return if content.blank?
 
-    sender = message.sender_type == 'User' ? 'Support Agent' : 'User'
+    sender = human_support_reply?(message) ? 'Support Agent' : 'User'
     "#{sender}: #{content}\n"
+  end
+
+  def faq_source_message?(message)
+    return true if message.incoming? && message.sender_type == 'Contact'
+
+    human_support_reply?(message)
+  end
+
+  def human_support_reply?(message)
+    return false unless message.outgoing?
+    return false if message.content_attributes['automation_rule_id'].present?
+    return false if message.additional_attributes['campaign_id'].present?
+
+    message.sender_type == 'User' || message.content_attributes['external_echo'].present?
   end
 
   def no_human_interaction?

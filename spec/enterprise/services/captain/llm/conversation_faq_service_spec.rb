@@ -77,6 +77,23 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         expect(mock_chat).to have_received(:ask).with(expected_content)
       end
 
+      it 'keeps external echo outgoing replies from native channels in the LLM transcript' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer asks in a native channel')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: nil, message_type: :outgoing, content: 'Human replied from the native app',
+                         content_attributes: { external_echo: true })
+
+        service.generate_and_deduplicate
+
+        expected_content = satisfy do |content|
+          content.include?('User: Customer asks in a native channel') &&
+            content.include?('Support Agent: Human replied from the native app')
+        end
+        expect(mock_chat).to have_received(:ask).with(expected_content)
+      end
+
       it 'uses the human-only conversation transcript for instrumentation' do
         create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
                          sender: create(:contact, account: conversation.account), message_type: :incoming,
