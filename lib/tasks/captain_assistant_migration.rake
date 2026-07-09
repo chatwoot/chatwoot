@@ -40,6 +40,16 @@ namespace :captain do
       puts "Processed #{results.size} migration drafts from #{input_path}"
       puts 'Dry run only. Re-run with DRY_RUN=false to write changes.' if dry_run
     end
+
+    desc 'Rollback applied migration using stored original values. Usage: rake captain:assistant_migration:rollback IDS=1,2 DRY_RUN=true'
+    task rollback: :environment do
+      dry_run = CaptainAssistantMigrationTask.truthy?('DRY_RUN', default: true)
+      results = CaptainAssistantMigrationTask.rollback_assistants(dry_run: dry_run)
+
+      results.each { |result| puts(JSON.generate(result)) }
+      puts "Processed #{results.size} assistant migration rollbacks"
+      puts 'Dry run only. Re-run with DRY_RUN=false to restore original values.' if dry_run
+    end
   end
 end
 # rubocop:enable Metrics/BlockLength
@@ -111,6 +121,15 @@ class CaptainAssistantMigrationTask
       assistants.respond_to?(:size) ? assistants.size : assistants.count
     end
 
+    def rollback_assistants(dry_run:)
+      assistant_ids.map do |assistant_id|
+        assistant = Captain::Assistant.find(assistant_id)
+        rollback_assistant(assistant, dry_run: dry_run)
+      rescue ActiveRecord::RecordNotFound
+        { assistant_id: assistant_id, error: 'Assistant not found' }
+      end
+    end
+
     def apply_drafts(input_path:, dry_run:)
       File.readlines(input_path, chomp: true).filter_map.with_index(1) do |line, line_number|
         next if line.blank?
@@ -147,6 +166,40 @@ class CaptainAssistantMigrationTask
     end
 
     private
+
+    def rollback_assistant(assistant, dry_run:)
+      original_values = assistant.config.dig(
+        Captain::AssistantMigration::DraftApplier::CONFIG_KEY,
+        Captain::AssistantMigration::DraftApplier::ORIGINAL_VALUES_KEY
+      )
+      return skipped_result(nil, assistant.id, 'No stored migration original values found') if original_values.blank?
+
+      changes = rollback_changes(assistant, original_values)
+      attributes = changes.transform_values { |change| change[:to] }
+      assistant.update!(attributes) if !dry_run && attributes.present?
+
+      { assistant_id: assistant.id, dry_run: dry_run, changes: changes }
+    end
+
+    def rollback_changes(assistant, original_values)
+      {
+        name: scalar_change(assistant.name, original_values['name']),
+        description: scalar_change(assistant.description, original_values['description']),
+        response_guidelines: scalar_change(Array(assistant.response_guidelines), Array(original_values['response_guidelines'])),
+        guardrails: scalar_change(Array(assistant.guardrails), Array(original_values['guardrails'])),
+        config: scalar_change(assistant.config, original_values['config'] || {})
+      }.compact
+    end
+
+    def scalar_change(current, original)
+      return if current == original
+
+      { from: current, to: original }
+    end
+
+    def assistant_ids
+      ENV.fetch('IDS').split(',').filter_map { |id| id.strip.presence }
+    end
 
     def skipped_result(line_number, assistant_id, reason)
       {
