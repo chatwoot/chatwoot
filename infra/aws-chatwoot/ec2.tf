@@ -56,6 +56,7 @@ INSTALLATION_PRICING_PLAN_QUANTITY=999
 INSTALLATION_ENV=aws-ec2
 LOG_LEVEL=info
 MAILER_SENDER_EMAIL=${var.mailer_sender_email}
+SIDEBAR_BACKGROUND_COLOR=#0b1e3f
 POSTGRES_DATABASE=${aws_db_instance.chatwoot.db_name}
 POSTGRES_HOST=${aws_db_instance.chatwoot.address}
 POSTGRES_PASSWORD=${random_password.db.result}

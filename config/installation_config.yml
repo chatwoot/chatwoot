@@ -26,6 +26,11 @@
   value: '/brand-assets/autonomia-menu-icon.png'
   display_title: 'Menu Icon'
   description: 'The icon that would be used in the dashboard sidebar menu'
+- name: SIDEBAR_BACKGROUND_COLOR
+  value:
+  display_title: 'Sidebar Background Color'
+  description: 'Optional dashboard sidebar background color for branded installations'
+  locked: false
 - name: LOGO
   value: '/brand-assets/autonomia-logo.png'
   display_title: 'Logo'

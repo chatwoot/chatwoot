@@ -131,6 +131,9 @@ jobs:
               # proximos embedded signups (PR #168; topic fields ja habilitados
               # no painel Meta).
               "WHATSAPP_HISTORY_SYNC_ENABLED": "true",
+              # Branding do menu lateral da instalacao Autonomia. Hub2You nao
+              # define esta variavel para manter a cor atual.
+              "SIDEBAR_BACKGROUND_COLOR": "#0b1e3f",
           }
 
           lines = path.read_text().splitlines()
