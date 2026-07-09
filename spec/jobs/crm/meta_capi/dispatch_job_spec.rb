@@ -173,7 +173,7 @@ RSpec.describe Crm::MetaCapi::DispatchJob do
       row = Crm::MetaConversionEvent.find_by(event_id: "crm-#{card.id}-moved-#{activity.id}")
       expect(row.funnel_stage_type).to eq('negotiation')
       expect(client).to have_received(:post_events) do |events|
-        expect(events.first['event_name']).to eq('negotiation')
+        expect(events.first['event_name']).to eq('InitiateCheckout')
         expect(events.first['event_time']).to eq(activity.created_at.to_i)
       end
     end
