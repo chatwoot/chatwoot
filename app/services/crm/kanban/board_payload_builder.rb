@@ -40,6 +40,9 @@ class Crm::Kanban::BoardPayloadBuilder
       color: stage.color,
       wip_limit: stage.wip_limit,
       sla_seconds: stage.sla_seconds,
+      # Meta CAPI mapping — the funnel drawer edits board stages, so without this the
+      # drawer would read '' and every save would wipe the persisted classification.
+      funnel_stage_type: stage.metadata&.dig('funnel_stage_type'),
       cards_count: include_counts? ? base_scope.count : nil,
       cards: cards.map { |card| card_payload(card, pending_suggestions) },
       has_more: has_more,

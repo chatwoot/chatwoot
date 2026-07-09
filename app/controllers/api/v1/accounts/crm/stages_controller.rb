@@ -13,6 +13,11 @@ class Api::V1::Accounts::Crm::StagesController < Api::V1::Accounts::Crm::BaseCon
   def create
     @stage = Current.account.crm_pipeline_stages.new(stage_params.merge(pipeline: @pipeline))
     apply_default_ai_criteria!(@stage)
+    # New stages must honor the funnel classification too — update-only handling
+    # would silently drop the mapping the funnel drawer sends on stage creation.
+    metadata = @stage.metadata || {}
+    apply_funnel_stage_type!(metadata)
+    @stage.metadata = metadata
     authorize @stage
     @stage.save!
     render :show, status: :created

@@ -23,11 +23,15 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
     card = Crm::Card.find_by(id: card_id, account_id: account_id)
     return if card.blank?
 
+    # The activity anchors the transition being reported: for 'moved' its payload
+    # carries the historical to_stage_id and its created_at is the transition time,
+    # so rapid successive moves each report their own stage, not the card's current.
+    activity = Crm::Activity.find_by(id: activity_id, account_id: account_id)
     event_id = build_event_id(card_id, event_type, activity_id)
-    row = claim_row(event_id, card, event_type, source)
+    row = claim_row(event_id, card, event_type, source, activity)
     return if row.nil?
 
-    deliver(row, card, event_id, event_type)
+    deliver(row, card, event_id, event_type, activity)
   rescue DispatchError
     raise
   rescue StandardError => e
@@ -39,12 +43,14 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
 
   # Atomically claim the ledger row. The unique index on event_id is the lock: the first
   # worker inserts a `pending` row; a concurrent worker hits RecordNotUnique and backs off
-  # (nil). An already-accepted row short-circuits so we never re-post a delivered event.
-  def claim_row(event_id, card, event_type, source)
+  # (nil). A persisted row short-circuits when accepted (already delivered) AND when still
+  # pending (another worker owns the in-flight POST — re-claiming it would double-send,
+  # and Meta does not dedup). Only error/skipped rows may be re-claimed by a retry.
+  def claim_row(event_id, card, event_type, source, activity)
     row = Crm::MetaConversionEvent.find_or_initialize_by(event_id: event_id)
-    return nil if row.persisted? && row.accepted?
+    return nil if row.persisted? && (row.accepted? || row.pending?)
 
-    assign_context(row, card, event_type, source)
+    assign_context(row, card, event_type, source, activity)
     row.status = :pending
     row.save!
     row
@@ -52,8 +58,8 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
     nil
   end
 
-  def deliver(row, card, event_id, event_type)
-    ctwa_clid = resolve_ctwa_clid(card)
+  def deliver(row, card, event_id, event_type, activity)
+    ctwa_clid = Crm::MetaCapi::CtwaClidResolver.resolve(card)
     return skip(row, 'missing_ctwa_clid') if ctwa_clid.blank?
 
     credentials = resolve_credentials(card)
@@ -67,8 +73,15 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
       card: card, event_name: event_name, event_type: event_type, event_id: event_id,
       attribution: { ctwa_clid: ctwa_clid, waba_id: credentials[:waba_id] }
     )
+    apply_transition_time!(payload, event_type, activity)
     response = Meta::ConversionsApiClient.new(access_token: credentials[:access_token], dataset_id: credentials[:dataset_id]).post_events([payload])
     record_result(row, response)
+  end
+
+  # 'moved' must report the TRANSITION instant, not the card's state when the job
+  # runs — anchor event_time on the activity that logged the move.
+  def apply_transition_time!(payload, event_type, activity)
+    payload['event_time'] = activity.created_at.to_i if event_type == 'moved' && activity
   end
 
   # Persists the delivery outcome. A rejected event raises (sanitized, cause-less) so
@@ -83,17 +96,33 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
   end
 
   # Ledger scaffolding shared by every terminal state (accepted/skipped/error).
-  def assign_context(row, card, event_type, source)
+  def assign_context(row, card, event_type, source, activity)
     row.assign_attributes(
       account_id: card.account_id,
       card_id: card.id,
       pipeline_id: card.pipeline_id,
       event_type: event_type,
       source: source,
-      funnel_stage_type: card.stage&.metadata&.dig('funnel_stage_type'),
+      funnel_stage_type: resolve_stage_type(card, event_type, activity),
       value_cents: card.value_cents,
       currency: card.currency
     )
+  end
+
+  # For 'moved' the Meta event_name comes from the DESTINATION stage of that specific
+  # transition (activity payload to_stage_id), not the card's current stage — rapid
+  # successive moves would otherwise all report the latest stage. Falls back to the
+  # current stage when the activity is gone.
+  def resolve_stage_type(card, event_type, activity)
+    stage = event_type == 'moved' ? moved_destination_stage(card, activity) : card.stage
+    stage&.metadata&.dig('funnel_stage_type')
+  end
+
+  def moved_destination_stage(card, activity)
+    to_stage_id = activity&.payload&.dig('to_stage_id')
+    return card.stage if to_stage_id.blank?
+
+    Crm::PipelineStage.find_by(id: to_stage_id, account_id: card.account_id) || card.stage
   end
 
   def skip(row, reason)
@@ -105,16 +134,6 @@ class Crm::MetaCapi::DispatchJob < ApplicationJob
   # transition and never changes on retry, so the ledger row is reused deterministically.
   def build_event_id(card_id, event_type, activity_id)
     "crm-#{card_id}-#{event_type}-#{activity_id}"
-  end
-
-  # CTWA click id lives on the linked conversation's campaign attribution
-  # (Ctwa::CampaignBuilder writes additional_attributes['campaign']['ctwa_clid']).
-  def resolve_ctwa_clid(card)
-    conversation = card.primary_conversation
-    return if conversation.blank?
-
-    campaign = conversation.additional_attributes['campaign']
-    campaign.is_a?(Hash) ? campaign['ctwa_clid'].presence : nil
   end
 
   # Reuses the WhatsApp channel credential (no new secret storage): the card's inbox is the

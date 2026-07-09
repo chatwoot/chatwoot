@@ -100,6 +100,17 @@ const formatCurrencyList = list => {
     .join(' · ');
 };
 
+// Revenue sent to Meta, per currency (the endpoint groups by currency so a
+// mixed-currency book is never summed under a single R$ label).
+const metaRevenueLabel = computed(() => {
+  const byCurrency = metaSummary.value?.accepted_value_by_currency || {};
+  const list = Object.entries(byCurrency).map(([currency, cents]) => ({
+    currency,
+    value_cents: cents,
+  }));
+  return formatCurrencyList(list);
+});
+
 // Monthly sales target box: attainment % + pacing (on track when attainment
 // keeps up with the share of the month already elapsed).
 const goal = computed(() => summary.value?.goal || null);
@@ -466,7 +477,7 @@ onMounted(async () => {
           <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
             <ReportMetricCard
               :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.REVENUE')"
-              :value="formatMoney(metaSummary?.accepted_value_cents, 'BRL')"
+              :value="metaRevenueLabel"
             />
           </div>
           <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">

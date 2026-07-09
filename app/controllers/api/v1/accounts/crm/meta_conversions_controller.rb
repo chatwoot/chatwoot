@@ -31,7 +31,9 @@ class Api::V1::Accounts::Crm::MetaConversionsController < Api::V1::Accounts::Crm
       by_status: countable_statuses(scope),
       by_event_type: scope.group(:event_type).count,
       accepted_count: scope.accepted.count,
-      accepted_value_cents: scope.accepted.where(event_type: 'won').sum(:value_cents),
+      # Grouped by currency: cards are not all BRL, and a mixed-currency sum under a
+      # single R$ label would be wrong. Null currency buckets under 'BRL' (card default).
+      accepted_value_by_currency: accepted_value_by_currency(scope),
       last_sent_at: scope.accepted.maximum(:sent_at)
     } }
   end
@@ -51,9 +53,17 @@ class Api::V1::Accounts::Crm::MetaConversionsController < Api::V1::Accounts::Crm
     scope.group(:status).count.transform_keys { |value| Crm::MetaConversionEvent.statuses.key(value) || value }
   end
 
+  def accepted_value_by_currency(scope)
+    scope.accepted.where(event_type: 'won').group(:currency).sum(:value_cents)
+         .each_with_object({}) { |(currency, cents), map| map[currency.presence || 'BRL'] = (map[currency.presence || 'BRL'] || 0) + cents }
+  end
+
+  # Accepts card_ids[]=1&card_ids[]=2 or a single card_id; anything non-numeric or a
+  # malformed nested-hash param is dropped instead of raising (no 500 on bad input).
   def permitted_card_ids
-    ids = params[:card_ids].presence || Array(params[:card_id])
-    Array(ids).map(&:to_i).reject(&:zero?).uniq
+    ids = params[:card_ids].presence || params[:card_id].presence
+    list = ids.is_a?(Array) ? ids : [ids]
+    list.filter_map { |value| Integer(value, exception: false) }.reject(&:zero?).uniq
   end
 
   def serialize(event)

@@ -205,22 +205,28 @@ const loadCampaignOptions = async () => {
 // currently in the List view and expose it per card for the column badge.
 const isMetaSyncActive = computed(() => campaignOptions.value.length > 0);
 const metaByCard = ref({});
+// Monotonic request token: a stale (out-of-order) response must never overwrite
+// the map built from a fresher card list (load-more / realtime bursts).
+let metaRequestSeq = 0;
 
 const loadMetaConversions = async () => {
   if (!isMetaSyncActive.value || !cardsList.value.length) {
     metaByCard.value = {};
     return;
   }
+  metaRequestSeq += 1;
+  const requestSeq = metaRequestSeq;
   try {
     const response = await MetaConversionsAPI.getForCards(
       cardsList.value.map(card => card.id)
     );
+    if (requestSeq !== metaRequestSeq) return;
     metaByCard.value = (response.data.payload || []).reduce((map, row) => {
       map[row.card_id] = row;
       return map;
     }, {});
   } catch {
-    metaByCard.value = {};
+    if (requestSeq === metaRequestSeq) metaByCard.value = {};
   }
 };
 
@@ -994,7 +1000,14 @@ const collapsedGroups = ref([]);
 // TanStack column defs, rebuilt when stages/agents change so editors get fresh
 // option lists. Labels resolve through CRM_KANBAN.LIST.COLUMNS.* i18n.
 const cardColumnDefs = computed(() =>
-  buildCrmCardColumns({ t, stages: stages.value, agents: agents.value })
+  buildCrmCardColumns({
+    t,
+    stages: stages.value,
+    agents: agents.value,
+    // Keep the settings menu in sync with the table: the Meta column must be
+    // hideable/reorderable whenever it is rendered.
+    includeMeta: isMetaSyncActive.value,
+  })
 );
 
 // Merge persisted listPrefs with the column defaults so the table always has a

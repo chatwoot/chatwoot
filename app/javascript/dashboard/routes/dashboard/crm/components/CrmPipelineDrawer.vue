@@ -150,7 +150,10 @@ const cloneStage = (stage, index) => ({
   name: stage.name || '',
   description: stage.description || '',
   color: stage.color || stageColors[index % stageColors.length],
-  funnel_stage_type: stage.metadata?.funnel_stage_type || '',
+  // Board stages expose funnel_stage_type top-level; stages API payloads carry it
+  // inside metadata. Read both so opening the drawer never wipes the mapping.
+  funnel_stage_type:
+    stage.funnel_stage_type || stage.metadata?.funnel_stage_type || '',
 });
 
 const resetNewPipelineInbox = () => {

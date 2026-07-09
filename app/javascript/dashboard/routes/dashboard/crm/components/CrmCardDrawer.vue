@@ -447,17 +447,21 @@ watch(
 );
 
 // Fetch the card's Meta conversion row whenever the drawer opens or switches card.
-// Reset first so a stale badge never lingers; failures simply hide the badge.
+// Reset first so a stale badge never lingers; failures simply hide the badge. The
+// requestedId guard drops slow responses that arrive after the card changed, and
+// only the row matching THIS card is accepted (never another card's conversion).
 const fetchMetaConversion = async () => {
   metaConversion.value = null;
   if (!props.show || !cardId.value) return;
+  const requestedId = cardId.value;
   try {
-    const { data } = await MetaConversionsAPI.getForCards([cardId.value]);
+    const { data } = await MetaConversionsAPI.getForCards([requestedId]);
+    if (requestedId !== cardId.value) return;
     const payload = data?.payload || [];
     metaConversion.value =
-      payload.find(row => row.card_id === cardId.value) || payload[0] || null;
+      payload.find(row => Number(row.card_id) === Number(requestedId)) || null;
   } catch {
-    metaConversion.value = null;
+    if (requestedId === cardId.value) metaConversion.value = null;
   }
 };
 watch(() => [props.show, cardId.value], fetchMetaConversion, {

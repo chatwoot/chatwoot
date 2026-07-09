@@ -101,6 +101,16 @@ RSpec.describe Crm::MetaCapi::DispatchJob do
       expect { perform }.not_to change(Crm::MetaConversionEvent, :count)
       expect(Crm::MetaConversionEvent.find_by(event_id: event_id).status).to eq('accepted')
     end
+
+    it 'short-circuits when a row is still pending (another worker owns the in-flight POST)' do
+      Crm::MetaConversionEvent.create!(account: account, card: card, event_id: event_id, event_type: 'won',
+                                       status: :pending)
+      expect(Meta::ConversionsApiClient).not_to receive(:new)
+
+      perform
+
+      expect(Crm::MetaConversionEvent.find_by(event_id: event_id).status).to eq('pending')
+    end
   end
 
   describe 'delivery' do
@@ -136,6 +146,36 @@ RSpec.describe Crm::MetaCapi::DispatchJob do
       expect(row.status).to eq('error')
       expect(row.http_code).to eq(400)
       expect(row.error_message).to eq('invalid dataset')
+    end
+
+    it 'resolves the ctwa_clid from campaign touches when there is no origin campaign' do
+      conversation.update!(additional_attributes: { 'campaign_touches' => [{ 'ctwa_clid' => 'TOUCH9' }] })
+      allow(client).to receive(:post_events)
+        .and_return(Meta::ConversionsApiClient::Result.new(ok: true, http_code: 200, body: 'ok', error: nil))
+
+      perform
+
+      expect(client).to have_received(:post_events) do |events|
+        expect(events.first['user_data']).to include('ctwa_clid' => 'TOUCH9')
+      end
+    end
+
+    it "anchors 'moved' on the activity's destination stage and transition time, not the card's current stage" do
+      destination = account.crm_pipeline_stages.create!(pipeline: pipeline, name: 'Q', position: 1,
+                                                        metadata: { 'funnel_stage_type' => 'negotiation' })
+      activity = Crm::Activity.create!(account: account, card: card, event_type: 'move',
+                                       payload: { 'to_stage_id' => destination.id }, created_at: 2.hours.ago)
+      allow(client).to receive(:post_events)
+        .and_return(Meta::ConversionsApiClient::Result.new(ok: true, http_code: 200, body: 'ok', error: nil))
+
+      described_class.perform_now(account.id, card.id, activity.id, 'moved')
+
+      row = Crm::MetaConversionEvent.find_by(event_id: "crm-#{card.id}-moved-#{activity.id}")
+      expect(row.funnel_stage_type).to eq('negotiation')
+      expect(client).to have_received(:post_events) do |events|
+        expect(events.first['event_name']).to eq('negotiation')
+        expect(events.first['event_time']).to eq(activity.created_at.to_i)
+      end
     end
   end
 

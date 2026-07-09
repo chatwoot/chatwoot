@@ -64,7 +64,7 @@ RSpec.describe 'CRM meta_conversions API', type: :request do
       expect(payload['by_status']).to eq('accepted' => 1, 'skipped' => 1)
       expect(payload['by_event_type']).to eq('won' => 1, 'moved' => 1)
       expect(payload['accepted_count']).to eq(1)
-      expect(payload['accepted_value_cents']).to eq(30_000)
+      expect(payload['accepted_value_by_currency']).to eq('BRL' => 30_000)
       expect(payload['last_sent_at']).to be_present
     end
   end
