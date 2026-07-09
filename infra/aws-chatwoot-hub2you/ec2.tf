@@ -61,6 +61,7 @@ LOGO_THUMBNAIL=/brand-assets/hub2you-icon.png
 LOG_LEVEL=info
 MAILER_SENDER_EMAIL=${var.mailer_sender_email}
 MENU_ICON=/brand-assets/hub2you-icon.png
+SIDEBAR_BACKGROUND_COLOR=#0b1e3f
 POSTGRES_DATABASE=${aws_db_instance.chatwoot.db_name}
 POSTGRES_HOST=${aws_db_instance.chatwoot.address}
 POSTGRES_PASSWORD=${random_password.db.result}
