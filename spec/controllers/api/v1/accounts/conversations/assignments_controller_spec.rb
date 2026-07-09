@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Conversation Assignment API', type: :request do
-  let(:account) { create(:account) }
+  let(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/<id>/assignments' do
     let(:conversation) { create(:conversation, account: account) }

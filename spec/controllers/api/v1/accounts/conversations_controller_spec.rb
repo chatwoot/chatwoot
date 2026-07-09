@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Conversations API', type: :request do
-  let(:account) { create(:account) }
+  let(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
 
   describe 'GET /api/v1/accounts/{account.id}/conversations' do
     context 'when it is an unauthenticated user' do
