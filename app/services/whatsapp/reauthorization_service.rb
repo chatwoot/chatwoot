@@ -27,10 +27,13 @@ class Whatsapp::ReauthorizationService
 
   def update_channel_config(channel, access_token, phone_info)
     current_config = channel.provider_config || {}
+    # Preserve business_account_id (the WABA id, set at channel creation): @business_id is
+    # the Meta Business Portfolio id, a distinct value. Overwriting business_account_id with
+    # it was drift — keep the portfolio id under its own key so business_account_id stays the WABA id.
     channel.provider_config = current_config.merge(
       'api_key' => access_token,
       'phone_number_id' => @phone_number_id,
-      'business_account_id' => @business_id,
+      'business_portfolio_id' => @business_id,
       'source' => 'embedded_signup'
     )
     channel.save!

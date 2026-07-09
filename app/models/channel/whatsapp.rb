@@ -40,6 +40,13 @@ class Channel::Whatsapp < ApplicationRecord
     'Whatsapp'
   end
 
+  # Canonical accessor for the WhatsApp Business Account (WABA) id. Both the
+  # embedded-signup creation and reauthorization flows persist the WABA id under
+  # provider_config['business_account_id'], so dataset derivation can rely on this.
+  def waba_id
+    provider_config['business_account_id']
+  end
+
   # Mirrors Channel::TwilioSms#voice_enabled? so the call subsystem can duck-type across providers.
   # Meta's Calling API is available to any whatsapp_cloud inbox (embedded-signup or manual keys);
   # only 360dialog (default provider) can't reach the call APIs.
