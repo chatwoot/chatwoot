@@ -417,6 +417,50 @@ describe Webhooks::InstagramEventsJob do
         instagram_webhook.perform_now(reaction_event[:entry])
       end
 
+      it 'removes an existing reaction from message reaction callbacks' do
+        sender_id = 'Sender-id-1'
+        contact = create(:contact, account: account)
+        contact_inbox = create(:contact_inbox, contact: contact, inbox: instagram_inbox, source_id: sender_id)
+        conversation = create(:conversation, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox, account: account)
+        target_message = create(:message, account: account, inbox: instagram_inbox, conversation: conversation,
+                                          message_type: :outgoing, source_id: 'message-id-to-react-to')
+        base_messaging = {
+          sender: { id: sender_id },
+          recipient: { id: instagram_channel.instagram_id },
+          reaction: {
+            mid: target_message.source_id,
+            reaction: 'love',
+            emoji: '❤️'
+          }
+        }
+        reaction_event = {
+          entry: [
+            {
+              messaging: [
+                base_messaging.merge(timestamp: Time.current.to_i * 1000,
+                                     reaction: base_messaging[:reaction].merge(action: 'react'))
+              ]
+            }
+          ]
+        }.with_indifferent_access
+        unreact_event = {
+          entry: [
+            {
+              messaging: [
+                base_messaging.merge(timestamp: 1.second.from_now.to_i * 1000,
+                                     reaction: base_messaging[:reaction].merge(action: 'unreact', emoji: nil))
+              ]
+            }
+          ]
+        }.with_indifferent_access
+
+        expect { instagram_webhook.perform_now(reaction_event[:entry]) }.to change(MessageReaction, :count).by(1)
+        reaction = MessageReaction.last
+
+        expect { instagram_webhook.perform_now(unreact_event[:entry]) }.not_to change(MessageReaction, :count)
+        expect(reaction.reload).to be_removed
+      end
+
       it 'creates contact when Instagram API call returns `No matching Instagram user` (9010 error code)' do
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)

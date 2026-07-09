@@ -164,6 +164,8 @@
       "conversation_assignment": "Conversation Assigned",
       "assigned_conversation_new_message": "New Message",
       "participating_conversation_new_message": "New Message",
+      "assigned_conversation_message_reaction": "Message Reaction",
+      "participating_conversation_message_reaction": "Message Reaction",
       "conversation_mention": "Mention",
       "sla_missed_first_response": "SLA Missed",
       "sla_missed_next_response": "SLA Missed",

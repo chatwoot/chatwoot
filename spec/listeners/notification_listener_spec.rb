@@ -283,5 +283,26 @@ describe NotificationListener do
 
       expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction')).not_to exist
     end
+
+    it 'creates a notification when an existing reaction is updated to active' do
+      message_reaction = create(:message_reaction, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(:'message.reaction.updated', Time.zone.now, message_reaction: message_reaction,
+                                                                           conversation: conversation, account: account)
+
+      listener.message_reaction_updated(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction', account: account,
+                                      primary_actor: conversation, secondary_actor: message_reaction)).to exist
+    end
+
+    it 'does not notify agents when a reaction is updated to removed' do
+      message_reaction = create(:message_reaction, :removed, message: message, conversation: conversation, account: account, inbox: inbox)
+      event = Events::Base.new(:'message.reaction.updated', Time.zone.now, message_reaction: message_reaction,
+                                                                           conversation: conversation, account: account)
+
+      listener.message_reaction_updated(event)
+
+      expect(user.notifications.where(notification_type: 'assigned_conversation_message_reaction')).not_to exist
+    end
   end
 end

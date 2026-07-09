@@ -16,5 +16,9 @@ FactoryBot.define do
     status { :active }
     external_created_at { Time.current }
     metadata { {} }
+
+    trait :removed do
+      status { :removed }
+    end
   end
 end

@@ -63,6 +63,12 @@ class NotificationListener < BaseListener
     notify_participating_users(message_reaction, conversation, account)
   end
 
+  def message_reaction_updated(event)
+    return unless event.data[:message_reaction]&.active?
+
+    message_reaction_created(event)
+  end
+
   private
 
   def notify_conversation_assignee(message_reaction, conversation, account)

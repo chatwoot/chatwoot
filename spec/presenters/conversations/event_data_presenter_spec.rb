@@ -43,6 +43,16 @@ RSpec.describe Conversations::EventDataPresenter do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
     end
+
+    it 'includes unread incoming reactions in the unread count' do
+      conversation.update!(agent_last_seen_at: 1.hour.ago)
+      message = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                 message_type: :outgoing, created_at: 1.month.ago)
+      create(:message_reaction, account: conversation.account, inbox: conversation.inbox, conversation: conversation,
+                                message: message, created_at: 5.minutes.ago)
+
+      expect(presenter.push_data[:unread_count]).to eq(1)
+    end
   end
 
   describe '#webhook_data' do
