@@ -1,4 +1,5 @@
 class Captain::AssistantMigration::DraftApplier
+  ASSISTANT_DESCRIPTION_LIMIT = 255
   CONFIG_KEY = 'assistant_migration'.freeze
   SCENARIO_DESCRIPTION_LIMIT = 500
   ORIGINAL_VALUES_KEY = 'original_values'.freeze
@@ -43,10 +44,17 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def description_change
-    value = item_values(:business_product_context).join("\n").presence
+    value = assistant_description_value
     return if value.blank? || value == assistant.description
 
     { from: assistant.description, to: value }
+  end
+
+  def assistant_description_value
+    value = item_values(:business_product_context).join(' ').presence
+    return if value.blank?
+
+    value.truncate(ASSISTANT_DESCRIPTION_LIMIT, separator: ' ')
   end
 
   def response_guidelines

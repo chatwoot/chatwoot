@@ -7,10 +7,10 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
   end
 
   instruction_items :business_product_context,
-                    description: 'Compact root assistant description for the root orchestrator prompt: assistant identity, ' \
-                                 'product scope, high-level mission, and high-level source/routing priorities only. ' \
+                    description: 'Single compact root assistant description for the root orchestrator prompt, maximum 255 characters: ' \
+                                 'assistant identity, product scope, high-level mission, and high-level source/routing priorities only. ' \
                                  'Do not include workflows, procedures, attribute glossaries, policy details, or long inventories.',
-                    max_items: 5
+                    max_items: 1
 
   instruction_items :response_guidelines,
                     description: 'Tone, language, answer length, formatting, and clarification behavior.',

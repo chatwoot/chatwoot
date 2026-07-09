@@ -27,7 +27,9 @@ Classify the existing assistant instructions into these sections:
 ## Business/Product Context
 
 - Business/Product Context maps to the root assistant description and is injected into the root orchestrator prompt.
-- Keep it to a compact summary of assistant identity, product scope, high-level mission, and high-level source or routing priorities.
+- Return exactly one Business/Product Context item.
+- Keep it under 255 characters because it is stored in the assistant description field.
+- Make it a compact summary of assistant identity, product scope, high-level mission, and high-level source or routing priorities.
 - Do not include detailed workflows, step-by-step procedures, long support-scope inventories, attribute glossaries,
   policy details, scenario-specific handling, tool instructions, or customer-facing message copy.
 

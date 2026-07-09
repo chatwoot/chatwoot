@@ -295,10 +295,10 @@ The XLSX is only for review. Production migration should use the final reviewed 
      ```ruby
      account.disable_features('captain_integration_v2')
      ```
-   - If the prefilled assistant fields or conversation-message config also need to be restored, rollback the assistant
-     from the stored migration backup:
+   - If blank conversation-message config was filled during migration and needs to be restored, restore only those
+     message fields from the stored migration backup:
      ```bash
-     bundle exec rake captain:assistant_migration:rollback IDS=512,1744 DRY_RUN=false
+     bundle exec rake captain:assistant_migration:restore_messages IDS=512,1744 DRY_RUN=false
      ```
    - Fix the migration prompt/classifier or Captain v2 runtime behavior.
    - Regenerate drafts, dry-run apply, apply corrected values, and re-enable after validation.

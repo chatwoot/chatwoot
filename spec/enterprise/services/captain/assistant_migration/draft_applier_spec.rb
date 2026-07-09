@@ -81,5 +81,17 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
         'guardrails' => ['Do not disclose internal notes.']
       )
     end
+
+    it 'caps the assistant description to the database limit for stale drafts' do
+      long_context = 'This assistant supports a very broad product surface with many long details. ' * 10
+
+      described_class.new(
+        assistant: assistant,
+        draft: draft.merge(business_product_context: [long_context]),
+        dry_run: false
+      ).perform
+
+      expect(assistant.reload.description.length).to be <= described_class::ASSISTANT_DESCRIPTION_LIMIT
+    end
   end
 end

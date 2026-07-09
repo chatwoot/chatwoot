@@ -41,14 +41,14 @@ namespace :captain do
       puts 'Dry run only. Re-run with DRY_RUN=false to write changes.' if dry_run
     end
 
-    desc 'Rollback applied migration using stored original values. Usage: rake captain:assistant_migration:rollback IDS=1,2 DRY_RUN=true'
-    task rollback: :environment do
+    desc 'Restore conversation message config from migration backup. Usage: rake captain:assistant_migration:restore_messages IDS=1,2 DRY_RUN=true'
+    task restore_messages: :environment do
       dry_run = CaptainAssistantMigrationTask.truthy?('DRY_RUN', default: true)
-      results = CaptainAssistantMigrationTask.rollback_assistants(dry_run: dry_run)
+      results = CaptainAssistantMigrationTask.restore_conversation_messages(dry_run: dry_run)
 
       results.each { |result| puts(JSON.generate(result)) }
-      puts "Processed #{results.size} assistant migration rollbacks"
-      puts 'Dry run only. Re-run with DRY_RUN=false to restore original values.' if dry_run
+      puts "Processed #{results.size} assistant message restores"
+      puts 'Dry run only. Re-run with DRY_RUN=false to restore conversation messages.' if dry_run
     end
   end
 end
@@ -121,10 +121,10 @@ class CaptainAssistantMigrationTask
       assistants.respond_to?(:size) ? assistants.size : assistants.count
     end
 
-    def rollback_assistants(dry_run:)
-      assistant_ids.map do |assistant_id|
+    def restore_conversation_messages(dry_run:)
+      ENV.fetch('IDS').split(',').filter_map { |id| id.strip.presence }.map do |assistant_id|
         assistant = Captain::Assistant.find(assistant_id)
-        rollback_assistant(assistant, dry_run: dry_run)
+        restore_conversation_messages_for(assistant, dry_run: dry_run)
       rescue ActiveRecord::RecordNotFound
         { assistant_id: assistant_id, error: 'Assistant not found' }
       end
@@ -167,38 +167,30 @@ class CaptainAssistantMigrationTask
 
     private
 
-    def rollback_assistant(assistant, dry_run:)
-      original_values = assistant.config.dig(
+    def restore_conversation_messages_for(assistant, dry_run:)
+      original_config = assistant.config.dig(
         Captain::AssistantMigration::DraftApplier::CONFIG_KEY,
-        Captain::AssistantMigration::DraftApplier::ORIGINAL_VALUES_KEY
+        Captain::AssistantMigration::DraftApplier::ORIGINAL_VALUES_KEY,
+        'config'
       )
-      return skipped_result(nil, assistant.id, 'No stored migration original values found') if original_values.blank?
+      return skipped_result(nil, assistant.id, 'No stored migration original config found') if original_config.nil?
 
-      changes = rollback_changes(assistant, original_values)
-      attributes = changes.transform_values { |change| change[:to] }
-      assistant.update!(attributes) if !dry_run && attributes.present?
+      config, changes = restored_message_config(assistant.config.deep_dup, original_config)
+      assistant.update!(config: config) if !dry_run && changes.present?
 
       { assistant_id: assistant.id, dry_run: dry_run, changes: changes }
     end
 
-    def rollback_changes(assistant, original_values)
-      {
-        name: scalar_change(assistant.name, original_values['name']),
-        description: scalar_change(assistant.description, original_values['description']),
-        response_guidelines: scalar_change(Array(assistant.response_guidelines), Array(original_values['response_guidelines'])),
-        guardrails: scalar_change(Array(assistant.guardrails), Array(original_values['guardrails'])),
-        config: scalar_change(assistant.config, original_values['config'] || {})
-      }.compact
-    end
+    def restored_message_config(config, original_config)
+      changes = {}
+      %w[welcome_message handoff_message resolution_message].each do |key|
+        original_present = original_config.key?(key)
+        next if config[key] == original_config[key] && config.key?(key) == original_present
 
-    def scalar_change(current, original)
-      return if current == original
-
-      { from: current, to: original }
-    end
-
-    def assistant_ids
-      ENV.fetch('IDS').split(',').filter_map { |id| id.strip.presence }
+        changes[key] = { from: config[key], to: original_config[key] }
+        original_present ? config[key] = original_config[key] : config.delete(key)
+      end
+      [config, changes]
     end
 
     def skipped_result(line_number, assistant_id, reason)
