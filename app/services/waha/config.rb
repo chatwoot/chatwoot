@@ -34,14 +34,14 @@ module Waha
       end
 
       # Filtros de evento por sessão. Por padrão ignoramos Status (os "stories" do WhatsApp),
-      # listas de transmissão e canais — ruído para um atendimento 1:1. Grupos ficam ativos.
+      # listas de transmissão, canais e grupos — ruído para um atendimento 1:1.
       # Cada um é sobreponível por ENV para o whitelabel ajustar sem mexer no código.
       def session_ignore
         {
           status: bool_env('WAHA_IGNORE_STATUS', true),
           broadcast: bool_env('WAHA_IGNORE_BROADCAST', true),
           channels: bool_env('WAHA_IGNORE_CHANNELS', true),
-          groups: bool_env('WAHA_IGNORE_GROUPS', false)
+          groups: bool_env('WAHA_IGNORE_GROUPS', true)
         }
       end
 
