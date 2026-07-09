@@ -23,13 +23,12 @@ describe Enterprise::Billing::ReconcilePlanFeaturesService do
         expect(account.reload).to be_feature_enabled('api_and_webhooks')
       end
 
-      it 'disables the feature for a paid plan on trial' do
-        account.enable_features!('api_and_webhooks')
+      it 'enables the feature for a paid plan on trial' do
         account.update!(custom_attributes: { 'plan_name' => 'Startups', 'subscription_status' => 'trialing' })
 
         described_class.new(account: account).perform
 
-        expect(account.reload).not_to be_feature_enabled('api_and_webhooks')
+        expect(account.reload).to be_feature_enabled('api_and_webhooks')
       end
 
       it 'disables the feature on the default plan' do
