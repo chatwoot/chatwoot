@@ -47,6 +47,7 @@ export const DEFAULT_COLUMN_ORDER = [
   'inbox',
   'priority',
   'conversation',
+  'meta',
 ];
 
 // Columns shown by default (false = hidden until user enables in settings menu).
@@ -63,6 +64,7 @@ export const DEFAULT_COLUMN_VISIBILITY = {
   inbox: true,
   priority: false,
   conversation: false,
+  meta: true,
 };
 
 // Per-column default pixel widths (TanStack columnSizing seed).
@@ -80,6 +82,7 @@ const COLUMN_SIZES = {
   inbox: 150,
   priority: 110,
   conversation: 140,
+  meta: 120,
 };
 
 /**
@@ -120,9 +123,16 @@ const dateAccessor = field => row => {
  * @param {Function} args.t        - vue-i18n translate fn.
  * @param {Array}    [args.stages] - pipeline stages (for stage cell editor options).
  * @param {Array}    [args.agents] - agents (for owner cell editor options).
+ * @param {Boolean}  [args.includeMeta] - append the Meta conversion column (only
+ *   relevant for accounts running Click-to-WhatsApp ads).
  * @returns {Array} TanStack ColumnDef[]
  */
-export const buildCrmCardColumns = ({ t, stages = [], agents = [] } = {}) => {
+export const buildCrmCardColumns = ({
+  t,
+  stages = [],
+  agents = [],
+  includeMeta = false,
+} = {}) => {
   const L = key => t(`CRM_KANBAN.LIST.COLUMNS.${key}`);
 
   // Each non-select column carries meta describing how CrmCardsTable should render
@@ -264,6 +274,18 @@ export const buildCrmCardColumns = ({ t, stages = [], agents = [] } = {}) => {
       size: COLUMN_SIZES.conversation,
       meta: { kind: 'conversation' },
     },
+    ...(includeMeta
+      ? [
+          {
+            id: 'meta',
+            accessorFn: row => row?.meta_conversion?.status || '',
+            header: L('META'),
+            enableSorting: false,
+            size: COLUMN_SIZES.meta,
+            meta: { kind: 'meta' },
+          },
+        ]
+      : []),
   ];
 };
 

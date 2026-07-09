@@ -53,38 +53,56 @@ const stageColors = [
   '#9333ea',
 ];
 const defaultStages = () => [
-  {
-    name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_NEW'),
-    color: '#2563eb',
-    win_probability: 10,
-  },
+  { name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_NEW'), color: '#2563eb' },
   {
     name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_WORKING'),
     color: '#0891b2',
-    win_probability: 35,
   },
   {
     name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_PROPOSAL'),
     color: '#ca8a04',
-    win_probability: 65,
   },
   {
     name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_CLOSING'),
     color: '#16a34a',
-    win_probability: 90,
   },
   {
     name: t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_STAGE_LOST'),
     color: '#dc2626',
-    win_probability: 0,
   },
 ];
+
+// Native Meta funnel classifications a stage can map to for CTWA conversion sync.
+const funnelStageTypeOptions = computed(() => [
+  { value: '', label: t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE_NONE') },
+  {
+    value: 'lead',
+    label: t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE_LEAD'),
+  },
+  {
+    value: 'qualified',
+    label: t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE_QUALIFIED'),
+  },
+  {
+    value: 'opportunity',
+    label: t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE_OPPORTUNITY'),
+  },
+  {
+    value: 'negotiation',
+    label: t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE_NEGOTIATION'),
+  },
+]);
 
 const form = reactive({
   name: '',
   description: '',
   monthlyTarget: '',
   stages: [],
+  metaSync: {
+    enabled: false,
+    datasetId: '',
+    events: { won: true, lost: false, moved: false },
+  },
 });
 const newPipelineInbox = reactive({
   inboxId: '',
@@ -132,8 +150,10 @@ const cloneStage = (stage, index) => ({
   name: stage.name || '',
   description: stage.description || '',
   color: stage.color || stageColors[index % stageColors.length],
-  win_probability: stage.win_probability ?? 0,
-  wip_limit: stage.wip_limit || '',
+  // Board stages expose funnel_stage_type top-level; stages API payloads carry it
+  // inside metadata. Read both so opening the drawer never wipes the mapping.
+  funnel_stage_type:
+    stage.funnel_stage_type || stage.metadata?.funnel_stage_type || '',
 });
 
 const resetNewPipelineInbox = () => {
@@ -149,6 +169,16 @@ const resetForm = () => {
     pipeline.description || t('CRM_KANBAN.PIPELINE_DRAWER.DEFAULT_DESCRIPTION');
   const targetCents = pipeline.metadata?.goals?.monthly_target_cents;
   form.monthlyTarget = targetCents ? Number(targetCents) / 100 : '';
+  const metaSync = pipeline.metadata?.meta_sync || {};
+  form.metaSync = {
+    enabled: Boolean(metaSync.enabled),
+    datasetId: metaSync.dataset_id || '',
+    events: {
+      won: metaSync.events?.won ?? true,
+      lost: metaSync.events?.lost ?? false,
+      moved: metaSync.events?.moved ?? false,
+    },
+  };
   const sourceStages = isEditing.value ? props.stages : defaultStages();
   form.stages = sourceStages.map(cloneStage);
   resetNewPipelineInbox();
@@ -161,8 +191,7 @@ const addStage = () => {
     }),
     description: '',
     color: stageColors[form.stages.length % stageColors.length],
-    win_probability: 0,
-    wip_limit: '',
+    funnel_stage_type: '',
   });
 };
 
@@ -252,14 +281,19 @@ const onSubmit = async () => {
             : 0,
         currency: 'BRL',
       },
+      // Always emitted so toggling Meta sync off persists enabled:false.
+      meta_sync: {
+        enabled: form.metaSync.enabled,
+        events: { ...form.metaSync.events },
+        dataset_id: form.metaSync.datasetId.trim() || null,
+      },
     },
     stages: form.stages.map((stage, index) => ({
       ...stage,
       name: stage.name.trim(),
       description: stage.description?.trim() || '',
       position: index + 1,
-      win_probability: Number(stage.win_probability || 0),
-      wip_limit: stage.wip_limit || null,
+      funnel_stage_type: stage.funnel_stage_type || null,
     })),
   });
 };
@@ -412,7 +446,7 @@ useKeyboardEvents({
               :key="stage.id || index"
               class="grid gap-3 rounded-lg border border-n-weak bg-n-alpha-black2 p-3"
             >
-              <div class="grid gap-3 md:grid-cols-[2.5rem_1fr_6rem_4rem_auto]">
+              <div class="grid gap-3 md:grid-cols-[2.5rem_1fr_11rem_auto]">
                 <label class="grid gap-1">
                   <span class="text-xs font-medium text-n-slate-11">
                     {{ t('CRM_KANBAN.PIPELINE_DRAWER.COLOR') }}
@@ -436,19 +470,23 @@ useKeyboardEvents({
                   "
                   :message-type="!stage.name.trim() ? 'error' : 'info'"
                 />
-                <Input
-                  v-model="stage.win_probability"
-                  type="number"
-                  min="0"
-                  max="100"
-                  :label="t('CRM_KANBAN.PIPELINE_DRAWER.PROBABILITY')"
-                />
-                <Input
-                  v-model="stage.wip_limit"
-                  type="number"
-                  min="0"
-                  :label="t('CRM_KANBAN.PIPELINE_DRAWER.WIP')"
-                />
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_STAGE_TYPE') }}
+                  </span>
+                  <select
+                    v-model="stage.funnel_stage_type"
+                    class="reset-base !mb-0 h-10 w-full rounded-lg border-0 bg-n-alpha-black2 px-3 text-sm text-n-slate-12 outline outline-1 outline-n-weak focus:outline-n-brand"
+                  >
+                    <option
+                      v-for="option in funnelStageTypeOptions"
+                      :key="option.value"
+                      :value="option.value"
+                    >
+                      {{ option.label }}
+                    </option>
+                  </select>
+                </label>
                 <div class="flex items-end justify-end gap-1">
                   <Button
                     icon="i-lucide-arrow-up"
@@ -502,6 +540,92 @@ useKeyboardEvents({
                 :agents="agents"
                 :expanded="isStageAutomationsExpanded(stage)"
               />
+            </div>
+          </section>
+
+          <section
+            v-if="isEditing"
+            class="grid gap-4 border-t border-n-weak pt-4"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <h3 class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_TITLE') }}
+                </h3>
+                <p class="mb-0 text-xs leading-5 text-n-slate-11">
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_HELP') }}
+                </p>
+              </div>
+              <label
+                class="relative inline-flex shrink-0 cursor-pointer items-center"
+              >
+                <input
+                  v-model="form.metaSync.enabled"
+                  type="checkbox"
+                  class="peer sr-only"
+                />
+                <span
+                  class="h-5 w-9 rounded-full bg-n-alpha-2 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-n-brand peer-checked:after:translate-x-4"
+                />
+              </label>
+            </div>
+
+            <div
+              v-if="form.metaSync.enabled"
+              class="grid gap-3 rounded-lg border border-n-weak bg-n-alpha-black2 p-3"
+            >
+              <p class="mb-0 text-xs font-medium text-n-slate-11">
+                {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_EVENTS') }}
+              </p>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.metaSync.events.won"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_EVENT_WON') }}
+                </span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.metaSync.events.lost"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_EVENT_LOST') }}
+                </span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.metaSync.events.moved"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_EVENT_MOVED') }}
+                </span>
+              </label>
+
+              <label class="grid gap-1 border-t border-n-weak pt-3">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_DATASET') }}
+                </span>
+                <input
+                  v-model="form.metaSync.datasetId"
+                  type="text"
+                  class="reset-base !mb-0 w-full rounded-lg border-0 bg-n-alpha-black2 px-3 py-2.5 text-sm text-n-slate-12 outline outline-1 outline-n-weak transition-all placeholder:text-n-slate-10 focus:outline-n-brand"
+                  :placeholder="
+                    t(
+                      'CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_DATASET_PLACEHOLDER'
+                    )
+                  "
+                />
+                <span class="text-xs text-n-slate-11">
+                  {{ t('CRM_KANBAN.PIPELINE_DRAWER.META_SYNC_DATASET_HELP') }}
+                </span>
+              </label>
             </div>
           </section>
 

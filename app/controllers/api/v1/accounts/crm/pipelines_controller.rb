@@ -21,6 +21,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
   def update
     @pipeline.update!(pipeline_params)
     update_goal!
+    update_meta_sync!
     render :show
   end
 
@@ -56,6 +57,26 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
     else
       metadata.delete('goals')
     end
+    @pipeline.update!(metadata: metadata)
+  end
+
+  # Meta CAPI sync config lives in metadata['meta_sync'] and is merged in
+  # separately so it never clobbers metadata['ai'] or metadata['goals'].
+  def update_meta_sync!
+    meta_sync = params.dig(:pipeline, :meta_sync)
+    return if meta_sync.nil?
+
+    bool = ActiveModel::Type::Boolean.new
+    metadata = (@pipeline.metadata || {}).deep_dup
+    metadata['meta_sync'] = {
+      'enabled' => bool.cast(meta_sync[:enabled]) || false,
+      'events' => {
+        'won' => bool.cast(meta_sync.dig(:events, :won)) || false,
+        'lost' => bool.cast(meta_sync.dig(:events, :lost)) || false,
+        'moved' => bool.cast(meta_sync.dig(:events, :moved)) || false
+      },
+      'dataset_id' => meta_sync[:dataset_id].presence
+    }
     @pipeline.update!(metadata: metadata)
   end
 end

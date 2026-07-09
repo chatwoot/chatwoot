@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Crm::StagesController < Api::V1::Accounts::Crm::BaseController
+  FUNNEL_STAGE_TYPES = %w[lead qualified opportunity negotiation].freeze
+
   before_action :fetch_pipeline, only: [:index, :create]
   before_action :fetch_stage, only: [:update, :destroy]
 
@@ -11,13 +13,18 @@ class Api::V1::Accounts::Crm::StagesController < Api::V1::Accounts::Crm::BaseCon
   def create
     @stage = Current.account.crm_pipeline_stages.new(stage_params.merge(pipeline: @pipeline))
     apply_default_ai_criteria!(@stage)
+    # New stages must honor the funnel classification too — update-only handling
+    # would silently drop the mapping the funnel drawer sends on stage creation.
+    metadata = @stage.metadata || {}
+    apply_funnel_stage_type!(metadata)
+    @stage.metadata = metadata
     authorize @stage
     @stage.save!
     render :show, status: :created
   end
 
   def update
-    @stage.update!(stage_params)
+    @stage.update!(stage_params.merge(metadata: merged_stage_metadata))
     render :show
   end
 
@@ -59,6 +66,30 @@ class Api::V1::Accounts::Crm::StagesController < Api::V1::Accounts::Crm::BaseCon
 
   def stage_reorderer
     Crm::PipelineStages::Reorderer.new(account: Current.account, stage_ids: params[:stage_ids])
+  end
+
+  # Shallow-merge the incoming metadata into the stored column so a partial
+  # PATCH never clobbers sibling keys such as metadata['ai'] (AI criteria).
+  def merged_stage_metadata
+    metadata = (@stage.metadata || {}).deep_dup
+    incoming = stage_params[:metadata].presence
+    metadata.merge!(incoming.to_h.stringify_keys) if incoming
+    apply_funnel_stage_type!(metadata)
+    metadata
+  end
+
+  # funnel_stage_type may arrive top-level or nested in metadata; top-level
+  # wins. A blank/invalid value clears the classification.
+  def apply_funnel_stage_type!(metadata)
+    provided = params[:stage]&.key?(:funnel_stage_type)
+    return unless provided || metadata.key?('funnel_stage_type')
+
+    type = (provided ? params.dig(:stage, :funnel_stage_type) : metadata['funnel_stage_type']).presence
+    if FUNNEL_STAGE_TYPES.include?(type)
+      metadata['funnel_stage_type'] = type
+    else
+      metadata.delete('funnel_stage_type')
+    end
   end
 
   def apply_default_ai_criteria!(stage)

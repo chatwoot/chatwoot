@@ -3,6 +3,8 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useLocale } from 'shared/composables/useLocale';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
+import MetaConversionsAPI from 'dashboard/api/metaConversions';
+import CtwaCampaignsAPI from 'dashboard/api/ctwaCampaigns';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
@@ -30,6 +32,10 @@ const throughput = ref(null);
 const followUps = ref(null);
 const workload = ref(null);
 const meetings = ref(null);
+
+// Meta conversions (Ads) sync-health block, gated on real CTWA ad activity.
+const metaSummary = ref(null);
+const hasCtwaAds = ref(false);
 
 // Install-level flag (exposed in window.globalConfig, like CRM_KANBAN_ENABLED).
 const isMeetingsEnabled = computed(
@@ -69,6 +75,22 @@ const formatNumber = num =>
 const formatPercent = ratio =>
   ratio == null ? '—' : `${Math.round(Number(ratio) * 100)}%`;
 
+const formatLastSent = value =>
+  value
+    ? new Intl.DateTimeFormat(resolvedLocale.value, {
+        dateStyle: 'medium',
+        timeStyle: 'short',
+      }).format(new Date(value))
+    : t('CRM_KANBAN.DASHBOARD.META_SYNC.NEVER');
+
+// Gate true but no conversions yet → show the EMPTY hint instead of zeros.
+const hasMetaData = computed(() => {
+  const payload = metaSummary.value;
+  if (!payload) return false;
+  const events = payload.by_event_type || {};
+  return (payload.accepted_count || 0) > 0 || Object.keys(events).length > 0;
+});
+
 // Joins a [{ currency, value_cents }] list into a single multi-currency string,
 // honoring the locked rule that currencies are never summed together.
 const formatCurrencyList = list => {
@@ -77,6 +99,17 @@ const formatCurrencyList = list => {
     .map(entry => formatMoney(entry.value_cents, entry.currency))
     .join(' · ');
 };
+
+// Revenue sent to Meta, per currency (the endpoint groups by currency so a
+// mixed-currency book is never summed under a single R$ label).
+const metaRevenueLabel = computed(() => {
+  const byCurrency = metaSummary.value?.accepted_value_by_currency || {};
+  const list = Object.entries(byCurrency).map(([currency, cents]) => ({
+    currency,
+    value_cents: cents,
+  }));
+  return formatCurrencyList(list);
+});
 
 // Monthly sales target box: attainment % + pacing (on track when attainment
 // keeps up with the share of the month already elapsed).
@@ -201,12 +234,39 @@ const fetchPipelines = async () => {
   }
 };
 
+const fetchMetaSummary = async () => {
+  const { pipeline_id, since, until } = requestParams.value;
+  try {
+    const { data } = await MetaConversionsAPI.getSummary({
+      pipeline_id,
+      since,
+      until,
+    });
+    metaSummary.value = data.payload;
+  } catch {
+    metaSummary.value = null;
+  }
+};
+
+// One-shot gate: only render the Meta block when the account runs CTWA ads.
+const loadCtwaGate = async () => {
+  try {
+    const { data } = await CtwaCampaignsAPI.get();
+    hasCtwaAds.value = (data.payload || []).length > 0;
+  } catch {
+    hasCtwaAds.value = false;
+  }
+};
+
 watch([selectedPipelineId, selectedPeriodKey], () => {
   if (selectedPipelineId.value) fetchReports();
+  if (hasCtwaAds.value && selectedPipelineId.value) fetchMetaSummary();
 });
 
 onMounted(async () => {
   await fetchPipelines();
+  await loadCtwaGate();
+  if (hasCtwaAds.value && selectedPipelineId.value) fetchMetaSummary();
 });
 </script>
 
@@ -392,6 +452,48 @@ onMounted(async () => {
           </p>
         </div>
       </div>
+
+      <!-- Meta conversions (Ads) — gated by real CTWA ad activity -->
+      <section
+        v-if="hasCtwaAds"
+        class="p-5 border rounded-xl border-n-weak bg-n-solid-1"
+      >
+        <h3 class="mb-1 text-sm font-medium text-n-slate-12">
+          {{ t('CRM_KANBAN.DASHBOARD.META_SYNC.TITLE') }}
+        </h3>
+        <p class="mb-4 text-xs text-n-slate-11">
+          {{ t('CRM_KANBAN.DASHBOARD.META_SYNC.SUBTITLE') }}
+        </p>
+        <p v-if="!hasMetaData" class="text-sm text-n-slate-11">
+          {{ t('CRM_KANBAN.DASHBOARD.META_SYNC.EMPTY') }}
+        </p>
+        <div v-else class="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
+            <ReportMetricCard
+              :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.ACCEPTED')"
+              :value="formatNumber(metaSummary?.accepted_count)"
+            />
+          </div>
+          <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
+            <ReportMetricCard
+              :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.REVENUE')"
+              :value="metaRevenueLabel"
+            />
+          </div>
+          <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
+            <ReportMetricCard
+              :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.ERRORS')"
+              :value="formatNumber(metaSummary?.by_status?.error)"
+            />
+          </div>
+          <div class="p-4 border rounded-xl border-n-weak bg-n-solid-1">
+            <ReportMetricCard
+              :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.LAST_SENT')"
+              :value="formatLastSent(metaSummary?.last_sent_at)"
+            />
+          </div>
+        </div>
+      </section>
 
       <!-- Meetings (no-show) — gated by the meetings install flag -->
       <section

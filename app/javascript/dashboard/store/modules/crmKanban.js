@@ -411,6 +411,7 @@ const defaultPipelinePayload = pipeline => ({
   is_default: pipeline?.is_default ?? true,
   position: pipeline?.position || 1,
   ...(pipeline?.goal ? { goal: pipeline.goal } : {}),
+  ...(pipeline?.meta_sync ? { meta_sync: pipeline.meta_sync } : {}),
 });
 
 const normalizeStagePayload = (stage, index) => ({
@@ -418,10 +419,23 @@ const normalizeStagePayload = (stage, index) => ({
   description: stage.description || '',
   color: stage.color || '#64748b',
   position: index + 1,
-  win_probability: Number(stage.win_probability || 0),
-  wip_limit: stage.wip_limit || null,
-  sla_seconds: stage.sla_seconds || null,
-  sla_warning_seconds: stage.sla_warning_seconds || null,
+  // The funnel drawer no longer carries win_probability/wip_limit — only forward
+  // them when the caller provides them, so a drawer save never zeroes stored values.
+  ...(stage.win_probability !== undefined
+    ? { win_probability: Number(stage.win_probability || 0) }
+    : {}),
+  ...(stage.wip_limit !== undefined
+    ? { wip_limit: stage.wip_limit || null }
+    : {}),
+  ...(stage.sla_seconds !== undefined
+    ? { sla_seconds: stage.sla_seconds || null }
+    : {}),
+  ...(stage.sla_warning_seconds !== undefined
+    ? { sla_warning_seconds: stage.sla_warning_seconds || null }
+    : {}),
+  // Maps the stage to a native Meta funnel event (lead/qualified/opportunity/
+  // negotiation) for CTWA conversion sync; null clears the classification.
+  funnel_stage_type: stage.funnel_stage_type || null,
 });
 
 export const actions = {

@@ -222,6 +222,9 @@ Rails.application.routes.draw do
               end
             end
             resources :service_schedules, only: [:index, :create, :update, :destroy]
+            resources :meta_conversions, only: [:index] do
+              get :summary, on: :collection
+            end
             get 'conversations/card_stages', to: 'cards#card_stages'
             get 'conversations/:conversation_id/card', to: 'cards#by_conversation'
             get :kanban, to: 'kanban#index'

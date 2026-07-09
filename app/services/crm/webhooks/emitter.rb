@@ -23,6 +23,14 @@ module Crm
         'archive' => Events::Types::CRM_CARD_ARCHIVED
       }.freeze
 
+      # Dispatcher event -> pipeline.metadata['meta_sync']['events'] token consumed by
+      # Crm::MetaCapiListener. Only these three lifecycle events feed the Meta CAPI sync.
+      META_SYNC_EVENT_TOKENS = {
+        Events::Types::CRM_CARD_WON => 'won',
+        Events::Types::CRM_CARD_LOST => 'lost',
+        Events::Types::CRM_CARD_MOVED => 'moved'
+      }.freeze
+
       def initialize(account_id:, card_id:, activity_id:, event_type:, changed_attributes: nil)
         @account_id = account_id
         @card_id = card_id
@@ -38,7 +46,7 @@ module Crm
       def perform
         event = EVENT_MAP[@event_type]
         return if event.blank?
-        return unless any_account_webhook_subscribed?(event)
+        return unless any_account_webhook_subscribed?(event) || meta_sync_subscribed?(event)
 
         Rails.configuration.dispatcher.dispatch(
           event,
@@ -53,14 +61,32 @@ module Crm
 
       private
 
+      def account
+        return @account if defined?(@account)
+
+        @account = Account.find_by(id: @account_id)
+      end
+
       # Early-exit (plan R1): skip enqueuing EventDispatcherJob unless at least one
       # account webhook subscribes this event, to avoid flooding the queue on every
       # Crm::Activity write (AI auto-move / bulk move amplify this).
       def any_account_webhook_subscribed?(event)
-        account = Account.find_by(id: @account_id)
         return false if account.blank?
 
         account.webhooks.account_type.any? { |webhook| webhook.subscriptions.to_a.include?(event) }
+      end
+
+      # The Meta CAPI listener has no account webhook, so the early-exit above would
+      # silence it entirely. Dispatch also when any active pipeline opted into Meta
+      # sync for this event (pipeline.metadata['meta_sync']: enabled + events[token]).
+      def meta_sync_subscribed?(event)
+        token = META_SYNC_EVENT_TOKENS[event]
+        return false if token.blank? || account.blank?
+
+        account.crm_pipelines.active.any? do |pipeline|
+          meta_sync = pipeline.metadata&.dig('meta_sync') || {}
+          meta_sync['enabled'] && meta_sync.dig('events', token)
+        end
       end
     end
   end
