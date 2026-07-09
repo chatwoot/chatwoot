@@ -26,7 +26,7 @@ RSpec.describe 'CRM meta_sync metadata API', type: :request do
 
       patch "/api/v1/accounts/#{account.id}/crm/pipelines/#{pipeline.id}",
             params: { pipeline: { meta_sync: { enabled: true, events: { won: true, lost: false, moved: true },
-                                               dataset_id: 'DS9', inbox_id: 5 } } },
+                                               dataset_id: 'DS9' } } },
             headers: auth_headers(user)
 
       expect(response).to have_http_status(:ok)
@@ -36,8 +36,7 @@ RSpec.describe 'CRM meta_sync metadata API', type: :request do
       expect(metadata['meta_sync']).to eq(
         'enabled' => true,
         'events' => { 'won' => true, 'lost' => false, 'moved' => true },
-        'dataset_id' => 'DS9',
-        'inbox_id' => '5'
+        'dataset_id' => 'DS9'
       )
     end
 

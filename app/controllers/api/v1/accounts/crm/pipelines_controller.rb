@@ -75,8 +75,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
         'lost' => bool.cast(meta_sync.dig(:events, :lost)) || false,
         'moved' => bool.cast(meta_sync.dig(:events, :moved)) || false
       },
-      'dataset_id' => meta_sync[:dataset_id].presence,
-      'inbox_id' => meta_sync[:inbox_id].presence
+      'dataset_id' => meta_sync[:dataset_id].presence
     }
     @pipeline.update!(metadata: metadata)
   end
