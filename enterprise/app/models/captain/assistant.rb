@@ -18,8 +18,10 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
-  include Concerns::CaptainToolsHelpers
-  include Concerns::Agentable
+  # Use absolute (::) reference to avoid Ruby resolving Concerns relative
+  # to the Captain namespace — which would look for Captain::Concerns and fail.
+  include ::Concerns::CaptainToolsHelpers
+  include ::Concerns::Agentable
 
   self.table_name = 'captain_assistants'
 

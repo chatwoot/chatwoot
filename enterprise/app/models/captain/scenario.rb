@@ -21,8 +21,10 @@
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
 class Captain::Scenario < ApplicationRecord
-  include Concerns::CaptainToolsHelpers
-  include Concerns::Agentable
+  # Use absolute (::) reference to avoid Ruby resolving Concerns relative
+  # to the Captain namespace — which would look for Captain::Concerns and fail.
+  include ::Concerns::CaptainToolsHelpers
+  include ::Concerns::Agentable
 
   # OpenAI enforces a 64-char limit on function names. The ai-agents gem
   # prepends "handoff_to_" (11 chars), so we keep a safety margin and cap
