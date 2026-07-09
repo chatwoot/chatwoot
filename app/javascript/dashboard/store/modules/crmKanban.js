@@ -40,7 +40,8 @@ export const defaultFilters = () => ({
   responsibleKind: '',
   aiPending: false,
   // Label ids (Number) of the account's labels; matches the PRIMARY linked
-  // conversation server-side. Server-only: see SERVER_ONLY_FILTER_KEYS.
+  // conversation OR the card's contact server-side. Server-only: see
+  // SERVER_ONLY_FILTER_KEYS.
   labelIds: [],
   // CTWA ad source_ids (String — Meta ids overflow Number.MAX_SAFE_INTEGER).
   // OR semantics: matches ANY touch of ANY linked conversation.

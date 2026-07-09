@@ -44,7 +44,8 @@ class Crm::Cards::FilterQuery
   end
 
   def base_scope
-    @scope.includes(:contact, :owner, :inbox, :stage, :pipeline, :linked_conversations,
+    @scope.includes(:owner, :inbox, :stage, :pipeline, :linked_conversations,
+                    contact: { label_taggings: :tag },
                     primary_conversation: [:conversation_participants, { applied_sla: :sla_policy }])
   end
 

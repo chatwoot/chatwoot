@@ -6,6 +6,7 @@ import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import ConversationLabels from './labels/LabelBox.vue';
+import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
 import { CONVERSATION_PRIORITY } from '../../../../shared/constants/messages';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
@@ -20,6 +21,7 @@ export default {
     ContactDetailsItem,
     MultiselectDropdown,
     ConversationLabels,
+    LabelItem,
     NextButton,
     CrmConversationStageBadge,
     CrmCopilotPanel,
@@ -82,7 +84,20 @@ export default {
       teams: 'teams/getTeams',
       globalConfig: 'globalConfig/get',
       crmPipelines: 'crmKanban/getPipelines',
+      allLabels: 'labels/getLabels',
+      contactLabelTitlesFor: 'contactLabels/getContactLabels',
     }),
+    contactId() {
+      return this.currentChat?.meta?.sender?.id;
+    },
+    // Campaign import labels live only on the Contact (never synced onto the
+    // conversation, see CampaignImports::Importer#apply_labels!) — read-only
+    // here, editing stays on the Contact profile's own label manager.
+    contactLabelItems() {
+      if (!this.contactId) return [];
+      const titles = this.contactLabelTitlesFor(this.contactId) || [];
+      return this.allLabels.filter(({ title }) => titles.includes(title));
+    },
     crmKanbanEnabled() {
       return (
         this.globalConfig?.crmKanbanEnabled === true ||
@@ -212,6 +227,14 @@ export default {
     },
     crmPipelineId(newPipelineId) {
       if (newPipelineId) this.loadCrmStages(newPipelineId);
+    },
+    contactId: {
+      immediate: true,
+      handler(newContactId) {
+        if (!newContactId) return;
+        if (this.contactLabelTitlesFor(newContactId)?.length) return;
+        this.$store.dispatch('contactLabels/get', newContactId);
+      },
     },
   },
   methods: {
@@ -485,5 +508,18 @@ export default {
       :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONVERSATION_LABELS')"
     />
     <ConversationLabels :conversation-id="conversationId" />
+    <div v-if="contactLabelItems.length" class="mt-3">
+      <ContactDetailsItem
+        compact
+        :title="$t('CRM_KANBAN.CONVERSATION.CONTACT_LABELS_TITLE')"
+      />
+      <div class="flex flex-wrap items-center gap-2">
+        <LabelItem
+          v-for="label in contactLabelItems"
+          :key="label.id"
+          :label="label"
+        />
+      </div>
+    </div>
   </div>
 </template>

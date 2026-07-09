@@ -67,8 +67,9 @@ RSpec.describe Crm::Cards::FilterQuery do
       described_class.new(scope: account.crm_cards, params: params).perform
     end
 
-    def create_conversation(inbox:, campaign_source_ids: nil, labels: nil)
+    def create_conversation(inbox:, campaign_source_ids: nil, labels: nil, contact_labels: nil)
       contact = account.contacts.create!(name: "Lead #{SecureRandom.hex(3)}", phone_number: "+55119#{rand(10_000_000..99_999_999)}")
+      contact.add_labels(contact_labels) if contact_labels.present?
       conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact)
       if campaign_source_ids.present?
         touches = campaign_source_ids.map { |sid| { 'source' => 'meta_ctwa', 'source_id' => sid, 'touched_at' => Time.current.utc.iso8601 } }
@@ -135,6 +136,15 @@ RSpec.describe Crm::Cards::FilterQuery do
       Crm::CardConversation.create!(account: account, card: card, conversation: linked)
 
       expect(perform_with(label_ids: vip.id.to_s)).to be_empty
+    end
+
+    it 'matches a card via a label that only exists on the contact (campaign import label)' do
+      inbox = create_crm_inbox(account: account, members: [user])
+      lote = account.labels.create!(title: 'lote-01')
+      matched = create_card(conversation: create_conversation(inbox: inbox, contact_labels: %w[lote-01]))
+      create_card(conversation: create_conversation(inbox: inbox), title: 'Sem etiqueta de campanha')
+
+      expect(perform_with(label_ids: lote.id.to_s)).to contain_exactly(matched)
     end
   end
 end

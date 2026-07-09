@@ -171,6 +171,16 @@ const followUp = computed(() => {
 // (mesmo padrão da lista de Conversas), evitando prop-drilling pelo board.
 const accountLabels = useMapGetter('labels/getLabels');
 
+// Etiquetas de CAMPANHA vivem só no Contato (CampaignImports::Importer), nunca
+// sincronizadas para a conversa — mescladas aqui (mesmo chip do CardLabels,
+// deduplicadas) para ficarem visíveis no card sem tocar no LabelBox da conversa.
+const mergedLabels = computed(() => [
+  ...new Set([
+    ...(props.card.labels || []),
+    ...(props.card.contact_labels || []),
+  ]),
+]);
+
 // Pill de campanha CTWA (card.campaigns = toques agregados, 1º toque primeiro).
 // Texto = headline do 1º toque (fallback i18n quando o anúncio não tem headline);
 // tooltip lista todos os toques; "+N" sinaliza os toques além do primeiro.
@@ -255,12 +265,12 @@ const handoffInvite = computed(() => {
       {{ card.description }}
     </p>
 
-    <!-- Etiquetas normais (conversa primária) — mesma linha de labels da
-         lista de Conversas, cor resolvida via store -->
+    <!-- Etiquetas (conversa primária + contato/campanha, deduplicadas) — mesma
+         linha de labels da lista de Conversas, cor resolvida via store -->
     <CardLabels
-      v-if="card.labels?.length"
+      v-if="mergedLabels.length"
       class="mt-2"
-      :conversation-labels="card.labels"
+      :conversation-labels="mergedLabels"
       :account-labels="accountLabels"
     />
 

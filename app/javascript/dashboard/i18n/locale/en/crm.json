@@ -942,7 +942,8 @@
       "CREATE_ERROR": "Could not create the CRM card.",
       "LOAD_ERROR": "Could not load CRM pipelines or stages.",
       "STAGE_BADGE_LABEL": "Current stage",
-      "STAGE_BADGE_EMPTY": "Not in any pipeline yet."
+      "STAGE_BADGE_EMPTY": "Not in any pipeline yet.",
+      "CONTACT_LABELS_TITLE": "Contact labels"
     },
     "PIPELINE_DRAWER": {
       "CREATE_TITLE": "New pipeline",

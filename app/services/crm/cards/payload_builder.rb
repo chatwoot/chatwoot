@@ -74,6 +74,7 @@ class Crm::Cards::PayloadBuilder
   def append_nested_payloads(payload)
     payload[:is_standalone] = @card.standalone?
     payload[:labels] = labels_payload
+    payload[:contact_labels] = contact_labels_payload
     payload[:campaigns] = campaigns_payload
     payload[:ai_summary] = ai_summary_payload
     payload[:ai_value] = ai_value_payload
@@ -94,6 +95,18 @@ class Crm::Cards::PayloadBuilder
     return [] unless primary_conversation_visible?
 
     primary_conversation.cached_label_list_array
+  end
+
+  # Label titles of the CONTACT (e.g. campaign import labels — never synced onto
+  # the conversation, see CampaignImports::Importer#apply_labels!). Not gated on
+  # conversation visibility: the contact itself is always shown on the card.
+  # Reads the preloaded label_taggings instead of contact.label_list to avoid an
+  # N+1 query per card. Shape mirrored in Crm::Kanban::CardPayloadBuilder — keep
+  # both identical.
+  def contact_labels_payload
+    return [] if @card.contact.blank?
+
+    @card.contact.label_taggings.reject(&:tagger_id).filter_map { |tagging| tagging.tag&.name }
   end
 
   # See .aggregated_campaigns_for — gated on primary visibility like the summary.
