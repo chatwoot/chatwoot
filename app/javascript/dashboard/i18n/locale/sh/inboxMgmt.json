@@ -1166,7 +1166,7 @@
         "USER_MESSAGE": "Bok",
         "AGENT_MESSAGE": "Bok"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by Thynex",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -1166,7 +1166,7 @@
         "USER_MESSAGE": "您好",
         "AGENT_MESSAGE": "哈囉"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by Thynex",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
