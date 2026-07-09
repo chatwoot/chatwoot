@@ -85,6 +85,7 @@ module Waha
         inboxIdentifier: inbox.channel.identifier,
         locale: 'pt-BR',
         linkPreview: 'OFF',
+        groups: 'OFF',
         templates: {},
         commands: { server: true, queue: true },
         conversations: { markAsRead: true, sort: @config.conversation_sort, status: nil }
