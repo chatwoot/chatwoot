@@ -26,6 +26,7 @@ class Api::V1::Accounts::Autonomia::Prospecting::SettingsController < Api::V1::A
       :daily_limit,
       :monthly_limit,
       :cache_ttl_seconds,
+      :enrichment_enabled,
       :default_crm_pipeline_id,
       :default_crm_stage_id,
       :scoring_mode,

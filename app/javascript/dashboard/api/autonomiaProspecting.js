@@ -6,8 +6,8 @@ class AutonomiaProspectingAPI extends ApiClient {
     super('autonomia/prospecting', { accountScoped: true });
   }
 
-  getSearches() {
-    return axios.get(`${this.url}/searches`);
+  getSearches(params = {}) {
+    return axios.get(`${this.url}/searches`, { params });
   }
 
   getSearch(searchId) {
@@ -54,6 +54,10 @@ class AutonomiaProspectingAPI extends ApiClient {
 
   verifyLeadWhatsApp(leadId) {
     return axios.post(`${this.url}/leads/${leadId}/whatsapp_verification`);
+  }
+
+  enrichLead(leadId) {
+    return axios.post(`${this.url}/leads/${leadId}/enrichment`);
   }
 
   updateLead(leadId, lead) {

@@ -83,7 +83,7 @@ class Autonomia::Prospecting::SearchRunner
       cache_fingerprint: cache_fingerprint,
       cache_expires_at: cache_expires_at,
       categories: categories,
-      metadata: metadata.merge(crm_target_metadata)
+      metadata: metadata.merge(crm_target_metadata).merge(scoring_metadata)
     )
   end
 
@@ -357,6 +357,14 @@ class Autonomia::Prospecting::SearchRunner
     }.compact
   end
 
+  def scoring_metadata
+    {
+      'score_mode' => metadata['score_mode'].presence || @setting.scoring_mode,
+      'scoring_profile_id' =>
+        metadata['scoring_profile_id'].presence || @setting.scoring_profile_id
+    }.compact
+  end
+
   def cached_result
     return if @setting.cache_ttl_seconds.to_i <= 0
 
@@ -384,7 +392,8 @@ class Autonomia::Prospecting::SearchRunner
       cache_fingerprint: cache_fingerprint,
       cache_expires_at: search.cache_expires_at,
       categories: categories,
-      metadata: metadata.merge(crm_target_metadata).merge(
+      metadata: metadata.merge(crm_target_metadata)
+                        .merge(scoring_metadata).merge(
         'lead_ids' => leads.map(&:id),
         'results_count' => leads.size,
         'cached_from_search_id' => search.id,

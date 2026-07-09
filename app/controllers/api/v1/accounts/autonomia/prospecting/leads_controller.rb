@@ -77,6 +77,17 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  def enrich
+    lead = ::Autonomia::Prospecting::LeadEnricher.new(
+      lead: leads_scope.find(params[:id]),
+      user: Current.user
+    ).perform
+
+    render json: { payload: { lead: lead_payload(lead) } }
+  rescue ::Autonomia::Prospecting::LeadEnricher::Error => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   private
 
   def filtered_leads_scope
@@ -98,6 +109,10 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
         :id, :provider, :provider_place_id, :name, :phone, :website, :address, :city, :state, :country,
         :latitude, :longitude, :rating, :reviews_count, :category, :status, :discard_reason,
         :score, :priority_score, :priority_position, :search_rank, :score_breakdown, :negative_factors, :human_insight,
+        :enrichment_status, :enrichment_requested_at, :enrichment_completed_at, :enrichment_source, :enrichment_error,
+        :enriched_data, :decision_name, :decision_role, :decision_confidence, :decision_source_url, :decision_linkedin,
+        :decision_instagram, :enriched_email, :enriched_whatsapp, :enriched_instagram, :enriched_linkedin,
+        :enriched_facebook, :enriched_cnpj, :enrichment_summary,
         :contact_id, :crm_card_id, :created_at, :updated_at
       ]
     ).merge(

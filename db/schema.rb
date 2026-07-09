@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_09_114500) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -446,7 +446,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
     t.jsonb "score_breakdown", default: {}, null: false
     t.jsonb "negative_factors", default: [], null: false
     t.string "human_insight"
+    t.string "enrichment_status", default: "pending", null: false
+    t.datetime "enrichment_requested_at"
+    t.datetime "enrichment_completed_at"
+    t.string "enrichment_source"
+    t.string "enrichment_error"
+    t.jsonb "enriched_data", default: {}, null: false
+    t.string "decision_name"
+    t.string "decision_role"
+    t.decimal "decision_confidence", precision: 3, scale: 2
+    t.string "decision_source_url"
+    t.string "decision_linkedin"
+    t.string "decision_instagram"
+    t.string "enriched_email"
+    t.string "enriched_whatsapp"
+    t.string "enriched_instagram"
+    t.string "enriched_linkedin"
+    t.string "enriched_facebook"
+    t.string "enriched_cnpj"
+    t.text "enrichment_summary"
     t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
+    t.index ["account_id", "enrichment_completed_at"], name: "idx_autonomia_prospecting_leads_account_enriched_at"
+    t.index ["account_id", "enrichment_status"], name: "idx_autonomia_prospecting_leads_account_enrichment"
     t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
     t.index ["account_id", "priority_score"], name: "idx_autonomia_prospecting_leads_account_priority"
     t.index ["account_id", "score"], name: "idx_autonomia_prospecting_leads_account_score"
@@ -2439,8 +2460,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   add_foreign_key "autonomia_prospecting_scoring_profiles", "users", column: "created_by_id", on_delete: :nullify
   add_foreign_key "autonomia_prospecting_scoring_profiles", "users", column: "updated_by_id", on_delete: :nullify
   add_foreign_key "crm_activities", "accounts"
-  add_foreign_key "crm_activities", "conversations"
-  add_foreign_key "crm_activities", "crm_cards", column: "card_id"
+  add_foreign_key "crm_activities", "conversations", on_delete: :cascade
+  add_foreign_key "crm_activities", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_agent_booking_links", "accounts"
   add_foreign_key "crm_agent_booking_links", "crm_agent_booking_profiles", column: "booking_profile_id"
   add_foreign_key "crm_agent_booking_links", "inboxes"
@@ -2448,27 +2469,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   add_foreign_key "crm_agent_booking_profiles", "accounts"
   add_foreign_key "crm_agent_booking_profiles", "inboxes"
   add_foreign_key "crm_ai_stage_suggestions", "accounts"
-  add_foreign_key "crm_ai_stage_suggestions", "crm_cards", column: "card_id"
+  add_foreign_key "crm_ai_stage_suggestions", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_ai_stage_suggestions", "crm_pipeline_stages", column: "from_stage_id"
   add_foreign_key "crm_ai_stage_suggestions", "crm_pipeline_stages", column: "to_stage_id"
   add_foreign_key "crm_calendar_sync_states", "accounts"
   add_foreign_key "crm_calendar_sync_states", "inboxes"
   add_foreign_key "crm_card_conversations", "accounts"
   add_foreign_key "crm_card_conversations", "conversations", on_delete: :cascade
-  add_foreign_key "crm_card_conversations", "crm_cards", column: "card_id"
+  add_foreign_key "crm_card_conversations", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_card_conversations", "users", column: "linked_by_id"
   add_foreign_key "crm_cards", "accounts"
-  add_foreign_key "crm_cards", "contacts"
-  add_foreign_key "crm_cards", "conversations"
+  add_foreign_key "crm_cards", "contacts", on_delete: :cascade
+  add_foreign_key "crm_cards", "conversations", on_delete: :cascade
   add_foreign_key "crm_cards", "crm_pipeline_stages", column: "stage_id"
   add_foreign_key "crm_cards", "crm_pipelines", column: "pipeline_id"
   add_foreign_key "crm_cards", "inboxes"
   add_foreign_key "crm_cards", "teams"
   add_foreign_key "crm_cards", "users", column: "owner_id"
   add_foreign_key "crm_follow_ups", "accounts"
-  add_foreign_key "crm_follow_ups", "contacts"
-  add_foreign_key "crm_follow_ups", "conversations"
-  add_foreign_key "crm_follow_ups", "crm_cards", column: "card_id"
+  add_foreign_key "crm_follow_ups", "contacts", on_delete: :cascade
+  add_foreign_key "crm_follow_ups", "conversations", on_delete: :cascade
+  add_foreign_key "crm_follow_ups", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_follow_ups", "inboxes"
   add_foreign_key "crm_follow_ups", "users", column: "assignee_id"
   add_foreign_key "crm_follow_ups", "users", column: "created_by_id"
@@ -2481,11 +2502,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   add_foreign_key "crm_integration_tokens", "custom_roles", on_delete: :nullify
   add_foreign_key "crm_integration_tokens", "users", column: "created_by_id", on_delete: :nullify
   add_foreign_key "crm_meeting_guests", "accounts"
-  add_foreign_key "crm_meeting_guests", "contacts"
+  add_foreign_key "crm_meeting_guests", "contacts", on_delete: :cascade
   add_foreign_key "crm_meeting_guests", "crm_meetings", column: "meeting_id"
   add_foreign_key "crm_meeting_guests", "users"
   add_foreign_key "crm_meetings", "accounts"
-  add_foreign_key "crm_meetings", "crm_cards", column: "card_id"
+  add_foreign_key "crm_meetings", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_meetings", "crm_follow_ups", column: "reminder_id", on_delete: :nullify
   add_foreign_key "crm_meetings", "inboxes", on_delete: :nullify
   add_foreign_key "crm_meetings", "users", column: "created_by_id"
@@ -2502,7 +2523,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   add_foreign_key "crm_saved_views", "crm_pipelines", column: "pipeline_id"
   add_foreign_key "crm_saved_views", "users"
   add_foreign_key "crm_stage_automation_executions", "accounts"
-  add_foreign_key "crm_stage_automation_executions", "crm_cards", column: "card_id"
+  add_foreign_key "crm_stage_automation_executions", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_stage_automation_executions", "crm_stage_automations", column: "stage_automation_id"
   add_foreign_key "crm_stage_automation_steps", "accounts"
   add_foreign_key "crm_stage_automation_steps", "crm_stage_automations", column: "stage_automation_id"
@@ -2522,8 +2543,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_08_000002) do
   add_foreign_key "inboxes", "portals"
   add_foreign_key "user_sessions", "users"
   add_foreign_key "whatsapp_api_campaign_recipients", "accounts"
-  add_foreign_key "whatsapp_api_campaign_recipients", "contacts"
-  add_foreign_key "whatsapp_api_campaign_recipients", "conversations"
+  add_foreign_key "whatsapp_api_campaign_recipients", "contacts", on_delete: :cascade
+  add_foreign_key "whatsapp_api_campaign_recipients", "conversations", on_delete: :cascade
   add_foreign_key "whatsapp_api_campaign_recipients", "inboxes"
   add_foreign_key "whatsapp_api_campaign_recipients", "messages"
   add_foreign_key "whatsapp_api_campaign_recipients", "whatsapp_api_campaigns"

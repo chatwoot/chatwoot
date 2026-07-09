@@ -5,6 +5,7 @@ import { useRoute } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import AutonomiaProspectingAPI from 'dashboard/api/autonomiaProspecting';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
+import ConfirmModal from 'dashboard/components/widgets/modal/ConfirmationModal.vue';
 import ProspectingGoogleMap from '../components/ProspectingGoogleMap.vue';
 import ProspectingPriorityRing from '../components/ProspectingPriorityRing.vue';
 import {
@@ -26,10 +27,18 @@ const isSearching = ref(false);
 const isSuggestingLocations = ref(false);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
+const enrichingLeadId = ref(null);
 const verifyingWhatsAppLeadIds = ref([]);
 const selectedLeadIds = ref([]);
 const bulkAction = ref('');
 const searches = ref([]);
+const searchHistoryMeta = ref({
+  page: 1,
+  per_page: 20,
+  total_count: 0,
+  total_pages: 0,
+  has_more: false,
+});
 const leads = ref([]);
 const settings = ref(null);
 const crmPipelines = ref([]);
@@ -46,6 +55,13 @@ const editingSearchConfigId = ref(null);
 const showNewSearch = ref(false);
 const showFilters = ref(false);
 const deletingSearchId = ref(null);
+const isLoadingMoreSearches = ref(false);
+const deleteSearchConfirmModal = ref(null);
+const deleteSearchConfirmConfig = ref({
+  title: '',
+  description: '',
+  confirmLabel: '',
+});
 let locationSuggestionTimer;
 const whatsappVerificationRequested = new Set();
 let replaceLead = () => {};
@@ -132,6 +148,9 @@ const selectedSearch = computed(() =>
 );
 const selectedSearchConfig = computed(() =>
   searches.value.find(search => search.id === editingSearchConfigId.value)
+);
+const canLoadMoreSearches = computed(
+  () => searchHistoryMeta.value.has_more && !isLoadingMoreSearches.value
 );
 const selectedLeadDetail = computed(() =>
   leads.value.find(lead => lead.id === selectedLeadDetailId.value)
@@ -255,9 +274,56 @@ const fetchSettings = async () => {
   }
 };
 
-const fetchSearches = async () => {
-  const { data } = await AutonomiaProspectingAPI.getSearches();
-  searches.value = data.payload || [];
+const alertError = (error, fallbackMessage) => {
+  useAlert(error?.response?.data?.error || fallbackMessage);
+};
+
+const searchHistoryParams = page => ({
+  page,
+  per_page: searchHistoryMeta.value.per_page,
+});
+
+const normalizeSearchHistoryMeta = meta => ({
+  page: Number(meta?.page || 1),
+  per_page: Number(meta?.per_page || searchHistoryMeta.value.per_page || 20),
+  total_count: Number(meta?.total_count || 0),
+  total_pages: Number(meta?.total_pages || 0),
+  has_more: Boolean(meta?.has_more),
+});
+
+const fetchSearches = async ({ page = 1, append = false } = {}) => {
+  const { data } = await AutonomiaProspectingAPI.getSearches(
+    searchHistoryParams(page)
+  );
+  const nextSearches = data.payload || [];
+
+  if (append) {
+    const existingIds = new Set(searches.value.map(search => search.id));
+    searches.value = [
+      ...searches.value,
+      ...nextSearches.filter(search => !existingIds.has(search.id)),
+    ];
+  } else {
+    searches.value = nextSearches;
+  }
+
+  searchHistoryMeta.value = normalizeSearchHistoryMeta(data.meta);
+};
+
+const loadMoreSearches = async () => {
+  if (!canLoadMoreSearches.value) return;
+
+  isLoadingMoreSearches.value = true;
+  try {
+    await fetchSearches({
+      page: searchHistoryMeta.value.page + 1,
+      append: true,
+    });
+  } catch (e) {
+    alertError(e, t('PROSPECTING.ERRORS.LOAD_SEARCHES'));
+  } finally {
+    isLoadingMoreSearches.value = false;
+  }
 };
 
 const fetchCrmStages = async (pipelineId, preferredStageId = '') => {
@@ -370,17 +436,27 @@ const applyCrmTarget = async search => {
   await fetchCrmStages(pipelineId, stageId);
 };
 
+const normalizeRestoredAdvancedFilters = filters => ({
+  ...defaultAdvancedLeadFilters(),
+  ...(filters || {}),
+});
+
+const restoreSearchViewState = search => {
+  advancedFilters.value = normalizeRestoredAdvancedFilters(
+    search?.advanced_filters
+  );
+  sortKey.value = search?.sort_key || 'priority_desc';
+};
+
 const selectSearchPayload = async payload => {
   leads.value = payload.leads || [];
   selectedSearchId.value = payload.id || payload.search?.id;
   selectedLeadIds.value = [];
   selectedLeadDetailId.value = null;
-  await applyCrmTarget(payload.search || payload);
+  const search = payload.search || payload;
+  restoreSearchViewState(search);
+  await applyCrmTarget(search);
   verifyLeadsWhatsApp(leads.value);
-};
-
-const alertError = (error, fallbackMessage) => {
-  useAlert(error?.response?.data?.error || fallbackMessage);
 };
 
 const handlePreviewViewportChange = viewport => {
@@ -431,11 +507,15 @@ const submitSearch = async () => {
         filters: {
           auto_expand_radius: form.value.auto_expand_radius,
         },
+        advanced_filters: advancedFilters.value,
+        sort_key: sortKey.value,
+        score_mode: settings.value?.scoring_mode,
+        scoring_profile_id: settings.value?.scoring_profile_id,
       },
     });
 
     const payload = data.payload || {};
-    await fetchSearches();
+    await fetchSearches({ page: 1 });
     await selectSearchPayload(payload);
     showNewSearch.value = false;
   } catch (e) {
@@ -466,13 +546,30 @@ const toggleNewSearch = () => {
   showNewSearch.value = !showNewSearch.value;
 };
 
+const confirmDeleteSearch = async search => {
+  deleteSearchConfirmConfig.value = {
+    title: t('PROSPECTING.SEARCH.DELETE_CONFIRM_TITLE'),
+    description: t('PROSPECTING.SEARCH.DELETE_CONFIRM_DESCRIPTION', {
+      query: search?.query || t('PROSPECTING.SEARCH.RESULTS_TITLE'),
+    }),
+    confirmLabel: t('PROSPECTING.SEARCH.DELETE_CONFIRM_ACTION'),
+  };
+
+  return deleteSearchConfirmModal.value?.showConfirmation();
+};
+
 const deleteSearch = async search => {
   if (!search?.id || deletingSearchId.value) return;
+  if (!(await confirmDeleteSearch(search))) return;
 
   deletingSearchId.value = search.id;
   try {
     await AutonomiaProspectingAPI.deleteSearch(search.id);
     searches.value = searches.value.filter(item => item.id !== search.id);
+    searchHistoryMeta.value = {
+      ...searchHistoryMeta.value,
+      total_count: Math.max(searchHistoryMeta.value.total_count - 1, 0),
+    };
     if (selectedSearchId.value === search.id) {
       leads.value = [];
       selectedLeadIds.value = [];
@@ -663,6 +760,24 @@ const createCrmCard = async (lead, options = {}) => {
   }
 };
 
+const enrichLead = async lead => {
+  if (!lead?.id || enrichingLeadId.value) return;
+
+  enrichingLeadId.value = lead.id;
+  replaceLead({ ...lead, enrichment_status: 'running' });
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.enrichLead(lead.id);
+    replaceLead(data.payload?.lead);
+    useAlert(t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED'));
+  } catch (e) {
+    replaceLead({ ...lead, enrichment_status: 'failed' });
+    alertError(e, t('PROSPECTING.ERRORS.ENRICH_LEAD'));
+  } finally {
+    enrichingLeadId.value = null;
+  }
+};
+
 const runBulkAction = async action => {
   if (!hasSelectedLeads.value || bulkAction.value) return;
 
@@ -794,7 +909,7 @@ onMounted(async () => {
   try {
     await fetchSettings();
     await fetchCrmPipelines();
-    await fetchSearches();
+    await fetchSearches({ page: 1 });
     if (searches.value.length) await openSearch(searches.value[0]);
   } catch {
     useAlert(t('PROSPECTING.ERRORS.LOAD_SEARCHES'));
@@ -1103,9 +1218,21 @@ onMounted(async () => {
           class="flex min-h-0 flex-col overflow-hidden rounded-lg border border-n-weak bg-n-solid-1"
         >
           <div class="border-b border-n-weak px-4 py-3">
-            <h2 class="text-sm font-semibold text-n-slate-12">
-              {{ t('PROSPECTING.SEARCH.RECENT_SEARCHES') }}
-            </h2>
+            <div class="flex items-baseline justify-between gap-3">
+              <h2 class="text-sm font-semibold text-n-slate-12">
+                {{ t('PROSPECTING.SEARCH.RECENT_SEARCHES') }}
+              </h2>
+              <span
+                v-if="searchHistoryMeta.total_count"
+                class="shrink-0 text-xs text-n-slate-10"
+              >
+                {{
+                  t('PROSPECTING.SEARCH.HISTORY_COUNT', {
+                    count: searchHistoryMeta.total_count,
+                  })
+                }}
+              </span>
+            </div>
           </div>
           <div v-if="isLoading" class="px-4 py-8 text-sm text-n-slate-11">
             {{ t('PROSPECTING.STATES.LOADING') }}
@@ -1136,16 +1263,18 @@ onMounted(async () => {
                 @click="openSearch(search)"
               >
                 <div class="flex items-start justify-between gap-2">
-                  <div class="min-w-0">
-                    <h3 class="truncate text-sm font-semibold text-n-slate-12">
+                  <div class="min-w-0 flex-1">
+                    <h3
+                      class="max-w-full truncate text-sm font-semibold text-n-slate-12"
+                    >
                       {{ search.query }}
                     </h3>
-                    <p class="truncate text-xs text-n-slate-10">
+                    <p class="max-w-full truncate text-xs text-n-slate-10">
                       {{ search.location }} · {{ formatSearchArea(search) }}
                     </p>
                   </div>
                   <span
-                    class="rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
+                    class="shrink-0 rounded-md bg-n-solid-3 px-2 py-1 text-xs text-n-slate-11"
                     :class="{
                       'bg-n-brand text-white': selectedSearchId === search.id,
                     }"
@@ -1154,17 +1283,21 @@ onMounted(async () => {
                   </span>
                 </div>
                 <div
-                  class="flex items-center justify-between text-xs text-n-slate-10"
+                  class="flex min-w-0 items-center justify-between gap-2 text-xs text-n-slate-10"
                 >
-                  <span>
+                  <span class="min-w-0 truncate">
                     {{
                       t('PROSPECTING.SEARCH.RECENT_METRICS', {
                         leads: search.results_count || 0,
+                        contacts: search.contact_count || 0,
                         crm: search.crm_count || 0,
+                        score: search.average_score || '-',
                       })
                     }}
                   </span>
-                  <span>{{ formatRelativeTime(search.created_at) }}</span>
+                  <span class="shrink-0">
+                    {{ formatRelativeTime(search.created_at) }}
+                  </span>
                 </div>
               </button>
               <div
@@ -1189,6 +1322,19 @@ onMounted(async () => {
                 </button>
               </div>
             </article>
+            <button
+              v-if="canLoadMoreSearches"
+              type="button"
+              class="mt-1 flex h-9 w-full items-center justify-center rounded-md border border-n-weak text-xs font-medium text-n-slate-11 hover:bg-n-solid-2 disabled:cursor-wait disabled:opacity-60"
+              :disabled="isLoadingMoreSearches"
+              @click="loadMoreSearches"
+            >
+              {{
+                isLoadingMoreSearches
+                  ? t('PROSPECTING.SEARCH.LOADING_MORE')
+                  : t('PROSPECTING.SEARCH.LOAD_MORE')
+              }}
+            </button>
           </div>
         </aside>
 
@@ -1627,6 +1773,24 @@ onMounted(async () => {
                   </div>
 
                   <div
+                    v-if="lead.decision_name || lead.enrichment_summary"
+                    class="grid gap-1 px-4 pb-2 text-xs text-n-slate-11"
+                  >
+                    <div v-if="lead.decision_name" class="truncate">
+                      <span class="font-medium text-n-slate-12">
+                        {{ t('PROSPECTING.SEARCH.DECISION_MAKER') }}:
+                      </span>
+                      {{ lead.decision_name }}
+                      <span v-if="lead.decision_role">
+                        · {{ lead.decision_role }}
+                      </span>
+                    </div>
+                    <div v-if="lead.enrichment_summary" class="truncate">
+                      {{ lead.enrichment_summary }}
+                    </div>
+                  </div>
+
+                  <div
                     class="flex flex-wrap items-center gap-2 border-t border-n-weak px-4 pb-4 pt-3"
                   >
                     <a
@@ -1645,6 +1809,37 @@ onMounted(async () => {
                     >
                       <span class="i-lucide-panel-right-open size-3.5" />
                       {{ t('PROSPECTING.SEARCH.OPEN_DETAILS') }}
+                    </button>
+                    <button
+                      type="button"
+                      class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                      :disabled="
+                        enrichingLeadId === lead.id ||
+                        !settings?.enrichment_enabled ||
+                        !lead.website
+                      "
+                      :title="
+                        !settings?.enrichment_enabled
+                          ? t('PROSPECTING.SEARCH.ENRICHMENT_DISABLED')
+                          : !lead.website
+                            ? t('PROSPECTING.SEARCH.ENRICHMENT_NO_SITE')
+                            : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                      "
+                      @click="enrichLead(lead)"
+                    >
+                      <span
+                        class="size-3.5"
+                        :class="
+                          enrichingLeadId === lead.id
+                            ? 'animate-spin rounded-full border-2 border-n-slate-5 border-t-n-slate-11'
+                            : 'i-lucide-sparkles'
+                        "
+                      />
+                      {{
+                        enrichingLeadId === lead.id
+                          ? t('PROSPECTING.SEARCH.ENRICHING')
+                          : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                      }}
                     </button>
                     <span
                       v-if="lead.phone && isWhatsAppChecking(lead)"
@@ -2069,5 +2264,13 @@ onMounted(async () => {
         </footer>
       </aside>
     </div>
+
+    <ConfirmModal
+      ref="deleteSearchConfirmModal"
+      :title="deleteSearchConfirmConfig.title"
+      :description="deleteSearchConfirmConfig.description"
+      :confirm-label="deleteSearchConfirmConfig.confirmLabel"
+      :cancel-label="t('PROSPECTING.SEARCH.CANCEL')"
+    />
   </main>
 </template>

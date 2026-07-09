@@ -26,6 +26,7 @@ const isCreating = ref(false);
 const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
+const enrichingLeadId = ref(null);
 const verifyingWhatsAppLeadIds = ref([]);
 const isCreatingCampaignSegment = ref(false);
 const isAddingSelectedLeads = ref(false);
@@ -512,6 +513,24 @@ const createCrmCard = async lead => {
     alertError(e, t('PROSPECTING.ERRORS.CREATE_CRM_CARD'));
   } finally {
     convertingCrmLeadId.value = null;
+  }
+};
+
+const enrichLead = async lead => {
+  if (!lead?.id || enrichingLeadId.value) return;
+
+  enrichingLeadId.value = lead.id;
+  replaceLead({ ...lead, enrichment_status: 'running' });
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.enrichLead(lead.id);
+    replaceLead(data.payload?.lead);
+    useAlert(t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED'));
+  } catch (e) {
+    replaceLead({ ...lead, enrichment_status: 'failed' });
+    alertError(e, t('PROSPECTING.ERRORS.ENRICH_LEAD'));
+  } finally {
+    enrichingLeadId.value = null;
   }
 };
 
@@ -1032,6 +1051,24 @@ onMounted(loadPage);
                 </div>
 
                 <div
+                  v-if="lead.decision_name || lead.enrichment_summary"
+                  class="grid gap-1 px-4 pb-2 text-xs text-n-slate-11"
+                >
+                  <div v-if="lead.decision_name" class="truncate">
+                    <span class="font-medium text-n-slate-12">
+                      {{ t('PROSPECTING.SEARCH.DECISION_MAKER') }}:
+                    </span>
+                    {{ lead.decision_name }}
+                    <span v-if="lead.decision_role">
+                      · {{ lead.decision_role }}
+                    </span>
+                  </div>
+                  <div v-if="lead.enrichment_summary" class="truncate">
+                    {{ lead.enrichment_summary }}
+                  </div>
+                </div>
+
+                <div
                   class="flex flex-wrap items-center gap-2 border-t border-n-weak px-4 pb-4 pt-3"
                 >
                   <a
@@ -1043,6 +1080,37 @@ onMounted(loadPage);
                     <span class="i-lucide-map-pin size-3.5" />
                     {{ t('PROSPECTING.SEARCH.OPEN_MAP') }}
                   </a>
+                  <button
+                    type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded-md border border-n-weak px-3 text-xs font-medium text-n-slate-12 hover:bg-n-solid-2 disabled:cursor-not-allowed disabled:opacity-60"
+                    :disabled="
+                      enrichingLeadId === lead.id ||
+                      !settings?.enrichment_enabled ||
+                      !lead.website
+                    "
+                    :title="
+                      !settings?.enrichment_enabled
+                        ? t('PROSPECTING.SEARCH.ENRICHMENT_DISABLED')
+                        : !lead.website
+                          ? t('PROSPECTING.SEARCH.ENRICHMENT_NO_SITE')
+                          : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                    "
+                    @click="enrichLead(lead)"
+                  >
+                    <span
+                      class="size-3.5"
+                      :class="
+                        enrichingLeadId === lead.id
+                          ? 'animate-spin rounded-full border-2 border-n-slate-5 border-t-n-slate-11'
+                          : 'i-lucide-sparkles'
+                      "
+                    />
+                    {{
+                      enrichingLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.ENRICHING')
+                        : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                    }}
+                  </button>
                   <span
                     v-if="lead.phone && isWhatsAppChecking(lead)"
                     class="inline-flex h-8 items-center gap-1.5 rounded-md border border-n-weak bg-n-solid-2 px-3 text-xs font-medium text-n-slate-10"

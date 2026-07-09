@@ -1,10 +1,18 @@
 class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::Accounts::Autonomia::Prospecting::BaseController
   AUTOCOMPLETE_ENDPOINT = 'https://places.googleapis.com/v1/places:autocomplete'.freeze
   PLACE_DETAILS_ENDPOINT = 'https://places.googleapis.com/v1/places'.freeze
+  DEFAULT_PER_PAGE = 20
+  MAX_PER_PAGE = 50
 
   def index
-    searches = searches_scope.order(created_at: :desc).limit(50)
-    render json: { payload: searches.map { |search| search_payload(search) } }
+    ordered_scope = searches_scope.order(created_at: :desc)
+    total_count = ordered_scope.count
+    searches = ordered_scope.offset((page - 1) * per_page).limit(per_page)
+
+    render json: {
+      payload: searches.map { |search| search_payload(search) },
+      meta: pagination_payload(total_count)
+    }
   end
 
   def location_suggestions
@@ -98,6 +106,10 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
         :location_latitude,
         :location_longitude,
         :location_label,
+        :sort_key,
+        :score_mode,
+        :scoring_profile_id,
+        advanced_filters: {},
         filters: [:auto_expand_radius]
       ]
     )
@@ -222,10 +234,32 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     payload['crm_stage_id'] = search.metadata.to_h['crm_stage_id']
     payload['crm_count'] = leads.count { |lead| lead.crm_card_id.present? }
     payload['contact_count'] = leads.count { |lead| lead.contact_id.present? }
+    payload['average_score'] = average_score_for(leads)
+    payload['ready_count'] = leads.count do |lead|
+      lead.status == 'ready_for_campaign'
+    end
     payload['location_place_id'] = search.metadata.to_h['location_place_id']
     payload['location_latitude'] = search.metadata.to_h['location_latitude']
     payload['location_longitude'] = search.metadata.to_h['location_longitude']
     payload['location_label'] = search.metadata.to_h['location_label']
+    payload['search_filters'] =
+      search.metadata.to_h['search_filters'] || search.metadata.to_h['filters'] || {}
+    payload['advanced_filters'] = search.metadata.to_h['advanced_filters'] || {}
+    payload['sort_key'] = search.metadata.to_h['sort_key']
+    payload['score_mode'] = search.metadata.to_h['score_mode']
+    payload['scoring_profile_id'] = search.metadata.to_h['scoring_profile_id']
+    payload['summary'] = {
+      results_count: payload['results_count'],
+      contact_count: payload['contact_count'],
+      crm_count: payload['crm_count'],
+      ready_count: payload['ready_count'],
+      average_score: payload['average_score'],
+      consumed_api_units: search.consumed_api_units.to_i,
+      radius_expanded: ActiveModel::Type::Boolean.new.cast(
+        search.metadata.to_h['radius_expanded']
+      ),
+      cached_from_search_id: search.metadata.to_h['cached_from_search_id']
+    }
     payload['leads'] = leads.map { |lead| lead_payload(lead) } if include_leads
     payload
   end
@@ -243,6 +277,10 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
         :id, :provider, :provider_place_id, :name, :phone, :website, :address, :city, :state, :country,
         :latitude, :longitude, :rating, :reviews_count, :category, :status, :discard_reason,
         :score, :priority_score, :priority_position, :search_rank, :score_breakdown, :negative_factors, :human_insight,
+        :enrichment_status, :enrichment_requested_at, :enrichment_completed_at, :enrichment_source, :enrichment_error,
+        :enriched_data, :decision_name, :decision_role, :decision_confidence, :decision_source_url, :decision_linkedin,
+        :decision_instagram, :enriched_email, :enriched_whatsapp, :enriched_instagram, :enriched_linkedin,
+        :enriched_facebook, :enriched_cnpj, :enrichment_summary,
         :contact_id, :crm_card_id, :created_at, :updated_at
       ]
     ).merge(
@@ -254,6 +292,37 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
     ).merge(
       whatsapp_payload(lead)
     )
+  end
+
+  def page
+    @page ||= [params[:page].presence.to_i, 1].max
+  end
+
+  def per_page
+    @per_page ||= begin
+      requested_per_page = params[:per_page].presence.to_i
+      requested_per_page = DEFAULT_PER_PAGE if requested_per_page <= 0
+      [requested_per_page, MAX_PER_PAGE].min
+    end
+  end
+
+  def pagination_payload(total_count)
+    total_pages = (total_count.to_f / per_page).ceil
+
+    {
+      page: page,
+      per_page: per_page,
+      total_count: total_count,
+      total_pages: total_pages,
+      has_more: page < total_pages
+    }
+  end
+
+  def average_score_for(leads)
+    scored_leads = leads.filter { |lead| lead.score.present? }
+    return if scored_leads.blank?
+
+    (scored_leads.sum { |lead| lead.score.to_f } / scored_leads.size).round(1)
   end
 
 end
