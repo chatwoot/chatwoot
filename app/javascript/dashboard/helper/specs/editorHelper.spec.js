@@ -16,6 +16,7 @@ import {
   findNodeToInsertImage,
   findSignatureInBody,
   getAgentVariables,
+  getContactVariables,
   getContentNode,
   getFormattingForEditor,
   getMenuAnchor,
@@ -1270,6 +1271,27 @@ describe('getAgentVariables', () => {
     expect(variables['agent.name']).toBe('');
     expect(variables['agent.first_name']).toBe('');
     expect(variables['agent.last_name']).toBe('');
+  });
+});
+
+describe('getContactVariables', () => {
+  it('normalizes casing like the backend ContactDrop (Ruby capitalize)', () => {
+    expect(getContactVariables({ name: 'JANE doE' })).toEqual({
+      'contact.name': 'Jane Doe',
+      'contact.first_name': 'Jane',
+      'contact.last_name': 'Doe',
+    });
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getContactVariables({ name: 'john' });
+
+    expect(variables['contact.first_name']).toBe('John');
+    expect(variables['contact.last_name']).toBe('');
+  });
+
+  it('handles a missing contact', () => {
+    expect(getContactVariables(undefined)['contact.name']).toBe('');
   });
 });
 
