@@ -33,6 +33,9 @@
     "ROW": {
       "PICKED_BY": "Picked by",
       "DIALED_BY": "Dialed by",
+      "ANSWERED": "Answered",
+      "RINGING": "Ringing",
+      "IN_PROGRESS": "In progress",
       "NO_AGENT": "No agent answered this call",
       "NO_CONTACT_ANSWER": "Contact did not answer",
       "FAILED": "This call could not be connected",

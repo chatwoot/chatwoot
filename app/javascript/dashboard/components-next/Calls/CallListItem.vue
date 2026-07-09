@@ -6,7 +6,10 @@ import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AudioPlayer from 'dashboard/components-next/audio/AudioPlayer.vue';
-import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
+import {
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
 import CallStatusBadge from './CallStatusBadge.vue';
 import { CALL_KIND, getCallKind } from './constants';
 
@@ -45,7 +48,12 @@ const resultLabel = computed(() => {
     return t('CALLS_PAGE.ROW.NO_CONTACT_ANSWER');
   }
   if (kind.value === CALL_KIND.FAILED) return t('CALLS_PAGE.ROW.FAILED');
-  return '';
+  if (kind.value === CALL_KIND.ONGOING) {
+    return props.call.status === VOICE_CALL_STATUS.RINGING
+      ? t('CALLS_PAGE.ROW.RINGING')
+      : t('CALLS_PAGE.ROW.IN_PROGRESS');
+  }
+  return t('CALLS_PAGE.ROW.ANSWERED');
 });
 
 const providerIcon = computed(() =>
