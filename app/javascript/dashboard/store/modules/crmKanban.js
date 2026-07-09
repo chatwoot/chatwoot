@@ -401,6 +401,7 @@ const defaultPipelinePayload = pipeline => ({
   is_default: pipeline?.is_default ?? true,
   position: pipeline?.position || 1,
   ...(pipeline?.goal ? { goal: pipeline.goal } : {}),
+  ...(pipeline?.meta_sync ? { meta_sync: pipeline.meta_sync } : {}),
 });
 
 const normalizeStagePayload = (stage, index) => ({
@@ -412,6 +413,9 @@ const normalizeStagePayload = (stage, index) => ({
   wip_limit: stage.wip_limit || null,
   sla_seconds: stage.sla_seconds || null,
   sla_warning_seconds: stage.sla_warning_seconds || null,
+  // Maps the stage to a native Meta funnel event (lead/qualified/opportunity/
+  // negotiation) for CTWA conversion sync; null clears the classification.
+  funnel_stage_type: stage.funnel_stage_type || null,
 });
 
 export const actions = {
