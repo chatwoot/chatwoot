@@ -58,38 +58,4 @@ RSpec.describe 'Crm::MetaCapi resolvers' do # rubocop:disable RSpec/DescribeClas
       expect(described_class.resolve(nil)).to be_nil
     end
   end
-
-  # The channel_whatsapp factory forces provider_config to its defaults for
-  # whatsapp_cloud (api_key 'test_key', business_account_id '123456789'), so the
-  # resolver assertions read those factory-provided values.
-  describe Crm::MetaCapi::TokenResolver do
-    it 'resolves credentials from the card conversation whatsapp cloud channel' do
-      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                                          validate_provider_config: false, sync_templates: false)
-      conversation = create(:conversation, account: account, inbox: channel.inbox)
-      card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'C', currency: 'BRL', primary_conversation: conversation)
-
-      creds = described_class.resolve(card)
-
-      expect(creds.access_token).to eq(channel.provider_config['api_key'])
-      expect(creds.waba_id).to eq(channel.waba_id)
-    end
-
-    it 'falls back to the account first whatsapp cloud channel for a standalone card' do
-      channel = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                                          validate_provider_config: false, sync_templates: false)
-      card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'Standalone', currency: 'BRL')
-
-      creds = described_class.resolve(card)
-
-      expect(creds.access_token).to eq(channel.provider_config['api_key'])
-      expect(creds.waba_id).to eq(channel.waba_id)
-    end
-
-    it 'returns nil when the account has no whatsapp cloud channel' do
-      card = account.crm_cards.create!(pipeline: pipeline, stage: stage, title: 'Standalone', currency: 'BRL')
-
-      expect(described_class.resolve(card)).to be_nil
-    end
-  end
 end

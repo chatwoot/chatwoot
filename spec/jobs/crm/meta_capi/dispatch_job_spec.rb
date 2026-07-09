@@ -1,13 +1,5 @@
 require 'rails_helper'
 
-# NOTE: the successful-delivery path (build_payload -> ConversionsApiClient ->
-# record_result) is intentionally NOT covered here: Dispatch#dispatch calls
-# `Crm::MetaCapi::PayloadBuilder.new(...).perform` and `ConversionsApiClient#send_event`,
-# neither of which exists on the current collaborators (PayloadBuilder is a module
-# exposing `.build`; the client exposes `#post_events` returning a Result with
-# `ok`/`error`). Under verify_partial_doubles those methods cannot be stubbed, and a
-# real run raises before persisting. This drift is reported as a blocking risk; once
-# the interfaces are reconciled the accepted/error specs can be added.
 RSpec.describe Crm::MetaCapi::DispatchJob do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account, role: :administrator) }
@@ -111,14 +103,52 @@ RSpec.describe Crm::MetaCapi::DispatchJob do
     end
   end
 
+  describe 'delivery' do
+    let(:client) { instance_double(Meta::ConversionsApiClient) }
+
+    before { allow(Meta::ConversionsApiClient).to receive(:new).and_return(client) }
+
+    it 'posts the built event and records an accepted ledger row' do
+      allow(client).to receive(:post_events)
+        .and_return(Meta::ConversionsApiClient::Result.new(ok: true, http_code: 200, body: 'ok', error: nil))
+
+      perform
+      row = Crm::MetaConversionEvent.find_by(event_id: event_id)
+
+      expect(client).to have_received(:post_events) do |events|
+        payload = events.first
+        expect(payload['event_name']).to eq('Purchase')
+        expect(payload['event_id']).to eq(event_id)
+        expect(payload['user_data']).to include('ctwa_clid' => 'CLID123')
+      end
+      expect(row.status).to eq('accepted')
+      expect(row.http_code).to eq(200)
+      expect(row.sent_at).to be_present
+    end
+
+    it 'records an error row and re-raises when Meta rejects the event' do
+      allow(client).to receive(:post_events)
+        .and_return(Meta::ConversionsApiClient::Result.new(ok: false, http_code: 400, body: 'bad', error: 'invalid dataset'))
+
+      expect { perform }.to raise_error(Crm::MetaCapi::DispatchJob::DispatchError)
+      row = Crm::MetaConversionEvent.find_by(event_id: event_id)
+
+      expect(row.status).to eq('error')
+      expect(row.http_code).to eq(400)
+      expect(row.error_message).to eq('invalid dataset')
+    end
+  end
+
   describe 'security: token redaction' do
     let(:secret_token) { "EAAG#{'z' * 40}" }
 
     it 'never leaks a token-shaped secret into the log or the re-raised error' do
       allow(Crm::MetaConversionEvent).to receive(:find_or_initialize_by)
         .and_raise(StandardError.new("db down token=#{secret_token}"))
-      logged = nil
-      allow(Rails.logger).to receive(:error) { |message| logged = message }
+      # Replace Rails.logger wholesale so the job's Rails.logger.error writes to a buffer we
+      # own, regardless of the app's custom logger proxy (identity-based stubs miss it).
+      io = StringIO.new
+      allow(Rails).to receive(:logger).and_return(ActiveSupport::Logger.new(io))
 
       raised = nil
       begin
@@ -129,8 +159,8 @@ RSpec.describe Crm::MetaCapi::DispatchJob do
 
       expect(raised.class.name).to eq('Crm::MetaCapi::DispatchJob::DispatchError')
       expect(raised.message).not_to include(secret_token)
-      expect(logged).to include('<REDACTED>')
-      expect(logged).not_to include(secret_token)
+      expect(io.string).to include('<REDACTED>')
+      expect(io.string).not_to include(secret_token)
     end
   end
 end

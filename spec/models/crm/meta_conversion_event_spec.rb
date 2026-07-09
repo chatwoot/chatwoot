@@ -26,12 +26,11 @@ RSpec.describe Crm::MetaConversionEvent do
       expect(event.errors[:event_type]).to be_present
     end
 
-    it 'enforces event_id uniqueness (the Meta dedup key)' do
+    it 'enforces event_id uniqueness at the database level (the Meta dedup key)' do
       build_event.save!
       duplicate = build_event
 
-      expect(duplicate).not_to be_valid
-      expect(duplicate.errors[:event_id]).to be_present
+      expect { duplicate.save! }.to raise_error(ActiveRecord::RecordNotUnique)
     end
   end
 
