@@ -2,9 +2,10 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
   DISTANCE_THRESHOLD = 0.3
+  LLM_FEATURE = 'conversation_faq_generation'.freeze
 
   def initialize(assistant, conversation)
-    super(feature: 'conversation_faq_generation', account: conversation.account)
+    super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
     @assistant = assistant
     @conversation = conversation
     @content = conversation_faq_content
