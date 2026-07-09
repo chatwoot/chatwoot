@@ -2,11 +2,12 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   description 'Search FAQ responses using semantic similarity to find relevant answers'
   param :query, type: 'string', desc: 'The question or topic to search for in the FAQ database'
 
-  def perform(_tool_context, query:)
+  def perform(tool_context, query:)
     log_tool_usage('searching', { query: query })
 
     # Use existing vector search on approved responses
     responses = @assistant.responses.approved.search(query).to_a
+    record_retrieved_sources(tool_context, responses)
 
     if responses.empty?
       log_tool_usage('no_results', { query: query })
@@ -18,6 +19,16 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   end
 
   private
+
+  def record_retrieved_sources(tool_context, responses)
+    return if responses.empty?
+
+    state = tool_context.state
+    state[:faq_ids] = ((state[:faq_ids] || []) + responses.map(&:id)).uniq
+
+    document_ids = responses.filter_map { |response| response.documentable_id if response.documentable_type == 'Captain::Document' }
+    state[:document_ids] = ((state[:document_ids] || []) + document_ids).uniq
+  end
 
   def format_responses(responses)
     responses.map { |response| format_response(response) }.join
