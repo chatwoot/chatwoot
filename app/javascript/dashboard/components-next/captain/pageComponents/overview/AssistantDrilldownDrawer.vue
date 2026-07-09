@@ -7,6 +7,7 @@ import { useReportDrilldown } from 'dashboard/routes/dashboard/settings/reports/
 import ReportDrilldownCard from 'dashboard/routes/dashboard/settings/reports/components/ReportDrilldownCard.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   open: { type: Boolean, default: false },
@@ -136,7 +137,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection to="body">
     <Transition name="report-drilldown-fade">
       <div
         v-if="isOpen"
@@ -146,7 +147,7 @@ onBeforeUnmount(() => {
       >
         <aside
           ref="drawerRef"
-          class="fixed inset-y-0 right-0 flex w-full max-w-xl flex-col bg-n-solid-1 shadow-xl outline outline-1 outline-n-container"
+          class="fixed inset-y-0 end-0 flex w-full max-w-xl flex-col bg-n-solid-1 shadow-xl outline outline-1 outline-n-container"
           role="dialog"
           aria-modal="true"
           :aria-label="title"
@@ -229,5 +230,5 @@ onBeforeUnmount(() => {
         </aside>
       </div>
     </Transition>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
