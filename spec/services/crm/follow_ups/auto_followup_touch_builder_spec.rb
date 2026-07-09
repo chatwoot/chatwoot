@@ -1,16 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Crm::FollowUps::AutoFollowupTouchBuilder do
-  def setup_card(account:, user:, contact_tz: nil)
+  def setup_card(account:, user:, contact_tz: nil, owner: :unset, assignee: :unset)
+    owner = user if owner == :unset
+    assignee = user if assignee == :unset
     inbox = create_crm_whatsapp_api_inbox(account: account, members: [user])
     contact = account.contacts.create!(name: 'Lead', phone_number: "+55119#{rand(10_000_000..99_999_999)}")
     contact.update!(additional_attributes: { 'timezone' => contact_tz }) if contact_tz
-    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: user)
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: assignee)
     create_incoming_message(conversation: conversation)
     pipeline, stage = create_crm_pipeline(account: account, user: user)
     account.crm_cards.create!(
       pipeline: pipeline, stage: stage, inbox: inbox, contact: contact,
-      primary_conversation: conversation, owner: user, title: 'Lead'
+      primary_conversation: conversation, owner: owner, title: 'Lead'
     )
   end
 
@@ -62,5 +64,32 @@ RSpec.describe Crm::FollowUps::AutoFollowupTouchBuilder do
     follow_up = described_class.new(card: card, touch: 1, due_at: Time.current).perform
 
     expect(follow_up.timezone).to eq('Europe/Paris')
+  end
+
+  # Reason (PR1): a card with no owner and no conversation assignee (AI-only /
+  # unassigned) must still produce a touch with a resolved sender, otherwise
+  # MessageSender returns 'sender_required' and the whole cadence dies 'send_failed'.
+  # The sender falls back to the account administrator.
+  it 'falls back to the account administrator when the card has no owner or assignee' do
+    account, admin = create_account_and_user
+    card = setup_card(account: account, user: admin, owner: nil, assignee: nil)
+
+    follow_up = described_class.new(card: card, touch: 1, due_at: Time.current).perform
+
+    expect(follow_up.created_by).to eq(admin)
+    expect(follow_up.assignee).to eq(admin)
+  end
+
+  # Control: when the card has an owner, that owner stays the sender (owner wins
+  # over the admin fallback) — the happy path is unchanged.
+  it 'keeps the card owner as the sender when the card has an owner' do
+    account, admin = create_account_and_user
+    owner, = create_crm_agent(account: account)
+    card = setup_card(account: account, user: admin, owner: owner, assignee: nil)
+
+    follow_up = described_class.new(card: card, touch: 1, due_at: Time.current).perform
+
+    expect(follow_up.created_by).to eq(owner)
+    expect(follow_up.assignee).to eq(owner)
   end
 end

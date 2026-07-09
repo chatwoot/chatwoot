@@ -107,7 +107,8 @@ module Crm
           conversation: conversation,
           contact: contact,
           inbox: conversation&.inbox,
-          assignee_id: @card.try(:owner_id),
+          assignee_id: resolved_sender&.id,
+          created_by_id: resolved_sender&.id,
           metadata: metadata
         }
       end
@@ -137,6 +138,13 @@ module Crm
 
       def timezone
         @timezone ||= Crm::Timezone::Resolver.new(contact: contact, account: @card.account).name_or_default
+      end
+
+      # An auto_send_message callback dies 'send_failed' ('sender_required') without
+      # a sender, so resolve one even for AI-only / unassigned cards: card owner ->
+      # the linked conversation's human assignee -> account administrator.
+      def resolved_sender
+        @resolved_sender ||= @card.owner || conversation&.assignee || @card.account.administrators.first
       end
 
       def contact
