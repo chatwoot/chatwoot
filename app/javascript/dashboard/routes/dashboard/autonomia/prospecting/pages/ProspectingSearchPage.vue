@@ -8,6 +8,11 @@ import CrmKanbanAPI from 'dashboard/api/crmKanban';
 import ProspectingGoogleMap from '../components/ProspectingGoogleMap.vue';
 import ProspectingPriorityRing from '../components/ProspectingPriorityRing.vue';
 import {
+  activeAdvancedLeadFiltersCount,
+  defaultAdvancedLeadFilters,
+  filterLeadsByAdvancedFilters,
+} from '../utils/advancedLeadFilters';
+import {
   leadPrioritySignals,
   priorityTheme,
   priorityValue,
@@ -52,43 +57,22 @@ const form = ref({
   area_type: 'radius',
   radius_km: 5,
   requested_limit: 20,
+  auto_expand_radius: false,
 });
 const crmForm = ref({
   pipeline_id: '',
   stage_id: '',
 });
-const advancedFilters = ref({
-  has_website: '',
-  has_phone: '',
-  rating_min: '',
-  reviews_min: '',
-});
+const advancedFilters = ref(defaultAdvancedLeadFilters());
 const searchConfigForm = ref({
   crm_pipeline_id: '',
   crm_stage_id: '',
 });
 
 const hasResults = computed(() => leads.value.length > 0);
-const filteredLeads = computed(() => {
-  return leads.value.filter(lead => {
-    if (advancedFilters.value.has_website === 'yes' && !lead.website)
-      return false;
-    if (advancedFilters.value.has_website === 'no' && lead.website)
-      return false;
-    if (advancedFilters.value.has_phone === 'yes' && !lead.phone) return false;
-    if (advancedFilters.value.has_phone === 'no' && lead.phone) return false;
-
-    const ratingMin = Number(advancedFilters.value.rating_min || 0);
-    if (ratingMin > 0 && Number(lead.rating || 0) < ratingMin) return false;
-
-    const reviewsMin = Number(advancedFilters.value.reviews_min || 0);
-    if (reviewsMin > 0 && Number(lead.reviews_count || 0) < reviewsMin) {
-      return false;
-    }
-
-    return true;
-  });
-});
+const filteredLeads = computed(() =>
+  filterLeadsByAdvancedFilters(leads.value, advancedFilters.value)
+);
 const sortedLeads = computed(() => {
   const leadsToSort = [...filteredLeads.value];
   const numberValue = (lead, key, fallback = 0) =>
@@ -172,8 +156,8 @@ const selectedLeadObjects = computed(() => {
   const ids = new Set(selectedLeadIds.value.map(Number));
   return sortedLeads.value.filter(lead => ids.has(Number(lead.id)));
 });
-const activeAdvancedFiltersCount = computed(
-  () => Object.values(advancedFilters.value).filter(Boolean).length
+const activeAdvancedFiltersCount = computed(() =>
+  activeAdvancedLeadFiltersCount(advancedFilters.value)
 );
 const activeFiltersCount = computed(() => activeAdvancedFiltersCount.value);
 const autocompleteHint = computed(() => {
@@ -444,6 +428,9 @@ const submitSearch = async () => {
         location_longitude: locationDetails.value?.longitude,
         location_label:
           selectedLocationLabel.value || form.value.location.trim(),
+        filters: {
+          auto_expand_radius: form.value.auto_expand_radius,
+        },
       },
     });
 
@@ -1013,6 +1000,24 @@ onMounted(async () => {
                   />
                 </label>
               </div>
+              <label
+                class="flex items-start gap-2 rounded-md border border-n-weak bg-n-solid-2 px-3 py-2"
+              >
+                <input
+                  v-model="form.auto_expand_radius"
+                  type="checkbox"
+                  class="mt-1 size-4"
+                  :disabled="form.area_type !== 'radius'"
+                />
+                <span class="grid gap-0.5">
+                  <span class="text-xs font-medium text-n-slate-12">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.AUTO_EXPAND_RADIUS') }}
+                  </span>
+                  <span class="text-xs text-n-slate-10">
+                    {{ t('PROSPECTING.SEARCH.AUTO_EXPAND_RADIUS_HINT') }}
+                  </span>
+                </span>
+              </label>
             </div>
 
             <ProspectingGoogleMap
@@ -1312,6 +1317,46 @@ onMounted(async () => {
                 <div class="grid gap-2 sm:grid-cols-2">
                   <label class="grid gap-1">
                     <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHOTOS') }}
+                    </span>
+                    <select
+                      v-model="advancedFilters.has_photos"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    >
+                      <option value="">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                      </option>
+                      <option value="yes">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                      </option>
+                      <option value="no">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                      </option>
+                    </select>
+                  </label>
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.OPEN_NOW') }}
+                    </span>
+                    <select
+                      v-model="advancedFilters.open_now"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    >
+                      <option value="">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                      </option>
+                      <option value="yes">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                      </option>
+                      <option value="no">
+                        {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                      </option>
+                    </select>
+                  </label>
+                </div>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
                       {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MIN') }}
                     </span>
                     <input
@@ -1325,12 +1370,38 @@ onMounted(async () => {
                   </label>
                   <label class="grid gap-1">
                     <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MAX') }}
+                    </span>
+                    <input
+                      v-model="advancedFilters.rating_max"
+                      type="number"
+                      min="0"
+                      max="5"
+                      step="0.1"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    />
+                  </label>
+                </div>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
                       {{ t('PROSPECTING.SEARCH.FIELDS.REVIEWS_MIN') }}
                     </span>
                     <input
                       v-model="advancedFilters.reviews_min"
                       type="number"
                       min="0"
+                      class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                    />
+                  </label>
+                  <label class="grid gap-1">
+                    <span class="text-xs font-medium text-n-slate-11">
+                      {{ t('PROSPECTING.SEARCH.FIELDS.SEARCH_RANK_MAX') }}
+                    </span>
+                    <input
+                      v-model="advancedFilters.search_rank_max"
+                      type="number"
+                      min="1"
                       class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
                     />
                   </label>

@@ -97,7 +97,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
         :location_place_id,
         :location_latitude,
         :location_longitude,
-        :location_label
+        :location_label,
+        filters: [:auto_expand_radius]
       ]
     )
   end
@@ -248,6 +249,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::SearchesController < Api::V1::A
       source_label: lead.provider.to_s.humanize,
       contact_status: lead.contact_id.present? ? 'created' : 'pending',
       crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
+    ).merge(
+      advanced_filter_payload(lead)
     ).merge(
       whatsapp_payload(lead)
     )

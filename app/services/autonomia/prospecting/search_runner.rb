@@ -26,17 +26,22 @@ class Autonomia::Prospecting::SearchRunner
     leads = []
 
     ActiveRecord::Base.transaction do
-      provider_instance = provider
-      leads = provider_instance.search.each_with_index.map do |attributes, index|
+      provider_result = search_provider_results
+      leads = provider_result[:attributes].each_with_index.map do |attributes, index|
         upsert_lead!(search, attributes, google_rank: index + 1)
       end
       assign_priority_positions!(leads)
+      search.radius = provider_result[:radius]
+      search.area_config = area_config_for_radius(provider_result[:radius])
       search.metadata = search.metadata.to_h.merge(
         'lead_ids' => leads.map(&:id),
-        'results_count' => leads.size
+        'results_count' => leads.size,
+        'search_filters' => search_filters,
+        'requested_radius' => radius,
+        'radius_expanded' => provider_result[:radius].to_i > radius
       )
       search.status = :completed
-      search.consumed_api_units = provider_instance.respond_to?(:api_units) ? provider_instance.api_units.to_i : 0
+      search.consumed_api_units = provider_result[:api_units]
       search.cache_fingerprint = cache_fingerprint
       search.cache_expires_at = cache_expires_at
       search.save!
@@ -82,15 +87,15 @@ class Autonomia::Prospecting::SearchRunner
     )
   end
 
-  def provider
+  def provider(radius_value: radius, area_config_value: area_config)
     case provider_name
     when 'google_places'
       Autonomia::Prospecting::Providers::GooglePlacesProvider.new(
         query: query,
         location: location,
-        radius: radius,
+        radius: radius_value,
         area_type: area_type,
-        area_config: area_config,
+        area_config: area_config_value,
         limit: requested_limit,
         api_key: @setting.google_places_api_key
       )
@@ -98,12 +103,40 @@ class Autonomia::Prospecting::SearchRunner
       Autonomia::Prospecting::Providers::MockProvider.new(
         query: query,
         location: location,
-        radius: radius,
+        radius: radius_value,
         area_type: area_type,
-        area_config: area_config,
+        area_config: area_config_value,
         limit: requested_limit
       )
     end
+  end
+
+  def search_provider_results
+    radii = auto_expand_radius? ? expansion_radii : [radius]
+    api_units = 0
+    last_attributes = []
+    last_radius = radius
+
+    radii.each do |radius_value|
+      provider_instance = provider(
+        radius_value: radius_value,
+        area_config_value: area_config_for_radius(radius_value)
+      )
+      last_attributes = provider_instance.search
+      last_radius = radius_value
+      api_units += if provider_instance.respond_to?(:api_units)
+                     provider_instance.api_units.to_i
+                   else
+                     0
+                   end
+      break if last_attributes.size >= requested_limit
+    end
+
+    {
+      attributes: last_attributes,
+      radius: last_radius,
+      api_units: api_units
+    }
   end
 
   def validate_google_places!
@@ -181,6 +214,34 @@ class Autonomia::Prospecting::SearchRunner
 
   def area_config
     @area_config ||= normalized_area_config
+  end
+
+  def area_config_for_radius(radius_value)
+    return area_config unless area_type == 'radius'
+
+    area_config.merge('radius' => radius_value)
+  end
+
+  def search_filters
+    @search_filters ||= begin
+      filters = metadata['filters'].presence || @params[:filters].presence || {}
+      filters = filters.to_unsafe_h if filters.respond_to?(:to_unsafe_h)
+      filters = filters.to_h if filters.respond_to?(:to_h)
+      filters.deep_stringify_keys.slice('auto_expand_radius')
+    end
+  end
+
+  def auto_expand_radius?
+    area_type == 'radius' &&
+      ActiveModel::Type::Boolean.new.cast(search_filters['auto_expand_radius'])
+  end
+
+  def expansion_radii
+    [
+      radius,
+      [radius * 2, 50_000].min,
+      [radius * 4, 50_000].min
+    ].uniq
   end
 
   def provider_name
@@ -313,9 +374,9 @@ class Autonomia::Prospecting::SearchRunner
       user: @user,
       query: query,
       location: location,
-      radius: radius,
-      area_type: area_type,
-      area_config: area_config,
+      radius: search.radius,
+      area_type: search.area_type,
+      area_config: search.area_config,
       provider: provider_name,
       requested_limit: requested_limit,
       status: :cached,
@@ -326,7 +387,8 @@ class Autonomia::Prospecting::SearchRunner
       metadata: metadata.merge(crm_target_metadata).merge(
         'lead_ids' => leads.map(&:id),
         'results_count' => leads.size,
-        'cached_from_search_id' => search.id
+        'cached_from_search_id' => search.id,
+        'search_filters' => search_filters
       )
     )
 
@@ -343,6 +405,7 @@ class Autonomia::Prospecting::SearchRunner
         radius,
         area_type,
         JSON.generate(area_config),
+        JSON.generate(search_filters),
         requested_limit,
         @setting.scoring_mode,
         @setting.scoring_profile_id,
@@ -384,7 +447,11 @@ class Autonomia::Prospecting::SearchRunner
   end
 
   def estimated_api_units
-    @estimated_api_units ||= provider_name == 'google_places' ? 1 : 0
+    @estimated_api_units ||= if provider_name == 'google_places'
+                               auto_expand_radius? ? expansion_radii.size : 1
+                             else
+                               0
+                             end
   end
 
   def crm_pipeline_id

@@ -90,6 +90,7 @@
       "AREA_VIEWPORT": "Área visível",
       "AREA_VIEWPORT_SHORT": "Área do mapa",
       "AREA_VIEWPORT_HINT": "Mova ou aplique zoom no mapa. A busca usará a área visível no momento de executar.",
+      "AUTO_EXPAND_RADIUS_HINT": "Se vierem poucos resultados, amplia o raio automaticamente em até 3 tentativas.",
       "PRIORITY_GOOGLE_RANK": "G #{rank}",
       "PRIORITY_POSITION": "Posição {position}",
       "PRIORITY_POSITION_IN_LIST": "Posição {position} da lista",
@@ -143,8 +144,13 @@
         "SORT": "Ordenar",
         "HAS_SITE": "Site",
         "HAS_PHONE": "Telefone",
+        "HAS_PHOTOS": "Fotos",
+        "OPEN_NOW": "Aberto agora",
         "RATING_MIN": "Avaliação mín.",
-        "REVIEWS_MIN": "Avaliações mín."
+        "RATING_MAX": "Avaliação máx.",
+        "REVIEWS_MIN": "Avaliações mín.",
+        "SEARCH_RANK_MAX": "Posição Google máx.",
+        "AUTO_EXPAND_RADIUS": "Expandir raio automaticamente"
       },
       "COLUMNS": {
         "QUERY": "Busca",

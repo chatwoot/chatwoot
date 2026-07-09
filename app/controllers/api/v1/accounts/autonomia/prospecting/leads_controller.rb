@@ -105,6 +105,8 @@ class Api::V1::Accounts::Autonomia::Prospecting::LeadsController < Api::V1::Acco
       contact_status: lead.contact_id.present? ? 'created' : 'pending',
       crm_status: lead.crm_card_id.present? ? 'created' : 'pending'
     ).merge(
+      advanced_filter_payload(lead)
+    ).merge(
       whatsapp_payload(lead)
     )
   end
