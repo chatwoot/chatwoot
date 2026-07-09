@@ -226,7 +226,16 @@ module Crm
         # satisfied; MessageSender ignores it for Api and uses it only as the
         # optional native body.
         metadata['message_body'] = composition['message_body'].to_s.strip.presence || metadata['message_body']
+        # Persist the chosen template's Meta category so the 24h frequency cap can
+        # target MARKETING only (Meta's 131049 cap is marketing-scoped). Api campaign
+        # templates carry no category (nil) and are therefore never capped.
+        metadata['template_category'] = candidate[:category].to_s.downcase.presence
+        assign_template_channel_metadata(metadata, candidate, composition)
+      end
 
+      # Writes the channel-specific keys MessageSender needs (Api template id vs native
+      # name/language/params), clearing the other channel's stale keys.
+      def assign_template_channel_metadata(metadata, candidate, composition)
         if candidate[:kind].to_s == 'api'
           metadata['whatsapp_api_message_template_id'] = candidate[:id]
           metadata.delete('template_name')
@@ -255,21 +264,31 @@ module Crm
           end
       end
 
-      # Marketing-cap: at most one reengagement template per CONTACT per 24h. Only
-      # the template path is capped (free session messages are uncapped). Scoped to
-      # the contact (not just this card): a contact can own multiple cards across
-      # pipelines, and Meta's 131049 cap is per-recipient, so we check the most
-      # recent ai_followup template send across ALL of the contact's cards.
+      # Marketing-cap: at most one MARKETING reengagement template per CONTACT per
+      # 24h (Meta's 131049 cap is marketing-scoped, per-recipient). Only a marketing
+      # template send is capped — free session messages AND utility templates are
+      # uncapped. Scoped to the contact (not just this card): a contact can own
+      # multiple cards across pipelines, so we check the most recent ai_followup
+      # MARKETING template send across ALL of the contact's cards.
       def capped?
-        return false unless @send_mode == :choose_template
+        return false unless marketing_template_send?
 
         last_contact_template_at.present? &&
           last_contact_template_at > (@now - MARKETING_CAP_WINDOW)
       end
 
-      # Newest sent_at across this contact's ai_followup follow-ups that were
-      # delivered as a marketing template. Falls back to this card's state when the
-      # follow-up carries no contact_id.
+      # This touch is being delivered as a MARKETING template (category persisted by
+      # apply_template_metadata). Utility/api templates return false so they escape
+      # the cap entirely.
+      def marketing_template_send?
+        @send_mode == :choose_template && base_metadata['template_category'].to_s == 'marketing'
+      end
+
+      # Newest sent_at across this contact's AI follow-ups (auto-followup OR callback)
+      # that were delivered as a MARKETING template. Meta's 131049 cap is per-recipient
+      # regardless of which AI path sent it, so both sources count (mirrors
+      # CallbackRunner). Falls back to this card's state when the follow-up carries no
+      # contact_id.
       def last_contact_template_at
         return @last_contact_template_at if defined?(@last_contact_template_at)
 
@@ -278,12 +297,13 @@ module Crm
           if contact_id.present?
             sent_ats = @card.account.crm_follow_ups
                             .where(contact_id: contact_id)
-                            .where("metadata ->> 'source' = ?", 'ai_followup')
+                            .where("metadata ->> 'source' IN (?)", %w[ai_followup ai_callback])
                             .where("metadata ->> 'send_mode' = ?", 'template')
+                            .where("metadata ->> 'template_category' = ?", 'marketing')
                             .pluck(Arel.sql("metadata ->> 'sent_at'"))
             sent_ats.filter_map { |value| parse_time(value) }.max
           else
-            parse_time(state['last_template_sent_at'].presence)
+            parse_time(state['last_marketing_template_sent_at'].presence)
           end
       end
 
@@ -314,7 +334,10 @@ module Crm
       def on_sent(message)
         now_iso = @now.iso8601
         updates = { 'last_sent_at' => now_iso }
-        updates['last_template_sent_at'] = now_iso if @send_mode == :choose_template
+        # Only MARKETING template sends feed the 24h frequency-cap fallback marker
+        # (contact-scoped query is authoritative; this covers follow-ups with no
+        # contact_id). Utility/free_form sends are uncapped.
+        updates['last_marketing_template_sent_at'] = now_iso if marketing_template_send?
         merge_state!(updates)
         record_touch!('sent')
         # A successful send clears any prior consecutive-failure streak so a later

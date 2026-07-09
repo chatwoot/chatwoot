@@ -148,7 +148,7 @@ class Crm::FollowUps::MessageSender
     updated_metadata = metadata.merge(
       'sent_message_id' => message.id,
       'sent_at' => Time.current.iso8601,
-      'send_mode' => message.additional_attributes.to_h['crm_follow_up_send_mode'] || 'session'
+      'send_mode' => message.content_attributes.to_h['crm_follow_up_send_mode'] || 'session'
     )
     @follow_up.update!(metadata: updated_metadata)
   end

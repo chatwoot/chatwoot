@@ -171,7 +171,7 @@ module Crm
           'last_sent_at' => nil,
           'stopped_reason' => nil,
           'opted_out' => false,
-          'last_template_sent_at' => nil
+          'last_marketing_template_sent_at' => nil
         }
         card.update!(metadata: metadata)
       end

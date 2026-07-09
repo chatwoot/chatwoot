@@ -5,21 +5,25 @@ module Crm
     # choose from (outside-24h path). This is the ONLY place template selection
     # lives now — the user no longer picks a template manually.
     #
-    # Output: Array of hashes { kind:, name:, id:, language:, body:, variables: }
+    # Output: Array of hashes { kind:, name:, id:, language:, body:, variables:, category: }
     #   kind     'native' (Channel::Whatsapp) | 'api' (Channel::Api campaign)
     #   id       WhatsappApiMessageTemplate#id for 'api'; nil for 'native'
     #   language Meta language code for 'native'; nil for 'api'
     #   body     the BODY text (template message) used by the AI to pick + fill
     #   variables positional/named placeholders detected in the body (e.g. %w[1 2])
+    #   category downcased Meta category ('marketing'|'utility') for 'native'; nil for
+    #            'api' (drives the MARKETING-only 24h frequency cap downstream)
     #
     # Native filtering mirrors store/modules/inboxes.js getFilteredWhatsAppTemplates
     # (approved, non-AUTHENTICATION, non-CSAT, drop interactive/location components)
-    # PLUS the explicit category == 'MARKETING' requirement. API campaign templates
-    # carry no Meta category (user-authored) so every active one is eligible.
+    # PLUS the explicit category in {MARKETING, UTILITY} requirement (AUTHENTICATION
+    # and CSAT stay excluded). API campaign templates carry no Meta category
+    # (user-authored) so every active one is eligible.
     class TemplateCandidates
       VARIABLE_PATTERN = /\{\{\s*([^}]+?)\s*\}\}/.freeze
       UNSUPPORTED_COMPONENT_TYPES = %w[LIST PRODUCT CATALOG CALL_PERMISSION_REQUEST].freeze
       CSAT_NAME_PREFIX = 'customer_satisfaction_survey'.freeze
+      ELIGIBLE_CATEGORIES = %w[marketing utility].freeze
 
       def initialize(conversation:)
         @conversation = conversation
@@ -51,7 +55,8 @@ module Crm
             id: template.id,
             language: nil,
             body: template.body.to_s,
-            variables: Array(template.variables)
+            variables: Array(template.variables),
+            category: nil
           }
         end
       end
@@ -69,7 +74,8 @@ module Crm
             id: nil,
             language: template['language'],
             body: body,
-            variables: variables_in(body)
+            variables: variables_in(body),
+            category: template['category'].to_s.downcase.presence
           }
         end
       end
@@ -77,7 +83,7 @@ module Crm
       def eligible_native?(template)
         return false if template.blank?
         return false unless template['status'].to_s.casecmp('approved').zero?
-        return false unless template['category'].to_s.casecmp('marketing').zero?
+        return false unless ELIGIBLE_CATEGORIES.include?(template['category'].to_s.downcase)
         return false if template['name'].to_s.start_with?(CSAT_NAME_PREFIX)
 
         !unsupported_components?(template)
