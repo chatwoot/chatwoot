@@ -1173,7 +1173,7 @@ const menuItems = computed(() => {
   >
     <section
       class="grid"
-      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-4 mb-5 gap-3'"
+      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-2 mb-4 gap-2'"
     >
       <div
         class="flex gap-2 items-center min-w-0"
