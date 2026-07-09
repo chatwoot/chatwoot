@@ -249,3 +249,7 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: api_and_webhooks
+  display_name: API and Webhooks
+  enabled: true
+  column: feature_flags_ext_1
