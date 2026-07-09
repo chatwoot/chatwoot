@@ -44,9 +44,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def generate_response_with_v2
-    @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: collect_previous_messages
-    )
+    runner_service = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation)
+    @response = runner_service.generate_response(message_history: collect_previous_messages)
+    @run_result = runner_service.last_run_result
     process_response
   end
 
@@ -65,6 +65,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
         # left is the customer-facing follow-up message.
         process_v2_handoff
       end
+      capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
     elsif v1_handoff_requested?
       # V1 only signals via the response string — no state has been touched yet. If
       # the conversation isn't pending anymore, a human took over mid-run; bail out
@@ -73,11 +74,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       process_v1_handoff
     elsif conversation_pending?
+      message = nil
       ActiveRecord::Base.transaction do
-        create_messages
+        message = create_messages
         Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
         account.increment_response_usage
       end
+      capture_assistant_session(result_message: message, credits_consumed: 1.0)
     end
   end
 
@@ -153,10 +156,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message(preserve_waiting_since: false)
-    create_outgoing_message(
+    @handoff_message = create_outgoing_message(
       @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'),
       preserve_waiting_since: preserve_waiting_since
     )
+  end
+
+  # Capture runs outside the delivery transaction and never raises (the service
+  # swallows its own failures): a session-logging bug must never roll back the
+  # customer reply or trigger the top-level handle_error handoff on top of it.
+  def capture_assistant_session(result_message:, credits_consumed:)
+    Captain::Assistant::SessionCaptureService.new(assistant: @assistant, conversation: @conversation, run_result: @run_result,
+                                                  result_message: result_message, credits_consumed: credits_consumed).capture
   end
 
   def create_messages
