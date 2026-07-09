@@ -24,6 +24,8 @@ export const useCallHistoryStore = defineStore('callHistory', {
         this.meta = camelcaseKeys(data.meta);
         return this.records;
       } catch (error) {
+        // Don't surface errors from a fetch that a newer request already replaced.
+        if (this.fetchRequestToken !== requestToken) return this.records;
         return throwErrorMessage(error);
       } finally {
         if (this.fetchRequestToken === requestToken) {

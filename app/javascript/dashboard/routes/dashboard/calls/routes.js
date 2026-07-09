@@ -7,7 +7,7 @@ export const routes = [
     name: 'calls_dashboard_index',
     component: CallsIndex,
     meta: {
-      permissions: ['administrator', 'agent'],
+      permissions: ['administrator', 'agent', 'report_manage'],
     },
   },
 ];

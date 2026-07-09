@@ -23,7 +23,11 @@ export const getCallKind = call => {
   ) {
     return CALL_KIND.ONGOING;
   }
-  if (call.status === VOICE_CALL_STATUS.FAILED) return CALL_KIND.FAILED;
+  if (
+    [VOICE_CALL_STATUS.FAILED, VOICE_CALL_STATUS.REJECTED].includes(call.status)
+  ) {
+    return CALL_KIND.FAILED;
+  }
   const isInbound = call.direction === VOICE_CALL_DIRECTION.INBOUND;
   if (call.status === VOICE_CALL_STATUS.NO_ANSWER) {
     return isInbound ? CALL_KIND.MISSED : CALL_KIND.NO_REPLY;

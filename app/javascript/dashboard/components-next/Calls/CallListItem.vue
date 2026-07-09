@@ -6,6 +6,7 @@ import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AudioPlayer from 'dashboard/components-next/audio/AudioPlayer.vue';
+import { VOICE_CALL_DIRECTION } from 'dashboard/components-next/message/constants';
 import CallStatusBadge from './CallStatusBadge.vue';
 import { CALL_KIND, getCallKind } from './constants';
 
@@ -28,8 +29,12 @@ const contactName = computed(
 const agentActionLabel = computed(() => {
   if (!props.call.agent) return '';
   if (kind.value === CALL_KIND.OUTGOING) return t('CALLS_PAGE.ROW.DIALED_BY');
-  if ([CALL_KIND.ONGOING, CALL_KIND.INCOMING].includes(kind.value)) {
-    return t('CALLS_PAGE.ROW.PICKED_BY');
+  if (kind.value === CALL_KIND.INCOMING) return t('CALLS_PAGE.ROW.PICKED_BY');
+  // Ongoing collapses direction, so resolve dialed-vs-picked from the raw value.
+  if (kind.value === CALL_KIND.ONGOING) {
+    return props.call.direction === VOICE_CALL_DIRECTION.OUTBOUND
+      ? t('CALLS_PAGE.ROW.DIALED_BY')
+      : t('CALLS_PAGE.ROW.PICKED_BY');
   }
   return '';
 });
