@@ -1,5 +1,6 @@
 import {
   CONVERSATION_PERMISSIONS,
+  REPORTS_PERMISSIONS,
   ROLES,
 } from 'dashboard/constants/permissions';
 import { frontendURL } from '../../../helper/URLHelper';
@@ -11,7 +12,7 @@ export const routes = [
     name: 'calls_dashboard_index',
     component: CallsIndex,
     meta: {
-      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS, REPORTS_PERMISSIONS],
     },
   },
 ];

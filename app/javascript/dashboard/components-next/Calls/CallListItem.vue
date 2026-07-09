@@ -1,8 +1,13 @@
 <script setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { relativeDayTimestamp } from 'shared/helpers/timeHelper';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import {
+  CONVERSATION_PERMISSIONS,
+  ROLES,
+} from 'dashboard/constants/permissions';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import AudioPlayer from 'dashboard/components-next/audio/AudioPlayer.vue';
@@ -22,6 +27,11 @@ const props = defineProps({
 
 const { t } = useI18n();
 const route = useRoute();
+const { checkPermissions } = usePolicy();
+
+const canOpenConversation = computed(() =>
+  checkPermissions([...ROLES, ...CONVERSATION_PERMISSIONS])
+);
 
 const kind = computed(() => getCallKind(props.call));
 
@@ -152,14 +162,20 @@ const conversationRoute = computed(() => ({
         {{ call.inbox.name }}
       </span>
     </div>
-    <RouterLink
-      :to="conversationRoute"
-      class="[grid-area:chip] inline-flex items-center h-6 gap-1 px-2 text-label-small outline outline-1 -outline-offset-1 rounded-md outline-n-weak text-n-slate-11 hover:bg-n-alpha-1 shrink-0 justify-self-start"
+    <component
+      :is="canOpenConversation ? RouterLink : 'span'"
+      :to="canOpenConversation ? conversationRoute : undefined"
+      class="[grid-area:chip] inline-flex items-center h-6 gap-1 px-2 text-label-small outline outline-1 -outline-offset-1 rounded-md outline-n-weak text-n-slate-11 shrink-0 justify-self-start"
+      :class="canOpenConversation ? 'hover:bg-n-alpha-1' : 'cursor-default'"
     >
       <Icon icon="i-lucide-message-circle" class="size-3.5 text-n-slate-11" />
       {{ call.conversation.displayId }}
-      <Icon icon="i-lucide-arrow-up-right" class="size-3.5 text-n-slate-11" />
-    </RouterLink>
+      <Icon
+        v-if="canOpenConversation"
+        icon="i-lucide-arrow-up-right"
+        class="size-3.5 text-n-slate-11"
+      />
+    </component>
     <span
       v-tooltip.top="{
         content: createdAtLabel,
