@@ -15,6 +15,7 @@ import {
   extractTextFromMarkdown,
   findNodeToInsertImage,
   findSignatureInBody,
+  getAgentVariables,
   getContentNode,
   getFormattingForEditor,
   getMenuAnchor,
@@ -1227,6 +1228,48 @@ describe('Menu positioning helpers', () => {
       expect(result).toHaveProperty('width', 300);
       expect(result.left).toBeGreaterThanOrEqual(0);
     });
+  });
+});
+
+describe('getAgentVariables', () => {
+  it('builds agent variables from the user', () => {
+    expect(
+      getAgentVariables({ name: 'John Doe', email: 'john@example.com' })
+    ).toEqual({
+      'agent.name': 'John Doe',
+      'agent.first_name': 'John',
+      'agent.last_name': 'Doe',
+      'agent.email': 'john@example.com',
+    });
+  });
+
+  it('normalizes casing like the backend UserDrop (Ruby capitalize)', () => {
+    const variables = getAgentVariables({ name: 'JANE doE' });
+
+    expect(variables['agent.name']).toBe('Jane Doe');
+    expect(variables['agent.first_name']).toBe('Jane');
+    expect(variables['agent.last_name']).toBe('Doe');
+  });
+
+  it('ignores extra whitespace between words', () => {
+    expect(getAgentVariables({ name: '  john   doe ' })['agent.name']).toBe(
+      'John Doe'
+    );
+  });
+
+  it('leaves last_name empty for single-word names', () => {
+    const variables = getAgentVariables({ name: 'john' });
+
+    expect(variables['agent.first_name']).toBe('John');
+    expect(variables['agent.last_name']).toBe('');
+  });
+
+  it('handles a missing name', () => {
+    const variables = getAgentVariables({ email: 'john@example.com' });
+
+    expect(variables['agent.name']).toBe('');
+    expect(variables['agent.first_name']).toBe('');
+    expect(variables['agent.last_name']).toBe('');
   });
 });
 

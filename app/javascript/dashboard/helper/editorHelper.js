@@ -438,6 +438,21 @@ export const resolveVariableText = (key, variables) => {
   return value && !LIQUID_SYNTAX.test(value) ? value : `{{${key}}}`;
 };
 
+// {{agent.*}} values for the message sender, normalized like the backend
+// UserDrop: name split on whitespace, each word Ruby-capitalized (rest downcased).
+export const getAgentVariables = user => {
+  const names = (user.name || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
+  return {
+    'agent.name': names.join(' '),
+    'agent.first_name': names[0] || '',
+    'agent.last_name': names.length > 1 ? names[names.length - 1] : '',
+    'agent.email': user.email,
+  };
+};
+
 // Resolves a manually typed {{variable}} to its value on the closing braces.
 // Leaves the placeholder when there's no value, the value is Liquid, or it's a private note.
 export const createVariableInputRule = ({ isPrivate, getVariables }) => {
