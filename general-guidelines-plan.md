@@ -260,32 +260,36 @@ The XLSX is only for review. Production migration should use the final reviewed 
 10. **Apply prefill migration**
    - Write structured fields to the same assistant record.
    - Preserve `config.instructions`, inbox links, product name, feature settings, stored temperature, and conversation messages.
+   - Store reviewed scenario candidates in `config['assistant_migration']['scenario_candidates']`.
+   - Temporarily flatten each scenario candidate into `response_guidelines` so the assistant keeps the migrated behavior before scenario records are created.
+   - Do not create `Captain::Scenario` records in this migration.
    - Example:
      ```bash
      bundle exec rake captain:assistant_migration:apply INPUT=tmp/reviewed_migration.jsonl DRY_RUN=false
-     ```
-   - Scenario creation stays off by default because scenarios affect Captain v2 routing.
-   - Only apply scenarios after review:
-     ```bash
-     bundle exec rake captain:assistant_migration:apply INPUT=tmp/reviewed_migration.jsonl DRY_RUN=false APPLY_SCENARIOS=true
      ```
 11. **Verify migrated config**
    - Confirm `config.instructions` is still present.
    - Confirm welcome, handoff, and resolution messages are unchanged.
    - Confirm structured fields are populated as expected.
-   - Confirm scenarios are not over-created.
+   - Confirm scenario candidates are staged in `config['assistant_migration']['scenario_candidates']`.
+   - Confirm scenario candidates that should preserve current behavior are also represented in `response_guidelines`.
+   - Confirm no `Captain::Scenario` records were created.
    - Confirm inbox links are unchanged.
-12. **Enable Captain v2 for selected accounts**
+12. **Create scenario records later**
+   - After the scenario UX and runtime rollout are ready, run a separate reviewed migration that reads
+     `config['assistant_migration']['scenario_candidates']` and creates `Captain::Scenario` records.
+   - That later migration should also remove or replace the temporary scenario-flattened response guidelines to avoid duplicated behavior.
+13. **Enable Captain v2 for selected accounts**
    - Enable `captain_integration_v2` only for the selected accounts.
    - Example:
      ```ruby
      account.enable_features('captain_integration_v2')
      ```
    - Keep rollback available by disabling the same feature flag.
-13. **Notify and monitor**
+14. **Notify and monitor**
    - Send the migration notice email.
    - Monitor playground/eval results, real conversations, handoff behavior, source-boundary behavior, and scenario routing.
-14. **Rollback, fix, and expand**
+15. **Rollback, fix, and expand**
    - If behavior regresses, disable `captain_integration_v2` for the account.
    - Example:
      ```ruby
