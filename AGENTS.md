@@ -111,3 +111,182 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## PaluHub fork — local Docker workflow
+
+Fork PaluHub (InboxHub). Documentación cruzada: `panel-ai/AGENTS.md`, `panel-ai/docs/ENVIRONMENTS.md`.
+
+### URLs
+
+| Entorno | Chatwoot | Panel AI |
+|---------|----------|----------|
+| Local | http://localhost:3000 | http://localhost:3010 |
+| Producción | https://inbox.paluhub.com | https://ainbox.paluhub.com |
+
+Red Docker compartida local: `main-chatwoot-local` (external).
+
+### Levantar / rebuild Chatwoot local
+
+```powershell
+cd d:\DOCUMENTOS\GITHUB\chatwoot\chatwoot
+.\scripts\dev-up.ps1
+# o manual:
+docker network create main-chatwoot-local
+docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build chatwoot-rails chatwoot-sidekiq
+```
+
+**No usar** `docker-compose.local.yml` del fork — tira GHCR `develop` e ignora cambios locales.
+
+**Compose canónico fork:** `docker-compose.dokploy.yml` + `docker-compose.dokploy.fork.yml`
+
+### Volúmenes montados (fork)
+
+`app/`, `enterprise/`, `lib/`, `config/`, `db/` → cambios Ruby/Vue se ven **sin rebuild** (restart Rails basta).
+
+**No montar** `./public/vite` — assets stale del host pisan el build de la imagen.
+
+Assets empaquetados en imagen (precompile Vite) → requieren `up -d --build`.
+
+### Restart vs rebuild (Chatwoot)
+
+| Acción | `app/` montado | Assets en imagen |
+|--------|----------------|------------------|
+| `docker restart chatwoot-chatwoot-rails-1` | Sí | No |
+| `up -d --build` | Sí | Sí |
+
+### Producción Chatwoot
+
+- **URL**: https://inbox.paluhub.com
+- **Deploy**: branch `develop` vía GHCR (Dokploy)
+- Super Admin: `FB_APP_ID`, `FB_APP_SECRET`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`
+
+---
+
+## PaluHub — fixes y features en este fork
+
+### WhatsApp menús interactivos (branch `fix/whatsapp-interactive-menu`)
+
+**Problema:** Meta Cloud API rechaza `action` como string JSON; botones salían como texto numerado.
+
+**Fix** (commit `293007b4f`):
+
+- `app/services/whatsapp/providers/base_service.rb` — pasar hash en `action` (button/list)
+- Specs: `whatsapp_cloud_service_spec.rb`, `whatsapp360_dialog_service_spec.rb`
+
+**Panel AI complementario** (repo hermano, `103ae01`): detectar canal WhatsApp en webhook.
+
+**Estado:** branch ahead 1, pendiente merge a `develop` + redeploy GHCR.
+
+### Contactos — UI y asignación
+
+Branch actual incluye (commit `f29c3ee79`):
+
+- `ContactAssigneeSelector.vue` — fetch agents vía watch `immediate`
+- `ContactDetails.vue` — watch `selectedContact`
+- `ContactInfo.vue` — `aria-label`, sin `capitalize` en nombres
+- `contact.json` / `contactFilters.json` — typo "Identificador"
+- `document_number` en contactos (branch `feat/contact-assigned-agent`, merged)
+
+### Instagram OAuth (pendiente)
+
+**Problema:** `instagram_concern.rb` usa `HTTParty.get` en `ig_exchange_token`; Meta requiere POST.
+
+**Archivos:**
+
+- `app/controllers/concerns/instagram_concern.rb` (`exchange_for_long_lived_token`, `make_api_request`)
+- `app/services/instagram/refresh_oauth_token_service.rb`
+
+**Workaround:** Instagram Tester en Meta Developers.
+
+### Facebook / Messenger (configuración, no código PaluHub)
+
+Flujo Chatwoot: Add Inbox → **Facebook** → `FB.login` → `me/accounts` → elegir Fan Page.
+
+**Archivos:** `Facebook.vue`, `useFacebookPageConnect.js`, `callbacks_controller.rb`, `facebookScopes.js`
+
+**Scopes:** `pages_messaging`, `pages_show_list`, `pages_manage_metadata`, `business_management`, `pages_read_engagement`
+
+**Cliente externo falla si:** app en Development sin rol Tester, o no es admin de Fan Page.
+
+**Instagram Tester ≠ Facebook Tester.**
+
+### Webhook Messenger
+
+- Ruta: `/bot` (`config/initializers/facebook_messenger.rb`)
+- Verify token: `FB_VERIFY_TOKEN` en Super Admin
+
+---
+
+## Meta Developers — checklist PaluHub
+
+### App Facebook (Messenger)
+
+- [ ] Modo **Live** o cliente como **Tester** (Roles → Testers)
+- [ ] Permisos Advanced Access: `pages_messaging`, `pages_manage_metadata`, `pages_show_list`, etc.
+- [ ] App Domains: `inbox.paluhub.com`
+- [ ] JSSDK Allowed Domains: `inbox.paluhub.com`
+- [ ] Webhook → `https://inbox.paluhub.com/bot`
+
+### App Instagram (DM directo)
+
+- [ ] `INSTAGRAM_APP_ID` / `INSTAGRAM_APP_SECRET` en Super Admin
+- [ ] Redirect: `https://inbox.paluhub.com/instagram/callback`
+- [ ] Instagram Testers para cuentas no-Live
+- [ ] Cuenta IG **Business/Creator** con mensajes activados
+
+---
+
+## Estado Git PaluHub (snapshot)
+
+_Última actualización: 2026-07-06_
+
+### chatwoot (este repo) — rama `fix/whatsapp-interactive-menu`
+
+| Campo | Valor |
+|-------|-------|
+| **vs origin** | ahead **1** |
+| **HEAD** | `f29c3ee79` — `refactor(contacts): optimize component logic and improve accessibility` |
+| **Working tree** | dirty (`AGENTS.md` sin commit) |
+
+**Historial reciente:**
+
+| Commit | Descripción |
+|--------|-------------|
+| `f29c3ee79` | contactos UI + accesibilidad |
+| `293007b4f` | WhatsApp interactive action hash |
+| `a0dfeb148` | merge contact-assigned-agent |
+| `a869b9d30` | voice notes OGG/Opus WhatsApp |
+
+**Todas las ramas locales:**
+
+| Rama | HEAD | Notas |
+|------|------|-------|
+| `fix/whatsapp-interactive-menu` | `f29c3ee79` | **activa**, ahead 1 |
+| `develop` | `293007b4f` | ahead 1 (WhatsApp fix) |
+| `feat/contact-assigned-agent` | `a869b9d30` | merged |
+| `feat/panel-ia-ui-and-assignment` | `6c077363f` | UI header contacto |
+| `feat/production-dokploy-config` | `45d89a819` | deploy docs |
+| `fix/bot-assignment-handoff-hardening` | `25d8756d3` | |
+| `fix/message-meta-ui-and-deploy-docs` | `0eca20d20` | document_number |
+| `fix/post-audit-deploy` | `4d9413863` | |
+
+### panel-ai (repo hermano)
+
+| Campo | Valor |
+|-------|-------|
+| **Rama** | `develop` (ahead 2, dirty) |
+| **HEAD** | `f4eb66c` |
+
+Detalle completo: `panel-ai/AGENTS.md`
+
+---
+
+## Pendiente deploy / merge (stack completo)
+
+| Item | Repo | Acción |
+|------|------|--------|
+| WhatsApp interactive | chatwoot | merge `fix/whatsapp-interactive-menu` → `develop`, redeploy GHCR |
+| WhatsApp channel + menús | panel-ai | merge `develop` → `master`, redeploy |
+| Refactor UI asistentes | panel-ai | commit + merge cuando estable |
+| Instagram POST fix | chatwoot | implementar en `instagram_concern.rb` |
+| Meta Live / testers clientes | Meta | operativo |
