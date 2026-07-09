@@ -1,7 +1,7 @@
 require 'rails_helper'
 describe WebhookListener do
   let(:listener) { described_class.instance }
-  let!(:account) { create(:account) }
+  let!(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
   let(:report_identity) { Reports::UpdateAccountIdentity.new(account, Time.zone.now) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
@@ -41,6 +41,30 @@ describe WebhookListener do
         create(:webhook, subscriptions: ['conversation_created'], inbox: inbox, account: account)
         expect(WebhookJob).not_to receive(:perform_later)
         listener.message_created(message_created_event)
+      end
+    end
+
+    context 'when api_and_webhooks feature is disabled' do
+      before do
+        account.disable_features!('api_and_webhooks')
+      end
+
+      it 'does not trigger account webhooks' do
+        create(:webhook, inbox: inbox, account: account)
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.message_created(message_created_event)
+      end
+
+      it 'still triggers API inbox webhooks' do
+        channel_api = create(:channel_api, account: account)
+        api_conversation = create(:conversation, account: account, inbox: channel_api.inbox, assignee: user)
+        api_message = create(:message, message_type: 'outgoing', account: account, inbox: channel_api.inbox, conversation: api_conversation)
+        api_event = Events::Base.new(event_name, Time.zone.now, message: api_message)
+        expect(WebhookJob).to receive(:perform_later).with(
+          channel_api.webhook_url, api_message.webhook_data.merge(event: 'message_created'),
+          :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
+        ).once
+        listener.message_created(api_event)
       end
     end
 
