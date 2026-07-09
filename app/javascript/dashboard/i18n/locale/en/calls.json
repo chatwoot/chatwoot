@@ -4,6 +4,11 @@
     "ALL_CALLS": "All Calls",
     "ALL_CALLS_COUNT": "All Calls ({count})",
     "EMPTY_STATE": "No calls found",
+    "SETUP": {
+      "TITLE": "Make and receive calls in one place",
+      "SUBTITLE": "Set up a voice channel to start handling calls with your team. Every call, along with its recording, will appear here.",
+      "ACTION": "Set up voice channel"
+    },
     "FILTERS": {
       "MISSED": "Missed",
       "NO_REPLY": "No reply",

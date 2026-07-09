@@ -1,12 +1,14 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useCallHistoryStore } from 'dashboard/stores/callHistory';
 
 import CallListItem from 'dashboard/components-next/Calls/CallListItem.vue';
+import CallsEmptyState from 'dashboard/components-next/Calls/CallsEmptyState.vue';
 import CallsFilterBar from 'dashboard/components-next/Calls/CallsFilterBar.vue';
 import { CALL_ACTIVITY_PARAMS } from 'dashboard/components-next/Calls/constants';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
@@ -22,12 +24,25 @@ const callHistoryStore = useCallHistoryStore();
 
 const agents = useMapGetter('agents/getAgents');
 const inboxes = useMapGetter('inboxes/getInboxes');
+const accountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 const voiceInboxes = computed(() => inboxes.value.filter(isVoiceCallEnabled));
+
+const isVoiceEnabled = computed(
+  () =>
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CHANNEL_VOICE
+    ) && voiceInboxes.value.length > 0
+);
 
 const calls = computed(() => callHistoryStore.records);
 const meta = computed(() => callHistoryStore.meta);
 const isFetching = computed(() => callHistoryStore.uiFlags.isFetching);
+const inboxesUiFlags = useMapGetter('inboxes/getUIFlags');
 
 // Filters are seeded from the URL so a shared link restores the same view.
 const activity = ref(
@@ -68,15 +83,26 @@ const onPageChange = page => {
   fetchCalls();
 };
 
-onMounted(() => {
-  fetchCalls();
-  store.dispatch('agents/get');
-  store.dispatch('inboxes/get');
+store.dispatch('agents/get');
+// inboxes/get flips isFetching true synchronously, so the spinner shows on the
+// first render; only hit the calls endpoint once inboxes confirm voice is on.
+store.dispatch('inboxes/get').then(() => {
+  if (isVoiceEnabled.value) fetchCalls();
 });
 </script>
 
 <template>
-  <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
+  <div
+    v-if="inboxesUiFlags.isFetching"
+    class="flex items-center justify-center w-full h-full bg-n-surface-1"
+  >
+    <Spinner :size="24" />
+  </div>
+  <CallsEmptyState v-else-if="!isVoiceEnabled" />
+  <section
+    v-else
+    class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1"
+  >
     <header class="px-6 pt-6 pb-4 shrink-0">
       <div class="w-full">
         <h1 class="text-xl font-medium text-n-slate-12">
