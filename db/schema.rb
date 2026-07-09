@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_09_091147) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -431,6 +431,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
     t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
+  end
+
+  create_table "captain_sessions", force: :cascade do |t|
+    t.integer "session_type", null: false
+    t.bigint "subject_id", null: false
+    t.bigint "result_id"
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "user_id"
+    t.string "llm_model"
+    t.float "credits_consumed"
+    t.jsonb "faq_ids", default: []
+    t.jsonb "document_ids", default: []
+    t.bigint "scenario_id"
+    t.jsonb "run_context", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_a396daca19"
+    t.index ["account_id"], name: "index_captain_sessions_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_sessions_on_assistant_id"
+    t.index ["session_type", "result_id"], name: "index_captain_sessions_on_session_type_and_result_id"
+    t.index ["session_type", "subject_id"], name: "index_captain_sessions_on_session_type_and_subject_id"
+    t.index ["user_id"], name: "index_captain_sessions_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
