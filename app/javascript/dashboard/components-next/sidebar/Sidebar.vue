@@ -25,7 +25,6 @@ import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
-import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import {
   SIDEBAR_SORT_SECTIONS,
@@ -221,6 +220,20 @@ const {
   snapToExpanded,
   COLLAPSED_THRESHOLD,
 } = useSidebarResize();
+
+const sidebarBackgroundColor = computed(() =>
+  globalConfig.value?.sidebarBackgroundColor?.trim()
+);
+const hasBrandedSidebar = computed(() => Boolean(sidebarBackgroundColor.value));
+const sidebarStyle = computed(() => ({
+  ...(isMobile.value ? {} : { width: `${sidebarWidth.value}px` }),
+  ...(hasBrandedSidebar.value
+    ? {
+        backgroundColor: sidebarBackgroundColor.value,
+        '--sidebar-background-color': sidebarBackgroundColor.value,
+      }
+    : {}),
+}));
 
 // On mobile, sidebar is always expanded (flyout mode)
 const isEffectivelyCollapsed = computed(
@@ -1149,23 +1162,24 @@ const menuItems = computed(() => {
     class="bg-n-background flex flex-col text-sm pb-px fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
     :class="[
       {
+        'sidebar-branded': hasBrandedSidebar,
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
         'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
         'transition-transform duration-200 ease-out md:transition-[width]':
           !isResizing,
       },
     ]"
-    :style="isMobile ? undefined : { width: `${sidebarWidth}px` }"
+    :style="sidebarStyle"
   >
     <section
       class="grid"
-      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
+      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-4 mb-5 gap-3'"
     >
       <div
         class="flex gap-2 items-center min-w-0"
         :class="{
           'justify-center px-1': isEffectivelyCollapsed,
-          'px-2': !isEffectivelyCollapsed,
+          'px-3': !isEffectivelyCollapsed,
         }"
       >
         <template v-if="isEffectivelyCollapsed">
@@ -1175,12 +1189,8 @@ const menuItems = computed(() => {
           />
         </template>
         <template v-else>
-          <div class="grid flex-shrink-0 place-content-center size-6">
-            <Logo class="size-4" />
-          </div>
-          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
           <SidebarAccountSwitcher
-            class="flex-grow -mx-1 min-w-0"
+            class="flex-grow min-w-0"
             @show-create-account-modal="emit('showCreateAccountModal')"
           />
         </template>
@@ -1249,7 +1259,7 @@ const menuItems = computed(() => {
       class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
       <div
-        class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
+        class="sidebar-footer-fade pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
       />
       <SidebarChangelogCard
         v-if="
@@ -1289,3 +1299,84 @@ const menuItems = computed(() => {
     </div>
   </aside>
 </template>
+
+<style scoped>
+.sidebar-branded {
+  border-color: rgb(255 255 255 / 14%);
+}
+
+.sidebar-branded :deep(.text-n-slate-12),
+.sidebar-branded :deep(.text-n-slate-11) {
+  color: rgb(255 255 255 / 92%) !important;
+}
+
+.sidebar-branded :deep(.text-n-slate-10),
+.sidebar-branded :deep(.text-n-slate-9) {
+  color: rgb(255 255 255 / 70%) !important;
+}
+
+.sidebar-branded :deep(.border-n-weak),
+.sidebar-branded :deep(.outline-n-weak) {
+  border-color: rgb(255 255 255 / 16%) !important;
+  outline-color: rgb(255 255 255 / 16%) !important;
+}
+
+.sidebar-branded :deep(.bg-n-button-color),
+.sidebar-branded :deep(.bg-n-alpha-1),
+.sidebar-branded :deep(.bg-n-alpha-2),
+.sidebar-branded :deep(.bg-n-solid-2),
+.sidebar-branded :deep(.bg-n-solid-3) {
+  background-color: rgb(255 255 255 / 8%) !important;
+}
+
+.sidebar-branded :deep(.hover\:bg-n-alpha-1:hover),
+.sidebar-branded :deep(.hover\:bg-n-alpha-2:hover),
+.sidebar-branded :deep(.hover\:bg-n-solid-2:hover),
+.sidebar-branded :deep(.hover\:border-n-slate-7:hover) {
+  background-color: rgb(255 255 255 / 12%) !important;
+}
+
+.sidebar-branded :deep(.from-n-slate-3\/70) {
+  --tw-gradient-from: transparent var(--tw-gradient-from-position) !important;
+}
+
+.sidebar-branded :deep(.via-n-slate-3\/70),
+.sidebar-branded :deep(.to-n-slate-3\/70) {
+  --tw-gradient-to: rgb(255 255 255 / 10%) var(--tw-gradient-to-position) !important;
+  --tw-gradient-stops: var(--tw-gradient-from),
+    rgb(255 255 255 / 10%) var(--tw-gradient-via-position),
+    var(--tw-gradient-to) !important;
+}
+
+.sidebar-branded :deep(.active),
+.sidebar-branded :deep(.router-link-active) {
+  background-color: rgb(255 255 255 / 14%) !important;
+  color: #fff !important;
+}
+
+.sidebar-branded :deep(.bg-n-brand),
+.sidebar-branded :deep(.group-hover\:bg-n-brand) {
+  background-color: rgb(255 255 255 / 70%) !important;
+}
+
+.sidebar-branded :deep(.text-n-brand),
+.sidebar-branded :deep(.group-hover\:text-n-brand) {
+  color: #fff !important;
+}
+
+.sidebar-branded :deep(.before\:bg-n-slate-4::before) {
+  background-color: rgb(255 255 255 / 18%) !important;
+}
+
+.sidebar-branded :deep(.after\:border-n-slate-4::after) {
+  border-color: rgb(255 255 255 / 18%) !important;
+}
+
+.sidebar-branded .sidebar-footer-fade {
+  background-image: linear-gradient(
+    to top,
+    var(--sidebar-background-color, #0b1e3f),
+    transparent
+  );
+}
+</style>

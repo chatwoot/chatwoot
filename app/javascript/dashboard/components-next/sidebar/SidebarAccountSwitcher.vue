@@ -61,7 +61,7 @@ const emitNewAccount = () => {
         :title="currentAccount.name"
         @click="toggle"
       >
-        <Logo class="size-7" />
+        <Logo class="size-9 object-contain" />
       </button>
       <!-- Expanded view: Account name trigger -->
       <button
@@ -70,7 +70,7 @@ const emitNewAccount = () => {
         :data-account-id="accountId"
         aria-haspopup="listbox"
         aria-controls="account-options"
-        class="flex items-center gap-2 justify-between w-full rounded-lg px-2"
+        class="relative flex w-full min-w-0 flex-col items-center gap-2 rounded-xl px-2 py-2 text-center"
         :class="[
           isOpen && 'bg-n-alpha-1',
           showAccountSwitcher
@@ -79,8 +79,9 @@ const emitNewAccount = () => {
         ]"
         @click="() => showAccountSwitcher && toggle()"
       >
+        <Logo class="h-12 w-full max-w-[9rem] object-contain" />
         <span
-          class="text-sm font-medium leading-5 text-n-slate-12 truncate"
+          class="w-full truncate text-sm font-medium leading-5 text-n-slate-12"
           aria-live="polite"
         >
           {{ currentAccount.name }}
@@ -89,7 +90,7 @@ const emitNewAccount = () => {
         <span
           v-if="showAccountSwitcher"
           aria-hidden="true"
-          class="i-lucide-chevron-down size-4 text-n-slate-10 flex-shrink-0"
+          class="i-lucide-chevron-down absolute end-2 top-1/2 size-4 flex-shrink-0 -translate-y-1/2 text-n-slate-10"
         />
       </button>
     </template>
