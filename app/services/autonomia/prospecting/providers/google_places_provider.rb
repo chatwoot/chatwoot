@@ -13,7 +13,11 @@ class Autonomia::Prospecting::Providers::GooglePlacesProvider
     'places.types',
     'places.nationalPhoneNumber',
     'places.internationalPhoneNumber',
-    'places.websiteUri'
+    'places.websiteUri',
+    'places.photos',
+    'places.currentOpeningHours.openNow',
+    'places.currentOpeningHours.weekdayDescriptions',
+    'places.regularOpeningHours.weekdayDescriptions'
   ].join(',').freeze
 
   attr_reader :api_units

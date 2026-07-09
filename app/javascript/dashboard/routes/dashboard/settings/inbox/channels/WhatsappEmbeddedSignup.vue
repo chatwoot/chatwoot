@@ -47,9 +47,12 @@ const showLoader = computed(() => isAuthenticating.value || isProcessing.value);
 const enableCallingForInbox = async inboxId => {
   try {
     await InboxesAPI.enableWhatsappCalling(inboxId);
-  } catch (_) {
+  } catch (error) {
+    const apiError = parseAPIErrorResponse(error);
     useAlert(
-      t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CALLING_ENABLE_FAILED')
+      typeof apiError === 'string'
+        ? apiError
+        : t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CALLING_ENABLE_FAILED')
     );
   }
 };

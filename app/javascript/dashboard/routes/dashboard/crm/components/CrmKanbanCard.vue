@@ -32,7 +32,7 @@ const props = defineProps({
   },
 });
 
-defineEmits(['open']);
+defineEmits(['open', 'openConversation']);
 
 const { t } = useI18n();
 
@@ -171,6 +171,16 @@ const followUp = computed(() => {
 // (mesmo padrão da lista de Conversas), evitando prop-drilling pelo board.
 const accountLabels = useMapGetter('labels/getLabels');
 
+// Etiquetas de CAMPANHA vivem só no Contato (CampaignImports::Importer), nunca
+// sincronizadas para a conversa — mescladas aqui (mesmo chip do CardLabels,
+// deduplicadas) para ficarem visíveis no card sem tocar no LabelBox da conversa.
+const mergedLabels = computed(() => [
+  ...new Set([
+    ...(props.card.labels || []),
+    ...(props.card.contact_labels || []),
+  ]),
+]);
+
 // Pill de campanha CTWA (card.campaigns = toques agregados, 1º toque primeiro).
 // Texto = headline do 1º toque (fallback i18n quando o anúncio não tem headline);
 // tooltip lista todos os toques; "+N" sinaliza os toques além do primeiro.
@@ -203,13 +213,22 @@ const handoffInvite = computed(() => {
       : t('CRM_KANBAN.CARD.HANDOFF_INVITE_PENDING'),
   };
 });
+
+// Board card carries the primary conversation's per-account display_id (same
+// field the drawer navigates by). When present on a board card, the last-message
+// bubble doubles as a shortcut straight into the inbox conversation; otherwise it
+// stays a plain, non-interactive label (manual/standalone cards have no thread).
+const conversationDisplayId = computed(
+  () => props.card?.conversation?.display_id || ''
+);
+const canOpenConversation = computed(
+  () => Boolean(conversationDisplayId.value) && !props.standalone
+);
 </script>
 
 <template>
-  <button
-    type="button"
-    class="group/card relative w-full shrink-0 overflow-hidden rounded-lg border border-n-weak bg-n-surface-1 py-3 pl-4 pr-3 text-left shadow-sm transition-colors hover:bg-n-alpha-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-n-brand"
-    @click="$emit('open', card)"
+  <div
+    class="group/card relative w-full shrink-0 overflow-hidden rounded-lg border border-n-weak bg-n-surface-1 py-3 pl-4 pr-3 text-left shadow-sm transition-colors hover:bg-n-alpha-2"
   >
     <!-- Stage accent rail (inline :style per repo precedent; slate fallback,
          dark ring guards pale colors on dark surfaces) -->
@@ -218,132 +237,158 @@ const handoffInvite = computed(() => {
       :style="railStyle"
     />
 
-    <div class="flex items-start gap-2.5">
-      <Avatar
-        :name="responsibleName"
-        :size="32"
-        :rounded-full="!responsibleIsBot"
-        :icon-name="avatarIconName"
-        :title="responsibleName"
-        class="mt-0.5 shrink-0"
-      />
-
-      <div class="min-w-0 flex-1">
-        <div class="flex items-start justify-between gap-2">
-          <p class="mb-0 truncate text-sm font-medium text-n-slate-12">
-            {{ card.title }}
-          </p>
-          <CardPriorityIcon
-            v-if="showPriorityGlyph"
-            :priority="card.priority"
-            class="mt-0.5 shrink-0"
-          />
-        </div>
-        <p
-          v-if="showContactLine"
-          class="mb-0 mt-0.5 truncate text-xs text-n-slate-11"
-        >
-          {{ contactLabel }}
-        </p>
-      </div>
-    </div>
-
-    <p
-      v-if="card.description"
-      class="mb-0 mt-2 line-clamp-2 text-xs leading-5 text-n-slate-11"
-    >
-      {{ card.description }}
-    </p>
-
-    <!-- Etiquetas normais (conversa primária) — mesma linha de labels da
-         lista de Conversas, cor resolvida via store -->
-    <CardLabels
-      v-if="card.labels?.length"
-      class="mt-2"
-      :conversation-labels="card.labels"
-      :account-labels="accountLabels"
+    <!-- Primary action (open card details): a stretched, visually transparent
+         button carrying the keyboard/screen-reader affordance and the full-card
+         focus ring. The content layer sits above it (z-10) with pointer events
+         enabled so inner tooltips/hover stay intact; content mouse-clicks open
+         the drawer via their own @click, so pointer and keyboard reach the same
+         action. The last-message bubble stops propagation to branch off. -->
+    <button
+      type="button"
+      class="absolute inset-0 z-0 cursor-pointer rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-n-brand"
+      :aria-label="t('CRM_KANBAN.CARD.OPEN_DETAILS', { name: card.title })"
+      @click="$emit('open', card)"
     />
 
-    <!-- Campanha CTWA — linha própria, separada das signal pills -->
-    <div v-if="campaignPill" class="mt-2 flex items-center">
-      <CrmCardPill
-        icon="i-lucide-megaphone"
-        tone="teal"
-        :title="campaignPill.title"
+    <div class="relative z-10 cursor-pointer" @click="$emit('open', card)">
+      <div class="flex items-start gap-2.5">
+        <Avatar
+          :name="responsibleName"
+          :size="32"
+          :rounded-full="!responsibleIsBot"
+          :icon-name="avatarIconName"
+          :title="responsibleName"
+          class="mt-0.5 shrink-0"
+        />
+
+        <div class="min-w-0 flex-1">
+          <div class="flex items-start justify-between gap-2">
+            <p class="mb-0 truncate text-sm font-medium text-n-slate-12">
+              {{ card.title }}
+            </p>
+            <CardPriorityIcon
+              v-if="showPriorityGlyph"
+              :priority="card.priority"
+              class="mt-0.5 shrink-0"
+            />
+          </div>
+          <p
+            v-if="showContactLine"
+            class="mb-0 mt-0.5 truncate text-xs text-n-slate-11"
+          >
+            {{ contactLabel }}
+          </p>
+        </div>
+      </div>
+
+      <p
+        v-if="card.description"
+        class="mb-0 mt-2 line-clamp-2 text-xs leading-5 text-n-slate-11"
       >
-        {{ campaignPill.label }}
-        <template v-if="campaignPill.extraCount > 0" #trail>
-          <span class="shrink-0 font-semibold">
-            +{{ campaignPill.extraCount }}
-          </span>
-        </template>
-      </CrmCardPill>
+        {{ card.description }}
+      </p>
+
+      <!-- Etiquetas (conversa primária + contato/campanha, deduplicadas) — mesma
+           linha de labels da lista de Conversas, cor resolvida via store -->
+      <CardLabels
+        v-if="mergedLabels.length"
+        class="mt-2"
+        :conversation-labels="mergedLabels"
+        :account-labels="accountLabels"
+      />
+
+      <!-- Campanha CTWA — linha própria, separada das signal pills -->
+      <div v-if="campaignPill" class="mt-2 flex items-center">
+        <CrmCardPill
+          icon="i-lucide-megaphone"
+          tone="teal"
+          :title="campaignPill.title"
+        >
+          {{ campaignPill.label }}
+          <template v-if="campaignPill.extraCount > 0" #trail>
+            <span class="shrink-0 font-semibold">
+              +{{ campaignPill.extraCount }}
+            </span>
+          </template>
+        </CrmCardPill>
+      </div>
+
+      <!-- Signal pills -->
+      <div class="mt-2.5 flex flex-wrap items-center gap-1.5">
+        <SLACardLabel v-if="slaChat" :chat="slaChat" />
+
+        <CrmCardPill
+          v-if="handoffInvite"
+          icon="i-lucide-alarm-clock"
+          :tone="handoffInvite.tone"
+          :title="handoffInvite.title"
+        >
+          {{ handoffInvite.label }}
+        </CrmCardPill>
+
+        <CrmCardPill v-if="card.inbox?.channel_type" tone="default">
+          <template #lead>
+            <ChannelIcon
+              :inbox="{ channel_type: card.inbox.channel_type }"
+              class="size-3 shrink-0"
+            />
+          </template>
+          {{ card.inbox.name }}
+        </CrmCardPill>
+
+        <CrmCardPill v-if="valueLabel" icon="i-lucide-banknote" tone="default">
+          {{ valueLabel }}
+        </CrmCardPill>
+
+        <CrmCardPill
+          v-if="followUp"
+          :icon="followUp.icon"
+          :tone="followUp.tone"
+          :title="followUp.title"
+        >
+          {{ t('CRM_KANBAN.CARD.FOLLOW_UP_DUE', { time: followUp.label }) }}
+        </CrmCardPill>
+
+        <CrmCardPill
+          v-if="aiSuggestionLabel"
+          icon="i-lucide-sparkles"
+          tone="blue"
+        >
+          {{ aiSuggestionLabel }}
+        </CrmCardPill>
+
+        <CrmCardPill v-if="scoreLabel" icon="i-lucide-flame" tone="default">
+          {{ t('CRM_KANBAN.CARD.SCORE', { score: scoreLabel }) }}
+        </CrmCardPill>
+      </div>
+
+      <div
+        class="mt-2 flex items-center justify-between gap-2 text-[11px] text-n-slate-10"
+      >
+        <span class="flex min-w-0 items-center gap-1" :title="responsibleName">
+          <span :class="responsibleIcon" class="size-3 shrink-0" />
+          <span class="truncate">{{ responsibleName }}</span>
+        </span>
+        <button
+          v-if="lastMessageLabel && canOpenConversation"
+          type="button"
+          class="crm-card-open-conversation -my-1 -mr-1 flex shrink-0 cursor-pointer items-center gap-1 rounded px-1 py-1 text-n-slate-10 transition-colors hover:bg-n-alpha-2 hover:text-n-brand hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-n-brand"
+          :title="t('CRM_KANBAN.CARD.OPEN_CONVERSATION')"
+          :aria-label="t('CRM_KANBAN.CARD.OPEN_CONVERSATION')"
+          @click.stop="$emit('openConversation', card)"
+        >
+          <span class="i-lucide-message-circle size-3 shrink-0" />
+          {{ lastMessageLabel }}
+        </button>
+        <span
+          v-else-if="lastMessageLabel && !standalone"
+          class="flex shrink-0 items-center gap-1"
+          :title="lastMessageTitle"
+        >
+          <span class="i-lucide-message-circle size-3 shrink-0" />
+          {{ lastMessageLabel }}
+        </span>
+      </div>
     </div>
-
-    <!-- Signal pills -->
-    <div class="mt-2.5 flex flex-wrap items-center gap-1.5">
-      <SLACardLabel v-if="slaChat" :chat="slaChat" />
-
-      <CrmCardPill
-        v-if="handoffInvite"
-        icon="i-lucide-alarm-clock"
-        :tone="handoffInvite.tone"
-        :title="handoffInvite.title"
-      >
-        {{ handoffInvite.label }}
-      </CrmCardPill>
-
-      <CrmCardPill v-if="card.inbox?.channel_type" tone="default">
-        <template #lead>
-          <ChannelIcon
-            :inbox="{ channel_type: card.inbox.channel_type }"
-            class="size-3 shrink-0"
-          />
-        </template>
-        {{ card.inbox.name }}
-      </CrmCardPill>
-
-      <CrmCardPill v-if="valueLabel" icon="i-lucide-banknote" tone="default">
-        {{ valueLabel }}
-      </CrmCardPill>
-
-      <CrmCardPill
-        v-if="followUp"
-        :icon="followUp.icon"
-        :tone="followUp.tone"
-        :title="followUp.title"
-      >
-        {{ t('CRM_KANBAN.CARD.FOLLOW_UP_DUE', { time: followUp.label }) }}
-      </CrmCardPill>
-
-      <CrmCardPill
-        v-if="aiSuggestionLabel"
-        icon="i-lucide-sparkles"
-        tone="blue"
-      >
-        {{ aiSuggestionLabel }}
-      </CrmCardPill>
-
-      <CrmCardPill v-if="scoreLabel" icon="i-lucide-flame" tone="default">
-        {{ t('CRM_KANBAN.CARD.SCORE', { score: scoreLabel }) }}
-      </CrmCardPill>
-    </div>
-
-    <div
-      class="mt-2 flex items-center justify-between gap-2 text-[11px] text-n-slate-10"
-    >
-      <span class="flex min-w-0 items-center gap-1" :title="responsibleName">
-        <span :class="responsibleIcon" class="size-3 shrink-0" />
-        <span class="truncate">{{ responsibleName }}</span>
-      </span>
-      <span
-        v-if="lastMessageLabel && !standalone"
-        class="flex shrink-0 items-center gap-1"
-        :title="lastMessageTitle"
-      >
-        <span class="i-lucide-message-circle size-3 shrink-0" />
-        {{ lastMessageLabel }}
-      </span>
-    </div>
-  </button>
+  </div>
 </template>

@@ -80,6 +80,7 @@ class Crm::Kanban::CardPayloadBuilder
       inbox: compact_inbox,
       conversation: compact_conversation,
       labels: labels_payload,
+      contact_labels: contact_labels_payload,
       campaigns: campaigns_payload
     }
   end
@@ -93,6 +94,19 @@ class Crm::Kanban::CardPayloadBuilder
     return [] if conversation.blank?
 
     conversation.cached_label_list_array
+  end
+
+  # Label titles of the CONTACT (e.g. campaign import labels — never synced onto
+  # the conversation, see CampaignImports::Importer#apply_labels!). Not gated on
+  # conversation visibility: the contact itself is always shown on the card.
+  # Reads the preloaded label_taggings (see Crm::Kanban::BoardPayloadBuilder's
+  # preload) instead of contact.label_list to avoid an N+1 query per card.
+  # Shape mirrored in Crm::Cards::PayloadBuilder — keep both identical.
+  def contact_labels_payload
+    contact = @card.contact
+    return [] if contact.blank?
+
+    contact.label_taggings.reject(&:tagger_id).filter_map { |tagging| tagging.tag&.name }
   end
 
   # CTWA multi-touch: aggregated campaign touches of the card, first touch -> last;

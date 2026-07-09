@@ -264,6 +264,85 @@ RSpec.describe Crm::Conversations::CardSyncer do
     expect(card.stage_id).to eq(second_stage.id)
   end
 
+  # Reason: assignee_changed/team_changed listeners enqueue CardSyncer with
+  # message: nil (Crm::SyncConversationCardJob#perform default). Without a NEW
+  # real message since the card was created, last_message_at/last_activity_at
+  # must stay put — this was the root cause bug (fallback to conversation.
+  # last_activity_at, which any system activity message bumps).
+  it 'does not alter last_message_at/last_activity_at when syncing without a message' do
+    account, admin = create_account_and_user
+    agent, = create_crm_agent(account: account)
+    inbox = create_crm_inbox(account: account, members: [agent])
+    contact = account.contacts.create!(name: 'Lead Sem Mensagem Nova', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: agent)
+    pipeline, stage = create_crm_pipeline(account: account, user: admin)
+    account.crm_pipeline_inboxes.create!(pipeline: pipeline, inbox: inbox, default_stage: stage, auto_create_card: true, created_by: admin)
+    message = create_crm_message(conversation: conversation, sender: contact)
+    card = described_class.new(conversation: conversation, message: message).perform
+    original_last_message_at = card.last_message_at
+    original_last_activity_at = card.last_activity_at
+
+    other_agent, = create_crm_agent(account: account, name: 'Outro agente')
+    conversation.update!(assignee: other_agent)
+    described_class.new(conversation: conversation.reload, message: nil).perform
+
+    card.reload
+    expect(card.owner_id).to eq(other_agent.id)
+    expect(card.last_message_at.to_i).to eq(original_last_message_at.to_i)
+    expect(card.last_activity_at.to_i).to eq(original_last_activity_at.to_i)
+  end
+
+  # Reason: stage moves and linkers set last_activity_at to Time.current; a later
+  # assignment sync (message: nil) deriving from the last real message would
+  # regress that recent CRM activity back to an old message date, breaking
+  # ordering and dedupe. The sync must leave both fields untouched.
+  it 'does not regress a recent last_activity_at to an old real-message date on message-less sync' do
+    account, admin = create_account_and_user
+    agent, = create_crm_agent(account: account)
+    inbox = create_crm_inbox(account: account, members: [agent])
+    contact = account.contacts.create!(name: 'Lead Atividade Recente', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: agent)
+    pipeline, stage = create_crm_pipeline(account: account, user: admin)
+    account.crm_pipeline_inboxes.create!(pipeline: pipeline, inbox: inbox, default_stage: stage, auto_create_card: true, created_by: admin)
+    old_message = travel_to(5.days.ago) { create_crm_message(conversation: conversation, sender: contact, content: 'Mensagem antiga') }
+    card = described_class.new(conversation: conversation, message: old_message).perform
+    card.update!(last_activity_at: Time.current)
+    recent_activity_at = card.reload.last_activity_at
+
+    other_agent, = create_crm_agent(account: account, name: 'Outro agente')
+    conversation.update!(assignee: other_agent)
+    described_class.new(conversation: conversation.reload, message: nil).perform
+
+    card.reload
+    expect(card.last_activity_at.to_i).to eq(recent_activity_at.to_i)
+    expect(card.last_message_at.to_i).to eq(old_message.created_at.to_i)
+  end
+
+  # Reason: a private note or an activity message (system-generated, e.g. an
+  # assignment note) must never count as a real message even if it were ever
+  # passed in as @message — CardSyncer derives last_message_at purely from
+  # Message.chat on the conversation, ignoring @message's own timestamp.
+  it 'does not count an activity message towards last_message_at' do
+    account, admin = create_account_and_user
+    agent, = create_crm_agent(account: account)
+    inbox = create_crm_inbox(account: account, members: [agent])
+    contact = account.contacts.create!(name: 'Lead Activity', phone_number: '+5511987654321')
+    conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact, assignee: agent)
+    pipeline, stage = create_crm_pipeline(account: account, user: admin)
+    account.crm_pipeline_inboxes.create!(pipeline: pipeline, inbox: inbox, default_stage: stage, auto_create_card: true, created_by: admin)
+    real_message = travel_to(2.minutes.ago) { create_crm_message(conversation: conversation, sender: contact, content: 'Mensagem real') }
+    card = described_class.new(conversation: conversation, message: real_message).perform
+
+    activity_message = create_crm_message(
+      conversation: conversation, sender: contact, content: 'Assignee mudou', message_type: :activity
+    )
+    described_class.new(conversation: conversation.reload, message: activity_message).perform
+
+    card.reload
+    expect(card.last_message_at.to_i).to eq(real_message.created_at.to_i)
+    expect(card.last_message_at.to_i).not_to eq(activity_message.created_at.to_i)
+  end
+
   def create_crm_message(conversation:, sender:, content: 'Olá', private: false, message_type: :incoming)
     conversation.messages.create!(
       account: conversation.account,

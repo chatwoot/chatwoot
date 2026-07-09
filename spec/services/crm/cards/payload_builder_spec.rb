@@ -12,8 +12,9 @@ RSpec.describe Crm::Cards::PayloadBuilder do
   let(:admin_account_user) { admin.account_users.find_by(account: account) }
   let(:inbox) { create_crm_inbox(account: account, members: [admin]) }
 
-  def create_conversation(campaign_touches: nil, labels: nil)
+  def create_conversation(campaign_touches: nil, labels: nil, contact_labels: nil)
     contact = account.contacts.create!(name: "Lead #{SecureRandom.hex(3)}", phone_number: "+55119#{rand(10_000_000..99_999_999)}")
+    contact.add_labels(contact_labels) if contact_labels.present?
     conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact)
     if campaign_touches.present?
       conversation.update!(
@@ -88,5 +89,18 @@ RSpec.describe Crm::Cards::PayloadBuilder do
 
     expect(payload[:labels]).to eq([])
     expect(payload[:campaigns]).to eq([])
+  end
+
+  it 'exposes contact label titles separately from conversation labels and keeps them visible when the conversation is hidden' do
+    outsider = create(:user, account: account, role: :agent)
+    conversation = create_conversation(labels: %w[vip], contact_labels: %w[lote-01])
+    card = create_card(conversation: conversation)
+
+    visible_payload = payload_for(card, user: admin, account_user: admin_account_user)
+    hidden_payload = payload_for(card, user: outsider, account_user: outsider.account_users.find_by(account: account))
+
+    expect(visible_payload[:contact_labels]).to eq(%w[lote-01])
+    expect(hidden_payload[:conversation_id]).to be_nil
+    expect(hidden_payload[:contact_labels]).to eq(%w[lote-01])
   end
 end

@@ -33,8 +33,8 @@ module Crm
           conversation: conversation,
           contact_id: contact_id,
           inbox_id: inbox_id,
-          assignee: @card.owner,
-          created_by: @card.owner,
+          assignee: resolved_sender,
+          created_by: resolved_sender,
           title: title,
           follow_up_type: :message,
           automation_mode: :auto_send_message,
@@ -48,6 +48,13 @@ module Crm
 
       def conversation
         @card.primary_conversation
+      end
+
+      # A single auto-send touch dies as 'send_failed' ('sender_required') when it
+      # has no sender, so resolve one even for AI-only / unassigned cards: card
+      # owner -> the linked conversation's human assignee -> account administrator.
+      def resolved_sender
+        @resolved_sender ||= @card.owner || conversation&.assignee || @card.account.administrators.first
       end
 
       def contact_id

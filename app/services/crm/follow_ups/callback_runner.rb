@@ -31,6 +31,8 @@ module Crm
       # Após N falhas consecutivas (credencial quebrada / compose falhando), PARA de retransmitir
       # (cada tentativa é uma chamada de IA = custo) e cai para lembrete na tela. Espelha o budget do auto-followup.
       MAX_RETRIES = 3
+      # Janela do cap MARKETING da Meta (131049): no máx. 1 template marketing por contato/24h.
+      MARKETING_CAP_WINDOW = 24.hours
 
       def initialize(follow_up:, now: Time.current)
         @follow_up = follow_up
@@ -51,17 +53,25 @@ module Crm
         return Result.fallback(skip_reason) unless composable?(composition)
 
         prepare_send_metadata(composition)
-        send_result = Crm::FollowUps::MessageSender.new(follow_up: @follow_up).perform
-        case send_result.status
-        when :sent, :skipped then Result.sent
-        else fail_or_fallback(send_result.error)
-        end
+        # Meta's 131049 MARKETING cap is per-recipient/24h. Defer (don't burn retry
+        # budget) so the next due sweep re-runs the callback once the window clears.
+        return Result.failed('marketing_cap', @now + MARKETING_CAP_WINDOW) if capped?
+
+        deliver
       rescue Crm::Ai::ResponsesClient::Error, JSON::ParserError => e
         # Falha de composição é transitória → retry limitado; estourado o budget vira lembrete.
         fail_or_fallback(e.message)
       end
 
       private
+
+      def deliver
+        send_result = Crm::FollowUps::MessageSender.new(follow_up: @follow_up).perform
+        case send_result.status
+        when :sent, :skipped then Result.sent
+        else fail_or_fallback(send_result.error)
+        end
+      end
 
       # Retry com TETO: abaixo de MAX_RETRIES reagenda (DueProcessor mantém pending + bump due_at);
       # no teto desiste do envio e devolve :fallback (vira lembrete pro humano) — nunca retransmite IA infinito.
@@ -77,7 +87,7 @@ module Crm
 
       def compose
         client = Crm::Ai::ResponsesClient.new(
-          credential: Crm::Ai::CredentialResolver.new(account: @card.account).resolve,
+          credential: resolved_credential,
           feature: 'follow_up', account: @card.account, pipeline: @card.pipeline
         )
         context = Crm::Ai::ContextBuilder.new(card: @card).perform
@@ -95,6 +105,15 @@ module Crm
           },
           reasoning_effort: Crm::Ai::Config::CALLBACK_REASONING_EFFORT
         ).perform
+      end
+
+      # Fail closed: sem credencial vira transitório rescued (fail_or_fallback) e não
+      # NoMethodError cru dentro do ResponsesClient (@credential[:api_key]).
+      def resolved_credential
+        credential = Crm::Ai::CredentialResolver.new(account: @card.account).resolve
+        raise Crm::Ai::ResponsesClient::Error, 'missing_ai_credential' if credential.blank?
+
+        credential
       end
 
       def closure?(composition)
@@ -131,7 +150,13 @@ module Crm
       def apply_template_metadata(metadata, composition)
         candidate = resolved_candidate(composition)
         metadata['message_body'] = composition['message_body'].to_s.strip.presence || metadata['message_body']
+        # Persist the chosen template's Meta category so the MARKETING-only 24h cap
+        # can target it (api campaign templates carry no category → never capped).
+        metadata['template_category'] = candidate[:category].to_s.downcase.presence
+        assign_template_channel_metadata(metadata, candidate, composition)
+      end
 
+      def assign_template_channel_metadata(metadata, candidate, composition)
         if candidate[:kind].to_s == 'api'
           metadata['whatsapp_api_message_template_id'] = candidate[:id]
           %w[template_name template_language template_processed_params].each { |k| metadata.delete(k) }
@@ -148,6 +173,39 @@ module Crm
 
         index = composition.dig('chosen_template', 'index')
         @resolved_candidate = (@candidates[index] if index.is_a?(Integer) && index >= 0)
+      end
+
+      # MARKETING-only 24h/contact frequency cap (Meta 131049). Mirrors
+      # AutoFollowupRunner: utility/api/free_form sends are never capped. Scans the
+      # contact's prior MARKETING template sends across BOTH ai_followup and
+      # ai_callback follow-ups (the cap is per-recipient, not per-source).
+      def capped?
+        return false unless marketing_template_send?
+
+        last_contact_template_at.present? && last_contact_template_at > (@now - MARKETING_CAP_WINDOW)
+      end
+
+      def marketing_template_send?
+        @send_mode == :choose_template && base_metadata['template_category'].to_s == 'marketing'
+      end
+
+      def last_contact_template_at
+        contact_id = @follow_up.contact_id || @card.contact_id
+        return nil if contact_id.blank?
+
+        sent_ats = @card.account.crm_follow_ups
+                        .where(contact_id: contact_id)
+                        .where("metadata ->> 'source' IN (?)", %w[ai_followup ai_callback])
+                        .where("metadata ->> 'send_mode' = ?", 'template')
+                        .where("metadata ->> 'template_category' = ?", 'marketing')
+                        .pluck(Arel.sql("metadata ->> 'sent_at'"))
+        sent_ats.filter_map { |value| parse_time(value) }.max
+      end
+
+      def parse_time(value)
+        Time.zone.parse(value.to_s)
+      rescue ArgumentError, TypeError
+        nil
       end
 
       def template_candidates

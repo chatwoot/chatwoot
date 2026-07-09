@@ -41,6 +41,19 @@ class Api::V1::Accounts::Autonomia::Prospecting::BaseController < Api::V1::Accou
     }
   end
 
+  def advanced_filter_payload(lead)
+    raw_payload = lead.raw_payload.to_h
+    current_hours = raw_payload['currentOpeningHours'].to_h
+    regular_hours = raw_payload['regularOpeningHours'].to_h
+
+    {
+      has_photos: Array(raw_payload['photos']).present?,
+      open_now: current_hours.key?('openNow') ? current_hours['openNow'] : nil,
+      opening_hours_summary: Array(current_hours['weekdayDescriptions']).presence ||
+        Array(regular_hours['weekdayDescriptions']).presence
+    }
+  end
+
   def normalized_lead_phone(lead)
     digits = lead.phone.to_s.gsub(/\D/, '')
     return if digits.blank?

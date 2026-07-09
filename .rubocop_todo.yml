@@ -260,6 +260,7 @@ Metrics/ClassLength:
     - 'app/services/crm/cards/payload_builder.rb'
     - 'app/services/crm/conversations/card_syncer.rb'
     - 'app/services/crm/follow_ups/auto_followup_runner.rb'
+    - 'app/services/crm/follow_ups/due_processor.rb'
     - 'app/services/crm/meetings/creator.rb'
     - 'app/services/google/calendar_event_service.rb'
     - 'app/services/microsoft/calendar_event_service.rb'

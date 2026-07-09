@@ -760,7 +760,9 @@
       "FOLLOW_UP_MANUAL": "Manual reminder",
       "HANDOFF_INVITE_PENDING": "Handoff invite pending: pickup due at the time shown",
       "HANDOFF_INVITE_OVERDUE": "Handoff invite overdue: nobody picked it up in time",
-      "CAMPAIGN_FALLBACK": "Meta ad"
+      "CAMPAIGN_FALLBACK": "Meta ad",
+      "OPEN_DETAILS": "Open card: {name}",
+      "OPEN_CONVERSATION": "Open conversation"
     },
     "DRAWER": {
       "CREATE_TITLE": "New card",
@@ -967,7 +969,8 @@
       "CREATE_ERROR": "Could not create the CRM card.",
       "LOAD_ERROR": "Could not load CRM pipelines or stages.",
       "STAGE_BADGE_LABEL": "Current stage",
-      "STAGE_BADGE_EMPTY": "Not in any pipeline yet."
+      "STAGE_BADGE_EMPTY": "Not in any pipeline yet.",
+      "CONTACT_LABELS_TITLE": "Contact labels"
     },
     "PIPELINE_DRAWER": {
       "CREATE_TITLE": "New pipeline",

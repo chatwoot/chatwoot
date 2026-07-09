@@ -26,11 +26,13 @@ module Crm::Cards::SharedFilters
     cards
   end
 
+  # No real message AND no stage movement in N days (GREATEST is NULL-safe).
   def apply_stale_filter(cards)
     days = @params[:stale_days].presence&.to_i
     return cards if days.blank? || days <= 0
 
-    cards.where('crm_cards.last_message_at IS NULL OR crm_cards.last_message_at < ?', days.days.ago)
+    stale_sql = 'GREATEST(crm_cards.last_message_at, crm_cards.entered_stage_at)'
+    cards.where("#{stale_sql} IS NULL OR #{stale_sql} < ?", days.days.ago)
   end
 
   def apply_team_filter(cards)
@@ -92,26 +94,25 @@ module Crm::Cards::SharedFilters
   end
 
   # Label filter: label_ids is a csv of Label ids (OR semantics) matched against the
-  # PRIMARY conversation only (mirrors the card `labels` payload). Chatwoot labels are
-  # acts-as-taggable tags — the account-scoped Label row is metadata whose `title`
-  # equals `tags.name` — so the join goes Label(id) -> title -> tags.name -> taggings
-  # of the conversation. EXISTS keeps one row per card (no duplicate when a
-  # conversation carries several of the selected labels).
+  # PRIMARY conversation OR the linked CONTACT (mirrors the card `labels` +
+  # `contact_labels` payloads — campaign import labels only ever live on the
+  # contact, never synced onto the conversation). EXISTS keeps one row per card.
   def apply_label_filter(cards)
     label_ids = parse_label_ids
     return cards if label_ids.blank?
 
-    cards.where(<<~SQL.squish, label_ids)
-      EXISTS (
-        SELECT 1 FROM taggings
-        INNER JOIN tags ON tags.id = taggings.tag_id
-        INNER JOIN labels ON labels.title = tags.name AND labels.account_id = crm_cards.account_id
-        WHERE taggings.taggable_type = 'Conversation'
-          AND taggings.context = 'labels'
-          AND taggings.taggable_id = crm_cards.conversation_id
-          AND labels.id IN (?)
-      )
-    SQL
+    predicate = "#{label_exists_sql('Conversation', 'crm_cards.conversation_id')} OR " \
+                "#{label_exists_sql('Contact', 'crm_cards.contact_id')}"
+    cards.where(predicate, label_ids, label_ids)
+  end
+
+  # EXISTS fragment matching a taggable against an account-scoped Label id list,
+  # via the tags.name == labels.title bridge (Chatwoot labels are acts-as-taggable).
+  def label_exists_sql(taggable_type, taggable_id_column)
+    'EXISTS (SELECT 1 FROM taggings INNER JOIN tags ON tags.id = taggings.tag_id ' \
+      'INNER JOIN labels ON labels.title = tags.name AND labels.account_id = crm_cards.account_id ' \
+      "WHERE taggings.taggable_type = '#{taggable_type}' AND taggings.context = 'labels' " \
+      "AND taggings.taggable_id = #{taggable_id_column} AND labels.id IN (?))"
   end
 
   private

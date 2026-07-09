@@ -305,6 +305,46 @@ describe Whatsapp::WebhookSetupService do
       end
     end
 
+    context 'when history sync flag is ON' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+        allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            platform_type: 'APPLICABLE',
+                                                                            throughput: { level: 'APPLICABLE' }
+                                                                          })
+      end
+
+      it 'subscribes to history and smb_app_state_sync in addition to the default fields' do
+        # Reason: with the flag on, Coexistence history + contact-roster webhooks must be subscribed.
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com', WHATSAPP_HISTORY_SYNC_ENABLED: 'true' do
+          expect(api_client).to receive(:subscribe_waba_webhook)
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token',
+                  subscribed_fields: %w[messages smb_message_echoes history smb_app_state_sync])
+          service.perform
+        end
+      end
+    end
+
+    context 'when history sync flag is OFF (default)' do
+      before do
+        allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)
+        allow(health_service).to receive(:fetch_health_status).and_return({
+                                                                            platform_type: 'APPLICABLE',
+                                                                            throughput: { level: 'APPLICABLE' }
+                                                                          })
+      end
+
+      it 'subscribes only to the default fields' do
+        # Reason: flag off must not leak the new Coexistence webhook fields into the subscription.
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:subscribe_waba_webhook)
+            .with(waba_id, 'https://app.chatwoot.com/webhooks/whatsapp/+1234567890', 'test_verify_token',
+                  subscribed_fields: %w[messages smb_message_echoes])
+          service.perform
+        end
+      end
+    end
+
     context 'when webhook setup is successful in creation flow' do
       before do
         allow(api_client).to receive(:phone_number_verified?).with('123456789').and_return(true)

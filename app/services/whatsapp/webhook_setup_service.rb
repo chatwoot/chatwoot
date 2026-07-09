@@ -65,10 +65,12 @@ class Whatsapp::WebhookSetupService
     raise "Webhook setup failed: #{e.message}"
   end
 
-  # Subscribe to `calls` only when voice calling is enabled on the inbox
+  # Subscribe to `calls` only when voice calling is enabled on the inbox.
+  # Subscribe to Coexistence history fields only when the history-sync flag is on.
   def subscribed_fields
     fields = %w[messages smb_message_echoes]
     fields << 'calls' if @channel.provider_config['calling_enabled']
+    fields.push('history', 'smb_app_state_sync') if Whatsapp::HistorySync.enabled?
     fields
   end
 

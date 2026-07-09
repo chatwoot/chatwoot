@@ -127,6 +127,10 @@ jobs:
               # Widget "Copiloto Autonom.ia" (agentes internos) — o plano V2
               # previa a flag em prod, mas ela so foi setada na VPS legada.
               "CRM_COPILOT_ENABLED": "true",
+              # Coexistence: importa historico do WhatsApp Business App nos
+              # proximos embedded signups (PR #168; topic fields ja habilitados
+              # no painel Meta).
+              "WHATSAPP_HISTORY_SYNC_ENABLED": "true",
           }
 
           lines = path.read_text().splitlines()

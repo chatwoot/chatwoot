@@ -20,6 +20,10 @@ class Whatsapp::EmbeddedSignupService
     # 2. We need to run check_channel_health_and_prompt_reauth after webhook setup completes
     # 3. The channel is marked with source: 'embedded_signup' to skip the after_commit callback
     channel.setup_webhooks
+    # Fire the Coexistence contacts + history sync immediately (Meta's 24h window starts now).
+    # Best-effort: the service swallows its own errors so onboarding never fails because of it.
+    # Gated at the call site (not just inside the service) so flag OFF means zero new code runs here.
+    Whatsapp::HistorySyncService.new(channel).perform if Whatsapp::HistorySync.enabled?
     # Skip health check during reauthorization — phone numbers in pending provisioning state
     # (platform_type: NOT_APPLICABLE) would incorrectly trigger a disconnect email right after
     # a successful reauth. Only run health check for new channel creation.

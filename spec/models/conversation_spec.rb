@@ -71,6 +71,41 @@ RSpec.describe Conversation do
         .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: conversation, notifiable_assignee_change: false,
                                                                     changed_attributes: nil, performed_by: nil)
     end
+
+    context 'when the conversation is a WhatsApp history import' do
+      let(:imported_conversation) do
+        create(
+          :conversation,
+          account: account,
+          contact: create(:contact, account: account),
+          inbox: inbox,
+          assignee: nil,
+          additional_attributes: { 'history_import' => true }
+        )
+      end
+
+      it 'does not dispatch CONVERSATION_CREATED' do
+        # Reason: history-import conversations must not flood automation/notifications/webhooks/CRM.
+        imported_conversation
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+          .with(described_class::CONVERSATION_CREATED, anything, hash_including(conversation: imported_conversation))
+      end
+
+      it 'still dispatches CONVERSATION_CREATED for a normal conversation created afterwards' do
+        # Reason: the guard must be scoped to history-import conversations only, not global.
+        imported_conversation
+        normal_conversation = create(
+          :conversation,
+          account: account,
+          contact: create(:contact, account: account),
+          inbox: inbox,
+          assignee: nil
+        )
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(described_class::CONVERSATION_CREATED, kind_of(Time), conversation: normal_conversation, notifiable_assignee_change: false,
+                                                                      changed_attributes: nil, performed_by: nil)
+      end
+    end
   end
 
   describe '.validate jsonb attributes' do

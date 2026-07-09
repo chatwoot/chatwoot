@@ -219,7 +219,7 @@ class Api::V1::Accounts::Crm::CardsController < Api::V1::Accounts::Crm::BaseCont
       'active' => false, 'spent' => false, 'touch' => 0,
       'stopped_reason' => nil, 'opted_out' => false,
       'next_due_at' => nil, 'last_sent_at' => nil,
-      'last_template_sent_at' => nil, 'touches' => []
+      'last_marketing_template_sent_at' => nil, 'touches' => []
     }
     @card.update!(metadata: metadata)
 

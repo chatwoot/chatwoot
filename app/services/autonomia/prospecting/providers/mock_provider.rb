@@ -70,7 +70,11 @@ class Autonomia::Prospecting::Providers::MockProvider
         mock_seed: seed,
         query: @query,
         location: @location,
-        radius: @radius
+        radius: @radius,
+        photos: mock_photos(seed),
+        currentOpeningHours: {
+          openNow: seed[25..26].to_i(16).even?
+        }
       }
     }
   end
@@ -119,6 +123,12 @@ class Autonomia::Prospecting::Providers::MockProvider
 
   def rating(seed)
     (3.5 + (seed[23..24].to_i(16) % 16) / 10.0).round(2)
+  end
+
+  def mock_photos(seed)
+    return [] unless seed[27..28].to_i(16).even?
+
+    [{ name: "mock_photo_#{seed[0..7]}" }]
   end
 
   def slug(value)

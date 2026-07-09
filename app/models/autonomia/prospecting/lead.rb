@@ -59,6 +59,13 @@ class Autonomia::Prospecting::Lead < ApplicationRecord
   has_many :lists, through: :list_leads, source: :list
 
   enum status: { new_lead: 0, qualified: 1, discarded: 2, no_consent: 3, ready_for_campaign: 4 }
+  enum enrichment_status: {
+    pending: 'pending',
+    running: 'running',
+    completed: 'completed',
+    failed: 'failed',
+    skipped: 'skipped'
+  }, _prefix: :enrichment
 
   before_validation :ensure_dedupe_key
 
@@ -66,6 +73,7 @@ class Autonomia::Prospecting::Lead < ApplicationRecord
   validates :provider, presence: true
   validates :dedupe_key, presence: true, uniqueness: { scope: :account_id }
   validates :discard_reason, presence: true, if: :discarded?
+  validates :enrichment_status, presence: true
   validate :linked_records_must_belong_to_account
 
   private

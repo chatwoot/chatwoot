@@ -48,7 +48,7 @@ module Crm
           owner_id: @card.owner_id || @conversation.assignee_id,
           team_id: @card.team_id || @conversation.team_id,
           source: @card.source.presence || @conversation.inbox&.channel_type,
-          last_message_at: @conversation.last_activity_at,
+          last_message_at: Crm::Conversations::LastRealMessageAt.for(@conversation),
           last_activity_at: Time.current
         )
       end

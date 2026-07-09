@@ -140,7 +140,8 @@ class Crm::Kanban::BoardPayloadBuilder
     cards_scope = base_scope.order(id: :desc)
     cards_scope = cards_scope.where('crm_cards.id < ?', cursor_for(stage)) if cursor_for(stage).present?
     cards = cards_scope.preload(
-      :contact, :owner, :linked_conversations,
+      :owner, :linked_conversations,
+      { contact: { label_taggings: :tag } },
       { inbox: { agent_bot_inbox: :agent_bot } },
       { primary_conversation: [:conversation_participants, :assignee, { applied_sla: :sla_policy }, { inbox: { agent_bot_inbox: :agent_bot } }] }
     ).limit(limit_per_stage + 1).to_a

@@ -14,8 +14,9 @@ RSpec.describe Crm::Kanban::BoardPayloadBuilder do
   let(:pipeline) { pipeline_and_stage.first }
   let(:stage) { pipeline_and_stage.last }
 
-  def create_conversation(campaign_source_ids: nil, labels: nil)
+  def create_conversation(campaign_source_ids: nil, labels: nil, contact_labels: nil)
     contact = account.contacts.create!(name: "Lead #{SecureRandom.hex(3)}", phone_number: "+55119#{rand(10_000_000..99_999_999)}")
+    contact.add_labels(contact_labels) if contact_labels.present?
     conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact)
     if campaign_source_ids.present?
       touches = campaign_source_ids.map do |sid|
@@ -75,6 +76,28 @@ RSpec.describe Crm::Kanban::BoardPayloadBuilder do
     expect(card_payload[:campaigns]).to eq([])
   end
 
+  it 'includes contact label titles alongside conversation labels, deduped' do
+    account.labels.create!(title: 'vip')
+    account.labels.create!(title: 'lote-01')
+    conversation = create_conversation(labels: %w[vip], contact_labels: %w[vip lote-01])
+    create_card(conversation: conversation)
+
+    card_payload = board_cards.first
+
+    expect(card_payload[:contact_labels]).to match_array(%w[vip lote-01])
+  end
+
+  it 'keeps contact_labels visible even when the primary conversation is invisible to the requester' do
+    outsider = create(:user, account: account, role: :agent)
+    account.labels.create!(title: 'lote-01')
+    create_card(conversation: create_conversation(contact_labels: %w[lote-01]))
+
+    card_payload = board_cards(user: outsider).first
+
+    expect(card_payload[:conversation_id]).to be_nil
+    expect(card_payload[:contact_labels]).to eq(%w[lote-01])
+  end
+
   it 'filters board cards by campaign_source_ids (csv, OR, any linked conversation)' do
     matched = create_card(conversation: create_conversation(campaign_source_ids: %w[111]))
     linked_match = create_card(conversation: create_conversation, title: 'Match via linkada')
@@ -95,5 +118,53 @@ RSpec.describe Crm::Kanban::BoardPayloadBuilder do
     cards = board_cards(params: { label_ids: "#{vip.id},#{quente.id}" })
 
     expect(cards.pluck(:id)).to eq([matched.id])
+  end
+
+  it 'filters board cards by label_ids that only exist on the contact (campaign import labels)' do
+    lote = account.labels.create!(title: 'lote-01')
+    matched = create_card(conversation: create_conversation(contact_labels: %w[lote-01]))
+    create_card(conversation: create_conversation, title: 'Sem etiqueta de campanha')
+
+    cards = board_cards(params: { label_ids: lote.id.to_s })
+
+    expect(cards.pluck(:id)).to eq([matched.id])
+  end
+
+  # Reason: owner_id is not part of the staleness formula (GREATEST(last_message_at,
+  # entered_stage_at)) — a recent reassignment must not mask a card that has had no
+  # real message and no stage movement in `stale_days`.
+  it 'stale_days: a card recently reassigned but with no message/stage movement stays stale' do
+    card = create_card(conversation: create_conversation)
+    card.update!(last_message_at: 10.days.ago, entered_stage_at: 10.days.ago, owner_id: admin.id)
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to contain_exactly(card.id)
+  end
+
+  # Reason: new semantics — "no activity" means no real message AND no stage
+  # movement. A recent entered_stage_at must keep an otherwise old card active.
+  it 'stale_days: a recent stage movement keeps an otherwise old card out of the stale set' do
+    card = create_card(conversation: create_conversation)
+    card.update!(last_message_at: 10.days.ago, entered_stage_at: 1.day.ago)
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to be_empty
+  end
+
+  # Reason: GREATEST(NULL, NULL) is NULL in Postgres — a card with neither field
+  # set must be treated as stale (never messaged, never moved).
+  it 'stale_days: a card with neither a real message nor a stage movement is stale' do
+    card = create_card(conversation: create_conversation)
+    # ensure_activity_defaults backfills entered_stage_at on validation, so bypass
+    # callbacks to actually persist both fields as NULL for this scenario.
+    # rubocop:disable Rails/SkipsModelValidations
+    card.update_columns(last_message_at: nil, entered_stage_at: nil)
+    # rubocop:enable Rails/SkipsModelValidations
+
+    cards = board_cards(params: { stale_days: 5 })
+
+    expect(cards.pluck(:id)).to contain_exactly(card.id)
   end
 end

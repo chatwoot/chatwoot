@@ -8,6 +8,11 @@ import CampaignsAPI from 'dashboard/api/campaigns';
 import CrmKanbanAPI from 'dashboard/api/crmKanban';
 import ProspectingPriorityRing from '../components/ProspectingPriorityRing.vue';
 import {
+  activeAdvancedLeadFiltersCount,
+  defaultAdvancedLeadFilters,
+  filterLeadsByAdvancedFilters,
+} from '../utils/advancedLeadFilters';
+import {
   leadPrioritySignals,
   priorityTheme,
   priorityValue,
@@ -21,6 +26,7 @@ const isCreating = ref(false);
 const busyLeadId = ref(null);
 const convertingLeadId = ref(null);
 const convertingCrmLeadId = ref(null);
+const enrichingLeadId = ref(null);
 const verifyingWhatsAppLeadIds = ref([]);
 const isCreatingCampaignSegment = ref(false);
 const isAddingSelectedLeads = ref(false);
@@ -31,8 +37,9 @@ const campaigns = ref([]);
 const settings = ref(null);
 const crmPipelines = ref([]);
 const crmStages = ref([]);
-const addLeadStatusFilter = ref('');
 const addLeadQuery = ref('');
+const showListFilters = ref(false);
+const showAddLeadFilters = ref(false);
 const selectedAddLeadIds = ref([]);
 const showCreateListModal = ref(false);
 const showAddLeadsModal = ref(false);
@@ -49,14 +56,9 @@ const crmForm = ref({
   pipeline_id: '',
   stage_id: '',
 });
-const statusOptions = [
-  'new_lead',
-  'qualified',
-  'discarded',
-  'no_consent',
-  'ready_for_campaign',
-];
 const whatsappVerificationRequested = new Set();
+const listAdvancedFilters = ref(defaultAdvancedLeadFilters());
+const addLeadAdvancedFilters = ref(defaultAdvancedLeadFilters());
 
 const formatDate = value => {
   if (!value) return '-';
@@ -71,7 +73,10 @@ const formatLeadAddress = lead =>
 const selectedLeadIds = computed(
   () => new Set((selectedList.value?.lead_ids || []).map(Number))
 );
-const listLeads = computed(() => selectedList.value?.leads || []);
+const rawListLeads = computed(() => selectedList.value?.leads || []);
+const listLeads = computed(() =>
+  filterLeadsByAdvancedFilters(rawListLeads.value, listAdvancedFilters.value)
+);
 const availableLeads = computed(() =>
   allLeads.value.filter(lead => {
     if (selectedLeadIds.value.has(Number(lead.id))) return false;
@@ -80,14 +85,10 @@ const availableLeads = computed(() =>
   })
 );
 const filteredAvailableLeads = computed(() =>
-  availableLeads.value.filter(lead => {
-    if (
-      addLeadStatusFilter.value &&
-      lead.status !== addLeadStatusFilter.value
-    ) {
-      return false;
-    }
-
+  filterLeadsByAdvancedFilters(
+    availableLeads.value,
+    addLeadAdvancedFilters.value
+  ).filter(lead => {
     const query = addLeadQuery.value.trim().toLowerCase();
     if (!query) return true;
 
@@ -96,11 +97,18 @@ const filteredAvailableLeads = computed(() =>
       .some(value => value.toLowerCase().includes(query));
   })
 );
+const activeListFiltersCount = computed(() =>
+  activeAdvancedLeadFiltersCount(listAdvancedFilters.value)
+);
+const activeAddLeadFiltersCount = computed(() =>
+  activeAdvancedLeadFiltersCount(addLeadAdvancedFilters.value)
+);
 const hasSelectedList = computed(() => Boolean(selectedList.value?.id));
 const canCreateCrmCard = computed(() =>
   Boolean(crmForm.value.pipeline_id && crmForm.value.stage_id)
 );
 const leadHasVerifiedWhatsApp = lead => lead?.whatsapp_verified === true;
+const isLeadEnriched = lead => lead?.enrichment_status === 'completed';
 const campaignReadyLeads = computed(() =>
   (selectedList.value?.leads || []).filter(
     lead =>
@@ -367,7 +375,8 @@ const openAddLeadsModal = async list => {
   }
   selectedAddLeadIds.value = [];
   addLeadQuery.value = '';
-  addLeadStatusFilter.value = '';
+  addLeadAdvancedFilters.value = defaultAdvancedLeadFilters();
+  showAddLeadFilters.value = false;
   showAddLeadsModal.value = true;
 };
 
@@ -505,6 +514,24 @@ const createCrmCard = async lead => {
     alertError(e, t('PROSPECTING.ERRORS.CREATE_CRM_CARD'));
   } finally {
     convertingCrmLeadId.value = null;
+  }
+};
+
+const enrichLead = async lead => {
+  if (!lead?.id || enrichingLeadId.value) return;
+
+  enrichingLeadId.value = lead.id;
+  replaceLead({ ...lead, enrichment_status: 'running' });
+
+  try {
+    const { data } = await AutonomiaProspectingAPI.enrichLead(lead.id);
+    replaceLead(data.payload?.lead);
+    useAlert(t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED'));
+  } catch (e) {
+    replaceLead({ ...lead, enrichment_status: 'failed' });
+    alertError(e, t('PROSPECTING.ERRORS.ENRICH_LEAD'));
+  } finally {
+    enrichingLeadId.value = null;
   }
 };
 
@@ -703,6 +730,159 @@ onMounted(loadPage);
                   {{ selectedList.description }}
                 </p>
               </div>
+              <div v-if="hasSelectedList" class="relative flex shrink-0">
+                <button
+                  type="button"
+                  class="relative flex size-9 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
+                  :title="t('PROSPECTING.SEARCH.FILTER_BUTTON')"
+                  @click="showListFilters = !showListFilters"
+                >
+                  <span class="i-lucide-sliders-horizontal size-4" />
+                  <span
+                    v-if="activeListFiltersCount"
+                    class="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-n-brand text-[10px] font-semibold text-white"
+                  >
+                    {{ activeListFiltersCount }}
+                  </span>
+                </button>
+                <div
+                  v-if="showListFilters"
+                  class="absolute right-0 top-11 z-30 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
+                >
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.HAS_SITE') }}
+                      </span>
+                      <select
+                        v-model="listAdvancedFilters.has_website"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                        </option>
+                        <option value="yes">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                        </option>
+                        <option value="no">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                        </option>
+                      </select>
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHONE') }}
+                      </span>
+                      <select
+                        v-model="listAdvancedFilters.has_phone"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                        </option>
+                        <option value="yes">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                        </option>
+                        <option value="no">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                        </option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHOTOS') }}
+                      </span>
+                      <select
+                        v-model="listAdvancedFilters.has_photos"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                        </option>
+                        <option value="yes">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                        </option>
+                        <option value="no">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                        </option>
+                      </select>
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.OPEN_NOW') }}
+                      </span>
+                      <select
+                        v-model="listAdvancedFilters.open_now"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      >
+                        <option value="">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                        </option>
+                        <option value="yes">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                        </option>
+                        <option value="no">
+                          {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                        </option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MIN') }}
+                      </span>
+                      <input
+                        v-model="listAdvancedFilters.rating_min"
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.1"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      />
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MAX') }}
+                      </span>
+                      <input
+                        v-model="listAdvancedFilters.rating_max"
+                        type="number"
+                        min="0"
+                        max="5"
+                        step="0.1"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      />
+                    </label>
+                  </div>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.REVIEWS_MIN') }}
+                      </span>
+                      <input
+                        v-model="listAdvancedFilters.reviews_min"
+                        type="number"
+                        min="0"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      />
+                    </label>
+                    <label class="grid gap-1">
+                      <span class="text-xs font-medium text-n-slate-11">
+                        {{ t('PROSPECTING.SEARCH.FIELDS.SEARCH_RANK_MAX') }}
+                      </span>
+                      <input
+                        v-model="listAdvancedFilters.search_rank_max"
+                        type="number"
+                        min="1"
+                        class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                      />
+                    </label>
+                  </div>
+                </div>
+              </div>
             </div>
             <div
               v-if="hasSelectedList"
@@ -872,6 +1052,42 @@ onMounted(loadPage);
                 </div>
 
                 <div
+                  v-if="
+                    lead.enrichment_status === 'completed' ||
+                    lead.decision_name ||
+                    lead.enrichment_summary
+                  "
+                  class="mx-4 mb-3 grid gap-2 rounded-md border border-emerald-100 bg-emerald-50/70 p-3 text-xs text-emerald-950"
+                >
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 ring-1 ring-emerald-200"
+                    >
+                      <span class="i-lucide-sparkles size-3" />
+                      {{ t('PROSPECTING.SEARCH.ENRICHMENT_TITLE') }}
+                    </span>
+                    <span class="text-[11px] font-medium text-emerald-700">
+                      {{ t('PROSPECTING.SEARCH.ENRICHMENT_COMPLETED') }}
+                    </span>
+                  </div>
+                  <div v-if="lead.decision_name" class="leading-relaxed">
+                    <span class="font-semibold text-emerald-950">
+                      {{ t('PROSPECTING.SEARCH.DECISION_MAKER') }}:
+                    </span>
+                    {{ lead.decision_name }}
+                    <span v-if="lead.decision_role">
+                      · {{ lead.decision_role }}
+                    </span>
+                  </div>
+                  <div
+                    v-if="lead.enrichment_summary"
+                    class="whitespace-pre-line break-words leading-relaxed"
+                  >
+                    {{ lead.enrichment_summary }}
+                  </div>
+                </div>
+
+                <div
                   class="flex flex-wrap items-center gap-2 border-t border-n-weak px-4 pb-4 pt-3"
                 >
                   <a
@@ -883,6 +1099,49 @@ onMounted(loadPage);
                     <span class="i-lucide-map-pin size-3.5" />
                     {{ t('PROSPECTING.SEARCH.OPEN_MAP') }}
                   </a>
+                  <button
+                    type="button"
+                    class="inline-flex h-8 items-center gap-1 rounded-md px-3 text-xs font-semibold transition-colors disabled:cursor-not-allowed"
+                    :class="
+                      isLeadEnriched(lead)
+                        ? 'bg-emerald-100 text-emerald-800 ring-1 ring-emerald-200'
+                        : 'border border-n-weak text-n-slate-12 hover:bg-n-solid-2 disabled:opacity-60'
+                    "
+                    :disabled="
+                      isLeadEnriched(lead) ||
+                      enrichingLeadId === lead.id ||
+                      !settings?.enrichment_enabled ||
+                      !lead.website
+                    "
+                    :title="
+                      isLeadEnriched(lead)
+                        ? t('PROSPECTING.SEARCH.ENRICHED')
+                        : !settings?.enrichment_enabled
+                          ? t('PROSPECTING.SEARCH.ENRICHMENT_DISABLED')
+                          : !lead.website
+                            ? t('PROSPECTING.SEARCH.ENRICHMENT_NO_SITE')
+                            : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                    "
+                    @click="enrichLead(lead)"
+                  >
+                    <span
+                      class="size-3.5"
+                      :class="
+                        enrichingLeadId === lead.id
+                          ? 'animate-spin rounded-full border-2 border-n-slate-5 border-t-n-slate-11'
+                          : isLeadEnriched(lead)
+                            ? 'i-lucide-check-circle-2'
+                            : 'i-lucide-sparkles'
+                      "
+                    />
+                    {{
+                      enrichingLeadId === lead.id
+                        ? t('PROSPECTING.SEARCH.ENRICHING')
+                        : isLeadEnriched(lead)
+                          ? t('PROSPECTING.SEARCH.ENRICHED')
+                          : t('PROSPECTING.SEARCH.ENRICH_LEAD')
+                    }}
+                  </button>
                   <span
                     v-if="lead.phone && isWhatsAppChecking(lead)"
                     class="inline-flex h-8 items-center gap-1.5 rounded-md border border-n-weak bg-n-solid-2 px-3 text-xs font-medium text-n-slate-10"
@@ -1079,28 +1338,166 @@ onMounted(loadPage);
           </button>
         </header>
         <div
-          class="grid gap-3 border-b border-n-weak p-4 md:grid-cols-[minmax(0,1fr)_12rem]"
+          class="grid gap-3 border-b border-n-weak p-4 md:grid-cols-[minmax(0,1fr)_auto]"
         >
           <input
             v-model="addLeadQuery"
             class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-3 text-sm text-n-slate-12"
             :placeholder="t('PROSPECTING.LISTS.SEARCH_AVAILABLE_LEADS')"
           />
-          <select
-            v-model="addLeadStatusFilter"
-            class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
-          >
-            <option value="">
-              {{ t('PROSPECTING.QUALITY.ALL_STATUSES') }}
-            </option>
-            <option
-              v-for="status in statusOptions"
-              :key="status"
-              :value="status"
+          <div class="relative flex justify-end">
+            <button
+              type="button"
+              class="relative flex size-9 items-center justify-center rounded-md border border-n-weak text-n-slate-12 hover:bg-n-solid-2"
+              :title="t('PROSPECTING.SEARCH.FILTER_BUTTON')"
+              @click="showAddLeadFilters = !showAddLeadFilters"
             >
-              {{ t(`PROSPECTING.QUALITY.STATUSES.${status}`) }}
-            </option>
-          </select>
+              <span class="i-lucide-sliders-horizontal size-4" />
+              <span
+                v-if="activeAddLeadFiltersCount"
+                class="absolute -right-1 -top-1 flex size-4 items-center justify-center rounded-full bg-n-brand text-[10px] font-semibold text-white"
+              >
+                {{ activeAddLeadFiltersCount }}
+              </span>
+            </button>
+            <div
+              v-if="showAddLeadFilters"
+              class="absolute right-0 top-11 z-30 grid w-[22rem] gap-3 rounded-md border border-n-weak bg-n-solid-1 p-3 shadow-lg"
+            >
+              <div class="grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.HAS_SITE') }}
+                  </span>
+                  <select
+                    v-model="addLeadAdvancedFilters.has_website"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                    </option>
+                    <option value="yes">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                    </option>
+                    <option value="no">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHONE') }}
+                  </span>
+                  <select
+                    v-model="addLeadAdvancedFilters.has_phone"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                    </option>
+                    <option value="yes">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                    </option>
+                    <option value="no">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+              <div class="grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.HAS_PHOTOS') }}
+                  </span>
+                  <select
+                    v-model="addLeadAdvancedFilters.has_photos"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                    </option>
+                    <option value="yes">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                    </option>
+                    <option value="no">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                    </option>
+                  </select>
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.OPEN_NOW') }}
+                  </span>
+                  <select
+                    v-model="addLeadAdvancedFilters.open_now"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  >
+                    <option value="">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.ANY') }}
+                    </option>
+                    <option value="yes">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.YES') }}
+                    </option>
+                    <option value="no">
+                      {{ t('PROSPECTING.SEARCH.FILTERS.NO') }}
+                    </option>
+                  </select>
+                </label>
+              </div>
+              <div class="grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MIN') }}
+                  </span>
+                  <input
+                    v-model="addLeadAdvancedFilters.rating_min"
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  />
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.RATING_MAX') }}
+                  </span>
+                  <input
+                    v-model="addLeadAdvancedFilters.rating_max"
+                    type="number"
+                    min="0"
+                    max="5"
+                    step="0.1"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  />
+                </label>
+              </div>
+              <div class="grid gap-2 sm:grid-cols-2">
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.REVIEWS_MIN') }}
+                  </span>
+                  <input
+                    v-model="addLeadAdvancedFilters.reviews_min"
+                    type="number"
+                    min="0"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  />
+                </label>
+                <label class="grid gap-1">
+                  <span class="text-xs font-medium text-n-slate-11">
+                    {{ t('PROSPECTING.SEARCH.FIELDS.SEARCH_RANK_MAX') }}
+                  </span>
+                  <input
+                    v-model="addLeadAdvancedFilters.search_rank_max"
+                    type="number"
+                    min="1"
+                    class="h-9 rounded-md border border-n-weak bg-n-solid-2 px-2 text-sm text-n-slate-12"
+                  />
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="min-h-0 flex-1 overflow-y-auto p-4">
           <div

@@ -83,6 +83,7 @@ const syncForm = payload => {
     daily_limit: payload.daily_limit || '',
     monthly_limit: payload.monthly_limit || '',
     cache_ttl_seconds: payload.cache_ttl_seconds || 86400,
+    enrichment_enabled: Boolean(payload.enrichment_enabled),
     default_crm_pipeline_id: payload.default_crm_pipeline_id || '',
     default_crm_stage_id: payload.default_crm_stage_id || '',
     google_places_api_key: '',
@@ -160,6 +161,7 @@ const saveSettings = async () => {
         ? Number(form.value.monthly_limit)
         : null,
       cache_ttl_seconds: Number(form.value.cache_ttl_seconds),
+      enrichment_enabled: form.value.enrichment_enabled,
       default_crm_pipeline_id: form.value.default_crm_pipeline_id || null,
       default_crm_stage_id: form.value.default_crm_stage_id || null,
       scoring_mode: isCustomScoringProfile.value ? 'custom' : 'profile',
@@ -431,6 +433,24 @@ onMounted(fetchSettings);
               />
             </label>
           </div>
+
+          <label
+            class="flex items-start gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3"
+          >
+            <input
+              v-model="form.enrichment_enabled"
+              type="checkbox"
+              class="mt-1 size-4"
+            />
+            <span class="grid gap-1">
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ t('PROSPECTING.SETTINGS.FIELDS.ENRICHMENT_ENABLED') }}
+              </span>
+              <span class="text-xs text-n-slate-10">
+                {{ t('PROSPECTING.SETTINGS.ENRICHMENT_ENABLED_HINT') }}
+              </span>
+            </span>
+          </label>
 
           <div
             class="grid gap-3 rounded-md border border-n-weak bg-n-solid-2 p-3 md:grid-cols-2"

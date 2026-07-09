@@ -826,6 +826,22 @@ const openCardDrawer = async (card, { initialTab = null } = {}) => {
   }
 };
 
+// Bubble shortcut on the board card: jump straight into the linked inbox
+// conversation by its per-account display_id (mirrors CrmCardDrawer's
+// openConversationByDisplayId). Guarded — the card only emits this when a
+// conversation exists, but stay defensive against a stale/empty payload.
+const openCardConversation = card => {
+  const displayId = card?.conversation?.display_id;
+  if (!displayId) return;
+  router.push({
+    name: 'inbox_conversation',
+    params: {
+      accountId: route.params.accountId,
+      conversation_id: displayId,
+    },
+  });
+};
+
 const openRouteCardIfNeeded = async () => {
   const cardId = route.query.card_id;
   if (!cardId || openedRouteCardId.value === String(cardId)) return;
@@ -2180,6 +2196,8 @@ onMounted(async () => {
           :animation="150"
           :disabled="!canMoveCards"
           :sort="false"
+          filter=".crm-card-open-conversation"
+          :prevent-on-filter="false"
           @start="onDragStart"
           @change="event => onDragChange(stage, event)"
         >
@@ -2188,6 +2206,7 @@ onMounted(async () => {
               :card="element"
               :stage-color="stage.color"
               @open="openCardDrawer"
+              @open-conversation="openCardConversation"
             />
           </template>
 
