@@ -136,9 +136,33 @@
   "CRM_KANBAN": {
     "TITLE": "CRM Kanban",
     "SUBTITLE": "Operational pipelines with cards that can work independently from conversations, contacts, or inboxes.",
+    "META_SYNC_STATUS": {
+      "LABEL_ACCEPTED": "Sent",
+      "LABEL_PENDING": "Sending",
+      "LABEL_SKIPPED": "Not sent",
+      "LABEL_ERROR": "Failed",
+      "NONE": "—",
+      "COLUMN_TOOLTIP": "Status of the conversion sent to Meta (Ads) for this card.",
+      "CARD_TITLE": "Meta conversion",
+      "CARD_SENT": "Conversion sent to Meta",
+      "CARD_NOT_SENT": "No conversion sent to Meta yet",
+      "CARD_EVENT": "Event: {event}"
+    },
     "DASHBOARD": {
       "TITLE": "CRM Dashboard",
       "SUBTITLE": "Pipeline performance: funnel, deals won and lost, AI vs human, and throughput.",
+      "META_SYNC": {
+        "TITLE": "Meta conversions (Ads)",
+        "SUBTITLE": "Conversions sent back to Meta to optimize your Click-to-WhatsApp ads.",
+        "ACCEPTED": "Sent",
+        "PENDING": "Sending",
+        "ERRORS": "Failed",
+        "SKIPPED": "Not sent",
+        "REVENUE": "Revenue sent",
+        "LAST_SENT": "Last sent",
+        "NEVER": "Never",
+        "EMPTY": "No conversions sent yet. Enable Meta sync in a funnel and win a card to see data here."
+      },
       "PIPELINE_LABEL": "Pipeline",
       "PERIOD_LABEL": "Period",
       "PERIOD": {
@@ -336,7 +360,8 @@
         "PRIORITY": "Priority",
         "SCORE": "AI score",
         "CONVERSATION": "Conversation",
-        "SLA": "SLA"
+        "SLA": "SLA",
+        "META": "Meta"
       },
       "COLUMN_SETTINGS": "Columns",
       "DENSITY": "Density",

@@ -15,6 +15,7 @@ import CrmCardAiPanel from './CrmCardAiPanel.vue';
 import CrmCardSummaryPanel from './CrmCardSummaryPanel.vue';
 import CrmCardAutoFollowupStatus from './CrmCardAutoFollowupStatus.vue';
 import WhatsappApiMessageTemplatesAPI from 'dashboard/api/whatsappApiMessageTemplates';
+import MetaConversionsAPI from 'dashboard/api/metaConversions';
 
 const props = defineProps({
   show: { type: Boolean, default: false },
@@ -241,6 +242,29 @@ const statusPillClass = computed(
 );
 const aiFilledValue = computed(() => props.card?.ai_value?.source === 'ai');
 
+// CTWA conversion sync-state for the open card (FE-5 badge). Read-only ledger row
+// fetched when the drawer opens, reset on close/card change so no stale badge shows.
+const cardId = computed(() => props.card?.id || '');
+const metaConversion = ref(null);
+const metaConversionPill = computed(() => {
+  const pills = {
+    accepted: {
+      class: 'bg-n-teal-3 text-n-teal-11',
+      label: 'CRM_KANBAN.META_SYNC_STATUS.CARD_SENT',
+    },
+    pending: {
+      class: 'bg-n-amber-3 text-n-amber-11',
+      label: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_PENDING',
+    },
+    error: {
+      class: 'bg-n-ruby-3 text-n-ruby-11',
+      label: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_ERROR',
+    },
+  };
+  // 'skipped' or no row → no badge, keep the drawer uncluttered.
+  return pills[metaConversion.value?.status] || null;
+});
+
 const showWinDialog = ref(false);
 const showLoseDialog = ref(false);
 const winAmount = ref('');
@@ -421,6 +445,24 @@ watch(
   },
   { immediate: true }
 );
+
+// Fetch the card's Meta conversion row whenever the drawer opens or switches card.
+// Reset first so a stale badge never lingers; failures simply hide the badge.
+const fetchMetaConversion = async () => {
+  metaConversion.value = null;
+  if (!props.show || !cardId.value) return;
+  try {
+    const { data } = await MetaConversionsAPI.getForCards([cardId.value]);
+    const payload = data?.payload || [];
+    metaConversion.value =
+      payload.find(row => row.card_id === cardId.value) || payload[0] || null;
+  } catch {
+    metaConversion.value = null;
+  }
+};
+watch(() => [props.show, cardId.value], fetchMetaConversion, {
+  immediate: true,
+});
 
 // Re-evaluate the messaging window whenever auto-send is selected OR the chosen
 // due date changes: the window must be computed at dueAt, not at Time.current,
@@ -1008,6 +1050,30 @@ useKeyboardEvents({
               @click="reopenDeal"
             />
           </div>
+        </div>
+        <div
+          v-if="metaConversionPill"
+          class="flex flex-wrap items-center gap-2 mb-5"
+        >
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('CRM_KANBAN.META_SYNC_STATUS.CARD_TITLE') }}
+          </span>
+          <span
+            class="px-2 py-1 text-xs font-medium rounded-md"
+            :class="metaConversionPill.class"
+          >
+            {{ t(metaConversionPill.label) }}
+          </span>
+          <span
+            v-if="metaConversion?.event_type"
+            class="w-full text-xs text-n-slate-10"
+          >
+            {{
+              t('CRM_KANBAN.META_SYNC_STATUS.CARD_EVENT', {
+                event: metaConversion.event_type,
+              })
+            }}
+          </span>
         </div>
         <div v-if="isEditing" class="mb-5 grid gap-3">
           <div

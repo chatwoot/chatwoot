@@ -9,6 +9,7 @@ import { defaultFilters } from 'dashboard/store/modules/crmKanban';
 import { useCrmPermissions } from '../composables/useCrmPermissions';
 import crmMeetingsAPI from 'dashboard/api/crmMeetings';
 import CtwaCampaignsAPI from 'dashboard/api/ctwaCampaigns';
+import MetaConversionsAPI from 'dashboard/api/metaConversions';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import Draggable from 'vuedraggable';
 
@@ -198,6 +199,39 @@ const loadCampaignOptions = async () => {
     campaignOptions.value = [];
   }
 };
+
+// The Meta conversion column is only relevant for accounts running Click-to-WhatsApp
+// ads, so campaignOptions doubles as the gate. Fetch the ledger status for the cards
+// currently in the List view and expose it per card for the column badge.
+const isMetaSyncActive = computed(() => campaignOptions.value.length > 0);
+const metaByCard = ref({});
+
+const loadMetaConversions = async () => {
+  if (!isMetaSyncActive.value || !cardsList.value.length) {
+    metaByCard.value = {};
+    return;
+  }
+  try {
+    const response = await MetaConversionsAPI.getForCards(
+      cardsList.value.map(card => card.id)
+    );
+    metaByCard.value = (response.data.payload || []).reduce((map, row) => {
+      map[row.card_id] = row;
+      return map;
+    }, {});
+  } catch {
+    metaByCard.value = {};
+  }
+};
+
+const cardsListWithMeta = computed(() =>
+  cardsList.value.map(card => ({
+    ...card,
+    meta_conversion: metaByCard.value[card.id] || null,
+  }))
+);
+
+watch(cardsList, loadMetaConversions);
 
 const filtersPopover = ref(null);
 
@@ -2117,12 +2151,6 @@ onMounted(async () => {
                 }}
               </p>
             </div>
-            <span
-              v-if="stage.wip_limit"
-              class="rounded-md bg-n-alpha-2 px-2 py-1 text-[11px] text-n-slate-11"
-            >
-              {{ t('CRM_KANBAN.STATUS.WIP', { count: stage.wip_limit }) }}
-            </span>
           </div>
         </header>
 
@@ -2203,9 +2231,10 @@ onMounted(async () => {
         </div>
       </div>
       <CrmCardsTable
-        :cards="cardsList"
+        :cards="cardsListWithMeta"
         :stages="stages"
         :owners="agents"
+        :show-meta-column="isMetaSyncActive"
         :loading="uiFlags.isFetchingCardsList"
         :error="!!loadError"
         :sort="listSort"

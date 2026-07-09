@@ -76,6 +76,11 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // append the Meta conversion column (only for CTWA-active accounts)
+  showMetaColumn: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits([
@@ -106,8 +111,27 @@ const columns = computed(() =>
     t,
     stages: props.stages,
     agents: props.owners,
+    includeMeta: props.showMetaColumn,
   })
 );
+
+// Meta conversion badge: maps ledger status -> i18n label + pill classes.
+const META_STATUS_LABELS = {
+  accepted: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_ACCEPTED',
+  pending: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_PENDING',
+  skipped: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_SKIPPED',
+  error: 'CRM_KANBAN.META_SYNC_STATUS.LABEL_ERROR',
+};
+const META_STATUS_CLASSES = {
+  accepted: 'bg-n-teal-3 text-n-teal-11',
+  pending: 'bg-n-amber-3 text-n-amber-11',
+  skipped: 'bg-n-alpha-2 text-n-slate-11',
+  error: 'bg-n-ruby-3 text-n-ruby-11',
+};
+const metaStatusLabel = status =>
+  META_STATUS_LABELS[status] ? t(META_STATUS_LABELS[status]) : null;
+const metaStatusClass = status =>
+  META_STATUS_CLASSES[status] || 'bg-n-alpha-2 text-n-slate-11';
 
 const sortingState = computed(() =>
   props.sort?.id ? [{ id: props.sort.id, desc: !!props.sort.desc }] : []
@@ -842,6 +866,30 @@ const onRowKeydown = (event, card) => {
                         }}
                       </span>
                     </button>
+
+                    <!-- Meta conversion status badge -->
+                    <span
+                      v-else-if="cellKind(cell.column) === 'meta'"
+                      class="block truncate"
+                    >
+                      <span
+                        v-if="
+                          metaStatusLabel(row.original.meta_conversion?.status)
+                        "
+                        class="inline-flex rounded-md px-2 py-1 text-[11px]"
+                        :class="
+                          metaStatusClass(row.original.meta_conversion?.status)
+                        "
+                        :title="t('CRM_KANBAN.META_SYNC_STATUS.COLUMN_TOOLTIP')"
+                      >
+                        {{
+                          metaStatusLabel(row.original.meta_conversion?.status)
+                        }}
+                      </span>
+                      <span v-else class="text-n-slate-10">
+                        {{ t('CRM_KANBAN.META_SYNC_STATUS.NONE') }}
+                      </span>
+                    </span>
 
                     <!-- fallback: raw accessor value -->
                     <span v-else class="block truncate text-n-slate-11">
