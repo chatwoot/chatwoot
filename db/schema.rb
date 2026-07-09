@@ -468,7 +468,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_09_114500) do
     t.index ["account_id", "dedupe_key"], name: "index_autonomia_prospecting_leads_on_account_id_and_dedupe_key", unique: true
     t.index ["account_id", "enrichment_completed_at"], name: "idx_autonomia_prospecting_leads_account_enriched_at"
     t.index ["account_id", "enrichment_status"], name: "idx_autonomia_prospecting_leads_account_enrichment"
-    t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
     t.index ["account_id", "priority_score"], name: "idx_autonomia_prospecting_leads_account_priority"
     t.index ["account_id", "provider", "provider_place_id"], name: "idx_autonomia_prospecting_leads_provider_place", unique: true, where: "(provider_place_id IS NOT NULL)"
     t.index ["account_id", "score"], name: "idx_autonomia_prospecting_leads_account_score"

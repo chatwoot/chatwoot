@@ -21,11 +21,21 @@ module Crm::MetaCapi::PayloadBuilder
   # The single movement token emitted by Crm::MetaCapiListener#crm_card_moved and the
   # meta_sync events config key. Must stay 'moved' (not 'move'/'create') across the stack.
   MOVEMENT_EVENT_TYPES = %w[moved].freeze
+  # CAPI-BM accepts only Meta's STANDARD event names — a raw funnel token such as
+  # 'negotiation' is treated as a custom event and rejected with error #270
+  # (verified against production, 2026-07-09: Purchase accepted, raw tokens 400).
+  # Map the internal stage classification to standard funnel events in depth order.
+  FUNNEL_EVENT_NAMES = {
+    'lead' => 'LeadSubmitted',
+    'qualified' => 'QualifiedLead',
+    'opportunity' => 'AddToCart',
+    'negotiation' => 'InitiateCheckout'
+  }.freeze
 
   # Canonical Meta event_name for a CRM lifecycle event, or nil when it must not be sent.
   def canonical_event_name(event_type:, stage_type:)
     return RESULT_EVENT_NAMES[event_type] if RESULT_EVENT_NAMES.key?(event_type)
-    return stage_type.presence if MOVEMENT_EVENT_TYPES.include?(event_type)
+    return FUNNEL_EVENT_NAMES[stage_type.to_s] if MOVEMENT_EVENT_TYPES.include?(event_type)
 
     nil
   end

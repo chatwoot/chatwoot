@@ -19,17 +19,23 @@ RSpec.describe Crm::MetaCapi::PayloadBuilder do
       expect(described_class.canonical_event_name(event_type: 'lost', stage_type: 'ignored')).to eq('OrderCanceled')
     end
 
-    it 'uses the stage funnel type for movement events' do
-      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'QualifiedLead')).to eq('QualifiedLead')
-      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'LeadSubmitted')).to eq('LeadSubmitted')
+    it 'maps the internal stage classification to standard Meta funnel events' do
+      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'lead')).to eq('LeadSubmitted')
+      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'qualified')).to eq('QualifiedLead')
+      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'opportunity')).to eq('AddToCart')
+      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'negotiation')).to eq('InitiateCheckout')
     end
 
     it 'returns nil for a movement without a configured stage type' do
       expect(described_class.canonical_event_name(event_type: 'moved', stage_type: nil)).to be_nil
     end
 
+    it 'never forwards an unknown token as a raw (custom) event name — Meta rejects those' do
+      expect(described_class.canonical_event_name(event_type: 'moved', stage_type: 'negociacao')).to be_nil
+    end
+
     it 'returns nil for lifecycle events with no native CAPI mapping' do
-      expect(described_class.canonical_event_name(event_type: 'reopen', stage_type: 'QualifiedLead')).to be_nil
+      expect(described_class.canonical_event_name(event_type: 'reopen', stage_type: 'qualified')).to be_nil
       expect(described_class.canonical_event_name(event_type: 'archive', stage_type: nil)).to be_nil
     end
   end
