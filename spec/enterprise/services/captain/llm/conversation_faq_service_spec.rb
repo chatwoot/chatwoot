@@ -74,7 +74,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
                          sender: create(:contact, account: conversation.account), message_type: :incoming,
                          content: 'Customer question')
         create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
-                                      content: 'Bot answer that should not become knowledge')
+                                       content: 'Bot answer that should not become knowledge')
         create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
                          sender: create(:user, account: conversation.account), message_type: :outgoing,
                          content: 'Human answer')
@@ -89,9 +89,9 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         expected_content = satisfy do |content|
           content.include?('User: Customer question') &&
             content.include?('Support Agent: Human answer') &&
-            !content.include?('Bot answer that should not become knowledge') &&
-            !content.include?('Private note') &&
-            !content.include?('Activity message')
+            content.exclude?('Bot answer that should not become knowledge') &&
+            content.exclude?('Private note') &&
+            content.exclude?('Activity message')
         end
         expect(mock_chat).to have_received(:ask).with(expected_content)
       end
@@ -118,7 +118,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
                          sender: create(:contact, account: conversation.account), message_type: :incoming,
                          content: 'Customer asks something')
         create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
-                                      content: 'Bot-only answer')
+                                       content: 'Bot-only answer')
         create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
                          sender: create(:user, account: conversation.account), message_type: :outgoing,
                          content: 'Agent gives a public answer')
