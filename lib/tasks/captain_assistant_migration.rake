@@ -68,6 +68,10 @@ class CaptainAssistantMigrationTask
     def find_by(*)
       nil
     end
+
+    def exists?
+      false
+    end
   end
 
   CsvAssistant = Struct.new(
@@ -91,10 +95,9 @@ class CaptainAssistantMigrationTask
       scope = Captain::Assistant.includes(:account, :captain_inboxes, :scenarios)
 
       ids = ENV.fetch('IDS', '').split(',').filter_map { |id| id.strip.presence }
-      return scope.where(id: ids) if ids.any?
+      scope = scope.where(id: ids) if ids.any?
 
-      scope = scope.where("NULLIF(config->>'instructions', '') IS NOT NULL")
-                   .order(:id)
+      scope = migration_eligible_scope(scope).order(:id)
 
       limit = ENV.fetch('LIMIT', 50).to_i
       limit.positive? ? scope.limit(limit) : scope
@@ -125,6 +128,8 @@ class CaptainAssistantMigrationTask
 
       assistant_id = payload.dig('assistant', 'id') || payload['assistant_id']
       assistant = Captain::Assistant.find(assistant_id)
+      return skipped_result(line_number, assistant_id, 'Assistant is not a V1 migration candidate') unless migration_candidate?(assistant)
+
       draft = payload['draft'] || payload
 
       Captain::AssistantMigration::DraftApplier.new(
@@ -146,7 +151,39 @@ class CaptainAssistantMigrationTask
 
     private
 
-    def csv_assistants # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def skipped_result(line_number, assistant_id, reason)
+      {
+        line_number: line_number,
+        assistant_id: assistant_id,
+        skipped: true,
+        reason: reason
+      }
+    end
+
+    def migration_eligible_scope(scope)
+      scope.left_outer_joins(:scenarios)
+           .where("NULLIF(captain_assistants.config->>'instructions', '') IS NOT NULL")
+           .where("captain_assistants.response_guidelines IS NULL OR captain_assistants.response_guidelines = '[]'::jsonb")
+           .where("captain_assistants.guardrails IS NULL OR captain_assistants.guardrails = '[]'::jsonb")
+           .where(captain_scenarios: { id: nil })
+           .distinct
+    end
+
+    def migration_candidate?(assistant)
+      assistant.config['instructions'].present? &&
+        Array(assistant.response_guidelines).blank? &&
+        Array(assistant.guardrails).blank? &&
+        !scenarios_exist?(assistant)
+    end
+
+    def scenarios_exist?(assistant)
+      scenarios = assistant.scenarios
+      return scenarios.exists? if scenarios.respond_to?(:exists?)
+
+      scenarios.present?
+    end
+
+    def csv_assistants # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       rows = CSV.read(ENV.fetch('CSV_INPUT'), headers: true)
       ids = ENV.fetch('IDS', '').split(',').filter_map { |id| id.strip.presence }
       status = ENV.fetch('STATUS', '').presence
@@ -156,7 +193,7 @@ class CaptainAssistantMigrationTask
         next if status.present? && row['status'].to_s != status
 
         assistant = csv_assistant(row)
-        next if assistant.config['instructions'].blank?
+        next unless migration_candidate?(assistant)
 
         assistant
       end

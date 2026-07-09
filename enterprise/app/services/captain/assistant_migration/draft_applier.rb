@@ -1,4 +1,9 @@
+# rubocop:disable Metrics/ClassLength
 class Captain::AssistantMigration::DraftApplier
+  CONFIG_KEY = 'assistant_migration'.freeze
+  SCENARIO_DESCRIPTION_LIMIT = 500
+  ORIGINAL_VALUES_KEY = 'original_values'.freeze
+
   pattr_initialize [:assistant!, :draft!, { dry_run: true, apply_scenarios: false }]
 
   def perform
@@ -87,10 +92,43 @@ class Captain::AssistantMigration::DraftApplier
 
       updated_config[key] = value
     end
+    updated_config[CONFIG_KEY] = migration_config
 
     return if updated_config == assistant.config
 
     { from: assistant.config, to: updated_config }
+  end
+
+  def migration_config
+    existing_migration_config.merge(
+      ORIGINAL_VALUES_KEY => existing_original_values,
+      'scenario_candidates' => staged_scenario_candidates,
+      'faq_document_candidates' => normalized_instruction_items(:faq_document_candidates),
+      'needs_review' => normalized_instruction_items(:needs_review)
+    )
+  end
+
+  def existing_migration_config
+    config = assistant.config[CONFIG_KEY]
+    config.is_a?(Hash) ? config : {}
+  end
+
+  def existing_original_values
+    existing_migration_config[ORIGINAL_VALUES_KEY].presence || original_values
+  end
+
+  def original_values
+    {
+      'name' => assistant.name,
+      'description' => assistant.description,
+      'config' => original_config,
+      'response_guidelines' => Array(assistant.response_guidelines),
+      'guardrails' => Array(assistant.guardrails)
+    }
+  end
+
+  def original_config
+    assistant.config.except(CONFIG_KEY)
   end
 
   def conversation_messages
@@ -112,21 +150,45 @@ class Captain::AssistantMigration::DraftApplier
 
   def structured_scenario_changes
     Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
-      next unless candidate.is_a?(Hash)
-
-      candidate = candidate.deep_symbolize_keys
-      instruction = candidate[:instruction].to_s.squish
-      title = candidate[:title].to_s.squish
-      description = candidate[:description].to_s.squish
-      next if title.blank? || description.blank? || instruction.blank?
+      normalized_candidate = normalized_scenario_candidate(candidate)
+      next if normalized_candidate.blank?
 
       {
-        title: title.truncate(80),
-        description: description.truncate(300),
-        instruction: instruction,
-        tool_ids: scenario_tool_ids(candidate[:tool_ids])
+        title: normalized_candidate[:title].truncate(80),
+        description: normalized_candidate[:description],
+        instruction: normalized_candidate[:instruction],
+        tool_ids: normalized_candidate[:tool_ids]
       }
     end
+  end
+
+  def staged_scenario_candidates
+    Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
+      normalized_candidate = normalized_scenario_candidate(candidate)
+      next if normalized_candidate.blank?
+
+      {
+        'title' => normalized_candidate[:title],
+        'description' => normalized_candidate[:description],
+        'instruction' => normalized_candidate[:instruction],
+        'tool_ids' => normalized_candidate[:tool_ids]
+      }
+    end
+  end
+
+  def normalized_scenario_candidate(candidate)
+    return unless candidate.is_a?(Hash)
+
+    candidate = candidate.deep_symbolize_keys
+    normalized_candidate = {
+      title: candidate[:title].to_s.squish,
+      description: candidate[:description].to_s.squish.truncate(SCENARIO_DESCRIPTION_LIMIT),
+      instruction: candidate[:instruction].to_s.squish,
+      tool_ids: scenario_tool_ids(candidate[:tool_ids])
+    }
+    return if normalized_candidate.values_at(:title, :description, :instruction).any?(&:blank?)
+
+    normalized_candidate
   end
 
   def legacy_scenario_changes
@@ -152,17 +214,16 @@ class Captain::AssistantMigration::DraftApplier
 
   def item_values(key)
     Array(draft_hash[key]).filter_map do |item|
-      value = if item.is_a?(Hash)
-                item.deep_symbolize_keys[:value]
-              else
-                item
-              end
-
-      value.to_s.squish.presence
+      item.to_s.squish.presence
     end.uniq
+  end
+
+  def normalized_instruction_items(key)
+    item_values(key)
   end
 
   def draft_hash
     @draft_hash ||= draft.deep_symbolize_keys
   end
 end
+# rubocop:enable Metrics/ClassLength
