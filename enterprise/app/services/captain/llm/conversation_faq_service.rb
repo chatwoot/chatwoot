@@ -4,7 +4,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   DISTANCE_THRESHOLD = 0.3
 
   def initialize(assistant, conversation)
-    super(feature: 'document_faq_generation', account: conversation.account)
+    super(feature: 'conversation_faq_generation', account: conversation.account)
     @assistant = assistant
     @conversation = conversation
     @content = conversation_faq_content
