@@ -1,10 +1,9 @@
-# rubocop:disable Metrics/ClassLength
 class Captain::AssistantMigration::DraftApplier
   CONFIG_KEY = 'assistant_migration'.freeze
   SCENARIO_DESCRIPTION_LIMIT = 500
   ORIGINAL_VALUES_KEY = 'original_values'.freeze
 
-  pattr_initialize [:assistant!, :draft!, { dry_run: true, apply_scenarios: false }]
+  pattr_initialize [:assistant!, :draft!, { dry_run: true }]
 
   def perform
     changes = build_changes
@@ -13,7 +12,6 @@ class Captain::AssistantMigration::DraftApplier
     {
       assistant_id: assistant.id,
       dry_run: dry_run,
-      apply_scenarios: apply_scenarios,
       changes: changes
     }
   end
@@ -25,15 +23,13 @@ class Captain::AssistantMigration::DraftApplier
       description: description_change,
       response_guidelines: array_change(:response_guidelines, response_guidelines),
       guardrails: array_change(:guardrails, guardrails),
-      config: config_change,
-      scenarios: scenario_changes
+      config: config_change
     }.compact
   end
 
   def apply_changes(changes)
     assistant.transaction do
       assistant.update!(assistant_update_attributes(changes)) if assistant_update_attributes(changes).present?
-      apply_scenario_changes(changes[:scenarios]) if apply_scenarios && changes[:scenarios].present?
     end
   end
 
@@ -46,20 +42,6 @@ class Captain::AssistantMigration::DraftApplier
     end
   end
 
-  def apply_scenario_changes(changes)
-    changes.each do |change|
-      scenario = assistant.scenarios.find_or_initialize_by(title: change[:title])
-      scenario.assign_attributes(
-        account: assistant.account,
-        description: change[:description],
-        instruction: change[:instruction],
-        enabled: true,
-        tools: change[:tool_ids] || []
-      )
-      scenario.save!
-    end
-  end
-
   def description_change
     value = item_values(:business_product_context).join("\n").presence
     return if value.blank? || value == assistant.description
@@ -68,7 +50,7 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def response_guidelines
-    item_values(:response_guidelines)
+    (item_values(:response_guidelines) + scenario_response_guidelines).uniq
   end
 
   def guardrails
@@ -142,37 +124,25 @@ class Captain::AssistantMigration::DraftApplier
     }
   end
 
-  def scenario_changes
-    return [] unless apply_scenarios
-
-    structured_scenario_changes.presence || legacy_scenario_changes
-  end
-
-  def structured_scenario_changes
-    Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
-      normalized_candidate = normalized_scenario_candidate(candidate)
-      next if normalized_candidate.blank?
-
-      {
-        title: normalized_candidate[:title].truncate(80),
-        description: normalized_candidate[:description],
-        instruction: normalized_candidate[:instruction],
-        tool_ids: normalized_candidate[:tool_ids]
-      }
+  def staged_scenario_candidates
+    scenario_candidates.map do |candidate|
+      candidate.transform_keys(&:to_s)
     end
   end
 
-  def staged_scenario_candidates
-    Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
-      normalized_candidate = normalized_scenario_candidate(candidate)
-      next if normalized_candidate.blank?
+  def scenario_response_guidelines
+    scenario_candidates.map do |candidate|
+      "Scenario candidate: #{candidate[:title]}\nUse when: #{candidate[:description]}\nInstructions: #{candidate[:instruction]}"
+    end
+  end
 
-      {
-        'title' => normalized_candidate[:title],
-        'description' => normalized_candidate[:description],
-        'instruction' => normalized_candidate[:instruction],
-        'tool_ids' => normalized_candidate[:tool_ids]
-      }
+  def scenario_tool_ids(tool_ids)
+    Array(tool_ids).filter_map { |tool_id| tool_id.to_s.squish.presence }.uniq
+  end
+
+  def scenario_candidates
+    Array(draft_hash[:scenario_candidates]).filter_map do |candidate|
+      normalized_scenario_candidate(candidate)
     end
   end
 
@@ -191,27 +161,6 @@ class Captain::AssistantMigration::DraftApplier
     normalized_candidate
   end
 
-  def legacy_scenario_changes
-    item_values(:scenarios_procedures).map.with_index(1) do |instruction, index|
-      {
-        title: legacy_scenario_title(instruction, index),
-        description: instruction.truncate(200),
-        instruction: instruction,
-        tool_ids: []
-      }
-    end
-  end
-
-  def scenario_tool_ids(tool_ids)
-    Array(tool_ids).filter_map { |tool_id| tool_id.to_s.squish.presence }.uniq
-  end
-
-  def legacy_scenario_title(instruction, index)
-    title = instruction.to_s.split(/[.\n]/).first.to_s.squish
-    title = "Migrated scenario #{index}" if title.blank?
-    title.truncate(80)
-  end
-
   def item_values(key)
     Array(draft_hash[key]).filter_map do |item|
       item.to_s.squish.presence
@@ -226,4 +175,3 @@ class Captain::AssistantMigration::DraftApplier
     @draft_hash ||= draft.deep_symbolize_keys
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -26,16 +26,14 @@ namespace :captain do
       puts "Wrote #{processed} migration drafts to #{output_path}"
     end
 
-    desc 'Apply reviewed migration drafts. Usage: rake captain:assistant_migration:apply INPUT=tmp/reviewed.jsonl DRY_RUN=true APPLY_SCENARIOS=false'
+    desc 'Apply reviewed migration drafts. Usage: rake captain:assistant_migration:apply INPUT=tmp/reviewed.jsonl DRY_RUN=true'
     task apply: :environment do
       input_path = ENV.fetch('INPUT')
       dry_run = CaptainAssistantMigrationTask.truthy?('DRY_RUN', default: true)
-      apply_scenarios = CaptainAssistantMigrationTask.truthy?('APPLY_SCENARIOS', default: false)
 
       results = CaptainAssistantMigrationTask.apply_drafts(
         input_path: input_path,
-        dry_run: dry_run,
-        apply_scenarios: apply_scenarios
+        dry_run: dry_run
       )
 
       results.each { |result| puts(JSON.generate(result)) }
@@ -113,17 +111,17 @@ class CaptainAssistantMigrationTask
       assistants.respond_to?(:size) ? assistants.size : assistants.count
     end
 
-    def apply_drafts(input_path:, dry_run:, apply_scenarios:)
+    def apply_drafts(input_path:, dry_run:)
       File.readlines(input_path, chomp: true).filter_map.with_index(1) do |line, line_number|
         next if line.blank?
 
-        apply_draft(JSON.parse(line), line_number: line_number, dry_run: dry_run, apply_scenarios: apply_scenarios)
+        apply_draft(JSON.parse(line), line_number: line_number, dry_run: dry_run)
       rescue JSON::ParserError => e
         { line_number: line_number, error: "Invalid JSON: #{e.message}" }
       end
     end
 
-    def apply_draft(payload, line_number:, dry_run:, apply_scenarios:)
+    def apply_draft(payload, line_number:, dry_run:)
       return { line_number: line_number, skipped: true, reason: payload['error'] } if payload['error'].present?
 
       assistant_id = payload.dig('assistant', 'id') || payload['assistant_id']
@@ -135,8 +133,7 @@ class CaptainAssistantMigrationTask
       Captain::AssistantMigration::DraftApplier.new(
         assistant: assistant,
         draft: draft,
-        dry_run: dry_run,
-        apply_scenarios: apply_scenarios
+        dry_run: dry_run
       ).perform.merge(line_number: line_number)
     rescue ActiveRecord::RecordNotFound
       { line_number: line_number, assistant_id: assistant_id, error: 'Assistant not found' }
@@ -162,6 +159,7 @@ class CaptainAssistantMigrationTask
 
     def migration_eligible_scope(scope)
       scope.left_outer_joins(:scenarios)
+           .joins(:captain_inboxes)
            .where("NULLIF(captain_assistants.config->>'instructions', '') IS NOT NULL")
            .where("captain_assistants.response_guidelines IS NULL OR captain_assistants.response_guidelines = '[]'::jsonb")
            .where("captain_assistants.guardrails IS NULL OR captain_assistants.guardrails = '[]'::jsonb")
@@ -171,6 +169,7 @@ class CaptainAssistantMigrationTask
 
     def migration_candidate?(assistant)
       assistant.config['instructions'].present? &&
+        assistant.captain_inboxes.size.positive? &&
         Array(assistant.response_guidelines).blank? &&
         Array(assistant.guardrails).blank? &&
         !scenarios_exist?(assistant)

@@ -1,6 +1,9 @@
 class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
   def self.instruction_items(field_name, description:, max_items: 20)
-    array field_name, description: description, max_items: max_items, of: :string
+    array field_name,
+          description: "#{description} Return plain standalone sentences without numbering, bullets, or section labels.",
+          max_items: max_items,
+          of: :string
   end
 
   instruction_items :business_product_context,
@@ -18,7 +21,7 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
                     max_items: 20
 
   array :scenario_candidates,
-        description: 'Review-stage specialized-agent candidates with domain-specific routing and evidence-backed tool use.',
+        description: 'Review-stage specialized-agent candidates. These are also temporarily flattened into response guidelines.',
         max_items: 15 do
     object do
       string :title,

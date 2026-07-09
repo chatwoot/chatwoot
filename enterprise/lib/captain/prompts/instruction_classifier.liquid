@@ -16,6 +16,11 @@ Classify the existing assistant instructions into these sections:
 - Return clean migrated values only. Do not include source excerpts, source labels, citations, or "Source:" text in any migrated field.
 - Do not rewrite customer-facing message copy unless necessary to classify an exact copy from instructions.
 - Do not include confidence labels, review labels, bracketed reviewer comments, or schema labels inside migrated values.
+- For Business/Product Context, Response Guidelines, and Guardrails, return each item as a plain standalone sentence.
+  Do not prefix items with numbers, bullets, section labels, or list markers such as "1.", "-", or "*".
+- When several instructions share the same trigger, condition, or subject, combine them into one concise item instead
+  of repeating the same trigger across multiple items. Preserve every required action, prohibition, and routing
+  outcome from the source instruction when combining.
 - If unsure, place content in Needs Review and include the reason in that item.
 - Return data that matches the provided schema.
 
@@ -46,6 +51,9 @@ Classify the existing assistant instructions into these sections:
 
 - In the current architecture, a scenario becomes a specialized sub-agent with its own title, description,
   instructions, and optional tools.
+- During this migration, scenario candidates are also temporarily flattened into response guidelines so existing
+  assistant behavior is preserved before scenario records are created. Keep scenario titles, descriptions, and
+  instructions clear, self-contained, and reviewable.
 - Only create scenario candidates for distinct user-intent workflows that should be routed to a specialized agent.
   A candidate must be narrow enough to become a named specialist assistant with domain-specific handling instructions.
 - Good scenario candidates include multi-step intake workflows, qualification flows, specialized troubleshooting
