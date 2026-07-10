@@ -31,7 +31,9 @@ Classify the existing assistant instructions into these sections:
 - Start with the existing assistant description and preserve its meaning.
 - Enrich it only with relevant business or product context found in the custom instructions.
 - Produce one coherent description rather than appending a second context block or repeating the existing description.
-- Keep it at most 200 characters because that is the assistant description limit in the UI.
+- Keep it at most 500 characters because that is the assistant description limit in the UI and model.
+- Prefer roughly 300-450 characters when the source needs detail, leaving room below the hard limit.
+- Finish the description cleanly. Never end mid-word, mid-clause, after an opening bracket, or with a dangling separator.
 - Make it a compact summary of assistant identity, product scope, high-level mission, and high-level source or routing priorities.
 - Do not include detailed workflows, step-by-step procedures, long support-scope inventories, attribute glossaries,
   policy details, scenario-specific handling, tool instructions, or customer-facing message copy.

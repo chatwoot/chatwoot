@@ -1,4 +1,6 @@
 class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   def self.instruction_items(field_name, description:, max_items: 20)
     array field_name,
           description: "#{description} Return plain standalone sentences without numbering, bullets, or section labels.",
@@ -7,14 +9,14 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
   end
 
   array :business_product_context,
-        description: 'Single compact root assistant description for the root orchestrator prompt, maximum 200 characters: ' \
+        description: "Single compact root assistant description for the root orchestrator prompt, maximum #{DESCRIPTION_LENGTH_LIMIT} characters: " \
                      'preserve the existing assistant description and enrich it only with relevant business/product context from the ' \
                      'custom instructions. Include assistant identity, product scope, high-level mission, and high-level source/routing ' \
                      'priorities only. Do not include workflows, procedures, attribute glossaries, policy details, or long inventories. ' \
-                     'Return one plain standalone sentence without numbering, bullets, or section labels.',
+                     'Return complete plain prose without numbering, bullets, section labels, or a truncated final sentence.',
         min_items: 1,
         max_items: 1 do
-    string max_length: 200
+    string max_length: DESCRIPTION_LENGTH_LIMIT
   end
 
   instruction_items :response_guidelines,

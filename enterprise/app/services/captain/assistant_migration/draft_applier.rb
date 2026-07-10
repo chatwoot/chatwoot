@@ -1,5 +1,5 @@
 class Captain::AssistantMigration::DraftApplier
-  ASSISTANT_DESCRIPTION_LIMIT = 200
+  ASSISTANT_DESCRIPTION_LIMIT = 500
   CONFIG_KEY = 'assistant_migration'.freeze
   SCENARIO_DESCRIPTION_LIMIT = 500
   ORIGINAL_VALUES_KEY = 'original_values'.freeze

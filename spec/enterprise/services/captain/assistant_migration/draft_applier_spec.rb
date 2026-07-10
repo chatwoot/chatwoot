@@ -91,7 +91,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
           draft: draft.merge(business_product_context: [long_context]),
           dry_run: false
         ).perform
-      end.to raise_error(ArgumentError, 'Assistant description exceeds 200 characters')
+      end.to raise_error(ArgumentError, 'Assistant description exceeds 500 characters')
 
       expect(assistant.reload.description).to eq(original_description)
     end
