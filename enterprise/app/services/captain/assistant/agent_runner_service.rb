@@ -20,6 +20,9 @@ class Captain::Assistant::AgentRunnerService
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
     @last_run_result = runner.run(message_to_process, context: context, max_turns: 10)
+    @last_run_result = rewrite_oversized_response(@last_run_result) if response_too_long?(@last_run_result)
+
+    raise "Captain response exceeds the channel limit of #{message_length_limit} characters" if response_too_long?(@last_run_result)
 
     process_agent_result(@last_run_result)
   rescue StandardError => e
@@ -91,6 +94,28 @@ class Captain::Assistant::AgentRunnerService
     response['agent_name'] = result.context&.dig(:current_agent)
     response['handoff_tool_called'] = result.context&.dig(:captain_v2_handoff_tool_called) || false
     response
+  end
+
+  def rewrite_oversized_response(result)
+    runner.run(
+      "Your previous response was #{response_text(result).length} characters, but this channel allows a maximum of " \
+      "#{message_length_limit} characters. Rewrite it within the limit while preserving the essential information. " \
+      'Do not call tools or perform new actions.',
+      context: result.context,
+      max_turns: 10
+    )
+  end
+
+  def response_too_long?(result)
+    message_length_limit && response_text(result).length > message_length_limit
+  end
+
+  def response_text(result)
+    extract_text_from_content(result.output).to_s
+  end
+
+  def message_length_limit
+    @message_length_limit ||= Captain::MessageLengthLimit.for(@conversation&.inbox)
   end
 
   def error_response(error_message)
