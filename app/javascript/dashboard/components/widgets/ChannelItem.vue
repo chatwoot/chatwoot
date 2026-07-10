@@ -53,11 +53,7 @@ const isActive = computed(() => {
   }
 
   if (key === 'whatsapp_call') {
-    return (
-      props.enabledFeatures.channel_voice &&
-      !!window.chatwootConfig?.whatsappAppId &&
-      window.chatwootConfig.whatsappAppId !== 'none'
-    );
+    return props.enabledFeatures.channel_voice;
   }
 
   if (key === 'voice') {
