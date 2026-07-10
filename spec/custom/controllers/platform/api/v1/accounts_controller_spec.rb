@@ -35,4 +35,34 @@ RSpec.describe 'Platform Accounts API (fork quota provisioning)', type: :request
 
     expect(response).to have_http_status(:unprocessable_entity)
   end
+
+  describe 'custom_attributes merge-patch on update' do
+    let(:account) do
+      create(:account, custom_attributes: { 'marked_for_deletion_at' => '2026-07-17T00:00:00Z', 'plan_name' => 'startups' })
+    end
+
+    before { platform_app.platform_app_permissibles.create!(permissible: account) }
+
+    it 'preserves keys omitted from a sparse patch (agentic usage writeback safety)' do
+      patch "/platform/api/v1/accounts/#{account.id}",
+            params: { custom_attributes: { agentic_ai_usage: 1234 } },
+            headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.reload.custom_attributes).to eq(
+        'marked_for_deletion_at' => '2026-07-17T00:00:00Z',
+        'plan_name' => 'startups',
+        'agentic_ai_usage' => 1234
+      )
+    end
+
+    it 'deletes a key on an explicit null' do
+      patch "/platform/api/v1/accounts/#{account.id}",
+            params: { custom_attributes: { marked_for_deletion_at: nil } },
+            headers: { api_access_token: platform_app.access_token.token }, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(account.reload.custom_attributes).to eq('plan_name' => 'startups')
+    end
+  end
 end

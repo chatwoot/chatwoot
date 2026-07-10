@@ -19,6 +19,7 @@ so the same problem is never debugged twice.
 
 Add a line here per entry, newest first:
 
+- [2026-07-10 — Sparse custom_attributes PATCH wiped Chatwoot-owned account state](./2026-07-10-sparse-custom-attributes-patch-wiped-account-state.md)
 - [2026-07-10 — SSO-only lockdown leaked from dev .env into specs (and blank values counted as ON)](./2026-07-10-sso-flag-leaked-from-dev-env-into-specs.md)
 - [2026-07-03 — agentic_ai limit key rejected by the limits JSON schema](./2026-07-03-agentic-ai-limit-key-rejected-by-schema.md)
 - [2026-07-03 — SSO-only lockdown bypassable via Google OAuth / SAML](./2026-07-03-sso-only-login-bypassable-via-oauth-saml.md)
