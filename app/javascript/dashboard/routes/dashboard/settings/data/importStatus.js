@@ -9,14 +9,22 @@ export const isIntercomImport = dataImport =>
   dataImport?.data_type === 'intercom' &&
   dataImport?.source_provider === 'intercom';
 
-export const isAbandonableImport = dataImport =>
+export const isActiveIntercomImport = dataImport =>
   isIntercomImport(dataImport) && isActiveImport(dataImport);
 
-export const importedCount = dataImport =>
-  ['contacts', 'conversations', 'messages'].reduce(
+export const isAbandonableImport = dataImport =>
+  isActiveIntercomImport(dataImport);
+
+export const importedCount = dataImport => {
+  if (!isIntercomImport(dataImport)) {
+    return Number(dataImport?.processed_records || 0);
+  }
+
+  return ['contacts', 'conversations', 'messages'].reduce(
     (total, key) => total + Number(dataImport?.stats?.[key]?.imported || 0),
     0
   );
+};
 
 export const statValue = (dataImport, group, key) =>
   Number(dataImport?.stats?.[group]?.[key] || 0);

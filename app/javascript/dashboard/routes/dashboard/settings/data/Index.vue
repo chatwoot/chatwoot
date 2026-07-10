@@ -23,6 +23,7 @@ import {
   formatStatus,
   importedCount,
   isActiveImport,
+  isActiveIntercomImport,
 } from './importStatus';
 
 const { t } = useI18n();
@@ -49,6 +50,9 @@ const activeTabIndex = computed(() =>
 );
 
 const hasActiveImport = computed(() => dataImports.value.some(isActiveImport));
+const hasActiveIntercomImport = computed(() =>
+  dataImports.value.some(isActiveIntercomImport)
+);
 
 const dataImportRoute = dataImport => ({
   name: 'settings_data_import_show',
@@ -129,7 +133,7 @@ const openImport = dataImport => {
 };
 
 const openImportDrawer = () => {
-  if (!hasActiveImport.value) showImportDrawer.value = true;
+  if (!hasActiveIntercomImport.value) showImportDrawer.value = true;
 };
 
 const onImportCreated = dataImportId => {
@@ -235,9 +239,9 @@ onBeforeUnmount(() => {
               v-if="dataImports.length"
               icon="i-lucide-download"
               :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-              :disabled="hasActiveImport"
+              :disabled="hasActiveIntercomImport"
               :title="
-                hasActiveImport
+                hasActiveIntercomImport
                   ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
                   : undefined
               "
@@ -339,7 +343,7 @@ onBeforeUnmount(() => {
 
   <NewImportDrawer
     :show="showImportDrawer"
-    :has-active-import="hasActiveImport"
+    :has-active-import="hasActiveIntercomImport"
     @close="showImportDrawer = false"
     @created="onImportCreated"
   />
