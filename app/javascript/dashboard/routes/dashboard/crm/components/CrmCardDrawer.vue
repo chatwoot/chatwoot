@@ -54,7 +54,7 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
-const { originFromCampaigns, formatOriginLabel, formatOriginTitle } =
+const { originFromCampaigns, humanizedOriginLabel, formatOriginTitle } =
   useCrmOrigin();
 
 const store = useStore();
@@ -1170,7 +1170,7 @@ useKeyboardEvents({
                 tone="teal"
                 :title="formatOriginTitle(originPill)"
               >
-                {{ formatOriginLabel(originPill) }}
+                {{ humanizedOriginLabel(originPill) }}
                 <template v-if="originPill.extraCount > 0" #trail>
                   <span class="shrink-0 font-semibold">
                     {{ `+${originPill.extraCount}` }}

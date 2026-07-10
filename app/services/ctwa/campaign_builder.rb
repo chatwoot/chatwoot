@@ -1,5 +1,4 @@
 require 'digest/sha1'
-require 'uri'
 
 # Promotes Click-to-WhatsApp (Meta CTWA) referrals and tracked-link bridge
 # attribution into first-class conversation attributes so they can drive the Kanban
@@ -156,7 +155,8 @@ module Ctwa::CampaignBuilder
     ref.merge(source_url: ref[:source_url].to_s.first(MAX_SOURCE_URL_LENGTH))
   end
 
-  # source_url arrives already bounded by build; only derivation happens here.
+  # source_url arrives already bounded by build. Only attribution identifiers are
+  # derived here; user-facing copy belongs to the UI layer.
   def normalize_source_url_referral(ref)
     return ref unless source_url_only_referral?(ref)
 
@@ -165,7 +165,7 @@ module Ctwa::CampaignBuilder
     ref.merge(
       source_id: source_url_source_id(source_url, code),
       source_type: ref[:source_type].presence || 'post',
-      headline: ref[:headline].presence || source_url_headline(source_url, code)
+      headline: ref[:headline].presence
     )
   end
 
@@ -177,16 +177,6 @@ module Ctwa::CampaignBuilder
     return "post:#{code}" if code.present?
 
     "url:#{Digest::SHA1.hexdigest(source_url)[0, 12]}"
-  end
-
-  # A malformed URL must never break inbound message processing, so the parse failure
-  # (and a host-less URL) falls back to a bounded slice of the raw value.
-  def source_url_headline(source_url, code)
-    return "Post #{code}" if code.present?
-
-    URI.parse(source_url).host.presence || source_url.first(40)
-  rescue URI::InvalidURIError
-    source_url.first(40)
   end
 
   def source_for(ref)

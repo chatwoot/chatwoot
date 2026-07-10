@@ -77,29 +77,33 @@ RSpec.describe Ctwa::CampaignBuilder do
         media_type: 'image'
       }
 
-      expect(described_class.build(referral)).to include(
+      campaign = described_class.build(referral)
+
+      expect(campaign).to include(
         'source' => 'meta_organic',
         'source_id' => 'post:DafzleSsM3W',
         'source_type' => 'post',
         'source_url' => 'https://www.instagram.com/p/DafzleSsM3W/',
-        'headline' => 'Post DafzleSsM3W',
         'media_type' => 'image'
       )
+      expect(campaign).not_to have_key('headline')
     end
 
     it 'derives stable url attribution from non-Instagram source_url alone' do
       source_url = 'https://example.com/posts/summer-drop?utm_source=ig'
 
-      expect(described_class.build(source_url: source_url)).to include(
+      campaign = described_class.build(source_url: source_url)
+
+      expect(campaign).to include(
         'source' => 'meta_organic',
         'source_id' => "url:#{Digest::SHA1.hexdigest(source_url)[0, 12]}",
         'source_type' => 'post',
-        'source_url' => source_url,
-        'headline' => 'example.com'
+        'source_url' => source_url
       )
+      expect(campaign).not_to have_key('headline')
     end
 
-    it 'does not raise on a malformed source_url and falls back to a bounded headline' do
+    it 'does not invent a headline or raise on a malformed source_url' do
       malformed = 'http://bad url with spaces'
 
       campaign = nil
@@ -107,8 +111,10 @@ RSpec.describe Ctwa::CampaignBuilder do
       expect(campaign).to include(
         'source' => 'meta_organic',
         'source_id' => "url:#{Digest::SHA1.hexdigest(malformed)[0, 12]}",
-        'headline' => malformed.first(40)
+        'source_type' => 'post',
+        'source_url' => malformed
       )
+      expect(campaign).not_to have_key('headline')
     end
 
     it 'bounds an oversized source_url before deriving and persisting attribution' do
@@ -333,6 +339,7 @@ RSpec.describe Ctwa::CampaignBuilder do
         'source_id' => 'post:DafzleSsM3W',
         'source_type' => 'post'
       )
+      expect(attrs['campaign_touches'].first).not_to have_key('headline')
       expect(attrs['campaign_source_ids']).to eq(['post:DafzleSsM3W'])
     end
 
