@@ -16,6 +16,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       'title' => 'Billing Investigation',
       'description' => 'Use when a customer reports an account-specific billing issue.',
       'instruction' => 'Collect the invoice number and summarize the issue before escalating.',
+      'response_guideline' => 'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.',
       'tool_ids' => []
     }
   end
@@ -37,8 +38,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
 
       expect(result.dig(:changes, :config, :to, 'assistant_migration', 'scenario_candidates')).to eq([scenario_candidate])
       expect(result.dig(:changes, :response_guidelines, :to)).to include(
-        "Scenario candidate: Billing Investigation\nUse when: Use when a customer reports an account-specific billing issue.\n" \
-        'Instructions: Collect the invoice number and summarize the issue before escalating.'
+        'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
       expect(assistant.reload.config).not_to have_key('assistant_migration')
       expect(assistant.scenarios.count).to eq(0)
@@ -54,8 +54,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
         'Pricing details are missing because factual details are absent from the source instructions.'
       )
       expect(assistant.response_guidelines).to include(
-        "Scenario candidate: Billing Investigation\nUse when: Use when a customer reports an account-specific billing issue.\n" \
-        'Instructions: Collect the invoice number and summarize the issue before escalating.'
+        'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
       expect(assistant.scenarios.count).to eq(0)
     end
@@ -82,16 +81,19 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       )
     end
 
-    it 'caps the assistant description to the database limit for stale drafts' do
+    it 'rejects an oversized assistant description from a stale draft' do
       long_context = 'This assistant supports a very broad product surface with many long details. ' * 10
+      original_description = assistant.description
 
-      described_class.new(
-        assistant: assistant,
-        draft: draft.merge(business_product_context: [long_context]),
-        dry_run: false
-      ).perform
+      expect do
+        described_class.new(
+          assistant: assistant,
+          draft: draft.merge(business_product_context: [long_context]),
+          dry_run: false
+        ).perform
+      end.to raise_error(ArgumentError, 'Assistant description exceeds 200 characters')
 
-      expect(assistant.reload.description.length).to be <= described_class::ASSISTANT_DESCRIPTION_LIMIT
+      expect(assistant.reload.description).to eq(original_description)
     end
   end
 end

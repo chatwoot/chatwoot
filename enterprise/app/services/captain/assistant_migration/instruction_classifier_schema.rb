@@ -6,11 +6,16 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
           of: :string
   end
 
-  instruction_items :business_product_context,
-                    description: 'Single compact root assistant description for the root orchestrator prompt, maximum 255 characters: ' \
-                                 'assistant identity, product scope, high-level mission, and high-level source/routing priorities only. ' \
-                                 'Do not include workflows, procedures, attribute glossaries, policy details, or long inventories.',
-                    max_items: 1
+  array :business_product_context,
+        description: 'Single compact root assistant description for the root orchestrator prompt, maximum 200 characters: ' \
+                     'preserve the existing assistant description and enrich it only with relevant business/product context from the ' \
+                     'custom instructions. Include assistant identity, product scope, high-level mission, and high-level source/routing ' \
+                     'priorities only. Do not include workflows, procedures, attribute glossaries, policy details, or long inventories. ' \
+                     'Return one plain standalone sentence without numbering, bullets, or section labels.',
+        min_items: 1,
+        max_items: 1 do
+    string max_length: 200
+  end
 
   instruction_items :response_guidelines,
                     description: 'Tone, language, answer length, formatting, and clarification behavior.',
@@ -34,6 +39,10 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
              description: 'How the specialized agent should handle the workflow. Include only evidence-backed markdown tool links. ' \
                           'Do not include confidence labels or review notes.',
              max_length: 2000
+      string :response_guideline,
+             description: 'Same-language, customer-visible response guideline that preserves this scenario behavior when flattened. ' \
+                          'Do not include tool syntax, tool names, labels, private-note instructions, or internal implementation details.',
+             max_length: 1000
       array :tool_ids,
             description: 'Available tool IDs explicitly referenced in instruction using markdown links. Empty when no tools are required.',
             max_items: 10,

@@ -1,5 +1,5 @@
 class Captain::AssistantMigration::DraftApplier
-  ASSISTANT_DESCRIPTION_LIMIT = 255
+  ASSISTANT_DESCRIPTION_LIMIT = 200
   CONFIG_KEY = 'assistant_migration'.freeze
   SCENARIO_DESCRIPTION_LIMIT = 500
   ORIGINAL_VALUES_KEY = 'original_values'.freeze
@@ -54,7 +54,9 @@ class Captain::AssistantMigration::DraftApplier
     value = item_values(:business_product_context).join(' ').presence
     return if value.blank?
 
-    value.truncate(ASSISTANT_DESCRIPTION_LIMIT, separator: ' ')
+    raise ArgumentError, "Assistant description exceeds #{ASSISTANT_DESCRIPTION_LIMIT} characters" if value.length > ASSISTANT_DESCRIPTION_LIMIT
+
+    value
   end
 
   def response_guidelines
@@ -139,9 +141,7 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def scenario_response_guidelines
-    scenario_candidates.map do |candidate|
-      "Scenario candidate: #{candidate[:title]}\nUse when: #{candidate[:description]}\nInstructions: #{candidate[:instruction]}"
-    end
+    scenario_candidates.filter_map { |candidate| candidate[:response_guideline].presence }
   end
 
   def scenario_tool_ids(tool_ids)
@@ -162,6 +162,7 @@ class Captain::AssistantMigration::DraftApplier
       title: candidate[:title].to_s.squish,
       description: candidate[:description].to_s.squish.truncate(SCENARIO_DESCRIPTION_LIMIT),
       instruction: candidate[:instruction].to_s.squish,
+      response_guideline: candidate[:response_guideline].to_s.squish,
       tool_ids: scenario_tool_ids(candidate[:tool_ids])
     }
     return if normalized_candidate.values_at(:title, :description, :instruction).any?(&:blank?)

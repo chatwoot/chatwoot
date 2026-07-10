@@ -28,7 +28,10 @@ Classify the existing assistant instructions into these sections:
 
 - Business/Product Context maps to the root assistant description and is injected into the root orchestrator prompt.
 - Return exactly one Business/Product Context item.
-- Keep it under 255 characters because it is stored in the assistant description field.
+- Start with the existing assistant description and preserve its meaning.
+- Enrich it only with relevant business or product context found in the custom instructions.
+- Produce one coherent description rather than appending a second context block or repeating the existing description.
+- Keep it at most 200 characters because that is the assistant description limit in the UI.
 - Make it a compact summary of assistant identity, product scope, high-level mission, and high-level source or routing priorities.
 - Do not include detailed workflows, step-by-step procedures, long support-scope inventories, attribute glossaries,
   policy details, scenario-specific handling, tool instructions, or customer-facing message copy.
@@ -54,8 +57,19 @@ Classify the existing assistant instructions into these sections:
 - In the current architecture, a scenario becomes a specialized sub-agent with its own title, description,
   instructions, and optional tools.
 - During this migration, scenario candidates are also temporarily flattened into response guidelines so existing
-  assistant behavior is preserved before scenario records are created. Keep scenario titles, descriptions, and
-  instructions clear, self-contained, and reviewable.
+  assistant behavior is preserved before scenario records are created.
+- For every scenario candidate, write a response_guideline that is the flattened version of that scenario for
+  the root assistant's response guidelines.
+- The response_guideline must be in the same language as the original scenario or source instruction.
+- The response_guideline must preserve the intended customer-visible behavior, trigger, information to collect,
+  and routing/escalation outcome.
+- The response_guideline must not include tool syntax, tool:// links, markdown tool links, tool names, label
+  updates, priority updates, private-note instructions, custom-tool instructions, or internal implementation details.
+- If the scenario uses internal tools such as labels, priorities, private notes, or custom tools, describe only
+  the customer-visible behavior and expected routing/escalation outcome in response_guideline.
+- If human handoff is needed, describe it in natural language such as route/escalate/transfer to a human; do not
+  mention the handoff tool in response_guideline.
+- Keep scenario titles, descriptions, instructions, and response_guidelines clear, self-contained, and reviewable.
 - Only create scenario candidates for distinct user-intent workflows that should be routed to a specialized agent.
   A candidate must be narrow enough to become a named specialist assistant with domain-specific handling instructions.
 - Good scenario candidates include multi-step intake workflows, qualification flows, specialized troubleshooting
