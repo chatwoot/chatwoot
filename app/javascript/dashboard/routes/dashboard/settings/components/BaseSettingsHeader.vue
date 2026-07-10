@@ -62,12 +62,12 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       v-if="description || $slots.description || linkText || helpURL"
       class="flex flex-col w-full gap-1.5 text-n-slate-11"
     >
-      <div
+      <p
         v-if="description || $slots.description"
         class="mb-0 line-clamp-5 sm:line-clamp-none max-w-3xl text-body-main"
       >
         <slot name="description">{{ description }}</slot>
-      </div>
+      </p>
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
         <a
           v-if="helpURL && linkText"

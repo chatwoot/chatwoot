@@ -1,11 +1,6 @@
 export const POLL_INTERVAL_MS = 5000;
 
-export const ACTIVE_IMPORT_STATUSES = [
-  'pending',
-  'processing',
-  'validating',
-  'ready',
-];
+export const ACTIVE_IMPORT_STATUSES = ['pending', 'processing'];
 
 export const isActiveImport = dataImport =>
   ACTIVE_IMPORT_STATUSES.includes(dataImport?.status);
@@ -36,7 +31,6 @@ export const importStageKey = dataImport => {
   if (dataImport.status === 'failed') return 'failed';
   if (dataImport.status === 'abandoned') return 'abandoned';
   if (dataImport.status === 'pending') return 'queued';
-  if (['validating', 'ready'].includes(dataImport.status)) return 'preparing';
 
   const importTypes = dataImport.import_types?.length
     ? dataImport.import_types

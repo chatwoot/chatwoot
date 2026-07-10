@@ -12,7 +12,6 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
     data_import_ids = @data_imports.map(&:id)
     @import_errors_counts = DataImportError.non_skip_logs.where(data_import_id: data_import_ids).group(:data_import_id).count
     @skip_logs_counts = DataImportError.skip_logs.where(data_import_id: data_import_ids).group(:data_import_id).count
-    @items_counts = DataImportItem.where(data_import_id: data_import_ids).group(:data_import_id).count
   end
 
   def show

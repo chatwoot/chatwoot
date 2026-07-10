@@ -6,7 +6,6 @@
 #  abandoned_at      :datetime
 #  access_token      :text
 #  completed_at      :datetime
-#  config            :jsonb            not null
 #  cursor            :jsonb            not null
 #  data_type         :string           not null
 #  import_types      :jsonb            not null
@@ -14,7 +13,6 @@
 #  name              :string
 #  processed_records :integer
 #  processing_errors :text
-#  routing_rules     :jsonb            not null
 #  source_metadata   :jsonb            not null
 #  source_provider   :string
 #  source_type       :string
@@ -26,14 +24,12 @@
 #  updated_at        :datetime         not null
 #  account_id        :bigint           not null
 #  initiated_by_id   :integer
-#  target_inbox_id   :integer
 #
 # Indexes
 #
 #  index_data_imports_on_account_id       (account_id)
 #  index_data_imports_on_initiated_by_id  (initiated_by_id)
 #  index_data_imports_on_source_provider  (source_provider)
-#  index_data_imports_on_target_inbox_id  (target_inbox_id)
 #
 class DataImport < ApplicationRecord
   ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY = 'active_intercom_import_run_id'.freeze
@@ -43,7 +39,6 @@ class DataImport < ApplicationRecord
 
   belongs_to :account
   belongs_to :initiated_by, class_name: 'User', optional: true
-  belongs_to :target_inbox, class_name: 'Inbox', optional: true
 
   encrypts :access_token if Chatwoot.encryption_configured?
 
@@ -55,7 +50,9 @@ class DataImport < ApplicationRecord
   validates :access_token, presence: true, on: :create, if: :intercom_import?
   validate :validate_import_types
 
-  enum status: { pending: 0, processing: 1, completed: 2, failed: 3, validating: 4, ready: 5, completed_with_errors: 6, abandoned: 7 }
+  enum status: { pending: 0, processing: 1, completed: 2, failed: 3, completed_with_errors: 6, abandoned: 7 }
+
+  scope :active_intercom, -> { where(data_type: 'intercom', source_provider: 'intercom', status: [:pending, :processing]) }
 
   has_one_attached :import_file
   has_one_attached :failed_records

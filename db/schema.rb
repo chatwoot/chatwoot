@@ -907,12 +907,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.jsonb "import_types", default: [], null: false
     t.integer "initiated_by_id"
     t.text "access_token"
-    t.integer "target_inbox_id"
-    t.jsonb "config", default: {}, null: false
     t.jsonb "source_metadata", default: {}, null: false
     t.jsonb "stats", default: {}, null: false
     t.jsonb "cursor", default: {}, null: false
-    t.jsonb "routing_rules", default: {}, null: false
     t.datetime "started_at"
     t.datetime "completed_at"
     t.datetime "abandoned_at"
@@ -920,7 +917,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.index ["account_id"], name: "index_data_imports_on_account_id"
     t.index ["initiated_by_id"], name: "index_data_imports_on_initiated_by_id"
     t.index ["source_provider"], name: "index_data_imports_on_source_provider"
-    t.index ["target_inbox_id"], name: "index_data_imports_on_target_inbox_id"
   end
 
   create_table "email_templates", force: :cascade do |t|

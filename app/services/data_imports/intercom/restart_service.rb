@@ -28,10 +28,6 @@ class DataImports::Intercom::RestartService
   private
 
   def find_active_import
-    @account.data_imports.find_by(
-      data_type: 'intercom',
-      source_provider: 'intercom',
-      status: [:pending, :processing]
-    )
+    @account.data_imports.active_intercom.first
   end
 end

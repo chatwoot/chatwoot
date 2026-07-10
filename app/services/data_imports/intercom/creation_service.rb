@@ -40,11 +40,7 @@ class DataImports::Intercom::CreationService
       import_types: import_types,
       initiated_by: @initiated_by,
       access_token: @access_token,
-      stats: initial_stats(totals),
-      config: {
-        create_source_bucket_inboxes: true,
-        import_mode: 'historical'
-      }
+      stats: initial_stats(totals)
     }
   end
 
@@ -66,10 +62,6 @@ class DataImports::Intercom::CreationService
   end
 
   def active_import?
-    @account.data_imports.exists?(
-      data_type: 'intercom',
-      source_provider: 'intercom',
-      status: [:pending, :processing]
-    )
+    @account.data_imports.active_intercom.exists?
   end
 end

@@ -17,7 +17,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import NewImportDrawer from './NewImportDrawer.vue';
-import { IMPORT_SOURCES, importSourceFor } from './importSources';
+import { importSourceFor } from './importSources';
 import {
   POLL_INTERVAL_MS,
   formatStatus,
@@ -250,11 +250,6 @@ onBeforeUnmount(() => {
           v-if="!dataImports.length"
           class="flex flex-col items-center gap-4 px-6 py-12 text-center"
         >
-          <img
-            :src="IMPORT_SOURCES[0].icon"
-            alt=""
-            class="size-12 object-contain"
-          />
           <div>
             <h3 class="text-heading-3 text-n-slate-12">
               {{ $t('DATA_IMPORTS.TABLE.EMPTY') }}

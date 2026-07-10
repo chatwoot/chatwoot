@@ -20,8 +20,4 @@ class DataImports::Intercom::SourceBucket
   def self.for(source_type)
     BUCKETS[source_type.to_s.downcase] || DEFAULT_BUCKET
   end
-
-  def self.inbox_name(source_type)
-    "Intercom Import - #{self.for(source_type)[:name]}"
-  end
 end

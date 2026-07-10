@@ -14,12 +14,9 @@ class ExpandDataImportsForIntercomImports < ActiveRecord::Migration[7.1]
       t.jsonb :import_types, default: [], null: false
       t.integer :initiated_by_id
       t.text :access_token
-      t.integer :target_inbox_id
-      t.jsonb :config, default: {}, null: false
       t.jsonb :source_metadata, default: {}, null: false
       t.jsonb :stats, default: {}, null: false
       t.jsonb :cursor, default: {}, null: false
-      t.jsonb :routing_rules, default: {}, null: false
       t.datetime :started_at
       t.datetime :completed_at
       t.datetime :abandoned_at
@@ -30,6 +27,5 @@ class ExpandDataImportsForIntercomImports < ActiveRecord::Migration[7.1]
   def add_data_import_indexes
     add_index :data_imports, :initiated_by_id
     add_index :data_imports, :source_provider
-    add_index :data_imports, :target_inbox_id
   end
 end
