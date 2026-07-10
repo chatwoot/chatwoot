@@ -44,6 +44,16 @@ RSpec.describe Ctwa::CampaignBuilder do
       expect(described_class.build(ctwa_clid: 'Afxyz')).to include('source' => 'meta_ctwa', 'ctwa_clid' => 'Afxyz')
     end
 
+    it 'does not derive source id for referrals that already have a click id' do
+      campaign = described_class.build(
+        source_url: 'https://www.instagram.com/p/DafzleSsM3W/',
+        ctwa_clid: 'Afxyz'
+      )
+
+      expect(campaign).to include('source' => 'meta_ctwa', 'ctwa_clid' => 'Afxyz')
+      expect(campaign).not_to have_key('source_id')
+    end
+
     it 'attributes organic Meta referrals without a click id' do
       referral = {
         source_id: 'organic-post-123',
@@ -59,6 +69,62 @@ RSpec.describe Ctwa::CampaignBuilder do
         'source_url' => 'https://fb.me/post',
         'headline' => 'Post orgânico'
       )
+    end
+
+    it 'derives organic Instagram post attribution from source_url alone' do
+      referral = {
+        source_url: 'https://www.instagram.com/p/DafzleSsM3W/',
+        media_type: 'image'
+      }
+
+      expect(described_class.build(referral)).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'post:DafzleSsM3W',
+        'source_type' => 'post',
+        'source_url' => 'https://www.instagram.com/p/DafzleSsM3W/',
+        'headline' => 'Post DafzleSsM3W',
+        'media_type' => 'image'
+      )
+    end
+
+    it 'derives stable url attribution from non-Instagram source_url alone' do
+      source_url = 'https://example.com/posts/summer-drop?utm_source=ig'
+
+      expect(described_class.build(source_url: source_url)).to include(
+        'source' => 'meta_organic',
+        'source_id' => "url:#{Digest::SHA1.hexdigest(source_url)[0, 12]}",
+        'source_type' => 'post',
+        'source_url' => source_url,
+        'headline' => 'example.com'
+      )
+    end
+
+    it 'does not raise on a malformed source_url and falls back to a bounded headline' do
+      malformed = 'http://bad url with spaces'
+
+      campaign = nil
+      expect { campaign = described_class.build(source_url: malformed) }.not_to raise_error
+      expect(campaign).to include(
+        'source' => 'meta_organic',
+        'source_id' => "url:#{Digest::SHA1.hexdigest(malformed)[0, 12]}",
+        'headline' => malformed.first(40)
+      )
+    end
+
+    it 'bounds an oversized source_url before deriving and persisting attribution' do
+      giant = "https://example.com/#{'a' * 2000}"
+      campaign = described_class.build(source_url: giant)
+
+      expect(campaign['source_url'].length).to eq(512)
+      expect(campaign['source_id']).to eq("url:#{Digest::SHA1.hexdigest(giant.first(512))[0, 12]}")
+    end
+
+    it 'bounds an oversized source_url even when the referral carries a source id' do
+      giant = "https://fb.me/#{'a' * 2000}"
+      campaign = described_class.build(source_id: 'ad-123', source_type: 'ad', source_url: giant)
+
+      expect(campaign['source_url'].length).to eq(512)
+      expect(campaign['source_id']).to eq('ad-123')
     end
 
     it 'classifies paid click ids by source' do
@@ -142,6 +208,16 @@ RSpec.describe Ctwa::CampaignBuilder do
         'body' => 'conteúdo orgânico',
         'media_type' => 'image'
       }
+    end
+
+    it 'persists a bounded source_url for a source_url-only referral' do
+      giant = "https://example.com/#{'a' * 2000}"
+
+      expect(described_class.attribute!(conversation, 'source_url' => giant)).to be(true)
+
+      campaign = conversation.reload.additional_attributes['campaign']
+      expect(campaign['source_url'].length).to eq(512)
+      expect(campaign['source']).to eq('meta_organic')
     end
 
     it 'records the first touch as origin, slim touch and mirror in a single write' do
@@ -239,6 +315,25 @@ RSpec.describe Ctwa::CampaignBuilder do
       described_class.attribute!(conversation, no_clid)
 
       expect(conversation.reload.additional_attributes['campaign_touches'].length).to eq(1)
+    end
+
+    it 'dedups source_url-only referrals by the derived source id' do
+      referral = {
+        'source_url' => 'https://www.instagram.com/reel/DafzleSsM3W/',
+        'media_type' => 'video'
+      }
+
+      described_class.attribute!(conversation, referral)
+      described_class.attribute!(conversation, referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign_touches'].first).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'post:DafzleSsM3W',
+        'source_type' => 'post'
+      )
+      expect(attrs['campaign_source_ids']).to eq(['post:DafzleSsM3W'])
     end
 
     it 'migrates a legacy single-touch record on the next touch' do
