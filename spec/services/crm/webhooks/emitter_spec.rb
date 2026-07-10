@@ -66,6 +66,25 @@ RSpec.describe Crm::Webhooks::Emitter do
     end
   end
 
+  context 'when a pipeline opted into Google sync only' do
+    let(:pipeline_metadata) { { 'google_sync' => { 'enabled' => true, 'events' => { 'won' => true } } } }
+
+    it 'dispatches even without any account webhook or Meta sync' do
+      pipeline
+      emit
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        .with('crm.card.won', anything, hash_including(account_id: account.id))
+    end
+
+    it 'does not dispatch an event the pipeline did not subscribe' do
+      pipeline
+      emit(event_type: 'lost')
+
+      expect_no_card_dispatch('crm.card.lost')
+    end
+  end
+
   context 'when Meta sync is configured but disabled' do
     let(:pipeline_metadata) { { 'meta_sync' => { 'enabled' => false, 'events' => { 'won' => true } } } }
 

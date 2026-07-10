@@ -46,7 +46,7 @@ module Crm
       def perform
         event = EVENT_MAP[@event_type]
         return if event.blank?
-        return unless any_account_webhook_subscribed?(event) || meta_sync_subscribed?(event)
+        return unless any_account_webhook_subscribed?(event) || meta_sync_subscribed?(event) || google_sync_subscribed?(event)
 
         Rails.configuration.dispatcher.dispatch(
           event,
@@ -80,12 +80,22 @@ module Crm
       # silence it entirely. Dispatch also when any active pipeline opted into Meta
       # sync for this event (pipeline.metadata['meta_sync']: enabled + events[token]).
       def meta_sync_subscribed?(event)
+        sync_subscribed?(event, 'meta_sync')
+      end
+
+      # Same rationale for the Google offline conversions listener: an account with
+      # only google_sync enabled must still get the dispatch.
+      def google_sync_subscribed?(event)
+        sync_subscribed?(event, 'google_sync')
+      end
+
+      def sync_subscribed?(event, metadata_key)
         token = META_SYNC_EVENT_TOKENS[event]
         return false if token.blank? || account.blank?
 
         account.crm_pipelines.active.any? do |pipeline|
-          meta_sync = pipeline.metadata&.dig('meta_sync') || {}
-          meta_sync['enabled'] && meta_sync.dig('events', token)
+          sync = pipeline.metadata&.dig(metadata_key) || {}
+          sync['enabled'] && sync.dig('events', token)
         end
       end
     end

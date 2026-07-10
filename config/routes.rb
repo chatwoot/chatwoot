@@ -54,6 +54,7 @@ Rails.application.routes.draw do
     get '/l/:code', to: 'public/tracked_links#show', as: :public_tracked_link
   end
 
+  get '/google_conversions/:token.csv', to: 'public/google_conversions#show', as: :public_google_conversions
   get '/health', to: 'health#show'
   get '/api', to: 'api#index'
   get '/api/v1/autonomia/product-invitations/validate', to: 'public/api/v1/autonomia/product_invitations#validate'
@@ -227,6 +228,7 @@ Rails.application.routes.draw do
             resources :meta_conversions, only: [:index] do
               get :summary, on: :collection
             end
+            resource :google_conversion_feed, only: [:create]
             get 'conversations/card_stages', to: 'cards#card_stages'
             get 'conversations/:conversation_id/card', to: 'cards#by_conversation'
             get :kanban, to: 'kanban#index'

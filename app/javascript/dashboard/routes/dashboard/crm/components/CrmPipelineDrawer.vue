@@ -2,6 +2,9 @@
 import { computed, reactive, ref, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import CrmGoogleConversionFeedAPI from 'dashboard/api/crmGoogleConversionFeed';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import CrmStageAutomationsPanel from './CrmStageAutomationsPanel.vue';
@@ -103,6 +106,11 @@ const form = reactive({
     datasetId: '',
     events: { won: true, lost: false, moved: false },
   },
+  googleSync: {
+    enabled: false,
+    events: { won: true, lost: false, moved: false },
+    conversionNames: { won: '' },
+  },
 });
 const newPipelineInbox = reactive({
   inboxId: '',
@@ -144,6 +152,28 @@ const stageOptions = computed(() => form.stages.filter(stage => stage.id));
 const canAddPipelineInbox = computed(
   () => isEditing.value && props.pipeline?.id && newPipelineInbox.inboxId
 );
+// The feed URL is account-level and minted on demand by the backend (token in
+// account custom_attributes); fetch it lazily when the Google section is enabled.
+const fetchedFeedUrl = ref('');
+const googleFeedUrl = computed(() => fetchedFeedUrl.value);
+
+const ensureGoogleFeedUrl = async () => {
+  if (fetchedFeedUrl.value) return;
+  try {
+    const { data } = await CrmGoogleConversionFeedAPI.create();
+    fetchedFeedUrl.value = data.url || '';
+  } catch {
+    fetchedFeedUrl.value = '';
+  }
+};
+
+watch(
+  () => form.googleSync.enabled,
+  enabled => {
+    if (enabled) ensureGoogleFeedUrl();
+  },
+  { immediate: true }
+);
 
 const cloneStage = (stage, index) => ({
   id: stage.id,
@@ -177,6 +207,18 @@ const resetForm = () => {
       won: metaSync.events?.won ?? true,
       lost: metaSync.events?.lost ?? false,
       moved: metaSync.events?.moved ?? false,
+    },
+  };
+  const googleSync = pipeline.metadata?.google_sync || {};
+  form.googleSync = {
+    enabled: Boolean(googleSync.enabled),
+    events: {
+      won: googleSync.events?.won ?? true,
+      lost: googleSync.events?.lost ?? false,
+      moved: googleSync.events?.moved ?? false,
+    },
+    conversionNames: {
+      won: googleSync.conversion_names?.won || '',
     },
   };
   const sourceStages = isEditing.value ? props.stages : defaultStages();
@@ -257,6 +299,17 @@ const removePipelineInbox = pipelineInbox => {
   });
 };
 
+const copyGoogleFeedUrl = async () => {
+  if (!googleFeedUrl.value) return;
+
+  try {
+    await copyTextToClipboard(googleFeedUrl.value);
+    useAlert(t('CRM_KANBAN.GOOGLE_SYNC.COPIED'));
+  } catch {
+    useAlert(t('CRM_KANBAN.GOOGLE_SYNC.COPY_ERROR'));
+  }
+};
+
 const onSubmit = async () => {
   if (!canSubmit.value) return;
   // Master save: "Salvar funil" also persists the embedded AI panel (auto_move,
@@ -286,6 +339,14 @@ const onSubmit = async () => {
         enabled: form.metaSync.enabled,
         events: { ...form.metaSync.events },
         dataset_id: form.metaSync.datasetId.trim() || null,
+      },
+      // Always emitted so toggling Google sync off persists enabled:false.
+      google_sync: {
+        enabled: form.googleSync.enabled,
+        events: { ...form.googleSync.events },
+        conversion_names: {
+          won: form.googleSync.conversionNames.won.trim() || null,
+        },
       },
     },
     stages: form.stages.map((stage, index) => ({
@@ -540,6 +601,117 @@ useKeyboardEvents({
                 :agents="agents"
                 :expanded="isStageAutomationsExpanded(stage)"
               />
+            </div>
+          </section>
+
+          <section
+            v-if="isEditing"
+            class="grid gap-4 border-t border-n-weak pt-4"
+          >
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0">
+                <h3 class="mb-1 text-sm font-medium text-n-slate-12">
+                  {{ t('CRM_KANBAN.GOOGLE_SYNC.TITLE') }}
+                </h3>
+                <p class="mb-0 text-xs leading-5 text-n-slate-11">
+                  {{ t('CRM_KANBAN.GOOGLE_SYNC.HELP') }}
+                </p>
+              </div>
+              <label
+                class="relative inline-flex shrink-0 cursor-pointer items-center"
+              >
+                <input
+                  v-model="form.googleSync.enabled"
+                  type="checkbox"
+                  class="peer sr-only"
+                  :aria-label="t('CRM_KANBAN.GOOGLE_SYNC.TOGGLE')"
+                />
+                <span
+                  class="h-5 w-9 rounded-full bg-n-alpha-2 transition-colors after:absolute after:left-0.5 after:top-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-n-brand peer-checked:after:translate-x-4"
+                />
+              </label>
+            </div>
+
+            <div
+              v-if="form.googleSync.enabled"
+              class="grid gap-3 rounded-lg border border-n-weak bg-n-alpha-black2 p-3"
+            >
+              <p class="mb-0 text-xs font-medium text-n-slate-11">
+                {{ t('CRM_KANBAN.GOOGLE_SYNC.EVENTS') }}
+              </p>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.googleSync.events.won"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>{{ t('CRM_KANBAN.GOOGLE_SYNC.EVENT_WON') }}</span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.googleSync.events.lost"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>{{ t('CRM_KANBAN.GOOGLE_SYNC.EVENT_LOST') }}</span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-n-slate-12">
+                <input
+                  v-model="form.googleSync.events.moved"
+                  type="checkbox"
+                  class="h-4 w-4 rounded border-n-weak bg-n-alpha-black2 text-n-brand"
+                />
+                <span>{{ t('CRM_KANBAN.GOOGLE_SYNC.EVENT_MOVED') }}</span>
+              </label>
+
+              <label class="grid gap-1 border-t border-n-weak pt-3">
+                <span class="text-xs font-medium text-n-slate-11">
+                  {{ t('CRM_KANBAN.GOOGLE_SYNC.CONVERSION_NAME_WON') }}
+                </span>
+                <input
+                  v-model="form.googleSync.conversionNames.won"
+                  type="text"
+                  class="reset-base !mb-0 w-full rounded-lg border-0 bg-n-alpha-black2 px-3 py-2.5 text-sm text-n-slate-12 outline outline-1 outline-n-weak transition-all placeholder:text-n-slate-10 focus:outline-n-brand"
+                  :placeholder="
+                    t('CRM_KANBAN.GOOGLE_SYNC.CONVERSION_NAME_WON_PLACEHOLDER')
+                  "
+                />
+                <span class="text-xs text-n-slate-11">
+                  {{ t('CRM_KANBAN.GOOGLE_SYNC.CONVERSION_NAME_WON_HELP') }}
+                </span>
+              </label>
+
+              <div class="grid gap-1 border-t border-n-weak pt-3">
+                <label
+                  for="google-conversions-feed-url"
+                  class="text-xs font-medium text-n-slate-11"
+                >
+                  {{ t('CRM_KANBAN.GOOGLE_SYNC.FEED_URL') }}
+                </label>
+                <div class="flex items-center gap-2">
+                  <input
+                    id="google-conversions-feed-url"
+                    :value="googleFeedUrl"
+                    type="url"
+                    readonly
+                    class="reset-base !mb-0 min-w-0 flex-1 rounded-lg border-0 bg-n-solid-1 px-3 py-2.5 text-sm text-n-slate-11 outline outline-1 outline-n-weak placeholder:text-n-slate-10"
+                    :placeholder="t('CRM_KANBAN.GOOGLE_SYNC.FEED_URL_PENDING')"
+                  />
+                  <Button
+                    :label="t('CRM_KANBAN.GOOGLE_SYNC.COPY')"
+                    icon="i-lucide-copy"
+                    slate
+                    faded
+                    sm
+                    :disabled="!googleFeedUrl"
+                    @click="copyGoogleFeedUrl"
+                  />
+                </div>
+              </div>
+
+              <p class="mb-0 text-xs leading-5 text-n-slate-11">
+                {{ t('CRM_KANBAN.GOOGLE_SYNC.INSTRUCTIONS') }}
+              </p>
             </div>
           </section>
 

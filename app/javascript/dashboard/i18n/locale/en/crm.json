@@ -1089,6 +1089,24 @@
       "SAVE": "Save pipeline",
       "CREATE": "Create pipeline"
     },
+    "GOOGLE_SYNC": {
+      "TITLE": "Google Ads (offline conversions)",
+      "HELP": "Send CRM outcomes to Google Ads through a scheduled conversion feed.",
+      "TOGGLE": "Enable Google Ads offline conversions",
+      "EVENTS": "Which events to include",
+      "EVENT_WON": "Won",
+      "EVENT_LOST": "Lost",
+      "EVENT_MOVED": "Stage moved",
+      "CONVERSION_NAME_WON": "Conversion name for won cards",
+      "CONVERSION_NAME_WON_PLACEHOLDER": "E.g. CRM - Won deal",
+      "CONVERSION_NAME_WON_HELP": "Lost and stage-moved events use their default conversion names.",
+      "FEED_URL": "Scheduled import URL",
+      "FEED_URL_PENDING": "The URL will be available after the backend generates the feed token.",
+      "COPY": "Copy URL",
+      "COPIED": "Feed URL copied.",
+      "COPY_ERROR": "Could not copy the feed URL.",
+      "INSTRUCTIONS": "In Google Ads: Goals → Conversions → Scheduled uploads → add HTTPS using this URL."
+    },
     "FOLLOW_UP_REMINDER": {
       "TITLE": "Overdue follow-up",
       "HEADING": "Follow-up reminder",

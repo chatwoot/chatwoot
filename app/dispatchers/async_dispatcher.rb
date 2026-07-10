@@ -22,7 +22,8 @@ class AsyncDispatcher < BaseDispatcher
       Conversations::UnreadCounts::Listener.instance,
       ReportingEventListener.instance,
       WebhookListener.instance,
-      Crm::MetaCapiListener.instance
+      Crm::MetaCapiListener.instance,
+      Crm::GoogleOfflineListener.instance
     ]
   end
 end

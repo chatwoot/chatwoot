@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_10_000002) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1377,6 +1377,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000002) do
     t.index ["status", "due_at", "id"], name: "idx_crm_followups_due_processor"
   end
 
+  create_table "crm_google_conversion_events", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "card_id", null: false
+    t.bigint "conversation_id"
+    t.bigint "activity_id", null: false
+    t.string "event_id", null: false
+    t.string "gclid"
+    t.string "conversion_name", null: false
+    t.datetime "conversion_time", null: false
+    t.bigint "value_cents"
+    t.string "currency", limit: 3
+    t.string "status", default: "ready", null: false
+    t.string "skip_reason"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "conversion_time"], name: "idx_crm_google_conv_account_time"
+    t.index ["account_id", "status"], name: "idx_crm_google_conv_account_status"
+    t.index ["account_id"], name: "index_crm_google_conversion_events_on_account_id"
+    t.index ["event_id"], name: "idx_crm_google_conv_event_id", unique: true
+  end
+
   create_table "crm_inbox_settings", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
@@ -2549,6 +2570,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000002) do
   add_foreign_key "crm_follow_ups", "inboxes"
   add_foreign_key "crm_follow_ups", "users", column: "assignee_id"
   add_foreign_key "crm_follow_ups", "users", column: "created_by_id"
+  add_foreign_key "crm_google_conversion_events", "accounts", on_delete: :cascade
   add_foreign_key "crm_inbox_settings", "accounts"
   add_foreign_key "crm_inbox_settings", "crm_pipeline_stages", column: "default_stage_id"
   add_foreign_key "crm_inbox_settings", "crm_pipelines", column: "default_pipeline_id"
