@@ -45,7 +45,7 @@ RSpec.describe Llm::Models do
 
     it 'exposes GPT-5.6 models for Captain V2 workflows without changing the legacy PDF path' do
       expect(described_class.models_for('assistant')).to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
-      expect(described_class.models_for('pdf_faq_generation')).not_to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
+      expect(described_class.models_for('pdf_faq_generation')).to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
     end
   end
 

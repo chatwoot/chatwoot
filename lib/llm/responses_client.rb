@@ -129,10 +129,22 @@ class Llm::ResponsesClient
         { type: 'input_text', text: normalized_part[:text] }
       when 'image_url'
         { type: 'input_image', image_url: normalized_part.dig(:image_url, :url) || normalized_part[:image_url] }
+      when 'file'
+        input_file_part(normalized_part)
       else
         normalized_part
       end
     end
+  end
+
+  def input_file_part(part)
+    file = part[:file] || {}
+    {
+      type: 'input_file',
+      file_id: file[:file_id] || part[:file_id],
+      file_url: file[:file_url] || part[:file_url],
+      detail: part[:detail]
+    }.compact
   end
 
   def text_format(schema)

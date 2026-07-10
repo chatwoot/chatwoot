@@ -35,28 +35,38 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
     context 'when generating FAQs from PDF pages' do
       let(:faq_response) do
         {
-          'choices' => [{
-            'message' => {
-              'content' => JSON.generate({
-                                           'faqs' => [
-                                             { 'question' => 'What is this document about?', 'answer' => 'It explains key concepts.' }
-                                           ],
-                                           'has_content' => true
-                                         })
-            }
+          'id' => 'resp-123',
+          'status' => 'completed',
+          'model' => service.model,
+          'output' => [{
+            'type' => 'message',
+            'content' => [{
+              'type' => 'output_text',
+              'text' => JSON.generate({
+                                        'faqs' => [
+                                          { 'question' => 'What is this document about?', 'answer' => 'It explains key concepts.' }
+                                        ],
+                                        'has_content' => true
+                                      })
+            }]
           }]
         }
       end
 
       let(:empty_response) do
         {
-          'choices' => [{
-            'message' => {
-              'content' => JSON.generate({
-                                           'faqs' => [],
-                                           'has_content' => false
-                                         })
-            }
+          'id' => 'resp-456',
+          'status' => 'completed',
+          'model' => service.model,
+          'output' => [{
+            'type' => 'message',
+            'content' => [{
+              'type' => 'output_text',
+              'text' => JSON.generate({
+                                        'faqs' => [],
+                                        'has_content' => false
+                                      })
+            }]
           }]
         }
       end
@@ -66,16 +76,38 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'generates FAQs from paginated content' do
-        allow(openai_client).to receive(:chat).and_return(faq_response, empty_response)
+        allow(openai_client).to receive(:json_post).and_return(faq_response, empty_response)
 
         faqs = service.generate
 
         expect(faqs).to have_attributes(size: 1)
         expect(faqs.first['question']).to eq('What is this document about?')
+        expect(openai_client).to have_received(:json_post).with(
+          path: '/responses',
+          parameters: hash_including(
+            model: service.model,
+            reasoning: { effort: Llm::Models.reasoning_effort_for('pdf_faq_generation') },
+            text: {
+              format: hash_including(
+                type: 'json_schema',
+                name: 'pdf_faq_generation',
+                strict: true
+              )
+            },
+            input: [
+              hash_including(
+                content: array_including(
+                  { type: 'input_file', file_id: 'file-123' },
+                  hash_including(type: 'input_text')
+                )
+              )
+            ]
+          )
+        ).at_least(:once)
       end
 
       it 'stops when no more content' do
-        allow(openai_client).to receive(:chat).and_return(empty_response)
+        allow(openai_client).to receive(:json_post).and_return(empty_response)
 
         faqs = service.generate
 
@@ -83,7 +115,7 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'respects max iterations limit' do
-        allow(openai_client).to receive(:chat).and_return(faq_response)
+        allow(openai_client).to receive(:json_post).and_return(faq_response)
 
         # Force max iterations
         service.instance_variable_set(:@iterations_completed, 19)

@@ -193,7 +193,8 @@ RSpec.describe Llm::ResponsesClient do
             role: 'user',
             content: [
               { type: 'text', text: 'What is in this image?' },
-              { type: 'image_url', image_url: { url: 'https://example.com/image.png' } }
+              { type: 'image_url', image_url: { url: 'https://example.com/image.png' } },
+              { type: 'file', file: { file_id: 'file-123' } }
             ]
           }
         ]
@@ -205,7 +206,8 @@ RSpec.describe Llm::ResponsesClient do
             role: 'user',
             content: [
               { type: 'input_text', text: 'What is in this image?' },
-              { type: 'input_image', image_url: 'https://example.com/image.png' }
+              { type: 'input_image', image_url: 'https://example.com/image.png' },
+              { type: 'input_file', file_id: 'file-123' }
             ]
           }
         ]

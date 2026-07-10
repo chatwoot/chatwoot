@@ -4,6 +4,30 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   # Default pages per chunk - easily configurable
   DEFAULT_PAGES_PER_CHUNK = 10
   MAX_ITERATIONS = 20 # Safety limit to prevent infinite loops
+  FAQ_RESPONSE_SCHEMA = {
+    name: 'pdf_faq_generation',
+    schema: {
+      type: 'object',
+      properties: {
+        faqs: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              question: { type: 'string' },
+              answer: { type: 'string' }
+            },
+            required: %w[question answer],
+            additionalProperties: false
+          }
+        },
+        has_content: { type: 'boolean' }
+      },
+      required: %w[faqs has_content],
+      additionalProperties: false
+    },
+    strict: true
+  }.freeze
 
   attr_reader :total_pages_processed, :iterations_completed
 
@@ -15,7 +39,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = Llm::FeatureRouter.resolve(feature: 'pdf_faq_generation', account: document.account)[:model]
+    @route = Llm::FeatureRouter.resolve(feature: 'pdf_faq_generation', account: document.account)
+    @model = @route[:model]
   end
 
   def generate
@@ -98,12 +123,17 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def process_page_chunk(start_page, end_page)
-    params = build_chunk_parameters(start_page, end_page)
-
-    instrumentation_params = build_instrumentation_params(params, start_page, end_page)
+    messages = build_chunk_messages(start_page, end_page)
+    instrumentation_params = build_instrumentation_params(messages, start_page, end_page)
 
     response = instrument_llm_call(instrumentation_params) do
-      @client.chat(parameters: params)
+      responses_client.create(
+        model: @model,
+        messages: messages,
+        schema: FAQ_RESPONSE_SCHEMA,
+        reasoning_effort: @route[:reasoning_effort],
+        metadata: document_metadata.merge(start_page: start_page, end_page: end_page)
+      )
     end
 
     result = parse_chunk_response(response)
@@ -113,17 +143,13 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     { faqs: [], has_content: false }
   end
 
-  def build_chunk_parameters(start_page, end_page)
-    {
-      model: @model,
-      response_format: { type: 'json_object' },
-      messages: [
-        {
-          role: 'user',
-          content: build_user_content(start_page, end_page)
-        }
-      ]
-    }
+  def build_chunk_messages(start_page, end_page)
+    [
+      {
+        role: 'user',
+        content: build_user_content(start_page, end_page)
+      }
+    ]
   end
 
   def build_user_content(start_page, end_page)
@@ -171,7 +197,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def parse_chunk_response(response)
-    content = response.dig('choices', 0, 'message', 'content')
+    content = response[:message]
     return { 'faqs' => [], 'has_content' => false } if content.nil?
 
     JSON.parse(sanitize_json_response(content))
@@ -208,18 +234,22 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     common_words.size.to_f / total_words
   end
 
-  def build_instrumentation_params(params, start_page, end_page)
+  def build_instrumentation_params(messages, start_page, end_page)
     {
       span_name: 'llm.paginated_faq_generation',
       account_id: @document&.account_id,
       feature_name: 'paginated_faq_generation',
       model: @model,
-      messages: params[:messages],
+      messages: messages,
       metadata: document_metadata.merge(start_page: start_page, end_page: end_page, iteration: @iterations_completed + 1)
     }
   end
 
   def document_metadata
     @document&.to_llm_metadata || {}
+  end
+
+  def responses_client
+    @responses_client ||= Llm::ResponsesClient.new(api_key: nil, client: @client)
   end
 end
