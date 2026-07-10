@@ -10,7 +10,8 @@ module Concerns::Agentable
       tools: agent_tools,
       model: agent_model,
       temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
-      response_schema: agent_response_schema
+      response_schema: agent_response_schema,
+      params: agent_params
     )
   end
 
@@ -50,6 +51,13 @@ module Concerns::Agentable
     return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
 
     installation_model.presence || route[:model]
+  end
+
+  def agent_params
+    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
+    return {} if route[:reasoning_effort].blank?
+
+    { reasoning_effort: route[:reasoning_effort] }
   end
 
   def installation_model

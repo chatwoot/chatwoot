@@ -50,7 +50,8 @@ RSpec.describe Concerns::Agentable do
         tools: [],
         model: Llm::Models.default_model_for('assistant'),
         temperature: 0.8,
-        response_schema: Captain::ResponseSchema
+        response_schema: Captain::ResponseSchema,
+        params: { reasoning_effort: Llm::Models.reasoning_effort_for('assistant') }
       )
 
       dummy_instance.agent
@@ -191,6 +192,14 @@ RSpec.describe Concerns::Agentable do
       agent = dummy_class.new(account: nil)
 
       expect(agent.send(:agent_model)).to eq(Llm::Models.default_model_for('assistant'))
+    end
+  end
+
+  describe '#agent_params' do
+    it 'returns reasoning effort for the assistant feature' do
+      expect(dummy_instance.send(:agent_params)).to eq(
+        reasoning_effort: Llm::Models.reasoning_effort_for('assistant')
+      )
     end
   end
 
