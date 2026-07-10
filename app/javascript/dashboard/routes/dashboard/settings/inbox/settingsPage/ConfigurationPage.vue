@@ -10,7 +10,6 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
-import WhatsappReauthorize from '../channels/whatsapp/Reauthorize.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
 
 export default {
@@ -22,7 +21,6 @@ export default {
     SmtpSettings,
     NextButton,
     TextArea,
-    WhatsappReauthorize,
   },
   mixins: [inboxMixin],
   props: {
@@ -39,7 +37,10 @@ export default {
       hmacMandatory: false,
       allowMobileWebview: false,
       whatsAppInboxAPIKey: '',
-      isRequestingReauthorization: false,
+      manualPhoneNumberId: '',
+      manualBusinessAccountId: '',
+      manualApiKey: '',
+      isTransferringToManual: false,
       isSyncingTemplates: false,
       allowedDomains: '',
       isUpdatingAllowedDomains: false,
@@ -48,13 +49,20 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+    manualPhoneNumberId: { required },
+    manualBusinessAccountId: { required },
+    manualApiKey: { required },
   },
   computed: {
     isEmbeddedSignupWhatsApp() {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
-    whatsappAppId() {
-      return window.chatwootConfig?.whatsappAppId;
+    isManualTransferInvalid() {
+      return (
+        this.v$.manualPhoneNumberId.$invalid ||
+        this.v$.manualBusinessAccountId.$invalid ||
+        this.v$.manualApiKey.$invalid
+      );
     },
     isForwardingEnabled() {
       return !!this.inbox.forwarding_enabled;
@@ -83,6 +91,10 @@ export default {
         this.inbox.selected_feature_flags || []
       ).includes('allow_mobile_webview');
       this.allowedDomains = this.inbox.allowed_domains || '';
+      const providerConfig = this.inbox.provider_config || {};
+      this.manualPhoneNumberId = providerConfig.phone_number_id || '';
+      this.manualBusinessAccountId = providerConfig.business_account_id || '';
+      this.manualApiKey = providerConfig.api_key || '';
       this.$nextTick(() => {
         this.isSettingDefaults = false;
       });
@@ -166,9 +178,32 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
-    async handleReconfigure() {
-      if (this.$refs.whatsappReauth) {
-        await this.$refs.whatsappReauth.requestAuthorization();
+    async transferToManualSetup() {
+      this.isTransferringToManual = true;
+      try {
+        const { source, ...providerConfig } = this.inbox.provider_config;
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...providerConfig,
+              phone_number_id: this.manualPhoneNumberId,
+              business_account_id: this.manualBusinessAccountId,
+              api_key: this.manualApiKey,
+            },
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_SUCCESS')
+        );
+      } catch (error) {
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_ERROR')
+        );
+      } finally {
+        this.isTransferringToManual = false;
       }
     },
     async syncTemplates() {
@@ -362,16 +397,70 @@ export default {
       <!-- Embedded Signup Section -->
       <template v-if="isEmbeddedSignupWhatsApp">
         <SettingsFieldSection
-          v-if="whatsappAppId"
-          :label="
-            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_TITLE')
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_TITLE')"
+          :help-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_WEBHOOK_SUBHEADER')
           "
-          :help-text="`${$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER')} ${$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION')}`"
         >
-          <div class="flex flex-col gap-1 items-start">
-            <NextButton @click="handleReconfigure">
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
-            </NextButton>
+          <woot-code :script="inbox.provider_config.webhook_verify_token" />
+        </SettingsFieldSection>
+        <SettingsFieldSection
+          :label="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_TITLE')
+          "
+          :help-text="
+            $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_SUBHEADER')
+          "
+        >
+          <div class="flex flex-col gap-3">
+            <woot-input
+              v-model="manualPhoneNumberId"
+              type="text"
+              class="[&>input]:!mb-0"
+              :label="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_PHONE_NUMBER_ID_LABEL'
+                )
+              "
+            />
+            <woot-input
+              v-model="manualBusinessAccountId"
+              type="text"
+              class="[&>input]:!mb-0"
+              :label="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_BUSINESS_ACCOUNT_ID_LABEL'
+                )
+              "
+            />
+            <woot-input
+              v-model="manualApiKey"
+              type="text"
+              class="[&>input]:!mb-0"
+              :label="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_API_KEY_LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_API_KEY_PLACEHOLDER'
+                )
+              "
+            />
+            <div>
+              <NextButton
+                :disabled="isManualTransferInvalid"
+                :is-loading="isTransferringToManual"
+                @click="transferToManualSetup"
+              >
+                {{
+                  $t(
+                    'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_BUTTON'
+                  )
+                }}
+              </NextButton>
+            </div>
           </div>
         </SettingsFieldSection>
       </template>
@@ -435,12 +524,6 @@ export default {
         </NextButton>
       </SettingsFieldSection>
     </div>
-    <WhatsappReauthorize
-      v-if="isEmbeddedSignupWhatsApp"
-      ref="whatsappReauth"
-      :inbox="inbox"
-      class="hidden"
-    />
   </div>
 </template>
 
