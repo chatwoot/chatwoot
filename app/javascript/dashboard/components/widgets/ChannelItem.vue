@@ -56,17 +56,8 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'voice') {
+  if (key === 'voice' || key === 'whatsapp_call') {
     return props.enabledFeatures.channel_voice;
-  }
-
-  if (key === 'whatsapp_call') {
-    return (
-      !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-      props.enabledFeatures.channel_voice &&
-      !!window.chatwootConfig?.whatsappAppId &&
-      window.chatwootConfig.whatsappAppId !== 'none'
-    );
   }
 
   return [
