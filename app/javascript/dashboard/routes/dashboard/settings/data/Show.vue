@@ -469,7 +469,7 @@ onBeforeUnmount(() => {
         <section
           class="overflow-hidden rounded-lg bg-n-card outline outline-1 outline-n-container"
         >
-          <div class="border-b border-n-weak px-4 py-3">
+          <div class="px-4 py-3">
             <h2 class="text-heading-3 text-n-slate-12">
               {{ $t('DATA_IMPORTS.DETAIL.PROGRESS') }}
             </h2>
