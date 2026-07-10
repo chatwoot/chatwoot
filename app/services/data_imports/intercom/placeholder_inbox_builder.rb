@@ -7,15 +7,17 @@ class DataImports::Intercom::PlaceholderInboxBuilder
 
   def inbox_for(source_type)
     bucket = DataImports::Intercom::SourceBucket.for(source_type)
-    existing_placeholder_inbox(bucket[:key]) || create_placeholder_inbox(bucket)
+    placeholder_inboxes[bucket[:key]] ||= create_placeholder_inbox(bucket)
   end
 
   private
 
-  def existing_placeholder_inbox(bucket_key)
-    @account.inboxes.includes(:channel).where(channel_type: 'Channel::Api').detect do |inbox|
+  def placeholder_inboxes
+    @placeholder_inboxes ||= @account.inboxes.includes(:channel).where(channel_type: 'Channel::Api').each_with_object({}) do |inbox, inboxes|
       attrs = inbox.channel.additional_attributes || {}
-      attrs['source_provider'] == 'intercom' && attrs['source_bucket'] == bucket_key && attrs['import_placeholder'] == true
+      next unless attrs['source_provider'] == 'intercom' && attrs['import_placeholder'] == true
+
+      inboxes[attrs['source_bucket']] = inbox
     end
   end
 

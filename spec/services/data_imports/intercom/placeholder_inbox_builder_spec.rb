@@ -23,10 +23,11 @@ RSpec.describe DataImports::Intercom::PlaceholderInboxBuilder do
       builder = described_class.new(account: account)
 
       first_inbox = builder.inbox_for('phone_call')
+      expect(account).not_to receive(:inboxes)
       second_inbox = builder.inbox_for('phone_switch')
 
       expect(second_inbox).to eq(first_inbox)
-      expect(account.inboxes.where(channel_type: 'Channel::Api').count).to eq(1)
+      expect(Inbox.where(account: account, channel_type: 'Channel::Api').count).to eq(1)
     end
   end
 end
