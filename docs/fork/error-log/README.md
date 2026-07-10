@@ -19,6 +19,9 @@ so the same problem is never debugged twice.
 
 Add a line here per entry, newest first:
 
+- [2026-07-10 — Vite dev server bound to container-localhost — assets 404 in the browser](./2026-07-10-vite-dev-server-bound-to-container-localhost.md)
+- [2026-07-10 — rails db:migrate auto-annotates models and dirties OSS/enterprise files](./2026-07-10-db-migrate-annotation-spill-into-oss-files.md)
+- [2026-07-10 — rails/sidekiq containers dead with "404 / No such image" after image re-tag](./2026-07-10-stale-containers-404-after-image-retag.md)
 - [2026-07-10 — Sparse custom_attributes PATCH wiped Chatwoot-owned account state](./2026-07-10-sparse-custom-attributes-patch-wiped-account-state.md)
 - [2026-07-10 — SSO-only lockdown leaked from dev .env into specs (and blank values counted as ON)](./2026-07-10-sso-flag-leaked-from-dev-env-into-specs.md)
 - [2026-07-03 — agentic_ai limit key rejected by the limits JSON schema](./2026-07-03-agentic-ai-limit-key-rejected-by-schema.md)

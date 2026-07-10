@@ -195,8 +195,13 @@ to upstream's text as the setup allows:
 
 - **`docker-compose.yaml`** — rewritten for the external-Postgres/Redis dev
   stack (Neon/Upstash via `.env`, no local `postgres`/`redis` services, per-repo
-  build targets). Expect conflicts when upstream reworks its compose file;
-  resolve by re-applying the fork's stack on top of upstream's new baseline.
+  build targets). Also carries two env guards born from error-log entries:
+  `ANNOTATERB_SKIP_ON_DB_TASKS=1` on `rails` (stops `db:migrate` from
+  re-annotating OSS/enterprise models — the annotation-spill root cause) and
+  `VITE_RUBY_HOST=0.0.0.0` on `vite` (dev server otherwise binds
+  container-localhost and host asset requests reset). Expect conflicts when
+  upstream reworks its compose file; resolve by re-applying the fork's stack on
+  top of upstream's new baseline.
 - **`docker-compose.rspec.yaml`** — net-new (no conflict risk): the isolated,
   tmpfs-backed test stack (see `AGENTS.md` / error-log 2026-07-02 entries for
   why specs must never run against the `rails` service).

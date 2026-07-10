@@ -50,6 +50,13 @@ services:
       NODE_ENV: development
       RAILS_ENV: development
       VITE_DEV_SERVER_HOST: vite
+      # annotaterb hooks db:migrate in development and re-annotates EVERY model
+      # whose schema comment drifts — spilling diffs into OSS/enterprise files the
+      # fork must not touch (see docs/fork/error-log/
+      # 2026-07-10-db-migrate-annotation-spill-into-oss-files.md). The fork keeps
+      # annotations frozen at upstream's text; after adding a fork migration, run
+      # annotaterb manually for just the fork-touched models.
+      ANNOTATERB_SKIP_ON_DB_TASKS: "1"
 
     depends_on:
       - vite
@@ -116,6 +123,11 @@ services:
       NODE_ENV: development
       RAILS_ENV: development
       VITE_DEV_SERVER_HOST: 0.0.0.0
+      # vite_ruby reads VITE_RUBY_HOST (VITE_DEV_SERVER_HOST above is only what
+      # the RAILS side dials, it does not affect the bind). Without this the dev
+      # server binds container-localhost (::1), the published 3036 port resets
+      # every host connection, and the dashboard's assets 404 in the browser.
+      VITE_RUBY_HOST: 0.0.0.0
 
     entrypoint: docker/entrypoints/vite.sh
 
