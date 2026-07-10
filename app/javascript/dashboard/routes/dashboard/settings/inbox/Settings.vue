@@ -757,7 +757,7 @@ export default {
           color="amber"
           class="mx-6 mb-4 max-w-4xl"
         >
-          <div class="flex items-start gap-3 text-left">
+          <div class="flex items-start gap-3 text-start">
             <Icon
               icon="i-lucide-triangle-alert"
               class="flex-shrink-0 size-4 mt-0.5"
