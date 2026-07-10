@@ -21,6 +21,7 @@ const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
+const globalConfig = useMapGetter('globalConfig/get');
 
 const { isImpersonating } = useImpersonation();
 
@@ -48,6 +49,16 @@ const availabilityStatuses = computed(() => {
 const activeStatus = computed(() => {
   return availabilityStatuses.value.find(status => status.active);
 });
+
+const sidebarBackgroundColor = computed(
+  () => globalConfig.value?.sidebarBackgroundColor?.trim() || ''
+);
+
+const sidebarDropdownStyle = computed(() =>
+  sidebarBackgroundColor.value
+    ? { '--sidebar-background-color': sidebarBackgroundColor.value }
+    : {}
+);
 
 const autoOfflineToggle = computed({
   get: () => currentUserAutoOffline.value,
@@ -102,7 +113,12 @@ function changeAvailabilityStatus(availability) {
               </div>
             </Button>
           </template>
-          <DropdownBody class="sidebar-branded-dropdown min-w-32 z-20">
+          <DropdownBody
+            class="sidebar-branded-dropdown min-w-32 z-20"
+            :style="sidebarDropdownStyle"
+            solid-surface
+            :solid-background-color="sidebarBackgroundColor"
+          >
             <DropdownItem
               v-for="status in availabilityStatuses"
               :key="status.value"

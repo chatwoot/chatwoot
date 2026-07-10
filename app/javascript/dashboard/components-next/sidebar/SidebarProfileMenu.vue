@@ -148,10 +148,15 @@ const allowedMenuItems = computed(() => {
   return menuItems.value.filter(item => item.show);
 });
 
-const sidebarDropdownStyle = computed(() => {
-  const color = globalConfig.value?.sidebarBackgroundColor?.trim();
-  return color ? { '--sidebar-background-color': color } : {};
-});
+const sidebarBackgroundColor = computed(
+  () => globalConfig.value?.sidebarBackgroundColor?.trim() || ''
+);
+
+const sidebarDropdownStyle = computed(() =>
+  sidebarBackgroundColor.value
+    ? { '--sidebar-background-color': sidebarBackgroundColor.value }
+    : {}
+);
 </script>
 
 <template>
@@ -190,6 +195,8 @@ const sidebarDropdownStyle = computed(() => {
     <DropdownBody
       class="sidebar-branded-dropdown bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0"
       :style="sidebarDropdownStyle"
+      solid-surface
+      :solid-background-color="sidebarBackgroundColor"
     >
       <SidebarProfileMenuStatus />
       <DropdownSeparator />
