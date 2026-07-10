@@ -113,24 +113,6 @@ const copy = computed(() => ({
   managementPermission: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MANAGEMENT_PERMISSION`
   ),
-  wabaAccessTitle: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_ACCESS_TITLE`
-  ),
-  wabaAccessDescription: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_ACCESS_DESCRIPTION`
-  ),
-  messagingAccessTitle: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MESSAGING_ACCESS_TITLE`
-  ),
-  messagingAccessDescription: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MESSAGING_ACCESS_DESCRIPTION`
-  ),
-  templateManagementTitle: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TEMPLATE_MANAGEMENT_TITLE`
-  ),
-  templateManagementDescription: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TEMPLATE_MANAGEMENT_DESCRIPTION`
-  ),
   reviewTitle: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.REVIEW_TITLE`
   ),
@@ -141,8 +123,8 @@ const copy = computed(() => ({
   notEntered: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.NOT_ENTERED`
   ),
-  previewNotice: t(
-    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PREVIEW_NOTICE`
+  verifyNotice: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.VERIFY_NOTICE`
   ),
   back: t(`INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.BACK`),
   cancel: t(
@@ -182,14 +164,6 @@ const steps = computed(() => [
     ),
     description: t(
       `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.ACCESS_TOKEN.DESCRIPTION`
-    ),
-  },
-  {
-    title: t(
-      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.VERIFY_DETAILS.TITLE`
-    ),
-    description: t(
-      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.VERIFY_DETAILS.DESCRIPTION`
     ),
   },
   {
@@ -452,57 +426,6 @@ defineExpose({ open, close });
             </div>
           </section>
 
-          <section v-else-if="currentStep === 3" class="grid gap-2.5">
-            <div
-              class="flex items-center justify-between gap-3 p-3 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container -outline-offset-1"
-            >
-              <div>
-                <p class="mb-1 text-sm font-medium text-n-slate-12">
-                  {{ copy.wabaAccessTitle }}
-                </p>
-                <p class="m-0 text-sm text-n-slate-11">
-                  {{ copy.wabaAccessDescription }}
-                </p>
-              </div>
-              <Icon
-                icon="i-lucide-circle-check"
-                class="flex-shrink-0 size-5 text-n-teal-11"
-              />
-            </div>
-            <div
-              class="flex items-center justify-between gap-3 p-3 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container -outline-offset-1"
-            >
-              <div>
-                <p class="mb-1 text-sm font-medium text-n-slate-12">
-                  {{ copy.messagingAccessTitle }}
-                </p>
-                <p class="m-0 text-sm text-n-slate-11">
-                  {{ copy.messagingAccessDescription }}
-                </p>
-              </div>
-              <Icon
-                icon="i-lucide-circle-check"
-                class="flex-shrink-0 size-5 text-n-teal-11"
-              />
-            </div>
-            <div
-              class="flex items-center justify-between gap-3 p-3 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container -outline-offset-1"
-            >
-              <div>
-                <p class="mb-1 text-sm font-medium text-n-slate-12">
-                  {{ copy.templateManagementTitle }}
-                </p>
-                <p class="m-0 text-sm text-n-slate-11">
-                  {{ copy.templateManagementDescription }}
-                </p>
-              </div>
-              <Icon
-                icon="i-lucide-circle-check"
-                class="flex-shrink-0 size-5 text-n-teal-11"
-              />
-            </div>
-          </section>
-
           <section
             v-else
             class="flex flex-col gap-4 p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container -outline-offset-1"
@@ -544,11 +467,11 @@ defineExpose({ open, close });
               class="flex gap-3 p-3 border rounded-lg bg-n-alpha-2 border-n-weak text-n-slate-11"
             >
               <Icon
-                icon="i-lucide-lock-keyhole"
+                icon="i-lucide-shield-check"
                 class="flex-shrink-0 size-4 mt-0.5 text-n-teal-11"
               />
               <p class="m-0 text-sm">
-                {{ copy.previewNotice }}
+                {{ replaceInstallationName(copy.verifyNotice) }}
               </p>
             </div>
           </section>
@@ -582,7 +505,7 @@ defineExpose({ open, close });
             :disabled="!canContinue"
             @click="goNext"
           >
-            {{ currentStep === 3 ? copy.reviewMigration : copy.continue }}
+            {{ currentStep === 2 ? copy.reviewMigration : copy.continue }}
           </NextButton>
           <NextButton
             v-else

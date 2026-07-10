@@ -880,17 +880,11 @@
           "TOKEN_HELP_SUFFIX": "for template sync and template management.",
           "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
           "MANAGEMENT_PERMISSION": "whatsapp_business_management",
-          "WABA_ACCESS_TITLE": "WABA and phone number access",
-          "WABA_ACCESS_DESCRIPTION": "Token can read the WABA and phone number.",
-          "MESSAGING_ACCESS_TITLE": "Messaging access",
-          "MESSAGING_ACCESS_DESCRIPTION": "Token can be used for WhatsApp Cloud messaging.",
-          "TEMPLATE_MANAGEMENT_TITLE": "Template management",
-          "TEMPLATE_MANAGEMENT_DESCRIPTION": "The token can access WhatsApp message templates for sync and template management.",
           "REVIEW_TITLE": "Review before reconnecting",
           "INBOX": "Inbox",
           "PHONE_NUMBER": "Phone number",
           "NOT_ENTERED": "Not entered",
-          "PREVIEW_NOTICE": "This preview does not save anything. In the production flow, the previous provider configuration should be kept for internal recovery before applying changes.",
+          "VERIFY_NOTICE": "Chatwoot will verify these credentials with Meta before applying any changes. If verification fails, the current configuration is left untouched.",
           "BACK": "Back",
           "CANCEL": "Cancel",
           "CONTINUE": "Continue",
@@ -910,13 +904,9 @@
             "TITLE": "Access token",
             "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
           },
-          "VERIFY_DETAILS": {
-            "TITLE": "Verify details",
-            "DESCRIPTION": "Chatwoot will verify the token, WABA, phone number, and messaging access before applying changes."
-          },
           "REVIEW_MIGRATION": {
             "TITLE": "Review migration",
-            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox."
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox. Chatwoot will verify the token, WABA, and phone number with Meta before applying changes."
           }
         }
       },
