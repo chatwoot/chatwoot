@@ -133,8 +133,35 @@
     "LOADING": "Carregando uso de IA…",
     "ERROR": "Não foi possível carregar o uso de IA. Tente novamente."
   },
+  "CRM_DASHBOARD": {
+    "ORIGIN": {
+      "TITLE": "Receita por origem",
+      "SUBTITLE": "Negócios ganhos e receita agrupados pela origem da campanha.",
+      "EMPTY": "Nenhum negócio ganho com origem de campanha neste período.",
+      "WON": "Ganhos",
+      "REVENUE": "Receita",
+      "SOURCES": {
+        "META_CTWA": "Meta CTWA",
+        "META_ORGANIC": "Meta orgânico",
+        "GOOGLE_ADS": "Google Ads",
+        "TIKTOK_ADS": "TikTok Ads",
+        "META_PAID": "Meta pago",
+        "TRACKED_LINK": "Link rastreado",
+        "UNKNOWN": "Desconhecida"
+      }
+    }
+  },
   "CRM_KANBAN": {
     "TITLE": "CRM Kanban",
+    "ORIGIN": {
+      "META_CTWA": "Meta clique para WhatsApp",
+      "META_ORGANIC": "Meta orgânico",
+      "GOOGLE_ADS": "Google Ads",
+      "TIKTOK_ADS": "TikTok Ads",
+      "META_PAID": "Meta pago",
+      "TRACKED_LINK": "Link rastreado",
+      "UNKNOWN": "Origem desconhecida"
+    },
     "SUBTITLE": "Funis operacionais com cards próprios, independentes de conversa, contato ou inbox.",
     "META_SYNC_STATUS": {
       "LABEL_ACCEPTED": "Enviado",

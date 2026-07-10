@@ -49,7 +49,9 @@ class Ctwa::TrackedLinkClick < ApplicationRecord
   before_validation :generate_token, on: :create
   before_validation :set_expires_at, on: :create
   before_validation :normalize_params
-  before_validation :truncate_user_agent
+  # prepend: ApplicationRecord's generic validates_column_content_length runs earlier in the
+  # chain and would flag the untruncated value before this callback shortens it.
+  before_validation :truncate_user_agent, prepend: true
 
   validates :token, presence: true, uniqueness: true, format: { with: TOKEN_FORMAT }
   validates :expires_at, presence: true

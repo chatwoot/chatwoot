@@ -16,6 +16,8 @@ import CrmCardSummaryPanel from './CrmCardSummaryPanel.vue';
 import CrmCardAutoFollowupStatus from './CrmCardAutoFollowupStatus.vue';
 import WhatsappApiMessageTemplatesAPI from 'dashboard/api/whatsappApiMessageTemplates';
 import MetaConversionsAPI from 'dashboard/api/metaConversions';
+import { useCrmOrigin } from '../composables/useCrmOrigin';
+import CrmCardPill from './CrmCardPill.vue';
 
 const props = defineProps({
   show: { type: Boolean, default: false },
@@ -52,6 +54,8 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const { originFromCampaigns, formatOriginLabel, formatOriginTitle } =
+  useCrmOrigin();
 
 const store = useStore();
 const isCrmAiEnabled = computed(
@@ -157,6 +161,7 @@ const selectedContact = computed(() =>
 const linkedConversationDisplayId = computed(
   () => props.card?.conversation?.display_id || ''
 );
+const originPill = computed(() => originFromCampaigns(props.card?.campaigns));
 const hasLinkedContext = computed(
   () =>
     isEditing.value &&
@@ -1157,6 +1162,21 @@ useKeyboardEvents({
                 sm
                 @click="openConversation"
               />
+            </div>
+
+            <div v-if="originPill" class="flex min-w-0 items-center">
+              <CrmCardPill
+                :icon="originPill.icon"
+                tone="teal"
+                :title="formatOriginTitle(originPill)"
+              >
+                {{ formatOriginLabel(originPill) }}
+                <template v-if="originPill.extraCount > 0" #trail>
+                  <span class="shrink-0 font-semibold">
+                    {{ `+${originPill.extraCount}` }}
+                  </span>
+                </template>
+              </CrmCardPill>
             </div>
 
             <div class="grid gap-2 text-sm">

@@ -21,6 +21,52 @@ const PERIODS = [
   { key: 'LAST_365', days: 365, groupBy: 'month' },
 ];
 
+const ORIGIN_SOURCES = [
+  {
+    key: 'meta_ctwa',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.META_CTWA',
+    icon: 'i-lucide-message-circle',
+    barClass: 'bg-n-blue-9',
+  },
+  {
+    key: 'meta_organic',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.META_ORGANIC',
+    icon: 'i-lucide-leaf',
+    barClass: 'bg-n-teal-9',
+  },
+  {
+    key: 'google_ads',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.GOOGLE_ADS',
+    icon: 'i-lucide-search',
+    barClass: 'bg-n-amber-9',
+  },
+  {
+    key: 'tiktok_ads',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.TIKTOK_ADS',
+    icon: 'i-lucide-music-2',
+    barClass: 'bg-n-violet-9',
+  },
+  {
+    key: 'meta_paid',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.META_PAID',
+    icon: 'i-lucide-badge-dollar-sign',
+    barClass: 'bg-n-ruby-9',
+  },
+  {
+    key: 'tracked_link',
+    labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.TRACKED_LINK',
+    icon: 'i-lucide-link',
+    barClass: 'bg-n-slate-9',
+  },
+];
+
+const ORIGIN_FALLBACK = {
+  key: 'unknown',
+  labelKey: 'CRM_DASHBOARD.ORIGIN.SOURCES.UNKNOWN',
+  icon: 'i-lucide-circle-help',
+  barClass: 'bg-n-slate-8',
+};
+
 const pipelines = ref([]);
 const selectedPipelineId = ref('');
 const selectedPeriodKey = ref('LAST_30');
@@ -32,6 +78,7 @@ const throughput = ref(null);
 const followUps = ref(null);
 const workload = ref(null);
 const meetings = ref(null);
+const campaigns = ref([]);
 
 // Meta conversions (Ads) sync-health block, gated on real CTWA ad activity.
 const metaSummary = ref(null);
@@ -177,6 +224,96 @@ const workloadLabel = entry => {
   return entry.name || `#${entry.key}`;
 };
 
+const originConfigByKey = computed(() =>
+  Object.fromEntries(ORIGIN_SOURCES.map(source => [source.key, source]))
+);
+
+const originLabels = computed(() => ({
+  meta_ctwa: t('CRM_DASHBOARD.ORIGIN.SOURCES.META_CTWA'),
+  meta_organic: t('CRM_DASHBOARD.ORIGIN.SOURCES.META_ORGANIC'),
+  google_ads: t('CRM_DASHBOARD.ORIGIN.SOURCES.GOOGLE_ADS'),
+  tiktok_ads: t('CRM_DASHBOARD.ORIGIN.SOURCES.TIKTOK_ADS'),
+  meta_paid: t('CRM_DASHBOARD.ORIGIN.SOURCES.META_PAID'),
+  tracked_link: t('CRM_DASHBOARD.ORIGIN.SOURCES.TRACKED_LINK'),
+  unknown: t('CRM_DASHBOARD.ORIGIN.SOURCES.UNKNOWN'),
+}));
+
+const originLabel = source =>
+  originLabels.value[source] || originLabels.value[ORIGIN_FALLBACK.key];
+
+const normalizedOriginSource = source => {
+  if (!source) return 'meta_ctwa';
+  return originConfigByKey.value[source] ? source : ORIGIN_FALLBACK.key;
+};
+
+const emptyOriginRow = source => ({
+  source,
+  wonCount: 0,
+  valueByCurrency: {},
+});
+
+const mergeCurrencyTotals = (totals, entries = []) =>
+  entries.reduce((nextTotals, entry) => {
+    const currency = entry.currency || 'BRL';
+    return {
+      ...nextTotals,
+      [currency]:
+        Number(nextTotals[currency] || 0) + Number(entry.value_cents || 0),
+    };
+  }, totals);
+
+const originRows = computed(() => {
+  const rowsBySource = Object.fromEntries(
+    ORIGIN_SOURCES.map(source => [source.key, emptyOriginRow(source.key)])
+  );
+
+  campaigns.value.forEach(campaign => {
+    const source = normalizedOriginSource(campaign.source);
+    if (!rowsBySource[source]) rowsBySource[source] = emptyOriginRow(source);
+    rowsBySource[source] = {
+      ...rowsBySource[source],
+      wonCount: rowsBySource[source].wonCount + Number(campaign.won_count || 0),
+      valueByCurrency: mergeCurrencyTotals(
+        rowsBySource[source].valueByCurrency,
+        campaign.won_value_by_currency
+      ),
+    };
+  });
+
+  const orderedSources = [
+    ...ORIGIN_SOURCES.map(source => source.key),
+    ...(rowsBySource[ORIGIN_FALLBACK.key] ? [ORIGIN_FALLBACK.key] : []),
+  ];
+
+  return orderedSources
+    .map(source => {
+      const row = rowsBySource[source];
+      const valueList = Object.entries(row.valueByCurrency)
+        .map(([currency, valueCents]) => ({
+          currency,
+          value_cents: valueCents,
+        }))
+        .sort((a, b) => a.currency.localeCompare(b.currency));
+      const config = originConfigByKey.value[source] || ORIGIN_FALLBACK;
+
+      return {
+        source,
+        icon: config.icon,
+        barClass: config.barClass,
+        label: originLabel(source),
+        wonCount: row.wonCount,
+        valueList,
+      };
+    })
+    .filter(row => row.wonCount > 0 || row.valueList.length > 0);
+});
+
+const hasOriginRows = computed(() => originRows.value.length > 0);
+
+const maxOriginWonCount = computed(() =>
+  Math.max(1, ...originRows.value.map(row => row.wonCount))
+);
+
 const fetchReports = async () => {
   if (!hasPipelines.value) return;
   isLoading.value = true;
@@ -191,6 +328,7 @@ const fetchReports = async () => {
       followUpsRes,
       workloadRes,
       meetingsRes,
+      campaignsRes,
     ] = await Promise.all([
       CrmKanbanAPI.getReportSummary(params),
       CrmKanbanAPI.getReportFunnel(params),
@@ -201,6 +339,12 @@ const fetchReports = async () => {
       isMeetingsEnabled.value
         ? CrmKanbanAPI.getReportMeetings(params)
         : Promise.resolve(null),
+      CtwaCampaignsAPI.get({
+        pipeline_id: params.pipeline_id,
+        since: params.since,
+        until: params.until,
+        include_origin_metrics: true,
+      }),
     ]);
     summary.value = summaryRes.data.payload;
     funnel.value = funnelRes.data.payload;
@@ -209,6 +353,7 @@ const fetchReports = async () => {
     followUps.value = followUpsRes.data.payload;
     workload.value = workloadRes.data.payload;
     meetings.value = meetingsRes?.data?.payload || null;
+    campaigns.value = campaignsRes.data.payload || [];
   } catch (error) {
     loadError.value = true;
   } finally {
@@ -495,6 +640,68 @@ onMounted(async () => {
               :label="t('CRM_KANBAN.DASHBOARD.META_SYNC.LAST_SENT')"
               :value="formatLastSent(metaSummary?.last_sent_at)"
             />
+          </div>
+        </div>
+      </section>
+
+      <!-- Origin performance -->
+      <section class="p-5 border rounded-xl border-n-weak bg-n-solid-1">
+        <h3 class="mb-1 text-sm font-medium text-n-slate-12">
+          {{ t('CRM_DASHBOARD.ORIGIN.TITLE') }}
+        </h3>
+        <p class="mb-4 text-xs text-n-slate-11">
+          {{ t('CRM_DASHBOARD.ORIGIN.SUBTITLE') }}
+        </p>
+        <p v-if="!hasOriginRows" class="text-sm text-n-slate-11">
+          {{ t('CRM_DASHBOARD.ORIGIN.EMPTY') }}
+        </p>
+        <div v-else class="flex flex-col gap-4">
+          <div
+            v-for="row in originRows"
+            :key="row.source"
+            class="flex flex-col gap-3 sm:flex-row sm:items-center"
+          >
+            <div class="flex items-center min-w-0 gap-2 sm:w-48 shrink-0">
+              <span
+                class="text-base shrink-0 text-n-slate-10"
+                :class="row.icon"
+              />
+              <span class="text-sm font-medium truncate text-n-slate-12">
+                {{ row.label }}
+              </span>
+            </div>
+            <div
+              class="relative flex-1 h-5 overflow-hidden rounded-md bg-n-alpha-black2"
+            >
+              <div
+                class="h-full rounded-md"
+                :class="row.barClass"
+                :style="{
+                  width: `${Math.max(
+                    4,
+                    (row.wonCount / maxOriginWonCount) * 100
+                  )}%`,
+                }"
+              />
+            </div>
+            <div class="grid grid-cols-2 gap-3 sm:w-72 shrink-0">
+              <div>
+                <p class="m-0 text-sm font-medium text-n-slate-12">
+                  {{ formatNumber(row.wonCount) }}
+                </p>
+                <p class="m-0 text-xs text-n-slate-11">
+                  {{ t('CRM_DASHBOARD.ORIGIN.WON') }}
+                </p>
+              </div>
+              <div>
+                <p class="m-0 text-sm font-medium truncate text-n-slate-12">
+                  {{ formatCurrencyList(row.valueList) }}
+                </p>
+                <p class="m-0 text-xs text-n-slate-11">
+                  {{ t('CRM_DASHBOARD.ORIGIN.REVENUE') }}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
