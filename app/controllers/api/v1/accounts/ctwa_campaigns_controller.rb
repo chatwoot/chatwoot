@@ -51,6 +51,7 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
     ActiveRecord::Base.connection.select_all(sql).map do |row|
       {
         source_id: row['source_id'],
+        source: row['source'],
         headline: row['headline'],
         count: row['conversations_count'].to_i,
         last_touch_at: row['last_touch_at']
