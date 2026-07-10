@@ -1,3 +1,6 @@
+require 'digest/sha1'
+require 'uri'
+
 # Promotes Click-to-WhatsApp (Meta CTWA) referrals and tracked-link bridge
 # attribution into first-class conversation attributes so they can drive the Kanban
 # campaign pill and the campaign filters. Multi-touch: every attribution touch lands
@@ -11,6 +14,7 @@
 # Provider payloads differ (WhatsApp Cloud sends string keys, Twilio symbol keys and a
 # `media_content_type` instead of `media_type`), so callers hand us the raw referral hash
 # and this builder normalizes it into one shape.
+# rubocop:disable Metrics/ModuleLength
 module Ctwa::CampaignBuilder
   module_function
 
@@ -26,13 +30,14 @@ module Ctwa::CampaignBuilder
   ].freeze
 
   # Builds the unified campaign attribution hash, or nil when the referral carries no
-  # usable attribution signal (a Meta referral always has a source id or click id; a
-  # tracked-link bridge carries its source id as link/click token).
+  # usable attribution signal.
   def build(referral)
     return if referral.blank?
 
     ref = referral.to_h.symbolize_keys
-    return if ref[:source_id].blank? && ref[:ctwa_clid].blank?
+    return if ref[:source_id].blank? && ref[:ctwa_clid].blank? && ref[:source_url].blank?
+
+    ref = normalize_source_url_referral(bound_source_url(ref))
 
     {
       'source' => source_for(ref),
@@ -140,6 +145,50 @@ module Ctwa::CampaignBuilder
     }
   end
 
+  MAX_SOURCE_URL_LENGTH = 512
+  MAX_DERIVED_CODE_LENGTH = 40
+
+  # External webhook input: the URL is bounded for EVERY referral shape before anything
+  # derives from it or persists it into the conversation jsonb.
+  def bound_source_url(ref)
+    return ref if ref[:source_url].blank?
+
+    ref.merge(source_url: ref[:source_url].to_s.first(MAX_SOURCE_URL_LENGTH))
+  end
+
+  # source_url arrives already bounded by build; only derivation happens here.
+  def normalize_source_url_referral(ref)
+    return ref unless source_url_only_referral?(ref)
+
+    source_url = ref[:source_url].to_s
+    code = source_url[%r{instagram\.com/(?:p|reel)/([\w-]+)}i, 1]&.first(MAX_DERIVED_CODE_LENGTH)
+    ref.merge(
+      source_id: source_url_source_id(source_url, code),
+      source_type: ref[:source_type].presence || 'post',
+      headline: ref[:headline].presence || source_url_headline(source_url, code)
+    )
+  end
+
+  def source_url_only_referral?(ref)
+    ref[:source_id].blank? && ref[:ctwa_clid].blank? && ref[:source_url].present?
+  end
+
+  def source_url_source_id(source_url, code)
+    return "post:#{code}" if code.present?
+
+    "url:#{Digest::SHA1.hexdigest(source_url)[0, 12]}"
+  end
+
+  # A malformed URL must never break inbound message processing, so the parse failure
+  # (and a host-less URL) falls back to a bounded slice of the raw value.
+  def source_url_headline(source_url, code)
+    return "Post #{code}" if code.present?
+
+    URI.parse(source_url).host.presence || source_url.first(40)
+  rescue URI::InvalidURIError
+    source_url.first(40)
+  end
+
   def source_for(ref)
     return CTWA_SOURCE if ref[:ctwa_clid].present? || ref[:source_type].to_s == 'ad'
     return 'google_ads' if ref[:gclid].present?
@@ -164,3 +213,4 @@ module Ctwa::CampaignBuilder
     touch['ctwa_clid'].presence || touch['source_id'].presence
   end
 end
+# rubocop:enable Metrics/ModuleLength
