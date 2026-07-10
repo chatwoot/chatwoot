@@ -1,4 +1,9 @@
-import { importedCount, isActiveIntercomImport } from '../importStatus';
+import {
+  formatDate,
+  importedCount,
+  isActiveIntercomImport,
+  statusDotClass,
+} from '../importStatus';
 
 describe('importStatus', () => {
   describe('isActiveIntercomImport', () => {
@@ -52,6 +57,36 @@ describe('importStatus', () => {
           stats: {},
         })
       ).toBe(7);
+    });
+  });
+
+  describe('statusDotClass', () => {
+    it('maps each status to its dot color class', () => {
+      expect(statusDotClass('pending')).toBe('bg-n-amber-9');
+      expect(statusDotClass('processing')).toBe('bg-n-blue-9');
+      expect(statusDotClass('completed')).toBe('bg-n-teal-9');
+      expect(statusDotClass('completed_with_errors')).toBe('bg-n-amber-9');
+      expect(statusDotClass('failed')).toBe('bg-n-ruby-9');
+      expect(statusDotClass('abandoned')).toBe('bg-n-slate-9');
+    });
+
+    it('falls back to slate for unknown or missing status', () => {
+      expect(statusDotClass('unknown')).toBe('bg-n-slate-9');
+      expect(statusDotClass(undefined)).toBe('bg-n-slate-9');
+    });
+  });
+
+  describe('formatDate', () => {
+    it('returns a dash for empty values', () => {
+      expect(formatDate(null)).toBe('-');
+      expect(formatDate('')).toBe('-');
+      expect(formatDate(undefined)).toBe('-');
+    });
+
+    it('formats a valid date into a readable string', () => {
+      const formatted = formatDate('2026-07-10T18:09:00Z');
+      expect(formatted).not.toBe('-');
+      expect(formatted).toContain('2026');
     });
   });
 });

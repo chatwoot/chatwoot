@@ -16,7 +16,7 @@ import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
-import NewImportDrawer from './NewImportDrawer.vue';
+import NewImportDialog from './NewImportDialog.vue';
 import { importSourceFor } from './importSources';
 import {
   POLL_INTERVAL_MS,
@@ -352,7 +352,7 @@ onBeforeUnmount(() => {
     </template>
   </SettingsLayout>
 
-  <NewImportDrawer
+  <NewImportDialog
     :show="showImportDrawer"
     :has-active-import="hasActiveIntercomImport"
     @close="showImportDrawer = false"
