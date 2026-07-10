@@ -43,6 +43,7 @@ env:
   CURRENT_TG_PARAMETER: /chatwoot/prod/blue-green/current-target-group-arn
   CURRENT_INSTANCE_PARAMETER: /chatwoot/prod/blue-green/current-instance-id
   PREVIOUS_INSTANCE_PARAMETER: /chatwoot/prod/blue-green/previous-instance-id
+  ROOT_VOLUME_SIZE_GB: '30'
 
 jobs:
   deploy:
@@ -200,6 +201,21 @@ jobs:
             --image-ids "$ami_id" \
             --query 'Images[0].RootDeviceName' \
             --output text)
+          old_previous_instance_id=$(aws ssm get-parameter \
+            --name "$PREVIOUS_INSTANCE_PARAMETER" \
+            --query Parameter.Value \
+            --output text 2>/dev/null || true)
+          old_previous_tg_arn=$(aws ssm get-parameter \
+            --name "$PREVIOUS_TG_PARAMETER" \
+            --query Parameter.Value \
+            --output text 2>/dev/null || true)
+
+          if [ "$old_previous_instance_id" = "None" ]; then
+            old_previous_instance_id=""
+          fi
+          if [ "$old_previous_tg_arn" = "None" ]; then
+            old_previous_tg_arn=""
+          fi
 
           {
             echo "LB_ARN=$lb_arn"
@@ -207,6 +223,8 @@ jobs:
             echo "VPC_ID=$vpc_id"
             echo "BLUE_TG_ARN=$current_tg_arn"
             echo "BLUE_INSTANCE_ID=$current_instance_id"
+            echo "OLD_PREVIOUS_INSTANCE_ID=$old_previous_instance_id"
+            echo "OLD_PREVIOUS_TG_ARN=$old_previous_tg_arn"
             echo "SUBNET_ID=$subnet_id"
             echo "SECURITY_GROUP_IDS=$security_group_ids"
             echo "IAM_PROFILE_NAME=$iam_profile_name"
@@ -343,8 +361,8 @@ jobs:
             --security-group-ids $SECURITY_GROUP_IDS \
             --iam-instance-profile "Name=$IAM_PROFILE_NAME" \
             --user-data file://green-user-data.sh \
-            --block-device-mappings "[{\"DeviceName\":\"$ROOT_DEVICE_NAME\",\"Ebs\":{\"VolumeSize\":50,\"VolumeType\":\"gp3\",\"Encrypted\":true,\"DeleteOnTermination\":true}}]" \
-            --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=chatwoot-hub2you-prod-ec2-green-${GITHUB_RUN_ID}},{Key=Project,Value=chatwoot-autonomia},{Key=Environment,Value=prod},{Key=ManagedBy,Value=github-actions},{Key=BlueGreenRole,Value=green}]" \
+            --block-device-mappings "[{\"DeviceName\":\"$ROOT_DEVICE_NAME\",\"Ebs\":{\"VolumeSize\":${ROOT_VOLUME_SIZE_GB},\"VolumeType\":\"gp3\",\"Encrypted\":true,\"DeleteOnTermination\":true}}]" \
+            --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=chatwoot-hub2you-prod-ec2-green-${GITHUB_RUN_ID}},{Key=Project,Value=chatwoot-autonomia},{Key=Environment,Value=prod},{Key=ManagedBy,Value=github-actions},{Key=BlueGreenRole,Value=green}]" "ResourceType=volume,Tags=[{Key=Name,Value=chatwoot-hub2you-prod-ec2-green-${GITHUB_RUN_ID}-root},{Key=Project,Value=chatwoot-autonomia},{Key=Environment,Value=prod},{Key=ManagedBy,Value=github-actions},{Key=BlueGreenRole,Value=green}]" \
             --query 'Instances[0].InstanceId' \
             --output text)
 
@@ -520,13 +538,39 @@ jobs:
           echo "SSO redirect smoke test failed"
           exit 1
 
-      - name: Stop blue instance after MVP grace period
+      - name: Stop blue instance and remove older rollback
         run: |
-          echo "Keeping previous Blue instance online for 5 minutes before stopping it."
+          echo "Keeping the previous active instance online for 5 minutes before stopping it."
+          echo "Rollback policy: keep only this immediately previous instance; terminate any older rollback instance recorded before this deploy."
           sleep 300
 
           aws ec2 stop-instances \
             --instance-ids "$BLUE_INSTANCE_ID"
+          aws ec2 wait instance-stopped \
+            --instance-ids "$BLUE_INSTANCE_ID"
+
+          if [ -n "${OLD_PREVIOUS_INSTANCE_ID:-}" ] \
+            && [ "$OLD_PREVIOUS_INSTANCE_ID" != "$BLUE_INSTANCE_ID" ] \
+            && [ "$OLD_PREVIOUS_INSTANCE_ID" != "$GREEN_INSTANCE_ID" ]; then
+            old_state=$(aws ec2 describe-instances \
+              --instance-ids "$OLD_PREVIOUS_INSTANCE_ID" \
+              --query 'Reservations[0].Instances[0].State.Name' \
+              --output text 2>/dev/null || true)
+
+            if [ -n "$old_state" ] && [ "$old_state" != "None" ] && [ "$old_state" != "terminated" ] && [ "$old_state" != "shutting-down" ]; then
+              echo "Terminating older rollback instance $OLD_PREVIOUS_INSTANCE_ID (state=$old_state)."
+              aws ec2 terminate-instances \
+                --instance-ids "$OLD_PREVIOUS_INSTANCE_ID"
+            fi
+          fi
+
+          if [ -n "${OLD_PREVIOUS_TG_ARN:-}" ] \
+            && [ "$OLD_PREVIOUS_TG_ARN" != "$BLUE_TG_ARN" ] \
+            && [ "$OLD_PREVIOUS_TG_ARN" != "$GREEN_TG_ARN" ]; then
+            echo "Deleting older rollback target group $OLD_PREVIOUS_TG_ARN."
+            aws elbv2 delete-target-group \
+              --target-group-arn "$OLD_PREVIOUS_TG_ARN" || true
+          fi
 
       - name: Cleanup failed green resources before traffic shift
         if: failure() && env.TRAFFIC_SHIFT_DONE != 'true'
