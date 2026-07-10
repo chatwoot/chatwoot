@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import ChannelSelector from '../ChannelSelector.vue';
-import { IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED } from 'dashboard/constants/globals';
 
 const props = defineProps({
   channel: {
@@ -21,10 +20,7 @@ const hasFbConfigured = computed(() => {
 });
 
 const hasInstagramConfigured = computed(() => {
-  return (
-    !IS_INSTAGRAM_WHATSAPP_INBOX_CREATION_DISABLED &&
-    window.chatwootConfig?.instagramAppId
-  );
+  return window.chatwootConfig?.instagramAppId;
 });
 
 const hasTiktokConfigured = computed(() => {

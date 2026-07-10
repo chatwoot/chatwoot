@@ -180,6 +180,7 @@ export default {
 
     <div class="w-full mt-4">
       <NextButton
+        :disabled="uiFlags.isCreating"
         :is-loading="uiFlags.isCreating"
         type="submit"
         solid
