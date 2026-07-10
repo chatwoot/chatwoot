@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -390,6 +390,35 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
     t.index ["status"], name: "index_captain_documents_on_status"
+  end
+
+  create_table "captain_faq_observations", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "faq_suggestion_id"
+    t.string "generated_question", null: false
+    t.text "generated_answer", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["conversation_id", "faq_suggestion_id"], name: "idx_captain_faq_observations_on_conversation_and_suggestion", unique: true, where: "(faq_suggestion_id IS NOT NULL)"
+    t.index ["conversation_id"], name: "index_captain_faq_observations_on_conversation_id"
+    t.index ["faq_suggestion_id"], name: "index_captain_faq_observations_on_faq_suggestion_id"
+  end
+
+  create_table "captain_faq_suggestions", force: :cascade do |t|
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.vector "embedding", limit: 1536
+    t.bigint "assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.integer "source_count", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
+    t.index ["assistant_id", "status"], name: "index_captain_faq_suggestions_on_assistant_id_and_status"
+    t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
+    t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end
 
   create_table "captain_inboxes", force: :cascade do |t|
