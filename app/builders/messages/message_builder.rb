@@ -21,6 +21,10 @@ class Messages::MessageBuilder
   end
 
   def perform
+    # Bridges (Evolution/Baileys) may retry the same webhook; return existing message when source_id matches.
+    existing = existing_message_with_source_id
+    return existing if existing
+
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
@@ -32,6 +36,13 @@ class Messages::MessageBuilder
   end
 
   private
+
+  def existing_message_with_source_id
+    source_id = @params[:source_id]
+    return if source_id.blank?
+
+    @conversation.messages.find_by(source_id: source_id)
+  end
 
   # Extracts content attributes from the given params.
   # - Converts ActionController::Parameters to a regular hash if needed.
