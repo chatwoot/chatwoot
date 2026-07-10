@@ -439,23 +439,19 @@
           "HINT": "Average replies the assistant sends per conversation."
         }
       },
+      "DRILLDOWN": {
+        "CLOSE": "Close details",
+        "EMPTY": "No records found for this metric.",
+        "ERROR": "Could not load records. Please try again.",
+        "LOAD_MORE": "Load more",
+        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+      },
       "KNOWLEDGE": {
         "TITLE": "Knowledge coverage",
         "COVERAGE": "{pct}% approved",
         "APPROVED": "Approved FAQs",
         "PENDING": "Pending FAQs",
         "DOCUMENTS": "Documents"
-      },
-      "FLAGGED": {
-        "TITLE": "Response quality",
-        "TOTAL": "{count} flagged · {rate}"
-      },
-      "CREDITS": {
-        "TITLE": "Credit usage",
-        "UNIT": "credits",
-        "LEGEND": "Daily credits used",
-        "AXIS_START": "{count}d ago",
-        "AXIS_END": "Today"
       },
       "LINKS": {
         "DOCS": {
@@ -470,13 +466,6 @@
           "TITLE": "Billing",
           "DESCRIPTION": "Manage credits and plan"
         }
-      },
-      "FLAG_REASONS": {
-        "INCORRECT": "Incorrect info",
-        "INCOMPLETE": "Incomplete",
-        "OUTDATED": "Outdated",
-        "INAPPROPRIATE": "Inappropriate",
-        "OTHER": "Other"
       }
     },
     "ASSISTANT_SWITCHER": {
