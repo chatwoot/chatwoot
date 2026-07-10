@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_10_000100) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -311,7 +311,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "autonomia_agent_inboxes", force: :cascade do |t|
     t.bigint "autonomia_agent_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.bigint "account_id", null: false
     t.bigint "agent_bot_id", null: false
     t.datetime "created_at", null: false
@@ -1174,7 +1174,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
     t.bigint "account_id", null: false
     t.bigint "booking_profile_id", null: false
     t.bigint "agent_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.string "slug", null: false
     t.boolean "enabled", default: true, null: false
     t.jsonb "metadata", default: {}, null: false
@@ -1190,7 +1190,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "crm_agent_booking_profiles", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.string "slug", null: false
     t.string "title"
     t.text "description"
@@ -1250,7 +1250,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "crm_calendar_sync_states", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.integer "provider", default: 0, null: false
     t.string "channel_id"
     t.string "resource_id"
@@ -1400,7 +1400,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "crm_inbox_settings", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.boolean "crm_enabled", default: false, null: false
     t.bigint "default_pipeline_id"
     t.bigint "default_stage_id"
@@ -1515,7 +1515,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   create_table "crm_pipeline_inboxes", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "pipeline_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.bigint "default_stage_id"
     t.boolean "auto_create_card", default: false, null: false
     t.bigint "created_by_id"
@@ -2401,7 +2401,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   create_table "whatsapp_api_campaign_recipients", force: :cascade do |t|
     t.bigint "whatsapp_api_campaign_id", null: false
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.bigint "contact_id", null: false
     t.bigint "conversation_id"
     t.bigint "message_id"
@@ -2433,7 +2433,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "whatsapp_api_campaigns", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.bigint "created_by_id", null: false
     t.bigint "whatsapp_api_message_template_id"
     t.string "title", null: false
@@ -2465,7 +2465,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
 
   create_table "whatsapp_api_message_templates", force: :cascade do |t|
     t.bigint "account_id", null: false
-    t.bigint "inbox_id", null: false
+    t.bigint "inbox_id"
     t.bigint "created_by_id", null: false
     t.bigint "updated_by_id"
     t.string "name", null: false
@@ -2509,7 +2509,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "autonomia_agent_inboxes", "accounts"
   add_foreign_key "autonomia_agent_inboxes", "agent_bots"
   add_foreign_key "autonomia_agent_inboxes", "autonomia_agents"
-  add_foreign_key "autonomia_agent_inboxes", "inboxes"
+  add_foreign_key "autonomia_agent_inboxes", "inboxes", on_delete: :nullify
   add_foreign_key "autonomia_agent_instruction_versions", "accounts"
   add_foreign_key "autonomia_agent_instruction_versions", "autonomia_agents", on_delete: :cascade
   add_foreign_key "autonomia_agent_instruction_versions", "users", column: "created_by_id", on_delete: :nullify
@@ -2541,16 +2541,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "crm_activities", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_agent_booking_links", "accounts"
   add_foreign_key "crm_agent_booking_links", "crm_agent_booking_profiles", column: "booking_profile_id"
-  add_foreign_key "crm_agent_booking_links", "inboxes"
+  add_foreign_key "crm_agent_booking_links", "inboxes", on_delete: :nullify
   add_foreign_key "crm_agent_booking_links", "users", column: "agent_id"
   add_foreign_key "crm_agent_booking_profiles", "accounts"
-  add_foreign_key "crm_agent_booking_profiles", "inboxes"
+  add_foreign_key "crm_agent_booking_profiles", "inboxes", on_delete: :nullify
   add_foreign_key "crm_ai_stage_suggestions", "accounts"
   add_foreign_key "crm_ai_stage_suggestions", "crm_cards", column: "card_id", on_delete: :cascade
   add_foreign_key "crm_ai_stage_suggestions", "crm_pipeline_stages", column: "from_stage_id"
   add_foreign_key "crm_ai_stage_suggestions", "crm_pipeline_stages", column: "to_stage_id"
   add_foreign_key "crm_calendar_sync_states", "accounts"
-  add_foreign_key "crm_calendar_sync_states", "inboxes"
+  add_foreign_key "crm_calendar_sync_states", "inboxes", on_delete: :nullify
   add_foreign_key "crm_card_conversations", "accounts"
   add_foreign_key "crm_card_conversations", "conversations", on_delete: :cascade
   add_foreign_key "crm_card_conversations", "crm_cards", column: "card_id", on_delete: :cascade
@@ -2560,21 +2560,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "crm_cards", "conversations", on_delete: :cascade
   add_foreign_key "crm_cards", "crm_pipeline_stages", column: "stage_id"
   add_foreign_key "crm_cards", "crm_pipelines", column: "pipeline_id"
-  add_foreign_key "crm_cards", "inboxes"
+  add_foreign_key "crm_cards", "inboxes", on_delete: :nullify
   add_foreign_key "crm_cards", "teams"
   add_foreign_key "crm_cards", "users", column: "owner_id"
   add_foreign_key "crm_follow_ups", "accounts"
   add_foreign_key "crm_follow_ups", "contacts", on_delete: :cascade
   add_foreign_key "crm_follow_ups", "conversations", on_delete: :cascade
   add_foreign_key "crm_follow_ups", "crm_cards", column: "card_id", on_delete: :cascade
-  add_foreign_key "crm_follow_ups", "inboxes"
+  add_foreign_key "crm_follow_ups", "inboxes", on_delete: :nullify
   add_foreign_key "crm_follow_ups", "users", column: "assignee_id"
   add_foreign_key "crm_follow_ups", "users", column: "created_by_id"
   add_foreign_key "crm_google_conversion_events", "accounts", on_delete: :cascade
   add_foreign_key "crm_inbox_settings", "accounts"
   add_foreign_key "crm_inbox_settings", "crm_pipeline_stages", column: "default_stage_id"
   add_foreign_key "crm_inbox_settings", "crm_pipelines", column: "default_pipeline_id"
-  add_foreign_key "crm_inbox_settings", "inboxes"
+  add_foreign_key "crm_inbox_settings", "inboxes", on_delete: :nullify
   add_foreign_key "crm_integration_tokens", "account_users", on_delete: :nullify
   add_foreign_key "crm_integration_tokens", "accounts"
   add_foreign_key "crm_integration_tokens", "custom_roles", on_delete: :nullify
@@ -2591,7 +2591,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "crm_pipeline_inboxes", "accounts"
   add_foreign_key "crm_pipeline_inboxes", "crm_pipeline_stages", column: "default_stage_id"
   add_foreign_key "crm_pipeline_inboxes", "crm_pipelines", column: "pipeline_id"
-  add_foreign_key "crm_pipeline_inboxes", "inboxes"
+  add_foreign_key "crm_pipeline_inboxes", "inboxes", on_delete: :nullify
   add_foreign_key "crm_pipeline_inboxes", "users", column: "created_by_id"
   add_foreign_key "crm_pipeline_stages", "accounts"
   add_foreign_key "crm_pipeline_stages", "crm_pipelines", column: "pipeline_id"
@@ -2618,7 +2618,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "email_campaign_templates", "accounts"
   add_foreign_key "email_campaigns", "accounts"
   add_foreign_key "email_campaigns", "email_sender_identities", column: "sender_identity_id"
-  add_foreign_key "email_campaigns", "inboxes", column: "sender_inbox_id"
+  add_foreign_key "email_campaigns", "inboxes", column: "sender_inbox_id", on_delete: :nullify
   add_foreign_key "email_events", "email_campaign_recipients", column: "recipient_id"
   add_foreign_key "email_sender_identities", "accounts"
   add_foreign_key "email_suppressions", "accounts"
@@ -2628,15 +2628,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000003) do
   add_foreign_key "whatsapp_api_campaign_recipients", "accounts"
   add_foreign_key "whatsapp_api_campaign_recipients", "contacts", on_delete: :cascade
   add_foreign_key "whatsapp_api_campaign_recipients", "conversations", on_delete: :cascade
-  add_foreign_key "whatsapp_api_campaign_recipients", "inboxes"
+  add_foreign_key "whatsapp_api_campaign_recipients", "inboxes", on_delete: :nullify
   add_foreign_key "whatsapp_api_campaign_recipients", "messages"
   add_foreign_key "whatsapp_api_campaign_recipients", "whatsapp_api_campaigns"
   add_foreign_key "whatsapp_api_campaigns", "accounts"
-  add_foreign_key "whatsapp_api_campaigns", "inboxes"
+  add_foreign_key "whatsapp_api_campaigns", "inboxes", on_delete: :nullify
   add_foreign_key "whatsapp_api_campaigns", "users", column: "created_by_id"
   add_foreign_key "whatsapp_api_campaigns", "whatsapp_api_message_templates"
   add_foreign_key "whatsapp_api_message_templates", "accounts"
-  add_foreign_key "whatsapp_api_message_templates", "inboxes"
+  add_foreign_key "whatsapp_api_message_templates", "inboxes", on_delete: :nullify
   add_foreign_key "whatsapp_api_message_templates", "users", column: "created_by_id"
   add_foreign_key "whatsapp_api_message_templates", "users", column: "updated_by_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
