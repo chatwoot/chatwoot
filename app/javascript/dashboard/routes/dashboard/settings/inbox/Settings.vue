@@ -484,6 +484,7 @@ export default {
           id: this.inbox.id,
           formData: false,
           channel: {
+            phone_number: form.displayPhoneNumber || this.inbox.phone_number,
             provider_config: {
               ...providerConfig,
               phone_number_id: form.phoneNumberId,

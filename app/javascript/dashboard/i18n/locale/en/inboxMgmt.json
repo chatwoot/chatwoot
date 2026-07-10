@@ -868,6 +868,7 @@
           "DISPLAY_PHONE_NUMBER": "Display phone number",
           "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
           "DISPLAY_PHONE_NUMBER_HELP": "The customer-facing WhatsApp number in international format.",
+          "DISPLAY_PHONE_NUMBER_ERROR": "Enter a valid phone number in E.164 format, e.g. +15551234567.",
           "ACCESS_TOKEN": "Permanent access token or system user token",
           "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
           "TOKEN_HELP_PREFIX": "The token must include",

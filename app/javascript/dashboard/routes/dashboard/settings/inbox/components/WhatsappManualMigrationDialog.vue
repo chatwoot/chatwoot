@@ -1,6 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useBranding } from 'shared/composables/useBranding';
+import { isPhoneE164 } from 'shared/helpers/Validators';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -17,6 +19,7 @@ const props = defineProps({
 
 const emit = defineEmits(['reconnect']);
 const { t } = useI18n();
+const { replaceInstallationName } = useBranding();
 
 const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
   'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
@@ -24,12 +27,14 @@ const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
 const dialogRef = ref(null);
 const currentStep = ref(0);
 
-const form = ref({
+const buildForm = () => ({
   wabaId: props.inbox.provider_config?.business_account_id || '',
   phoneNumberId: props.inbox.provider_config?.phone_number_id || '',
   displayPhoneNumber: props.inbox.phone_number || '',
   accessToken: '',
 });
+
+const form = ref(buildForm());
 
 const copy = computed(() => ({
   eyebrow: t(
@@ -84,6 +89,9 @@ const copy = computed(() => ({
   ),
   displayPhoneNumberHelp: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER_HELP`
+  ),
+  displayPhoneNumberError: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER_ERROR`
   ),
   accessToken: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACCESS_TOKEN`
@@ -199,11 +207,15 @@ const currentStepDetails = computed(() => steps.value[currentStep.value]);
 const isFirstStep = computed(() => currentStep.value === 0);
 const isLastStep = computed(() => currentStep.value === steps.value.length - 1);
 const guideUrl = WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
+// Webhooks resolve the inbox by E.164 phone_number, so enforce the same format as the manual setup form.
+const isDisplayPhoneNumberValid = computed(() =>
+  isPhoneE164(form.value.displayPhoneNumber.trim())
+);
 const hasBusinessDetails = computed(
   () =>
     form.value.wabaId.trim() &&
     form.value.phoneNumberId.trim() &&
-    form.value.displayPhoneNumber.trim()
+    isDisplayPhoneNumberValid.value
 );
 const hasAccessToken = computed(() => form.value.accessToken.trim());
 const canContinue = computed(() => {
@@ -218,6 +230,7 @@ const canContinue = computed(() => {
 
 const open = () => {
   currentStep.value = 0;
+  form.value = buildForm();
   dialogRef.value?.open();
 };
 
@@ -264,7 +277,7 @@ defineExpose({ open, close });
             {{ copy.title }}
           </h3>
           <p class="mt-2 mb-0 text-sm text-n-slate-11">
-            {{ currentStepDetails.description }}
+            {{ replaceInstallationName(currentStepDetails.description) }}
           </p>
         </div>
         <button
@@ -403,7 +416,13 @@ defineExpose({ open, close });
                   class="w-full h-10 px-3 text-sm border-0 rounded-lg outline outline-1 outline-n-weak bg-n-alpha-2 text-n-slate-12"
                   :placeholder="copy.displayPhoneNumberPlaceholder"
                 />
-                <span class="text-xs leading-5 text-n-slate-11">
+                <span
+                  v-if="form.displayPhoneNumber && !isDisplayPhoneNumberValid"
+                  class="text-xs leading-5 text-n-ruby-11"
+                >
+                  {{ copy.displayPhoneNumberError }}
+                </span>
+                <span v-else class="text-xs leading-5 text-n-slate-11">
                   {{ copy.displayPhoneNumberHelp }}
                 </span>
               </label>
