@@ -28,12 +28,6 @@ class DataImports::Intercom::Client
     @access_token = access_token
   end
 
-  def validate!
-    list_contacts(per_page: 1)
-    list_conversations(per_page: 1)
-    true
-  end
-
   def list_contacts(starting_after: nil, per_page: DEFAULT_PER_PAGE)
     get('/contacts', query: pagination_query(starting_after, per_page))
   end

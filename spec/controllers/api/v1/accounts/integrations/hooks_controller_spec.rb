@@ -7,10 +7,6 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:inbox) { create(:inbox, account: account) }
   let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
 
-  before do
-    account.enable_features!('data_import')
-  end
-
   describe 'POST /api/v1/accounts/{account.id}/integrations/hooks' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -41,29 +37,6 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['app_id']).to eq params[:app_id]
-      end
-
-      it 'does not create Intercom hooks when data import is disabled' do
-        account.disable_features!('data_import')
-
-        post api_v1_account_integrations_hooks_url(account_id: account.id),
-             params: { app_id: 'intercom' },
-             headers: admin.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-        expect(account.hooks.where(app_id: 'intercom')).to be_empty
-      end
-
-      it 'does not create Intercom hooks through the generic hook endpoint' do
-        post api_v1_account_integrations_hooks_url(account_id: account.id),
-             params: { app_id: 'intercom', status: 'enabled' },
-             headers: admin.create_new_auth_token,
-             as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq('Intercom must be connected from the Intercom integration settings.')
-        expect(account.hooks.where(app_id: 'intercom')).to be_empty
       end
 
       it 'validates Cloudflare RealtimeKit credentials before creating the hook' do
@@ -113,42 +86,6 @@ RSpec.describe 'Integration Hooks API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
         expect(data['app_id']).to eq 'slack'
-      end
-
-      it 'does not update Intercom hooks when data import is disabled' do
-        intercom_hook = create(:integrations_hook, :intercom, account: account, status: :enabled)
-        account.disable_features!('data_import')
-
-        patch api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
-              params: { status: 'disabled' },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-        expect(intercom_hook.reload).to be_enabled
-      end
-
-      it 'does not update an Intercom hook while an import is active' do
-        intercom_hook = create(:integrations_hook, :intercom, account: account, status: :enabled)
-        create(
-          :data_import,
-          account: account,
-          data_type: 'intercom',
-          source_type: 'integration',
-          source_provider: 'intercom',
-          status: :processing,
-          integration_hook: intercom_hook,
-          import_file: nil
-        )
-
-        patch api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
-              params: { status: 'disabled' },
-              headers: admin.create_new_auth_token,
-              as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
-        expect(intercom_hook.reload).to be_enabled
       end
     end
   end
@@ -207,71 +144,6 @@ RSpec.describe 'Integration Hooks API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Integrations::Hook.exists?(hook.id)).to be false
-      end
-
-      it 'does not delete Intercom hooks when data import is disabled' do
-        intercom_hook = create(:integrations_hook, :intercom, account: account)
-        account.disable_features!('data_import')
-
-        delete api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
-               headers: admin.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unauthorized)
-        expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
-      end
-
-      it 'does not delete an Intercom hook while an import is active' do
-        intercom_hook = create(:integrations_hook, :intercom, account: account)
-        create(
-          :data_import,
-          account: account,
-          data_type: 'intercom',
-          source_type: 'integration',
-          source_provider: 'intercom',
-          status: :processing,
-          integration_hook: intercom_hook,
-          import_file: nil
-        )
-
-        delete api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
-               headers: admin.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
-        expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
-      end
-
-      it 'does not delete an Intercom hook when an import starts inside the account lock' do
-        intercom_hook = create(:integrations_hook, :intercom, account: account)
-        import_created = false
-        # rubocop:disable RSpec/AnyInstance
-        allow_any_instance_of(Account).to receive(:with_lock) do |locked_account, &block|
-          unless import_created
-            import_created = true
-            create(
-              :data_import,
-              account: locked_account,
-              data_type: 'intercom',
-              source_type: 'integration',
-              source_provider: 'intercom',
-              status: :pending,
-              integration_hook: intercom_hook,
-              import_file: nil
-            )
-          end
-          block.call
-        end
-        # rubocop:enable RSpec/AnyInstance
-
-        delete api_v1_account_integrations_hook_url(account_id: account.id, id: intercom_hook.id),
-               headers: admin.create_new_auth_token,
-               as: :json
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq('Intercom cannot be changed while an import is active.')
-        expect(Integrations::Hook.exists?(intercom_hook.id)).to be true
       end
     end
   end

@@ -2,39 +2,38 @@
 #
 # Table name: data_imports
 #
-#  id                  :bigint           not null, primary key
-#  abandoned_at        :datetime
-#  completed_at        :datetime
-#  config              :jsonb            not null
-#  cursor              :jsonb            not null
-#  data_type           :string           not null
-#  import_types        :jsonb            not null
-#  last_error_at       :datetime
-#  name                :string
-#  processed_records   :integer
-#  processing_errors   :text
-#  routing_rules       :jsonb            not null
-#  source_metadata     :jsonb            not null
-#  source_provider     :string
-#  source_type         :string
-#  started_at          :datetime
-#  stats               :jsonb            not null
-#  status              :integer          default("pending"), not null
-#  total_records       :integer
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  account_id          :bigint           not null
-#  initiated_by_id     :integer
-#  integration_hook_id :bigint
-#  target_inbox_id     :integer
+#  id                :bigint           not null, primary key
+#  abandoned_at      :datetime
+#  access_token      :text
+#  completed_at      :datetime
+#  config            :jsonb            not null
+#  cursor            :jsonb            not null
+#  data_type         :string           not null
+#  import_types      :jsonb            not null
+#  last_error_at     :datetime
+#  name              :string
+#  processed_records :integer
+#  processing_errors :text
+#  routing_rules     :jsonb            not null
+#  source_metadata   :jsonb            not null
+#  source_provider   :string
+#  source_type       :string
+#  started_at        :datetime
+#  stats             :jsonb            not null
+#  status            :integer          default("pending"), not null
+#  total_records     :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  account_id        :bigint           not null
+#  initiated_by_id   :integer
+#  target_inbox_id   :integer
 #
 # Indexes
 #
-#  index_data_imports_on_account_id           (account_id)
-#  index_data_imports_on_initiated_by_id      (initiated_by_id)
-#  index_data_imports_on_integration_hook_id  (integration_hook_id)
-#  index_data_imports_on_source_provider      (source_provider)
-#  index_data_imports_on_target_inbox_id      (target_inbox_id)
+#  index_data_imports_on_account_id       (account_id)
+#  index_data_imports_on_initiated_by_id  (initiated_by_id)
+#  index_data_imports_on_source_provider  (source_provider)
+#  index_data_imports_on_target_inbox_id  (target_inbox_id)
 #
 class DataImport < ApplicationRecord
   ACTIVE_INTERCOM_IMPORT_RUN_ID_KEY = 'active_intercom_import_run_id'.freeze
@@ -44,14 +43,16 @@ class DataImport < ApplicationRecord
 
   belongs_to :account
   belongs_to :initiated_by, class_name: 'User', optional: true
-  belongs_to :integration_hook, class_name: 'Integrations::Hook', optional: true
   belongs_to :target_inbox, class_name: 'Inbox', optional: true
+
+  encrypts :access_token if Chatwoot.encryption_configured?
 
   has_many :items, class_name: 'DataImportItem', dependent: :destroy_async
   has_many :mappings, class_name: 'DataImportMapping', dependent: :destroy_async
   has_many :import_errors, class_name: 'DataImportError', dependent: :destroy_async
 
   validates :data_type, inclusion: { in: LEGACY_DATA_TYPES + INTEGRATION_DATA_TYPES, message: I18n.t('errors.data_import.data_type.invalid') }
+  validates :access_token, presence: true, on: :create, if: :intercom_import?
   validate :validate_import_types
 
   enum status: { pending: 0, processing: 1, completed: 2, failed: 3, validating: 4, ready: 5, completed_with_errors: 6, abandoned: 7 }

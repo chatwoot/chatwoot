@@ -32,12 +32,6 @@ FactoryBot.define do
       access_token { SecureRandom.hex }
     end
 
-    trait :intercom do
-      app_id { 'intercom' }
-      access_token { SecureRandom.hex }
-      settings { { 'workspace_name' => 'Intercom workspace', 'last_validated_at' => Time.current.iso8601 } }
-    end
-
     trait :shopify do
       app_id { 'shopify' }
       access_token { SecureRandom.hex }

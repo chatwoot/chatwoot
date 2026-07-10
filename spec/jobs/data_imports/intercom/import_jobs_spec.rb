@@ -2,17 +2,11 @@ require 'rails_helper'
 
 RSpec.describe DataImports::Intercom::ImportJob do
   let(:account) { create(:account) }
-  let(:hook) { create(:integrations_hook, :intercom, account: account) }
   let(:data_import) do
     create(
-      :data_import,
+      :data_import, :intercom,
       account: account,
-      data_type: 'intercom',
-      source_type: 'integration',
-      source_provider: 'intercom',
-      import_types: %w[contacts conversations],
-      integration_hook: hook,
-      import_file: nil
+      import_types: %w[contacts conversations]
     )
   end
   let(:importer) { instance_double(DataImports::Intercom::Importer) }

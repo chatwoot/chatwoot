@@ -16,24 +16,6 @@
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
-    "INTERCOM": {
-      "HEADER": "Intercom",
-      "DESCRIPTION": "Connect Intercom so Chatwoot can import contacts and historical conversations.",
-      "CONNECTED_TITLE": "Intercom is connected",
-      "LAST_VALIDATED": "Last validated: {date}",
-      "GO_TO_IMPORTS": "Go to imports",
-      "DISCONNECT": "Disconnect",
-      "CONNECT": "Connect Intercom",
-      "CONNECTED": "Intercom connected successfully.",
-      "DISCONNECTED": "Intercom disconnected successfully.",
-      "CONNECT_ERROR": "Could not connect to Intercom. Please check the token and try again.",
-      "DISCONNECT_ERROR": "Could not disconnect Intercom. Please try again after active imports finish.",
-      "ACCESS_TOKEN": {
-        "LABEL": "Access token",
-        "PLACEHOLDER": "Paste your Intercom access token",
-        "HELP": "Use an Intercom private app access token with permission to read contacts and conversations."
-      }
-    },
     "HEADER": "Integrations",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",

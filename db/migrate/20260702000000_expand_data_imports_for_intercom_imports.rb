@@ -13,7 +13,7 @@ class ExpandDataImportsForIntercomImports < ActiveRecord::Migration[7.1]
       t.string :source_provider
       t.jsonb :import_types, default: [], null: false
       t.integer :initiated_by_id
-      t.bigint :integration_hook_id
+      t.text :access_token
       t.integer :target_inbox_id
       t.jsonb :config, default: {}, null: false
       t.jsonb :source_metadata, default: {}, null: false
@@ -29,7 +29,6 @@ class ExpandDataImportsForIntercomImports < ActiveRecord::Migration[7.1]
 
   def add_data_import_indexes
     add_index :data_imports, :initiated_by_id
-    add_index :data_imports, :integration_hook_id
     add_index :data_imports, :source_provider
     add_index :data_imports, :target_inbox_id
   end

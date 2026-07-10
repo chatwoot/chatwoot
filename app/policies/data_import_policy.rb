@@ -11,6 +11,10 @@ class DataImportPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def validate_source?
+    create?
+  end
+
   def start?
     show?
   end
@@ -20,6 +24,10 @@ class DataImportPolicy < ApplicationPolicy
   end
 
   def skip_logs?
+    show?
+  end
+
+  def error_logs?
     show?
   end
 

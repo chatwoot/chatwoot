@@ -2,12 +2,9 @@ require 'csv'
 
 class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseController
   DATA_IMPORT_FEATURE = 'data_import'.freeze
-  IMPORT_ERRORS_PER_PAGE = 15
-  SKIP_LOG_SOURCE_OBJECT_TYPES = %w[contact conversation message].freeze
-  SKIP_LOGS_PER_PAGE = 15
 
   before_action :ensure_data_import_feature_enabled
-  before_action :set_data_import, only: [:show, :start, :abandon, :skip_logs]
+  before_action :set_data_import, only: [:show, :start, :abandon, :error_logs, :skip_logs]
   before_action :check_authorization
 
   def index
@@ -19,30 +16,53 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def show
-    set_import_errors_page
-    set_skip_logs_page
+    render_show
+  end
+
+  def validate_source
+    totals = validate_intercom_source
+    render json: { valid: true, totals: totals }
+  rescue DataImports::Intercom::Client::AuthenticationError
+    render_source_validation_error('We could not validate this Intercom access key. Check the key and its permissions.')
+  rescue DataImports::Intercom::Client::Error
+    render_source_validation_error('Intercom could not be reached. Please try again.')
+  rescue ArgumentError => e
+    render_source_validation_error(e.message)
   end
 
   def create
-    @data_import, enqueue_import = find_or_create_intercom_import
-    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if enqueue_import
-    render :show
+    @data_import = creation_service.perform
+    unless @data_import
+      render json: { message: 'Another data import is already in progress.' }, status: :unprocessable_entity
+      return
+    end
+
+    DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id)
+    render_show
+  rescue DataImports::Intercom::Client::AuthenticationError
+    render_source_validation_error('We could not validate this Intercom access key. Check the key and its permissions.')
+  rescue DataImports::Intercom::Client::Error
+    render_source_validation_error('Intercom could not be reached. Please try again.')
+  rescue ArgumentError => e
+    render_source_validation_error(e.message)
   end
 
   def start
-    restart_result = prepare_intercom_import_restart
-    if restart_result == :intercom_disconnected
-      render json: { message: 'Intercom is not connected.' }, status: :unprocessable_entity
+    restart_service = DataImports::Intercom::RestartService.new(account: Current.account, data_import: @data_import)
+    restart_result = restart_service.perform
+    @data_import = restart_service.data_import
+    if restart_result == :access_token_missing
+      render json: { message: 'The Intercom access key for this import is unavailable.' }, status: :unprocessable_entity
       return
     end
 
     DataImports::Intercom::ImportJob.perform_later(@data_import, @data_import.active_intercom_import_run_id) if restart_result == :enqueue
-    render :show
+    render_show
   end
 
   def abandon
     @data_import.abandon!
-    render :show
+    render_show
   end
 
   def skip_logs
@@ -53,26 +73,18 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
     )
   end
 
+  def error_logs
+    send_data(
+      error_logs_csv,
+      filename: "data-import-#{@data_import.id}-error-logs.csv",
+      type: 'text/csv'
+    )
+  end
+
   private
 
   def ensure_data_import_feature_enabled
     raise Pundit::NotAuthorizedError unless Current.account.feature_enabled?(DATA_IMPORT_FEATURE)
-  end
-
-  def intercom_import_attributes(hook)
-    {
-      name: permitted_params[:name].presence || 'Intercom import',
-      data_type: 'intercom',
-      source_type: 'integration',
-      source_provider: 'intercom',
-      import_types: import_types,
-      initiated_by: Current.user,
-      integration_hook: hook,
-      config: {
-        create_source_bucket_inboxes: true,
-        import_mode: 'historical'
-      }
-    }
   end
 
   def set_data_import
@@ -84,99 +96,55 @@ class Api::V1::Accounts::DataImportsController < Api::V1::Accounts::BaseControll
   end
 
   def permitted_params
-    params.permit(:name, import_types: [])
+    params.permit(:name, :source_provider, :access_token, import_types: [])
   end
 
-  def import_types
-    Array(permitted_params[:import_types]).compact_blank.presence || DataImports::Intercom::Importer::DEFAULT_IMPORT_TYPES
-  end
-
-  def find_or_create_intercom_import
-    enqueue_import = false
-    data_import = Current.account.with_lock do
-      active_import = active_intercom_import
-      next active_import if active_import
-
-      enqueue_import = true
-      create_intercom_import
-    end
-
-    [data_import, enqueue_import]
-  end
-
-  def prepare_intercom_import_restart
-    Current.account.with_lock do
-      @data_import.reload
-      next :render_show unless @data_import.restartable?
-
-      if (active_import = active_intercom_import)
-        @data_import = active_import
-        next :render_show
-      end
-
-      next :intercom_disconnected if @data_import.integration_hook.blank? || @data_import.integration_hook.disabled?
-
-      @data_import.assign_active_intercom_import_run_id
-      DataImportError.where(data_import_id: @data_import.id).delete_all
-      @data_import.update!(status: :pending, abandoned_at: nil, completed_at: nil, last_error_at: nil, started_at: nil)
-      :enqueue
-    end
-  end
-
-  def create_intercom_import
-    hook = Current.account.hooks.enabled.find_by!(app_id: 'intercom')
-    data_import = Current.account.data_imports.new(intercom_import_attributes(hook))
-    data_import.assign_active_intercom_import_run_id
-    data_import.save!
-    data_import
-  end
-
-  def active_intercom_import
-    Current.account.data_imports.find_by(
-      data_type: 'intercom',
-      source_provider: 'intercom',
-      status: [:pending, :processing]
+  def creation_service
+    DataImports::Intercom::CreationService.new(
+      account: Current.account,
+      initiated_by: Current.user,
+      source_params: permitted_params.to_h
     )
   end
 
-  def set_import_errors_page
-    @import_errors_total_count = @data_import.import_errors.non_skip_logs.count
-    @import_errors_per_page = IMPORT_ERRORS_PER_PAGE
-    @import_errors_total_pages = [(@import_errors_total_count.to_f / @import_errors_per_page).ceil, 1].max
-    @import_errors_page = params[:import_errors_page].to_i.clamp(1, @import_errors_total_pages)
-    @import_errors = @data_import.import_errors.non_skip_logs
-                                 .order(created_at: :desc)
-                                 .offset((@import_errors_page - 1) * @import_errors_per_page)
-                                 .limit(@import_errors_per_page)
+  def import_types
+    return DataImports::Intercom::Importer::DEFAULT_IMPORT_TYPES unless permitted_params.key?(:import_types)
+
+    Array(permitted_params[:import_types]).compact_blank
   end
 
-  def set_skip_logs_page
-    skip_logs_scope = @data_import.import_errors.skip_logs
-    @skip_logs_counts_by_type = skip_logs_scope.group(:source_object_type).count
-    @skip_logs_source_object_type = skip_logs_source_object_type
-    filtered_skip_logs = @skip_logs_source_object_type ? skip_logs_scope.where(source_object_type: @skip_logs_source_object_type) : skip_logs_scope
+  def validate_intercom_source
+    raise ArgumentError, 'Unsupported import source.' unless permitted_params[:source_provider] == 'intercom'
 
-    @skip_logs_total_count = filtered_skip_logs.count
-    @skip_logs_per_page = SKIP_LOGS_PER_PAGE
-    @skip_logs_total_pages = [(@skip_logs_total_count.to_f / @skip_logs_per_page).ceil, 1].max
-    @skip_logs_page = params[:skip_logs_page].to_i.clamp(1, @skip_logs_total_pages)
-    @skip_logs = filtered_skip_logs.order(created_at: :desc)
-                                   .offset((@skip_logs_page - 1) * @skip_logs_per_page)
-                                   .limit(@skip_logs_per_page)
+    DataImports::Intercom::CredentialsValidator.new(
+      access_token: permitted_params[:access_token],
+      import_types: import_types
+    ).perform
   end
 
-  def skip_logs_source_object_type
-    source_object_type = params[:skip_logs_type].presence
-    return if source_object_type.blank?
+  def render_source_validation_error(message)
+    render json: { valid: false, message: message }, status: :unprocessable_entity
+  end
 
-    SKIP_LOG_SOURCE_OBJECT_TYPES.include?(source_object_type) ? source_object_type : nil
+  def render_show
+    @import_errors_finder = DataImportErrorFinder.new(@data_import)
+    @skip_logs_finder = DataImportSkipLogFinder.new(@data_import, params)
+    render :show
   end
 
   def skip_logs_csv
+    logs_csv(@data_import.import_errors.skip_logs)
+  end
+
+  def error_logs_csv
+    logs_csv(@data_import.import_errors.non_skip_logs)
+  end
+
+  def logs_csv(logs)
     CSV.generate(headers: true) do |csv|
       csv << %w[created_at kind source_object_type source_object_id error_code message details]
 
-      @data_import.import_errors.skip_logs.order(:created_at).find_each do |log|
+      logs.order(:created_at).find_each do |log|
         csv << [
           log.created_at.iso8601,
           log.details['kind'],

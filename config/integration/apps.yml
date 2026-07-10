@@ -72,14 +72,6 @@ notion:
   hook_type: account
   allow_multiple_hooks: false
   visible_properties: []
-intercom:
-  id: intercom
-  feature_flag: data_import
-  logo: intercom.png
-  i18n_key: intercom
-  hook_type: account
-  allow_multiple_hooks: false
-  visible_properties: ['workspace_name', 'last_validated_at']
 slack:
   id: slack
   logo: slack.png

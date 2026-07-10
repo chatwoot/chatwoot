@@ -906,7 +906,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.string "source_provider"
     t.jsonb "import_types", default: [], null: false
     t.integer "initiated_by_id"
-    t.bigint "integration_hook_id"
+    t.text "access_token"
     t.integer "target_inbox_id"
     t.jsonb "config", default: {}, null: false
     t.jsonb "source_metadata", default: {}, null: false
@@ -919,7 +919,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.datetime "last_error_at"
     t.index ["account_id"], name: "index_data_imports_on_account_id"
     t.index ["initiated_by_id"], name: "index_data_imports_on_initiated_by_id"
-    t.index ["integration_hook_id"], name: "index_data_imports_on_integration_hook_id"
     t.index ["source_provider"], name: "index_data_imports_on_source_provider"
     t.index ["target_inbox_id"], name: "index_data_imports_on_target_inbox_id"
   end

@@ -70,26 +70,6 @@ RSpec.describe 'Integration Apps API', type: :request do
         expect(slack_app['action']).to include('client_id=client_id')
       end
 
-      it 'does not return Intercom when data import is disabled' do
-        get api_v1_account_integrations_apps_url(account),
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        app_ids = response.parsed_body['payload'].pluck('id')
-        expect(app_ids).not_to include('intercom')
-      end
-
-      it 'returns Intercom when data import is enabled' do
-        account.enable_features!('data_import')
-
-        get api_v1_account_integrations_apps_url(account),
-            headers: admin.create_new_auth_token,
-            as: :json
-
-        app_ids = response.parsed_body['payload'].pluck('id')
-        expect(app_ids).to include('intercom')
-      end
-
       it 'returns visible hook settings for openai app for admins' do
         openai = create(:integrations_hook, :openai, account: account)
         get api_v1_account_integrations_apps_url(account),

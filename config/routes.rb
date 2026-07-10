@@ -223,9 +223,13 @@ Rails.application.routes.draw do
             end
           end
           resources :data_imports, only: [:index, :show, :create] do
+            collection do
+              post :validate_source
+            end
             member do
               post :start
               post :abandon
+              get :error_logs
               get :skip_logs
             end
           end
@@ -396,7 +400,6 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
-            resource :intercom, controller: 'intercom', only: [:show, :create, :destroy]
           end
           resources :portals do
             member do

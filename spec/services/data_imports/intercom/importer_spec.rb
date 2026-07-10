@@ -2,17 +2,10 @@ require 'rails_helper'
 
 RSpec.describe DataImports::Intercom::Importer do
   let(:account) { create(:account) }
-  let(:hook) { create(:integrations_hook, :intercom, account: account, access_token: 'intercom-token') }
   let(:data_import) do
     create(
-      :data_import,
-      account: account,
-      data_type: 'intercom',
-      source_type: 'integration',
-      source_provider: 'intercom',
-      import_types: %w[contacts conversations],
-      integration_hook: hook,
-      import_file: nil
+      :data_import, :intercom,
+      account: account
     )
   end
   let(:client) { instance_double(DataImports::Intercom::Client) }
@@ -75,10 +68,12 @@ RSpec.describe DataImports::Intercom::Importer do
     allow(DataImports::Intercom::Client).to receive(:new).with(access_token: 'intercom-token').and_return(client)
     allow(client).to receive(:list_contacts).with(starting_after: nil).and_return(
       'data' => [contact_payload],
+      'total_count' => 1,
       'pages' => { 'next' => nil }
     )
     allow(client).to receive(:list_conversations).with(starting_after: nil).and_return(
       'conversations' => [{ 'id' => 'conversation_1' }],
+      'total_count' => 1,
       'pages' => { 'next' => nil }
     )
     allow(client).to receive(:retrieve_conversation).with('conversation_1').and_return(conversation_payload)
@@ -111,9 +106,9 @@ RSpec.describe DataImports::Intercom::Importer do
 
     expect(data_import.reload).to be_completed
     expect(data_import.stats).to include(
-      'contacts' => { 'imported' => 1, 'skipped' => 0 },
-      'conversations' => { 'imported' => 1, 'skipped' => 0 },
-      'messages' => { 'imported' => 3, 'skipped' => 0 },
+      'contacts' => include('imported' => 1, 'skipped' => 0, 'total' => 1),
+      'conversations' => include('imported' => 1, 'skipped' => 0, 'total' => 1),
+      'messages' => include('imported' => 3, 'skipped' => 0, 'total' => 3),
       'errors' => { 'count' => 0 }
     )
     expect(data_import.processed_records).to eq(5)
@@ -152,6 +147,17 @@ RSpec.describe DataImports::Intercom::Importer do
 
     contact = account.contacts.find_by!(email: 'customer@example.com')
     expect(contact.last_activity_at).to be_nil
+  end
+
+  it 'updates message totals by delta when a conversation page is retried' do
+    importer = described_class.new(data_import: data_import)
+
+    importer.import_conversations_page
+    importer.import_conversations_page
+
+    expect(data_import.reload.stats.dig('messages', 'total')).to eq(3)
+    item = data_import.items.find_by!(source_object_type: 'conversation', source_object_id: 'conversation_1')
+    expect(item.metadata['message_total_contribution']).to eq(3)
   end
 
   it 'indexes imported messages for advanced search' do
@@ -314,14 +320,8 @@ RSpec.describe DataImports::Intercom::Importer do
   context 'when the Intercom records were imported by an earlier run' do
     let(:next_data_import) do
       create(
-        :data_import,
-        account: account,
-        data_type: 'intercom',
-        source_type: 'integration',
-        source_provider: 'intercom',
-        import_types: %w[contacts conversations],
-        integration_hook: hook,
-        import_file: nil
+        :data_import, :intercom,
+        account: account
       )
     end
 
@@ -331,9 +331,9 @@ RSpec.describe DataImports::Intercom::Importer do
       described_class.new(data_import: next_data_import).perform
 
       expect(next_data_import.reload.stats).to include(
-        'contacts' => { 'imported' => 0, 'skipped' => 1 },
-        'conversations' => { 'imported' => 0, 'skipped' => 1 },
-        'messages' => { 'imported' => 0, 'skipped' => 3 },
+        'contacts' => include('imported' => 0, 'skipped' => 1, 'total' => 1),
+        'conversations' => include('imported' => 0, 'skipped' => 1, 'total' => 1),
+        'messages' => include('imported' => 0, 'skipped' => 3, 'total' => 3),
         'errors' => { 'count' => 0 }
       )
       expect(next_data_import).to be_completed
@@ -363,9 +363,9 @@ RSpec.describe DataImports::Intercom::Importer do
         ]
       )
       expect(next_data_import.reload.stats).to include(
-        'contacts' => { 'imported' => 0, 'skipped' => 1 },
-        'conversations' => { 'imported' => 0, 'skipped' => 1 },
-        'messages' => { 'imported' => 3, 'skipped' => 0 },
+        'contacts' => include('imported' => 0, 'skipped' => 1, 'total' => 1),
+        'conversations' => include('imported' => 0, 'skipped' => 1, 'total' => 1),
+        'messages' => include('imported' => 3, 'skipped' => 0, 'total' => 3),
         'errors' => { 'count' => 0 }
       )
       expect(next_data_import.import_errors.skip_logs.where(source_object_type: 'message')).to be_empty
@@ -590,14 +590,14 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
-  context 'when an Intercom message part cannot be imported' do
+  context 'when an Intercom chat message part cannot be imported' do
     let(:conversation_payload) do
       super().deep_merge(
         'conversation_parts' => {
           'conversation_parts' => [
             {
               'id' => 'blank_part',
-              'part_type' => 'assignment',
+              'part_type' => 'comment',
               'body' => nil,
               'created_at' => 1_700_000_175,
               'updated_at' => 1_700_000_175,
@@ -616,14 +616,14 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(skip_log).to have_attributes(
         source_object_id: 'conversation:conversation_1:part:blank_part',
         error_code: 'DataImports::Intercom::SkippedMessage',
-        message: 'Skipped Intercom assignment event blank_part: no message body or attachments to import.'
+        message: 'Skipped Intercom comment event blank_part: no message body or attachments to import.'
       )
       expect(skip_log.details).to include(
         'kind' => 'skipped',
         'reason' => 'blank_or_unsupported_intercom_part',
         'reason_details' => 'no message body or attachments to import',
-        'event_name' => 'assignment',
-        'event_type' => 'assignment',
+        'event_name' => 'comment',
+        'event_type' => 'comment',
         'author_type' => 'admin'
       )
       expect(data_import.reload.stats.dig('messages', 'skipped')).to eq(1)
@@ -632,14 +632,8 @@ RSpec.describe DataImports::Intercom::Importer do
     it 'records the skip log again for a later import run', :aggregate_failures do
       described_class.new(data_import: data_import).perform
       next_data_import = create(
-        :data_import,
-        account: account,
-        data_type: 'intercom',
-        source_type: 'integration',
-        source_provider: 'intercom',
-        import_types: %w[contacts conversations],
-        integration_hook: hook,
-        import_file: nil
+        :data_import, :intercom,
+        account: account
       )
 
       described_class.new(data_import: next_data_import).perform
@@ -654,6 +648,77 @@ RSpec.describe DataImports::Intercom::Importer do
         error_code: 'DataImports::Intercom::SkippedMessage'
       )
       expect(next_data_import.reload.stats.dig('messages', 'skipped')).to eq(2)
+    end
+
+    it 'repairs a previously skipped mapping when the part is now an activity', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+      previous_skip_log = data_import.import_errors.skip_logs.find_by!(source_object_id: 'conversation:conversation_1:part:blank_part')
+      conversation_payload.dig('conversation_parts', 'conversation_parts').first.merge!(
+        'part_type' => 'assignment',
+        'assigned_to' => { 'name' => 'Support' }
+      )
+      next_data_import = create(:data_import, :intercom, account: account)
+
+      described_class.new(data_import: next_data_import).perform
+
+      activity = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:part:blank_part')
+      mapping = DataImportMapping.find_by!(
+        account: account,
+        source_provider: 'intercom',
+        source_object_type: 'message',
+        source_object_id: 'conversation:conversation_1:part:blank_part'
+      )
+      expect(activity).to be_activity
+      expect(activity.content).to eq('Intercom teammate assigned the conversation to Support')
+      expect(mapping.chatwoot_record).to eq(activity)
+      expect(data_import.import_errors.skip_logs).to include(previous_skip_log)
+      expect(next_data_import.import_errors.skip_logs.where(source_object_id: mapping.source_object_id)).to be_empty
+    end
+  end
+
+  context 'when Intercom returns bodyless lifecycle events' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'conversation_parts' => {
+          'total_count' => 1,
+          'conversation_parts' => [
+            {
+              'id' => 'assignment_part',
+              'part_type' => 'assignment',
+              'body' => nil,
+              'created_at' => 1_700_000_175,
+              'author' => { 'type' => 'admin', 'name' => 'Avery' },
+              'assigned_to' => { 'type' => 'team', 'name' => 'Support' },
+              'state' => 'open',
+              'tags' => { 'tags' => [{ 'name' => 'priority' }] },
+              'event_details' => { 'source' => 'workflow' },
+              'app_package_code' => 'workflow'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'imports events as public activity messages with source metadata', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      activity = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:part:assignment_part')
+      expect(activity).to have_attributes(
+        message_type: 'activity',
+        content: 'Avery assigned the conversation to Support',
+        private: false,
+        sender: nil,
+        created_at: Time.zone.at(1_700_000_175)
+      )
+      expect(activity.additional_attributes['source']).to include(
+        'part_type' => 'assignment',
+        'assigned_to' => include('name' => 'Support'),
+        'state' => 'open',
+        'event_details' => include('source' => 'workflow'),
+        'app_package_code' => 'workflow'
+      )
+      expect(data_import.reload.stats['messages']).to include('imported' => 2, 'skipped' => 0, 'total' => 2)
+      expect(data_import.import_errors.skip_logs).to be_empty
     end
   end
 
@@ -677,10 +742,10 @@ RSpec.describe DataImports::Intercom::Importer do
         source_object_id: 'conversation_1',
         error_code: 'DataImports::Intercom::TruncatedConversationParts'
       )
-      expect(error.message).to eq('Intercom returned 3 of 503 conversation parts.')
+      expect(error.message).to eq('Intercom returned 2 of 503 conversation parts.')
       expect(error.details).to include(
         'kind' => 'incomplete',
-        'imported_parts_count' => 3,
+        'imported_parts_count' => 2,
         'total_parts_count' => 503
       )
       expect(data_import.reload).to be_completed_with_errors
@@ -688,14 +753,14 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
-  context 'when Intercom includes the root source message in the conversation parts total' do
+  context 'when the conversation parts total matches the returned parts' do
     let(:conversation_payload) do
       super().deep_merge(
         'conversation_parts' => {
-          'total_count' => 3
+          'total_count' => 2
         },
         'statistics' => {
-          'count_conversation_parts' => 3
+          'count_conversation_parts' => 2
         }
       )
     end

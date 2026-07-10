@@ -53,7 +53,20 @@ class Integrations::App
   end
 
   def active?(account)
-    app_feature_enabled?(account) && app_active?(account)
+    case params[:id]
+    when 'slack'
+      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
+    when 'linear'
+      account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'shopify'
+      shopify_enabled?(account)
+    when 'leadsquared'
+      account.feature_enabled?('crm_integration')
+    when 'notion'
+      notion_enabled?(account)
+    else
+      true
+    end
   end
 
   def build_linear_action
@@ -109,27 +122,6 @@ class Integrations::App
   end
 
   private
-
-  def app_active?(account)
-    case params[:id]
-    when 'slack'
-      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
-    when 'linear'
-      account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
-    when 'shopify'
-      shopify_enabled?(account)
-    when 'leadsquared'
-      account.feature_enabled?('crm_integration')
-    when 'notion'
-      notion_enabled?(account)
-    else
-      true
-    end
-  end
-
-  def app_feature_enabled?(account)
-    params[:feature_flag].blank? || account.feature_enabled?(params[:feature_flag])
-  end
 
   def shopify_enabled?(account)
     account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?

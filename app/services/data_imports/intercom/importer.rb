@@ -13,12 +13,13 @@ class DataImports::Intercom::Importer
   TRUNCATED_PARTS_ERROR_CODE = 'DataImports::Intercom::TruncatedConversationParts'.freeze
   E164_REGEX = /\A\+[1-9]\d{1,14}\z/
   INTERCOM_NUMBER_REGEX = /\A[1-9]\d{1,14}\z/
+  REGULAR_MESSAGE_PART_TYPES = %w[comment note source].freeze
 
   def initialize(data_import:, run_id: nil)
     @data_import = data_import
     @run_id = run_id
     @account = data_import.account
-    @client = DataImports::Intercom::Client.new(access_token: data_import.integration_hook.access_token)
+    @client = DataImports::Intercom::Client.new(access_token: data_import.access_token)
     @placeholder_inboxes = DataImports::Intercom::PlaceholderInboxBuilder.new(account: @account)
     @stats = default_stats.deep_merge(data_import.stats || {})
   end
@@ -63,6 +64,7 @@ class DataImports::Intercom::Importer
 
   def import_contacts_page(starting_after: cursor_for('contacts'))
     response = @client.list_contacts(starting_after: starting_after)
+    update_stat_total('contacts', response['total_count']) if response['total_count'].present?
     Array(response['data'] || response['contacts']).each do |contact|
       break if import_stopped?
 
@@ -77,6 +79,7 @@ class DataImports::Intercom::Importer
 
   def import_conversations_page(starting_after: cursor_for('conversations'))
     response = @client.list_conversations(starting_after: starting_after)
+    update_stat_total('conversations', response['total_count']) if response['total_count'].present?
     Array(response['data'] || response['conversations']).each do |conversation_summary|
       break if import_stopped?
 
@@ -139,6 +142,8 @@ class DataImports::Intercom::Importer
 
     conversation = @client.retrieve_conversation(source_id)
     return if import_stopped?
+
+    update_message_total(item, conversation)
 
     contact = import_contact(primary_conversation_contact(conversation), required_for_conversation: true)
     source_type = conversation_source_type(conversation, conversation_summary)
@@ -364,7 +369,7 @@ class DataImports::Intercom::Importer
 
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
-    if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping)
+    if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, source_part)
       return if mapping.data_import_id == @data_import.id
 
       skip_existing_message_mapping(chatwoot_conversation, mapping, source_part)
@@ -379,15 +384,11 @@ class DataImports::Intercom::Importer
   def import_conversation_parts(conversation, chatwoot_conversation, contact)
     parts_payload = conversation['conversation_parts'].to_h
     parts = Array(parts_payload['conversation_parts'])
-    record_truncated_conversation_parts(conversation, returned_conversation_parts_count(conversation, parts.size))
+    record_truncated_conversation_parts(conversation, parts.size)
 
     parts.each do |part|
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
-      if part['body'].blank? && part['attachments'].blank?
-        record_skipped_message(chatwoot_conversation, message_source_id, part)
-        next
-      end
-      if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping)
+      if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, part)
         next if mapping.data_import_id == @data_import.id
 
         skip_existing_message_mapping(chatwoot_conversation, mapping, part)
@@ -401,7 +402,7 @@ class DataImports::Intercom::Importer
   end
 
   def create_message(conversation, contact, part, message_source_id)
-    content = message_content(part)
+    content = content_for(part)
     return record_skipped_message(conversation, message_source_id, part) if content.blank?
 
     attrs = message_attributes(conversation, contact, part, message_source_id, content)
@@ -461,7 +462,7 @@ class DataImports::Intercom::Importer
       content_type: Message.content_types['text'],
       content: content,
       processed_message_content: content,
-      private: part['part_type'] == 'note',
+      private: message_type != 'activity' && part['part_type'] == 'note',
       status: Message.statuses['sent'],
       sender_type: message_type == 'incoming' ? 'Contact' : nil,
       sender_id: message_type == 'incoming' ? contact.id : nil,
@@ -470,15 +471,28 @@ class DataImports::Intercom::Importer
       content_attributes: {},
       additional_attributes: message_metadata(part),
       created_at: created_at,
-      updated_at: timestamp_for(part['updated_at']) || created_at
+      updated_at: part['updated_at'].present? ? timestamp_for(part['updated_at']) : created_at
     }
   end
 
   def message_type_for(part)
+    return 'activity' if activity_part?(part)
+
     author_type = part.dig('author', 'type').to_s
     return 'incoming' if %w[user contact lead].include?(author_type)
 
     'outgoing'
+  end
+
+  def content_for(part)
+    return DataImports::Intercom::ActivityContentBuilder.new(part).perform if activity_part?(part)
+
+    message_content(part)
+  end
+
+  def activity_part?(part)
+    part_type = part['part_type'].to_s
+    part_type.present? && REGULAR_MESSAGE_PART_TYPES.exclude?(part_type)
   end
 
   def message_content(part)
@@ -559,7 +573,7 @@ class DataImports::Intercom::Importer
     ).tap do |item|
       item.status = :processing
       item.attempt_count += 1
-      item.metadata = metadata
+      item.metadata = item.metadata.to_h.merge(metadata.to_h)
       item.save!
     end
   end
@@ -624,7 +638,9 @@ class DataImports::Intercom::Importer
     increment_stat('messages', 'skipped') unless already_recorded
   end
 
-  def message_mapping_handled?(mapping)
+  def message_mapping_handled?(mapping, part)
+    return false if mapping.metadata['skipped'] && activity_part?(part)
+
     mapping.metadata['skipped'] || mapping.chatwoot_record.present?
   end
 
@@ -722,11 +738,6 @@ class DataImports::Intercom::Importer
       conversation.dig('statistics', 'count_conversation_parts'),
       conversation.dig('statistics', 'count_conversations_parts')
     ].compact.map(&:to_i).max || 0
-  end
-
-  def returned_conversation_parts_count(conversation, conversation_parts_count)
-    source_part_count = source_message_importable?(conversation['source'].to_h) ? 1 : 0
-    conversation_parts_count + source_part_count
   end
 
   def source_message_importable?(source)
@@ -841,6 +852,12 @@ class DataImports::Intercom::Importer
         part_id: part['id'],
         part_type: part['part_type'],
         author: part['author'],
+        assigned_to: part['assigned_to'],
+        state: part['state'],
+        tags: part['tags'],
+        event_details: part['event_details'],
+        app_package_code: part['app_package_code'],
+        metadata: part['metadata'],
         attachments: part['attachments'],
         redacted: part['redacted']
       }.compact
@@ -877,6 +894,28 @@ class DataImports::Intercom::Importer
     @stats[group][key] = @stats[group][key].to_i + 1
   end
 
+  def update_stat_total(group, total)
+    @stats[group] ||= {}
+    @stats[group]['total'] = total.to_i
+    persist_stats
+  end
+
+  def update_message_total(item, conversation)
+    parts = conversation['conversation_parts'].to_h
+    conversation_parts_total = if parts.key?('total_count')
+                                 parts['total_count'].to_i
+                               else
+                                 Array(parts['conversation_parts']).size
+                               end
+    contribution = conversation_parts_total
+    contribution += 1 if source_message_importable?(conversation['source'].to_h)
+    previous_contribution = item.metadata.to_h['message_total_contribution'].to_i
+
+    @stats['messages']['total'] = @stats['messages']['total'].to_i + contribution - previous_contribution
+    item.update!(metadata: item.metadata.to_h.merge('message_total_contribution' => contribution))
+    persist_stats
+  end
+
   def stat_group_for(source_object_type)
     "#{source_object_type}s"
   end
@@ -895,7 +934,11 @@ class DataImports::Intercom::Importer
   end
 
   def total_processed_records
-    @stats.values.sum { |group| group.values.sum(&:to_i) }
+    total_successful_records +
+      @stats.fetch('contacts', {}).fetch('skipped', 0).to_i +
+      @stats.fetch('conversations', {}).fetch('skipped', 0).to_i +
+      @stats.fetch('messages', {}).fetch('skipped', 0).to_i +
+      @stats.fetch('errors', {}).fetch('count', 0).to_i
   end
 
   def total_successful_records

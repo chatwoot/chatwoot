@@ -11,6 +11,18 @@ RSpec.describe DataImport do
     end
   end
 
+  describe 'access token encryption' do
+    it 'encrypts the Intercom access token at rest' do
+      skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+
+      data_import = create(:data_import, :intercom, access_token: 'intercom-secret')
+      stored_value = data_import.reload.read_attribute_before_type_cast(:access_token).to_s
+
+      expect(stored_value).not_to include('intercom-secret')
+      expect(data_import.access_token).to eq('intercom-secret')
+    end
+  end
+
   describe 'callbacks' do
     let(:data_import) { build(:data_import) }
 
@@ -23,17 +35,11 @@ RSpec.describe DataImport do
 
   describe '#abandon!' do
     let(:account) { create(:account) }
-    let(:hook) { create(:integrations_hook, :intercom, account: account) }
     let(:data_import) do
       create(
-        :data_import,
+        :data_import, :intercom,
         account: account,
-        data_type: 'intercom',
-        source_type: 'integration',
-        source_provider: 'intercom',
-        integration_hook: hook,
-        status: :processing,
-        import_file: nil
+        status: :processing
       )
     end
 
