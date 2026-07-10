@@ -2,6 +2,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
   DISTANCE_THRESHOLD = 0.3
+  MATCH_LIMIT = 5
   LLM_FEATURE = 'conversation_faq_generation'.freeze
 
   def initialize(assistant, conversation)
@@ -9,24 +10,18 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     @assistant = assistant
     @conversation = conversation
     @content = conversation_faq_content
+    @embedding_service = Captain::Llm::EmbeddingService.new(account_id: conversation.account_id)
   end
 
-  # Generates and deduplicates FAQs from conversation content
-  # Skips processing if there was no human interaction
   def generate_and_deduplicate
     return [] if no_human_interaction?
 
-    new_faqs = generate
-    return [] if new_faqs.empty?
-
-    duplicate_faqs, unique_faqs = find_and_separate_duplicates(new_faqs)
-    save_new_faqs(unique_faqs)
-    log_duplicate_faqs(duplicate_faqs) if Rails.env.development?
+    generate.map { |faq| route_candidate(faq) }
   end
 
   private
 
-  attr_reader :content, :conversation, :assistant
+  attr_reader :content, :conversation, :assistant, :embedding_service
 
   def conversation_faq_content
     [
@@ -51,11 +46,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def format_conversation_faq_message(message)
     return unless faq_source_message?(message)
 
-    content = message.content_for_llm
-    return if content.blank?
+    message_content = message.content_for_llm
+    return if message_content.blank?
 
     sender = human_support_reply?(message) ? 'Support Agent' : 'User'
-    "#{sender}: #{content}\n"
+    "#{sender}: #{message_content}\n"
   end
 
   def faq_source_message?(message)
@@ -76,92 +71,134 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     conversation.first_reply_created_at.nil?
   end
 
-  def find_and_separate_duplicates(faqs)
-    duplicate_faqs = []
-    unique_faqs = []
+  def route_candidate(faq)
+    embedding = embedding_service.get_embedding(candidate_text(faq))
 
-    faqs.each do |faq|
-      combined_text = "#{faq['question']}: #{faq['answer']}"
-      embedding = Captain::Llm::EmbeddingService.new(account_id: @conversation.account_id).get_embedding(combined_text)
-      similar_faqs = find_similar_faqs(embedding)
-
-      if similar_faqs.any?
-        duplicate_faqs << { faq: faq, similar_faqs: similar_faqs }
-      else
-        unique_faqs << faq
-      end
-    end
-
-    [duplicate_faqs, unique_faqs]
-  end
-
-  def find_similar_faqs(embedding)
-    similar_faqs = assistant
-                   .responses
-                   .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-    Rails.logger.debug(similar_faqs.map { |faq| [faq.question, faq.neighbor_distance] })
-    similar_faqs.select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
-  end
-
-  def save_new_faqs(faqs)
-    faqs.map do |faq|
-      assistant.responses.create!(
-        question: faq['question'],
-        answer: faq['answer'],
-        status: 'pending',
-        documentable: conversation
+    if matching_record(assistant.responses.approved, faq, embedding)
+      return Captain::FaqObservation.create!(
+        conversation: conversation,
+        generated_question: faq.fetch('question'),
+        generated_answer: faq.fetch('answer'),
+        status: :discarded
       )
     end
+
+    suggestion = matching_record(assistant.faq_suggestions.open, faq, embedding)
+    suggestion ||= assistant.faq_suggestions.create!(
+      question: faq.fetch('question'),
+      answer: faq.fetch('answer'),
+      embedding: embedding
+    )
+
+    attach_observation(suggestion, faq)
   end
 
-  def log_duplicate_faqs(duplicate_faqs)
-    return if duplicate_faqs.empty?
+  def matching_record(relation, faq, embedding)
+    likely_matches(relation, embedding).find { |record| same_faq?(faq, record) }
+  end
 
-    Rails.logger.info "Found #{duplicate_faqs.length} duplicate FAQs:"
-    duplicate_faqs.each do |duplicate|
-      Rails.logger.info(
-        "Q: #{duplicate[:faq]['question']}\n" \
-        "A: #{duplicate[:faq]['answer']}\n\n" \
-        "Similar existing FAQs: #{duplicate[:similar_faqs].map { |f| "Q: #{f.question} A: #{f.answer}" }.join(', ')}"
-      )
+  def likely_matches(relation, embedding)
+    return [] unless relation.exists?
+
+    relation
+      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+      .limit(MATCH_LIMIT)
+      .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
+  end
+
+  def same_faq?(candidate, existing_record)
+    comparison = {
+      candidate: candidate.slice('question', 'answer'),
+      existing: { question: existing_record.question, answer: existing_record.answer }
+    }
+    prompt = Captain::Llm::ConversationFaqPromptsService.equivalence_classifier
+    response = instrument_llm_call(equivalence_instrumentation_params(prompt, comparison)) do
+      chat
+        .with_params(response_format: { type: 'json_object' })
+        .with_instructions(prompt)
+        .ask(comparison.to_json)
     end
+
+    response_content = sanitize_json_response(response.content)
+    return false if response_content.blank?
+
+    JSON.parse(response_content).fetch('same_faq', false) == true
+  rescue JSON::ParserError, RubyLLM::Error => e
+    Rails.logger.error "FAQ equivalence classification failed: #{e.message}"
+    false
+  end
+
+  def attach_observation(suggestion, faq)
+    suggestion.with_lock do
+      existing_observation = suggestion.observations.find_by(conversation: conversation)
+      next existing_observation if existing_observation
+
+      observation = suggestion.observations.create!(
+        conversation: conversation,
+        generated_question: faq.fetch('question'),
+        generated_answer: faq.fetch('answer'),
+        status: :attached
+      )
+      suggestion.update!(source_count: suggestion.source_count + 1)
+      observation
+    end
+  end
+
+  def candidate_text(faq)
+    "#{faq.fetch('question')}: #{faq.fetch('answer')}"
   end
 
   def generate
-    response = instrument_llm_call(instrumentation_params) do
+    response = instrument_llm_call(generation_instrumentation_params) do
       chat
         .with_params(response_format: { type: 'json_object' })
         .with_instructions(system_prompt)
-        .ask(@content)
+        .ask(content)
     end
-    parse_response(response.content)
+    parse_generation_response(response.content)
   rescue RubyLLM::Error => e
     Rails.logger.error "LLM API Error: #{e.message}"
     []
   end
 
-  def instrumentation_params
+  def generation_instrumentation_params
     {
       span_name: 'llm.captain.conversation_faq',
-      model: @model,
-      temperature: @temperature,
-      account_id: @conversation.account_id,
-      conversation_id: @conversation.display_id,
+      model: model,
+      temperature: temperature,
+      account_id: conversation.account_id,
+      conversation_id: conversation.display_id,
       feature_name: 'conversation_faq',
       messages: [
         { role: 'system', content: system_prompt },
-        { role: 'user', content: @content }
+        { role: 'user', content: content }
       ],
-      metadata: { assistant_id: @assistant.id }
+      metadata: { assistant_id: assistant.id }
+    }
+  end
+
+  def equivalence_instrumentation_params(prompt, comparison)
+    {
+      span_name: 'llm.captain.faq_equivalence',
+      model: model,
+      temperature: temperature,
+      account_id: conversation.account_id,
+      conversation_id: conversation.display_id,
+      feature_name: 'conversation_faq_deduplication',
+      messages: [
+        { role: 'system', content: prompt },
+        { role: 'user', content: comparison.to_json }
+      ],
+      metadata: { assistant_id: assistant.id }
     }
   end
 
   def system_prompt
-    account_language = @conversation.account.locale_english_name
-    Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
+    account_language = conversation.account.locale_english_name
+    Captain::Llm::ConversationFaqPromptsService.generator(account_language)
   end
 
-  def parse_response(response)
+  def parse_generation_response(response)
     return [] if response.nil?
 
     JSON.parse(sanitize_json_response(response)).fetch('faqs', [])

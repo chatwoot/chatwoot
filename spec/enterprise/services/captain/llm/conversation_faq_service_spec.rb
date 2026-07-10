@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Llm::ConversationFaqService do
   let(:captain_assistant) { create(:captain_assistant) }
-  let(:conversation) { create(:conversation, first_reply_created_at: Time.zone.now) }
+  let(:conversation) { create(:conversation, account: captain_assistant.account, first_reply_created_at: Time.zone.now) }
   let(:service) { described_class.new(captain_assistant, conversation) }
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
   let(:mock_chat) { instance_double(RubyLLM::Chat) }
@@ -15,6 +15,8 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:mock_response) do
     instance_double(RubyLLM::Message, content: { faqs: sample_faqs }.to_json)
   end
+  let(:embedding_one) { [1.0] + Array.new(1535, 0.0) }
+  let(:embedding_two) { [0.0, 1.0] + Array.new(1534, 0.0) }
 
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
@@ -29,8 +31,7 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   describe '#generate_and_deduplicate' do
     context 'when successful' do
       before do
-        allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
-        allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
       end
 
       it 'uses the conversation FAQ generation feature model' do
@@ -136,19 +137,24 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         service.generate_and_deduplicate
       end
 
-      it 'creates new FAQs for valid conversation content' do
+      it 'creates suggestions instead of trusted FAQs for valid conversation content' do
         expect do
           service.generate_and_deduplicate
-        end.to change(captain_assistant.responses, :count).by(2)
+        end.to change(captain_assistant.faq_suggestions, :count).by(2)
+        expect(Captain::FaqObservation.count).to eq(2)
+        expect(captain_assistant.responses.count).to be_zero
       end
 
-      it 'saves FAQs with pending status linked to conversation' do
+      it 'saves open suggestions with one attached source each' do
         service.generate_and_deduplicate
         expect(
-          captain_assistant.responses.pluck(:question, :answer, :status, :documentable_id)
+          captain_assistant.faq_suggestions.pluck(:question, :answer, :status, :source_count)
         ).to contain_exactly(
-          ['What is the purpose?', 'To help users.', 'pending', conversation.id],
-          ['How does it work?', 'Through AI.', 'pending', conversation.id]
+          ['What is the purpose?', 'To help users.', 'open', 1],
+          ['How does it work?', 'Through AI.', 'open', 1]
+        )
+        expect(Captain::FaqObservation.attached.pluck(:conversation_id)).to contain_exactly(
+          conversation.id, conversation.id
         )
       end
     end
@@ -168,26 +174,49 @@ RSpec.describe Captain::Llm::ConversationFaqService do
 
     context 'when finding duplicates' do
       let(:existing_response) do
-        create(:captain_assistant_response, assistant: captain_assistant, question: 'Similar question', answer: 'Similar answer')
+        create(:captain_assistant_response, assistant: captain_assistant, account: captain_assistant.account,
+                                            question: 'Similar question', answer: 'Similar answer', embedding: embedding_one)
       end
-      let(:similar_neighbor) do
-        OpenStruct.new(
-          id: 1,
-          question: existing_response.question,
-          answer: existing_response.answer,
-          neighbor_distance: 0.1
-        )
-      end
+      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
 
       before do
-        allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
-        allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([similar_neighbor])
+        existing_response
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? equivalence_response : mock_response
+        end
       end
 
-      it 'filters out duplicate FAQs based on embedding similarity' do
+      it 'discards candidates the LLM confirms are covered by an approved FAQ' do
         expect do
           service.generate_and_deduplicate
-        end.not_to change(captain_assistant.responses, :count)
+        end.to change(Captain::FaqObservation.discarded, :count).by(2)
+        expect(captain_assistant.faq_suggestions.count).to be_zero
+      end
+    end
+
+    context 'when an open suggestion is the same FAQ' do
+      let(:sample_faqs) { [{ 'question' => 'How can I use the feature?', 'answer' => 'Enable it in settings.' }] }
+      let(:existing_suggestion) do
+        captain_assistant.faq_suggestions.create!(question: 'How do I enable the feature?', answer: 'Turn it on in settings.',
+                                                  embedding: embedding_one, source_count: 1)
+      end
+      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+
+      before do
+        existing_suggestion
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? equivalence_response : mock_response
+        end
+      end
+
+      it 'attaches the observation and increments the source count' do
+        expect do
+          service.generate_and_deduplicate
+        end.to change(existing_suggestion.observations, :count).by(1)
+        expect(existing_suggestion.reload.source_count).to eq(2)
+        expect(captain_assistant.faq_suggestions.count).to eq(1)
       end
     end
 
@@ -236,17 +265,17 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   describe 'language handling' do
     context 'when conversation has different language' do
       let(:account) { create(:account, locale: 'fr') }
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
       let(:conversation) do
         create(:conversation, account: account, first_reply_created_at: Time.zone.now)
       end
 
       before do
-        allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
-        allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one, embedding_two)
       end
 
       it 'uses account language for system prompt' do
-        expect(Captain::Llm::SystemPromptsService).to receive(:conversation_faq_generator)
+        expect(Captain::Llm::ConversationFaqPromptsService).to receive(:generator)
           .with('french')
           .at_least(:once)
           .and_call_original
