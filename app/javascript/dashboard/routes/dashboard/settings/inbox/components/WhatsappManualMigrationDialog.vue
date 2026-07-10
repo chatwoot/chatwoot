@@ -199,6 +199,22 @@ const currentStepDetails = computed(() => steps.value[currentStep.value]);
 const isFirstStep = computed(() => currentStep.value === 0);
 const isLastStep = computed(() => currentStep.value === steps.value.length - 1);
 const guideUrl = WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
+const hasBusinessDetails = computed(
+  () =>
+    form.value.wabaId.trim() &&
+    form.value.phoneNumberId.trim() &&
+    form.value.displayPhoneNumber.trim()
+);
+const hasAccessToken = computed(() => form.value.accessToken.trim());
+const canContinue = computed(() => {
+  if (currentStep.value === 1) return hasBusinessDetails.value;
+  if (currentStep.value === 2) return hasAccessToken.value;
+  if (isLastStep.value) {
+    return hasBusinessDetails.value && hasAccessToken.value;
+  }
+
+  return true;
+});
 
 const open = () => {
   currentStep.value = 0;
@@ -216,11 +232,13 @@ const goNext = () => {
 };
 
 const reconnect = () => {
+  if (!canContinue.value) return;
+
   emit('reconnect', {
-    wabaId: form.value.wabaId,
-    phoneNumberId: form.value.phoneNumberId,
-    displayPhoneNumber: form.value.displayPhoneNumber,
-    accessToken: form.value.accessToken,
+    wabaId: form.value.wabaId.trim(),
+    phoneNumberId: form.value.phoneNumberId.trim(),
+    displayPhoneNumber: form.value.displayPhoneNumber.trim(),
+    accessToken: form.value.accessToken.trim(),
   });
 };
 
@@ -536,12 +554,17 @@ defineExpose({ open, close });
           <NextButton variant="ghost" color="slate" @click="close">
             {{ copy.cancel }}
           </NextButton>
-          <NextButton v-if="!isLastStep" @click="goNext">
+          <NextButton
+            v-if="!isLastStep"
+            :disabled="!canContinue"
+            @click="goNext"
+          >
             {{ currentStep === 3 ? copy.reviewMigration : copy.continue }}
           </NextButton>
           <NextButton
             v-else
             color="teal"
+            :disabled="!canContinue"
             :is-loading="isLoading"
             @click="reconnect"
           >
