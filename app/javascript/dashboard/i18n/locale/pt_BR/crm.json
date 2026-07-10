@@ -1088,6 +1088,24 @@
       "SAVE": "Salvar funil",
       "CREATE": "Criar funil"
     },
+    "GOOGLE_SYNC": {
+      "TITLE": "Google Ads (conversões offline)",
+      "HELP": "Envie resultados do CRM ao Google Ads por um feed programado de conversões.",
+      "TOGGLE": "Ativar conversões offline do Google Ads",
+      "EVENTS": "Quais eventos incluir",
+      "EVENT_WON": "Ganho",
+      "EVENT_LOST": "Perda",
+      "EVENT_MOVED": "Mudança de etapa",
+      "CONVERSION_NAME_WON": "Nome da conversão para cards ganhos",
+      "CONVERSION_NAME_WON_PLACEHOLDER": "Ex.: CRM - Venda ganha",
+      "CONVERSION_NAME_WON_HELP": "Perda e mudança de etapa usam os nomes de conversão padrão.",
+      "FEED_URL": "URL da importação programada",
+      "FEED_URL_PENDING": "A URL ficará disponível após o backend gerar o token do feed.",
+      "COPY": "Copiar URL",
+      "COPIED": "URL do feed copiada.",
+      "COPY_ERROR": "Não foi possível copiar a URL do feed.",
+      "INSTRUCTIONS": "No Google Ads: Metas → Conversões → Importações programadas → adicionar HTTPS com esta URL."
+    },
     "FOLLOW_UP_REMINDER": {
       "TITLE": "Follow-up vencido",
       "HEADING": "Lembrete de follow-up",

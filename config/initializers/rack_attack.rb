@@ -73,6 +73,10 @@ class Rack::Attack
     req.ip if req.get? && req.path_without_extensions.start_with?('/l/')
   end
 
+  throttle('public_google_conversions/ip', limit: 60, period: 1.minute) do |req|
+    req.ip if req.get? && req.path.start_with?('/google_conversions/')
+  end
+
   ###-----------------------------------------------###
   ###-----Authentication Related Throttling---------###
   ###-----------------------------------------------###
