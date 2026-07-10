@@ -52,6 +52,14 @@ const isSLAEnabled = computed(() =>
   getters['accounts/isFeatureEnabledonAccount'].value(accountId.value, 'sla')
 );
 
+const showDelayDisabledBanner = computed(
+  () =>
+    !getters['accounts/isFeatureEnabledonAccount'].value(
+      accountId.value,
+      'delayed_automations'
+    ) && records.value.some(automation => automation.execution_delay)
+);
+
 onMounted(() => {
   store.dispatch('inboxes/get');
   store.dispatch('agents/get');
@@ -212,6 +220,12 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
+      <div
+        v-if="showDelayDisabledBanner"
+        class="px-4 py-3 mb-4 text-sm rounded-lg bg-n-amber-3 text-n-amber-12"
+      >
+        {{ $t('AUTOMATION.LIST.DELAY_DISABLED_BANNER') }}
+      </div>
       <BaseTable
         :headers="tableHeaders"
         :items="filteredRecords"

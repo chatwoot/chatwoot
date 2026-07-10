@@ -208,6 +208,12 @@ export const generateAutomationPayload = payload => {
   return automation;
 };
 
+export const formatDelay = minutes => {
+  if (minutes % 1440 === 0) return `${minutes / 1440}d`;
+  if (minutes % 60 === 0) return `${minutes / 60}h`;
+  return `${minutes}m`;
+};
+
 export const isCustomAttribute = (attrs, key) => {
   return attrs.find(attr => attr.key === key);
 };

@@ -14,6 +14,7 @@ import {
   showActionInput,
 } from 'dashboard/helper/automationHelper';
 import { validateAutomation } from 'dashboard/helper/validations';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { AUTOMATION_RULE_EVENTS, AUTOMATION_ACTION_TYPES } from './constants';
 
 const props = defineProps({
@@ -70,6 +71,14 @@ const INPUT_TYPE_MAP = {
   comma_separated_plain_text: 'plainText',
   date: 'date',
 };
+
+const DELAY_UNITS = [
+  { key: 'MINUTES', factor: 1 },
+  { key: 'HOURS', factor: 60 },
+  { key: 'DAYS', factor: 1440 },
+];
+const MIN_DELAY_MINUTES = 10;
+const MAX_DELAY_MINUTES = 43200; // 30 days
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
@@ -184,6 +193,50 @@ const hasActionErrors = computed(() =>
   Object.keys(errors.value).some(key => key.startsWith('action_'))
 );
 
+const allowsDelayedExecution = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
+);
+
+const executeMode = ref('immediate');
+const delayValue = ref(4);
+const delayUnit = ref('HOURS');
+
+const delayInMinutes = computed(() => {
+  const factor =
+    DELAY_UNITS.find(unit => unit.key === delayUnit.value)?.factor || 1;
+  return Math.round(Number(delayValue.value) * factor);
+});
+
+const executionDelayInvalid = computed(
+  () =>
+    executeMode.value === 'delayed' &&
+    (!Number.isFinite(delayInMinutes.value) ||
+      delayInMinutes.value < MIN_DELAY_MINUTES ||
+      delayInMinutes.value > MAX_DELAY_MINUTES)
+);
+
+// Hydrate the delay controls from the automation, using the largest clean unit.
+const syncDelayFromAutomation = () => {
+  const delay = automation.value?.execution_delay;
+  executeMode.value = delay ? 'delayed' : 'immediate';
+  if (!delay) {
+    delayValue.value = 4;
+    delayUnit.value = 'HOURS';
+    return;
+  }
+  const unit =
+    [...DELAY_UNITS].reverse().find(u => delay % u.factor === 0) ||
+    DELAY_UNITS[0];
+  delayUnit.value = unit.key;
+  delayValue.value = delay / unit.factor;
+};
+
+watch([executeMode, delayInMinutes], () => {
+  if (!automation.value || !allowsDelayedExecution.value) return;
+  automation.value.execution_delay =
+    executeMode.value === 'delayed' ? delayInMinutes.value : null;
+});
+
 watch(
   () => automation.value,
   () => {
@@ -218,6 +271,7 @@ const syncCustomAttributeTypes = () => {
 
 const open = () => {
   resetValidation();
+  syncDelayFromAutomation();
   dialogRef.value?.open();
 };
 
@@ -230,8 +284,13 @@ const emitSaveAutomation = () => {
   syncCustomAttributeTypes();
   const conditionsValid = isConditionsValid();
   errors.value = validateAutomation(automation.value);
+  if (allowsDelayedExecution.value && executionDelayInvalid.value) {
+    errors.value.execution_delay = true;
+  }
   if (Object.keys(errors.value).length === 0 && conditionsValid) {
     const payload = generateAutomationPayload(automation.value);
+    // The API rejects the param when the feature is off; existing values are kept server-side.
+    if (!allowsDelayedExecution.value) delete payload.execution_delay;
     emit('save', payload, props.mode);
   }
 };
@@ -291,6 +350,47 @@ defineExpose({ open, close });
           class="text-xs text-right text-n-teal-10 pt-1"
         >
           {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
+        </p>
+      </div>
+      <div v-if="allowsDelayedExecution" class="mb-6">
+        <label :class="{ error: errors.execution_delay }">
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.LABEL') }}
+        </label>
+        <div class="flex flex-wrap items-center gap-4 mt-1">
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+            <input v-model="executeMode" type="radio" value="immediate" />
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.IMMEDIATELY') }}
+          </label>
+          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
+            <input v-model="executeMode" type="radio" value="delayed" />
+            {{ $t('AUTOMATION.ADD.FORM.EXECUTE.AFTER_DELAY') }}
+          </label>
+          <template v-if="executeMode === 'delayed'">
+            <input
+              v-model.number="delayValue"
+              type="number"
+              min="1"
+              class="!m-0 !w-24"
+            />
+            <select v-model="delayUnit" class="!m-0 !w-32">
+              <option
+                v-for="unit in DELAY_UNITS"
+                :key="unit.key"
+                :value="unit.key"
+              >
+                {{ $t(`AUTOMATION.ADD.FORM.EXECUTE.UNITS.${unit.key}`) }}
+              </option>
+            </select>
+          </template>
+        </div>
+        <span v-if="errors.execution_delay" class="text-xs text-n-ruby-9">
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
+        </span>
+        <p
+          v-else-if="executeMode === 'delayed'"
+          class="text-xs text-n-slate-11 pt-1 mb-0"
+        >
+          {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
         </p>
       </div>
       <!-- Conditions Start -->

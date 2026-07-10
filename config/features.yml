@@ -249,3 +249,8 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: delayed_automations
+  display_name: Delayed Automations
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1

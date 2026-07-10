@@ -3,6 +3,7 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
 
   before_action :check_authorization
   before_action :fetch_automation_rule, only: [:show, :update, :destroy, :clone]
+  before_action :ensure_execution_delay_allowed, only: [:create, :update]
 
   def index
     @automation_rules = Current.account.automation_rules
@@ -55,11 +56,25 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   private
 
   def automation_rules_permit
+    permitted_attributes = [:name, :description, :event_name, :active]
+    permitted_attributes << :execution_delay if delayed_automations_enabled?
+
     params.permit(
-      :name, :description, :event_name, :active,
+      *permitted_attributes,
       conditions: [:attribute_key, :filter_operator, :query_operator, :custom_attribute_type, { values: [] }],
       actions: [:action_name, { action_params: [] }]
     )
+  end
+
+  def ensure_execution_delay_allowed
+    return if delayed_automations_enabled?
+    return if params[:execution_delay].blank?
+
+    render json: { error: 'Delayed automations are not enabled for this account.' }, status: :unprocessable_entity
+  end
+
+  def delayed_automations_enabled?
+    Current.account.feature_enabled?('delayed_automations')
   end
 
   def fetch_automation_rule

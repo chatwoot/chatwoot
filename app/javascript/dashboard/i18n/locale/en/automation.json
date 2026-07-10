@@ -28,6 +28,18 @@
           "PLACEHOLDER": "Please select one",
           "ERROR": "Event is required"
         },
+        "EXECUTE": {
+          "LABEL": "Execute",
+          "IMMEDIATELY": "Immediately",
+          "AFTER_DELAY": "After a delay of",
+          "UNITS": {
+            "MINUTES": "Minutes",
+            "HOURS": "Hours",
+            "DAYS": "Days"
+          },
+          "ERROR": "Delay must be between 10 minutes and 30 days",
+          "HELP_TEXT": "Delayed rules run only if the conditions still hold when the delay ends, and apply to conversations with activity after the rule is created."
+        },
         "CONDITIONS": {
           "LABEL": "Conditions"
         },
@@ -49,7 +61,9 @@
         "CREATED_ON": "Created on",
         "ACTIONS": "Actions"
       },
-      "404": "No automation rules found"
+      "404": "No automation rules found",
+      "DELAY_BADGE": "Runs after {delay}",
+      "DELAY_DISABLED_BANNER": "Delayed execution is disabled for this account. Rules with a delay will not run until it is enabled again."
     },
     "DELETE": {
       "TITLE": "Delete Automation Rule",
