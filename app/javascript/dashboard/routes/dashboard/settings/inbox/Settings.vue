@@ -344,11 +344,7 @@ export default {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
     showInstagramRestrictionSettingsBanner() {
-      return (
-        this.selectedTabKey === 'inbox-settings' &&
-        this.isOnChatwootCloud &&
-        this.isAnInstagramChannel
-      );
+      return this.isOnChatwootCloud && this.isAnInstagramChannel;
     },
     metaRestrictionStatusUrl() {
       return META_RESTRICTION_STATUS_URL;
