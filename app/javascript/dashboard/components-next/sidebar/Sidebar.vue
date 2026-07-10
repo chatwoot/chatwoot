@@ -1374,7 +1374,10 @@ const menuItems = computed(() => {
 
 .sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-body) {
   background-color: var(--sidebar-background-color, #0b1e3f) !important;
+  background-image: none !important;
   border-color: rgb(255 255 255 / 16%) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   box-shadow: 0 16px 40px rgb(0 0 0 / 24%) !important;
 }
 

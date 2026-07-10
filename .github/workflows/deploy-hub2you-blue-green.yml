@@ -131,6 +131,7 @@ jobs:
               # proximos embedded signups (PR #168; topic fields ja habilitados
               # no painel Meta).
               "WHATSAPP_HISTORY_SYNC_ENABLED": "true",
+              "SIDEBAR_BACKGROUND_COLOR": "#0b1e3f",
           }
 
           lines = path.read_text().splitlines()
