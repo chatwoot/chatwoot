@@ -38,7 +38,7 @@ class Imap::BaseFetchEmailService
   end
 
   def email_already_present?(channel, message_id)
-    # exists? avoids Message's default_scope ORDER BY, which full-scans large inboxes (see #14682).
+    # exists? avoids Message's default_scope ORDER BY, which full-scans large inboxes
     channel.inbox.messages.exists?(source_id: message_id) || deleted_message_tracker.deleted?(message_id)
   end
 
