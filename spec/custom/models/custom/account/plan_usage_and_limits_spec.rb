@@ -50,5 +50,26 @@ RSpec.describe Custom::Account::PlanUsageAndLimits do
       expect(account).not_to be_valid
       expect(account.errors[:limits]).to be_present
     end
+
+    it 'accepts every key the enterprise schema accepts (upstream-sync tripwire)' do
+      # The fork REPLACES Enterprise#validate_limit_keys (its schema is
+      # additionalProperties: false, so it cannot be extended). If upstream adds
+      # a new limit key, the fork must mirror it in base_keys or writes of that
+      # key start failing silently after a sync. Capture both schemas at the
+      # JSONSchemer boundary and assert the fork's property set is a superset.
+      account # materialize the lazy let (creation runs validations) before stubbing JSONSchemer
+
+      captured_schemas = []
+      allow(JSONSchemer).to receive(:schema).and_wrap_original do |original, schema|
+        captured_schemas << schema
+        original.call(schema)
+      end
+
+      Enterprise::Account::PlanUsageAndLimits.instance_method(:validate_limit_keys).bind_call(account)
+      account.send(:validate_limit_keys)
+
+      enterprise_keys, fork_keys = captured_schemas.map { |schema| schema['properties'].keys.map(&:to_s) }
+      expect(fork_keys).to include(*enterprise_keys)
+    end
   end
 end
