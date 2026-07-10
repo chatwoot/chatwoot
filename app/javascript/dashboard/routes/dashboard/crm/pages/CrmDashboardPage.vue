@@ -252,7 +252,11 @@ const fetchMetaSummary = async () => {
 const loadCtwaGate = async () => {
   try {
     const { data } = await CtwaCampaignsAPI.get();
-    hasCtwaAds.value = (data.payload || []).length > 0;
+    // Paid CTWA only: organic referrals / tracked links must not light the Meta
+    // block. Legacy touches predate `source` and were always paid.
+    hasCtwaAds.value = (data.payload || []).some(
+      option => !option.source || option.source === 'meta_ctwa'
+    );
   } catch {
     hasCtwaAds.value = false;
   }
