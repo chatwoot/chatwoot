@@ -1,5 +1,7 @@
 class Ctwa::TrackedLinkAttributor
+  CLICK_PATTERN = /#([A-Z2-9]{8})\b/
   CODE_PATTERN = /#([A-Z2-9]{6})\b/
+  INFERRED_CLICK_WINDOW = 10.minutes
 
   def self.attribute!(conversation, message_content)
     new.attribute!(conversation, message_content)
@@ -8,10 +10,20 @@ class Ctwa::TrackedLinkAttributor
   def attribute!(conversation, message_content)
     return if conversation.blank? || message_content.blank?
 
-    # Cheap regex gate FIRST: ordinary inbound messages must not pay the
-    # first-message COUNT query — only code-bearing ones proceed.
-    code = message_content.to_s.match(CODE_PATTERN)&.[](1)
-    return if code.blank?
+    # Cheap regex gates FIRST: ordinary inbound messages must not pay attribution queries.
+    content = message_content.to_s
+    token = content.match(CLICK_PATTERN)&.[](1)
+    return attribute_click_token!(conversation, token) if token.present?
+
+    code = content.match(CODE_PATTERN)&.[](1)
+    return attribute_code!(conversation, code) if code.present?
+
+    attribute_inferred_click!(conversation)
+  end
+
+  private
+
+  def attribute_code!(conversation, code)
     return unless first_inbound_message?(conversation)
 
     link = Ctwa::TrackedLink.for_account(conversation.account).find_by(code: code)
@@ -28,7 +40,58 @@ class Ctwa::TrackedLinkAttributor
     link.increment!(:conversations_count) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  private
+  def attribute_click_token!(conversation, token)
+    click = Ctwa::TrackedLinkClick.active.includes(:tracked_link).find_by(account_id: conversation.account_id, token: token)
+    return if click.blank?
+
+    attribute_click!(conversation, click)
+  end
+
+  def attribute_inferred_click!(conversation)
+    return unless eligible_for_inferred_click?(conversation)
+
+    scope = inferred_click_scope(conversation)
+    return unless scope.exists?
+
+    clicks = scope.limit(2).to_a
+    return unless clicks.one?
+
+    attribute_click!(conversation, clicks.first, inferred: true)
+  end
+
+  def attribute_click!(conversation, click, inferred: false)
+    link = click.tracked_link
+    return if link.blank?
+
+    referral = click.params.to_h.merge(
+      source_id: "click:#{click.token}",
+      source_type: 'bridge',
+      headline: link.name
+    )
+    referral[:inferred] = true if inferred
+
+    Ctwa::CampaignBuilder.attribute!(
+      conversation,
+      referral.compact
+    )
+    click.update!(conversation_id: conversation.id)
+    link.increment!(:conversations_count) # rubocop:disable Rails/SkipsModelValidations
+  end
+
+  def inferred_click_scope(conversation)
+    Ctwa::TrackedLinkClick.active
+                          .joins(:tracked_link)
+                          .includes(:tracked_link)
+                          .where(account_id: conversation.account_id, ctwa_tracked_links: { inbox_id: conversation.inbox_id })
+                          .where('ctwa_tracked_link_clicks.created_at >= ?', INFERRED_CLICK_WINDOW.ago)
+                          .order(created_at: :desc)
+  end
+
+  def eligible_for_inferred_click?(conversation)
+    return false if conversation.campaign_id.present? || conversation.additional_attributes.to_h['campaign'].present?
+
+    first_inbound_message?(conversation)
+  end
 
   def first_inbound_message?(conversation)
     conversation.messages.incoming.count == 1

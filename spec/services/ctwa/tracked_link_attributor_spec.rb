@@ -20,7 +20,7 @@ RSpec.describe Ctwa::TrackedLinkAttributor do
 
       attrs = conversation.reload.additional_attributes
       expect(attrs['campaign']).to include(
-        'source' => 'meta_organic',
+        'source' => 'tracked_link',
         'source_id' => 'link:ABC234',
         'source_type' => 'tracked_link',
         'headline' => 'QR Loja'
