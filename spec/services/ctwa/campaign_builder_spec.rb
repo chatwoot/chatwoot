@@ -86,6 +86,8 @@ RSpec.describe Ctwa::CampaignBuilder do
         utm_source: 'google',
         utm_medium: 'cpc',
         utm_campaign: 'july',
+        utm_term: 'running shoes',
+        utm_content: 'blue creative',
         inferred: true
       }
 
@@ -96,6 +98,8 @@ RSpec.describe Ctwa::CampaignBuilder do
         'utm_source' => 'google',
         'utm_medium' => 'cpc',
         'utm_campaign' => 'july',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative',
         'inferred' => true
       )
     end
@@ -200,11 +204,17 @@ RSpec.describe Ctwa::CampaignBuilder do
 
     it 'is a no-op when the same click id is redelivered' do
       described_class.attribute!(conversation, first_referral)
-      described_class.attribute!(conversation, first_referral.merge('body' => 'redelivered payload'))
+
+      expect(described_class.attribute!(conversation, first_referral.merge('body' => 'redelivered payload'))).to be(false)
 
       attrs = conversation.reload.additional_attributes
       expect(attrs['campaign_touches'].length).to eq(1)
       expect(attrs['campaign']['body']).to eq('washa data tu')
+    end
+
+    it 'returns whether the touch was persisted' do
+      expect(described_class.attribute!(conversation, first_referral)).to be(true)
+      expect(described_class.attribute!(conversation, first_referral)).to be(false)
     end
 
     it 'dedups an organic redelivery by source id' do
@@ -293,6 +303,8 @@ RSpec.describe Ctwa::CampaignBuilder do
         utm_source: 'google',
         utm_medium: 'cpc',
         utm_campaign: 'july',
+        utm_term: 'running shoes',
+        utm_content: 'blue creative',
         inferred: true
       )
 
@@ -304,6 +316,8 @@ RSpec.describe Ctwa::CampaignBuilder do
         'utm_source' => 'google',
         'utm_medium' => 'cpc',
         'utm_campaign' => 'july',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative',
         'inferred' => true
       )
     end

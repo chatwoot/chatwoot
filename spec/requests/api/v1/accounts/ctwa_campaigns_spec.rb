@@ -6,6 +6,7 @@ RSpec.describe 'CTWA campaigns API', type: :request do
     conversation = create_crm_conversation(account: account, inbox: inbox, contact: contact)
     conversation.update!(
       additional_attributes: conversation.additional_attributes.merge(
+        'campaign' => touches.first,
         'campaign_touches' => touches,
         'campaign_source_ids' => touches.filter_map { |touch| touch['source_id'].presence }.uniq
       )
@@ -130,14 +131,110 @@ RSpec.describe 'CTWA campaigns API', type: :request do
 
     expect(response).to have_http_status(:success)
     payload = response.parsed_body['payload'].index_by { |row| row['source_id'] }
-    expect(payload['ad-a']).to include(
-      'source' => 'meta_ctwa',
-      'won_count' => 1,
-      'won_value_by_currency' => [{ 'currency' => 'BRL', 'value_cents' => 12_000 }]
+    expect(payload['ad-a']).to include('source' => 'meta_ctwa')
+    expect(payload['gclid-1']).to include('source' => 'google_ads')
+    expect(payload['old-a']).to include('source' => 'meta_ctwa')
+    expect(payload['other-a']).to include('source' => 'tiktok_ads')
+    expect(payload.values).not_to include(include('won_count'))
+    expect(response.parsed_body['origin_metrics']).to eq(
+      [
+        {
+          'source' => 'meta_ctwa',
+          'won_count' => 1,
+          'won_value_by_currency' => [{ 'currency' => 'BRL', 'value_cents' => 12_000 }]
+        }
+      ]
     )
-    expect(payload['gclid-1']).to include('source' => 'google_ads', 'won_count' => 0, 'won_value_by_currency' => [])
-    expect(payload['old-a']).to include('source' => 'meta_ctwa', 'won_count' => 0, 'won_value_by_currency' => [])
-    expect(payload['other-a']).to include('source' => 'tiktok_ads', 'won_count' => 0, 'won_value_by_currency' => [])
+  end
+
+  it 'counts a won card with multiple touches once under the first touch origin' do
+    account, user = create_account_and_user
+    inbox = create_crm_inbox(account: account, members: [user])
+    pipeline, stage = create_crm_pipeline(account: account, user: user)
+    conversation = create_conversation_with_touches(
+      account: account,
+      inbox: inbox,
+      touches: [
+        { 'source_id' => 'ad-a', 'source' => 'meta_ctwa', 'headline' => 'Meta origem', 'touched_at' => '2026-07-01T10:00:00Z' },
+        { 'source_id' => 'gclid-1', 'source' => 'google_ads', 'headline' => 'Google depois', 'touched_at' => '2026-07-02T10:00:00Z' }
+      ]
+    )
+    create_closed_card(
+      account: account,
+      pipeline: pipeline,
+      stage: stage,
+      conversation: conversation,
+      value_cents: 15_000,
+      currency: 'BRL',
+      status: :won,
+      closed_at: Time.zone.parse('2026-07-04T10:00:00Z')
+    )
+
+    get "/api/v1/accounts/#{account.id}/ctwa_campaigns",
+        params: {
+          include_origin_metrics: true,
+          pipeline_id: pipeline.id,
+          since: '2026-07-01T00:00:00Z',
+          until: '2026-07-31T23:59:59Z'
+        },
+        headers: auth_headers(user)
+
+    expect(response).to have_http_status(:success)
+    expect(response.parsed_body['payload'].pluck('source_id')).to contain_exactly('ad-a', 'gclid-1')
+    expect(response.parsed_body['origin_metrics']).to eq(
+      [
+        {
+          'source' => 'meta_ctwa',
+          'won_count' => 1,
+          'won_value_by_currency' => [{ 'currency' => 'BRL', 'value_cents' => 15_000 }]
+        }
+      ]
+    )
+  end
+
+  it 'includes won cards linked only through crm_card_conversations in origin metrics' do
+    account, user = create_account_and_user
+    inbox = create_crm_inbox(account: account, members: [user])
+    pipeline, stage = create_crm_pipeline(account: account, user: user)
+    primary = create_crm_conversation(account: account, inbox: inbox, contact: create(:contact, account: account))
+    linked = create_source_conversation(
+      account: account,
+      inbox: inbox,
+      source_id: 'tracked-1',
+      source: 'tracked_link',
+      headline: 'Link rastreado'
+    )
+    card = create_closed_card(
+      account: account,
+      pipeline: pipeline,
+      stage: stage,
+      conversation: primary,
+      value_cents: 20_000,
+      currency: 'BRL',
+      status: :won,
+      closed_at: Time.zone.parse('2026-07-04T10:00:00Z')
+    )
+    Crm::CardConversation.create!(account: account, card: card, conversation: linked)
+
+    get "/api/v1/accounts/#{account.id}/ctwa_campaigns",
+        params: {
+          include_origin_metrics: true,
+          pipeline_id: pipeline.id,
+          since: '2026-07-01T00:00:00Z',
+          until: '2026-07-31T23:59:59Z'
+        },
+        headers: auth_headers(user)
+
+    expect(response).to have_http_status(:success)
+    expect(response.parsed_body['origin_metrics']).to eq(
+      [
+        {
+          'source' => 'tracked_link',
+          'won_count' => 1,
+          'won_value_by_currency' => [{ 'currency' => 'BRL', 'value_cents' => 20_000 }]
+        }
+      ]
+    )
   end
 
   it 'hides campaigns from inboxes outside the agent visibility (admin still sees them)' do

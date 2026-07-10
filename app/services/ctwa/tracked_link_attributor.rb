@@ -31,17 +31,28 @@ class Ctwa::TrackedLinkAttributor
 
     # CampaignBuilder derives `source` as meta_organic without ctwa_clid. For MVP the
     # canonical discriminator for trackable links is `source_type: tracked_link`.
-    Ctwa::CampaignBuilder.attribute!(
+    attributed = Ctwa::CampaignBuilder.attribute!(
       conversation,
       source_id: "link:#{code}",
       source_type: 'tracked_link',
       headline: link.name
     )
+    return unless attributed
+
     link.increment!(:conversations_count) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def attribute_click_token!(conversation, token)
-    click = Ctwa::TrackedLinkClick.active.includes(:tracked_link).find_by(account_id: conversation.account_id, token: token)
+    return unless first_inbound_message?(conversation)
+
+    click = Ctwa::TrackedLinkClick.active
+                                  .joins(:tracked_link)
+                                  .includes(:tracked_link)
+                                  .find_by(
+                                    account_id: conversation.account_id,
+                                    token: token,
+                                    ctwa_tracked_links: { inbox_id: conversation.inbox_id }
+                                  )
     return if click.blank?
 
     attribute_click!(conversation, click)
@@ -50,8 +61,11 @@ class Ctwa::TrackedLinkAttributor
   def attribute_inferred_click!(conversation)
     return unless eligible_for_inferred_click?(conversation)
 
+    # Hot path order matters: memory gates run before click queries; message COUNT runs
+    # only after a click candidate exists, and the LIMIT query only after that.
     scope = inferred_click_scope(conversation)
     return unless scope.exists?
+    return unless first_inbound_message?(conversation)
 
     clicks = scope.limit(2).to_a
     return unless clicks.one?
@@ -60,6 +74,9 @@ class Ctwa::TrackedLinkAttributor
   end
 
   def attribute_click!(conversation, click, inferred: false)
+    claimed = Ctwa::TrackedLinkClick.active.where(id: click.id).update_all(conversation_id: conversation.id) # rubocop:disable Rails/SkipsModelValidations
+    return unless claimed == 1
+
     link = click.tracked_link
     return if link.blank?
 
@@ -70,11 +87,12 @@ class Ctwa::TrackedLinkAttributor
     )
     referral[:inferred] = true if inferred
 
-    Ctwa::CampaignBuilder.attribute!(
+    attributed = Ctwa::CampaignBuilder.attribute!(
       conversation,
       referral.compact
     )
-    click.update!(conversation_id: conversation.id)
+    return unless attributed
+
     link.increment!(:conversations_count) # rubocop:disable Rails/SkipsModelValidations
   end
 
@@ -89,8 +107,9 @@ class Ctwa::TrackedLinkAttributor
 
   def eligible_for_inferred_click?(conversation)
     return false if conversation.campaign_id.present? || conversation.additional_attributes.to_h['campaign'].present?
+    return false if conversation.created_at < INFERRED_CLICK_WINDOW.ago
 
-    first_inbound_message?(conversation)
+    true
   end
 
   def first_inbound_message?(conversation)

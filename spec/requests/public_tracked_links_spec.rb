@@ -37,10 +37,19 @@ RSpec.describe 'Public tracked links', type: :request do
 
   it 'captures whitelisted tracking params and redirects with the click token' do
     user_agent = "Mozilla/#{'A' * 300}"
+    long_value = 'A' * 600
 
     expect do
       get '/l/abc234',
-          params: { gclid: 'gclid-123', utm_campaign: 'july', utm_source: 'google', ignored: 'drop-me' },
+          params: {
+            gclid: 'gclid-123',
+            utm_campaign: 'july',
+            utm_source: ['drop-array'],
+            utm_medium: { nested: 'drop-hash' },
+            utm_term: '',
+            utm_content: long_value,
+            ignored: 'drop-me'
+          },
           headers: { 'HTTP_USER_AGENT' => user_agent }
     end.to change(Ctwa::TrackedLinkClick, :count).by(1)
 
@@ -48,7 +57,7 @@ RSpec.describe 'Public tracked links', type: :request do
     expect(response).to have_http_status(:found)
     expect(CGI.parse(URI.parse(response.location).query)['text'].first).to eq("Quero atendimento ##{click.token}")
     expect(click).to have_attributes(account_id: account.id, tracked_link_id: tracked_link.id)
-    expect(click.params).to eq('gclid' => 'gclid-123', 'utm_campaign' => 'july', 'utm_source' => 'google')
+    expect(click.params).to eq('gclid' => 'gclid-123', 'utm_campaign' => 'july', 'utm_content' => 'A' * 512)
     expect(click.user_agent.length).to eq(255)
   end
 

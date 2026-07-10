@@ -13,7 +13,12 @@ RSpec.describe Ctwa::TrackedLinkAttributor do
   end
   let(:click) do
     create(:ctwa_tracked_link_click, account: account, tracked_link: tracked_link, token: 'ABCD2345',
-                                     params: { 'gclid' => 'gclid-123', 'utm_campaign' => 'july' })
+                                     params: {
+                                       'gclid' => 'gclid-123',
+                                       'utm_campaign' => 'july',
+                                       'utm_term' => 'running shoes',
+                                       'utm_content' => 'blue creative'
+                                     })
   end
 
   describe '.attribute!' do
@@ -46,7 +51,17 @@ RSpec.describe Ctwa::TrackedLinkAttributor do
       expect(tracked_link.reload.conversations_count).to eq(0)
     end
 
-    it 'is a no-op for an old conversation' do
+    it 'does not increment the counter when a tracked link code is redelivered' do
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: 'Oi #ABC234')
+
+      described_class.attribute!(conversation, 'Oi #ABC234')
+      described_class.attribute!(conversation, 'Oi #ABC234')
+
+      expect(conversation.reload.additional_attributes['campaign_touches'].length).to eq(1)
+      expect(tracked_link.reload.conversations_count).to eq(1)
+    end
+
+    it 'does not attribute a tracked link code in a non-first inbound message' do
       create(:message, conversation: conversation, account: account, inbox: inbox, content: 'Mensagem anterior')
       create(:message, conversation: conversation, account: account, inbox: inbox, content: 'Oi #ABC234')
 
@@ -77,15 +92,76 @@ RSpec.describe Ctwa::TrackedLinkAttributor do
         'source_type' => 'bridge',
         'headline' => 'QR Loja',
         'gclid' => 'gclid-123',
-        'utm_campaign' => 'july'
+        'utm_campaign' => 'july',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative'
       )
       expect(attrs['campaign_touches'].first).to include(
         'source' => 'google_ads',
         'source_id' => "click:#{click.token}",
-        'source_type' => 'bridge'
+        'source_type' => 'bridge',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative'
       )
       expect(click.reload.conversation_id).to eq(conversation.id)
       expect(tracked_link.reload.conversations_count).to eq(1)
+    end
+
+    it 'does not attribute a click token from a different inbox' do
+      other_channel = create(:channel_whatsapp, account: account, phone_number: '+15559876543', provider: 'whatsapp_cloud',
+                                                validate_provider_config: false, sync_templates: false)
+      other_link = Ctwa::TrackedLink.create!(account: account, inbox: other_channel.inbox, name: 'QR Outra Loja', code: 'XYZ789')
+      other_click = create(:ctwa_tracked_link_click, account: account, tracked_link: other_link, token: 'ZZZZ9999',
+                                                     params: { 'gclid' => 'other-gclid' })
+
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: "Oi ##{other_click.token}")
+
+      described_class.attribute!(conversation, "Oi ##{other_click.token}")
+
+      expect(conversation.reload.additional_attributes).to be_blank
+      expect(other_click.reload.conversation_id).to be_nil
+      expect(other_link.reload.conversations_count).to eq(0)
+    end
+
+    it 'does not attribute a click token in a non-first inbound message' do
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: 'Mensagem anterior')
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: "Oi ##{click.token}")
+
+      described_class.attribute!(conversation, "Oi ##{click.token}")
+
+      expect(conversation.reload.additional_attributes).to be_blank
+      expect(click.reload.conversation_id).to be_nil
+      expect(tracked_link.reload.conversations_count).to eq(0)
+    end
+
+    it 'does not increment the counter when a claimed click is deduped' do
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: "Oi ##{click.token}")
+      conversation.update!(
+        additional_attributes: {
+          'campaign' => Ctwa::CampaignBuilder.build(
+            source_id: "click:#{click.token}",
+            source_type: 'bridge',
+            headline: 'QR Loja',
+            gclid: 'gclid-123'
+          ),
+          'campaign_touches' => [
+            {
+              'source' => 'google_ads',
+              'source_id' => "click:#{click.token}",
+              'source_type' => 'bridge',
+              'headline' => 'QR Loja',
+              'gclid' => 'gclid-123',
+              'touched_at' => Time.current.utc.iso8601
+            }
+          ],
+          'campaign_source_ids' => ["click:#{click.token}"]
+        }
+      )
+
+      described_class.attribute!(conversation, "Oi ##{click.token}")
+
+      expect(click.reload.conversation_id).to eq(conversation.id)
+      expect(tracked_link.reload.conversations_count).to eq(0)
     end
 
     it 'does not attribute an expired click token' do
@@ -115,6 +191,17 @@ RSpec.describe Ctwa::TrackedLinkAttributor do
       expect(attrs['campaign_touches'].first).to include('inferred' => true)
       expect(click.reload.conversation_id).to eq(conversation.id)
       expect(tracked_link.reload.conversations_count).to eq(1)
+    end
+
+    it 'does not query fallback clicks for a conversation created outside the inferred window' do
+      conversation.update!(created_at: 11.minutes.ago)
+      create(:message, conversation: conversation, account: account, inbox: inbox, content: 'Oi')
+
+      expect(Ctwa::TrackedLinkClick).not_to receive(:active)
+
+      described_class.attribute!(conversation, 'Oi')
+
+      expect(conversation.reload.additional_attributes).to be_blank
     end
 
     it 'does not infer attribution when the only click is outside the fallback window' do

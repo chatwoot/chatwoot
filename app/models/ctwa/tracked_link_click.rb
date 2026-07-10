@@ -79,7 +79,12 @@ class Ctwa::TrackedLinkClick < ApplicationRecord
     return if params.blank?
     return unless params.respond_to?(:to_h)
 
-    self.params = params.to_h.stringify_keys.slice(*TRACKING_PARAM_KEYS)
+    self.params = params.to_h.stringify_keys.slice(*TRACKING_PARAM_KEYS).each_with_object({}) do |(key, value), normalized|
+      next unless value.is_a?(String)
+      next if value.blank?
+
+      normalized[key] = value.first(512)
+    end
   end
 
   def truncate_user_agent

@@ -59,7 +59,7 @@ RSpec.describe Crm::Kanban::BoardPayloadBuilder do
 
     expect(card_payload[:labels]).to eq(%w[vip])
     expect(card_payload[:campaigns]).to eq(
-      [{ source_id: '111', headline: 'Anúncio 111', source_url: nil,
+      [{ source: 'meta_ctwa', source_id: '111', headline: 'Anúncio 111', source_url: nil,
          touched_at: conversation.additional_attributes['campaign_touches'].first['touched_at'], conversation_id: conversation.id }]
     )
   end

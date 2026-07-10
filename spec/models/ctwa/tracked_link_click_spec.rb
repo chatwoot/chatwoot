@@ -34,14 +34,25 @@ RSpec.describe Ctwa::TrackedLinkClick do
       expect(click.errors[:token]).to be_present
     end
 
-    it 'normalizes params to the tracking whitelist' do
+    it 'normalizes params to scalar string tracking values only' do
+      long_value = 'A' * 600
+
       click = described_class.create!(
         account: account,
         tracked_link: tracked_link,
-        params: { gclid: 'gclid-123', utm_campaign: 'july', ignored: 'drop-me' }
+        params: {
+          gclid: 'gclid-123',
+          fbclid: nil,
+          ttclid: { value: 'nested' },
+          utm_source: ['array'],
+          utm_medium: '',
+          utm_campaign: '   ',
+          utm_content: long_value,
+          ignored: 'drop-me'
+        }
       )
 
-      expect(click.params).to eq('gclid' => 'gclid-123', 'utm_campaign' => 'july')
+      expect(click.params).to eq('gclid' => 'gclid-123', 'utm_content' => 'A' * 512)
     end
 
     it 'requires params to be a hash' do

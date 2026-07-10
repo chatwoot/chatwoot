@@ -59,8 +59,9 @@ RSpec.describe Crm::Cards::PayloadBuilder do
     expect(payload[:labels]).to match_array(%w[vip quente])
     expect(payload[:campaigns]).to eq(
       [
-        { source_id: '222', headline: 'Anúncio Antigo', source_url: nil, touched_at: '2026-06-30T09:00:00Z', conversation_id: linked.id },
-        { source_id: '111', headline: 'Promo Julho', source_url: 'https://fb.me/ad1', touched_at: '2026-07-01T10:00:00Z',
+        { source: 'meta_ctwa', source_id: '222', headline: 'Anúncio Antigo', source_url: nil, touched_at: '2026-06-30T09:00:00Z',
+          conversation_id: linked.id },
+        { source: 'meta_ctwa', source_id: '111', headline: 'Promo Julho', source_url: 'https://fb.me/ad1', touched_at: '2026-07-01T10:00:00Z',
           conversation_id: primary.id }
       ]
     )

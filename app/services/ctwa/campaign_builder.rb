@@ -21,7 +21,8 @@ module Ctwa::CampaignBuilder
   MAX_TOUCHES = 20
   # Slim per-touch projection: the full campaign shape minus `body` (origin keeps it).
   TOUCH_KEYS = %w[
-    source source_id source_type source_url headline media_type ctwa_clid gclid fbclid ttclid utm_source utm_medium utm_campaign inferred
+    source source_id source_type source_url headline media_type ctwa_clid gclid fbclid ttclid utm_source utm_medium utm_campaign
+    utm_term utm_content inferred
   ].freeze
 
   # Builds the unified campaign attribution hash, or nil when the referral carries no
@@ -54,12 +55,12 @@ module Ctwa::CampaignBuilder
   # dedup check re-runs inside it, avoiding a lost update on additional_attributes.
   def attribute!(conversation, referral)
     touch = build(referral)
-    return if touch.blank?
+    return false if touch.blank?
     # Cheap duplicate pre-check keeps redeliveries from taking the row lock — but only
     # once the record is already multi-touch. A legacy single-touch row (prod data from
     # before multi-touch) must still take the lock so migrate-on-write seeds
     # `campaign_touches` even when the click itself is a duplicate.
-    return if deduped_multi_touch?(conversation, touch)
+    return false if deduped_multi_touch?(conversation, touch)
 
     # reload discards the in-memory `display_id` set by the DB trigger, which `with_lock`
     # would otherwise reject as an unpersisted change.
@@ -67,6 +68,8 @@ module Ctwa::CampaignBuilder
     # Cards mirror the conversation's campaign data, so linked cards re-broadcast after
     # a write to keep board pills/filters live (job no-ops without linked cards).
     Crm::Cards::RebroadcastConversationCardsJob.perform_later(conversation.id) if persisted && Crm::Config.enabled?
+
+    persisted
   end
 
   # Current touch list; a legacy single-touch record (`campaign` written before
@@ -131,6 +134,8 @@ module Ctwa::CampaignBuilder
       'utm_source' => ref[:utm_source],
       'utm_medium' => ref[:utm_medium],
       'utm_campaign' => ref[:utm_campaign],
+      'utm_term' => ref[:utm_term],
+      'utm_content' => ref[:utm_content],
       'inferred' => ref[:inferred]
     }
   end

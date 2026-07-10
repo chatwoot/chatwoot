@@ -78,7 +78,7 @@ const throughput = ref(null);
 const followUps = ref(null);
 const workload = ref(null);
 const meetings = ref(null);
-const campaigns = ref([]);
+const originMetrics = ref([]);
 
 // Meta conversions (Ads) sync-health block, gated on real CTWA ad activity.
 const metaSummary = ref(null);
@@ -249,34 +249,21 @@ const normalizedOriginSource = source => {
 const emptyOriginRow = source => ({
   source,
   wonCount: 0,
-  valueByCurrency: {},
+  valueList: [],
 });
-
-const mergeCurrencyTotals = (totals, entries = []) =>
-  entries.reduce((nextTotals, entry) => {
-    const currency = entry.currency || 'BRL';
-    return {
-      ...nextTotals,
-      [currency]:
-        Number(nextTotals[currency] || 0) + Number(entry.value_cents || 0),
-    };
-  }, totals);
 
 const originRows = computed(() => {
   const rowsBySource = Object.fromEntries(
     ORIGIN_SOURCES.map(source => [source.key, emptyOriginRow(source.key)])
   );
 
-  campaigns.value.forEach(campaign => {
-    const source = normalizedOriginSource(campaign.source);
+  originMetrics.value.forEach(metric => {
+    const source = normalizedOriginSource(metric.source);
     if (!rowsBySource[source]) rowsBySource[source] = emptyOriginRow(source);
     rowsBySource[source] = {
       ...rowsBySource[source],
-      wonCount: rowsBySource[source].wonCount + Number(campaign.won_count || 0),
-      valueByCurrency: mergeCurrencyTotals(
-        rowsBySource[source].valueByCurrency,
-        campaign.won_value_by_currency
-      ),
+      wonCount: Number(metric.won_count || 0),
+      valueList: metric.won_value_by_currency || [],
     };
   });
 
@@ -288,12 +275,9 @@ const originRows = computed(() => {
   return orderedSources
     .map(source => {
       const row = rowsBySource[source];
-      const valueList = Object.entries(row.valueByCurrency)
-        .map(([currency, valueCents]) => ({
-          currency,
-          value_cents: valueCents,
-        }))
-        .sort((a, b) => a.currency.localeCompare(b.currency));
+      const valueList = [...row.valueList].sort((a, b) =>
+        String(a.currency || '').localeCompare(String(b.currency || ''))
+      );
       const config = originConfigByKey.value[source] || ORIGIN_FALLBACK;
 
       return {
@@ -353,7 +337,7 @@ const fetchReports = async () => {
     followUps.value = followUpsRes.data.payload;
     workload.value = workloadRes.data.payload;
     meetings.value = meetingsRes?.data?.payload || null;
-    campaigns.value = campaignsRes.data.payload || [];
+    originMetrics.value = campaignsRes.data.origin_metrics || [];
   } catch (error) {
     loadError.value = true;
   } finally {

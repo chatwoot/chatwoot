@@ -31,33 +31,66 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
 
   ORIGIN_METRICS_SQL = <<~SQL.squish.freeze
     WITH visible_conversation_ids AS (%<visible_ids>s),
-    attributed_cards AS (
-      SELECT DISTINCT
-        elem ->> 'source_id' AS source_id,
+    eligible_cards AS (
+      SELECT
         crm_cards.id AS card_id,
+        crm_cards.account_id AS account_id,
+        crm_cards.conversation_id AS conversation_id,
         crm_cards.currency AS currency,
         crm_cards.value_cents AS value_cents
-      FROM visible_conversation_ids
-      INNER JOIN conversations ON conversations.id = visible_conversation_ids.id
-      INNER JOIN crm_cards ON crm_cards.conversation_id = conversations.id
-      CROSS JOIN LATERAL jsonb_array_elements(conversations.additional_attributes -> 'campaign_touches') AS elem
-      WHERE conversations.account_id = ?
-        AND jsonb_typeof(conversations.additional_attributes -> 'campaign_touches') = 'array'
-        AND COALESCE(elem ->> 'source_id', '') <> ''
-        AND %<card_filters>s
+      FROM crm_cards
+      WHERE %<card_filters>s
+    ),
+    candidate_origins AS (
+      SELECT
+        eligible_cards.card_id,
+        eligible_cards.currency,
+        eligible_cards.value_cents,
+        conversations.id AS conversation_id,
+        conversations.additional_attributes -> 'campaign' AS campaign,
+        NULLIF(conversations.additional_attributes -> 'campaign' ->> 'touched_at', '') AS touched_at
+      FROM eligible_cards
+      INNER JOIN conversations ON conversations.id = eligible_cards.conversation_id
+        AND conversations.account_id = eligible_cards.account_id
+      INNER JOIN visible_conversation_ids ON visible_conversation_ids.id = conversations.id
+      WHERE jsonb_exists(conversations.additional_attributes, 'campaign')
+      UNION ALL
+      SELECT
+        eligible_cards.card_id,
+        eligible_cards.currency,
+        eligible_cards.value_cents,
+        conversations.id AS conversation_id,
+        conversations.additional_attributes -> 'campaign' AS campaign,
+        NULLIF(conversations.additional_attributes -> 'campaign' ->> 'touched_at', '') AS touched_at
+      FROM eligible_cards
+      INNER JOIN crm_card_conversations ON crm_card_conversations.card_id = eligible_cards.card_id
+        AND crm_card_conversations.account_id = eligible_cards.account_id
+      INNER JOIN conversations ON conversations.id = crm_card_conversations.conversation_id
+        AND conversations.account_id = eligible_cards.account_id
+      INNER JOIN visible_conversation_ids ON visible_conversation_ids.id = conversations.id
+      WHERE jsonb_exists(conversations.additional_attributes, 'campaign')
+    ),
+    canonical_cards AS (
+      SELECT DISTINCT ON (card_id)
+        COALESCE(NULLIF(candidate_origins.campaign ->> 'source', ''), 'meta_ctwa') AS source,
+        candidate_origins.card_id,
+        candidate_origins.currency,
+        candidate_origins.value_cents
+      FROM candidate_origins
+      ORDER BY card_id, touched_at ASC NULLS FIRST, conversation_id ASC
     ),
     counts AS (
-      SELECT source_id, COUNT(*) AS won_count
-      FROM attributed_cards
-      GROUP BY source_id
+      SELECT source, COUNT(*) AS won_count
+      FROM canonical_cards
+      GROUP BY source
     ),
     currency_totals AS (
-      SELECT source_id, currency, SUM(value_cents) AS value_cents
-      FROM attributed_cards
-      GROUP BY source_id, currency
+      SELECT source, currency, SUM(value_cents) AS value_cents
+      FROM canonical_cards
+      GROUP BY source, currency
     )
     SELECT
-      counts.source_id,
+      counts.source,
       counts.won_count,
       COALESCE(
         JSONB_AGG(
@@ -67,15 +100,17 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
         '[]'::jsonb
       ) AS won_value_by_currency
     FROM counts
-    LEFT JOIN currency_totals ON currency_totals.source_id = counts.source_id
-    GROUP BY counts.source_id, counts.won_count
+    LEFT JOIN currency_totals ON currency_totals.source = counts.source
+    GROUP BY counts.source, counts.won_count
   SQL
 
   def index
     authorize ::Conversation, :index?
     authorize %i[crm report], :view? if include_origin_metrics?
 
-    render json: { payload: campaign_options }
+    response = { payload: campaign_options }
+    response[:origin_metrics] = origin_metrics if include_origin_metrics?
+    render json: response
   end
 
   private
@@ -94,18 +129,15 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
   def campaign_options
     aggregation = format(AGGREGATION_SQL, visible_ids: visible_conversations.reorder(nil).select(:id).to_sql)
     sql = ActiveRecord::Base.sanitize_sql_array([aggregation, Current.account.id])
-    metrics_by_source_id = include_origin_metrics? ? origin_metrics_by_source_id : {}
 
     ActiveRecord::Base.connection.select_all(sql).map do |row|
-      option = {
+      {
         source_id: row['source_id'],
         source: row['source'],
         headline: row['headline'],
         count: row['conversations_count'].to_i,
         last_touch_at: row['last_touch_at']
       }
-      option.merge!(metrics_by_source_id.fetch(row['source_id'], empty_origin_metrics)) if include_origin_metrics?
-      option
     end
   end
 
@@ -113,16 +145,17 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
     ActiveModel::Type::Boolean.new.cast(params[:include_origin_metrics])
   end
 
-  def origin_metrics_by_source_id
+  def origin_metrics
     card_filters, binds = origin_metric_card_filters
     aggregation = format(
       ORIGIN_METRICS_SQL,
       visible_ids: visible_conversations.reorder(nil).select(:id).to_sql,
       card_filters: card_filters.join(' AND ')
     )
-    sql = ActiveRecord::Base.sanitize_sql_array([aggregation, Current.account.id, *binds])
-    ActiveRecord::Base.connection.select_all(sql).each_with_object({}) do |row, result|
-      result[row['source_id']] = {
+    sql = ActiveRecord::Base.sanitize_sql_array([aggregation, *binds])
+    ActiveRecord::Base.connection.select_all(sql).map do |row|
+      {
+        source: row['source'],
         won_count: row['won_count'].to_i,
         won_value_by_currency: parsed_jsonb(row['won_value_by_currency'])
       }
@@ -169,9 +202,5 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
     return value if value.is_a?(Array)
 
     JSON.parse(value.to_s)
-  end
-
-  def empty_origin_metrics
-    { won_count: 0, won_value_by_currency: [] }
   end
 end
