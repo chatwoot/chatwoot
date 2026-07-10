@@ -100,7 +100,7 @@ const emitNewAccount = () => {
     </template>
     <DropdownBody
       v-if="showAccountSwitcher || isCollapsed"
-      class="min-w-80 z-50"
+      class="sidebar-branded-dropdown min-w-80 z-50"
     >
       <DropdownSection :title="t('SIDEBAR_ITEMS.SWITCH_ACCOUNT')">
         <DropdownItem

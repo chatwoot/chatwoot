@@ -1372,6 +1372,34 @@ const menuItems = computed(() => {
   border-color: rgb(255 255 255 / 18%) !important;
 }
 
+.sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-body) {
+  background-color: var(--sidebar-background-color, #0b1e3f) !important;
+  border-color: rgb(255 255 255 / 16%) !important;
+  box-shadow: 0 16px 40px rgb(0 0 0 / 24%) !important;
+}
+
+.sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-item > *) {
+  color: rgb(255 255 255 / 88%) !important;
+}
+
+.sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-item svg),
+.sidebar-branded
+  :deep(.sidebar-branded-dropdown .n-dropdown-item [class*='i-']) {
+  color: rgb(255 255 255 / 70%) !important;
+}
+
+.sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-item > *:hover) {
+  background-color: rgb(255 255 255 / 12%) !important;
+  color: #fff !important;
+}
+
+.sidebar-branded :deep(.sidebar-branded-dropdown hr),
+.sidebar-branded :deep(.sidebar-branded-dropdown .border-n-weak),
+.sidebar-branded :deep(.sidebar-branded-dropdown .bg-n-strong) {
+  border-color: rgb(255 255 255 / 14%) !important;
+  background-color: rgb(255 255 255 / 14%) !important;
+}
+
 .sidebar-branded .sidebar-footer-fade {
   background-image: linear-gradient(
     to top,
