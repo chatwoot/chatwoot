@@ -55,6 +55,11 @@ services:
       REDIS_URL: redis://redis-test:6379
       # .env sets a 0.0.0.0 dev URL, which breaks redirect/url specs in test
       FRONTEND_URL: http://localhost:3000
+      # .env enables the SSO-only lockdown for dev; GlobalConfigService falls
+      # back to ENV, so without this override the "flag off (default)" specs
+      # run with the flag ON (see error-log 2026-07-10). Specs that need it on
+      # stub GlobalConfigService instead.
+      ENABLE_SSO_ONLY_LOGIN: "false"
 
     depends_on:
       postgres-test:

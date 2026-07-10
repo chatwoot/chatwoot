@@ -9,6 +9,9 @@ module Custom::Concerns::SsoOnlyLogin
   private
 
   def sso_only_login_enabled?
-    GlobalConfigService.load('ENABLE_SSO_ONLY_LOGIN', 'false').to_s != 'false'
+    # Explicit 'true' only: `!= 'false'` would treat a blank value (e.g. an
+    # empty ENABLE_SSO_ONLY_LOGIN= line in .env makes GlobalConfigService
+    # return nil) as ON and silently lock out every native login.
+    GlobalConfigService.load('ENABLE_SSO_ONLY_LOGIN', 'false').to_s.downcase == 'true'
   end
 end
