@@ -28,6 +28,7 @@ import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
 import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
+import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
@@ -43,9 +44,6 @@ import SelectInput from 'dashboard/components-next/select/Select.vue';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
-
-const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
-  'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
 
 export default {
   components: {
@@ -79,6 +77,7 @@ export default {
     SelectInput,
     AccountHealth,
     WhatsappManualMigrationDialog,
+    WhatsappManualMigrationBanner,
     Widget,
     AccessToken,
   },
@@ -408,25 +407,6 @@ export default {
           FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
         )
       );
-    },
-    whatsappManualMigrationBannerCopy() {
-      return {
-        title: this.$t(
-          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.TITLE'
-        ),
-        description: this.$t(
-          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.DESCRIPTION'
-        ),
-        start: this.$t(
-          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.START'
-        ),
-        guide: this.$t(
-          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.GUIDE'
-        ),
-      };
-    },
-    whatsappManualMigrationGuideUrl() {
-      return WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
     },
     widgetBuilderStorageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
@@ -820,44 +800,12 @@ export default {
           class="mx-6 mb-4"
           :class="bannerMaxWidth"
         />
-        <div
+        <WhatsappManualMigrationBanner
           v-if="showWhatsAppManualMigration"
           class="mx-6 mb-6"
           :class="bannerMaxWidth"
-        >
-          <div
-            class="flex flex-col gap-4 p-4 border rounded-xl border-n-weak bg-n-alpha-2 md:flex-row md:items-center md:justify-between"
-          >
-            <div class="flex items-start min-w-0 gap-3">
-              <span
-                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-amber-3 text-n-amber-11"
-              >
-                <span class="i-lucide-triangle-alert size-4" />
-              </span>
-              <div class="min-w-0">
-                <h3 class="m-0 text-sm font-medium text-n-slate-12">
-                  {{ whatsappManualMigrationBannerCopy.title }}
-                </h3>
-                <p class="mt-1 mb-0 text-sm text-n-slate-11">
-                  {{ whatsappManualMigrationBannerCopy.description }}
-                </p>
-              </div>
-            </div>
-            <div class="flex items-center flex-shrink-0 gap-2">
-              <NextButton size="sm" @click="openWhatsAppManualMigrationDialog">
-                {{ whatsappManualMigrationBannerCopy.start }}
-              </NextButton>
-              <a
-                :href="whatsappManualMigrationGuideUrl"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center h-8 px-3 text-sm font-medium transition-all duration-100 ease-out rounded-lg text-n-slate-12 hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline outline-1 outline-transparent"
-              >
-                {{ whatsappManualMigrationBannerCopy.guide }}
-              </a>
-            </div>
-          </div>
-        </div>
+          @start="openWhatsAppManualMigrationDialog"
+        />
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
