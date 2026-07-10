@@ -52,7 +52,7 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'whatsapp_call' || key === 'voice') {
+  if (key === 'voice' || key === 'whatsapp_call') {
     return props.enabledFeatures.channel_voice;
   }
 
