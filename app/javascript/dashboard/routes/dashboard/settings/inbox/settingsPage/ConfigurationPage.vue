@@ -8,6 +8,7 @@ import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { isNumber } from 'shared/helpers/Validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import { sanitizeAllowedDomains } from 'dashboard/helper/URLHelper';
@@ -49,8 +50,8 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
-    manualPhoneNumberId: { required },
-    manualBusinessAccountId: { required },
+    manualPhoneNumberId: { required, isNumber },
+    manualBusinessAccountId: { required, isNumber },
     manualApiKey: { required },
   },
   computed: {
