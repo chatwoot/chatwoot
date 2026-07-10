@@ -3,7 +3,7 @@ class DataImports::Intercom::ContactsPageJob < DataImports::Intercom::BaseJob
     return if skip_import?(data_import, run_id)
 
     importer = importer_for(data_import, run_id)
-    return if importer.contacts_completed?
+    return enqueue_conversations_or_finish(data_import, importer, run_id) if importer.contacts_completed?
 
     result = importer.import_contacts_page(starting_after: starting_after)
     return if skip_import?(data_import, run_id)

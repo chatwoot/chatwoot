@@ -3,7 +3,7 @@ class DataImports::Intercom::ConversationsPageJob < DataImports::Intercom::BaseJ
     return if skip_import?(data_import, run_id)
 
     importer = importer_for(data_import, run_id)
-    return if importer.conversations_completed?
+    return importer.finish! if importer.conversations_completed?
 
     result = importer.import_conversations_page(starting_after: starting_after)
     return if skip_import?(data_import, run_id)

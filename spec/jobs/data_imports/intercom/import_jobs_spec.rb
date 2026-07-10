@@ -77,6 +77,20 @@ RSpec.describe DataImports::Intercom::ImportJob do
   end
 
   describe DataImports::Intercom::ContactsPageJob do
+    it 'hands off to conversations when a retry finds contacts already completed' do
+      allow(importer).to receive_messages(
+        contacts_completed?: true,
+        import_conversations?: true,
+        conversations_completed?: false
+      )
+      allow(importer).to receive(:cursor_for).with('conversations').and_return('conversation-cursor')
+      expect(importer).not_to receive(:import_contacts_page)
+
+      expect do
+        described_class.perform_now(data_import, 'completed-contact-cursor', run_id)
+      end.to have_enqueued_job(DataImports::Intercom::ConversationsPageJob).with(data_import, 'conversation-cursor', run_id)
+    end
+
     it 'imports one contacts page and enqueues the next contacts page' do
       result = DataImports::Intercom::Importer::PageResult.new(next_cursor: 'next-contact-cursor')
       allow(importer).to receive_messages(contacts_completed?: false)
@@ -147,6 +161,15 @@ RSpec.describe DataImports::Intercom::ImportJob do
   end
 
   describe DataImports::Intercom::ConversationsPageJob do
+    it 'finishes when a retry finds conversations already completed' do
+      allow(importer).to receive_messages(conversations_completed?: true, finish!: true)
+      expect(importer).not_to receive(:import_conversations_page)
+
+      described_class.perform_now(data_import, 'completed-conversation-cursor', run_id)
+
+      expect(importer).to have_received(:finish!)
+    end
+
     it 'imports one conversations page and enqueues the next conversations page' do
       result = DataImports::Intercom::Importer::PageResult.new(next_cursor: 'next-conversation-cursor')
       allow(importer).to receive_messages(conversations_completed?: false)
