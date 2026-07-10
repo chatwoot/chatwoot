@@ -1,5 +1,6 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -15,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['reconnect']);
+const { t } = useI18n();
 
 const dialogRef = ref(null);
 const currentStep = ref(0);
@@ -26,83 +28,161 @@ const form = ref({
   accessToken: '',
 });
 
-const copy = {
-  eyebrow: 'WhatsApp manual migration',
-  title: 'Reconnect WhatsApp inbox',
-  close: 'Close',
-  actionRequiredTitle: 'Action required for this WhatsApp inbox',
-  actionRequiredDescription:
-    'Meta restrictions are affecting setup and management features. This guided flow updates the WhatsApp API connection without creating a new inbox.',
-  preservedTitle: 'Preserved',
-  preservedDescription:
-    'Conversations, contacts, collaborators, routing, business hours, and inbox settings.',
-  updatedTitle: 'Updated',
-  updatedDescription:
-    'WABA ID, phone number ID, access token, and webhook configuration.',
-  wabaId: 'WABA ID',
-  wabaPlaceholder: '987654321098765',
-  phoneNumberId: 'Phone Number ID',
-  phoneNumberPlaceholder: '112233445566778',
-  displayPhoneNumber: 'Display phone number',
-  displayPhoneNumberPlaceholder: '+16506675566',
-  accessToken: 'Permanent access token or system user token',
-  accessTokenPlaceholder: 'EAAB...',
-  tokenHelpPrefix: 'The token must include',
-  tokenHelpMiddle: 'Add',
-  tokenHelpSuffix: 'for template sync and template management.',
-  messagingPermission: 'whatsapp_business_messaging.',
-  managementPermission: 'whatsapp_business_management',
-  wabaAccessTitle: 'WABA and phone number access',
-  wabaAccessDescription: 'Token can read the WABA and phone number.',
-  messagingAccessTitle: 'Messaging access',
-  messagingAccessDescription: 'Token can be used for WhatsApp Cloud messaging.',
-  templateManagementTitle: 'Template management',
-  templateManagementDescription:
-    'The token can access WhatsApp message templates for sync and template management.',
-  reviewTitle: 'Review before reconnecting',
-  inbox: 'Inbox',
-  phoneNumber: 'Phone number',
-  notEntered: 'Not entered',
-  previewNotice:
-    'This preview does not save anything. In the production flow, the previous provider configuration should be kept for internal recovery before applying changes.',
-  back: 'Back',
-  cancel: 'Cancel',
-  continue: 'Continue',
-  reviewMigration: 'Review migration',
-  reconnect: 'Reconnect WhatsApp inbox',
-};
+const copy = computed(() => ({
+  eyebrow: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.EYEBROW`
+  ),
+  title: t(`INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TITLE`),
+  close: t(`INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.CLOSE`),
+  actionRequiredTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACTION_REQUIRED_TITLE`
+  ),
+  actionRequiredDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACTION_REQUIRED_DESCRIPTION`
+  ),
+  preservedTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PRESERVED_TITLE`
+  ),
+  preservedDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PRESERVED_DESCRIPTION`
+  ),
+  updatedTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.UPDATED_TITLE`
+  ),
+  updatedDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.UPDATED_DESCRIPTION`
+  ),
+  wabaId: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_ID`
+  ),
+  wabaPlaceholder: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_PLACEHOLDER`
+  ),
+  phoneNumberId: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER_ID`
+  ),
+  phoneNumberPlaceholder: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER_PLACEHOLDER`
+  ),
+  displayPhoneNumber: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER`
+  ),
+  displayPhoneNumberPlaceholder: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER_PLACEHOLDER`
+  ),
+  accessToken: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACCESS_TOKEN`
+  ),
+  accessTokenPlaceholder: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACCESS_TOKEN_PLACEHOLDER`
+  ),
+  tokenHelpPrefix: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TOKEN_HELP_PREFIX`
+  ),
+  tokenHelpMiddle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TOKEN_HELP_MIDDLE`
+  ),
+  tokenHelpSuffix: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TOKEN_HELP_SUFFIX`
+  ),
+  messagingPermission: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MESSAGING_PERMISSION`
+  ),
+  managementPermission: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MANAGEMENT_PERMISSION`
+  ),
+  wabaAccessTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_ACCESS_TITLE`
+  ),
+  wabaAccessDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_ACCESS_DESCRIPTION`
+  ),
+  messagingAccessTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MESSAGING_ACCESS_TITLE`
+  ),
+  messagingAccessDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.MESSAGING_ACCESS_DESCRIPTION`
+  ),
+  templateManagementTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TEMPLATE_MANAGEMENT_TITLE`
+  ),
+  templateManagementDescription: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.TEMPLATE_MANAGEMENT_DESCRIPTION`
+  ),
+  reviewTitle: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.REVIEW_TITLE`
+  ),
+  inbox: t(`INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.INBOX`),
+  phoneNumber: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER`
+  ),
+  notEntered: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.NOT_ENTERED`
+  ),
+  previewNotice: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PREVIEW_NOTICE`
+  ),
+  back: t(`INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.BACK`),
+  cancel: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.CANCEL`
+  ),
+  continue: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.CONTINUE`
+  ),
+  reviewMigration: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.REVIEW_MIGRATION`
+  ),
+  reconnect: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.RECONNECT`
+  ),
+}));
 
-const steps = [
+const steps = computed(() => [
   {
-    title: 'Before you start',
-    description:
-      'This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved.',
+    title: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.BEFORE_YOU_START.TITLE`
+    ),
+    description: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.BEFORE_YOU_START.DESCRIPTION`
+    ),
   },
   {
-    title: 'Business details',
-    description:
-      'Enter the WhatsApp assets from the customer Meta Business account.',
+    title: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.BUSINESS_DETAILS.TITLE`
+    ),
+    description: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.BUSINESS_DETAILS.DESCRIPTION`
+    ),
   },
   {
-    title: 'Access token',
-    description:
-      'Paste a permanent access token or system user token with WhatsApp permissions.',
+    title: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.ACCESS_TOKEN.TITLE`
+    ),
+    description: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.ACCESS_TOKEN.DESCRIPTION`
+    ),
   },
   {
-    title: 'Verify details',
-    description:
-      'Chatwoot will verify the token, WABA, phone number, and messaging access before applying changes.',
+    title: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.VERIFY_DETAILS.TITLE`
+    ),
+    description: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.VERIFY_DETAILS.DESCRIPTION`
+    ),
   },
   {
-    title: 'Review migration',
-    description:
-      'Confirm the connection details before reconnecting this inbox.',
+    title: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.REVIEW_MIGRATION.TITLE`
+    ),
+    description: t(
+      `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.STEPS.REVIEW_MIGRATION.DESCRIPTION`
+    ),
   },
-];
+]);
 
-const currentStepDetails = computed(() => steps[currentStep.value]);
+const currentStepDetails = computed(() => steps.value[currentStep.value]);
 const isFirstStep = computed(() => currentStep.value === 0);
-const isLastStep = computed(() => currentStep.value === steps.length - 1);
+const isLastStep = computed(() => currentStep.value === steps.value.length - 1);
 
 const open = () => {
   currentStep.value = 0;

@@ -406,11 +406,18 @@ export default {
     },
     whatsappManualMigrationBannerCopy() {
       return {
-        title: 'WhatsApp setup action required',
-        description:
-          'Meta restrictions are affecting WhatsApp setup and management features. Reconnect this inbox manually to keep your WhatsApp configuration up to date.',
-        start: 'Start manual migration',
-        guide: 'View guide',
+        title: this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.TITLE'
+        ),
+        description: this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.DESCRIPTION'
+        ),
+        start: this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.START'
+        ),
+        guide: this.$t(
+          'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.GUIDE'
+        ),
       };
     },
     widgetBuilderStorageKey() {

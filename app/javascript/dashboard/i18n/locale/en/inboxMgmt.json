@@ -841,6 +841,76 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
+      "WHATSAPP_MANUAL_MIGRATION": {
+        "BANNER": {
+          "TITLE": "WhatsApp setup action required",
+          "DESCRIPTION": "Meta restrictions are affecting WhatsApp setup and management features. Reconnect this inbox manually to keep your WhatsApp configuration up to date.",
+          "START": "Start manual migration",
+          "GUIDE": "View guide"
+        },
+        "DIALOG": {
+          "EYEBROW": "WhatsApp manual migration",
+          "TITLE": "Reconnect WhatsApp inbox",
+          "CLOSE": "Close",
+          "ACTION_REQUIRED_TITLE": "Action required for this WhatsApp inbox",
+          "ACTION_REQUIRED_DESCRIPTION": "Meta restrictions are affecting setup and management features. This guided flow updates the WhatsApp API connection without creating a new inbox.",
+          "PRESERVED_TITLE": "Preserved",
+          "PRESERVED_DESCRIPTION": "Conversations, contacts, collaborators, routing, business hours, and inbox settings.",
+          "UPDATED_TITLE": "Updated",
+          "UPDATED_DESCRIPTION": "WABA ID, phone number ID, access token, and webhook configuration.",
+          "WABA_ID": "WABA ID",
+          "WABA_PLACEHOLDER": "Enter WABA ID",
+          "PHONE_NUMBER_ID": "Phone Number ID",
+          "PHONE_NUMBER_PLACEHOLDER": "Enter Phone Number ID",
+          "DISPLAY_PHONE_NUMBER": "Display phone number",
+          "DISPLAY_PHONE_NUMBER_PLACEHOLDER": "Enter display phone number",
+          "ACCESS_TOKEN": "Permanent access token or system user token",
+          "ACCESS_TOKEN_PLACEHOLDER": "Paste access token",
+          "TOKEN_HELP_PREFIX": "The token must include",
+          "TOKEN_HELP_MIDDLE": "Add",
+          "TOKEN_HELP_SUFFIX": "for template sync and template management.",
+          "MESSAGING_PERMISSION": "whatsapp_business_messaging.",
+          "MANAGEMENT_PERMISSION": "whatsapp_business_management",
+          "WABA_ACCESS_TITLE": "WABA and phone number access",
+          "WABA_ACCESS_DESCRIPTION": "Token can read the WABA and phone number.",
+          "MESSAGING_ACCESS_TITLE": "Messaging access",
+          "MESSAGING_ACCESS_DESCRIPTION": "Token can be used for WhatsApp Cloud messaging.",
+          "TEMPLATE_MANAGEMENT_TITLE": "Template management",
+          "TEMPLATE_MANAGEMENT_DESCRIPTION": "The token can access WhatsApp message templates for sync and template management.",
+          "REVIEW_TITLE": "Review before reconnecting",
+          "INBOX": "Inbox",
+          "PHONE_NUMBER": "Phone number",
+          "NOT_ENTERED": "Not entered",
+          "PREVIEW_NOTICE": "This preview does not save anything. In the production flow, the previous provider configuration should be kept for internal recovery before applying changes.",
+          "BACK": "Back",
+          "CANCEL": "Cancel",
+          "CONTINUE": "Continue",
+          "REVIEW_MIGRATION": "Review migration",
+          "RECONNECT": "Reconnect WhatsApp inbox"
+        },
+        "STEPS": {
+          "BEFORE_YOU_START": {
+            "TITLE": "Before you start",
+            "DESCRIPTION": "This reconnects the WhatsApp API details for this inbox. Conversations, collaborators, routing, business hours, CSAT, and bot settings will be preserved."
+          },
+          "BUSINESS_DETAILS": {
+            "TITLE": "Business details",
+            "DESCRIPTION": "Enter the WhatsApp assets from the customer Meta Business account."
+          },
+          "ACCESS_TOKEN": {
+            "TITLE": "Access token",
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions."
+          },
+          "VERIFY_DETAILS": {
+            "TITLE": "Verify details",
+            "DESCRIPTION": "Chatwoot will verify the token, WABA, phone number, and messaging access before applying changes."
+          },
+          "REVIEW_MIGRATION": {
+            "TITLE": "Review migration",
+            "DESCRIPTION": "Confirm the connection details before reconnecting this inbox."
+          }
+        }
+      },
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
