@@ -208,6 +208,58 @@ RSpec.describe Article do
     end
   end
 
+  describe '#generate_article_search_terms' do
+    let(:responses_client) { instance_double(Llm::ResponsesClient) }
+    let(:article) do
+      create(
+        :article,
+        account: account,
+        category: category_1,
+        content: 'How to configure billing invoices and payment reminders',
+        description: 'Billing setup guide',
+        portal: portal_1,
+        author: user,
+        title: 'Configure billing'
+      )
+    end
+
+    before do
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_API_KEY').tap do |config|
+        config.value = 'sk-test'
+        config.save!
+      end
+      InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT').tap do |config|
+        config.value = 'https://api.openai.test/v1'
+        config.save!
+      end
+      allow(Llm::ResponsesClient).to receive(:new).and_return(responses_client)
+      allow(responses_client).to receive(:create).and_return(
+        { message: { search_terms: ['billing setup', 'invoice reminders'] }.to_json }
+      )
+    end
+
+    it 'uses Responses API with the help center article model route' do
+      expect(article.generate_article_search_terms).to eq(['billing setup', 'invoice reminders'])
+
+      expect(Llm::ResponsesClient).to have_received(:new).with(
+        api_key: 'sk-test',
+        api_base: 'https://api.openai.test/v1'
+      )
+      expect(responses_client).to have_received(:create).with(
+        hash_including(
+          model: Llm::Models.default_model_for('help_center_article_generation'),
+          reasoning_effort: Llm::Models.reasoning_effort_for('help_center_article_generation'),
+          schema: Enterprise::Concerns::Article::SEARCH_TERMS_SCHEMA,
+          metadata: hash_including(
+            account_id: account.id,
+            article_id: article.id,
+            feature: 'article_search_terms'
+          )
+        )
+      )
+    end
+  end
+
   describe '.update_positions' do
     let!(:article_a) { create(:article, portal: portal_1, category: category_1, author: user, position: 10) }
     let!(:article_b) { create(:article, portal: portal_1, category: category_1, author: user, position: 11) }
