@@ -12,25 +12,27 @@ RSpec.describe Llm::FeatureRouter do
       expect(resolved).to eq(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1-mini',
+        model: 'gpt-5.6-luna',
+        reasoning_effort: 'low',
         source: :default
       )
     end
 
     it 'uses a valid account model override' do
-      account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+      account.update!(captain_models: { 'editor' => 'gpt-5.6-terra' })
 
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
         feature: 'editor',
         provider: 'openai',
-        model: 'gpt-4.1',
+        model: 'gpt-5.6-terra',
+        reasoning_effort: 'low',
         source: :account_override
       )
     end
 
-    it 'resolves GPT-5.2 as the assistant default when Captain V2 is enabled without storing an account override' do
+    it 'resolves the Captain V2 assistant default without storing an account override' do
       account.enable_features!('captain_integration_v2')
 
       resolved = described_class.resolve(feature: 'assistant', account: account)
@@ -38,7 +40,8 @@ RSpec.describe Llm::FeatureRouter do
       expect(resolved).to include(
         feature: 'assistant',
         provider: 'openai',
-        model: 'gpt-5.2',
+        model: described_class::CAPTAIN_V2_ASSISTANT_MODEL,
+        reasoning_effort: 'medium',
         source: :default
       )
       expect(account.reload.captain_models).to be_nil
@@ -62,7 +65,8 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-5.6-luna',
+        reasoning_effort: 'low',
         source: :default
       )
     end
@@ -73,7 +77,8 @@ RSpec.describe Llm::FeatureRouter do
       resolved = described_class.resolve(feature: 'editor', account: account)
 
       expect(resolved).to include(
-        model: 'gpt-4.1-mini',
+        model: 'gpt-5.6-luna',
+        reasoning_effort: 'low',
         source: :default
       )
     end

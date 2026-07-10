@@ -44,10 +44,12 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(json_response).to have_key(:providers)
         expect(json_response).to have_key(:models)
         expect(json_response).to have_key(:features)
+        expect(json_response[:models].keys).to include(:'gpt-5.6-luna', :'gpt-5.6-terra', :'gpt-5.6-sol')
+        expect(json_response.dig(:features, :assistant, :models).pluck(:id)).to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
       end
 
       it 'returns effective model provider and source for each feature' do
-        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+        account.update!(captain_models: { 'editor' => 'gpt-5.6-terra' })
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",
             headers: admin.create_new_auth_token,
@@ -55,15 +57,17 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(json_response.dig(:features, :editor)).to include(
-          model: 'gpt-4.1',
-          selected: 'gpt-4.1',
+          model: 'gpt-5.6-terra',
+          selected: 'gpt-5.6-terra',
           provider: 'openai',
+          reasoning_effort: 'low',
           source: 'account_override'
         )
         expect(json_response.dig(:features, :label_suggestion)).to include(
           model: Llm::Models.default_model_for('label_suggestion'),
           selected: Llm::Models.default_model_for('label_suggestion'),
           provider: 'openai',
+          reasoning_effort: 'low',
           source: 'default'
         )
       end
@@ -81,7 +85,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         )
       end
 
-      it 'returns GPT-5.2 as the assistant default for V2 accounts' do
+      it 'returns the Captain V2 assistant default for V2 accounts' do
         account.enable_features!('captain_integration_v2')
 
         get "/api/v1/accounts/#{account.id}/captain/preferences",

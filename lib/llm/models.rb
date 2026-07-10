@@ -15,6 +15,10 @@ module Llm::Models
       features.dig(feature.to_s, 'default')
     end
 
+    def reasoning_effort_for(feature)
+      features.dig(feature.to_s, 'reasoning_effort')
+    end
+
     def models_for(feature)
       features.dig(feature.to_s, 'models') || []
     end
@@ -46,7 +50,8 @@ module Llm::Models
             credit_multiplier: model['credit_multiplier']
           }
         end,
-        default: feature['default']
+        default: feature['default'],
+        reasoning_effort: feature['reasoning_effort']
       }
     end
   end

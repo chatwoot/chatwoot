@@ -27,12 +27,33 @@ RSpec.describe Llm::Models do
     end
 
     it 'routes document and conversation FAQ generation independently' do
-      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-4.1-mini')
-      expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.2')
+      expect(described_class.default_model_for('document_faq_generation')).to eq('gpt-5.6-terra')
+      expect(described_class.default_model_for('conversation_faq_generation')).to eq('gpt-5.6-terra')
+    end
+
+    it 'sets reasoning effort for every text generation feature' do
+      features_without_reasoning = %w[audio_transcription help_center_search]
+
+      described_class.features.each_key do |feature_key|
+        if features_without_reasoning.include?(feature_key)
+          expect(described_class.reasoning_effort_for(feature_key)).to be_nil
+        else
+          expect(described_class.reasoning_effort_for(feature_key)).to be_present
+        end
+      end
+    end
+
+    it 'exposes GPT-5.6 models for Captain V2 workflows without changing the legacy PDF path' do
+      expect(described_class.models_for('assistant')).to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
+      expect(described_class.models_for('pdf_faq_generation')).not_to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
     end
   end
 
   describe '.models' do
+    it 'includes the GPT-5.6 model family' do
+      expect(described_class.models.keys).to include('gpt-5.6-luna', 'gpt-5.6-terra', 'gpt-5.6-sol')
+    end
+
     it 'references existing providers from every model' do
       missing_providers = described_class.models.filter_map do |model_name, config|
         provider = config['provider']
@@ -49,7 +70,9 @@ RSpec.describe Llm::Models do
     it 'returns model metadata for a feature' do
       config = described_class.feature_config('editor')
 
-      expect(config[:default]).to eq('gpt-4.1-mini')
+      expect(config[:default]).to eq('gpt-5.6-luna')
+      expect(config[:reasoning_effort]).to eq('low')
+      expect(config[:models].pluck(:id)).to include('gpt-5.6-luna', 'gpt-5.6-terra')
       expect(config[:models].first).to include(
         id: 'gpt-4.1-mini',
         display_name: 'GPT-4.1 Mini',

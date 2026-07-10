@@ -1,7 +1,7 @@
 module Llm::FeatureRouter
   class UnknownFeatureError < StandardError; end
 
-  CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.2'.freeze
+  CAPTAIN_V2_ASSISTANT_MODEL = 'gpt-5.6-terra'.freeze
 
   class << self
     def resolve(feature:, account: nil)
@@ -17,6 +17,7 @@ module Llm::FeatureRouter
         feature: feature_key,
         provider: Llm::Models.provider_for(model),
         model: model,
+        reasoning_effort: Llm::Models.reasoning_effort_for(feature_key),
         source: source
       }
     end

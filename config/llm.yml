@@ -35,6 +35,18 @@ models:
     provider: openai
     display_name: 'GPT-5.2'
     credit_multiplier: 3
+  gpt-5.6-luna:
+    provider: openai
+    display_name: 'GPT-5.6 Luna'
+    credit_multiplier: 2
+  gpt-5.6-terra:
+    provider: openai
+    display_name: 'GPT-5.6 Terra'
+    credit_multiplier: 3
+  gpt-5.6-sol:
+    provider: openai
+    display_name: 'GPT-5.6 Sol'
+    credit_multiplier: 5
   claude-haiku-4.5:
     provider: anthropic
     display_name: 'Claude Haiku 4.5'
@@ -78,11 +90,14 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
         claude-haiku-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-5.6-luna
+    reasoning_effort: low
   assistant:
     models:
       [
@@ -91,12 +106,16 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
         claude-haiku-4.5,
         claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   copilot:
     models:
       [
@@ -105,16 +124,28 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
         claude-haiku-4.5,
         claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   label_suggestion:
     models:
-      [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini, gemini-3-flash, claude-haiku-4.5]
-    default: gpt-4.1-mini
+      [
+        gpt-4.1-nano,
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-5.6-luna,
+        gemini-3-flash,
+        claude-haiku-4.5,
+      ]
+    default: gpt-5.6-luna
+    reasoning_effort: low
   document_faq_generation:
     models:
       [
@@ -123,12 +154,16 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
         claude-haiku-4.5,
         claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-4.1-mini
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   conversation_faq_generation:
     models:
       [
@@ -137,15 +172,20 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
         claude-haiku-4.5,
         claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-5.2
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   pdf_faq_generation:
     models: [gpt-4.1-mini, gpt-5-mini, gpt-4.1, gpt-5.1, gpt-5.2]
     default: gpt-4.1-mini
+    reasoning_effort: medium
   help_center_article_generation:
     models:
       [
@@ -154,19 +194,34 @@ features:
         gpt-4.1,
         gpt-5.1,
         gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
         claude-haiku-4.5,
         claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-5.2
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   onboarding_content_generation:
     models:
-      [gpt-4.1, gpt-4.1-mini, gpt-5-mini, gpt-5.1, gpt-5.2]
-    default: gpt-4.1
+      [
+        gpt-4.1,
+        gpt-4.1-mini,
+        gpt-5-mini,
+        gpt-5.1,
+        gpt-5.2,
+        gpt-5.6-luna,
+        gpt-5.6-terra,
+        gpt-5.6-sol,
+      ]
+    default: gpt-5.6-terra
+    reasoning_effort: medium
   help_center_query_translation:
-    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]
-    default: gpt-4.1-nano
+    models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini, gpt-5.6-luna]
+    default: gpt-5.6-luna
+    reasoning_effort: low
   audio_transcription:
     models: [gpt-4o-mini-transcribe, whisper-1]
     default: gpt-4o-mini-transcribe
