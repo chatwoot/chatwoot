@@ -61,6 +61,11 @@ export const importStageKey = dataImport => {
 
 export const formatStatus = value => value?.replaceAll('_', ' ') || '-';
 
+export const sourceObjectLabel = record =>
+  [record.source_object_type, record.source_object_id]
+    .filter(Boolean)
+    .join(': ') || '-';
+
 export const formatDate = value => {
   if (!value) return '-';
   return new Intl.DateTimeFormat(undefined, {

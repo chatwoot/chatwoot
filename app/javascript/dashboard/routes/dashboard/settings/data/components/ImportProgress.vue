@@ -1,21 +1,60 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
+  dataImport: {
+    type: Object,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
   },
-  items: {
-    type: Array,
-    default: () => [],
-  },
+});
+
+const { t } = useI18n();
+
+const items = computed(() => {
+  const importTypes = props.dataImport?.import_types || [];
+  const groups = [];
+  if (importTypes.includes('contacts')) {
+    groups.push({ key: 'contacts', label: t('DATA_IMPORTS.TYPES.CONTACTS') });
+  }
+  if (importTypes.includes('conversations')) {
+    groups.push(
+      { key: 'conversations', label: t('DATA_IMPORTS.TYPES.CONVERSATIONS') },
+      { key: 'messages', label: t('DATA_IMPORTS.TYPES.MESSAGES') }
+    );
+  }
+
+  return groups.map(({ key, label }) => {
+    const stats = props.dataImport?.stats?.[key] || {};
+    const imported = Number(stats.imported || 0);
+    const hasTotal = Object.prototype.hasOwnProperty.call(stats, 'total');
+    const total = hasTotal ? Number(stats.total) : null;
+    const percent =
+      hasTotal && total > 0
+        ? Math.min(100, Math.round((imported / total) * 100))
+        : null;
+    return {
+      key,
+      label,
+      percent,
+      importedLabel: imported.toLocaleString(),
+      caption: hasTotal
+        ? t('DATA_IMPORTS.DETAIL.PROGRESS_OF_TOTAL', {
+            total: total.toLocaleString(),
+          })
+        : t('DATA_IMPORTS.DETAIL.PROGRESS_IMPORTED'),
+    };
+  });
 });
 
 // Fit the grid to the number of groups so no empty cells show.
 const columnsClass = computed(() => {
-  if (props.items.length >= 3) return 'sm:grid-cols-3';
-  if (props.items.length === 2) return 'sm:grid-cols-2';
+  if (items.value.length >= 3) return 'sm:grid-cols-3';
+  if (items.value.length === 2) return 'sm:grid-cols-2';
   return 'sm:grid-cols-1';
 });
 </script>
