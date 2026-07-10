@@ -34,6 +34,16 @@ branding config values, and the manual cross-repo AI-loop run. See
 [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for the phase-by-phase status
 and [UPSTREAM_DIFF.md](./UPSTREAM_DIFF.md) for the exact change inventory.
 
+> **Cross-repo AI-loop: LIVE-VERIFIED (2026-07-10, re-run; first proven
+> 2026-07-04).** Against this Docker fork: fresh tenant provisioned via the
+> backend (`account 75`), customer message posted through the Chatwoot API →
+> signed webhook → external LangGraph agent → grounded (citation-validated)
+> reply posted back into the same conversation; second message exercised the
+> new **MCP live-data leg** (agent called a vendor MCP server tool and answered
+> with live order status). No fork-side changes were needed — the loop rides
+> stock signed webhooks + the message-create API exactly as specced. Details:
+> meta-saas `docs/changes/2026-07-10-agentic-rag-upgrade-and-mcp.md`.
+
 Read in this order:
 
 | File | Purpose |
@@ -56,6 +66,7 @@ Read in this order:
 | [PROVISIONING.md](./PROVISIONING.md) | Phase 4 output: reference tenant provisioning flow (Platform API, limits, AI-loop plumbing) |
 | [CHATWOOT_ENGINE_INTEGRATION.md](./CHATWOOT_ENGINE_INTEGRATION.md) | **Self-contained contract for the external repo** (NestJS control plane + AI orchestrator): auth, provisioning, quotas, agentic-AI limit, and the signed webhook reply loop. Hand this file to that repo. |
 | [UPSTREAM_DIFF.md](./UPSTREAM_DIFF.md) | **Complete inventory of every change vs. upstream Chatwoot** — how the fork stays additive, overlay-only, and pull-request friendly (audit + reproduce commands) |
+| [UPSTREAM_SYNC.md](./UPSTREAM_SYNC.md) | **Runbook for syncing the fork with upstream** — when GitHub's Sync-fork button is safe ("Update branch") vs. destructive ("discard N commits"), the only real conflict (`db/schema.rb` version line) and how to resolve it, the push guards, and the step-by-step routine for every future sync |
 | [error-log/](./error-log/README.md) | Running log of errors hit during implementation and how they were fixed |
 
 ## Ground rules (apply to every phase)

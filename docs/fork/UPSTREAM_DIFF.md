@@ -7,7 +7,7 @@ This file is the single, auditable inventory of **every** change the fork makes 
 top of upstream Chatwoot, so the diff stays small, reviewable, and friendly to
 pulling future upstream releases. It is generated from an actual
 `git` audit, not from memory — re-run the commands in
-[§7](#7-how-to-reproduce-this-audit) after any upstream merge.
+[§8](#8-how-to-reproduce-this-audit) after any upstream merge.
 
 ## 0. Verdict (the rule you asked me to keep)
 
@@ -17,14 +17,18 @@ pulling future upstream releases. It is generated from an actual
 **Status: held.** Concretely:
 
 - **No core logic was rewritten.** Every touch to an OSS (`app/`, `lib/`,
-  `config/`) or `enterprise/` file is one of exactly three kinds:
+  `config/`) or `enterprise/` file is one of exactly four kinds:
   1. a canonical `Foo.prepend_mod_with('Foo')` / `include_mod_with` extension
      point at the bottom of a file (the *standard Chatwoot pattern*, a no-op on
      upstream),
-  2. the one-time `custom/` autoload bootstrap in `config/application.rb`, or
+  2. the one-time `custom/` autoload bootstrap in `config/application.rb`,
   3. an **additive** frontend / i18n line that is **inert by default** (empty
      config, `false` prop, or a brand string that only differs when the
-     installation is branded).
+     installation is branded), or
+  4. a **dev-environment / tooling** file that ships no runtime behavior
+     (Docker compose, devcontainer, `database.yml`, `AGENTS.md`) plus one
+     enterprise spec whose setup the fork's model guard invalidated — all
+     catalogued in [§6](#6-dev-environment-tooling-and-spec-adjustments).
 - **All real behavior lives in the `custom/` overlay** (injected via
   `prepend_mod_with`, same mechanism as `enterprise/`), plus `docs/fork/` and
   `spec/custom/`. These are fork-owned trees that upstream never touches → **zero
@@ -48,6 +52,8 @@ pulling future upstream releases. It is generated from an actual
 | Bootstrap | `config/application.rb` | trivial (adjacent to enterprise lines) | eager-load + view path for `custom/` |
 | Frontend integration | ~13 OSS Vue/JS files | low (additive, isolated) | banner mount, quota UI, SSO redirect |
 | Branding | `config/locales/en.yml` + ~16 `en*.json`/Vue literals | low (value-only swaps) | "Chatwoot" → "Meta CRM" display copy |
+| Dev env & tooling | `docker-compose.yaml`, `.devcontainer/devcontainer.json`, `config/database.yml`, `AGENTS.md` (+ net-new `docker-compose.rspec.yaml`) | **moderate** — the largest conflict surface after `db/schema.rb`; upstream edits these occasionally | Docker-only Neon/Upstash dev stack; no runtime behavior ([§6](#6-dev-environment-tooling-and-spec-adjustments)) |
+| Spec adjustment | `spec/enterprise/.../accounts/agents_controller_spec.rb` | low | setup made cap-exact — the fork's model guard forbids over-cap creation ([§6](#6-dev-environment-tooling-and-spec-adjustments)) |
 
 ## 2. Fork-owned trees (new files — no upstream overlap)
 
@@ -118,10 +124,17 @@ lowest-risk possible edits.
 
 > Models that already had the hook upstream — `inbox.rb`, `account_user.rb`,
 > `custom_attribute_definition.rb`, `automation_rule.rb`, and
-> `devise_overrides/sessions_controller.rb` — were **not touched**; the fork just
-> supplies the `Custom::*` module they resolve.
+> `devise_overrides/sessions_controller.rb` — needed **no hook edit**; the fork
+> just supplies the `Custom::*` module they resolve. (`account_user.rb`,
+> `agent_bot.rb`, and `webhook.rb` do carry a regenerated schema-annotation
+> block documenting the fork's `platform_managed` column — that annotation is
+> the honest description of the fork's own migration and stays. Annotation
+> refreshes must **not** spill into models the fork's migrations don't touch;
+> collateral churn in `category.rb`, `platform_banner.rb`,
+> `enterprise/.../captain/document.rb`, and `enterprise/.../company.rb` was
+> reverted to upstream text on 2026-07-10.)
 
-## 4. The one bootstrap edit (`config/application.rb`, +3 lines)
+## 4. The one bootstrap edit (`config/application.rb`, +6 lines: 2 code + 4 comment)
 
 Mirrors the existing `enterprise/` wiring for the `custom/` folder:
 
@@ -168,7 +181,36 @@ all are **additive and inert by default**:
 
 None of these alter routing, request/response shapes, or webhook payloads.
 
-## 6. Guarantee: default flows are untouched when the fork is "off"
+## 6. Dev environment, tooling, and spec adjustments
+
+Non-runtime files the fork modifies for the Docker-only Neon/Upstash dev setup.
+These are the **largest textual-conflict surface after `db/schema.rb`** — upstream
+edits them occasionally — so they are catalogued here and should be kept as close
+to upstream's text as the setup allows:
+
+- **`docker-compose.yaml`** — rewritten for the external-Postgres/Redis dev
+  stack (Neon/Upstash via `.env`, no local `postgres`/`redis` services, per-repo
+  build targets). Expect conflicts when upstream reworks its compose file;
+  resolve by re-applying the fork's stack on top of upstream's new baseline.
+- **`docker-compose.rspec.yaml`** — net-new (no conflict risk): the isolated,
+  tmpfs-backed test stack (see `AGENTS.md` / error-log 2026-07-02 entries for
+  why specs must never run against the `rails` service).
+- **`config/database.yml`** — adds `sslmode` (required by Neon) and moves
+  shared connection keys into `default:`. Formatting was normalized in the
+  process; if upstream edits this file, prefer taking upstream's text and
+  re-adding only the `sslmode` line and env-var defaults.
+- **`.devcontainer/devcontainer.json`** — ports/services adjusted to the same
+  Docker-only stack.
+- **`AGENTS.md`** — a fork-development section **appended** after upstream's
+  content (additive; `CLAUDE.md` symlinks to it).
+- **`spec/enterprise/controllers/api/v1/accounts/agents_controller_spec.rb`** —
+  the only upstream spec edited: its setup created agents **past** the cap,
+  which `Custom::Concerns::QuotaGuard` makes unreachable, so setup now fills the
+  account exactly **to** the cap (same assertion, inline comment explains why).
+  This is a recurring class: future upstream specs that set up over-quota state
+  will need the same one-line adjustment after a sync.
+
+## 7. Guarantee: default flows are untouched when the fork is "off"
 
 | Default flow | Stays intact because |
 | --- | --- |
@@ -183,7 +225,7 @@ None of these alter routing, request/response shapes, or webhook payloads.
 Proven by: `spec/custom` (83 examples, 0 failures) + upstream/enterprise suites
 green with the overlay loaded, and `eslint` 0 errors.
 
-## 7. How to reproduce this audit
+## 8. How to reproduce this audit
 
 ```sh
 git fetch upstream
@@ -195,10 +237,14 @@ git diff "$BASE"...HEAD -- app/models app/controllers app/services app/mailers c
 ```
 
 Anything in that output that is **not** a `prepend_mod_with`/`include_mod_with`
-line, the `application.rb` bootstrap, or a documented additive line is drift —
-move it into `custom/` before merging.
+line, the `application.rb` bootstrap, a documented additive line, or a
+[§6](#6-dev-environment-tooling-and-spec-adjustments) dev-env/tooling file is
+drift — move it into `custom/` (or revert it to upstream text) before merging.
+Watch for **schema-annotation spill** in particular: `annotate` regenerating
+comment blocks in models the fork's migrations don't touch is the drift class
+that actually occurred (caught and reverted 2026-07-10).
 
-## 8. Fixes applied while producing this audit (2026-07-03)
+## 9. Fixes applied while producing this audit (2026-07-03)
 
 While verifying docs-vs-code, two contract-breaking bugs were found and fixed
 **in a way that shrank, not grew, the OSS footprint** (full write-ups in

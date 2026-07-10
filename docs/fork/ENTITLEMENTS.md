@@ -197,8 +197,9 @@ status (402), same `error` key, new machine-readable fields:
 }
 ```
 
-Implement once as `render_quota_exceeded(result)` in a
-`Custom::QuotaEnforcement` controller concern; never inline the JSON.
+Implemented once as `check_quota(resource)` in the
+`Custom::Concerns::QuotaEnforcement` controller concern (checks the
+entitlement and renders the 402 on denial); never inline the JSON.
 The two pre-existing guards (agents, inboxes) may be migrated to the new
 renderer **only** because the change is additive (same status, `error` key
 preserved).

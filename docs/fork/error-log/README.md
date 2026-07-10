@@ -19,6 +19,10 @@ so the same problem is never debugged twice.
 
 Add a line here per entry, newest first:
 
+- [2026-07-10 — SSO-only lockdown leaked from dev .env into specs (and blank values counted as ON)](./2026-07-10-sso-flag-leaked-from-dev-env-into-specs.md)
+- [2026-07-03 — agentic_ai limit key rejected by the limits JSON schema](./2026-07-03-agentic-ai-limit-key-rejected-by-schema.md)
+- [2026-07-03 — SSO-only lockdown bypassable via Google OAuth / SAML](./2026-07-03-sso-only-login-bypassable-via-oauth-saml.md)
+- [2026-07-03 — EXTERNAL_LOGIN_URL not exposed to the frontend](./2026-07-03-external-login-url-not-exposed-to-frontend.md)
 - [2026-07-02 — Model quota guards broke specs that strictly mock GlobalConfig](./2026-07-02-model-guards-broke-globalconfig-mocked-specs.md)
 - [2026-07-02 — Limits endpoint override polluted the cloud response shape](./2026-07-02-limits-endpoint-cloud-shape-pollution.md)
 - [2026-07-02 — Seeded test DB broke installation_config specs](./2026-07-02-seeded-test-db-broke-installation-config-specs.md)
