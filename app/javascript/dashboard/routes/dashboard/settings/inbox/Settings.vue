@@ -377,10 +377,12 @@ export default {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     whatsappUnauthorized() {
+      // The manual migration banner supersedes the embedded-signup reauthorize flow when the feature is enabled.
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
-        this.inbox.reauthorization_required
+        this.inbox.reauthorization_required &&
+        !this.showWhatsAppManualMigration
       );
     },
     whatsappRegistrationIncomplete() {
@@ -484,7 +486,6 @@ export default {
           id: this.inbox.id,
           formData: false,
           channel: {
-            phone_number: form.displayPhoneNumber || this.inbox.phone_number,
             provider_config: {
               ...providerConfig,
               phone_number_id: form.phoneNumberId,
