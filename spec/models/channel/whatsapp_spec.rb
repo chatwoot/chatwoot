@@ -42,7 +42,17 @@ RSpec.describe Channel::Whatsapp do
                    body: { data: [{
                      id: '123456789', name: 'test_template'
                    }] }.to_json)
+      stub_request(:get, 'https://graph.facebook.com/v13.0/random_id?access_token=test_key')
+        .to_return(status: 200, body: { id: 'random_id' }.to_json)
       expect(channel.save).to be(true)
+    end
+
+    it 'validates false when phone number id is wrong' do
+      stub_request(:get, 'https://graph.facebook.com/v14.0//message_templates?access_token=test_key')
+        .to_return(status: 200, body: { data: [] }.to_json)
+      stub_request(:get, 'https://graph.facebook.com/v13.0/random_id?access_token=test_key')
+        .to_return(status: 404)
+      expect(channel.save).to be(false)
     end
   end
 

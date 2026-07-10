@@ -55,7 +55,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def validate_provider_config?
     response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    response.success?
+    return false unless response.success?
+    # The templates check only proves the WABA/token pair, so verify the phone_number_id separately when it changes.
+    return true unless whatsapp_channel.provider_config_changed?
+
+    HTTParty.get("#{phone_id_path}?access_token=#{whatsapp_channel.provider_config['api_key']}").success?
   end
 
   def api_headers
