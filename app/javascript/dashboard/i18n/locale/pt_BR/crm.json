@@ -148,6 +148,27 @@
       "CARD_NOT_SENT": "Nenhuma conversão enviada à Meta ainda",
       "CARD_EVENT": "Evento: {event}"
     },
+    "TRACKED_LINKS": {
+      "TITLE": "Links rastreáveis & QR codes",
+      "SUBTITLE": "Crie um link ou QR por campanha, vendedor ou loja. Conversas iniciadas por ele chegam atribuídas no CRM.",
+      "ADD": "Novo link",
+      "NAME": "Nome",
+      "NAME_PLACEHOLDER": "Ex.: QR da loja — Centro",
+      "INBOX": "Inbox do WhatsApp",
+      "PREFILLED": "Mensagem pré-preenchida",
+      "PREFILLED_PLACEHOLDER": "Ex.: Olá! Quero saber mais",
+      "CODE": "Código",
+      "CLICKS": "Cliques",
+      "CONVERSATIONS": "Conversas",
+      "COPY_LINK": "Copiar link",
+      "COPIED": "Copiado!",
+      "DOWNLOAD_QR": "Baixar QR",
+      "DELETE": "Excluir",
+      "DELETE_CONFIRM": "Excluir este link? Conversas já atribuídas mantêm a origem.",
+      "EMPTY": "Nenhum link rastreável ainda. Crie o primeiro para atribuir conversas de loja, vendedor ou bio.",
+      "CREATE_SUCCESS": "Link criado",
+      "CREATE_ERROR": "Não foi possível criar o link"
+    },
     "DASHBOARD": {
       "TITLE": "Dashboard do CRM",
       "SUBTITLE": "Desempenho do funil: funil de etapas, negócios ganhos e perdidos, IA vs humano e throughput.",

@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     # email-verified booking.
     get '/book/:slug', to: 'public_booking/pages#show', as: :public_booking_page
     get '/book/:slug/confirm', to: 'public_booking/pages#show', as: :public_booking_confirm_page
+    get '/l/:code', to: 'public/tracked_links#show', as: :public_tracked_link
   end
 
   get '/health', to: 'health#show'
@@ -162,6 +163,7 @@ Rails.application.routes.draw do
           # Opções de campanha CTWA (filtros de Conversas e Kanban) — fora do
           # namespace :crm de propósito: não depende do gate ensure_crm_enabled.
           resources :ctwa_campaigns, only: [:index]
+          resources :ctwa_tracked_links, only: [:index, :create, :destroy]
           namespace :crm do
             resources :pipelines, only: [:index, :create, :show, :update, :destroy] do
               resources :stages, only: [:index, :create]

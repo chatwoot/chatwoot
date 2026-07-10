@@ -14,7 +14,8 @@
 module Ctwa::CampaignBuilder
   module_function
 
-  SOURCE = 'meta_ctwa'.freeze
+  CTWA_SOURCE = 'meta_ctwa'.freeze
+  ORGANIC_SOURCE = 'meta_organic'.freeze
   # Caps the append-only touch list so click storms can't grow the conversation jsonb
   # without bound (the length validator skips Array values, so this is the only fence).
   MAX_TOUCHES = 20
@@ -30,7 +31,7 @@ module Ctwa::CampaignBuilder
     return if ref[:source_id].blank? && ref[:ctwa_clid].blank?
 
     {
-      'source' => SOURCE,
+      'source' => source_for(ref),
       'source_id' => ref[:source_id],
       'source_type' => ref[:source_type],
       'source_url' => ref[:source_url],
@@ -105,6 +106,10 @@ module Ctwa::CampaignBuilder
 
   def slim_touch(touch, touched_at)
     touch.slice(*TOUCH_KEYS).merge('touched_at' => touch['touched_at'] || touched_at)
+  end
+
+  def source_for(ref)
+    ref[:ctwa_clid].present? ? CTWA_SOURCE : ORGANIC_SOURCE
   end
 
   def duplicate_touch?(touches, touch)

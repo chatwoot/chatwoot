@@ -13,6 +13,7 @@ class Api::V1::Accounts::CtwaCampaignsController < Api::V1::Accounts::BaseContro
       elem ->> 'source_id' AS source_id,
       (ARRAY_AGG(elem ->> 'headline' ORDER BY elem ->> 'touched_at' DESC NULLS LAST)
         FILTER (WHERE COALESCE(elem ->> 'headline', '') <> ''))[1] AS headline,
+      (ARRAY_AGG(elem ->> 'source' ORDER BY elem ->> 'touched_at' DESC NULLS LAST))[1] AS source,
       COUNT(DISTINCT conversations.id) AS conversations_count,
       MAX(elem ->> 'touched_at') AS last_touch_at
     FROM conversations

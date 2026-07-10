@@ -93,6 +93,7 @@ class Account < ApplicationRecord
   has_many :crm_follow_ups, class_name: 'Crm::FollowUp', dependent: :destroy_async
   has_many :crm_meetings, class_name: 'Crm::Meeting', dependent: :destroy_async
   has_many :crm_meta_conversion_events, class_name: 'Crm::MetaConversionEvent', dependent: :destroy_async
+  has_many :ctwa_tracked_links, class_name: 'Ctwa::TrackedLink', dependent: :destroy_async
   has_many :crm_stage_automations, class_name: 'Crm::StageAutomation', dependent: :destroy_async
   has_many :crm_stage_automation_steps, class_name: 'Crm::StageAutomationStep', dependent: :destroy_async
   has_many :crm_stage_automation_executions, class_name: 'Crm::StageAutomationExecution', dependent: :destroy_async

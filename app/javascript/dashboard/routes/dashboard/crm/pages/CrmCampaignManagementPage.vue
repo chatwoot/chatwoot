@@ -1,13 +1,20 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
+import QRCode from 'qrcode';
+import { useAlert } from 'dashboard/composables';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import EmailCampaignReportsAPI from 'dashboard/api/emailCampaignReports';
+import CtwaTrackedLinksAPI from 'dashboard/api/ctwaTrackedLinks';
 import LineChart from 'shared/components/charts/LineChart.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 
 const { t } = useI18n();
+const store = useStore();
 
 const globalConfig = useMapGetter('globalConfig/get');
+const whatsappInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
 const enabled = computed(
   () =>
     globalConfig.value?.emailCampaignEnabled === true &&
@@ -27,6 +34,17 @@ const recipients = ref([]);
 const recipientsMeta = ref({});
 const recipientsPage = ref(1);
 const recipientsSearch = ref('');
+
+const trackedLinks = ref([]);
+const trackedLinkForm = ref({
+  name: '',
+  inboxId: '',
+  prefilledText: '',
+});
+const isTrackedLinksLoading = ref(false);
+const isTrackedLinkCreating = ref(false);
+const deletingTrackedLinkId = ref(null);
+const copiedTrackedLinkId = ref(null);
 
 const kpiCards = computed(() => {
   const s = summary.value || {};
@@ -87,6 +105,12 @@ const rateLabel = rate =>
   `${rate}% ${t('CAMPAIGN_MANAGEMENT.RATES.OVER_DELIVERED')}`;
 
 const hasCampaigns = computed(() => campaigns.value.length > 0);
+const hasTrackedLinks = computed(() => trackedLinks.value.length > 0);
+const canCreateTrackedLink = computed(
+  () =>
+    trackedLinkForm.value.name.trim().length > 0 &&
+    Boolean(trackedLinkForm.value.inboxId)
+);
 
 const pct = (numerator, base) =>
   base ? `${(((numerator ?? 0) / base) * 100).toFixed(2)}%` : '—';
@@ -280,8 +304,99 @@ const exportCsv = async () => {
   URL.revokeObjectURL(url);
 };
 
+const resetTrackedLinkForm = () => {
+  trackedLinkForm.value = {
+    name: '',
+    inboxId: '',
+    prefilledText: '',
+  };
+};
+
+const fetchTrackedLinks = async () => {
+  isTrackedLinksLoading.value = true;
+  try {
+    const { data } = await CtwaTrackedLinksAPI.get();
+    trackedLinks.value = data.payload || [];
+  } catch (error) {
+    trackedLinks.value = [];
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_ERROR'));
+  } finally {
+    isTrackedLinksLoading.value = false;
+  }
+};
+
+const createTrackedLink = async () => {
+  if (!canCreateTrackedLink.value || isTrackedLinkCreating.value) return;
+
+  isTrackedLinkCreating.value = true;
+  try {
+    await CtwaTrackedLinksAPI.create({
+      name: trackedLinkForm.value.name.trim(),
+      inbox_id: Number(trackedLinkForm.value.inboxId),
+      prefilled_text: trackedLinkForm.value.prefilledText.trim(),
+    });
+    resetTrackedLinkForm();
+    await fetchTrackedLinks();
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_ERROR'));
+  } finally {
+    isTrackedLinkCreating.value = false;
+  }
+};
+
+const copyTrackedLink = async link => {
+  if (!link.short_url) return;
+
+  try {
+    await navigator.clipboard.writeText(link.short_url);
+    copiedTrackedLinkId.value = link.id;
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.COPIED'));
+    window.setTimeout(() => {
+      if (copiedTrackedLinkId.value === link.id) {
+        copiedTrackedLinkId.value = null;
+      }
+    }, 2000);
+  } catch (error) {
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_ERROR'));
+  }
+};
+
+const downloadTrackedLinkQr = async link => {
+  if (!link.wa_link) return;
+
+  try {
+    const qrDataUrl = await QRCode.toDataURL(link.wa_link, { width: 512 });
+    const anchor = document.createElement('a');
+    anchor.href = qrDataUrl;
+    anchor.download = `${link.code || 'ctwa-link'}-qr.png`;
+    anchor.click();
+  } catch (error) {
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_ERROR'));
+  }
+};
+
+const deleteTrackedLink = async link => {
+  // eslint-disable-next-line no-alert
+  if (!window.confirm(t('CRM_KANBAN.TRACKED_LINKS.DELETE_CONFIRM'))) return;
+
+  deletingTrackedLinkId.value = link.id;
+  try {
+    await CtwaTrackedLinksAPI.delete(link.id);
+    trackedLinks.value = trackedLinks.value.filter(item => item.id !== link.id);
+  } catch (error) {
+    useAlert(t('CRM_KANBAN.TRACKED_LINKS.CREATE_ERROR'));
+  } finally {
+    deletingTrackedLinkId.value = null;
+  }
+};
+
 onMounted(() => {
-  if (enabled.value) fetchReports();
+  if (!enabled.value) return;
+
+  fetchReports();
+  fetchTrackedLinks();
+  store.dispatch('inboxes/get');
 });
 </script>
 
@@ -343,6 +458,173 @@ onMounted(() => {
             <span class="i-lucide-download size-4" />
             {{ t('CAMPAIGN_MANAGEMENT.EXPORT_CSV') }}
           </button>
+        </div>
+      </section>
+
+      <section
+        class="flex flex-col gap-5 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+      >
+        <div class="flex flex-col gap-1">
+          <h2 class="m-0 text-base font-semibold text-n-slate-12">
+            {{ t('CRM_KANBAN.TRACKED_LINKS.TITLE') }}
+          </h2>
+          <p class="m-0 text-sm text-n-slate-11">
+            {{ t('CRM_KANBAN.TRACKED_LINKS.SUBTITLE') }}
+          </p>
+        </div>
+
+        <form
+          class="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(12rem,16rem)_minmax(0,1.5fr)_auto]"
+          @submit.prevent="createTrackedLink"
+        >
+          <Input
+            v-model="trackedLinkForm.name"
+            :label="t('CRM_KANBAN.TRACKED_LINKS.NAME')"
+            :placeholder="t('CRM_KANBAN.TRACKED_LINKS.NAME_PLACEHOLDER')"
+          />
+
+          <label class="flex flex-col min-w-0 gap-1">
+            <span class="mb-0.5 text-heading-3 text-n-slate-12">
+              {{ t('CRM_KANBAN.TRACKED_LINKS.INBOX') }}
+            </span>
+            <select
+              v-model="trackedLinkForm.inboxId"
+              class="w-full px-3 h-10 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12"
+            >
+              <option value="">
+                {{ t('CRM_KANBAN.TRACKED_LINKS.INBOX') }}
+              </option>
+              <option
+                v-for="inbox in whatsappInboxes"
+                :key="inbox.id"
+                :value="inbox.id"
+              >
+                {{ inbox.name }}
+              </option>
+            </select>
+          </label>
+
+          <Input
+            v-model="trackedLinkForm.prefilledText"
+            :label="t('CRM_KANBAN.TRACKED_LINKS.PREFILLED')"
+            :placeholder="t('CRM_KANBAN.TRACKED_LINKS.PREFILLED_PLACEHOLDER')"
+          />
+
+          <div class="flex items-end">
+            <Button
+              :label="t('CRM_KANBAN.TRACKED_LINKS.ADD')"
+              icon="i-lucide-plus"
+              type="submit"
+              class="w-full lg:w-auto"
+              :disabled="!canCreateTrackedLink || isTrackedLinkCreating"
+              :is-loading="isTrackedLinkCreating"
+            />
+          </div>
+        </form>
+
+        <div
+          v-if="isTrackedLinksLoading"
+          class="flex items-center justify-center py-10 text-sm text-n-slate-11"
+        >
+          <span class="i-lucide-loader-2 size-5 animate-spin" />
+        </div>
+
+        <div
+          v-else-if="!hasTrackedLinks"
+          class="py-8 text-sm text-center border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-11"
+        >
+          {{ t('CRM_KANBAN.TRACKED_LINKS.EMPTY') }}
+        </div>
+
+        <div v-else class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse">
+            <thead>
+              <tr class="text-left border-b border-n-weak text-n-slate-11">
+                <th class="py-2 pr-3 text-xs font-medium">
+                  {{ t('CRM_KANBAN.TRACKED_LINKS.NAME') }}
+                </th>
+                <th class="py-2 pr-3 text-xs font-medium">
+                  {{ t('CRM_KANBAN.TRACKED_LINKS.CODE') }}
+                </th>
+                <th class="py-2 pr-3 text-xs font-medium text-right">
+                  {{ t('CRM_KANBAN.TRACKED_LINKS.CLICKS') }}
+                </th>
+                <th class="py-2 pr-3 text-xs font-medium text-right">
+                  {{ t('CRM_KANBAN.TRACKED_LINKS.CONVERSATIONS') }}
+                </th>
+                <th class="py-2 text-xs font-medium text-right">
+                  {{ t('CRM_KANBAN.TRACKED_LINKS.COPY_LINK') }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="link in trackedLinks"
+                :key="link.id"
+                class="border-b border-n-weak last:border-b-0"
+              >
+                <td class="max-w-xs py-3 pr-3">
+                  <span class="block truncate text-n-slate-12">
+                    {{ link.name }}
+                  </span>
+                  <span
+                    v-if="link.prefilled_text"
+                    class="block truncate text-xs text-n-slate-10"
+                  >
+                    {{ link.prefilled_text }}
+                  </span>
+                </td>
+                <td class="py-3 pr-3 font-mono text-xs text-n-slate-11">
+                  {{ link.code }}
+                </td>
+                <td class="py-3 pr-3 text-right text-n-slate-12">
+                  {{ link.clicks_count ?? 0 }}
+                </td>
+                <td class="py-3 pr-3 text-right text-n-slate-12">
+                  {{ link.conversations_count ?? 0 }}
+                </td>
+                <td class="py-3">
+                  <div class="flex flex-wrap justify-end gap-2">
+                    <Button
+                      :label="
+                        copiedTrackedLinkId === link.id
+                          ? t('CRM_KANBAN.TRACKED_LINKS.COPIED')
+                          : t('CRM_KANBAN.TRACKED_LINKS.COPY_LINK')
+                      "
+                      icon="i-lucide-copy"
+                      slate
+                      outline
+                      sm
+                      type="button"
+                      :disabled="!link.short_url"
+                      @click="copyTrackedLink(link)"
+                    />
+                    <Button
+                      :label="t('CRM_KANBAN.TRACKED_LINKS.DOWNLOAD_QR')"
+                      icon="i-lucide-qr-code"
+                      slate
+                      outline
+                      sm
+                      type="button"
+                      :disabled="!link.wa_link"
+                      @click="downloadTrackedLinkQr(link)"
+                    />
+                    <Button
+                      :label="t('CRM_KANBAN.TRACKED_LINKS.DELETE')"
+                      icon="i-lucide-trash-2"
+                      ruby
+                      ghost
+                      sm
+                      type="button"
+                      :disabled="deletingTrackedLinkId === link.id"
+                      :is-loading="deletingTrackedLinkId === link.id"
+                      @click="deleteTrackedLink(link)"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
