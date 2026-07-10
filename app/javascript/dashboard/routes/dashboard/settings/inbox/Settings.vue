@@ -44,6 +44,9 @@ import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import AccessToken from 'dashboard/routes/dashboard/settings/profile/AccessToken.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
+const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
+  'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
+
 export default {
   components: {
     BotConfiguration,
@@ -419,6 +422,9 @@ export default {
           'INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.BANNER.GUIDE'
         ),
       };
+    },
+    whatsappManualMigrationGuideUrl() {
+      return WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
     },
     widgetBuilderStorageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
@@ -839,9 +845,14 @@ export default {
               <NextButton size="sm" @click="openWhatsAppManualMigrationDialog">
                 {{ whatsappManualMigrationBannerCopy.start }}
               </NextButton>
-              <NextButton size="sm" variant="ghost" color="slate">
+              <a
+                :href="whatsappManualMigrationGuideUrl"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center h-8 px-3 text-sm font-medium transition-all duration-100 ease-out rounded-lg text-n-slate-12 hover:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline outline-1 outline-transparent"
+              >
                 {{ whatsappManualMigrationBannerCopy.guide }}
-              </NextButton>
+              </a>
             </div>
           </div>
         </div>

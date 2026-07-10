@@ -18,6 +18,9 @@ const props = defineProps({
 const emit = defineEmits(['reconnect']);
 const { t } = useI18n();
 
+const WHATSAPP_MANUAL_MIGRATION_GUIDE_URL =
+  'https://www.chatwoot.com/hc/user-guide/articles/1756799850-how-to-setup-a-whats_app-channel-manual-flow';
+
 const dialogRef = ref(null);
 const currentStep = ref(0);
 
@@ -40,6 +43,9 @@ const copy = computed(() => ({
   actionRequiredDescription: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACTION_REQUIRED_DESCRIPTION`
   ),
+  guideLink: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.GUIDE_LINK`
+  ),
   preservedTitle: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PRESERVED_TITLE`
   ),
@@ -58,17 +64,26 @@ const copy = computed(() => ({
   wabaPlaceholder: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_PLACEHOLDER`
   ),
+  wabaHelp: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.WABA_HELP`
+  ),
   phoneNumberId: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER_ID`
   ),
   phoneNumberPlaceholder: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER_PLACEHOLDER`
   ),
+  phoneNumberHelp: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.PHONE_NUMBER_HELP`
+  ),
   displayPhoneNumber: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER`
   ),
   displayPhoneNumberPlaceholder: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER_PLACEHOLDER`
+  ),
+  displayPhoneNumberHelp: t(
+    `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.DISPLAY_PHONE_NUMBER_HELP`
   ),
   accessToken: t(
     `INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_MIGRATION.DIALOG.ACCESS_TOKEN`
@@ -183,6 +198,7 @@ const steps = computed(() => [
 const currentStepDetails = computed(() => steps.value[currentStep.value]);
 const isFirstStep = computed(() => currentStep.value === 0);
 const isLastStep = computed(() => currentStep.value === steps.value.length - 1);
+const guideUrl = WHATSAPP_MANUAL_MIGRATION_GUIDE_URL;
 
 const open = () => {
   currentStep.value = 0;
@@ -320,6 +336,16 @@ defineExpose({ open, close });
                 </p>
               </div>
             </div>
+
+            <a
+              :href="guideUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 hover:underline"
+            >
+              {{ copy.guideLink }}
+              <span class="i-lucide-external-link size-3.5" />
+            </a>
           </section>
 
           <section v-else-if="currentStep === 1" class="grid gap-4">
@@ -332,6 +358,9 @@ defineExpose({ open, close });
                 class="w-full h-10 px-3 text-sm border-0 rounded-lg outline outline-1 outline-n-weak bg-n-alpha-2 text-n-slate-12"
                 :placeholder="copy.wabaPlaceholder"
               />
+              <span class="text-xs leading-5 text-n-slate-11">
+                {{ copy.wabaHelp }}
+              </span>
             </label>
             <div class="grid gap-4 sm:grid-cols-2">
               <label class="flex flex-col gap-1">
@@ -343,6 +372,9 @@ defineExpose({ open, close });
                   class="w-full h-10 px-3 text-sm border-0 rounded-lg outline outline-1 outline-n-weak bg-n-alpha-2 text-n-slate-12"
                   :placeholder="copy.phoneNumberPlaceholder"
                 />
+                <span class="text-xs leading-5 text-n-slate-11">
+                  {{ copy.phoneNumberHelp }}
+                </span>
               </label>
               <label class="flex flex-col gap-1">
                 <span class="text-sm font-medium text-n-slate-12">
@@ -353,6 +385,9 @@ defineExpose({ open, close });
                   class="w-full h-10 px-3 text-sm border-0 rounded-lg outline outline-1 outline-n-weak bg-n-alpha-2 text-n-slate-12"
                   :placeholder="copy.displayPhoneNumberPlaceholder"
                 />
+                <span class="text-xs leading-5 text-n-slate-11">
+                  {{ copy.displayPhoneNumberHelp }}
+                </span>
               </label>
             </div>
           </section>
@@ -395,7 +430,11 @@ defineExpose({ open, close });
                   {{ copy.wabaAccessDescription }}
                 </p>
               </div>
-              <span class="i-lucide-circle-check size-5 text-n-teal-11" />
+              <span
+                class="grid flex-shrink-0 rounded-full size-5 place-content-center border-2 border-n-teal-9 text-n-teal-9"
+              >
+                <span class="i-lucide-check size-3.5" />
+              </span>
             </div>
             <div
               class="flex items-center justify-between gap-3 p-3 border rounded-lg border-n-weak bg-n-solid-1"
@@ -408,7 +447,11 @@ defineExpose({ open, close });
                   {{ copy.messagingAccessDescription }}
                 </p>
               </div>
-              <span class="i-lucide-circle-check size-5 text-n-teal-11" />
+              <span
+                class="grid flex-shrink-0 rounded-full size-5 place-content-center border-2 border-n-teal-9 text-n-teal-9"
+              >
+                <span class="i-lucide-check size-3.5" />
+              </span>
             </div>
             <div
               class="flex items-center justify-between gap-3 p-3 border rounded-lg border-n-weak bg-n-solid-1"
@@ -421,7 +464,11 @@ defineExpose({ open, close });
                   {{ copy.templateManagementDescription }}
                 </p>
               </div>
-              <span class="i-lucide-circle-check size-5 text-n-teal-11" />
+              <span
+                class="grid flex-shrink-0 rounded-full size-5 place-content-center border-2 border-n-teal-9 text-n-teal-9"
+              >
+                <span class="i-lucide-check size-3.5" />
+              </span>
             </div>
           </section>
 
