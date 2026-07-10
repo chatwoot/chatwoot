@@ -58,7 +58,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
       next if content.blank?
       break if character_count + content.length > TOKEN_LIMIT
 
-      messages.prepend(message)
+      messages.prepend({ message: message, content: content })
       character_count += content.length
     end
 
@@ -66,8 +66,8 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def format_messages_as_string(messages)
-    transcript = messages.map do |message|
-      "#{message_sender_label(message)}: #{message.content_for_llm}"
+    transcript = messages.map do |message_context|
+      "#{message_sender_label(message_context[:message])}: #{message_context[:content]}"
     end.join("\n")
 
     "Conversation transcript:\n#{transcript}"

@@ -17,11 +17,12 @@ A conversation is INCOMPLETE (keep open) if ANY of these apply:
 - In the latest pending exchange, Captain, Bot, or Assistant said it handed off, will hand off, escalated, will escalate, or that a human/team/another party will continue the work
 - In the latest pending exchange, Captain, Bot, or Assistant promised future action or follow-up instead of resolving the customer's request
 - In the latest pending exchange, the customer is waiting for another party's action, response, status update, or investigation result
+- The latest customer message is only an attachment placeholder such as "[Attachment]" and there is no later text explaining what it contains or showing the issue was answered
 - The customer says they were not helped, asks why nobody replied, repeats the unresolved issue after a previous answer, or otherwise indicates dissatisfaction with the current help
 
 Do NOT treat these as incomplete by themselves:
 - A generic greeting or broad optional offer from Captain/Bot/Assistant, such as "How can I help?", "What would you like to know?", or "Anything else?", when the customer has not made a recognizable request
-- A customer greeting, single-word reply, name, phone number, attachment-only message, or gibberish with no recognizable question/request, followed only by Captain/Bot/Assistant asking what the customer needs
+- A customer greeting, single-word reply, name, phone number, or gibberish with no recognizable question/request, followed only by Captain/Bot/Assistant asking what the customer needs
 - An optional invitation for the customer to ask more questions after the assistant already answered the actual request
 - Older handoff, escalation, or follow-up messages from a previous exchange when the latest customer message starts a new topic, has no recognizable request, or has already been answered
 
@@ -33,7 +34,7 @@ A conversation is COMPLETE only if ALL of these are true:
 - The assistant's answer fully addressed the customer's question or issue and is self-contained — it requires no further action from the customer
 - There are no unanswered questions, unmet requests, or outstanding follow-ups from either side
 - Note: customers often do not explicitly say thanks or confirm resolution. If the assistant gave a complete, self-contained answer and the customer had no follow-up, that is sufficient. Do not require explicit gratitude or confirmation.
-- If the customer sent only one or two short messages (greetings, single words, names, phone numbers, attachment-only messages, or gibberish) with no recognizable question or request across the entire conversation, and Captain/Bot/Assistant has responded asking what they need or offering help, the conversation is COMPLETE.
+- If the customer sent only one or two short text messages (greetings, single words, names, phone numbers, or gibberish) with no recognizable question or request across the entire conversation, and Captain/Bot/Assistant has responded asking what they need or offering help, the conversation is COMPLETE.
 
 Analyze the conversation and respond with ONLY a JSON object (no other text):
 {"complete": true, "reason": "brief explanation"}
