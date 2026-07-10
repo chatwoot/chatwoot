@@ -61,11 +61,10 @@ class Ctwa::TrackedLinkAttributor
   def attribute_inferred_click!(conversation)
     return unless eligible_for_inferred_click?(conversation)
 
-    # Hot path order matters: memory gates run before click queries; message COUNT runs
-    # only after a click candidate exists, and the LIMIT query only after that.
+    # Memory gates above guarantee only the webhook cycle that created the conversation
+    # reaches these queries, so ordinary inbound traffic pays none of them.
     scope = inferred_click_scope(conversation)
     return unless scope.exists?
-    return unless first_inbound_message?(conversation)
 
     clicks = scope.limit(2).to_a
     return unless clicks.one?
@@ -107,6 +106,10 @@ class Ctwa::TrackedLinkAttributor
 
   def eligible_for_inferred_click?(conversation)
     return false if conversation.campaign_id.present? || conversation.additional_attributes.to_h['campaign'].present?
+    # In-memory stand-in for "first inbound message": only the process that just built the
+    # conversation sees previously_new_record? true, so existing conversations exit here
+    # without paying any query on the webhook hot path.
+    return false unless conversation.previously_new_record?
     return false if conversation.created_at < INFERRED_CLICK_WINDOW.ago
 
     true
