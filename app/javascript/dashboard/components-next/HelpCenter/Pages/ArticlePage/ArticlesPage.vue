@@ -70,6 +70,7 @@ const isFeatureEnabledonAccount = useMapGetter(
 );
 
 const selectedArticleIds = ref(new Set());
+const isArticleDragging = ref(false);
 const deleteConfirmDialogRef = ref(null);
 const isCategoryMenuOpen = ref(false);
 const searchQuery = ref(route.query.search || '');
@@ -147,6 +148,8 @@ const articlesCount = computed(() => {
   };
   return Number(countMap[tab] || countMap['']);
 });
+
+const totalPages = computed(() => Math.ceil(articlesCount.value / 25) || 1);
 
 const showArticleHeaderControls = computed(
   () => !props.isCategoryArticles && !isSwitchingPortal.value
@@ -343,7 +346,7 @@ watch(
     </template>
     <template #content>
       <div
-        v-if="isLoading"
+        v-if="isLoading && !isArticleDragging"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
@@ -453,9 +456,13 @@ watch(
           :is-category-articles="isCategoryArticles"
           :is-searching="isSearching"
           :selected-article-ids="selectedArticleIds"
+          :current-page="Number(meta.currentPage)"
+          :total-pages="totalPages"
           class="relative z-0"
           @translate-article="handleTranslateArticle"
           @toggle-select="handleToggleSelect"
+          @navigate-page="handlePageChange"
+          @dragging="isArticleDragging = $event"
         />
       </template>
       <ArticleEmptyState

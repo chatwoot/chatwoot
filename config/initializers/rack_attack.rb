@@ -224,8 +224,30 @@ class Rack::Attack
     match_data[:account_id] if match_data.present?
   end
 
+  reports_api_user_level_limit = ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i
+  reports_drilldown_api_user_level_limit = ENV.fetch(
+    'RATE_LIMIT_REPORTS_DRILLDOWN_API_USER_LEVEL',
+    [(reports_api_user_level_limit / 10), 1].max
+  ).to_i
+
+  # Throttle drilldown requests by individual user (based on uid)
+  throttle('/api/v2/accounts/:account_id/reports/drilldown/user',
+           limit: reports_drilldown_api_user_level_limit, period: 1.minute) do |req|
+    match_data = %r{\A/api/v2/accounts/(?<account_id>\d+)/reports/drilldown\z}.match(req.path_without_extensions)
+    next unless match_data.present? && req.get?
+
+    # Extract user identification (uid for web, api_access_token for API requests)
+    user_uid = req.get_header('HTTP_UID')
+    api_access_token = req.get_header('HTTP_API_ACCESS_TOKEN') || req.get_header('api_access_token')
+
+    # Use uid if present, otherwise fallback to api_access_token for tracking
+    user_identifier = user_uid.presence || api_access_token.presence
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
+  end
+
   # Throttle by individual user (based on uid)
-  throttle('/api/v2/accounts/:account_id/reports/user', limit: ENV.fetch('RATE_LIMIT_REPORTS_API_USER_LEVEL', '100').to_i, period: 1.minute) do |req|
+  throttle('/api/v2/accounts/:account_id/reports/user', limit: reports_api_user_level_limit, period: 1.minute) do |req|
     match_data = %r{/api/v2/accounts/(?<account_id>\d+)/reports}.match(req.path)
     # Extract user identification (uid for web, api_access_token for API requests)
     user_uid = req.get_header('HTTP_UID')
