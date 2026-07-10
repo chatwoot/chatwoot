@@ -116,6 +116,34 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(DataImportMapping.where(data_import: data_import).count).to eq(5)
   end
 
+  it 'imports historical records without dispatching record events or outbound side effects', :aggregate_failures do
+    dispatched_events = []
+    allow(Rails.configuration.dispatcher).to receive(:dispatch) do |event_name, *_args|
+      dispatched_events << event_name
+    end
+    clear_enqueued_jobs
+
+    described_class.new(data_import: data_import).perform
+
+    record_events = [
+      Events::Types::CONTACT_CREATED,
+      Events::Types::CONTACT_UPDATED,
+      Events::Types::CONVERSATION_CREATED,
+      Events::Types::CONVERSATION_UPDATED,
+      Events::Types::CONVERSATION_STATUS_CHANGED,
+      Events::Types::ASSIGNEE_CHANGED,
+      Events::Types::TEAM_CHANGED,
+      Events::Types::MESSAGE_CREATED,
+      Events::Types::FIRST_REPLY_CREATED,
+      Events::Types::REPLY_CREATED
+    ]
+    side_effect_jobs = [SendReplyJob, EventDispatcherJob, ActionCableBroadcastJob, WebhookJob, HookJob]
+
+    expect(dispatched_events & record_events).to be_empty
+    expect(enqueued_jobs.pluck(:job) & side_effect_jobs).to be_empty
+    expect(Notification.where(account: account)).to be_empty
+  end
+
   context 'when Intercom contact activity timestamps are available' do
     let(:contact_payload) do
       super().merge('last_seen_at' => 1_700_000_050, 'last_replied_at' => 1_700_000_090)
