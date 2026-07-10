@@ -15,10 +15,18 @@ const store = useStore();
 
 const globalConfig = useMapGetter('globalConfig/get');
 const whatsappInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
-const enabled = computed(
+// Email campaign reports and trackable links are independent modules sharing
+// this page: links must work for CRM accounts without the email add-on.
+const emailReportsEnabled = computed(
   () =>
     globalConfig.value?.emailCampaignEnabled === true &&
     globalConfig.value?.crmKanbanEnabled === true
+);
+const trackedLinksEnabled = computed(
+  () => globalConfig.value?.crmKanbanEnabled === true
+);
+const enabled = computed(
+  () => emailReportsEnabled.value || trackedLinksEnabled.value
 );
 
 const summary = ref(null);
@@ -392,11 +400,11 @@ const deleteTrackedLink = async link => {
 };
 
 onMounted(() => {
-  if (!enabled.value) return;
-
-  fetchReports();
-  fetchTrackedLinks();
-  store.dispatch('inboxes/get');
+  if (emailReportsEnabled.value) fetchReports();
+  if (trackedLinksEnabled.value) {
+    fetchTrackedLinks();
+    store.dispatch('inboxes/get');
+  }
 });
 </script>
 
@@ -427,41 +435,44 @@ onMounted(() => {
     </div>
 
     <div v-else class="flex flex-col gap-6 p-6">
-      <section
-        class="flex flex-col gap-1 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-      >
-        <span class="text-xs font-medium text-n-slate-11">
-          {{ t('CAMPAIGN_MANAGEMENT.FILTER.LABEL') }}
-        </span>
-        <div class="flex flex-wrap items-center gap-3">
-          <select
-            v-model="selectedCampaignId"
-            class="px-3 h-9 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-60"
-            @change="onFilterChange"
-          >
-            <option value="">
-              {{ t('CAMPAIGN_MANAGEMENT.FILTER.ALL') }}
-            </option>
-            <option
-              v-for="campaign in campaigns"
-              :key="campaign.id"
-              :value="campaign.id"
+      <template v-if="emailReportsEnabled">
+        <section
+          class="flex flex-col gap-1 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+        >
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('CAMPAIGN_MANAGEMENT.FILTER.LABEL') }}
+          </span>
+          <div class="flex flex-wrap items-center gap-3">
+            <select
+              v-model="selectedCampaignId"
+              class="px-3 h-9 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-60"
+              @change="onFilterChange"
             >
-              {{ campaign.name }}
-            </option>
-          </select>
-          <button
-            v-if="selectedCampaignId"
-            class="flex items-center gap-2 px-3 h-9 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
-            @click="exportCsv"
-          >
-            <span class="i-lucide-download size-4" />
-            {{ t('CAMPAIGN_MANAGEMENT.EXPORT_CSV') }}
-          </button>
-        </div>
-      </section>
+              <option value="">
+                {{ t('CAMPAIGN_MANAGEMENT.FILTER.ALL') }}
+              </option>
+              <option
+                v-for="campaign in campaigns"
+                :key="campaign.id"
+                :value="campaign.id"
+              >
+                {{ campaign.name }}
+              </option>
+            </select>
+            <button
+              v-if="selectedCampaignId"
+              class="flex items-center gap-2 px-3 h-9 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
+              @click="exportCsv"
+            >
+              <span class="i-lucide-download size-4" />
+              {{ t('CAMPAIGN_MANAGEMENT.EXPORT_CSV') }}
+            </button>
+          </div>
+        </section>
+      </template>
 
       <section
+        v-if="trackedLinksEnabled"
         class="flex flex-col gap-5 p-5 border rounded-xl border-n-weak bg-n-solid-1"
       >
         <div class="flex flex-col gap-1">
@@ -628,306 +639,310 @@ onMounted(() => {
         </div>
       </section>
 
-      <p v-if="hasError" class="m-0 text-sm text-n-ruby-11">
-        {{ t('CAMPAIGN_MANAGEMENT.ERROR') }}
-      </p>
-
-      <div
-        v-else-if="!isLoading && !hasCampaigns"
-        class="flex flex-col items-center justify-center gap-2 p-10 text-center border rounded-xl border-n-weak bg-n-solid-1"
-      >
-        <span class="i-lucide-inbox size-8 text-n-slate-10" />
-        <h2 class="m-0 text-base font-medium text-n-slate-12">
-          {{ t('CAMPAIGN_MANAGEMENT.EMPTY_STATE.TITLE') }}
-        </h2>
-        <p class="max-w-md m-0 text-sm text-n-slate-11">
-          {{ t('CAMPAIGN_MANAGEMENT.EMPTY_STATE.SUBTITLE') }}
+      <template v-if="emailReportsEnabled">
+        <p v-if="hasError" class="m-0 text-sm text-n-ruby-11">
+          {{ t('CAMPAIGN_MANAGEMENT.ERROR') }}
         </p>
-      </div>
 
-      <template v-else>
-        <section class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
-          <div
-            v-for="card in kpiCards"
-            :key="card.key"
-            class="flex flex-col gap-2 p-4 border rounded-xl border-n-weak bg-n-solid-1"
-          >
-            <div class="flex items-center gap-2 text-n-slate-11">
-              <span :class="card.icon" class="size-4" />
-              <span class="text-xs font-medium">{{ card.label }}</span>
-            </div>
-            <span class="text-2xl font-semibold text-n-slate-12">
-              {{ card.value }}
-            </span>
-            <span
-              v-if="card.rate !== null && card.rate !== undefined"
-              class="text-xs text-n-slate-11"
+        <div
+          v-else-if="!isLoading && !hasCampaigns"
+          class="flex flex-col items-center justify-center gap-2 p-10 text-center border rounded-xl border-n-weak bg-n-solid-1"
+        >
+          <span class="i-lucide-inbox size-8 text-n-slate-10" />
+          <h2 class="m-0 text-base font-medium text-n-slate-12">
+            {{ t('CAMPAIGN_MANAGEMENT.EMPTY_STATE.TITLE') }}
+          </h2>
+          <p class="max-w-md m-0 text-sm text-n-slate-11">
+            {{ t('CAMPAIGN_MANAGEMENT.EMPTY_STATE.SUBTITLE') }}
+          </p>
+        </div>
+
+        <template v-else>
+          <section class="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <div
+              v-for="card in kpiCards"
+              :key="card.key"
+              class="flex flex-col gap-2 p-4 border rounded-xl border-n-weak bg-n-solid-1"
             >
-              {{ rateLabel(card.rate) }}
-            </span>
-          </div>
-        </section>
-
-        <p class="flex items-start gap-2 m-0 text-xs text-n-slate-11">
-          <span class="i-lucide-info size-4 shrink-0" />
-          {{ t('CAMPAIGN_MANAGEMENT.OPEN_APPROXIMATE_HINT') }}
-        </p>
-
-        <template v-if="selectedCampaignId">
-          <section
-            class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-          >
-            <div class="flex items-center justify-between gap-3">
-              <h3 class="m-0 text-sm font-semibold text-n-slate-12">
-                {{ t('CAMPAIGN_MANAGEMENT.TIMELINE.TITLE') }}
-              </h3>
-              <div class="flex gap-1">
-                <button
-                  v-for="option in intervalOptions"
-                  :key="option.id"
-                  class="px-2 py-1 text-xs font-medium border rounded-lg border-n-weak"
-                  :class="
-                    timelineInterval === option.id
-                      ? 'bg-n-alpha-2 text-n-slate-12'
-                      : 'bg-n-alpha-black1 text-n-slate-11'
-                  "
-                  @click="setTimelineInterval(option.id)"
-                >
-                  {{ option.label }}
-                </button>
+              <div class="flex items-center gap-2 text-n-slate-11">
+                <span :class="card.icon" class="size-4" />
+                <span class="text-xs font-medium">{{ card.label }}</span>
               </div>
-            </div>
-            <p v-if="!timeline.length" class="m-0 text-sm text-n-slate-11">
-              {{ t('CAMPAIGN_MANAGEMENT.TIMELINE.EMPTY') }}
-            </p>
-            <div v-else class="h-64">
-              <LineChart :collection="timelineCollection" />
+              <span class="text-2xl font-semibold text-n-slate-12">
+                {{ card.value }}
+              </span>
+              <span
+                v-if="card.rate !== null && card.rate !== undefined"
+                class="text-xs text-n-slate-11"
+              >
+                {{ rateLabel(card.rate) }}
+              </span>
             </div>
           </section>
 
-          <section
-            class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-          >
-            <h3 class="m-0 text-sm font-semibold text-n-slate-12">
-              {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.TITLE') }}
-            </h3>
-            <p v-if="!clicks.length" class="m-0 text-sm text-n-slate-11">
-              {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.EMPTY') }}
-            </p>
-            <table v-else class="w-full text-sm border-collapse">
-              <thead>
-                <tr class="text-left border-b border-n-weak text-n-slate-11">
-                  <th class="py-2 pr-3 text-xs font-medium">
-                    {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.URL') }}
-                  </th>
-                  <th class="py-2 pr-3 text-xs font-medium text-right">
-                    {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.UNIQUE') }}
-                  </th>
-                  <th class="py-2 text-xs font-medium text-right">
-                    {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.TOTAL') }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="click in clicks"
-                  :key="click.url"
-                  class="border-b border-n-weak last:border-b-0"
-                >
-                  <td class="max-w-md py-2 pr-3 truncate text-n-slate-12">
-                    {{ click.url }}
-                  </td>
-                  <td class="py-2 pr-3 text-right text-n-slate-12">
-                    {{ click.unique_clicks }}
-                  </td>
-                  <td class="py-2 text-right text-n-slate-12">
-                    {{ click.total_clicks }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </section>
+          <p class="flex items-start gap-2 m-0 text-xs text-n-slate-11">
+            <span class="i-lucide-info size-4 shrink-0" />
+            {{ t('CAMPAIGN_MANAGEMENT.OPEN_APPROXIMATE_HINT') }}
+          </p>
 
-          <section
-            class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-          >
-            <div class="flex flex-wrap items-center justify-between gap-3">
-              <h3 class="m-0 text-sm font-semibold text-n-slate-12">
-                {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.TITLE') }}
-              </h3>
-              <div class="flex items-center gap-2">
-                <input
-                  v-model="recipientsSearch"
-                  type="text"
-                  class="px-3 py-1.5 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-56"
-                  :placeholder="
-                    t('CAMPAIGN_MANAGEMENT.RECIPIENTS.SEARCH_PLACEHOLDER')
-                  "
-                  @keyup.enter="searchRecipients"
-                />
-                <button
-                  class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
-                  @click="searchRecipients"
-                >
-                  <span class="i-lucide-search size-4" />
-                </button>
+          <template v-if="selectedCampaignId">
+            <section
+              class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+            >
+              <div class="flex items-center justify-between gap-3">
+                <h3 class="m-0 text-sm font-semibold text-n-slate-12">
+                  {{ t('CAMPAIGN_MANAGEMENT.TIMELINE.TITLE') }}
+                </h3>
+                <div class="flex gap-1">
+                  <button
+                    v-for="option in intervalOptions"
+                    :key="option.id"
+                    class="px-2 py-1 text-xs font-medium border rounded-lg border-n-weak"
+                    :class="
+                      timelineInterval === option.id
+                        ? 'bg-n-alpha-2 text-n-slate-12'
+                        : 'bg-n-alpha-black1 text-n-slate-11'
+                    "
+                    @click="setTimelineInterval(option.id)"
+                  >
+                    {{ option.label }}
+                  </button>
+                </div>
               </div>
-            </div>
-            <p v-if="!recipients.length" class="m-0 text-sm text-n-slate-11">
-              {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.EMPTY') }}
-            </p>
-            <template v-else>
-              <table class="w-full text-sm border-collapse">
+              <p v-if="!timeline.length" class="m-0 text-sm text-n-slate-11">
+                {{ t('CAMPAIGN_MANAGEMENT.TIMELINE.EMPTY') }}
+              </p>
+              <div v-else class="h-64">
+                <LineChart :collection="timelineCollection" />
+              </div>
+            </section>
+
+            <section
+              class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+            >
+              <h3 class="m-0 text-sm font-semibold text-n-slate-12">
+                {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.TITLE') }}
+              </h3>
+              <p v-if="!clicks.length" class="m-0 text-sm text-n-slate-11">
+                {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.EMPTY') }}
+              </p>
+              <table v-else class="w-full text-sm border-collapse">
                 <thead>
                   <tr class="text-left border-b border-n-weak text-n-slate-11">
                     <th class="py-2 pr-3 text-xs font-medium">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.EMAIL') }}
-                    </th>
-                    <th class="py-2 pr-3 text-xs font-medium">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.NAME') }}
-                    </th>
-                    <th class="py-2 pr-3 text-xs font-medium">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.STATUS') }}
+                      {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.URL') }}
                     </th>
                     <th class="py-2 pr-3 text-xs font-medium text-right">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.ATTEMPTS') }}
+                      {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.UNIQUE') }}
                     </th>
-                    <th class="py-2 pr-3 text-xs font-medium text-right">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.OPENS') }}
-                    </th>
-                    <th class="py-2 pr-3 text-xs font-medium text-right">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.CLICKS') }}
-                    </th>
-                    <th class="py-2 text-xs font-medium">
-                      {{ t('CAMPAIGN_MANAGEMENT.TABLE.LAST_EVENT_AT') }}
+                    <th class="py-2 text-xs font-medium text-right">
+                      {{ t('CAMPAIGN_MANAGEMENT.CLICKS_BY_LINK.TOTAL') }}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr
-                    v-for="recipient in recipients"
-                    :key="recipient.id"
+                    v-for="click in clicks"
+                    :key="click.url"
                     class="border-b border-n-weak last:border-b-0"
                   >
-                    <td class="max-w-xs py-2 pr-3 truncate text-n-slate-12">
-                      {{ recipient.email }}
-                    </td>
-                    <td class="max-w-xs py-2 pr-3 truncate text-n-slate-11">
-                      {{ recipient.name || '—' }}
-                    </td>
-                    <td class="py-2 pr-3 text-n-slate-12">
-                      {{ recipient.status }}
+                    <td class="max-w-md py-2 pr-3 truncate text-n-slate-12">
+                      {{ click.url }}
                     </td>
                     <td class="py-2 pr-3 text-right text-n-slate-12">
-                      {{ recipient.attempts }}
+                      {{ click.unique_clicks }}
                     </td>
-                    <td class="py-2 pr-3 text-right text-n-slate-12">
-                      {{ recipient.opens }}
-                    </td>
-                    <td class="py-2 pr-3 text-right text-n-slate-12">
-                      {{ recipient.clicks }}
-                    </td>
-                    <td class="py-2 whitespace-nowrap text-n-slate-10">
-                      {{ formatDate(recipient.last_event_at) }}
+                    <td class="py-2 text-right text-n-slate-12">
+                      {{ click.total_clicks }}
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="flex items-center justify-end gap-3 text-xs">
-                <span class="text-n-slate-11">
-                  {{
-                    t('CAMPAIGN_MANAGEMENT.RECIPIENTS.PAGE_OF', {
-                      page: currentPage,
-                      total: totalPages,
-                    })
-                  }}
-                </span>
-                <button
-                  class="px-2 py-1 font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 disabled:opacity-50"
-                  :disabled="currentPage <= 1"
-                  @click="goToPage(currentPage - 1)"
-                >
-                  {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.PREV') }}
-                </button>
-                <button
-                  class="px-2 py-1 font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 disabled:opacity-50"
-                  :disabled="currentPage >= totalPages"
-                  @click="goToPage(currentPage + 1)"
-                >
-                  {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.NEXT') }}
-                </button>
+            </section>
+
+            <section
+              class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+            >
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <h3 class="m-0 text-sm font-semibold text-n-slate-12">
+                  {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.TITLE') }}
+                </h3>
+                <div class="flex items-center gap-2">
+                  <input
+                    v-model="recipientsSearch"
+                    type="text"
+                    class="px-3 py-1.5 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-56"
+                    :placeholder="
+                      t('CAMPAIGN_MANAGEMENT.RECIPIENTS.SEARCH_PLACEHOLDER')
+                    "
+                    @keyup.enter="searchRecipients"
+                  />
+                  <button
+                    class="flex items-center gap-1 px-3 py-1.5 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
+                    @click="searchRecipients"
+                  >
+                    <span class="i-lucide-search size-4" />
+                  </button>
+                </div>
               </div>
-            </template>
+              <p v-if="!recipients.length" class="m-0 text-sm text-n-slate-11">
+                {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.EMPTY') }}
+              </p>
+              <template v-else>
+                <table class="w-full text-sm border-collapse">
+                  <thead>
+                    <tr
+                      class="text-left border-b border-n-weak text-n-slate-11"
+                    >
+                      <th class="py-2 pr-3 text-xs font-medium">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.EMAIL') }}
+                      </th>
+                      <th class="py-2 pr-3 text-xs font-medium">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.NAME') }}
+                      </th>
+                      <th class="py-2 pr-3 text-xs font-medium">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.STATUS') }}
+                      </th>
+                      <th class="py-2 pr-3 text-xs font-medium text-right">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.ATTEMPTS') }}
+                      </th>
+                      <th class="py-2 pr-3 text-xs font-medium text-right">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.OPENS') }}
+                      </th>
+                      <th class="py-2 pr-3 text-xs font-medium text-right">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.CLICKS') }}
+                      </th>
+                      <th class="py-2 text-xs font-medium">
+                        {{ t('CAMPAIGN_MANAGEMENT.TABLE.LAST_EVENT_AT') }}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="recipient in recipients"
+                      :key="recipient.id"
+                      class="border-b border-n-weak last:border-b-0"
+                    >
+                      <td class="max-w-xs py-2 pr-3 truncate text-n-slate-12">
+                        {{ recipient.email }}
+                      </td>
+                      <td class="max-w-xs py-2 pr-3 truncate text-n-slate-11">
+                        {{ recipient.name || '—' }}
+                      </td>
+                      <td class="py-2 pr-3 text-n-slate-12">
+                        {{ recipient.status }}
+                      </td>
+                      <td class="py-2 pr-3 text-right text-n-slate-12">
+                        {{ recipient.attempts }}
+                      </td>
+                      <td class="py-2 pr-3 text-right text-n-slate-12">
+                        {{ recipient.opens }}
+                      </td>
+                      <td class="py-2 pr-3 text-right text-n-slate-12">
+                        {{ recipient.clicks }}
+                      </td>
+                      <td class="py-2 whitespace-nowrap text-n-slate-10">
+                        {{ formatDate(recipient.last_event_at) }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="flex items-center justify-end gap-3 text-xs">
+                  <span class="text-n-slate-11">
+                    {{
+                      t('CAMPAIGN_MANAGEMENT.RECIPIENTS.PAGE_OF', {
+                        page: currentPage,
+                        total: totalPages,
+                      })
+                    }}
+                  </span>
+                  <button
+                    class="px-2 py-1 font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 disabled:opacity-50"
+                    :disabled="currentPage <= 1"
+                    @click="goToPage(currentPage - 1)"
+                  >
+                    {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.PREV') }}
+                  </button>
+                  <button
+                    class="px-2 py-1 font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 disabled:opacity-50"
+                    :disabled="currentPage >= totalPages"
+                    @click="goToPage(currentPage + 1)"
+                  >
+                    {{ t('CAMPAIGN_MANAGEMENT.RECIPIENTS.NEXT') }}
+                  </button>
+                </div>
+              </template>
+            </section>
+          </template>
+
+          <section
+            class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+          >
+            <h3 class="m-0 text-sm font-semibold text-n-slate-12">
+              {{ t('CAMPAIGN_MANAGEMENT.COMPARISON.TITLE') }}
+            </h3>
+            <table class="w-full text-sm border-collapse">
+              <thead>
+                <tr class="text-left border-b border-n-weak text-n-slate-11">
+                  <th class="py-2 pr-3 text-xs font-medium">
+                    {{ t('CAMPAIGN_MANAGEMENT.TABLE.NAME') }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium">
+                    {{ t('CAMPAIGN_MANAGEMENT.TABLE.STATUS') }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium text-right">
+                    {{ t('CAMPAIGN_MANAGEMENT.KPIS.SENT') }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium text-right">
+                    {{ t('CAMPAIGN_MANAGEMENT.KPIS.DELIVERED') }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium text-right">
+                    {{ openRateApproxHeader }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium text-right">
+                    {{ t('CAMPAIGN_MANAGEMENT.RATES.CLICK_RATE') }}
+                  </th>
+                  <th class="py-2 pr-3 text-xs font-medium text-right">
+                    {{ t('CAMPAIGN_MANAGEMENT.RATES.BOUNCE_RATE') }}
+                  </th>
+                  <th class="py-2 text-xs font-medium text-right">
+                    {{ t('CAMPAIGN_MANAGEMENT.RATES.UNSUBSCRIBE_RATE') }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="row in comparisonRows"
+                  :key="row.id"
+                  class="border-b border-n-weak last:border-b-0"
+                >
+                  <td class="max-w-xs py-2 pr-3 truncate text-n-slate-12">
+                    {{ row.name }}
+                  </td>
+                  <td class="py-2 pr-3 text-n-slate-11">{{ row.status }}</td>
+                  <td class="py-2 pr-3 text-right text-n-slate-12">
+                    {{ row.sent }}
+                  </td>
+                  <td class="py-2 pr-3 text-right text-n-slate-12">
+                    {{ row.delivered }}
+                  </td>
+                  <td class="py-2 pr-3 text-right text-n-slate-12">
+                    {{ row.openRate }}
+                  </td>
+                  <td class="py-2 pr-3 text-right text-n-slate-12">
+                    {{ row.clickRate }}
+                  </td>
+                  <td class="py-2 pr-3 text-right text-n-slate-12">
+                    {{ row.bounceRate }}
+                  </td>
+                  <td class="py-2 text-right text-n-slate-12">
+                    {{ row.unsubscribeRate }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </section>
         </template>
-
-        <section
-          class="flex flex-col gap-3 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-        >
-          <h3 class="m-0 text-sm font-semibold text-n-slate-12">
-            {{ t('CAMPAIGN_MANAGEMENT.COMPARISON.TITLE') }}
-          </h3>
-          <table class="w-full text-sm border-collapse">
-            <thead>
-              <tr class="text-left border-b border-n-weak text-n-slate-11">
-                <th class="py-2 pr-3 text-xs font-medium">
-                  {{ t('CAMPAIGN_MANAGEMENT.TABLE.NAME') }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium">
-                  {{ t('CAMPAIGN_MANAGEMENT.TABLE.STATUS') }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium text-right">
-                  {{ t('CAMPAIGN_MANAGEMENT.KPIS.SENT') }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium text-right">
-                  {{ t('CAMPAIGN_MANAGEMENT.KPIS.DELIVERED') }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium text-right">
-                  {{ openRateApproxHeader }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium text-right">
-                  {{ t('CAMPAIGN_MANAGEMENT.RATES.CLICK_RATE') }}
-                </th>
-                <th class="py-2 pr-3 text-xs font-medium text-right">
-                  {{ t('CAMPAIGN_MANAGEMENT.RATES.BOUNCE_RATE') }}
-                </th>
-                <th class="py-2 text-xs font-medium text-right">
-                  {{ t('CAMPAIGN_MANAGEMENT.RATES.UNSUBSCRIBE_RATE') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="row in comparisonRows"
-                :key="row.id"
-                class="border-b border-n-weak last:border-b-0"
-              >
-                <td class="max-w-xs py-2 pr-3 truncate text-n-slate-12">
-                  {{ row.name }}
-                </td>
-                <td class="py-2 pr-3 text-n-slate-11">{{ row.status }}</td>
-                <td class="py-2 pr-3 text-right text-n-slate-12">
-                  {{ row.sent }}
-                </td>
-                <td class="py-2 pr-3 text-right text-n-slate-12">
-                  {{ row.delivered }}
-                </td>
-                <td class="py-2 pr-3 text-right text-n-slate-12">
-                  {{ row.openRate }}
-                </td>
-                <td class="py-2 pr-3 text-right text-n-slate-12">
-                  {{ row.clickRate }}
-                </td>
-                <td class="py-2 pr-3 text-right text-n-slate-12">
-                  {{ row.bounceRate }}
-                </td>
-                <td class="py-2 text-right text-n-slate-12">
-                  {{ row.unsubscribeRate }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </section>
       </template>
     </div>
   </div>
