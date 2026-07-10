@@ -119,6 +119,37 @@ RSpec.describe Imap::FetchEmailService do
         end
       end
 
+      it 'checks message existence without an ORDER BY to avoid slow scans on large inboxes' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          create_inbound_email_from_fixture('only_text.eml')
+          email_header = Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id)
+          imap_fetch_mail = Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)
+
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1])
+          allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
+          allow(imap).to receive(:logout)
+
+          # The dedup existence check must not carry the model's default_scope ORDER BY created_at:
+          # on large inboxes that lets the planner satisfy the sort by walking index_messages_on_created_at,
+          # degrading to a full scan (~seconds/message) that idles the IMAP socket until it is dropped.
+          dedup_queries = []
+          subscriber = ActiveSupport::Notifications.subscribe('sql.active_record') do |*, payload|
+            sql = payload[:sql]
+            dedup_queries << sql if sql.match?(/from "messages"/i) && sql.include?('source_id') && sql.include?('inbox_id')
+          end
+
+          begin
+            described_class.new(channel: imap_email_channel).perform
+          ensure
+            ActiveSupport::Notifications.unsubscribe(subscriber)
+          end
+
+          expect(dedup_queries).not_to be_empty
+          expect(dedup_queries).to all(satisfy { |sql| !sql.match?(/order by/i) })
+        end
+      end
+
       it 'does not return recently deleted emails' do
         travel_to '26.10.2020 10:00'.to_datetime do
           email_object = create_inbound_email_from_fixture('only_text.eml')

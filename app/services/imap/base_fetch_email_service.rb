@@ -38,7 +38,11 @@ class Imap::BaseFetchEmailService
   end
 
   def email_already_present?(channel, message_id)
-    channel.inbox.messages.find_by(source_id: message_id).present? || deleted_message_tracker.deleted?(message_id)
+    # Use exists? (SELECT 1 ... LIMIT 1) rather than find_by: find_by inherits Message's
+    # default_scope ORDER BY created_at, which on large inboxes lets Postgres satisfy the sort by
+    # walking index_messages_on_created_at instead of the selective index_messages_on_source_id,
+    # degrading to a full scan that idles the IMAP socket until the server drops the connection.
+    channel.inbox.messages.exists?(source_id: message_id) || deleted_message_tracker.deleted?(message_id)
   end
 
   def deleted_message_tracker
