@@ -144,10 +144,19 @@ POST {BASE_URL}/platform/api/v1/accounts
   (plus enterprise keys `captain_responses, captain_documents, emails`).
 - Response includes the account `id`.
 
-> **⚠️ jsonb REPLACE semantics.** `PATCH /platform/api/v1/accounts/{id}` with a
-> `limits` (or `custom_attributes`) object **replaces the entire hash**, it does
-> not merge. Always send the *complete* object you want stored. The control plane
-> must hold the authoritative per-tenant `limits`/`custom_attributes` state.
+> **⚠️ jsonb write semantics.** `PATCH /platform/api/v1/accounts/{id}`:
+>
+> - **`limits` REPLACES the entire hash** — always send the *complete* cap set
+>   you want stored. The control plane owns every limit key, so full-object is
+>   both safe and required here.
+> - **`custom_attributes` is a MERGE-PATCH** (RFC 7386-style; fork override, see
+>   `custom/app/controllers/custom/platform/api/v1/accounts_controller.rb`):
+>   keys you send overwrite, keys you omit survive, an explicit `null` deletes a
+>   key. This is deliberate — Chatwoot writes its OWN account attributes
+>   (`marked_for_deletion_at`, billing/plan keys) that the control plane cannot
+>   know or safely echo back, so a sparse write like
+>   `{ "custom_attributes": { "agentic_ai_usage": 500 } }` must never wipe them.
+>   (Under stock upstream semantics it would replace the whole hash.)
 
 ### 4.2 Create the tenant admin
 
@@ -327,9 +336,12 @@ PATCH {BASE_URL}/platform/api/v1/accounts/{ACCOUNT_ID}
 Headers: api_access_token: {PLATFORM_TOKEN}
 {
   "limits":            { ...all existing caps..., "agentic_ai": 500 },
-  "custom_attributes": { ...all existing attrs..., "agentic_ai_usage": 500 }
+  "custom_attributes": { "agentic_ai_usage": 500 }
 }
 ```
+
+(`limits` must be the complete cap set — it replaces; `custom_attributes` may be
+sparse — it merge-patches. §4.1.)
 
 ### 5.2 What Chatwoot does with it
 
@@ -346,9 +358,10 @@ Headers: api_access_token: {PLATFORM_TOKEN}
 
 - The banner refreshes when the dashboard fetches limits (on mount / navigation),
   not in real time. Usage you write shows up on the tenant's next limits fetch.
-- Because writes REPLACE the jsonb (§4.1), send the full `limits` and
-  `custom_attributes` objects. Prefer **periodic/batched** usage updates over a
-  PATCH per AI action (full-object PATCH per action is heavy and race-prone).
+- Send the full `limits` object (it replaces — §4.1) but only the
+  `custom_attributes` keys you own (`agentic_ai_usage`) — the merge-patch keeps
+  the rest intact. Prefer **periodic/batched** usage updates over a PATCH per
+  AI action.
 
 ---
 
@@ -648,7 +661,7 @@ the tenant/brand name from your own config, not from these APIs.
 | Method & path | Token | Purpose |
 | --- | --- | --- |
 | `POST /platform/api/v1/accounts` | PLATFORM | create tenant + limits |
-| `PATCH /platform/api/v1/accounts/{id}` | PLATFORM | update limits / custom_attributes (full-object) |
+| `PATCH /platform/api/v1/accounts/{id}` | PLATFORM | update limits (full-object) / custom_attributes (merge-patch, §4.1) |
 | `POST /platform/api/v1/users` | PLATFORM | create user (admin or AI) → its `access_token` |
 | `POST /platform/api/v1/accounts/{id}/account_users` | PLATFORM | attach user; `platform_managed:true` for the admin + AI users (no seat), omit for humans |
 | `POST /api/v1/accounts/{id}/webhooks` | USER | subscribe orchestrator to `message_created` (`platform_managed:true`) |

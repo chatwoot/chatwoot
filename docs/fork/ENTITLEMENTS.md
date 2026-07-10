@@ -140,6 +140,10 @@ Notes:
 - Edits and deletes stay unrestricted (capacity can always be reclaimed).
 - Model-level guard raises/records a validation error; controllers translate
   it (or their own before_action) into the shared 402 response.
+- Guards are check-then-create (no DB-level constraint), so two concurrent
+  creates can land 1–2 records past a cap. Accepted: caps are billing
+  boundaries, not hard invariants, and this matches upstream's own agent/inbox
+  limit checks.
 - Verify each "create paths" cell with
   `rg -n "<Model>.create|<model>s.build|<Model>Builder" app enterprise custom`
   during Phase 1 (inventory) — the table is the starting map, not gospel.
@@ -243,7 +247,13 @@ tenant. It rides the existing limits pipeline rather than a parallel store:
 
 - Contract (control plane / NestJS writes via the Platform API, additively):
   - cap → `accounts.limits['agentic_ai']` (same jsonb as every other limit).
-  - running usage → `accounts.custom_attributes['agentic_ai_usage']`.
+  - running usage → `accounts.custom_attributes['agentic_ai_usage']`, written as
+    a **sparse patch**: the fork gives `custom_attributes` on
+    `PATCH /platform/api/v1/accounts/:id` merge-patch semantics
+    (`Custom::Platform::Api::V1::AccountsController`) so the periodic usage
+    writeback can never wipe Chatwoot-owned attributes (`marked_for_deletion_at`,
+    billing/plan keys). `limits` keeps upstream replace semantics — resend the
+    complete cap set.
 - Because `validate_limit_keys` uses `additionalProperties: false`, `agentic_ai`
   must be whitelisted in the schema or the Platform API write is rejected (422).
   It lives in `Custom::Account::PlanUsageAndLimits::EXTERNAL_LIMIT_KEYS`, kept

@@ -71,6 +71,10 @@ Everything here is net-new; pulling upstream can never conflict with it.
     webhooks, labels, automation_rules, custom_attribute_definitions, agent_bots,
     integrations/hooks).
   - Platform-managed flag permit: `custom/app/controllers/custom/platform/api/v1/account_users_controller.rb`.
+  - Platform account merge-patch: `custom/app/controllers/custom/platform/api/v1/accounts_controller.rb`
+    (`custom_attributes` on update is RFC 7386-style merge-patch so the control
+    plane's sparse agentic-usage writeback can't wipe Chatwoot-owned account
+    attributes; `limits` keeps upstream replace semantics).
   - Agents list scoping: `custom/app/controllers/custom/api/v1/accounts/agents_controller.rb`
     (overrides `agents` → excludes `platform_managed` seats from the list, the
     create-guard count, and edit/destroy lookup, ADR-0005).
@@ -118,6 +122,7 @@ lowest-risk possible edits.
 | `app/controllers/api/v1/accounts/agent_bots_controller.rb` | same pattern | quota `before_action` |
 | `app/controllers/api/v1/accounts/integrations/hooks_controller.rb` | same pattern | quota `before_action` |
 | `app/controllers/platform/api/v1/account_users_controller.rb` | `...AccountUsersController.prepend_mod_with(...)` | `Custom::...AccountUsersController` (permit `platform_managed`, ADR-0005) |
+| `app/controllers/platform/api/v1/accounts_controller.rb` | `...AccountsController.prepend_mod_with(...)` | `Custom::...AccountsController` (`custom_attributes` merge-patch on update) |
 | `enterprise/app/controllers/enterprise/api/v1/accounts_controller.rb` | `...AccountsController.prepend_mod_with(...)` | limits endpoint + agentic-AI |
 | `app/mailers/administrator_notifications/account_notification_mailer.rb` | `...AccountNotificationMailer.prepend_mod_with(...)` | branded subjects |
 | `app/services/mfa/management_service.rb` | `Mfa::ManagementService.prepend_mod_with(...)` | branded TOTP issuer |
