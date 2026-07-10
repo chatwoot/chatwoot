@@ -25,7 +25,7 @@ RSpec.describe 'Public Google conversions feed', type: :request do
     expect(response.media_type).to eq('text/csv')
     expect(response.headers['Cache-Control']).to include('no-store')
     expect(rows).to eq([
-                         ['Parameters:TimeZone=+00:00'],
+                         ['Parameters:TimeZone=+0000'],
                          ['Google Click ID', 'Conversion Name', 'Conversion Time', 'Conversion Value', 'Conversion Currency'],
                          [ready.gclid, ready.conversion_name, '2026-07-09 12:34:56+0000', '123.45', 'BRL']
                        ])

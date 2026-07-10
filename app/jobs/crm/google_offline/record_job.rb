@@ -43,10 +43,18 @@ class Crm::GoogleOffline::RecordJob < ApplicationJob
     }.merge(value_attributes(card, event_type))
   end
 
+  # won/lost resolve by event type (what the UI configures); moved resolves by the
+  # destination stage's funnel type.
   def conversion_name(card, stage, event_type)
+    configured_conversion_name(card, stage, event_type).presence || default_conversion_name(stage, event_type)
+  end
+
+  def configured_conversion_name(card, stage, event_type)
+    names = card.pipeline.metadata.dig('google_sync', 'conversion_names') || {}
+    return names[event_type] if %w[won lost].include?(event_type)
+
     stage_type = stage&.metadata&.dig('funnel_stage_type').presence
-    configured_name = card.pipeline.metadata.dig('google_sync', 'conversion_names', stage_type).presence if stage_type
-    configured_name || default_conversion_name(stage, event_type)
+    names[stage_type] if stage_type
   end
 
   def default_conversion_name(stage, event_type)

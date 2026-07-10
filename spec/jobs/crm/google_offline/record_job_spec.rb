@@ -6,7 +6,7 @@ RSpec.describe Crm::GoogleOffline::RecordJob do
   let(:pipeline_metadata) do
     {
       'google_sync' => {
-        'conversion_names' => { 'qualified' => 'Lead qualificado' }
+        'conversion_names' => { 'won' => 'Venda Site', 'qualified' => 'Lead qualificado' }
       }
     }
   end
@@ -32,7 +32,7 @@ RSpec.describe Crm::GoogleOffline::RecordJob do
     described_class.perform_now(account.id, card.id, target_activity.id, event_type)
   end
 
-  it 'records a ready won conversion with attribution, value and configured stage name' do
+  it 'records a ready won conversion with attribution, value and the name configured for the won event' do
     perform
 
     event = Crm::GoogleConversionEvent.find_by!(event_id: "crm-#{card.id}-won-#{activity.id}")
@@ -42,7 +42,7 @@ RSpec.describe Crm::GoogleOffline::RecordJob do
       conversation_id: conversation.id,
       activity_id: activity.id,
       gclid: 'GCLID-123',
-      conversion_name: 'Lead qualificado',
+      conversion_name: 'Venda Site',
       conversion_time: activity.created_at,
       value_cents: 50_000,
       currency: 'BRL',

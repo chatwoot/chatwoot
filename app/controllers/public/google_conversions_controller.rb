@@ -16,7 +16,8 @@ class Public::GoogleConversionsController < ActionController::Base
 
   def csv_for(account)
     CSV.generate do |csv|
-      csv << ['Parameters:TimeZone=+00:00']
+      # Google's scheduled click import expects a four-digit offset (no colon).
+      csv << ['Parameters:TimeZone=+0000']
       csv << HEADERS
       feed_events(account).find_each do |event|
         csv << [event.gclid, event.conversion_name, formatted_time(event), formatted_value(event), formatted_currency(event)]

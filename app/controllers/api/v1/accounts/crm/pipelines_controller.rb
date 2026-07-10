@@ -22,6 +22,7 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
     @pipeline.update!(pipeline_params)
     update_goal!
     update_meta_sync!
+    update_google_sync!
     render :show
   end
 
@@ -76,6 +77,28 @@ class Api::V1::Accounts::Crm::PipelinesController < Api::V1::Accounts::Crm::Base
         'moved' => bool.cast(meta_sync.dig(:events, :moved)) || false
       },
       'dataset_id' => meta_sync[:dataset_id].presence
+    }
+    @pipeline.update!(metadata: metadata)
+  end
+
+  # Google offline conversions config lives in metadata['google_sync'] and is merged
+  # in separately so it never clobbers metadata['ai'], 'goals' or 'meta_sync'.
+  def update_google_sync!
+    google_sync = params.dig(:pipeline, :google_sync)
+    return if google_sync.nil?
+
+    bool = ActiveModel::Type::Boolean.new
+    metadata = (@pipeline.metadata || {}).deep_dup
+    metadata['google_sync'] = {
+      'enabled' => bool.cast(google_sync[:enabled]) || false,
+      'events' => {
+        'won' => bool.cast(google_sync.dig(:events, :won)) || false,
+        'lost' => bool.cast(google_sync.dig(:events, :lost)) || false,
+        'moved' => bool.cast(google_sync.dig(:events, :moved)) || false
+      },
+      'conversion_names' => {
+        'won' => google_sync.dig(:conversion_names, :won).presence
+      }.compact
     }
     @pipeline.update!(metadata: metadata)
   end

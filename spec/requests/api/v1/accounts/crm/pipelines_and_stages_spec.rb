@@ -40,6 +40,33 @@ RSpec.describe 'CRM pipelines and stages API', type: :request do
     expect(response.parsed_body['payload'].pluck('id')).not_to include(pipeline_id)
   end
 
+  it 'persists google_sync config on update without clobbering other metadata' do
+    account, user = create_account_and_user
+    pipeline, = create_crm_pipeline(account: account, user: user)
+    pipeline.update!(metadata: { 'goals' => { 'monthly_target_cents' => 1000, 'currency' => 'BRL' } })
+
+    patch "/api/v1/accounts/#{account.id}/crm/pipelines/#{pipeline.id}",
+          params: {
+            pipeline: {
+              google_sync: {
+                enabled: true,
+                events: { won: true, lost: false, moved: false },
+                conversion_names: { won: 'Venda Site' }
+              }
+            }
+          },
+          headers: auth_headers(user)
+
+    expect(response).to have_http_status(:ok)
+    metadata = pipeline.reload.metadata
+    expect(metadata['google_sync']).to eq(
+      'enabled' => true,
+      'events' => { 'won' => true, 'lost' => false, 'moved' => false },
+      'conversion_names' => { 'won' => 'Venda Site' }
+    )
+    expect(metadata['goals']).to eq('monthly_target_cents' => 1000, 'currency' => 'BRL')
+  end
+
   it 'prevents agents from creating pipelines and stages' do
     skip 'QUARANTINE: pre-existing legacy failure, harness-restore PR; real fix tracked for follow-up PR2'
     account, admin = create_account_and_user
