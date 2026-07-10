@@ -147,6 +147,11 @@ const menuItems = computed(() => {
 const allowedMenuItems = computed(() => {
   return menuItems.value.filter(item => item.show);
 });
+
+const sidebarDropdownStyle = computed(() => {
+  const color = globalConfig.value?.sidebarBackgroundColor?.trim();
+  return color ? { '--sidebar-background-color': color } : {};
+});
 </script>
 
 <template>
@@ -184,6 +189,7 @@ const allowedMenuItems = computed(() => {
     </template>
     <DropdownBody
       class="sidebar-branded-dropdown bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0"
+      :style="sidebarDropdownStyle"
     >
       <SidebarProfileMenuStatus />
       <DropdownSeparator />

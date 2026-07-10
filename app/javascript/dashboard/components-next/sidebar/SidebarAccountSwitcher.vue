@@ -40,6 +40,11 @@ const sortedCurrentUserAccounts = computed(() => {
   );
 });
 
+const sidebarDropdownStyle = computed(() => {
+  const color = globalConfig.value?.sidebarBackgroundColor?.trim();
+  return color ? { '--sidebar-background-color': color } : {};
+});
+
 const onChangeAccount = newId => {
   const accountUrl = `/app/accounts/${newId}/dashboard`;
   window.location.href = accountUrl;
@@ -101,6 +106,7 @@ const emitNewAccount = () => {
     <DropdownBody
       v-if="showAccountSwitcher || isCollapsed"
       class="sidebar-branded-dropdown min-w-80 z-50"
+      :style="sidebarDropdownStyle"
     >
       <DropdownSection :title="t('SIDEBAR_ITEMS.SWITCH_ACCOUNT')">
         <DropdownItem
