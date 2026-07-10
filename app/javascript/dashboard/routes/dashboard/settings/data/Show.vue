@@ -86,6 +86,10 @@ const skipLogTypeOptions = computed(() => {
 
 const hasActiveImport = computed(() => isActiveImport(dataImport.value));
 
+const isCompletedImport = computed(() =>
+  ['completed', 'completed_with_errors'].includes(dataImport.value?.status)
+);
+
 const canAbandonImport = computed(() => isAbandonableImport(dataImport.value));
 
 const title = computed(
@@ -387,9 +391,38 @@ onBeforeUnmount(() => {
             </h1>
           </div>
         </template>
-        <template #description>
-          <div class="flex flex-col gap-2">
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+        <template #actions>
+          <Button
+            v-if="!isCompletedImport"
+            ghost
+            slate
+            size="sm"
+            icon="i-lucide-refresh-cw"
+            :is-loading="isRefreshing"
+            :label="$t('DATA_IMPORTS.MONITOR.REFRESH')"
+            @click="fetchImport({ manual: true })"
+          />
+          <Button
+            v-if="canAbandonImport"
+            ruby
+            size="sm"
+            :is-loading="isAbandoning"
+            :label="$t('DATA_IMPORTS.TABLE.ABANDON')"
+            @click="abandonImport"
+          />
+        </template>
+      </BaseSettingsHeader>
+    </template>
+
+    <template #body>
+      <div v-if="dataImport" class="flex flex-col gap-4">
+        <section
+          class="rounded-lg bg-n-card px-4 py-3 outline outline-1 outline-n-container"
+        >
+          <div class="flex flex-col gap-3 lg:flex-row lg:items-center">
+            <div
+              class="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-1 text-sm"
+            >
               <span
                 class="inline-flex items-center gap-1.5 font-medium text-n-slate-12"
               >
@@ -413,47 +446,26 @@ onBeforeUnmount(() => {
                 }}
               </span>
             </div>
-            <dl class="flex flex-wrap gap-x-5 gap-y-1.5 text-xs">
+            <dl
+              class="grid flex-1 grid-cols-2 gap-x-4 gap-y-2 border-t border-n-weak pt-3 sm:grid-cols-3 lg:grid-cols-5 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0"
+            >
               <div
                 v-for="item in headerMetadata"
                 :key="item.key"
-                class="inline-flex min-w-0 items-center gap-1.5"
+                class="min-w-0"
               >
-                <dt class="text-n-slate-10">{{ item.label }}</dt>
+                <dt class="text-xs text-n-slate-10">{{ item.label }}</dt>
                 <dd
                   v-tooltip.top="item.tooltip"
-                  class="truncate font-medium text-n-slate-12"
+                  class="truncate text-sm font-medium text-n-slate-12"
                 >
                   {{ item.value }}
                 </dd>
               </div>
             </dl>
           </div>
-        </template>
-        <template #actions>
-          <Button
-            ghost
-            slate
-            size="sm"
-            icon="i-lucide-refresh-cw"
-            :is-loading="isRefreshing"
-            :label="$t('DATA_IMPORTS.MONITOR.REFRESH')"
-            @click="fetchImport({ manual: true })"
-          />
-          <Button
-            v-if="canAbandonImport"
-            ruby
-            size="sm"
-            :is-loading="isAbandoning"
-            :label="$t('DATA_IMPORTS.TABLE.ABANDON')"
-            @click="abandonImport"
-          />
-        </template>
-      </BaseSettingsHeader>
-    </template>
+        </section>
 
-    <template #body>
-      <div v-if="dataImport" class="flex flex-col gap-4">
         <section
           class="overflow-hidden rounded-lg bg-n-card outline outline-1 outline-n-container"
         >
