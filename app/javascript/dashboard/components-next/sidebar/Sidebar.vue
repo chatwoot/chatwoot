@@ -1259,7 +1259,7 @@ const menuItems = computed(() => {
       class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
       <div
-        class="sidebar-footer-fade pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
+        class="sidebar-footer-fade pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-n-background"
       />
       <SidebarChangelogCard
         v-if="
@@ -1336,18 +1336,6 @@ const menuItems = computed(() => {
   background-color: rgb(255 255 255 / 12%) !important;
 }
 
-.sidebar-branded :deep(.from-n-slate-3\/70) {
-  --tw-gradient-from: transparent var(--tw-gradient-from-position) !important;
-}
-
-.sidebar-branded :deep(.via-n-slate-3\/70),
-.sidebar-branded :deep(.to-n-slate-3\/70) {
-  --tw-gradient-to: rgb(255 255 255 / 10%) var(--tw-gradient-to-position) !important;
-  --tw-gradient-stops: var(--tw-gradient-from),
-    rgb(255 255 255 / 10%) var(--tw-gradient-via-position),
-    var(--tw-gradient-to) !important;
-}
-
 .sidebar-branded :deep(.active),
 .sidebar-branded :deep(.router-link-active) {
   background-color: rgb(255 255 255 / 14%) !important;
@@ -1375,6 +1363,7 @@ const menuItems = computed(() => {
 .sidebar-branded :deep(.sidebar-branded-dropdown .n-dropdown-body) {
   background-color: var(--sidebar-background-color, #0b1e3f) !important;
   background-image: none !important;
+  opacity: 1 !important;
   border-color: rgb(255 255 255 / 16%) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -1404,10 +1393,7 @@ const menuItems = computed(() => {
 }
 
 .sidebar-branded .sidebar-footer-fade {
-  background-image: linear-gradient(
-    to top,
-    var(--sidebar-background-color, #0b1e3f),
-    transparent
-  );
+  background-color: var(--sidebar-background-color, #0b1e3f) !important;
+  background-image: none !important;
 }
 </style>
