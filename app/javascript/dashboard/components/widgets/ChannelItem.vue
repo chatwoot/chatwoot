@@ -1,7 +1,6 @@
 <script setup>
 import { computed } from 'vue';
 import ChannelSelector from '../ChannelSelector.vue';
-import { useAccount } from 'dashboard/composables/useAccount';
 
 const props = defineProps({
   channel: {
@@ -15,7 +14,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
-const { isOnChatwootCloud } = useAccount();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
@@ -27,10 +25,6 @@ const hasInstagramConfigured = computed(() => {
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
-});
-
-const isWhatsappEmbeddedSignupRestricted = computed(() => {
-  return isOnChatwootCloud.value;
 });
 
 const isActive = computed(() => {
@@ -58,17 +52,16 @@ const isActive = computed(() => {
     return props.enabledFeatures.channel_tiktok && hasTiktokConfigured.value;
   }
 
-  if (key === 'voice' || key === 'whatsapp_call') {
-    return props.enabledFeatures.channel_voice;
-  }
-
   if (key === 'whatsapp_call') {
     return (
-      !isWhatsappEmbeddedSignupRestricted.value &&
       props.enabledFeatures.channel_voice &&
       !!window.chatwootConfig?.whatsappAppId &&
       window.chatwootConfig.whatsappAppId !== 'none'
     );
+  }
+
+  if (key === 'voice') {
+    return props.enabledFeatures.channel_voice;
   }
 
   return [

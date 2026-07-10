@@ -30,6 +30,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  restrictionWarningText: {
+    type: String,
+    default: '',
+  },
 });
 
 const store = useStore();
@@ -197,6 +201,7 @@ const launchEmbeddedSignup = async () => {
           />
           <span>
             {{
+              restrictionWarningText ||
               $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.RESTRICTED_WARNING')
             }}
             <a
