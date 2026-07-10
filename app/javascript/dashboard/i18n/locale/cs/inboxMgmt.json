@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Schr√°nky",
+    "HEADER": "Schr·nky",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -8,32 +8,32 @@
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn‚Äôt complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnít complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "K tomuto √∫ƒçtu nejsou p≈ôipojeny ≈æ√°dn√© doruƒçen√© schr√°nky."
+      "404": "K tomuto ˙ctu nejsou pripojeny û·dnÈ dorucenÈ schr·nky."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Vybrat kan√°l",
-        "BODY": "Vyberte si poskytovatele, kter√Ω chcete integrovat do Chatwoot."
+        "TITLE": "Vybrat kan·l",
+        "BODY": "Vyberte si poskytovatele, kter˝ chcete integrovat do Thynex."
       },
       "INBOX": {
-        "TITLE": "Vytvo≈ôit doruƒçenou po≈°tu",
-        "BODY": "Ovƒõ≈ôte si sv≈Øj √∫ƒçet a vytvo≈ôte si doruƒçenou po≈°tu."
+        "TITLE": "Vytvorit dorucenou poötu",
+        "BODY": "Overte si svuj ˙cet a vytvorte si dorucenou poötu."
       },
       "AGENT": {
-        "TITLE": "P≈ôidat agenty",
-        "BODY": "P≈ôidat agenty do vytvo≈ôen√© schr√°nky."
+        "TITLE": "Pridat agenty",
+        "BODY": "Pridat agenty do vytvorenÈ schr·nky."
       },
       "FINISH": {
-        "TITLE": "Voil√†!",
-        "BODY": "V≈°e je nastaveno!"
+        "TITLE": "Voil‡!",
+        "BODY": "Vöe je nastaveno!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "N√°zev schr√°nky",
+        "LABEL": "N·zev schr·nky",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
         "ERROR": "Please enter a valid inbox name"
       },
@@ -42,23 +42,23 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: P≈ôihl√°≈°en√≠m z√≠sk√°me p≈ô√≠stup pouze ke zpr√°v√°m va≈°√≠ str√°nky. Va≈°e soukrom√© zpr√°vy nikdy nemohou b√Ωt p≈ô√≠stupn√© Chatwoot.",
-        "CHOOSE_PAGE": "Vybrat str√°nku",
-        "CHOOSE_PLACEHOLDER": "Vyberte str√°nku ze seznamu",
-        "INBOX_NAME": "N√°zev schr√°nky",
-        "ADD_NAME": "Zadejte n√°zev schr√°nky",
+        "HELP": "PS: Prihl·öenÌm zÌsk·me prÌstup pouze ke zpr·v·m vaöÌ str·nky. Vaöe soukromÈ zpr·vy nikdy nemohou b˝t prÌstupnÈ Thynex.",
+        "CHOOSE_PAGE": "Vybrat str·nku",
+        "CHOOSE_PLACEHOLDER": "Vyberte str·nku ze seznamu",
+        "INBOX_NAME": "N·zev schr·nky",
+        "ADD_NAME": "Zadejte n·zev schr·nky",
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Vyberte hodnotu",
-        "CREATE_INBOX": "Vytvo≈ôit doruƒçenou po≈°tu"
+        "CREATE_INBOX": "Vytvorit dorucenou poötu"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Pokraƒçovat pomoc√≠ Instagramu",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "P≈ôipojte sv≈Øj Instagram profil",
+        "CONTINUE_WITH_INSTAGRAM": "Pokracovat pomocÌ Instagramu",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pripojte svuj Instagram profil",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won‚Äôt be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You wonít be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,23 +68,23 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Chcete-li p≈ôidat sv≈Øj Twitter profil jako kan√°l, mus√≠te ovƒõ≈ôit sv≈Øj Twitter profil kliknut√≠m na tlaƒç√≠tko 'P≈ôihl√°sit se p≈ôes Twitter' ",
+        "HELP": "Chcete-li pridat svuj Twitter profil jako kan·l, musÌte overit svuj Twitter profil kliknutÌm na tlacÌtko 'Prihl·sit se pres Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
         "TWEETS": {
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Kan√°l webov√© str√°nky",
-        "DESC": "Vytvo≈ôte si kan√°l pro va≈°e webov√© str√°nky a zaƒçnƒõte podporovat sv√© z√°kazn√≠ky prost≈ôednictv√≠m na≈°eho widgetu.",
-        "LOADING_MESSAGE": "Vytv√°≈ôen√≠ podp≈Ørn√©ho kan√°lu webov√Ωch str√°nek",
+        "TITLE": "Kan·l webovÈ str·nky",
+        "DESC": "Vytvorte si kan·l pro vaöe webovÈ str·nky a zacnete podporovat svÈ z·kaznÌky prostrednictvÌm naöeho widgetu.",
+        "LOADING_MESSAGE": "Vytv·renÌ podpurnÈho kan·lu webov˝ch str·nek",
         "CHANNEL_AVATAR": {
-          "LABEL": "Avatar kan√°lu"
+          "LABEL": "Avatar kan·lu"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "URL webov√©ho h√°ƒçku",
+          "LABEL": "URL webovÈho h·cku",
           "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Zadejte pros√≠m platnou URL"
+          "ERROR": "Zadejte prosÌm platnou URL"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -95,39 +95,39 @@
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Dom√©na webov√Ωch str√°nek",
-          "PLACEHOLDER": "Zadejte dom√©nu webu (nap≈ô. acme.com)"
+          "LABEL": "DomÈna webov˝ch str·nek",
+          "PLACEHOLDER": "Zadejte domÈnu webu (napr. acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "√övod uv√≠t√°n√≠",
+          "LABEL": "⁄vod uvÌt·nÌ",
           "PLACEHOLDER": "Ahoj!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "V√≠tejte Tagline",
-          "PLACEHOLDER": "Snadno se s n√°mi spojujeme. Po≈æ√°dejte n√°s o cokoliv, nebo sd√≠lejte svou zpƒõtnou vazbu."
+          "LABEL": "VÌtejte Tagline",
+          "PLACEHOLDER": "Snadno se s n·mi spojujeme. Poû·dejte n·s o cokoliv, nebo sdÌlejte svou zpetnou vazbu."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Pozdrav",
-          "PLACEHOLDER": "Acme Inc obvykle odpov√≠d√° do nƒõkolika hodin."
+          "PLACEHOLDER": "Acme Inc obvykle odpovÌd· do nekolika hodin."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Povolit uv√≠t√°n√≠",
+          "LABEL": "Povolit uvÌt·nÌ",
           "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
           "ENABLED": "Povoleno",
-          "DISABLED": "Zak√°z√°no"
+          "DISABLED": "Zak·z·no"
         },
         "REPLY_TIME": {
-          "TITLE": "Nastavit ƒças odpovƒõdi",
-          "IN_A_FEW_MINUTES": "Do nƒõkolika minut",
-          "IN_A_FEW_HOURS": "Do nƒõkolika hodin",
+          "TITLE": "Nastavit cas odpovedi",
+          "IN_A_FEW_MINUTES": "Do nekolika minut",
+          "IN_A_FEW_HOURS": "Do nekolika hodin",
           "IN_A_DAY": "Do dne",
-          "HELP_TEXT": "Tento ƒças odpovƒõdi bude zobrazen na widgetu"
+          "HELP_TEXT": "Tento cas odpovedi bude zobrazen na widgetu"
         },
         "WIDGET_COLOR": {
           "LABEL": "Barva widgetu",
-          "PLACEHOLDER": "Aktualizovat barvu widgetu pou≈æitou ve widgetu"
+          "PLACEHOLDER": "Aktualizovat barvu widgetu pouûitou ve widgetu"
         },
-        "SUBMIT_BUTTON": "Vytvo≈ôit doruƒçenou po≈°tu",
+        "SUBMIT_BUTTON": "Vytvorit dorucenou poötu",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
@@ -136,25 +136,25 @@
         "TITLE": "Twilio SMS/WhatsApp Channel",
         "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "SID √∫ƒçtu",
-          "PLACEHOLDER": "Zadejte SID va≈°eho Twilio √∫ƒçtu",
-          "ERROR": "Toto pole je povinn√©"
+          "LABEL": "SID ˙ctu",
+          "PLACEHOLDER": "Zadejte SID vaöeho Twilio ˙ctu",
+          "ERROR": "Toto pole je povinnÈ"
         },
         "API_KEY": {
           "USE_API_KEY": "Use API Key Authentication",
           "LABEL": "API Key SID",
           "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "Toto pole je povinn√©"
+          "ERROR": "Toto pole je povinnÈ"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
           "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "Toto pole je povinn√©"
+          "ERROR": "Toto pole je povinnÈ"
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging Service SID",
           "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "Toto pole je povinn√©",
+          "ERROR": "Toto pole je povinnÈ",
           "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
@@ -163,26 +163,26 @@
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Zadejte sv≈Øj ovƒõ≈ôovac√≠ Token Twilio",
-          "ERROR": "Toto pole je povinn√©"
+          "PLACEHOLDER": "Zadejte svuj overovacÌ Token Twilio",
+          "ERROR": "Toto pole je povinnÈ"
         },
         "CHANNEL_NAME": {
-          "LABEL": "N√°zev schr√°nky",
+          "LABEL": "N·zev schr·nky",
           "PLACEHOLDER": "Please enter a inbox name",
-          "ERROR": "Toto pole je povinn√©"
+          "ERROR": "Toto pole je povinnÈ"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonn√≠ ƒç√≠slo",
-          "PLACEHOLDER": "Zadejte pros√≠m telefonn√≠ ƒç√≠slo, ze kter√©ho bude zpr√°va odesl√°na.",
+          "LABEL": "TelefonnÌ cÌslo",
+          "PLACEHOLDER": "Zadejte prosÌm telefonnÌ cÌslo, ze kterÈho bude zpr·va odesl·na.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
           "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
-        "SUBMIT_BUTTON": "Vytvo≈ôit Twilio kan√°l",
+        "SUBMIT_BUTTON": "Vytvorit Twilio kan·l",
         "API": {
-          "ERROR_MESSAGE": "Nebyli jsme schopni ovƒõ≈ôit p≈ôihla≈°ovac√≠ √∫daje Twilia, zkuste to pros√≠m znovu"
+          "ERROR_MESSAGE": "Nebyli jsme schopni overit prihlaöovacÌ ˙daje Twilia, zkuste to prosÌm znovu"
         }
       },
       "SMS": {
@@ -200,31 +200,31 @@
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "Toto pole je povinn√©"
+            "ERROR": "Toto pole je povinnÈ"
           },
           "API_KEY": {
             "LABEL": "API Key",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "Toto pole je povinn√©"
+            "ERROR": "Toto pole je povinnÈ"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "Toto pole je povinn√©"
+            "ERROR": "Toto pole je povinnÈ"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
             "PLACEHOLDER": "Please enter your Bandwidth Application ID",
-            "ERROR": "Toto pole je povinn√©"
+            "ERROR": "Toto pole je povinnÈ"
           },
           "INBOX_NAME": {
-            "LABEL": "N√°zev schr√°nky",
+            "LABEL": "N·zev schr·nky",
             "PLACEHOLDER": "Please enter a inbox name",
-            "ERROR": "Toto pole je povinn√©"
+            "ERROR": "Toto pole je povinnÈ"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Telefonn√≠ ƒç√≠slo",
-            "PLACEHOLDER": "Zadejte pros√≠m telefonn√≠ ƒç√≠slo, ze kter√©ho bude zpr√°va odesl√°na.",
+            "LABEL": "TelefonnÌ cÌslo",
+            "PLACEHOLDER": "Zadejte prosÌm telefonnÌ cÌslo, ze kterÈho bude zpr·va odesl·na.",
             "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
@@ -254,13 +254,13 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "N√°zev schr√°nky",
+          "LABEL": "N·zev schr·nky",
           "PLACEHOLDER": "Please enter an inbox name",
-          "ERROR": "Toto pole je povinn√©"
+          "ERROR": "Toto pole je povinnÈ"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonn√≠ ƒç√≠slo",
-          "PLACEHOLDER": "Zadejte pros√≠m telefonn√≠ ƒç√≠slo, ze kter√©ho bude zpr√°va odesl√°na.",
+          "LABEL": "TelefonnÌ cÌslo",
+          "PLACEHOLDER": "Zadejte prosÌm telefonnÌ cÌslo, ze kterÈho bude zpr·va odesl·na.",
           "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
@@ -287,7 +287,7 @@
         "API_CALLBACK": {
           "TITLE": "Callback URL",
           "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
-          "WEBHOOK_URL": "URL webov√©ho h√°ƒçku",
+          "WEBHOOK_URL": "URL webovÈho h·cku",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number‚Ä¶",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberÖ",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,9 +317,9 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you‚Äôre a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youíre a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ‚Äî this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ó this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
@@ -329,13 +329,13 @@
         "TITLE": "Voice Channel",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
-          "LABEL": "Telefonn√≠ ƒç√≠slo",
+          "LABEL": "TelefonnÌ cÌslo",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "SID √∫ƒçtu",
+            "LABEL": "SID ˙ctu",
             "PLACEHOLDER": "Enter your Twilio Account SID",
             "REQUIRED": "Account SID is required"
           },
@@ -370,14 +370,14 @@
         "TITLE": "API Channel",
         "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
-          "LABEL": "N√°zev kan√°lu",
-          "PLACEHOLDER": "Zadejte n√°zev kan√°lu",
-          "ERROR": "Toto pole je povinn√©"
+          "LABEL": "N·zev kan·lu",
+          "PLACEHOLDER": "Zadejte n·zev kan·lu",
+          "ERROR": "Toto pole je povinnÈ"
         },
         "WEBHOOK_URL": {
-          "LABEL": "URL webov√©ho h√°ƒçku",
+          "LABEL": "URL webovÈho h·cku",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "URL webov√©ho h√°ƒçku"
+          "PLACEHOLDER": "URL webovÈho h·cku"
         },
         "SUBMIT_BUTTON": "Create API Channel",
         "API": {
@@ -388,14 +388,14 @@
         "TITLE": "Email Channel",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "N√°zev kan√°lu",
-          "PLACEHOLDER": "Zadejte n√°zev kan√°lu",
-          "ERROR": "Toto pole je povinn√©"
+          "LABEL": "N·zev kan·lu",
+          "PLACEHOLDER": "Zadejte n·zev kan·lu",
+          "ERROR": "Toto pole je povinnÈ"
         },
         "EMAIL": {
-          "LABEL": "E-mailov√° adresa",
+          "LABEL": "E-mailov· adresa",
           "SUBTITLE": "Email where your customers sends you support tickets",
-          "PLACEHOLDER": "E-mailov√° adresa"
+          "PLACEHOLDER": "E-mailov· adresa"
         },
         "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
@@ -404,16 +404,16 @@
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Kliknƒõte zde",
+        "CONFIGURE_SMTP_IMAP_LINK": "Kliknete zde",
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Channel",
         "DESC": "Integrate with LINE channel and start supporting your customers.",
         "CHANNEL_NAME": {
-          "LABEL": "N√°zev kan√°lu",
-          "PLACEHOLDER": "Zadejte n√°zev kan√°lu",
-          "ERROR": "Toto pole je povinn√©"
+          "LABEL": "N·zev kan·lu",
+          "PLACEHOLDER": "Zadejte n·zev kan·lu",
+          "ERROR": "Toto pole je povinnÈ"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE Channel ID",
@@ -451,9 +451,9 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Thynex supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voil√†!",
+        "TITLE_FINISH": "Voil‡!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
@@ -472,7 +472,7 @@
             "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
-            "TITLE": "E-mailov√° adresa",
+            "TITLE": "E-mailov· adresa",
             "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
           },
           "SMS": {
@@ -507,17 +507,17 @@
       },
       "AGENTS": {
         "TITLE": "Agenti",
-        "DESC": "Zde m≈Ø≈æete p≈ôidat agenty ke spr√°vƒõ novƒõ vytvo≈ôen√© schr√°nky. Pouze tito vybran√≠ agenti budou m√≠t p≈ô√≠stup do va≈°√≠ schr√°nky. Agenty, kter√© nejsou souƒç√°st√≠ t√©to schr√°nky, nebudou moci p≈ôi p≈ôihl√°≈°en√≠ vidƒõt zpr√°vy v t√©to schr√°nce ani na nƒõ reagovat. <br> <b>PS:</b> Jako spr√°vce, pokud pot≈ôebujete p≈ô√≠stup ke v≈°em schr√°nk√°m, byste se mƒõli p≈ôidat jako agent do v≈°ech schr√°nek, kter√© vytv√°≈ô√≠te.",
+        "DESC": "Zde muûete pridat agenty ke spr·ve nove vytvorenÈ schr·nky. Pouze tito vybranÌ agenti budou mÌt prÌstup do vaöÌ schr·nky. Agenty, kterÈ nejsou souc·stÌ tÈto schr·nky, nebudou moci pri prihl·öenÌ videt zpr·vy v tÈto schr·nce ani na ne reagovat. <br> <b>PS:</b> Jako spr·vce, pokud potrebujete prÌstup ke vöem schr·nk·m, byste se meli pridat jako agent do vöech schr·nek, kterÈ vytv·rÌte.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
         "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
-        "TITLE": "Doruƒçen√° po≈°ta detaily",
-        "DESC": "Z rozev√≠rac√≠ho seznamu n√≠≈æe vyberte Facebook str√°nku, kterou chcete p≈ôipojit k Chatwoot. M≈Ø≈æete tak√© zadat vlastn√≠ n√°zev doruƒçen√© po≈°tƒõ pro lep≈°√≠ identifikaci."
+        "TITLE": "Dorucen· poöta detaily",
+        "DESC": "Z rozevÌracÌho seznamu nÌûe vyberte Facebook str·nku, kterou chcete pripojit k Thynex. Muûete takÈ zadat vlastnÌ n·zev dorucenÈ poöte pro lepöÌ identifikaci."
       },
       "FINISH": {
         "TITLE": "Nalezeno to!",
-        "DESC": "√öspƒõ≈°nƒõ jste dokonƒçili integraci va≈°√≠ facebookov√© str√°nky s Chatwootem. A≈æ p≈ô√≠≈°tƒõ p≈ôijde z√°kaznick√° zpr√°va, konverzace se automaticky objev√≠ ve va≈°√≠ schr√°nce.<br>Poskytujeme v√°m tak√© widget skript, kter√Ω m≈Ø≈æete snadno p≈ôidat na va≈°e webov√© str√°nky. Jakmile je toto aktivn√≠ na va≈°ich webov√Ωch str√°nk√°ch, z√°kazn√≠ci v√°m mohou pos√≠lat zpr√°vy p≈ô√≠mo z va≈°ich webov√Ωch str√°nek bez pomoci extern√≠ho n√°stroje a konverzace se objev√≠ p≈ô√≠mo zde, na Chatwoot.<br>Skvƒõle, co? No, urƒçitƒõ se pokus√≠me b√Ωt :)"
+        "DESC": "⁄speöne jste dokoncili integraci vaöÌ facebookovÈ str·nky s Thynexem. Aû prÌöte prijde z·kaznick· zpr·va, konverzace se automaticky objevÌ ve vaöÌ schr·nce.<br>Poskytujeme v·m takÈ widget skript, kter˝ muûete snadno pridat na vaöe webovÈ str·nky. Jakmile je toto aktivnÌ na vaöich webov˝ch str·nk·ch, z·kaznÌci v·m mohou posÌlat zpr·vy prÌmo z vaöich webov˝ch str·nek bez pomoci externÌho n·stroje a konverzace se objevÌ prÌmo zde, na Thynex.<br>Skvele, co? No, urcite se pokusÌme b˝t :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -539,25 +539,25 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Ovƒõ≈ôov√°n√≠ pomoc√≠ Facebooku...",
+      "LOADING_FB": "Overov·nÌ pomocÌ Facebooku...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Nƒõco se pokazilo, pros√≠m obnovte str√°nku...",
+      "ERROR_FB_AUTH": "Neco se pokazilo, prosÌm obnovte str·nku...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Vytv√°≈ô√≠m va≈°i doruƒçenou po≈°tu...",
-      "TITLE": "Konfigurace detail≈Ø doruƒçen√© po≈°ty",
+      "CREATING_CHANNEL": "Vytv·rÌm vaöi dorucenou poötu...",
+      "TITLE": "Konfigurace detailu dorucenÈ poöty",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "P≈ôidat agenty",
-      "ADD_AGENTS": "P≈ôid√°v√°n√≠ agent≈Ø do va≈°√≠ schr√°nky..."
+      "BUTTON_TEXT": "Pridat agenty",
+      "ADD_AGENTS": "Prid·v·nÌ agentu do vaöÌ schr·nky..."
     },
     "FINISH": {
-      "TITLE": "Va≈°e doruƒçen√° po≈°ta je p≈ôipravena!",
+      "TITLE": "Vaöe dorucen· poöta je pripravena!",
       "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
-      "BUTTON_TEXT": "Vezmi mƒõ tam",
+      "BUTTON_TEXT": "Vezmi me tam",
       "MORE_SETTINGS": "More settings",
-      "WEBSITE_SUCCESS": "√öspƒõ≈°nƒõ jste dokonƒçili vytvo≈ôen√≠ webov√©ho kan√°lu. Zkop√≠rujte k√≥d zobrazen√Ω n√≠≈æe a vlo≈æte jej na va≈°e webov√© str√°nky. Kdy≈æ z√°kazn√≠k p≈ô√≠≈°tƒõ pou≈æije ≈æiv√Ω chat, konverzace se automaticky objev√≠ ve va≈°√≠ doruƒçen√© po≈°tƒõ.",
+      "WEBSITE_SUCCESS": "⁄speöne jste dokoncili vytvorenÌ webovÈho kan·lu. ZkopÌrujte kÛd zobrazen˝ nÌûe a vloûte jej na vaöe webovÈ str·nky. Kdyû z·kaznÌk prÌöte pouûije ûiv˝ chat, konverzace se automaticky objevÌ ve vaöÌ dorucenÈ poöte.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
@@ -566,17 +566,17 @@
     "VIEW": "Zobrazit",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Nastaven√≠ doruƒçen√© po≈°ty bylo √∫spƒõ≈°nƒõ aktualizov√°no",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatick√© p≈ôi≈ôazen√≠ bylo √∫spƒõ≈°nƒõ aktualizov√°no",
+        "SUCCESS_MESSAGE": "NastavenÌ dorucenÈ poöty bylo ˙speöne aktualizov·no",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "AutomatickÈ prirazenÌ bylo ˙speöne aktualizov·no",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Povoleno",
-        "DISABLED": "Zak√°z√°no"
+        "DISABLED": "Zak·z·no"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Povoleno",
-        "DISABLED": "Zak√°z√°no"
+        "DISABLED": "Zak·z·no"
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
@@ -599,11 +599,11 @@
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Povoleno",
-        "DISABLED": "Zak√°z√°no"
+        "DISABLED": "Zak·z·no"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
         "ENABLED": "Povoleno",
-        "DISABLED": "Zak√°z√°no"
+        "DISABLED": "Zak·z·no"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
@@ -619,26 +619,26 @@
       "BUTTON_TEXT": "Vymazat",
       "AVATAR_DELETE_BUTTON_TEXT": "Delete Avatar",
       "CONFIRM": {
-        "TITLE": "Potvrdit odstranƒõn√≠",
+        "TITLE": "Potvrdit odstranenÌ",
         "MESSAGE": "Opravdu chcete odstranit ",
         "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Ano, odstranit ",
         "NO": "Ne, zachovat "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Doruƒçen√° po≈°ta byla √∫spƒõ≈°nƒõ smaz√°na",
-        "ERROR_MESSAGE": "Nelze odstranit doruƒçenou po≈°tu. Opakujte akci pozdƒõji.",
+        "SUCCESS_MESSAGE": "Dorucen· poöta byla ˙speöne smaz·na",
+        "ERROR_MESSAGE": "Nelze odstranit dorucenou poötu. Opakujte akci pozdeji.",
         "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
         "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
-      "SETTINGS": "Nastaven√≠",
-      "COLLABORATORS": "Spolupracuj√≠c√≠",
-      "CONFIGURATION": "Nastaven√≠",
-      "CAMPAIGN": "Kampanƒõ",
-      "PRE_CHAT_FORM": "Formul√°≈ô p≈ôed chatem",
-      "BUSINESS_HOURS": "Pracovn√≠ doba",
+      "SETTINGS": "NastavenÌ",
+      "COLLABORATORS": "SpolupracujÌcÌ",
+      "CONFIGURATION": "NastavenÌ",
+      "CAMPAIGN": "Kampane",
+      "PRE_CHAT_FORM": "Formul·r pred chatem",
+      "BUSINESS_HOURS": "PracovnÌ doba",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ‚Äî it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ó it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ‚Äî no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ó no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -742,7 +742,7 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Nastaven√≠",
+    "SETTINGS": "NastavenÌ",
     "FEATURES": {
       "LABEL": "Funkce",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
@@ -752,7 +752,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger skript",
-      "MESSENGER_SUB_HEAD": "Um√≠stƒõte toto tlaƒç√≠tko dovnit≈ô va≈°eho tƒõlesn√©ho ≈°t√≠tku",
+      "MESSENGER_SUB_HEAD": "UmÌstete toto tlacÌtko dovnitr vaöeho telesnÈho ötÌtku",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -771,13 +771,13 @@
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agenti",
-      "INBOX_AGENTS_SUB_TEXT": "P≈ôidat nebo odebrat agenty z t√©to slo≈æky doruƒçen√© po≈°ty",
+      "INBOX_AGENTS_SUB_TEXT": "Pridat nebo odebrat agenty z tÈto sloûky dorucenÈ poöty",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Aktualizovat",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
-      "AUTO_ASSIGNMENT": "Povolit automatick√© p≈ôi≈ôazen√≠",
+      "AUTO_ASSIGNMENT": "Povolit automatickÈ prirazenÌ",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
@@ -785,9 +785,9 @@
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Nastaven√≠ doruƒçen√© po≈°ty",
-      "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastaven√≠ doruƒçen√© po≈°ty",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Povolit nebo zak√°zat automatick√© p≈ôi≈ôazov√°n√≠ nov√Ωch konverzac√≠ agent≈Øm p≈ôidan√Ωm do t√©to schr√°nky.",
+      "INBOX_UPDATE_TITLE": "NastavenÌ dorucenÈ poöty",
+      "INBOX_UPDATE_SUB_TEXT": "Aktualizujte nastavenÌ dorucenÈ poöty",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Povolit nebo zak·zat automatickÈ prirazov·nÌ nov˝ch konverzacÌ agentum pridan˝m do tÈto schr·nky.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
@@ -888,7 +888,7 @@
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
-      "CANCEL": "Zru≈°it",
+      "CANCEL": "Zruöit",
       "CONFIRM_DELETE": "Vymazat",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
@@ -897,7 +897,7 @@
       "TITLE": "Znovu autorizovat",
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
-      "MESSAGE_ERROR": "Do≈°lo k chybƒõ, zkuste to pros√≠m znovu"
+      "MESSAGE_ERROR": "Doölo k chybe, zkuste to prosÌm znovu"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
@@ -932,7 +932,7 @@
         "LABEL": "Display type"
       },
       "MESSAGE": {
-        "LABEL": "Zpr√°va",
+        "LABEL": "Zpr·va",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
@@ -999,7 +999,7 @@
       "TITLE": "Nastavte svou dostupnost",
       "SUBTITLE": "Set your availability on your livechat widget",
       "WEEKLY_TITLE": "Set your weekly hours",
-      "TIMEZONE_LABEL": "Vyberte ƒçasov√© p√°smo",
+      "TIMEZONE_LABEL": "Vyberte casovÈ p·smo",
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
@@ -1009,7 +1009,7 @@
         "AVAILABILITY": "Dostupnost",
         "HOURS": "Hours",
         "ENABLE": "Enable availability for this day",
-        "UNAVAILABLE": "Nedostupn√Ω",
+        "UNAVAILABLE": "Nedostupn˝",
         "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Vyberte"
       },
@@ -1035,8 +1035,8 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "P≈ôihl√°sit se",
-        "PLACE_HOLDER": "P≈ôihl√°sit se"
+        "LABEL": "Prihl·sit se",
+        "PLACE_HOLDER": "Prihl·sit se"
       },
       "PASSWORD": {
         "LABEL": "Heslo",
@@ -1068,8 +1068,8 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "P≈ôihl√°sit se",
-        "PLACE_HOLDER": "P≈ôihl√°sit se"
+        "LABEL": "Prihl·sit se",
+        "PLACE_HOLDER": "Prihl·sit se"
       },
       "PASSWORD": {
         "LABEL": "Heslo",
@@ -1093,7 +1093,7 @@
           "DELETE": {
             "API": {
               "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "Do≈°lo k chybƒõ, zkuste to pros√≠m znovu"
+              "ERROR_MESSAGE": "Doölo k chybe, zkuste to prosÌm znovu"
             }
           }
         },
@@ -1103,17 +1103,17 @@
           "ERROR": "Please enter a valid website name"
         },
         "WELCOME_HEADING": {
-          "LABEL": "√övod uv√≠t√°n√≠",
+          "LABEL": "⁄vod uvÌt·nÌ",
           "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "V√≠tejte Tagline",
-          "PLACE_HOLDER": "Snadno se s n√°mi spojujeme. Po≈æ√°dejte n√°s o cokoliv, nebo sd√≠lejte svou zpƒõtnou vazbu."
+          "LABEL": "VÌtejte Tagline",
+          "PLACE_HOLDER": "Snadno se s n·mi spojujeme. Poû·dejte n·s o cokoliv, nebo sdÌlejte svou zpetnou vazbu."
         },
         "REPLY_TIME": {
           "LABEL": "Reply Time",
-          "IN_A_FEW_MINUTES": "Do nƒõkolika minut",
-          "IN_A_FEW_HOURS": "Do nƒõkolika hodin",
+          "IN_A_FEW_MINUTES": "Do nekolika minut",
+          "IN_A_FEW_HOURS": "Do nekolika hodin",
           "IN_A_DAY": "Do dne"
         },
         "WIDGET_COLOR_LABEL": "Barva widgetu",
@@ -1121,9 +1121,9 @@
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Napi≈°tƒõ n√°m",
+          "DEFAULT": "Napiöte n·m",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "Napi≈°tƒõ n√°m"
+          "PLACE_HOLDER": "Napiöte n·m"
         },
         "UPDATE": {
           "BUTTON_TEXT": "Update Widget Settings",
@@ -1133,7 +1133,7 @@
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "N√°hled",
+          "PREVIEW": "N·hled",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -1150,24 +1150,24 @@
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Vƒõt≈°inou odpov√≠me bƒõhem p√°r minut",
-        "IN_A_FEW_HOURS": "Vƒõt≈°inou odpov√≠me bƒõhem p√°r hodin",
-        "IN_A_DAY": "Obvykle odpov√≠ za den"
+        "IN_A_FEW_MINUTES": "Vetöinou odpovÌme behem p·r minut",
+        "IN_A_FEW_HOURS": "Vetöinou odpovÌme behem p·r hodin",
+        "IN_A_DAY": "Obvykle odpovÌ za den"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Zah√°jit konverzaci",
-        "CHAT_INPUT_PLACEHOLDER": "Zde zaƒçnƒõte ps√°t"
+        "START_CONVERSATION_BUTTON_TEXT": "Zah·jit konverzaci",
+        "CHAT_INPUT_PLACEHOLDER": "Zde zacnete ps·t"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "V souƒçasn√© dobƒõ jsme pryƒç"
+          "OFFLINE": "V soucasnÈ dobe jsme pryc"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
       "BRANDING_TEXT": "Powered by Thynex",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1190,7 +1190,7 @@
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
-      "EMAIL": "E-mailov√° adresa",
+      "EMAIL": "E-mailov· adresa",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API Channel",
@@ -1200,3 +1200,6 @@
     }
   }
 }
+
+
+

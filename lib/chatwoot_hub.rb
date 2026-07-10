@@ -1,4 +1,4 @@
-# TODO: lets use HTTParty instead of RestClient
+﻿# TODO: lets use HTTParty instead of RestClient
 class ChatwootHub
   DEFAULT_BASE_URL = 'https://hub.2.chatwoot.com'.freeze
 
@@ -59,7 +59,7 @@ class ChatwootHub
   def self.instance_config
     {
       installation_identifier: installation_identifier,
-      installation_version: Chatwoot.config[:version],
+      installation_version: Thynex.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
       installation_env: ENV.fetch('INSTALLATION_ENV', ''),
       edition: ENV.fetch('CW_EDITION', '')
@@ -131,3 +131,4 @@ class ChatwootHub
 end
 
 ChatwootHub.singleton_class.prepend_mod_with('ChatwootHub')
+

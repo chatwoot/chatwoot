@@ -1,26 +1,26 @@
-<script setup>
+﻿<script setup>
 import PortalSwitcher from './PortalSwitcher.vue';
 
 const portals = [
   {
     id: 1,
-    name: 'Chatwoot Help Center',
+    name: 'Thynex Help Center',
     articles: 67,
-    domain: 'chatwoot.help',
+    domain: 'thynex.help',
     slug: 'help-center',
   },
   {
     id: 2,
-    name: 'Chatwoot Handbook',
+    name: 'Thynex Handbook',
     articles: 42,
-    domain: 'chatwoot.help',
+    domain: 'thynex.help',
     slug: 'handbook',
   },
   {
     id: 3,
     name: 'Developer Documentation',
     articles: 89,
-    domain: 'dev.chatwoot.com',
+    domain: 'dev.thynex.ai',
     slug: 'docs',
   },
 ];
@@ -42,3 +42,4 @@ const portals = [
     </Variant>
   </Story>
 </template>
+

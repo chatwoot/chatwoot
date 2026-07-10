@@ -1,4 +1,4 @@
-import { getters } from '../../campaign';
+﻿import { getters } from '../../campaign';
 import { campaigns } from './data';
 vi.mock('widget/store/index.js', () => ({
   default: {},
@@ -17,7 +17,7 @@ describe('#getters', () => {
         inbox: {
           id: 37,
           channel_id: 1,
-          name: 'Chatwoot',
+          name: 'Thynex',
           channel_type: 'Channel::WebWidget',
         },
         sender: {
@@ -74,7 +74,7 @@ describe('#getters', () => {
         inbox: {
           id: 37,
           channel_id: 1,
-          name: 'Chatwoot',
+          name: 'Thynex',
           channel_type: 'Channel::WebWidget',
         },
         sender: {
@@ -108,7 +108,7 @@ describe('#getters', () => {
       inbox: {
         id: 37,
         channel_id: 1,
-        name: 'Chatwoot',
+        name: 'Thynex',
         channel_type: 'Channel::WebWidget',
       },
       sender: {
@@ -131,3 +131,4 @@ describe('#getters', () => {
     });
   });
 });
+

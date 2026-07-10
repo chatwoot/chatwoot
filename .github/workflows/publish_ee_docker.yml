@@ -1,10 +1,10 @@
-# #
-# # This action will publish Chatwoot EE docker image.
+﻿# #
+# # This action will publish Thynex EE docker image.
 # # This is set to run against merges to develop, master
 # # and when tags are created.
 # #
 
-name: Publish Chatwoot EE docker images
+name: Publish Thynex EE docker images
 
 on:
   push:
@@ -43,7 +43,7 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
-      - name: Set Chatwoot edition
+      - name: Set Thynex edition
         run: |
           echo -en '\nENV CW_EDITION="ee"' >> docker/Dockerfile
 
@@ -141,3 +141,4 @@ jobs:
           fi
           
           docker buildx imagetools inspect $TAG
+

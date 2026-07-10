@@ -1,22 +1,22 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Postkastid",
-    "DESCRIPTION": "Kanal on suhtlusviis, mille teie klient valib teiega suhtlemiseks. Postkast on koht, kus haldate konkreetse kanali suhtlusi. See v√µib sisaldada suhtlust eri allikatest, nagu e-post, reaalajas vestlus ja sotsiaalmeedia.",
+    "DESCRIPTION": "Kanal on suhtlusviis, mille teie klient valib teiega suhtlemiseks. Postkast on koht, kus haldate konkreetse kanali suhtlusi. See vıib sisaldada suhtlust eri allikatest, nagu e-post, reaalajas vestlus ja sotsiaalmeedia.",
     "LEARN_MORE": "Lisateave postkastide kohta",
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Search inboxes...",
     "NO_RESULTS": "No inboxes found matching your search",
-    "RECONNECTION_REQUIRED": "Teie postkast on lahti √ºhendatud. Te ei saa uusi s√µnumeid enne, kui volitate selle uuesti.",
-    "CLICK_TO_RECONNECT": "Taas√ºhendamiseks kl√µpsake siin.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn‚Äôt complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "RECONNECTION_REQUIRED": "Teie postkast on lahti ¸hendatud. Te ei saa uusi sınumeid enne, kui volitate selle uuesti.",
+    "CLICK_TO_RECONNECT": "Taas¸hendamiseks klıpsake siin.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnít complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "Selle kontoga pole seotud √ºhtegi postkasti."
+      "404": "Selle kontoga pole seotud ¸htegi postkasti."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Vali kanal",
-        "BODY": "Valige teenusepakkuja, mille soovite Chatwootiga siduda."
+        "BODY": "Valige teenusepakkuja, mille soovite Thynexiga siduda."
       },
       "INBOX": {
         "TITLE": "Loo postkast",
@@ -28,7 +28,7 @@
       },
       "FINISH": {
         "TITLE": "Valmis!",
-        "BODY": "K√µik on valmis!"
+        "BODY": "Kıik on valmis!"
       }
     },
     "ADD": {
@@ -42,23 +42,23 @@
         "PLACEHOLDER": "Sisesta oma veebisaidi nimi (nt Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Sisselogimisel p√§√§seme ligi ainult teie lehe s√µnumitele. Teie privaatseid s√µnumeid Chatwoot ei p√§√§se kunagi ligi.",
+        "HELP": "PS: Sisselogimisel p‰‰seme ligi ainult teie lehe sınumitele. Teie privaatseid sınumeid Thynex ei p‰‰se kunagi ligi.",
         "CHOOSE_PAGE": "Vali leht",
         "CHOOSE_PLACEHOLDER": "Valige nimekirjast leht",
         "INBOX_NAME": "Postkasti nimi",
         "ADD_NAME": "Lisa oma postkastile nimi",
         "PICK_NAME": "Valige oma postkastile nimi",
-        "PICK_A_VALUE": "Vali v√§√§rtus",
+        "PICK_A_VALUE": "Vali v‰‰rtus",
         "CREATE_INBOX": "Loo postkast"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "J√§tka Instagramiga",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "√úhenda oma Instagrami profiil",
-        "HELP": "Instagrami profiili kanali lisamiseks peate autentima oma Instagrami profiili, kl√µpsates nupul 'J√§tka Instagramiga'.",
-        "ERROR_MESSAGE": "Instagramiga √ºhendamisel tekkis viga, palun proovige uuesti",
-        "ERROR_AUTH": "Instagramiga √ºhendamisel tekkis viga, palun proovige uuesti",
-        "NEW_INBOX_SUGGESTION": "See Instagrami konto oli varem seotud teise postkastiga ja on n√º√ºd siia √ºle viidud. K√µik uued s√µnumid kuvatakse siin. Vana postkast ei saa selle konto jaoks enam s√µnumeid saata ega vastu v√µtta.",
-        "DUPLICATE_INBOX_BANNER": "See Instagrami konto viidi √ºle uue Instagrami kanali postkasti. Sellest postkastist ei saa te enam Instagrami s√µnumeid saata ega vastu v√µtta."
+        "CONTINUE_WITH_INSTAGRAM": "J‰tka Instagramiga",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "‹henda oma Instagrami profiil",
+        "HELP": "Instagrami profiili kanali lisamiseks peate autentima oma Instagrami profiili, klıpsates nupul 'J‰tka Instagramiga'.",
+        "ERROR_MESSAGE": "Instagramiga ¸hendamisel tekkis viga, palun proovige uuesti",
+        "ERROR_AUTH": "Instagramiga ¸hendamisel tekkis viga, palun proovige uuesti",
+        "NEW_INBOX_SUGGESTION": "See Instagrami konto oli varem seotud teise postkastiga ja on n¸¸d siia ¸le viidud. Kıik uued sınumid kuvatakse siin. Vana postkast ei saa selle konto jaoks enam sınumeid saata ega vastu vıtta.",
+        "DUPLICATE_INBOX_BANNER": "See Instagrami konto viidi ¸le uue Instagrami kanali postkasti. Sellest postkastist ei saa te enam Instagrami sınumeid saata ega vastu vıtta."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,10 +68,10 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Twitteri profiili kanalina lisamiseks peate autentima oma Twitteri profiili, kl√µpsates 'Logi sisse Twitteriga' ",
-        "ERROR_MESSAGE": "Tekkis viga Twitteriga √ºhendamisel, palun proovi uuesti",
+        "HELP": "Twitteri profiili kanalina lisamiseks peate autentima oma Twitteri profiili, klıpsates 'Logi sisse Twitteriga' ",
+        "ERROR_MESSAGE": "Tekkis viga Twitteriga ¸hendamisel, palun proovi uuesti",
         "TWEETS": {
-          "ENABLE": "Loo vestlused mainitud s√§utsudest"
+          "ENABLE": "Loo vestlused mainitud s‰utsudest"
         }
       },
       "WEBSITE_CHANNEL": {
@@ -104,28 +104,28 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Tervituse alapealkiri",
-          "PLACEHOLDER": "Me muudame √ºhenduse loomise lihtsaks. K√ºsi meilt k√µike v√µi jaga oma tagasisidet."
+          "PLACEHOLDER": "Me muudame ¸henduse loomise lihtsaks. K¸si meilt kıike vıi jaga oma tagasisidet."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Kanali tervituss√µnum",
-          "PLACEHOLDER": "Acme Inc vastab tavaliselt m√µne tunni jooksul."
+          "LABEL": "Kanali tervitussınum",
+          "PLACEHOLDER": "Acme Inc vastab tavaliselt mıne tunni jooksul."
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Luba kanali tervitus",
-          "HELP_TEXT": "Saada tervituss√µnumid automaatselt, kui kliendid alustavad vestlust ja saadavad esimese s√µnumi.",
+          "HELP_TEXT": "Saada tervitussınumid automaatselt, kui kliendid alustavad vestlust ja saadavad esimese sınumi.",
           "ENABLED": "Lubatud",
           "DISABLED": "Keelatud"
         },
         "REPLY_TIME": {
-          "TITLE": "M√§√§ra vastamise aeg",
-          "IN_A_FEW_MINUTES": "M√µne minuti p√§rast",
-          "IN_A_FEW_HOURS": "M√µne tunni p√§rast",
-          "IN_A_DAY": "P√§eva jooksul",
+          "TITLE": "M‰‰ra vastamise aeg",
+          "IN_A_FEW_MINUTES": "Mıne minuti p‰rast",
+          "IN_A_FEW_HOURS": "Mıne tunni p‰rast",
+          "IN_A_DAY": "P‰eva jooksul",
           "HELP_TEXT": "See vastamise aeg kuvatakse reaalajas vestluse vidinal"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Vidina v√§rv",
-          "PLACEHOLDER": "Uuenda vidina v√§rvi, mida vidinas kasutatakse"
+          "LABEL": "Vidina v‰rv",
+          "PLACEHOLDER": "Uuenda vidina v‰rvi, mida vidinas kasutatakse"
         },
         "SUBMIT_BUTTON": "Loo postkast",
         "API": {
@@ -134,55 +134,55 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp kanal",
-        "DESC": "Integreeri Twilio ja alusta klientide toetamist SMS-i v√µi WhatsAppi kaudu.",
+        "DESC": "Integreeri Twilio ja alusta klientide toetamist SMS-i vıi WhatsAppi kaudu.",
         "ACCOUNT_SID": {
           "LABEL": "Konto SID",
           "PLACEHOLDER": "Palun sisestage oma Twilio konto SID",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "API_KEY": {
-          "USE_API_KEY": "Kasuta API-v√µtme autentimist",
-          "LABEL": "API-v√µtme SID",
-          "PLACEHOLDER": "Sisesta oma API-v√µtme SID",
-          "ERROR": "See v√§li on kohustuslik"
+          "USE_API_KEY": "Kasuta API-vıtme autentimist",
+          "LABEL": "API-vıtme SID",
+          "PLACEHOLDER": "Sisesta oma API-vıtme SID",
+          "ERROR": "See v‰li on kohustuslik"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API-v√µtme saladus",
-          "PLACEHOLDER": "Sisestage oma API v√µtme saladus",
-          "ERROR": "See v√§li on kohustuslik"
+          "LABEL": "API-vıtme saladus",
+          "PLACEHOLDER": "Sisestage oma API vıtme saladus",
+          "ERROR": "See v‰li on kohustuslik"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "S√µnumiteenuse SID",
-          "PLACEHOLDER": "Sisesta oma Twilio s√µnumiteenuse SID",
-          "ERROR": "See v√§li on kohustuslik",
-          "USE_MESSAGING_SERVICE": "Kasuta Twilio s√µnumiteenust"
+          "LABEL": "Sınumiteenuse SID",
+          "PLACEHOLDER": "Sisesta oma Twilio sınumiteenuse SID",
+          "ERROR": "See v‰li on kohustuslik",
+          "USE_MESSAGING_SERVICE": "Kasuta Twilio sınumiteenust"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Kanali t√º√ºp",
-          "ERROR": "Palun valige oma kanali t√º√ºp"
+          "LABEL": "Kanali t¸¸p",
+          "ERROR": "Palun valige oma kanali t¸¸p"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Autentimism√§rk",
-          "PLACEHOLDER": "Palun sisestage oma Twilio autentimism√§rk",
-          "ERROR": "See v√§li on kohustuslik"
+          "LABEL": "Autentimism‰rk",
+          "PLACEHOLDER": "Palun sisestage oma Twilio autentimism‰rk",
+          "ERROR": "See v‰li on kohustuslik"
         },
         "CHANNEL_NAME": {
           "LABEL": "Sissetuleva postkasti nimi",
           "PLACEHOLDER": "Palun sisesta sissetuleva postkasti nimi",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefoninumber",
-          "PLACEHOLDER": "Palun sisestage telefoninumber, millest s√µnum saadetakse.",
-          "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m√§rgiga `+` ja ei sisalda t√ºhikuid."
+          "PLACEHOLDER": "Palun sisestage telefoninumber, millest sınum saadetakse.",
+          "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m‰rgiga `+` ja ei sisalda t¸hikuid."
         },
         "API_CALLBACK": {
           "TITLE": "Tagasihelistamise URL",
-          "SUBTITLE": "Peate seadistama s√µnumite tagasikutsumise URL-i Twilios sellel siin mainitud URL-iga."
+          "SUBTITLE": "Peate seadistama sınumite tagasikutsumise URL-i Twilios sellel siin mainitud URL-iga."
         },
         "SUBMIT_BUTTON": "Loo Twilio kanal",
         "API": {
-          "ERROR_MESSAGE": "Twilio volitusi ei √µnnestunud kinnitada, palun proovige uuesti"
+          "ERROR_MESSAGE": "Twilio volitusi ei ınnestunud kinnitada, palun proovige uuesti"
         }
       },
       "SMS": {
@@ -194,38 +194,38 @@
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "SMS kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "SMS kanalit ei ınnestunud salvestada"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Konto ID",
             "PLACEHOLDER": "Palun sisesta oma Bandwidth konto ID",
-            "ERROR": "See v√§li on kohustuslik"
+            "ERROR": "See v‰li on kohustuslik"
           },
           "API_KEY": {
-            "LABEL": "API v√µti",
-            "PLACEHOLDER": "Palun sisestage oma Bandwidth API v√µti",
-            "ERROR": "See v√§li on kohustuslik"
+            "LABEL": "API vıti",
+            "PLACEHOLDER": "Palun sisestage oma Bandwidth API vıti",
+            "ERROR": "See v‰li on kohustuslik"
           },
           "API_SECRET": {
             "LABEL": "API saladus",
             "PLACEHOLDER": "Palun sisestage oma Bandwidth API saladus",
-            "ERROR": "See v√§li on kohustuslik"
+            "ERROR": "See v‰li on kohustuslik"
           },
           "APPLICATION_ID": {
             "LABEL": "Rakenduse ID",
             "PLACEHOLDER": "Sisesta oma Bandwidthi rakenduse ID",
-            "ERROR": "See v√§li on kohustuslik"
+            "ERROR": "See v‰li on kohustuslik"
           },
           "INBOX_NAME": {
             "LABEL": "Postkasti nimi",
             "PLACEHOLDER": "Palun sisesta postkasti nimi",
-            "ERROR": "See v√§li on kohustuslik"
+            "ERROR": "See v‰li on kohustuslik"
           },
           "PHONE_NUMBER": {
             "LABEL": "Telefoninumber",
-            "PLACEHOLDER": "Palun sisesta telefoninumber, millest s√µnum saadetakse.",
-            "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m√§rgiga `+` ja ei sisalda t√ºhikuid."
+            "PLACEHOLDER": "Palun sisesta telefoninumber, millest sınum saadetakse.",
+            "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m‰rgiga `+` ja ei sisalda t¸hikuid."
           },
           "SUBMIT_BUTTON": "Loo Bandwidthi kanal",
           "API": {
@@ -233,7 +233,7 @@
           },
           "API_CALLBACK": {
             "TITLE": "Tagasikutsumise URL",
-            "SUBTITLE": "Peate Bandwidthis seadistama s√µnumite tagasikutsumise URL-i siin mainitud URL-iga."
+            "SUBTITLE": "Peate Bandwidthis seadistama sınumite tagasikutsumise URL-i siin mainitud URL-iga."
           }
         }
       },
@@ -246,47 +246,47 @@
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "WHATSAPP_CLOUD_DESC": "Kiire seadistus Meta kaudu",
-          "TWILIO_DESC": "√úhenda Twilio andmetega",
+          "TWILIO_DESC": "‹henda Twilio andmetega",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
           "TITLE": "Vali API pakkuja",
-          "DESCRIPTION": "Vali oma WhatsAppi pakkuja. Saad √ºhendada otse Meta kaudu ilma seadistamiseta v√µi kasutada Twilio kontotunnuseid."
+          "DESCRIPTION": "Vali oma WhatsAppi pakkuja. Saad ¸hendada otse Meta kaudu ilma seadistamiseta vıi kasutada Twilio kontotunnuseid."
         },
         "INBOX_NAME": {
           "LABEL": "Sissetuleva postkasti nimi",
           "PLACEHOLDER": "Palun sisesta sissetuleva postkasti nimi",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefoninumber",
-          "PLACEHOLDER": "Palun sisesta telefoninumber, millest s√µnum saadetakse.",
-          "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m√§rgiga ‚Äû+‚Äú ja ei sisalda t√ºhikuid."
+          "PLACEHOLDER": "Palun sisesta telefoninumber, millest sınum saadetakse.",
+          "ERROR": "Palun sisestage kehtiv telefoninumber, mis algab m‰rgiga Ñ+ì ja ei sisalda t¸hikuid."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefoninumbri ID",
           "PLACEHOLDER": "Palun sisesta Facebooki arendajate juhtpaneelilt saadud telefoninumbri ID.",
-          "ERROR": "Palun sisestage kehtiv v√§√§rtus."
+          "ERROR": "Palun sisestage kehtiv v‰‰rtus."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "√Ñrikonto ID",
-          "PLACEHOLDER": "Palun sisesta Facebooki arendajate juhtpaneelilt saadud √§rikonto ID.",
-          "ERROR": "Palun sisesta kehtiv v√§√§rtus."
+          "LABEL": "ƒrikonto ID",
+          "PLACEHOLDER": "Palun sisesta Facebooki arendajate juhtpaneelilt saadud ‰rikonto ID.",
+          "ERROR": "Palun sisesta kehtiv v‰‰rtus."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook kinnituse token",
           "PLACEHOLDER": "Sisestage kinnitustoken, mida soovite Facebooki webhookide jaoks seadistada.",
-          "ERROR": "Palun sisesta kehtiv v√§√§rtus."
+          "ERROR": "Palun sisesta kehtiv v‰‰rtus."
         },
         "API_KEY": {
-          "LABEL": "API v√µti",
-          "SUBTITLE": "Seadista WhatsAppi API v√µti.",
-          "PLACEHOLDER": "API v√µti",
-          "ERROR": "Palun sisesta kehtiv v√§√§rtus."
+          "LABEL": "API vıti",
+          "SUBTITLE": "Seadista WhatsAppi API vıti.",
+          "PLACEHOLDER": "API vıti",
+          "ERROR": "Palun sisesta kehtiv v‰‰rtus."
         },
         "API_CALLBACK": {
           "TITLE": "Tagasikutsumise URL",
-          "SUBTITLE": "Peate Facebooki arendajate portaalis seadistama veebikonksu URL-i ja kinnitustokeni allolevate v√§√§rtustega.",
+          "SUBTITLE": "Peate Facebooki arendajate portaalis seadistama veebikonksu URL-i ja kinnitustokeni allolevate v‰‰rtustega.",
           "WEBHOOK_URL": "Veebikonksu URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook kinnituse token"
         },
@@ -296,19 +296,19 @@
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Sisseehitatud registreerimise eelised:",
-            "EASY_SETUP": "K√§sitsi seadistamine pole vajalik",
-            "SECURE_AUTH": "Turvaline OAuth-p√µhine autentimine",
+            "EASY_SETUP": "K‰sitsi seadistamine pole vajalik",
+            "SECURE_AUTH": "Turvaline OAuth-pıhine autentimine",
             "AUTO_CONFIG": "Automaatne webhooki ja telefoninumbri seadistus"
           },
           "LEARN_MORE": {
             "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
             "LINK_TEXT": "this link"
           },
-          "SUBMIT_BUTTON": "√úhenda WhatsApp Businessiga",
+          "SUBMIT_BUTTON": "‹henda WhatsApp Businessiga",
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number‚Ä¶",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberÖ",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,17 +317,17 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you‚Äôre a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youíre a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ‚Äî this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ó this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "WhatsAppi kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "WhatsAppi kanalit ei ınnestunud salvestada"
         }
       },
       "VOICE": {
-        "TITLE": "K√µnekanal",
-        "DESC": "Integreeri Twilio Voice ja alusta klientide toetamist telefonik√µnede kaudu.",
+        "TITLE": "Kınekanal",
+        "DESC": "Integreeri Twilio Voice ja alusta klientide toetamist telefonikınede kaudu.",
         "PHONE_NUMBER": {
           "LABEL": "Telefoninumber",
           "PLACEHOLDER": "Sisesta oma telefoninumber (nt +1234567890)",
@@ -340,17 +340,17 @@
             "REQUIRED": "Account SID on kohustuslik"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Autentimism√§rgis",
-            "PLACEHOLDER": "Sisesta oma Twilio autentimism√§rgis",
-            "REQUIRED": "Autentimism√§rgis on kohustuslik"
+            "LABEL": "Autentimism‰rgis",
+            "PLACEHOLDER": "Sisesta oma Twilio autentimism‰rgis",
+            "REQUIRED": "Autentimism‰rgis on kohustuslik"
           },
           "API_KEY_SID": {
-            "LABEL": "API v√µtme SID",
-            "PLACEHOLDER": "Sisesta oma Twilio API v√µtme SID",
+            "LABEL": "API vıtme SID",
+            "PLACEHOLDER": "Sisesta oma Twilio API vıtme SID",
             "REQUIRED": "API Key SID on kohustuslik"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API v√µtme saladus",
+            "LABEL": "API vıtme saladus",
             "PLACEHOLDER": "Sisesta oma Twilio API Key Secret",
             "REQUIRED": "API Key Secret on kohustuslik"
           }
@@ -361,9 +361,9 @@
           "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
           "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
-        "SUBMIT_BUTTON": "Loo k√µnekanal",
+        "SUBMIT_BUTTON": "Loo kınekanal",
         "API": {
-          "ERROR_MESSAGE": "H√§√§lekanalit ei √µnnestunud luua"
+          "ERROR_MESSAGE": "H‰‰lekanalit ei ınnestunud luua"
         }
       },
       "API_CHANNEL": {
@@ -372,34 +372,34 @@
         "CHANNEL_NAME": {
           "LABEL": "Kanali nimi",
           "PLACEHOLDER": "Palun sisestage kanali nimi",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "WEBHOOK_URL": {
           "LABEL": "Veebikonksu URL",
-          "SUBTITLE": "Seadistage URL, kuhu soovite s√ºndmuste tagasikutsed vastu v√µtta.",
+          "SUBTITLE": "Seadistage URL, kuhu soovite s¸ndmuste tagasikutsed vastu vıtta.",
           "PLACEHOLDER": "Veebikonksu URL"
         },
         "SUBMIT_BUTTON": "Loo API kanal",
         "API": {
-          "ERROR_MESSAGE": "API kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "API kanalit ei ınnestunud salvestada"
         }
       },
       "EMAIL_CHANNEL": {
         "TITLE": "E-posti kanal",
-        "DESC": "√úhendage oma e-posti postkast.",
+        "DESC": "‹hendage oma e-posti postkast.",
         "CHANNEL_NAME": {
           "LABEL": "Kanali nimi",
           "PLACEHOLDER": "Palun sisesta kanali nimi",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "EMAIL": {
           "LABEL": "E-post",
-          "SUBTITLE": "Sisestage e-posti aadress, kuhu teie kliendid saadavad tugip√§ringuid.",
+          "SUBTITLE": "Sisestage e-posti aadress, kuhu teie kliendid saadavad tugip‰ringuid.",
           "PLACEHOLDER": "E-post"
         },
         "SUBMIT_BUTTON": "Loo e-posti kanal",
         "API": {
-          "ERROR_MESSAGE": "E-posti kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "E-posti kanalit ei ınnestunud salvestada"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
@@ -413,7 +413,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Kanali nimi",
           "PLACEHOLDER": "Palun sisesta kanali nimi",
-          "ERROR": "See v√§li on kohustuslik"
+          "ERROR": "See v‰li on kohustuslik"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE kanali ID",
@@ -429,7 +429,7 @@
         },
         "SUBMIT_BUTTON": "Loo LINE kanal",
         "API": {
-          "ERROR_MESSAGE": "LINE kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "LINE kanalit ei ınnestunud salvestada"
         },
         "API_CALLBACK": {
           "TITLE": "Tagasikutsumise URL",
@@ -446,14 +446,14 @@
         },
         "SUBMIT_BUTTON": "Loo Telegrami kanal",
         "API": {
-          "ERROR_MESSAGE": "Telegrami kanalit ei √µnnestunud salvestada"
+          "ERROR_MESSAGE": "Telegrami kanalit ei ınnestunud salvestada"
         }
       },
       "AUTH": {
         "TITLE": "Vali kanal",
-        "DESC": "Chatwoot toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovid luua kohandatud kanali, saad selle luua API kanali abil. Alustamiseks vali allolevatest kanalitest √ºks.",
+        "DESC": "Thynex toetab vestlusvidinaid, Facebook Messengeri, WhatsAppi, e-kirju jms kanalitena. Kui soovid luua kohandatud kanali, saad selle luua API kanali abil. Alustamiseks vali allolevatest kanalitest ¸ks.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voil√†!",
+        "TITLE_FINISH": "Voil‡!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
@@ -507,45 +507,45 @@
       },
       "AGENTS": {
         "TITLE": "Agendid",
-        "DESC": "Siin saate lisada agente, kes haldavad teie √§sja loodud postkasti. Ainult valitud agendid p√§√§sevad teie postkastile ligi. Agendid, kes ei kuulu sellesse postkasti, ei n√§e ega saa vastata selle postkasti s√µnumitele, kui nad sisse logivad. <br> <b>PS:</b> Administraatorina, kui vajate ligip√§√§su k√µigile postkastidele, peaksite lisama end agentideks k√µigisse loodud postkastidesse.",
-        "VALIDATION_ERROR": "Lisage oma uude postkasti v√§hemalt √ºks agent",
+        "DESC": "Siin saate lisada agente, kes haldavad teie ‰sja loodud postkasti. Ainult valitud agendid p‰‰sevad teie postkastile ligi. Agendid, kes ei kuulu sellesse postkasti, ei n‰e ega saa vastata selle postkasti sınumitele, kui nad sisse logivad. <br> <b>PS:</b> Administraatorina, kui vajate ligip‰‰su kıigile postkastidele, peaksite lisama end agentideks kıigisse loodud postkastidesse.",
+        "VALIDATION_ERROR": "Lisage oma uude postkasti v‰hemalt ¸ks agent",
         "PICK_AGENTS": "Vali postkasti agendid"
       },
       "DETAILS": {
-        "TITLE": "Postkasti √ºksikasjad",
-        "DESC": "Valige allolevast rippmen√º√ºst Facebooki leht, mida soovite Chatwootiga √ºhendada. V√µite ka anda postkastile kohandatud nime parema √§ratundmise jaoks."
+        "TITLE": "Postkasti ¸ksikasjad",
+        "DESC": "Valige allolevast rippmen¸¸st Facebooki leht, mida soovite Thynexiga ¸hendada. Vıite ka anda postkastile kohandatud nime parema ‰ratundmise jaoks."
       },
       "FINISH": {
         "TITLE": "Valmis!",
-        "DESC": "Olete edukalt √ºhendanud oma Facebooki lehe Chatwootiga. J√§rgmine kord, kui klient teie lehele s√µnumi saadab, kuvatakse vestlus automaatselt teie postkastis.<br>Samuti anname teile vidina skripti, mille saate h√µlpsasti oma veebisaidile lisada. Kui see on teie veebisaidil aktiivne, saavad kliendid teile otse veebisaidilt s√µnumeid saata ilma v√§liste t√∂√∂riistadeta ning vestlus kuvatakse siin, Chatwootis.<br>Lahe, eks? Me p√º√ºame kindlasti :)"
+        "DESC": "Olete edukalt ¸hendanud oma Facebooki lehe Thynexiga. J‰rgmine kord, kui klient teie lehele sınumi saadab, kuvatakse vestlus automaatselt teie postkastis.<br>Samuti anname teile vidina skripti, mille saate hılpsasti oma veebisaidile lisada. Kui see on teie veebisaidil aktiivne, saavad kliendid teile otse veebisaidilt sınumeid saata ilma v‰liste tˆˆriistadeta ning vestlus kuvatakse siin, Thynexis.<br>Lahe, eks? Me p¸¸ame kindlasti :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Valige oma e-posti teenusepakkuja",
-        "DESCRIPTION": "Valige allolevast loendist e-posti pakkuja. Kui te ei leia oma e-posti pakkujat loendist, v√µite valida muu pakkuja valiku ja sisestada IMAP ja SMTP mandaadid."
+        "DESCRIPTION": "Valige allolevast loendist e-posti pakkuja. Kui te ei leia oma e-posti pakkujat loendist, vıite valida muu pakkuja valiku ja sisestada IMAP ja SMTP mandaadid."
       },
       "MICROSOFT": {
         "TITLE": "Microsofti e-post",
-        "DESCRIPTION": "Alustamiseks kl√µpsake nuppu Logi sisse Microsoftiga. Teid suunatakse e-posti sisselogimise lehele. Kui aktsepteerite n√µutud √µigused, suunatakse teid tagasi postkasti loomise sammu juurde.",
+        "DESCRIPTION": "Alustamiseks klıpsake nuppu Logi sisse Microsoftiga. Teid suunatakse e-posti sisselogimise lehele. Kui aktsepteerite nıutud ıigused, suunatakse teid tagasi postkasti loomise sammu juurde.",
         "EMAIL_PLACEHOLDER": "Sisestage e-posti aadress",
         "SIGN_IN": "Logi sisse Microsoftiga",
-        "ERROR_MESSAGE": "Microsoftiga √ºhendamisel tekkis viga, palun proovige uuesti"
+        "ERROR_MESSAGE": "Microsoftiga ¸hendamisel tekkis viga, palun proovige uuesti"
       },
       "GOOGLE": {
         "TITLE": "Google'i e-post",
-        "DESCRIPTION": "Alustamiseks kl√µpsake nuppu 'Logi sisse Google'iga'. Teid suunatakse e-posti sisselogimislehele. Kui olete n√µutud √µigused kinnitanud, suunatakse teid tagasi postkasti loomise sammu juurde.",
+        "DESCRIPTION": "Alustamiseks klıpsake nuppu 'Logi sisse Google'iga'. Teid suunatakse e-posti sisselogimislehele. Kui olete nıutud ıigused kinnitanud, suunatakse teid tagasi postkasti loomise sammu juurde.",
         "SIGN_IN": "Logi sisse Google'iga",
         "EMAIL_PLACEHOLDER": "Sisesta e-posti aadress",
-        "ERROR_MESSAGE": "Google'iga √ºhendamisel tekkis viga, palun proovige uuesti"
+        "ERROR_MESSAGE": "Google'iga ¸hendamisel tekkis viga, palun proovige uuesti"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autendime teid Facebookiga...",
-      "ERROR_FB_LOADING": "Facebooki SDK laadimisel tekkis viga. Palun keelake reklaamiblokeerijad ja proovige uuesti m√µne teise brauseriga.",
-      "ERROR_FB_AUTH": "Midagi l√§ks valesti, palun v√§rskendage lehte...",
-      "ERROR_FB_UNAUTHORIZED": "Teil ei ole selle toimingu tegemiseks √µigusi. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Veenduge, et teil oleks t√§ieliku juhtimis√µigusega juurdep√§√§s Facebooki lehele. Facebooki rollide kohta saate rohkem lugeda <a href=\" https://www.facebook.com/help/187316341316631\">siit</a>.",
+      "ERROR_FB_LOADING": "Facebooki SDK laadimisel tekkis viga. Palun keelake reklaamiblokeerijad ja proovige uuesti mıne teise brauseriga.",
+      "ERROR_FB_AUTH": "Midagi l‰ks valesti, palun v‰rskendage lehte...",
+      "ERROR_FB_UNAUTHORIZED": "Teil ei ole selle toimingu tegemiseks ıigusi. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Veenduge, et teil oleks t‰ieliku juhtimisıigusega juurdep‰‰s Facebooki lehele. Facebooki rollide kohta saate rohkem lugeda <a href=\" https://www.facebook.com/help/187316341316631\">siit</a>.",
       "CREATING_CHANNEL": "Loomas teie postkasti...",
-      "TITLE": "Seadista postkasti √ºksikasjad",
+      "TITLE": "Seadista postkasti ¸ksikasjad",
       "DESC": ""
     },
     "AGENTS": {
@@ -554,10 +554,10 @@
     },
     "FINISH": {
       "TITLE": "Teie postkast on valmis!",
-      "MESSAGE": "N√º√ºd saate oma uue kanali kaudu klientidega suhelda. Edukat toetust",
+      "MESSAGE": "N¸¸d saate oma uue kanali kaudu klientidega suhelda. Edukat toetust",
       "BUTTON_TEXT": "Viige mind sinna",
       "MORE_SETTINGS": "Rohkem seadeid",
-      "WEBSITE_SUCCESS": "Olete edukalt loonud veebisaidi kanali. Kopeerige allolev kood ja kleepige see oma veebisaidile. J√§rgmine kord, kui klient kasutab reaalajas vestlust, kuvatakse vestlus automaatselt teie postkastis.",
+      "WEBSITE_SUCCESS": "Olete edukalt loonud veebisaidi kanali. Kopeerige allolev kood ja kleepige see oma veebisaidile. J‰rgmine kord, kui klient kasutab reaalajas vestlust, kuvatakse vestlus automaatselt teie postkastis.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
@@ -567,7 +567,7 @@
     "EDIT": {
       "API": {
         "SUCCESS_MESSAGE": "Postkasti seaded uuendatud edukalt",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automaatne m√§√§ramine uuendatud edukalt",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automaatne m‰‰ramine uuendatud edukalt",
         "ERROR_MESSAGE": "Me ei saanud postkasti seadeid uuendada. Palun proovi hiljem uuesti."
       },
       "EMAIL_COLLECT_BOX": {
@@ -580,20 +580,20 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Saatja nimi",
-        "SUB_TEXT": "Valige nimi, mida teie klient n√§eb, kui ta saab teie agentidelt e-kirju.",
-        "FOR_EG": "N√§iteks:",
+        "SUB_TEXT": "Valige nimi, mida teie klient n‰eb, kui ta saab teie agentidelt e-kirju.",
+        "FOR_EG": "N‰iteks:",
         "FRIENDLY": {
-          "TITLE": "S√µbralik",
+          "TITLE": "Sıbralik",
           "FROM": "alates",
-          "SUBTITLE": "Lisa saatja nimele vastuse saatnud agendi nimi, et see oleks s√µbralik."
+          "SUBTITLE": "Lisa saatja nimele vastuse saatnud agendi nimi, et see oleks sıbralik."
         },
         "PROFESSIONAL": {
           "TITLE": "Ametlik",
-          "SUBTITLE": "Kasuta e-posti p√§ises saatja nimeks ainult seadistatud ettev√µtte nime."
+          "SUBTITLE": "Kasuta e-posti p‰ises saatja nimeks ainult seadistatud ettevıtte nime."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "Configure your business name",
-          "PLACEHOLDER": "Sisestage oma ettev√µtte nimi",
+          "PLACEHOLDER": "Sisestage oma ettevıtte nimi",
           "SAVE_BUTTON_TEXT": "Salvesta"
         }
       },
@@ -623,27 +623,27 @@
         "MESSAGE": "Kas olete kindel, et soovite kustutada ",
         "PLACE_HOLDER": "Palun kirjuta kinnitamiseks {inboxName}",
         "YES": "Jah, kustuta ",
-        "NO": "Ei, s√§ilita "
+        "NO": "Ei, s‰ilita "
       },
       "API": {
         "SUCCESS_MESSAGE": "Postkast kustutatud edukalt",
-        "ERROR_MESSAGE": "Postkasti ei √µnnestunud kustutada. Palun proovige hiljem uuesti.",
+        "ERROR_MESSAGE": "Postkasti ei ınnestunud kustutada. Palun proovige hiljem uuesti.",
         "AVATAR_SUCCESS_MESSAGE": "Postkasti avatar kustutati edukalt",
-        "AVATAR_ERROR_MESSAGE": "Postkasti avatari ei √µnnestunud kustutada. Palun proovi hiljem uuesti."
+        "AVATAR_ERROR_MESSAGE": "Postkasti avatari ei ınnestunud kustutada. Palun proovi hiljem uuesti."
       }
     },
     "TABS": {
       "SETTINGS": "Seaded",
-      "COLLABORATORS": "Koost√∂√∂partnerid",
+      "COLLABORATORS": "Koostˆˆpartnerid",
       "CONFIGURATION": "Konfiguratsioon",
       "CAMPAIGN": "Kampaaniad",
       "PRE_CHAT_FORM": "Eelvestluse vorm",
-      "BUSINESS_HOURS": "T√∂√∂aeg",
+      "BUSINESS_HOURS": "Tˆˆaeg",
       "WIDGET_BUILDER": "Vidina koostaja",
       "BOT_CONFIGURATION": "Boti seadistamine",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
-      "VOICE": "H√§√§l",
+      "VOICE": "H‰‰l",
       "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ‚Äî it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ó it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ‚Äî no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ó no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -747,11 +747,11 @@
       "LABEL": "Funktsioonid",
       "DISPLAY_FILE_PICKER": "Kuva vidinal failivalija",
       "DISPLAY_EMOJI_PICKER": "Kuva vidinal emotikonide valija",
-      "ALLOW_END_CONVERSATION": "Luba kasutajatel vestlust vidina kaudu l√µpetada",
+      "ALLOW_END_CONVERSATION": "Luba kasutajatel vestlust vidina kaudu lıpetada",
       "USE_INBOX_AVATAR_FOR_BOT": "Kasuta boti jaoks postkasti nime ja avatari"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "S√µnumside skript",
+      "MESSENGER_HEADING": "Sınumside skript",
       "MESSENGER_SUB_HEAD": "Paigutage see nupp oma body-sildi sisse",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
@@ -771,40 +771,40 @@
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agendid",
-      "INBOX_AGENTS_SUB_TEXT": "Lisa v√µi eemalda agente sellest postkastist",
-      "AGENT_ASSIGNMENT": "Vestluse m√§√§ramine",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Uuenda vestluse m√§√§ramise seadeid",
+      "INBOX_AGENTS_SUB_TEXT": "Lisa vıi eemalda agente sellest postkastist",
+      "AGENT_ASSIGNMENT": "Vestluse m‰‰ramine",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Uuenda vestluse m‰‰ramise seadeid",
       "UPDATE": "Uuenda",
       "ENABLE_EMAIL_COLLECT_BOX": "Luba e-posti kogumise kast",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Luba v√µi keela e-posti kogumise kast uue vestluse puhul",
-      "AUTO_ASSIGNMENT": "Luba automaatne m√§√§ramine",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Luba vıi keela e-posti kogumise kast uue vestluse puhul",
+      "AUTO_ASSIGNMENT": "Luba automaatne m‰‰ramine",
       "SENDER_NAME_SECTION": "Luba agendi nimi e-kirjas",
-      "SENDER_NAME_SECTION_TEXT": "Luba/keela agendi nime kuvamine e-kirjas, kui keelatud, kuvatakse ettev√µtte nimi",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Luba vestluse j√§tkumine e-posti teel",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Vestlused j√§tkuvad e-posti teel, kui kontakti e-posti aadress on olemas.",
+      "SENDER_NAME_SECTION_TEXT": "Luba/keela agendi nime kuvamine e-kirjas, kui keelatud, kuvatakse ettevıtte nimi",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Luba vestluse j‰tkumine e-posti teel",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Vestlused j‰tkuvad e-posti teel, kui kontakti e-posti aadress on olemas.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Postkasti seaded",
       "INBOX_UPDATE_SUB_TEXT": "Uuenda oma postkasti seadeid",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Luba v√µi keela uute vestluste automaatne m√§√§ramine sellele postkastile lisatud agentidele.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Luba vıi keela uute vestluste automaatne m‰‰ramine sellele postkastile lisatud agentidele.",
       "HMAC_VERIFICATION": "Kasutaja identiteedi valideerimine",
-      "HMAC_DESCRIPTION": "Selle v√µtmega saad genereerida salajase m√§rgi, mida saab kasutada kasutajate identiteedi kinnitamiseks.",
+      "HMAC_DESCRIPTION": "Selle vıtmega saad genereerida salajase m‰rgi, mida saab kasutada kasutajate identiteedi kinnitamiseks.",
       "HMAC_LINK_TO_DOCS": "Siit saad rohkem lugeda.",
-      "HMAC_MANDATORY_VERIFICATION": "N√µua kasutaja identiteedi kinnitust",
-      "HMAC_MANDATORY_DESCRIPTION": "Kui lubatud, l√ºkatakse tagasi p√§ringud, mida ei saa kinnitada.",
+      "HMAC_MANDATORY_VERIFICATION": "Nıua kasutaja identiteedi kinnitust",
+      "HMAC_MANDATORY_DESCRIPTION": "Kui lubatud, l¸katakse tagasi p‰ringud, mida ei saa kinnitada.",
       "INBOX_IDENTIFIER": "Postkasti identifikaator",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Kasuta siin n√§idatud `inbox_identifier` m√§rgendit oma API klientide autentimiseks.",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Kasuta siin n‰idatud `inbox_identifier` m‰rgendit oma API klientide autentimiseks.",
       "FORWARD_EMAIL_TITLE": "Edasta e-postile",
-      "FORWARD_EMAIL_SUB_TEXT": "Alusta oma e-kirjade edastamist j√§rgmisele e-posti aadressile.",
+      "FORWARD_EMAIL_SUB_TEXT": "Alusta oma e-kirjade edastamist j‰rgmisele e-posti aadressile.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Luba s√µnumid p√§rast vestluse lahendamist",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Luba l√µppkasutajatel saata s√µnumeid ka p√§rast vestluse lahendamist.",
-      "WHATSAPP_SECTION_SUBHEADER": "Seda API v√µtit kasutatakse WhatsApp API-dega integreerimiseks.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Sisestage uus API v√µti, mida kasutatakse WhatsAppi API-dega integreerimiseks.",
-      "WHATSAPP_SECTION_TITLE": "API v√µti",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Uuenda API-v√µtit",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Sisesta siia uus API-v√µti",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Luba sınumid p‰rast vestluse lahendamist",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Luba lıppkasutajatel saata sınumeid ka p‰rast vestluse lahendamist.",
+      "WHATSAPP_SECTION_SUBHEADER": "Seda API vıtit kasutatakse WhatsApp API-dega integreerimiseks.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Sisestage uus API vıti, mida kasutatakse WhatsAppi API-dega integreerimiseks.",
+      "WHATSAPP_SECTION_TITLE": "API vıti",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Uuenda API-vıtit",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Sisesta siia uus API-vıti",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Uuenda",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
@@ -822,7 +822,7 @@
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhooki kinnitustoken",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Seda m√§rki kasutatakse veebikonksu l√µpp-punkti autentsuse kontrollimiseks.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Seda m‰rki kasutatakse veebikonksu lıpp-punkti autentsuse kontrollimiseks.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
@@ -839,12 +839,12 @@
       "SELECT_PLACEHOLDER": "Vali abi keskus",
       "NONE": "None",
       "REMOVE": "Eemalda abi keskus",
-      "SUB_TEXT": "√úhenda abikeskus postkastiga"
+      "SUB_TEXT": "‹henda abikeskus postkastiga"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Automaatse m√§√§ramise piirang",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Palun sisesta v√§√§rtus, mis on suurem kui 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Piira selle postkasti vestluste maksimaalset arvu, mida saab automaatselt agendile m√§√§rata"
+      "MAX_ASSIGNMENT_LIMIT": "Automaatse m‰‰ramise piirang",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Palun sisesta v‰‰rtus, mis on suurem kui 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Piira selle postkasti vestluste maksimaalset arvu, mida saab automaatselt agendile m‰‰rata"
     },
     "ASSIGNMENT": {
       "TITLE": "Conversation Assignment",
@@ -895,20 +895,20 @@
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Taaskinnita autoriseerimine",
-      "SUBTITLE": "Sinu Facebooki √ºhendus on aegunud, palun √ºhenda oma Facebooki leht uuesti, et j√§tkata teenuseid",
-      "MESSAGE_SUCCESS": "√úhendus uuesti loodud edukalt",
+      "SUBTITLE": "Sinu Facebooki ¸hendus on aegunud, palun ¸henda oma Facebooki leht uuesti, et j‰tkata teenuseid",
+      "MESSAGE_SUCCESS": "‹hendus uuesti loodud edukalt",
       "MESSAGE_ERROR": "Tekkis viga, palun proovi uuesti"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Eelvestluse vormid v√µimaldavad sul koguda kasutajaandmeid enne vestluse alustamist.",
-      "SET_FIELDS": "Vestluseelse vormi v√§ljad",
+      "DESCRIPTION": "Eelvestluse vormid vıimaldavad sul koguda kasutajaandmeid enne vestluse alustamist.",
+      "SET_FIELDS": "Vestluseelse vormi v‰ljad",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "V√§ljad",
+        "FIELDS": "V‰ljad",
         "LABEL": "Silt",
-        "PLACE_HOLDER": "Kohat√§itja",
-        "KEY": "V√µti",
-        "TYPE": "T√º√ºp",
-        "REQUIRED": "N√µutav"
+        "PLACE_HOLDER": "Kohat‰itja",
+        "KEY": "Vıti",
+        "TYPE": "T¸¸p",
+        "REQUIRED": "Nıutav"
       },
       "ENABLE": {
         "LABEL": "Luba eelvestluse vorm",
@@ -918,22 +918,22 @@
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Vestluseels√µnum",
-        "PLACEHOLDER": "See s√µnum kuvatakse kasutajatele koos vormiga"
+        "LABEL": "Vestluseelsınum",
+        "PLACEHOLDER": "See sınum kuvatakse kasutajatele koos vormiga"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "K√ºlastajad peavad enne vestluse alustamist esitama oma nime ja e-posti aadressi"
+        "LABEL": "K¸lastajad peavad enne vestluse alustamist esitama oma nime ja e-posti aadressi"
       }
     },
     "CSAT": {
       "TITLE": "Luba CSAT",
-      "SUBTITLE": "K√§ivitage vestluste l√µpus automaatselt CSAT-k√ºsitlused, et m√µista, kuidas kliendid oma toe kogemust tajuvad. J√§lgige rahulolu trende ja leidke aja jooksul parenduskohti.",
+      "SUBTITLE": "K‰ivitage vestluste lıpus automaatselt CSAT-k¸sitlused, et mıista, kuidas kliendid oma toe kogemust tajuvad. J‰lgige rahulolu trende ja leidke aja jooksul parenduskohti.",
       "DISPLAY_TYPE": {
         "LABEL": "Kuvamisviis"
       },
       "MESSAGE": {
-        "LABEL": "S√µnum",
-        "PLACEHOLDER": "Palun sisestage s√µnum, mida vormiga kasutajatele kuvada"
+        "LABEL": "Sınum",
+        "PLACEHOLDER": "Palun sisestage sınum, mida vormiga kasutajatele kuvada"
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
@@ -979,41 +979,41 @@
         }
       },
       "SURVEY_RULE": {
-        "LABEL": "K√ºsitluse reegel",
-        "DESCRIPTION_PREFIX": "Saada k√ºsitlus, kui vestlus",
-        "DESCRIPTION_SUFFIX": "m√µnda silti",
+        "LABEL": "K¸sitluse reegel",
+        "DESCRIPTION_PREFIX": "Saada k¸sitlus, kui vestlus",
+        "DESCRIPTION_SUFFIX": "mında silti",
         "OPERATOR": {
           "CONTAINS": "sisaldab",
           "DOES_NOT_CONTAINS": "ei sisalda"
         },
         "SELECT_PLACEHOLDER": "vali sildid"
       },
-      "NOTE": "M√§rkus: CSAT-k√ºsitlused saadetakse iga vestluse kohta vaid korra",
+      "NOTE": "M‰rkus: CSAT-k¸sitlused saadetakse iga vestluse kohta vaid korra",
       "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT-i seaded on edukalt uuendatud",
-        "ERROR_MESSAGE": "CSAT-i seadeid ei √µnnestunud uuendada. Palun proovi hiljem uuesti."
+        "ERROR_MESSAGE": "CSAT-i seadeid ei ınnestunud uuendada. Palun proovi hiljem uuesti."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "M√§√§ra oma k√§ttesaadavus",
-      "SUBTITLE": "M√§√§ra oma k√§ttesaadavus reaalajas vestluse vidinal",
-      "WEEKLY_TITLE": "M√§√§ra oma n√§dalased t√∂√∂ajad",
-      "TIMEZONE_LABEL": "Vali ajav√∂√∂nd",
-      "UPDATE": "Uuenda t√∂√∂aja seadeid",
-      "TOGGLE_AVAILABILITY": "Luba selle postkasti t√∂√∂aja k√§ttesaadavus",
-      "UNAVAILABLE_MESSAGE_LABEL": "K√ºlastajatele saadetav teade, kui pole saadaval",
-      "TOGGLE_HELP": "T√∂√∂aja k√§ttesaadavuse lubamine kuvab reaalajas vestluse vidinas saadaval olevad ajad isegi siis, kui k√µik agendid on v√µrgu√ºhenduseta. V√§ljaspool saadaolevaid aegu saab k√ºlastajaid hoiatada s√µnumi ja vestluseelse vormiga.",
+      "TITLE": "M‰‰ra oma k‰ttesaadavus",
+      "SUBTITLE": "M‰‰ra oma k‰ttesaadavus reaalajas vestluse vidinal",
+      "WEEKLY_TITLE": "M‰‰ra oma n‰dalased tˆˆajad",
+      "TIMEZONE_LABEL": "Vali ajavˆˆnd",
+      "UPDATE": "Uuenda tˆˆaja seadeid",
+      "TOGGLE_AVAILABILITY": "Luba selle postkasti tˆˆaja k‰ttesaadavus",
+      "UNAVAILABLE_MESSAGE_LABEL": "K¸lastajatele saadetav teade, kui pole saadaval",
+      "TOGGLE_HELP": "Tˆˆaja k‰ttesaadavuse lubamine kuvab reaalajas vestluse vidinas saadaval olevad ajad isegi siis, kui kıik agendid on vırgu¸henduseta. V‰ljaspool saadaolevaid aegu saab k¸lastajaid hoiatada sınumi ja vestluseelse vormiga.",
       "DAY": {
         "DAY": "Day",
         "AVAILABILITY": "Availability",
         "HOURS": "Hours",
-        "ENABLE": "Luba selle p√§eva k√§ttesaadavus",
+        "ENABLE": "Luba selle p‰eva k‰ttesaadavus",
         "UNAVAILABLE": "Pole saadaval",
         "VALIDATION_ERROR": "Algusaeg peab olema enne sulgemisaega.",
         "CHOOSE": "Vali"
       },
-      "ALL_DAY": "Kogu p√§eva"
+      "ALL_DAY": "Kogu p‰eva"
     },
     "IMAP": {
       "TITLE": "IMAP",
@@ -1021,10 +1021,10 @@
       "NOTE_TEXT": "SMTP lubamiseks seadistage palun IMAP.",
       "UPDATE": "Uuenda IMAP seadeid",
       "TOGGLE_AVAILABILITY": "Luba IMAP konfiguratsioon selle sissetuleva postkasti jaoks",
-      "TOGGLE_HELP": "IMAP-i lubamine aitab kasutajal e-kirju vastu v√µtta",
+      "TOGGLE_HELP": "IMAP-i lubamine aitab kasutajal e-kirju vastu vıtta",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP seaded uuendati edukalt",
-        "ERROR_MESSAGE": "IMAP seadete uuendamine eba√µnnestus"
+        "ERROR_MESSAGE": "IMAP seadete uuendamine ebaınnestus"
       },
       "ADDRESS": {
         "LABEL": "Aadress",
@@ -1057,7 +1057,7 @@
       "TOGGLE_HELP": "SMTP lubamine aitab kasutajal e-kirju saata",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP seaded uuendati edukalt",
-        "ERROR_MESSAGE": "SMTP seadete uuendamine eba√µnnestus"
+        "ERROR_MESSAGE": "SMTP seadete uuendamine ebaınnestus"
       },
       "ADDRESS": {
         "LABEL": "Aadress",
@@ -1079,13 +1079,13 @@
         "LABEL": "Domeen",
         "PLACE_HOLDER": "Domeen"
       },
-      "ENCRYPTION": "Kr√ºpteerimine",
+      "ENCRYPTION": "Kr¸pteerimine",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "OpenSSL kinnitamise re≈æiim",
+      "OPEN_SSL_VERIFY_MODE": "OpenSSL kinnitamise reûiim",
       "AUTH_MECHANISM": "Autentimine"
     },
-    "NOTE": "M√§rkus: ",
+    "NOTE": "M‰rkus: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
@@ -1108,28 +1108,28 @@
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Tervituse alapealkiri",
-          "PLACE_HOLDER": "Me muudame √ºhenduse loomise lihtsaks. K√ºsi meilt mida iganes v√µi jaga oma tagasisidet."
+          "PLACE_HOLDER": "Me muudame ¸henduse loomise lihtsaks. K¸si meilt mida iganes vıi jaga oma tagasisidet."
         },
         "REPLY_TIME": {
           "LABEL": "Vastuse aeg",
-          "IN_A_FEW_MINUTES": "M√µne minuti p√§rast",
-          "IN_A_FEW_HOURS": "M√µne tunni p√§rast",
-          "IN_A_DAY": "P√§eva jooksul"
+          "IN_A_FEW_MINUTES": "Mıne minuti p‰rast",
+          "IN_A_FEW_HOURS": "Mıne tunni p‰rast",
+          "IN_A_DAY": "P‰eva jooksul"
         },
-        "WIDGET_COLOR_LABEL": "Vidina v√§rv",
+        "WIDGET_COLOR_LABEL": "Vidina v‰rv",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "R√§√§gi meiega",
+          "DEFAULT": "R‰‰gi meiega",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "R√§√§gi meiega"
+          "PLACE_HOLDER": "R‰‰gi meiega"
         },
         "UPDATE": {
           "BUTTON_TEXT": "Uuenda vidina seadeid",
           "API": {
             "SUCCESS_MESSAGE": "Vidina seaded uuendati edukalt",
-            "ERROR_MESSAGE": "Vidina s√§tteid ei √µnnestunud uuendada"
+            "ERROR_MESSAGE": "Vidina s‰tteid ei ınnestunud uuendada"
           }
         },
         "WIDGET_VIEW_OPTION": {
@@ -1150,24 +1150,24 @@
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Tavaliselt vastab m√µne minutiga",
-        "IN_A_FEW_HOURS": "Tavaliselt vastab m√µne tunniga",
-        "IN_A_DAY": "Tavaliselt vastab √ºhe p√§evaga"
+        "IN_A_FEW_MINUTES": "Tavaliselt vastab mıne minutiga",
+        "IN_A_FEW_HOURS": "Tavaliselt vastab mıne tunniga",
+        "IN_A_DAY": "Tavaliselt vastab ¸he p‰evaga"
       },
       "FOOTER": {
         "START_CONVERSATION_BUTTON_TEXT": "Alusta vestlust",
-        "CHAT_INPUT_PLACEHOLDER": "Kirjuta oma s√µnum"
+        "CHAT_INPUT_PLACEHOLDER": "Kirjuta oma sınum"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Oleme v√µrgus",
+          "ONLINE": "Oleme vırgus",
           "OFFLINE": "Hetkel eemal"
         },
         "USER_MESSAGE": "Tere",
         "AGENT_MESSAGE": "Tere"
       },
-      "BRANDING_TEXT": "Toetab Chatwoot‚Äôi",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Toetab Thynexíi",
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1196,7 +1196,10 @@
       "API": "API kanal",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "H√§√§l"
+      "VOICE": "H‰‰l"
     }
   }
 }
+
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Nepavyko prisijungti prie Woot serverio, bandykite dar kartą vėliau"
     }
   },
-  "POWERED_BY": "Parengta pagal Chatwoot"
+  "POWERED_BY": "Parengta pagal Thynex"
 }
+

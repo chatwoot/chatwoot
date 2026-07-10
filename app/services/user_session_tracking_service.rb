@@ -1,4 +1,4 @@
-class UserSessionTrackingService
+﻿class UserSessionTrackingService
   # CFNetwork UAs cannot distinguish iPhone from iPad; both get labelled iPhone here.
   LEGACY_MOBILE_UAS = [
     { match: %r{\Aokhttp/}, platform: 'Android', device: 'Android' },
@@ -55,18 +55,18 @@ class UserSessionTrackingService
   end
 
   def mobile_client_headers
-    name = @request.headers['X-Chatwoot-Client-Name']
+    name = @request.headers['X-Thynex-Client-Name']
     return nil if name.blank?
 
-    platform = @request.headers['X-Chatwoot-Platform']
-    model = @request.headers['X-Chatwoot-Device-Model']
+    platform = @request.headers['X-Thynex-Platform']
+    model = @request.headers['X-Thynex-Device-Model']
 
     {
       browser_name: name,
-      browser_version: @request.headers['X-Chatwoot-Client-Version'],
+      browser_version: @request.headers['X-Thynex-Client-Version'],
       device_name: device_name_for_icon(platform, model),
       platform_name: model,
-      platform_version: @request.headers['X-Chatwoot-Platform-Version']
+      platform_version: @request.headers['X-Thynex-Platform-Version']
     }
   end
 
@@ -85,7 +85,7 @@ class UserSessionTrackingService
     return attrs unless hit
 
     attrs.merge(
-      browser_name: 'Chatwoot Mobile',
+      browser_name: 'Thynex Mobile',
       browser_version: nil,
       platform_name: hit[:platform],
       platform_version: nil,
@@ -93,3 +93,4 @@ class UserSessionTrackingService
     )
   end
 end
+

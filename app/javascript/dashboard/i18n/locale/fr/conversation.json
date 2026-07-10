@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Veuillez sélectionner une conversation à partir du panneau de gauche",
     "CSAT_REPLY_MESSAGE": "Veuillez évaluer la conversation",
@@ -282,7 +282,7 @@
     "SENT_BY": "Envoyé par:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Impossible d'envoyer le message ! Réessayez",
     "TRY_AGAIN": "Réessayer",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

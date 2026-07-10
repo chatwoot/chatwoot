@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: users
 #
@@ -192,7 +192,7 @@ class User < ApplicationRecord
   end
 
   def mfa_feature_available?
-    Chatwoot.mfa_enabled?
+    Thynex.mfa_enabled?
   end
 
   # Workaround for Devise 4.9.x race condition vulnerability (GHSA-57hq-95w6-v4fc).
@@ -228,3 +228,4 @@ end
 
 User.include_mod_with('Audit::User')
 User.include_mod_with('Concerns::User')
+

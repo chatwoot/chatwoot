@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descărcare",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Discută cu noi"
   },
-  "POWERED_BY": "Oferit de Chatwoot",
+  "POWERED_BY": "Oferit de Thynex",
   "EMAIL_PLACEHOLDER": "Te rugăm să introduci adresa de e-mail",
   "CHAT_PLACEHOLDER": "Scrie mesajul tău",
   "TODAY": "Astăzi",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Replying to:"
   }
 }
+

@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: channel_email
 #
@@ -42,7 +42,7 @@ class Channel::Email < ApplicationRecord
   AUTHORIZATION_ERROR_THRESHOLD = 10
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  if Chatwoot.encryption_configured?
+  if Thynex.encryption_configured?
     encrypts :imap_password
     encrypts :smtp_password
   end
@@ -79,3 +79,4 @@ class Channel::Email < ApplicationRecord
     self.forward_to_email ||= "#{SecureRandom.hex}@#{account.inbound_email_domain}"
   end
 end
+

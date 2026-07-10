@@ -1,9 +1,9 @@
-default: &default
+﻿default: &default
   adapter: redis
   url: <%= ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379') %>
   password: <%= ENV.fetch('REDIS_PASSWORD', nil).presence %>
   ssl_params: 
-    verify_mode: <%= Chatwoot.redis_ssl_verify_mode %>
+    verify_mode: <%= Thynex.redis_ssl_verify_mode %>
   channel_prefix: <%= "chatwoot_#{Rails.env}_action_cable"  %>
 
 development:
@@ -18,3 +18,4 @@ staging:
 
 production:
   <<: *default
+

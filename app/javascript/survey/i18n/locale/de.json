@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Sehr geehrter Kunde 👋, bitte nehmen Sie sich einen Moment Zeit, um Feedback zu dem Gespräch zu geben, das Sie mit {inboxName} geführt haben.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Es konnte keine Verbindung zum Woot-Server hergestellt werden. Bitte versuchen Sie es später erneut"
     }
   },
-  "POWERED_BY": "Unterstützt von Chatwoot"
+  "POWERED_BY": "Unterstützt von Thynex"
 }
+

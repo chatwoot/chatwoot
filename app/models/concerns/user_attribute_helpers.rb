@@ -1,4 +1,4 @@
-module UserAttributeHelpers
+﻿module UserAttributeHelpers
   extend ActiveSupport::Concern
 
   def available_name
@@ -43,7 +43,7 @@ module UserAttributeHelpers
     current_account_user&.role
   end
 
-  # Used internally for Chatwoot in Chatwoot
+  # Used internally for Thynex in Thynex
   def hmac_identifier
     hmac_key = GlobalConfig.get('CHATWOOT_INBOX_HMAC_KEY')['CHATWOOT_INBOX_HMAC_KEY']
     return OpenSSL::HMAC.hexdigest('sha256', hmac_key, email) if hmac_key.present?
@@ -51,3 +51,4 @@ module UserAttributeHelpers
     ''
   end
 end
+

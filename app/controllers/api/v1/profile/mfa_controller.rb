@@ -1,4 +1,4 @@
-class Api::V1::Profile::MfaController < Api::BaseController
+﻿class Api::V1::Profile::MfaController < Api::BaseController
   before_action :check_mfa_feature_available
   before_action :check_mfa_enabled, only: [:destroy, :backup_codes]
   before_action :check_mfa_disabled, only: [:create, :verify]
@@ -34,7 +34,7 @@ class Api::V1::Profile::MfaController < Api::BaseController
   end
 
   def check_mfa_feature_available
-    return if Chatwoot.mfa_enabled?
+    return if Thynex.mfa_enabled?
 
     render json: {
       error: I18n.t('errors.mfa.feature_unavailable')
@@ -67,3 +67,4 @@ class Api::V1::Profile::MfaController < Api::BaseController
     params.permit(:otp_code, :backup_code, :password)
   end
 end
+

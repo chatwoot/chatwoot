@@ -1,54 +1,54 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "PosteingÃ¤nge",
+    "HEADER": "Posteingänge",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Mehr Ã¼ber PosteingÃ¤nge erfahren",
+    "LEARN_MORE": "Mehr über Posteingänge erfahren",
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Search inboxes...",
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Ihr Posteingang ist nicht verbunden. Sie erhalten keine neuen Nachrichten, bis Sie ihn erneut autorisieren.",
     "CLICK_TO_RECONNECT": "Klicken Sie hier, um die Verbindung wiederherzustellen.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnâ€™t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "Diesem Konto sind keine PosteingÃ¤nge zugeordnet."
+      "404": "Diesem Konto sind keine Posteingänge zugeordnet."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "WÃ¤hlen Sie Kanal",
-        "BODY": "WÃ¤hlen Sie den Anbieter, den Sie in Chatwoot integrieren mÃ¶chten."
+        "TITLE": "Wählen Sie Kanal",
+        "BODY": "Wählen Sie den Anbieter, den Sie in Thynex integrieren möchten."
       },
       "INBOX": {
         "TITLE": "Posteingang erstellen",
         "BODY": "Authentifizieren Sie Ihr Konto und erstellen Sie einen Posteingang."
       },
       "AGENT": {
-        "TITLE": "Agenten hinzufÃ¼gen",
-        "BODY": "FÃ¼gen Sie dem erstellten Posteingang Agenten hinzu."
+        "TITLE": "Agenten hinzufügen",
+        "BODY": "Fügen Sie dem erstellten Posteingang Agenten hinzu."
       },
       "FINISH": {
-        "TITLE": "VoilÃ !",
+        "TITLE": "Voilà!",
         "BODY": "Geschafft!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Posteingang-Name",
-        "PLACEHOLDER": "Geben Sie den Namen fÃ¼r Ihren Posteingang ein (eg: Acme Inc)",
-        "ERROR": "Bitte geben Sie einen gÃ¼ltigen Posteingangsnamen ein"
+        "PLACEHOLDER": "Geben Sie den Namen für Ihren Posteingang ein (eg: Acme Inc)",
+        "ERROR": "Bitte geben Sie einen gültigen Posteingangsnamen ein"
       },
       "WEBSITE_NAME": {
         "LABEL": "Webseiten-Name",
         "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
-        "CHOOSE_PAGE": "Seite auswÃ¤hlen",
-        "CHOOSE_PLACEHOLDER": "WÃ¤hle eine Seite aus der Liste",
+        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Thynex niemals zugreifen.",
+        "CHOOSE_PAGE": "Seite auswählen",
+        "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
-        "ADD_NAME": "Namen fÃ¼r diesen Posteingang eingeben",
-        "PICK_NAME": "WÃ¤hlen Sie einen Namen fÃ¼r Ihren Posteingang aus",
-        "PICK_A_VALUE": "WÃ¤hlen Sie einen Wert aus",
+        "ADD_NAME": "Namen für diesen Posteingang eingeben",
+        "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang aus",
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus",
         "CREATE_INBOX": "Posteingang erstellen"
       },
       "INSTAGRAM": {
@@ -58,7 +58,7 @@
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You wonâ€™t be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,15 +68,15 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufÃ¼gen, mÃ¼ssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
+        "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
         "ERROR_MESSAGE": "Beim Verbinden mit Twitter ist ein Fehler aufgetreten, bitte versuchen Sie es erneut",
         "TWEETS": {
-          "ENABLE": "Konversationen aus erwÃ¤hnten Tweets erstellen"
+          "ENABLE": "Konversationen aus erwähnten Tweets erstellen"
         }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website-Kanal",
-        "DESC": "Erstellen Sie einen Kanal fÃ¼r Ihre Website und unterstÃ¼tzen Sie Ihre Kunden Ã¼ber unser Website-Widget.",
+        "DESC": "Erstellen Sie einen Kanal für Ihre Website und unterstützen Sie Ihre Kunden über unser Website-Widget.",
         "LOADING_MESSAGE": "Website-Support-Channel erstellen",
         "CHANNEL_AVATAR": {
           "LABEL": "Kanal-Avatar"
@@ -84,7 +84,7 @@
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
           "PLACEHOLDER": "Bitte geben Sie Ihre Webhook-URL ein",
-          "ERROR": "Bitte geben Sie eine gÃ¼ltige URL ein"
+          "ERROR": "Bitte geben Sie eine gültige URL ein"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -99,7 +99,7 @@
           "PLACEHOLDER": "Geben Sie Ihre Website-Domain ein (eg: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Willkommens-Ãœberschrift",
+          "LABEL": "Willkommens-Überschrift",
           "PLACEHOLDER": "Hallo!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
@@ -107,12 +107,12 @@
           "PLACEHOLDER": "Wir machen es einfach, sich mit uns zu verbinden. Fragen Sie uns etwas oder teilen Sie uns Ihr Feedback mit."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "GruÃŸnachricht des Kanals",
+          "LABEL": "Grußnachricht des Kanals",
           "PLACEHOLDER": "Acme Inc antwortet in der Regel innerhalb weniger Stunden."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Kanal BegrÃ¼ÃŸung aktivieren",
-          "HELP_TEXT": "Automatisch eine BegrÃ¼ÃŸungsnachricht senden, wenn eine neue Konversation erstellt wird.",
+          "LABEL": "Kanal Begrüßung aktivieren",
+          "HELP_TEXT": "Automatisch eine Begrüßungsnachricht senden, wenn eine neue Konversation erstellt wird.",
           "ENABLED": "Aktiviert",
           "DISABLED": "Deaktiviert"
         },
@@ -134,51 +134,51 @@
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/WhatsApp-Kanal",
-        "DESC": "Integrieren Sie Twilio und unterstÃ¼tzen Sie Ihre Kunden via SMS oder WhatsApp.",
+        "DESC": "Integrieren Sie Twilio und unterstützen Sie Ihre Kunden via SMS oder WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Account SID",
           "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Account SID ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "API_KEY": {
-          "USE_API_KEY": "Verwenden Sie die API-SchlÃ¼ssel-Authentifizierung",
-          "LABEL": "API-SchlÃ¼ssel SID",
-          "PLACEHOLDER": "Bitte geben Sie Ihre API-SchlÃ¼ssel SID ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "USE_API_KEY": "Verwenden Sie die API-Schlüssel-Authentifizierung",
+          "LABEL": "API-Schlüssel SID",
+          "PLACEHOLDER": "Bitte geben Sie Ihre API-Schlüssel SID ein",
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API-SchlÃ¼ssel-Geheimnis",
-          "PLACEHOLDER": "Bitte geben Sie Ihr API-SchlÃ¼ssel-Geheimnis ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "LABEL": "API-Schlüssel-Geheimnis",
+          "PLACEHOLDER": "Bitte geben Sie Ihr API-Schlüssel-Geheimnis ein",
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Messaging-Dienst-SID",
           "PLACEHOLDER": "Bitte geben Sie Ihre Twilio Messaging Service SID ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt",
+          "ERROR": "Dieses Feld wird benötigt",
           "USE_MESSAGING_SERVICE": "Verwenden Sie einen Twilio-Nachrichtendienst"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Kanal-Typ",
-          "ERROR": "Bitte wÃ¤hlen Sie den Kanal-Typ aus"
+          "ERROR": "Bitte wählen Sie den Kanal-Typ aus"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth-Token",
           "PLACEHOLDER": "Bitte geben Sie Ihr Twilio Auth Token ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "CHANNEL_NAME": {
           "LABEL": "Posteingang-Name",
-          "PLACEHOLDER": "Bitte geben Sie einen Namen fÃ¼r den Posteingang ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Bitte geben Sie eine gÃ¼ltige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthÃ¤lt."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Sie mÃ¼ssen die Callback-URL in Twilio mit der hier genannten URL konfigurieren."
+          "SUBTITLE": "Sie müssen die Callback-URL in Twilio mit der hier genannten URL konfigurieren."
         },
         "SUBMIT_BUTTON": "Erstellen Sie Twilio Channel",
         "API": {
@@ -187,7 +187,7 @@
       },
       "SMS": {
         "TITLE": "SMS Kanal",
-        "DESC": "Beginnen Sie, Ihre Kunden per SMS zu unterstÃ¼tzen.",
+        "DESC": "Beginnen Sie, Ihre Kunden per SMS zu unterstützen.",
         "PROVIDERS": {
           "LABEL": "API-Provider",
           "TWILIO": "Twilio",
@@ -200,32 +200,32 @@
           "ACCOUNT_ID": {
             "LABEL": "Account ID",
             "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenkonto-ID ein",
-            "ERROR": "Dieses Feld wird benÃ¶tigt"
+            "ERROR": "Dieses Feld wird benötigt"
           },
           "API_KEY": {
-            "LABEL": "API-SchlÃ¼ssel",
-            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-SchlÃ¼ssel ein",
-            "ERROR": "Dieses Feld wird benÃ¶tigt"
+            "LABEL": "API-Schlüssel",
+            "PLACEHOLDER": "Bitte geben Sie Ihren Bandbreiten-API-Schlüssel ein",
+            "ERROR": "Dieses Feld wird benötigt"
           },
           "API_SECRET": {
             "LABEL": "API-Secret",
             "PLACEHOLDER": "Bitte geben Sie Ihr Bandbreiten-API-Geheimnis ein",
-            "ERROR": "Dieses Feld wird benÃ¶tigt"
+            "ERROR": "Dieses Feld wird benötigt"
           },
           "APPLICATION_ID": {
             "LABEL": "Anwendungs-ID",
             "PLACEHOLDER": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
-            "ERROR": "Dieses Feld wird benÃ¶tigt"
+            "ERROR": "Dieses Feld wird benötigt"
           },
           "INBOX_NAME": {
             "LABEL": "Posteingang-Name",
-            "PLACEHOLDER": "Bitte geben Sie einen Namen fÃ¼r den Posteingang ein",
-            "ERROR": "Dieses Feld wird benÃ¶tigt"
+            "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
+            "ERROR": "Dieses Feld wird benötigt"
           },
           "PHONE_NUMBER": {
             "LABEL": "Telefonnummer",
             "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-            "ERROR": "Bitte geben Sie eine gÃ¼ltige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthÃ¤lt."
+            "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
           },
           "SUBMIT_BUTTON": "Bitte geben Sie Ihre Bandbreitenanwendungs-ID ein",
           "API": {
@@ -233,13 +233,13 @@
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "Sie mÃ¼ssen die Nachrichten-Callback-URL in Bandbreite mit der hier erwÃ¤hnten URL konfigurieren."
+            "SUBTITLE": "Sie müssen die Nachrichten-Callback-URL in Bandbreite mit der hier erwähnten URL konfigurieren."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp-Kanal",
-        "DESC": "UnterstÃ¼tzen Sie Ihre Kunden via WhatsApp.",
+        "DESC": "Unterstützen Sie Ihre Kunden via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API-Provider",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
@@ -250,43 +250,43 @@
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "WÃ¤hle deinen API-Provider",
+          "TITLE": "Wähle deinen API-Provider",
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "Posteingang-Name",
-          "PLACEHOLDER": "Bitte geben Sie einen Namen fÃ¼r den Posteingang ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "PLACEHOLDER": "Bitte geben Sie einen Namen für den Posteingang ein",
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefonnummer",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummer ein, von der die Nachricht gesendet wird.",
-          "ERROR": "Bitte geben Sie eine gÃ¼ltige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthÃ¤lt."
+          "ERROR": "Bitte geben Sie eine gültige Telefonnummer an, die mit einem `+` Zeichen beginnt und keine Leerzeichen enthält."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefonnummer-ID",
           "PLACEHOLDER": "Bitte geben Sie die Telefonnummern-ID ein, die Sie vom Facebook-Entwickler-Dashboard erhalten haben.",
-          "ERROR": "Bitte geben Sie einen gÃ¼ltigen Wert ein."
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "GeschÃ¤ftskonto-ID",
-          "PLACEHOLDER": "Bitte geben Sie die von Facebook Developer Dashboard erhaltene GeschÃ¤ftskonto -ID ein.",
-          "ERROR": "Bitte geben Sie einen gÃ¼ltigen Wert ein."
+          "LABEL": "Geschäftskonto-ID",
+          "PLACEHOLDER": "Bitte geben Sie die von Facebook Developer Dashboard erhaltene Geschäftskonto -ID ein.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook-Verifizierungstoken",
-          "PLACEHOLDER": "Geben Sie ein BestÃ¤tigungstoken ein, das Sie fÃ¼r Facebook-Webhooks konfigurieren mÃ¶chten.",
-          "ERROR": "Bitte geben Sie einen gÃ¼ltigen Wert ein."
+          "PLACEHOLDER": "Geben Sie ein Bestätigungstoken ein, das Sie für Facebook-Webhooks konfigurieren möchten.",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "API_KEY": {
-          "LABEL": "API-SchlÃ¼ssel",
-          "SUBTITLE": "Konfigurieren Sie den WhatsApp API-SchlÃ¼ssel.",
-          "PLACEHOLDER": "API-SchlÃ¼ssel",
-          "ERROR": "Bitte geben Sie einen gÃ¼ltigen Wert ein."
+          "LABEL": "API-Schlüssel",
+          "SUBTITLE": "Konfigurieren Sie den WhatsApp API-Schlüssel.",
+          "PLACEHOLDER": "API-Schlüssel",
+          "ERROR": "Bitte geben Sie einen gültigen Wert ein."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Sie mÃ¼ssen die Webhook-URL und das Verifizierungstoken im Facebook-Entwicklerportal mit den unten gezeigten Werten konfigurieren.",
+          "SUBTITLE": "Sie müssen die Webhook-URL und das Verifizierungstoken im Facebook-Entwicklerportal mit den unten gezeigten Werten konfigurieren.",
           "WEBHOOK_URL": "Webhook-URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook-Verifizierungstoken"
         },
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberâ€¦",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -319,7 +319,7 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account wurde erfolgreich konfiguriert",
           "MANUAL_FALLBACK": "Wenn Ihre Nummer bereits mit der WhatsApp Business Plattform (API) verbunden ist, oder wenn Sie als Technologieanbieter Ihre eigene Nummer an Bord haben, verwenden Sie bitte den {link} Flow",
           "MANUAL_LINK_TEXT": "Manueller Einrichtungsablauf",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on â€” this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "Wir konnten den WhatsApp-Kanal nicht speichern"
@@ -345,12 +345,12 @@
             "REQUIRED": "Auth Token is required"
           },
           "API_KEY_SID": {
-            "LABEL": "API-SchlÃ¼ssel SID",
+            "LABEL": "API-Schlüssel SID",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
             "REQUIRED": "API Key SID is required"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API-SchlÃ¼ssel-Geheimnis",
+            "LABEL": "API-Schlüssel-Geheimnis",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
           }
@@ -368,15 +368,15 @@
       },
       "API_CHANNEL": {
         "TITLE": "API-Kanal",
-        "DESC": "Integrieren Sie einen API-Kanal und starten Sie mit der UnterstÃ¼tzung Ihrer Kunden.",
+        "DESC": "Integrieren Sie einen API-Kanal und starten Sie mit der Unterstützung Ihrer Kunden.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook-URL",
-          "SUBTITLE": "Konfigurieren Sie die URL, unter der Sie RÃ¼ckrufe bei Ereignissen empfangen mÃ¶chten.",
+          "SUBTITLE": "Konfigurieren Sie die URL, unter der Sie Rückrufe bei Ereignissen empfangen möchten.",
           "PLACEHOLDER": "Webhook-URL"
         },
         "SUBMIT_BUTTON": "API-Kanal erstellen",
@@ -390,7 +390,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "EMAIL": {
           "LABEL": "E-Mail",
@@ -409,11 +409,11 @@
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE-Kanal",
-        "DESC": "Integrieren Sie den LINE-Kanal und unterstÃ¼tzen Sie Ihre Kunden.",
+        "DESC": "Integrieren Sie den LINE-Kanal und unterstützen Sie Ihre Kunden.",
         "CHANNEL_NAME": {
           "LABEL": "Kanal Name",
           "PLACEHOLDER": "Bitte geben Sie einen Kanalnamen ein",
-          "ERROR": "Dieses Feld wird benÃ¶tigt"
+          "ERROR": "Dieses Feld wird benötigt"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE-Kanal-ID",
@@ -433,12 +433,12 @@
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Sie mÃ¼ssen die Webhook-URL in der LINE-Anwendung mit der hier genannten URL konfigurieren."
+          "SUBTITLE": "Sie müssen die Webhook-URL in der LINE-Anwendung mit der hier genannten URL konfigurieren."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram-Kanal",
-        "DESC": "Integrieren Sie den Telegram-Kanal und unterstÃ¼tzen Sie Ihre Kunden.",
+        "DESC": "Integrieren Sie den Telegram-Kanal und unterstützen Sie Ihre Kunden.",
         "BOT_TOKEN": {
           "LABEL": "Bot-Token",
           "SUBTITLE": "Konfigurieren Sie den Bot-Token, welchen Sie von Telegram BotFather erhalten haben.",
@@ -450,10 +450,10 @@
         }
       },
       "AUTH": {
-        "TITLE": "WÃ¤hlen Sie einen Kanal",
-        "DESC": "Chatwoot unterstÃ¼tzt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als KanÃ¤le. Wenn Sie einen benutzerdefinierten Kanal erstellen mÃ¶chten, kÃ¶nnen Sie ihn mithilfe des API-Kanals erstellen. WÃ¤hlen Sie zunÃ¤chst einen der folgenden KanÃ¤le aus.",
+        "TITLE": "Wählen Sie einen Kanal",
+        "DESC": "Thynex unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "VoilÃ !",
+        "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Webseite",
@@ -507,32 +507,32 @@
       },
       "AGENTS": {
         "TITLE": "Agenten",
-        "DESC": "Hier kÃ¶nnen Sie Agenten hinzufÃ¼gen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewÃ¤hlten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, kÃ¶nnen bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle PosteingÃ¤nge benÃ¶tigen, sollten Sie sich als Agent zu allen von Ihnen erstellten PosteingÃ¤ngen hinzufÃ¼gen.",
-        "VALIDATION_ERROR": "FÃ¼gen Sie mindestens einen Agenten zu Ihrem neuen Posteingang hinzu",
-        "PICK_AGENTS": "Agenten fÃ¼r den Posteingang auswÃ¤hlen"
+        "DESC": "Hier können Sie Agenten hinzufügen, um Ihren neu erstellten Posteingang zu verwalten. Nur diese ausgewählten Agenten haben Zugriff auf Ihren Posteingang. Agenten, die nicht Teil dieses Posteingangs sind, können bei der Anmeldung keine Nachrichten in diesem Posteingang sehen oder darauf antworten. <br> <b> PS: </b> Wenn Sie als Administrator Zugriff auf alle Posteingänge benötigen, sollten Sie sich als Agent zu allen von Ihnen erstellten Posteingängen hinzufügen.",
+        "VALIDATION_ERROR": "Fügen Sie mindestens einen Agenten zu Ihrem neuen Posteingang hinzu",
+        "PICK_AGENTS": "Agenten für den Posteingang auswählen"
       },
       "DETAILS": {
         "TITLE": "Posteingangsdetails",
-        "DESC": "WÃ¤hlen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Chatwoot herstellen mÃ¶chten. Sie kÃ¶nnen Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu kÃ¶nnen."
+        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Thynex herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
       },
       "FINISH": {
         "TITLE": "Geschafft!",
-        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Chatwoot erfolgreich abgeschlossen. Wenn ein Kunde das nÃ¤chste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen auÃŸerdem ein Widget-Skript zur VerfÃ¼gung, das Sie ganz einfach zu Ihrer Website hinzufÃ¼gen kÃ¶nnen. Sobald dies auf Ihrer Website live ist, kÃ¶nnen Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Chatwoot angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
+        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Thynex erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Thynex angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "WÃ¤hlen Sie Ihren E-Mail-Anbieter",
-        "DESCRIPTION": "WÃ¤hlen Sie einen E-Mail-Anbieter aus der Liste unten. Wenn Ihr E-Mail-Provider nicht in der Liste steht, kÃ¶nnen Sie die 'Anderer Anbieter'-Option auswÃ¤hlen und die Zugangsdaten fÃ¼r IMAP und SMTP angeben."
+        "TITLE": "Wählen Sie Ihren E-Mail-Anbieter",
+        "DESCRIPTION": "Wählen Sie einen E-Mail-Anbieter aus der Liste unten. Wenn Ihr E-Mail-Provider nicht in der Liste steht, können Sie die 'Anderer Anbieter'-Option auswählen und die Zugangsdaten für IMAP und SMTP angeben."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Klicken Sie auf die SchaltflÃ¤che Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt fÃ¼r den Posteingang weitergeleitet.",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Microsoft, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "SIGN_IN": "Mit Microsoft anmelden",
         "ERROR_MESSAGE": "Beim Verbinden mit Microsoft ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
       },
       "GOOGLE": {
         "TITLE": "Google E-Mail",
-        "DESCRIPTION": "Klicken Sie auf die SchaltflÃ¤che Einloggen mit Google, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt fÃ¼r den Posteingang weitergeleitet.",
+        "DESCRIPTION": "Klicken Sie auf die Schaltfläche Einloggen mit Google, um loszulegen. Sie werden zur E-Mail-Anmeldeseite weitergeleitet. Sobald Sie die angeforderten Berechtigungen angenommen haben, werden Sie zum Erstellungsschritt für den Posteingang weitergeleitet.",
         "SIGN_IN": "Mit Google anmelden",
         "EMAIL_PLACEHOLDER": "E-Mail-Adresse eingeben",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
@@ -542,22 +542,22 @@
       "LOADING_FB": "Authentifizierung mit Facebook ...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Es ist ein Fehler aufgetreten. Bitte Seite aktualisieren ...",
-      "ERROR_FB_UNAUTHORIZED": "Sie sind nicht berechtigt, diese Aktion auszufÃ¼hren. ",
+      "ERROR_FB_UNAUTHORIZED": "Sie sind nicht berechtigt, diese Aktion auszuführen. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Bitte stellen Sie sicher, dass Sie vollen Zugriff auf die Facebook-Seite haben. Weitere Informationen zu Facebook-Rollen finden Sie <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
       "CREATING_CHANNEL": "Erstellen Sie Ihren Posteingang ...",
       "TITLE": "Posteingangsdetails konfigurieren",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Agenten hinzufÃ¼gen",
-      "ADD_AGENTS": "Adding Agents to your Inbox...HinzufÃ¼gen von Agenten zu Ihrem Posteingang ..."
+      "BUTTON_TEXT": "Agenten hinzufügen",
+      "ADD_AGENTS": "Adding Agents to your Inbox...Hinzufügen von Agenten zu Ihrem Posteingang ..."
     },
     "FINISH": {
       "TITLE": "Ihr Posteingang ist fertig!",
-      "MESSAGE": "Sie kÃ¶nnen jetzt Ã¼ber Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. FrÃ¶hliches UnterstÃ¼tzen",
+      "MESSAGE": "Sie können jetzt über Ihren neuen Kanal mit Ihren Kunden in Kontakt treten. Fröhliches Unterstützen",
       "BUTTON_TEXT": "Bring mich dahin",
       "MORE_SETTINGS": "Weitere Einstellungen",
-      "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fÃ¼gen Sie ihn in Ihre Website ein. Wenn ein Kunde das nÃ¤chste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt.",
+      "WEBSITE_SUCCESS": "Sie haben die Erstellung eines Website-Kanals erfolgreich abgeschlossen. Kopieren Sie den unten gezeigten Code und fügen Sie ihn in Ihre Website ein. Wenn ein Kunde das nächste Mal den Live-Chat verwendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
@@ -568,7 +568,7 @@
       "API": {
         "SUCCESS_MESSAGE": "Posteingangseinstellungen erfolgreich aktualisiert",
         "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatische Zuordnung erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "Die Posteingangseinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es spÃ¤ter erneut."
+        "ERROR_MESSAGE": "Die Posteingangseinstellungen konnten nicht aktualisiert werden. Bitte versuchen Sie es später erneut."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktiviert",
@@ -580,12 +580,12 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Name des Absenders",
-        "SUB_TEXT": "WÃ¤hlen Sie den Namen aus, der Ihren Kunden angezeigt wird, wenn sie E-Mails von Ihren Agenten erhalten.",
+        "SUB_TEXT": "Wählen Sie den Namen aus, der Ihren Kunden angezeigt wird, wenn sie E-Mails von Ihren Agenten erhalten.",
         "FOR_EG": "Zum Beispiel:",
         "FRIENDLY": {
           "TITLE": "Freundlich",
           "FROM": "von",
-          "SUBTITLE": "FÃ¼gen Sie den Namen des Agenten, der die Antwort gesendet hat, in den Absendernamen ein, um es freundlicher zu gestalten."
+          "SUBTITLE": "Fügen Sie den Namen des Agenten, der die Antwort gesendet hat, in den Absendernamen ein, um es freundlicher zu gestalten."
         },
         "PROFESSIONAL": {
           "TITLE": "Professionell",
@@ -616,20 +616,20 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "LÃ¶schen",
-      "AVATAR_DELETE_BUTTON_TEXT": "Avatar lÃ¶schen",
+      "BUTTON_TEXT": "Löschen",
+      "AVATAR_DELETE_BUTTON_TEXT": "Avatar löschen",
       "CONFIRM": {
-        "TITLE": "LÃ¶schung bestÃ¤tigen",
-        "MESSAGE": "Bist du sicher, das du das lÃ¶schen mÃ¶chtest ",
-        "PLACE_HOLDER": "Bitte geben Sie {inboxName} zur BestÃ¤tigung ein",
-        "YES": "Ja, lÃ¶schen",
+        "TITLE": "Löschung bestätigen",
+        "MESSAGE": "Bist du sicher, das du das löschen möchtest ",
+        "PLACE_HOLDER": "Bitte geben Sie {inboxName} zur Bestätigung ein",
+        "YES": "Ja, löschen",
         "NO": "Nein, behalten "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Posteingang erfolgreich gelÃ¶scht",
-        "ERROR_MESSAGE": "Posteingang konnte nicht gelÃ¶scht werden. Bitte versuchen Sie es spÃ¤ter noch einmal.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar von Posteingang erfolgreich gelÃ¶scht",
-        "AVATAR_ERROR_MESSAGE": "Der Avatar vom Posteingang konnte nicht gelÃ¶scht werden. Bitte versuchen Sie es spÃ¤ter erneut."
+        "SUCCESS_MESSAGE": "Posteingang erfolgreich gelöscht",
+        "ERROR_MESSAGE": "Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später noch einmal.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar von Posteingang erfolgreich gelöscht",
+        "AVATAR_ERROR_MESSAGE": "Der Avatar vom Posteingang konnte nicht gelöscht werden. Bitte versuchen Sie es später erneut."
       }
     },
     "TABS": {
@@ -638,7 +638,7 @@
       "CONFIGURATION": "Konfiguration",
       "CAMPAIGN": "Kampagnen",
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
-      "BUSINESS_HOURS": "Ã–ffnungszeiten",
+      "BUSINESS_HOURS": "Öffnungszeiten",
       "WIDGET_BUILDER": "Widget-Generator",
       "BOT_CONFIGURATION": "Bot-Konfiguration",
       "ACCOUNT_HEALTH": "Account Health",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number â€” it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta â€” no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -748,11 +748,11 @@
       "DISPLAY_FILE_PICKER": "Dateiauswahl im Widget anzeigen",
       "DISPLAY_EMOJI_PICKER": "Emoji-Auswahl im Widget anzeigen",
       "ALLOW_END_CONVERSATION": "Benutzern erlauben, die Konversation vom Widget zu beenden",
-      "USE_INBOX_AVATAR_FOR_BOT": "Posteingangsname und Avatar fÃ¼r den Bot verwenden"
+      "USE_INBOX_AVATAR_FOR_BOT": "Posteingangsname und Avatar für den Bot verwenden"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger-Skript",
-      "MESSENGER_SUB_HEAD": "Platzieren Sie diese SchaltflÃ¤che in Ihrem Body-Tag",
+      "MESSENGER_SUB_HEAD": "Platzieren Sie diese Schaltfläche in Ihrem Body-Tag",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -771,40 +771,40 @@
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
       "INBOX_AGENTS": "Agenten",
-      "INBOX_AGENTS_SUB_TEXT": "HinzufÃ¼gen oder Entfernen von Agenten zu diesem Posteingang",
+      "INBOX_AGENTS_SUB_TEXT": "Hinzufügen oder Entfernen von Agenten zu diesem Posteingang",
       "AGENT_ASSIGNMENT": "Konversationssauftrag",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Konversationszuweisungseinstellungen aktualisieren",
       "UPDATE": "Aktualisieren",
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox fÃ¼r neue Konversation aktivieren oder deaktivieren",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
       "SENDER_NAME_SECTION": "Aktivieren Sie den Agentennamen in der E-Mail",
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "KonversationskontinuitÃ¤t per E-Mail aktivieren",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfÃ¼gbar ist.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Posteingangseinstellungen",
       "INBOX_UPDATE_SUB_TEXT": "Posteingangseinstellungen aktualisieren",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfÃ¼gbarer Agenten fÃ¼r neue Konversationen",
-      "HMAC_VERIFICATION": "BenutzeridentitÃ¤tsÃ¼berprÃ¼fung",
-      "HMAC_DESCRIPTION": "Um die IdentitÃ¤t des Benutzers zu validieren, kÃ¶nnen Sie fÃ¼r jeden Benutzer einen `identifier_hash` Ã¼bergeben. Sie kÃ¶nnen einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten SchlÃ¼ssel verwenden.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivieren oder deaktivieren Sie die automatische Zuweisung verfügbarer Agenten für neue Konversationen",
+      "HMAC_VERIFICATION": "Benutzeridentitätsüberprüfung",
+      "HMAC_DESCRIPTION": "Um die Identität des Benutzers zu validieren, können Sie für jeden Benutzer einen `identifier_hash` übergeben. Sie können einen HMAC sha256-Hash generieren, indem Sie den 'Bezeichner' mit dem hier gezeigten Schlüssel verwenden.",
       "HMAC_LINK_TO_DOCS": "Lesen Sie hier mehr.",
-      "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-IdentitÃ¤tsÃ¼berprÃ¼fung",
+      "HMAC_MANDATORY_VERIFICATION": "Erzwinge Benutzer-Identitätsüberprüfung",
       "HMAC_MANDATORY_DESCRIPTION": "Wenn aktiviert, werden Anfragen, denen der `identifier_hash` fehlt, abgelehnt.",
-      "INBOX_IDENTIFIER": "Identifizierung fÃ¼r Posteingang",
+      "INBOX_IDENTIFIER": "Identifizierung für Posteingang",
       "INBOX_IDENTIFIER_SUB_TEXT": "Verwenden Sie den hier angezeigten `inbox_identifier`-Token zur Authentifizierung Ihrer API-Clients.",
       "FORWARD_EMAIL_TITLE": "Weiterleitung an E-Mail",
       "FORWARD_EMAIL_SUB_TEXT": "Starten Sie die Weiterleitung Ihrer E-Mails an die folgende E-Mail-Adresse.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelÃ¶st wurde",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Nachrichten zulassen, nachdem die Konversation gelöst wurde",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Den Endbenutzern erlauben, Nachrichten zu versenden, auch wenn die Unterhaltung abgeschlossen ist.",
-      "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird fÃ¼r die Integration mit den WhatsApp APIs verwendet.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Geben Sie den neuen API-SchlÃ¼ssel ein, der fÃ¼r die Integration mit den WhatsApp-APIs verwendet werden soll.",
-      "WHATSAPP_SECTION_TITLE": "API-SchlÃ¼ssel",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "API-SchlÃ¼ssel aktualisieren",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-SchlÃ¼ssel hier eingeben",
+      "WHATSAPP_SECTION_SUBHEADER": "Dieser API Key wird für die Integration mit den WhatsApp APIs verwendet.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Geben Sie den neuen API-Schlüssel ein, der für die Integration mit den WhatsApp-APIs verwendet werden soll.",
+      "WHATSAPP_SECTION_TITLE": "API-Schlüssel",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API-Schlüssel aktualisieren",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Neuen API-Schlüssel hier eingeben",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Aktualisieren",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
@@ -822,7 +822,7 @@
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook-Verifizierungstoken",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Mit diesem Token wird die AuthentizitÃ¤t des Webhook Endpunktes Ã¼berprÃ¼ft.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Mit diesem Token wird die Authentizität des Webhook Endpunktes überprüft.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
@@ -835,16 +835,16 @@
     },
     "HELP_CENTER": {
       "LABEL": "Hilfezentrum",
-      "PLACEHOLDER": "Hilfezentrum auswÃ¤hlen",
-      "SELECT_PLACEHOLDER": "Hilfezentrum auswÃ¤hlen",
+      "PLACEHOLDER": "Hilfezentrum auswählen",
+      "SELECT_PLACEHOLDER": "Hilfezentrum auswählen",
       "NONE": "Keine",
       "REMOVE": "Hilfezentrum entfernen",
-      "SUB_TEXT": "Ein Hilfezentrum am Posteingang anhÃ¤ngen"
+      "SUB_TEXT": "Ein Hilfezentrum am Posteingang anhängen"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Limit fÃ¼r automatische Zuweisung",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Bitte geben Sie einen Wert grÃ¶ÃŸer als 0 ein",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "BeschrÃ¤nken Sie die maximale Anzahl von Konversationen aus diesem Posteingang, die einem Agenten automatisch zugewiesen werden kÃ¶nnen"
+      "MAX_ASSIGNMENT_LIMIT": "Limit für automatische Zuweisung",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Bitte geben Sie einen Wert größer als 0 ein",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Beschränken Sie die maximale Anzahl von Konversationen aus diesem Posteingang, die einem Agenten automatisch zugewiesen werden können"
     },
     "ASSIGNMENT": {
       "TITLE": "Konversationssauftrag",
@@ -889,26 +889,26 @@
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
       "CANCEL": "Stornieren",
-      "CONFIRM_DELETE": "LÃ¶schen",
+      "CONFIRM_DELETE": "Löschen",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Neu autorisieren",
-      "SUBTITLE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzufÃ¼hren",
+      "SUBTITLE": "Ihre Facebook-Verbindung ist abgelaufen, bitte verbinden Sie sich neu, um die Dienste fortzuführen",
       "MESSAGE_SUCCESS": "Wiederverbindung erfolgreich",
       "MESSAGE_ERROR": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pre-Chat-Formulare ermÃ¶glichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins GesprÃ¤ch kommen.",
+      "DESCRIPTION": "Pre-Chat-Formulare ermöglichen es Ihnen, Benutzerinformationen zu erfassen, bevor sie mit Ihnen ins Gespräch kommen.",
       "SET_FIELDS": "Formularfelder vor dem Chat",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Felder",
         "LABEL": "Label",
         "PLACE_HOLDER": "Platzhalter",
-        "KEY": "SchlÃ¼ssel",
+        "KEY": "Schlüssel",
         "TYPE": "Typ",
-        "REQUIRED": "BenÃ¶tigt"
+        "REQUIRED": "Benötigt"
       },
       "ENABLE": {
         "LABEL": "Vorab Chatformulare aktivieren",
@@ -919,7 +919,7 @@
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Pre-Chat-Nachricht",
-        "PLACEHOLDER": "Diese Nachricht ist fÃ¼r alle Benutzer dieses Formulars sichtbar"
+        "PLACEHOLDER": "Diese Nachricht ist für alle Benutzer dieses Formulars sichtbar"
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Besucher sollten ihren Namen und ihre E-Mail-Adresse angeben, bevor sie den Chat starten"
@@ -960,9 +960,9 @@
       },
       "TEMPLATE_UPDATE_DIALOG": {
         "TITLE": "Edit survey details",
-        "DESCRIPTION": "Wir lÃ¶schen die vorherige Vorlage und erstellen eine neue, die erneut zur Genehmigung durch WhatsApp gesendet wird",
+        "DESCRIPTION": "Wir löschen die vorherige Vorlage und erstellen eine neue, die erneut zur Genehmigung durch WhatsApp gesendet wird",
         "CONFIRM": "Create new template",
-        "CANCEL": "ZurÃ¼ck"
+        "CANCEL": "Zurück"
       },
       "UTILITY_ANALYZER": {
         "ACTION": "Check utility fit",
@@ -983,7 +983,7 @@
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
         "DESCRIPTION_SUFFIX": "any of the labels",
         "OPERATOR": {
-          "CONTAINS": "enthÃ¤lt",
+          "CONTAINS": "enthält",
           "DOES_NOT_CONTAINS": "beinhaltet nicht"
         },
         "SELECT_PLACEHOLDER": "select labels"
@@ -996,22 +996,22 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Legen Sie Ihre VerfÃ¼gbarkeit fest",
-      "SUBTITLE": "Legen Sie die VerfÃ¼gbarkeit fÃ¼r das Live-Chat-Widget fest",
-      "WEEKLY_TITLE": "WÃ¶chentliche Stunden festlegen",
-      "TIMEZONE_LABEL": "Zeitzone auswÃ¤hlen",
-      "UPDATE": "Einstellungen fÃ¼r GeschÃ¤ftszeiten aktualisieren",
-      "TOGGLE_AVAILABILITY": "GeschÃ¤ftszeiten fÃ¼r diesen Posteingang aktivieren",
-      "UNAVAILABLE_MESSAGE_LABEL": "Nachricht fÃ¼r Besucher auÃŸerhalb GeschÃ¤ftszeiten",
-      "TOGGLE_HELP": "Wenn die GeschÃ¤ftsverfÃ¼gbarkeit aktiviert ist, werden die verfÃ¼gbaren Stunden im Live-Chat-Widget angezeigt, auch wenn alle Agenten offline sind. AuÃŸerhalb der verfÃ¼gbaren Stunden kÃ¶nnen Besucher mit einer Nachricht und einem Chat-Formular gewarnt werden.",
+      "TITLE": "Legen Sie Ihre Verfügbarkeit fest",
+      "SUBTITLE": "Legen Sie die Verfügbarkeit für das Live-Chat-Widget fest",
+      "WEEKLY_TITLE": "Wöchentliche Stunden festlegen",
+      "TIMEZONE_LABEL": "Zeitzone auswählen",
+      "UPDATE": "Einstellungen für Geschäftszeiten aktualisieren",
+      "TOGGLE_AVAILABILITY": "Geschäftszeiten für diesen Posteingang aktivieren",
+      "UNAVAILABLE_MESSAGE_LABEL": "Nachricht für Besucher außerhalb Geschäftszeiten",
+      "TOGGLE_HELP": "Wenn die Geschäftsverfügbarkeit aktiviert ist, werden die verfügbaren Stunden im Live-Chat-Widget angezeigt, auch wenn alle Agenten offline sind. Außerhalb der verfügbaren Stunden können Besucher mit einer Nachricht und einem Chat-Formular gewarnt werden.",
       "DAY": {
         "DAY": "Tag",
-        "AVAILABILITY": "VerfÃ¼gbarkeit",
+        "AVAILABILITY": "Verfügbarkeit",
         "HOURS": "Hours",
-        "ENABLE": "VerfÃ¼gbarkeit fÃ¼r diesen Tag aktivieren",
-        "UNAVAILABLE": "Nicht verfÃ¼gbar",
-        "VALIDATION_ERROR": "Die Startzeit sollte vor der SchlieÃŸzeit liegen.",
-        "CHOOSE": "AuswÃ¤hlen"
+        "ENABLE": "Verfügbarkeit für diesen Tag aktivieren",
+        "UNAVAILABLE": "Nicht verfügbar",
+        "VALIDATION_ERROR": "Die Startzeit sollte vor der Schließzeit liegen.",
+        "CHOOSE": "Auswählen"
       },
       "ALL_DAY": "Den ganzen Tag"
     },
@@ -1020,11 +1020,11 @@
       "SUBTITLE": "Setzen Sie Ihre IMAP-Daten",
       "NOTE_TEXT": "Um SMTP zu aktivieren, konfigurieren Sie bitte IMAP.",
       "UPDATE": "IMAP-Einstellungen aktualisieren",
-      "TOGGLE_AVAILABILITY": "IMAP-Konfiguration fÃ¼r diesen Posteingang aktivieren",
+      "TOGGLE_AVAILABILITY": "IMAP-Konfiguration für diesen Posteingang aktivieren",
       "TOGGLE_HELP": "Wenn IMAP aktiviert ist, kann der Benutzer E-Mails empfangen",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP-Einstellungen erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "IMAP-Einstellungen kÃ¶nnen nicht aktualisiert werden"
+        "ERROR_MESSAGE": "IMAP-Einstellungen können nicht aktualisiert werden"
       },
       "ADDRESS": {
         "LABEL": "Adresse",
@@ -1053,11 +1053,11 @@
       "TITLE": "SMTP",
       "SUBTITLE": "Setzen Sie Ihre SMTP-Details",
       "UPDATE": "SMTP-Einstellungen aktualisieren",
-      "TOGGLE_AVAILABILITY": "Die SMTP-Konfiguration fÃ¼r diesen Posteingang aktivieren",
+      "TOGGLE_AVAILABILITY": "Die SMTP-Konfiguration für diesen Posteingang aktivieren",
       "TOGGLE_HELP": "Das Aktivieren von SMTP hilft dem Benutzer beim Senden von E-Mails",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP-Einstellungen erfolgreich aktualisiert",
-        "ERROR_MESSAGE": "SMTP-Einstellungen kÃ¶nnen nicht aktualisiert werden"
+        "ERROR_MESSAGE": "SMTP-Einstellungen können nicht aktualisiert werden"
       },
       "ADDRESS": {
         "LABEL": "Adresse",
@@ -1079,10 +1079,10 @@
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
       },
-      "ENCRYPTION": "VerschlÃ¼sselung",
+      "ENCRYPTION": "Verschlüsselung",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "SSL-ÃœberprÃ¼fungsmodus Ã¶ffnen",
+      "OPEN_SSL_VERIFY_MODE": "SSL-Überprüfungsmodus öffnen",
       "AUTH_MECHANISM": "Authentifizierung"
     },
     "NOTE": "Hinweis: ",
@@ -1092,7 +1092,7 @@
           "LABEL": "Website-Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar erfolgreich gelÃ¶scht",
+              "SUCCESS_MESSAGE": "Avatar erfolgreich gelöscht",
               "ERROR_MESSAGE": "Es ist ein Fehler aufgetreten, bitte versuchen Sie es erneut"
             }
           }
@@ -1100,10 +1100,10 @@
         "WEBSITE_NAME": {
           "LABEL": "Webseiten-Name",
           "PLACE_HOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)",
-          "ERROR": "Bitte geben Sie einen gÃ¼ltigen Website-Namen ein"
+          "ERROR": "Bitte geben Sie einen gültigen Website-Namen ein"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Willkommens-Ãœberschrift",
+          "LABEL": "Willkommens-Überschrift",
           "PLACE_HOLDER": "Hi!"
         },
         "WELCOME_TAGLINE": {
@@ -1129,7 +1129,7 @@
           "BUTTON_TEXT": "Widget-Einstellungen aktualisieren",
           "API": {
             "SUCCESS_MESSAGE": "Widget-Einstellungen erfolgreich aktualisiert",
-            "ERROR_MESSAGE": "Widget-Einstellungen kÃ¶nnen nicht aktualisiert werden"
+            "ERROR_MESSAGE": "Widget-Einstellungen können nicht aktualisiert werden"
           }
         },
         "WIDGET_VIEW_OPTION": {
@@ -1150,9 +1150,9 @@
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Wir antworten Ã¼blicherweise innerhalb weniger Minuten",
-        "IN_A_FEW_HOURS": "Wir antworten Ã¼blicherweise innerhalb weniger Stunden",
-        "IN_A_DAY": "Wir antworten Ã¼blicherweise innerhalb eines Tages"
+        "IN_A_FEW_MINUTES": "Wir antworten üblicherweise innerhalb weniger Minuten",
+        "IN_A_FEW_HOURS": "Wir antworten üblicherweise innerhalb weniger Stunden",
+        "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages"
       },
       "FOOTER": {
         "START_CONVERSATION_BUTTON_TEXT": "Konversation beginnen",
@@ -1166,8 +1166,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hallo"
       },
-      "BRANDING_TEXT": "UnterstÃ¼tzt von Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Unterstützt von Thynex",
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1200,3 +1200,5 @@
     }
   }
 }
+
+

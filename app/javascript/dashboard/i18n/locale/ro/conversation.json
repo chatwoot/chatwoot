@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Vă rugăm să selectați o conversație din panoul din stânga",
     "CSAT_REPLY_MESSAGE": "Vă rugăm să evaluați conversația",
@@ -282,7 +282,7 @@
     "SENT_BY": "Trimis de:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Nu a putut trimite mesaj! Încearcă din nou",
     "TRY_AGAIN": "reîncercare",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

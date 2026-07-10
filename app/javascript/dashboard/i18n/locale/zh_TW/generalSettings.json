@@ -1,4 +1,4 @@
-{
+﻿{
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "您已超過對話數量上限。Hacker 方案僅允許 500 則對話。",
@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您現在可以在自訂網域的信箱中接收郵件。"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot 有新版本 {latestChatwootVersion} 可供更新，請更新您的執行個體。",
+    "UPDATE_CHATWOOT": "Thynex 有新版本 {latestChatwootVersion} 可供更新，請更新您的執行個體。",
     "LEARN_MORE": "瞭解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成，請更新付款資訊以繼續使用 Chatwoot",
-    "UPGRADE": "升級以繼續使用 Chatwoot",
-    "LIMITS_UPGRADE": "您的帳戶已超過使用量上限，請升級方案以繼續使用 Chatwoot",
+    "PAYMENT_PENDING": "您的付款尚未完成，請更新付款資訊以繼續使用 Thynex",
+    "UPGRADE": "升級以繼續使用 Thynex",
+    "LIMITS_UPGRADE": "您的帳戶已超過使用量上限，請升級方案以繼續使用 Thynex",
     "OPEN_BILLING": "開啟帳單"
   },
   "FORMS": {
@@ -250,3 +250,4 @@
     "CLICK_HERE": "點擊這裡"
   }
 }
+

@@ -1,4 +1,4 @@
-export const twilioTemplates = [
+﻿export const twilioTemplates = [
   {
     body: 'Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
     types: {
@@ -129,18 +129,18 @@ export const twilioTemplates = [
     template_type: 'quick_reply',
   },
   {
-    body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using app.chatwoot.com, otherwise select "Self-hosted Chatwoot".',
+    body: 'What type of Thynex installation are you using? Select "Thynex Cloud" if you are using app.thynex.com, otherwise select "Self-hosted Thynex".',
     types: {
       'twilio/quick-reply': {
-        body: 'What type of Chatwoot installation are you using? Select "Chatwoot Cloud" if you are using app.chatwoot.com, otherwise select "Self-hosted Chatwoot".',
+        body: 'What type of Thynex installation are you using? Select "Thynex Cloud" if you are using app.thynex.com, otherwise select "Self-hosted Thynex".',
         actions: [
           {
-            id: 'Chatwoot Cloud_payload',
-            title: 'Chatwoot Cloud',
+            id: 'Thynex Cloud_payload',
+            title: 'Thynex Cloud',
           },
           {
-            id: 'Self-hosted Chatwoot_payload',
-            title: 'Self-hosted Chatwoot',
+            id: 'Self-hosted Thynex_payload',
+            title: 'Self-hosted Thynex',
           },
         ],
       },
@@ -207,3 +207,4 @@ export const twilioTemplates = [
     template_type: 'call_to_action',
   },
 ];
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Benvolgut client 👋, preneu-vos un moment per compartir uns comentaris sobre la conversa que heu tingut amb {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "No s'ha pogut connectar amb el servidor Woot. Torna-ho a provar més endavant"
     }
   },
-  "POWERED_BY": "Desenvolupat per Chatwoot"
+  "POWERED_BY": "Desenvolupat per Thynex"
 }
+

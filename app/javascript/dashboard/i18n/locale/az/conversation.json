@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Zəhmət olmasa, soldakı paneldən bir söhbət seçin",
     "CSAT_REPLY_MESSAGE": "Zəhmət olmasa söhbəti qiymətləndirin",
@@ -282,7 +282,7 @@
     "SENT_BY": "Göndərən:",
     "BOT": "Bot",
     "NATIVE_APP": "Yerli tətbiq",
-    "NATIVE_APP_ADVISORY": "Bu mesaj yerli tətbiqdən göndərilib. Mesaj pəncərəsini saxlamaq üçün Chatwoot-dan cavab verin.",
+    "NATIVE_APP_ADVISORY": "Bu mesaj yerli tətbiqdən göndərilib. Mesaj pəncərəsini saxlamaq üçün Thynex-dan cavab verin.",
     "SEND_FAILED": "Mesaj göndərmək mümkün olmadı! Yenidən cəhd edin",
     "TRY_AGAIN": "yenidən cəhd et",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Əlavəni yükləmək mümkün olmadı. Zəhmət olmasa yenidən cəhd edin"
   }
 }
+

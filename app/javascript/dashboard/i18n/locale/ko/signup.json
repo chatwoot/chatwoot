@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "계정 만들기",
-    "GET_STARTED": "Chatwoot 시작하기",
+    "GET_STARTED": "Thynex 시작하기",
     "TITLE": "회원가입",
     "TESTIMONIAL_HEADER": "앞으로 나아가기 위한 단 한 걸음",
     "TESTIMONIAL_CONTENT": "고객과 소통하고, 유지하고, 새로운 고객을 찾는 것은 한 걸음이면 됩니다.",
-    "TERMS_ACCEPT": "계정을 생성하면 <a href=\"https://www.chatwoot.com/terms\">이용약관</a> 및 <a href=\"https://www.chatwoot.com/privacy-policy\">개인정보 처리방침</a>에 동의하는 것입니다",
+    "TERMS_ACCEPT": "계정을 생성하면 <a href=\"https://www.thynex.ai/terms\">이용약관</a> 및 <a href=\"https://www.thynex.ai/privacy-policy\">개인정보 처리방침</a>에 동의하는 것입니다",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Google로 가입"
     },
@@ -42,7 +42,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "회원가입이 완료되었습니다",
-      "ERROR_MESSAGE": "Chatwoot 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
+      "ERROR_MESSAGE": "Thynex 서버에 연결할 수 없습니다. 나중에 다시 시도하십시오."
     },
     "SUBMIT": "계정 만들기",
     "HAVE_AN_ACCOUNT": "이미 계정이 있으십니까?",
@@ -55,3 +55,4 @@
     }
   }
 }
+

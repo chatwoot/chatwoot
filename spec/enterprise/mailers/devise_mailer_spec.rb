@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+﻿# frozen_string_literal: true
 
 require 'rails_helper'
 
@@ -21,7 +21,7 @@ RSpec.describe 'Devise::Mailer' do
       end
 
       it 'preserves the blank brand override' do
-        expect(mail_body).not_to include('Chatwoot')
+        expect(mail_body).not_to include('Thynex')
       end
     end
 
@@ -51,7 +51,7 @@ RSpec.describe 'Devise::Mailer' do
 
         it 'mentions SSO invitation' do
           expect(mail_body).to include("You're invited to join #{account.name}")
-          expect(mail_body).to include("#{inviter_val.name} invited you to access the #{account.name} workspace on Chatwoot.")
+          expect(mail_body).to include("#{inviter_val.name} invited you to access the #{account.name} workspace on Thynex.")
         end
 
         it 'explains SSO authentication' do
@@ -167,3 +167,4 @@ RSpec.describe 'Devise::Mailer' do
     end
   end
 end
+

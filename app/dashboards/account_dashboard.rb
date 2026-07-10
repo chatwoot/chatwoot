@@ -1,4 +1,4 @@
-require 'administrate/base_dashboard'
+﻿require 'administrate/base_dashboard'
 
 class AccountDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
@@ -13,7 +13,7 @@ class AccountDashboard < Administrate::BaseDashboard
                                    limits: AccountLimitsField
                                  }
 
-                                 # Only show manually managed features in Chatwoot Cloud deployment
+                                 # Only show manually managed features in Thynex Cloud deployment
                                  attributes[:manually_managed_features] = ManuallyManagedFeaturesField if ChatwootApp.chatwoot_cloud?
 
                                  # Add all_features last so it appears after manually_managed_features
@@ -122,9 +122,10 @@ class AccountDashboard < Administrate::BaseDashboard
   def permitted_attributes(action)
     attrs = super + [limits: {}, captain_models: {}]
 
-    # Add manually_managed_features to permitted attributes only for Chatwoot Cloud
+    # Add manually_managed_features to permitted attributes only for Thynex Cloud
     attrs << { manually_managed_features: [] } if ChatwootApp.chatwoot_cloud?
 
     attrs
   end
 end
+

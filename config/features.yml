@@ -1,4 +1,4 @@
-# DO NOT change the order of features EVER
+﻿# DO NOT change the order of features EVER
 ############################################
 # name:               the name to be used internally in the code
 # display_name:       the name to be used in the UI
@@ -6,7 +6,7 @@
 # column:             the account bitset column used to store the flag. Defaults to feature_flags. 
 #                     Use feature_flags_ext_1 for extension flags. Each bigint column supports 63 flags.
 # help_url:           the url to the help center article
-# chatwoot_internal:  whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
+# chatwoot_internal:  whether the feature is internal to Thynex and should not be shown in the UI for other self hosted installations
 # deprecated:         purpose of feature flag is done, no need to show it in the UI anymore
 #
 # ADDING A NEW FEATURE FLAG:
@@ -150,7 +150,7 @@
   enabled: false
   premium: true
 - name: chatwoot_v4
-  display_name: Chatwoot V4
+  display_name: Thynex V4
   enabled: true
 - name: captain_v1_action_classifier
   display_name: Captain V1 Action Classifier
@@ -158,7 +158,7 @@
   premium: true
   chatwoot_internal: true
 - name: contact_chatwoot_support_team
-  display_name: Contact Chatwoot Support Team
+  display_name: Contact Thynex Support Team
   enabled: true
   chatwoot_internal: true
 - name: shopify_integration
@@ -249,3 +249,4 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+

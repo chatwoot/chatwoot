@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 RSpec.describe MailPresenter do
   include ActionMailbox::TestHelper
 
@@ -246,13 +246,13 @@ RSpec.describe MailPresenter do
 
       it 'matches notification sender emails case-insensitively' do
         mail_with_uppercase_sender = Mail.new do
-          from 'Chatwoot <ACCOUNTS@CHATWOOT.COM>'
+          from 'Thynex <ACCOUNTS@CHATWOOT.COM>'
           to 'Inbox <inbox@example.com>'
           subject :header
           body 'Hi'
         end
 
-        with_modified_env MAILER_SENDER_EMAIL: 'Chatwoot <accounts@chatwoot.com>' do
+        with_modified_env MAILER_SENDER_EMAIL: 'Thynex <accounts@chatwoot.com>' do
           presenter = described_class.new(mail_with_uppercase_sender)
           expect(presenter.notification_email_from_chatwoot?).to be(true)
         end
@@ -260,3 +260,4 @@ RSpec.describe MailPresenter do
     end
   end
 end
+

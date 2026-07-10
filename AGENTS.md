@@ -1,4 +1,4 @@
-# Chatwoot Development Guidelines
+﻿# Thynex Development Guidelines
 
 ## Build / Test / Lint
 
@@ -97,7 +97,7 @@
 
 ## Enterprise Edition Notes
 
-- Chatwoot has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
+- Thynex has an Enterprise overlay under `enterprise/` that extends/overrides OSS code.
 - When you add or modify core functionality, always check for corresponding files in `enterprise/` and keep behavior compatible.
 - Follow the Enterprise development practices documented here:
   - https://chatwoot.help/hc/handbook/articles/developing-enterprise-edition-features-38
@@ -115,4 +115,5 @@ Practical checklist for any change impacting core logic or public APIs
 
 ## Branding / White-labeling note
 
-- For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+- For user-facing strings that currently contain "Thynex" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "مرکز مدد",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "سلاگ",
           "PLACEHOLDER": "یو آر ایل کے لیے زمرہ کا سلاگ",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "سلاگ ضروری ہے"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "سلاگ",
           "PLACEHOLDER": "یو آر ایل کے لیے زمرے کا سلاگ",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "سلاگ ضروری ہے"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "سلاگ",
             "PLACEHOLDER": "یو آر ایل کے لیے زمرہ کا سلاگ",
             "ERROR": "سلاگ ضروری ہے",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "تفصیل",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "بنائیں",
       "NAME": {
         "LABEL": "نام",
-        "PLACEHOLDER": "صارف گائیڈ | Chatwoot",
+        "PLACEHOLDER": "صارف گائیڈ | Thynex",
         "MESSAGE": "اپنے پورٹل کے لیے ایک نام منتخب کریں۔.",
         "ERROR": "نام ضروری ہے"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS کی تشکیل",
-            "DESCRIPTION": "اپنے DNS فراہم کنندہ کے اکاؤنٹ میں لاگ ان کریں، اور سب ڈومین کے لیے chatwoot.help کی طرف اشارہ کرنے والا CNAME ریکارڈ شامل کریں",
+            "DESCRIPTION": "اپنے DNS فراہم کنندہ کے اکاؤنٹ میں لاگ ان کریں، اور سب ڈومین کے لیے help.thynex.ai کی طرف اشارہ کرنے والا CNAME ریکارڈ شامل کریں",
             "COPY": "CNAME کامیابی سے کاپی ہو گیا",
             "SEND_INSTRUCTIONS": {
               "HEADER": "ہدایات بھیجیں",
@@ -956,3 +956,4 @@
     }
   }
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "Abi keskus",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/minu-portaal/et-EE/kategooriad/minu-slug",
           "ERROR": "Lühinimi on kohustuslik"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/minu-portaal/et-EE/kategooriad/minu-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/minu-portaal/et-EE/kategooriad/minu-slug",
           "ERROR": "Lühinimi on kohustuslik"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "Lühilink",
             "PLACEHOLDER": "Category slug for urls",
             "ERROR": "Lühinimi on kohustuslik",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Kirjeldus",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "Loo",
       "NAME": {
         "LABEL": "Nimi",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | Thynex",
         "MESSAGE": "Vali oma portaalile nimi.",
         "ERROR": "Nimi on kohustuslik"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Logi sisse oma DNS-teenusepakkuja kontole ja lisa alamdomeeni jaoks CNAME kirje, mis osutab chatwoot.help",
+            "DESCRIPTION": "Logi sisse oma DNS-teenusepakkuja kontole ja lisa alamdomeeni jaoks CNAME kirje, mis osutab help.thynex.ai",
             "COPY": "CNAME edukalt kopeeritud",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Saada juhised",
@@ -956,3 +956,4 @@
     }
   }
 }
+

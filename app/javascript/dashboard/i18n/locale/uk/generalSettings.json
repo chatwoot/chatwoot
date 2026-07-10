@@ -1,4 +1,4 @@
-{
+﻿{
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Тепер ви можете отримувати електронні листи на власний домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступне оновлення {latestChatwootVersion} для Chatwoot. Будь ласка, оновіть вашу копію.",
+    "UPDATE_CHATWOOT": "Доступне оновлення {latestChatwootVersion} для Thynex. Будь ласка, оновіть вашу копію.",
     "LEARN_MORE": "Детальніше",
-    "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Chatwoot",
+    "PAYMENT_PENDING": "Очікується ваш платіж. Будь ласка, оновіть вашу платіжну інформацію, щоб продовжити використовувати Thynex",
+    "UPGRADE": "Upgrade to continue using Thynex",
+    "LIMITS_UPGRADE": "В вашому обліковому записі перевищено ліміт використання, будь ласка, поновіть ваш план, щоб продовжити використання Thynex",
     "OPEN_BILLING": "Відкрити рахунок"
   },
   "FORMS": {
@@ -250,3 +250,4 @@
     "CLICK_HERE": "натисніть тут"
   }
 }
+

@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,16 +330,16 @@ pt_BR:
       description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
       name: 'Dyte'
-      short_description: 'Iniciar chamadas de vídeo/voz com clientes diretamente do Chatwoot.'
+      short_description: 'Iniciar chamadas de vídeo/voz com clientes diretamente do Thynex.'
       description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
       short_description: 'Receba notificações e responda as conversas diretamente no Slack.'
-      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+      description: "Integre Thynex com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: 'Webhooks'
-      description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
+      description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Thynex. Você pode se inscrever em seus eventos preferidos, e o Thynex enviará as chamadas HTTP com as atualizações.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Crie chatbots para lidar com as consultas iniciais antes de transferir para agentes.'
@@ -549,3 +549,4 @@ pt_BR:
       no_subscriptions_to_test: 'Selecione pelo menos uma assinatura para teste.'
       no_subscriptions_to_delete: 'Selecione pelo menos uma assinatura para excluir.'
       subscriptions_deleted: "Excluída(s) %{count} inscrição(ões). O(s) dispositivo(s) do usuário será(ão) registrado(s) novamente na próxima inicialização do aplicativo."
+

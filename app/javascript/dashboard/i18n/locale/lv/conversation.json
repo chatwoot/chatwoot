@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Lūdzu, izvēlieties sarunu kreisajā rūtī",
     "CSAT_REPLY_MESSAGE": "Lūdzu, novērtējiet sarunu",
@@ -282,7 +282,7 @@
     "SENT_BY": "Sūtīja:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Nevarēja nosūtīt ziņojumu! Mēģiniet vēlreiz",
     "TRY_AGAIN": "mēģināt vēlreiz",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Nevar lejupielādēt pielikumu. Lūdzu, mēģiniet vēlreiz"
   }
 }
+

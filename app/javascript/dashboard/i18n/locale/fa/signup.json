@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "ایجاد حساب کاربری",
-    "GET_STARTED": "Get started with Chatwoot",
+    "GET_STARTED": "Get started with Thynex",
     "TITLE": "ثبت نام",
     "TESTIMONIAL_HEADER": "تنها چیزی که لازم است یک قدم برای حرکت به جلو است",
     "TESTIMONIAL_CONTENT": "شما یک قدم تا جذب مشتریان خود، حفظ آنها و یافتن مشتریان جدید فاصله دارید.",
-    "TERMS_ACCEPT": "با ایجاد یک حساب کاربری، با <a href=\"https://www.chatwoot.com/terms\">T & C</a> و <a href=\"https://www.chatwoot.com/ ما موافقت می کنید privacy-policy\">خط مشی رازداری</a>",
+    "TERMS_ACCEPT": "با ایجاد یک حساب کاربری، با <a href=\"https://www.thynex.ai/terms\">T & C</a> و <a href=\"https://www.thynex.ai/ ما موافقت می کنید privacy-policy\">خط مشی رازداری</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "با گوگل ثبت نام کنید"
     },
@@ -55,3 +55,4 @@
     }
   }
 }
+

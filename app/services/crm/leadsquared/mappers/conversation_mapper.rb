@@ -1,4 +1,4 @@
-class Crm::Leadsquared::Mappers::ConversationMapper
+﻿class Crm::Leadsquared::Mappers::ConversationMapper
   include ::Rails.application.routes.url_helpers
 
   # https://help.leadsquared.com/what-is-the-maximum-character-length-supported-for-lead-and-activity-fields/
@@ -103,6 +103,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def brand_name
-    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Chatwoot'
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Thynex'
   end
 end
+

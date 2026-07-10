@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "الرجاء اختيار محادثة من قائمة المحادثات",
     "CSAT_REPLY_MESSAGE": "الرجاء تقييم المحادثة",
@@ -282,7 +282,7 @@
     "SENT_BY": "أرسلت بواسطة:",
     "BOT": "رد آلي",
     "NATIVE_APP": "تطبيق الجوال",
-    "NATIVE_APP_ADVISORY": "تم إرسال هذه الرسالة من تطبيق الجوال. رد من Chatwoot للحفاظ على نافذة الرسالة.",
+    "NATIVE_APP_ADVISORY": "تم إرسال هذه الرسالة من تطبيق الجوال. رد من Thynex للحفاظ على نافذة الرسالة.",
     "SEND_FAILED": "تعذر إرسال الرسالة! حاول مرة أخرى",
     "TRY_AGAIN": "إعادة المحاولة",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

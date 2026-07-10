@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Etiketės",
     "HEADER_BTN_TXT": "Pridėti Etiketę",
@@ -50,7 +50,7 @@
         "DESELECT": "Panaikinti pažymėjimą",
         "DISMISS": "Atmesti pasiūlymą"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "Atsisakyti",
       "ADD_SELECTED_LABELS": "Pridėti pažymėtas etiketes",
       "ADD_SELECTED_LABEL": "Pridėti pažymėtą etiketę",
@@ -87,3 +87,4 @@
     }
   }
 }
+

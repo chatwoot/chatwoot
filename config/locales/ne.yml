@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,16 +330,16 @@ ne:
       description: 'ड्यासबोर्ड एप्सले तपाईंलाई प्रयोगकर्ता जानकारी, अर्डर, वा भुक्तानी इतिहास देखाउने एपहरू बनाउन र राख्न मद्दत गर्छ, जसले ग्राहक समर्थन टोलीलाई थप सन्दर्भ दिन्छ।.'
     dyte:
       name: 'Dyte'
-      short_description: 'Chatwoot बाट ग्राहकसँग सिधै भिडियो वा आवाज कल सुरु गर्नुहोस्।.'
-      description: 'Dyte एउटा उत्पादन हो जसले तपाईंको एपमा अडियो र भिडियो सुविधा थप्छ। यस एकीकरणबाट, तपाईंका एजेन्टहरूले Chatwoot बाटै ग्राहकहरूसँग भिडियो/भ्वाइस कल सुरु गर्न सक्छन्।.'
+      short_description: 'Thynex बाट ग्राहकसँग सिधै भिडियो वा आवाज कल सुरु गर्नुहोस्।.'
+      description: 'Dyte एउटा उत्पादन हो जसले तपाईंको एपमा अडियो र भिडियो सुविधा थप्छ। यस एकीकरणबाट, तपाईंका एजेन्टहरूले Thynex बाटै ग्राहकहरूसँग भिडियो/भ्वाइस कल सुरु गर्न सक्छन्।.'
       meeting_name: '%{agent_name} ले बैठक सुरु गरेका छन्'
     slack:
       name: 'Slack'
       short_description: 'Slack मा सिधै सूचना प्राप्त गर्नुहोस् र कुराकानीमा जवाफ दिनुहोस्।.'
-      description: "Chatwoot लाई Slack सँग जोड्नुहोस् ताकि तपाईंको टोली सँगसँगै रहोस्। यस एकीकरणले नयाँ कुराकानीको सूचना Slack मा प्राप्त गर्न र जवाफ दिन सकिन्छ।."
+      description: "Thynex लाई Slack सँग जोड्नुहोस् ताकि तपाईंको टोली सँगसँगै रहोस्। यस एकीकरणले नयाँ कुराकानीको सूचना Slack मा प्राप्त गर्न र जवाफ दिन सकिन्छ।."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook घटनाले तपाईंको Chatwoot खातामा गतिविधिको वास्तविक समय अपडेट दिन्छ। तपाईं रोजेका घटनामा सदस्यता लिन सक्नुहुन्छ, अनि Chatwoot ले HTTP कलब्याकमार्फत अपडेट पठाउनेछ।.'
+      description: 'Webhook घटनाले तपाईंको Thynex खातामा गतिविधिको वास्तविक समय अपडेट दिन्छ। तपाईं रोजेका घटनामा सदस्यता लिन सक्नुहुन्छ, अनि Thynex ले HTTP कलब्याकमार्फत अपडेट पठाउनेछ।.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'एजेन्टलाई पठाउनु अघि प्रारम्भिक प्रश्नहरू समाधान गर्न च्याटबोट बनाउनुहोस्।.'
@@ -549,3 +549,4 @@ ne:
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+

@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import SignupForm from './components/Signup/Form.vue';
@@ -11,7 +11,7 @@ const store = useStore();
 const isLoading = ref(false);
 const globalConfig = computed(() => store.getters['globalConfig/get']);
 const isAChatwootInstance = computed(
-  () => globalConfig.value.installationName === 'Chatwoot'
+  () => globalConfig.value.installationName === 'Thynex'
 );
 
 onBeforeMount(() => {
@@ -84,3 +84,4 @@ const resizeContainers = () => {
     </div>
   </div>
 </template>
+

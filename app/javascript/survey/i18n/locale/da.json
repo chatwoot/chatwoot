@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Kære kunde 👋, tag et øjeblik på at dele feedback om den samtale, du havde med {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     }
   },
-  "POWERED_BY": "Drevet af Chatwoot"
+  "POWERED_BY": "Drevet af Thynex"
 }
+

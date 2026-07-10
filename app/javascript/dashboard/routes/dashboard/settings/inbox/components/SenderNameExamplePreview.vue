@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -30,7 +30,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.FRIENDLY.SUBTITLE'),
     preview: {
       senderName: 'Smith',
-      businessName: 'Chatwoot',
+      businessName: 'Thynex',
       email: '<support@yourbusiness.com>',
     },
   },
@@ -40,7 +40,7 @@ const senderNameKeyOptions = computed(() => [
     content: t('INBOX_MGMT.EDIT.SENDER_NAME_SECTION.PROFESSIONAL.SUBTITLE'),
     preview: {
       senderName: '',
-      businessName: 'Chatwoot',
+      businessName: 'Thynex',
       email: '<support@yourbusiness.com>',
     },
   },
@@ -103,3 +103,4 @@ const toggleSenderNameType = key => {
     </RadioCard>
   </div>
 </template>
+

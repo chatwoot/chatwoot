@@ -1,4 +1,4 @@
-plugins:
+﻿plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
@@ -42,7 +42,7 @@ Style/SymbolArray:
 Style/OpenStructUse:
   Enabled: false
 
-Chatwoot/AttachmentDownload:
+Thynex/AttachmentDownload:
   Enabled: true
   Exclude:
     - 'spec/**/*'
@@ -348,3 +348,4 @@ FactoryBot/RedundantFactoryOption:
 
 FactoryBot/FactoryAssociationWithStrategy:
   Enabled: false
+

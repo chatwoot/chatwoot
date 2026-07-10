@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>
@@ -46,7 +46,7 @@
         whatsappApiVersion: '<%= @global_config['WHATSAPP_API_VERSION'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
-        isMfaEnabled: '<%= Chatwoot.mfa_enabled? %>',
+        isMfaEnabled: '<%= Thynex.mfa_enabled? %>',
         <% if @global_config['IS_ENTERPRISE'] %>
         enterprisePlanName: '<%= @global_config['INSTALLATION_PRICING_PLAN'] %>',
         <% end %>
@@ -83,3 +83,4 @@
     <% end %>
   </body>
 </html>
+

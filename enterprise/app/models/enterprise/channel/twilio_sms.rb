@@ -1,9 +1,9 @@
-module Enterprise::Channel::TwilioSms
+﻿module Enterprise::Channel::TwilioSms
   extend ActiveSupport::Concern
 
   def self.prepended(base)
     base.class_eval do
-      encrypts :api_key_secret if Chatwoot.encryption_configured?
+      encrypts :api_key_secret if Thynex.encryption_configured?
 
       validate :voice_requires_phone_number, if: :voice_enabled?
       before_validation :provision_twiml_app, on: :create, if: :voice_enabled?
@@ -79,3 +79,4 @@ module Enterprise::Channel::TwilioSms
 
   alias provision_twiml_app_on_update provision_twiml_app
 end
+

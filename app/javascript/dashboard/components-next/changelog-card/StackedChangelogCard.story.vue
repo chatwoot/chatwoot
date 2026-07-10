@@ -1,15 +1,15 @@
-<script setup>
+﻿<script setup>
 import StackedChangelogCard from './StackedChangelogCard.vue';
 
 const imageCards = {
-  id: 'chatwoot-captain',
-  title: 'Chatwoot Captain',
-  meta_title: 'Chatwoot Captain',
+  id: 'thynex-captain',
+  title: 'Thynex Captain',
+  meta_title: 'Thynex Captain',
   meta_description:
     'Watch how our latest feature can transform your workflow with powerful automation tools.',
-  slug: 'chatwoot-captain',
+  slug: 'thynex-captain',
   feature_image:
-    'https://www.chatwoot.com/images/captain/captain_thumbnail.jpg',
+    'https://www.thynex.ai/images/captain/captain_thumbnail.jpg',
 };
 
 const handleReadMore = () => {
@@ -44,3 +44,4 @@ const handleImgClick = () => {
     </Variant>
   </Story>
 </template>
+

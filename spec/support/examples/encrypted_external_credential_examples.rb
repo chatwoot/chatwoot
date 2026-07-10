@@ -1,8 +1,8 @@
-# frozen_string_literal: true
+﻿# frozen_string_literal: true
 
 RSpec.shared_examples 'encrypted external credential' do |factory:, attribute:, value: 'secret-token'|
   before do
-    skip('encryption keys missing; see run_mfa_spec workflow') unless Chatwoot.encryption_configured?
+    skip('encryption keys missing; see run_mfa_spec workflow') unless Thynex.encryption_configured?
     if defined?(Facebook::Messenger::Subscriptions)
       allow(Facebook::Messenger::Subscriptions).to receive(:subscribe).and_return(true)
       allow(Facebook::Messenger::Subscriptions).to receive(:unsubscribe).and_return(true)
@@ -19,3 +19,4 @@ RSpec.shared_examples 'encrypted external credential' do |factory:, attribute:, 
     expect(record.encrypted_attribute?(attribute)).to be(true)
   end
 end
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "אנא בחר שיחה מהחלונית השמאלית",
     "CSAT_REPLY_MESSAGE": "נא דרג שיחה זו",
@@ -282,7 +282,7 @@
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "לא ניתן לשלוח הודעה! נסה שוב",
     "TRY_AGAIN": "נסה שוב",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "לא ניתן להוריד קובץ מצורף. אנא נסה שוב"
   }
 }
+

@@ -6,17 +6,17 @@
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Search inboxes...",
     "NO_RESULTS": "No inboxes found matching your search",
-    "RECONNECTION_REQUIRED": "A sua caixa de entrada est√° desconectada. N√£o ser√£o recebidas novas mensagens at√© nova autoriza√ß√£o.",
+    "RECONNECTION_REQUIRED": "A sua caixa de entrada est· desconectada. N„o ser„o recebidas novas mensagens atÈ nova autorizaÁ„o.",
     "CLICK_TO_RECONNECT": "Clique aqui para reconectar.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn‚Äôt complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnít complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "N√£o h√° caixas de entrada anexadas a esta conta."
+      "404": "N„o h· caixas de entrada anexadas a esta conta."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Escolher canal",
-        "BODY": "Escolha o provedor que pretende integrar com o Chatwoot."
+        "BODY": "Escolha o provedor que pretende integrar com o Thynex."
       },
       "INBOX": {
         "TITLE": "Criar caixa de entrada",
@@ -24,29 +24,29 @@
       },
       "AGENT": {
         "TITLE": "Adicionar agentes",
-        "BODY": "Adicionar agentes √† caixa de entrada criada."
+        "BODY": "Adicionar agentes ‡ caixa de entrada criada."
       },
       "FINISH": {
         "TITLE": "Pronto!",
-        "BODY": "Est√° tudo preparado para come√ßar!"
+        "BODY": "Est· tudo preparado para comeÁar!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome da caixa de entrada",
         "PLACEHOLDER": "Insira o nome da caixa de entrada (ex. Informatico.pt)",
-        "ERROR": "Por favor, insira um nome de caixa de entrada v√°lido"
+        "ERROR": "Por favor, insira um nome de caixa de entrada v·lido"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nome do site",
         "PLACEHOLDER": "Insira o nome do seu site (ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS. ao fazer login, s√≥ teremos acesso √†s mensagens da sua p√°gina. As suas mensagens privadas nunca poder√£o ser acedidas pelo Chatwoot.",
-        "CHOOSE_PAGE": "Escolher p√°gina",
-        "CHOOSE_PLACEHOLDER": "Selecionar uma p√°gina da lista",
+        "HELP": "PS. ao fazer login, sÛ teremos acesso ‡s mensagens da sua p·gina. As suas mensagens privadas nunca poder„o ser acedidas pelo Thynex.",
+        "CHOOSE_PAGE": "Escolher p·gina",
+        "CHOOSE_PLACEHOLDER": "Selecionar uma p·gina da lista",
         "INBOX_NAME": "Nome da caixa de entrada",
-        "ADD_NAME": "Adicione um nome √† sua caixa de entrada",
+        "ADD_NAME": "Adicione um nome ‡ sua caixa de entrada",
         "PICK_NAME": "Selecione um nome para a sua caixa de entrada",
         "PICK_A_VALUE": "Escolha um valor",
         "CREATE_INBOX": "Criar caixa de entrada"
@@ -57,8 +57,8 @@
         "HELP": "Para adicionar o seu perfil do Instagram como canal, precisa autenticar o seu perfil clicando em 'Continuar com o Instagram' ",
         "ERROR_MESSAGE": "Ocorreu um erro ao ligar ao Instagram, por favor tente novamente",
         "ERROR_AUTH": "Ocorreu um erro ao ligar ao Instagram, por favor tente novamente",
-        "NEW_INBOX_SUGGESTION": "Esta conta do Instagram estava anteriormente ligada a uma caixa de entrada diferente e foi agora migrada para aqui. Todas as novas mensagens aparecer√£o aqui. A caixa de entrada antiga j√° n√£o poder√° enviar ou receber mensagens para esta conta.",
-        "DUPLICATE_INBOX_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal Instagram. J√° n√£o poder√° enviar/receber mensagens do Instagram a partir desta caixa de entrada."
+        "NEW_INBOX_SUGGESTION": "Esta conta do Instagram estava anteriormente ligada a uma caixa de entrada diferente e foi agora migrada para aqui. Todas as novas mensagens aparecer„o aqui. A caixa de entrada antiga j· n„o poder· enviar ou receber mensagens para esta conta.",
+        "DUPLICATE_INBOX_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal Instagram. J· n„o poder· enviar/receber mensagens do Instagram a partir desta caixa de entrada."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -69,14 +69,14 @@
       },
       "TWITTER": {
         "HELP": "Para adicionar o seu perfil do Twitter como um canal, precisa de autenticar o seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
-        "ERROR_MESSAGE": "Houve um erro de liga√ß√£o com o Twitter, por favor, tente novamente",
+        "ERROR_MESSAGE": "Houve um erro de ligaÁ„o com o Twitter, por favor, tente novamente",
         "TWEETS": {
           "ENABLE": "Criar conversas a partir dos tweets mencionados"
         }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal do site",
-        "DESC": "Crie um canal para o seu site e comece a oferecer suporte aos seus clientes atrav√©s do nosso widget do site.",
+        "DESC": "Crie um canal para o seu site e comece a oferecer suporte aos seus clientes atravÈs do nosso widget do site.",
         "LOADING_MESSAGE": "A criar canal de suporte ao site",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar do canal"
@@ -84,7 +84,7 @@
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Introduza o seu URL do Webhook",
-          "ERROR": "Por favor, insira um URL v√°lido"
+          "ERROR": "Por favor, insira um URL v·lido"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -95,16 +95,16 @@
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Dom√≠nio do site",
-          "PLACEHOLDER": "Insira o dom√≠nio do seu site (ex. acme.com)"
+          "LABEL": "DomÌnio do site",
+          "PLACEHOLDER": "Insira o domÌnio do seu site (ex. acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "T√≠tulo de boas-vindas",
-          "PLACEHOLDER": "Ol√°!"
+          "LABEL": "TÌtulo de boas-vindas",
+          "PLACEHOLDER": "Ol·!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Slogan de boas-vindas",
-          "PLACEHOLDER": "N√≥s simplificamos a sua conex√£o com os clientes. Pergunte-nos qualquer coisa ou partilhe um coment√°rio."
+          "PLACEHOLDER": "NÛs simplificamos a sua conex„o com os clientes. Pergunte-nos qualquer coisa ou partilhe um coment·rio."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Mensagem de boas-vindas do canal",
@@ -112,7 +112,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Ativar mensagem de boas-vindas do canal",
-          "HELP_TEXT": "Enviar automaticamente uma mensagem de sauda√ß√£o quando uma nova conversa for criada.",
+          "HELP_TEXT": "Enviar automaticamente uma mensagem de saudaÁ„o quando uma nova conversa for criada.",
           "ENABLED": "Ativado",
           "DISABLED": "Inativo"
         },
@@ -121,7 +121,7 @@
           "IN_A_FEW_MINUTES": "Em poucos minutos",
           "IN_A_FEW_HOURS": "Em poucas horas",
           "IN_A_DAY": "Dentro de um dia",
-          "HELP_TEXT": "Este tempo de resposta ser√° mostrado no widget de chat"
+          "HELP_TEXT": "Este tempo de resposta ser· mostrado no widget de chat"
         },
         "WIDGET_COLOR": {
           "LABEL": "Cor do widget",
@@ -129,7 +129,7 @@
         },
         "SUBMIT_BUTTON": "Criar caixa de entrada",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel criar um canal de website. Por favor, tente novamente."
+          "ERROR_MESSAGE": "N„o foi possÌvel criar um canal de website. Por favor, tente novamente."
         }
       },
       "TWILIO": {
@@ -138,51 +138,51 @@
         "ACCOUNT_SID": {
           "LABEL": "SID da conta",
           "PLACEHOLDER": "Por favor, insira a sua conta Twilio SID",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use a autentica√ß√£o de chave de API",
+          "USE_API_KEY": "Use a autenticaÁ„o de chave de API",
           "LABEL": "Chave da API SID",
           "PLACEHOLDER": "Por favor, insira a sua chave da API SID",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "API_KEY_SECRET": {
           "LABEL": "Chave secreta da API",
           "PLACEHOLDER": "Por favor, insira a sua chave secreta da API",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Servi√ßo de mensagens SID",
-          "PLACEHOLDER": "Por favor, insira o SID do seu servi√ßo de mensagens da Twilio",
-          "ERROR": "Este campo √© obrigat√≥rio",
-          "USE_MESSAGING_SERVICE": "Use um servi√ßo de mensagens da Twilio"
+          "LABEL": "ServiÁo de mensagens SID",
+          "PLACEHOLDER": "Por favor, insira o SID do seu serviÁo de mensagens da Twilio",
+          "ERROR": "Este campo È obrigatÛrio",
+          "USE_MESSAGING_SERVICE": "Use um serviÁo de mensagens da Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipo de canal",
           "ERROR": "Por favor, selecione o tipo de canal"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Token de autentica√ß√£o",
-          "PLACEHOLDER": "Por favor, insira o seu token de autentica√ß√£o Twilio",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "LABEL": "Token de autenticaÁ„o",
+          "PLACEHOLDER": "Por favor, insira o seu token de autenticaÁ„o Twilio",
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "CHANNEL_NAME": {
           "LABEL": "Nome da caixa de entrada",
           "PLACEHOLDER": "Por favor, insira um nome para a caixa de entrada",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "PHONE_NUMBER": {
-          "LABEL": "N√∫mero de telefone",
-          "PLACEHOLDER": "Por favor, insira o n√∫mero de telefone a partir do qual a mensagem ser√° enviada.",
-          "ERROR": "Por favor, forne√ßa um n√∫mero de telefone v√°lido, que comece com o sinal de '+' e que n√£o contenha quaisquer espa√ßos."
+          "LABEL": "N˙mero de telefone",
+          "PLACEHOLDER": "Por favor, insira o n˙mero de telefone a partir do qual a mensagem ser· enviada.",
+          "ERROR": "Por favor, forneÁa um n˙mero de telefone v·lido, que comece com o sinal de '+' e que n„o contenha quaisquer espaÁos."
         },
         "API_CALLBACK": {
-          "TITLE": "Link de retorno de liga√ß√£o",
-          "SUBTITLE": "Tem de configurar, aqui, o link de retorno de mensagem no Twilio, atrav√©s de um URL."
+          "TITLE": "Link de retorno de ligaÁ„o",
+          "SUBTITLE": "Tem de configurar, aqui, o link de retorno de mensagem no Twilio, atravÈs de um URL."
         },
         "SUBMIT_BUTTON": "Criar canal Twilio",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel autenticar as credenciais Twilio, por favor, tente novamente"
+          "ERROR_MESSAGE": "N„o foi possÌvel autenticar as credenciais Twilio, por favor, tente novamente"
         }
       },
       "SMS": {
@@ -194,42 +194,42 @@
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel guardar o canal de SMS"
+          "ERROR_MESSAGE": "N„o foi possÌvel guardar o canal de SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID da conta",
             "PLACEHOLDER": "Por favor, insira o ID da sua conta Bandwidth",
-            "ERROR": "Este campo √© obrigat√≥rio"
+            "ERROR": "Este campo È obrigatÛrio"
           },
           "API_KEY": {
             "LABEL": "Chave da API",
             "PLACEHOLDER": "Por favor, insira a chave da API da sua Bandwidth",
-            "ERROR": "Este campo √© obrigat√≥rio"
+            "ERROR": "Este campo È obrigatÛrio"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
             "PLACEHOLDER": "Por favor, insira a API Secret da sua  Bandwidth",
-            "ERROR": "Este campo √© obrigat√≥rio"
+            "ERROR": "Este campo È obrigatÛrio"
           },
           "APPLICATION_ID": {
-            "LABEL": "ID da aplica√ß√£o",
-            "PLACEHOLDER": "Por favor, insira o ID da aplica√ß√£o da sua Bandwidth",
-            "ERROR": "Este campo √© obrigat√≥rio"
+            "LABEL": "ID da aplicaÁ„o",
+            "PLACEHOLDER": "Por favor, insira o ID da aplicaÁ„o da sua Bandwidth",
+            "ERROR": "Este campo È obrigatÛrio"
           },
           "INBOX_NAME": {
             "LABEL": "Nome da caixa de entrada",
             "PLACEHOLDER": "Por favor, insira um nome para a caixa de entrada",
-            "ERROR": "Este campo √© obrigat√≥rio"
+            "ERROR": "Este campo È obrigatÛrio"
           },
           "PHONE_NUMBER": {
-            "LABEL": "N√∫mero de telefone",
-            "PLACEHOLDER": "Por favor, insira o n√∫mero de telefone a partir do qual a mensagem ser√° enviada.",
-            "ERROR": "Por favor, forne√ßa um n√∫mero de telefone v√°lido que comece com o sinal de '+' e que n√£o contenha quaisquer espa√ßos."
+            "LABEL": "N˙mero de telefone",
+            "PLACEHOLDER": "Por favor, insira o n˙mero de telefone a partir do qual a mensagem ser· enviada.",
+            "ERROR": "Por favor, forneÁa um n˙mero de telefone v·lido que comece com o sinal de '+' e que n„o contenha quaisquer espaÁos."
           },
           "SUBMIT_BUTTON": "Criar canal Bandwidth",
           "API": {
-            "ERROR_MESSAGE": "N√£o foi poss√≠vel autenticar as credenciais Bandwidth, por favor, tente novamente"
+            "ERROR_MESSAGE": "N„o foi possÌvel autenticar as credenciais Bandwidth, por favor, tente novamente"
           },
           "API_CALLBACK": {
             "TITLE": "URL de retorno da chamada",
@@ -256,39 +256,39 @@
         "INBOX_NAME": {
           "LABEL": "Nome da caixa de entrada",
           "PLACEHOLDER": "Por favor, insira um nome para a caixa de entrada",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "PHONE_NUMBER": {
-          "LABEL": "N√∫mero de telefone",
-          "PLACEHOLDER": "Por favor, insira o n√∫mero de telefone a partir do qual a mensagem ser√° enviada.",
-          "ERROR": "Por favor, forne√ßa um n√∫mero de telefone v√°lido que comece com o sinal de '+' e que n√£o contenha quaisquer espa√ßos."
+          "LABEL": "N˙mero de telefone",
+          "PLACEHOLDER": "Por favor, insira o n˙mero de telefone a partir do qual a mensagem ser· enviada.",
+          "ERROR": "Por favor, forneÁa um n˙mero de telefone v·lido que comece com o sinal de '+' e que n„o contenha quaisquer espaÁos."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "ID do n√∫mero de telefone",
-          "PLACEHOLDER": "Por favor, insira o ID do n√∫mero de telefone obtido do painel do desenvolvedor do Facebook.",
-          "ERROR": "Por favor, insira um valor v√°lido."
+          "LABEL": "ID do n˙mero de telefone",
+          "PLACEHOLDER": "Por favor, insira o ID do n˙mero de telefone obtido do painel do desenvolvedor do Facebook.",
+          "ERROR": "Por favor, insira um valor v·lido."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "ID da conta Business",
           "PLACEHOLDER": "Por favor, insira o ID da conta Business obtido do painel do desenvolvedor do Facebook.",
-          "ERROR": "Por favor, insira um valor v√°lido."
+          "ERROR": "Por favor, insira um valor v·lido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook de verifica√ß√£o de token",
-          "PLACEHOLDER": "Insira um token de verifica√ß√£o que pretende configurar para os webhooks do Facebook.",
-          "ERROR": "Por favor, insira um valor v√°lido."
+          "LABEL": "Webhook de verificaÁ„o de token",
+          "PLACEHOLDER": "Insira um token de verificaÁ„o que pretende configurar para os webhooks do Facebook.",
+          "ERROR": "Por favor, insira um valor v·lido."
         },
         "API_KEY": {
           "LABEL": "Chave da API",
           "SUBTITLE": "Configure a chave API do WhatsApp.",
           "PLACEHOLDER": "Chave da API",
-          "ERROR": "Por favor, insira um valor v√°lido."
+          "ERROR": "Por favor, insira um valor v·lido."
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno da chamada",
-          "SUBTITLE": "Deve configurar a URL do webhook e o token de verifica√ß√£o no portal do desenvolvedor do Facebook com os valores apresentados abaixo.",
+          "SUBTITLE": "Deve configurar a URL do webhook e o token de verificaÁ„o no portal do desenvolvedor do Facebook com os valores apresentados abaixo.",
           "WEBHOOK_URL": "URL do webhook",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook de verifica√ß√£o do token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook de verificaÁ„o do token"
         },
         "SUBMIT_BUTTON": "Criar Canal do WhatsApp",
         "EMBEDDED_SIGNUP": {
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number‚Ä¶",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberÖ",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,42 +317,42 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you‚Äôre a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youíre a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ‚Äî this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ó this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel gravar o canal do WhatsApp"
+          "ERROR_MESSAGE": "N„o foi possÌvel gravar o canal do WhatsApp"
         }
       },
       "VOICE": {
         "TITLE": "Canal de Voz",
-        "DESC": "Integre o Twilio e comece a oferecer suporte aos seus clientes via chamadas telef√≥nicas.",
+        "DESC": "Integre o Twilio e comece a oferecer suporte aos seus clientes via chamadas telefÛnicas.",
         "PHONE_NUMBER": {
-          "LABEL": "N√∫mero de telefone",
-          "PLACEHOLDER": "Escreva o seu n√∫mero de telefone (por exemplo, +1234567890)",
-          "ERROR": "Por favor, forne√ßa um n√∫mero de telefone v√°lido no formato +E.164 (por exemplo, +1234567890)"
+          "LABEL": "N˙mero de telefone",
+          "PLACEHOLDER": "Escreva o seu n˙mero de telefone (por exemplo, +1234567890)",
+          "ERROR": "Por favor, forneÁa um n˙mero de telefone v·lido no formato +E.164 (por exemplo, +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "SID da conta",
             "PLACEHOLDER": "Insira o SID da sua Conta Twilio",
-            "REQUIRED": "O SID da conta √© obrigat√≥rio"
+            "REQUIRED": "O SID da conta È obrigatÛrio"
           },
           "AUTH_TOKEN": {
-            "LABEL": "Token de autentica√ß√£o",
-            "PLACEHOLDER": "Escreva o seu Token de Autentica√ß√£o Twilio",
-            "REQUIRED": "O Token de Autentica√ß√£o √© obrigat√≥rio"
+            "LABEL": "Token de autenticaÁ„o",
+            "PLACEHOLDER": "Escreva o seu Token de AutenticaÁ„o Twilio",
+            "REQUIRED": "O Token de AutenticaÁ„o È obrigatÛrio"
           },
           "API_KEY_SID": {
             "LABEL": "Chave da API SID",
             "PLACEHOLDER": "Insira a chave SID da API Twilio",
-            "REQUIRED": "A chave SID da API √© obrigat√≥ria"
+            "REQUIRED": "A chave SID da API È obrigatÛria"
           },
           "API_KEY_SECRET": {
             "LABEL": "Chave secreta da API",
             "PLACEHOLDER": "Insira a chave secreta da API Twilio",
-            "REQUIRED": "A chave secreta da API √© obrigat√≥ria"
+            "REQUIRED": "A chave secreta da API È obrigatÛria"
           }
         },
         "CONFIGURATION": {
@@ -363,7 +363,7 @@
         },
         "SUBMIT_BUTTON": "Criar canal de Voz",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel criar o canal de voz"
+          "ERROR_MESSAGE": "N„o foi possÌvel criar o canal de voz"
         }
       },
       "API_CHANNEL": {
@@ -372,7 +372,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Nome do canal",
           "PLACEHOLDER": "Por favor, insira um nome para o canal",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "WEBHOOK_URL": {
           "LABEL": "URL do Webhook",
@@ -381,7 +381,7 @@
         },
         "SUBMIT_BUTTON": "Criar canal API",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel guardar o canal API"
+          "ERROR_MESSAGE": "N„o foi possÌvel guardar o canal API"
         }
       },
       "EMAIL_CHANNEL": {
@@ -390,7 +390,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Nome do canal",
           "PLACEHOLDER": "Por favor, insira um nome para o canal",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "EMAIL": {
           "LABEL": "E-mail",
@@ -399,9 +399,9 @@
         },
         "SUBMIT_BUTTON": "Criar canal de e-mail",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel guardar o canal de e-mail"
+          "ERROR_MESSAGE": "N„o foi possÌvel guardar o canal de e-mail"
         },
-        "FINISH_MESSAGE": "Comece a encaminhar as suas mensagens de e-mail para o seguinte endere√ßo.",
+        "FINISH_MESSAGE": "Comece a encaminhar as suas mensagens de e-mail para o seguinte endereÁo.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
         "CONFIGURE_SMTP_IMAP_LINK": "Clique aqui",
@@ -413,7 +413,7 @@
         "CHANNEL_NAME": {
           "LABEL": "Nome do canal",
           "PLACEHOLDER": "Por favor, insira um nome para o canal",
-          "ERROR": "Este campo √© obrigat√≥rio"
+          "ERROR": "Este campo È obrigatÛrio"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "ID do canal LINE",
@@ -429,11 +429,11 @@
         },
         "SUBMIT_BUTTON": "Criar canal LINE",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel guardar o canal LINE"
+          "ERROR_MESSAGE": "N„o foi possÌvel guardar o canal LINE"
         },
         "API_CALLBACK": {
           "TITLE": "URL de retorno da chamada",
-          "SUBTITLE": "Tem que configurar o URL do webhook na aplica√ß√£o LINE com o URL mencionado aqui."
+          "SUBTITLE": "Tem que configurar o URL do webhook na aplicaÁ„o LINE com o URL mencionado aqui."
         }
       },
       "TELEGRAM_CHANNEL": {
@@ -446,12 +446,12 @@
         },
         "SUBMIT_BUTTON": "Criar canal Telegram",
         "API": {
-          "ERROR_MESSAGE": "N√£o foi poss√≠vel guardar o canal Telegram"
+          "ERROR_MESSAGE": "N„o foi possÌvel guardar o canal Telegram"
         }
       },
       "AUTH": {
         "TITLE": "Escolher um canal",
-        "DESC": "O Chatwoot suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode faz√™-lo usando o canal API. Para come√ßar, escolha um dos canais abaixo.",
+        "DESC": "O Thynex suporta widgets de live-chat, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se pretende criar um canal personalizado, pode fazÍ-lo usando o canal API. Para comeÁar, escolha um dos canais abaixo.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Pronto!",
         "CHANNEL": {
@@ -507,57 +507,57 @@
       },
       "AGENTS": {
         "TITLE": "Agentes",
-        "DESC": "Aqui voc√™ pode adicionar agentes para gerenciar a sua caixa de entrada rec√©m-criada. Apenas esses agentes selecionados ter√£o acesso √† sua caixa de entrada. Agentes que n√£o fazem parte desta caixa de entrada n√£o ser√£o capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, voc√™ deve se adicionar como agente em todas as caixas de entrada que voc√™ criar.",
-        "VALIDATION_ERROR": "Adicione, pelo menos, um agente √† sua nova caixa de entrada",
+        "DESC": "Aqui vocÍ pode adicionar agentes para gerenciar a sua caixa de entrada recÈm-criada. Apenas esses agentes selecionados ter„o acesso ‡ sua caixa de entrada. Agentes que n„o fazem parte desta caixa de entrada n„o ser„o capazes de ver ou responder a mensagens nesta caixa de entrada quando eles acessarem. <br> <b>PS:</b> como administrador, se precisar de acesso a todas as caixas de entrada, vocÍ deve se adicionar como agente em todas as caixas de entrada que vocÍ criar.",
+        "VALIDATION_ERROR": "Adicione, pelo menos, um agente ‡ sua nova caixa de entrada",
         "PICK_AGENTS": "Escolha os agentes da caixa de entrada"
       },
       "DETAILS": {
         "TITLE": "Detalhes da caixa de entrada",
-        "DESC": "No menu abaixo, selecione a p√°gina do Facebook que pretende conectar ao Chatwoot. Tamb√©m pode dar um nome personalizado √† sua caixa de entrada para uma melhor identifica√ß√£o."
+        "DESC": "No menu abaixo, selecione a p·gina do Facebook que pretende conectar ao Thynex. TambÈm pode dar um nome personalizado ‡ sua caixa de entrada para uma melhor identificaÁ„o."
       },
       "FINISH": {
         "TITLE": "Excelente!",
-        "DESC": "A integra√ß√£o da sua p√°gina do Facebook com o Chatwoot foi feita com sucesso. Da pr√≥xima vez que um cliente enviar mensagens para sua p√°gina, a conversa aparecer√° automaticamente na sua caixa de entrada.<br>Tamb√©m fornecemos um script de widget que pode facilmente adicionar ao seu site. Uma vez que isto estiver no seu site, os clientes podem enviar mensagens a partir do site sem a ajuda de qualquer ferramenta externa e a conversa aparecer√° aqui, no Chatwoot.<br>"
+        "DESC": "A integraÁ„o da sua p·gina do Facebook com o Thynex foi feita com sucesso. Da prÛxima vez que um cliente enviar mensagens para sua p·gina, a conversa aparecer· automaticamente na sua caixa de entrada.<br>TambÈm fornecemos um script de widget que pode facilmente adicionar ao seu site. Uma vez que isto estiver no seu site, os clientes podem enviar mensagens a partir do site sem a ajuda de qualquer ferramenta externa e a conversa aparecer· aqui, no Thynex.<br>"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selecione o seu fornecedor de e-mail",
-        "DESCRIPTION": "Selecione um fornecedor de e-mail da lista abaixo. Se n√£o encontrar o seu fornecedor de e-mail na lista, pode selecionar a op√ß√£o 'Outros fornecedores' e colocar as credenciais IMAP e SMTP."
+        "DESCRIPTION": "Selecione um fornecedor de e-mail da lista abaixo. Se n„o encontrar o seu fornecedor de e-mail na lista, pode selecionar a opÁ„o 'Outros fornecedores' e colocar as credenciais IMAP e SMTP."
       },
       "MICROSOFT": {
         "TITLE": "E-mail Microsoft",
-        "DESCRIPTION": "Para come√ßar, clique no bot√£o 'Entrar com a Microsoft'. Ser√° redirecionado para o e-mail. Depois de aceitar as permiss√µes solicitadas, ser√° redirecionado novamente para a etapa de cria√ß√£o da caixa de entrada.",
-        "EMAIL_PLACEHOLDER": "Insira o endere√ßo de e-mail",
+        "DESCRIPTION": "Para comeÁar, clique no bot„o 'Entrar com a Microsoft'. Ser· redirecionado para o e-mail. Depois de aceitar as permissıes solicitadas, ser· redirecionado novamente para a etapa de criaÁ„o da caixa de entrada.",
+        "EMAIL_PLACEHOLDER": "Insira o endereÁo de e-mail",
         "SIGN_IN": "Entrar via Microsoft",
-        "ERROR_MESSAGE": "Ocorreu um erro ao ligar √† Microsoft, por favor, tente novamente"
+        "ERROR_MESSAGE": "Ocorreu um erro ao ligar ‡ Microsoft, por favor, tente novamente"
       },
       "GOOGLE": {
         "TITLE": "E-mail Google",
-        "DESCRIPTION": "Para come√ßar, clique no bot√£o 'Entrar com o Google'. Ser√° redirecionado para a p√°gina de login do e-mail. Depois de aceitar as permiss√µes solicitadas, ser√° redirecionado de volta para a etapa de cria√ß√£o da caixa de entrada. ",
+        "DESCRIPTION": "Para comeÁar, clique no bot„o 'Entrar com o Google'. Ser· redirecionado para a p·gina de login do e-mail. Depois de aceitar as permissıes solicitadas, ser· redirecionado de volta para a etapa de criaÁ„o da caixa de entrada. ",
         "SIGN_IN": "Entrar com o Google",
-        "EMAIL_PLACEHOLDER": "Insira o endere√ßo de e-mail",
+        "EMAIL_PLACEHOLDER": "Insira o endereÁo de e-mail",
         "ERROR_MESSAGE": "Ocorreu um erro ao conectar ao Google, por favor, tente novamente"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "A autentic√°-lo com o Facebook...",
-      "ERROR_FB_LOADING": "Erro ao carregar o SDK do Facebook. Por favor, inative qualquer bloqueador de an√∫ncios e tente novamente, num navegador diferente.",
-      "ERROR_FB_AUTH": "Ocorreu um erro! Por favor, atualize a p√°gina...",
-      "ERROR_FB_UNAUTHORIZED": "N√£o tem permiss√£o para executar esta a√ß√£o. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Por favor, certifique-se que tem acesso √† p√°gina do Facebook, com controlo total. Pode ler mais sobre as permiss√µes do Facebook <a href=\"https://www.facebook.com/help/187316341316631\">aqui</a>.",
+      "LOADING_FB": "A autentic·-lo com o Facebook...",
+      "ERROR_FB_LOADING": "Erro ao carregar o SDK do Facebook. Por favor, inative qualquer bloqueador de an˙ncios e tente novamente, num navegador diferente.",
+      "ERROR_FB_AUTH": "Ocorreu um erro! Por favor, atualize a p·gina...",
+      "ERROR_FB_UNAUTHORIZED": "N„o tem permiss„o para executar esta aÁ„o. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Por favor, certifique-se que tem acesso ‡ p·gina do Facebook, com controlo total. Pode ler mais sobre as permissıes do Facebook <a href=\"https://www.facebook.com/help/187316341316631\">aqui</a>.",
       "CREATING_CHANNEL": "A criar a sua caixa de entrada...",
       "TITLE": "Configurar detalhes da caixa de entrada",
       "DESC": ""
     },
     "AGENTS": {
       "BUTTON_TEXT": "Adicionar agentes",
-      "ADD_AGENTS": "A adicionar agentes √† sua caixa de entrada..."
+      "ADD_AGENTS": "A adicionar agentes ‡ sua caixa de entrada..."
     },
     "FINISH": {
-      "TITLE": "A sua caixa de entrada est√° pronta!",
-      "MESSAGE": "Agora, pode conectar-se com os seus clientes atrav√©s do seu novo canal.",
+      "TITLE": "A sua caixa de entrada est· pronta!",
+      "MESSAGE": "Agora, pode conectar-se com os seus clientes atravÈs do seu novo canal.",
       "BUTTON_TEXT": "Ir para a caixa de entrada",
-      "MORE_SETTINGS": "Mais configura√ß√µes",
-      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o c√≥digo mostrado abaixo e cole-o no seu site. Da pr√≥xima vez que um cliente usar o chat em tempo real, a conversa aparecer√° automaticamente na sua caixa de entrada.",
+      "MORE_SETTINGS": "Mais configuraÁıes",
+      "WEBSITE_SUCCESS": "Acabou de criar um canal de site com sucesso. Copie o cÛdigo mostrado abaixo e cole-o no seu site. Da prÛxima vez que um cliente usar o chat em tempo real, a conversa aparecer· automaticamente na sua caixa de entrada.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
@@ -566,9 +566,9 @@
     "VIEW": "Ver",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Configura√ß√µes da caixa de entrada atualizadas com sucesso",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribui√ß√£o autom√°tica atualizada com sucesso",
-        "ERROR_MESSAGE": "N√£o foi poss√≠vel atualizar as configura√ß√µes da caixa de entrada. Por favor, tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "ConfiguraÁıes da caixa de entrada atualizadas com sucesso",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "AtribuiÁ„o autom·tica atualizada com sucesso",
+        "ERROR_MESSAGE": "N„o foi possÌvel atualizar as configuraÁıes da caixa de entrada. Por favor, tente novamente mais tarde."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Ativado",
@@ -583,13 +583,13 @@
         "SUB_TEXT": "Selecione o nome a apresentar aos seus clientes quando receberem e-mails dos seus agentes.",
         "FOR_EG": "Por exemplo:",
         "FRIENDLY": {
-          "TITLE": "Amig√°vel",
+          "TITLE": "Amig·vel",
           "FROM": "de",
           "SUBTITLE": "Adicionar o nome do agente que enviou a resposta ao remetente, para a tornar mais pessoal."
         },
         "PROFESSIONAL": {
           "TITLE": "Profissional",
-          "SUBTITLE": "Usar apenas o nome da empresa como nome do remetente no cabe√ßalho do e-mail."
+          "SUBTITLE": "Usar apenas o nome da empresa como nome do remetente no cabeÁalho do e-mail."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "Configure o nome da sua empresa",
@@ -619,28 +619,28 @@
       "BUTTON_TEXT": "Excluir",
       "AVATAR_DELETE_BUTTON_TEXT": "Excluir avatar",
       "CONFIRM": {
-        "TITLE": "Confirmar exclus√£o",
+        "TITLE": "Confirmar exclus„o",
         "MESSAGE": "Tem certeza que pretende excluir ",
         "PLACE_HOLDER": "Por favor, digite {inboxName} para confirmar",
         "YES": "Sim, excluir ",
-        "NO": "N√£o, manter "
+        "NO": "N„o, manter "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Caixa de entrada exclu√≠da com sucesso",
-        "ERROR_MESSAGE": "N√£o foi poss√≠vel excluir a caixa de entrada. Por favor, tente novamente mais tarde.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar da caixa de entrada exclu√≠do com sucesso",
-        "AVATAR_ERROR_MESSAGE": "N√£o foi poss√≠vel excluir o avatar da caixa de entrada. Por favor, tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "Caixa de entrada excluÌda com sucesso",
+        "ERROR_MESSAGE": "N„o foi possÌvel excluir a caixa de entrada. Por favor, tente novamente mais tarde.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar da caixa de entrada excluÌdo com sucesso",
+        "AVATAR_ERROR_MESSAGE": "N„o foi possÌvel excluir o avatar da caixa de entrada. Por favor, tente novamente mais tarde."
       }
     },
     "TABS": {
-      "SETTINGS": "Configura√ß√µes",
+      "SETTINGS": "ConfiguraÁıes",
       "COLLABORATORS": "Colaboradores",
-      "CONFIGURATION": "Configura√ß√£o",
+      "CONFIGURATION": "ConfiguraÁ„o",
       "CAMPAIGN": "Campanhas",
-      "PRE_CHAT_FORM": "Formul√°rio pr√©-chat",
-      "BUSINESS_HOURS": "Hor√°rio comercial",
+      "PRE_CHAT_FORM": "Formul·rio prÈ-chat",
+      "BUSINESS_HOURS": "Hor·rio comercial",
       "WIDGET_BUILDER": "Construtor de widgets",
-      "BOT_CONFIGURATION": "Configura√ß√£o do bot",
+      "BOT_CONFIGURATION": "ConfiguraÁ„o do bot",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "VOICE": "Voz",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ‚Äî it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ó it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ‚Äî no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ó no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -728,7 +728,7 @@
         },
         "MODES": {
           "SANDBOX": "Sandbox",
-          "LIVE": "Dispon√≠vel"
+          "LIVE": "DisponÌvel"
         }
       },
       "WEBHOOK": {
@@ -742,9 +742,9 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Configura√ß√µes",
+    "SETTINGS": "ConfiguraÁıes",
     "FEATURES": {
-      "LABEL": "Caracter√≠sticas",
+      "LABEL": "CaracterÌsticas",
       "DISPLAY_FILE_PICKER": "Mostrar o selecionador de ficheiros no widget",
       "DISPLAY_EMOJI_PICKER": "Mostrar selecionador de emojis no widget",
       "ALLOW_END_CONVERSATION": "Permitir que os utilizadores terminem a conversa a partir da widget",
@@ -752,7 +752,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script do Messenger",
-      "MESSENGER_SUB_HEAD": "Coloque este bot√£o no corpo da sua tag ",
+      "MESSENGER_SUB_HEAD": "Coloque este bot„o no corpo da sua tag ",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -772,40 +772,40 @@
       },
       "INBOX_AGENTS": "Agentes",
       "INBOX_AGENTS_SUB_TEXT": "Adicionar ou remover agentes desta caixa de entrada",
-      "AGENT_ASSIGNMENT": "Atribui√ß√£o da conversa",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Atualizar configura√ß√µes de atribui√ß√£o de conversa",
-      "UPDATE": "Atualiza√ß√£o",
-      "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de rece√ß√£o de e-mail",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de rece√ß√£o de e-mails para as novas conversas",
-      "AUTO_ASSIGNMENT": "Ativar atribui√ß√£o autom√°tica",
+      "AGENT_ASSIGNMENT": "AtribuiÁ„o da conversa",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atualizar configuraÁıes de atribuiÁ„o de conversa",
+      "UPDATE": "AtualizaÁ„o",
+      "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de receÁ„o de e-mail",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de receÁ„o de e-mails para as novas conversas",
+      "AUTO_ASSIGNMENT": "Ativar atribuiÁ„o autom·tica",
       "SENDER_NAME_SECTION": "Adicionar o nome do agente ao e-mail",
-      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibi√ß√£o do nome do agente no e-mail. Se estiver desativado, exibir√° o nome da empresa",
+      "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibiÁ„o do nome do agente no e-mail. Se estiver desativado, exibir· o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ativar continuidade das conversas por e-mail",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas ir√£o continuar por e-mail se o endere√ßo de e-mail do contacto estiver dispon√≠vel.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas ir„o continuar por e-mail se o endereÁo de e-mail do contacto estiver disponÌvel.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Configura√ß√µes da caixa de entrada",
-      "INBOX_UPDATE_SUB_TEXT": "Atualize as suas configura√ß√µes da caixa de entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribui√ß√£o autom√°tica de novas conversas aos agentes adicionados a essa caixa de entrada.",
-      "HMAC_VERIFICATION": "Valida√ß√£o da identidade do utilizador",
+      "INBOX_UPDATE_TITLE": "ConfiguraÁıes da caixa de entrada",
+      "INBOX_UPDATE_SUB_TEXT": "Atualize as suas configuraÁıes da caixa de entrada",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Ativar ou desativar a atribuiÁ„o autom·tica de novas conversas aos agentes adicionados a essa caixa de entrada.",
+      "HMAC_VERIFICATION": "ValidaÁ„o da identidade do utilizador",
       "HMAC_DESCRIPTION": "Com esta chave, pode gerar um token secreto que pode ser usado para verificar a identidade dos seus utilizadores.",
       "HMAC_LINK_TO_DOCS": "Pode saber mais aqui.",
-      "HMAC_MANDATORY_VERIFICATION": "For√ßar valida√ß√£o de identidade do utilizador",
-      "HMAC_MANDATORY_DESCRIPTION": "Se ativado, os pedidos que n√£o podem ser verificados ser√£o rejeitados.",
+      "HMAC_MANDATORY_VERIFICATION": "ForÁar validaÁ„o de identidade do utilizador",
+      "HMAC_MANDATORY_DESCRIPTION": "Se ativado, os pedidos que n„o podem ser verificados ser„o rejeitados.",
       "INBOX_IDENTIFIER": "Identificador da caixa de entrada",
       "INBOX_IDENTIFIER_SUB_TEXT": "Use o token 'inbox_identifier' mostrado aqui para autenticar os seus clientes API.",
       "FORWARD_EMAIL_TITLE": "Encaminhar para e-mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar as suas mensagens de e-mail para o seguinte endere√ßo.",
+      "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar as suas mensagens de e-mail para o seguinte endereÁo.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens ap√≥s a resolu√ß√£o da conversa",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir que os utilizadores finais enviem mensagens ap√≥s a conversa estar resolvida.",
-      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API √© usada para a integra√ß√£o com as APIs do WhatsApp.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Insira a nova chave da API a ser usada para a integra√ß√£o com as APIs do WhatsApp.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens apÛs a resoluÁ„o da conversa",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permitir que os utilizadores finais enviem mensagens apÛs a conversa estar resolvida.",
+      "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API È usada para a integraÁ„o com as APIs do WhatsApp.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Insira a nova chave da API a ser usada para a integraÁ„o com as APIs do WhatsApp.",
       "WHATSAPP_SECTION_TITLE": "Chave da API",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atualizar chave da API",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Insira a nova chave da API aqui",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atualiza√ß√£o",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "AtualizaÁ„o",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
@@ -821,8 +821,8 @@
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook de verifica√ß√£o do token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token √© usado para verificar a autenticidade do endpoint do webhook.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook de verificaÁ„o do token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Este token È usado para verificar a autenticidade do endpoint do webhook.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
@@ -831,7 +831,7 @@
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configura√ß√µes do formul√°rio pr√©-chat"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configuraÁıes do formul·rio prÈ-chat"
     },
     "HELP_CENTER": {
       "LABEL": "Centro de suporte",
@@ -839,15 +839,15 @@
       "SELECT_PLACEHOLDER": "Selecione centro de suporte",
       "NONE": "Nenhuma",
       "REMOVE": "Remover centro de suporte",
-      "SUB_TEXT": "Associe um centro de suporte √† caixa de entrada"
+      "SUB_TEXT": "Associe um centro de suporte ‡ caixa de entrada"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Limite de atribui√ß√£o autom√°tica",
+      "MAX_ASSIGNMENT_LIMIT": "Limite de atribuiÁ„o autom·tica",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor, insira um valor maior que 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitar o n√∫mero m√°ximo de conversas desta caixa de entrada que pode ser atribu√≠do automaticamente a um agente"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitar o n˙mero m·ximo de conversas desta caixa de entrada que pode ser atribuÌdo automaticamente a um agente"
     },
     "ASSIGNMENT": {
-      "TITLE": "Atribui√ß√£o da conversa",
+      "TITLE": "AtribuiÁ„o da conversa",
       "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
       "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
@@ -895,31 +895,31 @@
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
-      "SUBTITLE": "A sua conex√£o ao Facebook expirou, por favor, reconecte a p√°gina para poder continuar a utilizar os servi√ßos",
-      "MESSAGE_SUCCESS": "Reconex√£o bem-sucedida",
+      "SUBTITLE": "A sua conex„o ao Facebook expirou, por favor, reconecte a p·gina para poder continuar a utilizar os serviÁos",
+      "MESSAGE_SUCCESS": "Reconex„o bem-sucedida",
       "MESSAGE_ERROR": "Ocorreu um erro, por favor, tente novamente"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "O formul√°rio de pr√©-chat permite-lhe capturar informa√ß√µes do utilizador antes de iniciar uma conversa.",
-      "SET_FIELDS": "Campos do formul√°rio de pr√©-chat",
+      "DESCRIPTION": "O formul·rio de prÈ-chat permite-lhe capturar informaÁıes do utilizador antes de iniciar uma conversa.",
+      "SET_FIELDS": "Campos do formul·rio de prÈ-chat",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Campos",
         "LABEL": "Etiqueta",
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Chave",
         "TYPE": "Tipo",
-        "REQUIRED": "Obrigat√≥rio"
+        "REQUIRED": "ObrigatÛrio"
       },
       "ENABLE": {
-        "LABEL": "Ativar formul√°rio de pr√©-chat",
+        "LABEL": "Ativar formul·rio de prÈ-chat",
         "OPTIONS": {
           "ENABLED": "Sim",
-          "DISABLED": "N√£o"
+          "DISABLED": "N„o"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Mensagem de pr√©-chat",
-        "PLACEHOLDER": "Esta mensagem estar√° vis√≠vel aos utilizadores, juntamente com o formul√°rio"
+        "LABEL": "Mensagem de prÈ-chat",
+        "PLACEHOLDER": "Esta mensagem estar· visÌvel aos utilizadores, juntamente com o formul·rio"
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Os visitantes devem digitar o seu nome e e-mail antes de iniciarem uma conversa"
@@ -927,13 +927,13 @@
     },
     "CSAT": {
       "TITLE": "Ativar CSAT",
-      "SUBTITLE": "Acione automaticamente inqu√©ritos CSAT no final das conversas para perceber como os clientes se sentem sobre o apoio recebido. Acompanhe tend√™ncias de satisfa√ß√£o e identifique √°reas de melhoria ao longo do tempo.",
+      "SUBTITLE": "Acione automaticamente inquÈritos CSAT no final das conversas para perceber como os clientes se sentem sobre o apoio recebido. Acompanhe tendÍncias de satisfaÁ„o e identifique ·reas de melhoria ao longo do tempo.",
       "DISPLAY_TYPE": {
-        "LABEL": "Tipo de visualiza√ß√£o"
+        "LABEL": "Tipo de visualizaÁ„o"
       },
       "MESSAGE": {
         "LABEL": "Messagem",
-        "PLACEHOLDER": "Por favor, insira uma mensagem para mostrar aos utilizadores com o formul√°rio"
+        "PLACEHOLDER": "Por favor, insira uma mensagem para mostrar aos utilizadores com o formul·rio"
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
@@ -979,38 +979,38 @@
         }
       },
       "SURVEY_RULE": {
-        "LABEL": "Regra do inqu√©rito",
-        "DESCRIPTION_PREFIX": "Enviar o inqu√©rito se a conversa",
+        "LABEL": "Regra do inquÈrito",
+        "DESCRIPTION_PREFIX": "Enviar o inquÈrito se a conversa",
         "DESCRIPTION_SUFFIX": "qualquer uma das etiquetas",
         "OPERATOR": {
-          "CONTAINS": "cont√©m",
-          "DOES_NOT_CONTAINS": "n√£o cont√©m"
+          "CONTAINS": "contÈm",
+          "DOES_NOT_CONTAINS": "n„o contÈm"
         },
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
-      "NOTE": "Nota: Os inqu√©ritos CSAT s√£o enviados apenas uma vez por conversa",
+      "NOTE": "Nota: Os inquÈritos CSAT s„o enviados apenas uma vez por conversa",
       "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
-        "SUCCESS_MESSAGE": "Defini√ß√µes de CSAT atualizadas com sucesso",
-        "ERROR_MESSAGE": "N√£o foi poss√≠vel atualizar as defini√ß√µes de CSAT. Por favor, tente novamente mais tarde."
+        "SUCCESS_MESSAGE": "DefiniÁıes de CSAT atualizadas com sucesso",
+        "ERROR_MESSAGE": "N„o foi possÌvel atualizar as definiÁıes de CSAT. Por favor, tente novamente mais tarde."
       }
     },
     "BUSINESS_HOURS": {
       "TITLE": "Definir disponibilidade",
       "SUBTITLE": "Defina a sua disponibilidade no widget do livechat",
       "WEEKLY_TITLE": "Defina as suas horas semanais",
-      "TIMEZONE_LABEL": "Selecionar fuso hor√°rio",
-      "UPDATE": "Atualizar as configura√ß√µes do hor√°rio comercial",
-      "TOGGLE_AVAILABILITY": "Ativar a disponibilidade de neg√≥cios para esta caixa de entrada",
-      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indispon√≠vel para os visitantes",
-      "TOGGLE_HELP": "Permitir a disponibilidade de neg√≥cios mostrar√° as horas dispon√≠veis no widget de live-chat, mesmo que todos os agentes estejam offline. Em caso de contactos fora do hor√°rio dispon√≠vel, os clientes podem ser avisados com uma mensagem e um formul√°rio de pr√©-chat.",
+      "TIMEZONE_LABEL": "Selecionar fuso hor·rio",
+      "UPDATE": "Atualizar as configuraÁıes do hor·rio comercial",
+      "TOGGLE_AVAILABILITY": "Ativar a disponibilidade de negÛcios para esta caixa de entrada",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mensagem indisponÌvel para os visitantes",
+      "TOGGLE_HELP": "Permitir a disponibilidade de negÛcios mostrar· as horas disponÌveis no widget de live-chat, mesmo que todos os agentes estejam offline. Em caso de contactos fora do hor·rio disponÌvel, os clientes podem ser avisados com uma mensagem e um formul·rio de prÈ-chat.",
       "DAY": {
         "DAY": "Dia",
         "AVAILABILITY": "Disponibilidade",
         "HOURS": "Horas",
         "ENABLE": "Ativar a disponibilidade para este dia",
-        "UNAVAILABLE": "Indispon√≠vel",
-        "VALIDATION_ERROR": "A hora de abertura deve ser anterior √† hora de encerramento.",
+        "UNAVAILABLE": "IndisponÌvel",
+        "VALIDATION_ERROR": "A hora de abertura deve ser anterior ‡ hora de encerramento.",
         "CHOOSE": "Escolher"
       },
       "ALL_DAY": "Todo o dia"
@@ -1019,31 +1019,31 @@
       "TITLE": "IMAP",
       "SUBTITLE": "Defina os seus dados IMAP",
       "NOTE_TEXT": "Para ativar o SMTP, por favor, configure o IMAP.",
-      "UPDATE": "Atualizar configura√ß√µes IMAP",
-      "TOGGLE_AVAILABILITY": "Ativar a configura√ß√£o IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Habilitar o IMAP ajudar√° o utilizador a receber o e-mail",
+      "UPDATE": "Atualizar configuraÁıes IMAP",
+      "TOGGLE_AVAILABILITY": "Ativar a configuraÁ„o IMAP para esta caixa de entrada",
+      "TOGGLE_HELP": "Habilitar o IMAP ajudar· o utilizador a receber o e-mail",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Configura√ß√µes IMAP atualizadas com sucesso",
-        "ERROR_MESSAGE": "N√£o foi poss√≠vel atualizar as configura√ß√µes do IMAP"
+        "SUCCESS_MESSAGE": "ConfiguraÁıes IMAP atualizadas com sucesso",
+        "ERROR_MESSAGE": "N„o foi possÌvel atualizar as configuraÁıes do IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Endere√ßo",
-        "PLACE_HOLDER": "Endere√ßo (Ex. imap.gmail.com)"
+        "LABEL": "EndereÁo",
+        "PLACE_HOLDER": "EndereÁo (Ex. imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Iniciar sess√£o",
-        "PLACE_HOLDER": "Iniciar sess√£o"
+        "LABEL": "Iniciar sess„o",
+        "PLACE_HOLDER": "Iniciar sess„o"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
         "PLACE_HOLDER": "Palavra-passe"
       },
       "ENABLE_SSL": "Ativar SSL",
-      "AUTH_MECHANISM": "Autentica√ß√£o"
+      "AUTH_MECHANISM": "AutenticaÁ„o"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
@@ -1052,40 +1052,40 @@
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Defina os seus dados IMAP",
-      "UPDATE": "Atualizar configura√ß√µes de SMTP",
-      "TOGGLE_AVAILABILITY": "Ativar a configura√ß√£o IMAP para esta caixa de entrada",
-      "TOGGLE_HELP": "Habilitar o SMTP ajudar√° o utilizador a enviar e-mail",
+      "UPDATE": "Atualizar configuraÁıes de SMTP",
+      "TOGGLE_AVAILABILITY": "Ativar a configuraÁ„o IMAP para esta caixa de entrada",
+      "TOGGLE_HELP": "Habilitar o SMTP ajudar· o utilizador a enviar e-mail",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Configura√ß√µes de SMTP atualizadas com sucesso",
-        "ERROR_MESSAGE": "N√£o √© poss√≠vel atualizar as configura√ß√µes de SMTP"
+        "SUCCESS_MESSAGE": "ConfiguraÁıes de SMTP atualizadas com sucesso",
+        "ERROR_MESSAGE": "N„o È possÌvel atualizar as configuraÁıes de SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Endere√ßo",
-        "PLACE_HOLDER": "Endere√ßo (Ex. smtp.gmail.com)"
+        "LABEL": "EndereÁo",
+        "PLACE_HOLDER": "EndereÁo (Ex. smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Porta",
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Iniciar sess√£o",
-        "PLACE_HOLDER": "Iniciar sess√£o"
+        "LABEL": "Iniciar sess„o",
+        "PLACE_HOLDER": "Iniciar sess„o"
       },
       "PASSWORD": {
         "LABEL": "Palavra-passe",
         "PLACE_HOLDER": "Palavra-passe"
       },
       "DOMAIN": {
-        "LABEL": "Dom√≠nio",
-        "PLACE_HOLDER": "Dom√≠nio"
+        "LABEL": "DomÌnio",
+        "PLACE_HOLDER": "DomÌnio"
       },
-      "ENCRYPTION": "Encripta√ß√£o",
+      "ENCRYPTION": "EncriptaÁ„o",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Abrir o modo de verifica√ß√£o SSL",
-      "AUTH_MECHANISM": "Autentica√ß√£o"
+      "OPEN_SSL_VERIFY_MODE": "Abrir o modo de verificaÁ„o SSL",
+      "AUTH_MECHANISM": "AutenticaÁ„o"
     },
-    "NOTE": "Observa√ß√£o: ",
+    "NOTE": "ObservaÁ„o: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
@@ -1100,15 +1100,15 @@
         "WEBSITE_NAME": {
           "LABEL": "Nome do website",
           "PLACE_HOLDER": "Insira o nome do seu website (ex. Acme Inc)",
-          "ERROR": "Por favor, insira um nome de website v√°lido"
+          "ERROR": "Por favor, insira um nome de website v·lido"
         },
         "WELCOME_HEADING": {
-          "LABEL": "T√≠tulo de boas-vindas",
-          "PLACE_HOLDER": "Ol√°!"
+          "LABEL": "TÌtulo de boas-vindas",
+          "PLACE_HOLDER": "Ol·!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Slogan de boas-vindas",
-          "PLACE_HOLDER": "N√≥s simplificamos a sua conex√£o connosco. Pergunte-nos qualquer coisa ou partilhe um coment√°rio."
+          "PLACE_HOLDER": "NÛs simplificamos a sua conex„o connosco. Pergunte-nos qualquer coisa ou partilhe um coment·rio."
         },
         "REPLY_TIME": {
           "LABEL": "Tempo de resposta",
@@ -1126,14 +1126,14 @@
           "PLACE_HOLDER": "Fale connosco"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Atualizar configura√ß√µes do widget",
+          "BUTTON_TEXT": "Atualizar configuraÁıes do widget",
           "API": {
-            "SUCCESS_MESSAGE": "Configura√ß√µes do widget atualizadas com sucesso",
-            "ERROR_MESSAGE": "N√£o √© poss√≠vel atualizar as configura√ß√µes do widget"
+            "SUCCESS_MESSAGE": "ConfiguraÁıes do widget atualizadas com sucesso",
+            "ERROR_MESSAGE": "N„o È possÌvel atualizar as configuraÁıes do widget"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Pr√©-visualizar",
+          "PREVIEW": "PrÈ-visualizar",
           "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -1141,12 +1141,12 @@
           "RIGHT": "Direita"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Padr√£o",
-          "EXPANDED_BUBBLE": "Bal√£o expandido"
+          "STANDARD": "Padr„o",
+          "EXPANDED_BUBBLE": "Bal„o expandido"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Padr√£o",
+        "DEFAULT": "Padr„o",
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
@@ -1163,11 +1163,11 @@
           "ONLINE": "Estamos online",
           "OFFLINE": "Neste momento, estamos ausentes"
         },
-        "USER_MESSAGE": "Ol√°",
-        "AGENT_MESSAGE": "Ol√°"
+        "USER_MESSAGE": "Ol·",
+        "AGENT_MESSAGE": "Ol·"
       },
-      "BRANDING_TEXT": "Desenvolvido por Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Desenvolvido por Thynex",
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1200,3 +1200,5 @@
     }
   }
 }
+
+

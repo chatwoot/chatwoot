@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, onMounted } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -6,7 +6,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 defineProps({
   title: {
     type: String,
-    default: 'Chatwoot',
+    default: 'Thynex',
   },
 });
 
@@ -70,3 +70,4 @@ useKeyboardEvents(keyboardEvents);
     </div>
   </div>
 </template>
+

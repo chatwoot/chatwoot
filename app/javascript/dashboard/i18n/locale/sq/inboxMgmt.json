@@ -4,61 +4,61 @@
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} kutia postare | {n} kuti postare",
-    "SEARCH_PLACEHOLDER": "KÃ«rko kutitÃ« postare...",
-    "NO_RESULTS": "Nuk u gjetÃ«n kuti postare qÃ« pÃ«rputhen me kÃ«rkimin tuaj",
-    "RECONNECTION_REQUIRED": "Kutia juaj e postÃ«s Ã«shtÃ« e shkÃ«putur. Nuk do tÃ« merrni mesazhe tÃ« reja derisa ta ri-autorizoni.",
-    "CLICK_TO_RECONNECT": "Kliko kÃ«tu pÃ«r t'u lidhur pÃ«rsÃ«ri.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnâ€™t complete. Please check your display name status in Meta Business Manager before reconnecting.",
-    "COMPLETE_REGISTRATION": "PÃ«rfundo Regjistrimin",
+    "SEARCH_PLACEHOLDER": "Kërko kutitë postare...",
+    "NO_RESULTS": "Nuk u gjetën kuti postare që përputhen me kërkimin tuaj",
+    "RECONNECTION_REQUIRED": "Kutia juaj e postës është e shkëputur. Nuk do të merrni mesazhe të reja derisa ta ri-autorizoni.",
+    "CLICK_TO_RECONNECT": "Kliko këtu për t'u lidhur përsëri.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Përfundo Regjistrimin",
     "LIST": {
-      "404": "Nuk ka kuti postare tÃ« lidhura me kÃ«tÃ« llogari."
+      "404": "Nuk ka kuti postare të lidhura me këtë llogari."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Zgjidh Kanalin",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "BODY": "Choose the provider you want to integrate with Thynex."
       },
       "INBOX": {
-        "TITLE": "Krijo PostÃ«",
+        "TITLE": "Krijo Postë",
         "BODY": "Authenticate your account and create an inbox."
       },
       "AGENT": {
-        "TITLE": "Shto AgjentÃ«",
+        "TITLE": "Shto Agjentë",
         "BODY": "Add agents to the created inbox."
       },
       "FINISH": {
         "TITLE": "Ja ku jeni!",
-        "BODY": "Jeni gati pÃ«r tÃ« filluar!"
+        "BODY": "Jeni gati për të filluar!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Emri i kutisÃ« postare",
+        "LABEL": "Emri i kutisë postare",
         "PLACEHOLDER": "Shkruani emrin e inbox-it tuaj (p.sh.: Acme Inc)",
-        "ERROR": "Ju lutemi shkruani njÃ« emÃ«r tÃ« vlefshÃ«m pÃ«r kutinÃ« postare"
+        "ERROR": "Ju lutemi shkruani një emër të vlefshëm për kutinë postare"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Emri i faqes sÃ« internetit",
+        "LABEL": "Emri i faqes së internetit",
         "PLACEHOLDER": "Shkruani emrin e faqes suaj (p.sh. : Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Duke u kyÃ§ur, ne marrim vetÃ«m akses nÃ« mesazhet e Faqes suaj. Mesazhet tuaja private nuk mund tÃ« aksesohen kurrÃ« nga Chatwoot.",
+        "HELP": "PS: Duke u kyçur, ne marrim vetëm akses në mesazhet e Faqes suaj. Mesazhet tuaja private nuk mund të aksesohen kurrë nga Thynex.",
         "CHOOSE_PAGE": "Zgjidh Faqen",
-        "CHOOSE_PLACEHOLDER": "Zgjidh njÃ« faqe nga lista",
-        "INBOX_NAME": "Emri i kutisÃ« sÃ« postÃ«s",
-        "ADD_NAME": "Shto njÃ« emÃ«r pÃ«r kutinÃ« tÃ«nde tÃ« postÃ«s",
+        "CHOOSE_PLACEHOLDER": "Zgjidh një faqe nga lista",
+        "INBOX_NAME": "Emri i kutisë së postës",
+        "ADD_NAME": "Shto një emër për kutinë tënde të postës",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Zgjidh njÃ« vlerÃ«",
-        "CREATE_INBOX": "Krijo PostÃ«n"
+        "PICK_A_VALUE": "Zgjidh një vlerë",
+        "CREATE_INBOX": "Krijo Postën"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "Ndodhi njÃ« gabim gjatÃ« lidhjes me Instagram, ju lutemi provoni pÃ«rsÃ«ri",
+        "ERROR_AUTH": "Ndodhi një gabim gjatë lidhjes me Instagram, ju lutemi provoni përsëri",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "Ky llogari Instagram Ã«shtÃ« migruar nÃ« inbox-in e ri tÃ« kanalit Instagram. Nuk do tÃ« mund tÃ« dÃ«rgoni/merrni mÃ« mesazhe Instagram nga ky inbox."
+        "DUPLICATE_INBOX_BANNER": "Ky llogari Instagram është migruar në inbox-in e ri të kanalit Instagram. Nuk do të mund të dërgoni/merrni më mesazhe Instagram nga ky inbox."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,66 +68,66 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "PÃ«r tÃ« shtuar profilin tuaj nÃ« Twitter si kanal, duhet tÃ« autentikoni profilin tuaj nÃ« Twitter duke klikuar nÃ« 'KyÃ§u me Twitter' ",
-        "ERROR_MESSAGE": "Ndodhi njÃ« gabim gjatÃ« lidhjes me Twitter, ju lutem provoni sÃ«rish",
+        "HELP": "Për të shtuar profilin tuaj në Twitter si kanal, duhet të autentikoni profilin tuaj në Twitter duke klikuar në 'Kyçu me Twitter' ",
+        "ERROR_MESSAGE": "Ndodhi një gabim gjatë lidhjes me Twitter, ju lutem provoni sërish",
         "TWEETS": {
           "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Kanal i faqes sÃ« internetit",
-        "DESC": "Krijo njÃ« kanal pÃ«r faqen tÃ«nde dhe fillo tÃ« ndihmosh klientÃ«t pÃ«rmes widget-it tonÃ«.",
-        "LOADING_MESSAGE": "Duke krijuar kanalin e mbÃ«shtetjes sÃ« faqes sÃ« internetit",
+        "TITLE": "Kanal i faqes së internetit",
+        "DESC": "Krijo një kanal për faqen tënde dhe fillo të ndihmosh klientët përmes widget-it tonë.",
+        "LOADING_MESSAGE": "Duke krijuar kanalin e mbështetjes së faqes së internetit",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar i kanalit"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Ju lutemi shkruani URL-nÃ« tuaj tÃ« webhook-ut",
-          "ERROR": "Ju lutem shkruani njÃ« URL tÃ« vlefshme"
+          "PLACEHOLDER": "Ju lutemi shkruani URL-në tuaj të webhook-ut",
+          "ERROR": "Ju lutem shkruani një URL të vlefshme"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
-          "COPY": "Kopjo sekretin nÃ« kujtesÃ«n e pÃ«rkohshme",
-          "COPY_SUCCESS": "Sekreti u kopjua nÃ« kujtesÃ«n e pÃ«rkohshme",
-          "TOGGLE": "Ndrysho dukshmÃ«rinÃ« e sekretit",
+          "COPY": "Kopjo sekretin në kujtesën e përkohshme",
+          "COPY_SUCCESS": "Sekreti u kopjua në kujtesën e përkohshme",
+          "TOGGLE": "Ndrysho dukshmërinë e sekretit",
           "RESET_SUCCESS": "Webhook secret regenerated successfully",
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Domeni i faqes sÃ« internetit",
+          "LABEL": "Domeni i faqes së internetit",
           "PLACEHOLDER": "Shkruani domenin e faqes suaj (p.sh.: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "PÃ«rshÃ«ndetje kryesore",
-          "PLACEHOLDER": "PÃ«rshÃ«ndetje !"
+          "LABEL": "Përshëndetje kryesore",
+          "PLACEHOLDER": "Përshëndetje !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Slogani i MirÃ«seardhjes",
-          "PLACEHOLDER": "E bÃ«jmÃ« tÃ« thjeshtÃ« lidhjen me ne. Na pyesni Ã§farÃ«do, ose ndani mendimet tuaja."
+          "LABEL": "Slogani i Mirëseardhjes",
+          "PLACEHOLDER": "E bëjmë të thjeshtë lidhjen me ne. Na pyesni çfarëdo, ose ndani mendimet tuaja."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Mesazhi i pÃ«rshÃ«ndetjes sÃ« kanalit",
-          "PLACEHOLDER": "Acme Inc pÃ«rgjigjet zakonisht brenda disa orÃ«sh."
+          "LABEL": "Mesazhi i përshëndetjes së kanalit",
+          "PLACEHOLDER": "Acme Inc përgjigjet zakonisht brenda disa orësh."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Aktivizo pÃ«rshÃ«ndetjen e kanalit",
-          "HELP_TEXT": "DÃ«rgo automatikisht mesazhe pÃ«rshÃ«ndetÃ«se kur klientÃ«t fillojnÃ« njÃ« bisedÃ« dhe dÃ«rgojnÃ« mesazhin e tyre tÃ« parÃ«.",
+          "LABEL": "Aktivizo përshëndetjen e kanalit",
+          "HELP_TEXT": "Dërgo automatikisht mesazhe përshëndetëse kur klientët fillojnë një bisedë dhe dërgojnë mesazhin e tyre të parë.",
           "ENABLED": "Aktivizuar",
-          "DISABLED": "Ã‡aktivizuar"
+          "DISABLED": "Çaktivizuar"
         },
         "REPLY_TIME": {
-          "TITLE": "Vendos kohÃ«n e pÃ«rgjigjes",
-          "IN_A_FEW_MINUTES": "NÃ« disa minuta",
-          "IN_A_FEW_HOURS": "Brenda disa orÃ«sh",
-          "IN_A_DAY": "Brenda njÃ« dite",
-          "HELP_TEXT": "Kjo kohÃ« pÃ«rgjigjeje do tÃ« shfaqet nÃ« widget-in e chat-it live"
+          "TITLE": "Vendos kohën e përgjigjes",
+          "IN_A_FEW_MINUTES": "Në disa minuta",
+          "IN_A_FEW_HOURS": "Brenda disa orësh",
+          "IN_A_DAY": "Brenda një dite",
+          "HELP_TEXT": "Kjo kohë përgjigjeje do të shfaqet në widget-in e chat-it live"
         },
         "WIDGET_COLOR": {
           "LABEL": "Ngjyra e widget-it",
-          "PLACEHOLDER": "PÃ«rditÃ«so ngjyrÃ«n e widget-it"
+          "PLACEHOLDER": "Përditëso ngjyrën e widget-it"
         },
-        "SUBMIT_BUTTON": "Krijo kutinÃ« postare",
+        "SUBMIT_BUTTON": "Krijo kutinë postare",
         "API": {
           "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
@@ -136,25 +136,25 @@
         "TITLE": "Twilio SMS/WhatsApp Channel",
         "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "SID i LlogarisÃ«",
+          "LABEL": "SID i Llogarisë",
           "PLACEHOLDER": "Ju lutem vendosni Twilio Account SID",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "API_KEY": {
           "USE_API_KEY": "Use API Key Authentication",
-          "LABEL": "Ã‡elÃ«si API SID",
-          "PLACEHOLDER": "Ju lutemi shkruani SID e Ã‡elÃ«sit tuaj API",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "LABEL": "Çelësi API SID",
+          "PLACEHOLDER": "Ju lutemi shkruani SID e Çelësit tuaj API",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "API_KEY_SECRET": {
-          "LABEL": "Sekreti i Ã‡elÃ«sit API",
-          "PLACEHOLDER": "Ju lutem shkruani Sekretin e Ã‡elÃ«sit API",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "LABEL": "Sekreti i Çelësit API",
+          "PLACEHOLDER": "Ju lutem shkruani Sekretin e Çelësit API",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "SID i ShÃ«rbimit tÃ« Mesazheve",
+          "LABEL": "SID i Shërbimit të Mesazheve",
           "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme",
+          "ERROR": "Kjo fushë është e detyrueshme",
           "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
@@ -164,75 +164,75 @@
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
           "PLACEHOLDER": "Ju lutem vendosni Twilio Auth Token",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Emri i PostÃ«s",
-          "PLACEHOLDER": "Ju lutemi shkruani njÃ« emÃ«r postÃ«",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "LABEL": "Emri i Postës",
+          "PLACEHOLDER": "Ju lutemi shkruani një emër postë",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "PHONE_NUMBER": {
           "LABEL": "Numri i Telefonit",
-          "PLACEHOLDER": "Ju lutemi shkruani numrin e telefonit nga i cili do tÃ« dÃ«rgohet mesazhi.",
-          "ERROR": "Ju lutem jepni njÃ« numÃ«r telefoni tÃ« vlefshÃ«m qÃ« fillon me shenjÃ«n `+` dhe nuk pÃ«rmban hapÃ«sira."
+          "PLACEHOLDER": "Ju lutemi shkruani numrin e telefonit nga i cili do të dërgohet mesazhi.",
+          "ERROR": "Ju lutem jepni një numër telefoni të vlefshëm që fillon me shenjën `+` dhe nuk përmban hapësira."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Duhet tÃ« konfiguroni URL-nÃ« e callback tÃ« mesazheve nÃ« Twilio me URL-nÃ« e dhÃ«nÃ« kÃ«tu."
+          "SUBTITLE": "Duhet të konfiguroni URL-në e callback të mesazheve në Twilio me URL-në e dhënë këtu."
         },
         "SUBMIT_BUTTON": "Krijo Kanal Twilio",
         "API": {
-          "ERROR_MESSAGE": "Nuk mundÃ«m tÃ« verifikojmÃ« kredencialet e Twilio, ju lutem provoni sÃ«rish"
+          "ERROR_MESSAGE": "Nuk mundëm të verifikojmë kredencialet e Twilio, ju lutem provoni sërish"
         }
       },
       "SMS": {
         "TITLE": "Kanali SMS",
-        "DESC": "Filloni tÃ« mbÃ«shtesni klientÃ«t tuaj pÃ«rmes SMS.",
+        "DESC": "Filloni të mbështesni klientët tuaj përmes SMS.",
         "PROVIDERS": {
           "LABEL": "Ofrues API",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "GjerÃ«sia e bandÃ«s"
+          "BANDWIDTH": "Gjerësia e bandës"
         },
         "API": {
-          "ERROR_MESSAGE": "Nuk arritÃ«m tÃ« ruajmÃ« kanalin SMS"
+          "ERROR_MESSAGE": "Nuk arritëm të ruajmë kanalin SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "ID e LlogarisÃ«",
-            "PLACEHOLDER": "Ju lutemi shkruani ID-nÃ« e llogarisÃ« Bandwidth",
-            "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+            "LABEL": "ID e Llogarisë",
+            "PLACEHOLDER": "Ju lutemi shkruani ID-në e llogarisë Bandwidth",
+            "ERROR": "Kjo fushë është e detyrueshme"
           },
           "API_KEY": {
-            "LABEL": "Ã‡elÃ«si API",
+            "LABEL": "Çelësi API",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+            "ERROR": "Kjo fushë është e detyrueshme"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+            "ERROR": "Kjo fushë është e detyrueshme"
           },
           "APPLICATION_ID": {
             "LABEL": "ID e aplikacionit",
-            "PLACEHOLDER": "Ju lutemi shkruani ID-nÃ« e aplikacionit Bandwidth",
-            "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+            "PLACEHOLDER": "Ju lutemi shkruani ID-në e aplikacionit Bandwidth",
+            "ERROR": "Kjo fushë është e detyrueshme"
           },
           "INBOX_NAME": {
-            "LABEL": "Emri i kutisÃ« postare",
-            "PLACEHOLDER": "Ju lutemi shkruani njÃ« emÃ«r kutie postare",
-            "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+            "LABEL": "Emri i kutisë postare",
+            "PLACEHOLDER": "Ju lutemi shkruani një emër kutie postare",
+            "ERROR": "Kjo fushë është e detyrueshme"
           },
           "PHONE_NUMBER": {
             "LABEL": "Numri i telefonit",
-            "PLACEHOLDER": "Ju lutem shkruani numrin e telefonit nga i cili do tÃ« dÃ«rgohet mesazhi.",
-            "ERROR": "Ju lutem jepni njÃ« numÃ«r telefoni tÃ« vlefshÃ«m qÃ« fillon me shenjÃ«n `+` dhe nuk pÃ«rmban hapÃ«sira."
+            "PLACEHOLDER": "Ju lutem shkruani numrin e telefonit nga i cili do të dërgohet mesazhi.",
+            "ERROR": "Ju lutem jepni një numër telefoni të vlefshëm që fillon me shenjën `+` dhe nuk përmban hapësira."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
             "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
           },
           "API_CALLBACK": {
-            "TITLE": "URL e kthimit tÃ« thirrjes",
+            "TITLE": "URL e kthimit të thirrjes",
             "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
           }
         }
@@ -245,7 +245,7 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
-          "WHATSAPP_CLOUD_DESC": "Konfigurim i shpejtÃ« pÃ«rmes Meta",
+          "WHATSAPP_CLOUD_DESC": "Konfigurim i shpejtë përmes Meta",
           "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
@@ -254,90 +254,90 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Emri i kutisÃ« postare",
-          "PLACEHOLDER": "Ju lutemi shkruani njÃ« emÃ«r kutie postare",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "LABEL": "Emri i kutisë postare",
+          "PLACEHOLDER": "Ju lutemi shkruani një emër kutie postare",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "PHONE_NUMBER": {
           "LABEL": "Numri i telefonit",
-          "PLACEHOLDER": "Ju lutem shkruani numrin e telefonit nga i cili do tÃ« dÃ«rgohet mesazhi.",
-          "ERROR": "Ju lutem jepni njÃ« numÃ«r telefoni tÃ« vlefshÃ«m qÃ« fillon me shenjÃ«n `+` dhe nuk pÃ«rmban hapÃ«sira."
+          "PLACEHOLDER": "Ju lutem shkruani numrin e telefonit nga i cili do të dërgohet mesazhi.",
+          "ERROR": "Ju lutem jepni një numër telefoni të vlefshëm që fillon me shenjën `+` dhe nuk përmban hapësira."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "ID i numrit tÃ« telefonit",
-          "PLACEHOLDER": "Ju lutemi shkruani ID-nÃ« e numrit tÃ« telefonit tÃ« marrÃ« nga paneli i zhvilluesit nÃ« Facebook.",
-          "ERROR": "Ju lutem shkruani njÃ« vlerÃ« tÃ« vlefshme."
+          "LABEL": "ID i numrit të telefonit",
+          "PLACEHOLDER": "Ju lutemi shkruani ID-në e numrit të telefonit të marrë nga paneli i zhvilluesit në Facebook.",
+          "ERROR": "Ju lutem shkruani një vlerë të vlefshme."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "ID e LlogarisÃ« sÃ« Biznesit",
-          "PLACEHOLDER": "Ju lutemi shkruani ID-nÃ« e llogarisÃ« sÃ« biznesit tÃ« marrÃ« nga paneli i zhvilluesit nÃ« Facebook.",
-          "ERROR": "Ju lutem shkruani njÃ« vlerÃ« tÃ« vlefshme."
+          "LABEL": "ID e Llogarisë së Biznesit",
+          "PLACEHOLDER": "Ju lutemi shkruani ID-në e llogarisë së biznesit të marrë nga paneli i zhvilluesit në Facebook.",
+          "ERROR": "Ju lutem shkruani një vlerë të vlefshme."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Ju lutemi shkruani njÃ« vlerÃ« tÃ« vlefshme."
+          "ERROR": "Ju lutemi shkruani një vlerë të vlefshme."
         },
         "API_KEY": {
-          "LABEL": "Ã‡elÃ«si API",
+          "LABEL": "Çelësi API",
           "SUBTITLE": "Configure the WhatsApp API key.",
-          "PLACEHOLDER": "Ã‡elÃ«si API",
-          "ERROR": "Ju lutem shkruani njÃ« vlerÃ« tÃ« vlefshme."
+          "PLACEHOLDER": "Çelësi API",
+          "ERROR": "Ju lutem shkruani një vlerë të vlefshme."
         },
         "API_CALLBACK": {
           "TITLE": "URL e kthimit",
-          "SUBTITLE": "Duhet tÃ« konfiguroni URL-nÃ« e webhook-ut dhe tokenin e verifikimit nÃ« portalin e zhvilluesit tÃ« Facebook me vlerat e shfaqura mÃ« poshtÃ«.",
+          "SUBTITLE": "Duhet të konfiguroni URL-në e webhook-ut dhe tokenin e verifikimit në portalin e zhvilluesit të Facebook me vlerat e shfaqura më poshtë.",
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Konfigurim i shpejtÃ« me Meta",
-          "DESC": "PÃ«rdorni rrjedhÃ«n e regjistrimit tÃ« integruar nÃ« WhatsApp pÃ«r tÃ« lidhur shpejt numra tÃ« rinj. Do tÃ« ridrejtoheni nÃ« Meta pÃ«r tÃ« hyrÃ« nÃ« llogarinÃ« tuaj tÃ« biznesit nÃ« WhatsApp. Pasja e aksesit admin do ta bÃ«jÃ« konfigurimin tÃ« lehtÃ« dhe tÃ« qetÃ«.",
+          "TITLE": "Konfigurim i shpejtë me Meta",
+          "DESC": "Përdorni rrjedhën e regjistrimit të integruar në WhatsApp për të lidhur shpejt numra të rinj. Do të ridrejtoheni në Meta për të hyrë në llogarinë tuaj të biznesit në WhatsApp. Pasja e aksesit admin do ta bëjë konfigurimin të lehtë dhe të qetë.",
           "BENEFITS": {
-            "TITLE": "PÃ«rfitimet e Regjistrimit tÃ« Integruar:",
-            "EASY_SETUP": "Nuk kÃ«rkohet konfigurim manual",
+            "TITLE": "Përfitimet e Regjistrimit të Integruar:",
+            "EASY_SETUP": "Nuk kërkohet konfigurim manual",
             "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "PÃ«r tÃ« mÃ«suar mÃ« shumÃ« rreth regjistrimit tÃ« integruar, Ã§mimeve dhe kufizimeve, vizitoni {link}.",
-            "LINK_TEXT": "kÃ«tÃ« lidhje"
+            "TEXT": "Për të mësuar më shumë rreth regjistrimit të integruar, çmimeve dhe kufizimeve, vizitoni {link}.",
+            "LINK_TEXT": "këtë lidhje"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
-          "WAITING_FOR_BUSINESS_INFO": "Ju lutem pÃ«rfundoni konfigurimin e biznesit nÃ« dritaren Meta...",
-          "PROCESSING": "Po konfigurohet llogaria juaj e biznesit nÃ« WhatsApp",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberâ€¦",
+          "WAITING_FOR_BUSINESS_INFO": "Ju lutem përfundoni konfigurimin e biznesit në dritaren Meta...",
+          "PROCESSING": "Po konfigurohet llogaria juaj e biznesit në WhatsApp",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
-          "SIGNUP_ERROR": "Ndodhi njÃ« gabim gjatÃ« regjistrimit",
+          "SIGNUP_ERROR": "Ndodhi një gabim gjatë regjistrimit",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youâ€™re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "procesi i konfigurimit manual",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on â€” this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "VOICE": {
-        "TITLE": "Kanal ZÃ«ri",
+        "TITLE": "Kanal Zëri",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
           "LABEL": "Numri i telefonit",
-          "PLACEHOLDER": "Shkruani numrin tuaj tÃ« telefonit (p.sh. +1234567890)",
-          "ERROR": "Ju lutemi jepni njÃ« numÃ«r telefoni tÃ« vlefshÃ«m nÃ« formatin E.164 (p.sh. +1234567890)"
+          "PLACEHOLDER": "Shkruani numrin tuaj të telefonit (p.sh. +1234567890)",
+          "ERROR": "Ju lutemi jepni një numër telefoni të vlefshëm në formatin E.164 (p.sh. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "SID i LlogarisÃ«",
+            "LABEL": "SID i Llogarisë",
             "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "SID i llogarisÃ« Ã«shtÃ« i nevojshÃ«m"
+            "REQUIRED": "SID i llogarisë është i nevojshëm"
           },
           "AUTH_TOKEN": {
             "LABEL": "Auth Token",
@@ -345,34 +345,34 @@
             "REQUIRED": "Auth Token is required"
           },
           "API_KEY_SID": {
-            "LABEL": "Ã‡elÃ«si API SID",
+            "LABEL": "Çelësi API SID",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "SID i Ã‡elÃ«sit API Ã«shtÃ« i nevojshÃ«m"
+            "REQUIRED": "SID i Çelësit API është i nevojshëm"
           },
           "API_KEY_SECRET": {
-            "LABEL": "Sekreti i Ã‡elÃ«sit API",
+            "LABEL": "Sekreti i Çelësit API",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "Sekreti i Ã‡elÃ«sit API Ã«shtÃ« i nevojshÃ«m"
+            "REQUIRED": "Sekreti i Çelësit API është i nevojshëm"
           }
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Konfiguroni kÃ«tÃ« URL si URL-nÃ« e Voice nÃ« numrin tuaj tÃ« telefonit Twilio dhe nÃ« aplikacionin TwiML.",
+          "TWILIO_VOICE_URL_SUBTITLE": "Konfiguroni këtë URL si URL-në e Voice në numrin tuaj të telefonit Twilio dhe në aplikacionin TwiML.",
           "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
-          "TWILIO_STATUS_URL_SUBTITLE": "Konfiguroni kÃ«tÃ« URL si URL-nÃ« e Status Callback nÃ« numrin tuaj tÃ« telefonit Twilio."
+          "TWILIO_STATUS_URL_SUBTITLE": "Konfiguroni këtë URL si URL-në e Status Callback në numrin tuaj të telefonit Twilio."
         },
-        "SUBMIT_BUTTON": "Krijo Kanalin e ZÃ«rit",
+        "SUBMIT_BUTTON": "Krijo Kanalin e Zërit",
         "API": {
-          "ERROR_MESSAGE": "Nuk arritÃ«m tÃ« krijonim kanalin e zÃ«rit"
+          "ERROR_MESSAGE": "Nuk arritëm të krijonim kanalin e zërit"
         }
       },
       "API_CHANNEL": {
         "TITLE": "Kanali API",
-        "DESC": "Integroni me kanalin API dhe filloni tÃ« mbÃ«shtesni klientÃ«t tuaj.",
+        "DESC": "Integroni me kanalin API dhe filloni të mbështesni klientët tuaj.",
         "CHANNEL_NAME": {
           "LABEL": "Emri i Kanalit",
-          "PLACEHOLDER": "Ju lutemi shkruani njÃ« emÃ«r kanali",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "PLACEHOLDER": "Ju lutemi shkruani një emër kanali",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
@@ -381,7 +381,7 @@
         },
         "SUBMIT_BUTTON": "Krijo Kanal API",
         "API": {
-          "ERROR_MESSAGE": "Nuk mundÃ«m tÃ« ruajmÃ« kanalin API"
+          "ERROR_MESSAGE": "Nuk mundëm të ruajmë kanalin API"
         }
       },
       "EMAIL_CHANNEL": {
@@ -389,8 +389,8 @@
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Emri i Kanalit",
-          "PLACEHOLDER": "Ju lutem shkruani njÃ« emÃ«r kanali",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "PLACEHOLDER": "Ju lutem shkruani një emër kanali",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "EMAIL": {
           "LABEL": "Email",
@@ -399,21 +399,21 @@
         },
         "SUBMIT_BUTTON": "Krijo Kanal Email-i",
         "API": {
-          "ERROR_MESSAGE": "Nuk mundÃ«m tÃ« ruajmÃ« kanalin e email-it"
+          "ERROR_MESSAGE": "Nuk mundëm të ruajmë kanalin e email-it"
         },
         "FINISH_MESSAGE": "Start forwarding your emails to the following email address.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Kliko kÃ«tu",
-        "CONFIGURE_SMTP_IMAP_TEXT": " pÃ«r tÃ« konfiguruar cilÃ«simet IMAP dhe SMTP"
+        "CONFIGURE_SMTP_IMAP_LINK": "Kliko këtu",
+        "CONFIGURE_SMTP_IMAP_TEXT": " për të konfiguruar cilësimet IMAP dhe SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Kanal LINE",
-        "DESC": "Integroni me kanalin LINE dhe filloni tÃ« mbÃ«shtesni klientÃ«t tuaj.",
+        "DESC": "Integroni me kanalin LINE dhe filloni të mbështesni klientët tuaj.",
         "CHANNEL_NAME": {
           "LABEL": "Emri i Kanalit",
-          "PLACEHOLDER": "Ju lutemi shkruani njÃ« emÃ«r kanali",
-          "ERROR": "Kjo fushÃ« Ã«shtÃ« e detyrueshme"
+          "PLACEHOLDER": "Ju lutemi shkruani një emër kanali",
+          "ERROR": "Kjo fushë është e detyrueshme"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "ID e Kanalit LINE",
@@ -429,30 +429,30 @@
         },
         "SUBMIT_BUTTON": "Krijo Kanalin LINE",
         "API": {
-          "ERROR_MESSAGE": "Nuk arritÃ«m tÃ« ruajmÃ« kanalin LINE"
+          "ERROR_MESSAGE": "Nuk arritëm të ruajmë kanalin LINE"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Duhet tÃ« konfiguroni webhook URL nÃ« aplikacionin LINE me URL-nÃ« e dhÃ«nÃ« kÃ«tu."
+          "SUBTITLE": "Duhet të konfiguroni webhook URL në aplikacionin LINE me URL-në e dhënë këtu."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Kanali Telegram",
-        "DESC": "Integroni me kanalin Telegram dhe filloni tÃ« mbÃ«shtesni klientÃ«t tuaj.",
+        "DESC": "Integroni me kanalin Telegram dhe filloni të mbështesni klientët tuaj.",
         "BOT_TOKEN": {
           "LABEL": "Token-i i Botit",
-          "SUBTITLE": "Konfiguro token-in e bot-it qÃ« keni marrÃ« nga Telegram BotFather.",
+          "SUBTITLE": "Konfiguro token-in e bot-it që keni marrë nga Telegram BotFather.",
           "PLACEHOLDER": "Token i Botit"
         },
         "SUBMIT_BUTTON": "Krijo Kanal Telegrami",
         "API": {
-          "ERROR_MESSAGE": "Nuk arritÃ«m tÃ« ruajmÃ« kanalin e telegramit"
+          "ERROR_MESSAGE": "Nuk arritëm të ruajmë kanalin e telegramit"
         }
       },
       "AUTH": {
-        "TITLE": "Zgjidhni njÃ« kanal",
-        "DESC": "Chatwoot mbÃ«shtet widget-e chat live, Facebook Messenger, WhatsApp, email-e, etj., si kanale. NÃ«se dÃ«shironi tÃ« krijoni njÃ« kanal tÃ« personalizuar, mund ta bÃ«ni duke pÃ«rdorur kanalin API. PÃ«r tÃ« filluar, zgjidhni njÃ« nga kanalet mÃ« poshtÃ«.",
-        "TITLE_NEXT": "PÃ«rfundo konfigurimin",
+        "TITLE": "Zgjidhni një kanal",
+        "DESC": "Thynex mbështet widget-e chat live, Facebook Messenger, WhatsApp, email-e, etj., si kanale. Nëse dëshironi të krijoni një kanal të personalizuar, mund ta bëni duke përdorur kanalin API. Për të filluar, zgjidhni një nga kanalet më poshtë.",
+        "TITLE_NEXT": "Përfundo konfigurimin",
         "TITLE_FINISH": "Ja ku jeni!",
         "CHANNEL": {
           "WEBSITE": {
@@ -461,7 +461,7 @@
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Lidheni faqen tuaj nÃ« Facebook"
+            "DESCRIPTION": "Lidheni faqen tuaj në Facebook"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
@@ -493,31 +493,31 @@
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Lidheni llogarinÃ« tuaj nÃ« Instagram"
+            "DESCRIPTION": "Lidheni llogarinë tuaj në Instagram"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Lidheni llogarinÃ« tuaj nÃ« TikTok"
+            "DESCRIPTION": "Lidheni llogarinë tuaj në TikTok"
           },
           "VOICE": {
-            "TITLE": "ZÃ«",
+            "TITLE": "Zë",
             "DESCRIPTION": "Integrate with Twilio Voice"
           }
         }
       },
       "AGENTS": {
-        "TITLE": "AgjentÃ«",
-        "DESC": "KÃ«tu mund tÃ« shtoni agjentÃ« pÃ«r tÃ« menaxhuar inbox-in e ri. VetÃ«m kÃ«ta agjentÃ« tÃ« zgjedhur do tÃ« kenÃ« qasje nÃ« inbox-in tuaj. AgjentÃ«t qÃ« nuk janÃ« pjesÃ« e kÃ«tij inbox-i nuk do tÃ« mund tÃ« shohin ose tâ€™u pÃ«rgjigjen mesazheve nÃ« kÃ«tÃ« inbox kur tÃ« kyÃ§en. <br> <b>PS:</b> Si administrator, nÃ«se keni nevojÃ« pÃ«r qasje nÃ« tÃ« gjitha inbox-et, duhet tÃ« shtoni veten si agjent nÃ« tÃ« gjitha inbox-et qÃ« krijoni.",
+        "TITLE": "Agjentë",
+        "DESC": "Këtu mund të shtoni agjentë për të menaxhuar inbox-in e ri. Vetëm këta agjentë të zgjedhur do të kenë qasje në inbox-in tuaj. Agjentët që nuk janë pjesë e këtij inbox-i nuk do të mund të shohin ose t’u përgjigjen mesazheve në këtë inbox kur të kyçen. <br> <b>PS:</b> Si administrator, nëse keni nevojë për qasje në të gjitha inbox-et, duhet të shtoni veten si agjent në të gjitha inbox-et që krijoni.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Zgjidh agjentÃ«t pÃ«r inbox-in"
+        "PICK_AGENTS": "Zgjidh agjentët për inbox-in"
       },
       "DETAILS": {
-        "TITLE": "Detajet e PostÃ«s",
-        "DESC": "Zgjidhni nga lista mÃ« poshtÃ« faqen e Facebook qÃ« dÃ«shironi tÃ« lidhni me Chatwoot. Mund tâ€™i vendosni edhe njÃ« emÃ«r tÃ« personalizuar inbox-it pÃ«r identifikim mÃ« tÃ« lehtÃ«."
+        "TITLE": "Detajet e Postës",
+        "DESC": "Zgjidhni nga lista më poshtë faqen e Facebook që dëshironi të lidhni me Thynex. Mund t’i vendosni edhe një emër të personalizuar inbox-it për identifikim më të lehtë."
       },
       "FINISH": {
-        "TITLE": "E arritÃ«m!",
-        "DESC": "Keni pÃ«rfunduar me sukses integrimin e Faqes suaj nÃ« Facebook me Chatwoot. HerÃ«n tjetÃ«r kur njÃ« klient tâ€™ju shkruajÃ« nÃ« Faqen tuaj, biseda do tÃ« shfaqet automatikisht nÃ« inbox-in tuaj.<br>Gjithashtu, po ju ofrojmÃ« njÃ« skriptÃ« widget-i qÃ« mund ta shtoni lehtÃ«sisht nÃ« faqen tuaj. Pasi tÃ« jetÃ« aktive nÃ« faqen tuaj, klientÃ«t mund tâ€™ju shkruajnÃ« direkt nga faqja juaj pa ndihmÃ«n e ndonjÃ« mjeti tÃ« jashtÃ«m dhe biseda do tÃ« shfaqet kÃ«tu, nÃ« Chatwoot.<br>Kul, apo jo? Ne pÃ«rpiqemi tÃ« jemi :)"
+        "TITLE": "E arritëm!",
+        "DESC": "Keni përfunduar me sukses integrimin e Faqes suaj në Facebook me Thynex. Herën tjetër kur një klient t’ju shkruajë në Faqen tuaj, biseda do të shfaqet automatikisht në inbox-in tuaj.<br>Gjithashtu, po ju ofrojmë një skriptë widget-i që mund ta shtoni lehtësisht në faqen tuaj. Pasi të jetë aktive në faqen tuaj, klientët mund t’ju shkruajnë direkt nga faqja juaj pa ndihmën e ndonjë mjeti të jashtëm dhe biseda do të shfaqet këtu, në Thynex.<br>Kul, apo jo? Ne përpiqemi të jemi :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -525,15 +525,15 @@
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Klikoni butonin KyÃ§u me Microsoft pÃ«r tÃ« filluar. Do tÃ« ridrejtoheni nÃ« faqen e kyÃ§jes me email. Pasi tÃ« pranoni lejet e kÃ«rkuara, do tÃ« ridrejtoheni pÃ«rsÃ«ri nÃ« hapin e krijimit tÃ« inbox-it.",
+        "DESCRIPTION": "Klikoni butonin Kyçu me Microsoft për të filluar. Do të ridrejtoheni në faqen e kyçjes me email. Pasi të pranoni lejet e kërkuara, do të ridrejtoheni përsëri në hapin e krijimit të inbox-it.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "KyÃ§u me Microsoft",
+        "SIGN_IN": "Kyçu me Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Klikoni butonin KyÃ§u me Google pÃ«r tÃ« filluar. Do tÃ« ridrejtoheni nÃ« faqen e kyÃ§jes me email. Pasi tÃ« pranoni lejet e kÃ«rkuara, do tÃ« ridrejtoheni pÃ«rsÃ«ri nÃ« hapin e krijimit tÃ« inbox-it.",
-        "SIGN_IN": "KyÃ§u me Google",
+        "DESCRIPTION": "Klikoni butonin Kyçu me Google për të filluar. Do të ridrejtoheni në faqen e kyçjes me email. Pasi të pranoni lejet e kërkuara, do të ridrejtoheni përsëri në hapin e krijimit të inbox-it.",
+        "SIGN_IN": "Kyçu me Google",
         "EMAIL_PLACEHOLDER": "Enter email address",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
@@ -541,51 +541,51 @@
     "DETAILS": {
       "LOADING_FB": "Po autentifikoheni me Facebook...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "DiÃ§ka shkoi keq, ju lutem rifreskoni faqen...",
-      "ERROR_FB_UNAUTHORIZED": "Nuk jeni i autorizuar tÃ« kryeni kÃ«tÃ« veprim. ",
+      "ERROR_FB_AUTH": "Diçka shkoi keq, ju lutem rifreskoni faqen...",
+      "ERROR_FB_UNAUTHORIZED": "Nuk jeni i autorizuar të kryeni këtë veprim. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Duke krijuar PostÃ«n tuaj...",
-      "TITLE": "Konfiguro Detajet e PostÃ«s",
+      "CREATING_CHANNEL": "Duke krijuar Postën tuaj...",
+      "TITLE": "Konfiguro Detajet e Postës",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Shto agjentÃ«",
-      "ADD_AGENTS": "Duke shtuar agjentÃ« nÃ« kutinÃ« tuaj hyrÃ«se..."
+      "BUTTON_TEXT": "Shto agjentë",
+      "ADD_AGENTS": "Duke shtuar agjentë në kutinë tuaj hyrëse..."
     },
     "FINISH": {
-      "TITLE": "Kutia juaj e postÃ«s Ã«shtÃ« gati!",
-      "MESSAGE": "Tani mund tÃ« angazhoheni me klientÃ«t tuaj pÃ«rmes Kanalit tÃ« ri. MbÃ«shtetje tÃ« kÃ«ndshme",
-      "BUTTON_TEXT": "MÃ« Ã§oj atje",
-      "MORE_SETTINGS": "MÃ« shumÃ« cilÃ«sime",
-      "WEBSITE_SUCCESS": "Keni pÃ«rfunduar me sukses krijimin e njÃ« kanali pÃ«r faqen. Kopjoni kodin e shfaqur mÃ« poshtÃ« dhe ngjisni nÃ« faqen tuaj. HerÃ«n tjetÃ«r kur njÃ« klient pÃ«rdor chat-in live, biseda do tÃ« shfaqet automatikisht nÃ« inbox-in tuaj.",
+      "TITLE": "Kutia juaj e postës është gati!",
+      "MESSAGE": "Tani mund të angazhoheni me klientët tuaj përmes Kanalit të ri. Mbështetje të këndshme",
+      "BUTTON_TEXT": "Më çoj atje",
+      "MORE_SETTINGS": "Më shumë cilësime",
+      "WEBSITE_SUCCESS": "Keni përfunduar me sukses krijimin e një kanali për faqen. Kopjoni kodin e shfaqur më poshtë dhe ngjisni në faqen tuaj. Herën tjetër kur një klient përdor chat-in live, biseda do të shfaqet automatikisht në inbox-in tuaj.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
-      "TELEGRAM_QR_INSTRUCTION": "Skanoni kodin QR mÃ« sipÃ«r pÃ«r tÃ« testuar shpejt kutinÃ« tuaj tÃ« Telegramit"
+      "TELEGRAM_QR_INSTRUCTION": "Skanoni kodin QR më sipër për të testuar shpejt kutinë tuaj të Telegramit"
     },
     "REAUTH": "Ri-autorizo",
     "VIEW": "Shiko",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "CilÃ«simet e inbox-it u pÃ«rditÃ«suan me sukses",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Caktimi automatik u pÃ«rditÃ«sua me sukses",
+        "SUCCESS_MESSAGE": "Cilësimet e inbox-it u përditësuan me sukses",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Caktimi automatik u përditësua me sukses",
         "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Aktivizuar",
-        "DISABLED": "Ã‡aktivizuar"
+        "DISABLED": "Çaktivizuar"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Aktivizuar",
-        "DISABLED": "Ã‡aktivizuar"
+        "DISABLED": "Çaktivizuar"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Emri i dÃ«rguesit",
-        "SUB_TEXT": "Zgjidhni emrin qÃ« i shfaqet klientit tuaj kur ata marrin email-e nga agjentÃ«t tuaj.",
-        "FOR_EG": "PÃ«r shembull:",
+        "TITLE": "Emri i dërguesit",
+        "SUB_TEXT": "Zgjidhni emrin që i shfaqet klientit tuaj kur ata marrin email-e nga agjentët tuaj.",
+        "FOR_EG": "Për shembull:",
         "FRIENDLY": {
-          "TITLE": "MiqÃ«sor",
+          "TITLE": "Miqësor",
           "FROM": "form",
-          "SUBTITLE": "Shto emrin e agjentit qÃ« dÃ«rgoi pÃ«rgjigjen nÃ« emrin e dÃ«rguesit pÃ«r ta bÃ«rÃ« mÃ« miqÃ«sor."
+          "SUBTITLE": "Shto emrin e agjentit që dërgoi përgjigjen në emrin e dërguesit për ta bërë më miqësor."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesional",
@@ -599,17 +599,17 @@
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Aktivuar",
-        "DISABLED": "Ã‡aktivizuar"
+        "DISABLED": "Çaktivizuar"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
         "ENABLED": "Aktivuar",
-        "DISABLED": "Ã‡aktivizuar"
+        "DISABLED": "Çaktivizuar"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
-        "ENABLED": "Rihap tÃ« njÃ«jtÃ«n bisedÃ«",
-        "DISABLED": "Krijo biseda tÃ« reja",
-        "ENABLED_DESCRIPTION": "Kur njÃ« kontakt dÃ«rgon mesazh pÃ«rsÃ«ri, biseda e mÃ«parshme do tÃ« rihapet.",
-        "DISABLED_DESCRIPTION": "Do tÃ« krijohet njÃ« bisedÃ« e re Ã§do herÃ« pasi tÃ« jetÃ« zgjidhur ajo e mÃ«parshmja."
+        "ENABLED": "Rihap të njëjtën bisedë",
+        "DISABLED": "Krijo biseda të reja",
+        "ENABLED_DESCRIPTION": "Kur një kontakt dërgon mesazh përsëri, biseda e mëparshme do të rihapet.",
+        "DISABLED_DESCRIPTION": "Do të krijohet një bisedë e re çdo herë pasi të jetë zgjidhur ajo e mëparshmja."
       },
       "ENABLE_HMAC": {
         "LABEL": "Aktivizo"
@@ -620,30 +620,30 @@
       "AVATAR_DELETE_BUTTON_TEXT": "Fshi Avatarin",
       "CONFIRM": {
         "TITLE": "Konfirmo Fshirjen",
-        "MESSAGE": "A jeni i sigurt qÃ« dÃ«shironi tÃ« fshini ",
-        "PLACE_HOLDER": "Ju lutem shkruani {inboxName} pÃ«r tÃ« konfirmuar",
+        "MESSAGE": "A jeni i sigurt që dëshironi të fshini ",
+        "PLACE_HOLDER": "Ju lutem shkruani {inboxName} për të konfirmuar",
         "YES": "Po, Fshi ",
         "NO": "Jo, Ruaj "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Kutia e postÃ«s u fshi me sukses",
-        "ERROR_MESSAGE": "Nuk mund tÃ« fshihej kutia e postÃ«s. Ju lutemi provoni pÃ«rsÃ«ri mÃ« vonÃ«.",
+        "SUCCESS_MESSAGE": "Kutia e postës u fshi me sukses",
+        "ERROR_MESSAGE": "Nuk mund të fshihej kutia e postës. Ju lutemi provoni përsëri më vonë.",
         "AVATAR_SUCCESS_MESSAGE": "Avatari i inbox-it u fshi me sukses",
-        "AVATAR_ERROR_MESSAGE": "Nuk mund tÃ« fshihet avatari i inbox-it. Ju lutem provoni mÃ« vonÃ«."
+        "AVATAR_ERROR_MESSAGE": "Nuk mund të fshihet avatari i inbox-it. Ju lutem provoni më vonë."
       }
     },
     "TABS": {
-      "SETTINGS": "CilÃ«simet",
-      "COLLABORATORS": "BashkÃ«punÃ«torÃ«t",
+      "SETTINGS": "Cilësimet",
+      "COLLABORATORS": "Bashkëpunëtorët",
       "CONFIGURATION": "Konfigurimi",
       "CAMPAIGN": "Fushata",
-      "PRE_CHAT_FORM": "Formulari Para BisedÃ«s",
-      "BUSINESS_HOURS": "Orari i PunÃ«s",
+      "PRE_CHAT_FORM": "Formulari Para Bisedës",
+      "BUSINESS_HOURS": "Orari i Punës",
       "WIDGET_BUILDER": "Widget Builder",
       "BOT_CONFIGURATION": "Konfigurimi i Botit",
-      "ACCOUNT_HEALTH": "ShÃ«ndeti i LlogarisÃ«",
+      "ACCOUNT_HEALTH": "Shëndeti i Llogarisë",
       "CSAT": "CSAT",
-      "VOICE": "ZÃ«",
+      "VOICE": "Zë",
       "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number â€” it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta â€” no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -681,30 +681,30 @@
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
       "GO_TO_SETTINGS": "Go to Meta Business Manager",
-      "NO_DATA": "TÃ« dhÃ«nat e shÃ«ndetit nuk janÃ« nÃ« dispozicion",
+      "NO_DATA": "Të dhënat e shëndetit nuk janë në dispozicion",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
           "LABEL": "Trego numrin e telefonit",
-          "TOOLTIP": "Numri i telefonit i shfaqur pÃ«r klientÃ«t"
+          "TOOLTIP": "Numri i telefonit i shfaqur për klientët"
         },
         "VERIFIED_NAME": {
           "LABEL": "Emri i biznesit",
           "TOOLTIP": "Business name verified by WhatsApp"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Statusi i emrit tÃ« shfaqur",
-          "TOOLTIP": "Statusi i verifikimit tÃ« emrit tÃ« biznesit tuaj"
+          "LABEL": "Statusi i emrit të shfaqur",
+          "TOOLTIP": "Statusi i verifikimit të emrit të biznesit tuaj"
         },
         "QUALITY_RATING": {
-          "LABEL": "VlerÃ«simi i cilÃ«sisÃ«",
+          "LABEL": "Vlerësimi i cilësisë",
           "TOOLTIP": "WhatsApp quality rating for your account"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Niveli i kufirit tÃ« mesazheve",
-          "TOOLTIP": "Kufiri ditor i mesazheve pÃ«r llogarinÃ« tuaj"
+          "LABEL": "Niveli i kufirit të mesazheve",
+          "TOOLTIP": "Kufiri ditor i mesazheve për llogarinë tuaj"
         },
         "ACCOUNT_MODE": {
-          "LABEL": "MÃ«nyra e llogarisÃ«",
+          "LABEL": "Mënyra e llogarisë",
           "TOOLTIP": "Current operating mode of your WhatsApp account"
         }
       },
@@ -716,14 +716,14 @@
           "TIER_10K": "10K customers per 24h",
           "TIER_100K": "100K customers per 24h",
           "TIER_UNLIMITED": "Unlimited customers per 24h",
-          "UNKNOWN": "VlerÃ«simi nuk Ã«shtÃ« nÃ« dispozicion"
+          "UNKNOWN": "Vlerësimi nuk është në dispozicion"
         },
         "STATUSES": {
           "APPROVED": "Miratuar",
-          "PENDING_REVIEW": "NÃ« pritje tÃ« rishikimit",
-          "AVAILABLE_WITHOUT_REVIEW": "NÃ« dispozicion pa rishikim",
+          "PENDING_REVIEW": "Në pritje të rishikimit",
+          "AVAILABLE_WITHOUT_REVIEW": "Në dispozicion pa rishikim",
           "REJECTED": "Refuzuar",
-          "DECLINED": "Hedhur poshtÃ«",
+          "DECLINED": "Hedhur poshtë",
           "NON_EXISTS": "Nuk ekziston"
         },
         "MODES": {
@@ -733,7 +733,7 @@
       },
       "WEBHOOK": {
         "TITLE": "Webhook Configuration",
-        "DESCRIPTION": "Webhook URL Ã«shtÃ« i nevojshÃ«m pÃ«r LlogarinÃ« tuaj tÃ« Biznesit nÃ« WhatsApp qÃ« tÃ« marrÃ« mesazhe nga klientÃ«t",
+        "DESCRIPTION": "Webhook URL është i nevojshëm për Llogarinë tuaj të Biznesit në WhatsApp që të marrë mesazhe nga klientët",
         "ACTION_REQUIRED": "Webhook not configured",
         "REGISTER_BUTTON": "Register Webhook",
         "REGISTER_SUCCESS": "Webhook registered successfully",
@@ -742,17 +742,17 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "CilÃ«simet",
+    "SETTINGS": "Cilësimet",
     "FEATURES": {
       "LABEL": "Karakteristikat",
-      "DISPLAY_FILE_PICKER": "Shfaq pÃ«rzgjedhÃ«sin e skedarÃ«ve nÃ« widget",
-      "DISPLAY_EMOJI_PICKER": "Shfaq pÃ«rzgjedhÃ«sin e emoji-ve nÃ« widget",
+      "DISPLAY_FILE_PICKER": "Shfaq përzgjedhësin e skedarëve në widget",
+      "DISPLAY_EMOJI_PICKER": "Shfaq përzgjedhësin e emoji-ve në widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
-      "MESSENGER_SUB_HEAD": "Vendoseni kÃ«tÃ« buton brenda tag-ut body",
+      "MESSENGER_SUB_HEAD": "Vendoseni këtë buton brenda tag-ut body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domenet e Lejuara",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -765,18 +765,18 @@
       "IDENTITY_VALIDATION": {
         "TITLE": "Identity Validation",
         "DESCRIPTION": "Verify user authenticity by generating secure tokens. This prevents unauthorized users from impersonating others in your chat.",
-        "SECRET_KEY": "Ã‡elÃ«si Sekret",
+        "SECRET_KEY": "Çelësi Sekret",
         "VIEW_DOCS": "View documentation",
         "REQUIRE_LABEL": "Require identity validation for all conversations",
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
-      "INBOX_AGENTS": "AgjentÃ«",
-      "INBOX_AGENTS_SUB_TEXT": "Shto ose hiq agjentÃ« nga kjo kuti postare",
-      "AGENT_ASSIGNMENT": "Caktimi i BisedÃ«s",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "PÃ«rditÃ«soni cilÃ«simet e caktimit tÃ« bisedÃ«s",
-      "UPDATE": "PÃ«rditÃ«so",
-      "ENABLE_EMAIL_COLLECT_BOX": "Aktivo kutinÃ« pÃ«r mbledhjen e email-it",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivizo ose Ã§aktivizo kutinÃ« pÃ«r mbledhjen e email-it nÃ« biseda tÃ« reja",
+      "INBOX_AGENTS": "Agjentë",
+      "INBOX_AGENTS_SUB_TEXT": "Shto ose hiq agjentë nga kjo kuti postare",
+      "AGENT_ASSIGNMENT": "Caktimi i Bisedës",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Përditësoni cilësimet e caktimit të bisedës",
+      "UPDATE": "Përditëso",
+      "ENABLE_EMAIL_COLLECT_BOX": "Aktivo kutinë për mbledhjen e email-it",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivizo ose çaktivizo kutinë për mbledhjen e email-it në biseda të reja",
       "AUTO_ASSIGNMENT": "Aktivizo caktimin automatik",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
@@ -784,150 +784,150 @@
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Rrjedhja e Bisedave",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Konfiguro krijimin e bisedave pÃ«r kontaktet ekzistuese",
-      "INBOX_UPDATE_TITLE": "CilÃ«simet e PostÃ«s",
-      "INBOX_UPDATE_SUB_TEXT": "PÃ«rditÃ«soni cilÃ«simet e postÃ«s suaj",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivizoni ose Ã§aktivizoni caktimin automatik tÃ« bisedave tÃ« reja te agjentÃ«t e shtuar nÃ« kÃ«tÃ« inbox.",
-      "HMAC_VERIFICATION": "Verifikimi i Identitetit tÃ« PÃ«rdoruesit",
-      "HMAC_DESCRIPTION": "Me kÃ«tÃ« Ã§elÃ«s mund tÃ« gjeneroni njÃ« token sekret qÃ« mund tÃ« pÃ«rdoret pÃ«r tÃ« verifikuar identitetin e pÃ«rdoruesve tuaj.",
-      "HMAC_LINK_TO_DOCS": "Mund tÃ« lexoni mÃ« shumÃ« kÃ«tu.",
-      "HMAC_MANDATORY_VERIFICATION": "Detyro Verifikimin e Identitetit tÃ« PÃ«rdoruesit",
-      "HMAC_MANDATORY_DESCRIPTION": "NÃ«se Ã«shtÃ« aktivizuar, kÃ«rkesat qÃ« nuk mund tÃ« verifikohen do tÃ« refuzohen.",
-      "INBOX_IDENTIFIER": "Identifikuesi i PostÃ«s",
-      "INBOX_IDENTIFIER_SUB_TEXT": "PÃ«rdorni tokenin `inbox_identifier` tÃ« shfaqur kÃ«tu pÃ«r tÃ« autentikuar klientÃ«t tuaj API.",
-      "FORWARD_EMAIL_TITLE": "DÃ«rgo te Email-i",
-      "FORWARD_EMAIL_SUB_TEXT": "Filloni tÃ« dÃ«rgoni email-et tuaja te kjo adresÃ« email-i.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "PÃ«rparÃ«simi i email-eve nÃ« inbox-in tuaj aktualisht Ã«shtÃ« Ã§aktivizuar nÃ« kÃ«tÃ« instalim. PÃ«r tÃ« pÃ«rdorur kÃ«tÃ« funksion, duhet tÃ« aktivizohet nga administratori juaj. Ju lutemi kontaktoni ata pÃ«r tÃ« vazhduar.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Lejo mesazhet pasi biseda tÃ« jetÃ« zgjidhur",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Lejo pÃ«rdoruesit pÃ«rfundimtarÃ« tÃ« dÃ«rgojnÃ« mesazhe edhe pasi biseda tÃ« jetÃ« zgjidhur.",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Konfiguro krijimin e bisedave për kontaktet ekzistuese",
+      "INBOX_UPDATE_TITLE": "Cilësimet e Postës",
+      "INBOX_UPDATE_SUB_TEXT": "Përditësoni cilësimet e postës suaj",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Aktivizoni ose çaktivizoni caktimin automatik të bisedave të reja te agjentët e shtuar në këtë inbox.",
+      "HMAC_VERIFICATION": "Verifikimi i Identitetit të Përdoruesit",
+      "HMAC_DESCRIPTION": "Me këtë çelës mund të gjeneroni një token sekret që mund të përdoret për të verifikuar identitetin e përdoruesve tuaj.",
+      "HMAC_LINK_TO_DOCS": "Mund të lexoni më shumë këtu.",
+      "HMAC_MANDATORY_VERIFICATION": "Detyro Verifikimin e Identitetit të Përdoruesit",
+      "HMAC_MANDATORY_DESCRIPTION": "Nëse është aktivizuar, kërkesat që nuk mund të verifikohen do të refuzohen.",
+      "INBOX_IDENTIFIER": "Identifikuesi i Postës",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Përdorni tokenin `inbox_identifier` të shfaqur këtu për të autentikuar klientët tuaj API.",
+      "FORWARD_EMAIL_TITLE": "Dërgo te Email-i",
+      "FORWARD_EMAIL_SUB_TEXT": "Filloni të dërgoni email-et tuaja te kjo adresë email-i.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Përparësimi i email-eve në inbox-in tuaj aktualisht është çaktivizuar në këtë instalim. Për të përdorur këtë funksion, duhet të aktivizohet nga administratori juaj. Ju lutemi kontaktoni ata për të vazhduar.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Lejo mesazhet pasi biseda të jetë zgjidhur",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Lejo përdoruesit përfundimtarë të dërgojnë mesazhe edhe pasi biseda të jetë zgjidhur.",
       "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Shkruani Ã§elÃ«sin e ri API qÃ« do tÃ« pÃ«rdoret pÃ«r integrimin me API-tÃ« e WhatsApp.",
-      "WHATSAPP_SECTION_TITLE": "Ã‡elÃ«si API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "PÃ«rditÃ«so Ã‡elÃ«sin API",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Fut kÃ«tu Ã‡elÃ«sin e ri API",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "PÃ«rditÃ«so",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Shkruani çelësin e ri API që do të përdoret për integrimin me API-të e WhatsApp.",
+      "WHATSAPP_SECTION_TITLE": "Çelësi API",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Përditëso Çelësin API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Fut këtu Çelësin e ri API",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Përditëso",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
       "WHATSAPP_RECONFIGURE_BUTTON": "Rikonfiguro",
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Lidheni kÃ«tÃ« inbox me WhatsApp Business pÃ«r funksione tÃ« avancuara dhe menaxhim mÃ« tÃ« lehtÃ«.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Lidheni këtë inbox me WhatsApp Business për funksione të avancuara dhe menaxhim më të lehtë.",
       "WHATSAPP_CONNECT_BUTTON": "Lidhu",
       "WHATSAPP_CONNECT_SUCCESS": "Lidhje me sukses me WhatsApp Business!",
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
       "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "ID-ja e aplikacionit tÃ« WhatsApp-it nuk Ã«shtÃ« konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
-      "WHATSAPP_CONFIG_ID_MISSING": "ID-ja e konfigurimit tÃ« WhatsApp-it nuk Ã«shtÃ« konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
+      "WHATSAPP_APP_ID_MISSING": "ID-ja e aplikacionit të WhatsApp-it nuk është konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
+      "WHATSAPP_CONFIG_ID_MISSING": "ID-ja e konfigurimit të WhatsApp-it nuk është konfiguruar. Ju lutemi, kontaktoni administratorin tuaj.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sinkronizo Shabllonet",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sinkronizo shabllonet",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sinkronizimi i modeleve u nis me sukses. Mund tÃ« duhen disa minuta pÃ«r t'u pÃ«rditÃ«suar.",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sinkronizimi i modeleve u nis me sukses. Mund të duhen disa minuta për t'u përditësuar.",
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "PÃ«rditÃ«so CilÃ«simet e Formularit Para BisedÃ«s"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Përditëso Cilësimet e Formularit Para Bisedës"
     },
     "HELP_CENTER": {
-      "LABEL": "Qendra e NdihmÃ«s",
-      "PLACEHOLDER": "Zgjidh QendrÃ«n e NdihmÃ«s",
-      "SELECT_PLACEHOLDER": "Zgjidh QendrÃ«n e NdihmÃ«s",
-      "NONE": "AsnjÃ«",
-      "REMOVE": "Hiq QendrÃ«n e NdihmÃ«s",
+      "LABEL": "Qendra e Ndihmës",
+      "PLACEHOLDER": "Zgjidh Qendrën e Ndihmës",
+      "SELECT_PLACEHOLDER": "Zgjidh Qendrën e Ndihmës",
+      "NONE": "Asnjë",
+      "REMOVE": "Hiq Qendrën e Ndihmës",
       "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Kufiri i caktimit automatik",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Ju lutemi shkruani njÃ« vlerÃ« mÃ« tÃ« madhe se 0",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Ju lutemi shkruani një vlerë më të madhe se 0",
       "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "ASSIGNMENT": {
       "TITLE": "Caktimi i Bisedave",
-      "DESCRIPTION": "Caktoni automatikisht bisedat hyrÃ«se agjentÃ«ve nÃ« dispozicion bazuar nÃ« politikat e caktimit",
-      "ENABLE_AUTO_ASSIGNMENT": "Aktivizo caktimin automatik tÃ« bisedave",
-      "DEFAULT_RULES_TITLE": "Rregullat e paracaktuara tÃ« caktimit",
-      "DEFAULT_RULES_DESCRIPTION": "Duke pÃ«rdorur sjelljen e paracaktuar tÃ« caktimit pÃ«r tÃ« gjitha bisedat",
-      "DEFAULT_RULE_1": "SÃ« pari bisedat mÃ« tÃ« hershme tÃ« krijuara",
-      "DEFAULT_RULE_2": "ShpÃ«rndarje rrethore",
-      "CUSTOMIZE_WITH_POLICY": "PÃ«rshtat me politikÃ«n e caktimit",
+      "DESCRIPTION": "Caktoni automatikisht bisedat hyrëse agjentëve në dispozicion bazuar në politikat e caktimit",
+      "ENABLE_AUTO_ASSIGNMENT": "Aktivizo caktimin automatik të bisedave",
+      "DEFAULT_RULES_TITLE": "Rregullat e paracaktuara të caktimit",
+      "DEFAULT_RULES_DESCRIPTION": "Duke përdorur sjelljen e paracaktuar të caktimit për të gjitha bisedat",
+      "DEFAULT_RULE_1": "Së pari bisedat më të hershme të krijuara",
+      "DEFAULT_RULE_2": "Shpërndarje rrethore",
+      "CUSTOMIZE_WITH_POLICY": "Përshtat me politikën e caktimit",
       "USING_POLICY": "Using custom assignment policy for this inbox",
-      "CUSTOMIZE_POLICY": "PÃ«rshtat me politikÃ«n e caktimit",
-      "DELETE_POLICY": "Fshi politikÃ«n",
+      "CUSTOMIZE_POLICY": "Përshtat me politikën e caktimit",
+      "DELETE_POLICY": "Fshi politikën",
       "POLICY_LABEL": "Politika e caktimit",
-      "ASSIGNMENT_ORDER_LABEL": "Renditja e DetyrÃ«s",
+      "ASSIGNMENT_ORDER_LABEL": "Renditja e Detyrës",
       "ASSIGNMENT_METHOD_LABEL": "Metoda e Detyrimit",
       "POLICY_STATUS": {
         "ACTIVE": "Aktiv",
         "INACTIVE": "Joaktiv"
       },
       "PRIORITY": {
-        "EARLIEST_CREATED": "Krijuar mÃ« herÃ«t",
-        "LONGEST_WAITING": "Duke pritur mÃ« gjatÃ«"
+        "EARLIEST_CREATED": "Krijuar më herët",
+        "LONGEST_WAITING": "Duke pritur më gjatë"
       },
       "METHOD": {
-        "ROUND_ROBIN": "Rrotullim i barabartÃ«",
+        "ROUND_ROBIN": "Rrotullim i barabartë",
         "BALANCED": "Caktim i balancuar"
       },
-      "UPGRADE_PROMPT": "Politikat e personalizuara tÃ« caktimit janÃ« tÃ« disponueshme nÃ« planin Business",
+      "UPGRADE_PROMPT": "Politikat e personalizuara të caktimit janë të disponueshme në planin Business",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
       "DEFAULT_POLICY_LINKED": "Politika e paracaktuar e lidhur",
-      "DEFAULT_POLICY_DESCRIPTION": "Lidheni njÃ« politikÃ« tÃ« personalizuar caktimi pÃ«r tÃ« pÃ«rshtatur mÃ«nyrÃ«n se si bisedat caktohen agjentÃ«ve nÃ« kÃ«tÃ« inbox.",
-      "LINK_EXISTING_POLICY": "Lidh politikÃ«n ekzistuese",
-      "CREATE_NEW_POLICY": "Krijo politikÃ« tÃ« re",
-      "NO_POLICIES": "Nuk u gjetÃ«n politika caktimi",
-      "VIEW_ALL_POLICIES": "Shiko tÃ« gjitha politikat",
-      "CURRENT_BEHAVIOR": "Aktualisht pÃ«rdoret sjellja e paracaktuar e caktimit:",
+      "DEFAULT_POLICY_DESCRIPTION": "Lidheni një politikë të personalizuar caktimi për të përshtatur mënyrën se si bisedat caktohen agjentëve në këtë inbox.",
+      "LINK_EXISTING_POLICY": "Lidh politikën ekzistuese",
+      "CREATE_NEW_POLICY": "Krijo politikë të re",
+      "NO_POLICIES": "Nuk u gjetën politika caktimi",
+      "VIEW_ALL_POLICIES": "Shiko të gjitha politikat",
+      "CURRENT_BEHAVIOR": "Aktualisht përdoret sjellja e paracaktuar e caktimit:",
       "LINK_SUCCESS": "Politika e caktimit u lidh me sukses",
-      "LINK_ERROR": "DÃ«shtoi lidhja e politikÃ«s sÃ« caktimit"
+      "LINK_ERROR": "Dështoi lidhja e politikës së caktimit"
     },
     "ASSIGNMENT_POLICY": {
-      "DELETE_CONFIRM_TITLE": "Fshini politikÃ«n e caktimit?",
-      "DELETE_CONFIRM_MESSAGE": "Jeni i sigurt qÃ« dÃ«shironi tÃ« hiqni kÃ«tÃ« politikÃ« caktimi nga kjo kuti postare? Kuti postare do tÃ« kthehet te rregullat e paracaktuara tÃ« caktimit.",
+      "DELETE_CONFIRM_TITLE": "Fshini politikën e caktimit?",
+      "DELETE_CONFIRM_MESSAGE": "Jeni i sigurt që dëshironi të hiqni këtë politikë caktimi nga kjo kuti postare? Kuti postare do të kthehet te rregullat e paracaktuara të caktimit.",
       "CANCEL": "Anulo",
       "CONFIRM_DELETE": "Fshi",
       "DELETE_SUCCESS": "Politika e caktimit u hoq me sukses",
-      "DELETE_ERROR": "DÃ«shtoi heqja e politikÃ«s sÃ« caktimit"
+      "DELETE_ERROR": "Dështoi heqja e politikës së caktimit"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Ri-autorizo",
-      "SUBTITLE": "Lidhja juaj me Facebook ka skaduar, ju lutemi lidhni pÃ«rsÃ«ri faqen tuaj nÃ« Facebook pÃ«r tÃ« vazhduar shÃ«rbimet",
+      "SUBTITLE": "Lidhja juaj me Facebook ka skaduar, ju lutemi lidhni përsëri faqen tuaj në Facebook për të vazhduar shërbimet",
       "MESSAGE_SUCCESS": "Rilidhja u krye me sukses",
-      "MESSAGE_ERROR": "Ndodhi njÃ« gabim, ju lutemi provoni pÃ«rsÃ«ri"
+      "MESSAGE_ERROR": "Ndodhi një gabim, ju lutemi provoni përsëri"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Format e para-bisedÃ«s ju lejojnÃ« tÃ« kapni informacionin e pÃ«rdoruesit para se ata tÃ« fillojnÃ« bisedÃ«n me ju.",
-      "SET_FIELDS": "Fushat e formularit para bisedÃ«s",
+      "DESCRIPTION": "Format e para-bisedës ju lejojnë të kapni informacionin e përdoruesit para se ata të fillojnë bisedën me ju.",
+      "SET_FIELDS": "Fushat e formularit para bisedës",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fushat",
-        "LABEL": "EtiketÃ«",
+        "LABEL": "Etiketë",
         "PLACE_HOLDER": "Placeholder",
-        "KEY": "Ã‡elÃ«si",
+        "KEY": "Çelësi",
         "TYPE": "Lloji",
         "REQUIRED": "I nevojshme"
       },
       "ENABLE": {
-        "LABEL": "Aktivizo format e para-bisedÃ«s",
+        "LABEL": "Aktivizo format e para-bisedës",
         "OPTIONS": {
           "ENABLED": "Po",
           "DISABLED": "Jo"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Mesazhi para bisedÃ«s",
-        "PLACEHOLDER": "Ky mesazh do tÃ« jetÃ« i dukshÃ«m pÃ«r pÃ«rdoruesit sÃ« bashku me formularin"
+        "LABEL": "Mesazhi para bisedës",
+        "PLACEHOLDER": "Ky mesazh do të jetë i dukshëm për përdoruesit së bashku me formularin"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "VizitorÃ«t duhet tÃ« japin emrin dhe email-in para se tÃ« fillojnÃ« bisedÃ«n"
+        "LABEL": "Vizitorët duhet të japin emrin dhe email-in para se të fillojnë bisedën"
       }
     },
     "CSAT": {
       "TITLE": "Aktivizo CSAT",
-      "SUBTITLE": "Nxisni automatikisht sondazhet CSAT nÃ« fund tÃ« bisedave pÃ«r tÃ« kuptuar se si ndihen klientÃ«t pÃ«r pÃ«rvojÃ«n e tyre tÃ« mbÃ«shtetjes. Ndiqni trendet e kÃ«naqÃ«sisÃ« dhe identifikoni fusha pÃ«r pÃ«rmirÃ«sim me kalimin e kohÃ«s.",
+      "SUBTITLE": "Nxisni automatikisht sondazhet CSAT në fund të bisedave për të kuptuar se si ndihen klientët për përvojën e tyre të mbështetjes. Ndiqni trendet e kënaqësisë dhe identifikoni fusha për përmirësim me kalimin e kohës.",
       "DISPLAY_TYPE": {
         "LABEL": "Lloji i shfaqjes"
       },
@@ -937,22 +937,22 @@
       },
       "BUTTON_TEXT": {
         "LABEL": "Teksti i butonit",
-        "PLACEHOLDER": "Ju lutem na vlerÃ«soni"
+        "PLACEHOLDER": "Ju lutem na vlerësoni"
       },
       "LANGUAGE": {
         "LABEL": "Gjuha",
-        "PLACEHOLDER": "Zgjidh gjuhÃ«n e modelit"
+        "PLACEHOLDER": "Zgjidh gjuhën e modelit"
       },
       "MESSAGE_PREVIEW": {
         "LABEL": "Message preview",
-        "TOOLTIP": "Kjo mund tÃ« ndryshojÃ« pak kur shfaqet nÃ« platformÃ«n e WhatsApp."
+        "TOOLTIP": "Kjo mund të ndryshojë pak kur shfaqet në platformën e WhatsApp."
       },
       "TEMPLATE_STATUS": {
         "APPROVED": "Approved by WhatsApp",
-        "PENDING": "NÃ« pritje tÃ« miratimit nga WhatsApp",
+        "PENDING": "Në pritje të miratimit nga WhatsApp",
         "REJECTED": "Meta refuzoi modelin",
         "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "Shablloni nuk ekziston nÃ« platformÃ«n Meta."
+        "NOT_FOUND": "Shablloni nuk ekziston në platformën Meta."
       },
       "TEMPLATE_CREATION": {
         "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
@@ -961,70 +961,70 @@
       "TEMPLATE_UPDATE_DIALOG": {
         "TITLE": "Ndrysho detajet e sondazhit",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Krijo model tÃ« ri",
+        "CONFIRM": "Krijo model të ri",
         "CANCEL": "Kthehu mbrapsht"
       },
       "UTILITY_ANALYZER": {
-        "ACTION": "Kontrollo pÃ«rshtatshmÃ«rinÃ« e dobisÃ«",
+        "ACTION": "Kontrollo përshtatshmërinë e dobisë",
         "HELPER_NOTE": "Check this message before submission to improve Utility fit. The system creates a dedicated CSAT template with buttons for reporting and submits it as Utility; Meta may still reclassify it as Marketing based on content.",
-        "RESULT_LABEL": "Parashikimi i kategorisÃ« Meta",
-        "GUIDANCE_NOTE": "Kjo Ã«shtÃ« njÃ« kontroll udhÃ«zues, jo njÃ« garanci pÃ«r miratimin nga Meta.",
-        "SUGGESTION_LABEL": "Riformulim i sugjeruar i sigurt pÃ«r pÃ«rdorim",
-        "APPLY": "PÃ«rdor kÃ«tÃ« riformulim",
-        "ERROR_MESSAGE": "Nuk mund tÃ« analizohej mesazhi. Ju lutemi provoni pÃ«rsÃ«ri.",
+        "RESULT_LABEL": "Parashikimi i kategorisë Meta",
+        "GUIDANCE_NOTE": "Kjo është një kontroll udhëzues, jo një garanci për miratimin nga Meta.",
+        "SUGGESTION_LABEL": "Riformulim i sugjeruar i sigurt për përdorim",
+        "APPLY": "Përdor këtë riformulim",
+        "ERROR_MESSAGE": "Nuk mund të analizohej mesazhi. Ju lutemi provoni përsëri.",
         "CLASSIFICATION": {
-          "LIKELY_UTILITY": "PÃ«rdorim i mundshÃ«m",
-          "LIKELY_MARKETING": "Marketing i mundshÃ«m",
-          "UNCLEAR": "KÃ«rkon sqarim"
+          "LIKELY_UTILITY": "Përdorim i mundshëm",
+          "LIKELY_MARKETING": "Marketing i mundshëm",
+          "UNCLEAR": "Kërkon sqarim"
         }
       },
       "SURVEY_RULE": {
         "LABEL": "Rregulla e sondazhit",
-        "DESCRIPTION_PREFIX": "DÃ«rgo sondazhin nÃ«se biseda",
+        "DESCRIPTION_PREFIX": "Dërgo sondazhin nëse biseda",
         "DESCRIPTION_SUFFIX": "cilido nga etiketat",
         "OPERATOR": {
-          "CONTAINS": "pÃ«rmban",
-          "DOES_NOT_CONTAINS": "nuk pÃ«rmban"
+          "CONTAINS": "përmban",
+          "DOES_NOT_CONTAINS": "nuk përmban"
         },
         "SELECT_PLACEHOLDER": "zgjidh etiketat"
       },
-      "NOTE": "ShÃ«nim: Anketat CSAT dÃ«rgohen vetÃ«m njÃ« herÃ« pÃ«r Ã§do bisedÃ«",
-      "WHATSAPP_NOTE": "ShÃ«nim: Kur ruani, sistemi krijon njÃ« model tÃ« dedikuar CSAT nÃ« WhatsApp (pÃ«rdoret pÃ«r tÃ« kapur vlerÃ«simin dhe reagimet nÃ« raportime) dhe e dorÃ«zon pÃ«r miratim si Utility. Meta mund ta klasifikojÃ« pÃ«rsÃ«ri si Marketing bazuar nÃ« pÃ«rmbajtje. Pas miratimit, sondazhet dÃ«rgohen vetÃ«m njÃ« herÃ« pÃ«r bisedÃ« sipas rregullÃ«s sÃ« sondazhit.",
+      "NOTE": "Shënim: Anketat CSAT dërgohen vetëm një herë për çdo bisedë",
+      "WHATSAPP_NOTE": "Shënim: Kur ruani, sistemi krijon një model të dedikuar CSAT në WhatsApp (përdoret për të kapur vlerësimin dhe reagimet në raportime) dhe e dorëzon për miratim si Utility. Meta mund ta klasifikojë përsëri si Marketing bazuar në përmbajtje. Pas miratimit, sondazhet dërgohen vetëm një herë për bisedë sipas rregullës së sondazhit.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "Nuk mundÃ«m tÃ« pÃ«rditÃ«sojmÃ« cilÃ«simet e CSAT. Ju lutemi provoni pÃ«rsÃ«ri mÃ« vonÃ«."
+        "ERROR_MESSAGE": "Nuk mundëm të përditësojmë cilësimet e CSAT. Ju lutemi provoni përsëri më vonë."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Cakto disponueshmÃ«rinÃ«",
-      "SUBTITLE": "Cakto orarin e disponueshmÃ«risÃ« nÃ« widget-in e livechat",
+      "TITLE": "Cakto disponueshmërinë",
+      "SUBTITLE": "Cakto orarin e disponueshmërisë në widget-in e livechat",
       "WEEKLY_TITLE": "Vendos oraret tuaja javore",
-      "TIMEZONE_LABEL": "Zgjidh zonÃ«n kohore",
-      "UPDATE": "PÃ«rditÃ«so cilÃ«simet e orarit tÃ« punÃ«s",
-      "TOGGLE_AVAILABILITY": "Aktivo orarin e biznesit pÃ«r kÃ«tÃ« inbox",
-      "UNAVAILABLE_MESSAGE_LABEL": "Mesazh i papÃ«rfshirÃ« pÃ«r vizitorÃ«t",
-      "TOGGLE_HELP": "Aktivizimi i disponueshmÃ«risÃ« sÃ« biznesit do tÃ« shfaqÃ« oraret e disponueshme nÃ« widget-in e chat-it live edhe nÃ«se tÃ« gjithÃ« agjentÃ«t janÃ« jashtÃ« linje. JashtÃ« orarit tÃ« disponueshÃ«m, vizitorÃ«t mund tÃ« paralajmÃ«rohen me njÃ« mesazh dhe njÃ« formular para-chat.",
+      "TIMEZONE_LABEL": "Zgjidh zonën kohore",
+      "UPDATE": "Përditëso cilësimet e orarit të punës",
+      "TOGGLE_AVAILABILITY": "Aktivo orarin e biznesit për këtë inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Mesazh i papërfshirë për vizitorët",
+      "TOGGLE_HELP": "Aktivizimi i disponueshmërisë së biznesit do të shfaqë oraret e disponueshme në widget-in e chat-it live edhe nëse të gjithë agjentët janë jashtë linje. Jashtë orarit të disponueshëm, vizitorët mund të paralajmërohen me një mesazh dhe një formular para-chat.",
       "DAY": {
-        "DAY": "DitÃ«",
+        "DAY": "Ditë",
         "AVAILABILITY": "Availability",
-        "HOURS": "OrÃ«",
-        "ENABLE": "Aktivo disponueshmÃ«rinÃ« pÃ«r kÃ«tÃ« ditÃ«",
-        "UNAVAILABLE": "I papÃ«rfshirÃ«",
-        "VALIDATION_ERROR": "Koha e fillimit duhet tÃ« jetÃ« para kohÃ«s sÃ« mbylljes.",
+        "HOURS": "Orë",
+        "ENABLE": "Aktivo disponueshmërinë për këtë ditë",
+        "UNAVAILABLE": "I papërfshirë",
+        "VALIDATION_ERROR": "Koha e fillimit duhet të jetë para kohës së mbylljes.",
         "CHOOSE": "Zgjidh"
       },
-      "ALL_DAY": "GjithÃ« ditÃ«n"
+      "ALL_DAY": "Gjithë ditën"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Vendosni detajet e IMAP",
-      "NOTE_TEXT": "PÃ«r tÃ« aktivizuar SMTP, ju lutemi konfiguroni IMAP.",
-      "UPDATE": "PÃ«rditÃ«soni cilÃ«simet e IMAP",
+      "NOTE_TEXT": "Për të aktivizuar SMTP, ju lutemi konfiguroni IMAP.",
+      "UPDATE": "Përditësoni cilësimet e IMAP",
       "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
         "SUCCESS_MESSAGE": "IMAP settings updated successfully",
-        "ERROR_MESSAGE": "Nuk mund tÃ« pÃ«rditÃ«sohen cilÃ«simet IMAP"
+        "ERROR_MESSAGE": "Nuk mund të përditësohen cilësimet IMAP"
       },
       "ADDRESS": {
         "LABEL": "Adresa",
@@ -1039,8 +1039,8 @@
         "PLACE_HOLDER": "Hyrje"
       },
       "PASSWORD": {
-        "LABEL": "FjalÃ«kalimi",
-        "PLACE_HOLDER": "FjalÃ«kalimi"
+        "LABEL": "Fjalëkalimi",
+        "PLACE_HOLDER": "Fjalëkalimi"
       },
       "ENABLE_SSL": "Aktivizo SSL",
       "AUTH_MECHANISM": "Authentication"
@@ -1052,12 +1052,12 @@
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Vendosni detajet tuaja SMTP",
-      "UPDATE": "PÃ«rditÃ«so cilÃ«simet SMTP",
+      "UPDATE": "Përditëso cilësimet SMTP",
       "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
       "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP settings updated successfully",
-        "ERROR_MESSAGE": "Nuk u arrit tÃ« pÃ«rditÃ«sohen cilÃ«simet SMTP"
+        "ERROR_MESSAGE": "Nuk u arrit të përditësohen cilësimet SMTP"
       },
       "ADDRESS": {
         "LABEL": "Adresa",
@@ -1072,8 +1072,8 @@
         "PLACE_HOLDER": "Hyrje"
       },
       "PASSWORD": {
-        "LABEL": "FjalÃ«kalimi",
-        "PLACE_HOLDER": "FjalÃ«kalimi"
+        "LABEL": "Fjalëkalimi",
+        "PLACE_HOLDER": "Fjalëkalimi"
       },
       "DOMAIN": {
         "LABEL": "Domeni",
@@ -1085,7 +1085,7 @@
       "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Authentication"
     },
-    "NOTE": "ShÃ«nim: ",
+    "NOTE": "Shënim: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
@@ -1093,31 +1093,31 @@
           "DELETE": {
             "API": {
               "SUCCESS_MESSAGE": "Avatar deleted successfully",
-              "ERROR_MESSAGE": "Ndodhi njÃ« gabim, ju lutem provoni pÃ«rsÃ«ri"
+              "ERROR_MESSAGE": "Ndodhi një gabim, ju lutem provoni përsëri"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Emri i faqes sÃ« internetit",
+          "LABEL": "Emri i faqes së internetit",
           "PLACE_HOLDER": "Shkruani emrin e faqes suaj (p.sh. : Acme Inc)",
           "ERROR": "Please enter a valid website name"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Kreu i MirÃ«seardhjes",
-          "PLACE_HOLDER": "PÃ«rshÃ«ndetje!"
+          "LABEL": "Kreu i Mirëseardhjes",
+          "PLACE_HOLDER": "Përshëndetje!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Slogani i MirÃ«seardhjes",
-          "PLACE_HOLDER": "E bÃ«jmÃ« tÃ« thjeshtÃ« lidhjen me ne. Na pyesni pÃ«r Ã§do gjÃ«, ose ndani mendimet tuaja."
+          "LABEL": "Slogani i Mirëseardhjes",
+          "PLACE_HOLDER": "E bëjmë të thjeshtë lidhjen me ne. Na pyesni për çdo gjë, ose ndani mendimet tuaja."
         },
         "REPLY_TIME": {
-          "LABEL": "Koha e pÃ«rgjigjes",
-          "IN_A_FEW_MINUTES": "NÃ« disa minuta",
-          "IN_A_FEW_HOURS": "NÃ« disa orÃ«",
-          "IN_A_DAY": "Brenda njÃ« dite"
+          "LABEL": "Koha e përgjigjes",
+          "IN_A_FEW_MINUTES": "Në disa minuta",
+          "IN_A_FEW_HOURS": "Në disa orë",
+          "IN_A_DAY": "Brenda një dite"
         },
         "WIDGET_COLOR_LABEL": "Widget Color",
-        "WIDGET_BUBBLE": "FlluskÃ«",
+        "WIDGET_BUBBLE": "Flluskë",
         "WIDGET_BUBBLE_POSITION_LABEL": "Pozicioni:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Lloji:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
@@ -1142,32 +1142,32 @@
         },
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "FlluskÃ« e Zgjeruar"
+          "EXPANDED_BUBBLE": "Flluskë e Zgjeruar"
         }
       },
       "WIDGET_SCREEN": {
         "DEFAULT": "Parazgjedhje",
-        "CHAT": "Modaliteti i bisedÃ«s"
+        "CHAT": "Modaliteti i bisedës"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Zakonisht pÃ«rgjigjemi brenda pak minutash",
-        "IN_A_FEW_HOURS": "Zakonisht pÃ«rgjigjemi brenda disa orÃ«sh",
-        "IN_A_DAY": "Zakonisht pÃ«rgjigjemi brenda njÃ« dite"
+        "IN_A_FEW_MINUTES": "Zakonisht përgjigjemi brenda pak minutash",
+        "IN_A_FEW_HOURS": "Zakonisht përgjigjemi brenda disa orësh",
+        "IN_A_DAY": "Zakonisht përgjigjemi brenda një dite"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Hap BisedÃ«n",
+        "START_CONVERSATION_BUTTON_TEXT": "Hap Bisedën",
         "CHAT_INPUT_PLACEHOLDER": "Shkruani mesazhin tuaj"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "We are Online",
-          "OFFLINE": "Nuk jemi online pÃ«r momentin"
+          "OFFLINE": "Nuk jemi online për momentin"
         },
-        "USER_MESSAGE": "PÃ«rshÃ«ndetje",
-        "AGENT_MESSAGE": "PÃ«rshÃ«ndetje"
+        "USER_MESSAGE": "Përshëndetje",
+        "AGENT_MESSAGE": "Përshëndetje"
       },
       "BRANDING_TEXT": "Powered by Thynex",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1179,8 +1179,8 @@
         "DESCRIPTION": "Connect with Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Ofrues tÃ« tjerÃ«",
-        "DESCRIPTION": "Lidhu me Ofrues tÃ« TjerÃ«"
+        "TITLE": "Ofrues të tjerë",
+        "DESCRIPTION": "Lidhu me Ofrues të Tjerë"
       }
     },
     "CHANNELS": {
@@ -1196,7 +1196,9 @@
       "API": "Kanali API",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
-      "VOICE": "ZÃ«"
+      "VOICE": "Zë"
     }
   }
 }
+
+

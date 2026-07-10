@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 # `SafeFetch.fetch` is a custom method that requires a block (it yields a Result);
 # it is NOT `Hash#fetch`, so RuboCop's autocorrect to `fetch(url, nil)` would break the API.
@@ -369,8 +369,8 @@ RSpec.describe SafeFetch do
           'Authorization' => 'Bearer test-token',
           'Cookie' => 'session=test',
           'Content-Type' => 'application/json',
-          'X-Chatwoot-Delivery' => 'test-uuid',
-          'X-Chatwoot-Signature' => 'sha256=test-signature'
+          'X-Thynex-Delivery' => 'test-uuid',
+          'X-Thynex-Signature' => 'sha256=test-signature'
         }
 
         stub_request(:post, url).to_return(
@@ -497,3 +497,4 @@ RSpec.describe SafeFetch do
   end
 end
 # rubocop:enable Style/RedundantFetchBlock
+

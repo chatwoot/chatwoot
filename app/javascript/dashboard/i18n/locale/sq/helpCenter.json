@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "Qendra e Ndihmës",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sq/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/sq/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Category slug for urls",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/sq/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/sq/categories/my-slug",
           "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Category slug for urls",
             "ERROR": "Slug is required",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Përshkrimi",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "Krijo",
       "NAME": {
         "LABEL": "Emri",
-        "PLACEHOLDER": "Udhëzuesi i Përdoruesit | Chatwoot",
+        "PLACEHOLDER": "Udhëzuesi i Përdoruesit | Thynex",
         "MESSAGE": "Zgjidh një emër për portalin tënd.",
         "ERROR": "Emri është i nevojshëm"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Konfigurimi i DNS",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to Thynex.help",
             "COPY": "CNAME u kopjua me sukses",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Dërgo udhëzimet",
@@ -956,3 +956,4 @@
     }
   }
 }
+

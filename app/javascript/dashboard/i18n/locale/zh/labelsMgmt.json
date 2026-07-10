@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "标签",
     "HEADER_BTN_TXT": "添加标签",
@@ -50,7 +50,7 @@
         "DESELECT": "取消选择标签",
         "DISMISS": "忽略建议"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "取消",
       "ADD_SELECTED_LABELS": "添加选定的标签",
       "ADD_SELECTED_LABEL": "添加选定的标签",
@@ -87,3 +87,4 @@
     }
   }
 }
+

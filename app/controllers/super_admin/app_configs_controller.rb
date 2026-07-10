@@ -1,4 +1,4 @@
-class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
+﻿class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   before_action :set_config
   before_action :allowed_configs
   def show
@@ -63,7 +63,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
     message = "#{@config.titleize} settings updated successfully"
     return message unless restart_required_config_saved?
 
-    "#{message.delete_suffix('.')}. Restart Chatwoot web and worker processes to apply this change everywhere."
+    "#{message.delete_suffix('.')}. Restart Thynex web and worker processes to apply this change everywhere."
   end
 
   def success_flash
@@ -76,3 +76,4 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 end
 
 SuperAdmin::AppConfigsController.prepend_mod_with('SuperAdmin::AppConfigsController')
+

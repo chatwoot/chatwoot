@@ -1,4 +1,4 @@
-{
+﻿{
   "YEAR_IN_REVIEW": {
     "TITLE": "Year in Review",
     "LOADING": "Loading your year in review...",
@@ -48,8 +48,8 @@
       "PREPARING": "Preparing your image...",
       "DOWNLOAD": "Unduh",
       "SHARE_TITLE": "My {year} Year in Review",
-      "SHARE_TEXT": "Check out my {year} Year in Review with Chatwoot!",
-      "BRANDING": "Made with Chatwoot"
+      "SHARE_TEXT": "Check out my {year} Year in Review with Thynex!",
+      "BRANDING": "Made with Thynex"
     },
     "BANNER": {
       "TITLE": "Your {year} Year in Review is here",
@@ -62,3 +62,4 @@
     }
   }
 }
+

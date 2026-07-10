@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: channel_twitter_profiles
 #
@@ -20,7 +20,7 @@ class Channel::TwitterProfile < ApplicationRecord
   include Channelable
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  if Chatwoot.encryption_configured?
+  if Thynex.encryption_configured?
     encrypts :twitter_access_token
     encrypts :twitter_access_token_secret
   end
@@ -66,3 +66,4 @@ class Channel::TwitterProfile < ApplicationRecord
     Rails.logger.error e
   end
 end
+

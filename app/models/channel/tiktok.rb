@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: channel_tiktok
 #
@@ -22,7 +22,7 @@ class Channel::Tiktok < ApplicationRecord
   self.table_name = 'channel_tiktok'
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  if Chatwoot.encryption_configured?
+  if Thynex.encryption_configured?
     encrypts :access_token
     encrypts :refresh_token
   end
@@ -43,3 +43,4 @@ class Channel::Tiktok < ApplicationRecord
     Tiktok::TokenService.new(channel: self).access_token
   end
 end
+

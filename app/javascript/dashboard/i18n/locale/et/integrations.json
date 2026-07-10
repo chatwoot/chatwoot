@@ -1,4 +1,4 @@
-{
+﻿{
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
@@ -17,7 +17,7 @@
       "ERROR": "Shopifyga ühendamisel tekkis viga. Palun proovi uuesti või võta ühendust klienditoega, kui probleem püsib."
     },
     "HEADER": "Integratsioonid",
-    "DESCRIPTION": "Chatwoot integreerub mitmete tööriistade ja teenustega, et parandada teie meeskonna efektiivsust. Uuri allolevat nimekirja, et seadistada oma lemmikrakendused.",
+    "DESCRIPTION": "Thynex integreerub mitmete tööriistade ja teenustega, et parandada teie meeskonna efektiivsust. Uuri allolevat nimekirja, et seadistada oma lemmikrakendused.",
     "LEARN_MORE": "Lisateave integratsioonide kohta",
     "LOADING": "Laaditakse integratsioone",
     "SEARCH_PLACEHOLDER": "Search integrations...",
@@ -44,7 +44,7 @@
       "NO_RESULTS": "No webhooks found matching your search",
       "FORM": {
         "CANCEL": "Tühista",
-        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Chatwoot kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
+        "DESC": "Webhooki sündmused annavad teile reaalajas teavet selle kohta, mis teie Thynex kontol toimub. Palun sisestage kehtiv URL, et seadistada tagasikutsumine.",
         "SUBSCRIPTIONS": {
           "LABEL": "Sündmused",
           "EVENTS": {
@@ -79,7 +79,7 @@
       "HEADER_BTN_TXT": "Lisa uus webhook",
       "LOADING": "Laaditakse seotud webhooke",
       "SEARCH_404": "Ühtegi selle päringuga sobivat elementi ei leitud",
-      "SIDEBAR_TXT": "<p><b>Webhookid</b> </p> <p>Webhookid on HTTP tagasikutsed, mida saab määratleda iga konto jaoks. Neid käivitavad sündmused, nagu sõnumi loomine Chatwootis. Selle konto jaoks saab luua rohkem kui ühe webhooki. <br /><br /> Uue <b>webhooki</b> loomiseks klõpsake nuppu <b>Lisa uus webhook</b>. Olemasoleva webhooki saate kustutada, klõpsates nuppu Kustuta.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhookid</b> </p> <p>Webhookid on HTTP tagasikutsed, mida saab määratleda iga konto jaoks. Neid käivitavad sündmused, nagu sõnumi loomine Thynexis. Selle konto jaoks saab luua rohkem kui ühe webhooki. <br /><br /> Uue <b>webhooki</b> loomiseks klõpsake nuppu <b>Lisa uus webhook</b>. Olemasoleva webhooki saate kustutada, klõpsates nuppu Kustuta.</p>",
       "LIST": {
         "404": "Selle konto jaoks pole ühtegi webhooki seadistatud.",
         "TITLE": "Halda webhooke",
@@ -127,14 +127,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kuidas kasutada Slack integratsiooni?",
-        "BODY": "Selle integratsiooni abil sünkroonitakse kõik teie saabuvad vestlused Slacki tööruumi kanali ***{selectedChannelName}*** alla. Saate hallata kõiki kliendivestlusi otse selles kanalis ega jää kunagi sõnumist ilma.\n\nPeamised integratsiooni funktsioonid on järgmised:\n\n**Vastake vestlustele otse Slackis:** Vestlusele vastamiseks kanalis ***{selectedChannelName}*** tippige lihtsalt oma sõnum ja saatke see lõimena. See saadab vastuse kliendile Chatwooti kaudu. Nii lihtne see ongi!\n\n**Looge privaatmärkmeid:** Kui soovite vastuste asemel luua privaatseid märkmeid, alustage oma sõnumit ***`note:`***-ga. See tagab, et teie sõnum jääb privaatseks ega ole kliendi jaoks nähtav.\n\n**Seostage agendi profiil:** Kui Slackis vastanud isikul on Chatwootis sama e-posti aadressiga agendi profiil, seostatakse vastused automaatselt selle profiiliga. Nii saate hõlpsasti jälgida, kes mida ja millal ütles. Kui vastajal puudub seotud agendi profiil, kuvatakse vastused kliendile boti profiililt.",
+        "BODY": "Selle integratsiooni abil sünkroonitakse kõik teie saabuvad vestlused Slacki tööruumi kanali ***{selectedChannelName}*** alla. Saate hallata kõiki kliendivestlusi otse selles kanalis ega jää kunagi sõnumist ilma.\n\nPeamised integratsiooni funktsioonid on järgmised:\n\n**Vastake vestlustele otse Slackis:** Vestlusele vastamiseks kanalis ***{selectedChannelName}*** tippige lihtsalt oma sõnum ja saatke see lõimena. See saadab vastuse kliendile Thynexi kaudu. Nii lihtne see ongi!\n\n**Looge privaatmärkmeid:** Kui soovite vastuste asemel luua privaatseid märkmeid, alustage oma sõnumit ***`note:`***-ga. See tagab, et teie sõnum jääb privaatseks ega ole kliendi jaoks nähtav.\n\n**Seostage agendi profiil:** Kui Slackis vastanud isikul on Thynexis sama e-posti aadressiga agendi profiil, seostatakse vastused automaatselt selle profiiliga. Nii saate hõlpsasti jälgida, kes mida ja millal ütles. Kui vastajal puudub seotud agendi profiil, kuvatakse vastused kliendile boti profiililt.",
         "SELECTED": "valitud"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Vali kanal",
         "UPDATE": "Uuenda",
         "BUTTON_TEXT": "Ühenda kanal",
-        "DESCRIPTION": "Sinu Slack töölaua ühendus on nüüd Chatwootiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Chatwootiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Chatwoot rakendus Slacki kanalile enne selle sammu jätkamist.",
+        "DESCRIPTION": "Sinu Slack töölaua ühendus on nüüd Thynexiga loodud. Kuid integratsioon on hetkel inaktiivne. Integratsiooni aktiveerimiseks ja kanali ühendamiseks Thynexiga palun klõpsa alloleval nupul.\n\n**Märkus:** Kui üritad ühendada privaatset kanalit, lisa Thynex rakendus Slacki kanalile enne selle sammu jätkamist.",
         "ATTENTION_REQUIRED": "Nõuab tähelepanu",
         "EXPIRED": "Sinu Slack integratsioon on aegunud. Et jätkata sõnumite vastuvõtmist Slackis, palun kustuta integratsioon ja ühenda oma töölaua uuesti."
       },
@@ -236,7 +236,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Töölaudade rakendused",
       "HEADER_BTN_TXT": "Lisa uus töölauda rakendus",
-      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Chatwoot töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Chatwoot töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
+      "SIDEBAR_TXT": "<p><b>Töölauda rakendused</b></p><p>Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse Thynex töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle töölauda, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.</p><p>Kui manustate oma rakenduse Thynex töölauda, saab teie rakendus vestluse ja kontakti konteksti aknasündmusena. Rakendusel tuleb lehel rakendada sõnumisündmuse kuulaja, et konteksti vastu võtta.</p><p>Uue töölauda rakenduse lisamiseks klõpsake nuppu 'Lisa uus töölauda rakendus'.</p>",
       "DESCRIPTION": "Töölauda rakendused võimaldavad organisatsioonidel manustada rakenduse töölauda, et pakkuda klienditoe agentidele konteksti. See funktsioon võimaldab teil luua rakenduse iseseisvalt ja manustada selle, et kuvada kasutajaandmeid, nende tellimusi või varasemaid makseajalugu.",
       "LEARN_MORE": "Lisateave Dashboardi rakenduste kohta",
       "COUNT": "{n} dashboard app | {n} dashboard apps",
@@ -1102,3 +1102,5 @@
     }
   }
 }
+
+

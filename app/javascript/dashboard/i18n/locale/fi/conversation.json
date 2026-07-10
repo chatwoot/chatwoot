@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Ole hyvä ja valitse keskustelu vasemmasta paneelista",
     "CSAT_REPLY_MESSAGE": "Voisitko antaa palautetta saamastasi palvelusta?",
@@ -282,7 +282,7 @@
     "SENT_BY": "Lähettäjä:",
     "BOT": "Botti",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Viestiä ei voitu lähettää! Yritä uudelleen",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

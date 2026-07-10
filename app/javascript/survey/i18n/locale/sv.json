@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Ge feedback om den konversation du hade med {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Kunde inte ansluta till Woot Server, försök igen senare"
     }
   },
-  "POWERED_BY": "Drivs av Chatwoot"
+  "POWERED_BY": "Drivs av Thynex"
 }
+

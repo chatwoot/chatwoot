@@ -16,7 +16,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Pumili ng Channel",
-        "BODY": "Pumili ng provider na nais mong i-integrate sa Chatwoot."
+        "BODY": "Pumili ng provider na nais mong i-integrate sa Thynex."
       },
       "INBOX": {
         "TITLE": "Gumawa ng Inbox",
@@ -27,7 +27,7 @@
         "BODY": "Magdagdag ng mga ahente sa nagawang inbox."
       },
       "FINISH": {
-        "TITLE": "VoilÃ !",
+        "TITLE": "Voilà!",
         "BODY": "Handa ka nang magsimula!"
       }
     },
@@ -42,7 +42,7 @@
         "PLACEHOLDER": "Ilagay ang pangalan ng iyong website (hal: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Sa pag-sign in, nakakakuha lang kami ng access sa mga mensahe ng iyong Pahina. Hindi kailanman maa-access ng Chatwoot ang iyong mga pribadong mensahe.",
+        "HELP": "PS: Sa pag-sign in, nakakakuha lang kami ng access sa mga mensahe ng iyong Pahina. Hindi kailanman maa-access ng Thynex ang iyong mga pribadong mensahe.",
         "CHOOSE_PAGE": "Pumili ng Pahina",
         "CHOOSE_PLACEHOLDER": "Pumili ng pahina mula sa listahan",
         "INBOX_NAME": "Pangalan ng Inbox",
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Nag-a-authenticate sa Meta",
           "WAITING_FOR_BUSINESS_INFO": "Pakipunan ang setup ng negosyo sa Meta window...",
           "PROCESSING": "Isinasagawa ang pagsasaayos ng iyong WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberâ€¦",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Naglo-load ng Facebook SDK...",
           "CANCELLED": "Kinansela ang WhatsApp Signup",
           "SUCCESS_TITLE": "Nakakonekta na ang WhatsApp Business Account!",
@@ -319,7 +319,7 @@
           "SUCCESS_FALLBACK": "Matagumpay na na-configure ang WhatsApp Business Account",
           "MANUAL_FALLBACK": "Kung ang iyong numero ay konektado na sa WhatsApp Business Platform (API), o kung ikaw ay isang tech provider na nag-o-onboard ng sarili mong numero, mangyaring gamitin ang {link} flow",
           "MANUAL_LINK_TEXT": "manwal na setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on â€” this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "Hindi namin naisave ang WhatsApp channel"
@@ -451,9 +451,9 @@
       },
       "AUTH": {
         "TITLE": "Pumili ng channel",
-        "DESC": "Sinusuportahan ng Chatwoot ang live-chat widgets, Facebook Messenger, WhatsApp, Emails, atbp., bilang mga channel. Kung nais mong gumawa ng custom na channel, maaari mo itong likhain gamit ang API channel. Upang magsimula, pumili ng isa sa mga channel sa ibaba.",
+        "DESC": "Sinusuportahan ng Thynex ang live-chat widgets, Facebook Messenger, WhatsApp, Emails, atbp., bilang mga channel. Kung nais mong gumawa ng custom na channel, maaari mo itong likhain gamit ang API channel. Upang magsimula, pumili ng isa sa mga channel sa ibaba.",
         "TITLE_NEXT": "Kumpletuhin ang setup",
-        "TITLE_FINISH": "VoilÃ !",
+        "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
@@ -513,11 +513,11 @@
       },
       "DETAILS": {
         "TITLE": "Mga Detalye ng Inbox",
-        "DESC": "Mula sa dropdown sa ibaba, piliin ang Facebook Page na nais mong ikonekta sa Chatwoot. Maaari ka ring magbigay ng pasadyang pangalan sa iyong inbox para sa mas madaling pagkilala."
+        "DESC": "Mula sa dropdown sa ibaba, piliin ang Facebook Page na nais mong ikonekta sa Thynex. Maaari ka ring magbigay ng pasadyang pangalan sa iyong inbox para sa mas madaling pagkilala."
       },
       "FINISH": {
         "TITLE": "Tama na!",
-        "DESC": "Matagumpay mong natapos ang pag-integrate ng iyong Facebook Page sa Chatwoot. Sa susunod na mag-message ang isang customer sa iyong Pahina, awtomatikong lalabas ang pag-uusap sa iyong inbox.<br>Nagbibigay din kami sa iyo ng widget script na madali mong maidadagdag sa iyong website. Kapag ito ay live na sa iyong website, maaaring mag-message ang mga customer nang direkta mula sa iyong website nang hindi na kailangan ng anumang panlabas na tool at lalabas ang pag-uusap dito mismo, sa Chatwoot.<br>Astig, di ba? Sinisikap talaga namin :)"
+        "DESC": "Matagumpay mong natapos ang pag-integrate ng iyong Facebook Page sa Thynex. Sa susunod na mag-message ang isang customer sa iyong Pahina, awtomatikong lalabas ang pag-uusap sa iyong inbox.<br>Nagbibigay din kami sa iyo ng widget script na madali mong maidadagdag sa iyong website. Kapag ito ay live na sa iyong website, maaaring mag-message ang mga customer nang direkta mula sa iyong website nang hindi na kailangan ng anumang panlabas na tool at lalabas ang pag-uusap dito mismo, sa Thynex.<br>Astig, di ba? Sinisikap talaga namin :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Piliin ang iyong email provider",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number â€” it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta â€” no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -1166,8 +1166,8 @@
         "USER_MESSAGE": "Kumusta",
         "AGENT_MESSAGE": "Kumusta"
       },
-      "BRANDING_TEXT": "Pinapagana ng Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Pinapagana ng Thynex",
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1200,3 +1200,5 @@
     }
   }
 }
+
+

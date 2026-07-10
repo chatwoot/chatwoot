@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Cienījamais klient 👋, lūdzu, veltiet savu laiku, lai sniegtu atsauksmes par sarunu, kas Jums bija ar {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Nevar izveidot savienojumu ar Woot serveri. Lūdzu, vēlāk pamēģiniet vēlreiz"
     }
   },
-  "POWERED_BY": "Darbināts ar Chatwoot"
+  "POWERED_BY": "Darbināts ar Thynex"
 }
+

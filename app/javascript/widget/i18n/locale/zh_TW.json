@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "下載",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "與我們對話"
   },
-  "POWERED_BY": "由 Chatwoot 支援",
+  "POWERED_BY": "由 Thynex 支援",
   "EMAIL_PLACEHOLDER": "請輸入您的電子信箱",
   "CHAT_PLACEHOLDER": "輸入你的訊息",
   "TODAY": "今天",
@@ -151,3 +151,4 @@
     "REPLY_TO": "回覆:"
   }
 }
+

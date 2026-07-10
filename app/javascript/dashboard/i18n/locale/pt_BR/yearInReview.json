@@ -1,4 +1,4 @@
-{
+﻿{
   "YEAR_IN_REVIEW": {
     "TITLE": "Retrospectiva do Ano",
     "LOADING": "Carregando sua retrospectiva do ano...",
@@ -48,8 +48,8 @@
       "PREPARING": "Preparando sua imagem...",
       "DOWNLOAD": "Baixar",
       "SHARE_TITLE": "Minha retrospectiva de {year}",
-      "SHARE_TEXT": "Confira minha retrospectiva de {year} com o Chatwoot!",
-      "BRANDING": "Feito com Chatwoot"
+      "SHARE_TEXT": "Confira minha retrospectiva de {year} com o Thynex!",
+      "BRANDING": "Feito com Thynex"
     },
     "BANNER": {
       "TITLE": "Sua retrospectiva de {year} chegou",
@@ -62,3 +62,4 @@
     }
   }
 }
+

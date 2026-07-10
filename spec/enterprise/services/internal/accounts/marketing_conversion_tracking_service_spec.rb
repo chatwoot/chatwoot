@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+﻿# frozen_string_literal: true
 
 require 'rails_helper'
 
@@ -40,7 +40,7 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     allow(Google::Auth::ServiceAccountCredentials).to receive(:make_creds).and_return(credentials)
   end
 
-  it 'does nothing outside Chatwoot Cloud' do
+  it 'does nothing outside Thynex Cloud' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
 
     expect(HTTParty).not_to receive(:post)
@@ -117,3 +117,4 @@ RSpec.describe Internal::Accounts::MarketingConversionTrackingService do
     expect(upload_body['events'].first['adIdentifiers']['gclid']).to eq('first-click')
   end
 end
+

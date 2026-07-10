@@ -1,64 +1,64 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Gelen kutuları",
-    "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
-    "LEARN_MORE": "Gelen kutuları hakkında daha fazla bilgi edinin",
+    "HEADER": "Gelen kutulari",
+    "DESCRIPTION": "Kanal, m�sterinizin sizinle iletisim kurmak i�in se�tigi y�ntemdir. Gelen kutusu (inbox) ise belirli bir kanal �zerinden ger�eklesen etkilesimleri y�nettiginiz yerdir. Gelen kutusu; e-posta, canli sohbet ve sosyal medya gibi farkli kaynaklardan gelen iletisimleri i�erebilir.",
+    "LEARN_MORE": "Gelen kutulari hakkinda daha fazla bilgi edinin",
     "COUNT": "{n} inbox | {n} inboxes",
-    "SEARCH_PLACEHOLDER": "Gelen kutularını ara...",
+    "SEARCH_PLACEHOLDER": "Gelen kutularini ara...",
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business kaydınız tamamlanmadı. Yeniden bağlanmadan önce lütfen Meta Business Manager'da görünen adınızın (display name) durumunu kontrol edin.",
-    "COMPLETE_REGISTRATION": "Kaydı Tamamla",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "WhatsApp Business kaydiniz tamamlanmadi. Yeniden baglanmadan �nce l�tfen Meta Business Manager'da g�r�nen adinizin (display name) durumunu kontrol edin.",
+    "COMPLETE_REGISTRATION": "Kaydi Tamamla",
     "LIST": {
-      "404": "Bu hesaba bağlı gelen kutusu yok."
+      "404": "Bu hesaba bagli gelen kutusu yok."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Kanal Seçin",
-        "BODY": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
+        "TITLE": "Kanal Se�in",
+        "BODY": "Thynex ile entegre etmek istediginiz saglayiciyi se�in."
       },
       "INBOX": {
-        "TITLE": "Gelen Kutusu Oluştur",
-        "BODY": "Hesabınızın kimliğini doğrulayın ve bir gelen kutusu oluşturun."
+        "TITLE": "Gelen Kutusu Olustur",
+        "BODY": "Hesabinizin kimligini dogrulayin ve bir gelen kutusu olusturun."
       },
       "AGENT": {
-        "TITLE": "Kullanıcı Ekle",
-        "BODY": "Temsilcileri oluşturulan gelen kutusuna ekleyin."
+        "TITLE": "Kullanici Ekle",
+        "BODY": "Temsilcileri olusturulan gelen kutusuna ekleyin."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "Hepiniz gitmeye hazırsınız!"
+        "TITLE": "Voil�!",
+        "BODY": "Hepiniz gitmeye hazirsiniz!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Gelen Kutusu Adı",
-        "PLACEHOLDER": "Gelen kutu adınızı girin (örneğin: Acme Inc)",
-        "ERROR": "Lütfen geçerli bir gelen kutu adı girin"
+        "LABEL": "Gelen Kutusu Adi",
+        "PLACEHOLDER": "Gelen kutu adinizi girin (�rnegin: Acme Inc)",
+        "ERROR": "L�tfen ge�erli bir gelen kutu adi girin"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Web Sitesi Adı",
-        "PLACEHOLDER": "Web sitenizin adını girin"
+        "LABEL": "Web Sitesi Adi",
+        "PLACEHOLDER": "Web sitenizin adini girin"
       },
       "FB": {
-        "HELP": "Not: Oturum açarak, yalnızca Sayfanızın mesajlarına erişebiliriz. Özel mesajlarınıza Chatwoot ile asla erişilemez.",
-        "CHOOSE_PAGE": "Sayfa Seçin",
-        "CHOOSE_PLACEHOLDER": "Listeden bir sayfa seçin",
-        "INBOX_NAME": "Gelen Kutusu Adı",
+        "HELP": "Not: Oturum a�arak, yalnizca Sayfanizin mesajlarina erisebiliriz. �zel mesajlariniza Thynex ile asla erisilemez.",
+        "CHOOSE_PAGE": "Sayfa Se�in",
+        "CHOOSE_PLACEHOLDER": "Listeden bir sayfa se�in",
+        "INBOX_NAME": "Gelen Kutusu Adi",
         "ADD_NAME": "Gelen kutunuza bir isim ekleyin",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Bir değer seçin",
-        "CREATE_INBOX": "Gelen Kutusu Oluştur"
+        "PICK_A_VALUE": "Bir deger se�in",
+        "CREATE_INBOX": "Gelen Kutusu Olustur"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Instagram ile devam et",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram profilinizi bağlayın",
-        "HELP": "Instagram profilinizi kanal olarak eklemek için, 'Instagram ile Devam Et' seçeneğine tıklayarak Instagram Profilinizin kimliğini doğrulamanız gerekmektedir. ",
-        "ERROR_MESSAGE": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
-        "ERROR_AUTH": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
-        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecektir. Eski gelen kutusu, bu hesap için artık mesaj gönderemeyecek veya alamayacaktır.",
-        "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız."
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram profilinizi baglayin",
+        "HELP": "Instagram profilinizi kanal olarak eklemek i�in, 'Instagram ile Devam Et' se�enegine tiklayarak Instagram Profilinizin kimligini dogrulamaniz gerekmektedir. ",
+        "ERROR_MESSAGE": "Instagram'a baglanirken bir hata olustu, l�tfen tekrar deneyin",
+        "ERROR_AUTH": "Instagram'a baglanirken bir hata olustu, l�tfen tekrar deneyin",
+        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabi daha �nce farkli bir gelen kutusuna bagliydi ve simdi buraya tasindi. T�m yeni mesajlar burada g�r�necektir. Eski gelen kutusu, bu hesap i�in artik mesaj g�nderemeyecek veya alamayacaktir.",
+        "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabi yeni Instagram kanal gelen kutusuna tasindi. Artik bu gelen kutusundan Instagram mesaji g�nderip alamayacaksiniz."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,23 +68,23 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
-        "ERROR_MESSAGE": "Twitter'a bağlanırken bir hata oluştu, lütfen daha sonra tekrar deneyin",
+        "HELP": "Twitter profilinizi bir kanal olarak eklemek i�in, 'Twitter ile Giris Yap'i tiklayarak Twitter Profilinizi dogrulamaniz gerekir.",
+        "ERROR_MESSAGE": "Twitter'a baglanirken bir hata olustu, l�tfen daha sonra tekrar deneyin",
         "TWEETS": {
-          "ENABLE": "Mentioned Tweets'ten konuşmalar oluştur"
+          "ENABLE": "Mentioned Tweets'ten konusmalar olustur"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Web Sitesi Kanalı",
-        "DESC": "Web siteniz için bir kanal oluşturun ve müşterilerinizi web sitesi widget'ımız aracılığıyla desteklemeye başlayın.",
-        "LOADING_MESSAGE": "Web Sitesi Destek Kanalı Oluşturma",
+        "TITLE": "Web Sitesi Kanali",
+        "DESC": "Web siteniz i�in bir kanal olusturun ve m�sterilerinizi web sitesi widget'imiz araciligiyla desteklemeye baslayin.",
+        "LOADING_MESSAGE": "Web Sitesi Destek Kanali Olusturma",
         "CHANNEL_AVATAR": {
-          "LABEL": "Kanal Avatarı"
+          "LABEL": "Kanal Avatari"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Web Kanca URL'si",
           "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Lütfen geçerli bir adres girin"
+          "ERROR": "L�tfen ge�erli bir adres girin"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -95,283 +95,283 @@
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Web Sitesi Alan Adı",
+          "LABEL": "Web Sitesi Alan Adi",
           "PLACEHOLDER": "Web sitenizin adresini girin"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Hoş Geldiniz Başlığı",
+          "LABEL": "Hos Geldiniz Basligi",
           "PLACEHOLDER": "Merhaba!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Hoş Geldiniz Etiketi",
-          "PLACEHOLDER": "Bizimle bağlantı kurmayı kolaylaştırıyoruz. Bize bir şey sorun veya görüşlerinizi paylaşın."
+          "LABEL": "Hos Geldiniz Etiketi",
+          "PLACEHOLDER": "Bizimle baglanti kurmayi kolaylastiriyoruz. Bize bir sey sorun veya g�r�slerinizi paylasin."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Kanal Karşılama Mesajı",
-          "PLACEHOLDER": "Acme Inc genellikle birkaç saat içinde yanıt verir."
+          "LABEL": "Kanal Karsilama Mesaji",
+          "PLACEHOLDER": "Acme Inc genellikle birka� saat i�inde yanit verir."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Kanal Karşılamasını Etkinleştir",
-          "HELP_TEXT": "Yeni bir konuşma oluşturulduğunda otomatik olarak bir karşılama mesajı gönderin.",
+          "LABEL": "Kanal Karsilamasini Etkinlestir",
+          "HELP_TEXT": "Yeni bir konusma olusturuldugunda otomatik olarak bir karsilama mesaji g�nderin.",
           "ENABLED": "Etkin",
-          "DISABLED": "Devre dışı"
+          "DISABLED": "Devre disi"
         },
         "REPLY_TIME": {
-          "TITLE": "Yanıt Zamanını Ayarlayın",
-          "IN_A_FEW_MINUTES": "Birkaç dakika içinde",
-          "IN_A_FEW_HOURS": "Birkaç saat içinde",
-          "IN_A_DAY": "Bir gün içinde",
-          "HELP_TEXT": "Bu yanıt süresi, canlı sohbet widget'ında görüntülenecek"
+          "TITLE": "Yanit Zamanini Ayarlayin",
+          "IN_A_FEW_MINUTES": "Birka� dakika i�inde",
+          "IN_A_FEW_HOURS": "Birka� saat i�inde",
+          "IN_A_DAY": "Bir g�n i�inde",
+          "HELP_TEXT": "Bu yanit s�resi, canli sohbet widget'inda g�r�nt�lenecek"
         },
         "WIDGET_COLOR": {
           "LABEL": "Widget Rengi",
-          "PLACEHOLDER": "Widget'ta kullanılacak widget rengini güncelleyin"
+          "PLACEHOLDER": "Widget'ta kullanilacak widget rengini g�ncelleyin"
         },
-        "SUBMIT_BUTTON": "Gelen Kutusu Oluştur",
+        "SUBMIT_BUTTON": "Gelen Kutusu Olustur",
         "API": {
-          "ERROR_MESSAGE": "Web sitesi kanalı oluşturulamadı, lütfen tekrar deneyin"
+          "ERROR_MESSAGE": "Web sitesi kanali olusturulamadi, l�tfen tekrar deneyin"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Kanalı",
-        "DESC": "Twilio'yu entegre edin ve müşterilerinizi SMS veya WhatsApp ile desteklemeye başlayın.",
+        "TITLE": "Twilio SMS/WhatsApp Kanali",
+        "DESC": "Twilio'yu entegre edin ve m�sterilerinizi SMS veya WhatsApp ile desteklemeye baslayin.",
         "ACCOUNT_SID": {
           "LABEL": "Hesap SID'si",
-          "PLACEHOLDER": "Lütfen Twilio Hesap SID'nizi girin",
+          "PLACEHOLDER": "L�tfen Twilio Hesap SID'nizi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "API_KEY": {
-          "USE_API_KEY": "API Anahtar Kimliği Kullan",
+          "USE_API_KEY": "API Anahtar Kimligi Kullan",
           "LABEL": "API Anahtar SID",
-          "PLACEHOLDER": "Lütfen API Anahtar SID'nizi girin",
+          "PLACEHOLDER": "L�tfen API Anahtar SID'nizi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Anahtar Sırrı",
-          "PLACEHOLDER": "Lütfen API Anahtar Sırrınızı girin",
+          "LABEL": "API Anahtar Sirri",
+          "PLACEHOLDER": "L�tfen API Anahtar Sirrinizi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Mesajlaşma Servisi SID",
-          "PLACEHOLDER": "Lütfen Twilio Mesajlaşma Servisi SID'nizi girin",
+          "LABEL": "Mesajlasma Servisi SID",
+          "PLACEHOLDER": "L�tfen Twilio Mesajlasma Servisi SID'nizi girin",
           "ERROR": "Bu alan gereklidir",
-          "USE_MESSAGING_SERVICE": "Twilio Mesajlaşma Servisi Kullan"
+          "USE_MESSAGING_SERVICE": "Twilio Mesajlasma Servisi Kullan"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Kanal Türü",
-          "ERROR": "Lütfen Kanal Türünüzü seçin"
+          "LABEL": "Kanal T�r�",
+          "ERROR": "L�tfen Kanal T�r�n�z� se�in"
         },
         "AUTH_TOKEN": {
           "LABEL": "Yetkilendirme Jetonu",
-          "PLACEHOLDER": "Lütfen Twilio Yetkilendirme Jetonunuzu girin",
+          "PLACEHOLDER": "L�tfen Twilio Yetkilendirme Jetonunuzu girin",
           "ERROR": "Bu alan gereklidir"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Gelen Kutusu Adı",
-          "PLACEHOLDER": "Lütfen bir gelen kutu adı girin",
+          "LABEL": "Gelen Kutusu Adi",
+          "PLACEHOLDER": "L�tfen bir gelen kutu adi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefon Numarası",
-          "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını girin.",
-          "ERROR": "Lütfen `+` işareti ile başlayan ve boşluk içermeyen geçerli bir telefon numarası sağlayın."
+          "LABEL": "Telefon Numarasi",
+          "PLACEHOLDER": "L�tfen mesajin g�nderilecegi telefon numarasini girin.",
+          "ERROR": "L�tfen `+` isareti ile baslayan ve bosluk i�ermeyen ge�erli bir telefon numarasi saglayin."
         },
         "API_CALLBACK": {
           "TITLE": "Geri Ara URL'si",
-          "SUBTITLE": "Twilio'daki mesaj geri arama URL'sini burada belirtilen URL ile yapılandırmanız gerekir."
+          "SUBTITLE": "Twilio'daki mesaj geri arama URL'sini burada belirtilen URL ile yapilandirmaniz gerekir."
         },
-        "SUBMIT_BUTTON": "Twilio Kanalı Oluştur",
+        "SUBMIT_BUTTON": "Twilio Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "Twilio kimlik bilgileri doğrulanamadı, lütfen tekrar deneyin"
+          "ERROR_MESSAGE": "Twilio kimlik bilgileri dogrulanamadi, l�tfen tekrar deneyin"
         }
       },
       "SMS": {
-        "TITLE": "SMS Kanalı",
-        "DESC": "Müşterilerinizi SMS ile desteklemeye başlayın.",
+        "TITLE": "SMS Kanali",
+        "DESC": "M�sterilerinizi SMS ile desteklemeye baslayin.",
         "PROVIDERS": {
-          "LABEL": "API Sağlayıcı",
+          "LABEL": "API Saglayici",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "Bant Genişliği"
+          "BANDWIDTH": "Bant Genisligi"
         },
         "API": {
-          "ERROR_MESSAGE": "SMS kanalı kaydedilemedi"
+          "ERROR_MESSAGE": "SMS kanali kaydedilemedi"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Hesap Kimliği",
-            "PLACEHOLDER": "Lütfen Bandwidth Hesap Kimliğinizi girin",
+            "LABEL": "Hesap Kimligi",
+            "PLACEHOLDER": "L�tfen Bandwidth Hesap Kimliginizi girin",
             "ERROR": "Bu alan gereklidir"
           },
           "API_KEY": {
-            "LABEL": "API Anahtarı",
+            "LABEL": "API Anahtari",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
             "ERROR": "Bu alan gereklidir"
           },
           "API_SECRET": {
-            "LABEL": "API Sırrı",
+            "LABEL": "API Sirri",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
             "ERROR": "Bu alan gereklidir"
           },
           "APPLICATION_ID": {
-            "LABEL": "Uygulama Kimliği",
-            "PLACEHOLDER": "Lütfen Bandwidth Uygulama Kimliğinizi girin",
+            "LABEL": "Uygulama Kimligi",
+            "PLACEHOLDER": "L�tfen Bandwidth Uygulama Kimliginizi girin",
             "ERROR": "Bu alan gereklidir"
           },
           "INBOX_NAME": {
-            "LABEL": "Gelen Kutusu Adı",
-            "PLACEHOLDER": "Lütfen bir gelen kutu adı girin",
+            "LABEL": "Gelen Kutusu Adi",
+            "PLACEHOLDER": "L�tfen bir gelen kutu adi girin",
             "ERROR": "Bu alan gereklidir"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Telefon Numarası",
-            "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını girin.",
-            "ERROR": "Lütfen `+` işareti ile başlayan ve boşluk içermeyen geçerli bir telefon numarası sağlayın."
+            "LABEL": "Telefon Numarasi",
+            "PLACEHOLDER": "L�tfen mesajin g�nderilecegi telefon numarasini girin.",
+            "ERROR": "L�tfen `+` isareti ile baslayan ve bosluk i�ermeyen ge�erli bir telefon numarasi saglayin."
           },
-          "SUBMIT_BUTTON": "Bandwidth Kanalı Oluştur",
+          "SUBMIT_BUTTON": "Bandwidth Kanali Olustur",
           "API": {
-            "ERROR_MESSAGE": "Bandwidth kimlik bilgileri doğrulanamadı, lütfen tekrar deneyin"
+            "ERROR_MESSAGE": "Bandwidth kimlik bilgileri dogrulanamadi, l�tfen tekrar deneyin"
           },
           "API_CALLBACK": {
             "TITLE": "Geri Ara URL'si",
-            "SUBTITLE": "Bandwidth'taki geri arama URL'sini, burada belirtilen URL ile yapılandırmanız gerekir."
+            "SUBTITLE": "Bandwidth'taki geri arama URL'sini, burada belirtilen URL ile yapilandirmaniz gerekir."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Kanalı",
-        "DESC": "Müşterilerinizi WhatsApp ile desteklemeye başlayın.",
+        "TITLE": "WhatsApp Kanali",
+        "DESC": "M�sterilerinizi WhatsApp ile desteklemeye baslayin.",
         "PROVIDERS": {
-          "LABEL": "API Sağlayıcı",
+          "LABEL": "API Saglayici",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Bulut",
-          "WHATSAPP_CLOUD_DESC": "Meta üzerinden hızlı kurulum",
-          "TWILIO_DESC": "Twilio kimlik bilgileriyle bağlanın",
+          "WHATSAPP_CLOUD_DESC": "Meta �zerinden hizli kurulum",
+          "TWILIO_DESC": "Twilio kimlik bilgileriyle baglanin",
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "API sağlayıcınızı seçin",
-          "DESCRIPTION": "WhatsApp sağlayıcınızı seçin. Kurulum gerektirmeyen Meta üzerinden doğrudan bağlanabilir veya hesap bilgilerinizi kullanarak Twilio üzerinden bağlanabilirsiniz."
+          "TITLE": "API saglayicinizi se�in",
+          "DESCRIPTION": "WhatsApp saglayicinizi se�in. Kurulum gerektirmeyen Meta �zerinden dogrudan baglanabilir veya hesap bilgilerinizi kullanarak Twilio �zerinden baglanabilirsiniz."
         },
         "INBOX_NAME": {
-          "LABEL": "Gelen Kutusu Adı",
-          "PLACEHOLDER": "Lütfen bir gelen kutu adı girin",
+          "LABEL": "Gelen Kutusu Adi",
+          "PLACEHOLDER": "L�tfen bir gelen kutu adi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefon Numarası",
-          "PLACEHOLDER": "Lütfen mesajın gönderileceği telefon numarasını girin.",
-          "ERROR": "Lütfen `+` işareti ile başlayan ve boşluk içermeyen geçerli bir telefon numarası girin."
+          "LABEL": "Telefon Numarasi",
+          "PLACEHOLDER": "L�tfen mesajin g�nderilecegi telefon numarasini girin.",
+          "ERROR": "L�tfen `+` isareti ile baslayan ve bosluk i�ermeyen ge�erli bir telefon numarasi girin."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Telefon Numarası Kimliği",
-          "PLACEHOLDER": "Lütfen Facebook geliştirici panelinden elde ettiğiniz Telefon Numarası Kimliği'ni girin.",
-          "ERROR": "Lütfen geçerli bir değer girin."
+          "LABEL": "Telefon Numarasi Kimligi",
+          "PLACEHOLDER": "L�tfen Facebook gelistirici panelinden elde ettiginiz Telefon Numarasi Kimligi'ni girin.",
+          "ERROR": "L�tfen ge�erli bir deger girin."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "İş Hesabı Kimliği",
-          "PLACEHOLDER": "Lütfen Facebook geliştirici panelinden elde ettiğiniz İş Hesabı Kimliği'ni girin.",
-          "ERROR": "Lütfen geçerli bir değer girin."
+          "LABEL": "Is Hesabi Kimligi",
+          "PLACEHOLDER": "L�tfen Facebook gelistirici panelinden elde ettiginiz Is Hesabi Kimligi'ni girin.",
+          "ERROR": "L�tfen ge�erli bir deger girin."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Onay Anahtarı",
+          "LABEL": "Webhook Onay Anahtari",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Lütfen geçerli bir değer girin."
+          "ERROR": "L�tfen ge�erli bir deger girin."
         },
         "API_KEY": {
-          "LABEL": "API anahtarı",
-          "SUBTITLE": "WhatsApp API anahtarını yapılandırın.",
-          "PLACEHOLDER": "API anahtarı",
-          "ERROR": "Lütfen geçerli bir değer girin."
+          "LABEL": "API anahtari",
+          "SUBTITLE": "WhatsApp API anahtarini yapilandirin.",
+          "PLACEHOLDER": "API anahtari",
+          "ERROR": "L�tfen ge�erli bir deger girin."
         },
         "API_CALLBACK": {
           "TITLE": "Geri Arama URL'si",
-          "SUBTITLE": "Facebook Developer portalında aşağıda gösterilen değerlerle webhook URL'si ve doğrulama anahtarını yapılandırmanız gerekiyor.",
+          "SUBTITLE": "Facebook Developer portalinda asagida g�sterilen degerlerle webhook URL'si ve dogrulama anahtarini yapilandirmaniz gerekiyor.",
           "WEBHOOK_URL": "Webhook URL'si",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Onay Anahtarı"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Onay Anahtari"
         },
-        "SUBMIT_BUTTON": "WhatsApp Kanalı Oluştur",
+        "SUBMIT_BUTTON": "WhatsApp Kanali Olustur",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Meta ile hızlı kurulum",
-          "DESC": "Yeni numaraları hızlı bir şekilde bağlamak için WhatsApp Embedded Signup akışını kullanın. WhatsApp Business hesabınıza giriş yapmak için Meta'ya yönlendirileceksiniz. Yönetici erişimi, kurulumu sorunsuz ve kolay hale getirmeye yardımcı olacaktır.",
+          "TITLE": "Meta ile hizli kurulum",
+          "DESC": "Yeni numaralari hizli bir sekilde baglamak i�in WhatsApp Embedded Signup akisini kullanin. WhatsApp Business hesabiniza giris yapmak i�in Meta'ya y�nlendirileceksiniz. Y�netici erisimi, kurulumu sorunsuz ve kolay hale getirmeye yardimci olacaktir.",
           "BENEFITS": {
-            "TITLE": "Gömülü Kaydın Faydaları:",
-            "EASY_SETUP": "Manuel yapılandırma gerekmez",
-            "SECURE_AUTH": "Güvenli OAuth tabanlı kimlik doğrulama",
-            "AUTO_CONFIG": "Otomatik webhook ve telefon numarası yapılandırması"
+            "TITLE": "G�m�l� Kaydin Faydalari:",
+            "EASY_SETUP": "Manuel yapilandirma gerekmez",
+            "SECURE_AUTH": "G�venli OAuth tabanli kimlik dogrulama",
+            "AUTO_CONFIG": "Otomatik webhook ve telefon numarasi yapilandirmasi"
           },
           "LEARN_MORE": {
-            "TEXT": "Entegre kayıt, fiyatlandırma ve sınırlamalar hakkında daha fazla bilgi için {link} adresini ziyaret edin.",
-            "LINK_TEXT": "bu bağlantı"
+            "TEXT": "Entegre kayit, fiyatlandirma ve sinirlamalar hakkinda daha fazla bilgi i�in {link} adresini ziyaret edin.",
+            "LINK_TEXT": "bu baglanti"
           },
-          "SUBMIT_BUTTON": "WhatsApp Business ile bağlantı kurun",
-          "AUTH_PROCESSING": "Meta ile kimlik doğrulama",
-          "WAITING_FOR_BUSINESS_INFO": "Lütfen Meta penceresinde işletme kurulumunu tamamlayın...",
-          "PROCESSING": "WhatsApp Business Hesabınızı kurma",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
-          "LOADING_SDK": "Facebook SDK yükleniyor...",
-          "CANCELLED": "WhatsApp Kaydı iptal edildi",
-          "SUCCESS_TITLE": "WhatsApp Business Hesabı Bağlandı!",
-          "WAITING_FOR_AUTH": "Kimlik doğrulaması bekleniyor...",
-          "INVALID_BUSINESS_DATA": "Facebook’tan geçersiz işletme verisi alındı. Lütfen tekrar deneyin.",
-          "SIGNUP_ERROR": "Kayıt hatası oluştu",
-          "AUTH_NOT_COMPLETED": "Kimlik doğrulama tamamlanmadı. Lütfen işlemi yeniden başlatın.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Hesabı başarıyla yapılandırıldı",
-          "MANUAL_FALLBACK": "Numaranız zaten WhatsApp Business Platformuna (API) bağlıysa veya kendi numaranızı ekleyen bir teknoloji sağlayıcısıysanız, lütfen {link} akışını kullanın",
-          "MANUAL_LINK_TEXT": "manuel kurulum akışı",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "SUBMIT_BUTTON": "WhatsApp Business ile baglanti kurun",
+          "AUTH_PROCESSING": "Meta ile kimlik dogrulama",
+          "WAITING_FOR_BUSINESS_INFO": "L�tfen Meta penceresinde isletme kurulumunu tamamlayin...",
+          "PROCESSING": "WhatsApp Business Hesabinizi kurma",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number�",
+          "LOADING_SDK": "Facebook SDK y�kleniyor...",
+          "CANCELLED": "WhatsApp Kaydi iptal edildi",
+          "SUCCESS_TITLE": "WhatsApp Business Hesabi Baglandi!",
+          "WAITING_FOR_AUTH": "Kimlik dogrulamasi bekleniyor...",
+          "INVALID_BUSINESS_DATA": "Facebook�tan ge�ersiz isletme verisi alindi. L�tfen tekrar deneyin.",
+          "SIGNUP_ERROR": "Kayit hatasi olustu",
+          "AUTH_NOT_COMPLETED": "Kimlik dogrulama tamamlanmadi. L�tfen islemi yeniden baslatin.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Hesabi basariyla yapilandirildi",
+          "MANUAL_FALLBACK": "Numaraniz zaten WhatsApp Business Platformuna (API) bagliysa veya kendi numaranizi ekleyen bir teknoloji saglayicisiysaniz, l�tfen {link} akisini kullanin",
+          "MANUAL_LINK_TEXT": "manuel kurulum akisi",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on � this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "WhatsApp kanalını kaydedemedik"
+          "ERROR_MESSAGE": "WhatsApp kanalini kaydedemedik"
         }
       },
       "VOICE": {
-        "TITLE": "Ses Kanalı",
-        "DESC": "Twilio Voice’u entegre edin ve müşterilerinize telefon aramalarıyla destek vermeye başlayın.",
+        "TITLE": "Ses Kanali",
+        "DESC": "Twilio Voice�u entegre edin ve m�sterilerinize telefon aramalariyla destek vermeye baslayin.",
         "PHONE_NUMBER": {
-          "LABEL": "Telefon Numarası",
-          "PLACEHOLDER": "Telefon numaranızı girin (örn. +901234567890)",
-          "ERROR": "Lütfen E.164 formatında geçerli bir telefon numarası girin (örn. +901234567890)"
+          "LABEL": "Telefon Numarasi",
+          "PLACEHOLDER": "Telefon numaranizi girin (�rn. +901234567890)",
+          "ERROR": "L�tfen E.164 formatinda ge�erli bir telefon numarasi girin (�rn. +901234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "Hesap SID'si",
-            "PLACEHOLDER": "Twilio Account SID’inizi girin",
+            "PLACEHOLDER": "Twilio Account SID�inizi girin",
             "REQUIRED": "Account SID gereklidir"
           },
           "AUTH_TOKEN": {
             "LABEL": "Yetkilendirme Jetonu",
-            "PLACEHOLDER": "Twilio Auth Token’inizi girin",
+            "PLACEHOLDER": "Twilio Auth Token�inizi girin",
             "REQUIRED": "Auth Token gereklidir"
           },
           "API_KEY_SID": {
             "LABEL": "API Anahtar SID",
-            "PLACEHOLDER": "Twilio API Key SID’inizi girin",
+            "PLACEHOLDER": "Twilio API Key SID�inizi girin",
             "REQUIRED": "API Key SID gereklidir"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Anahtar Sırrı",
-            "PLACEHOLDER": "Twilio API Key Secret’ınızı girin",
+            "LABEL": "API Anahtar Sirri",
+            "PLACEHOLDER": "Twilio API Key Secret�inizi girin",
             "REQUIRED": "API Key Secret gereklidir"
           }
         },
         "CONFIGURATION": {
           "TWILIO_VOICE_URL_TITLE": "Twilio Ses URL",
-          "TWILIO_VOICE_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranızda ve TwiML Uygulamanızda Sesli Görüşme URL'si (Voice URL) olarak yapılandırın.",
-          "TWILIO_STATUS_URL_TITLE": "Twilio Durum Geri Çağırma URL'si (Status Callback URL)",
-          "TWILIO_STATUS_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranızda Durum Geri Çağırma URL'si (Status Callback URL) olarak yapılandırın."
+          "TWILIO_VOICE_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranizda ve TwiML Uygulamanizda Sesli G�r�sme URL'si (Voice URL) olarak yapilandirin.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Durum Geri �agirma URL'si (Status Callback URL)",
+          "TWILIO_STATUS_URL_SUBTITLE": "Bu URL'yi Twilio telefon numaranizda Durum Geri �agirma URL'si (Status Callback URL) olarak yapilandirin."
         },
-        "SUBMIT_BUTTON": "Ses Kanalı Oluştur",
+        "SUBMIT_BUTTON": "Ses Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "Ses kanalı oluşturulamadı"
+          "ERROR_MESSAGE": "Ses kanali olusturulamadi"
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Kanalı",
-        "DESC": "API kanalı ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
+        "TITLE": "API Kanali",
+        "DESC": "API kanali ile entegre edin ve m�sterilerinizi desteklemeye baslayin.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanal Adı",
-          "PLACEHOLDER": "Lütfen bir kanal adı girin",
+          "LABEL": "Kanal Adi",
+          "PLACEHOLDER": "L�tfen bir kanal adi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "WEBHOOK_URL": {
@@ -379,93 +379,93 @@
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL'si"
         },
-        "SUBMIT_BUTTON": "API Kanalı Oluştur",
+        "SUBMIT_BUTTON": "API Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "API kanalını kaydedemedik"
+          "ERROR_MESSAGE": "API kanalini kaydedemedik"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "E-posta Kanalı",
+        "TITLE": "E-posta Kanali",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanal Adı",
-          "PLACEHOLDER": "Lütfen bir kanal adı girin",
+          "LABEL": "Kanal Adi",
+          "PLACEHOLDER": "L�tfen bir kanal adi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "EMAIL": {
           "LABEL": "E-Posta",
-          "SUBTITLE": "Müşterilerinizin size destek gönderdiği e-posta",
+          "SUBTITLE": "M�sterilerinizin size destek g�nderdigi e-posta",
           "PLACEHOLDER": "E-Posta"
         },
-        "SUBMIT_BUTTON": "E-posta Kanalı Oluştur",
+        "SUBMIT_BUTTON": "E-posta Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "E-posta kanalını kaydedemedik"
+          "ERROR_MESSAGE": "E-posta kanalini kaydedemedik"
         },
-        "FINISH_MESSAGE": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
-        "FINISH_MESSAGE_NO_FORWARDING": "E-posta gelen kutunuz başarıyla oluşturuldu! E-posta gönderip almak için SMTP ve IMAP bilgilerinizi yapılandırmanız gerekmektedir. Bu ayarlar yapılmadan hiçbir e-posta işlenmeyecektir.",
-        "FORWARDING_ADDRESS_LABEL": "E-postaları bu adrese yönlendirin:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Buraya Tıkla",
-        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP ve SMTP ayarlarını yapılandırmak için"
+        "FINISH_MESSAGE": "E-postalarinizi asagidaki e-posta adresine iletmeye baslayin.",
+        "FINISH_MESSAGE_NO_FORWARDING": "E-posta gelen kutunuz basariyla olusturuldu! E-posta g�nderip almak i�in SMTP ve IMAP bilgilerinizi yapilandirmaniz gerekmektedir. Bu ayarlar yapilmadan hi�bir e-posta islenmeyecektir.",
+        "FORWARDING_ADDRESS_LABEL": "E-postalari bu adrese y�nlendirin:",
+        "CONFIGURE_SMTP_IMAP_LINK": "Buraya Tikla",
+        "CONFIGURE_SMTP_IMAP_TEXT": " IMAP ve SMTP ayarlarini yapilandirmak i�in"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Kanalı",
-        "DESC": "LINE ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
+        "TITLE": "LINE Kanali",
+        "DESC": "LINE ile entegre edin ve m�sterilerinizi desteklemeye baslayin.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanal Adı",
-          "PLACEHOLDER": "Lütfen bir kanal adı girin",
+          "LABEL": "Kanal Adi",
+          "PLACEHOLDER": "L�tfen bir kanal adi girin",
           "ERROR": "Bu alan gereklidir"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Kanal Kimliği",
-          "PLACEHOLDER": "LINE Kanal Kimliği"
+          "LABEL": "LINE Kanal Kimligi",
+          "PLACEHOLDER": "LINE Kanal Kimligi"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Kanal Sırrı",
-          "PLACEHOLDER": "LINE Kanal Sırrı"
+          "LABEL": "LINE Kanal Sirri",
+          "PLACEHOLDER": "LINE Kanal Sirri"
         },
         "LINE_CHANNEL_TOKEN": {
           "LABEL": "LINE Kanal Token",
           "PLACEHOLDER": "LINE Kanal Token"
         },
-        "SUBMIT_BUTTON": "LINE Kanalı Oluştur",
+        "SUBMIT_BUTTON": "LINE Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "LINE kanalını kaydedemedik"
+          "ERROR_MESSAGE": "LINE kanalini kaydedemedik"
         },
         "API_CALLBACK": {
           "TITLE": "Geri Arama URL'si",
-          "SUBTITLE": "LINE uygulamasında aşağıda belirtilen URL ile webhook URL'sini yapılandırmanız gerekiyor."
+          "SUBTITLE": "LINE uygulamasinda asagida belirtilen URL ile webhook URL'sini yapilandirmaniz gerekiyor."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Kanalı",
-        "DESC": "Telegram ile entegre edin ve müşterilerinizi desteklemeye başlayın.",
+        "TITLE": "Telegram Kanali",
+        "DESC": "Telegram ile entegre edin ve m�sterilerinizi desteklemeye baslayin.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Telegram BotFather'dan elde ettiğiniz bot token'ını yapılandırın.",
+          "SUBTITLE": "Telegram BotFather'dan elde ettiginiz bot token'ini yapilandirin.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Telegram Kanalı Oluştur",
+        "SUBMIT_BUTTON": "Telegram Kanali Olustur",
         "API": {
-          "ERROR_MESSAGE": "Telegram kanalını kaydedemedik"
+          "ERROR_MESSAGE": "Telegram kanalini kaydedemedik"
         }
       },
       "AUTH": {
-        "TITLE": "Bir Kanal Seçin",
-        "DESC": "Chatwoot, canlı sohbet widget'ları, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanalları destekler. Özel bir kanal oluşturmak istiyorsanız, API kanalını kullanarak bunu oluşturabilirsiniz. Başlamak için aşağıdaki kanallardan birini seçin.",
-        "TITLE_NEXT": "Kurulumu tamamlayın",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE": "Bir Kanal Se�in",
+        "DESC": "Thynex, canli sohbet widget'lari, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanallari destekler. �zel bir kanal olusturmak istiyorsaniz, API kanalini kullanarak bunu olusturabilirsiniz. Baslamak i�in asagidaki kanallardan birini se�in.",
+        "TITLE_NEXT": "Kurulumu tamamlayin",
+        "TITLE_FINISH": "Voil�!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
-            "DESCRIPTION": "Canlı sohbet widget'ı oluşturun"
+            "DESCRIPTION": "Canli sohbet widget'i olusturun"
           },
           "FACEBOOK": {
             "TITLE": "Facebook\n",
-            "DESCRIPTION": "Facebook sayfanızı bağlayın"
+            "DESCRIPTION": "Facebook sayfanizi baglayin"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Müşterilerinize WhatsApp üzerinden destek sağlayın"
+            "DESCRIPTION": "M�sterilerinize WhatsApp �zerinden destek saglayin"
           },
           "WHATSAPP_CALL": {
             "TITLE": "WhatsApp Call",
@@ -473,27 +473,27 @@
           },
           "EMAIL": {
             "TITLE": "E-Posta",
-            "DESCRIPTION": "Gmail, Outlook veya diğer sağlayıcılarla bağlantı kurun"
+            "DESCRIPTION": "Gmail, Outlook veya diger saglayicilarla baglanti kurun"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "SMS kanalını Twilio veya Bandwidth ile entegre edin"
+            "DESCRIPTION": "SMS kanalini Twilio veya Bandwidth ile entegre edin"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "API'mizi kullanarak özel bir kanal oluşturun"
+            "DESCRIPTION": "API'mizi kullanarak �zel bir kanal olusturun"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Bot token kullanarak Telegram kanalını yapılandırın"
+            "DESCRIPTION": "Bot token kullanarak Telegram kanalini yapilandirin"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Line kanalınızı entegre edin"
+            "DESCRIPTION": "Line kanalinizi entegre edin"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Instagram hesabınızı bağlayın"
+            "DESCRIPTION": "Instagram hesabinizi baglayin"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
@@ -506,29 +506,29 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Kullanıcılar",
-        "DESC": "Yeni oluşturulan gelen kutunuzu yönetmek için burada aracılar ekleyebilirsiniz. Yalnızca bu seçilen temsilciler gelen kutunuza erişebilir. Bu gelen kutusunun parçası olmayan temsilciler, oturum açtıklarında bu gelen kutusundaki mesajları göremeyecek veya yanıtlayamayacak. <br> <b> Not: </b> Bir yönetici olarak, tüm gelen kutularına erişmeniz gerekiyorsa, kendinizi oluşturduğunuz tüm gelen kutularına aracı olarak eklemelisiniz.",
+        "TITLE": "Kullanicilar",
+        "DESC": "Yeni olusturulan gelen kutunuzu y�netmek i�in burada aracilar ekleyebilirsiniz. Yalnizca bu se�ilen temsilciler gelen kutunuza erisebilir. Bu gelen kutusunun par�asi olmayan temsilciler, oturum a�tiklarinda bu gelen kutusundaki mesajlari g�remeyecek veya yanitlayamayacak. <br> <b> Not: </b> Bir y�netici olarak, t�m gelen kutularina erismeniz gerekiyorsa, kendinizi olusturdugunuz t�m gelen kutularina araci olarak eklemelisiniz.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Gelen kutusu için aracı seçin"
+        "PICK_AGENTS": "Gelen kutusu i�in araci se�in"
       },
       "DETAILS": {
-        "TITLE": "Gelen Kutusu Ayrıntıları",
-        "DESC": "Chatwoot'a bağlanmak istediğiniz Facebook Sayfasını seçmek için aşağıdaki açılır menüden seçim yapın. Daha iyi tanımlama için gelen kutunuza özel bir ad da verebilirsiniz."
+        "TITLE": "Gelen Kutusu Ayrintilari",
+        "DESC": "Thynex'a baglanmak istediginiz Facebook Sayfasini se�mek i�in asagidaki a�ilir men�den se�im yapin. Daha iyi tanimlama i�in gelen kutunuza �zel bir ad da verebilirsiniz."
       },
       "FINISH": {
-        "TITLE": "Başardın!",
-        "DESC": "Facebook Sayfanızı Chatwoot ile entegre etmeyi başarıyla tamamladınız. Bir müşteri Sayfanıza bir dahaki sefere mesaj gönderdiğinde, konuşma otomatik olarak gelen kutunuzda görünecektir. <br> Ayrıca, web sitenize kolayca ekleyebileceğiniz bir pencere öğesi komut dosyası da sağlıyoruz. Bu web sitenizde yayınlandıktan sonra, müşteriler herhangi bir harici aracın yardımı olmadan doğrudan web sitenizden size mesaj gönderebilir ve sohbet burada, Chatwoot'ta görünecektir. <br> Harika, ha? Peki, emin olmaya çalışıyoruz :)"
+        "TITLE": "Basardin!",
+        "DESC": "Facebook Sayfanizi Thynex ile entegre etmeyi basariyla tamamladiniz. Bir m�steri Sayfaniza bir dahaki sefere mesaj g�nderdiginde, konusma otomatik olarak gelen kutunuzda g�r�necektir. <br> Ayrica, web sitenize kolayca ekleyebileceginiz bir pencere �gesi komut dosyasi da sagliyoruz. Bu web sitenizde yayinlandiktan sonra, m�steriler herhangi bir harici aracin yardimi olmadan dogrudan web sitenizden size mesaj g�nderebilir ve sohbet burada, Thynex'ta g�r�necektir. <br> Harika, ha? Peki, emin olmaya �alisiyoruz :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "E-posta Sağlayıcınızı Seçin",
-        "DESCRIPTION": "Aşağıdaki listeden bir e-posta sağlayıcı seçin. Eğer listede e-posta sağlayıcınızı görmüyorsanız, Diğer Sağlayıcı seçeneğini seçebilir ve IMAP ve SMTP Kimlik Bilgilerinizi sağlayabilirsiniz."
+        "TITLE": "E-posta Saglayicinizi Se�in",
+        "DESCRIPTION": "Asagidaki listeden bir e-posta saglayici se�in. Eger listede e-posta saglayicinizi g�rm�yorsaniz, Diger Saglayici se�enegini se�ebilir ve IMAP ve SMTP Kimlik Bilgilerinizi saglayabilirsiniz."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft E-posta",
-        "DESCRIPTION": "Başlamak için Microsoft ile giriş yapın düğmesine tıklayın. E-posta giriş sayfasına yönlendirileceksiniz. İstenen izinleri kabul ettiğinizde, giriş sayfasına geri yönlendirileceksiniz.",
+        "DESCRIPTION": "Baslamak i�in Microsoft ile giris yapin d�gmesine tiklayin. E-posta giris sayfasina y�nlendirileceksiniz. Istenen izinleri kabul ettiginizde, giris sayfasina geri y�nlendirileceksiniz.",
         "EMAIL_PLACEHOLDER": "E-posta adresini girin",
         "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "Microsoft ile bağlantı kurulurken bir hata oluştu, lütfen tekrar deneyin"
+        "ERROR_MESSAGE": "Microsoft ile baglanti kurulurken bir hata olustu, l�tfen tekrar deneyin"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
@@ -539,71 +539,71 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Facebook kimliğinizi doğruluyoruz...",
+      "LOADING_FB": "Facebook kimliginizi dogruluyoruz...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Bir şeyler ters gitti, lütfen sayfayı yenileyin...",
-      "ERROR_FB_UNAUTHORIZED": "Bu işlemi gerçekleştirmek için yetkiniz yok.",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Lütfen Facebook sayfanıza tam kontrolle erişiminiz olduğundan emin olun. Facebook rolleri hakkında daha fazla bilgiyi <a href=\" https://www.facebook.com/help/187316341316631\">buradan</a> okuyabilirsiniz.",
-      "CREATING_CHANNEL": "Gelen kutunuz oluşturuluyor...",
-      "TITLE": "Gelen Kutusu Ayrıntılarını Yapılandır",
+      "ERROR_FB_AUTH": "Bir seyler ters gitti, l�tfen sayfayi yenileyin...",
+      "ERROR_FB_UNAUTHORIZED": "Bu islemi ger�eklestirmek i�in yetkiniz yok.",
+      "ERROR_FB_UNAUTHORIZED_HELP": "L�tfen Facebook sayfaniza tam kontrolle erisiminiz oldugundan emin olun. Facebook rolleri hakkinda daha fazla bilgiyi <a href=\" https://www.facebook.com/help/187316341316631\">buradan</a> okuyabilirsiniz.",
+      "CREATING_CHANNEL": "Gelen kutunuz olusturuluyor...",
+      "TITLE": "Gelen Kutusu Ayrintilarini Yapilandir",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Kullanıcı Ekle",
-      "ADD_AGENTS": "Gelen kutunuza aracılar ekleniyor..."
+      "BUTTON_TEXT": "Kullanici Ekle",
+      "ADD_AGENTS": "Gelen kutunuza aracilar ekleniyor..."
     },
     "FINISH": {
-      "TITLE": "Gelen Kutunuz Hazır!",
-      "MESSAGE": "Artık yeni kanalınız aracılığıyla müşterilerinizle iletişim kurabilirsiniz. Mutlu destekleme!",
-      "BUTTON_TEXT": "Beni oraya götür",
+      "TITLE": "Gelen Kutunuz Hazir!",
+      "MESSAGE": "Artik yeni kanaliniz araciligiyla m�sterilerinizle iletisim kurabilirsiniz. Mutlu destekleme!",
+      "BUTTON_TEXT": "Beni oraya g�t�r",
       "MORE_SETTINGS": "Daha fazla ayar",
-      "WEBSITE_SUCCESS": "Bir web sitesi kanalı oluşturmayı başarıyla tamamladınız. Aşağıda gösterilen kodu kopyalayın ve web sitenize yapıştırın. Bir müşteri canlı sohbeti bir dahaki sefere kullandığında, konuşma otomatik olarak gelen kutunuzda görünecektir.",
-      "WHATSAPP_QR_INSTRUCTION": "WhatsApp gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
-      "MESSENGER_QR_INSTRUCTION": "Facebook Messenger gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın",
-      "TELEGRAM_QR_INSTRUCTION": "Telegram gelen kutunuzu hızlıca test etmek için yukarıdaki QR kodu tarayın"
+      "WEBSITE_SUCCESS": "Bir web sitesi kanali olusturmayi basariyla tamamladiniz. Asagida g�sterilen kodu kopyalayin ve web sitenize yapistirin. Bir m�steri canli sohbeti bir dahaki sefere kullandiginda, konusma otomatik olarak gelen kutunuzda g�r�necektir.",
+      "WHATSAPP_QR_INSTRUCTION": "WhatsApp gelen kutunuzu hizlica test etmek i�in yukaridaki QR kodu tarayin",
+      "MESSENGER_QR_INSTRUCTION": "Facebook Messenger gelen kutunuzu hizlica test etmek i�in yukaridaki QR kodu tarayin",
+      "TELEGRAM_QR_INSTRUCTION": "Telegram gelen kutunuzu hizlica test etmek i�in yukaridaki QR kodu tarayin"
     },
     "REAUTH": "Yeniden yetkilendir",
-    "VIEW": "Görünüm",
+    "VIEW": "G�r�n�m",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Gelen kutusu ayarları başarıyla güncellendi",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Otomatik atama başarıyla güncellendi",
-        "ERROR_MESSAGE": "Gelen kutusu ayarlarını güncelleyemedik. Lütfen daha sonra tekrar deneyin."
+        "SUCCESS_MESSAGE": "Gelen kutusu ayarlari basariyla g�ncellendi",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Otomatik atama basariyla g�ncellendi",
+        "ERROR_MESSAGE": "Gelen kutusu ayarlarini g�ncelleyemedik. L�tfen daha sonra tekrar deneyin."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "DISABLED": "Devre disi"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "DISABLED": "Devre disi"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Gönderen Adı",
-        "SUB_TEXT": "Müşterileriniz, temsilcilerinizden e-posta aldıklarında görecekleri adı seçin.",
-        "FOR_EG": "Örneğin:",
+        "TITLE": "G�nderen Adi",
+        "SUB_TEXT": "M�sterileriniz, temsilcilerinizden e-posta aldiklarinda g�recekleri adi se�in.",
+        "FOR_EG": "�rnegin:",
         "FRIENDLY": {
-          "TITLE": "Dostça",
+          "TITLE": "Dost�a",
           "FROM": "dan",
-          "SUBTITLE": "Yanıtı gönderen ajanın adını gönderen adına ekleyerek dostça yapın."
+          "SUBTITLE": "Yaniti g�nderen ajanin adini g�nderen adina ekleyerek dost�a yapin."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesyonel",
-          "SUBTITLE": "E-posta başlığında gönderen adı olarak yalnızca yapılandırılmış iş adını kullanın."
+          "SUBTITLE": "E-posta basliginda g�nderen adi olarak yalnizca yapilandirilmis is adini kullanin."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "İş adınızı yapılandırın",
-          "PLACEHOLDER": "İş adınızı girin",
+          "BUTTON_TEXT": "Is adinizi yapilandirin",
+          "PLACEHOLDER": "Is adinizi girin",
           "SAVE_BUTTON_TEXT": "Kaydet"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "DISABLED": "Devre disi"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
         "ENABLED": "Etkin",
-        "DISABLED": "Devre dışı"
+        "DISABLED": "Devre disi"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
@@ -612,36 +612,36 @@
         "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Etkinleştir"
+        "LABEL": "Etkinlestir"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Sil",
-      "AVATAR_DELETE_BUTTON_TEXT": "Avatarı Sil",
+      "AVATAR_DELETE_BUTTON_TEXT": "Avatari Sil",
       "CONFIRM": {
         "TITLE": "Silmeyi Onayla",
-        "MESSAGE": "Silmek istediğinize emin misiniz?",
-        "PLACE_HOLDER": "{inboxName} yazarak onaylayın",
+        "MESSAGE": "Silmek istediginize emin misiniz?",
+        "PLACE_HOLDER": "{inboxName} yazarak onaylayin",
         "YES": "Evet, Sil ",
-        "NO": "Hayır, Tut"
+        "NO": "Hayir, Tut"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Gelen kutusu başarıyla silindi",
-        "ERROR_MESSAGE": "Gelen kutusu silinemedi. Lütfen daha sonra tekrar deneyiniz.",
-        "AVATAR_SUCCESS_MESSAGE": "Gelen kutusu avatarı başarıyla silindi",
-        "AVATAR_ERROR_MESSAGE": "Gelen kutusu avatarı silinemiyor. Lütfen daha sonra tekrar deneyin."
+        "SUCCESS_MESSAGE": "Gelen kutusu basariyla silindi",
+        "ERROR_MESSAGE": "Gelen kutusu silinemedi. L�tfen daha sonra tekrar deneyiniz.",
+        "AVATAR_SUCCESS_MESSAGE": "Gelen kutusu avatari basariyla silindi",
+        "AVATAR_ERROR_MESSAGE": "Gelen kutusu avatari silinemiyor. L�tfen daha sonra tekrar deneyin."
       }
     },
     "TABS": {
       "SETTINGS": "Ayarlar",
-      "COLLABORATORS": "Ortak Çalışanlar",
-      "CONFIGURATION": "Yapılandırma",
+      "COLLABORATORS": "Ortak �alisanlar",
+      "CONFIGURATION": "Yapilandirma",
       "CAMPAIGN": "Kampanyalar",
-      "PRE_CHAT_FORM": "Sohbet Öncesi Form",
-      "BUSINESS_HOURS": "İş Saatleri",
-      "WIDGET_BUILDER": "Widget Oluşturucu",
-      "BOT_CONFIGURATION": "Bot Yapılandırma",
-      "ACCOUNT_HEALTH": "Hesap Sağlığı",
+      "PRE_CHAT_FORM": "Sohbet �ncesi Form",
+      "BUSINESS_HOURS": "Is Saatleri",
+      "WIDGET_BUILDER": "Widget Olusturucu",
+      "BOT_CONFIGURATION": "Bot Yapilandirma",
+      "ACCOUNT_HEALTH": "Hesap Sagligi",
       "CSAT": "CSAT",
       "VOICE": "Ses",
       "CALLS": "Calls"
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number � it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta � no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -678,57 +678,57 @@
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
     "ACCOUNT_HEALTH": {
-      "TITLE": "WhatsApp hesabınızı yönetin",
-      "DESCRIPTION": "WhatsApp hesap durumunuzu, mesajlaşma limitlerinizi ve kalitesini inceleyin. Gerekirse ayarları güncelleyin veya sorunları çözün",
+      "TITLE": "WhatsApp hesabinizi y�netin",
+      "DESCRIPTION": "WhatsApp hesap durumunuzu, mesajlasma limitlerinizi ve kalitesini inceleyin. Gerekirse ayarlari g�ncelleyin veya sorunlari ��z�n",
       "GO_TO_SETTINGS": "Meta Business Manager'a gidin",
-      "NO_DATA": "Sağlık verisi mevcut değil",
+      "NO_DATA": "Saglik verisi mevcut degil",
       "FIELDS": {
         "DISPLAY_PHONE_NUMBER": {
-          "LABEL": "Telefon numarasını göster",
-          "TOOLTIP": "Müşterilere gösterilen telefon numarası"
+          "LABEL": "Telefon numarasini g�ster",
+          "TOOLTIP": "M�sterilere g�sterilen telefon numarasi"
         },
         "VERIFIED_NAME": {
-          "LABEL": "İşletme adı",
-          "TOOLTIP": "WhatsApp tarafından onaylanmış işletme adı"
+          "LABEL": "Isletme adi",
+          "TOOLTIP": "WhatsApp tarafindan onaylanmis isletme adi"
         },
         "DISPLAY_NAME_STATUS": {
-          "LABEL": "Görünen adın durumu",
-          "TOOLTIP": "İşletme adı doğrulamanızın durumu"
+          "LABEL": "G�r�nen adin durumu",
+          "TOOLTIP": "Isletme adi dogrulamanizin durumu"
         },
         "QUALITY_RATING": {
-          "LABEL": "Kalite puanı",
-          "TOOLTIP": "Hesabınız için WhatsApp kalite puanı"
+          "LABEL": "Kalite puani",
+          "TOOLTIP": "Hesabiniz i�in WhatsApp kalite puani"
         },
         "MESSAGING_LIMIT_TIER": {
-          "LABEL": "Mesajlaşma limiti seviyesi",
-          "TOOLTIP": "Hesabınız için günlük mesajlaşma limiti"
+          "LABEL": "Mesajlasma limiti seviyesi",
+          "TOOLTIP": "Hesabiniz i�in g�nl�k mesajlasma limiti"
         },
         "ACCOUNT_MODE": {
           "LABEL": "Hesap modu",
-          "TOOLTIP": "WhatsApp hesabınızın mevcut çalışma modu"
+          "TOOLTIP": "WhatsApp hesabinizin mevcut �alisma modu"
         }
       },
       "VALUES": {
         "TIERS": {
-          "TIER_250": "24 saatte 250 müşteri",
-          "TIER_1000": "24 saatte 1000 müşteri",
-          "TIER_1K": "24 saatte 1000 müşteri",
-          "TIER_10K": "24 saatte 10000 müşteri",
-          "TIER_100K": "24 saatte 100000 müşteri",
-          "TIER_UNLIMITED": "24 saatte sınırsız müşteri",
-          "UNKNOWN": "Değerlendirme mevcut değil"
+          "TIER_250": "24 saatte 250 m�steri",
+          "TIER_1000": "24 saatte 1000 m�steri",
+          "TIER_1K": "24 saatte 1000 m�steri",
+          "TIER_10K": "24 saatte 10000 m�steri",
+          "TIER_100K": "24 saatte 100000 m�steri",
+          "TIER_UNLIMITED": "24 saatte sinirsiz m�steri",
+          "UNKNOWN": "Degerlendirme mevcut degil"
         },
         "STATUSES": {
           "APPROVED": "Approved",
-          "PENDING_REVIEW": "İnceleme Bekliyor",
-          "AVAILABLE_WITHOUT_REVIEW": "İnceleme Olmadan Kullanılabilir",
+          "PENDING_REVIEW": "Inceleme Bekliyor",
+          "AVAILABLE_WITHOUT_REVIEW": "Inceleme Olmadan Kullanilabilir",
           "REJECTED": "Reddedildi",
           "DECLINED": "Reddedildi",
-          "NON_EXISTS": "Mevcut değil"
+          "NON_EXISTS": "Mevcut degil"
         },
         "MODES": {
           "SANDBOX": "Sandbox",
-          "LIVE": "Canlı"
+          "LIVE": "Canli"
         }
       },
       "WEBHOOK": {
@@ -744,110 +744,110 @@
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
-      "LABEL": "Özellikleri",
-      "DISPLAY_FILE_PICKER": "Widget'ta dosya seçiciyi görüntüle",
-      "DISPLAY_EMOJI_PICKER": "Widget'ta emoji seçiciyi görüntüleyin",
-      "ALLOW_END_CONVERSATION": "Kullanıcılara konuşmayı widget'tan sonlandırma izni ver",
-      "USE_INBOX_AVATAR_FOR_BOT": "Bot için gelen kutu adı ve avatarını kullan"
+      "LABEL": "�zellikleri",
+      "DISPLAY_FILE_PICKER": "Widget'ta dosya se�iciyi g�r�nt�le",
+      "DISPLAY_EMOJI_PICKER": "Widget'ta emoji se�iciyi g�r�nt�leyin",
+      "ALLOW_END_CONVERSATION": "Kullanicilara konusmayi widget'tan sonlandirma izni ver",
+      "USE_INBOX_AVATAR_FOR_BOT": "Bot i�in gelen kutu adi ve avatarini kullan"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Komut Dosyası",
-      "MESSENGER_SUB_HEAD": "Bu düğmeyi gövde etiketinizin içine yerleştirin",
+      "MESSENGER_HEADING": "Messenger Komut Dosyasi",
+      "MESSENGER_SUB_HEAD": "Bu d�gmeyi g�vde etiketinizin i�ine yerlestirin",
       "ALLOWED_DOMAINS": {
-        "TITLE": "İzin Verilen Alan Adları",
-        "DESCRIPTION": "Sohbet widget'ınızı hangi web sitelerinin yerleştirebileceğini kısıtlayın. Güvenlik amacıyla, yalnızca sahip olduğunuz ve güvendiğiniz alan adlarını ekleyin. Bir veya daha fazla alan adını virgülle ayırarak ekleyin. Tüm alan adlarına izin vermek için boş bırakın (canlı ortamlar için önerilmez).",
+        "TITLE": "Izin Verilen Alan Adlari",
+        "DESCRIPTION": "Sohbet widget'inizi hangi web sitelerinin yerlestirebilecegini kisitlayin. G�venlik amaciyla, yalnizca sahip oldugunuz ve g�vendiginiz alan adlarini ekleyin. Bir veya daha fazla alan adini virg�lle ayirarak ekleyin. T�m alan adlarina izin vermek i�in bos birakin (canli ortamlar i�in �nerilmez).",
         "PLACEHOLDER": "example.com, www.example.com, app.example.com"
       },
       "ALLOW_MOBILE_WEBVIEW": {
-        "LABEL": "Mobil uygulamalarda widget'ı etkinleştir",
-        "SUBTITLE": "Widget'ı iOS veya Android uygulamalarına yerleştiriyorsanız bu seçeneği işaretleyin. Mobil uygulamalar alan adı bilgisi göndermediğinden, bu seçenek etkinleştirilmezse alan adı kısıtlamalarına takılarak engellenirler."
+        "LABEL": "Mobil uygulamalarda widget'i etkinlestir",
+        "SUBTITLE": "Widget'i iOS veya Android uygulamalarina yerlestiriyorsaniz bu se�enegi isaretleyin. Mobil uygulamalar alan adi bilgisi g�ndermediginden, bu se�enek etkinlestirilmezse alan adi kisitlamalarina takilarak engellenirler."
       },
       "IDENTITY_VALIDATION": {
-        "TITLE": "Kimlik Doğrulama",
-        "DESCRIPTION": "Güvenli token'lar oluşturarak kullanıcıların gerçekliğini doğrulayın. Bu işlem, yetkisiz kişilerin sohbetinizde başkalarının kimliğine bürünmesini engeller.",
+        "TITLE": "Kimlik Dogrulama",
+        "DESCRIPTION": "G�venli token'lar olusturarak kullanicilarin ger�ekligini dogrulayin. Bu islem, yetkisiz kisilerin sohbetinizde baskalarinin kimligine b�r�nmesini engeller.",
         "SECRET_KEY": "Gizli Anahtar",
-        "VIEW_DOCS": "Dokümantasyonu görüntüle",
-        "REQUIRE_LABEL": "Tüm sohbetler için kimlik doğrulamayı zorunlu kıl",
-        "REQUIRE_DESCRIPTION": "Etkinleştirildiğinde, kullanıcıların sohbet başlatabilmesi için geçerli bir kimlik token'ı sunması gerekir. Geçerli bir token içermeyen istekler reddedilecektir."
+        "VIEW_DOCS": "Dok�mantasyonu g�r�nt�le",
+        "REQUIRE_LABEL": "T�m sohbetler i�in kimlik dogrulamayi zorunlu kil",
+        "REQUIRE_DESCRIPTION": "Etkinlestirildiginde, kullanicilarin sohbet baslatabilmesi i�in ge�erli bir kimlik token'i sunmasi gerekir. Ge�erli bir token i�ermeyen istekler reddedilecektir."
       },
-      "INBOX_AGENTS": "Kullanıcılar",
-      "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna aracı ekleyin veya aracıları kaldırın",
-      "AGENT_ASSIGNMENT": "Görüşme Atama",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Görüşme atama ayarlarını güncelle",
-      "UPDATE": "Güncelleme",
-      "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinleştir",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konuşmalarda e-posta toplama kutusunu etkinleştir veya devre dışı bırak",
-      "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "SENDER_NAME_SECTION": "E-postada Ajan Adını Etkinleştir",
-      "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
+      "INBOX_AGENTS": "Kullanicilar",
+      "INBOX_AGENTS_SUB_TEXT": "Bu gelen kutusuna araci ekleyin veya aracilari kaldirin",
+      "AGENT_ASSIGNMENT": "G�r�sme Atama",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "G�r�sme atama ayarlarini g�ncelle",
+      "UPDATE": "G�ncelleme",
+      "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinlestir",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konusmalarda e-posta toplama kutusunu etkinlestir veya devre disi birak",
+      "AUTO_ASSIGNMENT": "Otomatik atamayi etkinlestir",
+      "SENDER_NAME_SECTION": "E-postada Ajan Adini Etkinlestir",
+      "SENDER_NAME_SECTION_TEXT": "E-postada Ajanin adini g�stermeyi/Devre disi birakmayi etkinlestirin, devre disi birakildiginda is adini g�sterir",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta araciligiyla konusma s�rekliligini etkinlestir",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konusmalar e-posta araciligiyla devam eder.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarları",
-      "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarınızı güncelleyin",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracılara yeni konuşmaların otomatik olarak atanmasını etkinleştirin veya devre dışı bırakın.",
-      "HMAC_VERIFICATION": "Kullanıcı Kimliği Doğrulama",
-      "HMAC_DESCRIPTION": "Bu anahtar ile kullanıcılarınızın kimliğini doğrulamak için kullanılabilecek gizli bir belirteç oluşturabilirsiniz.",
-      "HMAC_LINK_TO_DOCS": "Daha fazla bilgi için buraya göz atabilirsiniz.",
-      "HMAC_MANDATORY_VERIFICATION": "Zorunlu Kullanıcı Kimliği Doğrulama",
-      "HMAC_MANDATORY_DESCRIPTION": "Etkinleştirilmişse doğrulanamayan istekler reddedilecektir.",
-      "INBOX_IDENTIFIER": "Gelen Kutusu Tanımlayıcı",
-      "INBOX_IDENTIFIER_SUB_TEXT": "API istemcilerinizi kimlik doğrulamak için burada gösterilen `inbox_identifier` belirteci ile kullanın.",
-      "FORWARD_EMAIL_TITLE": "E-postaya İlet",
-      "FORWARD_EMAIL_SUB_TEXT": "E-postalarınızı aşağıdaki e-posta adresine iletmeye başlayın.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "E-postaların gelen kutunuza yönlendirilmesi bu kurulumda şu anda devre dışı bırakılmıştır. Bu özelliği kullanabilmek için yöneticiniz tarafından etkinleştirilmesi gerekmektedir. Devam etmek için lütfen yönetici ile iletişime geçin.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Çözülen konuşmadan sonra mesajlara izin ver",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Konuşma çözüldükten sonra bile son kullanıcılara mesaj göndermelerine izin ver.",
-      "WHATSAPP_SECTION_SUBHEADER": "Bu API Anahtarı, WhatsApp API'larıyla entegrasyon için kullanılır.",
+      "INBOX_UPDATE_TITLE": "Gelen Kutusu Ayarlari",
+      "INBOX_UPDATE_SUB_TEXT": "Gelen kutusu ayarlarinizi g�ncelleyin",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Bu gelen kutusuna eklenen aracilara yeni konusmalarin otomatik olarak atanmasini etkinlestirin veya devre disi birakin.",
+      "HMAC_VERIFICATION": "Kullanici Kimligi Dogrulama",
+      "HMAC_DESCRIPTION": "Bu anahtar ile kullanicilarinizin kimligini dogrulamak i�in kullanilabilecek gizli bir belirte� olusturabilirsiniz.",
+      "HMAC_LINK_TO_DOCS": "Daha fazla bilgi i�in buraya g�z atabilirsiniz.",
+      "HMAC_MANDATORY_VERIFICATION": "Zorunlu Kullanici Kimligi Dogrulama",
+      "HMAC_MANDATORY_DESCRIPTION": "Etkinlestirilmisse dogrulanamayan istekler reddedilecektir.",
+      "INBOX_IDENTIFIER": "Gelen Kutusu Tanimlayici",
+      "INBOX_IDENTIFIER_SUB_TEXT": "API istemcilerinizi kimlik dogrulamak i�in burada g�sterilen `inbox_identifier` belirteci ile kullanin.",
+      "FORWARD_EMAIL_TITLE": "E-postaya Ilet",
+      "FORWARD_EMAIL_SUB_TEXT": "E-postalarinizi asagidaki e-posta adresine iletmeye baslayin.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "E-postalarin gelen kutunuza y�nlendirilmesi bu kurulumda su anda devre disi birakilmistir. Bu �zelligi kullanabilmek i�in y�neticiniz tarafindan etkinlestirilmesi gerekmektedir. Devam etmek i�in l�tfen y�netici ile iletisime ge�in.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "��z�len konusmadan sonra mesajlara izin ver",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Konusma ��z�ld�kten sonra bile son kullanicilara mesaj g�ndermelerine izin ver.",
+      "WHATSAPP_SECTION_SUBHEADER": "Bu API Anahtari, WhatsApp API'lariyla entegrasyon i�in kullanilir.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
-      "WHATSAPP_SECTION_TITLE": "API Anahtarı",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "API Anahtarını Güncelle",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Yeni API Anahtarını buraya girin",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Güncelleme",
+      "WHATSAPP_SECTION_TITLE": "API Anahtari",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API Anahtarini G�ncelle",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Yeni API Anahtarini buraya girin",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "G�ncelleme",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
-      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Bu gelen kutusu, WhatsApp embedded signup yoluyla bağlandı.",
-      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "WhatsApp Business ayarlarınızı güncellemek için bu gelen kutusunu yeniden yapılandırabilirsiniz.",
-      "WHATSAPP_RECONFIGURE_BUTTON": "Yeniden yapılandır",
-      "WHATSAPP_CONNECT_TITLE": "WhatsApp Business'a Bağlan",
-      "WHATSAPP_CONNECT_SUBHEADER": "Daha kolay yönetim için WhatsApp gömülü kayda (embedded signup) yükseltin.",
-      "WHATSAPP_CONNECT_DESCRIPTION": "Gelişmiş özellikler ve daha kolay yönetim için bu gelen kutusunu WhatsApp Business'a bağlayın.",
-      "WHATSAPP_CONNECT_BUTTON": "Bağlan",
-      "WHATSAPP_CONNECT_SUCCESS": "WhatsApp Business'a başarıyla bağlandı!",
-      "WHATSAPP_CONNECT_ERROR": "WhatsApp Business'a bağlanılamadı. Lütfen tekrar deneyin.",
-      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business başarıyla yeniden yapılandırıldı!",
-      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp Business yeniden yapılandırılamadı. Lütfen tekrar deneyin.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapılandırma Kimliği yapılandırılmamış. Lütfen yöneticinize başvurun.",
-      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp oturum açma işlemi iptal edildi. Lütfen tekrar deneyin.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Anahtarı",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Bu belirteç, webhook uç noktasının gerçekliğini doğrulamak için kullanılır.",
-      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Şablonları Senkronize Et",
-      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp'tan mesaj şablonlarını manuel olarak senkronize ederek mevcut şablonlarınızı güncelleyin.",
-      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Şablonları Senkronize Et",
-      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Şablon senkronizasyonu başarıyla başlatıldı. Güncellenmesi birkaç dakika sürebilir.",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "Bu gelen kutusu, WhatsApp embedded signup yoluyla baglandi.",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "WhatsApp Business ayarlarinizi g�ncellemek i�in bu gelen kutusunu yeniden yapilandirabilirsiniz.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Yeniden yapilandir",
+      "WHATSAPP_CONNECT_TITLE": "WhatsApp Business'a Baglan",
+      "WHATSAPP_CONNECT_SUBHEADER": "Daha kolay y�netim i�in WhatsApp g�m�l� kayda (embedded signup) y�kseltin.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Gelismis �zellikler ve daha kolay y�netim i�in bu gelen kutusunu WhatsApp Business'a baglayin.",
+      "WHATSAPP_CONNECT_BUTTON": "Baglan",
+      "WHATSAPP_CONNECT_SUCCESS": "WhatsApp Business'a basariyla baglandi!",
+      "WHATSAPP_CONNECT_ERROR": "WhatsApp Business'a baglanilamadi. L�tfen tekrar deneyin.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "WhatsApp Business basariyla yeniden yapilandirildi!",
+      "WHATSAPP_RECONFIGURE_ERROR": "WhatsApp Business yeniden yapilandirilamadi. L�tfen tekrar deneyin.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp Uygulama Kimligi yapilandirilmamis. L�tfen y�neticinize basvurun.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Yapilandirma Kimligi yapilandirilmamis. L�tfen y�neticinize basvurun.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp oturum a�ma islemi iptal edildi. L�tfen tekrar deneyin.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Onay Anahtari",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Bu belirte�, webhook u� noktasinin ger�ekligini dogrulamak i�in kullanilir.",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sablonlari Senkronize Et",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "WhatsApp'tan mesaj sablonlarini manuel olarak senkronize ederek mevcut sablonlarinizi g�ncelleyin.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sablonlari Senkronize Et",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Sablon senkronizasyonu basariyla baslatildi. G�ncellenmesi birka� dakika s�rebilir.",
       "WHATSAPP_CALLING_ENABLED": {
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet Öncesi Form Ayarlarını Güncelleme"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Sohbet �ncesi Form Ayarlarini G�ncelleme"
     },
     "HELP_CENTER": {
-      "LABEL": "Yardım Merkezi",
-      "PLACEHOLDER": "Yardım Merkezi Seçin",
-      "SELECT_PLACEHOLDER": "Yardım Merkezi Seçin",
-      "NONE": "Hiç",
-      "REMOVE": "Yardım Merkezini Kaldır",
-      "SUB_TEXT": "Yardım Merkezini gelen kutusuna ekleyin"
+      "LABEL": "Yardim Merkezi",
+      "PLACEHOLDER": "Yardim Merkezi Se�in",
+      "SELECT_PLACEHOLDER": "Yardim Merkezi Se�in",
+      "NONE": "Hi�",
+      "REMOVE": "Yardim Merkezini Kaldir",
+      "SUB_TEXT": "Yardim Merkezini gelen kutusuna ekleyin"
     },
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Otomatik atama limiti",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Lütfen 0'dan büyük bir değer girin",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Bu gelen kutusundan otomatik olarak bir ajanın atanabileceği maksimum konuşma sayısını sınırlayın"
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "L�tfen 0'dan b�y�k bir deger girin",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Bu gelen kutusundan otomatik olarak bir ajanin atanabilecegi maksimum konusma sayisini sinirlayin"
     },
     "ASSIGNMENT": {
-      "TITLE": "Görüşme Atama",
+      "TITLE": "G�r�sme Atama",
       "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
       "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
@@ -857,7 +857,7 @@
       "CUSTOMIZE_WITH_POLICY": "Customize with assignment policy",
       "USING_POLICY": "Using custom assignment policy for this inbox",
       "CUSTOMIZE_POLICY": "Customize with assignment policy",
-      "DELETE_POLICY": "Politikayı sil",
+      "DELETE_POLICY": "Politikayi sil",
       "POLICY_LABEL": "Assignment policy",
       "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
       "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
@@ -888,20 +888,20 @@
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
-      "CANCEL": "İptal Et",
+      "CANCEL": "Iptal Et",
       "CONFIRM_DELETE": "Sil",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Yeniden Yetkilendir",
-      "SUBTITLE": "Facebook bağlantınızın süresi doldu, hizmetlere devam etmek için lütfen Facebook sayfanızı yeniden bağlayın",
-      "MESSAGE_SUCCESS": "Yeniden bağlantı başarılı",
-      "MESSAGE_ERROR": "Bir hata oluştu, lütfen tekrar deneyin"
+      "SUBTITLE": "Facebook baglantinizin s�resi doldu, hizmetlere devam etmek i�in l�tfen Facebook sayfanizi yeniden baglayin",
+      "MESSAGE_SUCCESS": "Yeniden baglanti basarili",
+      "MESSAGE_ERROR": "Bir hata olustu, l�tfen tekrar deneyin"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Sohbet öncesi formlar, kullanıcılardan sohbet başlamadan önce bilgi toplamanıza olanak tanır.",
-      "SET_FIELDS": "Sohbet Giriş Formu Alanları",
+      "DESCRIPTION": "Sohbet �ncesi formlar, kullanicilardan sohbet baslamadan �nce bilgi toplamaniza olanak tanir.",
+      "SET_FIELDS": "Sohbet Giris Formu Alanlari",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Alanlar",
         "LABEL": "Etiket",
@@ -911,45 +911,45 @@
         "REQUIRED": "Zorunlu"
       },
       "ENABLE": {
-        "LABEL": "Görüşme öncesi formu etkinleştir",
+        "LABEL": "G�r�sme �ncesi formu etkinlestir",
         "OPTIONS": {
           "ENABLED": "Evet",
-          "DISABLED": "Hayır"
+          "DISABLED": "Hayir"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Görüşme öncesi mesaj",
-        "PLACEHOLDER": "Bu mesaj, kullanıcılara form ile birlikte görünecek"
+        "LABEL": "G�r�sme �ncesi mesaj",
+        "PLACEHOLDER": "Bu mesaj, kullanicilara form ile birlikte g�r�necek"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Ziyaretçilerin sohbeti başlamadan önce ad ve e-posta adresi sağlaması gerekmektedir"
+        "LABEL": "Ziyaret�ilerin sohbeti baslamadan �nce ad ve e-posta adresi saglamasi gerekmektedir"
       }
     },
     "CSAT": {
-      "TITLE": "CSAT'yi etkinleştir",
-      "SUBTITLE": "Müşterilerin destek deneyimleri hakkındaki düşüncelerini anlamak için konuşma sonunda CSAT anketlerini (Müşteri Memnuniyeti Anketleri) otomatik olarak tetikleyin. Memnuniyet eğilimlerini takip edin ve zaman içinde iyileştirme alanlarını belirleyin.",
+      "TITLE": "CSAT'yi etkinlestir",
+      "SUBTITLE": "M�sterilerin destek deneyimleri hakkindaki d�s�ncelerini anlamak i�in konusma sonunda CSAT anketlerini (M�steri Memnuniyeti Anketleri) otomatik olarak tetikleyin. Memnuniyet egilimlerini takip edin ve zaman i�inde iyilestirme alanlarini belirleyin.",
       "DISPLAY_TYPE": {
-        "LABEL": "Görüntüleme türü"
+        "LABEL": "G�r�nt�leme t�r�"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
-        "PLACEHOLDER": "Form ile kullanıcılara göstermek için bir mesaj girin"
+        "PLACEHOLDER": "Form ile kullanicilara g�stermek i�in bir mesaj girin"
       },
       "BUTTON_TEXT": {
         "LABEL": "Button text",
-        "PLACEHOLDER": "Lütfen bizi değerlendirin"
+        "PLACEHOLDER": "L�tfen bizi degerlendirin"
       },
       "LANGUAGE": {
         "LABEL": "Dil",
         "PLACEHOLDER": "Select template language"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Mesaj önizlemesi",
+        "LABEL": "Mesaj �nizlemesi",
         "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "WhatsApp tarafından onaylandı",
-        "PENDING": "WhatsApp onayı bekleniyor",
+        "APPROVED": "WhatsApp tarafindan onaylandi",
+        "PENDING": "WhatsApp onayi bekleniyor",
         "REJECTED": "Meta rejected the template",
         "DEFAULT": "Needs WhatsApp approval",
         "NOT_FOUND": "The template does not exist in the Meta platform."
@@ -959,9 +959,9 @@
         "ERROR_MESSAGE": "Failed to create WhatsApp template"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Anket ayrıntılarını düzenle",
+        "TITLE": "Anket ayrintilarini d�zenle",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Yeni şablon oluştur",
+        "CONFIRM": "Yeni sablon olustur",
         "CANCEL": "Geri git"
       },
       "UTILITY_ANALYZER": {
@@ -979,97 +979,97 @@
         }
       },
       "SURVEY_RULE": {
-        "LABEL": "Anket kuralı",
-        "DESCRIPTION_PREFIX": "Sohbet olursa anketi gönder",
+        "LABEL": "Anket kurali",
+        "DESCRIPTION_PREFIX": "Sohbet olursa anketi g�nder",
         "DESCRIPTION_SUFFIX": "etiketlerden herhangi biri",
         "OPERATOR": {
-          "CONTAINS": "i̇çerir",
-          "DOES_NOT_CONTAINS": "i̇çermez"
+          "CONTAINS": "i?�erir",
+          "DOES_NOT_CONTAINS": "i?�ermez"
         },
-        "SELECT_PLACEHOLDER": "etiketleri seç"
+        "SELECT_PLACEHOLDER": "etiketleri se�"
       },
-      "NOTE": "Not: CSAT anketleri, konuşma başına yalnızca bir kez gönderilir",
+      "NOTE": "Not: CSAT anketleri, konusma basina yalnizca bir kez g�nderilir",
       "WHATSAPP_NOTE": "Note: When you save, the system creates a dedicated CSAT template in WhatsApp (used to capture rating and feedback in reports) and submits it as Utility for approval. Meta may still classify it as Marketing based on content. After approval, surveys are sent only once per conversation as per the survey rule.",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
-        "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."
+        "SUCCESS_MESSAGE": "CSAT ayarlari basariyla g�ncellendi",
+        "ERROR_MESSAGE": "CSAT ayarlari g�ncellenemedi. L�tfen daha sonra tekrar deneyin."
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Uygunluk Durumunuzu Ayarlayın",
-      "SUBTITLE": "Canlı sohbet widget'ınızda uygunluk durumunuzu ayarlayın",
-      "WEEKLY_TITLE": "Haftalık saatlerinizi ayarlayın",
-      "TIMEZONE_LABEL": "Zaman Dilimini Seçin",
-      "UPDATE": "İş Saatleri Ayarlarını Güncelle",
-      "TOGGLE_AVAILABILITY": "Bu gelen kutusu için iş uygunluğunu etkinleştir",
-      "UNAVAILABLE_MESSAGE_LABEL": "Ziyaretçiler için uygun değil mesajı",
-      "TOGGLE_HELP": "İşletme erişilebilirliğini etkinleştirmek, tüm temsilciler çevrimdışı olsa bile canlı sohbet ekranında mevcut saatleri gösterecektir. Mevcut saatler dışında ziyaretçiler bir mesaj ve ön sohbet formu ile uyarılabilir.",
+      "TITLE": "Uygunluk Durumunuzu Ayarlayin",
+      "SUBTITLE": "Canli sohbet widget'inizda uygunluk durumunuzu ayarlayin",
+      "WEEKLY_TITLE": "Haftalik saatlerinizi ayarlayin",
+      "TIMEZONE_LABEL": "Zaman Dilimini Se�in",
+      "UPDATE": "Is Saatleri Ayarlarini G�ncelle",
+      "TOGGLE_AVAILABILITY": "Bu gelen kutusu i�in is uygunlugunu etkinlestir",
+      "UNAVAILABLE_MESSAGE_LABEL": "Ziyaret�iler i�in uygun degil mesaji",
+      "TOGGLE_HELP": "Isletme erisilebilirligini etkinlestirmek, t�m temsilciler �evrimdisi olsa bile canli sohbet ekraninda mevcut saatleri g�sterecektir. Mevcut saatler disinda ziyaret�iler bir mesaj ve �n sohbet formu ile uyarilabilir.",
       "DAY": {
-        "DAY": "Gün",
+        "DAY": "G�n",
         "AVAILABILITY": "Uygunluk",
         "HOURS": "Saat",
-        "ENABLE": "Bu gün için uygunluğu etkinleştir",
-        "UNAVAILABLE": "Uygun Değil",
-        "VALIDATION_ERROR": "Başlangıç saati kapanış saatinden önce olmalıdır.",
-        "CHOOSE": "Seçin"
+        "ENABLE": "Bu g�n i�in uygunlugu etkinlestir",
+        "UNAVAILABLE": "Uygun Degil",
+        "VALIDATION_ERROR": "Baslangi� saati kapanis saatinden �nce olmalidir.",
+        "CHOOSE": "Se�in"
       },
-      "ALL_DAY": "Tüm Gün"
+      "ALL_DAY": "T�m G�n"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "IMAP detaylarınızı ayarlayın",
-      "NOTE_TEXT": "SMTP'yi etkinleştirmek için lütfen IMAP'ı yapılandırın.",
-      "UPDATE": "IMAP ayarlarını güncelle",
-      "TOGGLE_AVAILABILITY": "Bu gelen kutusu için IMAP yapılandırmasını etkinleştir",
+      "SUBTITLE": "IMAP detaylarinizi ayarlayin",
+      "NOTE_TEXT": "SMTP'yi etkinlestirmek i�in l�tfen IMAP'i yapilandirin.",
+      "UPDATE": "IMAP ayarlarini g�ncelle",
+      "TOGGLE_AVAILABILITY": "Bu gelen kutusu i�in IMAP yapilandirmasini etkinlestir",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP ayarları başarıyla güncellendi",
-        "ERROR_MESSAGE": "IMAP ayarları güncellenemedi"
+        "SUCCESS_MESSAGE": "IMAP ayarlari basariyla g�ncellendi",
+        "ERROR_MESSAGE": "IMAP ayarlari g�ncellenemedi"
       },
       "ADDRESS": {
         "LABEL": "Adres",
-        "PLACE_HOLDER": "Adres (Örnek: imap.gmail.com)"
+        "PLACE_HOLDER": "Adres (�rnek: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Giriş",
-        "PLACE_HOLDER": "Giriş"
+        "LABEL": "Giris",
+        "PLACE_HOLDER": "Giris"
       },
       "PASSWORD": {
         "LABEL": "Parola",
         "PLACE_HOLDER": "Parola"
       },
-      "ENABLE_SSL": "SSL'yi Etkinleştir",
-      "AUTH_MECHANISM": "Kimlik Doğrulama"
+      "ENABLE_SSL": "SSL'yi Etkinlestir",
+      "AUTH_MECHANISM": "Kimlik Dogrulama"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "MICROSOFT hesabınızı tekrar yetkilendirin"
+      "SUBTITLE": "MICROSOFT hesabinizi tekrar yetkilendirin"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "SMTP detaylarınızı ayarlayın",
-      "UPDATE": "SMTP ayarlarını güncelle",
-      "TOGGLE_AVAILABILITY": "Bu gelen kutusu için SMTP yapılandırmasını etkinleştir",
-      "TOGGLE_HELP": "SMTP'yi etkinleştirmek, kullanıcının e-posta göndermesine yardımcı olacaktır",
+      "SUBTITLE": "SMTP detaylarinizi ayarlayin",
+      "UPDATE": "SMTP ayarlarini g�ncelle",
+      "TOGGLE_AVAILABILITY": "Bu gelen kutusu i�in SMTP yapilandirmasini etkinlestir",
+      "TOGGLE_HELP": "SMTP'yi etkinlestirmek, kullanicinin e-posta g�ndermesine yardimci olacaktir",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP ayarları başarıyla güncellendi",
-        "ERROR_MESSAGE": "SMTP ayarları güncellenemedi"
+        "SUCCESS_MESSAGE": "SMTP ayarlari basariyla g�ncellendi",
+        "ERROR_MESSAGE": "SMTP ayarlari g�ncellenemedi"
       },
       "ADDRESS": {
         "LABEL": "Adres",
-        "PLACE_HOLDER": "Adres (Örnek: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adres (�rnek: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Giriş",
-        "PLACE_HOLDER": "Giriş"
+        "LABEL": "Giris",
+        "PLACE_HOLDER": "Giris"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -1079,42 +1079,42 @@
         "LABEL": "Alan",
         "PLACE_HOLDER": "Alan"
       },
-      "ENCRYPTION": "Şifreleme",
+      "ENCRYPTION": "Sifreleme",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Doğrulama Modu",
-      "AUTH_MECHANISM": "Kimlik Doğrulama"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Dogrulama Modu",
+      "AUTH_MECHANISM": "Kimlik Dogrulama"
     },
     "NOTE": "Not: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Web Sitesi Avatarı",
+          "LABEL": "Web Sitesi Avatari",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar başarıyla silindi",
-              "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
+              "SUCCESS_MESSAGE": "Avatar basariyla silindi",
+              "ERROR_MESSAGE": "Bir hata olustu, l�tfen tekrar deneyin"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Web Sitesi Adı",
-          "PLACE_HOLDER": "Web sitenizin adını girin",
-          "ERROR": "Lütfen geçerli bir web sitesi adı girin"
+          "LABEL": "Web Sitesi Adi",
+          "PLACE_HOLDER": "Web sitenizin adini girin",
+          "ERROR": "L�tfen ge�erli bir web sitesi adi girin"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Hoş Geldiniz Başlığı",
+          "LABEL": "Hos Geldiniz Basligi",
           "PLACE_HOLDER": "Merhaba!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Hoş Geldiniz Etiketi",
-          "PLACE_HOLDER": "Bizimle bağlantı kurmayı kolaylaştırıyoruz. Bize bir şey sorun veya görüşlerinizi paylaşın."
+          "LABEL": "Hos Geldiniz Etiketi",
+          "PLACE_HOLDER": "Bizimle baglanti kurmayi kolaylastiriyoruz. Bize bir sey sorun veya g�r�slerinizi paylasin."
         },
         "REPLY_TIME": {
-          "LABEL": "Yanıt Süresi",
-          "IN_A_FEW_MINUTES": "Birkaç dakika içinde",
-          "IN_A_FEW_HOURS": "Birkaç saat içinde",
-          "IN_A_DAY": "Bir gün içinde"
+          "LABEL": "Yanit S�resi",
+          "IN_A_FEW_MINUTES": "Birka� dakika i�inde",
+          "IN_A_FEW_HOURS": "Birka� saat i�inde",
+          "IN_A_DAY": "Bir g�n i�inde"
         },
         "WIDGET_COLOR_LABEL": "Widget Rengi",
         "WIDGET_BUBBLE": "Bubble",
@@ -1126,61 +1126,61 @@
           "PLACE_HOLDER": "Sohbet et"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Widget Ayarlarını Güncelle",
+          "BUTTON_TEXT": "Widget Ayarlarini G�ncelle",
           "API": {
-            "SUCCESS_MESSAGE": "Widget ayarları başarıyla güncellendi",
-            "ERROR_MESSAGE": "Widget ayarları güncellenemedi"
+            "SUCCESS_MESSAGE": "Widget ayarlari basariyla g�ncellendi",
+            "ERROR_MESSAGE": "Widget ayarlari g�ncellenemedi"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Önizleme",
-          "SCRIPT": "Komut Dosyası"
+          "PREVIEW": "�nizleme",
+          "SCRIPT": "Komut Dosyasi"
         },
         "WIDGET_BUBBLE_POSITION": {
           "LEFT": "Sol",
-          "RIGHT": "Sağ"
+          "RIGHT": "Sag"
         },
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standart",
-          "EXPANDED_BUBBLE": "Genişletilmiş Kabarcık"
+          "EXPANDED_BUBBLE": "Genisletilmis Kabarcik"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Varsayılan",
+        "DEFAULT": "Varsayilan",
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Genellikle birkaç dakika içinde yanıt verir",
-        "IN_A_FEW_HOURS": "Genellikle birkaç saat içinde yanıt verir",
-        "IN_A_DAY": "Genellikle bir gün içinde yanıtlar"
+        "IN_A_FEW_MINUTES": "Genellikle birka� dakika i�inde yanit verir",
+        "IN_A_FEW_HOURS": "Genellikle birka� saat i�inde yanit verir",
+        "IN_A_DAY": "Genellikle bir g�n i�inde yanitlar"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Görüşmeyi Başlatın",
-        "CHAT_INPUT_PLACEHOLDER": "Mesajınız"
+        "START_CONVERSATION_BUTTON_TEXT": "G�r�smeyi Baslatin",
+        "CHAT_INPUT_PLACEHOLDER": "Mesajiniz"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Çevrimiçiyiz",
-          "OFFLINE": "Şu an operatörlerimiz müsait değil"
+          "ONLINE": "�evrimi�iyiz",
+          "OFFLINE": "Su an operat�rlerimiz m�sait degil"
         },
         "USER_MESSAGE": "Merhaba",
         "AGENT_MESSAGE": "Merhaba"
       },
-      "BRANDING_TEXT": "Chatwoot tarafından desteklenmektedir",
-      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Thynex tarafindan desteklenmektedir",
+      "SCRIPT_SETTINGS": "\nwindow.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
         "TITLE": "Microsoft",
-        "DESCRIPTION": "Microsoft ile giriş yap"
+        "DESCRIPTION": "Microsoft ile giris yap"
       },
       "GOOGLE": {
         "TITLE": "Google",
-        "DESCRIPTION": "Google ile giriş yap"
+        "DESCRIPTION": "Google ile giris yap"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Diğer Sağlayıcılar",
-        "DESCRIPTION": "Diğer Sağlayıcılar ile giriş yap"
+        "TITLE": "Diger Saglayicilar",
+        "DESCRIPTION": "Diger Saglayicilar ile giris yap"
       }
     },
     "CHANNELS": {
@@ -1193,10 +1193,12 @@
       "EMAIL": "E-Posta",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanalı",
+      "API": "API Kanali",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Ses"
     }
   }
 }
+
+

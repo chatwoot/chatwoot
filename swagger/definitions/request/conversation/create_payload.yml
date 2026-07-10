@@ -1,4 +1,4 @@
-type: object
+﻿type: object
 required:
   - source_id
 properties:
@@ -75,4 +75,5 @@ properties:
             type: object
             description: The processed param values for template variables in template
             example:
-              1: 'Chatwoot'
+              1: 'Thynex'
+

@@ -1,4 +1,4 @@
-import accountAPI from '../account';
+﻿import accountAPI from '../account';
 import ApiClient from '../ApiClient';
 
 describe('#accountAPI', () => {
@@ -31,11 +31,12 @@ describe('#accountAPI', () => {
 
     it('#createAccount', () => {
       accountAPI.createAccount({
-        name: 'Chatwoot',
+        name: 'Thynex',
       });
       expect(axiosMock.post).toHaveBeenCalledWith('/api/v1/accounts', {
-        name: 'Chatwoot',
+        name: 'Thynex',
       });
     });
   });
 });
+

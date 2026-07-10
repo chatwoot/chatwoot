@@ -1,4 +1,4 @@
-module Redis::Config
+﻿module Redis::Config
   DEFAULT_SENTINEL_PORT ||= '26379'.freeze
   class << self
     def app
@@ -13,7 +13,7 @@ module Redis::Config
       {
         url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
         password: ENV.fetch('REDIS_PASSWORD', nil).presence,
-        ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
+        ssl_params: { verify_mode: Thynex.redis_ssl_verify_mode },
         reconnect_attempts: 2,
         timeout: 1
       }
@@ -47,3 +47,4 @@ module Redis::Config
     end
   end
 end
+

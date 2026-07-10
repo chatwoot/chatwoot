@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Lütfen sol bölmeden bir konuşma seçin",
     "CSAT_REPLY_MESSAGE": "Lütfen görüşmeyi değerlendirin",
@@ -282,7 +282,7 @@
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Mesaj gönderilemedi! Tekrar deneyin",
     "TRY_AGAIN": "tekrar dene",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

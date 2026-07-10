@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "建立帳號",
-    "GET_STARTED": "開始使用 Chatwoot",
+    "GET_STARTED": "開始使用 Thynex",
     "TITLE": "註冊",
     "TESTIMONIAL_HEADER": "只需一步即可向前邁進",
     "TESTIMONIAL_CONTENT": "您只差一步就能與客戶互動、留住他們並發掘新客戶。",
-    "TERMS_ACCEPT": "建立帳號即表示您同意我們的<a href=\"https://www.chatwoot.com/terms\">服務條款</a>和<a href=\"https://www.chatwoot.com/privacy-policy\">隱私政策</a>",
+    "TERMS_ACCEPT": "建立帳號即表示您同意我們的<a href=\"https://www.thynex.ai/terms\">服務條款</a>和<a href=\"https://www.thynex.ai/privacy-policy\">隱私政策</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "使用 Google 註冊"
     },
@@ -55,3 +55,4 @@
     }
   }
 }
+

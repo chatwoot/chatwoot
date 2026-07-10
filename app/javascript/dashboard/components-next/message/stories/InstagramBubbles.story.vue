@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, reactive, computed } from 'vue';
 import Message from '../Message.vue';
 
@@ -29,7 +29,7 @@ const getMessage = overrides => {
 
   return {
     id: 5272,
-    content: 'Hey, how are ya, I had a few questions about Chatwoot?',
+    content: 'Hey, how are ya, I had a few questions about Thynex?',
     inboxId: 475,
     conversationId: 43,
     messageType: 0,
@@ -135,3 +135,4 @@ const igReel = computed(() =>
     </Variant>
   </Story>
 </template>
+

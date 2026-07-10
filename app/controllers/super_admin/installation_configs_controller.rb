@@ -1,4 +1,4 @@
-class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationController
+﻿class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationController
   rescue_from ActiveRecord::RecordNotUnique, :with => :invalid_action_perfomed
   # Overwrite any of the RESTful controller actions to implement custom behavior
   # For example, you may want to send an email after a foo is updated.
@@ -72,7 +72,7 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
     message = translate_with_resource('create.success') if action_name == 'create'
     return { notice: message } unless restart_required_config?(resource)
 
-    { success: "#{message.delete_suffix('.')}. Restart Chatwoot web and worker processes to apply this change everywhere." }
+    { success: "#{message.delete_suffix('.')}. Restart Thynex web and worker processes to apply this change everywhere." }
   end
 
   def restart_required_config?(resource)
@@ -82,3 +82,4 @@ class SuperAdmin::InstallationConfigsController < SuperAdmin::ApplicationControl
   # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
   # for more information
 end
+

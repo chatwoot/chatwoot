@@ -1,4 +1,4 @@
-{
+﻿{
   "PROFILE_SETTINGS": {
     "LINK": "프로필 설정",
     "TITLE": "프로필 설정",
@@ -516,7 +516,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "SP 엔터티 ID",
         "HELP": "서비스 제공자로서 이 애플리케이션의 고유 식별자 (자동 생성).",
-        "TOOLTIP": "서비스 제공자로서의 Chatwoot 고유 식별자 - IdP 설정에서 이를 구성하십시오"
+        "TOOLTIP": "서비스 제공자로서의 Thynex 고유 식별자 - IdP 설정에서 이를 구성하십시오"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "ID 공급자 엔터티 ID",
@@ -611,7 +611,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Chatwoot 계정을 찾을 수 없습니다. 계속하려면 새 계정을 만드십시오.",
+    "NO_ACCOUNT_WARNING": "Thynex 계정을 찾을 수 없습니다. 계속하려면 새 계정을 만드십시오.",
     "NEW_ACCOUNT": "새 계정",
     "SELECTOR_SUBTITLE": "새 계정 만들기",
     "API": {
@@ -921,3 +921,4 @@
     }
   }
 }
+

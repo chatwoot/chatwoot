@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: account_saml_settings
 #
@@ -58,7 +58,7 @@ class AccountSamlSettings < ApplicationRecord
   end
 
   def installation_name
-    GlobalConfigService.load('INSTALLATION_NAME', 'Chatwoot')
+    GlobalConfigService.load('INSTALLATION_NAME', 'Thynex')
   end
 
   def update_account_users_provider
@@ -77,3 +77,4 @@ class AccountSamlSettings < ApplicationRecord
     errors.add(:certificate, I18n.t('errors.account_saml_settings.invalid_certificate'))
   end
 end
+

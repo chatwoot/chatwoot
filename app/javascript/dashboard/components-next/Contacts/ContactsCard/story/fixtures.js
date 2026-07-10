@@ -1,10 +1,10 @@
-export default [
+﻿export default [
   {
     additionalAttributes: {
       socialProfiles: {},
     },
     availabilityStatus: null,
-    email: 'johndoe@chatwoot.com',
+    email: 'johndoe@thynex.ai',
     id: 370,
     name: 'John Doe',
     phoneNumber: '+918634322418',
@@ -19,7 +19,7 @@ export default [
       city: 'kerala',
       country: 'India',
       description: 'Curious about the web. ',
-      companyName: 'Chatwoot',
+      companyName: 'Thynex',
       countryCode: '',
       socialProfiles: {
         github: 'abozler',
@@ -30,7 +30,7 @@ export default [
       },
     },
     availabilityStatus: null,
-    email: 'ozler@chatwoot.com',
+    email: 'ozler@thynex.ai',
     id: 29,
     name: 'Abraham Ozlers',
     phoneNumber: '+246232222222',
@@ -38,7 +38,7 @@ export default [
     thumbnail: 'https://api.dicebear.com/9.x/thumbs/svg?seed=Upload',
     customAttributes: {
       dateContact: '2024-02-01T00:00:00.000Z',
-      linkContact: 'https://staging.chatwoot.com/app/accounts/3/contacts-new',
+      linkContact: 'https://staging.thynex.ai/app/accounts/3/contacts-new',
       listContact: 'Not spam',
       numberContact: '12',
     },
@@ -50,8 +50,8 @@ export default [
       city: 'Kerala',
       country: 'India',
       description:
-        "I'm Candice developer focusing on building things for the web 🌍. Currently, I’m working as a Product Developer here at @chatwootapp ⚡️🔥",
-      companyName: 'Chatwoot',
+        "I'm Candice developer focusing on building things for the web 🌍. Currently, I’m working as a Product Developer here at @thynexapp ⚡️🔥",
+      companyName: 'Thynex',
       countryCode: 'IN',
       socialProfiles: {
         github: 'cmathersonj',
@@ -100,7 +100,7 @@ export default [
     phoneNumber: '',
     identifier: null,
     thumbnail:
-      'https://sivin-tunnel.chatwoot.dev/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBPZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dcac8eb72ef12b2cad92d58dddd04cd8a5f513/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/32.jpg',
+      'https://sivin-tunnel.thynex.ai/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBPZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--08dcac8eb72ef12b2cad92d58dddd04cd8a5f513/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/32.jpg',
     customAttributes: {},
     lastActivityAt: 1712123233,
     createdAt: 1712123233,
@@ -147,3 +147,4 @@ export default [
     createdAt: 1712123232,
   },
 ];
+

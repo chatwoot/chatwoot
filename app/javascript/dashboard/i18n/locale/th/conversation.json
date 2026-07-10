@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "กรุณาเลือกการสนทนาจากด้านซ้าย",
     "CSAT_REPLY_MESSAGE": "กรุณาให้คะแนนการสนทนาในครั้งนี้",
@@ -282,7 +282,7 @@
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "ไม่สามารถส่งข้อความได้ โปรดลองอีกครั้ง",
     "TRY_AGAIN": "ส่งอีกครั้ง",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 RSpec.describe Internal::ReconcilePlanConfigService do
   describe '#perform' do
@@ -31,7 +31,7 @@ RSpec.describe Internal::ReconcilePlanConfigService do
       end
 
       it 'will not create a premium config reset warning if config is not modified' do
-        create(:installation_config, name: 'INSTALLATION_NAME', value: 'Chatwoot')
+        create(:installation_config, name: 'INSTALLATION_NAME', value: 'Thynex')
         service.perform
         expect(Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING)).to be_nil
       end
@@ -40,7 +40,7 @@ RSpec.describe Internal::ReconcilePlanConfigService do
         create(:installation_config, name: 'INSTALLATION_NAME', value: 'custom-name')
         create(:installation_config, name: 'LOGO', value: '/custom-path/logo.svg')
         service.perform
-        expect(InstallationConfig.find_by(name: 'INSTALLATION_NAME').value).to eq('Chatwoot')
+        expect(InstallationConfig.find_by(name: 'INSTALLATION_NAME').value).to eq('Thynex')
         expect(InstallationConfig.find_by(name: 'LOGO').value).to eq('/brand-assets/logo.svg')
       end
     end
@@ -81,3 +81,4 @@ RSpec.describe Internal::ReconcilePlanConfigService do
     end
   end
 end
+

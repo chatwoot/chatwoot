@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+﻿# frozen_string_literal: true
 
 require_relative 'boot'
 
@@ -33,7 +33,7 @@ if ENV.fetch('JUDOSCALE_URL', false).present?
   require 'judoscale-sidekiq'
 end
 
-module Chatwoot
+module Thynex
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
@@ -112,3 +112,4 @@ module Chatwoot
     encryption_configured?
   end
 end
+

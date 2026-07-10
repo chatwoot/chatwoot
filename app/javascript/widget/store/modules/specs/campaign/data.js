@@ -1,4 +1,4 @@
-export const campaigns = [
+﻿export const campaigns = [
   {
     id: 1,
     title: 'Welcome',
@@ -7,7 +7,7 @@ export const campaigns = [
     inbox: {
       id: 37,
       channel_id: 1,
-      name: 'Chatwoot',
+      name: 'Thynex',
       channel_type: 'Channel::WebWidget',
     },
     sender: {
@@ -64,7 +64,7 @@ export const campaigns = [
     inbox: {
       id: 37,
       channel_id: 1,
-      name: 'Chatwoot',
+      name: 'Thynex',
       channel_type: 'Channel::WebWidget',
     },
     sender: {
@@ -84,3 +84,4 @@ export const campaigns = [
     updated_at: '2021-05-03T10:22:51.025Z',
   },
 ];
+

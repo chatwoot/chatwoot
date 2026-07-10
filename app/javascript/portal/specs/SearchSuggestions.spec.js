@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+﻿import { mount } from '@vue/test-utils';
 import { describe, it, expect, vi } from 'vitest';
 import SearchSuggestions from '../components/SearchSuggestions.vue';
 
@@ -20,7 +20,7 @@ describe('SearchSuggestions', () => {
         items: [
           {
             id: 1,
-            title: 'Chatwoot Glossary',
+            title: 'Thynex Glossary',
             content: 'Access Token',
             link: '/hc/user-guide/articles/1677141565-chatwoot-glossary',
           },
@@ -42,3 +42,4 @@ describe('SearchSuggestions', () => {
     );
   });
 });
+

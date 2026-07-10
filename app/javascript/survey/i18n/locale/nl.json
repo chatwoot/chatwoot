@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Beste klant 👋, neem even de tijd om feedback te delen over het gesprek dat u met {inboxName} hebt gehad.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Kan geen verbinding maken met Woot Server, probeer het later opnieuw"
     }
   },
-  "POWERED_BY": "Mogelijk gemaakt door Chatwoot"
+  "POWERED_BY": "Mogelijk gemaakt door Thynex"
 }
+

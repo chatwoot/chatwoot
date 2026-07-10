@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 RSpec.describe Captain::BaseTaskService, type: :model do
   let(:account) { create(:account) }
@@ -180,7 +180,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
       end
 
-      context 'when on Chatwoot Cloud' do
+      context 'when on Thynex Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         end
@@ -261,3 +261,4 @@ RSpec.describe Captain::BaseTaskService, type: :model do
     end
   end
 end
+

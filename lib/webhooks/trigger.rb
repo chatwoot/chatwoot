@@ -1,4 +1,4 @@
-class Webhooks::Trigger
+﻿class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
   RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
 
@@ -53,11 +53,11 @@ class Webhooks::Trigger
 
   def request_headers(body)
     headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
-    headers['X-Chatwoot-Delivery'] = @delivery_id if @delivery_id.present?
+    headers['X-Thynex-Delivery'] = @delivery_id if @delivery_id.present?
     if @secret.present?
       ts = Time.now.to_i.to_s
-      headers['X-Chatwoot-Timestamp'] = ts
-      headers['X-Chatwoot-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
+      headers['X-Thynex-Timestamp'] = ts
+      headers['X-Thynex-Signature'] = "sha256=#{OpenSSL::HMAC.hexdigest('SHA256', @secret, "#{ts}.#{body}")}"
     end
     headers
   end
@@ -132,3 +132,4 @@ class Webhooks::Trigger
     error.message.to_s[/\A(\d{3})\b/, 1]&.to_i
   end
 end
+

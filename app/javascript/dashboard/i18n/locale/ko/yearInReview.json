@@ -1,4 +1,4 @@
-{
+﻿{
   "YEAR_IN_REVIEW": {
     "TITLE": "연간 리뷰",
     "LOADING": "연간 리뷰를 불러오는 중...",
@@ -48,8 +48,8 @@
       "PREPARING": "이미지를 준비하는 중...",
       "DOWNLOAD": "다운로드",
       "SHARE_TITLE": "나의 {year}년 연간 리뷰",
-      "SHARE_TEXT": "Chatwoot과 함께한 나의 {year}년 연간 리뷰를 확인해 보세요!",
-      "BRANDING": "Made with Chatwoot"
+      "SHARE_TEXT": "Thynex과 함께한 나의 {year}년 연간 리뷰를 확인해 보세요!",
+      "BRANDING": "Made with Thynex"
     },
     "BANNER": {
       "TITLE": "{year}년 연간 리뷰가 도착했습니다",
@@ -62,3 +62,4 @@
     }
   }
 }
+

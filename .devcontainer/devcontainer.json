@@ -1,5 +1,5 @@
-{
-  "name": "Chatwoot Development Codespace",
+﻿{
+  "name": "Thynex Development Codespace",
   "service": "app",
   "dockerComposeFile": "docker-compose.yml",
 
@@ -47,3 +47,4 @@
     }
   }
 }
+

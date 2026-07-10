@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Label",
     "HEADER_BTN_TXT": "Tambah label",
@@ -50,7 +50,7 @@
         "DESELECT": "Nyahpilih label",
         "DISMISS": "Tolak cadangan"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "Tolak",
       "ADD_SELECTED_LABELS": "Tambah label yang dipilih",
       "ADD_SELECTED_LABEL": "Tambah label yang dipilih",
@@ -87,3 +87,4 @@
     }
   }
 }
+

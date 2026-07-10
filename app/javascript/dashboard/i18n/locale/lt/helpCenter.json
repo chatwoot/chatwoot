@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "Palaikymo centras",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategorija, skirta URL",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Yra reikalingas slug"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug kategorija, skirta URL",
             "ERROR": "Yra reikalingas slug",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Aprašymas",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "Sukurti",
       "NAME": {
         "LABEL": "Vardas",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | Thynex",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Yra reikalingas vardas"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to Thynex.help",
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",
@@ -956,3 +956,4 @@
     }
   }
 }
+

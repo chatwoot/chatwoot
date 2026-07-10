@@ -1,8 +1,8 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 describe Mfa::TokenService do
   before do
-    skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    skip('Skipping since MFA is not configured in this environment') unless Thynex.encryption_configured?
   end
 
   let(:user) { create(:user) }
@@ -70,3 +70,4 @@ describe Mfa::TokenService do
     end
   end
 end
+

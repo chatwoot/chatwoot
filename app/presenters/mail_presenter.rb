@@ -1,4 +1,4 @@
-class MailPresenter < SimpleDelegator
+﻿class MailPresenter < SimpleDelegator
   attr_accessor :mail
 
   def initialize(mail, account = nil)
@@ -175,7 +175,7 @@ class MailPresenter < SimpleDelegator
 
   def notification_email_from_chatwoot?
     # notification emails are send via mailer sender email address. so it should match
-    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Thynex <accounts@thynex.com>')).address
     original_sender.to_s.casecmp?(configured_sender)
   end
 
@@ -221,3 +221,4 @@ class MailPresenter < SimpleDelegator
     ((mail.content_type || '').include? 'multipart') || @mail.parts.any?
   end
 end
+

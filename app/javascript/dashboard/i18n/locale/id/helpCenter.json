@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "Pusat Bantuan",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategori untuk url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/id/kategori/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/id/kategori/my-slug",
           "ERROR": "Slug diperlukan"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Slug kategori untuk url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/id/kategori/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/id/kategori/my-slug",
           "ERROR": "Slug diperlukan"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug kategori untuk url",
             "ERROR": "Slug diperlukan",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Deskripsi",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "Buat",
       "NAME": {
         "LABEL": "Nama",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | Thynex",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Nama dibutuhkan"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
+            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to Thynex.help",
             "COPY": "Successfully copied CNAME",
             "SEND_INSTRUCTIONS": {
               "HEADER": "Send instructions",
@@ -956,3 +956,4 @@
     }
   }
 }
+

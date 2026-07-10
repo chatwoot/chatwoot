@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: integrations_hooks
 #
@@ -22,7 +22,7 @@ class Integrations::Hook < ApplicationRecord
   after_create :trigger_setup_if_crm
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
+  encrypts :access_token, deterministic: true if Thynex.encryption_configured?
 
   validates :account_id, presence: true
   validates :app_id, presence: true
@@ -178,3 +178,4 @@ class Integrations::Hook < ApplicationRecord
     %w[leadsquared].include?(app_id)
   end
 end
+

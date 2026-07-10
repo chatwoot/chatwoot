@@ -1,4 +1,4 @@
-{
+﻿{
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ara podeu rebre correus electrònics al vostre domini personalitzat."
       }
     },
-    "UPDATE_CHATWOOT": "L'actualització {latestChatwootVersion} per Chatwoot està disponible. Si us plau, actualitza l'instancia.",
+    "UPDATE_CHATWOOT": "L'actualització {latestChatwootVersion} per Thynex està disponible. Si us plau, actualitza l'instancia.",
     "LEARN_MORE": "Aprèn més",
-    "PAYMENT_PENDING": "El teu pagament està pendent. Actualitzeu la vostra informació de pagament per continuar utilitzant Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "El teu compte ha superat els límits d'ús, actualitza el pla per continuar utilitzant Chatwoot",
+    "PAYMENT_PENDING": "El teu pagament està pendent. Actualitzeu la vostra informació de pagament per continuar utilitzant Thynex",
+    "UPGRADE": "Upgrade to continue using Thynex",
+    "LIMITS_UPGRADE": "El teu compte ha superat els límits d'ús, actualitza el pla per continuar utilitzant Thynex",
     "OPEN_BILLING": "Obrir facturació"
   },
   "FORMS": {
@@ -250,3 +250,4 @@
     "CLICK_HERE": "clica aquí"
   }
 }
+

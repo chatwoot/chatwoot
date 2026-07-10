@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "የእርዳታ ማዕከል",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "ስልግ",
           "PLACEHOLDER": "ለURL የምድብ ስም",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug ያስፈልጋል"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "ስልግ",
           "PLACEHOLDER": "ለURL የምድብ ስም",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "Slug አስፈላጊ ነው"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "ስልግ",
             "PLACEHOLDER": "ለURL የምድብ ስም",
             "ERROR": "Slug አስፈላጊ ነው",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "መግለጫ",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "ፍጠር",
       "NAME": {
         "LABEL": "ስም",
-        "PLACEHOLDER": "የተጠቃሚ መመሪያ | Chatwoot",
+        "PLACEHOLDER": "የተጠቃሚ መመሪያ | Thynex",
         "MESSAGE": "ለፖርታልዎ ስም ይምረጡ።.",
         "ERROR": "ስም ያስፈልጋል"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "የDNS ቅንብር",
-            "DESCRIPTION": "ከDNS አቅራቢዎ ጋር ያለዎትን መለያ ይግቡ፣ እና ለsubdomain ወደ chatwoot.help የሚያመራ የCNAME መዝገብ ያክሉ",
+            "DESCRIPTION": "ከDNS አቅራቢዎ ጋር ያለዎትን መለያ ይግቡ፣ እና ለsubdomain ወደ help.thynex.ai የሚያመራ የCNAME መዝገብ ያክሉ",
             "COPY": "CNAME በተሳካ ሁኔታ ተቀይሯል",
             "SEND_INSTRUCTIONS": {
               "HEADER": "መመሪያዎችን ላክ",
@@ -956,3 +956,4 @@
     }
   }
 }
+

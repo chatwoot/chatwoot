@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Мітки",
     "HEADER_BTN_TXT": "Додати мітку",
@@ -50,7 +50,7 @@
         "DESELECT": "Скасувати вибір мітки",
         "DISMISS": "Відхилити пропозицію"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "Відхилити",
       "ADD_SELECTED_LABELS": "Додати вибрані мітки",
       "ADD_SELECTED_LABEL": "Додати вибрану мітку",
@@ -87,3 +87,4 @@
     }
   }
 }
+

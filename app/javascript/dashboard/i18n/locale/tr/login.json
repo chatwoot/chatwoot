@@ -1,6 +1,6 @@
-{
+﻿{
   "LOGIN": {
-    "TITLE": "Chatwoot'ta oturum açın",
+    "TITLE": "Thynex'ta oturum açın",
     "EMAIL": {
       "LABEL": "E-Posta",
       "PLACEHOLDER": "ornek{'@'}sirketadi.com",
@@ -39,3 +39,4 @@
     }
   }
 }
+

@@ -1,4 +1,4 @@
-class Crm::Leadsquared::SetupService
+﻿class Crm::Leadsquared::SetupService
   def initialize(hook)
     @hook = hook
     credentials = @hook.settings
@@ -104,6 +104,7 @@ class Crm::Leadsquared::SetupService
   end
 
   def brand_name
-    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'].presence || 'Chatwoot'
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'].presence || 'Thynex'
   end
 end
+

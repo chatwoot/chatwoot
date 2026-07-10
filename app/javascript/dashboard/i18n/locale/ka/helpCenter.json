@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "დახმარების ცენტრი",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "სლაგი",
           "PLACEHOLDER": "კატეგორიის slug url-ებისთვის",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "Slug-ის შეყვანა აუცილებელია"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "სლაგი",
           "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/ka-GE/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/ka-GE/categories/my-slug",
           "ERROR": "სლაგი აუცილებელია"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "სლაგი",
             "PLACEHOLDER": "კატეგორიის სლაგი url-ებისთვის",
             "ERROR": "სლაგი აუცილებელია",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "აღწერა",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "შექმნა",
       "NAME": {
         "LABEL": "სახელი",
-        "PLACEHOLDER": "მომხმარებლის სახელმძღვანელო | Chatwoot",
+        "PLACEHOLDER": "მომხმარებლის სახელმძღვანელო | Thynex",
         "MESSAGE": "აირჩიეთ პორტალის სახელი.",
         "ERROR": "სახელი აუცილებელია"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS კონფიგურაცია",
-            "DESCRIPTION": "შესვლა თქვენს DNS პროვაიდერთან დაკავშირებულ ანგარიშში და დაამატეთ CNAME ჩანაწერი ქვედომენისთვის, რომელიც მიუთითებს chatwoot.help-ზე",
+            "DESCRIPTION": "შესვლა თქვენს DNS პროვაიდერთან დაკავშირებულ ანგარიშში და დაამატეთ CNAME ჩანაწერი ქვედომენისთვის, რომელიც მიუთითებს help.thynex.ai-ზე",
             "COPY": "CNAME წარმატებით კოპირებულია",
             "SEND_INSTRUCTIONS": {
               "HEADER": "გაგზავნეთ ინსტრუქციები",
@@ -956,3 +956,4 @@
     }
   }
 }
+

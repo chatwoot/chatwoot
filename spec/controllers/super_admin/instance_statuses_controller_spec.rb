@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 RSpec.describe 'Super Admin Instance status', type: :request do
   let(:super_admin) { create(:super_admin) }
@@ -16,9 +16,10 @@ RSpec.describe 'Super Admin Instance status', type: :request do
         sign_in(super_admin, scope: :super_admin)
         get '/super_admin/instance_status'
         expect(response).to have_http_status(:success)
-        expect(response.body).to include('Chatwoot version')
+        expect(response.body).to include('Thynex version')
         expect(response.body).to include(GIT_HASH)
       end
     end
   end
 end
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "ラベル",
     "HEADER_BTN_TXT": "ラベルを追加",
@@ -50,7 +50,7 @@
         "DESELECT": "ラベルの選択を解除",
         "DISMISS": "提案を無視"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "提案を無視",
       "ADD_SELECTED_LABELS": "選択したラベルを追加",
       "ADD_SELECTED_LABEL": "選択したラベルを追加",
@@ -87,3 +87,4 @@
     }
   }
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Lataa",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Keskustele kanssamme"
   },
-  "POWERED_BY": "Palvelun tarjoaa Chatwoot",
+  "POWERED_BY": "Palvelun tarjoaa Thynex",
   "EMAIL_PLACEHOLDER": "Ole hyvä ja syötä sähköpostiosoitteesi",
   "CHAT_PLACEHOLDER": "Kirjoita viestisi",
   "TODAY": "Tänään",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Replying to:"
   }
 }
+

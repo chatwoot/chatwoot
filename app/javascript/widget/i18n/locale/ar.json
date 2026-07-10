@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "تحميل",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "تحدث الينا"
   },
-  "POWERED_BY": "مدعوم بواسطة Chatwoot",
+  "POWERED_BY": "مدعوم بواسطة Thynex",
   "EMAIL_PLACEHOLDER": "الرجاء إدخال بريدك الإلكتروني",
   "CHAT_PLACEHOLDER": "أكتب رسالتك",
   "TODAY": "اليوم",
@@ -151,3 +151,4 @@
     "REPLY_TO": "الرد على:"
   }
 }
+

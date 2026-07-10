@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,16 +330,16 @@ ar:
       description: 'تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot.'
+      short_description: 'Start video/voice calls with customers directly from Thynex.'
+      description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Thynex.'
       meeting_name: 'بدأ %{agent_name} اجتماعاً'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
+      description: "دمج Thynex مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
       name: 'Webhook'
-      description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات.'
+      description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Thynex الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Thynex لك اتصالات HTTP مع التحديثات.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'
@@ -569,3 +569,4 @@ ar:
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+

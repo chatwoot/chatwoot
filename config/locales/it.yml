@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,7 +330,7 @@ it:
       description: 'Le App Dashboard consentono di creare e incorporare applicazioni che mostrano informazioni sugli utenti, ordini o cronologia dei pagamenti, fornendo maggiore contesto agli operatori.'
     dyte:
       name: 'Dyte'
-      short_description: 'Avvia chiamate/videochiamate con i clienti direttamente da Chatwoot.'
+      short_description: 'Avvia chiamate/videochiamate con i clienti direttamente da Thynex.'
       description: 'Dyte è un prodotto che integra funzionalità audio e video nella tua applicazione. Grazie a questa integrazione, i tuoi operatori possono avviare videochiamate/chiamate vocali con i tuoi clienti direttamente da qui.'
       meeting_name: '%{agent_name} ha avviato un meeting'
     slack:
@@ -339,7 +339,7 @@ it:
       description: "Integra Slack per mantenere il tuo team sempre aggiornato. Questa integrazione ti consente di ricevere notifiche per le nuove conversazioni e di rispondere direttamente dall'interfaccia di Slack."
     webhooks:
       name: 'Webhook'
-      description: 'Gli eventi Webhook forniscono aggiornamenti in tempo reale sulle attività nel tuo account Chatwoot. Puoi iscriverti ai tuoi eventi preferiti, e Chatwoot ti invierà i callback HTTP con gli aggiornamenti.'
+      description: 'Gli eventi Webhook forniscono aggiornamenti in tempo reale sulle attività nel tuo account Thynex. Puoi iscriverti ai tuoi eventi preferiti, e Thynex ti invierà i callback HTTP con gli aggiornamenti.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Configura chatbot per gestire le richieste iniziali prima di trasferire agli operatori.'
@@ -549,3 +549,4 @@ it:
       no_subscriptions_to_test: 'Seleziona almeno una subscription da testare.'
       no_subscriptions_to_delete: 'Seleziona almeno una subscription da eliminare.'
       subscriptions_deleted: "Eliminate %{count} subscription. I dispositivi dell'utente dovranno essere ri-registrati al prossimo avvio dell'app."
+

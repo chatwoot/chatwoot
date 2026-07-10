@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+﻿import { test, expect } from '@playwright/test';
 import { Login } from '@components/ui';
 
 const TEST_EMAIL = process.env.TEST_USER_EMAIL || 'admin@chatwoot.com';
@@ -21,7 +21,7 @@ test.describe('Login page', () => {
   });
 
   test('renders all critical components', async ({ page }) => {
-    await expect(page).toHaveTitle('Chatwoot');
+    await expect(page).toHaveTitle('Thynex');
     await expect(loginComponent.getLoginHeading()).toBeVisible();
 
     const emailInput = loginComponent.getEmailInput();
@@ -63,3 +63,4 @@ test.describe('Login page', () => {
     await expect(page).toHaveURL(/\/app\/login/);
   });
 });
+

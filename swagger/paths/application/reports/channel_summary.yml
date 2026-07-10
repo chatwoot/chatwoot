@@ -1,4 +1,4 @@
-tags:
+﻿tags:
   - Reports
 operationId: get-channel-summary-report
 summary: Get conversation statistics grouped by channel type
@@ -8,7 +8,7 @@ description: |
   Get conversation counts grouped by channel type and status for a given date range.
   Returns statistics for each channel type including open, resolved, pending, snoozed, and total conversation counts.
 
-  **Note:** This API endpoint is available only in Chatwoot version 4.10.0 and above. The date range is limited to a maximum of 6 months.
+  **Note:** This API endpoint is available only in Thynex version 4.10.0 and above. The date range is limited to a maximum of 6 months.
 responses:
   '200':
     description: Success
@@ -28,3 +28,4 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/bad_request_error'
+

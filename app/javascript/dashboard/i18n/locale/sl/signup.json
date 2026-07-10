@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "Ustvari račun",
-    "GET_STARTED": "Get started with Chatwoot",
+    "GET_STARTED": "Get started with Thynex",
     "TITLE": "Registrirajte se",
     "TESTIMONIAL_HEADER": "Le še en korak, da napredujete",
     "TESTIMONIAL_CONTENT": "Ste le korak stran od tega, da pritegnete svoje stranke, jih obdržite in najdete nove.",
-    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://www.chatwoot.com/terms\">Pogoji uporabe</a> in z <a href=\"https://www.chatwoot.com/privacy-policy\">Politiko zasebnosti</a>",
+    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://www.thynex.ai/terms\">Pogoji uporabe</a> in z <a href=\"https://www.thynex.ai/privacy-policy\">Politiko zasebnosti</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Prijavite se z Googlom"
     },
@@ -55,3 +55,4 @@
     }
   }
 }
+

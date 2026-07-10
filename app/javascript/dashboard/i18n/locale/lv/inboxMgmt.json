@@ -1,64 +1,64 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Iesūtnes",
-    "DESCRIPTION": "Kanāls ir saziņas veids, ko klients izvēlas saziņai ar jums. Iesūtne ir vieta, kur pārvaldāt mijiedarbības ar noteiktu kanālu. Tas var ietvert saziņu no dažādiem avotiem, piemēram, e-pasta, tiešsaistes tērzēšanas un sociālajiem medijiem.",
-    "LEARN_MORE": "Uzzināt vairāk par iesūtnēm",
+    "HEADER": "Iesutnes",
+    "DESCRIPTION": "Kanals ir sazinas veids, ko klients izvelas sazinai ar jums. Iesutne ir vieta, kur parvaldat mijiedarbibas ar noteiktu kanalu. Tas var ietvert sazinu no da�adiem avotiem, piemeram, e-pasta, tie�saistes terze�anas un socialajiem medijiem.",
+    "LEARN_MORE": "Uzzinat vairak par iesutnem",
     "COUNT": "{n} inbox | {n} inboxes",
     "SEARCH_PLACEHOLDER": "Search inboxes...",
     "NO_RESULTS": "No inboxes found matching your search",
-    "RECONNECTION_REQUIRED": "Jūsu iesūtne ir atvienota. Jūs nesaņemsiet jaunus ziņojumus, kamēr nebūsiet tos atkārtoti autorizējis.",
-    "CLICK_TO_RECONNECT": "Noklikšķiniet šeit, lai atkārtoti izveidotu savienojumu.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "RECONNECTION_REQUIRED": "Jusu iesutne ir atvienota. Jus nesanemsiet jaunus zinojumus, kamer nebusiet tos atkartoti autorizejis.",
+    "CLICK_TO_RECONNECT": "Noklik�kiniet �eit, lai atkartoti izveidotu savienojumu.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn�t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "Šim kontam nav pievienota neviena Iesūtne."
+      "404": "�im kontam nav pievienota neviena Iesutne."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Izvēlieties Kanālu",
-        "BODY": "Izvēlieties pakalpojumu sniedzēju, kuru vēlaties integrēt ar Chatwoot."
+        "TITLE": "Izvelieties Kanalu",
+        "BODY": "Izvelieties pakalpojumu sniedzeju, kuru velaties integret ar Thynex."
       },
       "INBOX": {
-        "TITLE": "Izveidot Iesūtni",
-        "BODY": "Autentificēt savu kontu un izveidot iesūtni."
+        "TITLE": "Izveidot Iesutni",
+        "BODY": "Autentificet savu kontu un izveidot iesutni."
       },
       "AGENT": {
-        "TITLE": "Pievienot Aģentus",
-        "BODY": "Pievienojiet aģentus izveidotajai iesūtnei."
+        "TITLE": "Pievienot Agentus",
+        "BODY": "Pievienojiet agentus izveidotajai iesutnei."
       },
       "FINISH": {
         "TITLE": "Gatavs!",
-        "BODY": "Jūs varat sākt darboties!"
+        "BODY": "Jus varat sakt darboties!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Iesūtnes Nosaukums",
-        "PLACEHOLDER": "Ievadiet Jūsu iesūtnes nosaukumu (piemēram: Acme Inc)",
-        "ERROR": "Lūdzu, ievadiet derīgu iesūtnes nosaukumu"
+        "LABEL": "Iesutnes Nosaukums",
+        "PLACEHOLDER": "Ievadiet Jusu iesutnes nosaukumu (piemeram: Acme Inc)",
+        "ERROR": "Ludzu, ievadiet derigu iesutnes nosaukumu"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Tīmekļa Vietnes Nosaukums",
-        "PLACEHOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)"
+        "LABEL": "Timekla Vietnes Nosaukums",
+        "PLACEHOLDER": "Ievadiet Jusu timekla vietnes nosaukumu (piemeram: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Pierakstoties mēs iegūstam piekļuvi tikai pie Jūsu lapas ziņojumiem. Chatwoot nekad nevar piekļūt jūsu privātajām ziņām.",
-        "CHOOSE_PAGE": "Izvēlieties Lapu",
-        "CHOOSE_PLACEHOLDER": "Izvēlieties lapu no saraksta",
-        "INBOX_NAME": "Iesūtnes Nosaukums",
-        "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
-        "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
-        "PICK_A_VALUE": "Izvēlieties vērtību",
-        "CREATE_INBOX": "Izveidot Iesūtni"
+        "HELP": "PS: Pierakstoties mes iegustam piekluvi tikai pie Jusu lapas zinojumiem. Thynex nekad nevar pieklut jusu privatajam zinam.",
+        "CHOOSE_PAGE": "Izvelieties Lapu",
+        "CHOOSE_PLACEHOLDER": "Izvelieties lapu no saraksta",
+        "INBOX_NAME": "Iesutnes Nosaukums",
+        "ADD_NAME": "Pievienojiet savas iesutnes nosaukumu",
+        "PICK_NAME": "Ludzu ievadiet Iesutnes nosaukumu",
+        "PICK_A_VALUE": "Izvelieties vertibu",
+        "CREATE_INBOX": "Izveidot Iesutni"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Turpināt ar Instagram",
+        "CONTINUE_WITH_INSTAGRAM": "Turpinat ar Instagram",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pievienot savu Instagram Profilu",
-        "HELP": "Lai pievienotu savu Instagram profilu kā kanālu, jums ir jāautentificē savs Instagram profils, noklikšķinot uz 'Turpināt ar Instagram' ",
-        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
-        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "HELP": "Lai pievienotu savu Instagram profilu ka kanalu, jums ir jaautentifice savs Instagram profils, noklik�kinot uz 'Turpinat ar Instagram' ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radas kluda. Ludzu, meginiet velreiz",
+        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radas kluda. Ludzu, meginiet velreiz",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won�t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,23 +68,23 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
-        "ERROR_MESSAGE": "Radās kļūda, veidojot savienojumu ar Twitter. Lūdzu, mēģiniet vēlreiz",
+        "HELP": "Lai pievienotu savu Twitter profilu ka kanalu, Jums ir jaautentifice savs Twitter profils, noklik�kinot uz \"Pierakstities ar Twitter\"' ",
+        "ERROR_MESSAGE": "Radas kluda, veidojot savienojumu ar Twitter. Ludzu, meginiet velreiz",
         "TWEETS": {
-          "ENABLE": "Izveidot sarunas no minētajiem Tvītiem"
+          "ENABLE": "Izveidot sarunas no minetajiem Tvitiem"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Tīmekļa vietnes kanāls",
-        "DESC": "Izveidot savai tīmekļa vietnei kanālu un sākt atbalstīt savus klientus, izmantojot mūsu tīmekļu vietnes logrīku.",
-        "LOADING_MESSAGE": "Tiek Veikta Tīmekļa Vietnes Atbalsta Kanāla Izveide",
+        "TITLE": "Timekla vietnes kanals",
+        "DESC": "Izveidot savai timekla vietnei kanalu un sakt atbalstit savus klientus, izmantojot musu timeklu vietnes logriku.",
+        "LOADING_MESSAGE": "Tiek Veikta Timekla Vietnes Atbalsta Kanala Izveide",
         "CHANNEL_AVATAR": {
-          "LABEL": "Kanāla Avatārs"
+          "LABEL": "Kanala Avatars"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Lūdzu ievadiet Webhook URL",
-          "ERROR": "Lūdzu, ievadiet derīgu URL"
+          "PLACEHOLDER": "Ludzu ievadiet Webhook URL",
+          "ERROR": "Ludzu, ievadiet derigu URL"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -95,153 +95,153 @@
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Tīmekļa Vietnes Domēns",
-          "PLACEHOLDER": "Ievadiet savas tīmekļa vietnes domēnu (piemēram: acme.com)"
+          "LABEL": "Timekla Vietnes Domens",
+          "PLACEHOLDER": "Ievadiet savas timekla vietnes domenu (piemeram: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Laipni lūdzam Virsraksts",
-          "PLACEHOLDER": "Sveicināti !"
+          "LABEL": "Laipni ludzam Virsraksts",
+          "PLACEHOLDER": "Sveicinati !"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Laipni lūdzam Teksts",
-          "PLACEHOLDER": "Sazināties ar mums ir vienkārši. Vaicājiet mums jebko, vai dalieties ar savām atsauksmēm."
+          "LABEL": "Laipni ludzam Teksts",
+          "PLACEHOLDER": "Sazinaties ar mums ir vienkar�i. Vaicajiet mums jebko, vai dalieties ar savam atsauksmem."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Kanāla sveiciena paziņojums",
-          "PLACEHOLDER": "Acme Inc parasti atbild dažu stundu laikā."
+          "LABEL": "Kanala sveiciena pazinojums",
+          "PLACEHOLDER": "Acme Inc parasti atbild da�u stundu laika."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Iespējot kanāla sveicienu",
-          "HELP_TEXT": "Automātiski nosūtīt sveiciena paziņojumu, kad tiek izveidota jauna saruna.",
-          "ENABLED": "Iespējots",
-          "DISABLED": "Atspējots"
+          "LABEL": "Iespejot kanala sveicienu",
+          "HELP_TEXT": "Automatiski nosutit sveiciena pazinojumu, kad tiek izveidota jauna saruna.",
+          "ENABLED": "Iespejots",
+          "DISABLED": "Atspejots"
         },
         "REPLY_TIME": {
-          "TITLE": "Iestatīt Atbildes laiku",
-          "IN_A_FEW_MINUTES": "Dažās minutēs",
-          "IN_A_FEW_HOURS": "Dažās stundās",
-          "IN_A_DAY": "Dienas laikā",
-          "HELP_TEXT": "Šis atbildes laiks tiks parādīts tiešsaistes tērzēšanas logrīkā"
+          "TITLE": "Iestatit Atbildes laiku",
+          "IN_A_FEW_MINUTES": "Da�as minutes",
+          "IN_A_FEW_HOURS": "Da�as stundas",
+          "IN_A_DAY": "Dienas laika",
+          "HELP_TEXT": "�is atbildes laiks tiks paradits tie�saistes terze�anas logrika"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Logrīka Krāsa",
-          "PLACEHOLDER": "Atjaunināt logrīkā izmantoto logrīka krāsu"
+          "LABEL": "Logrika Krasa",
+          "PLACEHOLDER": "Atjauninat logrika izmantoto logrika krasu"
         },
-        "SUBMIT_BUTTON": "Izveidot iesūtni",
+        "SUBMIT_BUTTON": "Izveidot iesutni",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām izveidot tīmekļa vietnes kanālu. Lūdzu, mēģiniet vēlreiz"
+          "ERROR_MESSAGE": "Mes nevarejam izveidot timekla vietnes kanalu. Ludzu, meginiet velreiz"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp Kanāls",
-        "DESC": "Integrēt Twilio un sākt atbalstīt savus klientus, izmantojot SMS vai WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Kanals",
+        "DESC": "Integret Twilio un sakt atbalstit savus klientus, izmantojot SMS vai WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Konta SID",
-          "PLACEHOLDER": "Lūdzu, ievadiet sava Twilio konta SID",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "PLACEHOLDER": "Ludzu, ievadiet sava Twilio konta SID",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "API_KEY": {
-          "USE_API_KEY": "Izmantot API Atslēgas Autentifikāciju",
-          "LABEL": "API Atslēgas SID",
-          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas SID",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "USE_API_KEY": "Izmantot API Atslegas Autentifikaciju",
+          "LABEL": "API Atslegas SID",
+          "PLACEHOLDER": "Ludzu, ievadiet savu API Atslegas SID",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "API_KEY_SECRET": {
-          "LABEL": "API Atslēgas Noslēpums",
-          "PLACEHOLDER": "Lūdzu, ievadiet savu API Atslēgas Noslēpumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "API Atslegas Noslepums",
+          "PLACEHOLDER": "Ludzu, ievadiet savu API Atslegas Noslepumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Ziņapmaiņas Pakalpojuma SID",
-          "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio ziņojumapmaiņas pakalpojuma SID",
-          "ERROR": "Šis lauks ir nepieciešams",
-          "USE_MESSAGING_SERVICE": "Izmantot Twilio Ziņojumapmaiņas Pakalpojumu"
+          "LABEL": "Zinapmainas Pakalpojuma SID",
+          "PLACEHOLDER": "Ludzu, ievadiet savu Twilio zinojumapmainas pakalpojuma SID",
+          "ERROR": "�is lauks ir nepiecie�ams",
+          "USE_MESSAGING_SERVICE": "Izmantot Twilio Zinojumapmainas Pakalpojumu"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Kanāla Tips",
-          "ERROR": "Lūdzu, izvēlieties sava Kanāla Tipu"
+          "LABEL": "Kanala Tips",
+          "ERROR": "Ludzu, izvelieties sava Kanala Tipu"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth Token",
-          "PLACEHOLDER": "Lūdzu, ievadiet savu Twilio Auth Token",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "PLACEHOLDER": "Ludzu, ievadiet savu Twilio Auth Token",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Iesūtnes Nosaukums",
-          "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "Iesutnes Nosaukums",
+          "PLACEHOLDER": "Ludzu, ievadiet iesutnes nosaukumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefona numurs",
-          "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
+          "PLACEHOLDER": "Ludzu, ievadiet talruna numuru, no kura tiks nosutits zinojums.",
+          "ERROR": "Ludzu, noradiet derigu talruna numuru, kas sakas ar zimi �+� un nesatur atstarpes."
         },
         "API_CALLBACK": {
-          "TITLE": "Atzvanīšanas URL",
-          "SUBTITLE": "Jums ir jānokonfigurē Twilio pakalpojumā ziņojumu atzvanīšanas URL, izmantojot šeit minēto URL."
+          "TITLE": "Atzvani�anas URL",
+          "SUBTITLE": "Jums ir janokonfigure Twilio pakalpojuma zinojumu atzvani�anas URL, izmantojot �eit mineto URL."
         },
-        "SUBMIT_BUTTON": "Izveidot Twilio Kanālu",
+        "SUBMIT_BUTTON": "Izveidot Twilio Kanalu",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām autentificēt Twilio akreditācijas datus. Lūdzu, mēģiniet vēlreiz"
+          "ERROR_MESSAGE": "Mes nevarejam autentificet Twilio akreditacijas datus. Ludzu, meginiet velreiz"
         }
       },
       "SMS": {
-        "TITLE": "SMS Kanāls",
-        "DESC": "Sāciet atbalstīt savus klientus, izmantojot SMS.",
+        "TITLE": "SMS Kanals",
+        "DESC": "Saciet atbalstit savus klientus, izmantojot SMS.",
         "PROVIDERS": {
-          "LABEL": "API Pakalpojumu Sniedzējs",
+          "LABEL": "API Pakalpojumu Sniedzejs",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandwidth"
         },
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt SMS kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat SMS kanalu"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Konta ID",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwidth konta ID",
-            "ERROR": "Šis lauks ir nepieciešams"
+            "PLACEHOLDER": "Ludzu, ievadiet savu Bandwidth konta ID",
+            "ERROR": "�is lauks ir nepiecie�ams"
           },
           "API_KEY": {
-            "LABEL": "API atslēga",
-            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Key",
-            "ERROR": "Šis lauks ir nepieciešams"
+            "LABEL": "API atslega",
+            "PLACEHOLDER": "Ludzu ievadiet Bandwidth API Key",
+            "ERROR": "�is lauks ir nepiecie�ams"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Lūdzu ievadiet Bandwidth API Secret",
-            "ERROR": "Šis lauks ir nepieciešams"
+            "PLACEHOLDER": "Ludzu ievadiet Bandwidth API Secret",
+            "ERROR": "�is lauks ir nepiecie�ams"
           },
           "APPLICATION_ID": {
             "LABEL": "Lietojumprogrammas ID",
-            "PLACEHOLDER": "Lūdzu, ievadiet savu Bandwidth lietojumprogrammas ID",
-            "ERROR": "Šis lauks ir nepieciešams"
+            "PLACEHOLDER": "Ludzu, ievadiet savu Bandwidth lietojumprogrammas ID",
+            "ERROR": "�is lauks ir nepiecie�ams"
           },
           "INBOX_NAME": {
-            "LABEL": "Iesūtnes Nosaukums",
-            "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
-            "ERROR": "Šis lauks ir nepieciešams"
+            "LABEL": "Iesutnes Nosaukums",
+            "PLACEHOLDER": "Ludzu, ievadiet iesutnes nosaukumu",
+            "ERROR": "�is lauks ir nepiecie�ams"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Tālruņa numurs",
-            "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-            "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
+            "LABEL": "Talruna numurs",
+            "PLACEHOLDER": "Ludzu, ievadiet talruna numuru, no kura tiks nosutits zinojums.",
+            "ERROR": "Ludzu, noradiet derigu talruna numuru, kas sakas ar zimi �+� un nesatur atstarpes."
           },
-          "SUBMIT_BUTTON": "Izveidot Bandwidth kanālu",
+          "SUBMIT_BUTTON": "Izveidot Bandwidth kanalu",
           "API": {
-            "ERROR_MESSAGE": "Mēs nevarējām autentificēt Bandwidth akreditācijas datus. Lūdzu, mēģiniet vēlreiz"
+            "ERROR_MESSAGE": "Mes nevarejam autentificet Bandwidth akreditacijas datus. Ludzu, meginiet velreiz"
           },
           "API_CALLBACK": {
-            "TITLE": "Atzvanīšanas URL",
-            "SUBTITLE": "Jums ir jānokonfigurē Bandwidth ziņojumu atzvanīšanas URL, izmantojot šeit minēto URL."
+            "TITLE": "Atzvani�anas URL",
+            "SUBTITLE": "Jums ir janokonfigure Bandwidth zinojumu atzvani�anas URL, izmantojot �eit mineto URL."
           }
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp Kanāls",
-        "DESC": "Sāciet atbalstīt savus klientus, izmantojot WhatsApp.",
+        "TITLE": "WhatsApp Kanals",
+        "DESC": "Saciet atbalstit savus klientus, izmantojot WhatsApp.",
         "PROVIDERS": {
-          "LABEL": "API Pakalpojumu Sniedzējs",
+          "LABEL": "API Pakalpojumu Sniedzejs",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
@@ -254,43 +254,43 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Iesūtnes Nosaukums",
-          "PLACEHOLDER": "Lūdzu, ievadiet iesūtnes nosaukumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "Iesutnes Nosaukums",
+          "PLACEHOLDER": "Ludzu, ievadiet iesutnes nosaukumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Tālruņa numurs",
-          "PLACEHOLDER": "Lūdzu, ievadiet tālruņa numuru, no kura tiks nosūtīts ziņojums.",
-          "ERROR": "Lūdzu, norādiet derīgu tālruņa numuru, kas sākas ar zīmi “+” un nesatur atstarpes."
+          "LABEL": "Talruna numurs",
+          "PLACEHOLDER": "Ludzu, ievadiet talruna numuru, no kura tiks nosutits zinojums.",
+          "ERROR": "Ludzu, noradiet derigu talruna numuru, kas sakas ar zimi �+� un nesatur atstarpes."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Tālruņa numura ID",
-          "PLACEHOLDER": "Lūdzu, ievadiet Tālruņa numura ID, kas iegūts no Facebook izstrādātāja informācijas paneļa.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
+          "LABEL": "Talruna numura ID",
+          "PLACEHOLDER": "Ludzu, ievadiet Talruna numura ID, kas ieguts no Facebook izstradataja informacijas panela.",
+          "ERROR": "Ludzu, ievadiet derigu vertibu."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "Biznesa Konta ID",
-          "PLACEHOLDER": "Lūdzu, ievadiet Biznesa Konta ID, kas iegūts no Facebook izstrādātāja informācijas paneļa.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
+          "PLACEHOLDER": "Ludzu, ievadiet Biznesa Konta ID, kas ieguts no Facebook izstradataja informacijas panela.",
+          "ERROR": "Ludzu, ievadiet derigu vertibu."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Pārbaudes Token",
-          "PLACEHOLDER": "Ievadiet verifikācijas token, ko vēlaties izmantot priekš Facebook webhook.",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
+          "LABEL": "Webhook Parbaudes Token",
+          "PLACEHOLDER": "Ievadiet verifikacijas token, ko velaties izmantot priek� Facebook webhook.",
+          "ERROR": "Ludzu, ievadiet derigu vertibu."
         },
         "API_KEY": {
-          "LABEL": "API atslēga",
-          "SUBTITLE": "Nokonfigurējiet WhatsApp API atslēgu.",
-          "PLACEHOLDER": "API atslēga",
-          "ERROR": "Lūdzu, ievadiet derīgu vērtību."
+          "LABEL": "API atslega",
+          "SUBTITLE": "Nokonfigurejiet WhatsApp API atslegu.",
+          "PLACEHOLDER": "API atslega",
+          "ERROR": "Ludzu, ievadiet derigu vertibu."
         },
         "API_CALLBACK": {
-          "TITLE": "Atzvanīšanas URL",
-          "SUBTITLE": "Jums Facebook izstrādātāju portālā ir jānokonfigurē webhoot URL un verifikācijas token ar tālāk norādītajām vērtībām.",
+          "TITLE": "Atzvani�anas URL",
+          "SUBTITLE": "Jums Facebook izstradataju portala ir janokonfigure webhoot URL un verifikacijas token ar talak noraditajam vertibam.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verifikācijas Token"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verifikacijas Token"
         },
-        "SUBMIT_BUTTON": "Izveidot WhatsApp kanālu",
+        "SUBMIT_BUTTON": "Izveidot WhatsApp kanalu",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number�",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,12 +317,12 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you�re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on � this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt WhatsApp kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat WhatsApp kanalu"
         }
       },
       "VOICE": {
@@ -345,12 +345,12 @@
             "REQUIRED": "Auth Token is required"
           },
           "API_KEY_SID": {
-            "LABEL": "API Atslēgas SID",
+            "LABEL": "API Atslegas SID",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
             "REQUIRED": "API Key SID is required"
           },
           "API_KEY_SECRET": {
-            "LABEL": "API Atslēgas Noslēpums",
+            "LABEL": "API Atslegas Noslepums",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
           }
@@ -367,96 +367,96 @@
         }
       },
       "API_CHANNEL": {
-        "TITLE": "API Kanāls",
-        "DESC": "Integrēt ar API kanālu un sākt atbalstīt savus klientus.",
+        "TITLE": "API Kanals",
+        "DESC": "Integret ar API kanalu un sakt atbalstit savus klientus.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanāla Nosaukums",
-          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "Kanala Nosaukums",
+          "PLACEHOLDER": "Ludzu, ievadiet kanala nosaukumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Konfigurēt URL, kurā vēlaties saņemt notikumu atzvanus.",
+          "SUBTITLE": "Konfiguret URL, kura velaties sanemt notikumu atzvanus.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "Izveidot API kanālu",
+        "SUBMIT_BUTTON": "Izveidot API kanalu",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt API kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat API kanalu"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "E-pasta Kanāls",
-        "DESC": "Integrēt sava e-pasta iesūtni.",
+        "TITLE": "E-pasta Kanals",
+        "DESC": "Integret sava e-pasta iesutni.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanāla Nosaukums",
-          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "Kanala Nosaukums",
+          "PLACEHOLDER": "Ludzu, ievadiet kanala nosaukumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "EMAIL": {
           "LABEL": "E-pasts",
-          "SUBTITLE": "Norādiet e-pasta adresi, uz kuru Jūsu klienti sūta atbalsta pieprasījumus.",
+          "SUBTITLE": "Noradiet e-pasta adresi, uz kuru Jusu klienti suta atbalsta pieprasijumus.",
           "PLACEHOLDER": "E-pasts"
         },
-        "SUBMIT_BUTTON": "Izveidot E-pasta Kanālu",
+        "SUBMIT_BUTTON": "Izveidot E-pasta Kanalu",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt e-pasta kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat e-pasta kanalu"
         },
-        "FINISH_MESSAGE": "Sākt pārsūtīt savus e-pasta ziņojumus uz tālāk norādīto e-pasta adresi.",
+        "FINISH_MESSAGE": "Sakt parsutit savus e-pasta zinojumus uz talak noradito e-pasta adresi.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Noklikšķiniet šeit",
+        "CONFIGURE_SMTP_IMAP_LINK": "Noklik�kiniet �eit",
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE Kanāls",
-        "DESC": "Integrēt ar LINE kanālu un sākt atbalstīt savus klientus.",
+        "TITLE": "LINE Kanals",
+        "DESC": "Integret ar LINE kanalu un sakt atbalstit savus klientus.",
         "CHANNEL_NAME": {
-          "LABEL": "Kanāla Nosaukums",
-          "PLACEHOLDER": "Lūdzu, ievadiet kanāla nosaukumu",
-          "ERROR": "Šis lauks ir nepieciešams"
+          "LABEL": "Kanala Nosaukums",
+          "PLACEHOLDER": "Ludzu, ievadiet kanala nosaukumu",
+          "ERROR": "�is lauks ir nepiecie�ams"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "LINE Kanāla ID",
-          "PLACEHOLDER": "LINE Kanāla ID"
+          "LABEL": "LINE Kanala ID",
+          "PLACEHOLDER": "LINE Kanala ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Kanāla Secret",
-          "PLACEHOLDER": "LINE Kanāla Secret"
+          "LABEL": "LINE Kanala Secret",
+          "PLACEHOLDER": "LINE Kanala Secret"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Kanāla Token",
-          "PLACEHOLDER": "LINE Kanāla Token"
+          "LABEL": "LINE Kanala Token",
+          "PLACEHOLDER": "LINE Kanala Token"
         },
-        "SUBMIT_BUTTON": "Izveidot LINE Kanālu",
+        "SUBMIT_BUTTON": "Izveidot LINE Kanalu",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt LINE kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat LINE kanalu"
         },
         "API_CALLBACK": {
-          "TITLE": "Atzvanīšanas URL",
-          "SUBTITLE": "Jums LINE lietojumprogrammā ir jānokonfigurē webhook URL, ar šeit minēto URL."
+          "TITLE": "Atzvani�anas URL",
+          "SUBTITLE": "Jums LINE lietojumprogramma ir janokonfigure webhook URL, ar �eit mineto URL."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram Kanāls",
-        "DESC": "Integrēt ar Telegram kanālu un sākt atbalstīt savus klientus.",
+        "TITLE": "Telegram Kanals",
+        "DESC": "Integret ar Telegram kanalu un sakt atbalstit savus klientus.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Konfigurēt bot token, ko ieguvāt no Telegram BotFather.",
+          "SUBTITLE": "Konfiguret bot token, ko ieguvat no Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Izveidot Telegram Kanālu",
+        "SUBMIT_BUTTON": "Izveidot Telegram Kanalu",
         "API": {
-          "ERROR_MESSAGE": "Mēs nevarējām saglabāt Telegram kanālu"
+          "ERROR_MESSAGE": "Mes nevarejam saglabat Telegram kanalu"
         }
       },
       "AUTH": {
-        "TITLE": "Izvēlieties kanālu",
-        "DESC": "Chatwoot atbalsta tiešraides tērzēšanas logrīkus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus kā kanālus. Ja vēlaties izveidot pielāgotu kanālu, varat to izveidot, izmantojot API kanālu. Lai sāktu, izvēlieties vienu no tālāk norādītajiem kanāliem.",
+        "TITLE": "Izvelieties kanalu",
+        "DESC": "Thynex atbalsta tie�raides terze�anas logrikus, Facebook Messenger, Twitter profilus, WhatsApp, e-pastus ka kanalus. Ja velaties izveidot pielagotu kanalu, varat to izveidot, izmantojot API kanalu. Lai saktu, izvelieties vienu no talak noraditajiem kanaliem.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Gatavs!",
         "CHANNEL": {
           "WEBSITE": {
-            "TITLE": "Tīmekļa vietne",
+            "TITLE": "Timekla vietne",
             "DESCRIPTION": "Create a live-chat widget"
           },
           "FACEBOOK": {
@@ -506,104 +506,104 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Aģenti",
-        "DESC": "Šeit Jūs varat pievienot aģentus, lai pārvaldītu savu jaunizveidoto iesūtni. Tikai šiem atlasītajiem aģentiem būs piekļuve Jūsu iesūtnei. Aģenti, kas neietilpst šajā iesūtnē, nevarēs redzēt ziņojumus vai atbildēt uz ziņojumiem šajā iesūtnē, kad būs pierakstījušies sistēmā. <br> <b>PS:</b> Ja jums kā administratoram ir nepieciešama piekļuve pie visām iesūtnēm, jums ir jāpievieno sevi kā aģentu visām izveidotajām iesūtnēm.",
-        "VALIDATION_ERROR": "Pievienojiet savai jaunajai iesūtnei vismaz vienu aģentu",
-        "PICK_AGENTS": "Izvēlieties aģentus priekš iesūtnes"
+        "TITLE": "Agenti",
+        "DESC": "�eit Jus varat pievienot agentus, lai parvalditu savu jaunizveidoto iesutni. Tikai �iem atlasitajiem agentiem bus piekluve Jusu iesutnei. Agenti, kas neietilpst �aja iesutne, nevares redzet zinojumus vai atbildet uz zinojumiem �aja iesutne, kad bus pierakstiju�ies sistema. <br> <b>PS:</b> Ja jums ka administratoram ir nepiecie�ama piekluve pie visam iesutnem, jums ir japievieno sevi ka agentu visam izveidotajam iesutnem.",
+        "VALIDATION_ERROR": "Pievienojiet savai jaunajai iesutnei vismaz vienu agentu",
+        "PICK_AGENTS": "Izvelieties agentus priek� iesutnes"
       },
       "DETAILS": {
-        "TITLE": "Informācija par Iesūtni",
-        "DESC": "Tālāk esošajā nolaižamajā izvēlnē izvēlieties Facebook lapu, kuru vēlaties savienot ar Chatwoot. Jūs varat savai iesūtnei, lai to labāk atpazītu, piešķirt pielāgotu nosaukumu."
+        "TITLE": "Informacija par Iesutni",
+        "DESC": "Talak eso�aja nolai�amaja izvelne izvelieties Facebook lapu, kuru velaties savienot ar Thynex. Jus varat savai iesutnei, lai to labak atpazitu, pie�kirt pielagotu nosaukumu."
       },
       "FINISH": {
-        "TITLE": "Sanāca!",
-        "DESC": "Jūs esat veiksmīgi pabeidzis savas Facebook lapas integrēšanu ar Chatwoot. Nākamreiz, kad klients nosūtīs ziņojumu Jūsu lapai, saruna automātiski parādīsies Jūsu iesūtnē.<br>Mēs nodrošinām Jums arī logrīka skriptu, ko varat viegli pievienot savai tīmekļa vietnei. Kad tas būs pieejams Jūsu vietnē, klienti varēs Jums nosūtīt ziņojumus tieši no Jūsu tīmekļa vietnes, neizmantojot ārējus rīkus, un saruna tiks parādīta tieši šeit, vietnē Chatwoot.<br>"
+        "TITLE": "Sanaca!",
+        "DESC": "Jus esat veiksmigi pabeidzis savas Facebook lapas integre�anu ar Thynex. Nakamreiz, kad klients nosutis zinojumu Jusu lapai, saruna automatiski paradisies Jusu iesutne.<br>Mes nodro�inam Jums ari logrika skriptu, ko varat viegli pievienot savai timekla vietnei. Kad tas bus pieejams Jusu vietne, klienti vares Jums nosutit zinojumus tie�i no Jusu timekla vietnes, neizmantojot arejus rikus, un saruna tiks paradita tie�i �eit, vietne Thynex.<br>"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Izvēlieties savu e-pasta pakalpojumu sniedzēju",
-        "DESCRIPTION": "Tālāk esošajā sarakstā izvēlieties e-pasta pakalpojumu sniedzēju. Ja sarakstā neredzat savu e-pasta pakalpojumu sniedzēju, varat izvēlēties citu pakalpojumu sniedzēja opciju un norādīt IMAP un SMTP akreditācijas datus."
+        "TITLE": "Izvelieties savu e-pasta pakalpojumu sniedzeju",
+        "DESCRIPTION": "Talak eso�aja saraksta izvelieties e-pasta pakalpojumu sniedzeju. Ja saraksta neredzat savu e-pasta pakalpojumu sniedzeju, varat izveleties citu pakalpojumu sniedzeja opciju un noradit IMAP un SMTP akreditacijas datus."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Microsoft. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, Jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
+        "DESCRIPTION": "Lai saktu, noklik�kiniet uz pogas Pierakstities ar Microsoft. Jus tiksit novirzits uz e-pasta pieraksti�anas lapu. Kad busiet pienemis pieprasitas atlaujas, Jus tiksit novirzits atpakal uz iesutnes izveides darbibu.",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "SIGN_IN": "Pierakstīties ar Microsoft",
-        "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        "SIGN_IN": "Pierakstities ar Microsoft",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Microsoft, radas kluda. Ludzu, meginiet velreiz"
       },
       "GOOGLE": {
         "TITLE": "Google e-pasts",
-        "DESCRIPTION": "Lai sāktu, noklikšķiniet uz pogas Pierakstīties ar Google. Jūs tiksit novirzīts uz e-pasta pierakstīšanās lapu. Kad būsiet pieņēmis pieprasītās atļaujas, jūs tiksit novirzīts atpakaļ uz iesūtnes izveides darbību.",
-        "SIGN_IN": "Pierakstīties ar Google",
+        "DESCRIPTION": "Lai saktu, noklik�kiniet uz pogas Pierakstities ar Google. Jus tiksit novirzits uz e-pasta pieraksti�anas lapu. Kad busiet pienemis pieprasitas atlaujas, jus tiksit novirzits atpakal uz iesutnes izveides darbibu.",
+        "SIGN_IN": "Pierakstities ar Google",
         "EMAIL_PLACEHOLDER": "Ievadiet e-pasta adresi",
-        "ERROR_MESSAGE": "Veidojot savienojumu ar Google, radās kļūda. Lūdzu, mēģiniet vēlreiz"
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Google, radas kluda. Ludzu, meginiet velreiz"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Notiek Jūsu autentificēšana, izmantojot Facebook...",
-      "ERROR_FB_LOADING": "Ielādējot Facebook SDK, radās kļūda. Lūdzu, atspējojiet visus reklāmu bloķētājus un mēģiniet vēlreiz no citas pārlūkprogrammas.",
-      "ERROR_FB_AUTH": "Radās kļūda. Lūdzu, atsvaidziniet lapu...",
-      "ERROR_FB_UNAUTHORIZED": "Jums nav tiesību veikt šo darbību. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Lūdzu, pārliecinieties, ka Jums ir pilna piekļuve Facebook lapai. Vairāk par Facebook lomām varat lasīt <a href=\" https://www.facebook.com/help/187316341316631\">šeit</a>.",
-      "CREATING_CHANNEL": "Notiek Iesūtnes izveide...",
-      "TITLE": "Nokonfigurēt Iesūtnes Informāciju",
+      "LOADING_FB": "Notiek Jusu autentifice�ana, izmantojot Facebook...",
+      "ERROR_FB_LOADING": "Ieladejot Facebook SDK, radas kluda. Ludzu, atspejojiet visus reklamu bloketajus un meginiet velreiz no citas parlukprogrammas.",
+      "ERROR_FB_AUTH": "Radas kluda. Ludzu, atsvaidziniet lapu...",
+      "ERROR_FB_UNAUTHORIZED": "Jums nav tiesibu veikt �o darbibu. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Ludzu, parliecinieties, ka Jums ir pilna piekluve Facebook lapai. Vairak par Facebook lomam varat lasit <a href=\" https://www.facebook.com/help/187316341316631\">�eit</a>.",
+      "CREATING_CHANNEL": "Notiek Iesutnes izveide...",
+      "TITLE": "Nokonfiguret Iesutnes Informaciju",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Pievienot aģentus",
-      "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu iesūtnei..."
+      "BUTTON_TEXT": "Pievienot agentus",
+      "ADD_AGENTS": "Notiek agentu pievieno�ana Jusu iesutnei..."
     },
     "FINISH": {
-      "TITLE": "Jūsu Iesūtne ir gatava!",
-      "MESSAGE": "Tagad Jūs varat izmantot savu jauno Kanālu lai sazinātos ar saviem klientiem. Priecīgu atbalstīšanu",
+      "TITLE": "Jusu Iesutne ir gatava!",
+      "MESSAGE": "Tagad Jus varat izmantot savu jauno Kanalu lai sazinatos ar saviem klientiem. Priecigu atbalsti�anu",
       "BUTTON_TEXT": "Iet uz",
-      "MORE_SETTINGS": "Papildu iestatījumi",
-      "WEBSITE_SUCCESS": "Jūs esat veiksmīgi pabeidzis tīmekļa vietnes kanāla izveidi. Nokopējiet tālāk redzamo kodu un ievietojiet to savā tīmekļa vietnē. Nākamreiz, kad klients izmantos tiešsaistes tērzēšanu, saruna automātiski tiks parādīta Jūsu iesūtnē.",
+      "MORE_SETTINGS": "Papildu iestatijumi",
+      "WEBSITE_SUCCESS": "Jus esat veiksmigi pabeidzis timekla vietnes kanala izveidi. Nokopejiet talak redzamo kodu un ievietojiet to sava timekla vietne. Nakamreiz, kad klients izmantos tie�saistes terze�anu, saruna automatiski tiks paradita Jusu iesutne.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "Atkārtoti autorizēties",
-    "VIEW": "Apskatīt",
+    "REAUTH": "Atkartoti autorizeties",
+    "VIEW": "Apskatit",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Iesūtnes iestatījumi ir veiksmīgi atjaunināti",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automātiskā piešķiršana ir veiksmīgi atjaunināta",
-        "ERROR_MESSAGE": "Mēs nevarējām atjaunināt iesūtnes iestatījumus. Lūdzu, vēlāk pamēģiniet vēlreiz."
+        "SUCCESS_MESSAGE": "Iesutnes iestatijumi ir veiksmigi atjauninati",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatiska pie�kir�ana ir veiksmigi atjauninata",
+        "ERROR_MESSAGE": "Mes nevarejam atjauninat iesutnes iestatijumus. Ludzu, velak pameginiet velreiz."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Iespējots",
-        "DISABLED": "Atspējots"
+        "ENABLED": "Iespejots",
+        "DISABLED": "Atspejots"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Iespējots",
-        "DISABLED": "Atspējots"
+        "ENABLED": "Iespejots",
+        "DISABLED": "Atspejots"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sūtītāja vārds",
-        "SUB_TEXT": "Izvēlieties vārdu, kas tiks rādīts jūsu klientam, saņemot e-pasta ziņojumus no jūsu aģentiem.",
-        "FOR_EG": "Piemēram:",
+        "TITLE": "Sutitaja vards",
+        "SUB_TEXT": "Izvelieties vardu, kas tiks radits jusu klientam, sanemot e-pasta zinojumus no jusu agentiem.",
+        "FOR_EG": "Piemeram:",
         "FRIENDLY": {
-          "TITLE": "Draudzīgs",
+          "TITLE": "Draudzigs",
           "FROM": "no",
-          "SUBTITLE": "Sūtītāja vārdā pievienojiet tā aģenta vārdu, kurš nosūtīja atbildi, lai atbilde būtu draudzīga."
+          "SUBTITLE": "Sutitaja varda pievienojiet ta agenta vardu, kur� nosutija atbildi, lai atbilde butu draudziga."
         },
         "PROFESSIONAL": {
-          "TITLE": "Profesionāls",
-          "SUBTITLE": "Izmantot tikai konfigurēto uzņēmuma nosaukumu kā sūtītāja vārdu e-pasta galvenē."
+          "TITLE": "Profesionals",
+          "SUBTITLE": "Izmantot tikai konfigureto uznemuma nosaukumu ka sutitaja vardu e-pasta galvene."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "Konfigurēt uzņēmuma nosaukumu",
-          "PLACEHOLDER": "Ievadiet uzņēmuma nosaukumu",
-          "SAVE_BUTTON_TEXT": "Saglabāt"
+          "BUTTON_TEXT": "Konfiguret uznemuma nosaukumu",
+          "PLACEHOLDER": "Ievadiet uznemuma nosaukumu",
+          "SAVE_BUTTON_TEXT": "Saglabat"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Iespējots",
-        "DISABLED": "Atspējots"
+        "ENABLED": "Iespejots",
+        "DISABLED": "Atspejots"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Iespējots",
-        "DISABLED": "Atspējots"
+        "ENABLED": "Iespejots",
+        "DISABLED": "Atspejots"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
@@ -612,35 +612,35 @@
         "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Iespējot"
+        "LABEL": "Iespejot"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Dzēst",
-      "AVATAR_DELETE_BUTTON_TEXT": "Dzēst Avatāru",
+      "BUTTON_TEXT": "Dzest",
+      "AVATAR_DELETE_BUTTON_TEXT": "Dzest Avataru",
       "CONFIRM": {
-        "TITLE": "Apstiprināt Dzēšanu",
-        "MESSAGE": "Vai vēlaties izdzēst ",
-        "PLACE_HOLDER": "Lūdzu, uzrakstiet {inboxName} lai apstiprinātu",
-        "YES": "Jā, Dzēst ",
-        "NO": "Nē, Paturēt "
+        "TITLE": "Apstiprinat Dze�anu",
+        "MESSAGE": "Vai velaties izdzest ",
+        "PLACE_HOLDER": "Ludzu, uzrakstiet {inboxName} lai apstiprinatu",
+        "YES": "Ja, Dzest ",
+        "NO": "Ne, Paturet "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Iesūtne veiksmīgi izdzēsta",
-        "ERROR_MESSAGE": "Nevarēja izdzēst iesūtni. Lūdzu, vēlāk pamēģiniet vēlreiz.",
-        "AVATAR_SUCCESS_MESSAGE": "Iesūtnes avatārs ir veiksmīgi izdzēsts",
-        "AVATAR_ERROR_MESSAGE": "Nevarēja izdzēst iesūtnes avatāru. Lūdzu, vēlāk pamēģiniet vēlreiz."
+        "SUCCESS_MESSAGE": "Iesutne veiksmigi izdzesta",
+        "ERROR_MESSAGE": "Nevareja izdzest iesutni. Ludzu, velak pameginiet velreiz.",
+        "AVATAR_SUCCESS_MESSAGE": "Iesutnes avatars ir veiksmigi izdzests",
+        "AVATAR_ERROR_MESSAGE": "Nevareja izdzest iesutnes avataru. Ludzu, velak pameginiet velreiz."
       }
     },
     "TABS": {
-      "SETTINGS": "Iestatījumi",
-      "COLLABORATORS": "Līdzstrādnieki",
-      "CONFIGURATION": "Konfigurācija",
-      "CAMPAIGN": "Kampaņas",
-      "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
+      "SETTINGS": "Iestatijumi",
+      "COLLABORATORS": "Lidzstradnieki",
+      "CONFIGURATION": "Konfiguracija",
+      "CAMPAIGN": "Kampanas",
+      "PRE_CHAT_FORM": "Pirms-Terze�anas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
-      "WIDGET_BUILDER": "Logrīku Veidotājs",
-      "BOT_CONFIGURATION": "Robota Konfigurācija",
+      "WIDGET_BUILDER": "Logriku Veidotajs",
+      "BOT_CONFIGURATION": "Robota Konfiguracija",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "VOICE": "Voice",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number � it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta � no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -719,7 +719,7 @@
           "UNKNOWN": "Rating not available"
         },
         "STATUSES": {
-          "APPROVED": "Apstiprināts",
+          "APPROVED": "Apstiprinats",
           "PENDING_REVIEW": "Pending Review",
           "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
           "REJECTED": "Rejected",
@@ -728,7 +728,7 @@
         },
         "MODES": {
           "SANDBOX": "Sandbox",
-          "LIVE": "Tiešraide"
+          "LIVE": "Tie�raide"
         }
       },
       "WEBHOOK": {
@@ -742,17 +742,17 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Iestatījumi",
+    "SETTINGS": "Iestatijumi",
     "FEATURES": {
-      "LABEL": "Īpašības",
-      "DISPLAY_FILE_PICKER": "Logrīkā parādīt failu atlasītāju",
-      "DISPLAY_EMOJI_PICKER": "Logrīkā parādīt emocijzīmju atlasītāju",
-      "ALLOW_END_CONVERSATION": "Atļaut lietotājiem beigt sarunu no logrīka",
-      "USE_INBOX_AVATAR_FOR_BOT": "Izmantot iesūtnes nosaukumu un avataru priekš robota"
+      "LABEL": "Ipa�ibas",
+      "DISPLAY_FILE_PICKER": "Logrika paradit failu atlasitaju",
+      "DISPLAY_EMOJI_PICKER": "Logrika paradit emocijzimju atlasitaju",
+      "ALLOW_END_CONVERSATION": "Atlaut lietotajiem beigt sarunu no logrika",
+      "USE_INBOX_AVATAR_FOR_BOT": "Izmantot iesutnes nosaukumu un avataru priek� robota"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Skripts",
-      "MESSENGER_SUB_HEAD": "Ievietojiet šo pogu savā body tagā",
+      "MESSENGER_SUB_HEAD": "Ievietojiet �o pogu sava body taga",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -770,42 +770,42 @@
         "REQUIRE_LABEL": "Require identity validation for all conversations",
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
-      "INBOX_AGENTS": "Aģenti",
-      "INBOX_AGENTS_SUB_TEXT": "Pievienot vai noņemt aģentus no šīs iesūtnes",
-      "AGENT_ASSIGNMENT": "Sarunas Piešķiršana",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Atjaunināt sarunas piešķiršanas iestatījumus",
-      "UPDATE": "Atjaunināt",
-      "ENABLE_EMAIL_COLLECT_BOX": "Iespējot e-pasta iegūšanas lodziņu",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
-      "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
-      "SENDER_NAME_SECTION": "Iespējot Aģenta Vārdu E-pastā",
-      "SENDER_NAME_SECTION_TEXT": "Iespējot/Atspējot aģenta vārda rādīšanu e-pastā. Ja tas ir atspējots, tiks rādīts uzņēmuma nosaukums",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
+      "INBOX_AGENTS": "Agenti",
+      "INBOX_AGENTS_SUB_TEXT": "Pievienot vai nonemt agentus no �is iesutnes",
+      "AGENT_ASSIGNMENT": "Sarunas Pie�kir�ana",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Atjauninat sarunas pie�kir�anas iestatijumus",
+      "UPDATE": "Atjauninat",
+      "ENABLE_EMAIL_COLLECT_BOX": "Iespejot e-pasta iegu�anas lodzinu",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespejot vai atspejot e-pasta iegu�anas lodzinu jaunai sarunai",
+      "AUTO_ASSIGNMENT": "Iespejot automatisko pie�kir�anu",
+      "SENDER_NAME_SECTION": "Iespejot Agenta Vardu E-pasta",
+      "SENDER_NAME_SECTION_TEXT": "Iespejot/Atspejot agenta varda radi�anu e-pasta. Ja tas ir atspejots, tiks radits uznemuma nosaukums",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Iespejot sarunas nepartrauktibu, izmantojot e-pastu",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpinasies pa e-pastu, ja sazinas e-pasta adrese ir pieejama.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Iesūtnes Iestatījumi",
-      "INBOX_UPDATE_SUB_TEXT": "Atjaunināt Jūsu iesūtnes iestatījumus",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Iespējot vai atspējot jaunu sarunu automātisku piešķiršanu šai iesūtnei pievienotajiem aģentiem.",
-      "HMAC_VERIFICATION": "Lietotāja Identitātes Apstiprināšana",
-      "HMAC_DESCRIPTION": "Izmantojot šo atslēgu, varat ģenerēt slepeno marķieri, ko var izmantot, lai pārbaudītu Jūsu lietotāju identitāti.",
-      "HMAC_LINK_TO_DOCS": "Papildu informācija ir pieejama šeit.",
-      "HMAC_MANDATORY_VERIFICATION": "Īstenot Lietotāja Identitātes Validāciju",
-      "HMAC_MANDATORY_DESCRIPTION": "Ja iespējots, pieprasījumi, kurus nevar pārbaudīt, tiks noraidīti.",
-      "INBOX_IDENTIFIER": "Iesūtnes identifikators",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Izmantojiet šeit uzrādīto `inbox_identifier` token, lai autentificētu savus API klientus.",
-      "FORWARD_EMAIL_TITLE": "Pārsūtīt uz E-pastu",
-      "FORWARD_EMAIL_SUB_TEXT": "Sākt pārsūtīt savus e-pasta ziņojumus uz tālāk norādīto e-pasta adresi.",
+      "INBOX_UPDATE_TITLE": "Iesutnes Iestatijumi",
+      "INBOX_UPDATE_SUB_TEXT": "Atjauninat Jusu iesutnes iestatijumus",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Iespejot vai atspejot jaunu sarunu automatisku pie�kir�anu �ai iesutnei pievienotajiem agentiem.",
+      "HMAC_VERIFICATION": "Lietotaja Identitates Apstiprina�ana",
+      "HMAC_DESCRIPTION": "Izmantojot �o atslegu, varat generet slepeno markieri, ko var izmantot, lai parbauditu Jusu lietotaju identitati.",
+      "HMAC_LINK_TO_DOCS": "Papildu informacija ir pieejama �eit.",
+      "HMAC_MANDATORY_VERIFICATION": "Istenot Lietotaja Identitates Validaciju",
+      "HMAC_MANDATORY_DESCRIPTION": "Ja iespejots, pieprasijumi, kurus nevar parbaudit, tiks noraiditi.",
+      "INBOX_IDENTIFIER": "Iesutnes identifikators",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Izmantojiet �eit uzradito `inbox_identifier` token, lai autentificetu savus API klientus.",
+      "FORWARD_EMAIL_TITLE": "Parsutit uz E-pastu",
+      "FORWARD_EMAIL_SUB_TEXT": "Sakt parsutit savus e-pasta zinojumus uz talak noradito e-pasta adresi.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Atļaut ziņojumus pēc sarunas pabeigšanas",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Ļaut galalietotājiem sūtīt ziņojumus pat pēc sarunas atrisināšanas.",
-      "WHATSAPP_SECTION_SUBHEADER": "Šī API atslēga tiek izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet jauno API atslēgu, kas tiks izmantota integrācijai ar WhatsApp API.",
-      "WHATSAPP_SECTION_TITLE": "API atslēga",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Atjaunināt API atslēgu",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet šeit jauno API atslēgu",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjaunināt",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Atlaut zinojumus pec sarunas pabeig�anas",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Laut galalietotajiem sutit zinojumus pat pec sarunas atrisina�anas.",
+      "WHATSAPP_SECTION_SUBHEADER": "�i API atslega tiek izmantota integracijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Ievadiet jauno API atslegu, kas tiks izmantota integracijai ar WhatsApp API.",
+      "WHATSAPP_SECTION_TITLE": "API atslega",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Atjauninat API atslegu",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Ievadiet �eit jauno API atslegu",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Atjauninat",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
@@ -821,8 +821,8 @@
       "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikācijas Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Šis marķieris tiek izmantots, lai pārbaudītu webhook endpoint autentiskumu.",
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verifikacijas Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "�is markieris tiek izmantots, lai parbauditu webhook endpoint autentiskumu.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
@@ -831,23 +831,23 @@
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjaunināt pirms-tērzēšanas veidlapas iestatījumus"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atjauninat pirms-terze�anas veidlapas iestatijumus"
     },
     "HELP_CENTER": {
-      "LABEL": "Palīdzības centrs",
-      "PLACEHOLDER": "Izvēlēties Palīdzības Centru",
-      "SELECT_PLACEHOLDER": "Izvēlēties Palīdzības Centru",
+      "LABEL": "Palidzibas centrs",
+      "PLACEHOLDER": "Izveleties Palidzibas Centru",
+      "SELECT_PLACEHOLDER": "Izveleties Palidzibas Centru",
       "NONE": "Nav",
-      "REMOVE": "Noņemt Palīdzības Centru",
-      "SUB_TEXT": "Pievienot Palīdzības Centru ar iesūtni"
+      "REMOVE": "Nonemt Palidzibas Centru",
+      "SUB_TEXT": "Pievienot Palidzibas Centru ar iesutni"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Automātiskās piešķiršanas ierobežojums",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Lūdzu, ievadiet vērtību, kas ir lielāka par 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ierobežo maksimālo sarunu skaitu no šīs iesūtnes, ko var automātiski piešķirt aģentam"
+      "MAX_ASSIGNMENT_LIMIT": "Automatiskas pie�kir�anas ierobe�ojums",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Ludzu, ievadiet vertibu, kas ir lielaka par 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Ierobe�o maksimalo sarunu skaitu no �is iesutnes, ko var automatiski pie�kirt agentam"
     },
     "ASSIGNMENT": {
-      "TITLE": "Sarunas Piešķiršana",
+      "TITLE": "Sarunas Pie�kir�ana",
       "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
       "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
@@ -862,7 +862,7 @@
       "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
       "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
       "POLICY_STATUS": {
-        "ACTIVE": "Aktīvs",
+        "ACTIVE": "Aktivs",
         "INACTIVE": "Inactive"
       },
       "PRIORITY": {
@@ -889,50 +889,50 @@
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
       "CANCEL": "Atcelt",
-      "CONFIRM_DELETE": "Dzēst",
+      "CONFIRM_DELETE": "Dzest",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Atkārtoti autorizēties",
-      "SUBTITLE": "Jūsu Facebook savienojuma derīguma termiņš ir beidzies. Lūdzu, atkārtoti pievienojiet savu Facebook lapu, lai turpinātu pakalpojumus",
-      "MESSAGE_SUCCESS": "Atkārtota savienojuma izveide ir veiksmīga",
-      "MESSAGE_ERROR": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+      "TITLE": "Atkartoti autorizeties",
+      "SUBTITLE": "Jusu Facebook savienojuma deriguma termin� ir beidzies. Ludzu, atkartoti pievienojiet savu Facebook lapu, lai turpinatu pakalpojumus",
+      "MESSAGE_SUCCESS": "Atkartota savienojuma izveide ir veiksmiga",
+      "MESSAGE_ERROR": "Radas kluda. Ludzu, meginiet velreiz"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Pirms tērzēšanas veidlapas ļauj iegūt informāciju par lietotājiem, pirms viņi sāk ar Jums sarunu.",
-      "SET_FIELDS": "Pirms tērzēšanas veidlapas lauki",
+      "DESCRIPTION": "Pirms terze�anas veidlapas lauj iegut informaciju par lietotajiem, pirms vini sak ar Jums sarunu.",
+      "SET_FIELDS": "Pirms terze�anas veidlapas lauki",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Lauki",
-        "LABEL": "Etiķete",
+        "LABEL": "Etikete",
         "PLACE_HOLDER": "Vietturis",
-        "KEY": "Atslēga",
+        "KEY": "Atslega",
         "TYPE": "Tips",
-        "REQUIRED": "Nepieciešams"
+        "REQUIRED": "Nepiecie�ams"
       },
       "ENABLE": {
-        "LABEL": "Iespējot pirms tērzēšanas veidlapu",
+        "LABEL": "Iespejot pirms terze�anas veidlapu",
         "OPTIONS": {
-          "ENABLED": "Jā",
-          "DISABLED": "Nē"
+          "ENABLED": "Ja",
+          "DISABLED": "Ne"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pirms tērzēšanas ziņojums",
-        "PLACEHOLDER": "Šis ziņojums būs redzams lietotājiem, kopā ar veidlapu"
+        "LABEL": "Pirms terze�anas zinojums",
+        "PLACEHOLDER": "�is zinojums bus redzams lietotajiem, kopa ar veidlapu"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Apmeklētājiem pirms tērzēšanas ir jānorāda savs vārds un e-pasta adrese"
+        "LABEL": "Apmekletajiem pirms terze�anas ir janorada savs vards un e-pasta adrese"
       }
     },
     "CSAT": {
-      "TITLE": "Iespējot CSAT",
+      "TITLE": "Iespejot CSAT",
       "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
       },
       "MESSAGE": {
-        "LABEL": "Ziņojums",
+        "LABEL": "Zinojums",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
@@ -996,144 +996,144 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Iestatīt savu pieejamību",
-      "SUBTITLE": "Iestatīt savu pieejamību tiešraides tērzēšanas logrīkā",
-      "WEEKLY_TITLE": "Iestatīt savu darba laiku",
-      "TIMEZONE_LABEL": "Izvēlieties laika joslu",
-      "UPDATE": "Atjaunināt darba laika iestatījumus",
-      "TOGGLE_AVAILABILITY": "Iespējot biznesa pieejamību šai iesūtnei",
-      "UNAVAILABLE_MESSAGE_LABEL": "Ziņojums nav pieejams priekš apmeklētājiem",
-      "TOGGLE_HELP": "Iespējojot uzņēmuma pieejamību, tiešraides tērzēšanas logrīkā tiks rādīts darba laiks, pat ja visi aģenti būs bezsaistē. Ārpus darba laika apmeklētājus var brīdināt ar ziņojumu un pirms tērzēšanas veidlapu.",
+      "TITLE": "Iestatit savu pieejamibu",
+      "SUBTITLE": "Iestatit savu pieejamibu tie�raides terze�anas logrika",
+      "WEEKLY_TITLE": "Iestatit savu darba laiku",
+      "TIMEZONE_LABEL": "Izvelieties laika joslu",
+      "UPDATE": "Atjauninat darba laika iestatijumus",
+      "TOGGLE_AVAILABILITY": "Iespejot biznesa pieejamibu �ai iesutnei",
+      "UNAVAILABLE_MESSAGE_LABEL": "Zinojums nav pieejams priek� apmekletajiem",
+      "TOGGLE_HELP": "Iespejojot uznemuma pieejamibu, tie�raides terze�anas logrika tiks radits darba laiks, pat ja visi agenti bus bezsaiste. Arpus darba laika apmekletajus var bridinat ar zinojumu un pirms terze�anas veidlapu.",
       "DAY": {
         "DAY": "Diena",
-        "AVAILABILITY": "Pieejamība",
+        "AVAILABILITY": "Pieejamiba",
         "HOURS": "Hours",
-        "ENABLE": "Iespējot pieejamību šai dienai",
+        "ENABLE": "Iespejot pieejamibu �ai dienai",
         "UNAVAILABLE": "Nav pieejams",
-        "VALIDATION_ERROR": "Sākuma laikam jābūt pirms slēgšanas laika.",
-        "CHOOSE": "Izvēlēties"
+        "VALIDATION_ERROR": "Sakuma laikam jabut pirms sleg�anas laika.",
+        "CHOOSE": "Izveleties"
       },
       "ALL_DAY": "Visu dienu"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Iestatīt IMAP informāciju",
-      "NOTE_TEXT": "Lai iespējotu SMTP, lūdzu, nokonfigurējiet IMAP.",
-      "UPDATE": "Atjaunināt IMAP iestatījumus",
-      "TOGGLE_AVAILABILITY": "Iespējot IMAP konfigurāciju šai iesūtnei",
-      "TOGGLE_HELP": "Iespējojot IMAP, lietotājs varēs saņemt e-pastu",
+      "SUBTITLE": "Iestatit IMAP informaciju",
+      "NOTE_TEXT": "Lai iespejotu SMTP, ludzu, nokonfigurejiet IMAP.",
+      "UPDATE": "Atjauninat IMAP iestatijumus",
+      "TOGGLE_AVAILABILITY": "Iespejot IMAP konfiguraciju �ai iesutnei",
+      "TOGGLE_HELP": "Iespejojot IMAP, lietotajs vares sanemt e-pastu",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP iestatījumi ir veiksmīgi atjaunināti",
-        "ERROR_MESSAGE": "Nevar atjaunināt IMAP iestatījumus"
+        "SUCCESS_MESSAGE": "IMAP iestatijumi ir veiksmigi atjauninati",
+        "ERROR_MESSAGE": "Nevar atjauninat IMAP iestatijumus"
       },
       "ADDRESS": {
         "LABEL": "Adrese",
-        "PLACE_HOLDER": "Adrese (piemēram: imap.gmail.com)"
+        "PLACE_HOLDER": "Adrese (piemeram: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Ports",
         "PLACE_HOLDER": "Ports"
       },
       "LOGIN": {
-        "LABEL": "Lietotājvārds",
-        "PLACE_HOLDER": "Lietotājvārds"
+        "LABEL": "Lietotajvards",
+        "PLACE_HOLDER": "Lietotajvards"
       },
       "PASSWORD": {
         "LABEL": "Parole",
         "PLACE_HOLDER": "Parole"
       },
-      "ENABLE_SSL": "Iespējot SSL",
-      "AUTH_MECHANISM": "Autentifikācija"
+      "ENABLE_SSL": "Iespejot SSL",
+      "AUTH_MECHANISM": "Autentifikacija"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Atkārtoti autorizēt savu MICROSOFT kontu"
+      "SUBTITLE": "Atkartoti autorizet savu MICROSOFT kontu"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Iestatīt SMTP informāciju",
-      "UPDATE": "Atjaunināt SMTP iestatījumus",
-      "TOGGLE_AVAILABILITY": "Iespējot SMTP konfigurāciju šai iesūtnei",
-      "TOGGLE_HELP": "Iespējojot SMTP lietotājs varēs nosūtīt e-pastu",
+      "SUBTITLE": "Iestatit SMTP informaciju",
+      "UPDATE": "Atjauninat SMTP iestatijumus",
+      "TOGGLE_AVAILABILITY": "Iespejot SMTP konfiguraciju �ai iesutnei",
+      "TOGGLE_HELP": "Iespejojot SMTP lietotajs vares nosutit e-pastu",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP iestatījumi ir veiksmīgi atjaunināti",
-        "ERROR_MESSAGE": "Nevar atjaunināt SMTP iestatījumus"
+        "SUCCESS_MESSAGE": "SMTP iestatijumi ir veiksmigi atjauninati",
+        "ERROR_MESSAGE": "Nevar atjauninat SMTP iestatijumus"
       },
       "ADDRESS": {
         "LABEL": "Adrese",
-        "PLACE_HOLDER": "Adrese (piemēram: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adrese (piemeram: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Ports",
         "PLACE_HOLDER": "Ports"
       },
       "LOGIN": {
-        "LABEL": "Lietotājvārds",
-        "PLACE_HOLDER": "Lietotājvārds"
+        "LABEL": "Lietotajvards",
+        "PLACE_HOLDER": "Lietotajvards"
       },
       "PASSWORD": {
         "LABEL": "Parole",
         "PLACE_HOLDER": "Parole"
       },
       "DOMAIN": {
-        "LABEL": "Domēns",
-        "PLACE_HOLDER": "Domēns"
+        "LABEL": "Domens",
+        "PLACE_HOLDER": "Domens"
       },
-      "ENCRYPTION": "Šifrēšana",
+      "ENCRYPTION": "�ifre�ana",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Režīms",
-      "AUTH_MECHANISM": "Autentifikācija"
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Re�ims",
+      "AUTH_MECHANISM": "Autentifikacija"
     },
-    "NOTE": "Piezīme: ",
+    "NOTE": "Piezime: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Tīmekļa Vietnes Avatārs",
+          "LABEL": "Timekla Vietnes Avatars",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatārs ir veiksmīgi izdzēsts",
-              "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
+              "SUCCESS_MESSAGE": "Avatars ir veiksmigi izdzests",
+              "ERROR_MESSAGE": "Radas kluda. Ludzu, meginiet velreiz"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Tīmekļa Vietnes Nosaukums",
-          "PLACE_HOLDER": "Ievadiet Jūsu tīmekļa vietnes nosaukumu (piemēram: Acme Inc)",
-          "ERROR": "Lūdzu, ievadiet derīgu tīmekļa vietnes nosaukumu"
+          "LABEL": "Timekla Vietnes Nosaukums",
+          "PLACE_HOLDER": "Ievadiet Jusu timekla vietnes nosaukumu (piemeram: Acme Inc)",
+          "ERROR": "Ludzu, ievadiet derigu timekla vietnes nosaukumu"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Laipni lūdzam Virsraksts",
-          "PLACE_HOLDER": "Sveicināti!"
+          "LABEL": "Laipni ludzam Virsraksts",
+          "PLACE_HOLDER": "Sveicinati!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Laipni lūdzam Teksts",
-          "PLACE_HOLDER": "Sazināties ar mums ir vienkārši. Vaicājiet mums jebko, vai dalieties ar savām atsauksmēm."
+          "LABEL": "Laipni ludzam Teksts",
+          "PLACE_HOLDER": "Sazinaties ar mums ir vienkar�i. Vaicajiet mums jebko, vai dalieties ar savam atsauksmem."
         },
         "REPLY_TIME": {
           "LABEL": "Atbildes Laiks",
-          "IN_A_FEW_MINUTES": "Dažās minutēs",
-          "IN_A_FEW_HOURS": "Dažās stundās",
-          "IN_A_DAY": "Dienas laikā"
+          "IN_A_FEW_MINUTES": "Da�as minutes",
+          "IN_A_FEW_HOURS": "Da�as stundas",
+          "IN_A_DAY": "Dienas laika"
         },
-        "WIDGET_COLOR_LABEL": "Logrīka Krāsa",
+        "WIDGET_COLOR_LABEL": "Logrika Krasa",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Tips:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Tērzējiet ar mums",
+          "DEFAULT": "Terzejiet ar mums",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "Tērzējiet ar mums"
+          "PLACE_HOLDER": "Terzejiet ar mums"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Atjaunināt Logrīka Iestatījumus",
+          "BUTTON_TEXT": "Atjauninat Logrika Iestatijumus",
           "API": {
-            "SUCCESS_MESSAGE": "Logrīka iestatījumi ir veiksmīgi atjaunināti",
-            "ERROR_MESSAGE": "Nevar atjaunināt logrīka iestatījumus"
+            "SUCCESS_MESSAGE": "Logrika iestatijumi ir veiksmigi atjauninati",
+            "ERROR_MESSAGE": "Nevar atjauninat logrika iestatijumus"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Priekšskatījums",
+          "PREVIEW": "Priek�skatijums",
           "SCRIPT": "Skripts"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -1142,32 +1142,32 @@
         },
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standarta",
-          "EXPANDED_BUBBLE": "Izvērsts Burbulis"
+          "EXPANDED_BUBBLE": "Izversts Burbulis"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Noklusējums",
+        "DEFAULT": "Noklusejums",
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Parasti atbild dažu minūšu laikā",
-        "IN_A_FEW_HOURS": "Parasti atbild dažu stundu laikā",
-        "IN_A_DAY": "Parasti atbild vienas dienas laikā"
+        "IN_A_FEW_MINUTES": "Parasti atbild da�u minu�u laika",
+        "IN_A_FEW_HOURS": "Parasti atbild da�u stundu laika",
+        "IN_A_DAY": "Parasti atbild vienas dienas laika"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Sākt Sarunu",
-        "CHAT_INPUT_PLACEHOLDER": "Rakstiet savu ziņojumu"
+        "START_CONVERSATION_BUTTON_TEXT": "Sakt Sarunu",
+        "CHAT_INPUT_PLACEHOLDER": "Rakstiet savu zinojumu"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Mēs esam Tiešsaistē",
-          "OFFLINE": "Šobrīd neesam uz vietas"
+          "ONLINE": "Mes esam Tie�saiste",
+          "OFFLINE": "�obrid neesam uz vietas"
         },
-        "USER_MESSAGE": "Sveicināti",
+        "USER_MESSAGE": "Sveicinati",
         "AGENT_MESSAGE": "Labdien"
       },
-      "BRANDING_TEXT": "Darbināts ar Chatwoot",
-      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Darbinats ar Thynex",
+      "SCRIPT_SETTINGS": "\nwindow.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1179,13 +1179,13 @@
         "DESCRIPTION": "Connect with Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Citi Pakalpojuma Sniedzēji",
+        "TITLE": "Citi Pakalpojuma Sniedzeji",
         "DESCRIPTION": "Connect with Other Providers"
       }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Tīmekļa vietne",
+      "WEB_WIDGET": "Timekla vietne",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
@@ -1193,10 +1193,12 @@
       "EMAIL": "E-pasts",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanāls",
+      "API": "API Kanals",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voice"
     }
   }
 }
+
+

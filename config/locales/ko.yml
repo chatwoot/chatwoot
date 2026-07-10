@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,16 +330,16 @@ ko:
       description: '대시보드 앱을 사용하면 사용자 정보, 주문 또는 결제 내역을 표시하는 애플리케이션을 만들고 포함하여 고객 지원 에이전트에게 더 많은 컨텍스트를 제공할 수 있습니다.'
     dyte:
       name: 'Dyte'
-      short_description: 'Chatwoot에서 직접 고객과 영상/음성 통화를 시작합니다.'
-      description: 'Dyte는 애플리케이션에 오디오 및 비디오 기능을 통합하는 제품입니다. 이 통합을 사용하면 에이전트가 Chatwoot에서 직접 고객과 영상/음성 통화를 시작할 수 있습니다.'
+      short_description: 'Thynex에서 직접 고객과 영상/음성 통화를 시작합니다.'
+      description: 'Dyte는 애플리케이션에 오디오 및 비디오 기능을 통합하는 제품입니다. 이 통합을 사용하면 에이전트가 Thynex에서 직접 고객과 영상/음성 통화를 시작할 수 있습니다.'
       meeting_name: '%{agent_name}님이 회의를 시작했습니다'
     slack:
       name: 'Slack'
       short_description: 'Slack에서 직접 알림을 받고 대화에 응답합니다.'
-      description: "Chatwoot을 Slack과 통합하여 팀의 동기화를 유지합니다. 이 통합을 통해 새 대화에 대한 알림을 받고 Slack 인터페이스에서 직접 응답할 수 있습니다."
+      description: "Thynex을 Slack과 통합하여 팀의 동기화를 유지합니다. 이 통합을 통해 새 대화에 대한 알림을 받고 Slack 인터페이스에서 직접 응답할 수 있습니다."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook 이벤트는 Chatwoot 계정의 활동에 대한 실시간 업데이트를 제공합니다. 원하는 이벤트를 구독하면 Chatwoot이 업데이트와 함께 HTTP 콜백을 전송합니다.'
+      description: 'Webhook 이벤트는 Thynex 계정의 활동에 대한 실시간 업데이트를 제공합니다. 원하는 이벤트를 구독하면 Thynex이 업데이트와 함께 HTTP 콜백을 전송합니다.'
     dialogflow:
       name: 'Dialogflow'
       short_description: '에이전트에게 전달하기 전에 초기 문의를 처리할 챗봇을 구축합니다.'
@@ -544,3 +544,4 @@ ko:
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+

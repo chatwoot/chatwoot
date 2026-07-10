@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "मद्दत केन्द्र",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "स्लग",
           "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "स्लग",
           "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "स्लग आवश्यक छ"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "स्लग",
             "PLACEHOLDER": "URL का लागि श्रेणी स्लग",
             "ERROR": "स्लग आवश्यक छ",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "विवरण",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "सिर्जना गर्नुहोस्",
       "NAME": {
         "LABEL": "नाम",
-        "PLACEHOLDER": "प्रयोगकर्ता मार्गदर्शक | Chatwoot",
+        "PLACEHOLDER": "प्रयोगकर्ता मार्गदर्शक | Thynex",
         "MESSAGE": "तपाईंको पोर्टलको लागि नाम छान्नुहोस्।",
         "ERROR": "नाम आवश्यक छ"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS कन्फिगरेसन",
-            "DESCRIPTION": "तपाईंको DNS प्रदायकको खातामा लगइन गर्नुहोस्, र उपडोमेनको लागि CNAME रेकर्ड chatwoot.help तर्फ थप्नुहोस्",
+            "DESCRIPTION": "तपाईंको DNS प्रदायकको खातामा लगइन गर्नुहोस्, र उपडोमेनको लागि CNAME रेकर्ड help.thynex.ai तर्फ थप्नुहोस्",
             "COPY": "CNAME सफलतापूर्वक प्रतिलिपि गरियो",
             "SEND_INSTRUCTIONS": {
               "HEADER": "निर्देशनहरू पठाउनुहोस्",
@@ -956,3 +956,4 @@
     }
   }
 }
+

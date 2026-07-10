@@ -1,6 +1,6 @@
-# Chatwoot E2E Testing
+﻿# Thynex E2E Testing
 
-End-to-end testing framework for Chatwoot using Component Object Model pattern.
+End-to-end testing framework for Thynex using Component Object Model pattern.
 
 ## Setup
 
@@ -15,7 +15,7 @@ npx playwright install
 cp .env.example .env
 ```
 
-Edit `.env` with your Chatwoot instance URL and credentials.
+Edit `.env` with your Thynex instance URL and credentials.
 
 ## Usage
 
@@ -57,3 +57,4 @@ See [DOCS.md](./DOCS.md) for complete testing guide including patterns, conventi
 ## Configuration
 
 See `.env.example` for the full list of variables.
+

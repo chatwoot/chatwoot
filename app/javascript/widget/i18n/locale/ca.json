@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Descarrega",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Xateja amb nosaltres"
   },
-  "POWERED_BY": "Desenvolupat per Chatwoot",
+  "POWERED_BY": "Desenvolupat per Thynex",
   "EMAIL_PLACEHOLDER": "Introduïu el correu electrònic",
   "CHAT_PLACEHOLDER": "Escriu el missatge",
   "TODAY": "Avui",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Responent a:"
   }
 }
+

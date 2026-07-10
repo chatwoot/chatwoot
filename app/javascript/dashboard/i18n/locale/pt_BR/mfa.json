@@ -1,4 +1,4 @@
-{
+﻿{
   "MFA_SETTINGS": {
     "TITLE": "Autenticação em Dois Fatores",
     "SUBTITLE": "Proteja sua conta contra acessos não autorizados com autenticação baseada em TOTP. Isso adiciona uma camada extra de segurança à sua conta.",
@@ -102,9 +102,10 @@
       "BACKUP_TITLE": "Usando um Código de Backup",
       "BACKUP_DESC": "Se você não tiver acesso ao seu aplicativo autenticador, pode usar um dos códigos de backup que salvou ao configurar o 2FA. Cada código só pode ser usado uma vez.",
       "CONTACT_TITLE": "Precisa de Mais Ajuda?",
-      "CONTACT_DESC_CLOUD": "Se você perdeu o acesso tanto ao aplicativo autenticador quanto aos códigos de backup, entre em contato com o suporte do Chatwoot para obter ajuda.",
+      "CONTACT_DESC_CLOUD": "Se você perdeu o acesso tanto ao aplicativo autenticador quanto aos códigos de backup, entre em contato com o suporte do Thynex para obter ajuda.",
       "CONTACT_DESC_SELF_HOSTED": "Se você perdeu o acesso tanto ao aplicativo autenticador quanto aos códigos de backup, entre em contato com o administrador para obter ajuda."
     },
     "VERIFICATION_FAILED": "Falha na verificação. Tente novamente."
   }
 }
+

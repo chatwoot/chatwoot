@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Κατέβασμα",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Συνομιλήστε μαζί μας"
   },
-  "POWERED_BY": "με την δύναμη του Chatwoot",
+  "POWERED_BY": "με την δύναμη του Thynex",
   "EMAIL_PLACEHOLDER": "Παρακαλώ εισάγετε το email σας",
   "CHAT_PLACEHOLDER": "Πληκτρολογήστε το μήνυμά σας",
   "TODAY": "Σήμερα",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Replying to:"
   }
 }
+

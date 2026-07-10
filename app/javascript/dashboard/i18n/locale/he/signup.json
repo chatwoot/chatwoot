@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "צור חשבון",
-    "GET_STARTED": "Get started with Chatwoot",
+    "GET_STARTED": "Get started with Thynex",
     "TITLE": "הירשם",
     "TESTIMONIAL_HEADER": "כל מה שצריך זה צעד אחד כדי להתקדם",
     "TESTIMONIAL_CONTENT": "אתה במרחק צעד אחד מלהפעיל את הלקוחות שלך, לשמר אותם ולמצוא חדשים.",
-    "TERMS_ACCEPT": "על ידי יצירת חשבון, אתה מסכים ל<a href=\"https://www.chatwoot.com/terms\">תנאים וההגבלות</a> ול-<a href=\"https://www.chatwoot.com/ שלנו privacy-policy\">מדיניות הפרטיות</a>",
+    "TERMS_ACCEPT": "על ידי יצירת חשבון, אתה מסכים ל<a href=\"https://www.thynex.ai/terms\">תנאים וההגבלות</a> ול-<a href=\"https://www.thynex.ai/ שלנו privacy-policy\">מדיניות הפרטיות</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "הירשם לגוגל"
     },
@@ -55,3 +55,4 @@
     }
   }
 }
+

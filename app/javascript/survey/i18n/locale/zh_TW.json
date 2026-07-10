@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "親愛的客戶👋，請花一些時間分享您與 {inboxName} 對話的反饋。",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "無法連接伺服器，請稍後再試"
     }
   },
-  "POWERED_BY": "由 Chatwoot 支援"
+  "POWERED_BY": "由 Thynex 支援"
 }
+

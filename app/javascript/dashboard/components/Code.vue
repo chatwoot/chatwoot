@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { computed } from 'vue';
 import 'highlight.js/styles/default.css';
 import 'highlight.js/lib/common';
@@ -22,7 +22,7 @@ const props = defineProps({
   },
   codepenTitle: {
     type: String,
-    default: 'Chatwoot Codepen',
+    default: 'Thynex Codepen',
   },
 });
 
@@ -96,3 +96,4 @@ const onCopy = async e => {
     />
   </div>
 </template>
+

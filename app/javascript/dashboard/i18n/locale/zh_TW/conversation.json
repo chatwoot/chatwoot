@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "請從左側窗格選擇一個對話",
     "CSAT_REPLY_MESSAGE": "請為此對話評分",
@@ -282,7 +282,7 @@
     "SENT_BY": "發送者：",
     "BOT": "機器人",
     "NATIVE_APP": "原生應用程式",
-    "NATIVE_APP_ADVISORY": "此訊息是從原生應用程式發送的。請從 Chatwoot 回覆以維持訊息視窗。",
+    "NATIVE_APP_ADVISORY": "此訊息是從原生應用程式發送的。請從 Thynex 回覆以維持訊息視窗。",
     "SEND_FAILED": "無法發送訊息！請再試一次",
     "TRY_AGAIN": "重試",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "無法下載附件。請再試一次"
   }
 }
+

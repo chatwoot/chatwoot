@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Kairiojoje srityje pasirinkite pokalbį",
     "CSAT_REPLY_MESSAGE": "Prašome įvertinti pokalbį",
@@ -282,7 +282,7 @@
     "SENT_BY": "Siuntėjas:",
     "BOT": "Botas",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Nepavyko išsiųsti pranešimo! Bandykite dar kartą",
     "TRY_AGAIN": "kartoti",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

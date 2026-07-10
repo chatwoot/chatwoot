@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "برچسب‌ها",
     "HEADER_BTN_TXT": "افزودن برچسب",
@@ -50,7 +50,7 @@
         "DESELECT": "برچسب را از حالت انتخاب خارج کن",
         "DISMISS": "بستن پیشنهاد ها"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "نادیده بگیر",
       "ADD_SELECTED_LABELS": "اضافه کردن برچسب‌های انتخاب شده",
       "ADD_SELECTED_LABEL": "اضافه کردن برچسب‌ انتخاب شده",
@@ -87,3 +87,4 @@
     }
   }
 }
+

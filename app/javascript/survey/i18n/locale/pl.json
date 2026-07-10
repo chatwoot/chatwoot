@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Droga Klientko, Drogi Kliencie 👋, poświęć proszę kilka chwil, aby podzielić się opinią na temat rozmowy, którą odbyłeś(aś) z {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Nie można połączyć się z Woot Server, spróbuj ponownie później"
     }
   },
-  "POWERED_BY": "Napędzany przez Chatwoot"
+  "POWERED_BY": "Napędzany przez Thynex"
 }
+

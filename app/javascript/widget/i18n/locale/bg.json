@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Изтегляне",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Чатете с нас"
   },
-  "POWERED_BY": "Осъществено от Chatwoot",
+  "POWERED_BY": "Осъществено от Thynex",
   "EMAIL_PLACEHOLDER": "Моля, въведете имейл адреса си",
   "CHAT_PLACEHOLDER": "Напишете вашето съобщение",
   "TODAY": "Днес",
@@ -151,3 +151,4 @@
     "REPLY_TO": "В отговор на:"
   }
 }
+

@@ -1,4 +1,4 @@
-class Mfa::ManagementService
+﻿class Mfa::ManagementService
   pattr_initialize [:user!]
 
   def enable_two_factor!
@@ -23,7 +23,7 @@ class Mfa::ManagementService
   def two_factor_provisioning_uri
     return nil if user.otp_secret.blank?
 
-    issuer = 'Chatwoot'
+    issuer = 'Thynex'
     label = user.email
     user.otp_provisioning_uri(label, issuer: issuer)
   end
@@ -86,3 +86,4 @@ class Mfa::ManagementService
     user.otp_secret.present? && !user.otp_required_for_login?
   end
 end
+

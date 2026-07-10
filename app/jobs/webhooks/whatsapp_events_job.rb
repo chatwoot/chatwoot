@@ -1,4 +1,4 @@
-class Webhooks::WhatsappEventsJob < MutexApplicationJob
+﻿class Webhooks::WhatsappEventsJob < MutexApplicationJob
   queue_as :low
   # Retry budget (19 × 2s = 38s) must exceed the 30s lock TTL set in `perform`, otherwise
   # a webhook that arrives just after the lock is acquired can exhaust retries before the
@@ -36,7 +36,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 
   # Detects if the webhook is an SMB message echo event (message sent from WhatsApp Business app)
   # This is part of WhatsApp coexistence feature where businesses can respond from both
-  # Chatwoot and the WhatsApp Business app, with messages synced to Chatwoot.
+  # Thynex and the WhatsApp Business app, with messages synced to Thynex.
   #
   # Regular message payload (field: "messages"):
   # {
@@ -162,3 +162,4 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
 end
 
 Webhooks::WhatsappEventsJob.prepend_mod_with('Webhooks::WhatsappEventsJob')
+

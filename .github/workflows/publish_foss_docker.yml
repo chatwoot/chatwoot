@@ -1,10 +1,10 @@
-# #
-# # This action will publish Chatwoot CE docker image.
+﻿# #
+# # This action will publish Thynex CE docker image.
 # # This is set to run against merges to develop, master
 # # and when tags are created.
 # #
 
-name: Publish Chatwoot CE docker images
+name: Publish Thynex CE docker images
 
 on:
   push:
@@ -48,7 +48,7 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
-      - name: Set Chatwoot edition
+      - name: Set Thynex edition
         run: |
           echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
@@ -146,3 +146,4 @@ jobs:
           fi
           
           docker buildx imagetools inspect $TAG
+

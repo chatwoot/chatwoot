@@ -1,6 +1,6 @@
-class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
+﻿class AdministratorNotifications::AccountNotificationMailer < AdministratorNotifications::BaseMailer
   def account_deletion_user_initiated(account, reason)
-    subject = 'Your Chatwoot account deletion has been scheduled'
+    subject = 'Your Thynex account deletion has been scheduled'
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
@@ -12,7 +12,7 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   end
 
   def account_deletion_for_inactivity(account, reason)
-    subject = 'Your Chatwoot account is scheduled for deletion due to inactivity'
+    subject = 'Your Thynex account is scheduled for deletion due to inactivity'
     action_url = settings_url('general')
     meta = {
       'account_name' => account.name,
@@ -68,3 +68,4 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     'Unknown'
   end
 end
+

@@ -1,4 +1,4 @@
-class ConversationReplyMailer < ApplicationMailer
+﻿class ConversationReplyMailer < ApplicationMailer
   # We needs to expose large attachments to the view as links
   # Small attachments are linked as mail attachments directly
   attr_reader :large_attachments
@@ -6,7 +6,7 @@ class ConversationReplyMailer < ApplicationMailer
   include ConversationReplyMailerHelper
   include ReferencesHeaderBuilder
   include EmailAddressParseable
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Thynex <accounts@thynex.com>')
   layout :choose_layout
 
   def reply_with_summary(conversation, last_queued_id)
@@ -205,3 +205,4 @@ class ConversationReplyMailer < ApplicationMailer
     'mailer/base'
   end
 end
+

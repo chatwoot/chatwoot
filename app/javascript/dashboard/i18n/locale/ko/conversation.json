@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "왼쪽 창에서 대화를 선택하십시오.",
     "CSAT_REPLY_MESSAGE": "대화를 평가해 주십시오",
@@ -282,7 +282,7 @@
     "SENT_BY": "보낸 사람:",
     "BOT": "봇",
     "NATIVE_APP": "네이티브 앱",
-    "NATIVE_APP_ADVISORY": "이 메시지는 네이티브 앱에서 전송되었습니다. 메시지 창을 유지하려면 Chatwoot에서 답장하십시오.",
+    "NATIVE_APP_ADVISORY": "이 메시지는 네이티브 앱에서 전송되었습니다. 메시지 창을 유지하려면 Thynex에서 답장하십시오.",
     "SEND_FAILED": "메시지를 보낼 수 없습니다! 다시 시도해 주십시오.",
     "TRY_AGAIN": "재시도",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "첨부 파일을 다운로드할 수 없습니다. 다시 시도해 주십시오."
   }
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Draga stranka 👋, vzemite si nekaj trenutkov in nam posredujte povratne informacije o pogovoru, ki ste ga imeli z {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom, poskusite znova pozneje"
     }
   },
-  "POWERED_BY": "Poganja Chatwoot"
+  "POWERED_BY": "Poganja Thynex"
 }
+

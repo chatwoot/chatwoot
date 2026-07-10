@@ -1,4 +1,4 @@
-{
+﻿{
   "HELP_CENTER": {
     "TITLE": "সহায়তা কেন্দ্র",
     "NEW_PAGE": {
@@ -419,7 +419,7 @@
         "SLUG": {
           "LABEL": "স্লাগ",
           "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "স্লাগ আবশ্যক"
         },
         "DESCRIPTION": {
@@ -450,7 +450,7 @@
         "SLUG": {
           "LABEL": "স্লাগ",
           "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "HELP_TEXT": "app.thynex.ai/hc/my-portal/en-US/categories/my-slug",
           "ERROR": "স্লাগ আবশ্যক"
         },
         "DESCRIPTION": {
@@ -673,7 +673,7 @@
             "LABEL": "স্লাগ",
             "PLACEHOLDER": "বিভাগের ইউআরএল স্লাগ",
             "ERROR": "স্লাগ আবশ্যক",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "app.thynex.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "বর্ণনা",
@@ -766,7 +766,7 @@
       "CONFIRM_BUTTON_LABEL": "তৈরি করুন",
       "NAME": {
         "LABEL": "নাম",
-        "PLACEHOLDER": "ব্যবহারকারী গাইড | Chatwoot",
+        "PLACEHOLDER": "ব্যবহারকারী গাইড | Thynex",
         "MESSAGE": "আপনার পোর্টালের জন্য একটি নাম নির্বাচন করুন.",
         "ERROR": "নাম আবশ্যক"
       },
@@ -846,7 +846,7 @@
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS কনফিগারেশন",
-            "DESCRIPTION": "আপনার DNS প্রদানকারীর অ্যাকাউন্টে লগইন করুন এবং সাবডোমেইনের জন্য একটি CNAME রেকর্ড যোগ করুন যা chatwoot.help এর দিকে নির্দেশ করে",
+            "DESCRIPTION": "আপনার DNS প্রদানকারীর অ্যাকাউন্টে লগইন করুন এবং সাবডোমেইনের জন্য একটি CNAME রেকর্ড যোগ করুন যা help.thynex.ai এর দিকে নির্দেশ করে",
             "COPY": "সফলভাবে CNAME কপি হয়েছে",
             "SEND_INSTRUCTIONS": {
               "HEADER": "নির্দেশনা পাঠান",
@@ -956,3 +956,4 @@
     }
   }
 }
+

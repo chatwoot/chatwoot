@@ -1,6 +1,6 @@
-require 'rubocop'
+﻿require 'rubocop'
 
-module RuboCop::Cop::Chatwoot; end
+module RuboCop::Cop::Thynex; end
 
 class RuboCop::Cop::Chatwoot::AttachmentDownload < RuboCop::Cop::Base
   MSG = 'Avoid calling `.file/.blob.download`; use `blob.open` or streaming IO instead.'.freeze
@@ -15,3 +15,4 @@ class RuboCop::Cop::Chatwoot::AttachmentDownload < RuboCop::Cop::Base
     add_offense(node.loc.selector, message: MSG)
   end
 end
+

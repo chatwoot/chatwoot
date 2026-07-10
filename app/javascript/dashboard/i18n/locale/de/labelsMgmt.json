@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Labels",
     "HEADER_BTN_TXT": "Label hinzufügen",
@@ -50,7 +50,7 @@
         "DESELECT": "Label abwählen",
         "DISMISS": "Vorschlag verwerfen"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "Verwerfen",
       "ADD_SELECTED_LABELS": "Ausgewählte Labels hinzufügen",
       "ADD_SELECTED_LABEL": "Ausgewähltes Label hinzufügen",
@@ -87,3 +87,4 @@
     }
   }
 }
+

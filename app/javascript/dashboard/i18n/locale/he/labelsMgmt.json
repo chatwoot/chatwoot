@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "תוויות",
     "HEADER_BTN_TXT": "הוסף תווית",
@@ -50,7 +50,7 @@
         "DESELECT": "בטל בחירת תווית",
         "DISMISS": "בטל הצעה"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "סגור",
       "ADD_SELECTED_LABELS": "הוסף תוויות שנבחרו",
       "ADD_SELECTED_LABEL": "הוסף תווית שנבחרה",
@@ -87,3 +87,4 @@
     }
   }
 }
+

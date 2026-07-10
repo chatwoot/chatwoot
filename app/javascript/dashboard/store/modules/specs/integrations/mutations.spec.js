@@ -1,4 +1,4 @@
-import types from '../../../mutation-types';
+﻿import types from '../../../mutation-types';
 import { mutations } from '../../integrations';
 
 describe('#mutations', () => {
@@ -31,7 +31,7 @@ describe('#mutations', () => {
         id: 1,
         app_id: 'dialogflow',
         status: false,
-        inbox: { id: 1, name: 'Chatwoot' },
+        inbox: { id: 1, name: 'Thynex' },
         account_id: 1,
         hook_type: 'inbox',
         settings: { project_id: 'test', credentials: {} },
@@ -57,7 +57,7 @@ describe('#mutations', () => {
                 id: 1,
                 app_id: 'dialogflow',
                 status: false,
-                inbox: { id: 1, name: 'Chatwoot' },
+                inbox: { id: 1, name: 'Thynex' },
                 account_id: 1,
                 hook_type: 'inbox',
                 settings: { project_id: 'test', credentials: {} },
@@ -79,3 +79,4 @@ describe('#mutations', () => {
     });
   });
 });
+

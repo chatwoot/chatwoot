@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Arvoisa asiakas 👋, käytäthän hetken aikaasi ja annat palautetta keskustelusta, jonka kävit {inboxName} kanssa.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Yhteyden muodostaminen Woot-palvelimelle ei onnistunut, yritä myöhemmin uudelleen"
     }
   },
-  "POWERED_BY": "Palvelun tarjoaa Chatwoot"
+  "POWERED_BY": "Palvelun tarjoaa Thynex"
 }
+

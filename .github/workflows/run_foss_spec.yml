@@ -1,4 +1,4 @@
-name: Run Chatwoot CE spec
+﻿name: Run Thynex CE spec
 permissions:
   contents: read
 on:
@@ -144,3 +144,4 @@ jobs:
         with:
           name: rails-log-folder-${{ matrix.ci_node_index }}
           path: log
+

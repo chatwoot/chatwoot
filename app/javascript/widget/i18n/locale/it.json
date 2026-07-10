@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Scarica",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Chatta con noi"
   },
-  "POWERED_BY": "Offerto da Chatwoot",
+  "POWERED_BY": "Offerto da Thynex",
   "EMAIL_PLACEHOLDER": "Inserisci la tua email",
   "CHAT_PLACEHOLDER": "Scrivi il tuo messaggio",
   "TODAY": "Oggi",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Rispondendo a:"
   }
 }
+

@@ -1,4 +1,4 @@
-class Twilio::VoiceWebhookSetupService
+﻿class Twilio::VoiceWebhookSetupService
   include Rails.application.routes.url_helpers
 
   pattr_initialize [:channel!]
@@ -24,7 +24,7 @@ class Twilio::VoiceWebhookSetupService
   end
 
   def create_twiml_app!
-    friendly_name = "Chatwoot Voice #{channel.phone_number}"
+    friendly_name = "Thynex Voice #{channel.phone_number}"
     app = channel.client.applications.create(
       friendly_name: friendly_name,
       voice_url: channel.voice_call_webhook_url,
@@ -81,3 +81,4 @@ class Twilio::VoiceWebhookSetupService
     details[:details] = error.details if error.respond_to?(:details)
   end
 end
+

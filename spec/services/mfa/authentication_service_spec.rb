@@ -1,8 +1,8 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 describe Mfa::AuthenticationService do
   before do
-    skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
+    skip('Skipping since MFA is not configured in this environment') unless Thynex.encryption_configured?
     user.enable_two_factor!
     user.update!(otp_required_for_login: true)
   end
@@ -104,3 +104,4 @@ describe Mfa::AuthenticationService do
     end
   end
 end
+

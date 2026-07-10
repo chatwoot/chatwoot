@@ -1,11 +1,11 @@
-<script setup>
+﻿<script setup>
 import CategoryCard from './CategoryCard.vue';
 const categories = [
   {
     id: 1,
     title: 'Getting started',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
+      'Learn how to use Thynex effectively and make the most of its features to enhance customer support and engagement.',
     articlesCount: 5,
     slug: 'getting-started',
     icon: '🚀',
@@ -46,3 +46,4 @@ const categories = [
     </Variant>
   </Story>
 </template>
+

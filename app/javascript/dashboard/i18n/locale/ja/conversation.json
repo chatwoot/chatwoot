@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "左のリストから会話を選択してください",
     "CSAT_REPLY_MESSAGE": "会話の評価にご協力をお願いいたします。",
@@ -282,7 +282,7 @@
     "SENT_BY": "送信者：",
     "BOT": "ボット",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "メッセージを送信できませんでした！再試行してください",
     "TRY_AGAIN": "再試行",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "添付ファイルをダウンロードできませんでした。もう一度お試しください。"
   }
 }
+

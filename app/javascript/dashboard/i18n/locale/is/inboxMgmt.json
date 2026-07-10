@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "InnhÃ³lf",
+    "HEADER": "Innhólf",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -8,48 +8,48 @@
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnâ€™t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "ÃaÃ° eru engin innhÃ³lf tengd viÃ° Ã¾ennan reikning."
+      "404": "Şağ eru engin innhólf tengd viğ şennan reikning."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Veldu rÃ¡s",
-        "BODY": "Veldu Ã¾jÃ³nustuveituna sem Ã¾Ãº vilt samÃ¾Ã¦tta viÃ° Chatwoot."
+        "TITLE": "Veldu rás",
+        "BODY": "Veldu şjónustuveituna sem şú vilt samşætta viğ Thynex."
       },
       "INBOX": {
-        "TITLE": "NÃ½tt innhÃ³lf",
-        "BODY": "StaÃ°festu reikninginn Ã¾inn og bÃºÃ°u til pÃ³sthÃ³lf."
+        "TITLE": "Nıtt innhólf",
+        "BODY": "Stağfestu reikninginn şinn og búğu til pósthólf."
       },
       "AGENT": {
-        "TITLE": "BÃ¦ta viÃ° Ã¾jÃ³nustufulltrÃºa",
-        "BODY": "BÃ¦ta Ã¾jÃ³nustufulltrÃºum Ã¡ nÃ½ja innhÃ³lfiÃ°."
+        "TITLE": "Bæta viğ şjónustufulltrúa",
+        "BODY": "Bæta şjónustufulltrúum á nıja innhólfiğ."
       },
       "FINISH": {
-        "TITLE": "VoilÃ !",
-        "BODY": "ÃÃº ert tilbÃºin til aÃ° halda Ã¡fram!"
+        "TITLE": "Voilà!",
+        "BODY": "Şú ert tilbúin til ağ halda áfram!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Nafn InnhÃ³lfs",
-        "PLACEHOLDER": "SlÃ¡Ã°u inn nafn innhÃ³lfsins (DÃ¦mi: Acme ehf)",
-        "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt nafn innhÃ³lfs"
+        "LABEL": "Nafn Innhólfs",
+        "PLACEHOLDER": "Sláğu inn nafn innhólfsins (Dæmi: Acme ehf)",
+        "ERROR": "Vinsamlegast sláğu inn gilt nafn innhólfs"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Nafn VefsÃ­Ã°u",
-        "PLACEHOLDER": "SlÃ¡Ã°u inn nafn vefsÃ­Ã°u (DÃ¦mi: Acme ehf)"
+        "LABEL": "Nafn Vefsíğu",
+        "PLACEHOLDER": "Sláğu inn nafn vefsíğu (Dæmi: Acme ehf)"
       },
       "FB": {
-        "HELP": "PS: MeÃ° Ã¾vÃ­ aÃ° skrÃ¡ Ã¾ig inn fÃ¡um viÃ° aÃ°eins aÃ°gang aÃ° skilaboÃ°um sÃ­Ã°unnar Ã¾innar. Chatwoot getur aldrei nÃ¡lgast einkaskilaboÃ°in Ã¾Ã­n.",
-        "CHOOSE_PAGE": "Veldu SÃ­Ã°u",
-        "CHOOSE_PLACEHOLDER": "Veldu sÃ­Ã°u Ãºr listanum",
-        "INBOX_NAME": "Nafn InnhÃ³lfs",
-        "ADD_NAME": "BÃ¦ttu viÃ° nafni Ã¡ innhÃ³lfiÃ°",
+        "HELP": "PS: Meğ şví ağ skrá şig inn fáum viğ ağeins ağgang ağ skilaboğum síğunnar şinnar. Thynex getur aldrei nálgast einkaskilaboğin şín.",
+        "CHOOSE_PAGE": "Veldu Síğu",
+        "CHOOSE_PLACEHOLDER": "Veldu síğu úr listanum",
+        "INBOX_NAME": "Nafn Innhólfs",
+        "ADD_NAME": "Bættu viğ nafni á innhólfiğ",
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Veldu gildi",
-        "CREATE_INBOX": "NÃ½tt innhÃ³lf"
+        "CREATE_INBOX": "Nıtt innhólf"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -58,7 +58,7 @@
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You wonâ€™t be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,23 +68,23 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Til aÃ° bÃ¦ta Twitter prÃ³fÃ­lnum Ã¾Ã­num viÃ° sem rÃ¡s Ã¾arftu aÃ° auÃ°kenna Twitter prÃ³fÃ­linn Ã¾inn meÃ° Ã¾vÃ­ aÃ° smella Ã¡ 'SkrÃ¡Ã°u Ã¾ig inn meÃ° Twitter'",
-        "ERROR_MESSAGE": "Villa kom upp viÃ° aÃ° tengjast Twitter, vinsamlegast reyndu aftur",
+        "HELP": "Til ağ bæta Twitter prófílnum şínum viğ sem rás şarftu ağ auğkenna Twitter prófílinn şinn meğ şví ağ smella á 'Skráğu şig inn meğ Twitter'",
+        "ERROR_MESSAGE": "Villa kom upp viğ ağ tengjast Twitter, vinsamlegast reyndu aftur",
         "TWEETS": {
-          "ENABLE": "BÃºÃ°u til samtÃ¶l Ãºr merktum Tweet-um"
+          "ENABLE": "Búğu til samtöl úr merktum Tweet-um"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "VefsÃ­Ã°u rÃ¡s",
-        "DESC": "BÃºÃ°u til rÃ¡s fyrir vefsÃ­Ã°una Ã¾Ã­na og byrjaÃ°u aÃ° aÃ°stoÃ°a viÃ°skiptavini Ã¾Ã­na Ã­ gegnum netspjalliÃ° okkar.",
-        "LOADING_MESSAGE": "BÃºa til VefsÃ­Ã°u ÃjÃ³nustu RÃ¡s",
+        "TITLE": "Vefsíğu rás",
+        "DESC": "Búğu til rás fyrir vefsíğuna şína og byrjağu ağ ağstoğa viğskiptavini şína í gegnum netspjalliğ okkar.",
+        "LOADING_MESSAGE": "Búa til Vefsíğu Şjónustu Rás",
         "CHANNEL_AVATAR": {
-          "LABEL": "RÃ¡samynd"
+          "LABEL": "Rásamynd"
         },
         "CHANNEL_WEBHOOK_URL": {
-          "LABEL": "VefkrÃ³ks URL",
+          "LABEL": "Vefkróks URL",
           "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "Vinsamlega skrÃ¡Ã°u gilt URL"
+          "ERROR": "Vinsamlega skráğu gilt URL"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -95,151 +95,151 @@
           "RESET_ERROR": "Unable to regenerate webhook secret. Please try again"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "LÃ©n VefsÃ­Ã°u",
-          "PLACEHOLDER": "SlÃ¡Ã°u lÃ©niÃ° Ã¡ vefsÃ­Ã°unni Ã¾inni (dÃ¦mi: acme.is)"
+          "LABEL": "Lén Vefsíğu",
+          "PLACEHOLDER": "Sláğu léniğ á vefsíğunni şinni (dæmi: acme.is)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "MÃ³ttÃ¶ku FyrirsÃ¶gn",
-          "PLACEHOLDER": "HÃ¦!"
+          "LABEL": "Móttöku Fyrirsögn",
+          "PLACEHOLDER": "Hæ!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "MÃ³ttÃ¶ku taglÃ­na",
-          "PLACEHOLDER": "ViÃ° gerum Ã¾aÃ° einfalt aÃ° tengjast okkur. SpyrÃ°u okkur hvaÃ° sem er eÃ°a deildu Ã¾Ã­nu Ã¡liti."
+          "LABEL": "Móttöku taglína",
+          "PLACEHOLDER": "Viğ gerum şağ einfalt ağ tengjast okkur. Spyrğu okkur hvağ sem er eğa deildu şínu áliti."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "MÃ³ttÃ¶kuskilaboÃ° rÃ¡sar",
-          "PLACEHOLDER": "Acme Inc svarar iÃ°ulega innan nokkura klukkustunda."
+          "LABEL": "Móttökuskilaboğ rásar",
+          "PLACEHOLDER": "Acme Inc svarar iğulega innan nokkura klukkustunda."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Virkja mÃ³ttÃ¶ku skilaboÃ°",
-          "HELP_TEXT": "Sendu sjÃ¡lfkrafa kveÃ°juskilaboÃ° Ã¾egar nÃ½tt samtal er bÃºiÃ° til.",
+          "LABEL": "Virkja móttöku skilaboğ",
+          "HELP_TEXT": "Sendu sjálfkrafa kveğjuskilaboğ şegar nıtt samtal er búiğ til.",
           "ENABLED": "Virkt",
-          "DISABLED": "SlÃ¶kkt"
+          "DISABLED": "Slökkt"
         },
         "REPLY_TIME": {
-          "TITLE": "SkrÃ¡ SvartÃ­ma",
-          "IN_A_FEW_MINUTES": "Eftir Ã¶rfÃ¡ar mÃ­nÃºtur",
+          "TITLE": "Skrá Svartíma",
+          "IN_A_FEW_MINUTES": "Eftir örfáar mínútur",
           "IN_A_FEW_HOURS": "Eftir nokkrar klukkustundir",
-          "IN_A_DAY": "Eftir sÃ³larhring",
-          "HELP_TEXT": "Ãessi svartÃ­mi mun birtast Ã¡ netspjallinu"
+          "IN_A_DAY": "Eftir sólarhring",
+          "HELP_TEXT": "Şessi svartími mun birtast á netspjallinu"
         },
         "WIDGET_COLOR": {
           "LABEL": "Litur Widgets",
-          "PLACEHOLDER": "UppfÃ¦ra litinn notaÃ°an Ã­ widgetinu"
+          "PLACEHOLDER": "Uppfæra litinn notağan í widgetinu"
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ innhÃ³lf",
+        "SUBMIT_BUTTON": "Skrá innhólf",
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki bÃºiÃ° til vefsÃ­Ã°urÃ¡s, vinsamlegast reyndu aftur"
+          "ERROR_MESSAGE": "Viğ gátum ekki búiğ til vefsíğurás, vinsamlegast reyndu aftur"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/WhatsApp RÃ¡s",
-        "DESC": "Innleiddu Twilio og byrjaÃ°u aÃ° aÃ°stoÃ°a viÃ°skiptavini Ã¾Ã­na meÃ° SMS eÃ°a WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Rás",
+        "DESC": "Innleiddu Twilio og byrjağu ağ ağstoğa viğskiptavini şína meğ SMS eğa WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "SID AÃ°gangs",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn SID Ã¡ Twilio AÃ°ganginum Ã¾Ã­num",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "LABEL": "SID Ağgangs",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn SID á Twilio Ağganginum şínum",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "API_KEY": {
           "USE_API_KEY": "Use API Key Authentication",
           "LABEL": "API Key SID",
           "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
           "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "SID SkilaboÃ°aÃ¾jÃ³nustu",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn Twilio Messaging Service SID",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit",
-          "USE_MESSAGING_SERVICE": "Nota Twilio SkilaboÃ°aÃ¾jÃ³nustuna"
+          "LABEL": "SID Skilaboğaşjónustu",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn Twilio Messaging Service SID",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit",
+          "USE_MESSAGING_SERVICE": "Nota Twilio Skilaboğaşjónustuna"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Tegund RÃ¡sar",
-          "ERROR": "Vinsamlegast veldu tegund rÃ¡sar"
+          "LABEL": "Tegund Rásar",
+          "ERROR": "Vinsamlegast veldu tegund rásar"
         },
         "AUTH_TOKEN": {
-          "LABEL": "AuÃ°kenningar token",
+          "LABEL": "Auğkenningar token",
           "PLACEHOLDER": "Please enter your Twilio Auth Token",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Nafn InnhÃ³lfs",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn nafn innhÃ³lfs",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "LABEL": "Nafn Innhólfs",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn nafn innhólfs",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "PHONE_NUMBER": {
-          "LABEL": "SÃ­manÃºmer",
-          "PLACEHOLDER": "Vinsamlega slÃ¡Ã°u inn sÃ­manÃºmeriÃ° sem skilaboÃ° verÃ°a send frÃ¡.",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt sÃ­manÃºmer sem byrjar meÃ° Â´+Â´ merki og inniheldur ekki nein bil."
+          "LABEL": "Símanúmer",
+          "PLACEHOLDER": "Vinsamlega sláğu inn símanúmeriğ sem skilaboğ verğa send frá.",
+          "ERROR": "Vinsamlegast sláğu inn gilt símanúmer sem byrjar meğ ´+´ merki og inniheldur ekki nein bil."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "ÃÃº verÃ°ur aÃ° stilla afturhringingarslÃ³Ã° skilaboÃ°a Ã­ Twilio meÃ° slÃ³Ã°inni sem nefnd er hÃ©r."
+          "SUBTITLE": "Şú verğur ağ stilla afturhringingarslóğ skilaboğa í Twilio meğ slóğinni sem nefnd er hér."
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ Twilio RÃ¡s",
+        "SUBMIT_BUTTON": "Skrá Twilio Rás",
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki auÃ°kennt Twilio auÃ°kenni, vinsamlegast reyndu aftur"
+          "ERROR_MESSAGE": "Viğ gátum ekki auğkennt Twilio auğkenni, vinsamlegast reyndu aftur"
         }
       },
       "SMS": {
-        "TITLE": "SMS RÃ¡s",
-        "DESC": "ByrjaÃ°u aÃ° aÃ°stoÃ°a viÃ°skiptavinina Ã¾Ã­na Ã­ gegnum SMS.",
+        "TITLE": "SMS Rás",
+        "DESC": "Byrjağu ağ ağstoğa viğskiptavinina şína í gegnum SMS.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Bandbreidd"
         },
         "API": {
-          "ERROR_MESSAGE": "ÃaÃ° tÃ³kst ekki aÃ° skrÃ¡ SMS rÃ¡sina"
+          "ERROR_MESSAGE": "Şağ tókst ekki ağ skrá SMS rásina"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "ReikningsnÃºmer",
+            "LABEL": "Reikningsnúmer",
             "PLACEHOLDER": "Please enter your Bandwidth Account ID",
-            "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+            "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
           },
           "API_KEY": {
             "LABEL": "API Lykill",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+            "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+            "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
           },
           "APPLICATION_ID": {
             "LABEL": "Application ID",
-            "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn Bandwidth Application ID",
-            "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+            "PLACEHOLDER": "Vinsamlegast sláğu inn Bandwidth Application ID",
+            "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
           },
           "INBOX_NAME": {
-            "LABEL": "Nafn InnhÃ³lfs",
-            "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn nafn innhÃ³lfs",
-            "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+            "LABEL": "Nafn Innhólfs",
+            "PLACEHOLDER": "Vinsamlegast sláğu inn nafn innhólfs",
+            "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
           },
           "PHONE_NUMBER": {
-            "LABEL": "SÃ­manÃºmer",
-            "PLACEHOLDER": "Vinsamlega slÃ¡Ã°u inn sÃ­manÃºmeriÃ° sem skilaboÃ° verÃ°a send frÃ¡.",
-            "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt sÃ­manÃºmer sem byrjar meÃ° Â´+Â´ merki og inniheldur ekki nein bil."
+            "LABEL": "Símanúmer",
+            "PLACEHOLDER": "Vinsamlega sláğu inn símanúmeriğ sem skilaboğ verğa send frá.",
+            "ERROR": "Vinsamlegast sláğu inn gilt símanúmer sem byrjar meğ ´+´ merki og inniheldur ekki nein bil."
           },
           "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
-            "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki auÃ°kennt Bandwidth auÃ°kenni, vinsamlegast reyndu aftur"
+            "ERROR_MESSAGE": "Viğ gátum ekki auğkennt Bandwidth auğkenni, vinsamlegast reyndu aftur"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "ÃÃº verÃ°ur aÃ° stilla afturhringingarslÃ³Ã° skilaboÃ°a Ã­ Bandwidth meÃ° slÃ³Ã°inni sem nefnd er hÃ©r."
+            "SUBTITLE": "Şú verğur ağ stilla afturhringingarslóğ skilaboğa í Bandwidth meğ slóğinni sem nefnd er hér."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
-        "DESC": "ByrjaÃ°u aÃ° Ã¾jÃ³nusta viÃ°skiptavini Ã¾Ã­na Ã­ gegnum WhatsApp.",
+        "DESC": "Byrjağu ağ şjónusta viğskiptavini şína í gegnum WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
@@ -254,39 +254,39 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Nafn InnhÃ³lfs",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn nafn innhÃ³lfs",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "LABEL": "Nafn Innhólfs",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn nafn innhólfs",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "PHONE_NUMBER": {
-          "LABEL": "SÃ­manÃºmer",
-          "PLACEHOLDER": "Vinsamlega slÃ¡Ã°u inn sÃ­manÃºmeriÃ° sem skilaboÃ° verÃ°a send frÃ¡.",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt sÃ­manÃºmer sem byrjar meÃ° Â´+Â´ merki og inniheldur ekki nein bil."
+          "LABEL": "Símanúmer",
+          "PLACEHOLDER": "Vinsamlega sláğu inn símanúmeriğ sem skilaboğ verğa send frá.",
+          "ERROR": "Vinsamlegast sláğu inn gilt símanúmer sem byrjar meğ ´+´ merki og inniheldur ekki nein bil."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Phone number ID",
-          "PLACEHOLDER": "Vinsamlega slÃ¡Ã°u inn auÃ°kenni sÃ­manÃºmers sem Ã¾Ãº fÃ¦rÃ° frÃ¡ stjÃ³rnborÃ°i Facebook Developer.",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt gildi."
+          "PLACEHOLDER": "Vinsamlega sláğu inn auğkenni símanúmers sem şú færğ frá stjórnborği Facebook Developer.",
+          "ERROR": "Vinsamlegast sláğu inn gilt gildi."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "Business Account ID",
-          "PLACEHOLDER": "Vinsamlega slÃ¡Ã°u inn auÃ°kenni fyrirtÃ¦kjareiknings sem Ã¾Ãº fÃ¦rÃ° frÃ¡ stjÃ³rnborÃ°i Facebook Developer.",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt gildi."
+          "PLACEHOLDER": "Vinsamlega sláğu inn auğkenni fyrirtækjareiknings sem şú færğ frá stjórnborği Facebook Developer.",
+          "ERROR": "Vinsamlegast sláğu inn gilt gildi."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verify Token",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt gildi."
+          "ERROR": "Vinsamlegast sláğu inn gilt gildi."
         },
         "API_KEY": {
           "LABEL": "API key",
           "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API key",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt gildi."
+          "ERROR": "Vinsamlegast sláğu inn gilt gildi."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "ÃÃº verÃ°ur aÃ° stilla vefkrÃ³k (e. webhook) slÃ³Ã°ina og staÃ°festingarÃ­gildiÃ° (e. verification token) Ã­ Facebook Developer Portal meÃ° gildunum sem sÃ½nd eru hÃ©r aÃ° neÃ°an.",
+          "SUBTITLE": "Şú verğur ağ stilla vefkrók (e. webhook) slóğina og stağfestingarígildiğ (e. verification token) í Facebook Developer Portal meğ gildunum sem sınd eru hér ağ neğan.",
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberâ€¦",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,30 +317,30 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youâ€™re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on â€” this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki vistaÃ° WhatsApp rÃ¡sina"
+          "ERROR_MESSAGE": "Viğ gátum ekki vistağ WhatsApp rásina"
         }
       },
       "VOICE": {
         "TITLE": "Voice Channel",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
-          "LABEL": "SÃ­manÃºmer",
+          "LABEL": "Símanúmer",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "SID AÃ°gangs",
+            "LABEL": "SID Ağgangs",
             "PLACEHOLDER": "Enter your Twilio Account SID",
             "REQUIRED": "Account SID is required"
           },
           "AUTH_TOKEN": {
-            "LABEL": "AuÃ°kenningar token",
+            "LABEL": "Auğkenningar token",
             "PLACEHOLDER": "Enter your Twilio Auth Token",
             "REQUIRED": "Auth Token is required"
           },
@@ -368,92 +368,92 @@
       },
       "API_CHANNEL": {
         "TITLE": "API Channel",
-        "DESC": "SamÃ¾Ã¦ttu viÃ° API rÃ¡sina og byrjaÃ°u aÃ° Ã¾jÃ³nusta viÃ°skiptavini Ã¾Ã­na.",
+        "DESC": "Samşættu viğ API rásina og byrjağu ağ şjónusta viğskiptavini şína.",
         "CHANNEL_NAME": {
           "LABEL": "Channel Name",
           "PLACEHOLDER": "Please enter a channel name",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
-          "PLACEHOLDER": "URL VefkrÃ³ks"
+          "PLACEHOLDER": "URL Vefkróks"
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ API RÃ¡s",
+        "SUBMIT_BUTTON": "Skrá API Rás",
         "API": {
-          "ERROR_MESSAGE": "ÃaÃ° tÃ³kst ekki aÃ° vista api rÃ¡sina"
+          "ERROR_MESSAGE": "Şağ tókst ekki ağ vista api rásina"
         }
       },
       "EMAIL_CHANNEL": {
-        "TITLE": "TÃ¶lvupÃ³st RÃ¡s",
+        "TITLE": "Tölvupóst Rás",
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
-          "LABEL": "Nafn RÃ¡sar",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn nafn rÃ¡sar",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "LABEL": "Nafn Rásar",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn nafn rásar",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "EMAIL": {
           "LABEL": "Netfang",
-          "SUBTITLE": "TÃ¶lvupÃ³stur Ã¾ar sem viÃ°skiptavinir Ã¾Ã­nir senda Ã¾Ã©r Ã¾jÃ³nustubeiÃ°nir",
+          "SUBTITLE": "Tölvupóstur şar sem viğskiptavinir şínir senda şér şjónustubeiğnir",
           "PLACEHOLDER": "Netfang"
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ TÃ¶lvupÃ³st RÃ¡s",
+        "SUBMIT_BUTTON": "Skrá Tölvupóst Rás",
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki vistaÃ° tÃ¶lvupÃ³strÃ¡sina"
+          "ERROR_MESSAGE": "Viğ gátum ekki vistağ tölvupóstrásina"
         },
-        "FINISH_MESSAGE": "Byrja aÃ° Ã¡framsenda tÃ¶lvupÃ³stinn Ã¾inn Ã¡ eftirfarandi netfang.",
+        "FINISH_MESSAGE": "Byrja ağ áframsenda tölvupóstinn şinn á eftirfarandi netfang.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
-        "CONFIGURE_SMTP_IMAP_LINK": "Smelltu hÃ©r",
+        "CONFIGURE_SMTP_IMAP_LINK": "Smelltu hér",
         "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
-        "TITLE": "LINE RÃ¡s",
-        "DESC": "SamÃ¾Ã¦ttu viÃ° LINE rÃ¡sina og byrjaÃ°u aÃ° Ã¾jÃ³nusta viÃ°skiptavini Ã¾Ã­na.",
+        "TITLE": "LINE Rás",
+        "DESC": "Samşættu viğ LINE rásina og byrjağu ağ şjónusta viğskiptavini şína.",
         "CHANNEL_NAME": {
-          "LABEL": "Nafn RÃ¡sar",
-          "PLACEHOLDER": "Vinsamlegast slÃ¡Ã°u inn nafn rÃ¡sar",
-          "ERROR": "ÃaÃ° er nauÃ°synlegt aÃ° fylla Ãºt Ã¾ennan reit"
+          "LABEL": "Nafn Rásar",
+          "PLACEHOLDER": "Vinsamlegast sláğu inn nafn rásar",
+          "ERROR": "Şağ er nauğsynlegt ağ fylla út şennan reit"
         },
         "LINE_CHANNEL_ID": {
-          "LABEL": "EinkennisnÃºmer LINE RÃ¡sar",
-          "PLACEHOLDER": "EinkennisnÃºmer LINE RÃ¡sar"
+          "LABEL": "Einkennisnúmer LINE Rásar",
+          "PLACEHOLDER": "Einkennisnúmer LINE Rásar"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LeyndarmÃ¡l LINE RÃ¡sar",
-          "PLACEHOLDER": "LeyndarmÃ¡l LINE RÃ¡sar"
+          "LABEL": "Leyndarmál LINE Rásar",
+          "PLACEHOLDER": "Leyndarmál LINE Rásar"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "Token LINE RÃ¡sar",
-          "PLACEHOLDER": "Token LINE RÃ¡sar"
+          "LABEL": "Token LINE Rásar",
+          "PLACEHOLDER": "Token LINE Rásar"
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ LINE RÃ¡s",
+        "SUBMIT_BUTTON": "Skrá LINE Rás",
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki vistaÃ° LINE rÃ¡sina"
+          "ERROR_MESSAGE": "Viğ gátum ekki vistağ LINE rásina"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "ÃÃº verÃ°ur aÃ° stilla webhook slÃ³Ã°ina Ã­ LINE forritinu meÃ° slÃ³Ã°inni sem nefnd er hÃ©r."
+          "SUBTITLE": "Şú verğur ağ stilla webhook slóğina í LINE forritinu meğ slóğinni sem nefnd er hér."
         }
       },
       "TELEGRAM_CHANNEL": {
-        "TITLE": "Telegram RÃ¡s",
-        "DESC": "SamÃ¾Ã¦ttu viÃ° Telegram rÃ¡sina og byrjaÃ°u aÃ° Ã¾jÃ³nusta viÃ°skiptavini Ã¾Ã­na.",
+        "TITLE": "Telegram Rás",
+        "DESC": "Samşættu viğ Telegram rásina og byrjağu ağ şjónusta viğskiptavini şína.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Stilltu bot token sem Ã¾Ãº hefur fengiÃ° frÃ¡ Telegram BotFather.",
+          "SUBTITLE": "Stilltu bot token sem şú hefur fengiğ frá Telegram BotFather.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "SkrÃ¡ Telegram RÃ¡s",
+        "SUBMIT_BUTTON": "Skrá Telegram Rás",
         "API": {
-          "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki vistaÃ° Telegram rÃ¡sina"
+          "ERROR_MESSAGE": "Viğ gátum ekki vistağ Telegram rásina"
         }
       },
       "AUTH": {
-        "TITLE": "Veldu rÃ¡s",
-        "DESC": "Chatwoot styÃ°ur vefspjall, Facebook Messenger, Twitter prÃ³fÃ­la, WhatsApp, tÃ¶lvupÃ³st osfrv., Sem rÃ¡sir. Ef Ã¾Ãº vilt bÃºa til sÃ©rsniÃ°na rÃ¡s geturÃ°u bÃºiÃ° hana til meÃ° Ã¾vÃ­ aÃ° nota API rÃ¡sina. Til aÃ° byrja skaltu velja eina af rÃ¡sunum hÃ©r aÃ° neÃ°an.",
+        "TITLE": "Veldu rás",
+        "DESC": "Thynex styğur vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef şú vilt búa til sérsniğna rás geturğu búiğ hana til meğ şví ağ nota API rásina. Til ağ byrja skaltu velja eina af rásunum hér ağ neğan.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "VoilÃ !",
+        "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
@@ -472,7 +472,7 @@
             "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
-            "TITLE": "TÃ¶lvupÃ³stfang",
+            "TITLE": "Tölvupóstfang",
             "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
           },
           "SMS": {
@@ -506,18 +506,18 @@
         }
       },
       "AGENTS": {
-        "TITLE": "ÃjÃ³nustufulltrÃºar",
-        "DESC": "HÃ©r geturÃ°u bÃ¦tt viÃ° Ã¾jÃ³nustufulltrÃºum til aÃ° hafa umsjÃ³n meÃ° nÃ½stofnuÃ°a innhÃ³lfinu Ã¾Ã­nu. AÃ°eins Ã¾essir vÃ¶ldu ÃjÃ³nustufulltrÃºar munu hafa aÃ°gang aÃ° innhÃ³lfinu Ã¾Ã­nu. ÃjÃ³nustufulltrÃºar sem eru ekki hluti af Ã¾essu innhÃ³lfi munu ekki geta sÃ©Ã° eÃ°a svaraÃ° skilaboÃ°um Ã­ Ã¾essu innhÃ³lfi Ã¾egar Ã¾eir skrÃ¡ sig inn. <br> <b>PS:</b> Sem stjÃ³rnandi, ef Ã¾Ãº Ã¾arft aÃ°gang aÃ° Ã¶llum pÃ³sthÃ³lfum, Ã¦ttir Ã¾Ãº aÃ° bÃ¦ta sjÃ¡lfum Ã¾Ã©r sem Ã¾jÃ³nustufulltrÃºa viÃ° Ã¶ll innhÃ³lf sem Ã¾Ãº bÃ½rÃ° til.",
+        "TITLE": "Şjónustufulltrúar",
+        "DESC": "Hér geturğu bætt viğ şjónustufulltrúum til ağ hafa umsjón meğ nıstofnuğa innhólfinu şínu. Ağeins şessir völdu Şjónustufulltrúar munu hafa ağgang ağ innhólfinu şínu. Şjónustufulltrúar sem eru ekki hluti af şessu innhólfi munu ekki geta séğ eğa svarağ skilaboğum í şessu innhólfi şegar şeir skrá sig inn. <br> <b>PS:</b> Sem stjórnandi, ef şú şarft ağgang ağ öllum pósthólfum, ættir şú ağ bæta sjálfum şér sem şjónustufulltrúa viğ öll innhólf sem şú bırğ til.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Veldu Ã¾jÃ³nustufulltrÃºa fyrir innhÃ³lfiÃ°"
+        "PICK_AGENTS": "Veldu şjónustufulltrúa fyrir innhólfiğ"
       },
       "DETAILS": {
-        "TITLE": "InnhÃ³lfs UpplÃ½singar",
-        "DESC": "Ã fellilistanum hÃ©r aÃ° neÃ°an, veldu Facebook sÃ­Ã°una sem Ã¾Ãº vilt tengja viÃ° Chatwoot. ÃÃº getur lÃ­ka gefiÃ° innhÃ³lfinu sÃ©rsniÃ°iÃ° nafn til aÃ° Ã¾ekkja Ã¾aÃ° betur."
+        "TITLE": "Innhólfs Upplısingar",
+        "DESC": "Í fellilistanum hér ağ neğan, veldu Facebook síğuna sem şú vilt tengja viğ Thynex. Şú getur líka gefiğ innhólfinu sérsniğiğ nafn til ağ şekkja şağ betur."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "ÃÃº hefur lokiÃ° viÃ° aÃ° innleiÃ°a Facebook sÃ­Ã°una Ã¾Ã­na Ã­ Chatwoot. NÃ¦st Ã¾egar viÃ°skiptavinur sendir skilaboÃ° Ã¡ sÃ­Ã°unni Ã¾inni birtist samtaliÃ° sjÃ¡lfkrafa Ã­ innhÃ³lfinu Ã¾Ã­nu.<br>ViÃ° erum lÃ­ka aÃ° Ãºtvega Ã¾Ã©r netspjalls skriftu sem Ã¾Ãº getur auÃ°veldlega bÃ¦tt viÃ° vefsÃ­Ã°una Ã¾Ã­na. Ãegar Ã¾etta er komiÃ° Ã¡ vefsvÃ¦Ã°iÃ° Ã¾itt geta viÃ°skiptavinir sent Ã¾Ã©r skilaboÃ° beint frÃ¡ vefsÃ­Ã°unni Ã¾inni Ã¡n hjÃ¡lpar utanaÃ°komandi tÃ³la og samtaliÃ° mun birtast hÃ©r, Ã­ Chatwoot.<br>Svalt, ha? JÃ¦ja, viÃ° reynum aÃ° vera Ã¾aÃ° :)"
+        "DESC": "Şú hefur lokiğ viğ ağ innleiğa Facebook síğuna şína í Thynex. Næst şegar viğskiptavinur sendir skilaboğ á síğunni şinni birtist samtaliğ sjálfkrafa í innhólfinu şínu.<br>Viğ erum líka ağ útvega şér netspjalls skriftu sem şú getur auğveldlega bætt viğ vefsíğuna şína. Şegar şetta er komiğ á vefsvæğiğ şitt geta viğskiptavinir sent şér skilaboğ beint frá vefsíğunni şinni án hjálpar utanağkomandi tóla og samtaliğ mun birtast hér, í Thynex.<br>Svalt, ha? Jæja, viğ reynum ağ vera şağ :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -539,44 +539,44 @@
       }
     },
     "DETAILS": {
-      "LOADING_FB": "AuÃ°kenni viÃ° Facebook...",
+      "LOADING_FB": "Auğkenni viğ Facebook...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "EitthvaÃ° fÃ³r ÃºrskeiÃ°is, vinsamlegast endurnÃ½jaÃ°u sÃ­Ã°una...",
+      "ERROR_FB_AUTH": "Eitthvağ fór úrskeiğis, vinsamlegast endurnıjağu síğuna...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "SkrÃ¡i innhÃ³lfiÃ°...",
-      "TITLE": "Stilla UpplÃ½singar InnhÃ³lfs",
+      "CREATING_CHANNEL": "Skrái innhólfiğ...",
+      "TITLE": "Stilla Upplısingar Innhólfs",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "BÃ¦ta viÃ° Ã¾jÃ³nustufulltrÃºum",
-      "ADD_AGENTS": "Er aÃ° bÃ¦ta Ã¾jÃ³nustufulltrÃºum Ã¡ innhÃ³lfiÃ°..."
+      "BUTTON_TEXT": "Bæta viğ şjónustufulltrúum",
+      "ADD_AGENTS": "Er ağ bæta şjónustufulltrúum á innhólfiğ..."
     },
     "FINISH": {
-      "TITLE": "InnhÃ³lfiÃ° Ã¾itt er tilbÃºiÃ°!",
-      "MESSAGE": "ÃÃº getur nÃº Ã¡tt samskipti viÃ° viÃ°skiptavini Ã¾Ã­na Ã­ gegnum nÃ½ju rÃ¡sina Ã¾Ã­na. Gangi Ã¾Ã©r vel viÃ° Ã¾jÃ³nustuna",
-      "BUTTON_TEXT": "Taktu mig Ã¾angaÃ°",
+      "TITLE": "Innhólfiğ şitt er tilbúiğ!",
+      "MESSAGE": "Şú getur nú átt samskipti viğ viğskiptavini şína í gegnum nıju rásina şína. Gangi şér vel viğ şjónustuna",
+      "BUTTON_TEXT": "Taktu mig şangağ",
       "MORE_SETTINGS": "Fleiri stillingar",
-      "WEBSITE_SUCCESS": "ÃÃº hefur lokiÃ° viÃ° aÃ° bÃºa til vefsÃ­Ã°urÃ¡s. AfritaÃ°u kÃ³Ã°ann sem sÃ½ndur er hÃ©r aÃ° neÃ°an og lÃ­mdu hann Ã¡ vefsÃ­Ã°una Ã¾Ã­na. NÃ¦st Ã¾egar viÃ°skiptavinur notar spjalliÃ° birtist samtaliÃ° sjÃ¡lfkrafa Ã­ innhÃ³lfinu Ã¾Ã­nu.",
+      "WEBSITE_SUCCESS": "Şú hefur lokiğ viğ ağ búa til vefsíğurás. Afritağu kóğann sem sındur er hér ağ neğan og límdu hann á vefsíğuna şína. Næst şegar viğskiptavinur notar spjalliğ birtist samtaliğ sjálfkrafa í innhólfinu şínu.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "EndurauÃ°kenna",
-    "VIEW": "SkoÃ°a",
+    "REAUTH": "Endurauğkenna",
+    "VIEW": "Skoğa",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Stillingar innhÃ³lfs voru uppfÃ¦rÃ°ar",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "SjÃ¡lfvirkum skrÃ¡ningum var breytt",
-        "ERROR_MESSAGE": "ViÃ° gÃ¡tum ekki uppfÃ¦rt stillingar innhÃ³lfs. Vinsamlegast reyndu aftur sÃ­Ã°ar."
+        "SUCCESS_MESSAGE": "Stillingar innhólfs voru uppfærğar",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Sjálfvirkum skráningum var breytt",
+        "ERROR_MESSAGE": "Viğ gátum ekki uppfært stillingar innhólfs. Vinsamlegast reyndu aftur síğar."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Virkt",
-        "DISABLED": "SlÃ¶kkt"
+        "DISABLED": "Slökkt"
       },
       "ENABLE_CSAT": {
         "ENABLED": "Virkt",
-        "DISABLED": "SlÃ¶kkt"
+        "DISABLED": "Slökkt"
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
@@ -584,7 +584,7 @@
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
-          "FROM": "frÃ¡",
+          "FROM": "frá",
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
@@ -599,11 +599,11 @@
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Virkt",
-        "DISABLED": "SlÃ¶kkt"
+        "DISABLED": "Slökkt"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
         "ENABLED": "Virkt",
-        "DISABLED": "SlÃ¶kkt"
+        "DISABLED": "Slökkt"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
         "ENABLED": "Reopen same conversation",
@@ -616,27 +616,27 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "EyÃ°a",
-      "AVATAR_DELETE_BUTTON_TEXT": "EyÃ°a mynd",
+      "BUTTON_TEXT": "Eyğa",
+      "AVATAR_DELETE_BUTTON_TEXT": "Eyğa mynd",
       "CONFIRM": {
-        "TITLE": "StaÃ°festa eyÃ°ingu",
-        "MESSAGE": "Ertu viss um aÃ° Ã¾Ãº viljir eyÃ°a",
-        "PLACE_HOLDER": "Vinsamlegast slÃ¡Ã°u inn {inboxName} til aÃ° staÃ°festa",
-        "YES": "JÃ¡, eyÃ°a",
-        "NO": "Nei, hÃ¦tta viÃ° eyÃ°ingu"
+        "TITLE": "Stağfesta eyğingu",
+        "MESSAGE": "Ertu viss um ağ şú viljir eyğa",
+        "PLACE_HOLDER": "Vinsamlegast sláğu inn {inboxName} til ağ stağfesta",
+        "YES": "Já, eyğa",
+        "NO": "Nei, hætta viğ eyğingu"
       },
       "API": {
-        "SUCCESS_MESSAGE": "InnhÃ³lfi eytt",
-        "ERROR_MESSAGE": "Gat ekki eytt innhÃ³lfi. Vinsamlegast reyndu aftur sÃ­Ã°ar.",
+        "SUCCESS_MESSAGE": "Innhólfi eytt",
+        "ERROR_MESSAGE": "Gat ekki eytt innhólfi. Vinsamlegast reyndu aftur síğar.",
         "AVATAR_SUCCESS_MESSAGE": "Mynd eytt",
-        "AVATAR_ERROR_MESSAGE": "Gat ekki eytt notandamynd innhÃ³lfsins. Vinsamlegast reyndu aftur sÃ­Ã°ar."
+        "AVATAR_ERROR_MESSAGE": "Gat ekki eytt notandamynd innhólfsins. Vinsamlegast reyndu aftur síğar."
       }
     },
     "TABS": {
       "SETTINGS": "Stillingar",
-      "COLLABORATORS": "SamstarfsaÃ°ilar",
+      "COLLABORATORS": "Samstarfsağilar",
       "CONFIGURATION": "Stillingar",
-      "CAMPAIGN": "HerferÃ°",
+      "CAMPAIGN": "Herferğ",
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number â€” it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta â€” no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -744,10 +744,10 @@
     },
     "SETTINGS": "Stillingar",
     "FEATURES": {
-      "LABEL": "FÃ­dusar",
+      "LABEL": "Fídusar",
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
-      "ALLOW_END_CONVERSATION": "Leyfa notendum aÃ° ljÃºka samtali Ãºr grÃ¦junni",
+      "ALLOW_END_CONVERSATION": "Leyfa notendum ağ ljúka samtali úr græjunni",
       "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
@@ -770,42 +770,42 @@
         "REQUIRE_LABEL": "Require identity validation for all conversations",
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
-      "INBOX_AGENTS": "ÃjÃ³nustufulltrÃºar",
+      "INBOX_AGENTS": "Şjónustufulltrúar",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "UPDATE": "UppfÃ¦ra",
+      "UPDATE": "Uppfæra",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Virkja eÃ°a slÃ¶kkva Ã¡ sÃ¶fnunarreit tÃ¶lvupÃ³sts Ã­ nÃ½ju samtali",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Virkja eğa slökkva á söfnunarreit tölvupósts í nıju samtali",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "SamtÃ¶l halda Ã¡fram meÃ° tÃ¶lvupÃ³sti ef tengiliÃ°anetfangiÃ° er tiltÃ¦kt.",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtöl halda áfram meğ tölvupósti ef tengiliğanetfangiğ er tiltækt.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Virkja eÃ°a slÃ¶kkva Ã¡ sjÃ¡lfvirkri Ãºthlutun nÃ½rra samtÃ¶la til umboÃ°smanna sem bÃ¦tt er viÃ° Ã¾etta innhÃ³lf.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Virkja eğa slökkva á sjálfvirkri úthlutun nırra samtöla til umboğsmanna sem bætt er viğ şetta innhólf.",
       "HMAC_VERIFICATION": "User Identity Validation",
-      "HMAC_DESCRIPTION": "Til aÃ° sannreyna auÃ°kenni notandans geturÃ°u sent `identifier_hash` fyrir hvern notanda. ÃÃº getur bÃºiÃ° til HMAC sha256 hash meÃ° Ã¾vÃ­ aÃ° nota 'identifier' meÃ° lyklinum sem sÃ½ndur er hÃ©r.",
+      "HMAC_DESCRIPTION": "Til ağ sannreyna auğkenni notandans geturğu sent `identifier_hash` fyrir hvern notanda. Şú getur búiğ til HMAC sha256 hash meğ şví ağ nota 'identifier' meğ lyklinum sem sındur er hér.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
       "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
-      "HMAC_MANDATORY_DESCRIPTION": "Ef Ã¾aÃ° er virkt verÃ°ur beiÃ°num sem vantar â€˜identifier_hashâ€™ hafnaÃ°.",
+      "HMAC_MANDATORY_DESCRIPTION": "Ef şağ er virkt verğur beiğnum sem vantar ‘identifier_hash’ hafnağ.",
       "INBOX_IDENTIFIER": "Inbox Identifier",
-      "INBOX_IDENTIFIER_SUB_TEXT": "NotaÃ°u `inbox_identifier` tÃ¡kniÃ° sem sÃ½nt er hÃ©r til aÃ° auÃ°kenna API biÃ°lara.",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Notağu `inbox_identifier` tákniğ sem sınt er hér til ağ auğkenna API biğlara.",
       "FORWARD_EMAIL_TITLE": "Forward to Email",
-      "FORWARD_EMAIL_SUB_TEXT": "Byrja aÃ° Ã¡framsenda tÃ¶lvupÃ³stinn Ã¾inn Ã¡ eftirfarandi netfang.",
+      "FORWARD_EMAIL_SUB_TEXT": "Byrja ağ áframsenda tölvupóstinn şinn á eftirfarandi netfang.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Leyfa skilaboÃ° eftir aÃ° samtal hefur veriÃ° leyst",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leyfa endanotendum aÃ° senda skilaboÃ° jafnvel eftir aÃ° samtaliÃ° er leyst.",
-      "WHATSAPP_SECTION_SUBHEADER": "Ãessi API lykill er notaÃ°ur fyrir samÃ¾Ã¦ttingu viÃ° WhatsApp API.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Leyfa skilaboğ eftir ağ samtal hefur veriğ leyst",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leyfa endanotendum ağ senda skilaboğ jafnvel eftir ağ samtaliğ er leyst.",
+      "WHATSAPP_SECTION_SUBHEADER": "Şessi API lykill er notağur fyrir samşættingu viğ WhatsApp API.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API Lykill",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Update API Key",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "UppfÃ¦ra",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "Uppfæra",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
@@ -844,7 +844,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "TakmarkaÃ°u hÃ¡marksfjÃ¶lda samtala Ãºr Ã¾essu innhÃ³lfi sem hÃ¦gt er aÃ° Ãºthluta sjÃ¡lfkrafa Ã¡ Ã¾jÃ³nustufulltrÃºa"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Takmarkağu hámarksfjölda samtala úr şessu innhólfi sem hægt er ağ úthluta sjálfkrafa á şjónustufulltrúa"
     },
     "ASSIGNMENT": {
       "TITLE": "Conversation Assignment",
@@ -888,19 +888,19 @@
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
-      "CANCEL": "HÃ¦tta viÃ°",
-      "CONFIRM_DELETE": "EyÃ°a",
+      "CANCEL": "Hætta viğ",
+      "CONFIRM_DELETE": "Eyğa",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "EndurauÃ°kenna",
-      "SUBTITLE": "Facebook tengingin Ã¾Ã­n er Ãºtrunnin, vinsamlegast tengdu Facebook sÃ­Ã°una Ã¾Ã­na aftur til aÃ° halda Ã¡fram Ã¾jÃ³nustu",
+      "TITLE": "Endurauğkenna",
+      "SUBTITLE": "Facebook tengingin şín er útrunnin, vinsamlegast tengdu Facebook síğuna şína aftur til ağ halda áfram şjónustu",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "ForspjallseyÃ°ublÃ¶Ã° gera Ã¾Ã©r kleift aÃ° fanga notendaupplÃ½singar Ã¡Ã°ur en Ã¾au hefja samtal viÃ° Ã¾ig.",
+      "DESCRIPTION": "Forspjallseyğublöğ gera şér kleift ağ fanga notendaupplısingar áğur en şau hefja samtal viğ şig.",
       "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Fields",
@@ -908,21 +908,21 @@
         "PLACE_HOLDER": "Placeholder",
         "KEY": "Key",
         "TYPE": "Type",
-        "REQUIRED": "NauÃ°synlegt"
+        "REQUIRED": "Nauğsynlegt"
       },
       "ENABLE": {
         "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "JÃ¡",
+          "ENABLED": "Já",
           "DISABLED": "Nei"
         }
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Pre chat message",
-        "PLACEHOLDER": "Ãessi skilaboÃ° vÃ¦ru sÃ½nileg notendum Ã¡samt eyÃ°ublaÃ°inu"
+        "PLACEHOLDER": "Şessi skilaboğ væru sınileg notendum ásamt eyğublağinu"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Gestir Ã¦ttu aÃ° gefa upp nafn sitt og netfang Ã¡Ã°ur en spjalliÃ° hefst"
+        "LABEL": "Gestir ættu ağ gefa upp nafn sitt og netfang áğur en spjalliğ hefst"
       }
     },
     "CSAT": {
@@ -932,7 +932,7 @@
         "LABEL": "Display type"
       },
       "MESSAGE": {
-        "LABEL": "SkilaboÃ°",
+        "LABEL": "Skilaboğ",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
@@ -997,11 +997,11 @@
     },
     "BUSINESS_HOURS": {
       "TITLE": "Set your availability",
-      "SUBTITLE": "Stilltu framboÃ° Ã¾itt Ã¡ netspjalli",
+      "SUBTITLE": "Stilltu framboğ şitt á netspjalli",
       "WEEKLY_TITLE": "Set your weekly hours",
       "TIMEZONE_LABEL": "Select timezone",
       "UPDATE": "Update business hours settings",
-      "TOGGLE_AVAILABILITY": "Virkja opnunartÃ­ma fyrirtÃ¦kja fyrir Ã¾etta innhÃ³lf",
+      "TOGGLE_AVAILABILITY": "Virkja opnunartíma fyrirtækja fyrir şetta innhólf",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
@@ -1010,25 +1010,25 @@
         "HOURS": "Hours",
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",
-        "VALIDATION_ERROR": "UpphafstÃ­mi Ã¦tti aÃ° vera fyrir lokunartÃ­ma.",
+        "VALIDATION_ERROR": "Upphafstími ætti ağ vera fyrir lokunartíma.",
         "CHOOSE": "Velja"
       },
       "ALL_DAY": "Allan Daginn"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "SkrÃ¡ IMAP upplÃ½singar",
-      "NOTE_TEXT": "Vinsamlegast tilltu IMAP til aÃ° virkja SMTP.",
-      "UPDATE": "UppfÃ¦ra IMAP stilingar",
-      "TOGGLE_AVAILABILITY": "Virkja IMAP stillingar fyrir Ã¾etta innhÃ³lf",
+      "SUBTITLE": "Skrá IMAP upplısingar",
+      "NOTE_TEXT": "Vinsamlegast tilltu IMAP til ağ virkja SMTP.",
+      "UPDATE": "Uppfæra IMAP stilingar",
+      "TOGGLE_AVAILABILITY": "Virkja IMAP stillingar fyrir şetta innhólf",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP stillingar voru uppfÃ¦rÃ°ar",
-        "ERROR_MESSAGE": "TÃ³kst ekki aÃ° uppfÃ¦ra IMAP stillingar"
+        "SUCCESS_MESSAGE": "IMAP stillingar voru uppfærğar",
+        "ERROR_MESSAGE": "Tókst ekki ağ uppfæra IMAP stillingar"
       },
       "ADDRESS": {
-        "LABEL": "SlÃ³Ã°",
-        "PLACE_HOLDER": "SlÃ³Ã° (DÃ¦mi: imap.gmail.com)"
+        "LABEL": "Slóğ",
+        "PLACE_HOLDER": "Slóğ (Dæmi: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -1039,11 +1039,11 @@
         "PLACE_HOLDER": "Notandanafn"
       },
       "PASSWORD": {
-        "LABEL": "LykilorÃ°",
-        "PLACE_HOLDER": "LykilorÃ°"
+        "LABEL": "Lykilorğ",
+        "PLACE_HOLDER": "Lykilorğ"
       },
       "ENABLE_SSL": "Virkja SSL",
-      "AUTH_MECHANISM": "AuÃ°kenning"
+      "AUTH_MECHANISM": "Auğkenning"
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
@@ -1051,17 +1051,17 @@
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "SkrÃ¡ SMTP upplÃ½singar",
-      "UPDATE": "UppfÃ¦ra SMTP stillingar",
-      "TOGGLE_AVAILABILITY": "Kveikja Ã¡ SMTP stillingu fyrir Ã¾etta innhÃ³lf",
-      "TOGGLE_HELP": "AÃ° virkja SMTP mun hjÃ¡lpa notandanum aÃ° senda tÃ¶lvupÃ³st",
+      "SUBTITLE": "Skrá SMTP upplısingar",
+      "UPDATE": "Uppfæra SMTP stillingar",
+      "TOGGLE_AVAILABILITY": "Kveikja á SMTP stillingu fyrir şetta innhólf",
+      "TOGGLE_HELP": "Ağ virkja SMTP mun hjálpa notandanum ağ senda tölvupóst",
       "EDIT": {
         "SUCCESS_MESSAGE": "SMTP stillingum var breytt",
-        "ERROR_MESSAGE": "TÃ³kst ekki aÃ° uppfÃ¦ra SMTP stillingar"
+        "ERROR_MESSAGE": "Tókst ekki ağ uppfæra SMTP stillingar"
       },
       "ADDRESS": {
-        "LABEL": "SlÃ³Ã°",
-        "PLACE_HOLDER": "SlÃ³Ã° (DÃ¦mi: smtp.gmail.com)"
+        "LABEL": "Slóğ",
+        "PLACE_HOLDER": "Slóğ (Dæmi: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
@@ -1072,61 +1072,61 @@
         "PLACE_HOLDER": "Notandanafn"
       },
       "PASSWORD": {
-        "LABEL": "LykilorÃ°",
-        "PLACE_HOLDER": "LykilorÃ°"
+        "LABEL": "Lykilorğ",
+        "PLACE_HOLDER": "Lykilorğ"
       },
       "DOMAIN": {
-        "LABEL": "LÃ©n",
-        "PLACE_HOLDER": "LÃ©n"
+        "LABEL": "Lén",
+        "PLACE_HOLDER": "Lén"
       },
-      "ENCRYPTION": "DulkÃ³Ã°un",
+      "ENCRYPTION": "Dulkóğun",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
       "OPEN_SSL_VERIFY_MODE": "Opna SSL Sannreyningar Ham",
-      "AUTH_MECHANISM": "AuÃ°kenning"
+      "AUTH_MECHANISM": "Auğkenning"
     },
-    "NOTE": "MerkimiÃ°i: ",
+    "NOTE": "Merkimiği: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "VefsÃ­Ã°umynd",
+          "LABEL": "Vefsíğumynd",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "VefsÃ­Ã°umynd eytt",
-              "ERROR_MESSAGE": "ÃaÃ° kom upp villa, vinsamlegast reyndu aftur"
+              "SUCCESS_MESSAGE": "Vefsíğumynd eytt",
+              "ERROR_MESSAGE": "Şağ kom upp villa, vinsamlegast reyndu aftur"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Nafn VefsÃ­Ã°u",
-          "PLACE_HOLDER": "SlÃ¡Ã°u inn nafn vefsÃ­Ã°u (DÃ¦mi: Acme ehf)",
-          "ERROR": "Vinsamlegast slÃ¡Ã°u inn gilt vefsÃ­Ã°unafn"
+          "LABEL": "Nafn Vefsíğu",
+          "PLACE_HOLDER": "Sláğu inn nafn vefsíğu (Dæmi: Acme ehf)",
+          "ERROR": "Vinsamlegast sláğu inn gilt vefsíğunafn"
         },
         "WELCOME_HEADING": {
-          "LABEL": "MÃ³ttÃ¶ku FyrirsÃ¶gn",
-          "PLACE_HOLDER": "HÃ¦!"
+          "LABEL": "Móttöku Fyrirsögn",
+          "PLACE_HOLDER": "Hæ!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "MÃ³ttÃ¶ku taglÃ­na",
-          "PLACE_HOLDER": "ViÃ° gerum Ã¾aÃ° einfalt aÃ° tengjast okkur. SpyrÃ°u okkur hvaÃ° sem er eÃ°a deildu Ã¾Ã­nu Ã¡liti."
+          "LABEL": "Móttöku taglína",
+          "PLACE_HOLDER": "Viğ gerum şağ einfalt ağ tengjast okkur. Spyrğu okkur hvağ sem er eğa deildu şínu áliti."
         },
         "REPLY_TIME": {
-          "LABEL": "SvartÃ­mi",
-          "IN_A_FEW_MINUTES": "Eftir Ã¶rfÃ¡ar mÃ­nÃºtur",
+          "LABEL": "Svartími",
+          "IN_A_FEW_MINUTES": "Eftir örfáar mínútur",
           "IN_A_FEW_HOURS": "Eftir nokkrar klukkustundir",
-          "IN_A_DAY": "Eftir sÃ³larhring"
+          "IN_A_DAY": "Eftir sólarhring"
         },
         "WIDGET_COLOR_LABEL": "Litur Widgets",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Type:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "SpjallaÃ°u viÃ° okkur",
+          "DEFAULT": "Spjallağu viğ okkur",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "SpjallaÃ°u viÃ° okkur"
+          "PLACE_HOLDER": "Spjallağu viğ okkur"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "UppfÃ¦ra stillingar widgets",
+          "BUTTON_TEXT": "Uppfæra stillingar widgets",
           "API": {
             "SUCCESS_MESSAGE": "Widget settings updated successfully",
             "ERROR_MESSAGE": "Unable to update widget settings"
@@ -1150,24 +1150,24 @@
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Svarar iÃ°ulega innan nokkura mÃ­nÃºtna",
-        "IN_A_FEW_HOURS": "Svarar iÃ°ulega innan nokkura klukkustunda",
-        "IN_A_DAY": "Svarar iÃ°ulega samdÃ¦gurs"
+        "IN_A_FEW_MINUTES": "Svarar iğulega innan nokkura mínútna",
+        "IN_A_FEW_HOURS": "Svarar iğulega innan nokkura klukkustunda",
+        "IN_A_DAY": "Svarar iğulega samdægurs"
       },
       "FOOTER": {
         "START_CONVERSATION_BUTTON_TEXT": "Hefja samtal",
-        "CHAT_INPUT_PLACEHOLDER": "SkrifaÃ°u skilaboÃ°in hÃ©r"
+        "CHAT_INPUT_PLACEHOLDER": "Skrifağu skilaboğin hér"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "ViÃ° erum tengd",
-          "OFFLINE": "ÃaÃ° er enginn viÃ° Ã­ augnablikinu"
+          "ONLINE": "Viğ erum tengd",
+          "OFFLINE": "Şağ er enginn viğ í augnablikinu"
         },
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Keyrt af Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Keyrt af Thynex",
+      "SCRIPT_SETTINGS": "\n      window.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1190,7 +1190,7 @@
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
-      "EMAIL": "TÃ¶lvupÃ³stfang",
+      "EMAIL": "Tölvupóstfang",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API Channel",
@@ -1200,3 +1200,5 @@
     }
   }
 }
+
+

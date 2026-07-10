@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Caro cliente 👋, ti chiediamo gentilmente di prenderti qualche minuto per condividere il tuo feedback sulla conversazione avuta con {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Impossibile connettersi al server Woot, riprova più tardi"
     }
   },
-  "POWERED_BY": "Offerto da Chatwoot"
+  "POWERED_BY": "Offerto da Thynex"
 }
+

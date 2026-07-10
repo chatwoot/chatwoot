@@ -1,4 +1,4 @@
-Chatwoot is looking forward to working with security researchers worldwide to keep Chatwoot and our users safe. If you have found an issue in our systems/applications, please reach out to us.
+﻿Thynex is looking forward to working with security researchers worldwide to keep Thynex and our users safe. If you have found an issue in our systems/applications, please reach out to us.
 
 ## Reporting a Vulnerability
 
@@ -18,7 +18,7 @@ Please try your best to describe a clear and realistic impact for your report, a
 
 
 ## Vulnerabilities we care about 🫣
-> Note: Please do not perform testing against Chatwoot production services. Use a `self-hosted instance` to perform tests.
+> Note: Please do not perform testing against Thynex production services. Use a `self-hosted instance` to perform tests.
 - Remote command execution
 - SQL Injection
 - Authentication bypass
@@ -53,4 +53,5 @@ If you are unsure about the scope, please create a [report](https://github.com/c
 
 ## Thanks
 
-Thank you for keeping Chatwoot and our users safe. 🙇
+Thank you for keeping Thynex and our users safe. 🙇
+

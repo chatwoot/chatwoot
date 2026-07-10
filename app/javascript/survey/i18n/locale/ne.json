@@ -1,4 +1,4 @@
-{
+﻿{
   "SURVEY": {
     "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with {inboxName}.",
     "RATING": {
@@ -15,5 +15,6 @@
       "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
     }
   },
-  "POWERED_BY": "Chatwoot द्वारा संचालित"
+  "POWERED_BY": "Thynex द्वारा संचालित"
 }
+

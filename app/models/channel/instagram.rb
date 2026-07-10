@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: channel_instagram
 #
@@ -20,7 +20,7 @@ class Channel::Instagram < ApplicationRecord
   self.table_name = 'channel_instagram'
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  encrypts :access_token if Chatwoot.encryption_configured?
+  encrypts :access_token if Thynex.encryption_configured?
 
   AUTHORIZATION_ERROR_THRESHOLD = 1
 
@@ -73,3 +73,4 @@ class Channel::Instagram < ApplicationRecord
     Instagram::RefreshOauthTokenService.new(channel: self).access_token
   end
 end
+

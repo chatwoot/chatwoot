@@ -1,6 +1,6 @@
-{
+﻿{
   "LOGIN": {
-    "TITLE": "Logg inn i Chatwoot",
+    "TITLE": "Logg inn i Thynex",
     "EMAIL": {
       "LABEL": "E-post",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -39,3 +39,4 @@
     }
   }
 }
+

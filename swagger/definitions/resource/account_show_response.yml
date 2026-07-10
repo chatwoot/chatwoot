@@ -1,4 +1,4 @@
-allOf:
+﻿allOf:
   - $ref: '#/components/schemas/account_detail'
   - type: object
     properties:
@@ -6,7 +6,7 @@ allOf:
         type:
           - string
           - 'null'
-        description: Latest version of Chatwoot available
+        description: Latest version of Thynex available
         example: "3.0.0"
       subscribed_features:
         type: array

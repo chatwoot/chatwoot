@@ -1,4 +1,4 @@
-export const mockAssignableAgents = [
+﻿export const mockAssignableAgents = [
   {
     id: 1,
     account_id: 1,
@@ -20,7 +20,7 @@ export const mockCurrentChat = {
       availability_status: 'offline',
       email: null,
       id: 212,
-      name: 'Chatwoot',
+      name: 'Thynex',
       phone_number: null,
       identifier: null,
       thumbnail: '',
@@ -195,3 +195,4 @@ export const MOCK_FEATURE_FLAGS = {
   CANNED_RESPONSES: 'canned_responses',
   INTEGRATIONS: 'integrations',
 };
+

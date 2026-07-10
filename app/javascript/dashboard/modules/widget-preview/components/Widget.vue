@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
@@ -243,7 +243,7 @@ const handleToggleWidget = () => {
           :script="widgetScript"
           lang="html"
           class="!text-start"
-          :codepen-title="`${websiteName} - Chatwoot Widget Test`"
+          :codepen-title="`${websiteName} - Thynex Widget Test`"
           enable-code-pen
         />
       </div>
@@ -327,3 +327,4 @@ const handleToggleWidget = () => {
   --white-alpha: 255, 255, 255, 0.1;
 }
 </style>
+

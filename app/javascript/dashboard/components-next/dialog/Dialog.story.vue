@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { ref } from 'vue';
 import Dialog from './Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -52,7 +52,7 @@ const onConfirm = dialog => {};
           <Input
             id="portal-name"
             type="text"
-            placeholder="User Guide | Chatwoot"
+            placeholder="User Guide | Thynex"
             label="Name"
             message="This will be the name of your public facing portal"
           />
@@ -61,7 +61,7 @@ const onConfirm = dialog => {};
             type="text"
             placeholder="user-guide"
             label="Slug"
-            message="app.chatwoot.com/hc/my-portal/en-US/categories/my-slug"
+            message="thynex.ai/hc/my-portal/en-US/categories/my-slug"
           />
         </div>
       </Dialog>
@@ -97,3 +97,4 @@ const onConfirm = dialog => {};
     </Variant>
   </Story>
 </template>
+

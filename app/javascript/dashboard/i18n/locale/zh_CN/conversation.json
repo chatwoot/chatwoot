@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "请从左侧窗格选择一个对话",
     "CSAT_REPLY_MESSAGE": "请为会话评分",
@@ -282,7 +282,7 @@
     "SENT_BY": "发送人：",
     "BOT": "机器人",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "无法发送消息，请重试！",
     "TRY_AGAIN": "重试",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "无法上传附件。请重试"
   }
 }
+

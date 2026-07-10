@@ -1,11 +1,11 @@
-{
+﻿{
   "REGISTER": {
     "TRY_WOOT": "Buat akun",
-    "GET_STARTED": "Get started with Chatwoot",
+    "GET_STARTED": "Get started with Thynex",
     "TITLE": "Daftar",
     "TESTIMONIAL_HEADER": "Hanya butuh satu langkah untuk maju",
     "TESTIMONIAL_CONTENT": "Anda hanya tinggal selangkah lagi untuk berinteraksi dengan pelanggan Anda, mempertahankan mereka, dan menemukan yang baru.",
-    "TERMS_ACCEPT": "Dengan membuat akun, Anda menyetujui <a href=\"https://www.chatwoot.com/terms\">Syarat & Ketentuan</a> dan <a href=\"https://www.chatwoot.com/privacy-policy\">Kebijakan Privasi</a> kami.",
+    "TERMS_ACCEPT": "Dengan membuat akun, Anda menyetujui <a href=\"https://www.thynex.ai/terms\">Syarat & Ketentuan</a> dan <a href=\"https://www.thynex.ai/privacy-policy\">Kebijakan Privasi</a> kami.",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Daftar dengan Google"
     },
@@ -55,3 +55,4 @@
     }
   }
 }
+

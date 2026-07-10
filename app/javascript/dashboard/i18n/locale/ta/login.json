@@ -1,6 +1,6 @@
-{
+﻿{
   "LOGIN": {
-    "TITLE": "Chatwoot இல் உள்நுழையவும்",
+    "TITLE": "Thynex இல் உள்நுழையவும்",
     "EMAIL": {
       "LABEL": "இமெயில்",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -39,3 +39,4 @@
     }
   }
 }
+

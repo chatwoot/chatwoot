@@ -363,7 +363,7 @@ describe Integrations::Slack::SendOnSlackService do
     context 'when message contains mentions' do
       it 'sends formatted message to slack along with inbox name when identifier not present' do
         inbox = conversation.inbox
-        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Chatwoot!")
+        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Thynex!")
         formatted_message_text = message.content.gsub(RegexHelper::MENTION_REGEX, '\1')
 
         expect(slack_client).to receive(:chat_postMessage).with(
@@ -380,7 +380,7 @@ describe Integrations::Slack::SendOnSlackService do
 
       it 'sends formatted message to slack when identifier is present' do
         conversation.update!(identifier: 'random_slack_thread_ts')
-        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Chatwoot!")
+        message.update!(content: "Hi [@#{contact.name}](mention://user/#{contact.id}/#{contact.name}), welcome to Thynex!")
         formatted_message_text = message.content.gsub(RegexHelper::MENTION_REGEX, '\1')
 
         expect(slack_client).to receive(:chat_postMessage).with(

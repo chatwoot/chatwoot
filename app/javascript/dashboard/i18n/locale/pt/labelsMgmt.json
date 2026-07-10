@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Etiquetas",
     "HEADER_BTN_TXT": "Adicionar etiqueta",
@@ -50,7 +50,7 @@
         "DESELECT": "Desmarcar etiqueta",
         "DISMISS": "Descartar sugestão"
       },
-      "POWERED_BY": "Chatwoot IA",
+      "POWERED_BY": "Thynex IA",
       "DISMISS": "Descartar",
       "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
       "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
@@ -87,3 +87,4 @@
     }
   }
 }
+

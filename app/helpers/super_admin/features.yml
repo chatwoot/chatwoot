@@ -1,4 +1,4 @@
-# TODO: Move this values to features.yml itself
+﻿# TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
 
 # ------- Premium Features ------- #
@@ -62,13 +62,13 @@ live_chat:
   icon: 'icon-chat-smile-3-line'
 email:
   name: 'Email'
-  description: 'Manage your email customer interactions from Chatwoot.'
+  description: 'Manage your email customer interactions from Thynex.'
   enabled: true
   icon: 'icon-mail-send-fill'
   config_key: 'email'
 sms:
   name: 'SMS'
-  description: 'Manage your SMS customer interactions from Chatwoot.'
+  description: 'Manage your SMS customer interactions from Thynex.'
   enabled: true
   icon: 'icon-message-line'
 messenger:
@@ -91,17 +91,17 @@ tiktok:
   config_key: 'tiktok'
 whatsapp:
   name: 'WhatsApp'
-  description: 'Manage your WhatsApp business interactions from Chatwoot.'
+  description: 'Manage your WhatsApp business interactions from Thynex.'
   enabled: true
   icon: 'icon-whatsapp-line'
 telegram:
   name: 'Telegram'
-  description: 'Manage your Telegram customer interactions from Chatwoot.'
+  description: 'Manage your Telegram customer interactions from Thynex.'
   enabled: true
   icon: 'icon-telegram-line'
 line:
   name: 'Line'
-  description: 'Manage your Line customer interactions from Chatwoot.'
+  description: 'Manage your Line customer interactions from Thynex.'
   enabled: true
   icon: 'icon-line-line'
 
@@ -150,3 +150,4 @@ shopify:
   enabled: true
   icon: 'icon-shopify'
   config_key: 'shopify'
+

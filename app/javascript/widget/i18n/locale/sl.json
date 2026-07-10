@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "Prenesi",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Klepetajte z nami"
   },
-  "POWERED_BY": "Poganja Chatwoot",
+  "POWERED_BY": "Poganja Thynex",
   "EMAIL_PLACEHOLDER": "Prosimo, vnesite svoj e-poštni naslov",
   "CHAT_PLACEHOLDER": "Vnesite svoje sporočilo",
   "TODAY": "Danes",
@@ -151,3 +151,4 @@
     "REPLY_TO": "Odgovarjam na:"
   }
 }
+

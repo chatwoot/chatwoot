@@ -1,4 +1,4 @@
-# == Schema Information
+﻿# == Schema Information
 #
 # Table name: channel_facebook_pages
 #
@@ -22,7 +22,7 @@ class Channel::FacebookPage < ApplicationRecord
   include Reauthorizable
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
-  if Chatwoot.encryption_configured?
+  if Thynex.encryption_configured?
     encrypts :page_access_token
     encrypts :user_access_token
   end
@@ -66,3 +66,4 @@ class Channel::FacebookPage < ApplicationRecord
     true
   end
 end
+

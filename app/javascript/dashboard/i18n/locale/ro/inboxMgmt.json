@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Căsuțe",
+    "HEADER": "Casu?e",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -8,48 +8,48 @@
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn�t complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "Nu există căsuțe poștale atașate acestui cont."
+      "404": "Nu exista casu?e po?tale ata?ate acestui cont."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Alege canalul",
-        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
+        "BODY": "Alege?i serviciul pe care dori?i sa-l integra?i cu Thynex."
       },
       "INBOX": {
-        "TITLE": "Crează căsuța",
-        "BODY": "Autentifică-te cu contul tău și creează un inbox."
+        "TITLE": "Creaza casu?a",
+        "BODY": "Autentifica-te cu contul tau ?i creeaza un inbox."
       },
       "AGENT": {
-        "TITLE": "Adaugă Agent",
-        "BODY": "Adaugă agenți la inbox-ul creat."
+        "TITLE": "Adauga Agent",
+        "BODY": "Adauga agen?i la inbox-ul creat."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
+        "TITLE": "Voil�!",
         "BODY": "Toate setarile sunt facute!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nume Inbox",
-        "PLACEHOLDER": "Introduceți numele inboxului (de exemplu: Acme Inc)",
-        "ERROR": "Vă rugăm să introduceți un nume valid de inbox"
+        "PLACEHOLDER": "Introduce?i numele inboxului (de exemplu: Acme Inc)",
+        "ERROR": "Va rugam sa introduce?i un nume valid de inbox"
       },
       "WEBSITE_NAME": {
         "LABEL": "Nume website",
-        "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
+        "PLACEHOLDER": "Introduce?i numele website-ului dvs. (de exemplu: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot.",
+        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodata de Thynex.",
         "CHOOSE_PAGE": "Alege pagina",
-        "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
+        "CHOOSE_PLACEHOLDER": "Selectati o pagina din lista",
         "INBOX_NAME": "Nume Inbox",
-        "ADD_NAME": "Adaugă un nume pentru inbox-ul tău",
+        "ADD_NAME": "Adauga un nume pentru inbox-ul tau",
         "PICK_NAME": "Pick a Name for your Inbox",
         "PICK_A_VALUE": "Alege o valoare",
-        "CREATE_INBOX": "Crează căsuța"
+        "CREATE_INBOX": "Creaza casu?a"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -58,7 +58,7 @@
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won�t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,15 +68,15 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Pentru a vă adăuga profilul de Twitter ca si canal, trebuie să vă autentificați profilul de Twitter făcând clic pe \"Conectați-vă cu Twitter\" ",
-        "ERROR_MESSAGE": "A existat o eroare de conectare la Twitter, vă rugăm să încercați din nou",
+        "HELP": "Pentru a va adauga profilul de Twitter ca si canal, trebuie sa va autentifica?i profilul de Twitter fac�nd clic pe \"Conecta?i-va cu Twitter\" ",
+        "ERROR_MESSAGE": "A existat o eroare de conectare la Twitter, va rugam sa �ncerca?i din nou",
         "TWEETS": {
-          "ENABLE": "Creați conversații din tweet-urile menționate"
+          "ENABLE": "Crea?i conversa?ii din tweet-urile men?ionate"
         }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Canal web",
-        "DESC": "Creați un canal pentru site-ul dvs. și începeți să asigurati suportul clienților prin intermediul widget-ului nostru web.",
+        "DESC": "Crea?i un canal pentru site-ul dvs. ?i �ncepe?i sa asigurati suportul clien?ilor prin intermediul widget-ului nostru web.",
         "LOADING_MESSAGE": "Crearea canalului de suport pe site",
         "CHANNEL_AVATAR": {
           "LABEL": "Avatar canal"
@@ -96,7 +96,7 @@
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domeniu website",
-          "PLACEHOLDER": "Introduceți domeniul website-ului (exemplu: acme.com)"
+          "PLACEHOLDER": "Introduce?i domeniul website-ului (exemplu: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "Titlu de salut",
@@ -104,142 +104,142 @@
         },
         "CHANNEL_WELCOME_TAGLINE": {
           "LABEL": "Tagline de Bun Venit",
-          "PLACEHOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
+          "PLACEHOLDER": "Noi facem conectarea cu noi simpla. �ntreaba-ne orice, sau partajeaza-?i feedback-ul."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Mesaj de întâmpinare canal",
-          "PLACEHOLDER": "De obicei, Acme Inc răspunde în câteva ore."
+          "LABEL": "Mesaj de �nt�mpinare canal",
+          "PLACEHOLDER": "De obicei, Acme Inc raspunde �n c�teva ore."
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Activare salut canal",
-          "HELP_TEXT": "Trimiteți automat mesaje de întâmpinare atunci când clienții încep o conversație și trimit primul lor mesaj.",
+          "HELP_TEXT": "Trimite?i automat mesaje de �nt�mpinare atunci c�nd clien?ii �ncep o conversa?ie ?i trimit primul lor mesaj.",
           "ENABLED": "Activat",
           "DISABLED": "Dezactivat"
         },
         "REPLY_TIME": {
-          "TITLE": "Setarea orei de răspuns",
-          "IN_A_FEW_MINUTES": "În câteva minute",
-          "IN_A_FEW_HOURS": "În câteva ore",
-          "IN_A_DAY": "Într-o zi",
-          "HELP_TEXT": "Acest timp de răspuns va fi afișat pe widget-ul de chat live"
+          "TITLE": "Setarea orei de raspuns",
+          "IN_A_FEW_MINUTES": "�n c�teva minute",
+          "IN_A_FEW_HOURS": "�n c�teva ore",
+          "IN_A_DAY": "�ntr-o zi",
+          "HELP_TEXT": "Acest timp de raspuns va fi afi?at pe widget-ul de chat live"
         },
         "WIDGET_COLOR": {
           "LABEL": "Culoare widget",
-          "PLACEHOLDER": "Actualizează culoarea folosită în widget"
+          "PLACEHOLDER": "Actualizeaza culoarea folosita �n widget"
         },
-        "SUBMIT_BUTTON": "Crează inbox",
+        "SUBMIT_BUTTON": "Creaza inbox",
         "API": {
-          "ERROR_MESSAGE": "Nu am reușit să creăm un canal de site web, vă rugăm să încercați din nou"
+          "ERROR_MESSAGE": "Nu am reu?it sa cream un canal de site web, va rugam sa �ncerca?i din nou"
         }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/Canal WhatsApp",
-        "DESC": "Integrați Twilio și începeți să vă sprijiniți clienții prin SMS sau WhatsApp.",
+        "DESC": "Integra?i Twilio ?i �ncepe?i sa va sprijini?i clien?ii prin SMS sau WhatsApp.",
         "ACCOUNT_SID": {
           "LABEL": "Cont SID",
-          "PLACEHOLDER": "Te rugăm să introduci ID-ul contului Twilio",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Te rugam sa introduci ID-ul contului Twilio",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "API_KEY": {
           "USE_API_KEY": "Use API Key Authentication",
           "LABEL": "API Key SID",
           "PLACEHOLDER": "Please enter your API Key SID",
-          "ERROR": "Acest câmp este obligatoriu"
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
           "PLACEHOLDER": "Please enter your API Key Secret",
-          "ERROR": "Acest câmp este obligatoriu"
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "MESSAGING_SERVICE_SID": {
           "LABEL": "Serviciul de mesagerie SID",
-          "PLACEHOLDER": "Vă rugăm să introduceți Twilio Messaging Service SID",
-          "ERROR": "Acest câmp este obligatoriu",
-          "USE_MESSAGING_SERVICE": "Utilizați un serviciu de mesagerie Twilio"
+          "PLACEHOLDER": "Va rugam sa introduce?i Twilio Messaging Service SID",
+          "ERROR": "Acest c�mp este obligatoriu",
+          "USE_MESSAGING_SERVICE": "Utiliza?i un serviciu de mesagerie Twilio"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Tipul canalului",
-          "ERROR": "Vă rugăm să selectaţi tipul canalului"
+          "ERROR": "Va rugam sa selectati tipul canalului"
         },
         "AUTH_TOKEN": {
           "LABEL": "Token de autentificare",
-          "PLACEHOLDER": "Te rugăm să introduci tokenul Twilio Auth",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Te rugam sa introduci tokenul Twilio Auth",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "CHANNEL_NAME": {
           "LABEL": "Nume Inbox",
-          "PLACEHOLDER": "Vă rugăm să introduceți un nume de inbox",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Va rugam sa introduce?i un nume de inbox",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Număr de telefon",
-          "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Vă rugăm să furnizați un număr de telefon valid care începe cu semnul \"+\" și nu conține spații."
+          "LABEL": "Numar de telefon",
+          "PLACEHOLDER": "Introduce?i numarul de telefon de la care va fi trimis mesajul.",
+          "ERROR": "Va rugam sa furniza?i un numar de telefon valid care �ncepe cu semnul \"+\" ?i nu con?ine spa?ii."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Trebuie să configurați URL-ul de callback al mesajelor în Twilio cu adresa URL menționată aici."
+          "SUBTITLE": "Trebuie sa configura?i URL-ul de callback al mesajelor �n Twilio cu adresa URL men?ionata aici."
         },
-        "SUBMIT_BUTTON": "Crează canal Twilio",
+        "SUBMIT_BUTTON": "Creaza canal Twilio",
         "API": {
-          "ERROR_MESSAGE": "Nu am putut autentifica credentialele Twilio, încercați din nou"
+          "ERROR_MESSAGE": "Nu am putut autentifica credentialele Twilio, �ncerca?i din nou"
         }
       },
       "SMS": {
         "TITLE": "Canal SMS",
-        "DESC": "Începeți să vă sprijiniți clienții prin SMS.",
+        "DESC": "�ncepe?i sa va sprijini?i clien?ii prin SMS.",
         "PROVIDERS": {
           "LABEL": "Furnizor API",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Banda"
         },
         "API": {
-          "ERROR_MESSAGE": "Nu am reușit să salvăm canalul SMS"
+          "ERROR_MESSAGE": "Nu am reu?it sa salvam canalul SMS"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "ID cont",
-            "PLACEHOLDER": "Vă rugăm să introduceți ID-ul contului de lățime de bandă",
-            "ERROR": "Acest câmp este obligatoriu"
+            "PLACEHOLDER": "Va rugam sa introduce?i ID-ul contului de la?ime de banda",
+            "ERROR": "Acest c�mp este obligatoriu"
           },
           "API_KEY": {
             "LABEL": "Cheie API",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "Acest câmp este obligatoriu"
+            "ERROR": "Acest c�mp este obligatoriu"
           },
           "API_SECRET": {
             "LABEL": "API secret",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "Acest câmp este obligatoriu"
+            "ERROR": "Acest c�mp este obligatoriu"
           },
           "APPLICATION_ID": {
-            "LABEL": "ID Aplicaţie",
-            "PLACEHOLDER": "Vă rugăm să introduceți ID-ul aplicației lățimea de bandă",
-            "ERROR": "Acest câmp este obligatoriu"
+            "LABEL": "ID Aplicatie",
+            "PLACEHOLDER": "Va rugam sa introduce?i ID-ul aplica?iei la?imea de banda",
+            "ERROR": "Acest c�mp este obligatoriu"
           },
           "INBOX_NAME": {
             "LABEL": "Nume Inbox",
-            "PLACEHOLDER": "Vă rugăm să introduceți un nume de inbox",
-            "ERROR": "Acest câmp este obligatoriu"
+            "PLACEHOLDER": "Va rugam sa introduce?i un nume de inbox",
+            "ERROR": "Acest c�mp este obligatoriu"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Număr de telefon",
-            "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-            "ERROR": "Vă rugăm să furnizați un număr de telefon valid care începe cu semnul \"+\" și nu conține spații."
+            "LABEL": "Numar de telefon",
+            "PLACEHOLDER": "Introduce?i numarul de telefon de la care va fi trimis mesajul.",
+            "ERROR": "Va rugam sa furniza?i un numar de telefon valid care �ncepe cu semnul \"+\" ?i nu con?ine spa?ii."
           },
-          "SUBMIT_BUTTON": "Creați un canal de lățime de bandă",
+          "SUBMIT_BUTTON": "Crea?i un canal de la?ime de banda",
           "API": {
-            "ERROR_MESSAGE": "Nu am reușit să autentificăm acreditările de lățime de bandă, vă rugăm să încercați din nou"
+            "ERROR_MESSAGE": "Nu am reu?it sa autentificam acreditarile de la?ime de banda, va rugam sa �ncerca?i din nou"
           },
           "API_CALLBACK": {
             "TITLE": "Callback URL",
-            "SUBTITLE": "Trebuie să configurați URL-ul de apelare inversă a mesajului în Lățime de bandă cu URL-ul menționat aici."
+            "SUBTITLE": "Trebuie sa configura?i URL-ul de apelare inversa a mesajului �n La?ime de banda cu URL-ul men?ionat aici."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "Canalul WhatsApp",
-        "DESC": "Începeți să vă sprijiniți clienții prin WhatsApp.",
+        "DESC": "�ncepe?i sa va sprijini?i clien?ii prin WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Furnizor API",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
@@ -255,42 +255,42 @@
         },
         "INBOX_NAME": {
           "LABEL": "Nume Inbox",
-          "PLACEHOLDER": "Vă rugăm să introduceți un nume de inbox",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Va rugam sa introduce?i un nume de inbox",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Număr de telefon",
-          "PLACEHOLDER": "Introduceți numărul de telefon de la care va fi trimis mesajul.",
-          "ERROR": "Vă rugăm să furnizați un număr de telefon valid care începe cu semnul \"+\" și nu conține spații."
+          "LABEL": "Numar de telefon",
+          "PLACEHOLDER": "Introduce?i numarul de telefon de la care va fi trimis mesajul.",
+          "ERROR": "Va rugam sa furniza?i un numar de telefon valid care �ncepe cu semnul \"+\" ?i nu con?ine spa?ii."
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "ID-ul numărului de telefon",
-          "PLACEHOLDER": "Te rugăm să introduci ID-ul numărului de telefon obținut din tabloul de bord al dezvoltatorului Facebook.",
-          "ERROR": "Vă rugăm să introduceți o valoare validă."
+          "LABEL": "ID-ul numarului de telefon",
+          "PLACEHOLDER": "Te rugam sa introduci ID-ul numarului de telefon ob?inut din tabloul de bord al dezvoltatorului Facebook.",
+          "ERROR": "Va rugam sa introduce?i o valoare valida."
         },
         "BUSINESS_ACCOUNT_ID": {
           "LABEL": "ID-ul contului de companie",
-          "PLACEHOLDER": "Te rugăm să introduci ID-ul contului de companie obținut din tabloul de bord al dezvoltatorului Facebook.",
-          "ERROR": "Vă rugăm să introduceți o valoare validă."
+          "PLACEHOLDER": "Te rugam sa introduci ID-ul contului de companie ob?inut din tabloul de bord al dezvoltatorului Facebook.",
+          "ERROR": "Va rugam sa introduce?i o valoare valida."
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Webhook Verifica token-ul",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Vă rugăm să introduceți o valoare validă."
+          "ERROR": "Va rugam sa introduce?i o valoare valida."
         },
         "API_KEY": {
           "LABEL": "Cheie API",
-          "SUBTITLE": "Configurați cheia API WhatsApp.",
+          "SUBTITLE": "Configura?i cheia API WhatsApp.",
           "PLACEHOLDER": "Cheie API",
-          "ERROR": "Vă rugăm să introduceți o valoare validă."
+          "ERROR": "Va rugam sa introduce?i o valoare valida."
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Trebuie să configurezi adresa URL webhook și simbolul de verificare în portalul Facebook pentru dezvoltatori cu valorile afișate mai jos.",
+          "SUBTITLE": "Trebuie sa configurezi adresa URL webhook ?i simbolul de verificare �n portalul Facebook pentru dezvoltatori cu valorile afi?ate mai jos.",
           "WEBHOOK_URL": "URL Webhook",
           "WEBHOOK_VERIFICATION_TOKEN": "Token de verificare Webhook"
         },
-        "SUBMIT_BUTTON": "Creați canalul WhatsApp",
+        "SUBMIT_BUTTON": "Crea?i canalul WhatsApp",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number�",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,19 +317,19 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you�re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on � this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "Nu am reușit să salvăm canalul WhatsApp"
+          "ERROR_MESSAGE": "Nu am reu?it sa salvam canalul WhatsApp"
         }
       },
       "VOICE": {
         "TITLE": "Voice Channel",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
-          "LABEL": "Număr de telefon",
+          "LABEL": "Numar de telefon",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
@@ -368,11 +368,11 @@
       },
       "API_CHANNEL": {
         "TITLE": "Canal API",
-        "DESC": "Integrați-vă cu canalul API și începeți să vă sprijiniți clienții.",
+        "DESC": "Integra?i-va cu canalul API ?i �ncepe?i sa va sprijini?i clien?ii.",
         "CHANNEL_NAME": {
           "LABEL": "Nume canal",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Te rugam sa introduci un con?inut",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "WEBHOOK_URL": {
           "LABEL": "URL Webhook",
@@ -389,19 +389,19 @@
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Nume canal",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Te rugam sa introduci un con?inut",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Furnizați adresa de e-mail la care clienții trimit solicitări de asistență.",
+          "SUBTITLE": "Furniza?i adresa de e-mail la care clien?ii trimit solicitari de asisten?a.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Creare canal Email",
         "API": {
           "ERROR_MESSAGE": "Nu am putut salva canalul de email"
         },
-        "FINISH_MESSAGE": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail.",
+        "FINISH_MESSAGE": "�ncepe?i sa va trimite?i e-mailuri la urmatoarea adresa de e-mail.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
         "CONFIGURE_SMTP_IMAP_LINK": "Click aici",
@@ -409,11 +409,11 @@
       },
       "LINE_CHANNEL": {
         "TITLE": "Canal LINE",
-        "DESC": "Integrați-vă cu canalul LINE și începeți să vă sprijiniți clienții.",
+        "DESC": "Integra?i-va cu canalul LINE ?i �ncepe?i sa va sprijini?i clien?ii.",
         "CHANNEL_NAME": {
           "LABEL": "Nume canal",
-          "PLACEHOLDER": "Te rugăm să introduci un conținut",
-          "ERROR": "Acest câmp este obligatoriu"
+          "PLACEHOLDER": "Te rugam sa introduci un con?inut",
+          "ERROR": "Acest c�mp este obligatoriu"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "ID-ul canalului LINE",
@@ -429,31 +429,31 @@
         },
         "SUBMIT_BUTTON": "Crearea canalului LINE",
         "API": {
-          "ERROR_MESSAGE": "Nu am reușit să salvăm canalul LINE"
+          "ERROR_MESSAGE": "Nu am reu?it sa salvam canalul LINE"
         },
         "API_CALLBACK": {
           "TITLE": "Callback URL",
-          "SUBTITLE": "Trebuie să configurați URL-ul webhook în aplicația LINE cu URL-ul menționat aici."
+          "SUBTITLE": "Trebuie sa configura?i URL-ul webhook �n aplica?ia LINE cu URL-ul men?ionat aici."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Canal Telegram",
-        "DESC": "Integrați-vă cu canalul Telegram și începeți să vă sprijiniți clienții.",
+        "DESC": "Integra?i-va cu canalul Telegram ?i �ncepe?i sa va sprijini?i clien?ii.",
         "BOT_TOKEN": {
           "LABEL": "Token de bot",
-          "SUBTITLE": "Configurați simbolul bot pe care l-ați obținut de la Telegram BotFather.",
+          "SUBTITLE": "Configura?i simbolul bot pe care l-a?i ob?inut de la Telegram BotFather.",
           "PLACEHOLDER": "Token de bot"
         },
-        "SUBMIT_BUTTON": "Creați canal Telegram",
+        "SUBMIT_BUTTON": "Crea?i canal Telegram",
         "API": {
-          "ERROR_MESSAGE": "Nu am reușit să salvăm canalul de telegramă"
+          "ERROR_MESSAGE": "Nu am reu?it sa salvam canalul de telegrama"
         }
       },
       "AUTH": {
         "TITLE": "Alege un canal",
-        "DESC": "Chatwoot acceptă widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Pentru a începe, alegeți unul dintre canalele de mai jos.",
+        "DESC": "Thynex accepta widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Daca dori?i sa construi?i un canal personalizat, �l pute?i crea folosind canalul API. Pentru a �ncepe, alege?i unul dintre canalele de mai jos.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voilà!",
+        "TITLE_FINISH": "Voil�!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
@@ -506,29 +506,29 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Agenți",
-        "DESC": "Aici puteți adăuga agenți care să gestioneze inboxul nou creat. Numai acești agenți selectați vor avea acces la căsuța poștală. Agenții care nu fac parte din această căsuță poștală nu vor putea vedea sau răspunde la mesajele din această căsuță atunci când se autentifică. <br> <b>PS:</b> În calitate de administrator, dacă aveţi nevoie de acces la toate mesajele, ar trebui să vă adăugați ca agent la toate cutiile de mesaje pe care le creați.",
+        "TITLE": "Agen?i",
+        "DESC": "Aici pute?i adauga agen?i care sa gestioneze inboxul nou creat. Numai ace?ti agen?i selecta?i vor avea acces la casu?a po?tala. Agen?ii care nu fac parte din aceasta casu?a po?tala nu vor putea vedea sau raspunde la mesajele din aceasta casu?a atunci c�nd se autentifica. <br> <b>PS:</b> �n calitate de administrator, daca aveti nevoie de acces la toate mesajele, ar trebui sa va adauga?i ca agent la toate cutiile de mesaje pe care le crea?i.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Alegerea agenților pentru inbox"
+        "PICK_AGENTS": "Alegerea agen?ilor pentru inbox"
       },
       "DETAILS": {
         "TITLE": "Detalii inbox",
-        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la Chatwoot. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
+        "DESC": "Din meniul derulant de mai jos, selecta?i pagina Facebook pe care dori?i sa va conecta?i la Thynex. Po?i de asemenea sa dai un nume personalizat inbox-ului pentru o mai buna identificare."
       },
       "FINISH": {
         "TITLE": "Corect!",
-        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Chatwoot. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Chatwoot.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
+        "DESC": "Ai reu?it sa integrezi pagina ta de Facebook cu Thynex. Data viitoare c�nd un client trimite un mesaj paginii tale, conversa?ia va aparea automat pe casu?a ta po?tala.<br>Va oferim ?i un script de widget pe care �l pute?i adauga cu u?urin?a la site-ul dvs. Odata ce aceasta este �n direct pe site-ul tau, clien?ii va pot trimite mesaje direct de pe site-ul dvs fara ajutorul niciunui instrument extern ?i conversa?ia va aparea aici, pe Thynex.<br>Cool, nu? Pai, sigur ca �ncercam sa fim :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Selectați furnizorul de e-mail",
-        "DESCRIPTION": "Selectați un furnizor de e-mail din lista de mai jos. Dacă nu vedeți furnizorul de e-mail în listă, puteți selecta opțiunea celuilalt furnizor și furniza acreditările IMAP și SMTP."
+        "TITLE": "Selecta?i furnizorul de e-mail",
+        "DESCRIPTION": "Selecta?i un furnizor de e-mail din lista de mai jos. Daca nu vede?i furnizorul de e-mail �n lista, pute?i selecta op?iunea celuilalt furnizor ?i furniza acreditarile IMAP ?i SMTP."
       },
       "MICROSOFT": {
         "TITLE": "E-mail Microsoft",
-        "DESCRIPTION": "Faceți clic pe butonul Conectare cu Microsoft pentru a începe. Veți redirecționa către pagina de conectare la e-mail. După ce acceptați permisiunile solicitate, veți fi redirecționat înapoi la pasul de creare a inboxului.",
+        "DESCRIPTION": "Face?i clic pe butonul Conectare cu Microsoft pentru a �ncepe. Ve?i redirec?iona catre pagina de conectare la e-mail. Dupa ce accepta?i permisiunile solicitate, ve?i fi redirec?ionat �napoi la pasul de creare a inboxului.",
         "EMAIL_PLACEHOLDER": "Introdu adresa de e-mail",
         "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "A existat o eroare la conectarea la Microsoft, încercați din nou"
+        "ERROR_MESSAGE": "A existat o eroare la conectarea la Microsoft, �ncerca?i din nou"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
@@ -541,34 +541,34 @@
     "DETAILS": {
       "LOADING_FB": "Autentificare prin Facebook...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Ceva nu a mers bine, reîmprospătați pagina...",
+      "ERROR_FB_AUTH": "Ceva nu a mers bine, re�mprospata?i pagina...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
-      "CREATING_CHANNEL": "Se creează inbox...",
+      "CREATING_CHANNEL": "Se creeaza inbox...",
       "TITLE": "Configurare detalii inbox",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Adaugă Agent",
-      "ADD_AGENTS": "Adăugare agenți la inbox-ul dumneavoastra..."
+      "BUTTON_TEXT": "Adauga Agent",
+      "ADD_AGENTS": "Adaugare agen?i la inbox-ul dumneavoastra..."
     },
     "FINISH": {
       "TITLE": "Inbox-ul este gata!",
-      "MESSAGE": "Acum poți intra în contact cu clienții tăi prin noul tău Canal. Suport fericit",
-      "BUTTON_TEXT": "Du-mă acolo",
-      "MORE_SETTINGS": "Mai multe setări",
-      "WEBSITE_SUCCESS": "Ați finalizat cu succes crearea unui canal web. Copiați codul de mai jos și inserati-l pe site-ul dvs. Data viitoare când un client folosește conversația live, conversația va apărea automat pe căsuța poștală.",
+      "MESSAGE": "Acum po?i intra �n contact cu clien?ii tai prin noul tau Canal. Suport fericit",
+      "BUTTON_TEXT": "Du-ma acolo",
+      "MORE_SETTINGS": "Mai multe setari",
+      "WEBSITE_SUCCESS": "A?i finalizat cu succes crearea unui canal web. Copia?i codul de mai jos ?i inserati-l pe site-ul dvs. Data viitoare c�nd un client folose?te conversa?ia live, conversa?ia va aparea automat pe casu?a po?tala.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "Reautorizează",
+    "REAUTH": "Reautorizeaza",
     "VIEW": "Vizualizare",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Setări Inbox actualizate cu succes",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuire automată actualizată cu succes",
-        "ERROR_MESSAGE": "Nu am putut actualiza setările inboxului. Încercați din nou mai târziu."
+        "SUCCESS_MESSAGE": "Setari Inbox actualizate cu succes",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Atribuire automata actualizata cu succes",
+        "ERROR_MESSAGE": "Nu am putut actualiza setarile inboxului. �ncerca?i din nou mai t�rziu."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Activat",
@@ -588,13 +588,13 @@
           "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
-          "TITLE": "Profesională",
+          "TITLE": "Profesionala",
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "Configure your business name",
           "PLACEHOLDER": "Enter your business name",
-          "SAVE_BUTTON_TEXT": "Salvează"
+          "SAVE_BUTTON_TEXT": "Salveaza"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
@@ -616,24 +616,24 @@
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Şterge",
-      "AVATAR_DELETE_BUTTON_TEXT": "Șterge avatarul",
+      "BUTTON_TEXT": "Sterge",
+      "AVATAR_DELETE_BUTTON_TEXT": "?terge avatarul",
       "CONFIRM": {
-        "TITLE": "Confirmă ștergerea",
-        "MESSAGE": "Sigur doriți să ștergeți ",
-        "PLACE_HOLDER": "Vă rugăm să tastați {inboxName} pentru a confirma",
-        "YES": "Da, șterge ",
-        "NO": "Nu, păstreaza "
+        "TITLE": "Confirma ?tergerea",
+        "MESSAGE": "Sigur dori?i sa ?terge?i ",
+        "PLACE_HOLDER": "Va rugam sa tasta?i {inboxName} pentru a confirma",
+        "YES": "Da, ?terge ",
+        "NO": "Nu, pastreaza "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox șters cu succes",
-        "ERROR_MESSAGE": "Nu s-a putut șterge inbox-ul. Vă rugăm să încercați din nou mai târziu.",
-        "AVATAR_SUCCESS_MESSAGE": "Avatar inbox șters cu succes",
-        "AVATAR_ERROR_MESSAGE": "Nu s-a putut șterge avatarul inboxului. Încercați din nou mai târziu."
+        "SUCCESS_MESSAGE": "Inbox ?ters cu succes",
+        "ERROR_MESSAGE": "Nu s-a putut ?terge inbox-ul. Va rugam sa �ncerca?i din nou mai t�rziu.",
+        "AVATAR_SUCCESS_MESSAGE": "Avatar inbox ?ters cu succes",
+        "AVATAR_ERROR_MESSAGE": "Nu s-a putut ?terge avatarul inboxului. �ncerca?i din nou mai t�rziu."
       }
     },
     "TABS": {
-      "SETTINGS": "Setări",
+      "SETTINGS": "Setari",
       "COLLABORATORS": "Colaboratori",
       "CONFIGURATION": "Configurare",
       "CAMPAIGN": "Campanii",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number � it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta � no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -742,17 +742,17 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Setări",
+    "SETTINGS": "Setari",
     "FEATURES": {
       "LABEL": "Caracteristici",
-      "DISPLAY_FILE_PICKER": "Afișarea selectorului de fișiere pe widget",
-      "DISPLAY_EMOJI_PICKER": "Afișarea selectorului de emoji pe widget",
-      "ALLOW_END_CONVERSATION": "Permite utilizatorilor să încheie conversația din widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Utilizați numele inboxului și avatarul pentru bot"
+      "DISPLAY_FILE_PICKER": "Afi?area selectorului de fi?iere pe widget",
+      "DISPLAY_EMOJI_PICKER": "Afi?area selectorului de emoji pe widget",
+      "ALLOW_END_CONVERSATION": "Permite utilizatorilor sa �ncheie conversa?ia din widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Utiliza?i numele inboxului ?i avatarul pentru bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
-      "MESSENGER_SUB_HEAD": "Plasează acest buton în interiorul interiorul paginii web",
+      "MESSENGER_SUB_HEAD": "Plaseaza acest buton �n interiorul interiorul paginii web",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -770,41 +770,41 @@
         "REQUIRE_LABEL": "Require identity validation for all conversations",
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
-      "INBOX_AGENTS": "Agenți",
-      "INBOX_AGENTS_SUB_TEXT": "Adaugă sau elimină agenți din acest inbox",
-      "AGENT_ASSIGNMENT": "Atribuirea conversației",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizarea setărilor de atribuire a conversațiilor",
+      "INBOX_AGENTS": "Agen?i",
+      "INBOX_AGENTS_SUB_TEXT": "Adauga sau elimina agen?i din acest inbox",
+      "AGENT_ASSIGNMENT": "Atribuirea conversa?iei",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizarea setarilor de atribuire a conversa?iilor",
       "UPDATE": "Actualizare",
       "ENABLE_EMAIL_COLLECT_BOX": "Caseta Activare colectare e-mail",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Caseta Activarea sau dezactivarea colectării e-mailurilor în conversația nouă",
-      "AUTO_ASSIGNMENT": "Activare atribuire automată",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Caseta Activarea sau dezactivarea colectarii e-mailurilor �n conversa?ia noua",
+      "AUTO_ASSIGNMENT": "Activare atribuire automata",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Activa?i continuitatea conversa?iei prin e-mail",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversa?iile vor continua prin e-mail daca adresa de e-mail de contact este disponibila.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Setări Inbox",
-      "INBOX_UPDATE_SUB_TEXT": "Actualizează setările de inbox",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Activează sau dezactivează atribuirea automată a conversațiilor noi la agenții adăugați la această căsuță poștală.",
-      "HMAC_VERIFICATION": "Validarea identității utilizatorului",
-      "HMAC_DESCRIPTION": "Cu această cheie puteți genera un token secret care poate fi utilizat pentru a verifica identitatea utilizatorilor dvs.",
-      "HMAC_LINK_TO_DOCS": "Puteți citi mai multe aici.",
-      "HMAC_MANDATORY_VERIFICATION": "Impuneți validarea identității utilizatorului",
-      "HMAC_MANDATORY_DESCRIPTION": "Dacă este activată, solicitările care nu pot fi verificate vor fi respinse.",
+      "INBOX_UPDATE_TITLE": "Setari Inbox",
+      "INBOX_UPDATE_SUB_TEXT": "Actualizeaza setarile de inbox",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activeaza sau dezactiveaza atribuirea automata a conversa?iilor noi la agen?ii adauga?i la aceasta casu?a po?tala.",
+      "HMAC_VERIFICATION": "Validarea identita?ii utilizatorului",
+      "HMAC_DESCRIPTION": "Cu aceasta cheie pute?i genera un token secret care poate fi utilizat pentru a verifica identitatea utilizatorilor dvs.",
+      "HMAC_LINK_TO_DOCS": "Pute?i citi mai multe aici.",
+      "HMAC_MANDATORY_VERIFICATION": "Impune?i validarea identita?ii utilizatorului",
+      "HMAC_MANDATORY_DESCRIPTION": "Daca este activata, solicitarile care nu pot fi verificate vor fi respinse.",
       "INBOX_IDENTIFIER": "Identificator inbox",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Utilizați simbolul \"inbox_identifier\" afișat aici pentru a vă autentifica clienții API.",
-      "FORWARD_EMAIL_TITLE": "Redirecționare către e-mail",
-      "FORWARD_EMAIL_SUB_TEXT": "Începeți să vă trimiteți e-mailuri la următoarea adresă de e-mail.",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Utiliza?i simbolul \"inbox_identifier\" afi?at aici pentru a va autentifica clien?ii API.",
+      "FORWARD_EMAIL_TITLE": "Redirec?ionare catre e-mail",
+      "FORWARD_EMAIL_SUB_TEXT": "�ncepe?i sa va trimite?i e-mailuri la urmatoarea adresa de e-mail.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permiteți rezolvarea mesajelor după ce conversația a fost rezolvată",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permiteți utilizatorilor finali să trimită mesaje chiar și după rezolvarea conversației.",
-      "WHATSAPP_SECTION_SUBHEADER": "Această cheie API este utilizată pentru integrarea cu API-urile WhatsApp.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Permite?i rezolvarea mesajelor dupa ce conversa?ia a fost rezolvata",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite?i utilizatorilor finali sa trimita mesaje chiar ?i dupa rezolvarea conversa?iei.",
+      "WHATSAPP_SECTION_SUBHEADER": "Aceasta cheie API este utilizata pentru integrarea cu API-urile WhatsApp.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "Cheie API",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "Actualizați cheia API",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduceți noua cheie API aici",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "Actualiza?i cheia API",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Introduce?i noua cheie API aici",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Actualizare",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
@@ -813,7 +813,7 @@
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Conectează-te",
+      "WHATSAPP_CONNECT_BUTTON": "Conecteaza-te",
       "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
@@ -831,23 +831,23 @@
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizarea setărilor formularului pre-chat"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Actualizarea setarilor formularului pre-chat"
     },
     "HELP_CENTER": {
       "LABEL": "Asistenta",
-      "PLACEHOLDER": "Selectați Centrul de ajutor",
-      "SELECT_PLACEHOLDER": "Selectați Centrul de ajutor",
+      "PLACEHOLDER": "Selecta?i Centrul de ajutor",
+      "SELECT_PLACEHOLDER": "Selecta?i Centrul de ajutor",
       "NONE": "Nimic",
       "REMOVE": "Eliminarea Centrului de ajutor",
-      "SUB_TEXT": "Atașarea unui Centru de ajutor cu inboxul"
+      "SUB_TEXT": "Ata?area unui Centru de ajutor cu inboxul"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Limita de atribuire automată",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Vă rugăm să introduceți o valoare mai mare de 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limitați numărul maxim de conversații din acest inbox care pot fi atribuite automat unui agent"
+      "MAX_ASSIGNMENT_LIMIT": "Limita de atribuire automata",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Va rugam sa introduce?i o valoare mai mare de 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limita?i numarul maxim de conversa?ii din acest inbox care pot fi atribuite automat unui agent"
     },
     "ASSIGNMENT": {
-      "TITLE": "Atribuirea conversației",
+      "TITLE": "Atribuirea conversa?iei",
       "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
       "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
@@ -888,30 +888,30 @@
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
-      "CANCEL": "Renunță",
-      "CONFIRM_DELETE": "Şterge",
+      "CANCEL": "Renun?a",
+      "CONFIRM_DELETE": "Sterge",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "Reautorizează",
-      "SUBTITLE": "Conexiunea ta de Facebook a expirat, te rugăm să-ți reconectezi pagina de Facebook pentru a continua serviciile",
+      "TITLE": "Reautorizeaza",
+      "SUBTITLE": "Conexiunea ta de Facebook a expirat, te rugam sa-?i reconectezi pagina de Facebook pentru a continua serviciile",
       "MESSAGE_SUCCESS": "Reconectarea cu succes",
-      "MESSAGE_ERROR": "A apărut o eroare, încercați din nou"
+      "MESSAGE_ERROR": "A aparut o eroare, �ncerca?i din nou"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Formularele pre-chat vă permit să capturați informații despre utilizatori înainte de a începe conversația cu dvs.",
-      "SET_FIELDS": "Câmpuri de formular pre-chat",
+      "DESCRIPTION": "Formularele pre-chat va permit sa captura?i informa?ii despre utilizatori �nainte de a �ncepe conversa?ia cu dvs.",
+      "SET_FIELDS": "C�mpuri de formular pre-chat",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Câmpuri",
-        "LABEL": "Etichetă",
-        "PLACE_HOLDER": "Înlocuitor",
+        "FIELDS": "C�mpuri",
+        "LABEL": "Eticheta",
+        "PLACE_HOLDER": "�nlocuitor",
         "KEY": "Cheie",
         "TYPE": "Tip",
         "REQUIRED": "Necesar"
       },
       "ENABLE": {
-        "LABEL": "Activați formularul de pre chat",
+        "LABEL": "Activa?i formularul de pre chat",
         "OPTIONS": {
           "ENABLED": "Da",
           "DISABLED": "Nu"
@@ -919,14 +919,14 @@
       },
       "PRE_CHAT_MESSAGE": {
         "LABEL": "Pre chat message",
-        "PLACEHOLDER": "Acest mesaj ar fi vizibil pentru utilizatori împreună cu formularul"
+        "PLACEHOLDER": "Acest mesaj ar fi vizibil pentru utilizatori �mpreuna cu formularul"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Vizitatorii ar trebui să furnizeze numele și adresa lor de e-mail înainte de a începe chat-ul"
+        "LABEL": "Vizitatorii ar trebui sa furnizeze numele ?i adresa lor de e-mail �nainte de a �ncepe chat-ul"
       }
     },
     "CSAT": {
-      "TITLE": "Activați CSAT",
+      "TITLE": "Activa?i CSAT",
       "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
@@ -940,7 +940,7 @@
         "PLACEHOLDER": "Please rate us"
       },
       "LANGUAGE": {
-        "LABEL": "Limbă",
+        "LABEL": "Limba",
         "PLACEHOLDER": "Select template language"
       },
       "MESSAGE_PREVIEW": {
@@ -962,7 +962,7 @@
         "TITLE": "Edit survey details",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
         "CONFIRM": "Create new template",
-        "CANCEL": "Mergeți înapoi"
+        "CANCEL": "Merge?i �napoi"
       },
       "UTILITY_ANALYZER": {
         "ACTION": "Check utility fit",
@@ -983,8 +983,8 @@
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
         "DESCRIPTION_SUFFIX": "any of the labels",
         "OPERATOR": {
-          "CONTAINS": "conține",
-          "DOES_NOT_CONTAINS": "nu conține"
+          "CONTAINS": "con?ine",
+          "DOES_NOT_CONTAINS": "nu con?ine"
         },
         "SELECT_PLACEHOLDER": "select labels"
       },
@@ -996,35 +996,35 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Setați-vă disponibilitatea",
-      "SUBTITLE": "Setați-vă disponibilitatea pe widget-ul livechat",
-      "WEEKLY_TITLE": "Setarea orelor săptămânale",
-      "TIMEZONE_LABEL": "Selectați fusul orar",
-      "UPDATE": "Actualizarea setărilor orelor de lucru",
-      "TOGGLE_AVAILABILITY": "Activați disponibilitatea afacerii pentru acest inbox",
+      "TITLE": "Seta?i-va disponibilitatea",
+      "SUBTITLE": "Seta?i-va disponibilitatea pe widget-ul livechat",
+      "WEEKLY_TITLE": "Setarea orelor saptam�nale",
+      "TIMEZONE_LABEL": "Selecta?i fusul orar",
+      "UPDATE": "Actualizarea setarilor orelor de lucru",
+      "TOGGLE_AVAILABILITY": "Activa?i disponibilitatea afacerii pentru acest inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Mesaj indisponibil pentru vizitatori",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "DAY": "Zi",
         "AVAILABILITY": "Disponibilitate",
         "HOURS": "Hours",
-        "ENABLE": "Activați disponibilitatea pentru această zi",
+        "ENABLE": "Activa?i disponibilitatea pentru aceasta zi",
         "UNAVAILABLE": "Indisponibil",
-        "VALIDATION_ERROR": "Ora de începere ar trebui să fie înainte de ora închiderii.",
+        "VALIDATION_ERROR": "Ora de �ncepere ar trebui sa fie �nainte de ora �nchiderii.",
         "CHOOSE": "Alege"
       },
-      "ALL_DAY": "Toată ziua"
+      "ALL_DAY": "Toata ziua"
     },
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Setarea detaliilor IMAP",
-      "NOTE_TEXT": "Pentru a activa SMTP, vă rugăm să configurați IMAP.",
-      "UPDATE": "Actualizarea setărilor IMAP",
-      "TOGGLE_AVAILABILITY": "Activarea configurației IMAP pentru acest inbox",
+      "NOTE_TEXT": "Pentru a activa SMTP, va rugam sa configura?i IMAP.",
+      "UPDATE": "Actualizarea setarilor IMAP",
+      "TOGGLE_AVAILABILITY": "Activarea configura?iei IMAP pentru acest inbox",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Setările IMAP actualizate cu succes",
-        "ERROR_MESSAGE": "Imposibil de actualizat setările IMAP"
+        "SUCCESS_MESSAGE": "Setarile IMAP actualizate cu succes",
+        "ERROR_MESSAGE": "Imposibil de actualizat setarile IMAP"
       },
       "ADDRESS": {
         "LABEL": "Adresa",
@@ -1035,8 +1035,8 @@
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Conectează-te",
-        "PLACE_HOLDER": "Conectează-te"
+        "LABEL": "Conecteaza-te",
+        "PLACE_HOLDER": "Conecteaza-te"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -1052,24 +1052,24 @@
     "SMTP": {
       "TITLE": "SMTP",
       "SUBTITLE": "Setarea detaliilor SMTP",
-      "UPDATE": "Actualizarea setărilor SMTP",
-      "TOGGLE_AVAILABILITY": "Activați configurația SMTP pentru acest inbox",
-      "TOGGLE_HELP": "Activarea SMTP va ajuta utilizatorul să trimită e-mailuri",
+      "UPDATE": "Actualizarea setarilor SMTP",
+      "TOGGLE_AVAILABILITY": "Activa?i configura?ia SMTP pentru acest inbox",
+      "TOGGLE_HELP": "Activarea SMTP va ajuta utilizatorul sa trimita e-mailuri",
       "EDIT": {
-        "SUCCESS_MESSAGE": "Setările SMTP actualizate cu succes",
-        "ERROR_MESSAGE": "Imposibil de actualizat setările SMTP"
+        "SUCCESS_MESSAGE": "Setarile SMTP actualizate cu succes",
+        "ERROR_MESSAGE": "Imposibil de actualizat setarile SMTP"
       },
       "ADDRESS": {
         "LABEL": "Adresa",
-        "PLACE_HOLDER": "Adresă (De exemplu: smtp.gmail.com)"
+        "PLACE_HOLDER": "Adresa (De exemplu: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Conectează-te",
-        "PLACE_HOLDER": "Conectează-te"
+        "LABEL": "Conecteaza-te",
+        "PLACE_HOLDER": "Conecteaza-te"
       },
       "PASSWORD": {
         "LABEL": "Parola",
@@ -1082,62 +1082,62 @@
       "ENCRYPTION": "Criptare",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTL-URI",
-      "OPEN_SSL_VERIFY_MODE": "Deschideți modul de verificare SSL",
+      "OPEN_SSL_VERIFY_MODE": "Deschide?i modul de verificare SSL",
       "AUTH_MECHANISM": "Autentificare"
     },
-    "NOTE": "Observație: ",
+    "NOTE": "Observa?ie: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
           "LABEL": "Avatar site-ul web",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar șters cu succes",
-              "ERROR_MESSAGE": "A apărut o eroare, încercați din nou"
+              "SUCCESS_MESSAGE": "Avatar ?ters cu succes",
+              "ERROR_MESSAGE": "A aparut o eroare, �ncerca?i din nou"
             }
           }
         },
         "WEBSITE_NAME": {
           "LABEL": "Nume website",
-          "PLACE_HOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)",
-          "ERROR": "Vă rugăm să introduceți un nume valid al site-ului web"
+          "PLACE_HOLDER": "Introduce?i numele website-ului dvs. (de exemplu: Acme Inc)",
+          "ERROR": "Va rugam sa introduce?i un nume valid al site-ului web"
         },
         "WELCOME_HEADING": {
           "LABEL": "Titlu de salut",
-          "PLACE_HOLDER": "Bună!"
+          "PLACE_HOLDER": "Buna!"
         },
         "WELCOME_TAGLINE": {
           "LABEL": "Tagline de Bun Venit",
-          "PLACE_HOLDER": "Noi facem conectarea cu noi simplă. Întreabă-ne orice, sau partajează-ți feedback-ul."
+          "PLACE_HOLDER": "Noi facem conectarea cu noi simpla. �ntreaba-ne orice, sau partajeaza-?i feedback-ul."
         },
         "REPLY_TIME": {
-          "LABEL": "Timp de răspuns",
-          "IN_A_FEW_MINUTES": "În câteva minute",
-          "IN_A_FEW_HOURS": "În câteva ore",
-          "IN_A_DAY": "Într-o zi"
+          "LABEL": "Timp de raspuns",
+          "IN_A_FEW_MINUTES": "�n c�teva minute",
+          "IN_A_FEW_HOURS": "�n c�teva ore",
+          "IN_A_DAY": "�ntr-o zi"
         },
         "WIDGET_COLOR_LABEL": "Culoare widget",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
         "WIDGET_BUBBLE_TYPE_LABEL": "Tip:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Discută cu noi",
+          "DEFAULT": "Discuta cu noi",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "Discută cu noi"
+          "PLACE_HOLDER": "Discuta cu noi"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Actualizați setările",
+          "BUTTON_TEXT": "Actualiza?i setarile",
           "API": {
-            "SUCCESS_MESSAGE": "Setările widget-ului actualizate cu succes",
-            "ERROR_MESSAGE": "Imposibil de actualizat setările IMAP"
+            "SUCCESS_MESSAGE": "Setarile widget-ului actualizate cu succes",
+            "ERROR_MESSAGE": "Imposibil de actualizat setarile IMAP"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "Previzualizați",
+          "PREVIEW": "Previzualiza?i",
           "SCRIPT": "Script Messenger"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Stânga",
+          "LEFT": "St�nga",
           "RIGHT": "Dreapta"
         },
         "WIDGET_BUBBLE_TYPE": {
@@ -1150,24 +1150,24 @@
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
-        "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
-        "IN_A_DAY": "De obicei, răspunsurile într-o zi"
+        "IN_A_FEW_MINUTES": "De obicei, raspunsurile �n c�teva minute",
+        "IN_A_FEW_HOURS": "De obicei, raspunsurile �n c�teva ore",
+        "IN_A_DAY": "De obicei, raspunsurile �ntr-o zi"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Începe conversația",
-        "CHAT_INPUT_PLACEHOLDER": "Scrie mesajul tău"
+        "START_CONVERSATION_BUTTON_TEXT": "�ncepe conversa?ia",
+        "CHAT_INPUT_PLACEHOLDER": "Scrie mesajul tau"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "Suntem online",
-          "OFFLINE": "Suntem plecați în acest moment"
+          "OFFLINE": "Suntem pleca?i �n acest moment"
         },
         "USER_MESSAGE": "Salut",
-        "AGENT_MESSAGE": "Bună"
+        "AGENT_MESSAGE": "Buna"
       },
-      "BRANDING_TEXT": "Oferit de Chatwoot",
-      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Oferit de Thynex",
+      "SCRIPT_SETTINGS": "\nwindow.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1179,7 +1179,7 @@
         "DESCRIPTION": "Connect with Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "Alți furnizori",
+        "TITLE": "Al?i furnizori",
         "DESCRIPTION": "Connect with Other Providers"
       }
     },
@@ -1200,3 +1200,5 @@
     }
   }
 }
+
+

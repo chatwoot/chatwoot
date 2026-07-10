@@ -1,4 +1,4 @@
-#Files in the config/locales directory are used for internationalization
+﻿#Files in the config/locales directory are used for internationalization
 #and are automatically loaded by Rails. If you want to use locales other
 #than English, add the necessary files in this directory.
 #To use the locales, use `I18n.t`:
@@ -330,16 +330,16 @@ bn:
       description: 'ড্যাশবোর্ড অ্যাপ আপনাকে এমন অ্যাপ্লিকেশন তৈরি ও এম্বেড করতে দেয় যা ব্যবহারকারীর তথ্য, অর্ডার বা পেমেন্ট ইতিহাস প্রদর্শন করে, ফলে আপনার কাস্টমার সাপোর্ট এজেন্টদের জন্য আরও প্রাসঙ্গিক তথ্য প্রদান করে।.'
     dyte:
       name: 'Dyte'
-      short_description: 'Chatwoot থেকে সরাসরি গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করুন।.'
-      description: 'Dyte একটি পণ্য যা আপনার অ্যাপ্লিকেশনে অডিও ও ভিডিও ফিচার সংযুক্ত করে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনার এজেন্টরা সরাসরি Chatwoot থেকে গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করতে পারবেন।.'
+      short_description: 'Thynex থেকে সরাসরি গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করুন।.'
+      description: 'Dyte একটি পণ্য যা আপনার অ্যাপ্লিকেশনে অডিও ও ভিডিও ফিচার সংযুক্ত করে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনার এজেন্টরা সরাসরি Thynex থেকে গ্রাহকদের সাথে ভিডিও/ভয়েস কল শুরু করতে পারবেন।.'
       meeting_name: '%{agent_name} একটি মিটিং শুরু করেছেন'
     slack:
       name: 'Slack'
       short_description: 'Slack-এ সরাসরি নোটিফিকেশন পান এবং কথোপকথনের উত্তর দিন।.'
-      description: "Chatwoot-কে Slack-এর সাথে সংযুক্ত করুন যাতে আপনার টিম সমন্বয়ে থাকে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনি নতুন কথোপকথনের জন্য নোটিফিকেশন পেতে এবং Slack-এর ইন্টারফেস থেকেই সরাসরি উত্তর দিতে পারবেন।."
+      description: "Thynex-কে Slack-এর সাথে সংযুক্ত করুন যাতে আপনার টিম সমন্বয়ে থাকে। এই ইন্টিগ্রেশনের মাধ্যমে, আপনি নতুন কথোপকথনের জন্য নোটিফিকেশন পেতে এবং Slack-এর ইন্টারফেস থেকেই সরাসরি উত্তর দিতে পারবেন।."
     webhooks:
       name: 'ওয়েবহুকস'
-      description: 'Webhook ইভেন্টগুলি আপনার Chatwoot অ্যাকাউন্টে কার্যকলাপের রিয়েল-টাইম আপডেট প্রদান করে। আপনি আপনার পছন্দের ইভেন্টগুলিতে সাবস্ক্রাইব করতে পারেন, এবং Chatwoot আপনাকে আপডেটসহ HTTP কলব্যাক পাঠাবে।.'
+      description: 'Webhook ইভেন্টগুলি আপনার Thynex অ্যাকাউন্টে কার্যকলাপের রিয়েল-টাইম আপডেট প্রদান করে। আপনি আপনার পছন্দের ইভেন্টগুলিতে সাবস্ক্রাইব করতে পারেন, এবং Thynex আপনাকে আপডেটসহ HTTP কলব্যাক পাঠাবে।.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'এজেন্টদের কাছে হস্তান্তরের আগে প্রাথমিক প্রশ্নের উত্তর দেওয়ার জন্য চ্যাটবট তৈরি করুন।.'
@@ -549,3 +549,4 @@ bn:
       no_subscriptions_to_test: 'Select at least one subscription to test.'
       no_subscriptions_to_delete: 'Select at least one subscription to delete.'
       subscriptions_deleted: "Deleted %{count} subscription(s). The user's device(s) will re-register on next app launch."
+

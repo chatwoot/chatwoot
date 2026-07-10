@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Sila pilih perbualan dari panel kiri",
     "CSAT_REPLY_MESSAGE": "Sila nilai perbualan ini",
@@ -282,7 +282,7 @@
     "SENT_BY": "Dihantar oleh:",
     "BOT": "Bot",
     "NATIVE_APP": "Aplikasi asli",
-    "NATIVE_APP_ADVISORY": "Mesej ini dihantar dari aplikasi asli. Balas dari Chatwoot untuk mengekalkan tetingkap mesej.",
+    "NATIVE_APP_ADVISORY": "Mesej ini dihantar dari aplikasi asli. Balas dari Thynex untuk mengekalkan tetingkap mesej.",
     "SEND_FAILED": "Tidak dapat menghantar mesej! Sila cuba lagi",
     "TRY_AGAIN": "cuba lagi",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Tidak dapat memuat turun lampiran. Sila cuba lagi"
   }
 }
+

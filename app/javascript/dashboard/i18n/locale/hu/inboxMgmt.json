@@ -1,6 +1,6 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Fi√≥kok",
+    "HEADER": "FiÛkok",
     "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
     "LEARN_MORE": "Learn more about inboxes",
     "COUNT": "{n} inbox | {n} inboxes",
@@ -8,48 +8,48 @@
     "NO_RESULTS": "No inboxes found matching your search",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
-    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn‚Äôt complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isnít complete. Please check your display name status in Meta Business Manager before reconnecting.",
     "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
-      "404": "Nincs Inbox kapcsolva ehhez a fi√≥khoz."
+      "404": "Nincs Inbox kapcsolva ehhez a fiÛkhoz."
     },
     "CREATE_FLOW": {
       "CHANNEL": {
-        "TITLE": "Csatorna kiv√°laszt√°sa",
-        "BODY": "V√°lasz egy szolg√°ltat√≥t, melyet √∂ssze akarsz integr√°lni a Chatwoottal."
+        "TITLE": "Csatorna kiv·laszt·sa",
+        "BODY": "V·lasz egy szolg·ltatÛt, melyet ˆssze akarsz integr·lni a Thynextal."
       },
       "INBOX": {
-        "TITLE": "Fi√≥k l√©trehoz√°sa",
-        "BODY": "Hiteles√≠tsd a fi√≥kod √©s hozz l√©tre egy inboxot."
+        "TITLE": "FiÛk lÈtrehoz·sa",
+        "BODY": "HitelesÌtsd a fiÛkod Ès hozz lÈtre egy inboxot."
       },
       "AGENT": {
-        "TITLE": "√úgyn√∂k Hozz√°d√°sa",
-        "BODY": "Adj hozz√° √ºgyn√∂k√∂ket a l√©trehozott inboxhoz."
+        "TITLE": "‹gynˆk Hozz·d·sa",
+        "BODY": "Adj hozz· ¸gynˆkˆket a lÈtrehozott inboxhoz."
       },
       "FINISH": {
-        "TITLE": "Voil√†!",
-        "BODY": "Mindennel k√©szen √°llsz!"
+        "TITLE": "Voil‡!",
+        "BODY": "Mindennel kÈszen ·llsz!"
       }
     },
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Fi√≥k n√©v",
-        "PLACEHOLDER": "√çrd be a postafi√≥kod nev√©t",
-        "ERROR": "K√©rlek, adj meg egy √©rv√©nyes postafi√≥k nevet"
+        "LABEL": "FiÛk nÈv",
+        "PLACEHOLDER": "Õrd be a postafiÛkod nevÈt",
+        "ERROR": "KÈrlek, adj meg egy ÈrvÈnyes postafiÛk nevet"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Website n√©v",
-        "PLACEHOLDER": "Add meg weboldalad nev√©t (pl.: P√©lda Kft.)"
+        "LABEL": "Website nÈv",
+        "PLACEHOLDER": "Add meg weboldalad nevÈt (pl.: PÈlda Kft.)"
       },
       "FB": {
-        "HELP": "UI: A bejelentkez√©seddel csak az oldalad √ºzeneteihez kapunk hozz√°f√©r√©st. Priv√°t √ºzeneteidhez sosem f√©rhet hozz√° a Chatwoot.",
-        "CHOOSE_PAGE": "Oldal kiv√°laszt√°sa",
-        "CHOOSE_PLACEHOLDER": "V√°laszd ki az oldalt a list√°b√≥l",
-        "INBOX_NAME": "Fi√≥k n√©v",
-        "ADD_NAME": "Adj nevet a fi√≥kodnak",
+        "HELP": "UI: A bejelentkezÈseddel csak az oldalad ¸zeneteihez kapunk hozz·fÈrÈst. Priv·t ¸zeneteidhez sosem fÈrhet hozz· a Thynex.",
+        "CHOOSE_PAGE": "Oldal kiv·laszt·sa",
+        "CHOOSE_PLACEHOLDER": "V·laszd ki az oldalt a list·bÛl",
+        "INBOX_NAME": "FiÛk nÈv",
+        "ADD_NAME": "Adj nevet a fiÛkodnak",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "V√°lassz √©rt√©ket",
-        "CREATE_INBOX": "Fi√≥k l√©trehoz√°sa"
+        "PICK_A_VALUE": "V·lassz ÈrtÈket",
+        "CREATE_INBOX": "FiÛk lÈtrehoz·sa"
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
@@ -58,7 +58,7 @@
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won‚Äôt be able to send/receive Instagram messages from this inbox anymore."
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You wonít be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
         "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
@@ -68,23 +68,23 @@
         "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
-        "HELP": "Ahhoz hogy hozz√°add a twitter profilodat egy csatornak√©nt, azonos√≠tanod kell a Twitter fi√≥kodat a 'Bel√©p√©s Twitterrel' gomb megnyom√°s√°val ",
-        "ERROR_MESSAGE": "Hiba t√∂rt√©nt a Twitterrel val√≥ csatlakoz√°skor, k√©rj√ºk pr√≥b√°ld k√©s≈ëbb",
+        "HELP": "Ahhoz hogy hozz·add a twitter profilodat egy csatornakÈnt, azonosÌtanod kell a Twitter fiÛkodat a 'BelÈpÈs Twitterrel' gomb megnyom·s·val ",
+        "ERROR_MESSAGE": "Hiba tˆrtÈnt a Twitterrel valÛ csatlakoz·skor, kÈrj¸k prÛb·ld kÈsobb",
         "TWEETS": {
-          "ENABLE": "Besz√©lget√©s l√©trehoz√°sa az eml√≠tett Tweetekb≈ël"
+          "ENABLE": "BeszÈlgetÈs lÈtrehoz·sa az emlÌtett Tweetekbol"
         }
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Website csatorna",
-        "DESC": "Hozz l√©tre egy csatorn√°t a websiteodnak √©s kezdd el az √ºgyfeleid t√°mogat√°s√°t a website widgeten kereszt√ºl.",
-        "LOADING_MESSAGE": "Website t√°mogat√°si csatorna l√©trehoz√°sa",
+        "DESC": "Hozz lÈtre egy csatorn·t a websiteodnak Ès kezdd el az ¸gyfeleid t·mogat·s·t a website widgeten kereszt¸l.",
+        "LOADING_MESSAGE": "Website t·mogat·si csatorna lÈtrehoz·sa",
         "CHANNEL_AVATAR": {
           "LABEL": "Csatorna avatar"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Please enter your Webhook URL",
-          "ERROR": "K√©rj√ºk helyes URL-t adj meg"
+          "ERROR": "KÈrj¸k helyes URL-t adj meg"
         },
         "CHANNEL_WEBHOOK_SECRET": {
           "LABEL": "Webhook Secret",
@@ -96,152 +96,152 @@
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Website domain",
-          "PLACEHOLDER": "Add meg weboldalad domainj√©t (pl.: p√©lda.hu)"
+          "PLACEHOLDER": "Add meg weboldalad domainjÈt (pl.: pÈlda.hu)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "K√∂sz√∂nt≈ë fejl√©c √ºzenet",
+          "LABEL": "Kˆszˆnto fejlÈc ¸zenet",
           "PLACEHOLDER": "Szia!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "K√∂sz√∂nt≈ë √ºzenet",
-          "PLACEHOLDER": "K√∂nny≈±v√© tessz√ºk, hogy kapcsolatba ker√ºlj vel√ºnk. K√©rdezz b√°rmit, vagy oszd meg v√©lem√©nyed."
+          "LABEL": "Kˆszˆnto ¸zenet",
+          "PLACEHOLDER": "KˆnnyuvÈ tessz¸k, hogy kapcsolatba ker¸lj vel¸nk. KÈrdezz b·rmit, vagy oszd meg vÈlemÈnyed."
         },
         "CHANNEL_GREETING_MESSAGE": {
-          "LABEL": "Csatorna k√∂sz√∂nt≈ë √ºzenet",
-          "PLACEHOLDER": "P√©lda Kft. √°ltal√°ban n√©h√°ny √≥r√°n bel√ºl v√°laszol."
+          "LABEL": "Csatorna kˆszˆnto ¸zenet",
+          "PLACEHOLDER": "PÈlda Kft. ·ltal·ban nÈh·ny Ûr·n bel¸l v·laszol."
         },
         "CHANNEL_GREETING_TOGGLE": {
-          "LABEL": "Csatorna k√∂sz√∂nt√©s enged√©lyez√©se",
+          "LABEL": "Csatorna kˆszˆntÈs engedÈlyezÈse",
           "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
-          "ENABLED": "Enged√©lyezve",
+          "ENABLED": "EngedÈlyezve",
           "DISABLED": "Letiltva"
         },
         "REPLY_TIME": {
-          "TITLE": "V√°laszad√°si id≈ë megad√°sa",
-          "IN_A_FEW_MINUTES": "N√©h√°ny percen bel√ºl",
-          "IN_A_FEW_HOURS": "N√©h√°ny √≥r√°n bel√ºl",
-          "IN_A_DAY": "Egy napon bel√ºl",
-          "HELP_TEXT": "Ezen v√°laszid≈ë ki lesz √≠rva az √©l≈ë chat widgeten"
+          "TITLE": "V·laszad·si ido megad·sa",
+          "IN_A_FEW_MINUTES": "NÈh·ny percen bel¸l",
+          "IN_A_FEW_HOURS": "NÈh·ny Ûr·n bel¸l",
+          "IN_A_DAY": "Egy napon bel¸l",
+          "HELP_TEXT": "Ezen v·laszido ki lesz Ìrva az Èlo chat widgeten"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget sz√≠n",
-          "PLACEHOLDER": "Friss√≠tsd a widget sz√≠n√©t"
+          "LABEL": "Widget szÌn",
+          "PLACEHOLDER": "FrissÌtsd a widget szÌnÈt"
         },
-        "SUBMIT_BUTTON": "Fi√≥k l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "FiÛk lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudjuk √∫jra megnyitni a weboldalt, k√©rlek, pr√≥b√°ld √∫jra"
+          "ERROR_MESSAGE": "Nem tudjuk ˙jra megnyitni a weboldalt, kÈrlek, prÛb·ld ˙jra"
         }
       },
       "TWILIO": {
         "TITLE": "Twilio SMS/Whatsapp csatorna",
-        "DESC": "Twilio integr√°l√°sa √©s √ºgyfelek t√°mogat√°sa SMS-en vagy a WhatsAppon kereszt√ºl",
+        "DESC": "Twilio integr·l·sa Ès ¸gyfelek t·mogat·sa SMS-en vagy a WhatsAppon kereszt¸l",
         "ACCOUNT_SID": {
-          "LABEL": "Fi√≥k SID",
-          "PLACEHOLDER": "K√©rj√ºk add meg a Twilio fi√≥k SID-t",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "LABEL": "FiÛk SID",
+          "PLACEHOLDER": "KÈrj¸k add meg a Twilio fiÛk SID-t",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "API_KEY": {
-          "USE_API_KEY": "API kulcs hiteles√≠t√©s",
-          "LABEL": "API kulcs biztons√°gi azonos√≠t√≥ (SID)",
-          "PLACEHOLDER": "√çrja be az API kulcs biztons√°gi azonos√≠t√≥t (SID)",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "USE_API_KEY": "API kulcs hitelesÌtÈs",
+          "LABEL": "API kulcs biztons·gi azonosÌtÛ (SID)",
+          "PLACEHOLDER": "Õrja be az API kulcs biztons·gi azonosÌtÛt (SID)",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "API_KEY_SECRET": {
           "LABEL": "API titkos kulcs",
-          "PLACEHOLDER": "√çrja be az API kulcs biztons√°gi azonos√≠t√≥t (SID)",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "PLACEHOLDER": "Õrja be az API kulcs biztons·gi azonosÌtÛt (SID)",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "√úzenetk√ºld≈ë szolg√°ltat√°s",
-          "PLACEHOLDER": "K√©rlek add meg a Twilio √úzenetk√ºld≈ë Szolg√°ltat√°s azonos√≠t√≥j√°t",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë",
-          "USE_MESSAGING_SERVICE": "Twilio √úzenetk√ºld≈ë haszn√°lata"
+          "LABEL": "‹zenetk¸ldo szolg·ltat·s",
+          "PLACEHOLDER": "KÈrlek add meg a Twilio ‹zenetk¸ldo Szolg·ltat·s azonosÌtÛj·t",
+          "ERROR": "Ez a mezo kˆtelezo",
+          "USE_MESSAGING_SERVICE": "Twilio ‹zenetk¸ldo haszn·lata"
         },
         "CHANNEL_TYPE": {
-          "LABEL": "Csatorna t√≠pusa",
-          "ERROR": "K√©rj√ºk v√°laszd ki a csatorna t√≠pus√°t"
+          "LABEL": "Csatorna tÌpusa",
+          "ERROR": "KÈrj¸k v·laszd ki a csatorna tÌpus·t"
         },
         "AUTH_TOKEN": {
           "LABEL": "Auth token",
-          "PLACEHOLDER": "K√©rj√ºk add meg a Twilio auth tokened",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "PLACEHOLDER": "KÈrj¸k add meg a Twilio auth tokened",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Fi√≥k n√©v",
-          "PLACEHOLDER": "Add meg a postafi√≥k nev√©t",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "LABEL": "FiÛk nÈv",
+          "PLACEHOLDER": "Add meg a postafiÛk nevÈt",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonsz√°m",
-          "PLACEHOLDER": "K√©rj√ºk add meg a telefonsz√°mot, amire az √ºzeneteket k√ºldj√ºk.",
-          "ERROR": "Adj meg egy telefonsz√°mot ami +-al kezd≈ëdik √©s nem tartalmaz sz√≥k√∂z√∂ket"
+          "LABEL": "Telefonsz·m",
+          "PLACEHOLDER": "KÈrj¸k add meg a telefonsz·mot, amire az ¸zeneteket k¸ldj¸k.",
+          "ERROR": "Adj meg egy telefonsz·mot ami +-al kezdodik Ès nem tartalmaz szÛkˆzˆket"
         },
         "API_CALLBACK": {
-          "TITLE": "Visszah√≠v√°s URL",
-          "SUBTITLE": "Be kell √°ll√≠tanod az √ºzenet visszah√≠v√°s URL-t a Twilion az itt megadott URL alapj√°n."
+          "TITLE": "VisszahÌv·s URL",
+          "SUBTITLE": "Be kell ·llÌtanod az ¸zenet visszahÌv·s URL-t a Twilion az itt megadott URL alapj·n."
         },
-        "SUBMIT_BUTTON": "Twilio csatorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "Twilio csatorna lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk hiteles√≠teni a Twilio fi√≥kodat, k√©rj√ºk pr√≥b√°ld k√©s≈ëbb"
+          "ERROR_MESSAGE": "Nem tudtuk hitelesÌteni a Twilio fiÛkodat, kÈrj¸k prÛb·ld kÈsobb"
         }
       },
       "SMS": {
         "TITLE": "SMS csatorna",
-        "DESC": "√úgyfelek t√°mogat√°s√°nak ind√≠t√°sa SMS-en kereszt√ºl",
+        "DESC": "‹gyfelek t·mogat·s·nak indÌt·sa SMS-en kereszt¸l",
         "PROVIDERS": {
-          "LABEL": "API szolg√°ltat√≥",
+          "LABEL": "API szolg·ltatÛ",
           "TWILIO": "Twilio",
-          "BANDWIDTH": "S√°vsz√©less√©g"
+          "BANDWIDTH": "S·vszÈlessÈg"
         },
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk menteni az SMS csatorn√°j√°t"
+          "ERROR_MESSAGE": "Nem tudtuk menteni az SMS csatorn·j·t"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
-            "LABEL": "Fi√≥k Azonos√≠t√≥",
-            "PLACEHOLDER": "K√©rlek add meg a Bandwidth Fi√≥k felhaszn√°l√≥dat",
-            "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+            "LABEL": "FiÛk AzonosÌtÛ",
+            "PLACEHOLDER": "KÈrlek add meg a Bandwidth FiÛk felhaszn·lÛdat",
+            "ERROR": "Ez a mezo kˆtelezo"
           },
           "API_KEY": {
             "LABEL": "API kulcs",
             "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+            "ERROR": "Ez a mezo kˆtelezo"
           },
           "API_SECRET": {
             "LABEL": "API titkos kulcs",
             "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+            "ERROR": "Ez a mezo kˆtelezo"
           },
           "APPLICATION_ID": {
-            "LABEL": "Alkalmaz√°s ID",
-            "PLACEHOLDER": "K√©rlek add meg a Bandwidth Jelentkez√©si felhaszn√°l√≥dat",
-            "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+            "LABEL": "Alkalmaz·s ID",
+            "PLACEHOLDER": "KÈrlek add meg a Bandwidth JelentkezÈsi felhaszn·lÛdat",
+            "ERROR": "Ez a mezo kˆtelezo"
           },
           "INBOX_NAME": {
-            "LABEL": "Fi√≥k n√©v",
-            "PLACEHOLDER": "Add meg a postafi√≥k nev√©t",
-            "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+            "LABEL": "FiÛk nÈv",
+            "PLACEHOLDER": "Add meg a postafiÛk nevÈt",
+            "ERROR": "Ez a mezo kˆtelezo"
           },
           "PHONE_NUMBER": {
-            "LABEL": "Telefonsz√°m",
-            "PLACEHOLDER": "K√©rj√ºk add meg a telefonsz√°mot, amire az √ºzeneteket k√ºldj√ºk.",
-            "ERROR": "Adj meg egy telefonsz√°mot ami +-al kezd≈ëdik √©s nem tartalmaz sz√≥k√∂z√∂ket"
+            "LABEL": "Telefonsz·m",
+            "PLACEHOLDER": "KÈrj¸k add meg a telefonsz·mot, amire az ¸zeneteket k¸ldj¸k.",
+            "ERROR": "Adj meg egy telefonsz·mot ami +-al kezdodik Ès nem tartalmaz szÛkˆzˆket"
           },
-          "SUBMIT_BUTTON": "Bandwidth csatorna l√©trehoz√°sa",
+          "SUBMIT_BUTTON": "Bandwidth csatorna lÈtrehoz·sa",
           "API": {
-            "ERROR_MESSAGE": "Nem tudtuk hiteles√≠teni a s√°vsz√©less√©g hiteles√≠t≈ë adatait. K√©rj√ºk, pr√≥b√°ld √∫jra"
+            "ERROR_MESSAGE": "Nem tudtuk hitelesÌteni a s·vszÈlessÈg hitelesÌto adatait. KÈrj¸k, prÛb·ld ˙jra"
           },
           "API_CALLBACK": {
-            "TITLE": "Visszah√≠v√°s URL",
-            "SUBTITLE": "Be kell √°ll√≠tanod az √ºzenet visszah√≠v√°si URL-j√©t a s√°vsz√©less√©gben az itt eml√≠tett URL-lel."
+            "TITLE": "VisszahÌv·s URL",
+            "SUBTITLE": "Be kell ·llÌtanod az ¸zenet visszahÌv·si URL-jÈt a s·vszÈlessÈgben az itt emlÌtett URL-lel."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp csatorna",
-        "DESC": "Kapcsolatfelv√©tel az √ºgyfelekkel WhatsAppon kereszt√ºl.",
+        "DESC": "KapcsolatfelvÈtel az ¸gyfelekkel WhatsAppon kereszt¸l.",
         "PROVIDERS": {
-          "LABEL": "API szolg√°ltat√≥",
+          "LABEL": "API szolg·ltatÛ",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
@@ -254,43 +254,43 @@
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
-          "LABEL": "Fi√≥k n√©v",
-          "PLACEHOLDER": "K√©rj√ºk adj meg a fi√≥k nevet",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "LABEL": "FiÛk nÈv",
+          "PLACEHOLDER": "KÈrj¸k adj meg a fiÛk nevet",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "PHONE_NUMBER": {
-          "LABEL": "Telefonsz√°m",
-          "PLACEHOLDER": "K√©rj√ºk add meg a telefonsz√°mot, amire az √ºzeneteket k√ºldj√ºk.",
-          "ERROR": "Adj meg egy telefonsz√°mot ami +-al kezd≈ëdik √©s nem tartalmaz sz√≥k√∂z√∂ket"
+          "LABEL": "Telefonsz·m",
+          "PLACEHOLDER": "KÈrj¸k add meg a telefonsz·mot, amire az ¸zeneteket k¸ldj¸k.",
+          "ERROR": "Adj meg egy telefonsz·mot ami +-al kezdodik Ès nem tartalmaz szÛkˆzˆket"
         },
         "PHONE_NUMBER_ID": {
-          "LABEL": "Telefonsz√°m ID",
-          "PLACEHOLDER": "K√©rj√ºk, add meg a Facebook fejleszt≈ëi ir√°ny√≠t√≥pultj√°r√≥l kapott telefonsz√°m-azonos√≠t√≥t.",
-          "ERROR": "K√©rlek adj meg egy √©rv√©nyes √©rt√©ket"
+          "LABEL": "Telefonsz·m ID",
+          "PLACEHOLDER": "KÈrj¸k, add meg a Facebook fejlesztoi ir·nyÌtÛpultj·rÛl kapott telefonsz·m-azonosÌtÛt.",
+          "ERROR": "KÈrlek adj meg egy ÈrvÈnyes ÈrtÈket"
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "√úzleti azonos√≠t√≥",
-          "PLACEHOLDER": "K√©rj√ºk, add meg a Facebook fejleszt≈ëi ir√°ny√≠t√≥pultj√°r√≥l kapott √ºzleti fi√≥kazonos√≠t√≥t.",
-          "ERROR": "K√©rlek adj meg egy √©rv√©nyes √©rt√©ket"
+          "LABEL": "‹zleti azonosÌtÛ",
+          "PLACEHOLDER": "KÈrj¸k, add meg a Facebook fejlesztoi ir·nyÌtÛpultj·rÛl kapott ¸zleti fiÛkazonosÌtÛt.",
+          "ERROR": "KÈrlek adj meg egy ÈrvÈnyes ÈrtÈket"
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Azonos√≠t√≥ Token",
+          "LABEL": "Webhook AzonosÌtÛ Token",
           "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "K√©rlek adj meg egy √©rv√©nyes √©rt√©ket."
+          "ERROR": "KÈrlek adj meg egy ÈrvÈnyes ÈrtÈket."
         },
         "API_KEY": {
           "LABEL": "API kulcs",
-          "SUBTITLE": "WhatsApp API kulcs be√°ll√≠t√°sa.",
+          "SUBTITLE": "WhatsApp API kulcs be·llÌt·sa.",
           "PLACEHOLDER": "API kulcs",
-          "ERROR": "K√©rlek adj meg egy √©rv√©nyes √©rt√©ket."
+          "ERROR": "KÈrlek adj meg egy ÈrvÈnyes ÈrtÈket."
         },
         "API_CALLBACK": {
-          "TITLE": "Visszah√≠v√°s URL",
-          "SUBTITLE": "Be kell √°ll√≠tania a webhook URL-c√≠m√©t √©s az ellen≈ërz≈ë tokent a Facebook fejleszt≈ëi port√°lon az al√°bb l√°that√≥ √©rt√©kekkel.",
+          "TITLE": "VisszahÌv·s URL",
+          "SUBTITLE": "Be kell ·llÌtania a webhook URL-cÌmÈt Ès az ellenorzo tokent a Facebook fejlesztoi port·lon az al·bb l·thatÛ ÈrtÈkekkel.",
           "WEBHOOK_URL": "Webhook URL",
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
-        "SUBMIT_BUTTON": "WhatsApp cstorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "WhatsApp cstorna lÈtrehoz·sa",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick setup with Meta",
           "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
@@ -308,7 +308,7 @@
           "AUTH_PROCESSING": "Authenticating with Meta",
           "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
           "PROCESSING": "Setting up your WhatsApp Business Account",
-          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number‚Ä¶",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your numberÖ",
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
@@ -317,25 +317,25 @@
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
-          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you‚Äôre a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if youíre a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ‚Äî this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on ó this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni a WhatsApp csatorn√°t"
+          "ERROR_MESSAGE": "Nem tudtuk elmenteni a WhatsApp csatorn·t"
         }
       },
       "VOICE": {
         "TITLE": "Voice Channel",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
         "PHONE_NUMBER": {
-          "LABEL": "Telefonsz√°m",
+          "LABEL": "Telefonsz·m",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
           "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
-            "LABEL": "Fi√≥k SID",
+            "LABEL": "FiÛk SID",
             "PLACEHOLDER": "Enter your Twilio Account SID",
             "REQUIRED": "Account SID is required"
           },
@@ -345,7 +345,7 @@
             "REQUIRED": "Auth Token is required"
           },
           "API_KEY_SID": {
-            "LABEL": "API kulcs biztons√°gi azonos√≠t√≥ (SID)",
+            "LABEL": "API kulcs biztons·gi azonosÌtÛ (SID)",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
             "REQUIRED": "API Key SID is required"
           },
@@ -368,20 +368,20 @@
       },
       "API_CHANNEL": {
         "TITLE": "API csatorna",
-        "DESC": "API-val integr√°lj √©s l√°ss neki az √ºgyfeleid t√°mogat√°s√°nak.",
+        "DESC": "API-val integr·lj Ès l·ss neki az ¸gyfeleid t·mogat·s·nak.",
         "CHANNEL_NAME": {
           "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "K√©rj√ºk adj meg csatorna nevet",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "PLACEHOLDER": "KÈrj¸k adj meg csatorna nevet",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
           "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
-        "SUBMIT_BUTTON": "API csatorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "API csatorna lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni az API csatorn√°t"
+          "ERROR_MESSAGE": "Nem tudtuk elmenteni az API csatorn·t"
         }
       },
       "EMAIL_CHANNEL": {
@@ -389,19 +389,19 @@
         "DESC": "Integrate your email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "K√©rj√ºk adj meg csatorna nevet",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "PLACEHOLDER": "KÈrj¸k adj meg csatorna nevet",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "EMAIL": {
           "LABEL": "E-mail",
-          "SUBTITLE": "Az e-mail ahova az √ºgyfeled a t√°mogat√°si k√©relmeit k√ºldi",
+          "SUBTITLE": "Az e-mail ahova az ¸gyfeled a t·mogat·si kÈrelmeit k¸ldi",
           "PLACEHOLDER": "E-mail"
         },
-        "SUBMIT_BUTTON": "E-mail csatorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "E-mail csatorna lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni az e-mail csatorn√°t"
+          "ERROR_MESSAGE": "Nem tudtuk elmenteni az e-mail csatorn·t"
         },
-        "FINISH_MESSAGE": "Kezdd el tov√°bb√≠tani az e-maileket a k√∂vetkez≈ë e-mail c√≠mekre.",
+        "FINISH_MESSAGE": "Kezdd el tov·bbÌtani az e-maileket a kˆvetkezo e-mail cÌmekre.",
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
         "CONFIGURE_SMTP_IMAP_LINK": "Kattints ide",
@@ -409,11 +409,11 @@
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE csatorna",
-        "DESC": "Integr√°lj LINE csatorn√°t az alkalmaz√°sba.",
+        "DESC": "Integr·lj LINE csatorn·t az alkalmaz·sba.",
         "CHANNEL_NAME": {
           "LABEL": "Csatorna neve",
-          "PLACEHOLDER": "K√©rj√ºk adj meg csatorna nevet",
-          "ERROR": "Ez a mez≈ë k√∂telez≈ë"
+          "PLACEHOLDER": "KÈrj¸k adj meg csatorna nevet",
+          "ERROR": "Ez a mezo kˆtelezo"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE Channel ID",
@@ -427,33 +427,33 @@
           "LABEL": "LINE Channel Token",
           "PLACEHOLDER": "LINE Channel Token"
         },
-        "SUBMIT_BUTTON": "LINE csatorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "LINE csatorna lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk menteni a LINE csatorn√°t"
+          "ERROR_MESSAGE": "Nem tudtuk menteni a LINE csatorn·t"
         },
         "API_CALLBACK": {
-          "TITLE": "Visszah√≠v√°s URL",
-          "SUBTITLE": "A webhook URL-c√≠m√©t a LINE alkalmaz√°sban az itt eml√≠tett URL-lel kell konfigur√°lnia."
+          "TITLE": "VisszahÌv·s URL",
+          "SUBTITLE": "A webhook URL-cÌmÈt a LINE alkalmaz·sban az itt emlÌtett URL-lel kell konfigur·lnia."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram csatorna",
-        "DESC": "Integr√°lj Telegram csatorn√°t az alkalmaz√°sba.",
+        "DESC": "Integr·lj Telegram csatorn·t az alkalmaz·sba.",
         "BOT_TOKEN": {
           "LABEL": "Bot Token",
-          "SUBTITLE": "Konfigur√°lja a Telegram BotFathert≈ël kapott bot tokent.",
+          "SUBTITLE": "Konfigur·lja a Telegram BotFathertol kapott bot tokent.",
           "PLACEHOLDER": "Bot Token"
         },
-        "SUBMIT_BUTTON": "Telgram csatorna l√©trehoz√°sa",
+        "SUBMIT_BUTTON": "Telgram csatorna lÈtrehoz·sa",
         "API": {
-          "ERROR_MESSAGE": "Nem tudtuk elmenteni a Telegram csatorn√°t"
+          "ERROR_MESSAGE": "Nem tudtuk elmenteni a Telegram csatorn·t"
         }
       },
       "AUTH": {
-        "TITLE": "Csatorna kiv√°laszt√°sa",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "TITLE": "Csatorna kiv·laszt·sa",
+        "DESC": "Thynex supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
-        "TITLE_FINISH": "Voil√†!",
+        "TITLE_FINISH": "Voil‡!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Honlap",
@@ -506,103 +506,103 @@
         }
       },
       "AGENTS": {
-        "TITLE": "√úgyn√∂k√∂k",
-        "DESC": "Itt hozz√°adhatsz √ºgyn√∂k√∂ket az √∫jonan l√©trehooztt inboxodhoz. Csak ezek a kiv√°lasztott √ºgyn√∂k√∂k fognak hozz√°f√©rni az inboxodhoz. Az √ºgyn√∂k√∂k akik nem r√©szei az inboxnak, nem l√°tj√°k √©s nem tudnak v√°laszolni az √ºzenetekre bel√©p√©s√ºk ut√°n. <br><b>UI:</b>Adminisztr√°tork√©nt hozz√°f√©r√©sed van az √∂sszes inboxhoz, add hozz√° magad az √∂sszes inboxhoz √ºgyn√∂kk√©nt.",
+        "TITLE": "‹gynˆkˆk",
+        "DESC": "Itt hozz·adhatsz ¸gynˆkˆket az ˙jonan lÈtrehooztt inboxodhoz. Csak ezek a kiv·lasztott ¸gynˆkˆk fognak hozz·fÈrni az inboxodhoz. Az ¸gynˆkˆk akik nem rÈszei az inboxnak, nem l·tj·k Ès nem tudnak v·laszolni az ¸zenetekre belÈpÈs¸k ut·n. <br><b>UI:</b>Adminisztr·torkÈnt hozz·fÈrÈsed van az ˆsszes inboxhoz, add hozz· magad az ˆsszes inboxhoz ¸gynˆkkÈnt.",
         "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "V√°laszd ki az inboxhoz hozz√°rendelt √ºgyn√∂k√∂ket"
+        "PICK_AGENTS": "V·laszd ki az inboxhoz hozz·rendelt ¸gynˆkˆket"
       },
       "DETAILS": {
-        "TITLE": "Fi√≥k r√©szletek",
-        "DESC": "A leg√∂rd√ºl≈ë list√°b√≥l k√©rj√ºk v√°laszd ki hogy melyik Facebook oldalt szeretn√©d a Chatwoothoz k√∂tni. Egyedi nevet is adhatsz az Inboxnak a jobb azonos√≠that√≥s√°g √©rdek√©ben."
+        "TITLE": "FiÛk rÈszletek",
+        "DESC": "A legˆrd¸lo list·bÛl kÈrj¸k v·laszd ki hogy melyik Facebook oldalt szeretnÈd a Thynexhoz kˆtni. Egyedi nevet is adhatsz az Inboxnak a jobb azonosÌthatÛs·g ÈrdekÈben."
       },
       "FINISH": {
-        "TITLE": "Siker√ºlt!",
-        "DESC": "Sikeresen integr√°ltad a Facebook oldaladat a Chatwoottal. Legk√∂zelebb amikor egy √ºgyf√©l √ºzenetet √≠r az oldaladra, a besz√©lget√©s automatiksuan megjelenik az inboxodban.<br> Ezen k√≠v√ºl egy widget k√≥dot biztos√≠tunk sz√°modra, amelyet k√∂nnyen hozz√°adhatsz a weboldaladhoz. Amint ez ki√©les√≠t√©sre ker√ºl, az √ºgyfelek √ºzenetet k√ºldhetnek Neked a weboldaladr√≥l b√°rmilyen k√ºls≈ë eszk√∂z ig√©nybev√©tele n√©lk√ºl √©s ez a besz√©lget√©s itt a Chatwootban fog megjelenni. <br>Men≈ë, nem? H√°t megpr√≥b√°ljuk :)"
+        "TITLE": "Siker¸lt!",
+        "DESC": "Sikeresen integr·ltad a Facebook oldaladat a Thynextal. Legkˆzelebb amikor egy ¸gyfÈl ¸zenetet Ìr az oldaladra, a beszÈlgetÈs automatiksuan megjelenik az inboxodban.<br> Ezen kÌv¸l egy widget kÛdot biztosÌtunk sz·modra, amelyet kˆnnyen hozz·adhatsz a weboldaladhoz. Amint ez kiÈlesÌtÈsre ker¸l, az ¸gyfelek ¸zenetet k¸ldhetnek Neked a weboldaladrÛl b·rmilyen k¸lso eszkˆz igÈnybevÈtele nÈlk¸l Ès ez a beszÈlgetÈs itt a Thynexban fog megjelenni. <br>Meno, nem? H·t megprÛb·ljuk :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Add meg az email szolg√°ltat√≥d",
-        "DESCRIPTION": "V√°lasszon egy e-mail szolg√°ltat√≥t az al√°bbi list√°b√≥l. Ha nem l√°tja az e-mail szolg√°ltat√≥j√°t a list√°ban, v√°lassza a m√°sik szolg√°ltat√≥ lehet≈ës√©get, √©s adja meg az IMAP √©s SMTP hiteles√≠t≈ë adatokat."
+        "TITLE": "Add meg az email szolg·ltatÛd",
+        "DESCRIPTION": "V·lasszon egy e-mail szolg·ltatÛt az al·bbi list·bÛl. Ha nem l·tja az e-mail szolg·ltatÛj·t a list·ban, v·lassza a m·sik szolg·ltatÛ lehetosÈget, Ès adja meg az IMAP Ès SMTP hitelesÌto adatokat."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "A kezd√©shez kattintson a Bejelentkez√©s a Microsofttal gombra. A rendszer √°tir√°ny√≠tja az e-mail bejelentkez√©si oldalra. Miut√°n elfogadta a k√©rt enged√©lyeket, a rendszer visszair√°ny√≠tja a be√©rkez≈ë levelek l√©trehoz√°s√°nak l√©p√©s√©hez.",
-        "EMAIL_PLACEHOLDER": "E-mailc√≠m megad√°sa",
+        "DESCRIPTION": "A kezdÈshez kattintson a BejelentkezÈs a Microsofttal gombra. A rendszer ·tir·nyÌtja az e-mail bejelentkezÈsi oldalra. Miut·n elfogadta a kÈrt engedÈlyeket, a rendszer visszair·nyÌtja a beÈrkezo levelek lÈtrehoz·s·nak lÈpÈsÈhez.",
+        "EMAIL_PLACEHOLDER": "E-mailcÌm megad·sa",
         "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "Hiba t√∂rt√©nt a Microsoft szervereihez val√≥ csatlakoz√°skor, k√©rj√ºk pr√≥b√°ld k√©s≈ëbb"
+        "ERROR_MESSAGE": "Hiba tˆrtÈnt a Microsoft szervereihez valÛ csatlakoz·skor, kÈrj¸k prÛb·ld kÈsobb"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
         "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "E-mailc√≠m megad√°sa",
+        "EMAIL_PLACEHOLDER": "E-mailcÌm megad·sa",
         "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Facebookkal azonos√≠tunk...",
+      "LOADING_FB": "Facebookkal azonosÌtunk...",
       "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Valami elromlott, k√©rj√ºk t√∂ltsd √∫jra az oldalt...",
-      "ERROR_FB_UNAUTHORIZED": "Nincs jogosults√°ga erre a tev√©kenys√©gre. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozz√°f√©r√©se van a Facebook oldalhoz. B≈ëvebb inform√°ci√≥t <a href=\" https://www.facebook.com/help/187316341316631\">itt tal√°l</a>.",
-      "CREATING_CHANNEL": "Inbox l√©trehoz√°sa...",
-      "TITLE": "Inbox r√©szletek be√°ll√≠t√°sa",
+      "ERROR_FB_AUTH": "Valami elromlott, kÈrj¸k tˆltsd ˙jra az oldalt...",
+      "ERROR_FB_UNAUTHORIZED": "Nincs jogosults·ga erre a tevÈkenysÈgre. ",
+      "ERROR_FB_UNAUTHORIZED_HELP": "Bizonyosodjon meg, hogy teljes hozz·fÈrÈse van a Facebook oldalhoz. Bovebb inform·ciÛt <a href=\" https://www.facebook.com/help/187316341316631\">itt tal·l</a>.",
+      "CREATING_CHANNEL": "Inbox lÈtrehoz·sa...",
+      "TITLE": "Inbox rÈszletek be·llÌt·sa",
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "√úgyn√∂k Hozz√°d√°sa",
-      "ADD_AGENTS": "√úgyn√∂k√∂k hozz√°ad√°sa a fi√≥khoz..."
+      "BUTTON_TEXT": "‹gynˆk Hozz·d·sa",
+      "ADD_AGENTS": "‹gynˆkˆk hozz·ad·sa a fiÛkhoz..."
     },
     "FINISH": {
-      "TITLE": "A fi√≥kod elk√©sz√ºlt!",
-      "MESSAGE": "Most m√°r tudsz egyeztetni az √ºgyfeleiddel az √∫j csatorn√°n. Boldog t√°mgoat√°st",
-      "BUTTON_TEXT": "Vigy√©l oda",
-      "MORE_SETTINGS": "Tov√°bbi be√°ll√≠t√°sok",
-      "WEBSITE_SUCCESS": "Sikeresen l√©trehoztad a website csatorn√°t. M√°sold az itt l√°that√≥ k√≥dot √©s helyezd el a weboldaladon. Legk√∂zelebb, mikor egy √ºgyf√©l az √©l≈ë chatben van, a besz√©lget√©s automatikusan megjelenik az inboxodban.",
+      "TITLE": "A fiÛkod elkÈsz¸lt!",
+      "MESSAGE": "Most m·r tudsz egyeztetni az ¸gyfeleiddel az ˙j csatorn·n. Boldog t·mgoat·st",
+      "BUTTON_TEXT": "VigyÈl oda",
+      "MORE_SETTINGS": "Tov·bbi be·llÌt·sok",
+      "WEBSITE_SUCCESS": "Sikeresen lÈtrehoztad a website csatorn·t. M·sold az itt l·thatÛ kÛdot Ès helyezd el a weboldaladon. Legkˆzelebb, mikor egy ¸gyfÈl az Èlo chatben van, a beszÈlgetÈs automatikusan megjelenik az inboxodban.",
       "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
       "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
       "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
-    "REAUTH": "√öjraenged√©lyez√©s",
-    "VIEW": "Megtekint√©s",
+    "REAUTH": "⁄jraengedÈlyezÈs",
+    "VIEW": "MegtekintÈs",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Inbox be√°ll√≠t√°sok sikeresen friss√≠tve",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozz√°rendel√©s sikeresen friss√≠tve",
-        "ERROR_MESSAGE": "Nem tudtuk friss√≠teni a be√©rkez≈ë levelek be√°ll√≠t√°sait. K√©rlek, pr√≥b√°ld √∫jra k√©s≈ëbb."
+        "SUCCESS_MESSAGE": "Inbox be·llÌt·sok sikeresen frissÌtve",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatikus hozz·rendelÈs sikeresen frissÌtve",
+        "ERROR_MESSAGE": "Nem tudtuk frissÌteni a beÈrkezo levelek be·llÌt·sait. KÈrlek, prÛb·ld ˙jra kÈsobb."
       },
       "EMAIL_COLLECT_BOX": {
-        "ENABLED": "Enged√©lyezve",
+        "ENABLED": "EngedÈlyezve",
         "DISABLED": "Letiltva"
       },
       "ENABLE_CSAT": {
-        "ENABLED": "Enged√©lyezve",
+        "ENABLED": "EngedÈlyezve",
         "DISABLED": "Letiltva"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "K√ºld≈ë neve",
+        "TITLE": "K¸ldo neve",
         "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "P√©ld√°ul:",
+        "FOR_EG": "PÈld·ul:",
         "FRIENDLY": {
-          "TITLE": "Bar√°ts√°gos",
+          "TITLE": "Bar·ts·gos",
           "FROM": "innen",
-          "SUBTITLE": "Adja hozz√° a felad√≥ nev√©hez a v√°laszt k√ºld≈ë √ºgyn√∂k nev√©t, hogy a v√°lasz szem√©lyes hangv√©tel≈± legyen."
+          "SUBTITLE": "Adja hozz· a feladÛ nevÈhez a v·laszt k¸ldo ¸gynˆk nevÈt, hogy a v·lasz szemÈlyes hangvÈtelu legyen."
         },
         "PROFESSIONAL": {
-          "TITLE": "Professzion√°lis",
-          "SUBTITLE": "Csak a konfigur√°lt c√©gnevet haszn√°lja felad√≥i n√©vk√©nt az e-mail fejl√©c√©ben."
+          "TITLE": "Professzion·lis",
+          "SUBTITLE": "Csak a konfigur·lt cÈgnevet haszn·lja feladÛi nÈvkÈnt az e-mail fejlÈcÈben."
         },
         "BUSINESS_NAME": {
           "BUTTON_TEXT": "Configure your business name",
-          "PLACEHOLDER": "Adja meg v√°llalkoz√°s√°nak nev√©t",
-          "SAVE_BUTTON_TEXT": "Ment√©s"
+          "PLACEHOLDER": "Adja meg v·llalkoz·s·nak nevÈt",
+          "SAVE_BUTTON_TEXT": "MentÈs"
         }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
-        "ENABLED": "Enged√©lyezve",
+        "ENABLED": "EngedÈlyezve",
         "DISABLED": "Letiltva"
       },
       "ENABLE_CONTINUITY_VIA_EMAIL": {
-        "ENABLED": "Enged√©lyezve",
+        "ENABLED": "EngedÈlyezve",
         "DISABLED": "Letiltva"
       },
       "LOCK_TO_SINGLE_CONVERSATION": {
@@ -612,35 +612,35 @@
         "DISABLED_DESCRIPTION": "A new conversation will be created each time after the previous one is resolved."
       },
       "ENABLE_HMAC": {
-        "LABEL": "Enged√©lyez√©s"
+        "LABEL": "EngedÈlyezÈs"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "T√∂rl√©s",
-      "AVATAR_DELETE_BUTTON_TEXT": "Avat√°r T√∂rl√©se",
+      "BUTTON_TEXT": "TˆrlÈs",
+      "AVATAR_DELETE_BUTTON_TEXT": "Avat·r TˆrlÈse",
       "CONFIRM": {
-        "TITLE": "T√∂rl√©s meger≈ës√≠t√©se",
-        "MESSAGE": "Biztos abban, hogy t√∂rli ",
-        "PLACE_HOLDER": "K√©rlek g√©peld be, hogy {inboxName} a meger≈ës√≠t√©shez",
-        "YES": "Igen, T√∂rl√©s ",
-        "NO": "Nem, M√©gse "
+        "TITLE": "TˆrlÈs megerosÌtÈse",
+        "MESSAGE": "Biztos abban, hogy tˆrli ",
+        "PLACE_HOLDER": "KÈrlek gÈpeld be, hogy {inboxName} a megerosÌtÈshez",
+        "YES": "Igen, TˆrlÈs ",
+        "NO": "Nem, MÈgse "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Inbox sikeresen t√∂r√∂lve",
-        "ERROR_MESSAGE": "Nem siker√ºlt a fi√≥k t√∂rl√©se. K√©rj√ºk pr√≥b√°ld k√©s≈ëbb.",
-        "AVATAR_SUCCESS_MESSAGE": "Fi√≥k avatar sikeresen t√∂r√∂lve",
-        "AVATAR_ERROR_MESSAGE": "A fi√≥k avatar t√∂rl√©se nem lehets√©ges. K√©rj√ºk pr√≥b√°ld k√©s≈ëbb."
+        "SUCCESS_MESSAGE": "Inbox sikeresen tˆrˆlve",
+        "ERROR_MESSAGE": "Nem siker¸lt a fiÛk tˆrlÈse. KÈrj¸k prÛb·ld kÈsobb.",
+        "AVATAR_SUCCESS_MESSAGE": "FiÛk avatar sikeresen tˆrˆlve",
+        "AVATAR_ERROR_MESSAGE": "A fiÛk avatar tˆrlÈse nem lehetsÈges. KÈrj¸k prÛb·ld kÈsobb."
       }
     },
     "TABS": {
-      "SETTINGS": "Be√°ll√≠t√°sok",
+      "SETTINGS": "Be·llÌt·sok",
       "COLLABORATORS": "Csapattagok",
-      "CONFIGURATION": "Be√°ll√≠t√°sok",
-      "CAMPAIGN": "Kamp√°nyok",
-      "PRE_CHAT_FORM": "Chat el≈ëtti ≈±rlap",
-      "BUSINESS_HOURS": "Nyitvatart√°s",
-      "WIDGET_BUILDER": "Widget √©p√≠t≈ë",
-      "BOT_CONFIGURATION": "Bot konfigur√°ci√≥",
+      "CONFIGURATION": "Be·llÌt·sok",
+      "CAMPAIGN": "Kamp·nyok",
+      "PRE_CHAT_FORM": "Chat elotti urlap",
+      "BUSINESS_HOURS": "Nyitvatart·s",
+      "WIDGET_BUILDER": "Widget ÈpÌto",
+      "BOT_CONFIGURATION": "Bot konfigur·ciÛ",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "VOICE": "Voice",
@@ -660,14 +660,14 @@
         "LABEL": "Enable WhatsApp Calling",
         "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
       },
-      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ‚Äî it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number ó it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
       "PHONE_NUMBER": {
         "LABEL": "Business phone number",
         "HELP_TEXT": "WhatsApp number that customers will call."
       },
       "HOW_IT_WORKS": {
         "LABEL": "How it works",
-        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ‚Äî no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta ó no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
       },
       "PERMISSION_REQUEST_BODY": {
         "LABEL": "Call permission request message",
@@ -728,7 +728,7 @@
         },
         "MODES": {
           "SANDBOX": "Sandbox",
-          "LIVE": "√âl≈ë"
+          "LIVE": "…lo"
         }
       },
       "WEBHOOK": {
@@ -742,17 +742,17 @@
         "URL_MISMATCH": "Webhook URL mismatch"
       }
     },
-    "SETTINGS": "Be√°ll√≠t√°sok",
+    "SETTINGS": "Be·llÌt·sok",
     "FEATURES": {
-      "LABEL": "Lehet≈ës√©gek",
-      "DISPLAY_FILE_PICKER": "File v√°laszt√≥ megjelen√≠t√©se a widgeten",
-      "DISPLAY_EMOJI_PICKER": "Emoji v√°laszt√≥ megjelen√≠t√©se a widgeten",
-      "ALLOW_END_CONVERSATION": "Lehet≈ëv√© teszi a felhaszn√°l√≥knak, hogy befejezz√©k a besz√©lget√©st a widgetb≈ël",
-      "USE_INBOX_AVATAR_FOR_BOT": "Haszn√°lja a fi√≥k nev√©t √©s avat√°rj√°t a bothoz"
+      "LABEL": "LehetosÈgek",
+      "DISPLAY_FILE_PICKER": "File v·lasztÛ megjelenÌtÈse a widgeten",
+      "DISPLAY_EMOJI_PICKER": "Emoji v·lasztÛ megjelenÌtÈse a widgeten",
+      "ALLOW_END_CONVERSATION": "LehetovÈ teszi a felhaszn·lÛknak, hogy befejezzÈk a beszÈlgetÈst a widgetbol",
+      "USE_INBOX_AVATAR_FOR_BOT": "Haszn·lja a fiÛk nevÈt Ès avat·rj·t a bothoz"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger szkript",
-      "MESSENGER_SUB_HEAD": "Ezt a gombot a body tag-en bel√ºl helyezd el",
+      "MESSENGER_SUB_HEAD": "Ezt a gombot a body tag-en bel¸l helyezd el",
       "ALLOWED_DOMAINS": {
         "TITLE": "Allowed Domains",
         "DESCRIPTION": "Restrict which websites can embed your chat widget. For security, only add domains you own and trust. Add one or more domains separated by commas. Leave blank to allow all domains (not recommended for production).",
@@ -770,42 +770,42 @@
         "REQUIRE_LABEL": "Require identity validation for all conversations",
         "REQUIRE_DESCRIPTION": "When enabled, users must provide a valid identity token to start conversations. Requests without valid tokens will be rejected."
       },
-      "INBOX_AGENTS": "√úgyn√∂k√∂k",
-      "INBOX_AGENTS_SUB_TEXT": "√úgyn√∂k√∂k hossz√°ad√°sa vagy elt√°vol√≠t√°sa az inboxb√≥l",
-      "AGENT_ASSIGNMENT": "Besz√©lget√©s hozz√°rendel√©s",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Besz√©lget√©s hozz√°rendel√©s be√°ll√≠t√°sok friss√≠t√©se",
-      "UPDATE": "Friss√≠t√©s",
-      "ENABLE_EMAIL_COLLECT_BOX": "E-mail gy≈±jt≈ëdoboz enged√©lyez√©se",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Az e-mailek gy≈±jt≈ëdoboz√°nak enged√©lyez√©se vagy letilt√°sa √∫j besz√©lget√©sekn√©l",
-      "AUTO_ASSIGNMENT": "Automata hozz√°rendel√©s enged√©lyez√©se",
-      "SENDER_NAME_SECTION": "√úgyn√∂k nev√©nek enged√©lyez√©se e-mailben",
-      "SENDER_NAME_SECTION_TEXT": "Az √ºgyn√∂k nev√©nek megjelen√≠t√©s√©nek enged√©lyez√©se/letilt√°sa az e-mailben, ha le van tiltva, akkor a c√©g neve jelenik meg",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Besz√©lget√©s folytat√°s√°nak enged√©lyez√©se emailen kereszt√ºl",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A besz√©lget√©sek e-mailben folytat√≥dnak, ha el√©rhet≈ë a kapcsolattart√°si e-mail c√≠m.",
+      "INBOX_AGENTS": "‹gynˆkˆk",
+      "INBOX_AGENTS_SUB_TEXT": "‹gynˆkˆk hossz·ad·sa vagy elt·volÌt·sa az inboxbÛl",
+      "AGENT_ASSIGNMENT": "BeszÈlgetÈs hozz·rendelÈs",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "BeszÈlgetÈs hozz·rendelÈs be·llÌt·sok frissÌtÈse",
+      "UPDATE": "FrissÌtÈs",
+      "ENABLE_EMAIL_COLLECT_BOX": "E-mail gyujtodoboz engedÈlyezÈse",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Az e-mailek gyujtodoboz·nak engedÈlyezÈse vagy letilt·sa ˙j beszÈlgetÈseknÈl",
+      "AUTO_ASSIGNMENT": "Automata hozz·rendelÈs engedÈlyezÈse",
+      "SENDER_NAME_SECTION": "‹gynˆk nevÈnek engedÈlyezÈse e-mailben",
+      "SENDER_NAME_SECTION_TEXT": "Az ¸gynˆk nevÈnek megjelenÌtÈsÈnek engedÈlyezÈse/letilt·sa az e-mailben, ha le van tiltva, akkor a cÈg neve jelenik meg",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "BeszÈlgetÈs folytat·s·nak engedÈlyezÈse emailen kereszt¸l",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A beszÈlgetÈsek e-mailben folytatÛdnak, ha elÈrheto a kapcsolattart·si e-mail cÌm.",
       "ENABLE_CONTINUITY_VIA_EMAIL_DISABLED_TEXT": "This feature is available on a paid plan. Upgrade to enable conversation continuity via email.",
       "LOCK_TO_SINGLE_CONVERSATION": "Conversation Routing",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Configure conversation creation for existing contacts",
-      "INBOX_UPDATE_TITLE": "Fi√≥kbe√°ll√≠t√°sok",
-      "INBOX_UPDATE_SUB_TEXT": "Friss√≠tsd az inbox be√°ll√≠t√°saidat",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsol√°sa vagy kikapcsol√°sa az inboxhoz kapcsol√≥d√≥ automatikus √ºgyn√∂khozz√°rendel√©snek √∫j besz√©lget√©sek eset√©n.",
-      "HMAC_VERIFICATION": "Felhaszn√°l√≥i fi√≥k valid√°l√°s",
+      "INBOX_UPDATE_TITLE": "FiÛkbe·llÌt·sok",
+      "INBOX_UPDATE_SUB_TEXT": "FrissÌtsd az inbox be·llÌt·saidat",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Bekapcsol·sa vagy kikapcsol·sa az inboxhoz kapcsolÛdÛ automatikus ¸gynˆkhozz·rendelÈsnek ˙j beszÈlgetÈsek esetÈn.",
+      "HMAC_VERIFICATION": "Felhaszn·lÛi fiÛk valid·l·s",
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
-      "HMAC_LINK_TO_DOCS": "B≈ëvebben itt olvashat.",
-      "HMAC_MANDATORY_VERIFICATION": "Felhaszn√°l√≥i fi√≥k valid√°l√°s k√©nyszer√≠t√©se",
+      "HMAC_LINK_TO_DOCS": "Bovebben itt olvashat.",
+      "HMAC_MANDATORY_VERIFICATION": "Felhaszn·lÛi fiÛk valid·l·s kÈnyszerÌtÈse",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Fi√≥k azonos√≠t√≥",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Haszn√°lja az itt l√°that√≥ \"inbox_identifier\" tokent az API-kliensek hiteles√≠t√©s√©hez.",
-      "FORWARD_EMAIL_TITLE": "Tov√°bb√≠t√°s ide",
-      "FORWARD_EMAIL_SUB_TEXT": "Kezdd el tov√°bb√≠tani az e-maileket a k√∂vetkez≈ë e-mail c√≠mekre.",
+      "INBOX_IDENTIFIER": "FiÛk azonosÌtÛ",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Haszn·lja az itt l·thatÛ \"inbox_identifier\" tokent az API-kliensek hitelesÌtÈsÈhez.",
+      "FORWARD_EMAIL_TITLE": "Tov·bbÌt·s ide",
+      "FORWARD_EMAIL_SUB_TEXT": "Kezdd el tov·bbÌtani az e-maileket a kˆvetkezo e-mail cÌmekre.",
       "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "√úzenetek enged√©lyez√©se a besz√©lget√©s befejez√©se ut√°n",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Enged√©lyezze a v√©gfelhaszn√°l√≥k sz√°m√°ra, hogy √ºzeneteket k√ºldjenek a besz√©lget√©s lez√°r√°sa ut√°n is.",
-      "WHATSAPP_SECTION_SUBHEADER": "Ezt az API-kulcsot a WhatsApp API-kkal val√≥ integr√°ci√≥hoz haszn√°lj√°k.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "‹zenetek engedÈlyezÈse a beszÈlgetÈs befejezÈse ut·n",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "EngedÈlyezze a vÈgfelhaszn·lÛk sz·m·ra, hogy ¸zeneteket k¸ldjenek a beszÈlgetÈs lez·r·sa ut·n is.",
+      "WHATSAPP_SECTION_SUBHEADER": "Ezt az API-kulcsot a WhatsApp API-kkal valÛ integr·ciÛhoz haszn·lj·k.",
       "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API kulcs",
-      "WHATSAPP_SECTION_UPDATE_TITLE": "API-kulcs friss√≠t√©se",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Add meg az √∫j API kulcsot",
-      "WHATSAPP_SECTION_UPDATE_BUTTON": "Friss√≠t√©s",
+      "WHATSAPP_SECTION_UPDATE_TITLE": "API-kulcs frissÌtÈse",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Add meg az ˙j API kulcsot",
+      "WHATSAPP_SECTION_UPDATE_BUTTON": "FrissÌtÈs",
       "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp Embedded Signup",
       "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "This inbox is connected through WhatsApp embedded signup.",
       "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "You can reconfigure this inbox to update your WhatsApp Business settings.",
@@ -813,7 +813,7 @@
       "WHATSAPP_CONNECT_TITLE": "Connect to WhatsApp Business",
       "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
       "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
-      "WHATSAPP_CONNECT_BUTTON": "Kapcsol√≥d√°s",
+      "WHATSAPP_CONNECT_BUTTON": "KapcsolÛd·s",
       "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
@@ -822,7 +822,7 @@
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Ez a token a webhook-v√©gpont hiteless√©g√©nek ellen≈ërz√©s√©re szolg√°l.",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "Ez a token a webhook-vÈgpont hitelessÈgÈnek ellenorzÈsÈre szolg·l.",
       "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "Sync Templates",
@@ -831,23 +831,23 @@
         "LABEL": "Enable voice calling",
         "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
       },
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Cseveg√©s el≈ëtti ≈±rlap be√°ll√≠t√°sainak friss√≠t√©se"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "CsevegÈs elotti urlap be·llÌt·sainak frissÌtÈse"
     },
     "HELP_CENTER": {
-      "LABEL": "S√∫g√≥k√∂zpont",
-      "PLACEHOLDER": "S√∫g√≥k√∂zpont kiv√°laszt√°sa",
-      "SELECT_PLACEHOLDER": "S√∫g√≥k√∂zpont kiv√°laszt√°sa",
+      "LABEL": "S˙gÛkˆzpont",
+      "PLACEHOLDER": "S˙gÛkˆzpont kiv·laszt·sa",
+      "SELECT_PLACEHOLDER": "S˙gÛkˆzpont kiv·laszt·sa",
       "NONE": "Nincs",
-      "REMOVE": "S√∫g√≥k√∂zpont elt√°vol√≠t√°sa",
-      "SUB_TEXT": "S√∫g√≥k√∂zpont csatol√°sa a fi√≥khoz"
+      "REMOVE": "S˙gÛkˆzpont elt·volÌt·sa",
+      "SUB_TEXT": "S˙gÛkˆzpont csatol·sa a fiÛkhoz"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Automatikus hozz√°rendel√©s limit",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "K√©rlek 0-n√°l magasabb √©rt√©ket adj meg",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Korl√°tozza az ebb≈ël a postafi√≥kb√≥l √©rkez≈ë besz√©lget√©sek maxim√°lis sz√°m√°t, amelyek automatikusan hozz√°rendelhet≈ëk egy √ºgyn√∂kh√∂z"
+      "MAX_ASSIGNMENT_LIMIT": "Automatikus hozz·rendelÈs limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "KÈrlek 0-n·l magasabb ÈrtÈket adj meg",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Korl·tozza az ebbol a postafiÛkbÛl Èrkezo beszÈlgetÈsek maxim·lis sz·m·t, amelyek automatikusan hozz·rendelhetok egy ¸gynˆkhˆz"
     },
     "ASSIGNMENT": {
-      "TITLE": "Besz√©lget√©s hozz√°rendel√©s",
+      "TITLE": "BeszÈlgetÈs hozz·rendelÈs",
       "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
       "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
@@ -862,7 +862,7 @@
       "ASSIGNMENT_ORDER_LABEL": "Assignment Order",
       "ASSIGNMENT_METHOD_LABEL": "Assignment Method",
       "POLICY_STATUS": {
-        "ACTIVE": "Akt√≠v",
+        "ACTIVE": "AktÌv",
         "INACTIVE": "Inactive"
       },
       "PRIORITY": {
@@ -888,51 +888,51 @@
     "ASSIGNMENT_POLICY": {
       "DELETE_CONFIRM_TITLE": "Delete assignment policy?",
       "DELETE_CONFIRM_MESSAGE": "Are you sure you want to remove this assignment policy from this inbox? The inbox will revert to default assignment rules.",
-      "CANCEL": "M√©gse",
-      "CONFIRM_DELETE": "T√∂rl√©s",
+      "CANCEL": "MÈgse",
+      "CONFIRM_DELETE": "TˆrlÈs",
       "DELETE_SUCCESS": "Assignment policy removed successfully",
       "DELETE_ERROR": "Failed to remove assignment policy"
     },
     "FACEBOOK_REAUTHORIZE": {
-      "TITLE": "√öjraenged√©lyez√©s",
-      "SUBTITLE": "A Facebook kapcsolatod lej√°rt, k√©rj√ºk kapcsold √∂ssze oldalad √∫jra a szolg√°ltat√°s folytat√°s√°hoz",
-      "MESSAGE_SUCCESS": "√öjrakapcsol√≥d√°s sikeres",
-      "MESSAGE_ERROR": "Hiba t√∂rt√©nt, k√©rj√ºk pr√≥b√°ld √∫jra"
+      "TITLE": "⁄jraengedÈlyezÈs",
+      "SUBTITLE": "A Facebook kapcsolatod lej·rt, kÈrj¸k kapcsold ˆssze oldalad ˙jra a szolg·ltat·s folytat·s·hoz",
+      "MESSAGE_SUCCESS": "⁄jrakapcsolÛd·s sikeres",
+      "MESSAGE_ERROR": "Hiba tˆrtÈnt, kÈrj¸k prÛb·ld ˙jra"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "A chat el≈ëtti ≈±rlapok lehet≈ëv√© teszik hogy felhaszn√°l√≥i adatokat gy≈±jts miel≈ëtt a besz√©lget√©s megkezd≈ëdik.",
-      "SET_FIELDS": "Cseveg√©s el≈ëtti ≈±rlapmez≈ëk",
+      "DESCRIPTION": "A chat elotti urlapok lehetovÈ teszik hogy felhaszn·lÛi adatokat gyujts mielott a beszÈlgetÈs megkezdodik.",
+      "SET_FIELDS": "CsevegÈs elotti urlapmezok",
       "SET_FIELDS_HEADER": {
-        "FIELDS": "Mez≈ëk",
+        "FIELDS": "Mezok",
         "LABEL": "Cimke",
-        "PLACE_HOLDER": "Helykit√∂lt≈ë",
+        "PLACE_HOLDER": "Helykitˆlto",
         "KEY": "Kulcs",
-        "TYPE": "T√≠pus",
-        "REQUIRED": "K√∂telez≈ë"
+        "TYPE": "TÌpus",
+        "REQUIRED": "Kˆtelezo"
       },
       "ENABLE": {
-        "LABEL": "Chat el≈ëtti ≈±rlap enged√©lyez√©se",
+        "LABEL": "Chat elotti urlap engedÈlyezÈse",
         "OPTIONS": {
           "ENABLED": "Igen",
           "DISABLED": "Nem"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Chat el≈ëtti √ºzenet",
-        "PLACEHOLDER": "Ez az √ºzenet l√°that√≥ lesz a felhaszn√°l√≥k sz√°m√°ra az ≈±rlappal egy√ºtt"
+        "LABEL": "Chat elotti ¸zenet",
+        "PLACEHOLDER": "Ez az ¸zenet l·thatÛ lesz a felhaszn·lÛk sz·m·ra az urlappal egy¸tt"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "A l√°togat√≥knak nev√ºk √©s e-mailc√≠m√ºk megad√°sa sz√ºks√©ges a besz√©lget√©s megkezd√©se el≈ëtt"
+        "LABEL": "A l·togatÛknak nev¸k Ès e-mailcÌm¸k megad·sa sz¸ksÈges a beszÈlgetÈs megkezdÈse elott"
       }
     },
     "CSAT": {
-      "TITLE": "CSAT enged√©lyez√©se",
+      "TITLE": "CSAT engedÈlyezÈse",
       "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
       },
       "MESSAGE": {
-        "LABEL": "√úzenet",
+        "LABEL": "‹zenet",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
@@ -962,7 +962,7 @@
         "TITLE": "Edit survey details",
         "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
         "CONFIRM": "Create new template",
-        "CANCEL": "Visszaugr√°s"
+        "CANCEL": "Visszaugr·s"
       },
       "UTILITY_ANALYZER": {
         "ACTION": "Check utility fit",
@@ -996,144 +996,144 @@
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "El√©rhet≈ës√©g be√°ll√≠t√°sa",
-      "SUBTITLE": "√Åll√≠t√°sd be az el√©rhet≈ës√©ged idej√©t a chat widgeten",
-      "WEEKLY_TITLE": "Heti √≥r√°k be√°ll√≠t√°sa",
-      "TIMEZONE_LABEL": "Id≈ëz√≥na kiv√°laszt√°sa",
-      "UPDATE": "Nyitvatart√°si id≈ë be√°ll√≠t√°sok szerkeszt√©se",
-      "TOGGLE_AVAILABILITY": "Nyitvatart√°si id≈ë be√°ll√≠t√°sok enged√©lyez√©se erre az inboxra",
-      "UNAVAILABLE_MESSAGE_LABEL": "Nem el√©rhet≈ë √ºzenetek a vend√©gek sz√°m√°ra",
+      "TITLE": "ElÈrhetosÈg be·llÌt·sa",
+      "SUBTITLE": "¡llÌt·sd be az elÈrhetosÈged idejÈt a chat widgeten",
+      "WEEKLY_TITLE": "Heti Ûr·k be·llÌt·sa",
+      "TIMEZONE_LABEL": "IdozÛna kiv·laszt·sa",
+      "UPDATE": "Nyitvatart·si ido be·llÌt·sok szerkesztÈse",
+      "TOGGLE_AVAILABILITY": "Nyitvatart·si ido be·llÌt·sok engedÈlyezÈse erre az inboxra",
+      "UNAVAILABLE_MESSAGE_LABEL": "Nem elÈrheto ¸zenetek a vendÈgek sz·m·ra",
       "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "DAY": "Nap",
-        "AVAILABILITY": "El√©rhet≈ës√©g",
+        "AVAILABILITY": "ElÈrhetosÈg",
         "HOURS": "Hours",
-        "ENABLE": "El√©rhet≈ës√©g bekapcsol√°sa erre a napra",
-        "UNAVAILABLE": "Nem el√©rhet≈ë",
-        "VALIDATION_ERROR": "A kez√©s idej√©nek a z√°r√°s ideje el≈ëttinek kell lennie.",
-        "CHOOSE": "Kiv√°laszt√°s"
+        "ENABLE": "ElÈrhetosÈg bekapcsol·sa erre a napra",
+        "UNAVAILABLE": "Nem elÈrheto",
+        "VALIDATION_ERROR": "A kezÈs idejÈnek a z·r·s ideje elottinek kell lennie.",
+        "CHOOSE": "Kiv·laszt·s"
       },
-      "ALL_DAY": "Eg√©sz nap"
+      "ALL_DAY": "EgÈsz nap"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "IMAP hozz√°f√©r√©s be√°ll√≠t√°sa",
-      "NOTE_TEXT": "Az SMTP enged√©lyez√©s√©hez konfigur√°lja az IMAP-et.",
-      "UPDATE": "IMAP be√°ll√≠t√°sok friss√≠t√©se",
-      "TOGGLE_AVAILABILITY": "Enged√©lyezze az IMAP-konfigur√°ci√≥t ehhez a fi√≥khoz",
+      "SUBTITLE": "IMAP hozz·fÈrÈs be·llÌt·sa",
+      "NOTE_TEXT": "Az SMTP engedÈlyezÈsÈhez konfigur·lja az IMAP-et.",
+      "UPDATE": "IMAP be·llÌt·sok frissÌtÈse",
+      "TOGGLE_AVAILABILITY": "EngedÈlyezze az IMAP-konfigur·ciÛt ehhez a fiÛkhoz",
       "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP be√°ll√≠t√°sok sikeresen friss√≠tve",
-        "ERROR_MESSAGE": "Nem siker√ºlt friss√≠teni az IMAP-be√°ll√≠t√°sokat"
+        "SUCCESS_MESSAGE": "IMAP be·llÌt·sok sikeresen frissÌtve",
+        "ERROR_MESSAGE": "Nem siker¸lt frissÌteni az IMAP-be·llÌt·sokat"
       },
       "ADDRESS": {
-        "LABEL": "C√≠m",
-        "PLACE_HOLDER": "C√≠m (pl. imap.gmail.com)"
+        "LABEL": "CÌm",
+        "PLACE_HOLDER": "CÌm (pl. imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Bejelentkez√©s",
-        "PLACE_HOLDER": "Bejelentkez√©s"
+        "LABEL": "BejelentkezÈs",
+        "PLACE_HOLDER": "BejelentkezÈs"
       },
       "PASSWORD": {
-        "LABEL": "Jelsz√≥",
-        "PLACE_HOLDER": "Jelsz√≥"
+        "LABEL": "JelszÛ",
+        "PLACE_HOLDER": "JelszÛ"
       },
-      "ENABLE_SSL": "SSL enged√©lyez√©se",
-      "AUTH_MECHANISM": "Autentik√°ci√≥"
+      "ENABLE_SSL": "SSL engedÈlyezÈse",
+      "AUTH_MECHANISM": "Autentik·ciÛ"
     },
     "MICROSOFT": {
       "TITLE": "360Dialog",
-      "SUBTITLE": "Enged√©lyezze √∫jra MICROSOFT-fi√≥kj√°t"
+      "SUBTITLE": "EngedÈlyezze ˙jra MICROSOFT-fiÛkj·t"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "SMTP hozz√°f√©r√©s be√°ll√≠t√°sa",
-      "UPDATE": "SMTP be√°ll√≠t√°sok friss√≠t√©se",
-      "TOGGLE_AVAILABILITY": "Enged√©lyezze az SMTP-konfigur√°ci√≥t ehhez a fi√≥khoz",
-      "TOGGLE_HELP": "Az SMTP enged√©lyez√©se seg√≠t a felhaszn√°l√≥nak az e-mailek k√ºld√©s√©ben",
+      "SUBTITLE": "SMTP hozz·fÈrÈs be·llÌt·sa",
+      "UPDATE": "SMTP be·llÌt·sok frissÌtÈse",
+      "TOGGLE_AVAILABILITY": "EngedÈlyezze az SMTP-konfigur·ciÛt ehhez a fiÛkhoz",
+      "TOGGLE_HELP": "Az SMTP engedÈlyezÈse segÌt a felhaszn·lÛnak az e-mailek k¸ldÈsÈben",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP be√°ll√≠t√°sok sikeresen friss√≠tve",
-        "ERROR_MESSAGE": "Nem siker√ºlt friss√≠teni az SMTP-be√°ll√≠t√°sokat"
+        "SUCCESS_MESSAGE": "SMTP be·llÌt·sok sikeresen frissÌtve",
+        "ERROR_MESSAGE": "Nem siker¸lt frissÌteni az SMTP-be·llÌt·sokat"
       },
       "ADDRESS": {
-        "LABEL": "C√≠m",
-        "PLACE_HOLDER": "C√≠m (pl. smtp.gmail.com)"
+        "LABEL": "CÌm",
+        "PLACE_HOLDER": "CÌm (pl. smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Port",
         "PLACE_HOLDER": "Port"
       },
       "LOGIN": {
-        "LABEL": "Bejelentkez√©s",
-        "PLACE_HOLDER": "Bejelentkez√©s"
+        "LABEL": "BejelentkezÈs",
+        "PLACE_HOLDER": "BejelentkezÈs"
       },
       "PASSWORD": {
-        "LABEL": "Jelsz√≥",
-        "PLACE_HOLDER": "Jelsz√≥"
+        "LABEL": "JelszÛ",
+        "PLACE_HOLDER": "JelszÛ"
       },
       "DOMAIN": {
         "LABEL": "Domain",
         "PLACE_HOLDER": "Domain"
       },
-      "ENCRYPTION": "K√≥dol√°s",
+      "ENCRYPTION": "KÛdol·s",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "SSL ellen≈ërz√©si m√≥d megnyit√°sa",
-      "AUTH_MECHANISM": "Autentik√°ci√≥"
+      "OPEN_SSL_VERIFY_MODE": "SSL ellenorzÈsi mÛd megnyit·sa",
+      "AUTH_MECHANISM": "Autentik·ciÛ"
     },
-    "NOTE": "Megjegyz√©s: ",
+    "NOTE": "MegjegyzÈs: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
           "LABEL": "Weboldal avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avatar sikeresen t√∂r√∂lve",
-              "ERROR_MESSAGE": "Hiba t√∂rt√©nt, k√©rj√ºk pr√≥b√°ld √∫jra"
+              "SUCCESS_MESSAGE": "Avatar sikeresen tˆrˆlve",
+              "ERROR_MESSAGE": "Hiba tˆrtÈnt, kÈrj¸k prÛb·ld ˙jra"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Website n√©v",
-          "PLACE_HOLDER": "Add meg weboldalad nev√©t (pl.: P√©lda Kft.)",
-          "ERROR": "K√©rlek, adj meg egy √©rv√©nyes weboldal nevet"
+          "LABEL": "Website nÈv",
+          "PLACE_HOLDER": "Add meg weboldalad nevÈt (pl.: PÈlda Kft.)",
+          "ERROR": "KÈrlek, adj meg egy ÈrvÈnyes weboldal nevet"
         },
         "WELCOME_HEADING": {
-          "LABEL": "K√∂sz√∂nt≈ë fejl√©c √ºzenet",
-          "PLACE_HOLDER": "√údv√∂zl√ºnk!"
+          "LABEL": "Kˆszˆnto fejlÈc ¸zenet",
+          "PLACE_HOLDER": "‹dvˆzl¸nk!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "K√∂sz√∂nt≈ë √ºzenet",
-          "PLACE_HOLDER": "K√∂nny≈±v√© tessz√ºk, hogy kapcsolatba ker√ºlj vel√ºnk. K√©rdezz b√°rmit, vagy oszd meg v√©lem√©nyed."
+          "LABEL": "Kˆszˆnto ¸zenet",
+          "PLACE_HOLDER": "KˆnnyuvÈ tessz¸k, hogy kapcsolatba ker¸lj vel¸nk. KÈrdezz b·rmit, vagy oszd meg vÈlemÈnyed."
         },
         "REPLY_TIME": {
-          "LABEL": "V√°laszid≈ë",
-          "IN_A_FEW_MINUTES": "N√©h√°ny percen bel√ºl",
-          "IN_A_FEW_HOURS": "N√©h√°ny √≥r√°n bel√ºl",
-          "IN_A_DAY": "Egy napon bel√ºl"
+          "LABEL": "V·laszido",
+          "IN_A_FEW_MINUTES": "NÈh·ny percen bel¸l",
+          "IN_A_FEW_HOURS": "NÈh·ny Ûr·n bel¸l",
+          "IN_A_DAY": "Egy napon bel¸l"
         },
-        "WIDGET_COLOR_LABEL": "Widget sz√≠n",
+        "WIDGET_COLOR_LABEL": "Widget szÌn",
         "WIDGET_BUBBLE": "Bubble",
         "WIDGET_BUBBLE_POSITION_LABEL": "Position:",
-        "WIDGET_BUBBLE_TYPE_LABEL": "T√≠pus:",
+        "WIDGET_BUBBLE_TYPE_LABEL": "TÌpus:",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Chatelj vel√ºnk",
+          "DEFAULT": "Chatelj vel¸nk",
           "LABEL": "Launcher Title",
-          "PLACE_HOLDER": "Chatelj vel√ºnk"
+          "PLACE_HOLDER": "Chatelj vel¸nk"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Widget bubor√©k be√°ll√≠t√°sainak friss√≠t√©se",
+          "BUTTON_TEXT": "Widget buborÈk be·llÌt·sainak frissÌtÈse",
           "API": {
-            "SUCCESS_MESSAGE": "Widget bubor√©k be√°ll√≠t√°sok sikeresen friss√≠tve",
-            "ERROR_MESSAGE": "Nem siker√ºlt friss√≠teni a widget bubor√©k be√°ll√≠t√°sokat"
+            "SUCCESS_MESSAGE": "Widget buborÈk be·llÌt·sok sikeresen frissÌtve",
+            "ERROR_MESSAGE": "Nem siker¸lt frissÌteni a widget buborÈk be·llÌt·sokat"
           }
         },
         "WIDGET_VIEW_OPTION": {
-          "PREVIEW": "El≈ën√©zet",
+          "PREVIEW": "ElonÈzet",
           "SCRIPT": "Szkript"
         },
         "WIDGET_BUBBLE_POSITION": {
@@ -1142,32 +1142,32 @@
         },
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standard",
-          "EXPANDED_BUBBLE": "Kiterjesztett widget bubor√©k"
+          "EXPANDED_BUBBLE": "Kiterjesztett widget buborÈk"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Alap√©rtelmezett",
+        "DEFAULT": "AlapÈrtelmezett",
         "CHAT": "Chat mode"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "N√©h√°ny percen bel√ºl v√°laszol",
-        "IN_A_FEW_HOURS": "N√©h√°ny √≥r√°n bel√ºl v√°laszol",
-        "IN_A_DAY": "√Åltal√°nban egy napon bel√ºl v√°laszol"
+        "IN_A_FEW_MINUTES": "NÈh·ny percen bel¸l v·laszol",
+        "IN_A_FEW_HOURS": "NÈh·ny Ûr·n bel¸l v·laszol",
+        "IN_A_DAY": "¡ltal·nban egy napon bel¸l v·laszol"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Besz√©lget√©s megkezd√©se",
-        "CHAT_INPUT_PLACEHOLDER": "G√©peld be √ºzeneted"
+        "START_CONVERSATION_BUTTON_TEXT": "BeszÈlgetÈs megkezdÈse",
+        "CHAT_INPUT_PLACEHOLDER": "GÈpeld be ¸zeneted"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
           "ONLINE": "Online vagyunk",
-          "OFFLINE": "Jelenleg nem vagyunk el√©rhet≈ëek"
+          "OFFLINE": "Jelenleg nem vagyunk elÈrhetoek"
         },
         "USER_MESSAGE": "Hello",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Chatwoot",
-      "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Thynex",
+      "SCRIPT_SETTINGS": "\nwindow.thynexSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
@@ -1179,7 +1179,7 @@
         "DESCRIPTION": "Connect with Google"
       },
       "OTHER_PROVIDERS": {
-        "TITLE": "M√°s szolg√°ltat√≥",
+        "TITLE": "M·s szolg·ltatÛ",
         "DESCRIPTION": "Connect with Other Providers"
       }
     },
@@ -1200,3 +1200,6 @@
     }
   }
 }
+
+
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Anda dapat menerima email di domain kustom Anda sekarang."
       }
     },
-    "UPDATE_CHATWOOT": "Pembaharuan Chatwoot {latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
+    "UPDATE_CHATWOOT": "Pembaharuan Thynex {latestChatwootVersion} telah tersedia. Silahkan lakukan pembaharuan instance Anda.",
     "LEARN_MORE": "Pelajari lebih lanjut",
-    "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan Chatwoot",
+    "PAYMENT_PENDING": "Pembayaran Anda tertunda. Harap perbarui informasi pembayaran Anda untuk melanjutkan menggunakan Thynex",
+    "UPGRADE": "Upgrade to continue using Thynex",
+    "LIMITS_UPGRADE": "Akun Anda telah melebihi batas penggunaan, harap tingkatkan paket Anda untuk terus menggunakan Thynex",
     "OPEN_BILLING": "Buka tagihan"
   },
   "FORMS": {
@@ -250,3 +250,4 @@
     "CLICK_HERE": "klik disini"
   }
 }
+

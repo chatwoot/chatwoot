@@ -1,9 +1,9 @@
-module WebhookSecretable
+﻿module WebhookSecretable
   extend ActiveSupport::Concern
 
   included do
     has_secure_token :secret
-    encrypts :secret if Chatwoot.encryption_configured?
+    encrypts :secret if Thynex.encryption_configured?
   end
 
   def reset_secret!
@@ -11,3 +11,4 @@ module WebhookSecretable
     reload
   end
 end
+

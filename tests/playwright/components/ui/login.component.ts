@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+﻿import { Page } from '@playwright/test';
 
 export class Login {
   private page: Page;
@@ -42,7 +42,7 @@ export class Login {
   }
 
   getLoginHeading() {
-    return this.page.getByRole('heading', { name: 'Login to Chatwoot' });
+    return this.page.getByRole('heading', { name: 'Login to Thynex' });
   }
 
   getSSOLink() {
@@ -53,3 +53,4 @@ export class Login {
     return this.page.getByRole('link', { name: 'Forgot your password?' });
   }
 }
+

@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Selecteer een gesprek in het linker paneel",
     "CSAT_REPLY_MESSAGE": "Beoordeel het gesprek",
@@ -282,7 +282,7 @@
     "SENT_BY": "Verzonden door:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Kon bericht niet verzenden! Probeer het opnieuw",
     "TRY_AGAIN": "opnieuw proberen",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

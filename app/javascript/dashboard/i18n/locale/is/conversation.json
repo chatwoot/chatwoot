@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Vinsamlegast veldu samtal úr vinstri glugganum",
     "CSAT_REPLY_MESSAGE": "Vinsamlegast gefðu samtalinu einkun",
@@ -282,7 +282,7 @@
     "SENT_BY": "Sent af:",
     "BOT": "Bot",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Tókst ekki að senda skilaboð! Reyndu aftur",
     "TRY_AGAIN": "reyna aftur",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

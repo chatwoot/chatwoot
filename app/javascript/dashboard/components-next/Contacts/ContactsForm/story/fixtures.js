@@ -1,13 +1,13 @@
-export const contactData = {
+﻿export const contactData = {
   id: 370,
   name: 'John Doe',
-  email: 'johndoe@chatwoot.com',
+  email: 'johndoe@thynex.ai',
   phoneNumber: '+918634322418',
   additionalAttributes: {
     city: 'Kerala',
     country: 'India',
     description: 'Curious about the web.',
-    companyName: 'Chatwoot',
+    companyName: 'Thynex',
     countryCode: 'IN',
     socialProfiles: {
       github: 'johndoe',
@@ -23,7 +23,7 @@ export const primaryContactList = [
   {
     id: 1,
     name: 'Jane Smith',
-    email: 'jane@chatwoot.com',
+    email: 'jane@thynex.ai',
     thumbnail: '',
     label: '(ID: 1) Jane Smith',
     value: 1,
@@ -31,7 +31,7 @@ export const primaryContactList = [
   {
     id: 2,
     name: 'Mike Johnson',
-    email: 'mike@chatwoot.com',
+    email: 'mike@thynex.ai',
     thumbnail: '',
     label: '(ID: 2) Mike Johnson',
     value: 2,
@@ -39,9 +39,10 @@ export const primaryContactList = [
   {
     id: 3,
     name: 'Sarah Wilson',
-    email: 'sarah@chatwoot.com',
+    email: 'sarah@thynex.ai',
     thumbnail: '',
     label: '(ID: 3) Sarah Wilson',
     value: 3,
   },
 ];
+

@@ -1,4 +1,4 @@
-require 'rails_helper'
+﻿require 'rails_helper'
 
 describe Integrations::Slack::UpdateSlackMessageService do
   let(:account) { create(:account) }
@@ -143,7 +143,7 @@ describe Integrations::Slack::UpdateSlackMessageService do
       end
     end
 
-    context 'when the message was not originated from Chatwoot' do
+    context 'when the message was not originated from Thynex' do
       it 'skips the update' do
         message = create(
           :message,
@@ -243,3 +243,4 @@ describe Integrations::Slack::UpdateSlackMessageService do
     end
   end
 end
+

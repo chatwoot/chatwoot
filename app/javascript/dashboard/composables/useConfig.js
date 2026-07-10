@@ -1,4 +1,4 @@
-/**
+﻿/**
  * A function that provides access to various configuration values.
  * @returns {Object} An object containing configuration values.
  */
@@ -6,7 +6,7 @@ export function useConfig() {
   const config = window.chatwootConfig || {};
 
   /**
-   * The host URL of the Chatwoot instance.
+   * The host URL of the Thynex instance.
    * @type {string|undefined}
    */
   const hostURL = config.hostURL;
@@ -18,7 +18,7 @@ export function useConfig() {
   const vapidPublicKey = config.vapidPublicKey;
 
   /**
-   * An array of enabled languages in the Chatwoot instance.
+   * An array of enabled languages in the Thynex instance.
    * @type {string[]|undefined}
    */
   const enabledLanguages = config.enabledLanguages;
@@ -51,3 +51,4 @@ export function useConfig() {
     inboxEventsEnabled,
   };
 }
+

@@ -1,6 +1,6 @@
-{
+﻿{
   "LOGIN": {
-    "TITLE": "登录到Chatwoot",
+    "TITLE": "登录到Thynex",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "实例 {'@'}companyname.com",
@@ -39,3 +39,4 @@
     }
   }
 }
+

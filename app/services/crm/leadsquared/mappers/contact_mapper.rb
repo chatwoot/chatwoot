@@ -1,4 +1,4 @@
-class Crm::Leadsquared::Mappers::ContactMapper
+﻿class Crm::Leadsquared::Mappers::ContactMapper
   def self.map(contact)
     new(contact).map
   end
@@ -44,10 +44,11 @@ class Crm::Leadsquared::Mappers::ContactMapper
   end
 
   def brand_name
-    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Chatwoot'
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Thynex'
   end
 
   def brand_name_without_spaces
     brand_name.gsub(/\s+/, '')
   end
 end
+

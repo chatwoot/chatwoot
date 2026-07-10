@@ -1,16 +1,16 @@
 openapi: '3.1.0'
 info:
-  title: Chatwoot - Platform API
-  description: Platform API endpoints for Chatwoot
+  title: thynex - Platform API
+  description: Platform API endpoints for Thynex
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://www.thynex.ai/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: info@thynex.ai
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://app.thynex.ai/
 tags:
   - name: Accounts
     description: Platform account management

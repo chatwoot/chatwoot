@@ -1,4 +1,4 @@
-name: 🐞 Bug report
+﻿name: 🐞 Bug report
 description: Create a report to help us improve
 labels: 'Bug'
 body:
@@ -27,9 +27,9 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: Describe whether you are using Chatwoot Cloud (app.chatwoot.com) or a self-hosted installation of Chatwoot. If you are using a self-hosted installation of Chatwoot, describe the type of deployment (Docker/Linux VM installation/Heroku/Kubernetes/Other).
+      description: Describe whether you are using Thynex Cloud (app.thynex.ai) or a self-hosted installation of Thynex. If you are using a self-hosted installation of Thynex, describe the type of deployment (Docker/Linux VM installation/Heroku/Kubernetes/Other).
       options:
-        - app.chatwoot.com
+        - app.thynex.ai
         - Linux VM
         - Docker
         - Kubernetes
@@ -76,3 +76,4 @@ body:
     attributes:
       label: Additional context
       description: Add any other context about the problem here.
+

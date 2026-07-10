@@ -1,4 +1,4 @@
-<script setup>
+﻿<script setup>
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -141,7 +141,7 @@ const handleUpdatePortal = updatePortalSettings;
 const handleUpdatePortalConfiguration = portalObj => {
   updatePortalSettings(portalObj);
 
-  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds (only on Chatwoot cloud)
+  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds (only on Thynex cloud)
   if (portalObj?.custom_domain && isOnChatwootCloud.value) {
     setTimeout(() => {
       fetchSSLStatus();
@@ -162,3 +162,4 @@ const handleDeletePortal = deletePortal;
     @send-cname-instructions="handleSendCnameInstructions"
   />
 </template>
+

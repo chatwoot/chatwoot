@@ -1,4 +1,4 @@
-{
+﻿{
   "LABEL_MGMT": {
     "HEADER": "Cimkék",
     "HEADER_BTN_TXT": "Cimke hozzáadása",
@@ -50,7 +50,7 @@
         "DESELECT": "Címke kijelölésének megszüntetése",
         "DISMISS": "Javaslatok kihagyása"
       },
-      "POWERED_BY": "Chatwoot AI",
+      "POWERED_BY": "Thynex AI",
       "DISMISS": "Elutasítás",
       "ADD_SELECTED_LABELS": "Kijelölt címkék hozzáadása",
       "ADD_SELECTED_LABEL": "Kijelölt címke hozzáadása",
@@ -87,3 +87,4 @@
     }
   }
 }
+

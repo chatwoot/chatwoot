@@ -1,8 +1,8 @@
-export default [
+﻿export default [
   {
     id: 12,
     content:
-      'This tutorial will show you how to use Chatwoot and, hence, ensure you practice effective customer communication. We will explain in detail the following:\n\n* Step-by-step setup of your account, with illustrative screenshots.\n\n* An in-depth explanation of all the core features of Chatwoot.\n\n* Get your account up and running by the end of this tutorial.\n\n* Basic concepts of customer communication.',
+      'This tutorial will show you how to use Thynex and, hence, ensure you practice effective customer communication. We will explain in detail the following:\n\n* Step-by-step setup of your account, with illustrative screenshots.\n\n* An in-depth explanation of all the core features of Thynex.\n\n* Get your account up and running by the end of this tutorial.\n\n* Basic concepts of customer communication.',
     accountId: null,
     contactId: null,
     user: {
@@ -16,7 +16,7 @@ export default [
       name: 'Bruce',
       role: 'administrator',
       thumbnail:
-        'https://sivin-tunnel.chatwoot.dev/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--515dbb35e9ba3c36d14f4c4b77220a675513c1fb/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/2.jpg',
+        'https://sivin-tunnel.thynex.ai/rails/active_storage/representations/redirect/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBJZz09IiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--515dbb35e9ba3c36d14f4c4b77220a675513c1fb/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBTU0lJYW5CbkJqb0dSVlE2RTNKbGMybDZaVjkwYjE5bWFXeHNXd2RwQWZvdyIsImV4cCI6bnVsbCwicHVyIjoidmFyaWF0aW9uIn19--df796c2af3c0153e55236c2f3cf3a199ac2cb6f7/2.jpg',
       custom_role_id: null,
     },
     createdAt: 1730786556,
@@ -34,7 +34,7 @@ export default [
       availability_status: 'online',
       auto_offline: false,
       confirmed: true,
-      email: 'hillary@chatwoot.com',
+      email: 'hillary@thynex.ai',
       available_name: 'Hillary',
       name: 'Hillary',
       role: 'administrator',
@@ -56,7 +56,7 @@ export default [
       availability_status: 'online',
       auto_offline: false,
       confirmed: true,
-      email: 'john@chatwoot.com',
+      email: 'john@thynex.ai',
       available_name: 'John',
       name: 'John',
       role: 'administrator',
@@ -67,3 +67,4 @@ export default [
     updatedAt: 1730782564,
   },
 ];
+

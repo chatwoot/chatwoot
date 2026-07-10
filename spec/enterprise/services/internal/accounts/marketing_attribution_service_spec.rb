@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+﻿# frozen_string_literal: true
 
 require 'rails_helper'
 require 'base64'
@@ -41,7 +41,7 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
       .with(account.id, 'cloud_signup', account.created_at)
   end
 
-  it 'does not store attribution outside Chatwoot Cloud' do
+  it 'does not store attribution outside Thynex Cloud' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
     cookies[described_class::LAST_TOUCH_COOKIE] = encoded_cookie('source' => 'reddit')
 
@@ -169,3 +169,4 @@ RSpec.describe Internal::Accounts::MarketingAttributionService do
     Base64.urlsafe_encode64(payload.to_json, padding: false)
   end
 end
+

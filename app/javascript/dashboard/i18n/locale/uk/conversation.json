@@ -1,4 +1,4 @@
-{
+﻿{
   "CONVERSATION": {
     "SELECT_A_CONVERSATION": "Будь ласка, виберіть бесіду з лівої панелі",
     "CSAT_REPLY_MESSAGE": "Будь ласка, оцініть розмову",
@@ -282,7 +282,7 @@
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
     "NATIVE_APP": "Native app",
-    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Chatwoot to maintain the message window.",
+    "NATIVE_APP_ADVISORY": "This message was sent from the native app. Reply from Thynex to maintain the message window.",
     "SEND_FAILED": "Не вдалося надіслати повідомлення! Повторіть спробу",
     "TRY_AGAIN": "повторити",
     "ASSIGNMENT": {
@@ -488,3 +488,4 @@
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }
+

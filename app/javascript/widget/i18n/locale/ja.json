@@ -1,4 +1,4 @@
-{
+﻿{
   "COMPONENTS": {
     "FILE_BUBBLE": {
       "DOWNLOAD": "ダウンロード",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "チャットをする"
   },
-  "POWERED_BY": "提供：Chatwoot",
+  "POWERED_BY": "提供：Thynex",
   "EMAIL_PLACEHOLDER": "メールアドレスを入力してください。",
   "CHAT_PLACEHOLDER": "メッセージを入力してください。",
   "TODAY": "今日",
@@ -151,3 +151,4 @@
     "REPLY_TO": "返信先："
   }
 }
+
