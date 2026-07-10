@@ -100,26 +100,34 @@ export function useCrmOrigin() {
     }
   };
 
+  // source_url is external webhook input: match the parsed hostname with a domain
+  // boundary (never substring — instagram.com.evil.example must not classify as
+  // Instagram).
+  const hostnameMatches = (hostname, domain) =>
+    hostname === domain || hostname.endsWith(`.${domain}`);
+
   const sourceUrlLabel = origin => {
     const sourceUrl = origin?.sourceUrl;
     if (!sourceUrl) return '';
 
-    const normalizedUrl = sourceUrl.toLowerCase();
-    if (normalizedUrl.includes('instagram.com')) {
+    let hostname;
+    try {
+      hostname = new URL(sourceUrl).hostname.toLowerCase();
+    } catch {
+      return '';
+    }
+
+    if (hostnameMatches(hostname, 'instagram.com')) {
       return t('CRM_KANBAN.ORIGIN.INSTAGRAM_POST');
     }
     if (
-      normalizedUrl.includes('facebook.com') ||
-      normalizedUrl.includes('fb.me')
+      hostnameMatches(hostname, 'facebook.com') ||
+      hostnameMatches(hostname, 'fb.me')
     ) {
       return t('CRM_KANBAN.ORIGIN.FACEBOOK_POST');
     }
 
-    try {
-      return new URL(sourceUrl).host;
-    } catch {
-      return '';
-    }
+    return hostname;
   };
 
   const humanizedOriginLabel = origin => {
