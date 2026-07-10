@@ -38,26 +38,29 @@ const normalizeSource = source => String(source || FALLBACK_SOURCE).trim();
 const sourceMetaFor = source =>
   CRM_ORIGIN_SOURCE_META[normalizeSource(source)] || UNKNOWN_SOURCE_META;
 
-const headlineFor = campaign =>
-  campaign?.headline ||
-  campaign?.utm_campaign ||
-  campaign?.name ||
-  campaign?.source_id ||
-  '';
+const sourceForCampaign = campaign => {
+  const source = String(campaign?.source || '').trim();
+  if (source) return source;
+
+  return String(campaign?.source_type || '').toLowerCase() === 'post'
+    ? 'meta_organic'
+    : FALLBACK_SOURCE;
+};
 
 export const buildCrmOrigin = campaign => {
   if (!campaign || typeof campaign !== 'object') return null;
 
-  const source = normalizeSource(campaign.source);
+  const source = sourceForCampaign(campaign);
   const meta = sourceMetaFor(source);
-  const name = String(headlineFor(campaign)).trim();
 
   return {
     source,
     icon: meta.icon,
     labelKey: meta.labelKey,
-    name,
+    headline: String(campaign.headline || '').trim(),
     sourceId: campaign.source_id,
+    sourceType: campaign.source_type,
+    sourceUrl: String(campaign.source_url || '').trim(),
   };
 };
 
@@ -97,22 +100,56 @@ export function useCrmOrigin() {
     }
   };
 
-  const formatOriginLabel = origin => {
+  // source_url is external webhook input: match the parsed hostname with a domain
+  // boundary (never substring — instagram.com.evil.example must not classify as
+  // Instagram).
+  const hostnameMatches = (hostname, domain) =>
+    hostname === domain || hostname.endsWith(`.${domain}`);
+
+  const sourceUrlLabel = origin => {
+    const sourceUrl = origin?.sourceUrl;
+    if (!sourceUrl) return '';
+
+    let hostname;
+    try {
+      hostname = new URL(sourceUrl).hostname.toLowerCase();
+    } catch {
+      return '';
+    }
+
+    if (hostnameMatches(hostname, 'instagram.com')) {
+      return t('CRM_KANBAN.ORIGIN.INSTAGRAM_POST');
+    }
+    if (
+      hostnameMatches(hostname, 'facebook.com') ||
+      hostnameMatches(hostname, 'fb.me')
+    ) {
+      return t('CRM_KANBAN.ORIGIN.FACEBOOK_POST');
+    }
+
+    return hostname;
+  };
+
+  const humanizedOriginLabel = origin => {
     if (!origin) return '';
     const label = sourceLabel(origin);
-    return origin.name ? `${label}: ${origin.name}` : label;
+    if (origin.headline) return `${label}: ${origin.headline}`;
+
+    return sourceUrlLabel(origin) || label;
   };
 
   const formatOriginTitle = origin => {
     if (!origin) return '';
     const origins = origin.origins || [origin];
-    return origins.map(formatOriginLabel).join(' · ');
+    return origins
+      .map(item => item.sourceUrl || humanizedOriginLabel(item))
+      .join(' · ');
   };
 
   return {
     originFromCampaign: buildCrmOrigin,
     originFromCampaigns: buildCrmOriginFromCampaigns,
-    formatOriginLabel,
+    humanizedOriginLabel,
     formatOriginTitle,
   };
 }

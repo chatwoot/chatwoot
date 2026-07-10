@@ -36,7 +36,7 @@ const props = defineProps({
 defineEmits(['open', 'openConversation']);
 
 const { t } = useI18n();
-const { originFromCampaigns, formatOriginLabel, formatOriginTitle } =
+const { originFromCampaigns, humanizedOriginLabel, formatOriginTitle } =
   useCrmOrigin();
 
 const STAGE_FALLBACK_COLOR = '#64748b';
@@ -185,7 +185,7 @@ const mergedLabels = computed(() => [
 ]);
 
 // Pill de origem universal (card.campaigns = toques agregados, 1º toque primeiro).
-// Texto = source i18n + headline do 1º toque; tooltip lista todos os toques;
+// Texto = label humanizado do 1º toque; tooltip lista as URLs quando disponíveis;
 // "+N" sinaliza os toques além do primeiro.
 const campaignPill = computed(() => {
   return originFromCampaigns(props.card.campaigns);
@@ -298,7 +298,7 @@ const canOpenConversation = computed(
           tone="teal"
           :title="formatOriginTitle(campaignPill)"
         >
-          {{ formatOriginLabel(campaignPill) }}
+          {{ humanizedOriginLabel(campaignPill) }}
           <template v-if="campaignPill.extraCount > 0" #trail>
             <span class="shrink-0 font-semibold">
               {{ `+${campaignPill.extraCount}` }}

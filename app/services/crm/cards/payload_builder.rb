@@ -41,6 +41,7 @@ class Crm::Cards::PayloadBuilder
       {
         source: touch['source'],
         source_id: touch['source_id'],
+        source_type: touch['source_type'],
         headline: touch['headline'],
         source_url: touch['source_url'],
         touched_at: touch['touched_at'],

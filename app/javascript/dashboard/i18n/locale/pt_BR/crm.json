@@ -160,6 +160,8 @@
       "TIKTOK_ADS": "TikTok Ads",
       "META_PAID": "Meta pago",
       "TRACKED_LINK": "Link rastreado",
+      "INSTAGRAM_POST": "Post do Instagram",
+      "FACEBOOK_POST": "Post do Facebook",
       "UNKNOWN": "Origem desconhecida"
     },
     "SUBTITLE": "Funis operacionais com cards próprios, independentes de conversa, contato ou inbox.",
@@ -808,7 +810,6 @@
       "FOLLOW_UP_MANUAL": "Lembrete manual",
       "HANDOFF_INVITE_PENDING": "Convite de handoff pendente: prazo de pega no horário exibido",
       "HANDOFF_INVITE_OVERDUE": "Convite de handoff vencido: ninguém pegou no prazo",
-      "CAMPAIGN_FALLBACK": "Anúncio Meta",
       "OPEN_DETAILS": "Abrir card: {name}",
       "OPEN_CONVERSATION": "Abrir conversa"
     },

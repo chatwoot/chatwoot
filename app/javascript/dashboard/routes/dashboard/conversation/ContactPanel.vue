@@ -88,7 +88,7 @@ const currentConversationMetaData = computed(() =>
 const conversationAdditionalAttributes = computed(
   () => currentConversationMetaData.value.additional_attributes || {}
 );
-const { originFromCampaign, formatOriginLabel, formatOriginTitle } =
+const { originFromCampaign, humanizedOriginLabel, formatOriginTitle } =
   useCrmOrigin();
 const conversationOriginPill = computed(() =>
   originFromCampaign(conversationAdditionalAttributes.value.campaign)
@@ -151,7 +151,7 @@ onMounted(() => {
         tone="teal"
         :title="formatOriginTitle(conversationOriginPill)"
       >
-        {{ formatOriginLabel(conversationOriginPill) }}
+        {{ humanizedOriginLabel(conversationOriginPill) }}
       </CrmCardPill>
     </div>
     <div class="px-2 pb-8 list-group">
