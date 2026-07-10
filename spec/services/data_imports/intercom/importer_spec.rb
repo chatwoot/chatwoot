@@ -160,6 +160,17 @@ RSpec.describe DataImports::Intercom::Importer do
     expect(item.metadata['message_total_contribution']).to eq(3)
   end
 
+  it 'reconciles imported message stats from same-run mappings on retry' do
+    described_class.new(data_import: data_import).import_conversations_page
+    stats = data_import.reload.stats.deep_dup
+    stats['messages']['imported'] = 0
+    data_import.update!(stats: stats)
+
+    described_class.new(data_import: data_import).import_conversations_page
+
+    expect(data_import.reload.stats.dig('messages', 'imported')).to eq(3)
+  end
+
   it 'indexes imported messages for advanced search' do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
@@ -411,6 +422,39 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when a same-run contact mapping outlives its item progress' do
+    let!(:mapped_contact) { create(:contact, account: account) }
+
+    before do
+      DataImportMapping.create!(
+        account: account,
+        data_import: data_import,
+        source_provider: 'intercom',
+        source_object_type: 'contact',
+        source_object_id: 'contact_1',
+        chatwoot_record_type: 'Contact',
+        chatwoot_record_id: mapped_contact.id,
+        metadata: {}
+      )
+      data_import.items.create!(
+        source_provider: 'intercom',
+        source_object_type: 'contact',
+        source_object_id: 'contact_1',
+        status: :processing,
+        metadata: contact_payload
+      )
+    end
+
+    it 'repairs the item and imported count on retry', :aggregate_failures do
+      described_class.new(data_import: data_import).import_contacts_page
+
+      item = data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(item).to be_imported
+      expect(item).to have_attributes(chatwoot_record_type: 'Contact', chatwoot_record_id: mapped_contact.id)
+      expect(data_import.reload.stats.dig('contacts', 'imported')).to eq(1)
+    end
+  end
+
   context 'when an existing contact has the same email but a different external id' do
     let(:contact_payload) do
       super().merge('last_replied_at' => 1_700_000_090)
@@ -648,6 +692,19 @@ RSpec.describe DataImports::Intercom::Importer do
         error_code: 'DataImports::Intercom::SkippedMessage'
       )
       expect(next_data_import.reload.stats.dig('messages', 'skipped')).to eq(2)
+    end
+
+    it 'reconciles a same-run skipped mapping and missing skip log on retry', :aggregate_failures do
+      described_class.new(data_import: data_import).import_conversations_page
+      data_import.import_errors.where(source_object_type: 'message').delete_all
+      stats = data_import.reload.stats.deep_dup
+      stats['messages']['skipped'] = 0
+      data_import.update!(stats: stats)
+
+      described_class.new(data_import: data_import).import_conversations_page
+
+      expect(data_import.reload.stats.dig('messages', 'skipped')).to eq(1)
+      expect(data_import.import_errors.skip_logs.exists?(source_object_id: 'conversation:conversation_1:part:blank_part')).to be(true)
     end
 
     it 'repairs a previously skipped mapping when the part is now an activity', :aggregate_failures do

@@ -243,7 +243,10 @@ class DataImports::Intercom::Importer
   end
 
   def reuse_mapped_contact(contact_payload, source_id, mapping, mapped_contact)
-    return mapped_contact if mapping.data_import_id == @data_import.id
+    if mapping.data_import_id == @data_import.id
+      reconcile_current_run_contact(contact_payload, source_id, mapped_contact)
+      return mapped_contact
+    end
 
     already_handled = item_handled?('contact', source_id)
     item = import_item('contact', source_id, contact_payload)
@@ -370,7 +373,10 @@ class DataImports::Intercom::Importer
     message_source_id = "conversation:#{source_id_for(conversation)}:source:#{source['id'].presence || 'initial'}"
     source_part = source.merge('part_type' => 'source', 'created_at' => conversation['created_at'])
     if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, source_part)
-      return if mapping.data_import_id == @data_import.id
+      if mapping.data_import_id == @data_import.id
+        reconcile_current_run_message_mapping(chatwoot_conversation, mapping, source_part)
+        return
+      end
 
       skip_existing_message_mapping(chatwoot_conversation, mapping, source_part)
       return
@@ -389,7 +395,10 @@ class DataImports::Intercom::Importer
     parts.each do |part|
       message_source_id = "conversation:#{source_id_for(conversation)}:part:#{part['id']}"
       if (mapping = find_mapping('message', message_source_id)) && message_mapping_handled?(mapping, part)
-        next if mapping.data_import_id == @data_import.id
+        if mapping.data_import_id == @data_import.id
+          reconcile_current_run_message_mapping(chatwoot_conversation, mapping, part)
+          next
+        end
 
         skip_existing_message_mapping(chatwoot_conversation, mapping, part)
         next
@@ -608,6 +617,36 @@ class DataImports::Intercom::Importer
       mapping.metadata = metadata
       mapping.save!
     end
+  end
+
+  def reconcile_current_run_contact(contact_payload, source_id, mapped_contact)
+    item = @data_import.items.find_by(
+      source_provider: PROVIDER,
+      source_object_type: 'contact',
+      source_object_id: source_id
+    )
+    item = import_item('contact', source_id, contact_payload) unless item&.imported?
+    item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: mapped_contact.id)
+    reconcile_item_stats('contact')
+  end
+
+  def reconcile_item_stats(source_object_type)
+    items = @data_import.items.where(source_provider: PROVIDER, source_object_type: source_object_type)
+    group = stat_group_for(source_object_type)
+    @stats[group]['imported'] = items.imported.count
+    @stats[group]['skipped'] = items.skipped.count
+    persist_stats
+  end
+
+  def reconcile_current_run_message_mapping(conversation, mapping, part)
+    record_skipped_message_log(conversation, mapping.source_object_id, part) if mapping.metadata['skipped']
+
+    mappings = @data_import.mappings.where(source_provider: PROVIDER, source_object_type: 'message')
+    skipped_mappings = mappings.where("metadata ->> 'skipped' = ?", 'true').count
+    message_logs = @data_import.import_errors.where(source_object_type: 'message')
+    @stats['messages']['imported'] = mappings.count - skipped_mappings
+    @stats['messages']['skipped'] = message_logs.where("details ->> 'kind' = ?", 'skipped').count
+    persist_stats
   end
 
   def skip_already_imported_item(item, mapping, already_handled:)
