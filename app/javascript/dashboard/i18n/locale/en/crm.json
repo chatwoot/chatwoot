@@ -148,6 +148,27 @@
       "CARD_NOT_SENT": "No conversion sent to Meta yet",
       "CARD_EVENT": "Event: {event}"
     },
+    "TRACKED_LINKS": {
+      "TITLE": "Trackable links & QR codes",
+      "SUBTITLE": "Create a link or QR per campaign, seller or store. Conversations started through it arrive attributed in the CRM.",
+      "ADD": "New link",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "E.g. Store QR — Downtown",
+      "INBOX": "WhatsApp inbox",
+      "PREFILLED": "Pre-filled message",
+      "PREFILLED_PLACEHOLDER": "E.g. Hi! I want to know more",
+      "CODE": "Code",
+      "CLICKS": "Clicks",
+      "CONVERSATIONS": "Conversations",
+      "COPY_LINK": "Copy link",
+      "COPIED": "Copied!",
+      "DOWNLOAD_QR": "Download QR",
+      "DELETE": "Delete",
+      "DELETE_CONFIRM": "Delete this link? Conversations already attributed keep their origin.",
+      "EMPTY": "No trackable links yet. Create the first one to attribute store, seller or bio conversations.",
+      "CREATE_SUCCESS": "Link created",
+      "CREATE_ERROR": "Could not create the link"
+    },
     "DASHBOARD": {
       "TITLE": "CRM Dashboard",
       "SUBTITLE": "Pipeline performance: funnel, deals won and lost, AI vs human, and throughput.",

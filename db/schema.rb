@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_09_114500) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_10_000001) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1653,6 +1653,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_09_114500) do
     t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
+  create_table "ctwa_tracked_links", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id", null: false
+    t.string "name", null: false
+    t.string "code", null: false
+    t.string "prefilled_text", default: ""
+    t.integer "clicks_count", default: 0, null: false
+    t.integer "conversations_count", default: 0, null: false
+    t.bigint "created_by_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "idx_ctwa_tracked_links_account"
+    t.index ["code"], name: "idx_ctwa_tracked_links_code", unique: true
+    t.index ["inbox_id"], name: "idx_ctwa_tracked_links_inbox"
+  end
+
   create_table "custom_attribute_definitions", force: :cascade do |t|
     t.string "attribute_display_name"
     t.string "attribute_key"
@@ -2554,6 +2570,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_09_114500) do
   add_foreign_key "crm_stage_automations", "crm_pipeline_stages", column: "stage_id"
   add_foreign_key "crm_stage_automations", "crm_pipelines", column: "pipeline_id"
   add_foreign_key "crm_stage_automations", "users", column: "created_by_id"
+  add_foreign_key "ctwa_tracked_links", "accounts", on_delete: :cascade
+  add_foreign_key "ctwa_tracked_links", "inboxes", on_delete: :cascade
   add_foreign_key "email_campaign_recipients", "email_campaigns"
   add_foreign_key "email_campaign_templates", "accounts"
   add_foreign_key "email_campaigns", "accounts"

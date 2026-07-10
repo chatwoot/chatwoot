@@ -203,7 +203,14 @@ const loadCampaignOptions = async () => {
 // The Meta conversion column is only relevant for accounts running Click-to-WhatsApp
 // ads, so campaignOptions doubles as the gate. Fetch the ledger status for the cards
 // currently in the List view and expose it per card for the column badge.
-const isMetaSyncActive = computed(() => campaignOptions.value.length > 0);
+// Paid CTWA only: organic referrals and tracked links (U1/U2) also live in
+// campaignOptions now, but the Meta CAPI column/gate is about ad attribution.
+// Legacy touches predate the `source` field and were always paid CTWA.
+const isMetaSyncActive = computed(() =>
+  campaignOptions.value.some(
+    option => !option.source || option.source === 'meta_ctwa'
+  )
+);
 const metaByCard = ref({});
 // Monotonic request token: a stale (out-of-order) response must never overwrite
 // the map built from a fresher card list (load-more / realtime bursts).

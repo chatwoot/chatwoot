@@ -43,6 +43,23 @@ RSpec.describe Ctwa::CampaignBuilder do
     it 'attributes on a click id alone (no source id)' do
       expect(described_class.build(ctwa_clid: 'Afxyz')).to include('source' => 'meta_ctwa', 'ctwa_clid' => 'Afxyz')
     end
+
+    it 'attributes organic Meta referrals without a click id' do
+      referral = {
+        source_id: 'organic-post-123',
+        source_type: 'post',
+        source_url: 'https://fb.me/post',
+        headline: 'Post orgânico'
+      }
+
+      expect(described_class.build(referral)).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'organic-post-123',
+        'source_type' => 'post',
+        'source_url' => 'https://fb.me/post',
+        'headline' => 'Post orgânico'
+      )
+    end
   end
 
   describe '.attribute!' do
@@ -73,6 +90,17 @@ RSpec.describe Ctwa::CampaignBuilder do
       }
     end
 
+    let(:organic_referral) do
+      {
+        'source_url' => 'https://fb.me/post',
+        'source_id' => 'organic-post-123',
+        'source_type' => 'post',
+        'headline' => 'Post orgânico',
+        'body' => 'conteúdo orgânico',
+        'media_type' => 'image'
+      }
+    end
+
     it 'records the first touch as origin, slim touch and mirror in a single write' do
       described_class.attribute!(conversation, first_referral)
 
@@ -97,6 +125,28 @@ RSpec.describe Ctwa::CampaignBuilder do
       expect(attrs['campaign_source_ids']).to eq(['52558118838064'])
     end
 
+    it 'records an organic referral as origin, touch and mirror entry' do
+      described_class.attribute!(conversation, organic_referral)
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign']).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'organic-post-123',
+        'source_type' => 'post',
+        'headline' => 'Post orgânico',
+        'body' => 'conteúdo orgânico'
+      )
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign_touches'].first).not_to have_key('body')
+      expect(attrs['campaign_touches'].first).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'organic-post-123',
+        'source_type' => 'post',
+        'headline' => 'Post orgânico'
+      )
+      expect(attrs['campaign_source_ids']).to eq(['organic-post-123'])
+    end
+
     it 'appends a second touch with a new click id and keeps the origin untouched' do
       described_class.attribute!(conversation, first_referral)
       described_class.attribute!(conversation, second_referral)
@@ -116,6 +166,21 @@ RSpec.describe Ctwa::CampaignBuilder do
       attrs = conversation.reload.additional_attributes
       expect(attrs['campaign_touches'].length).to eq(1)
       expect(attrs['campaign']['body']).to eq('washa data tu')
+    end
+
+    it 'dedups an organic redelivery by source id' do
+      described_class.attribute!(conversation, organic_referral)
+      described_class.attribute!(conversation, organic_referral.merge('body' => 'redelivered payload'))
+
+      attrs = conversation.reload.additional_attributes
+      expect(attrs['campaign_touches'].length).to eq(1)
+      expect(attrs['campaign_touches'].first).to include(
+        'source' => 'meta_organic',
+        'source_id' => 'organic-post-123',
+        'source_type' => 'post'
+      )
+      expect(attrs['campaign']['body']).to eq('conteúdo orgânico')
+      expect(attrs['campaign_source_ids']).to eq(['organic-post-123'])
     end
 
     it 'falls back to source_id dedup when the referral has no click id' do

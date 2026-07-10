@@ -42,8 +42,8 @@ RSpec.describe 'CTWA campaigns API', type: :request do
     payload = response.parsed_body['payload']
     expect(payload).to eq(
       [
-        { 'source_id' => 'ad-a', 'headline' => 'Promo Julho', 'count' => 2, 'last_touch_at' => '2026-07-02T10:00:00Z' },
-        { 'source_id' => 'ad-b', 'headline' => 'Anúncio B', 'count' => 1, 'last_touch_at' => '2026-07-03T08:00:00Z' }
+        { 'source_id' => 'ad-a', 'source' => nil, 'headline' => 'Promo Julho', 'count' => 2, 'last_touch_at' => '2026-07-02T10:00:00Z' },
+        { 'source_id' => 'ad-b', 'source' => nil, 'headline' => 'Anúncio B', 'count' => 1, 'last_touch_at' => '2026-07-03T08:00:00Z' }
       ]
     )
   end

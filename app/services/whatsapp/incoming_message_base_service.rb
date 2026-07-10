@@ -52,6 +52,7 @@ class Whatsapp::IncomingMessageBaseService
     end
 
     attribute_ctwa_campaign
+    attribute_ctwa_tracked_link
   end
 
   # Promote a Click-to-WhatsApp ad referral into conversation-level campaign attributes
@@ -61,6 +62,12 @@ class Whatsapp::IncomingMessageBaseService
     return if outgoing_echo
 
     Ctwa::CampaignBuilder.attribute!(@conversation, messages_data.first[:referral])
+  end
+
+  def attribute_ctwa_tracked_link
+    return if outgoing_echo
+
+    Ctwa::TrackedLinkAttributor.attribute!(@conversation, @message&.content)
   end
 
   # AUTONOMIA (Onda 2b): só captura reação quando (a) é evento de reação de entrada, (b) a inbox tem um
