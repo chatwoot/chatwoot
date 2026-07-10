@@ -15,10 +15,18 @@ const store = useStore();
 
 const globalConfig = useMapGetter('globalConfig/get');
 const whatsappInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
-const enabled = computed(
+// Email campaign reports and trackable links are independent modules sharing
+// this page: links must work for CRM accounts without the email add-on.
+const emailReportsEnabled = computed(
   () =>
     globalConfig.value?.emailCampaignEnabled === true &&
     globalConfig.value?.crmKanbanEnabled === true
+);
+const trackedLinksEnabled = computed(
+  () => globalConfig.value?.crmKanbanEnabled === true
+);
+const enabled = computed(
+  () => emailReportsEnabled.value || trackedLinksEnabled.value
 );
 
 const summary = ref(null);
@@ -392,11 +400,11 @@ const deleteTrackedLink = async link => {
 };
 
 onMounted(() => {
-  if (!enabled.value) return;
-
-  fetchReports();
-  fetchTrackedLinks();
-  store.dispatch('inboxes/get');
+  if (emailReportsEnabled.value) fetchReports();
+  if (trackedLinksEnabled.value) {
+    fetchTrackedLinks();
+    store.dispatch('inboxes/get');
+  }
 });
 </script>
 
@@ -427,41 +435,44 @@ onMounted(() => {
     </div>
 
     <div v-else class="flex flex-col gap-6 p-6">
-      <section
-        class="flex flex-col gap-1 p-5 border rounded-xl border-n-weak bg-n-solid-1"
-      >
-        <span class="text-xs font-medium text-n-slate-11">
-          {{ t('CAMPAIGN_MANAGEMENT.FILTER.LABEL') }}
-        </span>
-        <div class="flex flex-wrap items-center gap-3">
-          <select
-            v-model="selectedCampaignId"
-            class="px-3 h-9 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-60"
-            @change="onFilterChange"
-          >
-            <option value="">
-              {{ t('CAMPAIGN_MANAGEMENT.FILTER.ALL') }}
-            </option>
-            <option
-              v-for="campaign in campaigns"
-              :key="campaign.id"
-              :value="campaign.id"
+      <template v-if="emailReportsEnabled">
+        <section
+          class="flex flex-col gap-1 p-5 border rounded-xl border-n-weak bg-n-solid-1"
+        >
+          <span class="text-xs font-medium text-n-slate-11">
+            {{ t('CAMPAIGN_MANAGEMENT.FILTER.LABEL') }}
+          </span>
+          <div class="flex flex-wrap items-center gap-3">
+            <select
+              v-model="selectedCampaignId"
+              class="px-3 h-9 text-sm border rounded-lg outline-none border-n-weak bg-n-alpha-black1 text-n-slate-12 min-w-60"
+              @change="onFilterChange"
             >
-              {{ campaign.name }}
-            </option>
-          </select>
-          <button
-            v-if="selectedCampaignId"
-            class="flex items-center gap-2 px-3 h-9 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
-            @click="exportCsv"
-          >
-            <span class="i-lucide-download size-4" />
-            {{ t('CAMPAIGN_MANAGEMENT.EXPORT_CSV') }}
-          </button>
-        </div>
-      </section>
+              <option value="">
+                {{ t('CAMPAIGN_MANAGEMENT.FILTER.ALL') }}
+              </option>
+              <option
+                v-for="campaign in campaigns"
+                :key="campaign.id"
+                :value="campaign.id"
+              >
+                {{ campaign.name }}
+              </option>
+            </select>
+            <button
+              v-if="selectedCampaignId"
+              class="flex items-center gap-2 px-3 h-9 text-sm font-medium border rounded-lg border-n-weak bg-n-alpha-black1 text-n-slate-12 hover:bg-n-alpha-2"
+              @click="exportCsv"
+            >
+              <span class="i-lucide-download size-4" />
+              {{ t('CAMPAIGN_MANAGEMENT.EXPORT_CSV') }}
+            </button>
+          </div>
+        </section>
+      </template>
 
       <section
+        v-if="trackedLinksEnabled"
         class="flex flex-col gap-5 p-5 border rounded-xl border-n-weak bg-n-solid-1"
       >
         <div class="flex flex-col gap-1">
