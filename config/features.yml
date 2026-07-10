@@ -249,3 +249,7 @@
   display_name: Advanced Assignment
   enabled: false
   premium: true
+- name: whatsapp_manual_transfer
+  display_name: WhatsApp Manual Transfer
+  enabled: false
+  column: feature_flags_ext_1
