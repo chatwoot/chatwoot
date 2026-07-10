@@ -21,7 +21,7 @@ class Crm::Cards::PayloadBuilder
   # CTWA multi-touch: aggregates campaign_touches from ALL conversations linked to
   # the card (crm_card_conversations, plus the primary as fallback for legacy cards
   # without a link row), ordered first touch -> last. Slim item (no body/ctwa_clid):
-  # {source_id, headline, source_url, touched_at, conversation_id}. Single source of
+  # {source, source_id, headline, source_url, touched_at, conversation_id}. Single source of
   # truth for the shape — Crm::Kanban::CardPayloadBuilder delegates here so board,
   # list and websocket payloads never drift. Legacy touches without touched_at sort
   # first via to_s -> '' (they are the origin touch, so oldest-first stays correct).
@@ -39,6 +39,7 @@ class Crm::Cards::PayloadBuilder
       next unless touch.is_a?(Hash)
 
       {
+        source: touch['source'],
         source_id: touch['source_id'],
         headline: touch['headline'],
         source_url: touch['source_url'],

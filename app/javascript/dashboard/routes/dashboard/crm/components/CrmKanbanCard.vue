@@ -13,6 +13,7 @@ import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
 import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
+import { useCrmOrigin } from '../composables/useCrmOrigin';
 import CrmCardPill from './CrmCardPill.vue';
 
 const props = defineProps({
@@ -35,6 +36,8 @@ const props = defineProps({
 defineEmits(['open', 'openConversation']);
 
 const { t } = useI18n();
+const { originFromCampaigns, formatOriginLabel, formatOriginTitle } =
+  useCrmOrigin();
 
 const STAGE_FALLBACK_COLOR = '#64748b';
 
@@ -181,20 +184,11 @@ const mergedLabels = computed(() => [
   ]),
 ]);
 
-// Pill de campanha CTWA (card.campaigns = toques agregados, 1º toque primeiro).
-// Texto = headline do 1º toque (fallback i18n quando o anúncio não tem headline);
-// tooltip lista todos os toques; "+N" sinaliza os toques além do primeiro.
+// Pill de origem universal (card.campaigns = toques agregados, 1º toque primeiro).
+// Texto = source i18n + headline do 1º toque; tooltip lista todos os toques;
+// "+N" sinaliza os toques além do primeiro.
 const campaignPill = computed(() => {
-  const touches = props.card.campaigns || [];
-  if (!touches.length) return null;
-
-  const headlineFor = touch =>
-    touch.headline || t('CRM_KANBAN.CARD.CAMPAIGN_FALLBACK');
-  return {
-    label: headlineFor(touches[0]),
-    title: touches.map(headlineFor).join(' · '),
-    extraCount: touches.length - 1,
-  };
+  return originFromCampaigns(props.card.campaigns);
 });
 
 // Convite de handoff em aberto (payload handoff_invite): âmbar dentro do
@@ -297,17 +291,17 @@ const canOpenConversation = computed(
         :account-labels="accountLabels"
       />
 
-      <!-- Campanha CTWA — linha própria, separada das signal pills -->
+      <!-- Origem da campanha — linha própria, separada das signal pills -->
       <div v-if="campaignPill" class="mt-2 flex items-center">
         <CrmCardPill
-          icon="i-lucide-megaphone"
+          :icon="campaignPill.icon"
           tone="teal"
-          :title="campaignPill.title"
+          :title="formatOriginTitle(campaignPill)"
         >
-          {{ campaignPill.label }}
+          {{ formatOriginLabel(campaignPill) }}
           <template v-if="campaignPill.extraCount > 0" #trail>
             <span class="shrink-0 font-semibold">
-              +{{ campaignPill.extraCount }}
+              {{ `+${campaignPill.extraCount}` }}
             </span>
           </template>
         </CrmCardPill>

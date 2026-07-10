@@ -60,6 +60,49 @@ RSpec.describe Ctwa::CampaignBuilder do
         'headline' => 'Post orgânico'
       )
     end
+
+    it 'classifies paid click ids by source' do
+      expect(described_class.build(source_id: 'google-click', gclid: 'gclid-123')).to include('source' => 'google_ads')
+      expect(described_class.build(source_id: 'tiktok-click', ttclid: 'ttclid-123')).to include('source' => 'tiktok_ads')
+      expect(described_class.build(source_id: 'meta-click', fbclid: 'fbclid-123')).to include('source' => 'meta_paid')
+    end
+
+    it 'keeps Meta ad referrals without a click id as CTWA' do
+      expect(described_class.build(source_id: 'ad-123', source_type: 'ad')).to include('source' => 'meta_ctwa')
+    end
+
+    it 'classifies tracked link and bridge referrals as tracked links without paid click ids' do
+      expect(described_class.build(source_id: 'link:ABC234', source_type: 'tracked_link')).to include('source' => 'tracked_link')
+      expect(described_class.build(source_id: 'click:ABCD2345', source_type: 'bridge')).to include('source' => 'tracked_link')
+    end
+
+    it 'passes through attribution bridge keys' do
+      referral = {
+        source_id: 'click:ABCD2345',
+        source_type: 'bridge',
+        gclid: 'gclid-123',
+        fbclid: 'fbclid-123',
+        ttclid: 'ttclid-123',
+        utm_source: 'google',
+        utm_medium: 'cpc',
+        utm_campaign: 'july',
+        utm_term: 'running shoes',
+        utm_content: 'blue creative',
+        inferred: true
+      }
+
+      expect(described_class.build(referral)).to include(
+        'gclid' => 'gclid-123',
+        'fbclid' => 'fbclid-123',
+        'ttclid' => 'ttclid-123',
+        'utm_source' => 'google',
+        'utm_medium' => 'cpc',
+        'utm_campaign' => 'july',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative',
+        'inferred' => true
+      )
+    end
   end
 
   describe '.attribute!' do
@@ -161,11 +204,17 @@ RSpec.describe Ctwa::CampaignBuilder do
 
     it 'is a no-op when the same click id is redelivered' do
       described_class.attribute!(conversation, first_referral)
-      described_class.attribute!(conversation, first_referral.merge('body' => 'redelivered payload'))
+
+      expect(described_class.attribute!(conversation, first_referral.merge('body' => 'redelivered payload'))).to be(false)
 
       attrs = conversation.reload.additional_attributes
       expect(attrs['campaign_touches'].length).to eq(1)
       expect(attrs['campaign']['body']).to eq('washa data tu')
+    end
+
+    it 'returns whether the touch was persisted' do
+      expect(described_class.attribute!(conversation, first_referral)).to be(true)
+      expect(described_class.attribute!(conversation, first_referral)).to be(false)
     end
 
     it 'dedups an organic redelivery by source id' do
@@ -242,6 +291,35 @@ RSpec.describe Ctwa::CampaignBuilder do
       attrs = conversation.reload.additional_attributes
       expect(attrs['campaign_touches'].length).to eq(3)
       expect(attrs['campaign_source_ids']).to eq(['52558118838064'])
+    end
+
+    it 'keeps bridge keys in slim touches' do
+      described_class.attribute!(
+        conversation,
+        source_id: 'click:ABCD2345',
+        source_type: 'bridge',
+        headline: 'QR Loja',
+        gclid: 'gclid-123',
+        utm_source: 'google',
+        utm_medium: 'cpc',
+        utm_campaign: 'july',
+        utm_term: 'running shoes',
+        utm_content: 'blue creative',
+        inferred: true
+      )
+
+      expect(conversation.reload.additional_attributes['campaign_touches'].first).to include(
+        'source' => 'google_ads',
+        'source_id' => 'click:ABCD2345',
+        'source_type' => 'bridge',
+        'gclid' => 'gclid-123',
+        'utm_source' => 'google',
+        'utm_medium' => 'cpc',
+        'utm_campaign' => 'july',
+        'utm_term' => 'running shoes',
+        'utm_content' => 'blue creative',
+        'inferred' => true
+      )
     end
 
     it 'does not create any label' do

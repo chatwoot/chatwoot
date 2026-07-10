@@ -133,9 +133,36 @@
     "LOADING": "Loading AI usage…",
     "ERROR": "Could not load AI usage. Try again."
   },
+  "CRM_DASHBOARD": {
+    "ORIGIN": {
+      "TITLE": "Revenue by origin",
+      "SUBTITLE": "Won deals and revenue grouped by campaign source.",
+      "EMPTY": "No won deals with campaign origin in this period.",
+      "WON": "Won deals",
+      "REVENUE": "Revenue",
+      "SOURCES": {
+        "META_CTWA": "Meta CTWA",
+        "META_ORGANIC": "Meta organic",
+        "GOOGLE_ADS": "Google Ads",
+        "TIKTOK_ADS": "TikTok Ads",
+        "META_PAID": "Meta paid",
+        "TRACKED_LINK": "Tracked link",
+        "UNKNOWN": "Unknown"
+      }
+    }
+  },
   "CRM_KANBAN": {
     "TITLE": "CRM Kanban",
     "SUBTITLE": "Operational pipelines with cards that can work independently from conversations, contacts, or inboxes.",
+    "ORIGIN": {
+      "META_CTWA": "Meta Click-to-WhatsApp",
+      "META_ORGANIC": "Meta organic",
+      "GOOGLE_ADS": "Google Ads",
+      "TIKTOK_ADS": "TikTok Ads",
+      "META_PAID": "Meta paid",
+      "TRACKED_LINK": "Tracked link",
+      "UNKNOWN": "Unknown origin"
+    },
     "META_SYNC_STATUS": {
       "LABEL_ACCEPTED": "Sent",
       "LABEL_PENDING": "Sending",

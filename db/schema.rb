@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_10_000001) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_10_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1653,6 +1653,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000001) do
     t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
+  create_table "ctwa_tracked_link_clicks", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "tracked_link_id", null: false
+    t.string "token", null: false
+    t.jsonb "params", default: {}, null: false
+    t.string "user_agent", limit: 255
+    t.bigint "conversation_id"
+    t.datetime "expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "idx_ctwa_tracked_link_clicks_account"
+    t.index ["conversation_id"], name: "idx_ctwa_tracked_link_clicks_conversation"
+    t.index ["token"], name: "idx_ctwa_tracked_link_clicks_token", unique: true
+    t.index ["tracked_link_id", "created_at"], name: "idx_ctwa_tracked_link_clicks_link_created"
+    t.index ["tracked_link_id"], name: "idx_ctwa_tracked_link_clicks_link"
+  end
+
   create_table "ctwa_tracked_links", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "inbox_id", null: false
@@ -2570,6 +2587,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000001) do
   add_foreign_key "crm_stage_automations", "crm_pipeline_stages", column: "stage_id"
   add_foreign_key "crm_stage_automations", "crm_pipelines", column: "pipeline_id"
   add_foreign_key "crm_stage_automations", "users", column: "created_by_id"
+  add_foreign_key "ctwa_tracked_link_clicks", "accounts", on_delete: :cascade
+  add_foreign_key "ctwa_tracked_link_clicks", "conversations", on_delete: :nullify
+  add_foreign_key "ctwa_tracked_link_clicks", "ctwa_tracked_links", column: "tracked_link_id", on_delete: :cascade
   add_foreign_key "ctwa_tracked_links", "accounts", on_delete: :cascade
   add_foreign_key "ctwa_tracked_links", "inboxes", on_delete: :cascade
   add_foreign_key "email_campaign_recipients", "email_campaigns"
