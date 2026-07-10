@@ -12,14 +12,12 @@ import { useAlert } from 'dashboard/composables';
 import formatDistanceStrict from 'date-fns/formatDistanceStrict';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import {
-  BaseTable,
-  BaseTableRow,
-  BaseTableCell,
-} from 'dashboard/components-next/table';
+import { BaseTableRow, BaseTableCell } from 'dashboard/components-next/table';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import ImportSummaryTiles from './components/ImportSummaryTiles.vue';
+import ImportProgress from './components/ImportProgress.vue';
+import ImportLogSection from './components/ImportLogSection.vue';
 import DataImportsAPI from 'dashboard/api/dataImports';
 import {
   POLL_INTERVAL_MS,
@@ -259,12 +257,6 @@ const progressItems = computed(() => {
   });
 });
 
-const progressColsClass = computed(() => {
-  if (progressItems.value.length >= 3) return 'sm:grid-cols-3';
-  if (progressItems.value.length === 2) return 'sm:grid-cols-2';
-  return 'sm:grid-cols-1';
-});
-
 const stopPolling = () => {
   if (!pollTimer) return;
 
@@ -473,287 +465,117 @@ onBeforeUnmount(() => {
 
     <template #body>
       <div v-if="dataImport" class="flex flex-col gap-3">
-        <!-- Metadata: divided summary tiles (matches the progress grid) -->
-        <dl
-          class="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-n-weak bg-n-weak sm:grid-cols-3 lg:grid-cols-5"
-        >
-          <div
-            v-for="item in headerMetadata"
-            :key="item.key"
-            class="flex min-w-0 flex-col gap-1 bg-n-solid-1 px-4 py-3"
-          >
-            <dt
-              class="flex items-center gap-1.5 text-label-small text-n-slate-10"
-            >
-              <Icon :icon="item.icon" class="size-3.5 shrink-0" />
-              {{ item.label }}
-            </dt>
-            <dd
-              v-tooltip.top="item.tooltip"
-              class="truncate text-heading-3 text-n-slate-12"
-            >
-              {{ item.value }}
-            </dd>
-          </div>
-        </dl>
+        <ImportSummaryTiles :items="headerMetadata" />
 
-        <!-- Import progress: compact side-by-side columns -->
-        <section
+        <ImportProgress
           v-if="progressItems.length"
-          class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
-        >
-          <h2
-            class="border-b border-n-weak px-4 py-3 text-heading-3 text-n-slate-12"
-          >
-            {{ $t('DATA_IMPORTS.DETAIL.PROGRESS') }}
-          </h2>
-          <div
-            class="grid grid-cols-1 gap-px bg-n-weak"
-            :class="progressColsClass"
-          >
-            <div
-              v-for="item in progressItems"
-              :key="item.key"
-              class="flex flex-col gap-2 bg-n-solid-1 px-4 py-3"
-            >
-              <span class="text-label-small text-n-slate-11">
-                {{ item.label }}
-              </span>
-              <div class="flex items-end justify-between gap-2">
-                <span
-                  class="text-xl font-semibold tracking-tight tabular-nums text-n-slate-12"
-                >
-                  {{ item.importedLabel }}
-                </span>
-                <span
-                  v-if="item.percent !== null"
-                  class="text-label-small tabular-nums text-n-slate-11"
-                >
-                  {{ `${item.percent}%` }}
-                </span>
-              </div>
-              <div
-                v-if="item.percent !== null"
-                class="h-1.5 w-full overflow-hidden rounded-full bg-n-alpha-2"
-              >
-                <div
-                  class="h-full rounded-full bg-n-brand transition-all duration-500"
-                  :style="{ width: `${item.percent}%` }"
-                />
-              </div>
-              <span class="text-label-small text-n-slate-10">
-                {{ item.caption }}
-              </span>
-            </div>
-          </div>
-        </section>
+          :title="$t('DATA_IMPORTS.DETAIL.PROGRESS')"
+          :items="progressItems"
+        />
 
-        <!-- Errors -->
-        <section
-          class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
+        <ImportLogSection
+          :title="$t('DATA_IMPORTS.DETAIL.ERRORS')"
+          :count="dataImport.import_errors_count"
+          :is-open="errorsOpen"
+          :is-downloading="isDownloadingErrorLogs"
+          :download-label="$t('DATA_IMPORTS.DETAIL.DOWNLOAD_ERROR_LOGS')"
+          :headers="errorHeaders"
+          :items="importErrors"
+          :empty-message="$t('DATA_IMPORTS.DETAIL.NO_ERRORS')"
+          @toggle="errorsOpen = !errorsOpen"
+          @download="downloadErrorLogs"
         >
-          <div class="flex items-center justify-between gap-3 px-4 py-3">
-            <button
-              type="button"
-              class="flex min-w-0 items-center gap-2 !p-0"
-              :aria-expanded="errorsOpen"
-              @click="errorsOpen = !errorsOpen"
-            >
-              <h2 class="text-heading-3 text-n-slate-12">
-                {{ $t('DATA_IMPORTS.DETAIL.ERRORS') }}
-              </h2>
-              <span
-                v-if="dataImport.import_errors_count"
-                class="rounded-md bg-n-alpha-2 px-1.5 text-label-small tabular-nums text-n-slate-11"
-              >
-                {{ dataImport.import_errors_count }}
-              </span>
-              <Icon
-                icon="i-lucide-chevron-down"
-                class="size-4 shrink-0 text-n-slate-10 transition-transform duration-200"
-                :class="{ '-rotate-90 rtl:rotate-90': !errorsOpen }"
-              />
-            </button>
-            <Button
-              ghost
-              slate
-              xs
-              icon="i-lucide-download"
-              :is-loading="isDownloadingErrorLogs"
-              :disabled="!dataImport.import_errors_count"
-              :label="$t('DATA_IMPORTS.DETAIL.DOWNLOAD_ERROR_LOGS')"
-              @click="downloadErrorLogs"
-            />
-          </div>
-          <div
-            class="grid transition-[grid-template-rows] duration-300 ease-in-out"
-            :class="errorsOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
-          >
-            <div class="min-h-0 overflow-hidden">
-              <div class="border-t border-n-weak">
-                <p
-                  v-if="!importErrors.length"
-                  class="px-4 py-8 text-center text-body-main text-n-slate-11"
-                >
-                  {{ $t('DATA_IMPORTS.DETAIL.NO_ERRORS') }}
-                </p>
-                <div v-else class="overflow-x-auto">
-                  <BaseTable
-                    class="[&_td:first-child]:ps-4 [&_th:first-child]:ps-4 [&_th]:text-n-slate-11 [&_thead]:border-t-0"
-                    :headers="errorHeaders"
-                    :items="importErrors"
+          <template #row="{ items }">
+            <BaseTableRow v-for="error in items" :key="error.id" :item="error">
+              <template #default>
+                <BaseTableCell>
+                  <span class="text-body-main text-n-slate-12">
+                    {{ error.error_code }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span class="text-body-main text-n-slate-12">
+                    {{ sourceObjectLabel(error) }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span class="text-body-main text-n-slate-11">
+                    {{ error.message || '-' }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span
+                    class="whitespace-nowrap text-body-main text-n-slate-11"
                   >
-                    <template #row="{ items }">
-                      <BaseTableRow
-                        v-for="error in items"
-                        :key="error.id"
-                        :item="error"
-                      >
-                        <template #default>
-                          <BaseTableCell>
-                            <span class="text-body-main text-n-slate-12">
-                              {{ error.error_code }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span class="text-body-main text-n-slate-12">
-                              {{ sourceObjectLabel(error) }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span class="text-body-main text-n-slate-11">
-                              {{ error.message || '-' }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span
-                              class="whitespace-nowrap text-body-main text-n-slate-11"
-                            >
-                              {{ formatDate(error.created_at) }}
-                            </span>
-                          </BaseTableCell>
-                        </template>
-                      </BaseTableRow>
-                    </template>
-                  </BaseTable>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+                    {{ formatDate(error.created_at) }}
+                  </span>
+                </BaseTableCell>
+              </template>
+            </BaseTableRow>
+          </template>
+        </ImportLogSection>
 
-        <!-- Skip logs -->
-        <section
-          class="overflow-hidden rounded-xl border border-n-weak bg-n-solid-1"
+        <ImportLogSection
+          :title="$t('DATA_IMPORTS.DETAIL.SKIP_LOGS')"
+          :count="dataImport.skip_logs_count"
+          :is-open="skipLogsOpen"
+          :is-downloading="isDownloadingSkipLogs"
+          :download-label="$t('DATA_IMPORTS.DETAIL.DOWNLOAD_SKIP_LOGS')"
+          :headers="skipLogHeaders"
+          :items="skipLogs"
+          :empty-message="$t('DATA_IMPORTS.DETAIL.NO_SKIP_LOGS')"
+          @toggle="skipLogsOpen = !skipLogsOpen"
+          @download="downloadSkipLogs"
         >
-          <div class="flex items-center justify-between gap-3 px-4 py-3">
-            <button
-              type="button"
-              class="flex min-w-0 items-center gap-2 !p-0"
-              :aria-expanded="skipLogsOpen"
-              @click="skipLogsOpen = !skipLogsOpen"
-            >
-              <h2 class="text-heading-3 text-n-slate-12">
-                {{ $t('DATA_IMPORTS.DETAIL.SKIP_LOGS') }}
-              </h2>
-              <span
-                v-if="dataImport.skip_logs_count"
-                class="rounded-md bg-n-alpha-2 px-1.5 text-label-small tabular-nums text-n-slate-11"
-              >
-                {{ dataImport.skip_logs_count }}
-              </span>
-              <Icon
-                icon="i-lucide-chevron-down"
-                class="size-4 shrink-0 text-n-slate-10 transition-transform duration-200"
-                :class="{ '-rotate-90 rtl:rotate-90': !skipLogsOpen }"
+          <template v-if="dataImport.skip_logs_count" #filters>
+            <div class="flex flex-wrap gap-2 border-b border-n-weak px-4 py-3">
+              <Button
+                v-for="option in skipLogTypeOptions"
+                :key="option.value || 'all'"
+                :variant="
+                  option.value === selectedSkipLogsType ? 'solid' : 'faded'
+                "
+                color="slate"
+                size="xs"
+                :disabled="!option.count || isChangingSkipLogsType"
+                :label="`${option.label} (${option.count})`"
+                @click="changeSkipLogsType(option.value)"
               />
-            </button>
-            <Button
-              ghost
-              slate
-              xs
-              icon="i-lucide-download"
-              :is-loading="isDownloadingSkipLogs"
-              :disabled="!dataImport.skip_logs_count"
-              :label="$t('DATA_IMPORTS.DETAIL.DOWNLOAD_SKIP_LOGS')"
-              @click="downloadSkipLogs"
-            />
-          </div>
-          <div
-            class="grid transition-[grid-template-rows] duration-300 ease-in-out"
-            :class="skipLogsOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
-          >
-            <div class="min-h-0 overflow-hidden">
-              <div class="border-t border-n-weak">
-                <div
-                  v-if="dataImport.skip_logs_count"
-                  class="flex flex-wrap gap-2 border-b border-n-weak px-4 py-3"
-                >
-                  <Button
-                    v-for="option in skipLogTypeOptions"
-                    :key="option.value || 'all'"
-                    :variant="
-                      option.value === selectedSkipLogsType ? 'solid' : 'faded'
-                    "
-                    color="slate"
-                    size="xs"
-                    :disabled="!option.count || isChangingSkipLogsType"
-                    :label="`${option.label} (${option.count})`"
-                    @click="changeSkipLogsType(option.value)"
-                  />
-                </div>
-                <p
-                  v-if="!skipLogs.length"
-                  class="px-4 py-8 text-center text-body-main text-n-slate-11"
-                >
-                  {{ $t('DATA_IMPORTS.DETAIL.NO_SKIP_LOGS') }}
-                </p>
-                <div v-else class="overflow-x-auto">
-                  <BaseTable
-                    class="[&_td:first-child]:ps-4 [&_th:first-child]:ps-4 [&_th]:text-n-slate-11 [&_thead]:border-t-0"
-                    :headers="skipLogHeaders"
-                    :items="skipLogs"
-                  >
-                    <template #row="{ items }">
-                      <BaseTableRow
-                        v-for="skipLog in items"
-                        :key="skipLog.id"
-                        :item="skipLog"
-                      >
-                        <template #default>
-                          <BaseTableCell>
-                            <span
-                              class="capitalize text-body-main text-n-slate-12"
-                            >
-                              {{ skipLog.kind || '-' }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span class="text-body-main text-n-slate-11">
-                              {{ sourceObjectLabel(skipLog) }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span class="text-body-main text-n-slate-11">
-                              {{ skipLog.message || '-' }}
-                            </span>
-                          </BaseTableCell>
-                          <BaseTableCell>
-                            <span
-                              class="whitespace-nowrap text-body-main text-n-slate-11"
-                            >
-                              {{ formatDate(skipLog.created_at) }}
-                            </span>
-                          </BaseTableCell>
-                        </template>
-                      </BaseTableRow>
-                    </template>
-                  </BaseTable>
-                </div>
-              </div>
             </div>
-          </div>
-        </section>
+          </template>
+          <template #row="{ items }">
+            <BaseTableRow
+              v-for="skipLog in items"
+              :key="skipLog.id"
+              :item="skipLog"
+            >
+              <template #default>
+                <BaseTableCell>
+                  <span class="capitalize text-body-main text-n-slate-12">
+                    {{ skipLog.kind || '-' }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span class="text-body-main text-n-slate-11">
+                    {{ sourceObjectLabel(skipLog) }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span class="text-body-main text-n-slate-11">
+                    {{ skipLog.message || '-' }}
+                  </span>
+                </BaseTableCell>
+                <BaseTableCell>
+                  <span
+                    class="whitespace-nowrap text-body-main text-n-slate-11"
+                  >
+                    {{ formatDate(skipLog.created_at) }}
+                  </span>
+                </BaseTableCell>
+              </template>
+            </BaseTableRow>
+          </template>
+        </ImportLogSection>
       </div>
     </template>
   </SettingsLayout>
