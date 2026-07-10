@@ -20,10 +20,12 @@ import NewImportDrawer from './NewImportDrawer.vue';
 import { importSourceFor } from './importSources';
 import {
   POLL_INTERVAL_MS,
+  formatDate,
   formatStatus,
   importedCount,
   isActiveImport,
   isActiveIntercomImport,
+  statusDotClass,
 } from './importStatus';
 
 const { t } = useI18n();
@@ -58,14 +60,6 @@ const dataImportRoute = dataImport => ({
   name: 'settings_data_import_show',
   params: { accountId: accountId.value, dataImportId: dataImport.id },
 });
-
-const formatDate = value => {
-  if (!value) return '-';
-  return new Intl.DateTimeFormat(undefined, {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value));
-};
 
 const importTypesFor = dataImport =>
   dataImport.import_types?.length
@@ -186,158 +180,175 @@ onBeforeUnmount(() => {
             @tab-changed="onTabChanged"
           />
         </template>
+        <template v-if="activeTab === 'import' && dataImports.length" #count>
+          <span class="text-body-main text-n-slate-11">
+            {{ $t('DATA_IMPORTS.TABLE.COUNT', { count: dataImports.length }) }}
+          </span>
+        </template>
+        <template v-if="activeTab === 'import'" #actions>
+          <span
+            v-if="hasActiveImport"
+            class="hidden items-center gap-1.5 text-body-main text-n-slate-11 sm:inline-flex"
+          >
+            <span class="size-2 rounded-full bg-n-teal-9 animate-pulse" />
+            {{
+              $t('DATA_IMPORTS.MONITOR.LIVE', {
+                seconds: POLL_INTERVAL_MS / 1000,
+              })
+            }}
+          </span>
+          <Button
+            ghost
+            slate
+            size="sm"
+            icon="i-lucide-refresh-cw"
+            :is-loading="isRefreshing"
+            :aria-label="$t('DATA_IMPORTS.MONITOR.REFRESH')"
+            :title="$t('DATA_IMPORTS.MONITOR.REFRESH')"
+            @click="refresh({ showLoader: false })"
+          />
+          <Button
+            size="sm"
+            :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
+            :disabled="hasActiveIntercomImport"
+            :title="
+              hasActiveIntercomImport
+                ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
+                : undefined
+            "
+            @click="openImportDrawer"
+          />
+        </template>
       </BaseSettingsHeader>
     </template>
 
     <template #body>
       <div
         v-if="activeTab === 'export'"
-        class="rounded-lg bg-n-card outline outline-1 outline-n-container p-6"
+        class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
       >
-        <h2 class="text-heading-3 text-n-slate-12">
-          {{ $t('DATA_IMPORTS.EXPORT.TITLE') }}
-        </h2>
-        <p class="mt-1 text-body-main text-n-slate-11">
-          {{ $t('DATA_IMPORTS.EXPORT.DESCRIPTION') }}
-        </p>
+        <span
+          class="flex size-12 items-center justify-center rounded-full bg-n-alpha-2"
+        >
+          <Icon icon="i-lucide-upload" class="size-5 text-n-slate-11" />
+        </span>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-heading-2 text-n-slate-12">
+            {{ $t('DATA_IMPORTS.EXPORT.TITLE') }}
+          </h3>
+          <p class="max-w-sm text-body-main text-n-slate-11">
+            {{ $t('DATA_IMPORTS.EXPORT.DESCRIPTION') }}
+          </p>
+        </div>
+        <span
+          class="inline-flex items-center gap-1.5 rounded-md bg-n-alpha-2 px-2 py-1 text-label-small text-n-slate-11"
+        >
+          <Icon icon="i-lucide-clock" class="size-3.5" />
+          {{ $t('DATA_IMPORTS.EXPORT.COMING_SOON') }}
+        </span>
       </div>
 
-      <section
-        v-else
-        class="overflow-hidden rounded-lg bg-n-card outline outline-1 outline-n-container"
+      <div
+        v-else-if="!dataImports.length"
+        class="flex min-h-80 flex-col items-center justify-center gap-4 rounded-xl border border-n-weak bg-n-solid-1 px-6 py-16 text-center"
       >
+        <span
+          class="flex size-12 items-center justify-center rounded-full bg-n-alpha-2"
+        >
+          <Icon icon="i-lucide-database" class="size-5 text-n-slate-11" />
+        </span>
+        <div class="flex flex-col gap-1">
+          <h3 class="text-heading-2 text-n-slate-12">
+            {{ $t('DATA_IMPORTS.TABLE.EMPTY') }}
+          </h3>
+          <p class="max-w-sm text-body-main text-n-slate-11">
+            {{ $t('DATA_IMPORTS.TABLE.EMPTY_DESCRIPTION') }}
+          </p>
+        </div>
+        <Button
+          size="sm"
+          icon="i-lucide-download"
+          :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
+          @click="openImportDrawer"
+        />
+      </div>
+
+      <div v-else class="divide-y divide-n-weak border-t border-n-weak">
         <div
-          class="flex items-center justify-between gap-3 border-b border-n-weak px-4 py-3"
+          v-for="dataImport in dataImports"
+          :key="dataImport.id"
+          class="group flex cursor-pointer items-center justify-between gap-4 py-4"
+          role="button"
+          tabindex="0"
+          @click="openImport(dataImport)"
+          @keydown.enter="openImport(dataImport)"
+          @keydown.space.prevent="openImport(dataImport)"
         >
           <div class="flex min-w-0 items-center gap-3">
-            <h2 class="text-heading-3 text-n-slate-12">
-              {{ $t('DATA_IMPORTS.TABLE.TITLE') }}
-            </h2>
+            <img
+              v-if="importSourceFor(dataImport).icon"
+              v-tooltip.top="importSourceFor(dataImport).label"
+              :src="importSourceFor(dataImport).icon"
+              alt=""
+              class="size-10 justify-center bg-n-alpha-3 rounded-xl shrink-0 object-contain border border-n-strong"
+            />
             <span
-              v-if="hasActiveImport"
-              class="inline-flex items-center gap-1.5 text-xs text-n-slate-11"
+              v-else
+              v-tooltip.top="importSourceFor(dataImport).label"
+              class="size-10 justify-center bg-n-alpha-3 rounded-xl ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
             >
-              <span class="size-2 rounded-full bg-n-teal-9 animate-pulse" />
-              {{
-                $t('DATA_IMPORTS.MONITOR.LIVE', {
-                  seconds: POLL_INTERVAL_MS / 1000,
-                })
-              }}
+              <Icon
+                :icon="importSourceFor(dataImport).iconClass"
+                class="size-4"
+              />
             </span>
-          </div>
-          <div class="flex items-center gap-2">
-            <Button
-              ghost
-              slate
-              icon="i-lucide-refresh-cw"
-              :is-loading="isRefreshing"
-              :aria-label="$t('DATA_IMPORTS.MONITOR.REFRESH')"
-              :title="$t('DATA_IMPORTS.MONITOR.REFRESH')"
-              @click="refresh({ showLoader: false })"
-            />
-            <Button
-              v-if="dataImports.length"
-              icon="i-lucide-download"
-              :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-              :disabled="hasActiveIntercomImport"
-              :title="
-                hasActiveIntercomImport
-                  ? $t('DATA_IMPORTS.DRAWER.ACTIVE_IMPORT')
-                  : undefined
-              "
-              @click="openImportDrawer"
-            />
-          </div>
-        </div>
-
-        <div
-          v-if="!dataImports.length"
-          class="flex flex-col items-center gap-4 px-6 py-12 text-center"
-        >
-          <div>
-            <h3 class="text-heading-3 text-n-slate-12">
-              {{ $t('DATA_IMPORTS.TABLE.EMPTY') }}
-            </h3>
-            <p class="mt-1 text-sm text-n-slate-11">
-              {{ $t('DATA_IMPORTS.TABLE.EMPTY_DESCRIPTION') }}
-            </p>
+            <div class="flex min-w-0 flex-col gap-1">
+              <div class="flex items-center gap-2">
+                <span class="truncate text-heading-3 text-n-slate-12">
+                  {{ dataImport.name || $t('DATA_IMPORTS.TABLE.UNNAMED') }}
+                </span>
+                <span class="flex shrink-0 items-center gap-1.5">
+                  <span
+                    class="size-2 rounded-full"
+                    :class="[
+                      statusDotClass(dataImport.status),
+                      { 'animate-pulse': isActiveImport(dataImport) },
+                    ]"
+                  />
+                  <span
+                    class="whitespace-nowrap capitalize text-body-main text-n-slate-11"
+                  >
+                    {{ formatStatus(dataImport.status) }}
+                  </span>
+                </span>
+              </div>
+              <div
+                class="flex flex-wrap items-center gap-2 text-body-main text-n-slate-11"
+              >
+                <span>{{ importTypeLabel(dataImport) }}</span>
+                <div class="h-3 w-px rounded-lg bg-n-strong" />
+                <span class="tabular-nums">
+                  {{
+                    $t('DATA_IMPORTS.TABLE.IMPORTED_COUNT', {
+                      count: importedCount(dataImport),
+                    })
+                  }}
+                </span>
+                <div class="h-3 w-px rounded-lg bg-n-strong" />
+                <span>{{ formatDate(dataImport.created_at) }}</span>
+              </div>
+            </div>
           </div>
           <Button
-            icon="i-lucide-download"
-            :label="$t('DATA_IMPORTS.TABLE.NEW_IMPORT')"
-            @click="openImportDrawer"
+            v-tooltip.top="$t('DATA_IMPORTS.TABLE.VIEW')"
+            icon="i-lucide-eye"
+            slate
+            sm
+            class="shrink-0"
+            @click.stop="openImport(dataImport)"
           />
         </div>
-
-        <div v-else class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-n-alpha-1 text-n-slate-11">
-              <tr>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ $t('DATA_IMPORTS.TABLE.NAME') }}
-                </th>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ $t('DATA_IMPORTS.TABLE.TYPE') }}
-                </th>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ $t('DATA_IMPORTS.TABLE.STATUS') }}
-                </th>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ $t('DATA_IMPORTS.TABLE.IMPORTED') }}
-                </th>
-                <th class="px-4 py-3 text-left font-medium">
-                  {{ $t('DATA_IMPORTS.TABLE.CREATED') }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="dataImport in dataImports"
-                :key="dataImport.id"
-                class="cursor-pointer border-t border-n-weak text-n-slate-12 hover:bg-n-alpha-1 focus-within:bg-n-alpha-1"
-                tabindex="0"
-                role="link"
-                @click="openImport(dataImport)"
-                @keydown.enter="openImport(dataImport)"
-                @keydown.space.prevent="openImport(dataImport)"
-              >
-                <td class="px-4 py-3">
-                  <router-link
-                    :to="dataImportRoute(dataImport)"
-                    class="flex items-center gap-3 font-medium text-n-blue-11 hover:underline"
-                    @click.stop
-                  >
-                    <img
-                      v-if="importSourceFor(dataImport).icon"
-                      v-tooltip.top="importSourceFor(dataImport).label"
-                      :src="importSourceFor(dataImport).icon"
-                      alt=""
-                      class="size-7 object-contain"
-                    />
-                    <Icon
-                      v-else
-                      v-tooltip.top="importSourceFor(dataImport).label"
-                      :icon="importSourceFor(dataImport).iconClass"
-                      class="size-7 text-n-slate-10"
-                    />
-                    <span>
-                      {{ dataImport.name || $t('DATA_IMPORTS.TABLE.UNNAMED') }}
-                    </span>
-                  </router-link>
-                </td>
-                <td class="px-4 py-3">{{ importTypeLabel(dataImport) }}</td>
-                <td class="px-4 py-3 capitalize">
-                  {{ formatStatus(dataImport.status) }}
-                </td>
-                <td class="px-4 py-3">{{ importedCount(dataImport) }}</td>
-                <td class="px-4 py-3">
-                  {{ formatDate(dataImport.created_at) }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      </div>
     </template>
   </SettingsLayout>
 

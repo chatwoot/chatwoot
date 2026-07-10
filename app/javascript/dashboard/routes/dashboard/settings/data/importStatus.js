@@ -60,3 +60,23 @@ export const importStageKey = dataImport => {
 };
 
 export const formatStatus = value => value?.replaceAll('_', ' ') || '-';
+
+export const formatDate = value => {
+  if (!value) return '-';
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(value));
+};
+
+const STATUS_DOT_CLASS = {
+  pending: 'bg-n-amber-9',
+  processing: 'bg-n-blue-9',
+  completed: 'bg-n-teal-9',
+  completed_with_errors: 'bg-n-amber-9',
+  failed: 'bg-n-ruby-9',
+  abandoned: 'bg-n-slate-9',
+};
+
+export const statusDotClass = status =>
+  STATUS_DOT_CLASS[status] || 'bg-n-slate-9';

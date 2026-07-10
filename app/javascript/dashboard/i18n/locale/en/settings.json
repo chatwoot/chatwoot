@@ -414,7 +414,7 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
-    "DESCRIPTION": "Import contacts and conversations into this account.",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
     "LOADING": "Fetching imports",
     "DEFAULT_IMPORT_NAME": "Intercom import",
     "TABS": {
@@ -442,15 +442,19 @@
       "IMPORT": "Import"
     },
     "EXPORT": {
-      "TITLE": "Exports",
-      "DESCRIPTION": "Export workflows will be available here later."
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "Coming soon"
     },
     "TABLE": {
       "TITLE": "Recent imports",
       "EMPTY": "No imports yet",
       "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
       "NEW_IMPORT": "Import",
+      "COUNT": "{count} imports",
       "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
       "NAME": "Name",
       "TYPE": "Type",
       "STATUS": "Status",
@@ -470,6 +474,8 @@
       "PROGRESS": "Import progress",
       "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
       "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
       "LAST_UPDATED_TOOLTIP": "Last updated {time}",
       "NO_SKIP_LOGS": "No skipped or failed records recorded.",
       "DOWNLOAD_SKIP_LOGS": "Download CSV",
