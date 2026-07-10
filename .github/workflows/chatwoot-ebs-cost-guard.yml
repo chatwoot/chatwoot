@@ -1,0 +1,89 @@
+name: Chatwoot EC2 EBS Cost Guard
+
+on:
+  workflow_dispatch:
+    inputs:
+      tenant:
+        description: Tenant to inspect or clean.
+        required: true
+        default: all
+        type: choice
+        options:
+          - all
+          - autonomia
+          - hub2you
+      mode:
+        description: Use inventory first. Cleanup creates a rollback AMI before termination.
+        required: true
+        default: inventory
+        type: choice
+        options:
+          - inventory
+          - cleanup
+      min_stopped_hours:
+        description: Minimum stopped age for cleanup candidates.
+        required: true
+        default: '24'
+        type: string
+  schedule:
+    - cron: '27 */12 * * *'
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  guard:
+    name: ${{ matrix.tenant }} cost guard
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - tenant: autonomia
+            role_arn: arn:aws:iam::140023375763:role/chatwoot-autonomia-prod-github-actions-deploy
+            name_prefix: chatwoot-autonomia-prod-ec2-green-
+          - tenant: hub2you
+            role_arn: arn:aws:iam::354307071110:role/chatwoot-autonomia-prod-github-actions-deploy
+            name_prefix: chatwoot-hub2you-prod-ec2-green-
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event.inputs.tenant == 'all' ||
+      github.event.inputs.tenant == matrix.tenant
+
+    env:
+      AWS_REGION: us-east-1
+      MODE: ${{ github.event_name == 'schedule' && 'cleanup' || github.event.inputs.mode || 'inventory' }}
+      MIN_STOPPED_HOURS: ${{ github.event.inputs.min_stopped_hours || '24' }}
+      CURRENT_INSTANCE_PARAMETER: /chatwoot/prod/blue-green/current-instance-id
+      PREVIOUS_INSTANCE_PARAMETER: /chatwoot/prod/blue-green/previous-instance-id
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ matrix.role_arn }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Inventory or cleanup stopped Chatwoot EC2/EBS
+        run: |
+          mkdir -p artifacts
+          python3 .github/scripts/chatwoot_ec2_ebs_guard.py \
+            --tenant "${{ matrix.tenant }}" \
+            --region "$AWS_REGION" \
+            --mode "$MODE" \
+            --min-stopped-hours "$MIN_STOPPED_HOURS" \
+            --name-prefix "${{ matrix.name_prefix }}" \
+            --current-instance-parameter "$CURRENT_INSTANCE_PARAMETER" \
+            --previous-instance-parameter "$PREVIOUS_INSTANCE_PARAMETER" \
+            --output "artifacts/${{ matrix.tenant }}-ebs-cost-guard.json"
+
+      - name: Upload inventory artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.tenant }}-ebs-cost-guard
+          path: artifacts/${{ matrix.tenant }}-ebs-cost-guard.json

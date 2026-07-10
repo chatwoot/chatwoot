@@ -270,8 +270,11 @@ resource "aws_iam_role_policy" "github_actions_deploy" {
         Effect = "Allow"
         Action = [
           "ec2:CreateTags",
+          "ec2:CreateImage",
+          "ec2:DeleteVolume",
           "ec2:DescribeImages",
           "ec2:DescribeInstances",
+          "ec2:DescribeVolumes",
           "ec2:RunInstances",
           "ec2:StartInstances",
           "ec2:StopInstances",
