@@ -27,6 +27,7 @@ import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vu
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
+import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
@@ -74,6 +75,7 @@ export default {
     ColorPicker,
     SelectInput,
     AccountHealth,
+    WhatsappManualMigrationDialog,
     Widget,
     AccessToken,
   },
@@ -107,6 +109,7 @@ export default {
       isLoadingHealth: false,
       healthError: null,
       isRegisteringWebhook: false,
+      isTransferringWhatsAppToManual: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
@@ -391,6 +394,25 @@ export default {
         this.healthData.throughput?.level === 'NOT_APPLICABLE'
       );
     },
+    showWhatsAppManualMigration() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        this.isEmbeddedSignupWhatsApp &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
+        )
+      );
+    },
+    whatsappManualMigrationBannerCopy() {
+      return {
+        title: 'WhatsApp setup action required',
+        description:
+          'Meta restrictions are affecting WhatsApp setup and management features. Reconnect this inbox manually to keep your WhatsApp configuration up to date.',
+        start: 'Start manual migration',
+        guide: 'View guide',
+      };
+    },
     widgetBuilderStorageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
@@ -402,6 +424,7 @@ export default {
         if (inboxChanged) {
           this.syncInboxData();
           this.setTabFromRouteParam();
+          this.openWhatsAppManualMigrationIfRequested();
         }
       }
     },
@@ -412,6 +435,7 @@ export default {
           this.fetchHealthData();
           this.$nextTick(() => {
             this.setTabFromRouteParam();
+            this.openWhatsAppManualMigrationIfRequested();
           });
         } else {
           this.selectedFeatureFlags = newInbox?.selected_feature_flags || [];
@@ -422,8 +446,52 @@ export default {
   },
   mounted() {
     this.fetchSharedData();
+    this.openWhatsAppManualMigrationIfRequested();
   },
   methods: {
+    openWhatsAppManualMigrationDialog() {
+      this.$refs.whatsappManualMigrationDialog?.open();
+    },
+    openWhatsAppManualMigrationIfRequested() {
+      if (
+        this.showWhatsAppManualMigration &&
+        this.$route.query.migration === 'whatsapp_manual'
+      ) {
+        this.$nextTick(() => {
+          this.openWhatsAppManualMigrationDialog();
+        });
+      }
+    },
+    async transferWhatsAppToManualSetup(form) {
+      this.isTransferringWhatsAppToManual = true;
+      try {
+        const providerConfig = { ...(this.inbox.provider_config || {}) };
+        delete providerConfig.source;
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...providerConfig,
+              phone_number_id: form.phoneNumberId,
+              business_account_id: form.wabaId,
+              api_key: form.accessToken,
+            },
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_SUCCESS')
+        );
+        this.$refs.whatsappManualMigrationDialog?.close();
+      } catch (error) {
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_ERROR')
+        );
+      } finally {
+        this.isTransferringWhatsAppToManual = false;
+      }
+    },
     async copyWebhookSecret(value) {
       await copyTextToClipboard(value);
       useAlert(
@@ -737,6 +805,39 @@ export default {
           class="mx-6 mb-4"
           :class="bannerMaxWidth"
         />
+        <div
+          v-if="showWhatsAppManualMigration"
+          class="mx-6 mb-6"
+          :class="bannerMaxWidth"
+        >
+          <div
+            class="flex flex-col gap-4 p-4 border rounded-xl border-n-weak bg-n-alpha-2 md:flex-row md:items-center md:justify-between"
+          >
+            <div class="flex items-start min-w-0 gap-3">
+              <span
+                class="grid flex-shrink-0 rounded-lg size-8 place-content-center bg-n-amber-3 text-n-amber-11"
+              >
+                <span class="i-lucide-triangle-alert size-4" />
+              </span>
+              <div class="min-w-0">
+                <h3 class="m-0 text-sm font-medium text-n-slate-12">
+                  {{ whatsappManualMigrationBannerCopy.title }}
+                </h3>
+                <p class="mt-1 mb-0 text-sm text-n-slate-11">
+                  {{ whatsappManualMigrationBannerCopy.description }}
+                </p>
+              </div>
+            </div>
+            <div class="flex items-center flex-shrink-0 gap-2">
+              <NextButton size="sm" @click="openWhatsAppManualMigrationDialog">
+                {{ whatsappManualMigrationBannerCopy.start }}
+              </NextButton>
+              <NextButton size="sm" variant="ghost" color="slate">
+                {{ whatsappManualMigrationBannerCopy.guide }}
+              </NextButton>
+            </div>
+          </div>
+        </div>
 
         <div
           v-if="selectedTabKey === 'inbox-settings'"
@@ -1305,6 +1406,13 @@ export default {
             @register-webhook="registerWebhook"
           />
         </div>
+        <WhatsappManualMigrationDialog
+          v-if="showWhatsAppManualMigration"
+          ref="whatsappManualMigrationDialog"
+          :inbox="inbox"
+          :is-loading="isTransferringWhatsAppToManual"
+          @reconnect="transferWhatsAppToManualSetup"
+        />
       </div>
     </section>
   </div>
