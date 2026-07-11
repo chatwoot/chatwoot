@@ -396,6 +396,10 @@ const contextMenuEnabledOptions = computed(() => {
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
       !isFailedOrProcessing,
+    privateNote:
+      !props.private && !isFailedOrProcessing && !isMessageDeleted.value,
+    createTask:
+      !props.private && !isFailedOrProcessing && !isMessageDeleted.value,
     report:
       isOnChatwootCloud.value &&
       isCaptainMessage.value &&

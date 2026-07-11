@@ -1,0 +1,145 @@
+{
+  "INTERNAL_TASKS": {
+    "PANEL": {
+      "TITLE": "Tareas internas",
+      "NEW": "Nueva tarea",
+      "EMPTY": "No hay tareas abiertas en esta conversación.",
+      "CREATE_FIRST": "Crear primera tarea",
+      "OPEN_COUNT": "{count} abiertas",
+      "UNASSIGNED": "Sin asignar"
+    },
+    "FORM": {
+      "DIALOG_TITLE": "Crear tarea interna",
+      "DIALOG_DESCRIPTION": "Elige una plantilla o empieza desde cero. La tarea queda vinculada a esta conversación.",
+      "SELECT_TEMPLATE": "¿Qué hay que hacer?",
+      "OTHER": "Tarea personalizada",
+      "BACK": "Cambiar plantilla",
+      "TITLE": "Título de la tarea",
+      "DESCRIPTION": "Notas (opcional)",
+      "ANCHORED_MESSAGE": "Mensaje vinculado",
+      "TEAM": "Equipo",
+      "AGENT": "Agente",
+      "SELECT_AGENT": "Seleccionar un agente",
+      "ASSIGNMENT_LABEL": "¿Quién debe atenderla?",
+      "ASSIGNMENT_TEAM": "Equipo",
+      "ASSIGNMENT_AGENT": "Agente",
+      "ASSIGNMENT_OPEN": "Cola abierta",
+      "ASSIGNMENT_TEAM_HINT": "Cualquier miembro del equipo puede reclamarla y trabajarla.",
+      "ASSIGNMENT_AGENT_HINT": "La tarea va directo a este agente, sin paso de reclamar.",
+      "ASSIGNMENT_OPEN_HINT": "Sin equipo ni agente: visible en Sin asignar para que cualquiera la tome.",
+      "NO_TEAM": "Sin equipo",
+      "ALL_TEAMS": "Todos los equipos",
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear tarea"
+    },
+    "ACTIONS": {
+      "CLAIM": "Reclamar",
+      "ASSIGN_TO_ME": "Asignarme",
+      "START": "Iniciar",
+      "COMPLETE": "Completar"
+    },
+    "STATUS": {
+      "PENDING": "Pendiente",
+      "IN_PROGRESS": "En progreso",
+      "BLOCKED": "Bloqueada",
+      "WAITING_EXTERNAL": "Esperando externo",
+      "COMPLETED": "Completada",
+      "CANCELLED": "Cancelada"
+    },
+    "PRIORITY": {
+      "NORMAL": "Normal",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
+    },
+    "PROCESS": {
+      "CREATED": "Creada",
+      "CLAIMED": "Reclamada",
+      "WORKING": "En progreso",
+      "DONE": "Hecha"
+    },
+    "TABS": {
+      "TASK": "Tarea",
+      "CONVERSATION": "Conversación",
+      "CONVERSATION_EMPTY": "Sin conversación vinculada"
+    },
+    "ACTIVITY": {
+      "TITLE": "Actividad",
+      "EMPTY": "Aún no hay actividad.",
+      "EVENTS": {
+        "CREATED": "Tarea creada",
+        "CLAIMED": "Tarea reclamada",
+        "ASSIGNED": "Asignación actualizada",
+        "TEAM_CHANGED": "Equipo actualizado",
+        "STATUS_CHANGED": "Estado cambiado",
+        "COMPLETED": "Tarea completada",
+        "CANCELLED": "Tarea cancelada",
+        "COMMENT": "Nota añadida",
+        "METADATA_UPDATED": "Detalles actualizados"
+      }
+    },
+    "NOTES": {
+      "TITLE": "Notas",
+      "EMPTY": "Aún no hay notas en esta tarea.",
+      "PLACEHOLDER": "Escribe una nota para el equipo…",
+      "ADD": "Añadir nota",
+      "SUCCESS": "Nota añadida"
+    },
+    "REASSIGN": {
+      "TITLE": "Reasignar",
+      "TOGGLE": "Reasignar",
+      "SAVE": "Guardar asignación",
+      "SUCCESS": "Asignación actualizada",
+      "ASSIGNED_AGENT": "Asignada a"
+    },
+    "FILTER": {
+      "TEAM_TOOLTIP": "Filtrar por equipo",
+      "CLEAR_TEAM": "Quitar filtro de equipo",
+      "STATUS_TOOLTIP": "Filtrar por estado",
+      "STATUS_LABEL": "Estado",
+      "STATUS_OPEN": "Abiertas",
+      "STATUS_COMPLETED": "Completadas",
+      "STATUS_ALL": "Todas"
+    },
+    "VIEW": {
+      "LIST": "Vista lista",
+      "KANBAN": "Vista tablero"
+    },
+    "KANBAN": {
+      "TITLE": "Tablero de tareas",
+      "SUBTITLE": "Trabajo abierto y completado entre conversaciones",
+      "EMPTY_COLUMN": "Sin tareas aquí",
+      "COLUMNS": {
+        "UNASSIGNED": "Sin asignar",
+        "PENDING": "Pendientes",
+        "IN_PROGRESS": "En progreso",
+        "COMPLETED": "Completadas"
+      }
+    },
+    "INBOX": {
+      "TITLE": "Tareas",
+      "SUBTITLE": "Colas de trabajo entre conversaciones",
+      "MINE": "Mías",
+      "ALL": "Todas",
+      "TEAM": "Cola del equipo",
+      "UNCLAIMED": "Sin asignar",
+      "REFRESH": "Actualizar",
+      "EMPTY_TITLE": "Cola vacía",
+      "EMPTY": "No hay tareas con este filtro.",
+      "SELECT_TASK_TITLE": "Selecciona una tarea",
+      "SELECT_TASK": "Elige una tarea de la lista para ver detalles y la conversación vinculada.",
+      "TASK_DETAIL": "Tarea",
+      "SHOW_DETAILS": "Detalles",
+      "HIDE_DETAILS": "Ocultar",
+      "ANCHORED_MESSAGE": "Mensaje vinculado",
+      "JUMP_TO_MESSAGE": "Ir al mensaje",
+      "CONVERSATION": "Conversación",
+      "CONVERSATION_THREAD": "Conversación",
+      "UNKNOWN_CONTACT": "Contacto desconocido",
+      "OPEN_CONVERSATION": "Abrir conversación",
+      "BACK_TO_LIST": "Volver a tareas",
+      "CREATED_BY": "Creada por",
+      "CREATED_AT": "Creada",
+      "DUE_AT": "Vence"
+    }
+  }
+}

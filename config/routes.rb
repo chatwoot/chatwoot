@@ -121,6 +121,15 @@ Rails.application.routes.draw do
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
           end
+          resources :task_templates, only: [:index, :create, :show, :update, :destroy]
+          resources :internal_tasks, only: [:index, :show, :update, :destroy] do
+            member do
+              post :claim
+              post :start
+              post :complete
+              post :comment
+            end
+          end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
           resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
@@ -153,6 +162,8 @@ Rails.application.routes.draw do
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
+              resources :internal_tasks, only: [:index, :create]
+              resource :timeline, only: [:show]
             end
             member do
               post :mute

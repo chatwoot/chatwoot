@@ -526,6 +526,10 @@ export default {
 
     this.fetchAndSetReplyTo();
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.onReplyToMessage);
+    emitter.on(
+      BUS_EVENTS.START_PRIVATE_NOTE_ON_MESSAGE,
+      this.onStartPrivateNoteOnMessage
+    );
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
@@ -541,6 +545,10 @@ export default {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.onReplyToMessage);
+    emitter.off(
+      BUS_EVENTS.START_PRIVATE_NOTE_ON_MESSAGE,
+      this.onStartPrivateNoteOnMessage
+    );
     emitter.off(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, this.addIntoEditor);
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
@@ -1247,6 +1255,13 @@ export default {
           this.messageEditor?.focusEditorInputField(pos);
         });
       }
+    },
+    onStartPrivateNoteOnMessage() {
+      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
+      this.fetchAndSetReplyTo();
+      this.$nextTick(() => {
+        this.messageEditor?.focusEditorInputField('end');
+      });
     },
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;

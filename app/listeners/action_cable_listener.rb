@@ -69,6 +69,22 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
+  def internal_task_created(event)
+    internal_task, account = extract_internal_task_and_account(event)
+    internal_task = load_internal_task_for_broadcast(internal_task.id)
+    tokens = user_tokens(account, account.agents)
+
+    broadcast(account, tokens, INTERNAL_TASK_CREATED, internal_task: internal_task.push_event_data)
+  end
+
+  def internal_task_updated(event)
+    internal_task, account = extract_internal_task_and_account(event)
+    internal_task = load_internal_task_for_broadcast(internal_task.id, include_events: true)
+    tokens = user_tokens(account, account.agents)
+
+    broadcast(account, tokens, INTERNAL_TASK_UPDATED, internal_task: internal_task.push_event_data(include_events: true))
+  end
+
   def conversation_read(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
@@ -217,6 +233,12 @@ class ActionCableListener < BaseListener
     contact = contact_inbox.contact
 
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+  end
+
+  def load_internal_task_for_broadcast(task_id, include_events: false)
+    includes = [:created_by, :assigned_to, :team, :task_template, { conversation: :contact }]
+    includes << { events: :user } if include_events
+    InternalTask.includes(includes).find(task_id)
   end
 
   def broadcast(account, tokens, event_name, data)

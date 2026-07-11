@@ -29,6 +29,11 @@ class BaseListener
     [inbox, inbox.account]
   end
 
+  def extract_internal_task_and_account(event)
+    internal_task = event.data[:internal_task]
+    [internal_task, internal_task.account]
+  end
+
   def extract_changed_attributes(event)
     changed_attributes = event.data[:changed_attributes]
 

@@ -216,6 +216,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('internalTasks/fetchTabCounts');
 });
 
 watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
@@ -323,6 +324,16 @@ const menuItems = computed(() => {
       activeOn: ['inbox_view', 'inbox_view_conversation'],
       getterKeys: {
         count: 'notifications/getUnreadCount',
+      },
+    },
+    {
+      name: 'Tasks',
+      label: t('SIDEBAR.TASKS'),
+      icon: 'i-lucide-list-checks',
+      to: accountScopedRoute('tasks_dashboard_index'),
+      activeOn: ['tasks_dashboard_index'],
+      getterKeys: {
+        count: 'internalTasks/getMyOpenTaskCount',
       },
     },
     {

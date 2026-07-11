@@ -31,6 +31,11 @@ export const conversationUrl = ({
   return url;
 };
 
+export const taskUrl = ({ accountId, taskId }) =>
+  `accounts/${accountId}/tasks/${taskId}`;
+
+export const taskListPageURL = ({ accountId }) => `accounts/${accountId}/tasks`;
+
 export const conversationListPageURL = ({
   accountId,
   conversationType = '',

@@ -61,4 +61,8 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # internal task events
+  INTERNAL_TASK_CREATED = 'internal_task.created'
+  INTERNAL_TASK_UPDATED = 'internal_task.updated'
 end

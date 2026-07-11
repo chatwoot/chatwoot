@@ -24,6 +24,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import ConversationTasksPanel from 'dashboard/components-next/InternalTasks/ConversationTasksPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -92,7 +93,10 @@ const channelType = computed(() => currentChat.value.meta?.channel);
 const contactId = computed(() => currentChat.value.meta?.sender?.id);
 const contact = useFunctionGetter('contacts/getContactById', contactId);
 const contactAdditionalAttributes = computed(
-  () => contact.value.additional_attributes || {}
+  () =>
+    contact.value.additionalAttributes ||
+    contact.value.additional_attributes ||
+    {}
 );
 
 const getContactDetails = () => {
@@ -295,6 +299,18 @@ onMounted(() => {
               "
             >
               <ContactNotes :contact-id="contactId" />
+            </AccordionItem>
+          </div>
+          <div v-else-if="element.name === 'internal_tasks'">
+            <AccordionItem
+              :title="$t('CONVERSATION_SIDEBAR.ACCORDION.INTERNAL_TASKS')"
+              :is-open="isContactSidebarItemOpen('is_internal_tasks_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_internal_tasks_open', value)
+              "
+            >
+              <ConversationTasksPanel :conversation-id="conversationId" />
             </AccordionItem>
           </div>
           <div v-else-if="element.name === 'shared_files'">

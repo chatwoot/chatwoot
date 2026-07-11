@@ -66,29 +66,57 @@ export default {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
     additionalAttributes() {
-      return this.contact.additional_attributes || {};
+      return (
+        this.contact.additionalAttributes ||
+        this.contact.additional_attributes ||
+        {}
+      );
+    },
+    phoneNumber() {
+      const phone = this.contact.phoneNumber || this.contact.phone_number || '';
+      if (phone) return phone;
+
+      const sender = this.currentChat?.meta?.sender || {};
+      return (
+        sender.phone_number ||
+        sender.phoneNumber ||
+        this.contact.identifier ||
+        ''
+      );
     },
     location() {
       const {
         country = '',
         city = '',
-        country_code: countryCode,
+        country_code: countryCodeSnake,
+        countryCode,
       } = this.additionalAttributes;
+      const resolvedCountryCode = countryCodeSnake || countryCode;
       const cityAndCountry = [city, country].filter(item => !!item).join(', ');
 
       if (!cityAndCountry) {
         return '';
       }
-      return this.findCountryFlag(countryCode, cityAndCountry);
+      return this.findCountryFlag(resolvedCountryCode, cityAndCountry);
     },
     socialProfiles() {
       const {
-        social_profiles: socialProfiles,
-        screen_name: twitterScreenName,
-        social_telegram_user_name: telegramUsername,
+        social_profiles: socialProfilesSnake,
+        socialProfiles: socialProfilesCamel,
+        screen_name: twitterScreenNameSnake,
+        screenName: twitterScreenNameCamel,
+        social_telegram_user_name: telegramUsernameSnake,
+        socialTelegramUserName: telegramUsernameCamel,
       } = this.additionalAttributes;
+      const socialProfiles = socialProfilesCamel || socialProfilesSnake || {};
+      const twitterScreenName =
+        twitterScreenNameCamel || twitterScreenNameSnake;
 
-      const telegram = socialProfiles?.telegram || telegramUsername || '';
+      const telegram =
+        socialProfiles.telegram ||
+        telegramUsernameCamel ||
+        telegramUsernameSnake ||
+        '';
       const twitter = socialProfiles?.twitter || twitterScreenName || '';
 
       return {
@@ -253,8 +281,8 @@ export default {
             @update="value => onFieldUpdate('email', value)"
           />
           <ContactInfoRow
-            :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
-            :value="contact.phone_number"
+            :href="phoneNumber ? `tel:${phoneNumber}` : ''"
+            :value="phoneNumber"
             icon="call"
             emoji="📞"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
@@ -314,7 +342,7 @@ export default {
           </template>
         </ComposeConversation>
         <VoiceCallButton
-          :phone="contact.phone_number"
+          :phone="phoneNumber"
           :contact-id="contact.id"
           :conversation-id="currentChat?.id"
           icon="i-lucide-phone"
