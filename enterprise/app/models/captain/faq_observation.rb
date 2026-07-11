@@ -5,6 +5,7 @@
 #  id                 :bigint           not null, primary key
 #  generated_answer   :text             not null
 #  generated_question :string           not null
+#  language           :string           default("en"), not null
 #  status             :integer          default("attached"), not null
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
@@ -19,6 +20,6 @@ class Captain::FaqObservation < ApplicationRecord
 
   enum status: { attached: 0, discarded: 1 }
 
-  validates :generated_question, :generated_answer, presence: true
+  validates :generated_question, :generated_answer, :language, presence: true
   validates :faq_suggestion, presence: true, if: :attached?
 end

@@ -397,6 +397,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.bigint "faq_suggestion_id"
     t.string "generated_question", null: false
     t.text "generated_answer", null: false
+    t.string "language", default: "en", null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -411,12 +412,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.vector "embedding", limit: 1536
     t.bigint "assistant_id", null: false
     t.bigint "account_id", null: false
+    t.string "language", default: "en", null: false
     t.integer "source_count", default: 0, null: false
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
-    t.index ["assistant_id", "status"], name: "index_captain_faq_suggestions_on_assistant_id_and_status"
+    t.index ["assistant_id", "status", "language"], name: "idx_captain_faq_suggestions_on_assistant_status_language"
     t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
     t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end

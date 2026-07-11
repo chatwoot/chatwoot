@@ -5,6 +5,7 @@
 #  id           :bigint           not null, primary key
 #  answer       :text             not null
 #  embedding    :vector(1536)
+#  language     :string           default("en"), not null
 #  question     :string           not null
 #  source_count :integer          default(0), not null
 #  status       :integer          default("open"), not null
@@ -26,12 +27,13 @@ class Captain::FaqSuggestion < ApplicationRecord
 
   enum status: { open: 0, approved: 1, dismissed: 2 }
 
-  validates :question, :answer, presence: true
+  validates :question, :answer, :language, presence: true
 
   before_validation :ensure_account
   after_commit :update_embedding
 
   scope :ordered, -> { order(source_count: :desc, updated_at: :desc) }
+  scope :by_language, ->(language) { where(language: language) }
 
   private
 

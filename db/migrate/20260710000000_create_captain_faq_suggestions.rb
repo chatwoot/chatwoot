@@ -13,13 +13,15 @@ class CreateCaptainFaqSuggestions < ActiveRecord::Migration[7.1]
       t.vector :embedding, limit: 1536
       t.references :assistant, null: false, index: true
       t.references :account, null: false, index: true
+      t.string :language, null: false, default: 'en'
       t.integer :source_count, null: false, default: 0
       t.integer :status, null: false, default: 0
 
       t.timestamps
     end
 
-    add_index :captain_faq_suggestions, [:assistant_id, :status]
+    add_index :captain_faq_suggestions, [:assistant_id, :status, :language],
+              name: 'idx_captain_faq_suggestions_on_assistant_status_language'
     add_index :captain_faq_suggestions, :embedding, using: :ivfflat,
                                                     name: 'vector_idx_captain_faq_suggestions_embedding',
                                                     opclass: :vector_cosine_ops
@@ -31,6 +33,7 @@ class CreateCaptainFaqSuggestions < ActiveRecord::Migration[7.1]
       t.references :faq_suggestion, index: true
       t.string :generated_question, null: false
       t.text :generated_answer, null: false
+      t.string :language, null: false, default: 'en'
       t.integer :status, null: false, default: 0
 
       t.timestamps
