@@ -74,20 +74,16 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def route_candidate(faq)
     embedding = embedding_service.get_embedding(candidate_text(faq))
 
-    if matching_record(assistant.responses.approved, faq, embedding)
-      return Captain::FaqObservation.create!(
-        conversation: conversation,
-        generated_question: faq.fetch('question'),
-        generated_answer: faq.fetch('answer'),
-        status: :discarded
-      )
+    if matching_record(approved_faqs_for_language, faq, embedding)
+      return discard_observation(faq)
     end
 
-    suggestion = matching_record(assistant.faq_suggestions.open, faq, embedding)
+    suggestion = matching_record(open_suggestions_for_language, faq, embedding)
     suggestion ||= assistant.faq_suggestions.create!(
       question: faq.fetch('question'),
       answer: faq.fetch('answer'),
-      embedding: embedding
+      embedding: embedding,
+      language: faq_language
     )
 
     attach_observation(suggestion, faq)
@@ -137,11 +133,32 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
         conversation: conversation,
         generated_question: faq.fetch('question'),
         generated_answer: faq.fetch('answer'),
+        language: faq_language,
         status: :attached
       )
-      suggestion.update!(source_count: suggestion.source_count + 1)
+      suggestion.update!(source_count: suggestion.observations.attached.count)
       observation
     end
+  end
+
+  def discard_observation(faq)
+    Captain::FaqObservation.find_or_create_by!(
+      conversation: conversation,
+      generated_question: faq.fetch('question'),
+      generated_answer: faq.fetch('answer'),
+      language: faq_language,
+      status: :discarded
+    )
+  end
+
+  def open_suggestions_for_language
+    assistant.faq_suggestions.open.by_language(faq_language)
+  end
+
+  def approved_faqs_for_language
+    return assistant.responses.approved if faq_language == account_language
+
+    assistant.responses.none
   end
 
   def candidate_text(faq)
@@ -173,7 +190,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
         { role: 'system', content: system_prompt },
         { role: 'user', content: content }
       ],
-      metadata: { assistant_id: assistant.id }
+      metadata: { assistant_id: assistant.id, language: faq_language }
     }
   end
 
@@ -189,13 +206,28 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
         { role: 'system', content: prompt },
         { role: 'user', content: comparison.to_json }
       ],
-      metadata: { assistant_id: assistant.id }
+      metadata: { assistant_id: assistant.id, language: faq_language }
     }
   end
 
   def system_prompt
-    account_language = conversation.account.locale_english_name
-    Captain::Llm::ConversationFaqPromptsService.generator(account_language)
+    Captain::Llm::ConversationFaqPromptsService.generator(language_name(faq_language))
+  end
+
+  def faq_language
+    @faq_language ||= normalize_language(conversation.language.presence || conversation.account.locale.presence || I18n.default_locale.to_s)
+  end
+
+  def account_language
+    @account_language ||= normalize_language(conversation.account.locale.presence || I18n.default_locale.to_s)
+  end
+
+  def normalize_language(language)
+    language.to_s.tr('-', '_')
+  end
+
+  def language_name(language)
+    ISO_639.find(language.split('_').first)&.english_name&.downcase || 'english'
   end
 
   def parse_generation_response(response)
