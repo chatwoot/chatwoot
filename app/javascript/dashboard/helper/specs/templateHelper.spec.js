@@ -1,6 +1,7 @@
 import {
   replaceTemplateVariables,
   buildTemplateParameters,
+  buildTemplateButtonsSnapshot,
   processVariable,
   allKeysRequired,
 } from '../templateHelper';
@@ -30,6 +31,57 @@ describe('templateHelper', () => {
 
     it('should return true for empty object', () => {
       expect(allKeysRequired({})).toBe(true);
+    });
+  });
+
+  describe('buildTemplateButtonsSnapshot', () => {
+    it('should snapshot URL, phone and quick reply buttons', () => {
+      const template = {
+        components: [
+          {
+            type: 'BUTTONS',
+            buttons: [
+              {
+                type: 'URL',
+                text: 'Track',
+                url: 'https://example.com/{{1}}',
+              },
+              {
+                type: 'PHONE_NUMBER',
+                text: 'Call',
+                phone_number: '+15551212',
+              },
+              { type: 'QUICK_REPLY', text: 'Yes' },
+            ],
+          },
+        ],
+      };
+
+      const result = buildTemplateButtonsSnapshot(template, {
+        buttons: [{ type: 'url', parameter: 'abc123' }],
+      });
+
+      expect(result).toEqual([
+        {
+          type: 'URL',
+          text: 'Track',
+          url: 'https://example.com/abc123',
+        },
+        {
+          type: 'PHONE_NUMBER',
+          text: 'Call',
+          phone_number: '+15551212',
+        },
+        { type: 'QUICK_REPLY', text: 'Yes' },
+      ]);
+    });
+
+    it('should return empty array when template has no buttons', () => {
+      expect(
+        buildTemplateButtonsSnapshot({
+          components: [{ type: 'BODY', text: 'Hi' }],
+        })
+      ).toEqual([]);
     });
   });
 

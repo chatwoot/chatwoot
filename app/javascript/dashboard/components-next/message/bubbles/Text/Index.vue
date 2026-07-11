@@ -36,6 +36,17 @@ const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
 
+const templateButtons = computed(() => {
+  return contentAttributes.value?.templateButtons ?? [];
+});
+
+const buttonHint = button => {
+  if (button.url) return button.url;
+  if (button.phoneNumber) return button.phoneNumber;
+  if (button.copyCode) return button.copyCode;
+  return '';
+};
+
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
@@ -55,6 +66,26 @@ const handleSeeOriginal = () => {
         @toggle="handleSeeOriginal"
       />
       <AttachmentChips :attachments="attachments" class="gap-2" />
+      <div
+        v-if="templateButtons.length"
+        class="flex flex-col gap-1.5 pt-1 border-t border-n-alpha-2"
+      >
+        <div
+          v-for="(button, index) in templateButtons"
+          :key="index"
+          class="flex flex-col gap-0.5 px-2 py-1.5 rounded-lg bg-n-alpha-3"
+        >
+          <span class="text-sm font-medium text-n-blue-11">
+            {{ button.text || button.type }}
+          </span>
+          <span
+            v-if="buttonHint(button)"
+            class="text-xs break-all text-n-slate-11"
+          >
+            {{ buttonHint(button) }}
+          </span>
+        </div>
+      </div>
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"

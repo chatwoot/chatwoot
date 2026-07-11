@@ -151,12 +151,12 @@ export default {
       return this.$store.getters['contacts/getContact'](senderId);
     },
     shouldShowReplyToMessage() {
+      if (!this.inReplyTo?.id || this.copilot.isActive.value) return false;
+      // Private notes are internal — show reply preview without channel REPLY_TO.
+      if (this.isOnPrivateNote) return true;
       return (
-        this.inReplyTo?.id &&
-        !this.isPrivate &&
         this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
-        !this.is360DialogWhatsAppChannel &&
-        !this.copilot.isActive.value
+        !this.is360DialogWhatsAppChannel
       );
     },
     showWhatsappTemplates() {

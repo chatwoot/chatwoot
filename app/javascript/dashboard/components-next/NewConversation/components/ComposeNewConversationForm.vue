@@ -306,12 +306,17 @@ const handleSendMessage = async () => {
   }
 };
 
-const handleSendWhatsappMessage = async ({ message, templateParams }) => {
+const handleSendWhatsappMessage = async ({
+  message,
+  templateParams,
+  contentAttributes,
+}) => {
   const whatsappMessagePayload = prepareWhatsAppMessagePayload({
     targetInbox: props.targetInbox,
     selectedContact: props.selectedContact,
     message,
     templateParams,
+    contentAttributes,
     currentUser: props.currentUser,
   });
   await emit('createConversation', {
@@ -320,12 +325,17 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
   });
 };
 
-const handleSendTwilioMessage = async ({ message, templateParams }) => {
+const handleSendTwilioMessage = async ({
+  message,
+  templateParams,
+  contentAttributes,
+}) => {
   const twilioMessagePayload = prepareWhatsAppMessagePayload({
     targetInbox: props.targetInbox,
     selectedContact: props.selectedContact,
     message,
     templateParams,
+    contentAttributes,
     currentUser: props.currentUser,
   });
   await emit('createConversation', {

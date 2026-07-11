@@ -162,6 +162,13 @@ Resumen:
 Estos fixes viven en commits posteriores al cierre de este PR.
 **Si los mergeas al PR #3, actualiza este doc.**  
 
+### UX follow-ups (sesión reply/templates)
+
+| Item | Archivos | Qué hace |
+|------|----------|----------|
+| Reply preview en nota privada | `ReplyBox.vue` | `shouldShowReplyToMessage` muestra `ReplyToMessage` también en modo nota (sin exigir feature de canal) |
+| Botones de plantilla WA en bubble | `WhatsAppTemplateParser.vue`, `templateHelper.js`, `bubbles/Text/Index.vue` | Al enviar, snapshot `content_attributes.template_buttons`; el bubble del agente lista labels/URL/phone |
+
 ---
 
 ## 6. Related ops docs

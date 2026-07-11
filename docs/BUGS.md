@@ -17,6 +17,8 @@
 | TASK-003 | Media | `app/services/internal_tasks/claim_service.rb` | ✅ Fijado |
 | TASK-004 | Media | `app/models/internal_task.rb` | ✅ Fijado |
 | TASK-005 | Baja | `app/javascript/dashboard/components-next/InternalTasks/TaskDetail.vue` | ✅ Fijado (cleanup) |
+| UX-001 | Media | `ReplyBox.vue` | ✅ Reply preview en notas privadas |
+| UX-002 | Media | `WhatsAppTemplateParser` + `Text/Index.vue` | ✅ Snapshot botones plantilla WA en bubble |
 
 ---
 
@@ -227,6 +229,31 @@ Estos no se arreglaron en esta sesión para mantener el diff mínimo.
 
 ---
 
+## 5b. UX fijados (reply / plantillas WA)
+
+### UX-001 — Preview reply-to oculto en notas privadas
+
+**Archivo:** `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue`
+
+**Problema:** `shouldShowReplyToMessage` exigía `!isPrivate`, así que al abrir nota
+privada desde el menú del mensaje el banner `ReplyToMessage` no se montaba.
+
+**Fix:** si `isOnPrivateNote` y hay `inReplyTo.id`, mostrar el preview (sin exigir
+feature de canal `REPLY_TO`).
+
+### UX-002 — Botones de plantilla WhatsApp no visibles tras enviar
+
+**Archivos:** `WhatsAppTemplateParser.vue`, `helper/templateHelper.js`
+(`buildTemplateButtonsSnapshot`), `bubbles/Text/Index.vue`, compose helpers.
+
+**Problema:** al enviar solo iba el body + `template_params`; los botones llegaban
+a Meta pero no se persistían para la UI del agente.
+
+**Fix:** snapshot `content_attributes.template_buttons` al enviar; el bubble Text
+lista labels + URL/phone/copy-code. Mensajes viejos sin snapshot: sin botones.
+
+---
+
 ## 6. Cómo probar los fixes (smoke test)
 
 ```powershell
@@ -244,6 +271,11 @@ docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml 
 3. `TASK-003`: dos browsers, mismo user_id, click "claim" simultáneamente.
 4. `TASK-004`: intentar crear dependencia cross-account vía API.
 5. `TASK-005`: levantar DevTools, verificar que no hay warning de variable no usada.
+
+**UX (reply / templates):**
+
+6. Menú mensaje → nota privada → el editor debe mostrar el mismo preview de reply-to que un reply público.
+7. Enviar plantilla WhatsApp con botones/URL/phone → bubble del agente muestra body + labels/links resueltos (mensajes viejos sin snapshot: solo body).
 
 ---
 

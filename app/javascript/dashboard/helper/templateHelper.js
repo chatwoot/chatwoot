@@ -94,3 +94,48 @@ export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
 
   return allVariables;
 };
+
+/**
+ * Snapshot of template BUTTONS for agent bubble UI after send.
+ * Resolves dynamic URL / copy-code params from processedParams.buttons.
+ * @returns {{ type: string, text: string, url?: string, phone_number?: string, copy_code?: string }[]}
+ */
+export const buildTemplateButtonsSnapshot = (
+  template,
+  processedParams = {}
+) => {
+  const buttonsComponent = findComponentByType(
+    template,
+    COMPONENT_TYPES.BUTTONS
+  );
+  if (!buttonsComponent?.buttons?.length) return [];
+
+  return buttonsComponent.buttons.map((button, index) => {
+    const snapshot = {
+      type: button.type,
+      text: button.text || '',
+    };
+
+    if (button.type === 'URL' && button.url) {
+      let url = button.url;
+      const buttonParam = processedParams.buttons?.[index];
+      if (buttonParam?.parameter && url.includes('{{')) {
+        url = url.replace(/{{([^}]+)}}/g, buttonParam.parameter);
+      }
+      snapshot.url = url;
+    }
+
+    if (button.type === 'PHONE_NUMBER' && button.phone_number) {
+      snapshot.phone_number = button.phone_number;
+    }
+
+    if (button.type === 'COPY_CODE') {
+      const buttonParam = processedParams.buttons?.[index];
+      if (buttonParam?.parameter) {
+        snapshot.copy_code = buttonParam.parameter;
+      }
+    }
+
+    return snapshot;
+  });
+};
