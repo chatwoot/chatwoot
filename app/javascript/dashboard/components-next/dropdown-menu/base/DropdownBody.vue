@@ -23,16 +23,22 @@ const borderClass = computed(() => {
   return props.strong ? 'border-n-strong' : 'border-n-weak';
 });
 
+// Só tratamos como superfície sólida quando há efetivamente uma cor de marca. Sem cor (ex.: tema
+// escuro, onde o branding é desligado), voltamos ao surface translúcido padrão em vez de cair num
+// azul hardcoded.
+const isSolid = computed(
+  () => props.solidSurface && Boolean(props.solidBackgroundColor)
+);
+
 const surfaceClass = computed(() =>
-  props.solidSurface ? '' : 'bg-n-alpha-3 backdrop-blur-[100px]'
+  isSolid.value ? '' : 'bg-n-alpha-3 backdrop-blur-[100px]'
 );
 
 const surfaceStyle = computed(() => {
-  if (!props.solidSurface) return {};
+  if (!isSolid.value) return {};
 
   return {
-    backgroundColor:
-      props.solidBackgroundColor || 'var(--sidebar-background-color, #0b1e3f)',
+    backgroundColor: props.solidBackgroundColor,
     backgroundImage: 'none',
     backdropFilter: 'none',
     WebkitBackdropFilter: 'none',

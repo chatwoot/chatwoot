@@ -4,6 +4,7 @@ import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useBrandedSidebar } from 'dashboard/composables/useBrandedSidebar';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
@@ -221,9 +222,9 @@ const {
   COLLAPSED_THRESHOLD,
 } = useSidebarResize();
 
-const sidebarBackgroundColor = computed(() =>
-  globalConfig.value?.sidebarBackgroundColor?.trim()
-);
+// Cor de marca efetiva: só no tema claro (ver useBrandedSidebar). No escuro volta vazia, então
+// todo o branding (bg da sidebar, var CSS, classe .sidebar-branded) se desliga automaticamente.
+const { brandedColor: sidebarBackgroundColor } = useBrandedSidebar();
 const hasBrandedSidebar = computed(() => Boolean(sidebarBackgroundColor.value));
 const sidebarStyle = computed(() => ({
   ...(isMobile.value ? {} : { width: `${sidebarWidth.value}px` }),
@@ -1361,7 +1362,7 @@ const menuItems = computed(() => {
 }
 
 :global(.sidebar-branded-dropdown .n-dropdown-body) {
-  background-color: var(--sidebar-background-color, #0b1e3f) !important;
+  background-color: var(--sidebar-background-color) !important;
   background-image: none !important;
   opacity: 1 !important;
   border-color: rgb(255 255 255 / 16%) !important;
@@ -1392,7 +1393,7 @@ const menuItems = computed(() => {
 }
 
 .sidebar-branded .sidebar-footer-fade {
-  background-color: var(--sidebar-background-color, #0b1e3f) !important;
+  background-color: var(--sidebar-background-color) !important;
   background-image: none !important;
 }
 </style>

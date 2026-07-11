@@ -1,6 +1,7 @@
 <script setup>
 import { computed, h } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useBrandedSidebar } from 'dashboard/composables/useBrandedSidebar';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -21,7 +22,6 @@ const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
-const globalConfig = useMapGetter('globalConfig/get');
 
 const { isImpersonating } = useImpersonation();
 
@@ -50,9 +50,8 @@ const activeStatus = computed(() => {
   return availabilityStatuses.value.find(status => status.active);
 });
 
-const sidebarBackgroundColor = computed(
-  () => globalConfig.value?.sidebarBackgroundColor?.trim() || ''
-);
+// Cor de marca efetiva (vazia no tema escuro). Ver dashboard/composables/useBrandedSidebar.
+const { brandedColor: sidebarBackgroundColor } = useBrandedSidebar();
 
 const sidebarDropdownStyle = computed(() =>
   sidebarBackgroundColor.value
@@ -114,9 +113,10 @@ function changeAvailabilityStatus(availability) {
             </Button>
           </template>
           <DropdownBody
-            class="sidebar-branded-dropdown min-w-32 z-20"
+            class="min-w-32 z-20"
+            :class="{ 'sidebar-branded-dropdown': sidebarBackgroundColor }"
             :style="sidebarDropdownStyle"
-            solid-surface
+            :solid-surface="Boolean(sidebarBackgroundColor)"
             :solid-background-color="sidebarBackgroundColor"
           >
             <DropdownItem

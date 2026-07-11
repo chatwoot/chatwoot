@@ -3,6 +3,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import Auth from 'dashboard/api/auth';
 import InviteConnectionAPI from 'dashboard/api/autonomia/inviteConnection';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useBrandedSidebar } from 'dashboard/composables/useBrandedSidebar';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
@@ -148,9 +149,8 @@ const allowedMenuItems = computed(() => {
   return menuItems.value.filter(item => item.show);
 });
 
-const sidebarBackgroundColor = computed(
-  () => globalConfig.value?.sidebarBackgroundColor?.trim() || ''
-);
+// Cor de marca efetiva (vazia no tema escuro). Ver dashboard/composables/useBrandedSidebar.
+const { brandedColor: sidebarBackgroundColor } = useBrandedSidebar();
 
 const sidebarDropdownStyle = computed(() =>
   sidebarBackgroundColor.value
@@ -193,9 +193,10 @@ const sidebarDropdownStyle = computed(() =>
       </button>
     </template>
     <DropdownBody
-      class="sidebar-branded-dropdown bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0"
+      class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0"
+      :class="{ 'sidebar-branded-dropdown': sidebarBackgroundColor }"
       :style="sidebarDropdownStyle"
-      solid-surface
+      :solid-surface="Boolean(sidebarBackgroundColor)"
       :solid-background-color="sidebarBackgroundColor"
     >
       <SidebarProfileMenuStatus />
