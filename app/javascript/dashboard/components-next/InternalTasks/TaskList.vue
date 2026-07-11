@@ -103,6 +103,11 @@ defineExpose({ refreshCounts, refresh });
           {{ $t('INTERNAL_TASKS.INBOX.TITLE') }}
         </h1>
         <span
+          class="px-1.5 py-0.5 my-0.5 mx-1 rounded-md uppercase bg-n-slate-3 text-xxs font-medium text-n-slate-12 shrink-0"
+        >
+          {{ $t('GENERAL.BETA') }}
+        </span>
+        <span
           class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
         >
           {{ statusChipLabel }}

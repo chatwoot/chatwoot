@@ -2,6 +2,11 @@
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { frontendURL, taskUrl } from 'dashboard/helper/URLHelper';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import {
+  taskContactLabel,
+  taskAssigneeLabel,
+} from 'dashboard/helper/internalTaskUi';
 import TaskStatusBadge from './TaskStatusBadge.vue';
 
 const props = defineProps({
@@ -12,18 +17,14 @@ const props = defineProps({
 const route = useRoute();
 const router = useRouter();
 
-const contactLabel = computed(() => {
-  const name = props.task.conversation?.contactName;
-  const id = props.task.conversation?.id;
-  if (!name && !id) return '';
-  return id ? `${name || '—'} · #${id}` : name;
-});
-
-const assigneeLabel = computed(() => {
-  if (props.task.assignedTo?.name) return props.task.assignedTo.name;
-  if (props.task.team?.name) return props.task.team.name;
-  return null;
-});
+const contactLabel = computed(() => taskContactLabel(props.task));
+const assigneeLabel = computed(() => taskAssigneeLabel(props.task));
+const createdAtLabel = computed(() =>
+  props.task.createdAt ? dynamicTime(props.task.createdAt) : null
+);
+const dueAtLabel = computed(() =>
+  props.task.dueAt ? dynamicTime(props.task.dueAt) : null
+);
 
 const onClick = event => {
   const path = frontendURL(
@@ -44,11 +45,11 @@ const onClick = event => {
 <template>
   <button
     type="button"
-    class="w-full text-left rounded-lg border border-n-slate-3 px-2.5 py-2 transition-colors hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
-    :class="isActive ? 'bg-n-background !border-n-surface-1' : ''"
+    class="w-full text-left rounded-lg border border-n-weak bg-n-background px-2.5 py-2 transition-colors hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 shadow-sm"
+    :class="isActive ? 'outline outline-1 outline-n-brand' : ''"
     @click="onClick"
   >
-    <div class="min-w-0 flex flex-col gap-1">
+    <div class="min-w-0 flex flex-col gap-1.5">
       <p class="text-sm font-medium text-n-slate-12 line-clamp-2">
         {{ task.title }}
       </p>
@@ -66,6 +67,17 @@ const onClick = event => {
           class="text-xs text-n-slate-11 truncate max-w-[7rem]"
         >
           {{ assigneeLabel }}
+        </span>
+      </div>
+      <div
+        class="flex items-center justify-between gap-2 text-xxs text-n-slate-11"
+      >
+        <span v-if="dueAtLabel" class="truncate">
+          {{ $t('INTERNAL_TASKS.INBOX.DUE_AT') }} {{ dueAtLabel }}
+        </span>
+        <span v-else />
+        <span v-if="createdAtLabel" class="shrink-0 tabular-nums">
+          {{ createdAtLabel }}
         </span>
       </div>
     </div>

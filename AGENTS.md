@@ -112,6 +112,14 @@ Practical checklist for any change impacting core logic or public APIs
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
 
+## PaluHub — audio alerts & ActionCable (ops)
+
+- Dashboard ding is **not** browser push sound. Agents must enable **Profile → Audio notifications** (`assigned` / `unassigned` / etc.). Default remains `none`.
+- Tone `ding` now initializes `Audio` on first `set()` (previously stayed `null` until tone changed).
+- Incoming contact messages on **pending** (bot) conversations can alert; other pending traffic stays quiet.
+- Presence: client ping **60s**, server `PRESENCE_DURATION` default **90** (set in `.env` / Dokploy). If agents look offline after switching tabs, raise `PRESENCE_DURATION` further.
+- Background tab “disconnect”: ActionCable stale monitor (~6s) + browser timer throttling. On tab visible again we `reopen()` + `ReconnectService` refetch. Infra: ensure Traefik/Cloudflare WS idle ≥ 60–120s; cuts at ~100s → proxy; cuts at ~5–15s → client stale/freeze.
+
 ## PaluHub fork — local Docker workflow
 
 Fork PaluHub (InboxHub). Documentación cruzada: `panel-ai/AGENTS.md`, `panel-ai/docs/ENVIRONMENTS.md`.

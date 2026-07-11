@@ -75,9 +75,16 @@ defineExpose({ refresh });
     <header
       class="flex items-center justify-between gap-3 px-3 h-[3.25rem] border-b border-n-weak shrink-0"
     >
-      <h1 class="text-base font-medium truncate text-n-slate-12">
-        {{ $t('INTERNAL_TASKS.KANBAN.TITLE') }}
-      </h1>
+      <div class="flex items-center gap-2 min-w-0">
+        <h1 class="text-base font-medium truncate text-n-slate-12">
+          {{ $t('INTERNAL_TASKS.KANBAN.TITLE') }}
+        </h1>
+        <span
+          class="px-1.5 py-0.5 rounded-md uppercase bg-n-slate-3 text-xxs font-medium text-n-slate-12 shrink-0"
+        >
+          {{ $t('GENERAL.BETA') }}
+        </span>
+      </div>
       <TaskListTeamFilter v-model="selectedTeamId" />
     </header>
 
@@ -105,7 +112,7 @@ defineExpose({ refresh });
             </span>
           </header>
 
-          <div class="flex-1 min-h-0 overflow-y-auto p-2 flex flex-col gap-2">
+          <div class="flex-1 min-h-0 overflow-y-auto p-2 flex flex-col gap-2.5">
             <p
               v-if="!groupedTasks[column.key].length"
               class="px-2 py-6 text-center text-xs text-n-slate-11"

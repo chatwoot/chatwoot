@@ -332,6 +332,7 @@ const menuItems = computed(() => {
       icon: 'i-lucide-list-checks',
       to: accountScopedRoute('tasks_dashboard_index'),
       activeOn: ['tasks_dashboard_index'],
+      showBeta: true,
       getterKeys: {
         count: 'internalTasks/getMyOpenTaskCount',
       },

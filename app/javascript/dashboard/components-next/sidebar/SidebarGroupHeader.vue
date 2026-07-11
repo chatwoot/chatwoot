@@ -11,6 +11,7 @@ const props = defineProps({
   isExpanded: { type: Boolean, default: false },
   isActive: { type: Boolean, default: false },
   hasActiveChild: { type: Boolean, default: false },
+  showBeta: { type: Boolean, default: false },
   getterKeys: { type: Object, default: () => ({}) },
 });
 
@@ -48,15 +49,23 @@ const count = computed(() =>
     <div
       class="flex items-center gap-1.5 flex-grow justify-between min-w-0 flex-1"
     >
-      <span
-        class="truncate"
-        :class="{
-          'text-body-main': !isActive,
-          'font-medium text-sm': isActive || hasActiveChild,
-        }"
-      >
-        {{ label }}
-      </span>
+      <div class="flex items-center gap-1 min-w-0 flex-1">
+        <span
+          class="truncate"
+          :class="{
+            'text-body-main': !isActive,
+            'font-medium text-sm': isActive || hasActiveChild,
+          }"
+        >
+          {{ label }}
+        </span>
+        <span
+          v-if="showBeta"
+          class="shrink-0 px-1.5 py-0.5 rounded-md bg-n-slate-3 text-xxs font-medium uppercase text-n-slate-12"
+        >
+          {{ $t('GENERAL.BETA') }}
+        </span>
+      </div>
       <span
         v-if="dynamicCount && !expandable"
         class="inline-grid h-5 min-w-5 place-items-center rounded-full bg-n-slate-4 px-1 text-xxs font-medium leading-3 text-n-slate-12 dark:bg-n-slate-5 flex-shrink-0"

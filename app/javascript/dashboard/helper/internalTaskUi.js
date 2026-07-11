@@ -147,6 +147,19 @@ export const processSteps = task => [
   { key: 'done', done: task.status === 'completed', active: false },
 ];
 
+export const taskContactLabel = task => {
+  const name = task?.conversation?.contactName;
+  const id = task?.conversation?.id;
+  if (!name && !id) return '';
+  return id ? `${name || '—'} · #${id}` : name;
+};
+
+export const taskAssigneeLabel = task => {
+  if (task?.assignedTo?.name) return task.assignedTo.name;
+  if (task?.team?.name) return task.team.name;
+  return null;
+};
+
 export const taskListParams = (
   tab,
   teamId = null,
