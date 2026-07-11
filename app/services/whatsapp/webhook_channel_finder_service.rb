@@ -1,6 +1,6 @@
 # Resolves the WhatsApp channel for an inbound WhatsApp Cloud webhook. Meta's
 # display_phone_number can arrive formatted or in a country-specific variant (e.g. Brazil
-# omits the mobile 9, Argentina/Mexico add a digit after the country code), so we try the
+# omits the mobile 9, Argentina adds a digit after the country code), so we try the
 # raw digits first and then a normalized fallback, accepting only a candidate whose
 # phone_number_id matches.
 class Whatsapp::WebhookChannelFinderService
