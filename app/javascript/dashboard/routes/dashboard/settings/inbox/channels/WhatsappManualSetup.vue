@@ -83,14 +83,6 @@ const progressSteps = computed(() =>
   Array.from({ length: TOTAL_STEPS }, (_, index) => index + 1)
 );
 
-const stepLabels = computed(() => [
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.STEPS.1.LABEL'),
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.STEPS.2.LABEL'),
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.STEPS.3.LABEL'),
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.STEPS.4.LABEL'),
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.STEPS.5.LABEL'),
-]);
-
 const appInstructions = computed(() => [
   t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.ITEM_2'),
   t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.ITEM_3'),
@@ -297,43 +289,22 @@ onBeforeUnmount(() => {
     ref="setupRoot"
     class="mx-auto flex w-full max-w-6xl flex-col gap-4 py-2"
   >
-    <div class="flex items-start justify-between gap-4 px-1">
+    <div class="px-1">
       <div class="min-w-0 flex-1">
-        <h1 class="text-2xl font-semibold text-n-slate-12">
+        <h1 class="text-heading-1 text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.TITLE') }}
         </h1>
-        <p class="mt-1 text-sm text-n-slate-11">
+        <p class="mt-1 text-body-main text-n-slate-11">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.DESCRIPTION') }}
         </p>
       </div>
-      <Button
-        :label="$t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.EXIT')"
-        icon="i-lucide-arrow-left"
-        variant="ghost"
-        color="slate"
-        size="sm"
-        @click="returnToProviders"
-      />
     </div>
 
     <div
       class="rounded-2xl border border-n-weak bg-n-background p-5 shadow-sm sm:p-6"
     >
-      <div class="flex flex-col gap-3">
-        <div class="flex items-center justify-between text-sm">
-          <span class="font-medium text-n-slate-12">
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.PROGRESS', {
-                current: currentStep,
-                total: TOTAL_STEPS,
-              })
-            }}
-          </span>
-          <span class="text-n-slate-11">
-            {{ stepLabels[currentStep - 1] }}
-          </span>
-        </div>
-        <div class="grid grid-cols-5 gap-2">
+      <div class="flex justify-end">
+        <div class="grid w-40 grid-cols-5 gap-1.5">
           <div
             v-for="step in progressSteps"
             :key="step"
@@ -350,20 +321,20 @@ onBeforeUnmount(() => {
         {{ errorMessage }}
       </div>
 
-      <section v-if="currentStep === 1" class="mt-6 grid gap-5 lg:grid-cols-2">
+      <section v-if="currentStep === 1" class="mt-3 grid gap-5 lg:grid-cols-2">
         <div class="lg:col-span-2">
-          <h2 class="text-2xl font-semibold text-n-slate-12">
+          <h2 class="text-heading-2 text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.TITLE') }}
           </h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-n-slate-11">
+          <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.DESCRIPTION') }}
           </p>
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
-          <li class="pl-2 text-sm leading-6">
+          <li class="pl-2">
             <I18nT
               keypath="INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.ITEM_1"
               tag="span"
@@ -387,7 +358,7 @@ onBeforeUnmount(() => {
           <li
             v-for="instruction in appInstructions"
             :key="instruction"
-            class="pl-2 text-sm leading-6"
+            class="pl-2"
           >
             {{ instruction }}
           </li>
@@ -438,24 +409,24 @@ onBeforeUnmount(() => {
 
       <section
         v-else-if="currentStep === 2"
-        class="mt-6 grid gap-5 lg:grid-cols-2"
+        class="mt-3 grid gap-5 lg:grid-cols-2"
       >
         <div class="lg:col-span-2">
-          <h2 class="text-2xl font-semibold text-n-slate-12">
+          <h2 class="text-heading-2 text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.TITLE') }}
           </h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-n-slate-11">
+          <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.DESCRIPTION') }}
           </p>
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
           <li
             v-for="instruction in numberInstructions"
             :key="instruction"
-            class="pl-2 text-sm leading-6"
+            class="pl-2"
           >
             {{ instruction }}
           </li>
@@ -545,24 +516,24 @@ onBeforeUnmount(() => {
 
       <section
         v-else-if="currentStep === 3"
-        class="mt-6 grid gap-5 lg:grid-cols-2"
+        class="mt-3 grid gap-5 lg:grid-cols-2"
       >
         <div class="lg:col-span-2">
-          <h2 class="text-2xl font-semibold text-n-slate-12">
+          <h2 class="text-heading-2 text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.TITLE') }}
           </h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-n-slate-11">
+          <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.DESCRIPTION') }}
           </p>
         </div>
 
         <ol
-          class="ml-5 list-decimal space-y-3 text-n-slate-11 marker:font-medium marker:text-n-slate-12"
+          class="ml-5 list-decimal space-y-3 text-body-main text-n-slate-11 marker:font-medium marker:text-n-slate-12"
         >
           <li
             v-for="instruction in tokenInstructions"
             :key="instruction"
-            class="pl-2 text-sm leading-6"
+            class="pl-2"
           >
             {{ instruction }}
           </li>
@@ -664,12 +635,12 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else-if="currentStep === 4" class="mt-6 flex flex-col gap-5">
+      <section v-else-if="currentStep === 4" class="mt-3 flex flex-col gap-5">
         <div>
-          <h2 class="text-2xl font-semibold text-n-slate-12">
+          <h2 class="text-heading-2 text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.REVIEW.TITLE') }}
           </h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-n-slate-11">
+          <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.REVIEW.DESCRIPTION') }}
           </p>
         </div>
@@ -748,12 +719,12 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else class="mt-6 flex flex-col gap-5">
+      <section v-else class="mt-3 flex flex-col gap-5">
         <div>
-          <h2 class="text-2xl font-semibold text-n-slate-12">
+          <h2 class="text-heading-2 text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.TITLE') }}
           </h2>
-          <p class="mt-3 max-w-3xl text-base leading-7 text-n-slate-11">
+          <p class="mt-2 max-w-3xl text-body-main text-n-slate-11">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.DESCRIPTION') }}
           </p>
         </div>

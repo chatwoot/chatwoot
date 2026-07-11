@@ -299,14 +299,6 @@
             "TITLE": "Connect WhatsApp manually",
             "DESCRIPTION": "Follow these steps to prepare your Meta account and connect your number to Chatwoot."
           },
-          "PROGRESS": "Step {current} of {total}",
-          "STEPS": {
-            "1": { "LABEL": "Create Meta app" },
-            "2": { "LABEL": "Add phone number and get IDs" },
-            "3": { "LABEL": "Generate access token" },
-            "4": { "LABEL": "Create inbox" },
-            "5": { "LABEL": "Verify connection" }
-          },
           "APP": {
             "TITLE": "Create or select a Meta app",
             "DESCRIPTION": "Your WhatsApp number must belong to a Meta app with the WhatsApp use case enabled.",
@@ -377,7 +369,6 @@
             "SUCCESS": "Your WhatsApp number is connected and ready for agent assignment."
           },
           "ACTIONS": {
-            "EXIT": "Change provider",
             "BACK": "Back",
             "OPEN_META_APPS": "Open Meta Apps",
             "APP_READY": "My Meta app is ready",
