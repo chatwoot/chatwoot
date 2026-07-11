@@ -49,9 +49,10 @@ const hasDuplicateInstagramInbox = computed(() => {
 });
 
 const shouldShowWhatsAppWebhookDetails = computed(() => {
+  const source = currentInbox.value.provider_config?.source;
   return (
     isAWhatsAppCloudChannel.value &&
-    currentInbox.value.provider_config?.source !== 'embedded_signup'
+    !['embedded_signup', 'manual_setup_v2'].includes(source)
   );
 });
 

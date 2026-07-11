@@ -22,6 +22,14 @@ class Webhooks::WhatsappController < ActionController::API
     token == whatsapp_webhook_verify_token if whatsapp_webhook_verify_token.present?
   end
 
+  def mark_webhook_verified
+    channel = Channel::Whatsapp.find_by(phone_number: params[:phone_number])
+    # The verification callback must not trigger remote provider validation.
+    # rubocop:disable Rails/SkipsModelValidations
+    channel&.update_column(:webhook_verified_at, Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
   def meta_app_secrets
     [
       *channel_meta_app_secrets(whatsapp_channel),

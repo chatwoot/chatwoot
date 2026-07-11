@@ -5,6 +5,7 @@ import { useI18n, I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
+import WhatsappManualSetup from './WhatsappManualSetup.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -71,14 +72,21 @@ const shouldShowCloudWhatsapp = provider => {
   );
 };
 
+const isManualSetup = computed(
+  () =>
+    showConfiguration.value && shouldShowCloudWhatsapp(selectedProvider.value)
+);
+
 const handleManualLinkClick = () => {
   selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
 </script>
 
 <template>
-  <div class="overflow-auto col-span-6 p-6 w-full h-full">
-    <div v-if="showProviderSelection">
+  <div class="col-span-6 w-full h-full min-h-0 overflow-y-auto p-6">
+    <WhatsappManualSetup v-if="isManualSetup" />
+
+    <div v-else-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
@@ -137,9 +145,6 @@ const handleManualLinkClick = () => {
             </I18nT>
           </div>
         </div>
-
-        <!-- Show manual setup -->
-        <CloudWhatsapp v-else-if="shouldShowCloudWhatsapp(selectedProvider)" />
 
         <!-- Other providers -->
         <Twilio
