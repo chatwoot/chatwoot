@@ -39,7 +39,7 @@ const onTaskUpdated = () => {
 };
 
 onBeforeRouteLeave(() => {
-  store.dispatch('clearSelectedState');
+  store.dispatch('internalTasks/clearSelectedState');
 });
 </script>
 

@@ -18,6 +18,7 @@ class InternalTask < ApplicationRecord
   validates :status, inclusion: { in: STATUSES }
   validates :priority, inclusion: { in: PRIORITIES }
   validate :source_message_belongs_to_conversation
+  validate :depends_on_belongs_to_account
 
   before_validation :ensure_account_id
   after_create_commit :record_created_event, :dispatch_created_event
@@ -109,6 +110,12 @@ class InternalTask < ApplicationRecord
     return if source_message_id.blank?
 
     errors.add(:source_message_id, 'must belong to the same conversation') if source_message&.conversation_id != conversation_id
+  end
+
+  def depends_on_belongs_to_account
+    return if depends_on_task_id.blank?
+
+    errors.add(:depends_on_task_id, 'must belong to the same account') if depends_on_task&.account_id != account_id
   end
 
   def record_created_event

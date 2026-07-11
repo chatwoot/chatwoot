@@ -144,6 +144,24 @@ Reconnect data sync still via `ReconnectService` (unchanged contract).
 - Patching ActionCable `staleThreshold` in `node_modules`  
 - Instagram OAuth POST token fix (still pending elsewhere)  
 
+### Bugs encontrados en revisión posterior (no en este PR)
+
+Después de mergear, en sesión de revisión (2026-07-11) se encontraron 5 bugs
+adicionales al scope de este PR. Ver [`docs/BUGS.md`](BUGS.md) para el detalle.
+
+Resumen:
+
+| ID | Archivo | Fix |
+|----|---------|-----|
+| `TASK-001` | `app/services/conversations/timeline_builder.rb` | Notas privadas ya no se filtran a todos (admin/autor/equipo sí ven; resto no) |
+| `TASK-002` | `routes/dashboard/tasks/TaskView.vue` | `clearSelectedState` ahora existe en módulo `internalTasks` |
+| `TASK-003` | `app/services/internal_tasks/claim_service.rb` | Race condition en `claim` ahora devuelve 409 con JSON semántico |
+| `TASK-004` | `app/models/internal_task.rb` | `depends_on_task_id` validado a la misma cuenta |
+| `TASK-005` | `TaskDetail.vue` | Import muerto `currentChat` removido |
+
+Estos fixes viven en commits posteriores al cierre de este PR.
+**Si los mergeas al PR #3, actualiza este doc.**  
+
 ---
 
 ## 6. Related ops docs

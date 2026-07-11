@@ -17,6 +17,7 @@ const SET_SELECTED_TASK = 'SET_SELECTED_TASK';
 const SET_TAB_COUNTS = 'SET_TAB_COUNTS';
 const ADD_CONVERSATION_TASK = 'ADD_CONVERSATION_TASK';
 const UPDATE_TASK = 'UPDATE_TASK';
+const CLEAR_SELECTED_TASK = 'CLEAR_INTERNAL_TASKS_SELECTED';
 
 export const state = {
   conversationRecords: {},
@@ -274,6 +275,10 @@ export const actions = {
       dispatch('fetchTabCounts', { teamId: params.team_id });
     }
   },
+
+  clearSelectedState({ commit }) {
+    commit(CLEAR_SELECTED_TASK);
+  },
 };
 
 export const mutations = {
@@ -294,6 +299,9 @@ export const mutations = {
   },
   [SET_SELECTED_TASK](_state, { data }) {
     _state.selectedTaskRecord = data;
+  },
+  [CLEAR_SELECTED_TASK](_state) {
+    _state.selectedTaskRecord = null;
   },
   [SET_TAB_COUNTS](_state, counts) {
     _state.tabCounts = { ..._state.tabCounts, ...counts };

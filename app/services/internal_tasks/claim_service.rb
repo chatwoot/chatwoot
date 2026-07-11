@@ -3,7 +3,7 @@ class InternalTasks::ClaimService
 
   def perform
     if task.assigned_to_id.present? && task.assigned_to_id != user.id
-      raise StandardError, 'Task already claimed by another user'
+      raise InternalTasks::AlreadyClaimedError, task
     end
 
     task.update!(assigned_to: user, claimed_at: Time.current)

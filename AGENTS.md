@@ -248,30 +248,32 @@ Flujo Chatwoot: Add Inbox → **Facebook** → `FB.login` → `me/accounts` → 
 
 ## Estado Git PaluHub (snapshot)
 
-_Última actualización: 2026-07-06_
+_Última actualización: 2026-07-11_
 
-### chatwoot (este repo) — rama `fix/whatsapp-interactive-menu`
+### chatwoot (este repo) — rama `feat/internal-tasks`
 
 | Campo | Valor |
 |-------|-------|
-| **vs origin** | ahead **1** |
-| **HEAD** | `f29c3ee79` — `refactor(contacts): optimize component logic and improve accessibility` |
-| **Working tree** | dirty (`AGENTS.md` sin commit) |
+| **vs origin** | ahead **1** (PR #3 abierto) |
+| **HEAD** | `42b82557d` — `feat(tasks): add internal tasks inbox with kanban and realtime updates` |
+| **Working tree** | dirty (fixes TASK-001..005 + BUGS.md sin commitear) |
 
 **Historial reciente:**
 
 | Commit | Descripción |
 |--------|-------------|
+| `a6412e00a` | `fix(tasks): improve card separation, beta badge, audio init and presence` |
+| `42b82557d` | `feat(tasks): add internal tasks inbox with kanban and realtime updates` |
 | `f29c3ee79` | contactos UI + accesibilidad |
 | `293007b4f` | WhatsApp interactive action hash |
 | `a0dfeb148` | merge contact-assigned-agent |
-| `a869b9d30` | voice notes OGG/Opus WhatsApp |
 
 **Todas las ramas locales:**
 
 | Rama | HEAD | Notas |
 |------|------|-------|
-| `fix/whatsapp-interactive-menu` | `f29c3ee79` | **activa**, ahead 1 |
+| `feat/internal-tasks` | `42b82557d` | **activa**, PR #3, tiene 5 fixes locales sin commitear (ver `docs/BUGS.md`) |
+| `fix/whatsapp-interactive-menu` | `f29c3ee79` | |
 | `develop` | `293007b4f` | ahead 1 (WhatsApp fix) |
 | `feat/contact-assigned-agent` | `a869b9d30` | merged |
 | `feat/panel-ia-ui-and-assignment` | `6c077363f` | UI header contacto |
@@ -300,3 +302,22 @@ Detalle completo: `panel-ai/AGENTS.md`
 | Refactor UI asistentes | panel-ai | commit + merge cuando estable |
 | Instagram POST fix | chatwoot | implementar en `instagram_concern.rb` |
 | Meta Live / testers clientes | Meta | operativo |
+
+---
+
+## Fixes recientes (trazabilidad)
+
+Sesiones de revisión dejan bitácora en [`docs/BUGS.md`](docs/BUGS.md).
+Cada fix tiene ID, archivo tocado, descripción y cómo probar.
+
+- **`feat/internal-tasks`** — 5 fixes aplicados en revisión de 2026-07-11
+  (IDs `TASK-001`..`TASK-005`). Ver `docs/BUGS.md` para el detalle.
+- Verificar contra [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md)
+  antes de mergear — ese doc lista fixes ya aplicados que **no** se deben revertir.
+
+**Convención al aplicar fixes nuevos:**
+1. Agregar entrada en `docs/BUGS.md` con ID `TASK-NNN` + archivo + descripción + test.
+2. Si el fix toca arquitectura, considerar actualizar `docs/INTERNAL_TASKS_AND_ALERTS.md`
+   o `docs/REFACTOR_STRUCTURAL.md` (panel-ai).
+3. Si el fix es crítico (privacidad, datos), agregar a la tabla de **"Pendiente deploy / merge"**
+   arriba hasta que se promoted a `develop`.

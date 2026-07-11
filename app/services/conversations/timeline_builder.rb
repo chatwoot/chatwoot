@@ -13,7 +13,7 @@ class Conversations::TimelineBuilder
                 .includes(:sender, :attachments)
                 .find_each
                 .map do |message|
-      next if message.private? && !can_view_private_notes?
+      next if message.private? && !can_view_private_notes?(message)
 
       {
         type: 'message',
@@ -48,7 +48,23 @@ class Conversations::TimelineBuilder
     end
   end
 
-  def can_view_private_notes?
-    true
+  # Returns true when the user is allowed to read a given private note on this
+  # conversation. Conservative rules — replace with a dedicated NotePolicy when
+  # one exists in the codebase:
+  # - conversation administrators see every note
+  # - the note's author always sees their own note
+  # - the conversation assignee and team members see notes for context
+  def can_view_private_notes?(message)
+    return false if user.blank?
+    return false if message.account_id != conversation.account_id
+
+    account_user = conversation.account.account_users.find_by(user_id: user.id)
+    return true if account_user&.administrator?
+
+    return true if message.sender_id == user.id
+
+    assigned = conversation.assignee_id == user.id
+    on_team = conversation.team_id.present? && user.teams.exists?(id: conversation.team_id)
+    assigned || on_team
   end
 end

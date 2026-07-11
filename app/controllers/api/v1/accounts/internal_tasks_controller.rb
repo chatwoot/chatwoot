@@ -1,4 +1,5 @@
 class Api::V1::Accounts::InternalTasksController < Api::V1::Accounts::BaseController
+  rescue_from InternalTasks::AlreadyClaimedError, with: :render_already_claimed
   before_action :internal_task, except: [:index]
 
   def index
@@ -62,6 +63,14 @@ class Api::V1::Accounts::InternalTasksController < Api::V1::Accounts::BaseContro
   end
 
   private
+
+  def render_already_claimed(error)
+    render json: {
+      error: 'task_already_claimed',
+      message: I18n.t('tasks.errors.already_claimed', default: 'Task already claimed by another user'),
+      task_id: error.task.id
+    }, status: :conflict
+  end
 
   def internal_task
     @internal_task = policy_scope(InternalTask)
