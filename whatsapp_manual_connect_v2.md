@@ -102,7 +102,7 @@ Inbox naming:
 - Allow the administrator to edit the inbox name here.
 - Do not introduce a separate `WhatsApp number name` field.
 
-Primary action: `Connect number`.
+Primary action: `Create inbox`.
 
 ### Step 5: Verify Connection
 
@@ -256,16 +256,9 @@ Return:
 - Required subscribed fields configured.
 - Last setup error in a sanitized form, if available.
 
-## Recording Webhook Verification
+## Checking Webhook Verification
 
-Add `webhook_verified_at` to `channel_whatsapp`.
-
-When `Webhooks::WhatsappController#verify` receives the correct verify token:
-
-1. Return Meta's challenge as it does today.
-2. Record `webhook_verified_at` for the matched channel without triggering remote provider validation.
-
-The connection screen should not mark the callback as verified until this timestamp is present. A successful outbound Graph API call by itself is not enough evidence that Meta reached the Chatwoot endpoint.
+Do not persist additional webhook verification state. Read the phone-level webhook configuration from Meta and compare its callback URL with the URL generated for the inbox.
 
 Use the existing WABA subscription and phone-level callback APIs rather than asking the user to configure the callback manually in the normal path.
 
@@ -293,7 +286,6 @@ Expected files or responsibilities:
 - Reuse `Whatsapp::WebhookSetupService` for the actual subscription and callback override.
 - Extend `Whatsapp::FacebookApiClient` for paginated phone lookup and webhook-status reads where required.
 - Add account-scoped routes.
-- Add `webhook_verified_at` to the WhatsApp channel schema.
 - Check Enterprise overlays for affected controllers, serializers, routes, and inbox behavior before editing shared code.
 
 ## Out Of Scope

@@ -304,7 +304,7 @@
             "1": { "LABEL": "Create Meta app" },
             "2": { "LABEL": "Add phone number and get IDs" },
             "3": { "LABEL": "Generate access token" },
-            "4": { "LABEL": "Review and connect" },
+            "4": { "LABEL": "Create inbox" },
             "5": { "LABEL": "Verify connection" }
           },
           "APP": {
@@ -346,18 +346,15 @@
           "DETAILS": {
             "WABA_LABEL": "WhatsApp Business Account ID",
             "WABA_PLACEHOLDER": "Enter WABA ID",
-            "WABA_HELP": "Copy this from the API Setup page in your Meta app.",
             "PHONE_ID_LABEL": "Phone Number ID",
             "PHONE_ID_PLACEHOLDER": "Enter Phone Number ID",
-            "PHONE_ID_HELP": "Copy the ID shown beside your production phone number in Meta.",
             "TOKEN_LABEL": "Permanent access token",
-            "TOKEN_PLACEHOLDER": "Paste access token",
-            "TOKEN_HELP": "Use a permanent system-user token with WhatsApp messaging and management permissions."
+            "TOKEN_PLACEHOLDER": "Paste access token"
           },
           "REVIEW": {
-            "TITLE": "Review and connect your number",
-            "DESCRIPTION": "These details were retrieved directly from Meta.",
-            "VERIFIED": "The number and token were verified with Meta.",
+            "TITLE": "Create your WhatsApp inbox",
+            "DESCRIPTION": "Review the number details and choose a name for the inbox.",
+            "VERIFIED": "Your Meta number and access token are valid.",
             "BUSINESS_NAME": "Business name",
             "PHONE_NUMBER": "Phone number",
             "PHONE_ID": "Phone Number ID",
@@ -389,7 +386,7 @@
             "SHOW_TOKEN": "Show token",
             "HIDE_TOKEN": "Hide token",
             "VERIFY_DETAILS": "Verify details",
-            "CONNECT": "Connect number",
+            "CONNECT": "Create inbox",
             "RETRY_WEBHOOK": "Retry webhook setup",
             "CONTINUE": "Continue to add agents"
           },

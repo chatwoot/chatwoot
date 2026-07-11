@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onBeforeUnmount, reactive, ref } from 'vue';
+import { computed, nextTick, onBeforeUnmount, reactive, ref } from 'vue';
 import { I18nT, useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
@@ -41,6 +41,7 @@ const errorMessage = ref('');
 const inboxId = ref(null);
 const pollTimer = ref(null);
 const showAccessToken = ref(false);
+const setupRoot = ref(null);
 
 const form = reactive({
   wabaId: '',
@@ -147,6 +148,7 @@ const apiErrorMessage = error =>
 const setStep = step => {
   errorMessage.value = '';
   currentStep.value = step;
+  nextTick(() => setupRoot.value?.scrollIntoView({ block: 'start' }));
 };
 
 const returnToProviders = () => {
@@ -291,9 +293,12 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 py-2">
-    <div class="flex flex-wrap items-start justify-between gap-4 px-1">
-      <div class="max-w-3xl">
+  <div
+    ref="setupRoot"
+    class="mx-auto flex w-full max-w-6xl flex-col gap-4 py-2"
+  >
+    <div class="flex items-start justify-between gap-4 px-1">
+      <div class="min-w-0 flex-1">
         <h1 class="text-2xl font-semibold text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.HEADER.TITLE') }}
         </h1>
@@ -312,7 +317,7 @@ onBeforeUnmount(() => {
     </div>
 
     <div
-      class="rounded-2xl border border-n-weak bg-n-background p-6 shadow-sm sm:p-8"
+      class="rounded-2xl border border-n-weak bg-n-background p-5 shadow-sm sm:p-6"
     >
       <div class="flex flex-col gap-3">
         <div class="flex items-center justify-between text-sm">
@@ -345,8 +350,8 @@ onBeforeUnmount(() => {
         {{ errorMessage }}
       </div>
 
-      <section v-if="currentStep === 1" class="mt-8 flex flex-col gap-7">
-        <div>
+      <section v-if="currentStep === 1" class="mt-6 grid gap-5 lg:grid-cols-2">
+        <div class="lg:col-span-2">
           <h2 class="text-2xl font-semibold text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.TITLE') }}
           </h2>
@@ -388,7 +393,9 @@ onBeforeUnmount(() => {
           </li>
         </ol>
 
-        <figure class="overflow-hidden rounded-xl border border-n-weak">
+        <figure
+          class="self-start overflow-hidden rounded-xl border border-n-weak"
+        >
           <video
             class="block w-full bg-n-solid-1"
             controls
@@ -406,16 +413,11 @@ onBeforeUnmount(() => {
             <p class="text-sm font-medium text-n-slate-12">
               {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.VIDEO_TITLE') }}
             </p>
-            <p class="mt-1 text-sm text-n-slate-11">
-              {{
-                $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.APP.VIDEO_DESCRIPTION')
-              }}
-            </p>
           </figcaption>
         </figure>
 
         <div
-          class="flex items-center justify-between border-t border-n-weak pt-5"
+          class="flex items-center justify-between border-t border-n-weak pt-5 lg:col-span-2"
         >
           <Button
             :label="$t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.BACK')"
@@ -434,8 +436,11 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else-if="currentStep === 2" class="mt-8 flex flex-col gap-7">
-        <div>
+      <section
+        v-else-if="currentStep === 2"
+        class="mt-6 grid gap-5 lg:grid-cols-2"
+      >
+        <div class="lg:col-span-2">
           <h2 class="text-2xl font-semibold text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.TITLE') }}
           </h2>
@@ -456,50 +461,45 @@ onBeforeUnmount(() => {
           </li>
         </ol>
 
-        <figure class="overflow-hidden rounded-xl border border-n-weak">
-          <video
-            class="block w-full bg-n-solid-1"
-            controls
-            muted
-            playsinline
-            preload="metadata"
-            :poster="ADD_NUMBER_VIDEO_POSTER_URL"
-            :aria-label="
-              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.VIDEO_TITLE')
-            "
-          >
-            <source :src="ADD_NUMBER_VIDEO_URL" type="video/mp4" />
-          </video>
-          <figcaption class="border-t border-n-weak bg-n-alpha-1 px-4 py-3">
-            <p class="text-sm font-medium text-n-slate-12">
-              {{
+        <div class="flex min-w-0 flex-col gap-4">
+          <figure class="overflow-hidden rounded-xl border border-n-weak">
+            <video
+              class="block w-full bg-n-solid-1"
+              controls
+              muted
+              playsinline
+              preload="metadata"
+              :poster="ADD_NUMBER_VIDEO_POSTER_URL"
+              :aria-label="
                 $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.VIDEO_TITLE')
-              }}
-            </p>
-            <p class="mt-1 text-sm text-n-slate-11">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.VIDEO_DESCRIPTION'
-                )
-              }}
-            </p>
-          </figcaption>
-        </figure>
+              "
+            >
+              <source :src="ADD_NUMBER_VIDEO_URL" type="video/mp4" />
+            </video>
+            <figcaption class="border-t border-n-weak bg-n-alpha-1 px-4 py-3">
+              <p class="text-sm font-medium text-n-slate-12">
+                {{
+                  $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.NUMBER.VIDEO_TITLE')
+                }}
+              </p>
+            </figcaption>
+          </figure>
 
-        <a
-          :href="META_APPS_URL"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex w-fit items-center gap-2 text-sm font-medium text-n-brand hover:underline"
-        >
-          {{
-            $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.OPEN_META_APPS')
-          }}
-          <Icon icon="i-lucide-external-link" />
-        </a>
+          <a
+            :href="META_APPS_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex w-fit items-center gap-2 text-sm font-medium text-n-brand hover:underline"
+          >
+            {{
+              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.OPEN_META_APPS')
+            }}
+            <Icon icon="i-lucide-external-link" />
+          </a>
+        </div>
 
         <div
-          class="grid gap-5 rounded-xl border border-n-weak p-5 lg:grid-cols-2"
+          class="grid gap-5 rounded-xl border border-n-weak p-5 lg:col-span-2 lg:grid-cols-2"
         >
           <Input
             v-model="form.phoneNumberId"
@@ -510,9 +510,6 @@ onBeforeUnmount(() => {
               $t(
                 'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.PHONE_ID_PLACEHOLDER'
               )
-            "
-            :message="
-              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.PHONE_ID_HELP')
             "
           />
           <Input
@@ -525,14 +522,11 @@ onBeforeUnmount(() => {
                 'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.WABA_PLACEHOLDER'
               )
             "
-            :message="
-              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.WABA_HELP')
-            "
           />
         </div>
 
         <div
-          class="flex items-center justify-between border-t border-n-weak pt-5"
+          class="flex items-center justify-between border-t border-n-weak pt-5 lg:col-span-2"
         >
           <Button
             :label="$t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.BACK')"
@@ -549,8 +543,11 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else-if="currentStep === 3" class="mt-8 flex flex-col gap-7">
-        <div>
+      <section
+        v-else-if="currentStep === 3"
+        class="mt-6 grid gap-5 lg:grid-cols-2"
+      >
+        <div class="lg:col-span-2">
           <h2 class="text-2xl font-semibold text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.TITLE') }}
           </h2>
@@ -571,50 +568,47 @@ onBeforeUnmount(() => {
           </li>
         </ol>
 
-        <figure class="overflow-hidden rounded-xl border border-n-weak">
-          <video
-            class="block w-full bg-n-solid-1"
-            controls
-            muted
-            playsinline
-            preload="metadata"
-            :poster="GENERATE_TOKEN_VIDEO_POSTER_URL"
-            :aria-label="
-              $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.VIDEO_TITLE')
-            "
+        <div class="flex min-w-0 flex-col gap-4">
+          <figure class="overflow-hidden rounded-xl border border-n-weak">
+            <video
+              class="block w-full bg-n-solid-1"
+              controls
+              muted
+              playsinline
+              preload="metadata"
+              :poster="GENERATE_TOKEN_VIDEO_POSTER_URL"
+              :aria-label="
+                $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.VIDEO_TITLE')
+              "
+            >
+              <source :src="GENERATE_TOKEN_VIDEO_URL" type="video/mp4" />
+            </video>
+            <figcaption class="border-t border-n-weak bg-n-alpha-1 px-4 py-3">
+              <p class="text-sm font-medium text-n-slate-12">
+                {{
+                  $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.VIDEO_TITLE')
+                }}
+              </p>
+            </figcaption>
+          </figure>
+
+          <a
+            :href="META_BUSINESS_SETTINGS_URL"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex w-fit items-center gap-2 text-sm font-medium text-n-brand hover:underline"
           >
-            <source :src="GENERATE_TOKEN_VIDEO_URL" type="video/mp4" />
-          </video>
-          <figcaption class="border-t border-n-weak bg-n-alpha-1 px-4 py-3">
-            <p class="text-sm font-medium text-n-slate-12">
-              {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.VIDEO_TITLE') }}
-            </p>
-            <p class="mt-1 text-sm text-n-slate-11">
-              {{
-                $t(
-                  'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.VIDEO_DESCRIPTION'
-                )
-              }}
-            </p>
-          </figcaption>
-        </figure>
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.OPEN_BUSINESS_SETTINGS'
+              )
+            }}
+            <Icon icon="i-lucide-external-link" />
+          </a>
+        </div>
 
-        <a
-          :href="META_BUSINESS_SETTINGS_URL"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex w-fit items-center gap-2 text-sm font-medium text-n-brand hover:underline"
-        >
-          {{
-            $t(
-              'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.OPEN_BUSINESS_SETTINGS'
-            )
-          }}
-          <Icon icon="i-lucide-external-link" />
-        </a>
-
-        <div class="rounded-xl border border-n-weak p-5">
-          <div class="grid items-end gap-3 sm:grid-cols-[1fr_auto]">
+        <div class="rounded-xl border border-n-weak p-5 lg:col-span-2">
+          <div class="grid items-start gap-3 sm:grid-cols-[1fr_auto]">
             <Input
               v-model="form.accessToken"
               :type="showAccessToken ? 'text' : 'password'"
@@ -626,9 +620,6 @@ onBeforeUnmount(() => {
                 $t(
                   'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.TOKEN_PLACEHOLDER'
                 )
-              "
-              :message="
-                $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.TOKEN_HELP')
               "
             />
             <Button
@@ -643,17 +634,18 @@ onBeforeUnmount(() => {
               "
               variant="outline"
               color="slate"
+              class="sm:mt-7"
               @click="showAccessToken = !showAccessToken"
             />
           </div>
-          <p class="mt-4 flex items-start gap-2 text-sm text-n-amber-11">
+          <p class="mt-3 flex items-start gap-2 text-sm text-n-amber-11">
             <Icon icon="i-lucide-triangle-alert" class="mt-0.5 shrink-0" />
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.WARNING') }}
           </p>
         </div>
 
         <div
-          class="flex items-center justify-between border-t border-n-weak pt-5"
+          class="flex items-center justify-between border-t border-n-weak pt-5 lg:col-span-2"
         >
           <Button
             :label="$t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ACTIONS.BACK')"
@@ -672,7 +664,7 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else-if="currentStep === 4" class="mt-8 flex flex-col gap-7">
+      <section v-else-if="currentStep === 4" class="mt-6 flex flex-col gap-5">
         <div>
           <h2 class="text-2xl font-semibold text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.REVIEW.TITLE') }}
@@ -756,7 +748,7 @@ onBeforeUnmount(() => {
         </div>
       </section>
 
-      <section v-else class="mt-8 flex flex-col gap-7">
+      <section v-else class="mt-6 flex flex-col gap-5">
         <div>
           <h2 class="text-2xl font-semibold text-n-slate-12">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.VERIFY.TITLE') }}

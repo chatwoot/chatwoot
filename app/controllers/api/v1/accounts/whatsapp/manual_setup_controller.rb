@@ -66,7 +66,6 @@ class Api::V1::Accounts::Whatsapp::ManualSetupController < Api::V1::Accounts::Ba
       number_access: true,
       template_access: true,
       webhook_setup: setup.webhook_setup?,
-      webhook_verified: channel.webhook_verified_at.present?,
       webhook_error: setup.webhook_error
     }
   end

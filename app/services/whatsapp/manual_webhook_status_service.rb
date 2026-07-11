@@ -8,7 +8,7 @@ class Whatsapp::ManualWebhookStatusService
     callback_configured = callback_configured?
 
     {
-      callback_verified: @channel.webhook_verified_at.present? || callback_configured,
+      callback_verified: callback_configured,
       callback_configured: callback_configured,
       callback_url: callback_url,
       subscription_verified: subscription_verified?
