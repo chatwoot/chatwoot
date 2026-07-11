@@ -11,9 +11,20 @@ vi.mock('vue-router');
 // resolves the current account is exercised here too. The real ./constants are
 // used, so assertions validate against the actual channel identity (label keys,
 // channel_type, social ordering) derived from CHANNEL_LIST.
-const mountComposable = ({ brandInfo, inboxes = [] } = {}) => {
+const mountComposable = ({
+  brandInfo,
+  inboxes = [],
+  isOnChatwootCloud = false,
+} = {}) => {
   const store = createStore({
     modules: {
+      globalConfig: {
+        namespaced: true,
+        getters: {
+          get: () => ({}),
+          isOnChatwootCloud: () => isOnChatwootCloud,
+        },
+      },
       accounts: {
         namespaced: true,
         getters: {
@@ -193,6 +204,22 @@ describe('useDetectedChannels', () => {
       // Facebook needs fbAppId (absent → hidden); LINE needs no install credential.
       expect(displayedChannels.value.map(channel => channel.type)).toEqual([
         'line',
+      ]);
+    });
+
+    it('hides Instagram from onboarding on Chatwoot Cloud', () => {
+      const { displayedChannels } = mountComposable({
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [
+            { type: 'instagram', url: 'https://instagram.com/acme' },
+            { type: 'tiktok', url: 'https://tiktok.com/@acme' },
+          ],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'tiktok',
       ]);
     });
   });
