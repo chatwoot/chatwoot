@@ -13,7 +13,9 @@ class Conversations::TimelineBuilder
                 .includes(:sender, :attachments)
                 .find_each
                 .map do |message|
-      next if message.private? && !can_view_private_notes?(message)
+      next if message.private? && !Conversations::PrivateNoteVisibility.allowed?(
+        user: user, message: message, conversation: conversation
+      )
 
       {
         type: 'message',
@@ -26,7 +28,7 @@ class Conversations::TimelineBuilder
 
   def task_event_items
     InternalTaskEvent.joins(:internal_task)
-                     .where(internal_tasks: { conversation_id: conversation.id })
+                     .where(internal_task_id: visible_task_ids)
                      .includes(:user, internal_task: :task_template)
                      .find_each
                      .map do |event|
@@ -48,23 +50,11 @@ class Conversations::TimelineBuilder
     end
   end
 
-  # Returns true when the user is allowed to read a given private note on this
-  # conversation. Conservative rules — replace with a dedicated NotePolicy when
-  # one exists in the codebase:
-  # - conversation administrators see every note
-  # - the note's author always sees their own note
-  # - the conversation assignee and team members see notes for context
-  def can_view_private_notes?(message)
-    return false if user.blank?
-    return false if message.account_id != conversation.account_id
-
+  def visible_task_ids
     account_user = conversation.account.account_users.find_by(user_id: user.id)
-    return true if account_user&.administrator?
-
-    return true if message.sender_id == user.id
-
-    assigned = conversation.assignee_id == user.id
-    on_team = conversation.team_id.present? && user.teams.exists?(id: conversation.team_id)
-    assigned || on_team
+    InternalTaskPolicy::Scope.new(
+      { user: user, account: conversation.account, account_user: account_user },
+      InternalTask
+    ).resolve.where(conversation_id: conversation.id).select(:id)
   end
 end

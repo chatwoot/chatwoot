@@ -1,9 +1,11 @@
 class Api::V1::Accounts::Conversations::InternalTasksController < Api::V1::Accounts::Conversations::BaseController
   def index
     authorize InternalTask
-    @internal_tasks = @conversation.internal_tasks.open
-                                   .includes(:created_by, :assigned_to, :team, :task_template, source_message: :attachments)
-                                   .order(created_at: :desc)
+    @internal_tasks = policy_scope(InternalTask)
+                        .where(conversation_id: @conversation.id)
+                        .open
+                        .includes(:created_by, :assigned_to, :team, :task_template, source_message: :attachments)
+                        .order(created_at: :desc)
   end
 
   def create

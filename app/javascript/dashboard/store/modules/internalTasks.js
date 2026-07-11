@@ -206,6 +206,15 @@ export const actions = {
       commit(SET_SELECTED_TASK, { data });
       dispatch('fetchTabCounts');
       return data;
+    } catch (error) {
+      if (error?.response?.status === 409) {
+        if (conversationId) {
+          dispatch('fetchConversationTasks', { conversationId });
+        }
+        dispatch('fetchTask', { taskId }).catch(() => {});
+        dispatch('fetchTabCounts');
+      }
+      throw error;
     } finally {
       commit(SET_UI_FLAG, { isUpdating: false });
       if (conversationId) {

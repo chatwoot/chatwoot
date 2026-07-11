@@ -394,7 +394,7 @@
         "PHONE": "Teléfono",
         "EMAIL": "E-mail",
         "LABELS": "Etiquetas",
-        "ASSIGNED_AGENT": "Agente",
+        "ASSIGNED_AGENT": "Agente del contacto",
         "LAST_ACTIVITY": "Última actividad"
       }
     },
@@ -518,13 +518,13 @@
         "DELETE": "Eliminar contacto"
       },
       "ASSIGNEE": {
-        "LABEL": "Agente asignado",
+        "LABEL": "Agente asignado al contacto",
         "NONE": "Sin asignar",
         "SELF_ASSIGN": "Asignarme este contacto",
         "SELF_UNASSIGN": "Liberar contacto",
-        "ASSIGNED_TO_OTHER": "Asignado a {agentName}",
-        "UPDATE_SUCCESS": "Agente asignado actualizado correctamente",
-        "UPDATE_ERROR": "No se pudo actualizar el agente asignado. Inténtalo de nuevo más tarde."
+        "ASSIGNED_TO_OTHER": "Contacto asignado a {agentName}",
+        "UPDATE_SUCCESS": "Agente asignado al contacto actualizado correctamente",
+        "UPDATE_ERROR": "No se pudo actualizar el agente asignado al contacto. Inténtalo de nuevo más tarde."
       },
       "DELETE_CONTACT_DESCRIPTION": "Eliminar permanentemente este contacto. Esta acción es irreversible",
       "DELETE_CONTACT": "Eliminar contacto",

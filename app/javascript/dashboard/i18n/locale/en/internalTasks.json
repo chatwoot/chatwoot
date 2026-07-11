@@ -38,6 +38,9 @@
       "START": "Start",
       "COMPLETE": "Complete"
     },
+    "ERRORS": {
+      "ALREADY_CLAIMED": "This task was already claimed by someone else"
+    },
     "STATUS": {
       "PENDING": "Pending",
       "IN_PROGRESS": "In progress",

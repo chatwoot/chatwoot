@@ -297,6 +297,7 @@ Detalle completo: `panel-ai/AGENTS.md`
 
 | Item | Repo | Acción |
 |------|------|--------|
+| Internal tasks + alertas + 11 fixes P0/P2 | chatwoot | merge `feat/internal-tasks` → `develop`, **correr `db:migrate`** (migración `20260711120000`), redeploy GHCR |
 | WhatsApp interactive | chatwoot | merge `fix/whatsapp-interactive-menu` → `develop`, redeploy GHCR |
 | WhatsApp channel + menús | panel-ai | merge `develop` → `master`, redeploy |
 | Refactor UI asistentes | panel-ai | commit + merge cuando estable |
@@ -310,14 +311,23 @@ Detalle completo: `panel-ai/AGENTS.md`
 Sesiones de revisión dejan bitácora en [`docs/BUGS.md`](docs/BUGS.md).
 Cada fix tiene ID, archivo tocado, descripción y cómo probar.
 
-- **`feat/internal-tasks`** — 5 fixes aplicados en revisión de 2026-07-11
-  (IDs `TASK-001`..`TASK-005`). Ver `docs/BUGS.md` para el detalle.
+- **`feat/internal-tasks`** — auditoría de 2026-07-11 en dos pasadas:
+  - Primera: P0/P1 cerrados (`TASK-001..005`, `CABLE-TASK-01`, `TASK-DESTROY-01`,
+    `TASK-CLAIM-01`, `TASK-SCOPE-01`, `NOTE-PRIV-01`, `UX-001/002`).
+  - Segunda: 6 adicionales encontrados y cerrados (`B-NEW-01..05`, `B-NEW-09`,
+    `B-NEW-10`). Ver `docs/BUGS.md` §2.1 para el detalle.
 - Verificar contra [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md)
   antes de mergear — ese doc lista fixes ya aplicados que **no** se deben revertir.
 
+**Tarea pre-merge obligatoria:**
+- Correr `db:migrate` en cada entorno (local, staging, prod) por la
+  migración `20260711120000_add_assigned_agent_id_to_contacts.rb`
+  (`B-NEW-09`). Sin esto, deploys fresh crashean.
+
 **Convención al aplicar fixes nuevos:**
-1. Agregar entrada en `docs/BUGS.md` con ID `TASK-NNN` + archivo + descripción + test.
+1. Agregar entrada en `docs/BUGS.md` con ID `B-NEW-NNN` o `TASK-NNN` + archivo + descripción + test.
 2. Si el fix toca arquitectura, considerar actualizar `docs/INTERNAL_TASKS_AND_ALERTS.md`
    o `docs/REFACTOR_STRUCTURAL.md` (panel-ai).
-3. Si el fix es crítico (privacidad, datos), agregar a la tabla de **"Pendiente deploy / merge"**
+3. Si el fix es crítico (privacidad, datos, deploy), agregar a la tabla de **"Pendiente deploy / merge"**
    arriba hasta que se promoted a `develop`.
+4. Si tocás `db/schema.rb` a mano, **siempre** crear la migración correspondiente.

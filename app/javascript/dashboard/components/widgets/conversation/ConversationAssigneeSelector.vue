@@ -47,7 +47,7 @@ watch(
 <template>
   <div
     class="flex items-center gap-1"
-    :class="compact ? 'w-64 shrink-0' : 'min-w-0 w-full'"
+    :class="compact ? 'max-w-[10rem] w-auto shrink min-w-0' : 'min-w-0 w-full'"
   >
     <NextButton
       v-if="showSelfAssignButton && showSelfAssign"

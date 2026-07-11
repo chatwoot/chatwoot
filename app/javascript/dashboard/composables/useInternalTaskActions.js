@@ -1,5 +1,6 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 export function useInternalTaskActions(taskRef, conversationIdRef, onUpdated) {
@@ -44,11 +45,20 @@ export function useInternalTaskActions(taskRef, conversationIdRef, onUpdated) {
     if (!task) return;
     const conversationId =
       conversationIdRef?.value ?? task.conversation?.id ?? task.conversationId;
-    await store.dispatch(`internalTasks/${action}`, {
-      taskId: task.id,
-      conversationId,
-    });
-    onUpdated?.();
+    try {
+      await store.dispatch(`internalTasks/${action}`, {
+        taskId: task.id,
+        conversationId,
+      });
+      onUpdated?.();
+    } catch (error) {
+      if (action === 'claimTask' && error?.response?.status === 409) {
+        useAlert(t('INTERNAL_TASKS.ERRORS.ALREADY_CLAIMED'));
+        onUpdated?.();
+        return;
+      }
+      throw error;
+    }
   };
 
   return { uiFlags, isTerminal, primaryAction, runAction };

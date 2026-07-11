@@ -103,7 +103,6 @@ const handleAvatarDelete = async () => {
       ref="contactsFormRef"
       :contact-data="contactData"
       is-details-view
-      hide-document-number
       @update="handleFormUpdate"
     />
 

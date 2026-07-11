@@ -22,7 +22,7 @@ class InternalTaskEvent < ApplicationRecord
   end
 
   def broadcast_task_activity
+    # touch bumps updated_at and fires after_update_commit → dispatch_updated_event once
     internal_task.touch
-    internal_task.dispatch_updated_event
   end
 end

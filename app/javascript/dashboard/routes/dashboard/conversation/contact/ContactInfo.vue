@@ -84,6 +84,9 @@ export default {
         ''
       );
     },
+    documentNumber() {
+      return this.contact.documentNumber || this.contact.document_number || '';
+    },
     location() {
       const {
         country = '',
@@ -209,8 +212,8 @@ export default {
 
 <template>
   <div class="relative items-center w-full p-4">
-    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
-      <div class="flex flex-row justify-between">
+    <div class="flex flex-col w-full gap-3 text-left rtl:text-right">
+      <div class="flex flex-row items-start gap-3 w-full min-w-0">
         <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
@@ -218,68 +221,52 @@ export default {
           :status="contact.availability_status"
           :size="48"
           hide-offline-status
+          class="flex-shrink-0"
         />
-      </div>
-
-      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
-          <InlineInput
-            v-if="isEditingName"
-            ref="nameInput"
-            v-model="editName"
-            custom-input-class="!text-base !font-medium"
-            class="!w-fit"
-            @enter-press="saveNameEdit"
-            @escape-press="cancelNameEdit"
-            @blur="saveNameEdit"
-          />
-          <h3
-            v-else
-            class="group/name flex-shrink max-w-full min-w-0 my-0 text-base break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
-            :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
-            @click="startEditingName"
-          >
-            {{ contact.name }}
-            <span
-              class="i-lucide-pencil text-xs text-n-slate-10 opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
+        <div class="flex flex-col gap-1 min-w-0 flex-1">
+          <div class="flex items-start gap-2 min-w-0">
+            <InlineInput
+              v-if="isEditingName"
+              ref="nameInput"
+              v-model="editName"
+              custom-input-class="!text-base !font-medium"
+              class="!w-full min-w-0"
+              @enter-press="saveNameEdit"
+              @escape-press="cancelNameEdit"
+              @blur="saveNameEdit"
             />
-          </h3>
-          <div class="flex flex-row items-center gap-2">
-            <span
-              v-if="contact.created_at"
-              v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
-                  contact.created_at
-                )}`
-              "
-              class="i-lucide-info text-sm text-n-slate-10"
-            />
-            <a
-              :href="contactProfileLink"
-              target="_blank"
-              rel="noopener nofollow noreferrer"
-              class="leading-3"
-              :aria-label="$t('CONTACT_PANEL.VIEW_PROFILE')"
+            <h3
+              v-else-if="showAvatar"
+              class="group/name flex-1 min-w-0 my-0 text-base font-medium break-words text-n-slate-12 cursor-pointer hover:text-n-slate-12/80"
+              :title="$t('CONTACT_PANEL.CLICK_TO_EDIT')"
+              @click="startEditingName"
             >
-              <span class="i-lucide-external-link text-sm text-n-slate-10" />
-            </a>
+              {{ contact.name }}
+              <span
+                class="i-lucide-pencil text-xs text-n-slate-10 opacity-0 group-hover/name:opacity-100 transition-opacity ml-1 align-middle"
+              />
+            </h3>
+            <div class="flex flex-row items-center gap-2 flex-shrink-0 pt-0.5">
+              <span
+                v-if="contact.created_at"
+                v-tooltip.left="
+                  `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
+                    contact.created_at
+                  )}`
+                "
+                class="i-lucide-info text-sm text-n-slate-10"
+              />
+              <a
+                :href="contactProfileLink"
+                target="_blank"
+                rel="noopener nofollow noreferrer"
+                class="leading-3"
+                :aria-label="$t('CONTACT_PANEL.VIEW_PROFILE')"
+              >
+                <span class="i-lucide-external-link text-sm text-n-slate-10" />
+              </a>
+            </div>
           </div>
-        </div>
-
-        <p v-if="additionalAttributes.description" class="break-words mb-0.5">
-          {{ additionalAttributes.description }}
-        </p>
-        <div class="flex flex-col items-start w-full gap-2">
-          <ContactInfoRow
-            :href="contact.email ? `mailto:${contact.email}` : ''"
-            :value="contact.email"
-            icon="mail"
-            emoji="✉️"
-            :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
-            show-copy
-            editable
-            @update="value => onFieldUpdate('email', value)"
-          />
           <ContactInfoRow
             :href="phoneNumber ? `tel:${phoneNumber}` : ''"
             :value="phoneNumber"
@@ -291,42 +278,68 @@ export default {
             @update="value => onFieldUpdate('phone_number', value)"
           />
           <ContactInfoRow
-            v-if="contact.identifier"
-            :value="contact.identifier"
+            :value="documentNumber"
             icon="contact-identify"
+            icon-class="i-ph-identification-card"
             emoji="🪪"
-            :title="$t('CONTACT_PANEL.IDENTIFIER')"
-          />
-          <ContactInfoRow
-            :value="additionalAttributes.company_name"
-            icon="building-bank"
-            emoji="🏢"
-            :title="$t('CONTACT_PANEL.COMPANY')"
+            :title="$t('CONTACT_PANEL.DOCUMENT_NUMBER')"
+            show-copy
             editable
-            @update="
-              value =>
-                updateContactField({
-                  additional_attributes: {
-                    ...additionalAttributes,
-                    company_name: value,
-                  },
-                })
-            "
-          />
-          <ContactInfoRow
-            v-if="location || additionalAttributes.location"
-            :value="location || additionalAttributes.location"
-            icon="map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
-          />
-          <SocialIcons :social-profiles="socialProfiles" />
-          <ContactAssigneeSelector
-            v-if="contact.id"
-            :contact="contact"
-            class="mt-2"
+            @update="value => onFieldUpdate('document_number', value)"
           />
         </div>
+      </div>
+
+      <p v-if="additionalAttributes.description" class="break-words mb-0.5">
+        {{ additionalAttributes.description }}
+      </p>
+      <div class="flex flex-col items-start w-full gap-2">
+        <ContactInfoRow
+          :href="contact.email ? `mailto:${contact.email}` : ''"
+          :value="contact.email"
+          icon="mail"
+          emoji="✉️"
+          :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+          show-copy
+          editable
+          @update="value => onFieldUpdate('email', value)"
+        />
+        <ContactInfoRow
+          v-if="contact.identifier"
+          :value="contact.identifier"
+          icon="contact-identify"
+          emoji="🪪"
+          :title="$t('CONTACT_PANEL.IDENTIFIER')"
+        />
+        <ContactInfoRow
+          :value="additionalAttributes.company_name"
+          icon="building-bank"
+          emoji="🏢"
+          :title="$t('CONTACT_PANEL.COMPANY')"
+          editable
+          @update="
+            value =>
+              updateContactField({
+                additional_attributes: {
+                  ...additionalAttributes,
+                  company_name: value,
+                },
+              })
+          "
+        />
+        <ContactInfoRow
+          v-if="location || additionalAttributes.location"
+          :value="location || additionalAttributes.location"
+          icon="map"
+          emoji="🌍"
+          :title="$t('CONTACT_PANEL.LOCATION')"
+        />
+        <SocialIcons :social-profiles="socialProfiles" />
+        <ContactAssigneeSelector
+          v-if="contact.id"
+          :contact="contact"
+          class="mt-2"
+        />
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
         <ComposeConversation :contact-id="String(contact.id)">

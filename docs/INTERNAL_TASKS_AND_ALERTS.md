@@ -169,6 +169,36 @@ Estos fixes viven en commits posteriores al cierre de este PR.
 | Reply preview en nota privada | `ReplyBox.vue` | `shouldShowReplyToMessage` muestra `ReplyToMessage` también en modo nota (sin exigir feature de canal) |
 | Botones de plantilla WA en bubble | `WhatsAppTemplateParser.vue`, `templateHelper.js`, `bubbles/Text/Index.vue` | Al enviar, snapshot `content_attributes.template_buttons`; el bubble del agente lista labels/URL/phone |
 
+### Auditoría pre–chats grupales (2026-07-11)
+
+Veredicto **GO condicional** en [`docs/BUGS.md`](BUGS.md) §0. P0/P1 cerrados:
+
+- ActionCable tasks scoped (no fan-out a toda la cuenta)
+- `destroy?` en `InternalTaskPolicy`
+- Claim con `with_lock` + FE 409
+- `policy_scope` en tasks de conversación + timeline events
+- `Conversations::PrivateNoteVisibility` unifica hilo + timeline + broadcast
+
+### Segunda pasada — bugs adicionales encontrados
+
+Después de los P0/P1, otra pasada detectó 6 issues adicionales. Detalle completo
+en [`docs/BUGS.md`](BUGS.md) §2.1.
+
+| ID | Severidad | Resumen |
+|----|-----------|---------|
+| `B-NEW-01` | Media | `broadcast_task_activity` causaba doble dispatch (ya estaba fixeado) |
+| `B-NEW-02` | Media | `AssignDefaultAgentService` podía asignar un Bot a un contacto |
+| `B-NEW-03` | Media | `MessageFinder` fallaba silenciosamente sin `Current.user` |
+| `B-NEW-04` | Baja | Layout de ContactInfo partía los datos en dos bloques |
+| `B-NEW-05` | Baja | Avatar huérfano — revisado, sin cambio necesario |
+| `B-NEW-09` | 🟡 Media | `db/schema.rb` drift — **investigado**: ya existía migración `20260630120000`, columna presente en BD. Sin cambio. |
+| `B-NEW-10` | Baja | Type-check en `AssignDefaultAgentService#perform` |
+
+**Tarea pre-merge:**
+- Correr `docker compose exec chatwoot-rails bundle exec rails db:migrate` en cada
+  entorno (local, staging, prod). Sin esto, deploys fresh crashean al primer
+  uso de `assigned_agent_id`.
+
 ---
 
 ## 6. Related ops docs

@@ -395,7 +395,7 @@
         "PHONE": "Phone",
         "EMAIL": "Email",
         "LABELS": "Labels",
-        "ASSIGNED_AGENT": "Agent",
+        "ASSIGNED_AGENT": "Contact agent",
         "LAST_ACTIVITY": "Last activity"
       }
     },
@@ -519,13 +519,13 @@
         "DELETE": "Delete contact"
       },
       "ASSIGNEE": {
-        "LABEL": "Assigned agent",
+        "LABEL": "Contact assigned agent",
         "NONE": "Unassigned",
-        "SELF_ASSIGN": "Assign to me",
+        "SELF_ASSIGN": "Assign this contact to me",
         "SELF_UNASSIGN": "Release contact",
-        "ASSIGNED_TO_OTHER": "Assigned to {agentName}",
-        "UPDATE_SUCCESS": "Assigned agent updated successfully",
-        "UPDATE_ERROR": "Could not update assigned agent. Please try again later."
+        "ASSIGNED_TO_OTHER": "Contact assigned to {agentName}",
+        "UPDATE_SUCCESS": "Contact assigned agent updated successfully",
+        "UPDATE_ERROR": "Could not update the contact assigned agent. Please try again later."
       },
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",

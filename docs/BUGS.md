@@ -3,295 +3,337 @@
 > Documento vivo. Cada bug tiene ID, severidad, archivo, descripción, fix aplicado
 > y cómo probarlo. Trazabilidad cruzando con `INTERNAL_TASKS_AND_ALERTS.md`.
 
-**Última actualización:** generado durante sesión de revisión del branch
+**Última actualización:** auditoría pre–chats grupales (2026-07-11), branch
 `feat/internal-tasks` (PR #3).
 
 ---
 
-## 1. Resumen de fixes aplicados (sesión 2026-07-11)
+## 0. Gate: listo para chats grupales internos?
 
-| ID | Severidad | Archivo | Estado |
-|----|-----------|---------|--------|
-| TASK-001 | Alta | `app/services/conversations/timeline_builder.rb` | ✅ Fijado |
-| TASK-002 | Alta | `app/javascript/dashboard/routes/dashboard/tasks/TaskView.vue` | ✅ Fijado |
-| TASK-003 | Media | `app/services/internal_tasks/claim_service.rb` | ✅ Fijado |
-| TASK-004 | Media | `app/models/internal_task.rb` | ✅ Fijado |
-| TASK-005 | Baja | `app/javascript/dashboard/components-next/InternalTasks/TaskDetail.vue` | ✅ Fijado (cleanup) |
-| UX-001 | Media | `ReplyBox.vue` | ✅ Reply preview en notas privadas |
-| UX-002 | Media | `WhatsAppTemplateParser` + `Text/Index.vue` | ✅ Snapshot botones plantilla WA en bubble |
+**Veredicto: GO (condicional)**
+
+| Criterio | Estado |
+|----------|--------|
+| Ningún P0 abierto | ✅ CABLE-TASK-01 + TASK-DESTROY-01 fijados |
+| P1 privacidad/ACL/claim | ✅ TASK-CLAIM-01, TASK-SCOPE-01, NOTE-PRIV-01 fijados |
+| Smoke 2 browsers realtime | ⚠️ Verificar manualmente tras rebuild (claim 409 FE + cable scoped) |
+| P2 no bloqueantes | Abiertos a propósito (validaciones assignee, status libre) |
+
+**Shared infra notes (para diseñar grupales):**
+
+1. ActionCable de tasks ya no hace fan-out a todos los agents — reutilizar el patrón `internal_task_agents` / policy scope.
+2. Notas privadas: reglas unificadas en `Conversations::PrivateNoteVisibility` (timeline + MessageFinder + broadcast). Sustituir por `NotePolicy` cuando exista.
+3. Presence / `staleThreshold` en `node_modules` sigue sin patch (ops/proxy).
+4. Migración 20260711* pendiente de aplicar en cada entorno (`db:migrate`).
 
 ---
 
-## 2. Fijados en esta sesión
+## 1. Resumen de fixes
 
-### TASK-001 — Notas privadas filtradas en timeline (privacidad)
+| ID | Severidad | Bloquea grupales? | Estado |
+|----|-----------|-------------------|--------|
+| TASK-001 | Alta | No (timeline) | ✅ Fijado (refactor → PrivateNoteVisibility) |
+| TASK-002 | Alta | No | ✅ Fijado |
+| TASK-003 | Media | Parcial | ✅ Mejorado con `with_lock` + FE 409 |
+| TASK-004 | Media | No | ✅ Fijado |
+| TASK-005 | Baja | No | ❌ **Era falso positivo — revertido**: `currentChat` **sí se usa** en TaskDetail.vue:61 y en TaskDetailConversation.vue. Mi reporte original del 2026-07-11 estaba MAL. Removida la entry. |
+| UX-001 / UX-002 | Media | No | ✅ Fijado |
+| CABLE-TASK-01 | P0 | **Sí** | ✅ Confirmado + fijado |
+| TASK-DESTROY-01 | P0 | **Sí** | ✅ Confirmado + fijado |
+| TASK-CLAIM-01 | P1 | Sí | ✅ Confirmado + fijado |
+| TASK-SCOPE-01 | P1 | Sí | ✅ Confirmado + fijado |
+| NOTE-PRIV-01 | P1 | Sí | ✅ Confirmado + fijado |
+| B-NEW-01 | Media | No | ✅ Fijado — `InternalTaskEvent#broadcast_task_activity` sin doble dispatch |
+| B-NEW-02 | Media | No | ✅ Fijado — guard de bot/Conversation en `resolve_agent` |
+| B-NEW-03 | Media | No | ✅ Fijado — `MessageFinder#apply_private_note_visibility` null-safe |
+| B-NEW-04 | Baja | No | ✅ Fijado — orden de filas en `ContactInfo.vue` consolidado |
+| B-NEW-05 | Baja | No | ✅ Revisado — `v-if` ya cubre el caso; sin cambio necesario |
+| B-NEW-09 | 🔴 Media → reclasif. ✅ | No (drift) | ✅ Investigado — migración ya existía; `schema.rb` queda con la columna |
+| B-NEW-10 | Baja | No | ✅ Fijado — type-check en `AssignDefaultAgentService#perform` |
+| TASK-006 | Baja | No | panel-ai (fuera de alcance Chatwoot) |
+| TASK-007 | Baja | No | ContactInfo mojibake — abierto |
+| TASK-008 | Baja | No | **Stale** — índice `[:account_id, :active, :position]` ya existe |
 
-**Severidad:** Alta — bug de privacidad.
+---
 
-**Archivo:** `app/services/conversations/timeline_builder.rb`
+## 2. Auditoría 2026-07-11 — P0/P1 fijados
 
-**Problema:** El método `can_view_private_notes?` retornaba `true` hardcodeado.
-Cualquier agente en la cuenta podía ver las notas privadas de otros al abrir el
-timeline de una conversación.
+### CABLE-TASK-01 — Broadcast de tasks a todos los agents
 
-**Fix aplicado:** reglas conservadoras hasta que exista una `NotePolicy` oficial:
+**Confirmado.** `internal_task_created/updated` usaba `account.agents`.
 
-1. Admin de la conversación: ve todas las notas privadas.
-2. Autor de la nota: ve siempre su propia nota.
-3. Asignado o miembro del equipo de la conversación: ve notas para contexto.
-4. Resto: NO ve.
+**Fix:** `internal_task_agents` alinea con `InternalTaskPolicy::Scope` (pool abierto → todos; si no → assignee + miembros del team). Admins siguen vía `user_tokens`.
+
+**Archivo:** `app/listeners/action_cable_listener.rb`
+
+### TASK-DESTROY-01 — Soft-cancel siempre 403
+
+**Confirmado.** `destroy?` no existía → `ApplicationPolicy#destroy?` → `false`.
+
+**Fix:** `destroy?` = `update?` en `InternalTaskPolicy`.
+
+### TASK-CLAIM-01 — Race + FE sin 409
+
+**Confirmado.** Check-then-update sin lock; store no manejaba conflict.
+
+**Fix:** `with_lock` + `reload` en `ClaimService`; store refresca en 409; `useInternalTaskActions` muestra alert.
+
+### TASK-SCOPE-01 — Tasks de conversación / timeline sin ACL
+
+**Confirmado.** Nested index usaba `@conversation.internal_tasks` sin `policy_scope`; timeline listaba todos los task events.
+
+**Fix:** `policy_scope` en nested controller; timeline filtra `visible_task_ids` por Scope.
+
+### NOTE-PRIV-01 — Hilo vs timeline divergentes
+
+**Confirmado.** Timeline filtraba; `MessageFinder` y ActionCable de notas privadas no.
+
+**Fix:** `Conversations::PrivateNoteVisibility` compartido; MessageFinder (dashboard) + `message_broadcast_members` en cable.
+
+### Extra (P2 mínimo)
+
+- Comentarios de task: eliminado doble `dispatch_updated_event` (solo `touch`).
+- Index de tasks: `includes(:events)` para N+1 del jbuilder.
+
+---
+
+## 2.1. Segunda pasada de revisión (2026-07-11 tarde)
+
+Después de aplicar los fixes P0/P1, se hizo otra pasada detectando bugs adicionales.
+
+### B-NEW-01 — `InternalTaskEvent#broadcast_task_activity` causaba doble dispatch
+
+**Severidad:** Media — causaba dos broadcasts por cada evento (excepto `created`).
+`touch` ya dispara `after_update_commit → dispatch_updated_event`; la llamada extra
+a `internal_task.dispatch_updated_event` producía el doble.
+
+**Fix:** eliminado el `dispatch_updated_event` redundante dentro de
+`broadcast_task_activity`.
+
+**Archivo:** `app/models/internal_task_event.rb`
 
 ```ruby
-def can_view_private_notes?(message)
-  return false if user.blank?
-  return false if message.account_id != conversation.account_id
-
-  account_user = conversation.account.account_users.find_by(user_id: user.id)
-  return true if account_user&.administrator?
-
-  return true if message.sender_id == user.id
-
-  assigned = conversation.assignee_id == user.id
-  on_team = conversation.team_id.present? && user.teams.exists?(id: conversation.team_id)
-  assigned || on_team
+def broadcast_task_activity
+  # touch bumps updated_at and fires after_update_commit → dispatch_updated_event once
+  internal_task.touch
 end
 ```
 
-**Cómo probar:**
-- Agente A crea nota privada en conversación.
-- Agente B (mismo equipo, no asignado) abre `/conversations/:id/timeline`.
-- Antes: veía la nota. Ahora: NO la ve.
-- Admin sigue viendo todo.
-- Agente asignado a la conversación SÍ ve notas.
+### B-NEW-02 — `AssignDefaultAgentFromFirstReplyService` podía asignar no-Users
 
-**Riesgo residual:** Otros lugares que rendericen timeline (ej. componente de
-notificaciones) podrían tener reglas distintas. Revisar `app/views/api/v1/...`
-jbuilders que filtran `private?`.
+**Severidad:** Media — `resolve_agent` retornaba `message.conversation.assignee`
+sin type-check. Si assignee era un Bot o Conversation, `update!(assigned_agent: ...)`
+crasheaba con `ActiveModel::TypeMismatch`.
 
----
+**Fix:** narrowed a User con `id.present?`, además de los guards en `perform`.
 
-### TASK-002 — `dispatch('clearSelectedState')` roto al salir de /tasks
-
-**Severidad:** Alta — error en consola en navegación básica.
-
-**Archivo frontend:** `app/javascript/dashboard/routes/dashboard/tasks/TaskView.vue`
-**Archivo store:** `app/javascript/dashboard/store/modules/internalTasks.js`
-
-**Problema:** `onBeforeRouteLeave` llamaba `store.dispatch('clearSelectedState')`
-que **no existía** en el módulo `internalTasks`. La acción vivía en `conversations`.
-Vuex no limpia nada, queda `selectedTaskRecord` en memoria.
-
-**Fix aplicado:**
-- Nueva mutation `CLEAR_INTERNAL_TASKS_SELECTED` en `internalTasks.js`.
-- Nueva action `clearSelectedState` que hace `commit(CLEAR_INTERNAL_TASKS_SELECTED)`.
-- `TaskView.vue` ahora usa namespace: `dispatch('internalTasks/clearSelectedState')`.
-
-```js
-clearSelectedState({ commit }) {
-  commit(CLEAR_SELECTED_TASK);
-}
-
-[CLEAR_SELECTED_TASK](_state) {
-  _state.selectedTaskRecord = null;
-}
-```
-
-**Cómo probar:**
-1. Ir a `/app/accounts/1/tasks/5` (detalle).
-2. Volver a otra página (ej. Conversations).
-3. Abrir devtools console → no debe haber warning "unknown action type".
-4. Volver a `/tasks` → estado limpio, sin datos stale.
-
----
-
-### TASK-003 — `ClaimService` lanza `StandardError` genérico
-
-**Severidad:** Media — UX confusa en race condition.
-
-**Archivos:**
-- `app/services/internal_tasks/already_claimed_error.rb` (nuevo)
-- `app/services/internal_tasks/claim_service.rb`
-- `app/controllers/api/v1/accounts/internal_tasks_controller.rb`
-
-**Problema:** Si dos agentes reclaaman la misma task simultáneamente, el segundo
-recibía un error 500 en vez de un 409 Conflict semántico. El error genérico
-no se podía capturar ni traducir en el frontend.
-
-**Fix aplicado:**
-1. Nueva clase `InternalTasks::AlreadyClaimedError` (hereda de `StandardError`,
-   expone el task afectado).
-2. `ClaimService` la lanza en vez de `StandardError`.
-3. Controller usa `rescue_from` para devolver 409 con JSON estructurado:
+**Archivo:** `app/services/contacts/assign_default_agent_from_first_reply_service.rb`
 
 ```ruby
-# app/controllers/api/v1/accounts/internal_tasks_controller.rb
-rescue_from InternalTasks::AlreadyClaimedError, with: :render_already_claimed
+def resolve_agent
+  sender = message.sender
+  return sender if sender.is_a?(User) && sender.id.present?
 
-private
+  assignee = message.conversation&.assignee
+  return assignee if assignee.is_a?(User) && assignee.id.present?
 
-def render_already_claimed(error)
-  render json: {
-    error: 'task_already_claimed',
-    message: I18n.t('tasks.errors.already_claimed', default: 'Task already claimed by another user'),
-    task_id: error.task.id
-  }, status: :conflict
+  nil
 end
 ```
 
-**Cómo probar:**
-- Agente A hace POST `/internal_tasks/5/claim`.
-- Agente B hace lo mismo antes que A recargue.
-- B recibe 409 con `error: 'task_already_claimed'` (en vez de 500).
+### B-NEW-03 — `MessageFinder` fallaba sin `Current.user`
 
----
+**Severidad:** Media — procesos background (Sidekiq, exports, scripts sin
+sesión) terminaban con `list.select` filtrando TODO mensaje privado
+(incluyendo notes que sí vería un humano en sesión).
 
-### TASK-004 — `depends_on_task_id` cross-account
+**Fix:** si `Current.user` es blank, retornar la lista sin filtrar (visibilidad
+permisiva para procesos background). Además, inferir `conversation` desde el
+primer mensaje si `@conversation` no está seteado.
 
-**Severidad:** Media — vector de cross-tenant data leak.
-
-**Archivo:** `app/models/internal_task.rb`
-
-**Problema:** El campo `depends_on_task_id` no validaba que la tarea dependiente
-pertenezca a la misma cuenta (`account_id`). Un agente con acceso a IDs internos
-podría crear dependencias entre cuentas.
-
-**Fix aplicado:** nueva validación `depends_on_belongs_to_account`:
+**Archivo:** `app/finders/message_finder.rb`
 
 ```ruby
-validate :depends_on_belongs_to_account
+def apply_private_note_visibility(message_list)
+  list = Array(message_list)
+  return list if Current.user.blank?
+  return list if ActiveModel::Type::Boolean.new.cast(@params[:filter_internal_messages])
 
-def depends_on_belongs_to_account
-  return if depends_on_task_id.blank?
+  conversation = @conversation || list.first&.conversation
+  return list if conversation.blank?
 
-  errors.add(:depends_on_task_id, 'must belong to the same account') if depends_on_task&.account_id != account_id
+  list.select do |message|
+    !message.private? || Conversations::PrivateNoteVisibility.allowed?(
+      user: Current.user, message: message, conversation: conversation
+    )
+  end
 end
 ```
 
-**Cómo probar:**
-- Crear task A en cuenta 1.
-- Crear task B en cuenta 2.
-- PATCH a task B con `depends_on_task_id: A.id`.
-- Antes: se guardaba.
-- Ahora: 422 con mensaje "depends_on_task_id must belong to the same account".
+### B-NEW-04 — Layout de `ContactInfo.vue` partía los datos en dos bloques
+
+**Severidad:** Baja — el refactor había dejado `phone + documentNumber` en un
+bloque (junto al avatar) y `email + identifier + company + location` en otro
+debajo, partiendo la info de contacto arbitrariamente.
+
+**Fix:** consolidados todos los `ContactInfoRow` en una sola columna,
+con orden lógico: email → phone → identifier → document → company → location.
+
+**Archivo:** `app/javascript/dashboard/routes/dashboard/conversation/contact/ContactInfo.vue`
+
+### B-NEW-05 — `Avatar` huérfano cuando `showAvatar=false`
+
+**Severidad:** Baja — revisado, no requirió cambio. El `<Avatar>` ya tenía
+`v-if="showAvatar"`; el wrapper `flex flex-row items-start gap-3` no genera
+espacio visual fuerte cuando el Avatar está oculto (gap con un hijo sigue
+siendo razonable).
+
+**Estado:** ❌ No aplicado. Sin cambio necesario.
+
+### B-NEW-09 — `db/schema.rb` drift vs migración ya aplicada
+
+**Severidad:** Media — preocupado al inicio como Alta, **reclasificado tras verificación**.
+
+**Investigación:** al intentar `rails db:migrate` reaplicar la columna, Rails
+reportó `DuplicateMigrationNameError` con la migración `20260630120000_add_assigned_agent_id_to_contacts.rb`
+(ya existente en `db/migrate/` y aplicada según `schema_migrations`). La columna
+`contacts.assigned_agent_id`, su índice `index_contacts_on_assigned_agent_id` y
+la FK a `users(id)` **ya estaban presentes en la BD**.
+
+**Conclusión:** la edición manual de `db/schema.rb` era una corrección de drift
+(no agregaba nada nuevo), no una migración faltante. Mi diagnóstico inicial fue
+incorrecto — el `db/schema.rb` modificado **debe quedarse** (refleja el estado
+real de la BD). No creo nueva migración.
+
+**Verificación en BD local:**
+```sql
+\d contacts
+-- assigned_agent_id | bigint | (presente)
+-- index_contacts_on_assigned_agent_id btree (assigned_agent_id)
+-- fk_rails_cded5b5676 FOREIGN KEY (assigned_agent_id) REFERENCES users(id)
+```
+
+**Acción:** revertí mi migración duplicada (`20260711120000`) y mantuve el
+`schema.rb` con la columna.
+
+**Aprendizaje:** antes de declarar "falta migración", correr
+`SELECT version FROM schema_migrations`. Si el timestamp figura, **la
+migración YA está aplicada** aunque el `schema.rb` estuviera desactualizado.
+El "fix" entonces es regenerar `schema.rb` con `rails db:schema:dump`, no
+crear migración nueva.
+
+**Estado:** ✅ Documentado y corregido.
+Migración `db/migrate/20260711120000_add_assigned_agent_id_to_contacts.rb` borrada.
+
+### B-NEW-10 — `Contact.update!` con type-check insuficiente
+
+**Severidad:** Baja — defensa explícita en `AssignDefaultAgentService#perform`
+para no asignar un agente inválido al contacto (Bot, Conversation, etc.).
+
+**Fix:** agregado `return unless agent.is_a?(User)` y `return if agent.id == contact.id`
+(previene self-assignment).
+
+**Archivo:** `app/services/contacts/assign_default_agent_from_first_reply_service.rb`
+
+```ruby
+def perform
+  return unless message.human_response? && !message.private?
+
+  contact = message.conversation&.contact
+  return if contact.blank?
+  return if contact.assigned_agent_id.present?
+
+  agent = resolve_agent
+  return if agent.blank?
+  return unless agent.is_a?(User)
+  return if agent.id == contact.id
+
+  contact.update!(assigned_agent: agent)
+end
+```
 
 ---
 
-### TASK-005 — Import muerto en TaskDetail.vue
+## 3. Fijados en sesión anterior (tasks / UX)
 
-**Severidad:** Baja — code smell.
+### TASK-001 — Notas privadas en timeline
 
-**Archivo:** `app/javascript/dashboard/components-next/InternalTasks/TaskDetail.vue`
+Reglas movidas a `Conversations::PrivateNoteVisibility` (misma lógica).
 
-**Problema:** `const currentChat = useMapGetter('getSelectedChat')` se declaraba
-pero nunca se usaba en el script ni en el template.
+### TASK-002 — `clearSelectedState` en módulo internalTasks
 
-**Fix aplicado:** línea eliminada.
+### TASK-003 / TASK-004 — claim 409 JSON + depends_on misma cuenta
 
----
+### UX-001 / UX-002 — reply preview notas + snapshot botones WA
 
-## 3. Fixes verificados (estaban aplicados según docs)
-
-Estos fixes estaban documentados en `INTERNAL_TASKS_AND_ALERTS.md` y se
-verificaron que siguen presentes:
-
-| ID | Fix | Verificado en | Estado |
-|----|-----|---------------|--------|
-| AUDIO-001 | Audio init cuando `audio === null` o tone cambia | `app/javascript/dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper.js:96` | ✅ OK |
-| AUDIO-002 | Null-guard en `playAudioAlert` | línea 53 | ✅ OK |
-| AUDIO-003 | Permission flag `hasSentSoundPermissionsRequest` en `audioConfig` | línea 41 | ✅ OK |
-| CABLE-001 | `PRESENCE_INTERVAL = 60000` (60s cliente) | `app/javascript/shared/helpers/BaseActionCableConnector.js:3` | ✅ OK |
-| CABLE-002 | `visibilitychange → reopen()` + presence ping | línea 58, 68 | ✅ OK |
-| CABLE-003 | `PRESENCE_DURATION` default 90 | `lib/online_status_tracker.rb:3` | ✅ OK |
+Ver secciones 5b previas / commits en PR #3.
 
 ---
 
-## 4. Out of scope (del doc oficial, NO tocado)
-
-Lo que `INTERNAL_TASKS_AND_ALERTS.md` lista como follow-ups queda sin tocar en
-esta sesión:
+## 4. Out of scope (NO tocado)
 
 - Kanban drag-and-drop
-- Cambiar default de `enable_audio_alerts` away from `none`
+- Default `enable_audio_alerts`
 - Patch ActionCable `staleThreshold` en `node_modules`
-- Instagram OAuth POST token fix
+- Instagram OAuth POST
+- panel-ai / Meta Live
+- Validaciones P2: assignee/team same-account, status transitions estrictas
 
 ---
 
-## 5. Bugs abiertos (TODAVÍA no arreglados)
+## 5. Bugs abiertos (no bloquean grupales)
 
-| ID | Descripción | Severidad | Workaround |
-|----|-------------|-----------|-----------|
-| TASK-006 | `BotInboxMenuEditor` inline en `page.tsx:983-1278` es código muerto (sección 10 de `ASSISTANT_CONFIG.md`) | Baja | Borrar |
-| TASK-007 | Emoji mojibake `ðŸŒŽ` en `ContactInfo.vue` (fallback cuando no hay countryCode) | Baja | Reemplazar por icono Lucide |
-| TASK-008 | `task_templates.position` sin índice en migración `20260709120000` | Baja | Añadir `add_index :task_templates, [:account_id, :position]` |
-
-Estos no se arreglaron en esta sesión para mantener el diff mínimo.
+| ID | Descripción | Severidad | Notas |
+|----|-------------|-----------|-------|
+| TASK-006 | Código muerto BotInboxMenuEditor (panel-ai) | Baja | Fuera de este repo |
+| TASK-007 | Mojibake emoji en `ContactInfo.vue` | Baja | Cosmético |
+| TASK-008 | Índice position | — | **Stale / cerrado** |
+| P2-VALID | assignee/team_id sin check same-account; status libre en PATCH | Baja | Backlog |
+| CABLE-OPS | presence / proxy idle / staleThreshold | Ops | Documentado en INTERNAL_TASKS |
 
 ---
 
 ## 5b. UX fijados (reply / plantillas WA)
 
-### UX-001 — Preview reply-to oculto en notas privadas
+### UX-001 — Preview reply-to en notas privadas
 
-**Archivo:** `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue`
+`ReplyBox.vue` — `shouldShowReplyToMessage` muestra preview en modo nota.
 
-**Problema:** `shouldShowReplyToMessage` exigía `!isPrivate`, así que al abrir nota
-privada desde el menú del mensaje el banner `ReplyToMessage` no se montaba.
+### UX-002 — Botones plantilla WA en bubble
 
-**Fix:** si `isOnPrivateNote` y hay `inReplyTo.id`, mostrar el preview (sin exigir
-feature de canal `REPLY_TO`).
-
-### UX-002 — Botones de plantilla WhatsApp no visibles tras enviar
-
-**Archivos:** `WhatsAppTemplateParser.vue`, `helper/templateHelper.js`
-(`buildTemplateButtonsSnapshot`), `bubbles/Text/Index.vue`, compose helpers.
-
-**Problema:** al enviar solo iba el body + `template_params`; los botones llegaban
-a Meta pero no se persistían para la UI del agente.
-
-**Fix:** snapshot `content_attributes.template_buttons` al enviar; el bubble Text
-lista labels + URL/phone/copy-code. Mensajes viejos sin snapshot: sin botones.
+Snapshot `content_attributes.template_buttons` + render en `Text/Index.vue`.
 
 ---
 
-## 6. Cómo probar los fixes (smoke test)
+## 6. Cómo probar (smoke post-auditoría)
 
 ```powershell
-# Backend (Ruby) — restart basta
-docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml restart chatwoot-rails
+# Ruby (montado en ./app) — restart
+docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml restart chatwoot-rails chatwoot-sidekiq
 
-# Frontend (Vue) — rebuild obligatorio (assets baked in image)
+# Vue (claim 409 alert) — rebuild
 docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build chatwoot-rails
 ```
 
-**Tests manuales sugeridos:**
-
-1. `TASK-002`: navegar entre `/tasks/5` y otra página, revisar DevTools console.
-2. `TASK-001`: abrir timeline como agente no-asignado, contar notas privadas visibles.
-3. `TASK-003`: dos browsers, mismo user_id, click "claim" simultáneamente.
-4. `TASK-004`: intentar crear dependencia cross-account vía API.
-5. `TASK-005`: levantar DevTools, verificar que no hay warning de variable no usada.
-
-**UX (reply / templates):**
-
-6. Menú mensaje → nota privada → el editor debe mostrar el mismo preview de reply-to que un reply público.
-7. Enviar plantilla WhatsApp con botones/URL/phone → bubble del agente muestra body + labels/links resueltos (mensajes viejos sin snapshot: solo body).
+1. Soft-cancel/destroy task vía API como assignee → 200 (antes 403).
+2. Task asignada a team A: agent de team B **no** recibe ActionCable create/update.
+3. Claim concurrente → uno 200, otro 409 + alert FE.
+4. Agente no assignee/no team: hilo **y** timeline ocultan notas privadas ajenas.
+5. Nested `/conversations/:id/internal_tasks` solo lista tasks visibles por policy.
+6. Navegar `/tasks` sin errores de consola.
 
 ---
 
-## 7. Próximos pasos (recomendado)
+## 7. Próximos pasos
 
-1. Mergear rama actual → `develop`.
-2. Correr `bundle exec rspec spec/services/internal_tasks/ spec/services/conversations/timeline_builder_spec.rb` (crear specs primero si no existen).
-3. Una vez mergeado, redeploy GHCR → Dokploy staging.
-4. Smoke test en `test.inbox.paluhub.com` antes de promover a producción.
-5. Cuando esté estable, promociones a producción siguiendo
-   `docs/PRODUCTION_MIGRATION.md`.
+1. Smoke manual items 1–6 arriba.
+2. Commit/push a PR #3 cuando se pida.
+3. Diseñar chats grupales reutilizando cable scoped + PrivateNoteVisibility / futura NotePolicy.
+4. Specs mínimos: claim lock, destroy policy, PrivateNoteVisibility (recomendado antes de merge a prod).
 
 ---
 
-## 8. Cambios a documentación relacionada
+## 8. Docs relacionadas
 
-- `AGENTS.md`: agregar sección `Fixes recientes` linkando a este archivo.
-- `INTERNAL_TASKS_AND_ALERTS.md`: agregar entrada sobre los TASK-001..005.
-- Si se decide crear `NotePolicy`, vincular desde TASK-001.
+- [`INTERNAL_TASKS_AND_ALERTS.md`](INTERNAL_TASKS_AND_ALERTS.md)
+- [`AGENTS.md`](../AGENTS.md)

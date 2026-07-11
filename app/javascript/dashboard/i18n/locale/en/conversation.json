@@ -107,7 +107,7 @@
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "MORE_ACTIONS": "More actions",
-      "ASSIGNEE": "Assigned agent",
+      "ASSIGNEE": "Conversation agent",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -406,7 +406,7 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
+    "ASSIGNEE_LABEL": "Conversation agent",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {

@@ -5,7 +5,7 @@ class Api::V1::Accounts::InternalTasksController < Api::V1::Accounts::BaseContro
   def index
     authorize(InternalTask)
     @internal_tasks = filtered_tasks.includes(:created_by, :assigned_to, :team, :task_template,
-                                              :source_message, conversation: :contact)
+                                              :source_message, :events, conversation: :contact)
                                     .order(created_at: :desc)
   end
 

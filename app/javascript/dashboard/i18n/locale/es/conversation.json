@@ -107,7 +107,7 @@
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abrir",
       "MORE_ACTIONS": "Otras acciones",
-      "ASSIGNEE": "Agente asignado",
+      "ASSIGNEE": "Agente de la conversación",
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
@@ -386,7 +386,7 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Agente asignado",
+    "ASSIGNEE_LABEL": "Agente de la conversación",
     "SELF_ASSIGN": "Asignarme",
     "TEAM_LABEL": "Equipo asignado",
     "SELECT": {
