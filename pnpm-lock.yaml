@@ -183,6 +183,9 @@ importers:
       prosemirror-commands:
         specifier: ^1.7.1
         version: 1.7.1
+      prosemirror-inputrules:
+        specifier: ^1.4.0
+        version: 1.4.0
       prosemirror-schema-list:
         specifier: ^1.5.1
         version: 1.5.1
@@ -9037,7 +9040,7 @@ snapshots:
   prosemirror-state@1.4.3:
     dependencies:
       prosemirror-model: 1.22.3
-      prosemirror-transform: 1.10.0
+      prosemirror-transform: 1.12.0
       prosemirror-view: 1.34.1
 
   prosemirror-tables@1.5.0:
@@ -9065,7 +9068,7 @@ snapshots:
     dependencies:
       prosemirror-model: 1.22.3
       prosemirror-state: 1.4.3
-      prosemirror-transform: 1.10.0
+      prosemirror-transform: 1.12.0
 
   proto-list@1.2.4: {}
 
