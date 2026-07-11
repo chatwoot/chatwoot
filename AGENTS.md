@@ -114,6 +114,8 @@ Practical checklist for any change impacting core logic or public APIs
 
 ## PaluHub — audio alerts & ActionCable (ops)
 
+Full change brief for AI/human review of the Tasks + alerts PR: [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md).
+
 - Dashboard ding is **not** browser push sound. Agents must enable **Profile → Audio notifications** (`assigned` / `unassigned` / etc.). Default remains `none`.
 - Tone `ding` now initializes `Audio` on first `set()` (previously stayed `null` until tone changed).
 - Incoming contact messages on **pending** (bot) conversations can alert; other pending traffic stays quiet.
