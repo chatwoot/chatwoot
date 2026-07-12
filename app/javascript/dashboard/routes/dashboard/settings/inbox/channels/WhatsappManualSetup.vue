@@ -133,9 +133,14 @@ const statusRows = computed(() => [
   },
 ]);
 
-const apiErrorMessage = error =>
-  error.response?.data?.message ||
-  t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ERRORS.GENERIC');
+const apiErrorMessage = error => {
+  const message = error.response?.data?.message || '';
+  if (/invalid oauth access token|cannot parse access token/i.test(message)) {
+    return t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ERRORS.INVALID_TOKEN');
+  }
+
+  return message || t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.ERRORS.GENERIC');
+};
 
 const setStep = step => {
   errorMessage.value = '';
@@ -315,7 +320,7 @@ onBeforeUnmount(() => {
       </div>
 
       <div
-        v-if="errorMessage"
+        v-if="errorMessage && currentStep !== 3"
         class="mt-6 rounded-lg border border-n-ruby-5 bg-n-ruby-3 px-4 py-3 text-sm text-n-ruby-11"
       >
         {{ errorMessage }}
@@ -592,6 +597,9 @@ onBeforeUnmount(() => {
                   'INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.DETAILS.TOKEN_PLACEHOLDER'
                 )
               "
+              :message="errorMessage"
+              message-type="error"
+              @update:model-value="errorMessage = ''"
             />
             <Button
               :label="
@@ -609,7 +617,10 @@ onBeforeUnmount(() => {
               @click="showAccessToken = !showAccessToken"
             />
           </div>
-          <p class="mt-3 flex items-start gap-2 text-sm text-n-amber-11">
+          <p
+            v-if="!errorMessage"
+            class="mt-3 flex items-start gap-2 text-sm text-n-amber-11"
+          >
             <Icon icon="i-lucide-triangle-alert" class="mt-0.5 shrink-0" />
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.MANUAL_SETUP.TOKEN.WARNING') }}
           </p>
