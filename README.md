@@ -89,6 +89,17 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 
 Detailed documentation is available at [chatwoot.com/help-center](https://www.chatwoot.com/help-center).
 
+### llms.txt for the API
+
+A machine-readable [`llms.txt`](https://fabler-llms-txt.pages.dev/llms.txt) index of the Chatwoot API is
+available for coding agents and LLM tooling. It is generated with [Sourcey](https://github.com/sourcey/sourcey)
+directly from `swagger/swagger.json`, so every one of its 145 entries maps to a real operation in this repo's
+own OpenAPI spec rather than to hand-curated prose.
+
+It is community-maintained and **unofficial** — not affiliated with or endorsed by Chatwoot Inc. Maintainers
+who would rather serve it from a Chatwoot domain can reproduce it from source; the config and pinned commit are
+in the pull request that added this section.
+
 ## Translation process
 
 The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
