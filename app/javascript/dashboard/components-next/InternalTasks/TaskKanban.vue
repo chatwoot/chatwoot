@@ -92,15 +92,15 @@ defineExpose({ refresh });
       <Spinner />
     </div>
 
-    <div v-else class="flex-1 min-h-0 overflow-x-auto overflow-y-hidden p-3">
-      <div class="flex gap-3 h-full min-h-0 w-max min-w-full">
+    <div v-else class="flex-1 min-h-0 overflow-x-auto overflow-y-hidden p-2">
+      <div class="flex gap-2 h-full min-h-0 w-max min-w-full">
         <section
           v-for="column in columns"
           :key="column.key"
-          class="flex flex-col w-72 shrink-0 h-full min-h-0 rounded-lg border border-n-slate-3"
+          class="flex flex-col w-60 shrink-0 h-full min-h-0 rounded-lg border border-n-slate-3"
         >
           <header
-            class="flex items-center justify-between gap-2 px-3 h-10 border-b border-n-slate-3"
+            class="flex items-center justify-between gap-2 px-2.5 h-9 border-b border-n-slate-3"
           >
             <h2 class="text-sm font-medium text-n-slate-12 truncate">
               {{ column.label }}
@@ -112,7 +112,9 @@ defineExpose({ refresh });
             </span>
           </header>
 
-          <div class="flex-1 min-h-0 overflow-y-auto p-2 flex flex-col gap-2.5">
+          <div
+            class="flex-1 min-h-0 overflow-y-auto p-1.5 flex flex-col gap-1.5"
+          >
             <p
               v-if="!groupedTasks[column.key].length"
               class="px-2 py-6 text-center text-xs text-n-slate-11"

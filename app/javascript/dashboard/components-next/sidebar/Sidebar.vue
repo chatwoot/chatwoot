@@ -331,7 +331,7 @@ const menuItems = computed(() => {
       label: t('SIDEBAR.TASKS'),
       icon: 'i-lucide-list-checks',
       to: accountScopedRoute('tasks_dashboard_index'),
-      activeOn: ['tasks_dashboard_index'],
+      activeOn: ['tasks_dashboard_index', 'tasks_dashboard_show'],
       showBeta: true,
       getterKeys: {
         count: 'internalTasks/getMyOpenTaskCount',

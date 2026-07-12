@@ -925,7 +925,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 @import '@chatwoot/prosemirror-schema/src/styles/base.scss';
 
 .ProseMirror-menubar-wrapper {
-  @apply flex flex-col gap-3;
+  @apply flex flex-col gap-1.5;
 
   .ProseMirror-menubar {
     min-height: 1.25rem !important;
@@ -989,21 +989,21 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 .ProseMirror-woot-style:not(
     :where(.resizable-editor-wrapper .ProseMirror-woot-style)
   ) {
-  @apply min-h-[5rem] max-h-[7.5rem];
+  @apply min-h-[3rem] max-h-[6rem];
 }
 
 // Resizable editor wrapper styles
 .resizable-editor-wrapper {
   .ProseMirror-woot-style {
     min-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
+      var(--editor-min-allowed, var(--editor-min-height, 3rem)),
+      var(--editor-height, var(--editor-min-height, 3rem)),
+      var(--editor-max-allowed, var(--editor-max-height, 6rem))
     );
     max-height: clamp(
-      var(--editor-min-allowed, var(--editor-min-height, 5rem)),
-      var(--editor-height, var(--editor-min-height, 5rem)),
-      var(--editor-max-allowed, var(--editor-max-height, 7.5rem))
+      var(--editor-min-allowed, var(--editor-min-height, 3rem)),
+      var(--editor-height, var(--editor-min-height, 3rem)),
+      var(--editor-max-allowed, var(--editor-max-height, 6rem))
     );
     transition:
       min-height var(--editor-height-transition, 180ms ease),

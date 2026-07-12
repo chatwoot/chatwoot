@@ -2,8 +2,6 @@
 import { computed, ref } from 'vue';
 import { onBeforeRouteLeave } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
-import { useUISettings } from 'dashboard/composables/useUISettings';
-import wootConstants from 'dashboard/constants/globals';
 import TaskList from 'dashboard/components-next/InternalTasks/TaskList.vue';
 import TaskKanban from 'dashboard/components-next/InternalTasks/TaskKanban.vue';
 import TaskDetail from 'dashboard/components-next/InternalTasks/TaskDetail.vue';
@@ -15,23 +13,13 @@ const props = defineProps({
 const store = useStore();
 const taskListRef = ref(null);
 const taskKanbanRef = ref(null);
-const { uiSettings } = useUISettings();
 
-const isOnExpandedLayout = computed(() => {
-  const {
-    LAYOUT_TYPES: { CONDENSED },
-  } = wootConstants;
-  const { conversation_display_type: conversationDisplayType = CONDENSED } =
-    uiSettings.value;
-  return conversationDisplayType !== CONDENSED;
-});
+// Tasks stay condensed always — do not follow conversation_display_type.
+const isOnExpandedLayout = computed(() => false);
 
 const hasTaskSelected = computed(() => Boolean(Number(props.taskId)));
 
-// Left list: always in condensed; in expanded hide when a task is open (like conversations).
-const showTaskList = computed(() =>
-  isOnExpandedLayout.value ? !hasTaskSelected.value : true
-);
+const showTaskList = computed(() => true);
 
 const onTaskUpdated = () => {
   taskListRef.value?.refresh();

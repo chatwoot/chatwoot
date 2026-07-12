@@ -8,8 +8,8 @@ const props = defineProps({
   containerHeight: { type: Number, default: 0 },
 });
 
-const DEFAULT_HEIGHT = 120;
-const MIN_HEIGHT = 80;
+const DEFAULT_HEIGHT = 64;
+const MIN_HEIGHT = 48;
 const MIN_MESSAGES_HEIGHT = 200;
 const EXPAND_RATIO = 0.5;
 const RESET_DELAY_MS = 120;

@@ -1053,7 +1053,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :show-open-action="allSelectedConversationsStatus('open')"
       :show-resolved-action="allSelectedConversationsStatus('resolved')"
       :show-snoozed-action="allSelectedConversationsStatus('snoozed')"
-      :class="isOnExpandedLayout && 'sm:!w-[24rem] !w-full'"
+      :class="isOnExpandedLayout && 'sm:!w-[28rem] !w-full'"
       @select-all-conversations="toggleSelectAll"
     />
     <ConversationList

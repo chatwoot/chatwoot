@@ -69,7 +69,7 @@ const selectedModel = computed({
 
 <template>
   <div
-    class="conversation relative cursor-pointer group grid gap-4 items-center px-3 h-12 border-b border-n-slate-3 hover:border-n-surface-1 hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
+    class="conversation relative cursor-pointer group grid gap-4 items-center px-3 h-10 border-b border-n-slate-3 hover:border-n-surface-1 hover:z-[1] before:content-[none] before:absolute before:-top-px before:inset-x-0 before:h-px before:bg-n-surface-1 before:pointer-events-none hover:before:content-['']"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 !border-n-surface-1':
         isActiveChat,
@@ -120,7 +120,7 @@ const selectedModel = computed({
 
       <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
 
-      <div v-if="!isInboxView && showInboxName" class="w-20 flex-shrink-0">
+      <div v-if="!isInboxView && showInboxName" class="w-32 flex-shrink-0">
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 
@@ -153,12 +153,13 @@ const selectedModel = computed({
       />
 
       <h4
-        class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
+        class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-40 flex-shrink-0"
       >
         <span class="truncate">{{ currentContact.name }}</span>
       </h4>
 
       <CardContent
+        class="min-w-0 flex-1"
         :last-message="lastMessageInChat"
         :voice-call-status="voiceCallData.status"
         :voice-call-direction="voiceCallData.direction"

@@ -193,7 +193,6 @@ onUnmounted(() => {
           :events="taskEvents"
           :task-id="task.id"
           :conversation-id="conversationDisplayId"
-          @updated="onTaskUpdated"
         />
       </div>
 

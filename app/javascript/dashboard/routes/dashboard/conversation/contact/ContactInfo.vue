@@ -211,19 +211,19 @@ export default {
 </script>
 
 <template>
-  <div class="relative items-center w-full p-4">
-    <div class="flex flex-col w-full gap-3 text-left rtl:text-right">
-      <div class="flex flex-row items-start gap-3 w-full min-w-0">
+  <div class="relative items-center w-full px-3 py-2">
+    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
+      <div class="flex flex-row items-start gap-2.5 w-full min-w-0">
         <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
           :name="contact.name"
           :status="contact.availability_status"
-          :size="48"
+          :size="40"
           hide-offline-status
           class="flex-shrink-0"
         />
-        <div class="flex flex-col gap-1 min-w-0 flex-1">
+        <div class="flex flex-col gap-0.5 min-w-0 flex-1">
           <div class="flex items-start gap-2 min-w-0">
             <InlineInput
               v-if="isEditingName"

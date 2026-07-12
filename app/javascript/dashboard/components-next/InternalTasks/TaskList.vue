@@ -94,7 +94,7 @@ defineExpose({ refreshCounts, refresh });
 <template>
   <div
     v-if="showTaskList"
-    class="flex flex-col h-full min-h-0 conversations-list-wrap bg-n-surface-1 relative"
+    class="flex flex-col flex-shrink-0 h-full min-h-0 conversations-list-wrap bg-n-surface-1 relative"
     :class="isOnExpandedLayout ? 'basis-full' : 'w-[340px] 2xl:w-[412px]'"
   >
     <div class="flex items-center justify-between gap-2 px-3 h-[3.25rem]">

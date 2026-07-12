@@ -156,7 +156,7 @@ onUnmounted(() => {
               v-model="allSelected"
               :indeterminate="!allConversationsSelected"
             />
-            <span class="cursor-pointer">
+            <span class="cursor-pointer whitespace-nowrap shrink-0">
               {{
                 $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
                   conversationCount: conversations.length,

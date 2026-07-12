@@ -12,7 +12,6 @@ const props = defineProps({
   conversationId: { type: [String, Number], default: null },
 });
 
-const emit = defineEmits(['updated']);
 const { t } = useI18n();
 const store = useStore();
 const uiFlags = useMapGetter('internalTasks/getUIFlags');
@@ -51,7 +50,6 @@ const submitNote = async () => {
   });
   body.value = '';
   useAlert(t('INTERNAL_TASKS.NOTES.SUCCESS'));
-  emit('updated');
 };
 </script>
 

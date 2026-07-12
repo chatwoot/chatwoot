@@ -261,14 +261,13 @@ export const actions = {
     dispatch('refreshAccountTasks');
   },
 
-  handleTaskUpdated({ commit, dispatch, state: moduleState }, payload) {
+  handleTaskUpdated({ commit, state: moduleState }, payload) {
     const task = payload.internal_task;
     if (!task) return;
     commit(UPDATE_TASK, { data: task });
     if (moduleState.selectedTaskRecord?.id === task.id) {
       commit(SET_SELECTED_TASK, { data: task });
     }
-    dispatch('refreshAccountTasks');
   },
 
   async refreshAccountTasks({ commit, dispatch, state: moduleState }) {

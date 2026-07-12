@@ -1547,7 +1547,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-3 -mt-px;
+  @apply relative py-0 px-2.5 -mt-px;
 }
 
 .emoji-dialog {

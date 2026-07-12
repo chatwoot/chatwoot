@@ -7,6 +7,8 @@ import {
   taskContactLabel,
   taskAssigneeLabel,
 } from 'dashboard/helper/internalTaskUi';
+import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import TaskStatusBadge from './TaskStatusBadge.vue';
 
 const props = defineProps({
@@ -19,6 +21,7 @@ const router = useRouter();
 
 const contactLabel = computed(() => taskContactLabel(props.task));
 const assigneeLabel = computed(() => taskAssigneeLabel(props.task));
+const assignee = computed(() => props.task.assignedTo);
 const createdAtLabel = computed(() =>
   props.task.createdAt ? dynamicTime(props.task.createdAt) : null
 );
@@ -45,9 +48,9 @@ const onClick = event => {
 <template>
   <button
     type="button"
-    class="relative flex items-start w-full text-left px-3 py-2.5 cursor-pointer border-b border-n-slate-3 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start w-full text-left px-3 py-2.5 cursor-pointer rounded-none border-0 border-b border-solid border-n-slate-5 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
-      'active animate-card-select bg-n-background border-n-slate-3': isActive,
+      'active animate-card-select bg-n-background': isActive,
     }"
     @click="onClick"
   >
@@ -80,9 +83,26 @@ const onClick = event => {
             {{ $t('INTERNAL_TASKS.INBOX.DUE_AT') }} {{ dueAtLabel }}
           </template>
         </span>
-        <span v-if="createdAtLabel" class="shrink-0 tabular-nums">
-          {{ createdAtLabel }}
-        </span>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span v-if="createdAtLabel" class="tabular-nums">
+            {{ createdAtLabel }}
+          </span>
+          <Avatar
+            v-if="assignee?.name"
+            v-tooltip.top="assignee.name"
+            :name="assignee.name"
+            :src="assignee.thumbnail"
+            :size="20"
+            :status="assignee.availabilityStatus"
+            hide-offline-status
+            rounded-full
+          />
+          <Icon
+            v-else
+            icon="i-woot-empty-assignee"
+            class="size-4 text-n-slate-7"
+          />
+        </div>
       </div>
     </div>
   </button>

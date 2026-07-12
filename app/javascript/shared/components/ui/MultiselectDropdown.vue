@@ -45,6 +45,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  chevronOnly: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select']);
@@ -66,28 +70,44 @@ const hasValue = computed(() => {
 const hasIcon = computed(() => {
   return props.selectedItem?.icon || false;
 });
+
+const chevronIcon = computed(() =>
+  showSearchDropdown.value ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
+);
 </script>
 
 <template>
   <OnClickOutside @trigger="onCloseDropdown">
     <div
-      class="relative w-full"
-      :class="compact ? '' : 'mb-2'"
+      class="relative"
+      :class="{
+        'w-8 shrink-0': chevronOnly,
+        'w-full': !chevronOnly,
+        'mb-2': !compact && !chevronOnly,
+      }"
       @keyup.esc="onCloseDropdown"
     >
+      <!-- Chevron-only trigger (header split) — no default slot so icon-only sizing works -->
       <Button
+        v-if="chevronOnly"
+        slate
+        ghost
+        sm
+        :disabled="disabled"
+        :icon="chevronIcon"
+        class="!w-8 !h-8 !min-w-8 !rounded-none !outline-transparent"
+        @click="() => toggleDropdown()"
+      />
+      <Button
+        v-else
         slate
         outline
         trailing-icon
         :disabled="disabled"
         :size="compact ? 'sm' : undefined"
-        :icon="
-          showSearchDropdown ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'
-        "
+        :icon="chevronIcon"
         :class="compact ? 'w-full !h-8 !px-2' : 'w-full !px-2'"
-        @click="
-          () => toggleDropdown() // ensure that the event is not passed to the button
-        "
+        @click="() => toggleDropdown()"
       >
         <div class="flex items-center flex-1 min-w-0 gap-1">
           <h4 v-if="!hasValue" class="text-sm truncate text-n-slate-12">
@@ -117,9 +137,10 @@ const hasIcon = computed(() => {
         />
       </Button>
       <div
-        class="box-border w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
+        class="box-border border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999] ltr:right-0 rtl:left-0"
         :class="[
-          compact ? 'top-8' : 'top-[2.625rem]',
+          compact || chevronOnly ? 'top-9' : 'top-[2.625rem]',
+          chevronOnly ? 'min-w-[16rem] w-max' : 'w-full',
           showSearchDropdown ? 'block visible' : 'hidden invisible',
         ]"
       >
