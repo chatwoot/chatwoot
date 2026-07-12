@@ -248,48 +248,38 @@ Flujo Chatwoot: Add Inbox → **Facebook** → `FB.login` → `me/accounts` → 
 
 ## Estado Git PaluHub (snapshot)
 
-_Última actualización: 2026-07-11_
+_Última actualización: 2026-07-12_  
+**InboxHub version:** `1.0.0` — ver [`PALUHUB_VERSION`](PALUHUB_VERSION), [`docs/VERSIONING.md`](docs/VERSIONING.md), [`docs/CHANGELOG_PALUHUB.md`](docs/CHANGELOG_PALUHUB.md), [`docs/RELEASE_INBOXHUB_1.0.0.md`](docs/RELEASE_INBOXHUB_1.0.0.md).
 
-### chatwoot (este repo) — rama `feat/internal-tasks`
+### chatwoot (este repo) — rama `feat/internal-tasks` → release 1.0.0
 
 | Campo | Valor |
 |-------|-------|
-| **vs origin** | ahead **1** (PR #3 abierto) |
-| **HEAD** | `42b82557d` — `feat(tasks): add internal tasks inbox with kanban and realtime updates` |
-| **Working tree** | dirty (fixes TASK-001..005 + BUGS.md sin commitear) |
+| **vs origin** | push + merge a `develop` pendientes de este release |
+| **HEAD (local)** | commits UI polish + team RR encima de `214fc8bed` |
+| **Working tree** | docs de versionado / release (commit docs) |
+| **Tag objetivo** | `inboxhub-v1.0.0` en `develop` tras merge |
 
-**Historial reciente:**
+**Incluye (vs develop):** Internal Tasks + migraciones, ACL/privacy, WA interactive, contact UX, reply/template fixes, UI compacta, split assignee, team→round-robin.
 
-| Commit | Descripción |
-|--------|-------------|
-| `a6412e00a` | `fix(tasks): improve card separation, beta badge, audio init and presence` |
-| `42b82557d` | `feat(tasks): add internal tasks inbox with kanban and realtime updates` |
-| `f29c3ee79` | contactos UI + accesibilidad |
-| `293007b4f` | WhatsApp interactive action hash |
-| `a0dfeb148` | merge contact-assigned-agent |
+**Historial reciente (feature):**
 
-**Todas las ramas locales:**
+| Commit (tema) | Descripción |
+|---------------|-------------|
+| team RR | `feat(conversations): auto-assign agent when assigning a team` |
+| UI polish | `fix(ui): compact reply box, tasks polish, and split assignee control` |
+| `214fc8bed` | ACL/privacy tasks + contact agent UX |
+| `edadfc9b6` | private-note reply + WA template buttons |
+| `42b82557d` | Internal Tasks inbox + kanban |
 
-| Rama | HEAD | Notas |
-|------|------|-------|
-| `feat/internal-tasks` | `42b82557d` | **activa**, PR #3, tiene 5 fixes locales sin commitear (ver `docs/BUGS.md`) |
-| `fix/whatsapp-interactive-menu` | `f29c3ee79` | |
-| `develop` | `293007b4f` | ahead 1 (WhatsApp fix) |
-| `feat/contact-assigned-agent` | `a869b9d30` | merged |
-| `feat/panel-ia-ui-and-assignment` | `6c077363f` | UI header contacto |
-| `feat/production-dokploy-config` | `45d89a819` | deploy docs |
-| `fix/bot-assignment-handoff-hardening` | `25d8756d3` | |
-| `fix/message-meta-ui-and-deploy-docs` | `0eca20d20` | document_number |
-| `fix/post-audit-deploy` | `4d9413863` | |
+**Migraciones obligatorias en prod:** `20260709120000` … `20260709130000` (ver RELEASE doc).
 
 ### panel-ai (repo hermano)
 
 | Campo | Valor |
 |-------|-------|
-| **Rama** | `develop` (ahead 2, dirty) |
-| **HEAD** | `f4eb66c` |
-
-Detalle completo: `panel-ai/AGENTS.md`
+| **Rama** | `develop` |
+| Detalle | `panel-ai/AGENTS.md` |
 
 ---
 
@@ -297,9 +287,8 @@ Detalle completo: `panel-ai/AGENTS.md`
 
 | Item | Repo | Acción |
 |------|------|--------|
-| Internal tasks + alertas + 11 fixes P0/P2 | chatwoot | merge `feat/internal-tasks` → `develop`, **correr `db:migrate`** (migración `20260711120000`), redeploy GHCR |
-| WhatsApp interactive | chatwoot | merge `fix/whatsapp-interactive-menu` → `develop`, redeploy GHCR |
-| WhatsApp channel + menús | panel-ai | merge `develop` → `master`, redeploy |
+| **InboxHub 1.0.0** | chatwoot | merge `feat/internal-tasks` → `develop`, tag `inboxhub-v1.0.0`, GHCR redeploy, **`db:migrate`**, smoke RELEASE |
+| WhatsApp channel + menús | panel-ai | verificar prod / merge `master` si falta |
 | Refactor UI asistentes | panel-ai | commit + merge cuando estable |
 | Instagram POST fix | chatwoot | implementar en `instagram_concern.rb` |
 | Meta Live / testers clientes | Meta | operativo |
