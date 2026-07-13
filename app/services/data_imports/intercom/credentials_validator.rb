@@ -8,7 +8,8 @@ class DataImports::Intercom::CredentialsValidator
     validate_parameters!
 
     {}.tap do |totals|
-      totals['contacts'] = total_count(client.list_contacts(per_page: 1)) if @import_types.include?('contacts')
+      contacts_response = client.list_contacts(per_page: 1) if @import_types.intersect?(%w[contacts conversations])
+      totals['contacts'] = total_count(contacts_response) if @import_types.include?('contacts')
       totals['conversations'] = total_count(client.list_conversations(per_page: 1)) if @import_types.include?('conversations')
     end.compact
   end

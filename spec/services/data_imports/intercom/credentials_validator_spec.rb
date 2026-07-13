@@ -18,13 +18,14 @@ RSpec.describe DataImports::Intercom::CredentialsValidator do
     expect(client).not_to have_received(:list_conversations)
   end
 
-  it 'validates and counts only conversations when contacts are not selected' do
+  it 'validates contact access and counts only conversations when contacts are not selected' do
+    allow(client).to receive(:list_contacts).with(per_page: 1).and_return('total_count' => 42)
     allow(client).to receive(:list_conversations).with(per_page: 1).and_return('total_count' => 17)
 
     totals = described_class.new(access_token: 'intercom-token', import_types: %w[conversations]).perform
 
     expect(totals).to eq('conversations' => 17)
-    expect(client).not_to have_received(:list_contacts)
+    expect(client).to have_received(:list_contacts).with(per_page: 1)
   end
 
   it 'keeps an undiscovered total absent' do
