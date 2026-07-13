@@ -17,7 +17,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Policy from 'dashboard/components/policy.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
-import RelatedResponses from 'dashboard/components-next/captain/pageComponents/document/RelatedResponses.vue';
+import DocumentDetails from 'dashboard/components-next/captain/pageComponents/document/DocumentDetails.vue';
 import CreateDocumentDialog from 'dashboard/components-next/captain/pageComponents/document/CreateDocumentDialog.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
@@ -51,22 +51,22 @@ const handleDelete = () => {
   deleteDocumentDialog.value.dialogRef.open();
 };
 
-const showRelatedResponses = ref(false);
+const showDocumentDetails = ref(false);
 const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
-const relationQuestionDialog = ref(null);
+const documentDetailsDialog = ref(null);
 
-const handleShowRelatedDocument = () => {
-  showRelatedResponses.value = true;
-  nextTick(() => relationQuestionDialog.value.dialogRef.open());
+const handleShowDocumentDetails = () => {
+  showDocumentDetails.value = true;
+  nextTick(() => documentDetailsDialog.value.dialogRef.open());
 };
 const handleCreateDocument = () => {
   showCreateDialog.value = true;
   nextTick(() => createDocumentDialog.value.dialogRef.open());
 };
 
-const handleRelatedResponseClose = () => {
-  showRelatedResponses.value = false;
+const handleDocumentDetailsClose = () => {
+  showDocumentDetails.value = false;
 };
 
 const handleCreateDialogClose = () => {
@@ -236,7 +236,7 @@ const handleAction = ({ action, id }) => {
     if (action === 'delete') {
       handleDelete();
     } else if (action === 'viewDetails') {
-      handleShowRelatedDocument();
+      handleShowDocumentDetails();
     } else if (action === 'sync') {
       handleSync(id);
     }
@@ -428,11 +428,11 @@ onUnmounted(() => {
       </div>
     </template>
 
-    <RelatedResponses
-      v-if="showRelatedResponses"
-      ref="relationQuestionDialog"
+    <DocumentDetails
+      v-if="showDocumentDetails"
+      ref="documentDetailsDialog"
       :captain-document="selectedDocument"
-      @close="handleRelatedResponseClose"
+      @close="handleDocumentDetailsClose"
     />
     <CreateDocumentDialog
       v-if="showCreateDialog"
