@@ -35,7 +35,7 @@ namespace :feature_defaults do
 
   def select_feature(features, input)
     index = Integer(input, exception: false)
-    return nil if index.nil?
+    return nil if index.nil? || !index.between?(1, features.length)
 
     features[index - 1]
   end
