@@ -720,6 +720,18 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response.parsed_body['error']).to eq('Branded email layout is only supported for email inboxes')
       end
 
+      it 'ignores blank branded email layout for non-email inboxes' do
+        account.enable_features!(:branded_email_templates)
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { name: 'Renamed Inbox', branded_email_layout: '' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.name).to eq('Renamed Inbox')
+      end
+
       it 'rejects branded email layout without content slot' do
         account.enable_features!(:branded_email_templates)
         email_channel = create(:channel_email, account: account)

@@ -167,7 +167,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def update_branded_email_layout
     return true unless params.key?(:branded_email_layout)
 
-    branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
+    branded_email_layout = normalized_branded_email_layout
 
     unless Current.account.feature_enabled?(:branded_email_templates)
       return true if branded_email_layout.blank?
@@ -177,6 +177,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     end
 
     unless @inbox.email?
+      return true if branded_email_layout.blank?
+
       render_could_not_create_error('Branded email layout is only supported for email inboxes')
       return false
     end
@@ -187,6 +189,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     render_could_not_create_error(e.record.errors.full_messages.join(', '))
     false
   end
+
+  def normalized_branded_email_layout = params[:branded_email_layout] == 'null' ? nil : params[:branded_email_layout]
 
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
