@@ -253,3 +253,7 @@
   display_name: WhatsApp Manual Transfer
   enabled: false
   column: feature_flags_ext_1
+- name: data_import
+  display_name: Data Import
+  enabled: false
+  column: feature_flags_ext_1
