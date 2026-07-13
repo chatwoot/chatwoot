@@ -20,6 +20,12 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       'tool_ids' => []
     }
   end
+  let(:faq_document_candidate) do
+    {
+      'question' => 'When is support available?',
+      'answer' => 'Support is available Monday to Friday.'
+    }
+  end
   let(:draft) do
     {
       business_product_context: ['Support assistant for Test Product.'],
@@ -27,7 +33,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       guardrails: ['Do not guess.'],
       conversation_messages: {},
       scenario_candidates: [scenario_candidate],
-      faq_document_candidates: ['Support hours are Monday to Friday.'],
+      faq_document_candidates: [faq_document_candidate],
       needs_review: ['Pricing details are missing because factual details are absent from the source instructions.']
     }
   end
@@ -49,14 +55,25 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
 
       assistant.reload
       expect(assistant.config.dig('assistant_migration', 'scenario_candidates')).to eq([scenario_candidate])
-      expect(assistant.config.dig('assistant_migration', 'faq_document_candidates')).to contain_exactly('Support hours are Monday to Friday.')
+      expect(assistant.config.dig('assistant_migration', 'faq_document_candidates')).to contain_exactly(faq_document_candidate)
       expect(assistant.config.dig('assistant_migration', 'needs_review')).to contain_exactly(
         'Pricing details are missing because factual details are absent from the source instructions.'
       )
       expect(assistant.response_guidelines).to include(
         'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
+      expect(assistant.response_guidelines).not_to include(faq_document_candidate['answer'])
       expect(assistant.scenarios.count).to eq(0)
+    end
+
+    it 'rejects stale drafts whose FAQ candidates use the old string format' do
+      stale_draft = draft.merge(faq_document_candidates: ['Support is available Monday to Friday.'])
+
+      expect do
+        described_class.new(assistant: assistant, draft: stale_draft, dry_run: false).perform
+      end.to raise_error(ArgumentError, 'FAQ document candidates must be question and answer objects')
+
+      expect(assistant.reload.config).not_to have_key('assistant_migration')
     end
 
     it 'preserves original values in migration config before applying classifier output' do

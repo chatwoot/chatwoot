@@ -110,12 +110,28 @@ Classify the existing assistant instructions into these sections:
 
 ## FAQs/Documents Candidates
 
+- Convert factual or product-specific knowledge into pending FAQ candidates with a natural customer question and a self-contained answer.
+- FAQ candidates are review-stage data only. They are not active assistant knowledge until a human reviews and approves them.
+- Use only facts stated in the existing instructions. Do not invent, generalize, update, or fill in missing details.
+- Preserve exact prices, limits, dates, time zones, conditions, exceptions, product names, and operational details in the answer.
+- Write each question as a standalone question a customer might naturally ask. Make it specific enough to retrieve the corresponding answer.
+- Write each answer so it fully answers its question without relying on another FAQ candidate or surrounding context.
+- Split unrelated facts into separate candidates. Keep related conditions and exceptions together when separating them would make an answer incomplete.
+- Do not create FAQ candidates about what the assistant should say or do, how it should use sources or tools, when it should route or escalate,
+  or which exact message it should send. Classify those as Response Guidelines, Guardrails, Scenario Candidates, Conversation Messages,
+  or Needs Review as appropriate.
+- FAQ questions must ask about the product or business, not about the assistant. Do not write questions such as "What should the assistant answer?",
+  "What should I say?", "Which source should the assistant use?", or "Which tool should be called?".
+- FAQ answers must contain customer-facing knowledge, not instructions to call tools, inspect internal data, update records, transfer conversations,
+  or follow internal workflows.
+- When factual sources conflict and the instructions do not explicitly establish which fact overrides the others, put the conflict in Needs Review
+  instead of creating an FAQ candidate. Use an explicitly stated override or superseding fact when one is present.
 - Only factual or product-specific knowledge should become FAQs/Documents candidates.
 - Generic capability statements such as "answer product questions", "help with billing",
   "troubleshoot common issues", or "direct to documentation" are not FAQ/document candidates.
   Put them in Business/Product Context or Response Guidelines when useful.
 - Product facts, pricing, policies, setup steps, troubleshooting facts, support hours, emergency contacts,
-  and operational details should become FAQs/Documents candidates, not trusted approved knowledge.
+  and operational details should become pending FAQ candidates, not Response Guidelines or trusted approved knowledge.
 - Do not create FAQ/document candidates for topic labels or unsupported capabilities when the factual content is
   missing. Put "pricing details are needed", "same-day delivery schedule details are needed", or similar gaps in
   Needs Review instead.

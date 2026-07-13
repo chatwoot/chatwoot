@@ -95,7 +95,7 @@ class Captain::AssistantMigration::DraftApplier
     existing_migration_config.merge(
       ORIGINAL_VALUES_KEY => existing_original_values,
       'scenario_candidates' => staged_scenario_candidates,
-      'faq_document_candidates' => normalized_instruction_items(:faq_document_candidates),
+      'faq_document_candidates' => normalized_faq_document_candidates,
       'needs_review' => normalized_instruction_items(:needs_review)
     )
   end
@@ -178,6 +178,19 @@ class Captain::AssistantMigration::DraftApplier
 
   def normalized_instruction_items(key)
     item_values(key)
+  end
+
+  def normalized_faq_document_candidates
+    Array(draft_hash[:faq_document_candidates]).map do |candidate|
+      raise ArgumentError, 'FAQ document candidates must be question and answer objects' unless candidate.is_a?(Hash)
+
+      candidate = candidate.deep_symbolize_keys
+      question = candidate[:question].to_s.squish
+      answer = candidate[:answer].to_s.squish
+      raise ArgumentError, 'FAQ document candidates must include a question and answer' if question.blank? || answer.blank?
+
+      { 'question' => question, 'answer' => answer }
+    end.uniq
   end
 
   def draft_hash

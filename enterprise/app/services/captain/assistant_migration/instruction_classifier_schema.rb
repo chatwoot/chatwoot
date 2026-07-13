@@ -67,10 +67,20 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
            max_length: 1000
   end
 
-  instruction_items :faq_document_candidates,
-                    description: 'Only factual or product-specific knowledge candidates such as pricing, policy, setup, troubleshooting, ' \
-                                 'or operational details.',
-                    max_items: 25
+  array :faq_document_candidates,
+        description: 'Pending FAQ candidates for factual or product-specific knowledge such as pricing, policy, setup, troubleshooting, ' \
+                     'or operational details. These candidates remain inactive until reviewed and approved.',
+        max_items: 25 do
+    object do
+      string :question,
+             description: 'Natural, standalone customer question about factual product or business knowledge.',
+             max_length: 255
+      string :answer,
+             description: 'Self-contained factual answer using only the existing instructions. Do not include assistant behavior, ' \
+                          'tool use, or message copy. Preserve exact values, conditions, and exceptions.',
+             max_length: 2000
+    end
+  end
 
   instruction_items :needs_review,
                     description: 'Unclear, conflicting, risky, duplicated, or uncertain content that needs human review. ' \
