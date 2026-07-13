@@ -54,8 +54,17 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def validate_provider_config?
-    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    response.success?
+    config = whatsapp_channel.provider_config
+    response = HTTParty.get("#{business_account_path}/message_templates?access_token=#{config['api_key']}")
+    return log_transfer_failure('waba_or_token_check', response) unless response.success?
+    # The templates check only proves the WABA/token pair, so verify the phone_number_id belongs to this WABA when it changes.
+    return true unless whatsapp_channel.provider_config_changed?
+
+    phone_response = HTTParty.get("#{business_account_path}/phone_numbers?fields=id&limit=100&access_token=#{config['api_key']}")
+    ids = phone_response.parsed_response.is_a?(Hash) ? Array(phone_response.parsed_response['data']) : []
+    return true if phone_response.success? && ids.any? { |number| number['id'] == config['phone_number_id'].to_s }
+
+    log_transfer_failure('phone_number_id_check', phone_response)
   end
 
   def api_headers
@@ -80,6 +89,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   private
+
+  # Only credential updates on existing channels are transfer attempts; creation failures are regular setup errors. Returns false.
+  def log_transfer_failure(check, response)
+    return false unless whatsapp_channel.persisted? && whatsapp_channel.provider_config_changed?
+
+    error_message = response.parsed_response.is_a?(Hash) ? response.parsed_response.dig('error', 'message') : nil
+    Rails.logger.warn("[WHATSAPP_MANUAL_TRANSFER] failure account_id=#{whatsapp_channel.account_id} channel_id=#{whatsapp_channel.id} " \
+                      "check=#{check} http_status=#{response.code} meta_error=#{error_message}")
+    false
+  end
 
   def csat_template_service
     @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)

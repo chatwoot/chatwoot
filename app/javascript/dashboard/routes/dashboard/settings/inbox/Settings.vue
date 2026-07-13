@@ -29,6 +29,8 @@ import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vu
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
+import WhatsappManualMigrationDialog from './components/WhatsappManualMigrationDialog.vue';
+import WhatsappManualMigrationBanner from './components/WhatsappManualMigrationBanner.vue';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import LockToSingleConversationPreview from './components/LockToSingleConversationPreview.vue';
@@ -78,6 +80,8 @@ export default {
     ColorPicker,
     SelectInput,
     AccountHealth,
+    WhatsappManualMigrationDialog,
+    WhatsappManualMigrationBanner,
     Widget,
     AccessToken,
     Icon,
@@ -112,6 +116,7 @@ export default {
       isLoadingHealth: false,
       healthError: null,
       isRegisteringWebhook: false,
+      isTransferringWhatsAppToManual: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
       widgetBubbleLauncherTitle: '',
@@ -382,10 +387,12 @@ export default {
       return this.inbox.provider_config?.source === 'embedded_signup';
     },
     whatsappUnauthorized() {
+      // The manual migration banner supersedes the embedded-signup reauthorize flow when the feature is enabled.
       return (
         this.isAWhatsAppCloudChannel &&
         this.isEmbeddedSignupWhatsApp &&
-        this.inbox.reauthorization_required
+        this.inbox.reauthorization_required &&
+        !this.showWhatsAppManualMigration
       );
     },
     whatsappRegistrationIncomplete() {
@@ -402,6 +409,16 @@ export default {
         this.healthData.throughput?.level === 'NOT_APPLICABLE'
       );
     },
+    showWhatsAppManualMigration() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        this.isEmbeddedSignupWhatsApp &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.WHATSAPP_MANUAL_TRANSFER
+        )
+      );
+    },
     widgetBuilderStorageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
@@ -413,6 +430,7 @@ export default {
         if (inboxChanged) {
           this.syncInboxData();
           this.setTabFromRouteParam();
+          this.openWhatsAppManualMigrationIfRequested();
         }
       }
     },
@@ -423,6 +441,7 @@ export default {
           this.fetchHealthData();
           this.$nextTick(() => {
             this.setTabFromRouteParam();
+            this.openWhatsAppManualMigrationIfRequested();
           });
         } else {
           this.selectedFeatureFlags = newInbox?.selected_feature_flags || [];
@@ -433,8 +452,52 @@ export default {
   },
   mounted() {
     this.fetchSharedData();
+    this.openWhatsAppManualMigrationIfRequested();
   },
   methods: {
+    openWhatsAppManualMigrationDialog() {
+      this.$refs.whatsappManualMigrationDialog?.open();
+    },
+    openWhatsAppManualMigrationIfRequested() {
+      if (
+        this.showWhatsAppManualMigration &&
+        this.$route.query.migration === 'whatsapp_manual'
+      ) {
+        this.$nextTick(() => {
+          this.openWhatsAppManualMigrationDialog();
+        });
+      }
+    },
+    async transferWhatsAppToManualSetup(form) {
+      this.isTransferringWhatsAppToManual = true;
+      try {
+        const providerConfig = { ...(this.inbox.provider_config || {}) };
+        delete providerConfig.source;
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...providerConfig,
+              phone_number_id: form.phoneNumberId,
+              business_account_id: form.wabaId,
+              api_key: form.accessToken,
+            },
+          },
+        };
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_SUCCESS')
+        );
+        this.$refs.whatsappManualMigrationDialog?.close();
+      } catch (error) {
+        useAlert(
+          this.$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MANUAL_TRANSFER_ERROR')
+        );
+      } finally {
+        this.isTransferringWhatsAppToManual = false;
+      }
+    },
     async copyWebhookSecret(value) {
       await copyTextToClipboard(value);
       useAlert(
@@ -747,6 +810,12 @@ export default {
           :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
           class="mx-6 mb-4"
           :class="bannerMaxWidth"
+        />
+        <WhatsappManualMigrationBanner
+          v-if="showWhatsAppManualMigration"
+          class="mx-6 mb-6"
+          :class="bannerMaxWidth"
+          @start="openWhatsAppManualMigrationDialog"
         />
         <Banner
           v-if="showInstagramRestrictionSettingsBanner"
@@ -1339,6 +1408,13 @@ export default {
             @register-webhook="registerWebhook"
           />
         </div>
+        <WhatsappManualMigrationDialog
+          v-if="showWhatsAppManualMigration"
+          ref="whatsappManualMigrationDialog"
+          :inbox="inbox"
+          :is-loading="isTransferringWhatsAppToManual"
+          @reconnect="transferWhatsAppToManualSetup"
+        />
       </div>
     </section>
   </div>

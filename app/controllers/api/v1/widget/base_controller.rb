@@ -59,6 +59,10 @@ class Api::V1::Widget::BaseController < ApplicationController
     permitted_params.dig(:contact, :phone_number)
   end
 
+  def contact_custom_attributes
+    permitted_params.dig(:contact, :custom_attributes)&.to_h
+  end
+
   def browser_params
     {
       browser_name: browser.name,
