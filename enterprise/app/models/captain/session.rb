@@ -40,12 +40,12 @@ class Captain::Session < ApplicationRecord
   validates :subject_id, presence: true
 
   def subject
-    session_assistant? ? Conversation.find_by(id: subject_id) : CopilotThread.find_by(id: subject_id)
+    session_assistant? ? Conversation.find_by(id: subject_id, account_id: account_id) : CopilotThread.find_by(id: subject_id, account_id: account_id)
   end
 
   def result
     return if result_id.blank?
 
-    session_assistant? ? Message.find_by(id: result_id) : CopilotMessage.find_by(id: result_id)
+    session_assistant? ? Message.find_by(id: result_id, account_id: account_id) : CopilotMessage.find_by(id: result_id, account_id: account_id)
   end
 end
