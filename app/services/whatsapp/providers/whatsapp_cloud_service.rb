@@ -40,7 +40,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def fetch_whatsapp_templates(url)
     response = HTTParty.get(url)
-    return [] unless response.success?
+    unless response.success?
+      Rails.logger.warn "[WHATSAPP] Template sync failed for account #{whatsapp_channel.account_id} " \
+                        "inbox #{whatsapp_channel.inbox&.id}: #{response.code} #{error_message(response)}"
+      return []
+    end
 
     next_url = next_url(response)
 
