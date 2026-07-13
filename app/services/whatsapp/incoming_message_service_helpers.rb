@@ -44,7 +44,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def unprocessable_message_type?(message_type)
-    %w[reaction ephemeral unsupported request_welcome].include?(message_type)
+    %w[reaction ephemeral request_welcome].include?(message_type)
   end
 
   def processed_waid(waid)
@@ -69,6 +69,12 @@ module Whatsapp::IncomingMessageServiceHelpers
 
   def process_in_reply_to(message)
     @in_reply_to_external_id = message['context']&.[]('id')
+  end
+
+  def referral_attributes(message)
+    return {} if outgoing_echo
+
+    message[:referral]&.to_h&.deep_stringify_keys || {}
   end
 
   def find_message_by_source_id(source_id)

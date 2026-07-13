@@ -607,9 +607,12 @@
         "DRAFT": "Bozza",
         "ARCHIVE": "Archivia",
         "TRANSLATE": "Traduci",
+        "MOVE_TO_CATEGORY": "Categoria",
         "DELETE": "Elimina",
         "STATUS_SUCCESS": "Articoli aggiornati correttamente",
         "STATUS_ERROR": "Impossibile aggiornare gli articoli",
+        "CATEGORY_SUCCESS": "Articles moved successfully",
+        "CATEGORY_ERROR": "Failed to move articles",
         "DELETE_CONFIRM_TITLE": "Elimina articolo | Elimina {count} articoli",
         "DELETE_CONFIRM_DESCRIPTION": "Questo eliminerà definitivamente l'articolo selezionato. Questa azione non può essere annullata. | Questo eliminerà definitivamente {count} articoli selezionati. Questa azione non può essere annullata.",
         "DELETE_CONFIRM": "Elimina",
@@ -865,6 +868,28 @@
           }
         },
         "EDIT_CONFIGURATION": "Modifica configurazione"
+      },
+      "LAYOUT_CONTENT": {
+        "HEADER": "Aspetto",
+        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "LAYOUT": {
+          "CLASSIC": {
+            "TITLE": "Classic",
+            "DESCRIPTION": "A welcoming home page with search and featured topics."
+          },
+          "SIDEBAR": {
+            "TITLE": "Documentation",
+            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+          }
+        },
+        "SOCIAL_LINKS": {
+          "HEADER": "Social links",
+          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
+          "PLACEHOLDER": "handle",
+          "ADD": "Add social link",
+          "REMOVE": "Rimuovi"
+        },
+        "SAVE": "Salva modifiche"
       },
       "API": {
         "CREATE_PORTAL": {

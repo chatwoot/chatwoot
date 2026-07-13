@@ -30,8 +30,25 @@ describe Whatsapp::IncomingCallService do
     end
   end
 
+  context 'when inbound calls are disabled on the channel' do
+    it 'rejects the call with Meta without creating a Call or Conversation' do
+      channel.provider_config = channel.provider_config.merge('inbound_calls_enabled' => false)
+      channel.save!
+      provider_service = instance_double(Whatsapp::Providers::WhatsappCloudService, reject_call: true)
+      allow(inbox.channel).to receive(:provider_service).and_return(provider_service)
+
+      params = call_payload(event: 'connect', session: { sdp: "v=0\r\n...sdp...", sdp_type: 'offer' })
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to not_change(Call, :count).and not_change(Conversation, :count)
+      expect(provider_service).to have_received(:reject_call).with(provider_call_id)
+    end
+  end
+
   describe 'inbound connect' do
     let(:sdp_offer) { "v=0\r\n...sdp..." }
+    let!(:agent) { create(:user, account: account) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
 
     it 'creates the Call + Conversation + voice_call message and broadcasts voice_call.incoming' do
       allow(ActionCable.server).to receive(:broadcast)
@@ -44,9 +61,15 @@ describe Whatsapp::IncomingCallService do
       expect(call).to have_attributes(provider: 'whatsapp', direction: 'incoming', status: 'ringing',
                                       provider_call_id: provider_call_id)
       expect(call.meta['sdp_offer']).to eq(sdp_offer)
+      # No agent is online, so the call falls back to the inbox's agents (and
+      # account admins) — never the whole-account stream.
       expect(ActionCable.server).to have_received(:broadcast).with(
-        "account_#{account.id}",
+        agent.pubsub_token,
         hash_including(event: 'voice_call.incoming', data: hash_including(sdp_offer: sdp_offer))
+      )
+      expect(ActionCable.server).not_to have_received(:broadcast).with(
+        "account_#{account.id}",
+        hash_including(event: 'voice_call.incoming')
       )
     end
   end
@@ -126,16 +149,38 @@ describe Whatsapp::IncomingCallService do
   end
 
   describe 'terminate with no local row yet' do
-    it 'logs and skips instead of materialising an inbound missed-call row' do
-      allow(Rails.logger).to receive(:warn)
+    # Unique per example: the 60s tombstone isn't rolled back between specs.
+    let(:tombstone_call_id) { "wacid.#{SecureRandom.hex(6)}" }
+
+    after { Redis::Alfred.delete(format(Redis::Alfred::WHATSAPP_CALL_TERMINATE_TOMBSTONE, call_id: tombstone_call_id)) }
+
+    it 'tombstones the terminate instead of materialising an inbound missed-call row' do
       allow(ActionCable.server).to receive(:broadcast)
 
       params = call_payload(event: 'terminate', duration: 0, terminate_reason: 'no_answer')
+      params[:calls][0][:id] = tombstone_call_id
 
       expect { described_class.new(inbox: inbox, params: params).perform }
         .not_to change(Call, :count)
-      expect(Rails.logger).to have_received(:warn).with(/Terminate for unknown call/)
+      key = format(Redis::Alfred::WHATSAPP_CALL_TERMINATE_TOMBSTONE, call_id: tombstone_call_id)
+      expect(Redis::Alfred.get(key)).to be_present
       expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'finalizes the call as no_answer when the connect arrives after the tombstone' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      terminate = call_payload(event: 'terminate', duration: 0, terminate_reason: 'no_answer')
+      terminate[:calls][0][:id] = tombstone_call_id
+      described_class.new(inbox: inbox, params: terminate).perform
+
+      connect = call_payload(event: 'connect', session: { sdp: 'v=0', sdp_type: 'offer' })
+      connect[:calls][0][:id] = tombstone_call_id
+      expect { described_class.new(inbox: inbox, params: connect).perform }
+        .to change(Call, :count).by(1)
+      expect(Call.find_by(provider_call_id: tombstone_call_id).status).to eq('no_answer')
+      expect(ActionCable.server).to have_received(:broadcast)
+        .with(anything, hash_including(event: 'voice_call.ended')).at_least(:once)
     end
   end
 

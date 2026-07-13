@@ -3,6 +3,7 @@ import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
@@ -11,6 +12,7 @@ export default {
     WootDropdownMenu,
     Avatar,
     Icon,
+    EmojiIcon,
     NextButton,
   },
 
@@ -34,6 +36,10 @@ export default {
     noSearchResult: {
       type: String,
       default: 'No results found',
+    },
+    showEmojiIcon: {
+      type: Boolean,
+      default: false,
     },
   },
   emits: ['select'],
@@ -67,7 +73,13 @@ export default {
       this.$refs.searchbar.focus();
     },
     isActive(option) {
-      return this.selectedItems.some(item => item && option.id === item.id);
+      return this.selectedItems.some(item => {
+        if (!item || option.id !== item.id) return false;
+
+        return (
+          (option.assignee_type || 'User') === (item.assignee_type || 'User')
+        );
+      });
     },
   },
 };
@@ -88,7 +100,10 @@ export default {
     <div class="flex items-start justify-start flex-auto overflow-auto mt-2">
       <div class="w-full max-h-[10rem]">
         <WootDropdownMenu>
-          <WootDropdownItem v-for="option in filteredOptions" :key="option.id">
+          <WootDropdownItem
+            v-for="option in filteredOptions"
+            :key="`${option.assignee_type || 'User'}-${option.id}`"
+          >
             <NextButton
               slate
               :variant="isActive(option) ? 'faded' : 'ghost'"
@@ -108,16 +123,48 @@ export default {
                 </span>
               </div>
               <Avatar
-                v-if="hasThumbnail && !option.icon"
+                v-if="
+                  hasThumbnail &&
+                  (!option.icon || option.assignee_type === 'AgentBot')
+                "
                 :src="option.thumbnail"
                 :name="option.name"
                 :status="option.availability_status"
+                :icon-name="
+                  option.assignee_type === 'AgentBot'
+                    ? 'i-lucide-bot'
+                    : undefined
+                "
                 :size="24"
                 hide-offline-status
                 rounded-full
-              />
+              >
+                <template
+                  v-if="option.assignee_type === 'AgentBot' && option.thumbnail"
+                  #badge
+                >
+                  <div
+                    class="absolute z-20 flex items-center justify-center rounded-full outline outline-1 outline-n-weak bg-n-solid-1 -bottom-0.5 ltr:-right-0.5 rtl:-left-0.5 size-3.5"
+                  >
+                    <Icon
+                      icon="i-lucide-bot"
+                      class="text-n-slate-11 size-2.5"
+                    />
+                  </div>
+                </template>
+              </Avatar>
+              <div
+                v-else-if="option.icon && showEmojiIcon"
+                class="flex items-center justify-center flex-shrink-0 text-sm rounded-full size-6 outline outline-1 -outline-offset-1 outline-n-weak"
+              >
+                <EmojiIcon
+                  :value="option.icon"
+                  :color="option.icon_color"
+                  class="size-3.5 !text-sm"
+                />
+              </div>
               <Icon
-                v-if="option.icon"
+                v-else-if="option.icon"
                 :icon="option.icon"
                 class="size-5 text-n-slate-11"
               />
