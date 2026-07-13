@@ -658,6 +658,27 @@ RSpec.describe DataImports::Intercom::Importer do
     end
   end
 
+  context 'when the Intercom source message has text and attachments' do
+    let(:conversation_payload) do
+      super().deep_merge(
+        'source' => {
+          'attachments' => [{ 'name' => 'invoice.pdf', 'url' => 'https://example.com/invoice.pdf' }]
+        }
+      )
+    end
+
+    it 'adds an attachment omission marker to the imported message', :aggregate_failures do
+      described_class.new(data_import: data_import).perform
+
+      message = account.messages.find_by!(source_id: 'intercom:conversation:conversation_1:source:source_1')
+      expect(message.content).to eq("Need help\n\nHello there\n\n[Intercom attachment skipped: 1]")
+      expect(message.additional_attributes.dig('source', 'attachments')).to eq(
+        [{ 'name' => 'invoice.pdf', 'url' => 'https://example.com/invoice.pdf' }]
+      )
+      expect(data_import.reload.stats.dig('messages', 'skipped')).to eq(0)
+    end
+  end
+
   context 'when Intercom omits the conversation source' do
     let(:conversation_payload) do
       super().merge(

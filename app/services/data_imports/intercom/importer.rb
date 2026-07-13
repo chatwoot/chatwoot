@@ -512,10 +512,9 @@ class DataImports::Intercom::Importer
     subject = sanitized_text(part['subject'])
     attachments = Array(part['attachments'])
     content = [subject, body].reject(&:blank?).join("\n\n")
-    return content if content.present?
-    return if attachments.blank?
+    return content if attachments.blank?
 
-    "[Intercom attachment skipped: #{attachments.size}]"
+    [content.presence, "[Intercom attachment skipped: #{attachments.size}]"].compact.join("\n\n")
   end
 
   def sanitized_text(value)
