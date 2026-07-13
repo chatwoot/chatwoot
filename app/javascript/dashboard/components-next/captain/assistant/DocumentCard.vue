@@ -190,7 +190,7 @@ const handleRetry = () => {
     <div class="flex gap-1 justify-between w-full">
       <button
         type="button"
-        class="p-0 text-base text-left bg-transparent border-0 outline-transparent text-n-slate-12 line-clamp-1 hover:underline"
+        class="p-0 text-base text-left bg-transparent border-0 outline-transparent text-n-slate-12 line-clamp-1 underline-offset-2 hover:underline focus-visible:underline"
         @click="handleViewDetails"
       >
         {{ name }}
