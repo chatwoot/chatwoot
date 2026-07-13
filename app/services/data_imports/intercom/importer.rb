@@ -207,10 +207,13 @@ class DataImports::Intercom::Importer
       return mapped_contact
     end
 
-    contact = mapped_contact || find_existing_contact(contact_payload) || create_contact(contact_payload)
-    update_existing_contact(contact, contact_payload)
-    record_mapping('contact', source_id, contact, metadata: contact_metadata(contact_payload))
-    item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: contact.id)
+    contact = Contact.transaction do
+      imported_contact = mapped_contact || find_existing_contact(contact_payload) || create_contact(contact_payload)
+      update_existing_contact(imported_contact, contact_payload)
+      record_mapping('contact', source_id, imported_contact, metadata: contact_metadata(contact_payload))
+      item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: imported_contact.id)
+      imported_contact
+    end
     increment_stat('contacts', 'imported') unless already_handled
     contact
   rescue StandardError => e

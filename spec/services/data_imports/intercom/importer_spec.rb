@@ -301,6 +301,25 @@ RSpec.describe DataImports::Intercom::Importer do
       expect(item.last_error_message).to eq('mapping failed')
     end
 
+    it 'rolls back a newly inserted contact when mapping persistence fails', :aggregate_failures do
+      sparse_contact = contact_payload.slice('id', 'name', 'created_at', 'updated_at')
+      allow(client).to receive(:retrieve_contact).with('contact_1').and_return(sparse_contact)
+      importer = described_class.new(data_import: data_import)
+      allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
+        raise StandardError, 'mapping failed' if object_type == 'contact'
+
+        method.call(object_type, source_id, record, metadata: metadata)
+      end
+
+      importer.import_conversations_page
+
+      expect(account.contacts.where(name: 'Customer One')).to be_empty
+      expect(data_import.mappings.where(source_object_type: 'contact', source_object_id: 'contact_1')).to be_empty
+      contact_item = data_import.items.find_by!(source_object_type: 'contact', source_object_id: 'contact_1')
+      expect(contact_item).to be_failed
+      expect(contact_item.last_error_message).to eq('mapping failed')
+    end
+
     it 'rolls back a newly inserted message when mapping persistence fails', :aggregate_failures do
       importer = described_class.new(data_import: data_import)
       allow(importer).to receive(:record_mapping).and_wrap_original do |method, object_type, source_id, record, metadata:|
