@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { messageStamp } from 'shared/helpers/timeHelper';
+import { messageBubbleStamp, messageStamp } from 'shared/helpers/timeHelper';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -32,7 +32,10 @@ const {
   contentAttributes,
 } = useMessageContext();
 
-const readableTime = computed(() => messageStamp(createdAt.value, 'HH:mm'));
+const readableTime = computed(() => messageBubbleStamp(createdAt.value));
+const fullReadableTime = computed(() =>
+  messageStamp(createdAt.value, 'd MMM yyyy, HH:mm')
+);
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
@@ -132,7 +135,9 @@ const statusToShow = computed(() => {
 <template>
   <div class="text-xs flex items-center gap-1.5">
     <div class="inline">
-      <time class="inline">{{ readableTime }}</time>
+      <time v-tooltip.top="fullReadableTime" class="inline">{{
+        readableTime
+      }}</time>
     </div>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />

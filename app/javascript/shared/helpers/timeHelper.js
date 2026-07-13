@@ -1,5 +1,6 @@
 import {
   format,
+  isSameDay,
   isSameYear,
   fromUnixTime,
   formatDistanceToNow,
@@ -15,6 +16,26 @@ import {
 export const messageStamp = (time, dateFormat = 'h:mm a') => {
   const unixTime = fromUnixTime(time);
   return format(unixTime, dateFormat);
+};
+
+/**
+ * Bubble timestamp: time only for today, include day (and year if needed) otherwise.
+ * Avoids showing only "10:39" for a message from another day.
+ * @param {number} time - Unix timestamp (seconds).
+ * @returns {string} Formatted stamp for message bubbles.
+ */
+export const messageBubbleStamp = time => {
+  if (!time) return '';
+  const messageTime = fromUnixTime(time);
+  const now = new Date();
+
+  if (isSameDay(messageTime, now)) {
+    return format(messageTime, 'HH:mm');
+  }
+  if (isSameYear(messageTime, now)) {
+    return format(messageTime, 'd MMM, HH:mm');
+  }
+  return format(messageTime, 'd MMM yyyy, HH:mm');
 };
 
 /**
