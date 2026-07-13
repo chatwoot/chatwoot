@@ -1,5 +1,6 @@
 import {
   messageStamp,
+  messageBubbleStamp,
   messageTimestamp,
   dynamicTime,
   dateFormat,
@@ -7,6 +8,7 @@ import {
   getDayDifferenceFromNow,
   hasOneDayPassed,
 } from 'shared/helpers/timeHelper';
+import { format, isSameDay } from 'date-fns';
 
 beforeEach(() => {
   process.env.TZ = 'UTC';
@@ -24,6 +26,39 @@ describe('#messageStamp', () => {
     expect(messageStamp(1612971343)).toEqual('3:35 PM');
     expect(messageStamp(1612971343, 'LLL d, h:mm a')).toEqual(
       'Feb 10, 3:35 PM'
+    );
+  });
+});
+
+describe('#messageBubbleStamp', () => {
+  it('returns only time when the message is from today', () => {
+    const now = new Date();
+    const ts = Math.floor(now.getTime() / 1000);
+    expect(messageBubbleStamp(ts)).toEqual(format(now, 'HH:mm'));
+  });
+
+  it('includes day and month when the message is from another day this year', () => {
+    const earlierThisYear = new Date();
+    earlierThisYear.setMonth(0, 15);
+    earlierThisYear.setHours(12, 0, 0, 0);
+    // If "now" is also mid-January, shift to February to keep a different day
+    if (isSameDay(earlierThisYear, new Date())) {
+      earlierThisYear.setMonth(1, 15);
+    }
+    const ts = Math.floor(earlierThisYear.getTime() / 1000);
+    expect(messageBubbleStamp(ts)).toEqual(
+      format(earlierThisYear, 'd MMM, HH:mm')
+    );
+  });
+
+  it('includes year when the message is from another year', () => {
+    const previousYear = new Date();
+    previousYear.setFullYear(previousYear.getFullYear() - 1);
+    previousYear.setMonth(1, 10);
+    previousYear.setHours(15, 35, 0, 0);
+    const ts = Math.floor(previousYear.getTime() / 1000);
+    expect(messageBubbleStamp(ts)).toEqual(
+      format(previousYear, 'd MMM yyyy, HH:mm')
     );
   });
 });
