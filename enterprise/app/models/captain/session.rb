@@ -48,7 +48,7 @@ class Captain::Session < ApplicationRecord
   validate :subject_type_matches_session_type
   validate :result_type_matches_session_type, if: -> { result_type.present? }
   validate :subject_belongs_to_account
-  validate :result_belongs_to_account, if: -> { result.present? }
+  validate :result_belongs_to_account, if: -> { result_id.present? }
 
   private
 
@@ -77,7 +77,9 @@ class Captain::Session < ApplicationRecord
   end
 
   def result_belongs_to_account
-    return if result.account_id == account_id
+    target_class = result_type.safe_constantize
+    actual_account_id = target_class && target_class.unscoped.where(id: result_id).pick(:account_id)
+    return if actual_account_id == account_id
 
     errors.add(:result, 'must belong to the session account')
   end

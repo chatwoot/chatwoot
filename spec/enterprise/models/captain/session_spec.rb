@@ -90,6 +90,25 @@ RSpec.describe Captain::Session, type: :model do
       expect(session).not_to be_valid
       expect(session.errors[:result]).to be_present
     end
+
+    it 'is not valid when result_id/result_type are set directly for a different account' do
+      conversation = create(:conversation, account: account)
+      foreign_message = create(:message, account: create(:account))
+      session = build(:captain_session, account: account, assistant: assistant, subject: conversation,
+                                        result_id: foreign_message.id, result_type: 'Message')
+
+      expect(session).not_to be_valid
+      expect(session.errors[:result]).to be_present
+    end
+
+    it 'is not valid when result_id/result_type are set directly for a stale id' do
+      conversation = create(:conversation, account: account)
+      session = build(:captain_session, account: account, assistant: assistant, subject: conversation,
+                                        result_id: 0, result_type: 'Message')
+
+      expect(session).not_to be_valid
+      expect(session.errors[:result]).to be_present
+    end
   end
 
   describe 'account' do
