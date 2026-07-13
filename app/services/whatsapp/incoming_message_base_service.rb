@@ -102,6 +102,15 @@ class Whatsapp::IncomingMessageBaseService
     attach_files
     attach_location if message_type == 'location'
     @message.save!
+    send_flow_confirmation(message)
+  end
+
+  def send_flow_confirmation(message)
+    return if outgoing_echo
+    return unless Whatsapp::FlowResponseFormatter.nfm_reply?(message)
+
+    payload = Whatsapp::FlowResponseFormatter.parse_response_json(message)
+    Whatsapp::FlowConfirmationService.new(conversation: @conversation, payload: payload).perform
   end
 
   def set_contact
@@ -192,6 +201,8 @@ class Whatsapp::IncomingMessageBaseService
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
     referral_content_attrs = referral_attributes(message)
     content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+    flow_payload = flow_response_payload(message)
+    content_attrs[:whatsapp_flow_response] = flow_payload if flow_payload.present?
     content_attrs
   end
 
