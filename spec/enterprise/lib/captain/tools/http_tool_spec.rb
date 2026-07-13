@@ -129,7 +129,7 @@ RSpec.describe Captain::Tools::HttpTool, type: :model do
       before do
         custom_tool.update!(
           auth_type: 'api_key',
-          auth_config: { 'key' => 'api_key_123', 'location' => 'header', 'name' => 'X-API-Key' },
+          auth_config: { 'key' => 'api_key_123', 'name' => 'X-API-Key' },
           endpoint_url: 'https://example.com/data',
           response_template: nil
         )
