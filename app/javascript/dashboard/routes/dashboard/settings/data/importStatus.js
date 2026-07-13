@@ -26,9 +26,6 @@ export const importedCount = dataImport => {
   );
 };
 
-export const statValue = (dataImport, group, key) =>
-  Number(dataImport?.stats?.[group]?.[key] || 0);
-
 export const importStageKey = dataImport => {
   if (!dataImport) return 'unknown';
 
