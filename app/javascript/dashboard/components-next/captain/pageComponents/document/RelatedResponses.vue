@@ -16,6 +16,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import CaptainDocumentAPI from 'dashboard/api/captain/document';
 import ResponseCard from '../../assistant/ResponseCard.vue';
 
@@ -30,6 +31,7 @@ const TAB_KEYS = {
   CONTENT: 'content',
   FAQS: 'faqs',
 };
+const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
@@ -46,6 +48,10 @@ const isFetching = computed(
   () => isFetchingDocument.value || isFetchingResponses.value
 );
 const totalCount = computed(() => meta.value.totalCount || 0);
+const currentPage = computed(() => meta.value.page || 1);
+const showPaginationFooter = computed(
+  () => totalCount.value > RESPONSES_PER_PAGE
+);
 const documentContent = computed(() => documentDetails.value?.content?.trim());
 const documentContentLength = computed(
   () => documentContent.value?.length || 0
@@ -154,12 +160,21 @@ const fetchDocumentDetails = async () => {
   }
 };
 
-onMounted(async () => {
-  await fetchDocumentDetails();
-  store.dispatch('captainResponses/get', {
+const fetchResponses = (page = 1) => {
+  return store.dispatch('captainResponses/get', {
+    page,
     assistantId: props.captainDocument.assistant.id,
     documentId: props.captainDocument.id,
   });
+};
+
+const handlePageChange = page => {
+  fetchResponses(page);
+};
+
+onMounted(async () => {
+  await fetchDocumentDetails();
+  fetchResponses();
 });
 defineExpose({ dialogRef });
 </script>
@@ -373,6 +388,15 @@ defineExpose({ dialogRef });
           >
             {{ t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.EMPTY') }}
           </div>
+          <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
+            <PaginationFooter
+              :current-page="currentPage"
+              :total-items="totalCount"
+              :items-per-page="RESPONSES_PER_PAGE"
+              class="!px-0"
+              @update:current-page="handlePageChange"
+            />
+          </footer>
         </section>
       </div>
     </div>
