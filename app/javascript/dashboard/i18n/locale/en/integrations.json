@@ -872,7 +872,6 @@
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
         "DESCRIPTION": "These FAQs are generated directly from the document.",
-        "COUNT": "{count} FAQs",
         "EMPTY": "No FAQs have been generated from this document yet."
       },
       "DETAILS": {

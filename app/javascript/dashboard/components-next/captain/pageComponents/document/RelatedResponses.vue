@@ -356,18 +356,6 @@ defineExpose({ dialogRef });
           v-if="activeTabKey === TAB_KEYS.FAQS"
           class="flex flex-col gap-3"
         >
-          <div class="flex items-center justify-between gap-3">
-            <h4 class="text-sm font-medium text-n-slate-12">
-              {{ t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.TITLE') }}
-            </h4>
-            <span class="text-xs text-n-slate-11">
-              {{
-                t('CAPTAIN.DOCUMENTS.RELATED_RESPONSES.COUNT', {
-                  count: totalCount,
-                })
-              }}
-            </span>
-          </div>
           <div v-if="responses.length" class="flex flex-col gap-3">
             <ResponseCard
               v-for="response in responses"
