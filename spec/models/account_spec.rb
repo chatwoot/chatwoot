@@ -108,7 +108,8 @@ RSpec.describe Account do
 
     it 'configures the account feature flag extension column' do
       expect(described_class.flag_columns).to include('feature_flags', 'feature_flags_ext_1')
-      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
     end
 
     it 'keeps existing feature flags on the original column' do
