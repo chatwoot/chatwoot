@@ -393,6 +393,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
   end
 
   create_table "captain_faq_observations", force: :cascade do |t|
+    t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
     t.bigint "faq_suggestion_id"
     t.string "generated_question", null: false
@@ -401,6 +402,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_faq_observations_on_account_id"
     t.index ["conversation_id", "faq_suggestion_id"], name: "idx_captain_faq_observations_on_conversation_and_suggestion", unique: true, where: "(faq_suggestion_id IS NOT NULL)"
     t.index ["conversation_id"], name: "index_captain_faq_observations_on_conversation_id"
     t.index ["faq_suggestion_id"], name: "index_captain_faq_observations_on_faq_suggestion_id"
@@ -418,7 +420,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_captain_faq_suggestions_on_account_id"
-    t.index ["assistant_id", "status", "language"], name: "idx_captain_faq_suggestions_on_assistant_status_language"
+    t.index ["account_id", "assistant_id", "status", "language"], name: "idx_cap_faq_suggestions_on_account_assistant_status_language"
     t.index ["assistant_id"], name: "index_captain_faq_suggestions_on_assistant_id"
     t.index ["embedding"], name: "vector_idx_captain_faq_suggestions_embedding", opclass: :vector_cosine_ops, using: :ivfflat
   end

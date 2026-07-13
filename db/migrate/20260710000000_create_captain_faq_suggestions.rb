@@ -20,8 +20,8 @@ class CreateCaptainFaqSuggestions < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :captain_faq_suggestions, [:assistant_id, :status, :language],
-              name: 'idx_captain_faq_suggestions_on_assistant_status_language'
+    add_index :captain_faq_suggestions, [:account_id, :assistant_id, :status, :language],
+              name: 'idx_cap_faq_suggestions_on_account_assistant_status_language'
     add_index :captain_faq_suggestions, :embedding, using: :ivfflat,
                                                     name: 'vector_idx_captain_faq_suggestions_embedding',
                                                     opclass: :vector_cosine_ops
@@ -29,6 +29,7 @@ class CreateCaptainFaqSuggestions < ActiveRecord::Migration[7.1]
 
   def create_faq_observations
     create_table :captain_faq_observations do |t|
+      t.references :account, null: false, index: true
       t.references :conversation, null: false, index: true
       t.references :faq_suggestion, index: true
       t.string :generated_question, null: false
