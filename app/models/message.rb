@@ -326,8 +326,10 @@ class Message < ApplicationRecord
     reopen_conversation
     mark_pending_conversation_as_open_for_human_response
     set_conversation_activity
-    dispatch_create_events
+    # Channel delivery must not depend on side-effects (first-reply assign, etc.).
+    # If those raise, the message would stay stuck with no source_id / WhatsApp send.
     send_reply
+    dispatch_create_events
     execute_message_template_hooks
     update_contact_activity
   end
@@ -381,10 +383,18 @@ class Message < ApplicationRecord
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
       conversation.update(first_reply_created_at: created_at, waiting_since: nil)
-      Contacts::AssignDefaultAgentFromFirstReplyService.new(message: self).perform
+      assign_default_agent_from_first_reply
     else
       update_waiting_since
     end
+  end
+
+  def assign_default_agent_from_first_reply
+    Contacts::AssignDefaultAgentFromFirstReplyService.new(message: self).perform
+  rescue StandardError => e
+    Rails.logger.error(
+      "[Message#assign_default_agent_from_first_reply] message_id=#{id} error=#{e.class}: #{e.message}"
+    )
   end
 
   def dispatch_update_event
