@@ -7,6 +7,7 @@ import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 import WhatsappChannel from '../../api/channel/whatsappChannel';
 import { throwErrorMessage } from '../utils/api';
+import { isSendableTemplate } from '@chatwoot/utils';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
@@ -67,45 +68,8 @@ export const getters = {
       return [];
     }
 
-    return templates.filter(template => {
-      // Ensure template has required properties
-      if (!template || !template.status || !template.components) {
-        return false;
-      }
-
-      // Only show approved templates
-      if (template.status.toLowerCase() !== 'approved') {
-        return false;
-      }
-
-      // Filter out authentication templates
-      if (template.category === 'AUTHENTICATION') {
-        return false;
-      }
-
-      // Filter out CSAT templates (customer_satisfaction_survey and its versions)
-      if (
-        template.name &&
-        template.name.startsWith('customer_satisfaction_survey')
-      ) {
-        return false;
-      }
-
-      // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
-      const hasUnsupportedComponents = template.components.some(
-        component =>
-          ['LIST', 'PRODUCT', 'CATALOG', 'CALL_PERMISSION_REQUEST'].includes(
-            component.type
-          ) ||
-          (component.type === 'HEADER' && component.format === 'LOCATION')
-      );
-
-      if (hasUnsupportedComponents) {
-        return false;
-      }
-
-      return true;
-    });
+    // Sendable-template filtering is shared with the mobile app via @chatwoot/utils.
+    return templates.filter(isSendableTemplate);
   },
   getNewConversationInboxes($state) {
     return $state.records.filter(inbox => {
