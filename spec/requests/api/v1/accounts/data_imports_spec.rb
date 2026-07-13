@@ -159,7 +159,7 @@ RSpec.describe 'Data Imports API', type: :request do
       expect(data_import.abandoned_at).to be_nil
       expect(data_import.started_at).to be_nil
       expect(data_import.active_intercom_import_run_id).not_to eq('previous-run')
-      expect(data_import.import_errors).to be_empty
+      expect(data_import.import_errors.pluck(:error_code)).to eq([DataImports::Intercom::Importer::ALREADY_IMPORTED_ERROR_CODE])
     end
 
     it 'does not enqueue duplicate jobs for active imports' do
