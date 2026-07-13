@@ -64,13 +64,18 @@ class ActionService
   def assign_team(team_ids = [])
     # Keep nil/0 handling for existing automation and macro payloads.
     should_unassign = team_ids.blank? || %w[nil 0].include?(team_ids[0].to_s)
-    return @conversation.update!(team_id: nil) if should_unassign
+    if should_unassign
+      return Conversations::TeamAssignmentService.new(conversation: @conversation, team_id: nil).perform
+    end
 
     # check if team belongs to account only if team_id is present
     # if team_id is nil, then it means that the team is being unassigned
     return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
-    @conversation.update!(team_id: team_ids[0])
+    Conversations::TeamAssignmentService.new(
+      conversation: @conversation,
+      team_id: team_ids[0]
+    ).perform
   end
 
   def remove_assigned_agent(_params)
@@ -78,7 +83,7 @@ class ActionService
   end
 
   def remove_assigned_team(_params)
-    @conversation.update!(team_id: nil)
+    Conversations::TeamAssignmentService.new(conversation: @conversation, team_id: nil).perform
   end
 
   def send_email_transcript(emails)

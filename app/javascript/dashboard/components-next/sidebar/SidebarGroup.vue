@@ -17,6 +17,7 @@ const props = defineProps({
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
+  showBeta: { type: Boolean, default: false },
   getterKeys: { type: Object, default: () => ({}) },
 });
 
@@ -294,6 +295,7 @@ watch(
         :label
         :to
         :getter-keys="getterKeys"
+        :show-beta="showBeta"
         :is-active="isActive"
         :has-active-child="hasActiveChild"
         :expandable="hasChildren"

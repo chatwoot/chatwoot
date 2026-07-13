@@ -16,6 +16,7 @@ import { useI18n } from 'vue-i18n';
 import Input from 'dashboard/components-next/input/Input.vue';
 import {
   buildTemplateParameters,
+  buildTemplateButtonsSnapshot,
   allKeysRequired,
   replaceTemplateVariables,
   DEFAULT_LANGUAGE,
@@ -140,6 +141,10 @@ const sendMessage = () => {
   if (v$.value.$invalid) return;
 
   const { name, category, language, namespace } = props.template;
+  const templateButtons = buildTemplateButtonsSnapshot(
+    props.template,
+    processedParams.value
+  );
 
   const payload = {
     message: renderedTemplate.value,
@@ -151,6 +156,11 @@ const sendMessage = () => {
       processed_params: processedParams.value,
     },
   };
+
+  if (templateButtons.length) {
+    payload.contentAttributes = { template_buttons: templateButtons };
+  }
+
   emit('sendMessage', payload);
 };
 

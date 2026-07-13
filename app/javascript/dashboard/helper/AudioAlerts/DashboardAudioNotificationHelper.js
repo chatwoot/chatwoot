@@ -50,14 +50,19 @@ export class DashboardAudioNotificationHelper {
   };
 
   playAudioAlert = async () => {
+    if (!this.audioConfig.audio) {
+      this.intializeAudio();
+    }
+    if (!this.audioConfig.audio) return;
+
     try {
       await this.audioConfig.audio.play();
     } catch (error) {
       if (
         error.name === 'NotAllowedError' &&
-        !this.hasSentSoundPermissionsRequest
+        !this.audioConfig.hasSentSoundPermissionsRequest
       ) {
-        this.hasSentSoundPermissionsRequest = true;
+        this.audioConfig.hasSentSoundPermissionsRequest = true;
         useAlert(
           'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.SOUND_PERMISSION_ERROR',
           { usei18n: true, duration: ALERT_DURATION }
@@ -88,7 +93,7 @@ export class DashboardAudioNotificationHelper {
       tone: audioAlertTone,
     };
 
-    if (previousAudioTone !== audioAlertTone) {
+    if (!this.audioConfig.audio || previousAudioTone !== audioAlertTone) {
       this.intializeAudio();
     }
 
@@ -175,10 +180,13 @@ export class DashboardAudioNotificationHelper {
       return;
     }
 
-    // If the conversation status is pending, then dismiss the alert
-    // This case is common for all audio event types
+    // Pending conversations (bot queue): still alert on contact incoming messages.
+    // Skip other message types on pending so agent/bot activity stays quiet.
     if (this.store.isMessageFromPendingConversation(message)) {
-      return;
+      const { message_type: pendingMessageType } = message;
+      if (pendingMessageType !== MESSAGE_TYPE.INCOMING) {
+        return;
+      }
     }
 
     // If the message is sent by the current user then dismiss the alert

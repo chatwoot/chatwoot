@@ -5,6 +5,9 @@ import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 import PanelIaHandoffBanner from './PanelIaHandoffBanner.vue';
+import ConversationTaskForm from 'dashboard/components-next/InternalTasks/ConversationTaskForm.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   components: {
@@ -13,6 +16,7 @@ export default {
     EmptyState,
     MessagesView,
     PanelIaHandoffBanner,
+    ConversationTaskForm,
   },
   props: {
     inboxId: {
@@ -76,8 +80,26 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
+    emitter.on(
+      BUS_EVENTS.CREATE_TASK_FROM_MESSAGE,
+      this.openTaskFormFromMessage
+    );
+  },
+  unmounted() {
+    emitter.off(
+      BUS_EVENTS.CREATE_TASK_FROM_MESSAGE,
+      this.openTaskFormFromMessage
+    );
   },
   methods: {
+    openTaskFormFromMessage(message) {
+      const conversationId = message.conversationId ?? message.conversation_id;
+      this.$refs.conversationTaskForm?.open({
+        conversationId,
+        sourceMessageId: message.id,
+        anchorMessage: message,
+      });
+    },
     fetchLabels() {
       if (!this.currentChat.id) {
         return;
@@ -135,6 +157,11 @@ export default {
       />
       <slot />
     </div>
+    <ConversationTaskForm
+      v-if="currentChat.id"
+      ref="conversationTaskForm"
+      :conversation-id="currentChat.id"
+    />
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
       v-show="activeIndex - 1 === index"

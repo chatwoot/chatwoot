@@ -1,6 +1,6 @@
 import { createConsumer } from '@rails/actioncable';
 
-const PRESENCE_INTERVAL = 20000;
+const PRESENCE_INTERVAL = 60000;
 const RECONNECT_INTERVAL = 1000;
 
 class BaseActionCableConnector {
@@ -37,15 +37,36 @@ class BaseActionCableConnector {
     this.app = app;
     this.events = {};
     this.reconnectTimer = null;
+    this.presenceInterval = presenceInterval;
     this.isAValidEvent = () => true;
     this.triggerPresenceInterval = () => {
       setTimeout(() => {
         this.subscription.updatePresence();
         this.triggerPresenceInterval();
-      }, presenceInterval);
+      }, this.presenceInterval);
     };
     this.triggerPresenceInterval();
+    this.bindVisibilityHandler();
   }
+
+  bindVisibilityHandler = () => {
+    this.onVisibilityChange = () => {
+      if (document.visibilityState !== 'visible') return;
+
+      if (!this.consumer.connection.isOpen()) {
+        BaseActionCableConnector.isDisconnected = true;
+        this.consumer.connection.reopen();
+        this.onDisconnected();
+        this.initReconnectTimer();
+        return;
+      }
+
+      this.subscription.updatePresence();
+      this.checkConnection();
+    };
+
+    document.addEventListener('visibilitychange', this.onVisibilityChange);
+  };
 
   checkConnection() {
     const isConnectionActive = this.consumer.connection.isOpen();
@@ -81,6 +102,7 @@ class BaseActionCableConnector {
   onDisconnected = () => {};
 
   disconnect() {
+    document.removeEventListener('visibilitychange', this.onVisibilityChange);
     this.consumer.disconnect();
   }
 

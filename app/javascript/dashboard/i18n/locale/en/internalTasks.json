@@ -1,0 +1,148 @@
+{
+  "INTERNAL_TASKS": {
+    "PANEL": {
+      "TITLE": "Internal tasks",
+      "NEW": "New task",
+      "EMPTY": "No open tasks for this conversation.",
+      "CREATE_FIRST": "Create first task",
+      "OPEN_COUNT": "{count} open",
+      "UNASSIGNED": "Unassigned"
+    },
+    "FORM": {
+      "DIALOG_TITLE": "Create internal task",
+      "DIALOG_DESCRIPTION": "Pick a template or start from scratch. The task stays linked to this conversation.",
+      "SELECT_TEMPLATE": "What needs to be done?",
+      "OTHER": "Custom task",
+      "BACK": "Change template",
+      "TITLE": "Task title",
+      "DESCRIPTION": "Notes (optional)",
+      "ANCHORED_MESSAGE": "Linked message",
+      "TEAM": "Team",
+      "AGENT": "Agent",
+      "SELECT_AGENT": "Select an agent",
+      "ASSIGNMENT_LABEL": "Who should handle this?",
+      "ASSIGNMENT_TEAM": "Team",
+      "ASSIGNMENT_AGENT": "Agent",
+      "ASSIGNMENT_OPEN": "Open queue",
+      "ASSIGNMENT_TEAM_HINT": "Anyone on the team can claim and work the task.",
+      "ASSIGNMENT_AGENT_HINT": "The task goes directly to this agent — no claim step.",
+      "ASSIGNMENT_OPEN_HINT": "No team or agent — visible in Unclaimed for anyone to pick up.",
+      "NO_TEAM": "No team",
+      "ALL_TEAMS": "All teams",
+      "CANCEL": "Cancel",
+      "CREATE": "Create task"
+    },
+    "ACTIONS": {
+      "CLAIM": "Claim",
+      "ASSIGN_TO_ME": "Assign to me",
+      "START": "Start",
+      "COMPLETE": "Complete"
+    },
+    "ERRORS": {
+      "ALREADY_CLAIMED": "This task was already claimed by someone else"
+    },
+    "STATUS": {
+      "PENDING": "Pending",
+      "IN_PROGRESS": "In progress",
+      "BLOCKED": "Blocked",
+      "WAITING_EXTERNAL": "Waiting external",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    },
+    "PRIORITY": {
+      "NORMAL": "Normal",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
+    "PROCESS": {
+      "CREATED": "Created",
+      "CLAIMED": "Claimed",
+      "WORKING": "In progress",
+      "DONE": "Done"
+    },
+    "TABS": {
+      "TASK": "Task",
+      "CONVERSATION": "Conversation",
+      "CONVERSATION_EMPTY": "No linked conversation"
+    },
+    "ACTIVITY": {
+      "TITLE": "Activity",
+      "EMPTY": "No activity yet.",
+      "EVENTS": {
+        "CREATED": "Task created",
+        "CLAIMED": "Task claimed",
+        "ASSIGNED": "Assignment updated",
+        "TEAM_CHANGED": "Team updated",
+        "STATUS_CHANGED": "Status changed",
+        "COMPLETED": "Task completed",
+        "CANCELLED": "Task cancelled",
+        "COMMENT": "Comment added",
+        "METADATA_UPDATED": "Details updated"
+      }
+    },
+    "NOTES": {
+      "TITLE": "Notes",
+      "EMPTY": "No notes on this task yet.",
+      "PLACEHOLDER": "Write a note for the team…",
+      "ADD": "Add note",
+      "SUCCESS": "Note added"
+    },
+    "REASSIGN": {
+      "TITLE": "Reassign",
+      "TOGGLE": "Reassign",
+      "SAVE": "Save assignment",
+      "SUCCESS": "Assignment updated",
+      "ASSIGNED_AGENT": "Assigned to"
+    },
+    "FILTER": {
+      "TEAM_TOOLTIP": "Filter by team",
+      "CLEAR_TEAM": "Clear team filter",
+      "STATUS_TOOLTIP": "Filter by status",
+      "STATUS_LABEL": "Status",
+      "STATUS_OPEN": "Open",
+      "STATUS_COMPLETED": "Completed",
+      "STATUS_ALL": "All"
+    },
+    "VIEW": {
+      "LIST": "List view",
+      "KANBAN": "Board view"
+    },
+    "KANBAN": {
+      "TITLE": "Task board",
+      "SUBTITLE": "Open and completed work across conversations",
+      "EMPTY_COLUMN": "No tasks here",
+      "COLUMNS": {
+        "UNASSIGNED": "Unassigned",
+        "PENDING": "Pending",
+        "IN_PROGRESS": "In progress",
+        "COMPLETED": "Completed"
+      }
+    },
+    "INBOX": {
+      "TITLE": "Tasks",
+      "SUBTITLE": "Work queues across conversations",
+      "MINE": "Mine",
+      "ALL": "All",
+      "TEAM": "Team queue",
+      "UNCLAIMED": "Unassigned",
+      "REFRESH": "Refresh",
+      "EMPTY_TITLE": "Queue is clear",
+      "EMPTY": "No tasks match this filter.",
+      "SELECT_TASK_TITLE": "Select a task",
+      "SELECT_TASK": "Pick a task from the list to see details and the linked conversation.",
+      "TASK_DETAIL": "Task",
+      "SHOW_DETAILS": "Details",
+      "HIDE_DETAILS": "Hide",
+      "ANCHORED_MESSAGE": "Linked message",
+      "JUMP_TO_MESSAGE": "Jump to message",
+      "CONVERSATION": "Conversation",
+      "CONVERSATION_THREAD": "Conversation",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "OPEN_CONVERSATION": "Open conversation",
+      "BACK_TO_LIST": "Back to tasks",
+      "CREATED_BY": "Created by",
+      "CREATED_AT": "Created",
+      "DUE_AT": "Due"
+    }
+  }
+}

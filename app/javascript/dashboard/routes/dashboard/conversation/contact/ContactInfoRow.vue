@@ -24,6 +24,11 @@ export default {
       type: String,
       required: true,
     },
+    // Phosphor/UnoCSS class (e.g. i-ph-identification-card) — preferred when set
+    iconClass: {
+      type: String,
+      default: '',
+    },
     value: {
       type: String,
       default: '',
@@ -81,7 +86,13 @@ export default {
   <div class="group/row w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <!-- Inline edit mode -->
     <div v-if="isEditing" class="flex items-center gap-2">
+      <span
+        v-if="iconClass"
+        class="flex-shrink-0 size-3.5 text-n-slate-10 ltr:ml-1 rtl:mr-1"
+        :class="iconClass"
+      />
       <EmojiOrIcon
+        v-else
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
@@ -104,7 +115,13 @@ export default {
       :href="href"
       class="flex items-center gap-2 text-n-slate-11 hover:underline"
     >
+      <span
+        v-if="iconClass"
+        class="flex-shrink-0 size-3.5 text-n-slate-10 ltr:ml-1 rtl:mr-1"
+        :class="iconClass"
+      />
       <EmojiOrIcon
+        v-else
         :icon="icon"
         :emoji="emoji"
         icon-size="14"
@@ -142,7 +159,13 @@ export default {
 
     <!-- Read mode without link -->
     <div v-else class="flex items-center gap-2 text-n-slate-11">
+      <span
+        v-if="iconClass"
+        class="flex-shrink-0 size-3.5 text-n-slate-10 ltr:ml-1 rtl:mr-1"
+        :class="iconClass"
+      />
       <EmojiOrIcon
+        v-else
         :icon="icon"
         :emoji="emoji"
         icon-size="14"

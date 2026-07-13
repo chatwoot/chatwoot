@@ -276,7 +276,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between p-3" :class="wrapClass">
+  <div class="flex justify-between px-2.5 py-1.5" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
         v-if="!isEditorDisabled"

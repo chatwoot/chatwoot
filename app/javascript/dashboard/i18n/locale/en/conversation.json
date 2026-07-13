@@ -107,7 +107,7 @@
       "REOPEN_ACTION": "Reopen",
       "OPEN_ACTION": "Open",
       "MORE_ACTIONS": "More actions",
-      "ASSIGNEE": "Assigned agent",
+      "ASSIGNEE": "Conversation agent",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
@@ -306,6 +306,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",
+      "ADD_PRIVATE_NOTE": "Add private note on this",
+      "CREATE_INTERNAL_TASK": "Create internal task",
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -404,7 +406,7 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
+    "ASSIGNEE_LABEL": "Conversation agent",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {
@@ -416,6 +418,7 @@
       "CONVERSATION_LABELS": "Conversation Labels",
       "CONVERSATION_INFO": "Conversation Information",
       "CONTACT_NOTES": "Contact Notes",
+      "INTERNAL_TASKS": "Internal Tasks",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",

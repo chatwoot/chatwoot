@@ -22,13 +22,32 @@ class MessageFinder
 
   def current_messages
     if @params[:after].present? && @params[:before].present?
-      messages_between(@params[:after].to_i, @params[:before].to_i)
+      apply_private_note_visibility(messages_between(@params[:after].to_i, @params[:before].to_i))
     elsif @params[:before].present?
-      messages_before(@params[:before].to_i)
+      apply_private_note_visibility(messages_before(@params[:before].to_i))
     elsif @params[:after].present?
-      messages_after(@params[:after].to_i)
+      apply_private_note_visibility(messages_after(@params[:after].to_i))
     else
-      messages_latest
+      apply_private_note_visibility(messages_latest)
+    end
+  end
+
+  # Dashboard agents: hide private notes the current user must not see.
+  # Widget/public paths set filter_internal_messages and already exclude all private notes.
+  # When Current.user is blank (Sidekiq jobs, exports, background scripts),
+  # return as-is so we don't accidentally hide all private messages in those flows.
+  def apply_private_note_visibility(message_list)
+    list = Array(message_list)
+    return list if Current.user.blank?
+    return list if ActiveModel::Type::Boolean.new.cast(@params[:filter_internal_messages])
+
+    conversation = @conversation || list.first&.conversation
+    return list if conversation.blank?
+
+    list.select do |message|
+      !message.private? || Conversations::PrivateNoteVisibility.allowed?(
+        user: Current.user, message: message, conversation: conversation
+      )
     end
   end
 

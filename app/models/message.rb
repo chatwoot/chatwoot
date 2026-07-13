@@ -381,6 +381,7 @@ class Message < ApplicationRecord
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
       conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+      Contacts::AssignDefaultAgentFromFirstReplyService.new(message: self).perform
     else
       update_waiting_since
     end

@@ -7,6 +7,10 @@ import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { conversationUrl, frontendURL } from '../../../helper/URLHelper';
+import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import { LocalStorage } from 'shared/helpers/localStorage';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   ACCOUNT_EVENTS,
   CONVERSATION_EVENTS,
@@ -135,6 +139,20 @@ export default {
       this.$emit('replyTo', this.message);
       this.handleClose();
     },
+    handleAddPrivateNote() {
+      const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
+      LocalStorage.updateJsonStore(
+        replyStorageKey,
+        this.conversationId,
+        this.messageId
+      );
+      emitter.emit(BUS_EVENTS.START_PRIVATE_NOTE_ON_MESSAGE);
+      this.handleClose();
+    },
+    handleCreateTask() {
+      emitter.emit(BUS_EVENTS.CREATE_TASK_FROM_MESSAGE, this.message);
+      this.handleClose();
+    },
     openDeleteModal() {
       this.handleClose();
       this.showDeleteModal = true;
@@ -211,6 +229,24 @@ export default {
           }"
           variant="icon"
           @click.stop="handleReplyTo"
+        />
+        <MenuItem
+          v-if="enabledOptions['privateNote']"
+          :option="{
+            icon: 'lock-closed',
+            label: $t('CONVERSATION.CONTEXT_MENU.ADD_PRIVATE_NOTE'),
+          }"
+          variant="icon"
+          @click.stop="handleAddPrivateNote"
+        />
+        <MenuItem
+          v-if="enabledOptions['createTask']"
+          :option="{
+            icon: 'clipboard',
+            label: $t('CONVERSATION.CONTEXT_MENU.CREATE_INTERNAL_TASK'),
+          }"
+          variant="icon"
+          @click.stop="handleCreateTask"
         />
         <MenuItem
           v-if="enabledOptions['copy']"

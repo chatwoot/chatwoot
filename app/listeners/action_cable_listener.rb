@@ -41,7 +41,8 @@ class ActionCableListener < BaseListener
   def message_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
+    tokens = user_tokens(account, message_broadcast_members(conversation, message)) +
+             contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
@@ -49,7 +50,8 @@ class ActionCableListener < BaseListener
   def message_updated(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
+    tokens = user_tokens(account, message_broadcast_members(conversation, message)) +
+             contact_tokens(conversation.contact_inbox, message)
 
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
   end
@@ -67,6 +69,22 @@ class ActionCableListener < BaseListener
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
 
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
+  end
+
+  def internal_task_created(event)
+    internal_task, account = extract_internal_task_and_account(event)
+    internal_task = load_internal_task_for_broadcast(internal_task.id)
+    tokens = user_tokens(account, internal_task_agents(account, internal_task))
+
+    broadcast(account, tokens, INTERNAL_TASK_CREATED, internal_task: internal_task.push_event_data)
+  end
+
+  def internal_task_updated(event)
+    internal_task, account = extract_internal_task_and_account(event)
+    internal_task = load_internal_task_for_broadcast(internal_task.id, include_events: true)
+    tokens = user_tokens(account, internal_task_agents(account, internal_task))
+
+    broadcast(account, tokens, INTERNAL_TASK_UPDATED, internal_task: internal_task.push_event_data(include_events: true))
   end
 
   def conversation_read(event)
@@ -200,7 +218,7 @@ class ActionCableListener < BaseListener
   end
 
   def user_tokens(account, agents)
-    agent_tokens = agents.pluck(:pubsub_token)
+    agent_tokens = Array(agents).filter_map(&:pubsub_token)
     admin_tokens = account.administrators.pluck(:pubsub_token)
     (agent_tokens + admin_tokens).uniq
   end
@@ -217,6 +235,34 @@ class ActionCableListener < BaseListener
     contact = contact_inbox.contact
 
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+  end
+
+  def load_internal_task_for_broadcast(task_id, include_events: false)
+    includes = [:created_by, :assigned_to, :team, :task_template, { conversation: :contact }]
+    includes << { events: :user } if include_events
+    InternalTask.includes(includes).find(task_id)
+  end
+
+  # Align with InternalTaskPolicy::Scope: admins via user_tokens; agents who
+  # are assignee, on the task team, or when the task is an open unclaimed pool.
+  def internal_task_agents(account, task)
+    return account.agents if task.assigned_to_id.blank? && task.team_id.blank?
+
+    agents = []
+    agents << task.assigned_to if task.assigned_to
+    agents.concat(task.team.members.to_a) if task.team
+    agents.compact.uniq
+  end
+
+  def message_broadcast_members(conversation, message)
+    members = conversation.inbox.members
+    return members unless message.private?
+
+    members.select do |agent|
+      Conversations::PrivateNoteVisibility.allowed?(
+        user: agent, message: message, conversation: conversation
+      )
+    end
   end
 
   def broadcast(account, tokens, event_name, data)

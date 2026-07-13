@@ -107,7 +107,7 @@
       "REOPEN_ACTION": "Reabrir",
       "OPEN_ACTION": "Abrir",
       "MORE_ACTIONS": "Otras acciones",
-      "ASSIGNEE": "Agente asignado",
+      "ASSIGNEE": "Agente de la conversación",
       "OPEN": "Más",
       "CLOSE": "Cerrar",
       "DETAILS": "detalles",
@@ -305,6 +305,8 @@
     "CONTEXT_MENU": {
       "COPY": "Copiar",
       "REPLY_TO": "Responder a este mensaje",
+      "ADD_PRIVATE_NOTE": "Añadir nota privada sobre esto",
+      "CREATE_INTERNAL_TASK": "Crear tarea interna",
       "DELETE": "Eliminar",
       "CREATE_A_CANNED_RESPONSE": "Añadir a respuestas predefinidas",
       "TRANSLATE": "Traducir",
@@ -384,7 +386,7 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Agente asignado",
+    "ASSIGNEE_LABEL": "Agente de la conversación",
     "SELF_ASSIGN": "Asignarme",
     "TEAM_LABEL": "Equipo asignado",
     "SELECT": {
@@ -396,6 +398,7 @@
       "CONVERSATION_LABELS": "Etiquetas de conversación",
       "CONVERSATION_INFO": "Información de la conversación",
       "CONTACT_NOTES": "Notas de contacto",
+      "INTERNAL_TASKS": "Tareas internas",
       "CONTACT_ATTRIBUTES": "Atributos de contacto",
       "PREVIOUS_CONVERSATION": "Conversaciones anteriores",
       "MACROS": "Macros",

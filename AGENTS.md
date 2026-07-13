@@ -111,3 +111,212 @@ Practical checklist for any change impacting core logic or public APIs
 ## Branding / White-labeling note
 
 - For user-facing strings that currently contain "Chatwoot" but should adapt to branded/self-hosted installs, prefer applying `replaceInstallationName` from `shared/composables/useBranding` in the UI layer (for example tooltip and suggestion labels) instead of adding hardcoded brand-specific copy.
+
+## PaluHub — audio alerts & ActionCable (ops)
+
+Full change brief for AI/human review of the Tasks + alerts PR: [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md).
+
+- Dashboard ding is **not** browser push sound. Agents must enable **Profile → Audio notifications** (`assigned` / `unassigned` / etc.). Default remains `none`.
+- Tone `ding` now initializes `Audio` on first `set()` (previously stayed `null` until tone changed).
+- Incoming contact messages on **pending** (bot) conversations can alert; other pending traffic stays quiet.
+- Presence: client ping **60s**, server `PRESENCE_DURATION` default **90** (set in `.env` / Dokploy). If agents look offline after switching tabs, raise `PRESENCE_DURATION` further.
+- Background tab “disconnect”: ActionCable stale monitor (~6s) + browser timer throttling. On tab visible again we `reopen()` + `ReconnectService` refetch. Infra: ensure Traefik/Cloudflare WS idle ≥ 60–120s; cuts at ~100s → proxy; cuts at ~5–15s → client stale/freeze.
+
+## PaluHub fork — local Docker workflow
+
+Fork PaluHub (InboxHub). Documentación cruzada: `panel-ai/AGENTS.md`, `panel-ai/docs/ENVIRONMENTS.md`.
+
+### URLs
+
+| Entorno | Chatwoot | Panel AI |
+|---------|----------|----------|
+| Local | http://localhost:3000 | http://localhost:3010 |
+| Producción | https://inbox.paluhub.com | https://ainbox.paluhub.com |
+
+Red Docker compartida local: `main-chatwoot-local` (external).
+
+### Levantar / rebuild Chatwoot local
+
+```powershell
+cd d:\DOCUMENTOS\GITHUB\chatwoot\chatwoot
+.\scripts\dev-up.ps1
+# o manual:
+docker network create main-chatwoot-local
+docker compose -f docker-compose.dokploy.yml -f docker-compose.dokploy.fork.yml up -d --build chatwoot-rails chatwoot-sidekiq
+```
+
+**No usar** `docker-compose.local.yml` del fork — tira GHCR `develop` e ignora cambios locales.
+
+**Compose canónico fork:** `docker-compose.dokploy.yml` + `docker-compose.dokploy.fork.yml`
+
+### Volúmenes montados (fork)
+
+`app/`, `enterprise/`, `lib/`, `config/`, `db/` → cambios Ruby/Vue se ven **sin rebuild** (restart Rails basta).
+
+**No montar** `./public/vite` — assets stale del host pisan el build de la imagen.
+
+Assets empaquetados en imagen (precompile Vite) → requieren `up -d --build`.
+
+### Restart vs rebuild (Chatwoot)
+
+| Acción | `app/` montado | Assets en imagen |
+|--------|----------------|------------------|
+| `docker restart chatwoot-chatwoot-rails-1` | Sí | No |
+| `up -d --build` | Sí | Sí |
+
+### Producción Chatwoot
+
+- **URL**: https://inbox.paluhub.com
+- **Deploy**: branch `develop` vía GHCR (Dokploy)
+- Super Admin: `FB_APP_ID`, `FB_APP_SECRET`, `INSTAGRAM_APP_ID`, `INSTAGRAM_APP_SECRET`
+
+---
+
+## PaluHub — fixes y features en este fork
+
+### WhatsApp menús interactivos (branch `fix/whatsapp-interactive-menu`)
+
+**Problema:** Meta Cloud API rechaza `action` como string JSON; botones salían como texto numerado.
+
+**Fix** (commit `293007b4f`):
+
+- `app/services/whatsapp/providers/base_service.rb` — pasar hash en `action` (button/list)
+- Specs: `whatsapp_cloud_service_spec.rb`, `whatsapp360_dialog_service_spec.rb`
+
+**Panel AI complementario** (repo hermano, `103ae01`): detectar canal WhatsApp en webhook.
+
+**Estado:** branch ahead 1, pendiente merge a `develop` + redeploy GHCR.
+
+### Contactos — UI y asignación
+
+Branch actual incluye (commit `f29c3ee79`):
+
+- `ContactAssigneeSelector.vue` — fetch agents vía watch `immediate`
+- `ContactDetails.vue` — watch `selectedContact`
+- `ContactInfo.vue` — `aria-label`, sin `capitalize` en nombres
+- `contact.json` / `contactFilters.json` — typo "Identificador"
+- `document_number` en contactos (branch `feat/contact-assigned-agent`, merged)
+
+### Instagram OAuth (pendiente)
+
+**Problema:** `instagram_concern.rb` usa `HTTParty.get` en `ig_exchange_token`; Meta requiere POST.
+
+**Archivos:**
+
+- `app/controllers/concerns/instagram_concern.rb` (`exchange_for_long_lived_token`, `make_api_request`)
+- `app/services/instagram/refresh_oauth_token_service.rb`
+
+**Workaround:** Instagram Tester en Meta Developers.
+
+### Facebook / Messenger (configuración, no código PaluHub)
+
+Flujo Chatwoot: Add Inbox → **Facebook** → `FB.login` → `me/accounts` → elegir Fan Page.
+
+**Archivos:** `Facebook.vue`, `useFacebookPageConnect.js`, `callbacks_controller.rb`, `facebookScopes.js`
+
+**Scopes:** `pages_messaging`, `pages_show_list`, `pages_manage_metadata`, `business_management`, `pages_read_engagement`
+
+**Cliente externo falla si:** app en Development sin rol Tester, o no es admin de Fan Page.
+
+**Instagram Tester ≠ Facebook Tester.**
+
+### Webhook Messenger
+
+- Ruta: `/bot` (`config/initializers/facebook_messenger.rb`)
+- Verify token: `FB_VERIFY_TOKEN` en Super Admin
+
+---
+
+## Meta Developers — checklist PaluHub
+
+### App Facebook (Messenger)
+
+- [ ] Modo **Live** o cliente como **Tester** (Roles → Testers)
+- [ ] Permisos Advanced Access: `pages_messaging`, `pages_manage_metadata`, `pages_show_list`, etc.
+- [ ] App Domains: `inbox.paluhub.com`
+- [ ] JSSDK Allowed Domains: `inbox.paluhub.com`
+- [ ] Webhook → `https://inbox.paluhub.com/bot`
+
+### App Instagram (DM directo)
+
+- [ ] `INSTAGRAM_APP_ID` / `INSTAGRAM_APP_SECRET` en Super Admin
+- [ ] Redirect: `https://inbox.paluhub.com/instagram/callback`
+- [ ] Instagram Testers para cuentas no-Live
+- [ ] Cuenta IG **Business/Creator** con mensajes activados
+
+---
+
+## Estado Git PaluHub (snapshot)
+
+_Última actualización: 2026-07-12_  
+**InboxHub version:** `1.0.0` — ver [`PALUHUB_VERSION`](PALUHUB_VERSION), [`docs/VERSIONING.md`](docs/VERSIONING.md), [`docs/CHANGELOG_PALUHUB.md`](docs/CHANGELOG_PALUHUB.md), [`docs/RELEASE_INBOXHUB_1.0.0.md`](docs/RELEASE_INBOXHUB_1.0.0.md).
+
+### chatwoot (este repo) — rama `feat/internal-tasks` → release 1.0.0
+
+| Campo | Valor |
+|-------|-------|
+| **vs origin** | push + merge a `develop` pendientes de este release |
+| **HEAD (local)** | commits UI polish + team RR encima de `214fc8bed` |
+| **Working tree** | docs de versionado / release (commit docs) |
+| **Tag objetivo** | `inboxhub-v1.0.0` en `develop` tras merge |
+
+**Incluye (vs develop):** Internal Tasks + migraciones, ACL/privacy, WA interactive, contact UX, reply/template fixes, UI compacta, split assignee, team→round-robin.
+
+**Historial reciente (feature):**
+
+| Commit (tema) | Descripción |
+|---------------|-------------|
+| team RR | `feat(conversations): auto-assign agent when assigning a team` |
+| UI polish | `fix(ui): compact reply box, tasks polish, and split assignee control` |
+| `214fc8bed` | ACL/privacy tasks + contact agent UX |
+| `edadfc9b6` | private-note reply + WA template buttons |
+| `42b82557d` | Internal Tasks inbox + kanban |
+
+**Migraciones obligatorias en prod:** `20260709120000` … `20260709130000` (ver RELEASE doc).
+
+### panel-ai (repo hermano)
+
+| Campo | Valor |
+|-------|-------|
+| **Rama** | `develop` |
+| Detalle | `panel-ai/AGENTS.md` |
+
+---
+
+## Pendiente deploy / merge (stack completo)
+
+| Item | Repo | Acción |
+|------|------|--------|
+| **InboxHub 1.0.0** | chatwoot | merge `feat/internal-tasks` → `develop`, tag `inboxhub-v1.0.0`, GHCR redeploy, **`db:migrate`**, smoke RELEASE |
+| WhatsApp channel + menús | panel-ai | verificar prod / merge `master` si falta |
+| Refactor UI asistentes | panel-ai | commit + merge cuando estable |
+| Instagram POST fix | chatwoot | implementar en `instagram_concern.rb` |
+| Meta Live / testers clientes | Meta | operativo |
+
+---
+
+## Fixes recientes (trazabilidad)
+
+Sesiones de revisión dejan bitácora en [`docs/BUGS.md`](docs/BUGS.md).
+Cada fix tiene ID, archivo tocado, descripción y cómo probar.
+
+- **`feat/internal-tasks`** — auditoría de 2026-07-11 en dos pasadas:
+  - Primera: P0/P1 cerrados (`TASK-001..005`, `CABLE-TASK-01`, `TASK-DESTROY-01`,
+    `TASK-CLAIM-01`, `TASK-SCOPE-01`, `NOTE-PRIV-01`, `UX-001/002`).
+  - Segunda: 6 adicionales encontrados y cerrados (`B-NEW-01..05`, `B-NEW-09`,
+    `B-NEW-10`). Ver `docs/BUGS.md` §2.1 para el detalle.
+- Verificar contra [`docs/INTERNAL_TASKS_AND_ALERTS.md`](docs/INTERNAL_TASKS_AND_ALERTS.md)
+  antes de mergear — ese doc lista fixes ya aplicados que **no** se deben revertir.
+
+**Tarea pre-merge obligatoria:**
+- Correr `db:migrate` en cada entorno (local, staging, prod) por la
+  migración `20260711120000_add_assigned_agent_id_to_contacts.rb`
+  (`B-NEW-09`). Sin esto, deploys fresh crashean.
+
+**Convención al aplicar fixes nuevos:**
+1. Agregar entrada en `docs/BUGS.md` con ID `B-NEW-NNN` o `TASK-NNN` + archivo + descripción + test.
+2. Si el fix toca arquitectura, considerar actualizar `docs/INTERNAL_TASKS_AND_ALERTS.md`
+   o `docs/REFACTOR_STRUCTURAL.md` (panel-ai).
+3. Si el fix es crítico (privacidad, datos, deploy), agregar a la tabla de **"Pendiente deploy / merge"**
+   arriba hasta que se promoted a `develop`.
+4. Si tocás `db/schema.rb` a mano, **siempre** crear la migración correspondiente.

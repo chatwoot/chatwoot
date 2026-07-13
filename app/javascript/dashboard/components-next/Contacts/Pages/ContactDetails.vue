@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, onMounted } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -20,20 +20,24 @@ const store = useStore();
 
 const avatarFile = ref(null);
 const contactsFormRef = ref(null);
-const contactData = ref({});
-
-const uiFlags = useMapGetter('contacts/getUIFlags');
-const isUpdating = computed(() => uiFlags.value.isUpdating);
-const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const getInitialContactData = () => {
   if (!props.selectedContact) return {};
   return { ...props.selectedContact };
 };
 
-onMounted(() => {
-  Object.assign(contactData.value, getInitialContactData());
-});
+const contactData = ref(getInitialContactData());
+
+watch(
+  () => props.selectedContact,
+  newContact => {
+    contactData.value = newContact ? { ...newContact } : {};
+  }
+);
+
+const uiFlags = useMapGetter('contacts/getUIFlags');
+const isUpdating = computed(() => uiFlags.value.isUpdating);
+const isFormInvalid = computed(() => contactsFormRef.value?.isFormInvalid);
 
 const handleFormUpdate = updatedData => {
   Object.assign(contactData.value, updatedData);
@@ -99,7 +103,6 @@ const handleAvatarDelete = async () => {
       ref="contactsFormRef"
       :contact-data="contactData"
       is-details-view
-      hide-document-number
       @update="handleFormUpdate"
     />
 

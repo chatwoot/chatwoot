@@ -151,12 +151,12 @@ export default {
       return this.$store.getters['contacts/getContact'](senderId);
     },
     shouldShowReplyToMessage() {
+      if (!this.inReplyTo?.id || this.copilot.isActive.value) return false;
+      // Private notes are internal — show reply preview without channel REPLY_TO.
+      if (this.isOnPrivateNote) return true;
       return (
-        this.inReplyTo?.id &&
-        !this.isPrivate &&
         this.inboxHasFeature(INBOX_FEATURES.REPLY_TO) &&
-        !this.is360DialogWhatsAppChannel &&
-        !this.copilot.isActive.value
+        !this.is360DialogWhatsAppChannel
       );
     },
     showWhatsappTemplates() {
@@ -526,6 +526,10 @@ export default {
 
     this.fetchAndSetReplyTo();
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.onReplyToMessage);
+    emitter.on(
+      BUS_EVENTS.START_PRIVATE_NOTE_ON_MESSAGE,
+      this.onStartPrivateNoteOnMessage
+    );
 
     // A hacky fix to solve the drag and drop
     // Is showing on top of new conversation modal drag and drop
@@ -541,6 +545,10 @@ export default {
     document.removeEventListener('paste', this.onPaste);
     document.removeEventListener('keydown', this.handleKeyEvents);
     emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.onReplyToMessage);
+    emitter.off(
+      BUS_EVENTS.START_PRIVATE_NOTE_ON_MESSAGE,
+      this.onStartPrivateNoteOnMessage
+    );
     emitter.off(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, this.addIntoEditor);
     emitter.off(
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
@@ -1248,6 +1256,13 @@ export default {
         });
       }
     },
+    onStartPrivateNoteOnMessage() {
+      this.setReplyMode(REPLY_EDITOR_MODES.NOTE);
+      this.fetchAndSetReplyTo();
+      this.$nextTick(() => {
+        this.messageEditor?.focusEditorInputField('end');
+      });
+    },
     resetReplyToMessage() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
       LocalStorage.deleteFromJsonStore(replyStorageKey, this.conversationId);
@@ -1532,7 +1547,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-3 -mt-px;
+  @apply relative py-0 px-2.5 -mt-px;
 }
 
 .emoji-dialog {

@@ -50,6 +50,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       'account.cache_invalidated': this.onCacheInvalidate,
       'account.enrichment_completed': this.onEnrichmentCompleted,
       'copilot.message.created': this.onCopilotMessageCreated,
+      'internal_task.created': this.onInternalTaskCreated,
+      'internal_task.updated': this.onInternalTaskUpdated,
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,
       'voice_call.outbound_accepted': this.onVoiceCallOutboundAccepted,
@@ -137,6 +139,16 @@ class ActionCableConnector extends BaseActionCableConnector {
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
     this.fetchConversationStats();
+  };
+
+  onInternalTaskCreated = data => {
+    if (!this.isAValidEvent(data)) return;
+    this.app.$store.dispatch('internalTasks/handleTaskCreated', data);
+  };
+
+  onInternalTaskUpdated = data => {
+    if (!this.isAValidEvent(data)) return;
+    this.app.$store.dispatch('internalTasks/handleTaskUpdated', data);
   };
 
   onConversationUnreadCountChanged = () => {
