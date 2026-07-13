@@ -39,6 +39,7 @@ const isPolling = ref(false);
 const showImportDrawer = ref(false);
 const activeTab = ref('import');
 let pollTimer;
+let isPageActive = false;
 
 const accountId = getters.getCurrentAccountId;
 
@@ -90,7 +91,14 @@ const stopPolling = () => {
 };
 
 const refreshImportsInBackground = async () => {
-  if (isPolling.value || !hasActiveImport.value || document.hidden) return;
+  if (
+    !isPageActive ||
+    isPolling.value ||
+    !hasActiveImport.value ||
+    document.hidden
+  ) {
+    return;
+  }
 
   isPolling.value = true;
   try {
@@ -103,7 +111,7 @@ const refreshImportsInBackground = async () => {
 
 const startPolling = () => {
   stopPolling();
-  if (!hasActiveImport.value) return;
+  if (!isPageActive || !hasActiveImport.value) return;
 
   pollTimer = window.setInterval(refreshImportsInBackground, POLL_INTERVAL_MS);
 };
@@ -117,8 +125,10 @@ const refresh = async ({ showLoader = true } = {}) => {
   } finally {
     isLoading.value = false;
     isRefreshing.value = false;
-    if (hasActiveImport.value && !pollTimer) startPolling();
-    if (!hasActiveImport.value) stopPolling();
+    if (isPageActive) {
+      if (hasActiveImport.value && !pollTimer) startPolling();
+      if (!hasActiveImport.value) stopPolling();
+    }
   }
 };
 
@@ -143,21 +153,28 @@ const onTabChanged = tab => {
 };
 
 const handleVisibilityChange = () => {
-  if (!document.hidden && hasActiveImport.value) refreshImportsInBackground();
+  if (isPageActive && !document.hidden && hasActiveImport.value) {
+    refreshImportsInBackground();
+  }
 };
 
 onActivated(async () => {
+  isPageActive = true;
   await refresh();
+  if (!isPageActive) return;
+
   startPolling();
   document.addEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onDeactivated(() => {
+  isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });

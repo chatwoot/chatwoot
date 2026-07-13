@@ -34,6 +34,7 @@ const selectedSkipLogsType = ref('');
 const errorsOpen = ref(true);
 const skipLogsOpen = ref(true);
 let pollTimer;
+let isPageActive = false;
 
 const hasActiveImport = computed(() => isActiveImport(dataImport.value));
 
@@ -86,7 +87,14 @@ const changeSkipLogsType = async type => {
 };
 
 const refreshImportInBackground = async () => {
-  if (isPolling.value || !hasActiveImport.value || document.hidden) return;
+  if (
+    !isPageActive ||
+    isPolling.value ||
+    !hasActiveImport.value ||
+    document.hidden
+  ) {
+    return;
+  }
 
   isPolling.value = true;
   try {
@@ -144,17 +152,22 @@ const downloadSkipLogs = async () => {
 
 const startPolling = () => {
   stopPolling();
-  if (!hasActiveImport.value) return;
+  if (!isPageActive || !hasActiveImport.value) return;
 
   pollTimer = window.setInterval(refreshImportInBackground, POLL_INTERVAL_MS);
 };
 
 const handleVisibilityChange = () => {
-  if (!document.hidden && hasActiveImport.value) refreshImportInBackground();
+  if (isPageActive && !document.hidden && hasActiveImport.value) {
+    refreshImportInBackground();
+  }
 };
 
 onActivated(async () => {
+  isPageActive = true;
   await fetchImport({ showLoader: true });
+  if (!isPageActive) return;
+
   // Collapse empty sections by default; expand the ones with records.
   errorsOpen.value = Boolean(dataImport.value?.import_errors_count);
   skipLogsOpen.value = Boolean(dataImport.value?.skip_logs_count);
@@ -163,11 +176,13 @@ onActivated(async () => {
 });
 
 onDeactivated(() => {
+  isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
 
 onBeforeUnmount(() => {
+  isPageActive = false;
   stopPolling();
   document.removeEventListener('visibilitychange', handleVisibilityChange);
 });
