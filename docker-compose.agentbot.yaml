@@ -10,6 +10,7 @@ x-chatwoot: &chatwoot
     FRONTEND_URL: http://localhost:3300
     FORCE_SSL: "false"
     ENABLE_ACCOUNT_SIGNUP: "false"
+    SAFE_FETCH_ALLOW_PRIVATE_NETWORK: "true"
     POSTGRES_HOST: postgres
     POSTGRES_DATABASE: chatwoot
     POSTGRES_USERNAME: postgres
@@ -87,6 +88,7 @@ services:
       HOST: 0.0.0.0
       PORT: 3400
       LOG_LEVEL: info
+      REDIS_URL: redis://:agentbot-lab-redis@redis:6379
       CHATWOOT_INTERNAL_URL: http://rails:3000
       CHATWOOT_PUBLIC_URL: http://localhost:3300
     ports:

@@ -5,11 +5,21 @@ const optionalString = z.preprocess(
   z.string().optional()
 );
 
+const optionalPositiveInteger = z.preprocess(
+  value => (value === '' || value === undefined ? undefined : value),
+  z.coerce.number().int().positive().optional()
+);
+
 const schema = z.object({
   HOST: z.string().default('0.0.0.0'),
   PORT: z.coerce.number().int().positive().default(3400),
   LOG_LEVEL: z.string().default('info'),
+  REDIS_URL: optionalString,
+  CHATWOOT_INTERNAL_URL: z.string().url().default('http://rails:3000'),
   CHATWOOT_PUBLIC_URL: z.string().url().default('http://localhost:3300'),
+  CHATWOOT_ACCOUNT_ID: optionalPositiveInteger,
+  CHATWOOT_AGENT_BOT_ID: optionalPositiveInteger,
+  CHATWOOT_AGENT_BOT_TOKEN: optionalString,
   CHATWOOT_WEBSITE_TOKEN: optionalString,
   CHATWOOT_WEBHOOK_SECRET: optionalString,
   DEMO_CUSTOMER_IDENTIFIER: z.string().default('demo-customer-001'),

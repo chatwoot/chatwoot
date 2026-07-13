@@ -3,6 +3,7 @@ import type { AppConfig } from './config.js';
 import type { ChatwootWebhookPayload } from './chatwoot/types.js';
 import { verifyChatwootSignature } from './chatwoot/signature.js';
 import { renderWidgetPage } from './widget-page.js';
+import type { WebhookProcessor } from './processing/webhook-processor.js';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -13,7 +14,11 @@ declare module 'fastify' {
 const maskedPhoneSuffix = (phone?: string | null): string | undefined =>
   phone ? phone.replace(/\D/g, '').slice(-4) : undefined;
 
-export const buildServer = (config: AppConfig): FastifyInstance => {
+type ServerDependencies = {
+  webhookProcessor?: WebhookProcessor;
+};
+
+export const buildServer = (config: AppConfig, dependencies: ServerDependencies = {}): FastifyInstance => {
   const server = Fastify({
     logger: {
       level: config.LOG_LEVEL,
@@ -73,6 +78,8 @@ export const buildServer = (config: AppConfig): FastifyInstance => {
       senderPhonePresent: Boolean(payload.sender?.phone_number),
       senderPhoneLast4: maskedPhoneSuffix(payload.sender?.phone_number)
     });
+
+    await dependencies.webhookProcessor?.process(payload, request.log);
 
     return reply.code(204).send();
   });

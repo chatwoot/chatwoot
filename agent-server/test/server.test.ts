@@ -7,6 +7,7 @@ const config: AppConfig = {
   HOST: '127.0.0.1',
   PORT: 3400,
   LOG_LEVEL: 'silent',
+  CHATWOOT_INTERNAL_URL: 'http://rails:3000',
   CHATWOOT_PUBLIC_URL: 'http://localhost:3300',
   CHATWOOT_WEBSITE_TOKEN: 'website-token',
   CHATWOOT_WEBHOOK_SECRET: 'test-secret',

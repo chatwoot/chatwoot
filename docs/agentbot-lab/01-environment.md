@@ -11,6 +11,7 @@
 - Agent server health: `http://localhost:3401/healthz`
 - Postgres와 Redis는 host port를 노출하지 않는다.
 - Chatwoot, Postgres, Redis storage는 project 전용 named volume을 사용한다.
+- Docker 내부 AgentBot Webhook을 허용하기 위해 이 로컬 lab에만 `SAFE_FETCH_ALLOW_PRIVATE_NETWORK=true`를 설정한다. 운영에서는 공개 HTTPS Webhook URL을 사용한다.
 
 호스트 `3400`은 현재 OrbStack 포워딩에서 연결이 reset되는 로컬 충돌이 있었다. 동일 이미지와 컨테이너 내부 통신은 정상임을 확인한 후 host port만 `3401`로 변경했다.
 
