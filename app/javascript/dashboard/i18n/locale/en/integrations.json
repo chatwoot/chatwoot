@@ -811,6 +811,7 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
+      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
@@ -870,7 +871,27 @@
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "EMPTY": "No FAQs have been generated from this document yet."
+      },
+      "DETAILS": {
+        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
+        "SOURCE": "Source",
+        "GENERATED_FAQS": "Generated FAQs",
+        "LAST_UPDATED": "Last updated",
+        "NOT_AVAILABLE": "Not available",
+        "CONTENT_TAB": "Crawled content",
+        "PDF_TAB": "PDF details",
+        "CONTENT_TITLE": "Crawled content",
+        "PDF_TITLE": "PDF file",
+        "PDF_DESCRIPTION": "Review the original PDF source.",
+        "CHARACTER_COUNT": "{count} characters extracted",
+        "COPY_CONTENT": "Copy",
+        "COPY_SUCCESS": "Crawled content copied to clipboard",
+        "COPY_ERROR": "Could not copy crawled content",
+        "VIEW_RAW": "View raw",
+        "VIEW_PREVIEW": "View preview",
+        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
+        "EMPTY_CONTENT": "No crawled content is available for this document yet."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -911,7 +932,7 @@
       },
 
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "VIEW_DETAILS": "View details",
         "SYNC_NOW": "Refresh now",
         "RETRY_SYNC": "Retry refresh",
         "DELETE_DOCUMENT": "Delete Document"

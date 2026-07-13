@@ -47,6 +47,28 @@ en:
     saml_not_available: SAML authentication is not available in this installation.
     inbox_deletetion_response: Your inbox deletion request will be processed in some time.
 
+  data_imports:
+    intercom:
+      activities:
+        assignment: '%{actor} assigned the conversation'
+        assignment_with_target: '%{actor} assigned the conversation to %{target}'
+        assign_and_reopen: '%{actor} assigned and reopened the conversation'
+        assign_and_reopen_with_target: '%{actor} assigned the conversation to %{target} and reopened it'
+        open: '%{actor} opened the conversation'
+        close: '%{actor} closed the conversation'
+        snoozed: '%{actor} snoozed the conversation'
+        participant_added: '%{actor} added a participant'
+        participant_added_with_target: '%{actor} added %{target} as a participant'
+        participant_removed: '%{actor} removed a participant'
+        participant_removed_with_target: '%{actor} removed %{target} as a participant'
+        conversation_attribute_updated: '%{actor} updated conversation attributes'
+        ticket_attribute_updated: '%{actor} updated ticket attributes'
+        ticket_state_updated: '%{actor} updated the ticket state'
+        custom_action_started: '%{actor} started a custom action'
+        custom_action_finished: '%{actor} finished a custom action'
+        quick_reply: '%{actor} used a quick reply'
+        generic: '%{actor} recorded %{event}'
+
   profile_settings:
     sessions:
       cannot_revoke_current: You cannot revoke the current session.
