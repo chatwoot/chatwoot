@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :captain_session, class: 'Captain::Session' do
+  factory :captain_agent_session, class: 'Captain::AgentSession' do
     account
     association :assistant, factory: :captain_assistant
     session_type { :assistant }

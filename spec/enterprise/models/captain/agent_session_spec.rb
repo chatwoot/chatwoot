@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Captain::Session, type: :model do
+RSpec.describe Captain::AgentSession, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
 
@@ -19,7 +19,7 @@ RSpec.describe Captain::Session, type: :model do
   describe '#subject' do
     it 'returns the conversation for an assistant session' do
       conversation = create(:conversation, account: account)
-      session = create(:captain_session, account: account, assistant: assistant, subject: conversation)
+      session = create(:captain_agent_session, account: account, assistant: assistant, subject: conversation)
 
       expect(session.subject).to eq(conversation)
     end
@@ -27,14 +27,14 @@ RSpec.describe Captain::Session, type: :model do
     it 'returns the copilot thread for a copilot session' do
       user = create(:user, account: account)
       copilot_thread = create(:captain_copilot_thread, account: account, user: user, assistant: assistant)
-      session = create(:captain_session, :copilot, account: account, assistant: assistant, user: user, subject: copilot_thread)
+      session = create(:captain_agent_session, :copilot, account: account, assistant: assistant, user: user, subject: copilot_thread)
 
       expect(session.subject).to eq(copilot_thread)
     end
 
     it 'returns nil when the subject record no longer exists' do
       conversation = create(:conversation, account: account)
-      session = create(:captain_session, account: account, assistant: assistant, subject: conversation)
+      session = create(:captain_agent_session, account: account, assistant: assistant, subject: conversation)
       conversation.destroy
 
       expect(session.reload.subject).to be_nil
@@ -42,7 +42,7 @@ RSpec.describe Captain::Session, type: :model do
 
     it 'is not valid when the subject type does not match the session type' do
       copilot_thread = create(:captain_copilot_thread, account: account, user: create(:user, account: account), assistant: assistant)
-      session = build(:captain_session, account: account, assistant: assistant, subject: copilot_thread)
+      session = build(:captain_agent_session, account: account, assistant: assistant, subject: copilot_thread)
 
       expect(session).not_to be_valid
       expect(session.errors[:subject_type]).to be_present
@@ -50,7 +50,7 @@ RSpec.describe Captain::Session, type: :model do
 
     it 'is not valid when the subject belongs to a different account' do
       foreign_conversation = create(:conversation, account: create(:account))
-      session = build(:captain_session, account: account, assistant: assistant, subject: foreign_conversation)
+      session = build(:captain_agent_session, account: account, assistant: assistant, subject: foreign_conversation)
 
       expect(session).not_to be_valid
       expect(session.errors[:subject]).to be_present
@@ -61,7 +61,7 @@ RSpec.describe Captain::Session, type: :model do
     it 'returns the message for an assistant session' do
       conversation = create(:conversation, account: account)
       message = create(:message, account: account, conversation: conversation)
-      session = create(:captain_session, account: account, assistant: assistant, subject: conversation, result: message)
+      session = create(:captain_agent_session, account: account, assistant: assistant, subject: conversation, result: message)
 
       expect(session.result).to eq(message)
     end
@@ -70,14 +70,14 @@ RSpec.describe Captain::Session, type: :model do
       user = create(:user, account: account)
       copilot_thread = create(:captain_copilot_thread, account: account, user: user, assistant: assistant)
       copilot_message = create(:captain_copilot_message, account: account, copilot_thread: copilot_thread)
-      session = create(:captain_session, :copilot, account: account, assistant: assistant, user: user,
-                                                   subject: copilot_thread, result: copilot_message)
+      session = create(:captain_agent_session, :copilot, account: account, assistant: assistant, user: user,
+                                                         subject: copilot_thread, result: copilot_message)
 
       expect(session.result).to eq(copilot_message)
     end
 
     it 'returns nil when result_id is nil' do
-      session = create(:captain_session, account: account, assistant: assistant)
+      session = create(:captain_agent_session, account: account, assistant: assistant)
 
       expect(session.result).to be_nil
     end
@@ -85,7 +85,7 @@ RSpec.describe Captain::Session, type: :model do
     it 'is not valid when the result belongs to a different account' do
       conversation = create(:conversation, account: account)
       foreign_message = create(:message, account: create(:account))
-      session = build(:captain_session, account: account, assistant: assistant, subject: conversation, result: foreign_message)
+      session = build(:captain_agent_session, account: account, assistant: assistant, subject: conversation, result: foreign_message)
 
       expect(session).not_to be_valid
       expect(session.errors[:result]).to be_present
@@ -94,8 +94,8 @@ RSpec.describe Captain::Session, type: :model do
     it 'is not valid when result_id/result_type are set directly for a different account' do
       conversation = create(:conversation, account: account)
       foreign_message = create(:message, account: create(:account))
-      session = build(:captain_session, account: account, assistant: assistant, subject: conversation,
-                                        result_id: foreign_message.id, result_type: 'Message')
+      session = build(:captain_agent_session, account: account, assistant: assistant, subject: conversation,
+                                              result_id: foreign_message.id, result_type: 'Message')
 
       expect(session).not_to be_valid
       expect(session.errors[:result]).to be_present
@@ -103,8 +103,8 @@ RSpec.describe Captain::Session, type: :model do
 
     it 'is not valid when result_id/result_type are set directly for a stale id' do
       conversation = create(:conversation, account: account)
-      session = build(:captain_session, account: account, assistant: assistant, subject: conversation,
-                                        result_id: 0, result_type: 'Message')
+      session = build(:captain_agent_session, account: account, assistant: assistant, subject: conversation,
+                                              result_id: 0, result_type: 'Message')
 
       expect(session).not_to be_valid
       expect(session.errors[:result]).to be_present
@@ -114,14 +114,14 @@ RSpec.describe Captain::Session, type: :model do
   describe 'account' do
     it 'is derived from the assistant when created via the assistant association' do
       conversation = create(:conversation, account: account)
-      session = assistant.sessions.create!(subject: conversation, session_type: :assistant)
+      session = assistant.agent_sessions.create!(subject: conversation, session_type: :assistant)
 
       expect(session.account).to eq(account)
     end
 
     it 'overrides a mismatched explicit account with the assistant account' do
       conversation = create(:conversation, account: account)
-      session = build(:captain_session, account: create(:account), assistant: assistant, subject: conversation)
+      session = build(:captain_agent_session, account: create(:account), assistant: assistant, subject: conversation)
 
       expect(session).to be_valid
       expect(session.account).to eq(account)
@@ -130,7 +130,7 @@ RSpec.describe Captain::Session, type: :model do
 
   describe 'defaults' do
     it 'defaults faq_ids, document_ids, scenario_ids and run_context' do
-      session = create(:captain_session, account: account, assistant: assistant)
+      session = create(:captain_agent_session, account: account, assistant: assistant)
 
       expect(session.faq_ids).to eq([])
       expect(session.document_ids).to eq([])
@@ -141,7 +141,7 @@ RSpec.describe Captain::Session, type: :model do
 
   describe 'factory' do
     it 'builds a valid assistant session' do
-      session = create(:captain_session, account: account, assistant: assistant)
+      session = create(:captain_agent_session, account: account, assistant: assistant)
 
       expect(session).to be_valid
       expect(session).to be_session_assistant
@@ -149,7 +149,7 @@ RSpec.describe Captain::Session, type: :model do
     end
 
     it 'builds a valid copilot session' do
-      session = create(:captain_session, :copilot, account: account, assistant: assistant)
+      session = create(:captain_agent_session, :copilot, account: account, assistant: assistant)
 
       expect(session).to be_valid
       expect(session).to be_session_copilot

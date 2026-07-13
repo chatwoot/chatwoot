@@ -321,6 +321,31 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "captain_agent_sessions", force: :cascade do |t|
+    t.integer "session_type", null: false
+    t.string "subject_type", null: false
+    t.bigint "subject_id", null: false
+    t.string "result_type"
+    t.bigint "result_id"
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "user_id"
+    t.string "llm_model"
+    t.float "credits_consumed"
+    t.jsonb "faq_ids", default: []
+    t.jsonb "document_ids", default: []
+    t.jsonb "scenario_ids", default: []
+    t.jsonb "run_context", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "result_type", "result_id"], name: "idx_on_account_id_result_type_result_id_3569670cb3"
+    t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_b70a59d2eb"
+    t.index ["account_id", "subject_type", "subject_id"], name: "idx_on_account_id_subject_type_subject_id_81f8d70098"
+    t.index ["account_id"], name: "index_captain_agent_sessions_on_account_id"
+    t.index ["assistant_id"], name: "index_captain_agent_sessions_on_assistant_id"
+    t.index ["user_id"], name: "index_captain_agent_sessions_on_user_id"
+  end
+
   create_table "captain_assistant_responses", force: :cascade do |t|
     t.string "question", null: false
     t.text "answer", null: false
@@ -431,31 +456,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
     t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
-  end
-
-  create_table "captain_sessions", force: :cascade do |t|
-    t.integer "session_type", null: false
-    t.string "subject_type", null: false
-    t.bigint "subject_id", null: false
-    t.string "result_type"
-    t.bigint "result_id"
-    t.bigint "account_id", null: false
-    t.bigint "assistant_id", null: false
-    t.bigint "user_id"
-    t.string "llm_model"
-    t.float "credits_consumed"
-    t.jsonb "faq_ids", default: []
-    t.jsonb "document_ids", default: []
-    t.jsonb "scenario_ids", default: []
-    t.jsonb "run_context", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "result_type", "result_id"], name: "idx_on_account_id_result_type_result_id_7ba854fb73"
-    t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_a396daca19"
-    t.index ["account_id", "subject_type", "subject_id"], name: "idx_on_account_id_subject_type_subject_id_9770a139f6"
-    t.index ["account_id"], name: "index_captain_sessions_on_account_id"
-    t.index ["assistant_id"], name: "index_captain_sessions_on_assistant_id"
-    t.index ["user_id"], name: "index_captain_sessions_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
