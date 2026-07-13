@@ -118,6 +118,38 @@ describe('ChatwootWebhookProcessor', () => {
     expect(chatwoot.messages).toHaveLength(1);
   });
 
+  it('continues replying when Chatwoot opens a conversation assigned to itself', async () => {
+    const { chatwoot, processor } = createProcessor();
+    const payload = incomingPayload({
+      conversation: {
+        id: 42,
+        status: 'open',
+        meta: { assignee: { id: 7, type: 'agent_bot' }, assignee_type: 'AgentBot' }
+      }
+    });
+
+    await processor.process(payload, logger);
+
+    expect(chatwoot.assignments).toEqual([]);
+    expect(chatwoot.messages).toHaveLength(1);
+  });
+
+  it('does not claim an unassigned open conversation', async () => {
+    const { chatwoot, processor } = createProcessor();
+    const payload = incomingPayload({
+      conversation: {
+        id: 42,
+        status: 'open',
+        meta: { assignee: null, assignee_type: null }
+      }
+    });
+
+    await processor.process(payload, logger);
+
+    expect(chatwoot.assignments).toEqual([]);
+    expect(chatwoot.messages).toEqual([]);
+  });
+
   it('does not reply when a user owns the conversation', async () => {
     const { chatwoot, processor } = createProcessor();
     const payload = incomingPayload({

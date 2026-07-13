@@ -11,6 +11,7 @@ const config: AppConfig = {
   CHATWOOT_PUBLIC_URL: 'http://localhost:3300',
   CHATWOOT_WEBSITE_TOKEN: 'website-token',
   CHATWOOT_WEBHOOK_SECRET: 'test-secret',
+  OPENAI_MODEL: 'gpt-5.6-luna',
   DEMO_CUSTOMER_IDENTIFIER: 'demo-customer-001',
   DEMO_CUSTOMER_NAME: 'Demo Customer',
   DEMO_CUSTOMER_EMAIL: 'demo@example.test',

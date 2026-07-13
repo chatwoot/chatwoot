@@ -22,6 +22,8 @@ const schema = z.object({
   CHATWOOT_AGENT_BOT_TOKEN: optionalString,
   CHATWOOT_WEBSITE_TOKEN: optionalString,
   CHATWOOT_WEBHOOK_SECRET: optionalString,
+  OPENAI_API_KEY: optionalString,
+  OPENAI_MODEL: z.string().default('gpt-5.6-luna'),
   DEMO_CUSTOMER_IDENTIFIER: z.string().default('demo-customer-001'),
   DEMO_CUSTOMER_NAME: z.string().default('AgentBot Demo Customer'),
   DEMO_CUSTOMER_EMAIL: z.string().email().default('agentbot-demo@example.test'),

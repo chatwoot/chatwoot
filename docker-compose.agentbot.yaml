@@ -91,6 +91,7 @@ services:
       REDIS_URL: redis://:agentbot-lab-redis@redis:6379
       CHATWOOT_INTERNAL_URL: http://rails:3000
       CHATWOOT_PUBLIC_URL: http://localhost:3300
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-luna}
     ports:
       - "127.0.0.1:3401:3400"
     depends_on:

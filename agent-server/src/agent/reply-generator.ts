@@ -1,8 +1,10 @@
+import type { FastifyBaseLogger } from 'fastify';
 import type { ChatwootWebhookPayload } from '../chatwoot/types.js';
 
 export type ReplyRequest = {
   content: string;
   conversationId: number;
+  logger: FastifyBaseLogger;
   payload: ChatwootWebhookPayload;
 };
 

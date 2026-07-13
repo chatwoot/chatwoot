@@ -49,7 +49,11 @@ export class ChatwootWebhookProcessor implements WebhookProcessor {
 
       try {
         const ownershipDecision = this.#ownershipDecision(payload);
-        if (ownershipDecision === 'assigned_to_user' || ownershipDecision === 'assigned_to_other_bot') {
+        if (
+          ownershipDecision === 'assigned_to_user' ||
+          ownershipDecision === 'assigned_to_other_bot' ||
+          ownershipDecision === 'unassigned_open'
+        ) {
           logger.info({
             event: 'message_decision',
             decision: 'ignore',
@@ -78,6 +82,7 @@ export class ChatwootWebhookProcessor implements WebhookProcessor {
         const reply = await this.#replyGenerator.generate({
           content: payload.content!.trim(),
           conversationId,
+          logger,
           payload
         });
         const outgoingMessage = await this.#chatwoot.createMessage(conversationId, reply);
@@ -103,14 +108,16 @@ export class ChatwootWebhookProcessor implements WebhookProcessor {
     if (payload.message_type !== 'incoming') return 'not_incoming';
     if (payload.private) return 'private_message';
     if (!payload.id || !payload.conversation?.id || !payload.content?.trim()) return 'invalid_payload';
-    if (payload.conversation.status !== 'pending') return 'conversation_not_pending';
+    if (!['pending', 'open'].includes(payload.conversation.status ?? '')) return 'conversation_not_active';
     return null;
   }
 
-  #ownershipDecision(payload: ChatwootWebhookPayload): 'claim' | 'reply' | 'assigned_to_user' | 'assigned_to_other_bot' {
+  #ownershipDecision(
+    payload: ChatwootWebhookPayload
+  ): 'claim' | 'reply' | 'assigned_to_user' | 'assigned_to_other_bot' | 'unassigned_open' {
     const assignee = payload.conversation?.meta?.assignee;
     const assigneeType = payload.conversation?.meta?.assignee_type;
-    if (!assignee && !assigneeType) return 'claim';
+    if (!assignee && !assigneeType) return payload.conversation?.status === 'pending' ? 'claim' : 'unassigned_open';
     if (assigneeType === 'AgentBot' && assignee?.id === this.#agentBotId) return 'reply';
     if (assigneeType === 'User') return 'assigned_to_user';
     return 'assigned_to_other_bot';

@@ -6,7 +6,8 @@
 
 - AgentBot access token을 사용하는 Chatwoot client를 추가했다.
 - 미할당 `pending` 대화는 Assignment API로 현재 AgentBot에 먼저 할당한다.
-- 현재 AgentBot에 할당된 `pending` 대화의 후속 incoming 메시지는 재할당 없이 처리한다.
+- 현재 AgentBot에 할당된 `pending` 또는 `open` 대화의 후속 incoming 메시지는 재할당 없이 처리한다.
+- 사람의 처리가 끝났을 가능성이 있는 미할당 `open` 대화는 새로 claim하지 않는다.
 - 사람 상담원 또는 다른 AgentBot에 할당된 메시지는 답하지 않는다.
 - outgoing, private, `message_created`가 아닌 이벤트는 답하지 않는다.
 - Redis의 message key로 24시간 멱등성을 유지하고 conversation lock으로 같은 대화의 동시 처리를 직렬화한다.

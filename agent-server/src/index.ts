@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import { AgentsReplyGenerator } from './agent/agents-reply-generator.js';
 import { EchoReplyGenerator } from './agent/reply-generator.js';
 import { ChatwootClient } from './chatwoot/client.js';
 import { loadConfig } from './config.js';
@@ -20,6 +21,9 @@ let webhookProcessor: WebhookProcessor | undefined;
 
 if (redis && config.CHATWOOT_ACCOUNT_ID && config.CHATWOOT_AGENT_BOT_ID && config.CHATWOOT_AGENT_BOT_TOKEN) {
   await redis.connect();
+  const replyGenerator = config.OPENAI_API_KEY
+    ? new AgentsReplyGenerator({ model: config.OPENAI_MODEL, redis })
+    : new EchoReplyGenerator();
   webhookProcessor = new ChatwootWebhookProcessor({
     agentBotId: config.CHATWOOT_AGENT_BOT_ID,
     chatwoot: new ChatwootClient({
@@ -29,12 +33,17 @@ if (redis && config.CHATWOOT_ACCOUNT_ID && config.CHATWOOT_AGENT_BOT_ID && confi
       accessToken: config.CHATWOOT_AGENT_BOT_TOKEN
     }),
     coordination: new RedisProcessingCoordination(redis),
-    replyGenerator: new EchoReplyGenerator()
+    replyGenerator
   });
 }
 
 const server = buildServer(config, { webhookProcessor });
-server.log.info({ event: 'agent_processing_configured', enabled: processorEnabled });
+server.log.info({
+  event: 'agent_processing_configured',
+  enabled: processorEnabled,
+  replyMode: config.OPENAI_API_KEY ? 'openai_agents_sdk' : 'echo',
+  model: config.OPENAI_API_KEY ? config.OPENAI_MODEL : undefined
+});
 
 const shutdown = async (signal: string): Promise<void> => {
   server.log.info({ event: 'server_shutdown', signal });
