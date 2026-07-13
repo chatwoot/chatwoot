@@ -136,6 +136,10 @@ export const buildTemplateButtonsSnapshot = (
       }
     }
 
+    if (button.type === 'FLOW') {
+      snapshot.flow = true;
+    }
+
     return snapshot;
   });
 };

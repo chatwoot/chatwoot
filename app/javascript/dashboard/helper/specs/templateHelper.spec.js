@@ -83,6 +83,31 @@ describe('templateHelper', () => {
         })
       ).toEqual([]);
     });
+
+    it('should snapshot FLOW buttons', () => {
+      const template = {
+        components: [
+          {
+            type: 'BUTTONS',
+            buttons: [
+              {
+                type: 'FLOW',
+                text: 'Completar formulario',
+                flow_id: '123',
+              },
+            ],
+          },
+        ],
+      };
+
+      expect(buildTemplateButtonsSnapshot(template)).toEqual([
+        {
+          type: 'FLOW',
+          text: 'Completar formulario',
+          flow: true,
+        },
+      ]);
+    });
   });
 
   describe('replaceTemplateVariables', () => {
