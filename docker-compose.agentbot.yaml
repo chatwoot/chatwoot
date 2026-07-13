@@ -1,0 +1,102 @@
+name: chatwoot-agentbot-lab
+
+x-chatwoot: &chatwoot
+  image: chatwoot/chatwoot:v4.15.1
+  environment: &chatwoot-environment
+    RAILS_ENV: production
+    NODE_ENV: production
+    INSTALLATION_ENV: docker
+    SECRET_KEY_BASE: agentbot-lab-only-secret-key-base-change-before-production
+    FRONTEND_URL: http://localhost:3300
+    FORCE_SSL: "false"
+    ENABLE_ACCOUNT_SIGNUP: "false"
+    POSTGRES_HOST: postgres
+    POSTGRES_DATABASE: chatwoot
+    POSTGRES_USERNAME: postgres
+    POSTGRES_PASSWORD: agentbot-lab-postgres
+    REDIS_URL: redis://:agentbot-lab-redis@redis:6379
+    REDIS_PASSWORD: agentbot-lab-redis
+    ACTIVE_STORAGE_SERVICE: local
+    RAILS_LOG_TO_STDOUT: "true"
+    LOG_LEVEL: info
+  volumes:
+    - chatwoot_storage:/app/storage
+    - ./agent-server/scripts:/opt/agentbot-lab/scripts:ro
+    - ./.env.agent.local:/opt/agentbot-lab/.env.agent.local
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: chatwoot
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: agentbot-lab-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d chatwoot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "agentbot-lab-redis"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "agentbot-lab-redis", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  chatwoot-init:
+    <<: *chatwoot
+    command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: "no"
+
+  rails:
+    <<: *chatwoot
+    command: ["bundle", "exec", "rails", "server", "-p", "3000", "-b", "0.0.0.0"]
+    ports:
+      - "127.0.0.1:3300:3000"
+    depends_on:
+      chatwoot-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  sidekiq:
+    <<: *chatwoot
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    depends_on:
+      chatwoot-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  agent-server:
+    build:
+      context: ./agent-server
+    env_file:
+      - .env.agent.local
+    environment:
+      HOST: 0.0.0.0
+      PORT: 3400
+      LOG_LEVEL: info
+      CHATWOOT_INTERNAL_URL: http://rails:3000
+      CHATWOOT_PUBLIC_URL: http://localhost:3300
+    ports:
+      - "127.0.0.1:3400:3400"
+    depends_on:
+      rails:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  chatwoot_storage:
+  postgres_data:
+  redis_data:
