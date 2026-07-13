@@ -92,6 +92,23 @@ RSpec.describe Captain::Session, type: :model do
     end
   end
 
+  describe 'account' do
+    it 'is derived from the assistant when created via the assistant association' do
+      conversation = create(:conversation, account: account)
+      session = assistant.sessions.create!(subject: conversation, session_type: :assistant)
+
+      expect(session.account).to eq(account)
+    end
+
+    it 'overrides a mismatched explicit account with the assistant account' do
+      conversation = create(:conversation, account: account)
+      session = build(:captain_session, account: create(:account), assistant: assistant, subject: conversation)
+
+      expect(session).to be_valid
+      expect(session.account).to eq(account)
+    end
+  end
+
   describe 'defaults' do
     it 'defaults faq_ids, document_ids, scenario_ids and run_context' do
       session = create(:captain_session, account: account, assistant: assistant)

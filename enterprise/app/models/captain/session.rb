@@ -43,12 +43,18 @@ class Captain::Session < ApplicationRecord
 
   enum :session_type, { assistant: 0, copilot: 1 }, prefix: :session
 
+  before_validation :ensure_account
+
   validate :subject_type_matches_session_type
   validate :result_type_matches_session_type, if: -> { result_type.present? }
   validate :subject_belongs_to_account
   validate :result_belongs_to_account, if: -> { result.present? }
 
   private
+
+  def ensure_account
+    self.account = assistant&.account
+  end
 
   def subject_type_matches_session_type
     expected_type = SUBJECT_TYPES[session_type]
