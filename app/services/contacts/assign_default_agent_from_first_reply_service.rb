@@ -2,7 +2,10 @@ class Contacts::AssignDefaultAgentFromFirstReplyService
   pattr_initialize [:message!]
 
   def perform
-    return unless message.human_response? && !message.private?
+    # Caller (Message#dispatch_create_events) already gates on valid_first_reply?,
+    # which requires a human outgoing reply. Do not call private Message#human_response?
+    # from here — that raises NoMethodError and aborts after_create_commit before SendReplyJob.
+    return if message.private?
 
     contact = message.conversation&.contact
     return if contact.blank?
