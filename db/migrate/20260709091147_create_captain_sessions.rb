@@ -2,8 +2,8 @@ class CreateCaptainSessions < ActiveRecord::Migration[7.1]
   def change
     create_table :captain_sessions do |t|
       t.integer :session_type, null: false
-      t.bigint :subject_id, null: false
-      t.bigint :result_id
+      t.references :subject, polymorphic: true, null: false
+      t.references :result, polymorphic: true
       t.references :account, null: false, index: true
       t.references :assistant, null: false, index: true
       t.references :user, index: true
@@ -17,8 +17,6 @@ class CreateCaptainSessions < ActiveRecord::Migration[7.1]
       t.timestamps
     end
 
-    add_index :captain_sessions, [:session_type, :subject_id]
-    add_index :captain_sessions, [:session_type, :result_id]
     add_index :captain_sessions, [:account_id, :session_type, :created_at]
   end
 end

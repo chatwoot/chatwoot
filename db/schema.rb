@@ -435,7 +435,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
 
   create_table "captain_sessions", force: :cascade do |t|
     t.integer "session_type", null: false
+    t.string "subject_type", null: false
     t.bigint "subject_id", null: false
+    t.string "result_type"
     t.bigint "result_id"
     t.bigint "account_id", null: false
     t.bigint "assistant_id", null: false
@@ -451,8 +453,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_a396daca19"
     t.index ["account_id"], name: "index_captain_sessions_on_account_id"
     t.index ["assistant_id"], name: "index_captain_sessions_on_assistant_id"
-    t.index ["session_type", "result_id"], name: "index_captain_sessions_on_session_type_and_result_id"
-    t.index ["session_type", "subject_id"], name: "index_captain_sessions_on_session_type_and_subject_id"
+    t.index ["result_type", "result_id"], name: "index_captain_sessions_on_result"
+    t.index ["subject_type", "subject_id"], name: "index_captain_sessions_on_subject"
     t.index ["user_id"], name: "index_captain_sessions_on_user_id"
   end
 

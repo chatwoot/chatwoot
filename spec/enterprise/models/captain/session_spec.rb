@@ -8,10 +8,8 @@ RSpec.describe Captain::Session, type: :model do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant') }
     it { is_expected.to belong_to(:user).optional }
-  end
-
-  describe 'validations' do
-    it { is_expected.to validate_presence_of(:subject_id) }
+    it { is_expected.to belong_to(:subject) }
+    it { is_expected.to belong_to(:result).optional }
   end
 
   describe 'enums' do
@@ -21,7 +19,7 @@ RSpec.describe Captain::Session, type: :model do
   describe '#subject' do
     it 'returns the conversation for an assistant session' do
       conversation = create(:conversation, account: account)
-      session = create(:captain_session, account: account, assistant: assistant, subject_id: conversation.id)
+      session = create(:captain_session, account: account, assistant: assistant, subject: conversation)
 
       expect(session.subject).to eq(conversation)
     end
@@ -29,15 +27,25 @@ RSpec.describe Captain::Session, type: :model do
     it 'returns the copilot thread for a copilot session' do
       user = create(:user, account: account)
       copilot_thread = create(:captain_copilot_thread, account: account, user: user, assistant: assistant)
-      session = create(:captain_session, :copilot, account: account, assistant: assistant, user: user, subject_id: copilot_thread.id)
+      session = create(:captain_session, :copilot, account: account, assistant: assistant, user: user, subject: copilot_thread)
 
       expect(session.subject).to eq(copilot_thread)
     end
 
     it 'returns nil when the subject record no longer exists' do
-      session = create(:captain_session, account: account, assistant: assistant, subject_id: 0)
+      conversation = create(:conversation, account: account)
+      session = create(:captain_session, account: account, assistant: assistant, subject: conversation)
+      conversation.destroy
 
-      expect(session.subject).to be_nil
+      expect(session.reload.subject).to be_nil
+    end
+
+    it 'is not valid when the subject type does not match the session type' do
+      copilot_thread = create(:captain_copilot_thread, account: account, user: create(:user, account: account), assistant: assistant)
+      session = build(:captain_session, account: account, assistant: assistant, subject: copilot_thread)
+
+      expect(session).not_to be_valid
+      expect(session.errors[:subject_type]).to be_present
     end
   end
 
@@ -45,7 +53,7 @@ RSpec.describe Captain::Session, type: :model do
     it 'returns the message for an assistant session' do
       conversation = create(:conversation, account: account)
       message = create(:message, account: account, conversation: conversation)
-      session = create(:captain_session, account: account, assistant: assistant, subject_id: conversation.id, result_id: message.id)
+      session = create(:captain_session, account: account, assistant: assistant, subject: conversation, result: message)
 
       expect(session.result).to eq(message)
     end
@@ -55,7 +63,7 @@ RSpec.describe Captain::Session, type: :model do
       copilot_thread = create(:captain_copilot_thread, account: account, user: user, assistant: assistant)
       copilot_message = create(:captain_copilot_message, account: account, copilot_thread: copilot_thread)
       session = create(:captain_session, :copilot, account: account, assistant: assistant, user: user,
-                                                   subject_id: copilot_thread.id, result_id: copilot_message.id)
+                                                   subject: copilot_thread, result: copilot_message)
 
       expect(session.result).to eq(copilot_message)
     end
