@@ -173,6 +173,7 @@ RSpec.describe 'Inboxes API', type: :request do
       end
 
       it 'returns imap details in inbox when admin' do
+        account.enable_features!(:branded_email_templates)
         email_channel = create(:channel_email, account: account, imap_enabled: true, imap_login: 'test@test.com')
         email_inbox = create(:inbox, channel: email_channel, account: account)
         create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
@@ -190,6 +191,19 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(data[:imap_enabled]).to be_truthy
         expect(data[:imap_login]).to eq('test@test.com')
         expect(data[:branded_email_layout]).to eq('<html>{{ content_for_layout }} Branded</html>')
+      end
+
+      it 'does not return saved branded email layout when feature is disabled' do
+        email_channel = create(:channel_email, account: account)
+        email_inbox = create(:inbox, channel: email_channel, account: account)
+        create(:email_template, :layout, account: account, inbox: email_inbox, body: '<html>{{ content_for_layout }} Branded</html>')
+
+        get "/api/v1/accounts/#{account.id}/inboxes/#{email_inbox.id}",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).not_to have_key('branded_email_layout')
       end
 
       it 'does not return branded email layout for an agent' do
