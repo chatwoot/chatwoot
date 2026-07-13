@@ -1,5 +1,4 @@
 import { flushPromises, shallowMount } from '@vue/test-utils';
-import CaptainDocumentAPI from 'dashboard/api/captain/document';
 import DocumentDetails from './DocumentDetails.vue';
 
 const { dispatch, getterValues } = vi.hoisted(() => ({
@@ -14,10 +13,6 @@ const { dispatch, getterValues } = vi.hoisted(() => ({
 vi.mock('dashboard/composables/store', () => ({
   useStore: () => ({ dispatch }),
   useMapGetter: key => getterValues[key],
-}));
-
-vi.mock('dashboard/api/captain/document', () => ({
-  default: { show: vi.fn() },
 }));
 
 vi.mock('dashboard/composables', () => ({ useAlert: vi.fn() }));
@@ -56,7 +51,6 @@ describe('DocumentDetails', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     dispatch.mockResolvedValue([]);
-    CaptainDocumentAPI.show.mockResolvedValue({ data: captainDocument });
   });
 
   it('requests another FAQ page when the document has more than 25 FAQs', async () => {

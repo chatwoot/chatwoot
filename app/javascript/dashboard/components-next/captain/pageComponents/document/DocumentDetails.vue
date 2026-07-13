@@ -17,7 +17,6 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
-import CaptainDocumentAPI from 'dashboard/api/captain/document';
 import ResponseCard from '../../assistant/ResponseCard.vue';
 
 const props = defineProps({
@@ -35,18 +34,14 @@ const RESPONSES_PER_PAGE = 25;
 const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
-const documentDetails = ref(props.captainDocument);
-const isFetchingDocument = ref(false);
+const documentDetails = computed(() => props.captainDocument);
 const showRawContent = ref(false);
 const activeTabIndex = ref(0);
 
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
 const responses = useMapGetter('captainResponses/getRecords');
 const meta = useMapGetter('captainResponses/getMeta');
-const isFetchingResponses = computed(() => uiFlags.value.fetchingList);
-const isFetching = computed(
-  () => isFetchingDocument.value || isFetchingResponses.value
-);
+const isFetching = computed(() => uiFlags.value.fetchingList);
 const totalCount = computed(() => meta.value.totalCount || 0);
 const currentPage = computed(() => meta.value.page || 1);
 const showPaginationFooter = computed(
@@ -148,18 +143,6 @@ const handleTabChanged = tab => {
   activeTabIndex.value = tabs.value.findIndex(item => item.key === tab.key);
 };
 
-const fetchDocumentDetails = async () => {
-  isFetchingDocument.value = true;
-  try {
-    const response = await CaptainDocumentAPI.show(props.captainDocument.id);
-    documentDetails.value = response.data;
-  } catch {
-    documentDetails.value = props.captainDocument;
-  } finally {
-    isFetchingDocument.value = false;
-  }
-};
-
 const fetchResponses = (page = 1) => {
   return store.dispatch('captainResponses/get', {
     page,
@@ -172,8 +155,7 @@ const handlePageChange = page => {
   fetchResponses(page);
 };
 
-onMounted(async () => {
-  await fetchDocumentDetails();
+onMounted(() => {
   fetchResponses();
 });
 defineExpose({ dialogRef });
