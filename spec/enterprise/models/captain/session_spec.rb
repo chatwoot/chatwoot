@@ -47,6 +47,14 @@ RSpec.describe Captain::Session, type: :model do
       expect(session).not_to be_valid
       expect(session.errors[:subject_type]).to be_present
     end
+
+    it 'is not valid when the subject belongs to a different account' do
+      foreign_conversation = create(:conversation, account: create(:account))
+      session = build(:captain_session, account: account, assistant: assistant, subject: foreign_conversation)
+
+      expect(session).not_to be_valid
+      expect(session.errors[:subject]).to be_present
+    end
   end
 
   describe '#result' do
@@ -72,6 +80,15 @@ RSpec.describe Captain::Session, type: :model do
       session = create(:captain_session, account: account, assistant: assistant)
 
       expect(session.result).to be_nil
+    end
+
+    it 'is not valid when the result belongs to a different account' do
+      conversation = create(:conversation, account: account)
+      foreign_message = create(:message, account: create(:account))
+      session = build(:captain_session, account: account, assistant: assistant, subject: conversation, result: foreign_message)
+
+      expect(session).not_to be_valid
+      expect(session.errors[:result]).to be_present
     end
   end
 

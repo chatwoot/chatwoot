@@ -45,6 +45,8 @@ class Captain::Session < ApplicationRecord
 
   validate :subject_type_matches_session_type
   validate :result_type_matches_session_type, if: -> { result_type.present? }
+  validate :subject_belongs_to_account
+  validate :result_belongs_to_account, if: -> { result.present? }
 
   private
 
@@ -60,5 +62,17 @@ class Captain::Session < ApplicationRecord
     return if result_type == expected_type
 
     errors.add(:result_type, "must be #{expected_type} for #{session_type} sessions")
+  end
+
+  def subject_belongs_to_account
+    return if subject.nil? || subject.account_id == account_id
+
+    errors.add(:subject, 'must belong to the session account')
+  end
+
+  def result_belongs_to_account
+    return if result.account_id == account_id
+
+    errors.add(:result, 'must belong to the session account')
   end
 end
