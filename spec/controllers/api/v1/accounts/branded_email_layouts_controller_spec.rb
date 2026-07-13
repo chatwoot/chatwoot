@@ -99,6 +99,20 @@ RSpec.describe 'Branded Email Layout API', type: :request do
         expect(response.parsed_body['branded_email_layout']).to be_nil
       end
 
+      it 'clears account-scoped branded email layout when null string is passed' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, account: account, body: layout)
+
+        patch "/api/v1/accounts/#{account.id}/branded_email_layout",
+              headers: admin.create_new_auth_token,
+              params: { branded_email_layout: 'null' },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(EmailTemplate.account_branded_layout_template_for(account)).to be_nil
+        expect(response.parsed_body['branded_email_layout']).to be_nil
+      end
+
       it 'rejects updates when feature is disabled' do
         patch "/api/v1/accounts/#{account.id}/branded_email_layout",
               headers: admin.create_new_auth_token,
