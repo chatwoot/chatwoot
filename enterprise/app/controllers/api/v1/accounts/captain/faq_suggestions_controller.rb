@@ -13,7 +13,11 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
     @suggestions = filtered_query.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
-  def show; end
+  def show
+    @observations = @suggestion.observations
+                               .where(conversation_id: accessible_conversations.select(:id))
+                               .includes(:conversation)
+  end
 
   def update
     raise ActiveRecord::RecordNotFound unless @suggestion.open?
@@ -52,6 +56,10 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
 
   def set_suggestion
     @suggestion = @suggestions.find(permitted_params[:id])
+  end
+
+  def accessible_conversations
+    Conversations::PermissionFilterService.new(Current.account.conversations, Current.user, Current.account).perform
   end
 
   def permitted_params
