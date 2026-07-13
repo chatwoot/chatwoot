@@ -239,6 +239,24 @@ RSpec.describe AutoAssignment::AssignmentService do
         expect(assigned_count).to eq(1)
         expect(old_conversation.reload.assignee).to eq(agent)
       end
+
+      context 'when the inbox has no assignment policy' do
+        before do
+          inbox.inbox_assignment_policy.destroy!
+          inbox.reload
+        end
+
+        it 'falls back to the default threshold and skips stale conversations' do
+          stale_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 8.days.ago)
+          recent_conversation = create(:conversation, inbox: inbox, assignee: nil, last_activity_at: 6.days.ago)
+
+          assigned_count = service.perform_bulk_assignment(limit: 10)
+
+          expect(assigned_count).to eq(1)
+          expect(stale_conversation.reload.assignee).to be_nil
+          expect(recent_conversation.reload.assignee).to eq(agent)
+        end
+      end
     end
 
     context 'with fair distribution' do
