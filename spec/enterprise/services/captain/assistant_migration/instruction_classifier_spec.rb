@@ -17,7 +17,13 @@ RSpec.describe Captain::AssistantMigration::InstructionClassifier do
         'Scenario candidates remain pending metadata',
         'FAQ candidates are pending review metadata',
         'an error code that requires immediate',
-        'actively require specialist-name verification'
+        'actively require specialist-name verification',
+        'Mandatory prohibitions are not FAQ-only',
+        'never promise refunds after 30 days',
+        'never recommend cooking the product',
+        'Treat explicit policy boundaries',
+        'outside the stated condition, window, or exception',
+        'every mandatory action and prohibition remains active'
       )
     end
   end

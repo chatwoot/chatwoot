@@ -19,7 +19,9 @@ The original custom instructions remain stored unchanged. Your job is only to de
 - The custom instructions define behavior. The existing description, config messages, feature settings, and tools are runtime context.
 - Do not copy existing config values into generated fields or create review work merely because an existing config field is present or absent.
 - Use only information in the input. Return clean values without source labels, reviewer comments, confidence labels, or citations to the source prompt.
-- Do not duplicate content across fields. Scenario response guidelines are flattened automatically, so do not also copy them into response_guidelines.
+- Avoid duplicating content across fields, except for the minimal condition, threshold, or exception required to keep mandatory behavior active
+  while its supporting factual explanation is stored in a FAQ candidate. Scenario response guidelines are flattened automatically, so do not
+  also copy them into response_guidelines.
 
 ## Business/Product Context
 
@@ -30,8 +32,8 @@ The original custom instructions remain stored unchanged. Your job is only to de
 
 ## Response Guidelines and Guardrails
 
-- Response Guidelines are active non-factual behavior: tone, customer language, formatting, clarification, verification,
-  information collection, and escalation actions.
+- Response Guidelines are active behavior: tone, customer language, formatting, clarification, verification, information collection,
+  escalation actions, and any minimal factual condition required to perform them correctly.
 - Guardrails are active boundaries: prohibitions, source restrictions, safety limits, refusal rules, mandatory transfer triggers,
   and things the assistant must not do.
 - A source rule that says to ask, collect, verify, compare, refuse, route, escalate, transfer, or follow steps must stay active
@@ -40,11 +42,19 @@ The original custom instructions remain stored unchanged. Your job is only to de
   transfer belongs in an active guideline or guardrail.
 - Do not emit contradictory language rules. An explicit instruction to reply in the customer's language overrides a descriptive
   language label in the assistant description.
-- Put every query-dependent fact in FAQ candidates, never in guidelines or guardrails. Prices, limits, locations, feature availability,
-  product capabilities, links, policy answers, setup steps, and troubleshooting knowledge are facts even when phrased as
-  "tell", "inform", "explain", "send", "do not claim", or "never promise".
-- Final test: if an item could answer a customer's product question on its own, remove it from guidelines/guardrails and make it an FAQ.
-- The only factual value allowed in active behavior is one that selects a non-answer action, such as error 5215 requiring immediate transfer.
+- Put query-dependent facts in FAQ candidates. Prices, limits, locations, feature availability, product capabilities, links,
+  policy answers, setup steps, and troubleshooting knowledge remain facts when phrased as "tell", "inform", "explain", or "send".
+- Mandatory prohibitions are not FAQ-only. When a factual policy includes required or forbidden behavior, keep the prohibition active
+  with every condition, threshold, and exception needed to enforce it, and put the supporting policy explanation in a FAQ candidate.
+  For example, "never promise refunds after 30 days" remains an active guardrail with the 30-day threshold, while the refund policy
+  becomes a FAQ. Likewise, "never recommend cooking the product" remains an active guardrail while preparation guidance becomes a FAQ.
+- Treat explicit policy boundaries such as "not guaranteed", "not allowed", "only available", or "only eligible" as behavioral
+  constraints even when the source states them as facts. Create an active guardrail that forbids promising or claiming an outcome
+  outside the stated condition, window, or exception, while keeping the complete policy in a FAQ candidate.
+- Final test: move an item exclusively to FAQ candidates only when it answers a product question without requiring, forbidding,
+  or constraining assistant behavior.
+- Factual values are allowed in active behavior when they select or constrain a required action or prohibition, such as error 5215
+  requiring immediate transfer or a 30-day threshold after which the assistant must not promise a refund.
 - When an action needs supporting facts, keep the action active and place the supporting facts in a FAQ candidate.
   For example, actively require specialist-name verification and put the specialist roster in a FAQ candidate.
 - Mandatory verification example: if the source provides a specialist roster and says to verify a name supplied by
@@ -78,17 +88,19 @@ The original custom instructions remain stored unchanged. Your job is only to de
 - Convert reusable query-dependent facts into natural customer questions with self-contained answers.
 - FAQ candidates are pending review metadata. They are not active and are not automatically approved by this migration.
 - Use only facts stated in the custom instructions. Preserve exact prices, limits, dates, links, conditions, exceptions, and product names.
-- Keep related conditions together; split unrelated facts. Do not duplicate FAQ answers in active guidelines or guardrails.
+- Keep related conditions together; split unrelated facts. Do not duplicate a full FAQ answer in active guidelines or guardrails;
+  repeat only the minimal condition, threshold, or exception required to enforce mandatory behavior.
 - FAQ questions must be about the product or business, not about what the assistant should do.
 - FAQ answers must not contain tool use, internal workflows, routing, escalation, or message-copy instructions.
 - If facts conflict without a clear specific or later override, omit the unsafe FAQ rather than inventing a resolution.
 
 ## Classification Order
 
-1. Extract all query-dependent knowledge into FAQ candidates first.
-2. Create guidelines and guardrails only from the remaining non-factual behavior; do not repeat any FAQ answer.
+1. Extract query-dependent knowledge and supporting policy explanations into FAQ candidates first, without removing mandatory behavior.
+2. Create guidelines and guardrails from the required behavior, including the minimal condition, threshold, or exception needed to enforce it;
+   do not repeat the rest of a FAQ answer.
 3. Create scenario candidates only from remaining distinct specialist workflows; do not repeat their flattened behavior elsewhere.
-4. Check once more that active fields contain no product answers and that every mandatory action remains active.
+4. Check once more that active fields contain no standalone product answers and that every mandatory action and prohibition remains active.
 
 ## Needs Review Notes
 
