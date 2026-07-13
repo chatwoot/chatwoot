@@ -30,7 +30,7 @@ class Captain::FaqSuggestion < ApplicationRecord
   validates :question, :answer, :language, presence: true
 
   before_validation :ensure_account
-  after_commit :update_embedding
+  after_commit :update_embedding, on: [:create, :update]
 
   scope :ordered, -> { order(source_count: :desc, updated_at: :desc) }
   scope :by_language, ->(language) { where(language: language) }
