@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: captain_agent_sessions
+# Table name: agent_sessions
 #
 #  id               :bigint           not null, primary key
 #  credits_consumed :float
@@ -22,15 +22,15 @@
 #
 # Indexes
 #
-#  idx_on_account_id_result_type_result_id_3569670cb3    (account_id,result_type,result_id)
-#  idx_on_account_id_session_type_created_at_b70a59d2eb  (account_id,session_type,created_at)
-#  idx_on_account_id_subject_type_subject_id_81f8d70098  (account_id,subject_type,subject_id)
-#  index_captain_agent_sessions_on_account_id            (account_id)
-#  index_captain_agent_sessions_on_assistant_id          (assistant_id)
-#  index_captain_agent_sessions_on_user_id               (user_id)
+#  idx_on_account_id_result_type_result_id_ca66c00cd7    (account_id,result_type,result_id)
+#  idx_on_account_id_session_type_created_at_c20a14bd4e  (account_id,session_type,created_at)
+#  idx_on_account_id_subject_type_subject_id_6d60963b3d  (account_id,subject_type,subject_id)
+#  index_agent_sessions_on_account_id                    (account_id)
+#  index_agent_sessions_on_assistant_id                  (assistant_id)
+#  index_agent_sessions_on_user_id                       (user_id)
 #
 class Captain::AgentSession < ApplicationRecord
-  self.table_name = 'captain_agent_sessions'
+  self.table_name = 'agent_sessions'
 
   SUBJECT_TYPES = { 'assistant' => 'Conversation', 'copilot' => 'CopilotThread' }.freeze
   RESULT_TYPES = { 'assistant' => 'Message', 'copilot' => 'CopilotMessage' }.freeze
