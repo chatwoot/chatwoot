@@ -450,11 +450,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_10_000000) do
     t.jsonb "run_context", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id", "result_type", "result_id"], name: "idx_on_account_id_result_type_result_id_7ba854fb73"
     t.index ["account_id", "session_type", "created_at"], name: "idx_on_account_id_session_type_created_at_a396daca19"
+    t.index ["account_id", "subject_type", "subject_id"], name: "idx_on_account_id_subject_type_subject_id_9770a139f6"
     t.index ["account_id"], name: "index_captain_sessions_on_account_id"
     t.index ["assistant_id"], name: "index_captain_sessions_on_assistant_id"
-    t.index ["result_type", "result_id"], name: "index_captain_sessions_on_result"
-    t.index ["subject_type", "subject_id"], name: "index_captain_sessions_on_subject"
     t.index ["user_id"], name: "index_captain_sessions_on_user_id"
   end
 

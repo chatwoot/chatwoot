@@ -22,11 +22,11 @@
 #
 # Indexes
 #
+#  idx_on_account_id_result_type_result_id_7ba854fb73    (account_id,result_type,result_id)
 #  idx_on_account_id_session_type_created_at_a396daca19  (account_id,session_type,created_at)
+#  idx_on_account_id_subject_type_subject_id_9770a139f6  (account_id,subject_type,subject_id)
 #  index_captain_sessions_on_account_id                  (account_id)
 #  index_captain_sessions_on_assistant_id                (assistant_id)
-#  index_captain_sessions_on_result                      (result_type,result_id)
-#  index_captain_sessions_on_subject                     (subject_type,subject_id)
 #  index_captain_sessions_on_user_id                     (user_id)
 #
 class Captain::Session < ApplicationRecord
