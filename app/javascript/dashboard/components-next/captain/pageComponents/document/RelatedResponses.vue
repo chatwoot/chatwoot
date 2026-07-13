@@ -103,12 +103,12 @@ const isUnreadableContent = computed(() => {
     replacementCharacterRatio > 0.05
   );
 });
-const renderableDocumentContent = computed(() => {
-  return documentContent.value?.replace(/!\[[^\]]*]\([^)]*\)/g, '') || '';
-});
 const formattedDocumentContent = computed(() => {
   if (!documentContent.value || isUnreadableContent.value) return '';
-  return new MessageFormatter(renderableDocumentContent.value).formattedMessage;
+
+  const formatter = new MessageFormatter(documentContent.value);
+  formatter.disableImageRendering();
+  return formatter.formattedMessage;
 });
 const updatedAtLabel = computed(() => {
   if (!documentDetails.value?.updated_at) return null;
