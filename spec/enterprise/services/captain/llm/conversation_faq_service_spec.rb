@@ -275,6 +275,36 @@ RSpec.describe Captain::Llm::ConversationFaqService do
       end
     end
 
+    context 'when conversation and account locales share a base language' do
+      let(:account) { create(:account, locale: 'pt_BR') }
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
+      let(:conversation) do
+        create(:conversation, account: account, first_reply_created_at: Time.zone.now,
+                              additional_attributes: { conversation_language: 'pt' })
+      end
+      let!(:existing_response) do
+        create(:captain_assistant_response, assistant: captain_assistant, account: account,
+                                            question: 'Como ativo o recurso?', answer: 'Ative nas configuracoes.',
+                                            embedding: embedding_one)
+      end
+      let(:equivalence_response) { instance_double(RubyLLM::Message, content: { same_faq: true }.to_json) }
+
+      before do
+        existing_response
+        allow(embedding_service).to receive(:get_embedding).and_return(embedding_one)
+        allow(mock_chat).to receive(:ask) do |input|
+          input.start_with?('{') ? equivalence_response : mock_response
+        end
+      end
+
+      it 'deduplicates against approved FAQs in the same base language' do
+        expect do
+          service.generate_and_deduplicate
+        end.to change(Captain::FaqObservation.discarded, :count).by(2)
+        expect(captain_assistant.faq_suggestions.count).to be_zero
+      end
+    end
+
     context 'when LLM API fails' do
       before do
         allow(mock_chat).to receive(:ask).and_raise(RubyLLM::Error.new(nil, 'API Error'))

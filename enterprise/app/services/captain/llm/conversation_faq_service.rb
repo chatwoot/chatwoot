@@ -152,11 +152,11 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   end
 
   def open_suggestions_for_language
-    assistant.faq_suggestions.open.by_language(faq_language)
+    assistant.faq_suggestions.where(account_id: conversation.account_id).open.by_language(faq_language)
   end
 
   def approved_faqs_for_language
-    return assistant.responses.approved if faq_language == account_language
+    return assistant.responses.approved if base_language(faq_language) == base_language(account_language)
 
     assistant.responses.none
   end
@@ -226,8 +226,12 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     language.to_s.tr('-', '_')
   end
 
+  def base_language(language)
+    language.split('_').first
+  end
+
   def language_name(language)
-    ISO_639.find(language.split('_').first)&.english_name&.downcase || 'english'
+    ISO_639.find(base_language(language))&.english_name&.downcase || 'english'
   end
 
   def parse_generation_response(response)
