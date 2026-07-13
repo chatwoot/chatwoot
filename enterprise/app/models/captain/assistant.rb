@@ -4,7 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  config              :jsonb            not null
-#  description         :string
+#  description         :text
 #  guardrails          :jsonb
 #  name                :string           not null
 #  response_guidelines :jsonb
@@ -17,6 +17,8 @@
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   include Avatarable
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
@@ -39,7 +41,7 @@ class Captain::Assistant < ApplicationRecord
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
 
   validates :name, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
 
   scope :ordered, -> { order(created_at: :desc) }
