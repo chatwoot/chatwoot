@@ -256,7 +256,7 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.decoded).to include(message.content)
       end
 
-      it 'applies inbox branded email layout when feature is enabled' do
+      it 'exposes the reply sender in inbox branded email layouts' do
         account.enable_features!(:branded_email_templates)
         conversation.inbox.update!(business_name: 'Acme Support')
         create(
@@ -274,7 +274,8 @@ RSpec.describe ConversationReplyMailer do
 
         expect(mail.decoded).to include('Acme Support')
         expect(mail.decoded).to include(message.content)
-        expect(mail.decoded).to include(agent.email)
+        expect(message.sender).not_to eq(agent)
+        expect(mail.decoded).to include(message.sender.email)
         expect(mail.decoded).to include(message.sender.available_name)
       end
 

@@ -216,7 +216,7 @@ class ConversationReplyMailer < ApplicationMailer
 
   def liquid_droppables
     super.merge({
-                  agent: @agent,
+                  agent: current_message&.sender || @agent,
                   contact: @contact,
                   message: @message || @messages&.last
                 })
