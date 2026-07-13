@@ -8,13 +8,13 @@
 #  faq_ids          :jsonb
 #  llm_model        :string
 #  run_context      :jsonb
+#  scenario_ids     :jsonb
 #  session_type     :integer          not null
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :bigint           not null
 #  assistant_id     :bigint           not null
 #  result_id        :bigint
-#  scenario_id      :bigint
 #  subject_id       :bigint           not null
 #  user_id          :bigint
 #
@@ -33,7 +33,6 @@ class Captain::Session < ApplicationRecord
   belongs_to :account
   belongs_to :assistant, class_name: 'Captain::Assistant'
   belongs_to :user, optional: true
-  belongs_to :scenario, class_name: 'Captain::Scenario', optional: true
 
   enum :session_type, { assistant: 0, copilot: 1 }, prefix: :session
 

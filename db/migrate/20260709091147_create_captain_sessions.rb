@@ -11,7 +11,7 @@ class CreateCaptainSessions < ActiveRecord::Migration[7.1]
       t.float :credits_consumed
       t.jsonb :faq_ids, default: []
       t.jsonb :document_ids, default: []
-      t.bigint :scenario_id
+      t.jsonb :scenario_ids, default: []
       t.jsonb :run_context, default: {}
 
       t.timestamps

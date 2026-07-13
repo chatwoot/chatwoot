@@ -8,7 +8,6 @@ RSpec.describe Captain::Session, type: :model do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:assistant).class_name('Captain::Assistant') }
     it { is_expected.to belong_to(:user).optional }
-    it { is_expected.to belong_to(:scenario).class_name('Captain::Scenario').optional }
   end
 
   describe 'validations' do
@@ -69,11 +68,12 @@ RSpec.describe Captain::Session, type: :model do
   end
 
   describe 'defaults' do
-    it 'defaults faq_ids, document_ids and run_context' do
+    it 'defaults faq_ids, document_ids, scenario_ids and run_context' do
       session = create(:captain_session, account: account, assistant: assistant)
 
       expect(session.faq_ids).to eq([])
       expect(session.document_ids).to eq([])
+      expect(session.scenario_ids).to eq([])
       expect(session.run_context).to eq({})
     end
   end
