@@ -14,8 +14,8 @@ docker compose -f docker-compose.agentbot.yaml up -d --force-recreate agent-serv
 ```
 
 - Chatwoot: <http://localhost:3300>
-- Widget 데모: <http://localhost:3400>
-- Agent server health: <http://localhost:3400/healthz>
+- Widget 데모: <http://localhost:3401>
+- Agent server health: <http://localhost:3401/healthz>
 - Webhook 로그: `docker compose -f docker-compose.agentbot.yaml logs -f agent-server`
 
 `bootstrap-chatwoot.rb`는 Account, 관리자, Website Inbox, Widget token, AgentBot 및 access token을 로컬 DB에 생성하고 민감한 값은 Git에서 제외된 `.env.agent.local`에 기록합니다.

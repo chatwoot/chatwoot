@@ -19,7 +19,7 @@ AccountUser.find_or_create_by!(account: account, user: user) do |account_user|
   account_user.role = :administrator
 end
 
-channel = Channel::WebWidget.find_or_create_by!(account: account, website_url: 'http://localhost:3400') do |web_widget|
+channel = Channel::WebWidget.find_or_create_by!(account: account, website_url: 'http://localhost:3401') do |web_widget|
   web_widget.welcome_title = 'AgentBot Lab'
   web_widget.welcome_tagline = '독립 TypeScript AgentBot 서버 검증'
 end

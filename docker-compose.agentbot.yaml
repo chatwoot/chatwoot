@@ -90,7 +90,7 @@ services:
       CHATWOOT_INTERNAL_URL: http://rails:3000
       CHATWOOT_PUBLIC_URL: http://localhost:3300
     ports:
-      - "127.0.0.1:3400:3400"
+      - "127.0.0.1:3401:3400"
     depends_on:
       rails:
         condition: service_started
