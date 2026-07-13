@@ -103,14 +103,34 @@ describe EmailTemplates::DbResolverService do
         expect(resolved_template.source).not_to eq(account_template.body)
       end
 
-      it 'returns account template when current inbox is not email' do
+      it 'returns account template when current inbox is not email and feature is enabled' do
         account_template = create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}')
+        account.enable_features!(:branded_email_templates)
         Current.account = account
         Current.inbox = create(:inbox, account: account)
 
         resolved_template = resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first
         expect(resolved_template.source).to eq(account_template.body)
         expect(resolved_template.source).not_to eq(installation_template.body)
+      end
+
+      it 'skips account template when current inbox is not email and feature is disabled' do
+        account_template = create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}')
+        Current.account = account
+        Current.inbox = create(:inbox, account: account)
+
+        resolved_template = resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first
+        expect(resolved_template.source).to eq(installation_template.body)
+        expect(resolved_template.source).not_to eq(account_template.body)
+      end
+
+      it 'skips account template without an inbox when feature is disabled' do
+        account_template = create(:email_template, :layout, account: account, body: 'account {{ content_for_layout }}')
+        Current.account = account
+
+        resolved_template = resolver.find_templates('base', 'layouts/mailer', false, { locale: [:en] }).first
+        expect(resolved_template.source).to eq(installation_template.body)
+        expect(resolved_template.source).not_to eq(account_template.body)
       end
 
       it 'falls back to english when requested locale does not have a template' do
