@@ -86,6 +86,4 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
                     description: 'Unclear, conflicting, risky, duplicated, or uncertain content that needs human review. ' \
                                  'Include the reason in the item text.',
                     max_items: 20
-
-  array :classification_notes, description: 'Short notes about important migration decisions or risks.', max_items: 10, of: :string
 end

@@ -101,8 +101,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       scenario_candidates: [],
       conversation_messages: {},
       faq_document_candidates: [],
-      needs_review: [],
-      classification_notes: []
+      needs_review: []
     )
   end
 
