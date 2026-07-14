@@ -172,8 +172,8 @@ class Twilio::IncomingMessageService
 
   def download_with_auth(media_url)
     auth_credentials = if twilio_channel.api_key_sid.present?
-                         # When using api_key_sid, the auth token should be the api_secret_key
-                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
+                         # Voice channels keep the secret in api_key_secret; SMS channels store it in auth_token.
+                         [twilio_channel.api_key_sid, twilio_channel.api_key_secret.presence || twilio_channel.auth_token]
                        else
                          # When using account_sid, the auth token is the account's auth token
                          [twilio_channel.account_sid, twilio_channel.auth_token]
