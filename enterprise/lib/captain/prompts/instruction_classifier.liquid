@@ -16,6 +16,8 @@ The original custom instructions remain stored unchanged. Your job is only to de
 - Treat words such as always, immediately, never, only, before, after, unless, and except as mandatory.
 - Preserve exact triggers, exceptions, ordering, verification steps, allowlists, escalation conditions, and outcomes.
 - Schema limits are ceilings, not targets. Consolidate related requirements into complete standalone items.
+- Prefer fewer complete items over one item per source sentence. Combine related tone, style, formatting, source, and escalation rules.
+  If response_guidelines or guardrails would reach its maximum item count, consolidate them and recheck that no source behavior was displaced.
 - The custom instructions define behavior. The existing description, config messages, feature settings, and tools are runtime context.
 - Do not copy existing config values into generated fields or create review work merely because an existing config field is present or absent.
 - Use only information in the input. Return clean values without source labels, reviewer comments, confidence labels, or citations to the source prompt.
@@ -73,6 +75,7 @@ The original custom instructions remain stored unchanged. Your job is only to de
   one guideline plus FAQ lookup.
 - Every scenario candidate must include a response_guideline in the source language. It must preserve the trigger, customer-visible
   steps, information to collect, and escalation or completion outcome while omitting tool syntax and internal operations.
+- Use a short, complete scenario title well below the schema limit; never truncate a word or phrase to make it fit.
 - Scenario candidates remain pending metadata for later scenario creation. Their response_guideline is active immediately after apply.
 - Use only tool IDs provided in available_agent_tools. Never invent or substitute a tool.
 
