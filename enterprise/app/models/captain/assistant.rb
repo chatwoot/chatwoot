@@ -58,30 +58,24 @@ class Captain::Assistant < ApplicationRecord
     name
   end
 
-  # Whether this assistant should engage the given conversation right now — combines the audience
-  # filter (who) and the schedule (when).
   def engages?(contact, conversation)
     responds_to_audience?(contact, conversation) && available_now?(conversation)
   end
 
-  # Whether this assistant should engage the given contact, based on its audience filter.
-  # No audience configured => responds to everyone (back-compat).
   def responds_to_audience?(contact, conversation)
     return true if config['audience'].blank?
 
     Captain::AudienceMatcher.new(config['audience']).matches?(contact, conversation)
   end
 
-  # Whether the assistant is on duty for this conversation based on the response window.
-  # Inboxes without business hours configured are always covered (fail open).
   def available_now?(conversation)
-    window = config['response_window']
-    return true if window.blank? || window == 'always'
+    response_window = config['response_window']
+    return true if response_window.blank? || response_window == 'always'
 
     inbox = conversation.inbox
     return true unless inbox.working_hours_enabled?
 
-    window == 'business_hours' ? !inbox.out_of_office? : inbox.out_of_office?
+    response_window == 'business_hours' ? !inbox.out_of_office? : inbox.out_of_office?
   end
 
   def available_agent_tools

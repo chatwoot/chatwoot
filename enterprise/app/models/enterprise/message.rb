@@ -16,11 +16,11 @@ module Enterprise::Message
   private
 
   def reopen_resolved_conversation
-    captain_assistant = conversation.inbox.captain_assistant
+    assistant = conversation.inbox.captain_assistant
 
-    return super if captain_assistant.blank?
+    return super if assistant.blank?
 
-    return conversation.open! unless captain_assistant.engages?(conversation.contact, conversation)
+    return conversation.open! unless assistant.engages?(conversation.contact, conversation)
 
     super
   end
