@@ -154,6 +154,7 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
     {
       id: assistant.id,
       name: assistant.name,
+      description: assistant.description.to_s,
       account_id: assistant.account_id,
       account_name: assistant.account.name,
       inbox_count: assistant.captain_inboxes.size,
