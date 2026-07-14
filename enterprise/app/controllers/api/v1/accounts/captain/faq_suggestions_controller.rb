@@ -5,6 +5,7 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
   before_action :set_suggestion, except: [:index]
 
   RESULTS_PER_PAGE = 25
+  SOURCE_PREVIEW_LIMIT = 50
 
   def index
     @current_page = permitted_params[:page] || 1
@@ -17,6 +18,8 @@ class Api::V1::Accounts::Captain::FaqSuggestionsController < Api::V1::Accounts::
     @observations = @suggestion.observations
                                .where(conversation_id: accessible_conversations.select(:id))
                                .includes(:conversation)
+                               .order(created_at: :desc)
+                               .limit(SOURCE_PREVIEW_LIMIT)
   end
 
   def update
