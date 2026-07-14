@@ -33,23 +33,12 @@ module Enterprise::Conversation
 
   private
 
-  # When a Captain inbox parks new conversations as pending, demote to open (human queue) when the
-  # assistant won't engage (contact outside audience, or off-schedule) so they aren't stuck waiting
-  # on a bot that stays silent.
   def determine_conversation_status
     super
     return unless pending?
 
-    self.status = :open unless captain_should_engage?
-  end
-
-  # True for non-Captain inboxes (don't interfere) and for Captain inboxes that should engage this
-  # conversation (audience matches AND on-schedule). False only when a Captain assistant opts out.
-  def captain_should_engage?
     assistant = inbox.captain_assistant
-    return true if assistant.blank?
-
-    assistant.engages?(contact, self)
+    self.status = :open if assistant.present? && !assistant.engages?(contact, self)
   end
 
   def dispatch_captain_inference_event(event_name)
