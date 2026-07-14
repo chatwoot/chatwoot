@@ -68,8 +68,8 @@ class Captain::AssistantMigration::InstructionClassifierSchema < RubyLLM::Schema
   end
 
   array :faq_document_candidates,
-        description: 'Pending FAQ candidates for factual or product-specific knowledge such as pricing, policy, setup, troubleshooting, ' \
-                     'or operational details. These candidates remain inactive until reviewed and approved.',
+        description: 'FAQ candidates for reusable query-dependent facts such as pricing, policy, setup, troubleshooting, ' \
+                     'or operational details.',
         max_items: 25 do
     object do
       string :question,

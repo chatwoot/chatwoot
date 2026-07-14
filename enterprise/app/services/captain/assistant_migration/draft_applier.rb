@@ -24,13 +24,15 @@ class Captain::AssistantMigration::DraftApplier
       description: description_change,
       response_guidelines: array_change(:response_guidelines, response_guidelines),
       guardrails: array_change(:guardrails, guardrails),
-      config: config_change
+      config: config_change,
+      faq_responses: faq_responses_change
     }.compact
   end
 
   def apply_changes(changes)
     assistant.transaction do
       assistant.update!(assistant_update_attributes(changes)) if assistant_update_attributes(changes).present?
+      apply_faq_response_changes(changes[:faq_responses]) if changes[:faq_responses].present?
     end
   end
 
@@ -142,6 +144,21 @@ class Captain::AssistantMigration::DraftApplier
 
   def scenario_response_guidelines
     scenario_candidates.filter_map { |candidate| candidate[:response_guideline].presence }
+  end
+
+  def faq_responses_change
+    faq_materializer.changes
+  end
+
+  def apply_faq_response_changes(changes)
+    faq_materializer.apply(changes)
+  end
+
+  def faq_materializer
+    @faq_materializer ||= Captain::AssistantMigration::FaqMaterializer.new(
+      assistant: assistant,
+      candidates: normalized_faq_document_candidates
+    )
   end
 
   def scenario_tool_ids(tool_ids)

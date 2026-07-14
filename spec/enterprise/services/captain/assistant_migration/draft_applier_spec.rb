@@ -46,11 +46,15 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(result.dig(:changes, :response_guidelines, :to)).to include(
         'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
+      expect(result.dig(:changes, :faq_responses, :create)).to contain_exactly(
+        faq_document_candidate.merge('status' => 'approved')
+      )
       expect(assistant.reload.config).not_to have_key('assistant_migration')
+      expect(assistant.responses.count).to eq(0)
       expect(assistant.scenarios.count).to eq(0)
     end
 
-    it 'stores scenario candidates in assistant config and flattens them into response guidelines' do
+    it 'stores scenario and FAQ candidates and creates approved FAQ responses' do
       described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
 
       assistant.reload
@@ -62,8 +66,18 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       expect(assistant.response_guidelines).to include(
         'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
       )
-      expect(assistant.response_guidelines).not_to include(faq_document_candidate['answer'])
+      expect(assistant.responses).to contain_exactly(
+        have_attributes(
+          question: faq_document_candidate['question'],
+          answer: faq_document_candidate['answer'],
+          status: 'approved'
+        )
+      )
       expect(assistant.scenarios.count).to eq(0)
+
+      expect do
+        described_class.new(assistant: assistant, draft: draft, dry_run: false).perform
+      end.not_to(change { assistant.responses.count })
     end
 
     it 'rejects stale drafts whose FAQ candidates use the old string format' do

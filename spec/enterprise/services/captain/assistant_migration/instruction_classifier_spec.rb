@@ -8,14 +8,14 @@ RSpec.describe Captain::AssistantMigration::InstructionClassifier do
   end
 
   describe 'classifier prompt' do
-    it 'keeps the model focused on active behavior and pending FAQ candidates' do
+    it 'keeps the model focused on active behavior and approved FAQ candidates' do
       prompt = Captain::PromptRenderer.render('instruction_classifier')
 
       expect(prompt).to include(
         'The original custom instructions remain stored unchanged',
         'A FAQ cannot implicitly preserve an action',
         'Scenario candidates remain pending metadata',
-        'FAQ candidates are pending review metadata',
+        'Convert reusable query-dependent facts into natural customer questions',
         'an error code that requires immediate',
         'actively require specialist-name verification',
         'Mandatory prohibitions are not FAQ-only',
