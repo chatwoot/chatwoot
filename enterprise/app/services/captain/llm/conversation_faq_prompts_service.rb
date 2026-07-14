@@ -6,6 +6,7 @@ class Captain::Llm::ConversationFaqPromptsService
         Only generate an FAQ when the conversation contains durable, reusable knowledge that would help many future customers.
 
         ## Source rules
+        - The input starts with trusted business context. Use it to reject conversations about other businesses or topics, but never use it as the source of an FAQ answer.
         - The conversation history contains only customer messages and human support agent messages.
         - Base every FAQ strictly on information stated in the human support agent messages. Do not infer, generalize, or add external knowledge.
         - A human support agent must state every fact used in the FAQ answer. Customer messages cannot supply missing answer facts.
