@@ -35,9 +35,9 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def initiate
-    # Before the dial: Meta's connect webhook is dropped if it beats our Call row, and the opt-in
-    # template on NoCallPermission needs a thread to land in.
-    @conversation ||= conversation_builder.perform!
+    # Before the dial: Meta's connect webhook is dropped if it beats our Call row.
+    # Re-authorized because a concurrent caller may have created the thread we get back.
+    @conversation ||= conversation_builder.perform!.tap { |conversation| authorize conversation, :show? }
     @call = create_outbound_call
     # Link the call to its message in one transaction so the message.created
     # broadcast (an after_create_commit hook) fires only once call.message_id is
@@ -64,7 +64,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     authorize @call.conversation, :show?
   end
 
-  # Callers pass either an existing conversation (in-conversation flow) or a contact + inbox (contact screen).
   def set_call_context
     params[:conversation_id].present? ? set_context_from_conversation : set_context_from_contact
   end

@@ -83,7 +83,6 @@ const navigateToConversation = conversationId => {
 const whatsappCallSession = useWhatsappCallSession();
 
 const startWhatsappCall = async (inboxId, conversationIdHint) => {
-  // Without a conversation the BE reuses the contact's latest one in the inbox, or opens one.
   const response = await whatsappCallSession.initiateOutboundCall(
     conversationIdHint
       ? { conversationId: conversationIdHint }

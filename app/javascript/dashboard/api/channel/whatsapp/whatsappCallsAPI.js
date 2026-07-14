@@ -10,8 +10,7 @@ class WhatsappCallsAPI extends ApiClient {
     return axios.get(`${this.url}/${callId}`).then(r => r.data);
   }
 
-  // Either conversationId (in-conversation flow) or contactId + inboxId (contact
-  // screen, where the BE opens a conversation if the contact has none yet).
+  // Either conversationId, or contactId + inboxId to let the BE resolve the conversation.
   initiate({ conversationId, contactId, inboxId }, sdpOffer) {
     return axios
       .post(`${this.url}/initiate`, {
