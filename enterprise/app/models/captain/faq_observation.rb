@@ -24,6 +24,7 @@ class Captain::FaqObservation < ApplicationRecord
 
   validates :generated_question, :generated_answer, :language, presence: true
   validates :faq_suggestion, presence: true, if: :attached?
+  validate :faq_suggestion_belongs_to_account
 
   before_validation :ensure_account
 
@@ -31,5 +32,11 @@ class Captain::FaqObservation < ApplicationRecord
 
   def ensure_account
     self.account = conversation&.account
+  end
+
+  def faq_suggestion_belongs_to_account
+    return if faq_suggestion.blank? || faq_suggestion.account_id == account_id
+
+    errors.add(:faq_suggestion, :invalid)
   end
 end
