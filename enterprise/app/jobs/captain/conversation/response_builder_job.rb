@@ -45,7 +45,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_response_with_v2
     @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: collect_previous_messages
+      message_history: collect_previous_messages_with_resolution_markers
     )
     process_response
   end
@@ -82,7 +82,33 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def collect_previous_messages
-    Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation, assistant: @assistant).perform
+    @conversation
+      .messages
+      .where(message_type: [:incoming, :outgoing])
+      .where(private: false)
+      .map do |message|
+      message_hash = {
+        content: prepare_multimodal_message_content(message),
+        role: determine_role(message)
+      }
+
+      # Include agent_name if present in additional_attributes
+      message_hash[:agent_name] = message.additional_attributes['agent_name'] if message.additional_attributes&.dig('agent_name').present?
+
+      message_hash
+    end
+  end
+
+  def collect_previous_messages_with_resolution_markers
+    Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
+  end
+
+  def determine_role(message)
+    message.message_type == 'incoming' ? 'user' : 'assistant'
+  end
+
+  def prepare_multimodal_message_content(message)
+    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def v1_handoff_requested?

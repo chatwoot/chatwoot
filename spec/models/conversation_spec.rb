@@ -291,13 +291,6 @@ RSpec.describe Conversation do
                                content: system_resolved_message,
                                content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
     end
-
-    it 'updates last_resolved_message_id when marked resolved' do
-      message = create(:message, conversation: conversation)
-
-      expect { conversation.update!(status: :resolved) }
-        .to change { conversation.reload.last_resolved_message_id }.from(nil).to(message.id)
-    end
   end
 
   describe '#update_labels' do

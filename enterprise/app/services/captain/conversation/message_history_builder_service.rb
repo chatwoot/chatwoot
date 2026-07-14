@@ -1,5 +1,7 @@
 class Captain::Conversation::MessageHistoryBuilderService
-  pattr_initialize [:conversation!, :assistant!]
+  RESOLUTION_MARKER = 'Conversation resolution marker at %<resolved_at>s: %<details>s'.freeze
+
+  pattr_initialize [:conversation!]
 
   def perform
     conversation_messages_for_context.filter_map do |message|
@@ -14,19 +16,7 @@ class Captain::Conversation::MessageHistoryBuilderService
   private
 
   def conversation_messages_for_context
-    messages = conversation.messages.where(private: false)
-    messages = messages.where('id > ?', conversation.last_resolved_message_id) if since_last_resolution_boundary?
-    messages.where(message_type: context_message_types)
-  end
-
-  def since_last_resolution_boundary?
-    assistant.conversation_context_since_last_resolution? && conversation.last_resolved_message_id.present?
-  end
-
-  def context_message_types
-    return [:incoming, :outgoing, :activity] if assistant.conversation_context_with_resolution_markers?
-
-    [:incoming, :outgoing]
+    conversation.messages.where(private: false, message_type: [:incoming, :outgoing, :activity])
   end
 
   def message_hash_for_context(message)
@@ -39,7 +29,13 @@ class Captain::Conversation::MessageHistoryBuilderService
   end
 
   def activity_message_hash(message)
-    Captain::ActivityMessageContextBuilderService.new(message: message).generate_content
+    activity = message.content_attributes.to_h['activity'].to_h
+    return unless activity['type'] == 'conversation_status_changed' && activity['status'] == 'resolved'
+
+    {
+      content: format(RESOLUTION_MARKER, resolved_at: message.created_at.utc.iso8601, details: message.content),
+      role: 'assistant'
+    }
   end
 
   def determine_role(message)
