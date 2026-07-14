@@ -1,7 +1,7 @@
 class Twilio::WebhookSetupService
   include Rails.application.routes.url_helpers
 
-  pattr_initialize [:inbox!]
+  pattr_initialize [:channel!]
 
   def perform
     if channel.messaging_service_sid?
@@ -39,10 +39,6 @@ class Twilio::WebhookSetupService
 
   def phone_numbers
     @phone_numbers ||= twilio_client.incoming_phone_numbers.list(phone_number: channel.phone_number)
-  end
-
-  def channel
-    @channel ||= inbox.channel
   end
 
   def twilio_client

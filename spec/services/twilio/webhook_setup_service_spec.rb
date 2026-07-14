@@ -23,7 +23,7 @@ describe Twilio::WebhookSetupService do
       end
 
       it 'updates the messaging service' do
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(services).to have_received(:update)
       end
@@ -44,7 +44,7 @@ describe Twilio::WebhookSetupService do
         allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
         allow(phone_double).to receive(:list).and_return([])
 
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(phone_double).not_to have_received(:update)
       end
@@ -53,7 +53,7 @@ describe Twilio::WebhookSetupService do
         allow(twilio_client).to receive(:incoming_phone_numbers).and_return(phone_double)
         allow(phone_double).to receive(:list).and_return([phone_record_double])
 
-        described_class.new(inbox: channel_twilio_sms.inbox).perform
+        described_class.new(channel: channel_twilio_sms).perform
 
         expect(phone_double).to have_received(:update).with(
           sms_method: 'POST',

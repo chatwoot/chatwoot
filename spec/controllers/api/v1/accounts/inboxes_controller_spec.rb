@@ -1233,7 +1233,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
 
         it 'returns bad request error for agent' do
@@ -1245,7 +1245,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
       end
 
@@ -1262,7 +1262,7 @@ RSpec.describe 'Inboxes API', type: :request do
 
           expect(response).to have_http_status(:bad_request)
           json_response = response.parsed_body
-          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API channels')
+          expect(json_response['error']).to eq('Health data only available for WhatsApp Cloud API and Twilio SMS channels')
         end
       end
 
@@ -1275,6 +1275,51 @@ RSpec.describe 'Inboxes API', type: :request do
           expect(response).to have_http_status(:not_found)
         end
       end
+    end
+  end
+
+  describe 'Twilio inbox health' do
+    let(:twilio_channel) { create(:channel_twilio_sms, :with_phone_number, account: account) }
+    let(:twilio_inbox) { create(:inbox, account: account, channel: twilio_channel) }
+    let(:health_service) { instance_double(Twilio::HealthService) }
+    let(:health_data) do
+      { status: 'misconfigured', webhooks: [{ name: 'messaging', configured: false }] }
+    end
+
+    let(:webhook_service) { instance_double(Twilio::WebhookSetupService, perform: true) }
+
+    before do
+      allow(Twilio::HealthService).to receive(:new).with(channel: twilio_channel).and_return(health_service)
+      allow(health_service).to receive(:perform).and_return(health_data)
+      allow(Twilio::WebhookSetupService).to receive(:new).with(channel: twilio_channel).and_return(webhook_service)
+    end
+
+    it 'returns the twilio webhook health' do
+      get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['status']).to eq('misconfigured')
+    end
+
+    it 'returns bad request for a twilio whatsapp inbox' do
+      whatsapp_medium_inbox = create(:inbox, account: account, channel: create(:channel_twilio_sms, :whatsapp, account: account))
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp_medium_inbox.id}/health",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response).to have_http_status(:bad_request)
+    end
+
+    it 'registers the messaging webhook' do
+      post "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}/register_webhook",
+           headers: admin.create_new_auth_token,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(webhook_service).to have_received(:perform)
     end
   end
 end

@@ -100,7 +100,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
     )
     config = voice_params[:provider_config] || {}
 
-    Current.account.twilio_sms.create!(
+    channel = Current.account.twilio_sms.create!(
       phone_number: voice_params[:phone_number],
       account_sid: config[:account_sid],
       auth_token: config[:auth_token],
@@ -109,5 +109,10 @@ module Enterprise::Api::V1::Accounts::InboxesController
       medium: :sms,
       voice_enabled: true
     )
+
+    # A voice channel is an SMS channel with voice_enabled, so it needs the messaging
+    # webhook too. Voice webhooks are provisioned by the model's provision_twiml_app hook.
+    ::Twilio::WebhookSetupService.new(channel: channel).perform
+    channel
   end
 end

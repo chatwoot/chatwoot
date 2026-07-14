@@ -31,6 +31,8 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
                      headers: { 'Content-Type' => 'application/json' })
         allow(Twilio::VoiceWebhookSetupService).to receive(:new).and_return(instance_double(Twilio::VoiceWebhookSetupService,
                                                                                             perform: "AP#{SecureRandom.hex(16)}"))
+        messaging_webhook_service = instance_double(Twilio::WebhookSetupService, perform: true)
+        allow(Twilio::WebhookSetupService).to receive(:new).and_return(messaging_webhook_service)
 
         post "/api/v1/accounts/#{account.id}/inboxes",
              headers: admin.create_new_auth_token,
@@ -45,6 +47,8 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include('Voice Inbox')
         expect(response.body).to include('+15551234567')
+        # the number must also receive SMS, not just calls
+        expect(messaging_webhook_service).to have_received(:perform)
       end
     end
   end

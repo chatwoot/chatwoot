@@ -687,6 +687,25 @@
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
+    "TWILIO_HEALTH": {
+      "TITLE": "Webhook configuration",
+      "DESCRIPTION": "Twilio needs these webhooks configured on your number for Chatwoot to receive messages and calls",
+      "NO_DATA": "Health data is not available",
+      "WEBHOOKS": {
+        "MESSAGING": "Messaging webhook",
+        "VOICE": "Voice webhook",
+        "VOICE_STATUS": "Voice status callback",
+        "VOICE_APP": "Outbound calling (TwiML app)"
+      },
+      "WEBHOOK": {
+        "CONFIGURED_SUCCESS": "Webhook configured successfully",
+        "ACTION_REQUIRED": "Webhook not configured",
+        "URL_MISMATCH": "Webhook URL mismatch",
+        "REGISTER_BUTTON": "Register Webhook",
+        "NOT_SET": "not set",
+        "TOOLTIP": "Expected {expected}, currently set to {actual}"
+      }
+    },
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
       "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
