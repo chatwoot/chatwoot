@@ -37,10 +37,8 @@ class Whatsapp::WebhookTeardownService
     Rails.logger.error "[WHATSAPP] Phone-level webhook clear failed for channel #{@channel.id}: #{e.message}"
   end
 
-  # The app subscription is shared by every inbox on the WABA, so only unsubscribe when this is the last one.
-  # Embedded signup only: there the subscribed app is Chatwoot's, so the subscription is ours to remove. With
-  # manual keys the token belongs to the customer's own app, which may be the app they expect to receive events
-  # once the phone-level override is gone — unsubscribing it would break that fallback.
+  # Embedded signup only — a manual token's subscribed app is the customer's, not ours to unsubscribe.
+  # The subscription is shared across the WABA, so only unsubscribe when this is the last inbox.
   def unsubscribe_app_if_last_inbox(api_client)
     return unless provider_config['source'] == 'embedded_signup'
 
