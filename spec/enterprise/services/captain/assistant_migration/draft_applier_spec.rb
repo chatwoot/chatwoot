@@ -23,7 +23,7 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
   let(:faq_document_candidate) do
     {
       'question' => 'When is support available?',
-      'answer' => 'Support is available Monday to Friday.'
+      'answer' => "Support is available Monday to Friday.\n\nUrgent requests are handled by the on-call team."
     }
   end
   let(:draft) do

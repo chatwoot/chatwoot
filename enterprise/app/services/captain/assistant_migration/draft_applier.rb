@@ -203,7 +203,7 @@ class Captain::AssistantMigration::DraftApplier
 
       candidate = candidate.deep_symbolize_keys
       question = candidate[:question].to_s.squish
-      answer = candidate[:answer].to_s.squish
+      answer = candidate[:answer].to_s.strip
       raise ArgumentError, 'FAQ document candidates must include a question and answer' if question.blank? || answer.blank?
 
       { 'question' => question, 'answer' => answer }
