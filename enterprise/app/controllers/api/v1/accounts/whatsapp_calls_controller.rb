@@ -1,6 +1,4 @@
 class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseController
-  PERMISSION_REQUEST_THROTTLE = 5.minutes
-
   before_action :set_call, only: %i[show accept reject terminate upload_recording]
   before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
@@ -35,9 +33,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def initiate
-    # Before the dial: Meta's connect webhook is dropped if it beats our Call row.
-    # Re-authorized because a concurrent caller may have created the thread we get back.
-    @conversation ||= conversation_builder.perform!.tap { |conversation| authorize conversation, :show? }
+    @conversation ||= open_conversation!
     @call = create_outbound_call
     # Link the call to its message in one transaction so the message.created
     # broadcast (an after_create_commit hook) fires only once call.message_id is
@@ -47,6 +43,11 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       @message = Voice::CallMessageBuilder.new(@call).perform!
       @call.update!(message_id: @message.id)
     end
+  rescue Voice::CallErrors::NoCallPermission
+    raise # the opt-in template needs the thread; render_permission_request discards it if the send fails
+  rescue StandardError
+    discard_opened_conversation
+    raise
   end
 
   private
@@ -86,6 +87,20 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   def conversation_builder
     @conversation_builder ||= Whatsapp::CallConversationBuilder.new(inbox: @inbox, contact: @contact, user: Current.user)
+  end
+
+  # Committed before the dial: Meta's connect webhook is dropped if it beats our Call row.
+  # Re-authorized because a concurrent caller may have created the thread we get back.
+  def open_conversation!
+    conversation_builder.perform!.tap do |conversation|
+      @opened_conversation = conversation if conversation.previously_new_record?
+      authorize conversation, :show?
+    end
+  end
+
+  # A call that never happened shouldn't leave an empty thread behind. Only ever the one we opened.
+  def discard_opened_conversation
+    @opened_conversation&.destroy!
   end
 
   def ensure_calling_enabled
@@ -144,75 +159,18 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     )
   end
 
-  # Meta error 138006 means the contact hasn't opted in yet; send the opt-in
-  # template (throttled, behind a conversation lock to prevent double-send).
   def render_permission_request
-    status = nil
-    @conversation.with_lock do
-      if permission_request_throttled?
-        status = 'permission_pending'
-        next
-      end
+    status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation).perform
 
-      sent = send_permission_request_safely
-      if sent
-        record_permission_request_wamid(sent)
-        emit_permission_requested_activity
-        status = 'permission_requested'
-      else
-        status = 'failed'
-      end
+    if status == 'failed'
+      discard_opened_conversation
+      return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed'))
     end
-
-    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
 
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
     # the permission-template path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
     render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
-  end
-
-  def permission_request_throttled?
-    last_requested = @conversation.additional_attributes&.dig('call_permission_requested_at')
-    last_requested.present? && Time.zone.parse(last_requested) > PERMISSION_REQUEST_THROTTLE.ago
-  end
-
-  # Treat transport errors as a falsy return so we render 422 rather than 500.
-  def send_permission_request_safely
-    provider_service.send_call_permission_request(
-      @conversation.contact.phone_number.delete('+'),
-      *permission_request_body_args
-    )
-  rescue StandardError => e
-    Rails.logger.warn "[WHATSAPP CALL] permission_request failed: #{e.class} #{e.message}"
-    nil
-  end
-
-  # Pass the inbox-level override only when present so the provider falls back
-  # to the i18n default for inboxes that haven't customized the prompt.
-  def permission_request_body_args
-    custom_body = @conversation.inbox.channel.provider_config&.dig('call_permission_request_body').presence
-    custom_body ? [custom_body] : []
-  end
-
-  def emit_permission_requested_activity
-    content = I18n.t(
-      'conversations.activity.whatsapp_call.permission_requested',
-      contact_name: @conversation.contact.name
-    )
-    ::Conversations::ActivityMessageJob.perform_later(
-      @conversation,
-      { account_id: @conversation.account_id, inbox_id: @conversation.inbox_id, message_type: :activity, content: content }
-    )
-  end
-
-  # Stash the outbound wamid so the reply webhook can match context.id back here.
-  def record_permission_request_wamid(sent)
-    attrs = (@conversation.additional_attributes || {}).merge(
-      'call_permission_requested_at' => Time.current.iso8601,
-      'call_permission_request_message_id' => sent.dig('messages', 0, 'id')
-    )
-    @conversation.update!(additional_attributes: attrs)
   end
 
   def render_call_error(error)
