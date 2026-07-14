@@ -41,7 +41,7 @@ const createDialog = ref(null);
 
 const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
-const pendingCount = useMapGetter('captainResponses/getPendingCount');
+const suggestionCount = useMapGetter('captainFaqSuggestions/getOpenCount');
 
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
@@ -196,7 +196,7 @@ const navigateToPendingFAQs = () => {
 onMounted(() => {
   initializeFromURL();
   store.dispatch(
-    'captainResponses/fetchPendingCount',
+    'captainFaqSuggestions/fetchOpenCount',
     selectedAssistantId.value
   );
 });
@@ -271,7 +271,7 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
       <Banner
-        v-if="pendingCount > 0"
+        v-if="suggestionCount > 0"
         color="blue"
         class="mb-4 -mt-3"
         :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
