@@ -6,6 +6,8 @@ class Tiktok::CallbacksController < ApplicationController
     return handle_ungranted_scopes_error unless all_scopes_granted?
 
     process_successful_authorization
+  rescue CustomExceptions::Inbox::LimitExceeded => e
+    handle_limit_error(e)
   rescue StandardError => e
     handle_error(e)
   end
@@ -34,6 +36,14 @@ class Tiktok::CallbacksController < ApplicationController
     ChatwootExceptionTracker.new(error).capture_exception
 
     redirect_to_error_page(error_type: error.class.name, code: 500, error_message: error.message)
+  end
+
+  def handle_limit_error(error)
+    redirect_to_error_page(
+      error_type: error.class.name,
+      code: Rack::Utils.status_code(error.http_status),
+      error_message: error.message
+    )
   end
 
   # Handles the case when a user denies permissions or cancels the authorization flow
