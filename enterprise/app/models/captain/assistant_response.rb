@@ -17,11 +17,11 @@
 #
 # Indexes
 #
-#  idx_cap_asst_resp_on_documentable                  (documentable_id,documentable_type)
-#  index_captain_assistant_responses_on_account_id    (account_id)
-#  index_captain_assistant_responses_on_assistant_id  (assistant_id)
-#  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
+#  idx_cap_asst_resp_on_documentable                        (documentable_id,documentable_type)
+#  index_captain_assistant_responses_on_account_id          (account_id)
+#  index_captain_assistant_responses_on_assistant_id        (assistant_id)
+#  index_captain_assistant_responses_on_status              (status)
+#  vector_idx_captain_assistant_responses_embedding_cosine  (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
@@ -48,7 +48,11 @@ class Captain::AssistantResponse < ApplicationRecord
 
   def self.search(query, account_id: nil)
     embedding = Captain::Llm::EmbeddingService.new(account_id: account_id).get_embedding(query)
-    nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5)
+
+    transaction do
+      connection.execute("SET LOCAL ivfflat.iterative_scan = 'relaxed_order'")
+      nearest_neighbors(:embedding, embedding, distance: 'cosine').limit(5).load
+    end
   end
 
   private
