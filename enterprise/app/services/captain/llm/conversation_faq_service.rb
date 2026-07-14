@@ -25,6 +25,8 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def conversation_faq_content
     [
+      'Business Context:',
+      JSON.pretty_generate(business_context),
       "Conversation ID: ##{conversation.display_id}",
       "Channel: #{conversation.inbox.channel.name}",
       'Message History:',
@@ -74,9 +76,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def route_candidate(faq)
     embedding = embedding_service.get_embedding(candidate_text(faq))
 
-    if matching_record(approved_faqs_for_language, faq, embedding)
-      return discard_observation(faq)
-    end
+    return discard_observation(faq) if matching_record(approved_faqs_for_language, faq, embedding)
 
     suggestion = matching_record(open_suggestions_for_language, faq, embedding)
     suggestion ||= assistant.faq_suggestions.create!(
@@ -96,10 +96,13 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   def likely_matches(relation, embedding)
     return [] unless relation.exists?
 
-    relation
-      .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-      .limit(MATCH_LIMIT)
-      .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
+    ApplicationRecord.transaction do
+      ApplicationRecord.connection.execute("SET LOCAL ivfflat.iterative_scan = 'relaxed_order'")
+      relation
+        .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+        .limit(MATCH_LIMIT)
+        .select { |record| record.neighbor_distance < DISTANCE_THRESHOLD }
+    end
   end
 
   def same_faq?(candidate, existing_record)
@@ -136,7 +139,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
         language: faq_language,
         status: :attached
       )
-      suggestion.update!(source_count: suggestion.observations.attached.count)
+      suggestion.update!(source_count: suggestion.source_count + 1)
       observation
     end
   end
@@ -212,6 +215,16 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
 
   def system_prompt
     Captain::Llm::ConversationFaqPromptsService.generator(language_name(faq_language))
+  end
+
+  def business_context
+    {
+      product_name: assistant.config['product_name'],
+      assistant_description: assistant.description,
+      instructions: assistant.config['instructions'],
+      response_guidelines: assistant.response_guidelines,
+      guardrails: assistant.guardrails
+    }.compact
   end
 
   def faq_language
