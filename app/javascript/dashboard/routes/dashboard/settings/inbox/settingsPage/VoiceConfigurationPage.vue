@@ -88,6 +88,28 @@ export default {
         this.isTogglingInbound = false;
       }
     },
+    // Saves on toggle, except when enabling still needs API key credentials: then we
+    // reveal the inputs and wait for the user to submit them.
+    async handleVoiceToggle(newValue) {
+      if (this.isUpdating) return;
+      const previousValue = this.voiceEnabled;
+      this.voiceEnabled = newValue;
+
+      if (this.needsCredentials) return;
+
+      try {
+        await this.updateVoiceSettings();
+      } catch (_) {
+        this.voiceEnabled = previousValue;
+      }
+    },
+    async submitVoiceCredentials() {
+      try {
+        await this.updateVoiceSettings();
+      } catch (_) {
+        this.voiceEnabled = false;
+      }
+    },
     async updateVoiceSettings() {
       this.isUpdating = true;
       try {
@@ -109,6 +131,7 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+        throw error;
       } finally {
         this.isUpdating = false;
       }
@@ -119,13 +142,24 @@ export default {
 
 <template>
   <div class="flex flex-col gap-6">
-    <SettingsToggleSection
-      v-model="voiceEnabled"
-      :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.LABEL')"
-      :description="
-        $t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.DESCRIPTION')
-      "
-    />
+    <div
+      class="relative"
+      :class="{ 'pointer-events-none opacity-60': isUpdating }"
+    >
+      <SettingsToggleSection
+        :model-value="voiceEnabled"
+        :header="$t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.LABEL')"
+        :description="
+          $t('INBOX_MGMT.VOICE_CONFIGURATION.ENABLE_VOICE.DESCRIPTION')
+        "
+        :hide-toggle="isUpdating"
+        @update:model-value="handleVoiceToggle"
+      >
+        <template v-if="isUpdating" #hiddenToggle>
+          <Spinner class="size-4 text-n-slate-11" />
+        </template>
+      </SettingsToggleSection>
+    </div>
 
     <div v-if="voiceEnabled && needsCredentials" class="flex flex-col gap-4">
       <p class="text-sm text-n-slate-11">
@@ -186,12 +220,12 @@ export default {
       </SettingsFieldSection>
     </div>
 
-    <div>
+    <div v-if="needsCredentials">
       <NextButton
         :disabled="isSubmitDisabled"
         :is-loading="isUpdating"
         :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
-        @click="updateVoiceSettings"
+        @click="submitVoiceCredentials"
       />
     </div>
   </div>
