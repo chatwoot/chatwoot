@@ -70,11 +70,22 @@ RSpec.describe Whatsapp::WebhookTeardownService do
         api_client = instance_double(Whatsapp::FacebookApiClient)
         allow(Whatsapp::FacebookApiClient).to receive(:new).with('manual_api_key').and_return(api_client)
         allow(api_client).to receive(:clear_phone_number_callback_override).with('manual_phone_id')
-        allow(api_client).to receive(:unsubscribe_app_from_waba).with('manual_waba_id')
 
         service.perform
 
         expect(api_client).to have_received(:clear_phone_number_callback_override).with('manual_phone_id')
+      end
+
+      # The manual token belongs to the customer's own Meta app, so its WABA subscription is not ours to remove.
+      it 'does not unsubscribe the app from the WABA' do
+        api_client = instance_double(Whatsapp::FacebookApiClient)
+        allow(Whatsapp::FacebookApiClient).to receive(:new).and_return(api_client)
+        allow(api_client).to receive(:clear_phone_number_callback_override)
+        allow(api_client).to receive(:unsubscribe_app_from_waba)
+
+        service.perform
+
+        expect(api_client).not_to have_received(:unsubscribe_app_from_waba)
       end
     end
 

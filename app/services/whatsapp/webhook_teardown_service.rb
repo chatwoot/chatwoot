@@ -38,7 +38,12 @@ class Whatsapp::WebhookTeardownService
   end
 
   # The app subscription is shared by every inbox on the WABA, so only unsubscribe when this is the last one.
+  # Embedded signup only: there the subscribed app is Chatwoot's, so the subscription is ours to remove. With
+  # manual keys the token belongs to the customer's own app, which may be the app they expect to receive events
+  # once the phone-level override is gone — unsubscribing it would break that fallback.
   def unsubscribe_app_if_last_inbox(api_client)
+    return unless provider_config['source'] == 'embedded_signup'
+
     waba_id = provider_config['business_account_id']
     return if waba_id.blank?
     return if waba_sibling_exists?(waba_id)
