@@ -87,8 +87,12 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
 
       assistant.reload
       expect(assistant.description).to eq('Support assistant for Test Product.')
-      expect(assistant.response_guidelines).to include('Be concise.')
-      expect(assistant.guardrails).to eq(['Do not guess.'])
+      expect(assistant.response_guidelines).to include(
+        'Use plain language.',
+        'Be concise.',
+        'For account-specific billing issues, collect the invoice number and summarize the issue before escalating.'
+      )
+      expect(assistant.guardrails).to contain_exactly('Do not disclose internal notes.', 'Do not guess.')
       expect(assistant.config.dig('assistant_migration', 'original_values')).to include(
         'name' => assistant.name,
         'description' => 'Existing assistant description.',

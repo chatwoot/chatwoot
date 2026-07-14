@@ -60,11 +60,11 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def response_guidelines
-    (item_values(:response_guidelines) + scenario_response_guidelines).uniq
+    (Array(assistant.response_guidelines) + item_values(:response_guidelines) + scenario_response_guidelines).uniq
   end
 
   def guardrails
-    item_values(:guardrails)
+    (Array(assistant.guardrails) + item_values(:guardrails)).uniq
   end
 
   def array_change(field, values)
