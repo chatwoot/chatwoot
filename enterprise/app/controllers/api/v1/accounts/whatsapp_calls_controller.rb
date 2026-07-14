@@ -2,7 +2,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   PERMISSION_REQUEST_THROTTLE = 5.minutes
 
   before_action :set_call, only: %i[show accept reject terminate upload_recording]
-  before_action :set_conversation, only: :initiate
+  before_action :set_call_context, only: :initiate
   before_action :ensure_calling_enabled, only: :initiate
   before_action :ensure_sdp_offer, only: :initiate
   before_action :ensure_contact_phone, only: :initiate
@@ -53,7 +53,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def provider_service
-    @provider_service ||= @conversation.inbox.channel.provider_service
+    @provider_service ||= @inbox.channel.provider_service
   end
 
   def set_call
@@ -61,13 +61,37 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     authorize @call.conversation, :show?
   end
 
-  def set_conversation
-    @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
-    authorize @conversation, :show?
+  # Callers pass either an existing conversation (in-conversation flow) or a contact + inbox (contact screen).
+  def set_call_context
+    if params[:conversation_id].present?
+      @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
+      authorize @conversation, :show?
+      @inbox = @conversation.inbox
+      @contact = @conversation.contact
+    else
+      @inbox = Current.account.inboxes.find(params[:inbox_id])
+      authorize @inbox, :show?
+      @contact = Current.account.contacts.find(params[:contact_id])
+    end
+  end
+
+  # Mirrors Voice::OutboundCallBuilder — the dial only needs a phone number, so a contact who never messaged in is callable.
+  def find_or_create_conversation!
+    contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
+    conversation = contact_inbox.conversations.order(last_activity_at: :desc).first
+
+    conversation ||= Current.account.conversations.create!(
+      contact_inbox: contact_inbox, inbox: @inbox, contact: @contact,
+      assignee_id: Current.user.id, status: :open
+    )
+    # A call in a resolved thread would ring in a conversation nobody has in their open queue.
+    conversation.update!(status: :open) if conversation.resolved?
+    authorize conversation, :show?
+    conversation
   end
 
   def ensure_calling_enabled
-    channel = @conversation.inbox.channel
+    channel = @inbox.channel
     return if channel.is_a?(Channel::Whatsapp) && channel.voice_enabled?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.not_enabled'))
@@ -80,7 +104,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def ensure_contact_phone
-    return if @conversation.contact&.phone_number.present?
+    return if @contact.phone_number.present?
 
     render_could_not_create_error(I18n.t('errors.whatsapp.calls.contact_phone_required'))
   end
@@ -105,27 +129,34 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def create_outbound_call
-    contact_phone = @conversation.contact.phone_number.delete('+')
     # Claim for the caller only if unassigned at trigger time (before the round-trip); wins over auto-assignment.
-    claim_for_caller = @conversation.assignee_id.nil?
+    claim_for_caller = @conversation.nil? || @conversation.assignee_id.nil?
 
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
-    @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
+    # Open the conversation only once the dial succeeds, so a failed call leaves no empty thread behind.
+    @conversation ||= find_or_create_conversation!
+    @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller && @conversation.assignee_id.nil?
 
     Current.account.calls.create!(
-      provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
+      provider: :whatsapp, inbox: @inbox, conversation: @conversation, contact: @contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
       accepted_by_agent_id: Current.user.id,
       meta: { 'sdp_offer' => params[:sdp_offer], 'ice_servers' => Call.default_ice_servers }
     )
   end
 
+  def contact_phone
+    @contact.phone_number.delete('+')
+  end
+
   # Meta error 138006 means the contact hasn't opted in yet; send the opt-in
   # template (throttled, behind a conversation lock to prevent double-send).
   def render_permission_request
     status = nil
+    # The opt-in template is a message, so it needs a conversation even when the dial never got one.
+    @conversation ||= find_or_create_conversation!
     @conversation.with_lock do
       if permission_request_throttled?
         status = 'permission_pending'
@@ -147,7 +178,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
     # the permission-template path for a successful dial. The FE composable
     # detects this status and surfaces the banner instead of throwing.
-    render json: { status: status }, status: :unprocessable_entity
+    render json: { status: status, conversation_id: @conversation.display_id }, status: :unprocessable_entity
   end
 
   def permission_request_throttled?
@@ -157,10 +188,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   # Treat transport errors as a falsy return so we render 422 rather than 500.
   def send_permission_request_safely
-    provider_service.send_call_permission_request(
-      @conversation.contact.phone_number.delete('+'),
-      *permission_request_body_args
-    )
+    provider_service.send_call_permission_request(contact_phone, *permission_request_body_args)
   rescue StandardError => e
     Rails.logger.warn "[WHATSAPP CALL] permission_request failed: #{e.class} #{e.message}"
     nil
@@ -169,14 +197,14 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   # Pass the inbox-level override only when present so the provider falls back
   # to the i18n default for inboxes that haven't customized the prompt.
   def permission_request_body_args
-    custom_body = @conversation.inbox.channel.provider_config&.dig('call_permission_request_body').presence
+    custom_body = @inbox.channel.provider_config&.dig('call_permission_request_body').presence
     custom_body ? [custom_body] : []
   end
 
   def emit_permission_requested_activity
     content = I18n.t(
       'conversations.activity.whatsapp_call.permission_requested',
-      contact_name: @conversation.contact.name
+      contact_name: @contact.name
     )
     ::Conversations::ActivityMessageJob.perform_later(
       @conversation,
