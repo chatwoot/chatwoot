@@ -68,6 +68,110 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
+    context 'when building evaluation context' do
+      let(:captain_assistant) { create(:captain_assistant, account: account) }
+      let(:mock_response) do
+        instance_double(
+          RubyLLM::Message,
+          content: { 'complete' => false, 'reason' => 'Human follow-up is still pending' },
+          input_tokens: 100,
+          output_tokens: 20
+        )
+      end
+
+      it 'includes conversation status and speaker labels' do
+        conversation.update!(status: :pending, waiting_since: 2.hours.ago)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'I need help with a refund')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to support for review.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Conversation transcript:',
+            'Customer: I need help with a refund',
+            'Captain: I will transfer this to support for review.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+
+      it 'includes pending captain handoff evidence in the transcript' do
+        conversation.update!(status: :pending)
+        create(:message, conversation: conversation, inbox: inbox, account: account, message_type: :incoming, content: 'Please cancel my order')
+        create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'I will transfer this to a specialist and they will follow up here.'
+        )
+
+        expect(mock_chat).to receive(:ask) do |content|
+          expect(content).to include(
+            'Conversation status: pending',
+            'Captain: I will transfer this to a specialist and they will follow up here.'
+          )
+
+          mock_response
+        end
+
+        result = service.perform
+
+        expect(result[:complete]).to be false
+      end
+
+      it 'reuses computed message content while formatting the transcript' do
+        content_for_llm_calls_by_message_id = Hash.new(0)
+        allow_any_instance_of(Message).to receive(:content_for_llm).and_wrap_original do |method, *args| # rubocop:disable RSpec/AnyInstance
+          content_for_llm_calls_by_message_id[method.receiver.id] += 1
+          method.call(*args)
+        end
+
+        incoming_message = create(
+          :message,
+          :with_attachment,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :incoming,
+          content: nil
+        )
+        outgoing_message = create(
+          :message,
+          conversation: conversation,
+          inbox: inbox,
+          account: account,
+          message_type: :outgoing,
+          sender: captain_assistant,
+          content: 'What do you need help with?'
+        )
+
+        allow(mock_chat).to receive(:ask).and_return(mock_response)
+
+        service.perform
+
+        expect(content_for_llm_calls_by_message_id).to include(
+          incoming_message.id => 1,
+          outgoing_message.id => 1
+        )
+      end
+    end
+
     context 'when conversation has no messages' do
       it 'returns incomplete with appropriate reason' do
         result = service.perform
@@ -166,9 +270,13 @@ RSpec.describe Captain::ConversationCompletionService do
 
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        allow(account).to receive(:usage_limits).and_return({
-                                                              captain: { responses: { current_available: 0 } }
-                                                            })
+        allow(account).to receive(:usage_limits).and_return(
+          {
+            agents: ChatwootApp.max_limit,
+            inboxes: ChatwootApp.max_limit,
+            captain: { responses: { current_available: 0 } }
+          }
+        )
         create(:message, conversation: conversation, message_type: :incoming, content: 'What are your hours?')
         create(:message, conversation: conversation, message_type: :outgoing, content: 'We are open 9-5 Monday to Friday.')
         allow(mock_chat).to receive(:ask).and_return(mock_response)

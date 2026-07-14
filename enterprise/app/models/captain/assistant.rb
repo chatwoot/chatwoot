@@ -4,7 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  config              :jsonb            not null
-#  description         :string
+#  description         :text
 #  guardrails          :jsonb
 #  name                :string           not null
 #  response_guidelines :jsonb
@@ -17,6 +17,8 @@
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   include Avatarable
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
@@ -26,6 +28,7 @@ class Captain::Assistant < ApplicationRecord
   belongs_to :account
   has_many :documents, class_name: 'Captain::Document', dependent: :destroy_async
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy_async
+  has_many :faq_suggestions, class_name: 'Captain::FaqSuggestion', dependent: :destroy_async
   has_many :captain_inboxes,
            class_name: 'CaptainInbox',
            foreign_key: :captain_assistant_id,
@@ -35,11 +38,12 @@ class Captain::Assistant < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
+  has_many :agent_sessions, class_name: 'Captain::AgentSession', dependent: :destroy_async
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :feature_contact_attributes, :product_name
 
   validates :name, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
 
   scope :ordered, -> { order(created_at: :desc) }

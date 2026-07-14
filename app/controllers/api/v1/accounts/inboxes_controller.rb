@@ -2,7 +2,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
-  before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
@@ -125,8 +124,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def reauthorize_and_update_channel(channel_attributes)
-    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
     @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
+    @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
   end
 
   def update_channel_feature_flags
