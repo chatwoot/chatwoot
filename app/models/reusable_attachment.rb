@@ -42,6 +42,8 @@ class ReusableAttachment < ApplicationRecord
   }
 
   before_save :set_file_metadata
+  before_update :capture_replaced_blob
+  after_update :purge_replaced_blob_if_unreferenced
   before_destroy :cleanup_file
 
   def file_url
@@ -85,6 +87,19 @@ class ReusableAttachment < ApplicationRecord
   end
 
   private
+
+  def capture_replaced_blob
+    return unless attachment_changes.key?('file')
+
+    @replaced_blob = file.blob if file.attached?
+  end
+
+  def purge_replaced_blob_if_unreferenced
+    return unless @replaced_blob
+
+    @replaced_blob.purge_later unless ActiveStorage::Attachment.exists?(blob_id: @replaced_blob.id)
+    @replaced_blob = nil
+  end
 
   def cleanup_file
     return unless file.attached?
