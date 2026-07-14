@@ -199,6 +199,20 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.locale)
       end
     end
+
+    context 'when a Cloud account does not have the api_and_webhooks feature' do
+      it 'returns forbidden for API token authentication' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features!('api_and_webhooks')
+
+        get "/api/v1/accounts/#{account.id}",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(response.parsed_body['error']).to eq('API access is not enabled for this account')
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/cache_keys' do
@@ -224,6 +238,19 @@ RSpec.describe 'Accounts API', type: :request do
       expect(response.headers['Cache-Control']).to include('max-age=10')
       expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Cache-Control']).to include('stale-while-revalidate=300')
+    end
+
+    context 'when a Cloud account does not have the api_and_webhooks feature' do
+      it 'returns forbidden for API token authentication' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features!('api_and_webhooks')
+
+        get "/api/v1/accounts/#{account.id}/cache_keys",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:forbidden)
+      end
     end
   end
 
@@ -324,6 +351,22 @@ RSpec.describe 'Accounts API', type: :request do
         expect(json_response['message']).to eq('Name is too long (maximum is 255 characters)')
       end
     end
+
+    context 'when a Cloud account does not have the api_and_webhooks feature' do
+      it 'returns forbidden without modifying the account for API token authentication' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features!('api_and_webhooks')
+
+        expect do
+          patch "/api/v1/accounts/#{account.id}",
+                params: { name: 'Updated through API' },
+                headers: { api_access_token: admin.access_token.token },
+                as: :json
+        end.not_to(change { account.reload.name })
+
+        expect(response).to have_http_status(:forbidden)
+      end
+    end
   end
 
   describe 'POST /api/v1/accounts/{account.id}/update_active_at' do
@@ -347,6 +390,21 @@ RSpec.describe 'Accounts API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(agent.account_users.first.active_at).not_to be_nil
+      end
+    end
+
+    context 'when a Cloud account does not have the api_and_webhooks feature' do
+      it 'returns forbidden without updating active_at for API token authentication' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        account.disable_features!('api_and_webhooks')
+        account_user = agent.account_users.first
+
+        post "/api/v1/accounts/#{account.id}/update_active_at",
+             headers: { api_access_token: agent.access_token.token },
+             as: :json
+
+        expect(response).to have_http_status(:forbidden)
+        expect(account_user.reload.active_at).to be_nil
       end
     end
   end
