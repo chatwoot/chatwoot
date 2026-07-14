@@ -2,8 +2,13 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useCallSession } from 'dashboard/composables/useCallSession';
-import { setWhatsappCallMuted } from 'dashboard/composables/useWhatsappCallSession';
+import {
+  sendWhatsappDigits,
+  setWhatsappCallMuted,
+} from 'dashboard/composables/useWhatsappCallSession';
 import TwilioVoiceClient from 'dashboard/api/channel/voice/twilioVoiceClient';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import { VOICE_CALL_PROVIDERS } from 'dashboard/helper/inbox';
@@ -17,6 +22,7 @@ const RINGTONE_URL = '/audio/dashboard/ringtone.mp3';
 const route = useRoute();
 const router = useRouter();
 const store = useStore();
+const { t } = useI18n();
 
 const {
   activeCall,
@@ -36,6 +42,26 @@ const isMuted = ref(false);
 const isWhatsappActive = computed(
   () => activeCall.value?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
+const showKeypad = computed(
+  () =>
+    activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO ||
+    isWhatsappActive.value
+);
+
+const handleSendDigit = digit => {
+  let sent;
+  if (activeCall.value?.provider === VOICE_CALL_PROVIDERS.TWILIO) {
+    sent = TwilioVoiceClient.sendDigits(digit);
+  } else if (isWhatsappActive.value) {
+    sent = sendWhatsappDigits(digit);
+  } else {
+    return;
+  }
+
+  if (!sent) {
+    useAlert(t('CONVERSATION.VOICE_WIDGET.KEYPAD_SEND_FAILED'));
+  }
+};
 
 const primaryIncomingCall = computed(() =>
   hasActiveCall.value ? null : incomingCalls.value[0] || null
@@ -262,11 +288,13 @@ onBeforeUnmount(stopRingtone);
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
       :show-mute="hasActiveCall"
+      :show-keypad="showKeypad"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
+      @send-digit="handleSendDigit"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />
   </div>
