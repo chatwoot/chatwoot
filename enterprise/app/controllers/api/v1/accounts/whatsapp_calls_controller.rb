@@ -35,6 +35,9 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def initiate
+    # Before the dial: Meta's connect webhook is dropped if it beats our Call row, and the opt-in
+    # template on NoCallPermission needs a thread to land in.
+    @conversation ||= find_or_create_conversation!
     @call = create_outbound_call
     # Link the call to its message in one transaction so the message.created
     # broadcast (an after_create_commit hook) fires only once call.message_id is
@@ -77,14 +80,17 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
     @contact = Current.account.contacts.find(params[:contact_id])
-    # Scoped by contact rather than contact_inbox: a contact can hold several contact_inbox rows in one inbox.
-    @conversation = @inbox.conversations.where(contact_id: @contact.id).order(last_activity_at: :desc).first
+    @conversation = latest_conversation
     # Authorize the thread the call will land in — after the dial is too late to refuse a ringing call.
     authorize(@conversation || new_conversation, :show?)
   end
 
-  # The conversation create_conversation! will persist once the dial succeeds; authorized unsaved so a
-  # custom role that can't open the thread never gets to place a call it cannot answer or terminate.
+  # Scoped by contact, not contact_inbox: a contact can hold several contact_inbox rows in one inbox.
+  def latest_conversation
+    @inbox.conversations.where(contact_id: @contact.id).order(last_activity_at: :desc).first
+  end
+
+  # Authorized unsaved pre-dial so a custom role that can't open the thread never places an unanswerable call.
   def new_conversation
     Current.account.conversations.new(
       inbox: @inbox, contact: @contact, assignee_id: Current.user.id, status: :open
@@ -92,11 +98,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   # Mirrors Voice::OutboundCallBuilder — the dial only needs a phone number, so a contact who never messaged in is callable.
-  def create_conversation!
-    conversation = new_conversation
-    conversation.contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
-    conversation.save!
-    conversation
+  # Locked on the contact_inbox so two agents calling the same fresh contact can't open two threads.
+  def find_or_create_conversation!
+    contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
+
+    contact_inbox.with_lock do
+      latest_conversation || new_conversation.tap { |conversation| conversation.update!(contact_inbox: contact_inbox) }
+    end
   end
 
   def ensure_calling_enabled
@@ -138,21 +146,15 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def create_outbound_call
-    contact_phone = @contact.phone_number.delete('+')
+    contact_phone = @conversation.contact.phone_number.delete('+')
     # Claim for the caller only if unassigned at trigger time (before the round-trip); wins over auto-assignment.
-    claim_for_caller = @conversation.present? && @conversation.assignee_id.nil?
+    claim_for_caller = @conversation.assignee_id.nil?
 
     result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
-    # Open the conversation only once the dial succeeds, so a failed call leaves no empty thread behind.
-    @conversation ||= create_conversation!
     @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
-    create_call_record(provider_call_id)
-  end
-
-  def create_call_record(provider_call_id)
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
@@ -165,8 +167,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   # template (throttled, behind a conversation lock to prevent double-send).
   def render_permission_request
     status = nil
-    # The opt-in template is a message, so it needs a conversation even when the dial never got one.
-    @conversation ||= create_conversation!
     @conversation.with_lock do
       if permission_request_throttled?
         status = 'permission_pending'
