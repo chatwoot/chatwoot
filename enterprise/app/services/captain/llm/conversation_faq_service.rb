@@ -97,7 +97,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
     return [] unless relation.exists?
 
     ApplicationRecord.transaction do
-      ApplicationRecord.connection.execute("SET LOCAL ivfflat.iterative_scan = 'relaxed_order'")
+      ApplicationRecord.connection.execute('SET LOCAL enable_indexscan = off')
       relation
         .nearest_neighbors(:embedding, embedding, distance: 'cosine')
         .limit(MATCH_LIMIT)
