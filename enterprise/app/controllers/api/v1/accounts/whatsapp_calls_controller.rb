@@ -77,19 +77,26 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
     @contact = Current.account.contacts.find(params[:contact_id])
-    # Resolve and authorize a reused conversation up front — after the dial is too late to refuse a ringing call.
-    @conversation = @inbox.contact_inboxes.find_by(contact_id: @contact.id)
-                          &.conversations&.order(last_activity_at: :desc)&.first
-    authorize @conversation, :show? if @conversation
+    # Scoped by contact rather than contact_inbox: a contact can hold several contact_inbox rows in one inbox.
+    @conversation = @inbox.conversations.where(contact_id: @contact.id).order(last_activity_at: :desc).first
+    # Authorize the thread the call will land in — after the dial is too late to refuse a ringing call.
+    authorize(@conversation || new_conversation, :show?)
+  end
+
+  # The conversation create_conversation! will persist once the dial succeeds; authorized unsaved so a
+  # custom role that can't open the thread never gets to place a call it cannot answer or terminate.
+  def new_conversation
+    Current.account.conversations.new(
+      inbox: @inbox, contact: @contact, assignee_id: Current.user.id, status: :open
+    )
   end
 
   # Mirrors Voice::OutboundCallBuilder — the dial only needs a phone number, so a contact who never messaged in is callable.
   def create_conversation!
-    contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
-    Current.account.conversations.create!(
-      contact_inbox: contact_inbox, inbox: @inbox, contact: @contact,
-      assignee_id: Current.user.id, status: :open
-    )
+    conversation = new_conversation
+    conversation.contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
+    conversation.save!
+    conversation
   end
 
   def ensure_calling_enabled
