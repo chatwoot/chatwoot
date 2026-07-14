@@ -48,6 +48,8 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  getAgentVariables,
+  getContactVariables,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -144,6 +146,7 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -171,6 +174,9 @@ export default {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
     },
     isPrivate() {
+      if (this.isInstagramReplyRestricted) {
+        return true;
+      }
       if (
         this.currentChat.can_reply ||
         this.isAWhatsAppChannel ||
@@ -195,10 +201,16 @@ export default {
       );
       return !!stripped.trim();
     },
+    // Instagram replies are disabled on Chatwoot Cloud during the temporary
+    // Meta platform restriction; private notes remain available.
+    isInstagramReplyRestricted() {
+      return this.isOnChatwootCloud && this.isAnInstagramChannel;
+    },
     isReplyRestricted() {
       return (
-        !this.currentChat?.can_reply &&
-        !(this.isAWhatsAppChannel || this.isAPIInbox)
+        this.isInstagramReplyRestricted ||
+        (!this.currentChat?.can_reply &&
+          !(this.isAWhatsAppChannel || this.isAPIInbox))
       );
     },
     inboxId() {
@@ -393,7 +405,13 @@ export default {
         contact: this.currentContact,
         inbox: this.inbox,
       });
-      return variables;
+      // Match the backend drops: names are Ruby-capitalized and
+      // {{agent.*}} is the message sender, not the assignee.
+      return {
+        ...variables,
+        ...getContactVariables(this.currentContact),
+        ...getAgentVariables(this.currentUser),
+      };
     },
     connectedPortalSlug() {
       const { help_center: portal = {} } = this.inbox;
@@ -462,7 +480,10 @@ export default {
         return;
       }
 
-      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox) {
+      if (
+        !this.isInstagramReplyRestricted &&
+        (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
+      ) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
       } else {
         this.replyType = REPLY_EDITOR_MODES.NOTE;
@@ -929,7 +950,10 @@ export default {
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
       });
-      if (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
+      if (
+        !this.isInstagramReplyRestricted &&
+        (canReply || this.isAWhatsAppChannel || this.isAPIInbox)
+      )
         this.replyType = mode;
       if (this.isRecordingAudio) {
         this.toggleAudioRecorder();
