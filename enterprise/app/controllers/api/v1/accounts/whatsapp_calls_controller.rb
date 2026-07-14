@@ -63,31 +63,33 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
 
   # Callers pass either an existing conversation (in-conversation flow) or a contact + inbox (contact screen).
   def set_call_context
-    if params[:conversation_id].present?
-      @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
-      authorize @conversation, :show?
-      @inbox = @conversation.inbox
-      @contact = @conversation.contact
-    else
-      @inbox = Current.account.inboxes.find(params[:inbox_id])
-      authorize @inbox, :show?
-      @contact = Current.account.contacts.find(params[:contact_id])
-    end
+    params[:conversation_id].present? ? set_context_from_conversation : set_context_from_contact
+  end
+
+  def set_context_from_conversation
+    @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
+    authorize @conversation, :show?
+    @inbox = @conversation.inbox
+    @contact = @conversation.contact
+  end
+
+  def set_context_from_contact
+    @inbox = Current.account.inboxes.find(params[:inbox_id])
+    authorize @inbox, :show?
+    @contact = Current.account.contacts.find(params[:contact_id])
+    # Resolve and authorize a reused conversation up front — after the dial is too late to refuse a ringing call.
+    @conversation = @inbox.contact_inboxes.find_by(contact_id: @contact.id)
+                          &.conversations&.order(last_activity_at: :desc)&.first
+    authorize @conversation, :show? if @conversation
   end
 
   # Mirrors Voice::OutboundCallBuilder — the dial only needs a phone number, so a contact who never messaged in is callable.
-  def find_or_create_conversation!
+  def create_conversation!
     contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
-    conversation = contact_inbox.conversations.order(last_activity_at: :desc).first
-
-    conversation ||= Current.account.conversations.create!(
+    Current.account.conversations.create!(
       contact_inbox: contact_inbox, inbox: @inbox, contact: @contact,
       assignee_id: Current.user.id, status: :open
     )
-    # A call in a resolved thread would ring in a conversation nobody has in their open queue.
-    conversation.update!(status: :open) if conversation.resolved?
-    authorize conversation, :show?
-    conversation
   end
 
   def ensure_calling_enabled
@@ -137,7 +139,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
     # Open the conversation only once the dial succeeds, so a failed call leaves no empty thread behind.
-    @conversation ||= find_or_create_conversation!
+    @conversation ||= create_conversation!
     @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
     create_call_record(provider_call_id)
@@ -157,7 +159,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   def render_permission_request
     status = nil
     # The opt-in template is a message, so it needs a conversation even when the dial never got one.
-    @conversation ||= find_or_create_conversation!
+    @conversation ||= create_conversation!
     @conversation.with_lock do
       if permission_request_throttled?
         status = 'permission_pending'
