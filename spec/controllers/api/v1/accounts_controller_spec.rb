@@ -200,10 +200,12 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       it 'returns forbidden for API token authentication' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         get "/api/v1/accounts/#{account.id}",
             headers: { api_access_token: admin.access_token.token },
@@ -240,10 +242,12 @@ RSpec.describe 'Accounts API', type: :request do
       expect(response.headers['Cache-Control']).to include('stale-while-revalidate=300')
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       it 'returns forbidden for API token authentication' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         get "/api/v1/accounts/#{account.id}/cache_keys",
             headers: { api_access_token: admin.access_token.token },
@@ -352,10 +356,12 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       it 'returns forbidden without modifying the account for API token authentication' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         expect do
           patch "/api/v1/accounts/#{account.id}",
@@ -393,10 +399,12 @@ RSpec.describe 'Accounts API', type: :request do
       end
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       it 'returns forbidden without updating active_at for API token authentication' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        account_scope = double
+        allow(account_scope).to receive(:find).with(account.id.to_s).and_return(account)
+        allow_any_instance_of(User).to receive(:accounts).and_return(account_scope) # rubocop:disable RSpec/AnyInstance
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
         account_user = agent.account_users.first
 
         post "/api/v1/accounts/#{account.id}/update_active_at",

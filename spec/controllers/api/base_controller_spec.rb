@@ -23,13 +23,14 @@ RSpec.describe 'API Base', type: :request do
       end
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       let!(:admin) { create(:user, :administrator, account: account) }
       let!(:conversation) { create(:conversation, account: account) }
 
       before do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        allow(Account).to receive(:find).and_call_original
+        allow(Account).to receive(:find).with(account.id.to_s).and_return(account)
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
       end
 
       it 'returns forbidden for token authenticated requests' do
@@ -139,11 +140,12 @@ RSpec.describe 'API Base', type: :request do
       end
     end
 
-    context 'when a Cloud account does not have the api_and_webhooks feature' do
+    context 'when API and webhook access is disabled for the account' do
       it 'returns forbidden for accessible bot endpoints' do
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        account.disable_features!('api_and_webhooks')
+        allow(Account).to receive(:find).and_call_original
+        allow(Account).to receive(:find).with(account.id.to_s).and_return(account)
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/toggle_status",
              headers: { api_access_token: agent_bot.access_token.token },

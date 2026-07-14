@@ -30,9 +30,10 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['message_signature']).to be_nil
       end
 
-      it 'returns an empty access token when all Cloud accounts have the feature disabled' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      it 'returns an empty access token when all accounts have API and webhook access disabled' do
         account.disable_features!('api_and_webhooks')
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        allow_any_instance_of(User).to receive(:accounts).and_return([account]) # rubocop:disable RSpec/AnyInstance
 
         get '/api/v1/profile',
             headers: agent.create_new_auth_token,
@@ -43,12 +44,14 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['accounts'].first['api_and_webhooks']).to be false
       end
 
-      it 'returns the access token when any Cloud account has the feature enabled' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      it 'returns the access token when any account has API and webhook access enabled' do
         account.disable_features!('api_and_webhooks')
         enabled_account = create(:account)
         enabled_account.enable_features!('api_and_webhooks')
         create(:account_user, account: enabled_account, user: agent)
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        allow(enabled_account).to receive(:api_and_webhooks_enabled?).and_return(true)
+        allow_any_instance_of(User).to receive(:accounts).and_return([account, enabled_account]) # rubocop:disable RSpec/AnyInstance
 
         get '/api/v1/profile',
             headers: agent.create_new_auth_token,
@@ -379,9 +382,10 @@ RSpec.describe 'Profile API', type: :request do
         expect(json_response['access_token']).to eq(agent.access_token.token)
       end
 
-      it 'regenerates the stored token but returns an empty token when no Cloud account has the feature enabled' do
-        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+      it 'regenerates the stored token but returns an empty token when no account has API and webhook access enabled' do
         account.disable_features!('api_and_webhooks')
+        allow(account).to receive(:api_and_webhooks_enabled?).and_return(false)
+        allow_any_instance_of(User).to receive(:accounts).and_return([account]) # rubocop:disable RSpec/AnyInstance
         old_token = agent.access_token.token
 
         post '/api/v1/profile/reset_access_token',
