@@ -37,7 +37,7 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   def initiate
     # Before the dial: Meta's connect webhook is dropped if it beats our Call row, and the opt-in
     # template on NoCallPermission needs a thread to land in.
-    @conversation ||= find_or_create_conversation!
+    @conversation ||= conversation_builder.perform!
     @call = create_outbound_call
     # Link the call to its message in one transaction so the message.created
     # broadcast (an after_create_commit hook) fires only once call.message_id is
@@ -80,31 +80,13 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
     @contact = Current.account.contacts.find(params[:contact_id])
-    @conversation = latest_conversation
+    @conversation = conversation_builder.existing_conversation
     # Authorize the thread the call will land in — after the dial is too late to refuse a ringing call.
-    authorize(@conversation || new_conversation, :show?)
+    authorize(@conversation || conversation_builder.new_conversation, :show?)
   end
 
-  # Scoped by contact, not contact_inbox: a contact can hold several contact_inbox rows in one inbox.
-  def latest_conversation
-    @inbox.conversations.where(contact_id: @contact.id).order(last_activity_at: :desc).first
-  end
-
-  # Authorized unsaved pre-dial so a custom role that can't open the thread never places an unanswerable call.
-  def new_conversation
-    Current.account.conversations.new(
-      inbox: @inbox, contact: @contact, assignee_id: Current.user.id, status: :open
-    )
-  end
-
-  # Mirrors Voice::OutboundCallBuilder — the dial only needs a phone number, so a contact who never messaged in is callable.
-  # Locked on the contact_inbox so two agents calling the same fresh contact can't open two threads.
-  def find_or_create_conversation!
-    contact_inbox = ContactInboxBuilder.new(contact: @contact, inbox: @inbox).perform
-
-    contact_inbox.with_lock do
-      latest_conversation || new_conversation.tap { |conversation| conversation.update!(contact_inbox: contact_inbox) }
-    end
+  def conversation_builder
+    @conversation_builder ||= Whatsapp::CallConversationBuilder.new(inbox: @inbox, contact: @contact, user: Current.user)
   end
 
   def ensure_calling_enabled
