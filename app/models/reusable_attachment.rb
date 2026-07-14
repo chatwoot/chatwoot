@@ -42,7 +42,7 @@ class ReusableAttachment < ApplicationRecord
   }
 
   before_save :set_file_metadata
-  before_destroy -> { file.detach if file.attached? }
+  before_destroy :cleanup_file
 
   def file_url
     Rails.application.routes.url_helpers.url_for(file) if file.attached?
@@ -85,6 +85,16 @@ class ReusableAttachment < ApplicationRecord
   end
 
   private
+
+  def cleanup_file
+    return unless file.attached?
+
+    blob = file.blob
+    other_refs = ActiveStorage::Attachment.where(blob_id: blob.id)
+                                          .where.not(record_type: 'ReusableAttachment', record_id: id)
+                                          .exists?
+    other_refs ? file.detach : file.purge
+  end
 
   def set_file_metadata
     return unless file.attached?
