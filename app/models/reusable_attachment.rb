@@ -91,7 +91,7 @@ class ReusableAttachment < ApplicationRecord
 
     blob = file.blob
     other_refs = ActiveStorage::Attachment.where(blob_id: blob.id)
-                                          .where.not(record_type: 'ReusableAttachment', record_id: id)
+                                          .where.not('record_type = ? AND record_id = ?', 'ReusableAttachment', id)
                                           .exists?
     other_refs ? file.detach : file.purge
   end
