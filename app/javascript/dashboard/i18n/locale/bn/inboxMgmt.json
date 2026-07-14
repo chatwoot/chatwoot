@@ -308,6 +308,7 @@
           "AUTH_PROCESSING": "Meta-র সাথে প্রমাণীকরণ চলছে",
           "WAITING_FOR_BUSINESS_INFO": "অনুগ্রহ করে Meta উইন্ডোতে ব্যবসার সেটআপ সম্পন্ন করুন...",
           "PROCESSING": "আপনার WhatsApp Business Account সেটআপ করা হচ্ছে",
+          "ENABLING_CALLING": "Enabling WhatsApp Calling on your number…",
           "LOADING_SDK": "Facebook SDK লোড হচ্ছে...",
           "CANCELLED": "WhatsApp সাইনআপ বাতিল করা হয়েছে",
           "SUCCESS_TITLE": "WhatsApp Business Account সংযুক্ত হয়েছে!",
@@ -317,7 +318,8 @@
           "AUTH_NOT_COMPLETED": "প্রমাণীকরণ সম্পন্ন হয়নি। অনুগ্রহ করে প্রক্রিয়াটি পুনরায় শুরু করুন।.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account সফলভাবে কনফিগার করা হয়েছে",
           "MANUAL_FALLBACK": "আপনার নম্বর যদি ইতিমধ্যে WhatsApp Business Platform (API)-এর সাথে সংযুক্ত থাকে, অথবা আপনি যদি নিজস্ব নম্বর অনবোর্ড করতে টেক প্রোভাইডার হন, তাহলে অনুগ্রহ করে {link} ফ্লো ব্যবহার করুন",
-          "MANUAL_LINK_TEXT": "ম্যানুয়াল সেটআপ ফ্লো"
+          "MANUAL_LINK_TEXT": "ম্যানুয়াল সেটআপ ফ্লো",
+          "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
         },
         "API": {
           "ERROR_MESSAGE": "আমরা WhatsApp চ্যানেল সংরক্ষণ করতে পারিনি"
@@ -464,6 +466,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "WhatsApp-এ আপনার গ্রাহকদের সহায়তা দিন"
+          },
+          "WHATSAPP_CALL": {
+            "TITLE": "WhatsApp Call",
+            "DESCRIPTION": "Take voice calls on your WhatsApp number"
           },
           "EMAIL": {
             "TITLE": "ইমেইল",
@@ -637,7 +643,8 @@
       "BOT_CONFIGURATION": "বট কনফিগারেশন",
       "ACCOUNT_HEALTH": "অ্যাকাউন্টের স্বাস্থ্য",
       "CSAT": "CSAT",
-      "VOICE": "ভয়েস"
+      "VOICE": "ভয়েস",
+      "CALLS": "Calls"
     },
     "VOICE_CONFIGURATION": {
       "ENABLE_VOICE": {
@@ -646,6 +653,26 @@
       },
       "CREDENTIALS": {
         "DESCRIPTION": "Voice calling requires Twilio API Key credentials. These are used to generate tokens for agent voice connections."
+      }
+    },
+    "WHATSAPP_CALLING": {
+      "ENABLE": {
+        "LABEL": "Enable WhatsApp Calling",
+        "DESCRIPTION": "Allow agents to receive and place WhatsApp Cloud calls on this inbox. Customers can call this business number directly from WhatsApp."
+      },
+      "ENABLE_FAILED": "Voice calling couldn't be turned on for this number — it isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then try again.",
+      "PHONE_NUMBER": {
+        "LABEL": "Business phone number",
+        "HELP_TEXT": "WhatsApp number that customers will call."
+      },
+      "HOW_IT_WORKS": {
+        "LABEL": "How it works",
+        "DESCRIPTION": "Calls are placed peer-to-peer between the agent's browser and Meta — no extra credentials are required. Make sure the agent's browser has microphone permission for this site."
+      },
+      "PERMISSION_REQUEST_BODY": {
+        "LABEL": "Call permission request message",
+        "HELP_TEXT": "Shown to the contact when they haven't yet consented to receive calls. Leave blank to use the default.",
+        "PLACEHOLDER": "We would like to call you regarding your conversation."
       }
     },
     "CHANNEL_PREFERENCES": "চ্যানেল পছন্দসমূহ",
@@ -800,6 +827,10 @@
       "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "আপনার উপলব্ধ টেমপ্লেট আপডেট করতে WhatsApp থেকে মেসেজ টেমপ্লেটগুলো ম্যানুয়ালি সিঙ্ক করুন।.",
       "WHATSAPP_TEMPLATES_SYNC_BUTTON": "টেমপ্লেট সিঙ্ক করুন",
       "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "টেমপ্লেট সিঙ্ক সফলভাবে শুরু হয়েছে। আপডেট হতে কয়েক মিনিট সময় লাগতে পারে।.",
+      "WHATSAPP_CALLING_ENABLED": {
+        "LABEL": "Enable voice calling",
+        "DESCRIPTION": "Allow agents to start and receive WhatsApp voice calls on this inbox. Available only on embedded-signup WhatsApp Cloud channels with calling permission granted by Meta."
+      },
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "প্রি-চ্যাট ফর্ম সেটিংস আপডেট করুন"
     },
     "HELP_CENTER": {

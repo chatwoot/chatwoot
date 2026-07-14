@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "联系人已创建",
             "CONTACT_UPDATED": "联系人已更新",
             "CONVERSATION_TYPING_ON": "对话输入开启",
-            "CONVERSATION_TYPING_OFF": "对话输入关闭"
+            "CONVERSATION_TYPING_OFF": "对话输入关闭",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {

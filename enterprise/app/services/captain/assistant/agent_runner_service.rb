@@ -29,7 +29,7 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     message_to_process, context = run_payload(message_history)
-    result = runner.run(message_to_process, context: context, max_turns: 100)
+    result = runner.run(message_to_process, context: context, max_turns: 10)
 
     process_agent_result(result)
   rescue StandardError => e
@@ -115,7 +115,8 @@ class Captain::Assistant::AgentRunnerService
     state = {
       account_id: @assistant.account_id,
       assistant_id: @assistant.id,
-      assistant_config: @assistant.config
+      assistant_config: @assistant.config,
+      timezone: @conversation&.inbox&.timezone.presence || 'UTC'
     }
     state[:source] = @source if @source.present?
 
@@ -155,7 +156,7 @@ class Captain::Assistant::AgentRunnerService
       span_attributes: {
         ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
       },
-      attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
+      attribute_provider: Captain::Assistant::InstrumentationAttributeProvider.new(self)
     )
     register_trace_input_callback(runner)
   end
@@ -168,7 +169,6 @@ class Captain::Assistant::AgentRunnerService
     {
       ATTR_LANGFUSE_USER_ID => state[:account_id],
       format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
-      format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
       format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id],
       format(ATTR_LANGFUSE_METADATA, 'channel_type') => state[:channel_type],
       format(ATTR_LANGFUSE_METADATA, 'source') => state[:source],

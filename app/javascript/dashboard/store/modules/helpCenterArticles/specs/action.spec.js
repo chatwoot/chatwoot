@@ -314,6 +314,25 @@ describe('#actions', () => {
       );
     });
 
+    it('adopts the backend re-spaced positions when the response returns them', async () => {
+      const serverPositions = { 1: 10, 2: 30, 3: 20 };
+      axios.post.mockResolvedValue({ data: { positions: serverPositions } });
+
+      await actions.reorder(
+        { commit, state },
+        {
+          portalSlug: 'test-portal',
+          categorySlug: 'test-category',
+          reorderedGroup: { 3: 25 },
+        }
+      );
+
+      expect(commit).toHaveBeenCalledWith(
+        types.default.SET_ARTICLE_POSITIONS,
+        serverPositions
+      );
+    });
+
     it('rolls back positions and throws when API call fails', async () => {
       axios.post.mockRejectedValue({ message: 'Network error' });
       const reorderedGroup = { 1: 1, 2: 2 };

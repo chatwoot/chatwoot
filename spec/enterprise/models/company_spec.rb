@@ -46,4 +46,15 @@ RSpec.describe Company, type: :model do
       expect(company.reload.last_activity_at).to be_within(1.second).of(original_activity_at)
     end
   end
+
+  describe 'contact company name sync' do
+    let(:account) { create(:account) }
+    let(:company) { create(:company, account: account, name: 'Acme') }
+
+    it 'enqueues contact company name sync when the company name changes' do
+      expect do
+        company.update!(name: 'Acme Labs')
+      end.to have_enqueued_job(Companies::SyncContactNamesJob).with(company_id: company.id)
+    end
+  end
 end

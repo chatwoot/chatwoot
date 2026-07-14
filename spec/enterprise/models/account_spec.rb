@@ -11,6 +11,27 @@ RSpec.describe Account, type: :model do
     it { is_expected.to have_many(:custom_roles).dependent(:destroy_async) }
   end
 
+  describe '#selected_feature_flags=' do
+    it 'keeps advanced assignment enabled when assignment v2 is selected for a business account' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+
+      account.selected_feature_flags = [:feature_assignment_v2]
+
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+    end
+
+    it 'disables advanced assignment when assignment v2 is not selected' do
+      account = build(:account, custom_attributes: { 'plan_name' => 'Business' })
+      account.enable_features(:assignment_v2, :advanced_assignment)
+
+      account.selected_feature_flags = []
+
+      expect(account).not_to be_feature_assignment_v2
+      expect(account).not_to be_feature_advanced_assignment
+    end
+  end
+
   describe 'sla_policies' do
     let!(:account) { create(:account) }
     let!(:sla_policy) { create(:sla_policy, account: account) }
@@ -219,6 +240,37 @@ RSpec.describe Account, type: :model do
 
         expect(account.subscribed_features).to be_nil
       end
+    end
+  end
+
+  describe 'default features' do
+    before do
+      InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(
+        value: Featurable::FEATURE_LIST,
+        locked: true
+      )
+    end
+
+    it 'enables Captain V2 for new self-hosted enterprise accounts' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(true)
+
+      account = create(:account)
+
+      expect(account).to be_feature_enabled('captain_integration')
+      expect(account).to be_feature_enabled('captain_integration_v2')
+      expect(account.captain_preferences[:models]['assistant']).to eq('gpt-5.2')
+      expect(account.captain_models).to be_nil
+    end
+
+    it 'marks new cloud accounts as eligible for the Captain V2 paid-plan default' do
+      allow(ChatwootApp).to receive(:self_hosted_enterprise?).and_return(false)
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+
+      account = create(:account)
+
+      expect(account.internal_attributes[Enterprise::Account::CAPTAIN_V2_DEFAULT_ELIGIBLE]).to be true
+      expect(account).not_to be_feature_enabled('captain_integration')
+      expect(account).not_to be_feature_enabled('captain_integration_v2')
     end
   end
 

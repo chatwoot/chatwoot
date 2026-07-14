@@ -47,7 +47,7 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   end
 
   def set_applied_slas
-    initial_query = Current.account.applied_slas.includes(:conversation)
+    initial_query = Current.account.applied_slas.with_sla_applicable_conversation.includes(:conversation)
     @applied_slas = apply_filters(initial_query)
   end
 

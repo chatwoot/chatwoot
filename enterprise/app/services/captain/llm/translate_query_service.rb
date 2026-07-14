@@ -1,6 +1,4 @@
 class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
-  MODEL = 'gpt-4.1-nano'.freeze
-
   pattr_initialize [:account!]
 
   def translate(query, target_language:)
@@ -11,7 +9,7 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
       { role: 'user', content: query }
     ]
 
-    response = make_api_call(model: MODEL, messages: messages)
+    response = make_api_call(feature: 'help_center_query_translation', messages: messages)
     return query if response[:error]
 
     response[:message].strip
@@ -30,6 +28,10 @@ class Captain::Llm::TranslateQueryService < Captain::BaseTaskService
   # It should always use the installation key.
   def llm_credential
     @llm_credential ||= system_llm_credential
+  end
+
+  def counts_toward_usage?
+    false
   end
 
   def query_in_target_language?(query)
