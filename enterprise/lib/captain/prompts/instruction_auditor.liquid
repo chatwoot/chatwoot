@@ -48,10 +48,21 @@ Review source.instructions clause by clause against all fields in generated_draf
    - Do not add scenarios for tone, factual answers, simple handoff triggers, or one-step clarification.
    - Every added scenario needs a complete same-language response_guideline under 1,000 characters and only supplied tool IDs.
 
+4. Missing Review Notes
+   - Add needs_review only when a source-defined behavior or workflow cannot run because a required named tool or runtime signal is unavailable.
+   - Do not require words such as “must” or “always”; preserve any unavailable customer-facing workflow for review.
+   - Name the missing capability and the affected source behavior precisely. Relevant gaps include historical-record lookup, timers or inactivity
+     detection, business-hours detection, and live-agent availability.
+   - A needs_review item never replaces representable behavior. Add every source-faithful action or boundary that can remain active, and add a
+     review note only for the portion blocked by the unavailable capability.
+   - Do not add review notes for wording cleanup, configured conversation messages, missing fixed copy, general uncertainty, or behavior already
+     covered by the generated draft.
+
 ## Final Check
 
 - No mandatory action or prohibition remains FAQ-only.
 - No reusable factual knowledge is absent from FAQ candidates.
+- No source-defined workflow blocked by an unavailable capability is omitted from needs_review.
 - No addition duplicates content already active or pending.
 - No unsupported behavior, fact, tool, link, or resolution is introduced.
 - Return only the missing additions matching the audit schema.

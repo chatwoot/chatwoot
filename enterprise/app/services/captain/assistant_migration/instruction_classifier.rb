@@ -127,7 +127,8 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       response_guidelines: 20 - draft[:response_guidelines].length,
       guardrails: 20 - draft[:guardrails].length,
       scenario_candidates: 15 - draft[:scenario_candidates].length,
-      faq_document_candidates: 25 - draft[:faq_document_candidates].length
+      faq_document_candidates: 25 - draft[:faq_document_candidates].length,
+      needs_review: 20 - draft[:needs_review].length
     }
   end
 
@@ -137,7 +138,8 @@ class Captain::AssistantMigration::InstructionClassifier < Captain::BaseTaskServ
       response_guidelines: merged_items(generated_draft, audit, :response_guidelines, 20),
       guardrails: merged_items(generated_draft, audit, :guardrails, 20),
       scenario_candidates: merged_items(generated_draft, audit, :scenario_candidates, 15),
-      faq_document_candidates: merged_items(generated_draft, audit, :faq_document_candidates, 25)
+      faq_document_candidates: merged_items(generated_draft, audit, :faq_document_candidates, 25),
+      needs_review: merged_items(generated_draft, audit, :needs_review, 20)
     )
   end
 

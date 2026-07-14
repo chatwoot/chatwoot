@@ -1,7 +1,8 @@
 class Captain::AssistantMigration::InstructionAuditorSchema < RubyLLM::Schema
   STRING_ARRAYS = {
     response_guidelines: ['Missing active behavior to append to the generated response guidelines.', 10],
-    guardrails: ['Missing active boundaries or prohibitions to append to the generated guardrails.', 10]
+    guardrails: ['Missing active boundaries or prohibitions to append to the generated guardrails.', 10],
+    needs_review: ['Missing source behavior blocked by an unavailable tool or runtime capability.', 10]
   }.freeze
 
   def self.for(available_additions)
