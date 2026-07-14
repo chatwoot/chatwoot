@@ -1,5 +1,4 @@
 class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
-  before_action :ensure_api_and_webhooks_enabled
   before_action :check_authorization
   before_action :fetch_webhook, only: [:update, :destroy]
 
@@ -22,10 +21,6 @@ class Api::V1::Accounts::WebhooksController < Api::V1::Accounts::BaseController
   end
 
   private
-
-  def ensure_api_and_webhooks_enabled
-    render_unauthorized('You are not authorized to do this action') unless Current.account.feature_enabled?('api_and_webhooks')
-  end
 
   def webhook_params
     params.require(:webhook).permit(:inbox_id, :name, :url, subscriptions: [])

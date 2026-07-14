@@ -1,7 +1,7 @@
 require 'rails_helper'
 describe WebhookListener do
   let(:listener) { described_class.instance }
-  let!(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
+  let!(:account) { create(:account) }
   let(:report_identity) { Reports::UpdateAccountIdentity.new(account, Time.zone.now) }
   let!(:user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account) }
@@ -44,8 +44,9 @@ describe WebhookListener do
       end
     end
 
-    context 'when api_and_webhooks feature is disabled' do
+    context 'when api_and_webhooks feature is disabled on Chatwoot Cloud' do
       before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         account.disable_features!('api_and_webhooks')
       end
 
@@ -65,6 +66,21 @@ describe WebhookListener do
           :api_inbox_webhook, secret: channel_api.secret, delivery_id: instance_of(String)
         ).once
         listener.message_created(api_event)
+      end
+    end
+
+    context 'when api_and_webhooks feature is disabled on self-hosted' do
+      it 'still triggers account webhooks' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        account.disable_features!('api_and_webhooks')
+        webhook = create(:webhook, inbox: inbox, account: account)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, message.webhook_data.merge(event: 'message_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+
+        listener.message_created(message_created_event)
       end
     end
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Webhooks API', type: :request do
-  let(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
+  let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:webhook) { create(:webhook, account: account, inbox: inbox, url: 'https://hello.com', name: 'My Webhook') }
   let(:administrator) { create(:user, account: account, role: :administrator) }
@@ -28,12 +28,13 @@ RSpec.describe 'Webhooks API', type: :request do
     end
 
     context 'when api_and_webhooks feature is disabled' do
-      it 'returns unauthorized even for an admin' do
+      it 'allows session authenticated admins to manage webhooks' do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         account.disable_features!('api_and_webhooks')
         get "/api/v1/accounts/#{account.id}/webhooks",
             headers: administrator.create_new_auth_token,
             as: :json
-        expect(response).to have_http_status(:unauthorized)
+        expect(response).to have_http_status(:success)
       end
     end
   end

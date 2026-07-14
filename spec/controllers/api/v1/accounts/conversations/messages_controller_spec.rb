@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Conversation Messages API', type: :request do
-  let!(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
+  let!(:account) { create(:account) }
 
   describe 'POST /api/v1/accounts/{account.id}/conversations/<id>/messages' do
     let!(:inbox) { create(:inbox, account: account) }

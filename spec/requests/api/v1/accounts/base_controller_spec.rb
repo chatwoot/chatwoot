@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
-  let(:account) { create(:account).tap { |account| account.enable_features!('api_and_webhooks') } }
+  let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:agent) { create(:user, account: account, role: :agent) }
