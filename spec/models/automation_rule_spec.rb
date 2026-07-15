@@ -175,18 +175,26 @@ RSpec.describe AutomationRule do
       expect(rule.errors[:execution_delay]).to include('cannot be used with attribute_changed conditions.')
     end
 
-    it 'rejects a delayed conversation-level rule with a non-status condition' do
+    it 'rejects a delayed conversation-level rule with a mutable non-status condition' do
       rule.event_name = 'conversation_updated'
       rule.execution_delay = 60
       rule.conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'equal_to', 'values' => ['urgent'], 'query_operator' => nil }]
       expect(rule).not_to be_valid
-      expect(rule.errors[:execution_delay]).to include('only supports status conditions for conversation-level events.')
+      expect(rule.errors[:execution_delay]).to include('only supports status and inbox conditions for conversation-level events.')
     end
 
     it 'allows a delayed conversation-level rule with only status conditions' do
       rule.event_name = 'conversation_updated'
       rule.execution_delay = 60
       rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
+    it 'allows a delayed conversation-level rule scoped by status and inbox (immutable)' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => 'AND' },
+                         { 'attribute_key' => 'inbox_id', 'filter_operator' => 'equal_to', 'values' => [1], 'query_operator' => nil }]
       expect(rule).to be_valid
     end
 
