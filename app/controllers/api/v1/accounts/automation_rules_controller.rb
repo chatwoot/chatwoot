@@ -49,6 +49,9 @@ class Api::V1::Accounts::AutomationRulesController < Api::V1::Accounts::BaseCont
   def clone
     automation_rule = Current.account.automation_rules.find_by(id: params[:automation_rule_id])
     new_rule = automation_rule.dup
+    # dup copies execution_delay; drop it when the feature is off so clone can't create new
+    # delayed rules that create/update would reject.
+    new_rule.execution_delay = nil unless delayed_automations_enabled?
     new_rule.save!
     @automation_rule = new_rule
   end
