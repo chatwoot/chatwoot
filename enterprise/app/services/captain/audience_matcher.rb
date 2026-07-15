@@ -1,20 +1,14 @@
-# Evaluates a Captain assistant's audience tree in-memory against the conversation's contact
-# (plus the two conversation language fields). Zero DB queries on the hot path.
-#
-# A node is either:
-#   - a GROUP: { "operator" => "and"|"or", "conditions" => [node, ...] }
-#   - a LEAF:  { "attribute_key" => "...", "filter_operator" => "...", "values" => [...] }
-#
-# Operator semantics mirror Chatwoot's FilterService (see app/services/filter_service.rb and
-# app/services/contacts/filter_service.rb) so the audience agrees with what the same conditions
-# would match in the contact segment UI.
+# Evaluates an assistant's audience condition tree in-memory against the conversation's contact.
+# A node is either a group ({ operator:, conditions: [...] }) or a leaf
+# ({ attribute_key:, filter_operator:, values: [...] }). Operator semantics mirror
+# Contacts::FilterService so audiences match the same contacts as segments.
 class Captain::AudienceMatcher
   CONTACT_STANDARD = %w[name email phone_number identifier blocked created_at last_activity_at].freeze
   CONTACT_ADDITIONAL = %w[country_code city company_name].freeze
   CONVERSATION_ADDITIONAL = %w[browser_language conversation_language].freeze
   OPERATORS = %w[equal_to not_equal_to contains does_not_contain is_present is_not_present starts_with
                  is_greater_than is_less_than days_before].freeze
-  # One level of nesting: root group (depth 1) -> sub-group (depth 2) -> leaves (depth 3).
+  # Root group -> sub-group -> leaves.
   MAX_DEPTH = 3
 
   def initialize(audience)
@@ -59,8 +53,6 @@ class Captain::AudienceMatcher
     end
   end
 
-  # Where each attribute lives: contact columns, contact additional/custom attributes,
-  # or the conversation-scoped fields.
   def attribute_value(key)
     case key
     when *CONTACT_STANDARD        then @contact[key]
@@ -76,9 +68,8 @@ class Captain::AudienceMatcher
     @conversation.contact_inbox&.hmac_verified || false
   end
 
-  # equal_to / not_equal_to have attribute-specific semantics: labels is a has-tag check,
-  # booleans cast the expected string ("true" => true), phone numbers ignore the "+" prefix,
-  # and text compares case-insensitively.
+  # labels is a has-tag check, booleans cast the expected string, phone numbers
+  # ignore the "+" prefix, and text compares case-insensitively.
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
     return ActiveModel::Type::Boolean.new.cast(expected) == actual if [true, false].include?(actual)
@@ -93,8 +84,6 @@ class Captain::AudienceMatcher
     value.is_a?(String) ? value.downcase : value
   end
 
-  # The remaining operators need no attribute-specific handling: substring checks work on the
-  # downcased text; greater/less compare numbers, or timestamps for date attributes.
   def matches_text_or_range?(operator, actual, expected)
     case operator
     when 'contains'         then actual.to_s.downcase.include?(expected.to_s.downcase)
@@ -107,7 +96,7 @@ class Captain::AudienceMatcher
     end
   end
 
-  # Returns -1/0/1 like <=>, or nil when either side is blank or unparseable (never matches).
+  # -1/0/1 like <=>, or nil when blank or unparseable (never matches).
   def compare(actual, expected)
     return nil if actual.blank?
 
@@ -120,7 +109,6 @@ class Captain::AudienceMatcher
     nil
   end
 
-  # days_before: the value is a date more than N days in the past.
   def older_than_days?(actual, days)
     date = to_date(actual)
     date.present? && date < Time.zone.today - days.to_i.days
