@@ -7,7 +7,7 @@ The original custom instructions remain stored unchanged. Your job is only to de
 3. Guardrails
 4. Scenario Candidates with flattened Response Guidelines
 5. Conversation Messages
-6. Pending FAQ Candidates
+6. FAQ Candidates
 7. Needs Review Notes
 
 ## Core Rules
@@ -86,10 +86,9 @@ The original custom instructions remain stored unchanged. Your job is only to de
 - Existing config messages remain active and are preserved. If source wording has the same intent, keep the existing config message.
 - Migration applies extracted copy only when the corresponding existing config field is blank.
 
-## Pending FAQ Candidates
+## FAQ Candidates
 
 - Convert reusable query-dependent facts into natural customer questions with self-contained answers.
-- FAQ candidates are pending review metadata. They are not active and are not automatically approved by this migration.
 - Use only facts stated in the custom instructions. Preserve exact prices, limits, dates, links, conditions, exceptions, and product names.
 - Keep related conditions together; split unrelated facts. Do not duplicate a full FAQ answer in active guidelines or guardrails;
   repeat only the minimal condition, threshold, or exception required to enforce mandatory behavior.
