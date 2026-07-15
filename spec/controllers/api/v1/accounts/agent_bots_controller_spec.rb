@@ -56,13 +56,17 @@ RSpec.describe 'Agent Bot API', type: :request do
     end
 
     context 'when it is an authenticated agent' do
-      it 'does not expose account bot credentials' do
+      it 'returns agent bot metadata without credentials' do
         get "/api/v1/accounts/#{account.id}/agent_bots",
             headers: agent.create_new_auth_token,
             as: :json
 
-        expect(response).to have_http_status(:unauthorized)
-        expect(response.body).not_to include(agent_bot.access_token.token)
+        account_bot_response = response.parsed_body.find { |bot| bot['id'] == agent_bot.id }
+
+        expect(response).to have_http_status(:success)
+        expect(account_bot_response['name']).to eq(agent_bot.name)
+        expect(account_bot_response).not_to include('access_token')
+        expect(account_bot_response).not_to include('secret')
       end
     end
   end
@@ -104,13 +108,15 @@ RSpec.describe 'Agent Bot API', type: :request do
     end
 
     context 'when it is an authenticated agent' do
-      it 'does not expose account bot credentials' do
+      it 'returns agent bot metadata without credentials' do
         get "/api/v1/accounts/#{account.id}/agent_bots/#{agent_bot.id}",
             headers: agent.create_new_auth_token,
             as: :json
 
-        expect(response).to have_http_status(:unauthorized)
-        expect(response.body).not_to include(agent_bot.access_token.token)
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['name']).to eq(agent_bot.name)
+        expect(response.parsed_body).not_to include('access_token')
+        expect(response.parsed_body).not_to include('secret')
       end
     end
   end
