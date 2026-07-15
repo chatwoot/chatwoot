@@ -45,6 +45,10 @@ class AutomationRulePendingExecution < ApplicationRecord
   # Non-terminal rows still bound to fire (a stale processing row is reclaimed by the sweep).
   scope :armed, -> { where(status: [statuses[:pending], statuses[:processing]]) }
 
+  # Excludes rows whose account paused delayed automations, so one disabled account's backlog
+  # can't fill the sweep limit and starve enabled accounts (paused rows resume on re-enable).
+  scope :for_enabled_accounts, -> { joins(:account).merge(Account.feature_delayed_automations) }
+
   def self.schedule(rule:, conversation:, message: nil)
     key = arm_episode_key_for(conversation, message)
     create!(
