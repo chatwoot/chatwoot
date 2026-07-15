@@ -12,7 +12,8 @@ watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", 
 [deploy]
 # Must match Railway dashboard startCommand style (shell, includes rails.sh once).
 startCommand = "docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
-preDeployCommand = ["POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"]
+# preDeploy temporarily disabled while diagnosing empty deploy failures —
+# run migrations manually if needed: bundle exec rails db:chatwoot_prepare
 healthcheckPath = "/api"
 healthcheckTimeout = 600
 restartPolicyType = "ON_FAILURE"
