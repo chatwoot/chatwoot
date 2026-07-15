@@ -37,12 +37,18 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(conversation.reload.label_list).to be_empty
   end
 
-  it 'skips with flag_disabled when the account flag was turned off' do
+  it 'pauses (keeps pending) while the account flag is off, then fires when re-enabled' do
     account.disable_features!('delayed_automations')
     job.perform(pending_execution.reload)
 
-    expect(pending_execution.reload).to be_skipped
-    expect(pending_execution.skip_reason).to eq('flag_disabled')
+    expect(pending_execution.reload).to be_pending
+    expect(conversation.reload.label_list).to be_empty
+
+    account.enable_features!('delayed_automations')
+    described_class.new.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_executed
+    expect(conversation.reload.label_list).to include('stale')
   end
 
   it 'skips with episode_moved when the conversation left the armed status' do
