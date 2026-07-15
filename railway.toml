@@ -1,20 +1,11 @@
-# Chatwoot *web* service config (used when Railway source = this GitHub repo).
-# Production web is currently pinned to ghcr.io/railwayapp-templates/chatwoot:Community
-# until fork deploys boot reliably. Worker uses railway.worker.toml.
-#
-# Dockerfile must NOT set ENTRYPOINT rails.sh when Railway startCommand already
-# invokes docker/entrypoints/rails.sh (double-wrap = empty "Stopping Container").
+# Build-only config for optional fork builds.
+# Production Chatwoot *web* is pinned to:
+#   ghcr.io/railwayapp-templates/chatwoot:Community
+# Do NOT put startCommand here while web runs the Community image —
+# a fork-style startCommand breaks Community boots (empty deploy logs).
+# Worker (fork) uses railway.worker.toml.
 
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
-watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
-
-[deploy]
-startCommand = "docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
-preDeployCommand = ["POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"]
-healthcheckPath = "/api"
-healthcheckTimeout = 300
-restartPolicyType = "ON_FAILURE"
-restartPolicyMaxRetries = 10
-numReplicas = 1
+watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
