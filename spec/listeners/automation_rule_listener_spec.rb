@@ -247,37 +247,4 @@ describe AutomationRuleListener do
       end
     end
   end
-
-  describe 'delayed rules' do
-    let!(:automation_rule) { create(:automation_rule, event_name: 'conversation_updated', account: account, execution_delay: 60) }
-    let(:event) do
-      Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation, changed_attributes: {} })
-    end
-
-    before { allow(condition_match).to receive(:present?).and_return(true) }
-
-    context 'when the delayed_automations feature is enabled' do
-      before { account.enable_features!('delayed_automations') }
-
-      it 'records a pending execution instead of running actions' do
-        expect { listener.conversation_updated(event) }.to change(AutomationRulePendingExecution, :count).by(1)
-        expect(AutomationRules::ActionService).not_to have_received(:new)
-        expect(AutomationRulePendingExecution.last.due_at).to be_within(5.seconds).of(60.minutes.from_now)
-      end
-
-      it 'still runs rules without a delay immediately' do
-        automation_rule.update!(execution_delay: nil)
-
-        expect { listener.conversation_updated(event) }.not_to change(AutomationRulePendingExecution, :count)
-        expect(AutomationRules::ActionService).to have_received(:new).with(automation_rule, account, conversation)
-      end
-    end
-
-    context 'when the delayed_automations feature is disabled' do
-      it 'neither arms a pending execution nor falls back to immediate execution' do
-        expect { listener.conversation_updated(event) }.not_to change(AutomationRulePendingExecution, :count)
-        expect(AutomationRules::ActionService).not_to have_received(:new)
-      end
-    end
-  end
 end

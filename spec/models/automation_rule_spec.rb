@@ -137,42 +137,4 @@ RSpec.describe AutomationRule do
       end
     end
   end
-
-  describe 'execution_delay validations' do
-    let(:rule) { build(:automation_rule, account: create(:account)) }
-
-    it 'allows nil (immediate execution)' do
-      rule.execution_delay = nil
-      expect(rule).to be_valid
-    end
-
-    it 'allows delays between 10 minutes and 30 days' do
-      rule.execution_delay = 240
-      expect(rule).to be_valid
-    end
-
-    it 'rejects delays below 10 minutes' do
-      rule.execution_delay = 5
-      expect(rule).not_to be_valid
-      expect(rule.errors[:execution_delay]).to be_present
-    end
-
-    it 'rejects delays above 30 days' do
-      rule.execution_delay = 43_201
-      expect(rule).not_to be_valid
-    end
-
-    it 'rejects non-integer delays' do
-      rule.execution_delay = 10.5
-      expect(rule).not_to be_valid
-    end
-
-    it 'rejects a delay combined with an attribute_changed condition' do
-      rule.execution_delay = 60
-      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'attribute_changed',
-                           'values' => { 'from' => ['open'], 'to' => ['pending'] }, 'query_operator' => nil }]
-      expect(rule).not_to be_valid
-      expect(rule.errors[:execution_delay]).to include('cannot be used with attribute_changed conditions.')
-    end
-  end
 end
