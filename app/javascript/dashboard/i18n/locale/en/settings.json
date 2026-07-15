@@ -340,6 +340,7 @@
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "Profile Settings",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
@@ -410,6 +411,104 @@
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "TABS": {
+      "IMPORT": "Import",
+      "EXPORT": "Export"
+    },
+    "TYPES": {
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July Intercom migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "Cancel",
+      "IMPORT": "Import"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "Coming soon"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "Import",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "IMPORTED": "Imported",
+      "CREATED": "Created",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "Created",
+      "DURATION": "Duration",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "All",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Message"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "Refresh",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "Failed",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Intercom import has started.",
+      "IMPORT_ABANDONED": "Intercom import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the Intercom import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
