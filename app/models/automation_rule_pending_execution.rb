@@ -70,8 +70,8 @@ class AutomationRulePendingExecution < ApplicationRecord
   end
 
   # Microsecond integer, not a float: epoch seconds carry ~16 significant digits, past float64's
-  # precision, and this key compares an in-memory created_at against the DB-stored waiting_since,
-  # so a float would round differently on either side. Sub-second distinguishes rapid re-waits.
+  # precision, so an in-memory timestamp (arm time) and its DB-reloaded value (fire time) would
+  # round to different floats. strftime is exact on both. Sub-second distinguishes rapid episodes.
   def self.microsecond_stamp(time)
     time&.strftime('%s%6N') || '0'
   end
@@ -81,7 +81,8 @@ class AutomationRulePendingExecution < ApplicationRecord
   def self.episode_key_for(conversation, message)
     if message.nil?
       # Sub-second precision so a resolve→reopen inside one second still ends the episode.
-      "status:#{(conversation.status_changed_at.presence || conversation.created_at).to_f}"
+      # Integer microseconds (not a float) so an in-memory arm and a DB-reloaded fire agree.
+      "status:#{microsecond_stamp(conversation.status_changed_at.presence || conversation.created_at)}"
     elsif message.incoming?
       # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. Strict
       # here: at fire time a nil waiting_since means the agent replied (episode ended).
