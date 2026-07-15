@@ -7,11 +7,11 @@
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "docker/Dockerfile"
-watchPatterns = ["docker/**", "app/**", "config/**", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
+watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
 
 [deploy]
-# Args to ENTRYPOINT rails.sh (shell form so && works)
-startCommand = "sh -c \"bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV\""
+# Must match Railway dashboard startCommand style (shell, includes rails.sh once).
+startCommand = "docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
 preDeployCommand = ["POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"]
 healthcheckPath = "/api"
 healthcheckTimeout = 600
