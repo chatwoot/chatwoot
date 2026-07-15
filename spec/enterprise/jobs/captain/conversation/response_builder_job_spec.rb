@@ -59,7 +59,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       it 'does not create a captain session' do
         expect do
           described_class.perform_now(conversation, assistant)
-        end.not_to change(Captain::Session, :count)
+        end.not_to change(Captain::AgentSession, :count)
       end
 
       it 'does not run the action classifier when the classifier feature is disabled' do
@@ -469,7 +469,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
             { role: :user, content: 'Hello' },
             { role: :assistant, content: 'Hey, welcome to Captain V2', agent_name: 'Assistant' }
           ],
-          state: { faq_ids: [7, 9], document_ids: [3] }
+          state: { cw_metadata: { faq_ids: [7, 9], document_ids: [3] } }
         }
       end
       let(:usage) do
@@ -490,15 +490,19 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       it 'creates a session for a delivered response' do
         described_class.perform_now(conversation, assistant)
 
-        session = Captain::Session.last
+        session = Captain::AgentSession.last
         expect(session).to have_attributes(
           account_id: account.id,
           assistant_id: assistant.id,
           subject_id: conversation.id,
+          subject_type: 'Conversation',
           result_id: conversation.messages.outgoing.last.id,
+          result_type: 'Message',
+          llm_model: 'openai-gpt-5.2',
           credits_consumed: 1.0,
           faq_ids: [7, 9],
           document_ids: [3],
+          scenario_ids: [],
           user_id: nil
         )
         expect(session).to be_session_assistant
@@ -514,7 +518,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         described_class.perform_now(conversation, assistant)
 
-        session = Captain::Session.last
+        session = Captain::AgentSession.last
         expect(session.credits_consumed).to eq(0.0)
         expect(session.result_id).to eq(conversation.messages.outgoing.where(private: false).last.id)
         expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
@@ -528,13 +532,13 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         described_class.perform_now(conversation, assistant)
 
-        session = Captain::Session.last
+        session = Captain::AgentSession.last
         expect(session.credits_consumed).to eq(0.0)
         expect(session.result_id).to eq(conversation.messages.outgoing.where(private: false).last.id)
       end
 
       it 'still delivers the reply when session capture fails' do
-        allow(Captain::Session).to receive(:create!).and_raise(StandardError, 'capture failed')
+        allow(Captain::AgentSession).to receive(:create!).and_raise(StandardError, 'capture failed')
         allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
         expect do

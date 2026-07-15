@@ -23,11 +23,11 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
   def record_retrieved_sources(tool_context, responses)
     return if responses.empty?
 
-    state = tool_context.state
-    state[:faq_ids] = ((state[:faq_ids] || []) + responses.map(&:id)).uniq
+    metadata = tool_context.state[:cw_metadata] ||= {}
+    metadata[:faq_ids] = Array(metadata[:faq_ids]) | responses.map(&:id)
 
     document_ids = responses.filter_map { |response| response.documentable_id if response.documentable_type == 'Captain::Document' }
-    state[:document_ids] = ((state[:document_ids] || []) + document_ids).uniq
+    metadata[:document_ids] = Array(metadata[:document_ids]) | document_ids
   end
 
   def format_responses(responses)

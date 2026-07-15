@@ -9,9 +9,10 @@ class Captain::Assistant::SessionCaptureService
     @credits_consumed = credits_consumed
   end
 
-  # Capture must never break response delivery: swallow and report failures.
   def capture
-    return if @run_result.blank?
+    # TODO: Capture failed runs once error-session semantics are defined. For now,
+    # only successful runs that produce a customer-facing reply or handoff are recorded.
+    return unless @run_result&.success?
 
     capture!
   rescue StandardError => e
@@ -20,17 +21,19 @@ class Captain::Assistant::SessionCaptureService
   end
 
   def capture!
-    Captain::Session.create!(
-      account_id: @assistant.account_id,
+    model = @assistant.agent_model
+    metadata = context.dig(:state, :cw_metadata) || {}
+
+    Captain::AgentSession.create!(
       assistant: @assistant,
       session_type: :assistant,
-      subject_id: @conversation.id,
-      result_id: @result_message&.id,
-      scenario_id: scenario_id,
-      llm_model: @assistant.agent_model,
+      subject: @conversation,
+      result: @result_message,
+      llm_model: "#{Llm::Models.provider_for(model)}-#{model}",
       credits_consumed: @credits_consumed,
-      faq_ids: state[:faq_ids] || [],
-      document_ids: state[:document_ids] || [],
+      faq_ids: metadata[:faq_ids] || [],
+      document_ids: metadata[:document_ids] || [],
+      scenario_ids: scenario_ids,
       run_context: run_context_payload
     )
   end
@@ -41,15 +44,13 @@ class Captain::Assistant::SessionCaptureService
     @run_result.context || {}
   end
 
-  def state
-    context[:state] || {}
-  end
-
-  def scenario_id
+  def scenario_ids
     match = context[:current_agent].to_s.match(SCENARIO_AGENT_REGEX)
-    return if match.blank?
+    return [] if match.blank?
 
-    @assistant.scenarios.find_by(id: match[1])&.id
+    # TODO: Use structured ai-agents metadata if sessions need every scenario
+    # visited during a run rather than only the final active scenario.
+    @assistant.scenarios.where(id: match[1]).pluck(:id)
   end
 
   def run_context_payload

@@ -31,7 +31,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       current_agent: 'Assistant',
       turn_count: 2,
       conversation_history: conversation_history,
-      state: { faq_ids: [11, 12], document_ids: [5] }
+      state: { cw_metadata: { faq_ids: [11, 12], document_ids: [5] } }
     }
   end
 
@@ -47,9 +47,13 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
     )
   end
 
+  before do
+    allow(assistant).to receive(:agent_model).and_return('gpt-5.2')
+  end
+
   describe '#capture' do
     it 'creates the session' do
-      expect { service.capture }.to change(Captain::Session, :count).by(1)
+      expect { service.capture }.to change(Captain::AgentSession, :count).by(1)
     end
 
     it 'does nothing when there is no run result' do
@@ -58,11 +62,21 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
         result_message: result_message, credits_consumed: 1.0
       )
 
-      expect { service.capture }.not_to change(Captain::Session, :count)
+      expect { service.capture }.not_to change(Captain::AgentSession, :count)
+    end
+
+    it 'does nothing when the run failed' do
+      failed_result = Agents::RunResult.new(output: nil, error: StandardError.new('run failed'), context: run_context, usage: usage)
+      service = described_class.new(
+        assistant: assistant, conversation: conversation, run_result: failed_result,
+        result_message: nil, credits_consumed: 0.0
+      )
+
+      expect { service.capture }.not_to change(Captain::AgentSession, :count)
     end
 
     it 'reports failures without raising' do
-      allow(Captain::Session).to receive(:create!).and_raise(StandardError, 'capture failed')
+      allow(Captain::AgentSession).to receive(:create!).and_raise(StandardError, 'capture failed')
       allow(ChatwootExceptionTracker).to receive(:new).and_call_original
 
       expect { service.capture }.not_to raise_error
@@ -78,12 +92,14 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
         account_id: account.id,
         assistant_id: assistant.id,
         subject_id: conversation.id,
+        subject_type: 'Conversation',
         result_id: result_message.id,
-        llm_model: assistant.agent_model,
+        result_type: 'Message',
+        llm_model: 'openai-gpt-5.2',
         credits_consumed: 1.0,
         faq_ids: [11, 12],
         document_ids: [5],
-        scenario_id: nil,
+        scenario_ids: [],
         user_id: nil
       )
       expect(session).to be_session_assistant
@@ -96,6 +112,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(run_context_payload['current_agent']).to eq('Assistant')
       expect(run_context_payload['turn_count']).to eq(2)
       expect(run_context_payload['usage']).to eq('input_tokens' => 120, 'output_tokens' => 40, 'total_tokens' => 160)
+      expect(run_context_payload).not_to have_key('state')
 
       history = run_context_payload['conversation_history']
       expect(history.size).to eq(4)
@@ -110,49 +127,40 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(history.size).to eq(4)
     end
 
-    it 'handles a run result without context or usage' do
-      run_result = Agents::RunResult.new(output: nil)
+    it 'handles a successful run result without context or usage' do
+      run_result = Agents::RunResult.new(output: { 'response' => 'Hello' })
       service = described_class.new(
         assistant: assistant, conversation: conversation, run_result: run_result,
-        result_message: nil, credits_consumed: 0.0
+        result_message: result_message, credits_consumed: 1.0
       )
 
       session = service.capture!
 
-      expect(session.result_id).to be_nil
+      expect(session.result).to eq(result_message)
       expect(session.faq_ids).to eq([])
       expect(session.document_ids).to eq([])
       expect(session.run_context['conversation_history']).to eq([])
       expect(session.run_context['usage']).to eq({})
     end
 
-    describe 'scenario resolution' do
-      let(:scenario) { create(:captain_scenario, assistant: assistant, account: account) }
+    it 'extracts the current scenario id from the stable agent name' do
+      scenario = create(:captain_scenario, assistant: assistant, account: account)
+      run_context[:current_agent] = scenario.handoff_key
 
-      it 'resolves the scenario from the current agent name' do
-        run_context[:current_agent] = "scenario_#{scenario.id}_refunds_agent"
+      expect(service.capture!.scenario_ids).to eq([scenario.id])
+    end
 
-        expect(service.capture!.scenario_id).to eq(scenario.id)
-      end
+    it 'leaves scenario ids empty for the primary assistant agent' do
+      run_context[:current_agent] = 'Assistant'
 
-      it 'resolves a slug-less scenario agent name' do
-        run_context[:current_agent] = "scenario_#{scenario.id}_agent"
+      expect(service.capture!.scenario_ids).to eq([])
+    end
 
-        expect(service.capture!.scenario_id).to eq(scenario.id)
-      end
+    it 'does not capture a scenario belonging to another assistant' do
+      scenario = create(:captain_scenario, assistant: create(:captain_assistant, account: account), account: account)
+      run_context[:current_agent] = scenario.handoff_key
 
-      it 'ignores draft scenario agent names' do
-        run_context[:current_agent] = 'scenario_draft_refunds_agent'
-
-        expect(service.capture!.scenario_id).to be_nil
-      end
-
-      it 'ignores scenario ids belonging to another assistant' do
-        other_scenario = create(:captain_scenario, assistant: create(:captain_assistant, account: account), account: account)
-        run_context[:current_agent] = "scenario_#{other_scenario.id}_refunds_agent"
-
-        expect(service.capture!.scenario_id).to be_nil
-      end
+      expect(service.capture!.scenario_ids).to eq([])
     end
   end
 end
