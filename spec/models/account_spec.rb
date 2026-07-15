@@ -103,6 +103,38 @@ RSpec.describe Account do
     end
   end
 
+  describe 'feature flag columns' do
+    let(:account) { described_class.new(name: 'Test Account') }
+
+    it 'configures the account feature flag extension column' do
+      expect(described_class.flag_columns).to include('feature_flags', 'feature_flags_ext_1')
+      expect(described_class.flag_mapping['feature_flags_ext_1']).to eq(feature_whatsapp_manual_transfer: 1, feature_data_import: 1 << 1,
+                                                                        feature_api_and_webhooks: 1 << 2)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
+    end
+
+    it 'keeps existing feature flags on the original column' do
+      expect(described_class.flag_mapping['feature_flags'][:feature_inbound_emails]).to eq(1)
+      expect(described_class.flag_mapping['feature_flags'][:feature_advanced_assignment]).to eq(1 << 62)
+    end
+
+    it 'keeps bulk selected feature assignment compatible with existing feature names' do
+      account.selected_feature_flags = [:feature_ip_lookup, :feature_assignment_v2, :feature_advanced_assignment, :feature_data_import]
+
+      expect(account).to be_feature_ip_lookup
+      expect(account).to be_feature_assignment_v2
+      expect(account).to be_feature_advanced_assignment
+      expect(account).to be_feature_data_import
+      expect(account.selected_feature_flags).to contain_exactly(
+        :feature_ip_lookup,
+        :feature_assignment_v2,
+        :feature_advanced_assignment,
+        :feature_data_import
+      )
+    end
+  end
+
   describe 'inbound_email_domain' do
     let(:account) { create(:account) }
 

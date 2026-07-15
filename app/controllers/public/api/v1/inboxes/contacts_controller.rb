@@ -18,7 +18,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
       contact: @contact_inbox.contact,
       params: permitted_params.to_h.deep_symbolize_keys.except(:identifier)
     )
-    render json: contact_identify_action.perform
+    contact_identify_action.perform
+    @contact_inbox.reload
   end
 
   private
