@@ -78,6 +78,17 @@ class Call < ApplicationRecord
     DISPLAY_DIRECTION[direction]
   end
 
+  # Normalize filter values back to stored forms so API/dashboard clients can
+  # query using either the display value (inbound/outbound, in-progress) or the
+  # stored value (incoming/outgoing, in_progress).
+  def self.direction_from_label(value)
+    DISPLAY_DIRECTION.key(value) || value
+  end
+
+  def self.status_from_display(value)
+    value.to_s.tr('-', '_')
+  end
+
   def ringing?
     status == 'ringing'
   end

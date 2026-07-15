@@ -2,12 +2,13 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
   DISTANCE_THRESHOLD = 0.3
+  LLM_FEATURE = 'conversation_faq_generation'.freeze
 
   def initialize(assistant, conversation)
-    super()
+    super(feature: LLM_FEATURE, account: conversation.account, fallback_model: Llm::Models.default_model_for(LLM_FEATURE))
     @assistant = assistant
     @conversation = conversation
-    @content = conversation.to_llm_text
+    @content = conversation_faq_content
   end
 
   # Generates and deduplicates FAQs from conversation content
@@ -26,6 +27,50 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
   private
 
   attr_reader :content, :conversation, :assistant
+
+  def conversation_faq_content
+    [
+      "Conversation ID: ##{conversation.display_id}",
+      "Channel: #{conversation.inbox.channel.name}",
+      'Message History:',
+      conversation_faq_messages
+    ].join("\n")
+  end
+
+  def conversation_faq_messages
+    messages = conversation
+               .messages
+               .where(message_type: %i[incoming outgoing], private: false)
+               .order(created_at: :asc)
+
+    return "No messages in this conversation\n" if messages.empty?
+
+    messages.filter_map { |message| format_conversation_faq_message(message) }.join
+  end
+
+  def format_conversation_faq_message(message)
+    return unless faq_source_message?(message)
+
+    content = message.content_for_llm
+    return if content.blank?
+
+    sender = human_support_reply?(message) ? 'Support Agent' : 'User'
+    "#{sender}: #{content}\n"
+  end
+
+  def faq_source_message?(message)
+    return true if message.incoming? && message.sender_type == 'Contact'
+
+    human_support_reply?(message)
+  end
+
+  def human_support_reply?(message)
+    return false unless message.outgoing?
+    return false if message.content_attributes['automation_rule_id'].present?
+    return false if message.additional_attributes['campaign_id'].present?
+
+    message.sender_type == 'User' || message.content_attributes['external_echo'].present?
+  end
 
   def no_human_interaction?
     conversation.first_reply_created_at.nil?

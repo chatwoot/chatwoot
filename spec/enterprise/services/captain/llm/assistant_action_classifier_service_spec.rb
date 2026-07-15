@@ -66,15 +66,15 @@ RSpec.describe Captain::Llm::AssistantActionClassifierService do
       )
     end
 
-    it 'uses the configured Captain model' do
-      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+    it 'uses the assistant feature model' do
+      account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
-      expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-nano').and_return(mock_chat)
+      expect(RubyLLM).to receive(:chat).with(model: 'gpt-5.2').and_return(mock_chat)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
 
       result = service.classify(message_history: message_history, assistant_response: 'Would you like to talk to support?')
 
-      expect(result).to include('model' => 'gpt-4.1-nano')
+      expect(result).to include('model' => 'gpt-5.2')
     end
 
     context 'when the assistant has no custom instructions' do

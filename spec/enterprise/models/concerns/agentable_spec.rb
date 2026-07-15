@@ -7,11 +7,13 @@ RSpec.describe Concerns::Agentable do
     Class.new do
       include Concerns::Agentable
 
+      attr_reader :account
       attr_accessor :temperature
 
-      def initialize(name: 'Test Agent', temperature: 0.8)
+      def initialize(name: 'Test Agent', temperature: 0.8, account: nil)
         @name = name
         @temperature = temperature
+        @account = account
       end
 
       def self.name
@@ -30,13 +32,13 @@ RSpec.describe Concerns::Agentable do
     end
   end
 
-  let(:dummy_instance) { dummy_class.new }
+  let(:account) { create(:account) }
+  let(:dummy_instance) { dummy_class.new(account: account) }
   let(:mock_agents_agent) { instance_double(Agents::Agent) }
-  let(:mock_installation_config) { instance_double(InstallationConfig, value: 'gpt-4-turbo') }
 
   before do
+    InstallationConfig.where(name: 'CAPTAIN_OPEN_AI_MODEL').destroy_all
     allow(Agents::Agent).to receive(:new).and_return(mock_agents_agent)
-    allow(InstallationConfig).to receive(:find_by).with(name: 'CAPTAIN_OPEN_AI_MODEL').and_return(mock_installation_config)
     allow(Captain::PromptRenderer).to receive(:render).and_return('rendered_template')
   end
 
@@ -46,7 +48,7 @@ RSpec.describe Concerns::Agentable do
         name: 'Test Agent',
         instructions: instance_of(Proc),
         tools: [],
-        model: 'gpt-4-turbo',
+        model: Llm::Models.default_model_for('assistant'),
         temperature: 0.8,
         response_schema: Captain::ResponseSchema
       )
@@ -54,11 +56,11 @@ RSpec.describe Concerns::Agentable do
       dummy_instance.agent
     end
 
-    it 'converts nil temperature to 0.0' do
+    it 'uses default temperature when temperature is nil' do
       dummy_instance.temperature = nil
 
       expect(Agents::Agent).to receive(:new).with(
-        hash_including(temperature: 0.0)
+        hash_including(temperature: 0.5)
       )
 
       dummy_instance.agent
@@ -160,20 +162,35 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent_model' do
-    it 'returns value from InstallationConfig when present' do
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4-turbo')
+    it 'returns the assistant feature default model' do
+      expect(dummy_instance.send(:agent_model)).to eq(Llm::Models.default_model_for('assistant'))
     end
 
-    it 'returns default model when config not found' do
-      allow(InstallationConfig).to receive(:find_by).and_return(nil)
+    it 'returns account override model when present' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      account.update!(captain_models: { 'assistant' => 'gpt-5.2' })
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
     end
 
-    it 'returns default model when config value is nil' do
-      allow(mock_installation_config).to receive(:value).and_return(nil)
+    it 'returns the installation model when account override is absent' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
+    end
+
+    it 'returns the Captain V2 default when Captain V2 is enabled' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      account.enable_features!('captain_integration_v2')
+
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
+      expect(account.reload.captain_models).to be_nil
+    end
+
+    it 'returns the assistant feature default model when account is nil' do
+      agent = dummy_class.new(account: nil)
+
+      expect(agent.send(:agent_model)).to eq(Llm::Models.default_model_for('assistant'))
     end
   end
 

@@ -1,13 +1,15 @@
 module Concerns::Agentable
   extend ActiveSupport::Concern
 
+  DEFAULT_TEMPERATURE = 0.5
+
   def agent
     Agents::Agent.new(
       name: agent_name,
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
       model: agent_model,
-      temperature: temperature.to_f || 0.7,
+      temperature: temperature.presence&.to_f || DEFAULT_TEMPERATURE,
       response_schema: agent_response_schema
     )
   end
@@ -19,6 +21,7 @@ module Concerns::Agentable
       state = context.context[:state] || {}
       config = state[:assistant_config] || {}
       enhanced_context = enhanced_context.merge(
+        current_time: format_current_time(state[:timezone]),
         conversation: state[:conversation] || {},
         contact: config['feature_contact_attributes'].present? ? state[:contact] : nil,
         campaign: state[:campaign] || {}
@@ -43,11 +46,24 @@ module Concerns::Agentable
   end
 
   def agent_model
-    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value.presence || LlmConstants::DEFAULT_MODEL
+    route = Llm::FeatureRouter.resolve(feature: 'assistant', account: account)
+    return route[:model] if route[:source] == :account_override || account&.feature_enabled?('captain_integration_v2')
+
+    installation_model.presence || route[:model]
+  end
+
+  def installation_model
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
   end
 
   def agent_response_schema
     Captain::ResponseSchema
+  end
+
+  def format_current_time(timezone)
+    tz = ActiveSupport::TimeZone[timezone] if timezone.present?
+    time = tz ? Time.current.in_time_zone(tz) : Time.current
+    time.strftime('%A, %B %d, %Y %I:%M %p %Z')
   end
 
   def prompt_context

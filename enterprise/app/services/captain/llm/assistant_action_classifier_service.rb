@@ -3,7 +3,7 @@ class Captain::Llm::AssistantActionClassifierService < Llm::BaseAiService
   include Captain::Llm::AssistantResponseInspectionHelpers
 
   def initialize(assistant:, conversation:)
-    super()
+    super(feature: 'assistant', account: conversation.account)
     @assistant = assistant
     @conversation = conversation
     @temperature = 0.0
