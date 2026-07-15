@@ -452,6 +452,10 @@ class Message < ApplicationRecord
   end
 
   def reindex_for_search
+    # searchkick (which defines #reindex) is only mixed in when advanced_search_allowed? is true
+    # at boot; guard so a should_index? true without a loaded index can't raise NoMethodError.
+    return unless respond_to?(:reindex)
+
     reindex(mode: :async)
   end
 end
