@@ -197,6 +197,30 @@ const allowsDelayedExecution = computed(() =>
   isCloudFeatureEnabled(FEATURE_FLAGS.DELAYED_AUTOMATIONS)
 );
 
+// Mirrors the backend's execution_delay validations so we never offer an unsupported delay.
+const delayRestrictionReason = computed(() => {
+  const conditions = automation.value?.conditions || [];
+  if (
+    conditions.some(
+      condition => condition.filter_operator === 'attribute_changed'
+    )
+  ) {
+    return 'ATTRIBUTE_CHANGED';
+  }
+  if (
+    eventName.value !== 'message_created' &&
+    conditions.some(
+      condition =>
+        condition.attribute_key && condition.attribute_key !== 'status'
+    )
+  ) {
+    return 'CONVERSATION_NON_STATUS';
+  }
+  return null;
+});
+
+const isDelaySupported = computed(() => delayRestrictionReason.value === null);
+
 const executeMode = ref('immediate');
 const delayValue = ref(4);
 const delayUnit = ref('HOURS');
@@ -235,6 +259,13 @@ watch([executeMode, delayInMinutes], () => {
   if (!automation.value || !allowsDelayedExecution.value) return;
   automation.value.execution_delay =
     executeMode.value === 'delayed' ? delayInMinutes.value : null;
+});
+
+// Editing the event/conditions into an unsupported shape reverts the delay to immediate.
+watch(isDelaySupported, supported => {
+  if (!supported && executeMode.value === 'delayed') {
+    executeMode.value = 'immediate';
+  }
 });
 
 watch(
@@ -361,11 +392,23 @@ defineExpose({ open, close });
             <input v-model="executeMode" type="radio" value="immediate" />
             {{ $t('AUTOMATION.ADD.FORM.EXECUTE.IMMEDIATELY') }}
           </label>
-          <label class="flex items-center gap-1.5 text-sm cursor-pointer">
-            <input v-model="executeMode" type="radio" value="delayed" />
+          <label
+            class="flex items-center gap-1.5 text-sm"
+            :class="
+              isDelaySupported
+                ? 'cursor-pointer'
+                : 'cursor-not-allowed opacity-50'
+            "
+          >
+            <input
+              v-model="executeMode"
+              type="radio"
+              value="delayed"
+              :disabled="!isDelaySupported"
+            />
             {{ $t('AUTOMATION.ADD.FORM.EXECUTE.AFTER_DELAY') }}
           </label>
-          <template v-if="executeMode === 'delayed'">
+          <template v-if="executeMode === 'delayed' && isDelaySupported">
             <input
               v-model.number="delayValue"
               type="number"
@@ -386,6 +429,16 @@ defineExpose({ open, close });
         <span v-if="errors.execution_delay" class="text-xs text-n-ruby-9">
           {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
         </span>
+        <p
+          v-else-if="!isDelaySupported"
+          class="text-xs text-n-amber-11 pt-1 mb-0"
+        >
+          {{
+            $t(
+              `AUTOMATION.ADD.FORM.EXECUTE.RESTRICTED.${delayRestrictionReason}`
+            )
+          }}
+        </p>
         <p
           v-else-if="executeMode === 'delayed'"
           class="text-xs text-n-slate-11 pt-1 mb-0"

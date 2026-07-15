@@ -64,8 +64,10 @@ class AutomationRulePendingExecution < ApplicationRecord
       # Sub-second precision so a resolve→reopen inside one second still ends the episode.
       "status:#{(conversation.status_changed_at.presence || conversation.created_at).to_f}"
     elsif message.incoming?
-      # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode.
-      "awaiting_agent:#{conversation.waiting_since.to_i}"
+      # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. It is
+      # written just after MESSAGE_CREATED dispatches, so it can still be nil when this arms;
+      # fall back to the message's own created_at, which is exactly the value it becomes.
+      "awaiting_agent:#{(conversation.waiting_since.presence || message.created_at).to_i}"
     else
       # A new customer message changes the max incoming id, invalidating this episode.
       "reply_chase:#{conversation.messages.incoming.maximum(:id) || 0}"

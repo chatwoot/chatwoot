@@ -38,7 +38,11 @@
             "DAYS": "Days"
           },
           "ERROR": "Delay must be between 10 minutes and 30 days",
-          "HELP_TEXT": "Delayed rules run only if the conditions still hold when the delay ends, and apply to conversations with activity after the rule is created."
+          "HELP_TEXT": "Delayed rules run only if the conditions still hold when the delay ends, and apply to conversations with activity after the rule is created.",
+          "RESTRICTED": {
+            "ATTRIBUTE_CHANGED": "A delay can't be used with an \"attribute changed\" condition, because the change can't be re-checked when the delay ends.",
+            "CONVERSATION_NON_STATUS": "For conversation events, a delay is only available when every condition uses the Status attribute."
+          }
         },
         "CONDITIONS": {
           "LABEL": "Conditions"
