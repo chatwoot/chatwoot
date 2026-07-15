@@ -33,7 +33,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def initiate
-    @conversation ||= open_conversation!
     @call = create_outbound_call
     # Link the call to its message in one transaction so the message.created
     # broadcast (an after_create_commit hook) fires only once call.message_id is
@@ -43,11 +42,6 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
       @message = Voice::CallMessageBuilder.new(@call).perform!
       @call.update!(message_id: @message.id)
     end
-  rescue Voice::CallErrors::NoCallPermission
-    raise # the opt-in template needs the thread; render_permission_request discards it if the send fails
-  rescue StandardError
-    discard_opened_conversation
-    raise
   end
 
   private
@@ -89,18 +83,10 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
     @conversation_builder ||= Whatsapp::CallConversationBuilder.new(inbox: @inbox, contact: @contact, user: Current.user)
   end
 
-  # Committed before the dial: Meta's connect webhook is dropped if it beats our Call row.
-  # Re-authorized because a concurrent caller may have created the thread we get back.
+  # Created only after the dial succeeds, so a failed call leaves no empty thread and there is nothing to
+  # roll back. Re-authorized because a concurrent caller may have created the thread we get back.
   def open_conversation!
-    conversation_builder.perform!.tap do |conversation|
-      @opened_conversation = conversation if conversation.previously_new_record?
-      authorize conversation, :show?
-    end
-  end
-
-  # A call that never happened shouldn't leave an empty thread behind. Only ever the one we opened.
-  def discard_opened_conversation
-    @opened_conversation&.destroy!
+    (@conversation || conversation_builder.perform!).tap { |conversation| authorize conversation, :show? }
   end
 
   def ensure_calling_enabled
@@ -142,15 +128,20 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def create_outbound_call
-    contact_phone = @conversation.contact.phone_number.delete('+')
-    # Claim for the caller only if unassigned at trigger time (before the round-trip); wins over auto-assignment.
-    claim_for_caller = @conversation.assignee_id.nil?
+    # A reused thread unassigned at click time is claimed for the caller (wins over auto-assignment); a
+    # fresh thread (@conversation nil until the dial succeeds) is created already assigned to the caller.
+    claim_for_caller = @conversation.present? && @conversation.assignee_id.nil?
 
-    result = provider_service.initiate_call(contact_phone, params[:sdp_offer])
+    result = provider_service.initiate_call(@contact.phone_number.delete('+'), params[:sdp_offer])
     provider_call_id = result.dig('calls', 0, 'id') || result['call_id']
 
+    @conversation = open_conversation!
     @conversation.with_lock { @conversation.update!(assignee: Current.user) } if claim_for_caller
 
+    create_call_record(provider_call_id)
+  end
+
+  def create_call_record(provider_call_id)
     Current.account.calls.create!(
       provider: :whatsapp, inbox: @conversation.inbox, conversation: @conversation, contact: @conversation.contact,
       provider_call_id: provider_call_id, direction: :outgoing, status: 'ringing',
@@ -160,12 +151,11 @@ class Api::V1::Accounts::WhatsappCallsController < Api::V1::Accounts::BaseContro
   end
 
   def render_permission_request
+    # Raised mid-dial, so a fresh contact has no thread yet — open one for the opt-in template to land in.
+    @conversation = open_conversation!
     status = Whatsapp::CallPermissionRequestService.new(conversation: @conversation).perform
 
-    if status == 'failed'
-      discard_opened_conversation
-      return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed'))
-    end
+    return render_could_not_create_error(I18n.t('errors.whatsapp.calls.permission_request_failed')) if status == 'failed'
 
     # 422 (not 200) so any client treating 2xx as "call placed" can't mistake
     # the permission-template path for a successful dial. The FE composable
