@@ -98,6 +98,25 @@ RSpec.describe Captain::AssistantMigration::DraftApplier do
       )
     end
 
+    it 'rejects conflicting FAQ answers within the same draft' do
+      conflicting_draft = draft.merge(
+        faq_document_candidates: [
+          faq_document_candidate,
+          {
+            'question' => "When is support\navailable?",
+            'answer' => 'Support is available every day.'
+          }
+        ]
+      )
+
+      expect do
+        described_class.new(assistant: assistant, draft: conflicting_draft, dry_run: true).perform
+      end.to raise_error(ArgumentError, 'FAQ candidate conflicts with an existing FAQ: When is support available?')
+
+      expect(assistant.responses.count).to eq(0)
+      expect(assistant.config).not_to have_key('assistant_migration')
+    end
+
     it 'rejects stale drafts whose FAQ candidates use the old string format' do
       stale_draft = draft.merge(faq_document_candidates: ['Support is available Monday to Friday.'])
 

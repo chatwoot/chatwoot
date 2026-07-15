@@ -16,16 +16,20 @@ class Captain::AssistantMigration::FaqApplier
   private
 
   def categorize(candidate, result)
-    existing_responses = assistant.responses.approved.where(question: candidate['question']).to_a
-    ensure_no_conflict!(candidate, existing_responses)
+    existing_answers = assistant.responses.approved.where(question: candidate['question']).pluck(:answer)
+    planned_answers = result[:create].filter_map do |response|
+      response['answer'] if response['question'] == candidate['question']
+    end
+    answers = existing_answers + planned_answers
 
-    return if existing_responses.any? { |response| response.answer == candidate['answer'] }
+    ensure_no_conflict!(candidate, answers)
+    return if answers.include?(candidate['answer'])
 
     result[:create] << candidate.merge('status' => 'approved')
   end
 
-  def ensure_no_conflict!(candidate, existing_responses)
-    return if existing_responses.all? { |response| response.answer == candidate['answer'] }
+  def ensure_no_conflict!(candidate, answers)
+    return if answers.all?(candidate['answer'])
 
     raise ArgumentError, "FAQ candidate conflicts with an existing FAQ: #{candidate['question']}"
   end
