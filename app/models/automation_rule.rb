@@ -133,7 +133,8 @@ class AutomationRule < ApplicationRecord
   end
 
   def discard_stale_pending_executions
-    pending_executions.pending.delete_all
+    # Includes stale processing rows: the sweep would otherwise reclaim and fire them.
+    pending_executions.armed.delete_all
   end
 
   def validate_single_condition(condition)
