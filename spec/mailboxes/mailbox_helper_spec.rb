@@ -47,6 +47,31 @@ RSpec.describe MailboxHelper do
         helper_instance.send(:create_message)
       end
     end
+
+    context 'when message data contains null bytes' do
+      let(:mail) do
+        mail = Mail.new
+        mail.from = 'Sender <sender@example.com>'
+        mail.to = 'Inbox <inbox@example.com>'
+        mail.subject = "Hello\u0000"
+        mail.message_id = "message\u0000@example.com"
+        mail.content_type = 'text/plain'
+        mail.body = "Body\u0000 text"
+        mail
+      end
+
+      it 'creates the message with sanitized values' do
+        helper_instance = mailbox_helper_obj.new(conversation, processed_mail)
+
+        expect { helper_instance.send(:create_message) }.to change(conversation.messages, :count).by(1)
+
+        message = conversation.messages.last
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.dig('email', 'message_id')).to eq('message@example.com')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
   end
 
   describe '#embed_plain_text_email_with_inline_image' do

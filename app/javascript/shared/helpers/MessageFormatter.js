@@ -63,6 +63,13 @@ const createMarkdownInstance = (linkify = true) => {
     });
 };
 
+// Help center article tables persist column widths as an internal
+// `<!--cw-colwidths:...-->` comment before the table. It exists only for the
+// editor's markdown round-trip and must never surface as text — markdown-it runs
+// with `html: false`, which would otherwise escape it into a visible comment in
+// rendered/plain output (e.g. dashboard search snippets). Strip it on the way in.
+const COLWIDTHS_MARKER_REGEX = /<!--cw-colwidths:[\d,]+-->\r?\n?/g;
+
 const TWITTER_USERNAME_REGEX = /(^|[^@\w])@(\w{1,15})\b/g;
 const TWITTER_USERNAME_REPLACEMENT = '$1[@$2](http://twitter.com/$2)';
 const TWITTER_HASH_REGEX = /(^|\s)#(\w+)/g;
@@ -75,7 +82,7 @@ class MessageFormatter {
     isAPrivateNote = false,
     linkify = true
   ) {
-    this.message = message || '';
+    this.message = (message || '').replace(COLWIDTHS_MARKER_REGEX, '');
     this.isAPrivateNote = isAPrivateNote;
     this.isATweet = isATweet;
     this.linkify = linkify;
@@ -95,6 +102,11 @@ class MessageFormatter {
       );
     }
     return this.md.render(updatedMessage);
+  }
+
+  disableImageRendering() {
+    this.md.disable(['add-image-sizing']);
+    this.md.renderer.rules.image = () => '';
   }
 
   get formattedMessage() {

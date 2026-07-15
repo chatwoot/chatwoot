@@ -45,6 +45,72 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(json_response).to have_key(:models)
         expect(json_response).to have_key(:features)
       end
+
+      it 'returns effective model provider and source for each feature' do
+        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :editor)).to include(
+          model: 'gpt-4.1',
+          selected: 'gpt-4.1',
+          provider: 'openai',
+          source: 'account_override'
+        )
+        expect(json_response.dig(:features, :label_suggestion)).to include(
+          model: Llm::Models.default_model_for('label_suggestion'),
+          selected: Llm::Models.default_model_for('label_suggestion'),
+          provider: 'openai',
+          source: 'default'
+        )
+      end
+
+      it 'returns the assistant YAML default for V1 accounts' do
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::Models.default_model_for('assistant'),
+          selected: Llm::Models.default_model_for('assistant'),
+          source: 'default'
+        )
+      end
+
+      it 'returns GPT-5.2 as the assistant default for V2 accounts' do
+        account.enable_features!('captain_integration_v2')
+
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          selected: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          source: 'default'
+        )
+      end
+
+      it 'keeps the V2 assistant default when an account override is selected' do
+        account.enable_features!('captain_integration_v2')
+        account.update!(captain_models: { 'assistant' => 'gpt-5.1' })
+
+        get "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :assistant)).to include(
+          default: Llm::FeatureRouter::CAPTAIN_V2_ASSISTANT_MODEL,
+          selected: 'gpt-5.1',
+          source: 'account_override'
+        )
+      end
     end
   end
 
@@ -82,6 +148,76 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
         expect(json_response).to have_key(:models)
         expect(json_response).to have_key(:features)
         expect(account.reload.captain_models['editor']).to eq('gpt-4.1-mini')
+      end
+
+      it 'does not persist unknown captain model feature keys' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { editor: 'gpt-4.1-mini', unknown_feature: 'gpt-4.1' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.captain_models).to eq('editor' => 'gpt-4.1-mini')
+      end
+
+      it 'rejects invalid captain model values for the feature' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { label_suggestion: 'gpt-5.1' } },
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(json_response[:message]).to include('not a valid model for label_suggestion')
+        expect(account.reload.captain_models).to be_nil
+      end
+
+      it 'removes blank captain model overrides' do
+        account.update!(captain_models: { 'editor' => 'gpt-4.1' })
+
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { editor: '' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.reload.captain_models).to be_nil
+        expect(json_response.dig(:features, :editor)).to include(
+          selected: Llm::Models.default_model_for('editor'),
+          source: 'default'
+        )
+      end
+
+      it 'updates captain_models for document FAQ generation' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { document_faq_generation: 'gpt-5.2' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :document_faq_generation, :selected)).to eq('gpt-5.2')
+        expect(account.reload.captain_models['document_faq_generation']).to eq('gpt-5.2')
+      end
+
+      it 'updates captain_models for conversation FAQ generation' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { conversation_faq_generation: 'gpt-4.1-mini' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :conversation_faq_generation, :selected)).to eq('gpt-4.1-mini')
+        expect(account.reload.captain_models['conversation_faq_generation']).to eq('gpt-4.1-mini')
+      end
+
+      it 'updates captain_models for PDF FAQ generation' do
+        put "/api/v1/accounts/#{account.id}/captain/preferences",
+            headers: admin.create_new_auth_token,
+            params: { captain_models: { pdf_faq_generation: 'gpt-5.2' } },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(json_response.dig(:features, :pdf_faq_generation, :selected)).to eq('gpt-5.2')
+        expect(account.reload.captain_models['pdf_faq_generation']).to eq('gpt-5.2')
       end
 
       it 'updates captain_features' do

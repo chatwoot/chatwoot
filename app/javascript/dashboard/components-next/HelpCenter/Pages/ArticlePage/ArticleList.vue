@@ -1,6 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue';
-import Draggable from 'vuedraggable';
+import { computed, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -10,6 +9,7 @@ import { getArticleStatus } from 'dashboard/helper/portalHelper.js';
 import wootConstants from 'dashboard/constants/globals';
 
 import ArticleCard from 'dashboard/components-next/HelpCenter/ArticleCard/ArticleCard.vue';
+import DraggableReorderList from 'dashboard/components-next/DraggableReorderList/DraggableReorderList.vue';
 
 const props = defineProps({
   articles: {
@@ -24,9 +24,26 @@ const props = defineProps({
     type: Set,
     default: () => new Set(),
   },
+  isSearching: {
+    type: Boolean,
+    default: false,
+  },
+  currentPage: {
+    type: Number,
+    default: 1,
+  },
+  totalPages: {
+    type: Number,
+    default: 1,
+  },
 });
 
-const emit = defineEmits(['translateArticle', 'toggleSelect']);
+const emit = defineEmits([
+  'translateArticle',
+  'toggleSelect',
+  'navigatePage',
+  'dragging',
+]);
 
 const { ARTICLE_STATUS_TYPES } = wootConstants;
 
@@ -35,13 +52,14 @@ const route = useRoute();
 const store = useStore();
 const { t } = useI18n();
 
-const localArticles = ref(props.articles);
 const hoveredArticleId = ref(null);
 
 const dragEnabled = computed(() => {
+  const canReorder = props.articles?.length > 1 || props.totalPages > 1;
   return (
     props.isCategoryArticles &&
-    localArticles.value?.length > 1 &&
+    !props.isSearching &&
+    canReorder &&
     props.selectedArticleIds.size === 0
   );
 });
@@ -57,6 +75,10 @@ const handleCardHover = (isHovered, id) => {
 };
 
 const getCategoryById = useMapGetter('categories/categoryById');
+
+const getCategory = categoryId => {
+  return getCategoryById.value(categoryId) || { name: '', icon: '' };
+};
 
 const openArticle = id => {
   const { tab, categorySlug, locale } = route.params;
@@ -78,36 +100,23 @@ const openArticle = id => {
   }
 };
 
-const onReorder = async reorderedGroup => {
+const onReorder = async positionsHash => {
+  const [movedId] = Object.keys(positionsHash);
+  // A same-page reorder updates optimistically in the store, so it needs no
+  // refetch. Only a cross-page drop must refresh, to pull the moved article
+  // onto this page in its new spot.
+  const isCrossPage = !props.articles.some(
+    article => String(article.id) === movedId
+  );
   try {
     await store.dispatch('articles/reorder', {
-      reorderedGroup,
+      reorderedGroup: positionsHash,
       portalSlug: route.params.portalSlug,
     });
+    if (isCrossPage) emit('navigatePage', props.currentPage);
   } catch {
     useAlert(t('HELP_CENTER.REORDER_ARTICLE.API.ERROR_MESSAGE'));
   }
-};
-
-const onDragEnd = () => {
-  // Collect and sort existing positions, falling back to index+1 for null/0 values
-  const sortedArticlePositions = localArticles.value
-    .map((article, index) => article.position || index + 1)
-    .sort((a, b) => a - b);
-
-  const orderedArticles = localArticles.value.map(article => article.id);
-
-  // Create a map of article IDs to their new positions
-  const reorderedGroup = orderedArticles.reduce((obj, key, index) => {
-    obj[key] = sortedArticlePositions[index];
-    return obj;
-  }, {});
-
-  onReorder(reorderedGroup);
-};
-
-const getCategory = categoryId => {
-  return getCategoryById.value(categoryId) || { name: '', icon: '' };
 };
 
 const getStatusMessage = (status, isSuccess) => {
@@ -179,54 +188,46 @@ const updateArticle = ({ action, value, id }) => {
   const status = action !== 'delete' ? getArticleStatus(value) : null;
   handleArticleAction(action, { status, id });
 };
-
-// Watch for changes in the articles prop and update the localArticles ref
-watch(
-  () => props.articles,
-  newArticles => {
-    localArticles.value = newArticles;
-  },
-  { deep: true }
-);
 </script>
 
 <template>
-  <Draggable
-    v-model="localArticles"
+  <DraggableReorderList
+    :items="articles"
     :disabled="!dragEnabled"
-    item-key="id"
-    tag="ul"
-    ghost-class="article-ghost-class"
-    class="w-full h-full space-y-4"
-    @end="onDragEnd"
+    :current-page="currentPage"
+    :total-pages="totalPages"
+    @reorder="onReorder"
+    @navigate-page="page => emit('navigatePage', page)"
+    @dragging="value => emit('dragging', value)"
   >
-    <template #item="{ element }">
-      <li class="list-none rounded-2xl">
-        <ArticleCard
-          :id="element.id"
-          :key="element.id"
-          :title="element.title"
-          :status="element.status"
-          :author="element.author"
-          :category="getCategory(element.category.id)"
-          :views="element.views || 0"
-          :updated-at="element.updatedAt"
-          :is-selected="selectedArticleIds.has(element.id)"
-          selectable
-          :show-selection-control="shouldShowSelectionControl(element.id)"
-          :class="{ 'cursor-grab': dragEnabled }"
-          @open-article="openArticle"
-          @article-action="updateArticle"
-          @toggle-select="emit('toggleSelect', $event)"
-          @hover="isHovered => handleCardHover(isHovered, element.id)"
-        />
-      </li>
+    <template #item="{ item }">
+      <ArticleCard
+        :id="item.id"
+        :title="item.title"
+        :status="item.status"
+        :author="item.author"
+        :category="getCategory(item.category.id)"
+        :views="item.views || 0"
+        :updated-at="item.updatedAt"
+        :is-selected="selectedArticleIds.has(item.id)"
+        selectable
+        :show-selection-control="shouldShowSelectionControl(item.id)"
+        @open-article="openArticle"
+        @article-action="updateArticle"
+        @toggle-select="emit('toggleSelect', $event)"
+        @hover="isHovered => handleCardHover(isHovered, item.id)"
+      />
     </template>
-  </Draggable>
+    <template #ghost="{ item }">
+      <ArticleCard
+        :id="item.id"
+        :title="item.title"
+        :status="item.status"
+        :author="item.author"
+        :category="getCategory(item.category.id)"
+        :views="item.views || 0"
+        :updated-at="item.updatedAt"
+      />
+    </template>
+  </DraggableReorderList>
 </template>
-
-<style lang="scss" scoped>
-.article-ghost-class {
-  @apply opacity-50 bg-n-solid-1;
-}
-</style>

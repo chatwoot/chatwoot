@@ -2,13 +2,24 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   include BillingHelper
   before_action :fetch_account
   before_action :check_authorization
-  before_action :check_cloud_env, only: [:limits, :toggle_deletion]
+  before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
 
   def subscription
-    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
-      Enterprise::CreateStripeCustomerJob.perform_later(@account)
-    end
+    return render json: currency_selection_payload if @account.billing_currency_selection_required?
+
+    ensure_stripe_customer
+    head :no_content
+  end
+
+  def select_billing_currency
+    return render_could_not_create_error(I18n.t('errors.billing.currency_locked')) if currency_locked?
+    return render_could_not_create_error(I18n.t('errors.billing.invalid_currency')) unless @account.billing_currency_selection_required?
+
+    currency = Enterprise::Billing::Currencies.normalize(params[:currency])
+    return render_could_not_create_error(I18n.t('errors.billing.invalid_currency')) unless Enterprise::Billing::Currencies.supported?(currency)
+
+    @account.update!(custom_attributes: @account.custom_attributes.merge('billing_currency' => currency))
+    ensure_stripe_customer
     head :no_content
   end
 
@@ -71,10 +82,30 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
     render_could_not_create_error(e.message)
   end
 
+  def topup_options
+    service = Enterprise::Billing::TopupCheckoutService.new(account: @account)
+    render json: { id: @account.id, currency: @account.billing_currency, options: service.available_options }
+  end
+
   private
 
   def check_cloud_env
     render json: { error: 'Not found' }, status: :not_found unless ChatwootApp.chatwoot_cloud?
+  end
+
+  def ensure_stripe_customer
+    return if stripe_customer_id.present? || @account.custom_attributes['is_creating_customer'].present?
+
+    @account.update!(custom_attributes: @account.custom_attributes.merge('is_creating_customer' => true))
+    Enterprise::CreateStripeCustomerJob.perform_later(@account)
+  end
+
+  def currency_selection_payload
+    {
+      currency_selection_required: true,
+      currency_options: Enterprise::Billing::Currencies::SUPPORTED,
+      suggested_currency: Enterprise::Billing::Currencies.for_locale(@account.locale)
+    }
   end
 
   def default_limits
@@ -96,6 +127,12 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def stripe_customer_id
     @account.custom_attributes['stripe_customer_id']
+  end
+
+  # Currency is fixed once a customer exists or creation is already in flight,
+  # so a second click can't bill a different currency than setup started with.
+  def currency_locked?
+    stripe_customer_id.present? || @account.custom_attributes['is_creating_customer'].present?
   end
 
   def mark_for_deletion

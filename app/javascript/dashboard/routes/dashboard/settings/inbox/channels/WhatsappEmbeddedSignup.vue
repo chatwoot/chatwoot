@@ -1,41 +1,48 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { useWhatsappEmbeddedSignup } from 'dashboard/composables/useWhatsappEmbeddedSignup';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
+import Banner from 'next/banner/Banner.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 import globalConstants from 'dashboard/constants/globals.js';
-import {
-  setupFacebookSdk,
-  initWhatsAppEmbeddedSignup,
-  createMessageHandler,
-  isValidBusinessData,
-} from './whatsapp/utils';
 
 const props = defineProps({
   enableCallingOnComplete: {
     type: Boolean,
     default: false,
   },
+  isDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  showRestrictionAlert: {
+    type: Boolean,
+    default: false,
+  },
+  restrictionStatusUrl: {
+    type: String,
+    default: '',
+  },
+  restrictionWarningText: {
+    type: String,
+    default: '',
+  },
 });
 
 const store = useStore();
 const router = useRouter();
 const { t } = useI18n();
+const { isAuthenticating, runEmbeddedSignup } = useWhatsappEmbeddedSignup();
 
-// State
-const fbSdkLoaded = ref(false);
 const isProcessing = ref(false);
 const processingMessage = ref('');
-const authCodeReceived = ref(false);
-const authCode = ref(null);
-const businessData = ref(null);
-const isAuthenticating = ref(false);
 
 const benefits = computed(() => [
   {
@@ -54,25 +61,6 @@ const benefits = computed(() => [
 
 const showLoader = computed(() => isAuthenticating.value || isProcessing.value);
 
-// Error handling
-const handleSignupError = data => {
-  isProcessing.value = false;
-  authCodeReceived.value = false;
-  isAuthenticating.value = false;
-
-  const errorMessage =
-    data.error ||
-    data.message ||
-    t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
-  useAlert(errorMessage);
-};
-
-const handleSignupCancellation = () => {
-  isProcessing.value = false;
-  authCodeReceived.value = false;
-  isAuthenticating.value = false;
-};
-
 const enableCallingForInbox = async inboxId => {
   try {
     await InboxesAPI.enableWhatsappCalling(inboxId);
@@ -86,14 +74,12 @@ const enableCallingForInbox = async inboxId => {
 const handleSignupSuccess = async inboxData => {
   if (inboxData && inboxData.id) {
     if (props.enableCallingOnComplete) {
-      isProcessing.value = true;
       processingMessage.value = t(
         'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ENABLING_CALLING'
       );
       await enableCallingForInbox(inboxData.id);
     }
     isProcessing.value = false;
-    isAuthenticating.value = false;
     useAlert(t('INBOX_MGMT.FINISH.MESSAGE'));
     router.replace({
       name: 'settings_inboxes_add_agents',
@@ -104,7 +90,6 @@ const handleSignupSuccess = async inboxData => {
     });
   } else {
     isProcessing.value = false;
-    isAuthenticating.value = false;
     useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUCCESS_FALLBACK'));
     router.replace({
       name: 'settings_inbox_list',
@@ -112,12 +97,23 @@ const handleSignupSuccess = async inboxData => {
   }
 };
 
-// Signup flow
-const completeSignupFlow = async businessDataParam => {
-  if (!authCodeReceived.value || !authCode.value) {
-    handleSignupError({
-      error: t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED'),
-    });
+const launchEmbeddedSignup = async () => {
+  if (props.isDisabled) return;
+
+  let credentials;
+  try {
+    credentials = await runEmbeddedSignup();
+  } catch (error) {
+    useAlert(
+      error.message ||
+        t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SDK_LOAD_ERROR')
+    );
+    return;
+  }
+
+  // Resolves null when the user dismisses the Meta popup.
+  if (!credentials) {
+    useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     return;
   }
 
@@ -125,130 +121,20 @@ const completeSignupFlow = async businessDataParam => {
   processingMessage.value = t(
     'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
   );
-
   try {
-    const params = {
-      code: authCode.value,
-      business_id: businessDataParam.business_id,
-      waba_id: businessDataParam.waba_id,
-      phone_number_id: businessDataParam?.phone_number_id || '',
-    };
-
-    const responseData = await store.dispatch(
+    const inboxData = await store.dispatch(
       'inboxes/createWhatsAppEmbeddedSignup',
-      params
+      credentials
     );
-
-    authCode.value = null;
-    handleSignupSuccess(responseData);
+    await handleSignupSuccess(inboxData);
   } catch (error) {
-    const errorMessage =
+    isProcessing.value = false;
+    useAlert(
       parseAPIErrorResponse(error) ||
-      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
-    handleSignupError({ error: errorMessage });
+        t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
+    );
   }
 };
-
-// Message handling
-const handleEmbeddedSignupData = async data => {
-  if (
-    data.event === 'FINISH' ||
-    data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
-  ) {
-    const businessDataLocal = data.data;
-
-    if (isValidBusinessData(businessDataLocal)) {
-      businessData.value = businessDataLocal;
-      if (authCodeReceived.value && authCode.value) {
-        await completeSignupFlow(businessDataLocal);
-      } else {
-        processingMessage.value = t(
-          'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_AUTH'
-        );
-      }
-    } else {
-      handleSignupError({
-        error: t(
-          'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'
-        ),
-      });
-    }
-  } else if (data.event === 'CANCEL') {
-    handleSignupCancellation();
-  } else if (data.event === 'error') {
-    handleSignupError({
-      error:
-        data.error_message ||
-        t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR'),
-      error_id: data.error_id,
-      session_id: data.session_id,
-    });
-  }
-};
-
-const handleSignupMessage = createMessageHandler(handleEmbeddedSignupData);
-
-const launchEmbeddedSignup = async () => {
-  try {
-    isAuthenticating.value = true;
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
-    );
-
-    await setupFacebookSdk(
-      window.chatwootConfig?.whatsappAppId,
-      window.chatwootConfig?.whatsappApiVersion
-    );
-    fbSdkLoaded.value = true;
-
-    const code = await initWhatsAppEmbeddedSignup(
-      window.chatwootConfig?.whatsappConfigurationId
-    );
-
-    authCode.value = code;
-    authCodeReceived.value = true;
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_BUSINESS_INFO'
-    );
-
-    if (businessData.value) {
-      completeSignupFlow(businessData.value);
-    }
-  } catch (error) {
-    if (error.message === 'Login cancelled') {
-      isProcessing.value = false;
-      isAuthenticating.value = false;
-      useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
-    } else {
-      handleSignupError({
-        error:
-          error.message ||
-          t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SDK_LOAD_ERROR'),
-      });
-    }
-  }
-};
-
-// Lifecycle
-const setupMessageListener = () => {
-  window.addEventListener('message', handleSignupMessage);
-};
-
-const cleanupMessageListener = () => {
-  window.removeEventListener('message', handleSignupMessage);
-};
-
-const initialize = () => {
-  setupMessageListener();
-};
-
-onMounted(() => {
-  initialize();
-});
-
-onBeforeUnmount(() => {
-  cleanupMessageListener();
-});
 </script>
 
 <template>
@@ -307,9 +193,33 @@ onBeforeUnmount(() => {
         </I18nT>
       </div>
 
+      <Banner v-if="showRestrictionAlert" color="amber" class="w-full mb-6">
+        <div class="flex items-start gap-3 text-left">
+          <Icon
+            icon="i-lucide-triangle-alert"
+            class="flex-shrink-0 size-4 mt-0.5"
+          />
+          <span>
+            {{
+              restrictionWarningText ||
+              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.RESTRICTED_WARNING')
+            }}
+            <a
+              v-if="restrictionStatusUrl"
+              :href="restrictionStatusUrl"
+              class="link underline"
+              rel="noopener noreferrer nofollow"
+              target="_blank"
+            >
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.STATUS_LINK') }}
+            </a>
+          </span>
+        </div>
+      </Banner>
+
       <div class="flex mt-4">
         <NextButton
-          :disabled="isAuthenticating"
+          :disabled="isAuthenticating || isDisabled"
           :is-loading="isAuthenticating"
           faded
           slate

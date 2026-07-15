@@ -5,6 +5,13 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:perform_result) { { message: 'Test response' } }
+  let(:exhausted_usage_limits) do
+    {
+      agents: ChatwootApp.max_limit,
+      inboxes: ChatwootApp.max_limit,
+      captain: { responses: { current_available: 0 } }
+    }
+  end
 
   # Create a concrete test service class with enterprise module prepended
   let(:test_service_class) do
@@ -32,14 +39,13 @@ RSpec.describe Captain::BaseTaskService, type: :model do
     before do
       allow(account).to receive(:feature_enabled?).and_call_original
       allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
+      allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
     end
 
     context 'when usage limit is exceeded' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        allow(account).to receive(:usage_limits).and_return({
-                                                              captain: { responses: { current_available: 0 } }
-                                                            })
+        allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
       end
 
       it 'returns usage limit exceeded error' do
@@ -109,6 +115,64 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         service.perform
         account.reload
       end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
+    end
+
+    context 'when account has its own OpenAI hook key' do
+      before do
+        create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'customer-own-key' })
+      end
+
+      it 'still increments usage for services that do not opt into BYOK' do
+        expect(account).to receive(:increment_response_usage)
+        service.perform
+      end
+
+      context 'when the captain_responses quota is exhausted on Cloud' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
+        end
+
+        it 'returns usage limit exceeded error for services that do not opt into BYOK' do
+          result = service.perform
+          expect(result[:error]).to eq(I18n.t('captain.copilot_limit'))
+          expect(result[:error_code]).to eq(429)
+        end
+      end
+    end
+
+    context 'when subclass opts into account OpenAI hook usage' do
+      let(:test_service_class) do
+        result = perform_result
+        klass = Class.new(described_class) do
+          define_method(:perform) { result }
+          define_method(:event_name) { 'test_event' }
+          define_method(:use_account_openai_hook?) { true }
+        end
+        klass.prepend(Enterprise::Captain::BaseTaskService)
+        klass
+      end
+
+      before do
+        create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'customer-own-key' })
+      end
+
+      it 'does not increment usage on a successful result' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
+
+      context 'when the captain_responses quota is exhausted on Cloud' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
+        end
+
+        it 'bypasses the 429 gate and returns the underlying result' do
+          result = service.perform
+          expect(result).to eq(perform_result)
+        end
+      end
     end
 
     context 'when captain is disabled' do
@@ -186,9 +250,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       context 'when the captain_responses quota is exhausted on Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(account).to receive(:usage_limits).and_return({
-                                                                captain: { responses: { current_available: 0 } }
-                                                              })
+          allow(account).to receive(:usage_limits).and_return(exhausted_usage_limits)
         end
 
         it 'bypasses the 429 gate and returns the underlying result' do
