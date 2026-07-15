@@ -506,6 +506,16 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(response).to have_http_status(:success)
         expect(account.automation_rules.last.execution_delay).to be_nil
       end
+
+      it 'strips execution_delay when cloning an existing delayed rule' do
+        automation_rule = create(:automation_rule, account: account, execution_delay: 240)
+
+        post "/api/v1/accounts/#{account.id}/automation_rules/#{automation_rule.id}/clone",
+             headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(account.automation_rules.last.execution_delay).to be_nil
+      end
     end
   end
 end
