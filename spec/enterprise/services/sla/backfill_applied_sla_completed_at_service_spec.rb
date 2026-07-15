@@ -48,7 +48,7 @@ RSpec.describe Sla::BackfillAppliedSlaCompletedAtService do
     result = described_class.new(account_id: account.id, apply: true, output: output).perform
 
     expect(result).to include(dry_run: false, eligible: 1, matched: 1, updated: 1, skipped: 0)
-    expect(applied_sla.reload.completed_at).to eq(latest_resolution.event_end_time)
+    expect(applied_sla.reload.completed_at).to eq(latest_resolution.reload.event_end_time)
     expect(applied_sla.updated_at).to eq(original_updated_at)
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Sla::BackfillAppliedSlaCompletedAtService do
     result = service.perform
 
     expect(result).to include(eligible: 0, matched: 0, updated: 0, skipped: 0)
-    expect(applied_sla.reload.completed_at).to eq(resolution_event.event_end_time)
+    expect(applied_sla.reload.completed_at).to eq(resolution_event.reload.event_end_time)
   end
 
   it 'requires exactly one account scope' do
@@ -101,12 +101,12 @@ RSpec.describe Sla::BackfillAppliedSlaCompletedAtService do
 
     described_class.new(account_id: account.id, apply: true, output: output).perform
 
-    expect(applied_sla.reload.completed_at).to eq(resolution_event.event_end_time)
+    expect(applied_sla.reload.completed_at).to eq(resolution_event.reload.event_end_time)
     expect(other_applied_sla.reload.completed_at).to be_nil
 
     described_class.new(all_accounts: true, apply: true, output: output).perform
 
-    expect(other_applied_sla.reload.completed_at).to eq(other_resolution_event.event_end_time)
+    expect(other_applied_sla.reload.completed_at).to eq(other_resolution_event.reload.event_end_time)
   end
 
   it 'resumes after the supplied applied SLA id' do
