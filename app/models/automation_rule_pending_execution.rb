@@ -66,7 +66,14 @@ class AutomationRulePendingExecution < ApplicationRecord
   def self.arm_episode_key_for(conversation, message)
     return episode_key_for(conversation, message) unless message&.incoming? && conversation.waiting_since.blank?
 
-    "awaiting_agent:#{message.created_at.to_f}"
+    "awaiting_agent:#{microsecond_stamp(message.created_at)}"
+  end
+
+  # Microsecond integer, not a float: epoch seconds carry ~16 significant digits, past float64's
+  # precision, and this key compares an in-memory created_at against the DB-stored waiting_since,
+  # so a float would round differently on either side. Sub-second distinguishes rapid re-waits.
+  def self.microsecond_stamp(time)
+    time&.strftime('%s%6N') || '0'
   end
 
   # Episode keys identify one qualifying stretch of conversation state; when the recomputed
@@ -77,9 +84,8 @@ class AutomationRulePendingExecution < ApplicationRecord
       "status:#{(conversation.status_changed_at.presence || conversation.created_at).to_f}"
     elsif message.incoming?
       # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. Strict
-      # here: at fire time a nil waiting_since means the agent replied (episode ended). Sub-second
-      # precision so a reply→re-wait inside one second is still a distinct episode.
-      "awaiting_agent:#{conversation.waiting_since.to_f}"
+      # here: at fire time a nil waiting_since means the agent replied (episode ended).
+      "awaiting_agent:#{microsecond_stamp(conversation.waiting_since)}"
     else
       # A new customer message changes the max incoming id, invalidating this episode.
       "reply_chase:#{conversation.messages.incoming.maximum(:id) || 0}"
