@@ -253,7 +253,16 @@
   display_name: WhatsApp Manual Transfer
   enabled: false
   column: feature_flags_ext_1
+- name: data_import
+  display_name: Data Import
+  enabled: false
+  column: feature_flags_ext_1
+- name: api_and_webhooks
+  display_name: API and Webhooks
+  enabled: true
+  column: feature_flags_ext_1
 - name: delayed_automations
   display_name: Delayed Automations
   enabled: false
+  chatwoot_internal: true
   column: feature_flags_ext_1
