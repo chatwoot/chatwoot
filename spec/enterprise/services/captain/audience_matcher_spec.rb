@@ -37,6 +37,18 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('plan_tier', 'not_equal_to', 'free'))).to be(true)
       end
 
+      it 'matches checkbox custom attributes' do
+        contact.update!(custom_attributes: contact.custom_attributes.merge('newsletter_opt_in' => true))
+        expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'true'))).to be(true)
+        expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'false'))).to be(false)
+      end
+
+      it 'treats a missing checkbox attribute as false' do
+        expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'false'))).to be(true)
+        expect(matches?(leaf('newsletter_opt_in', 'equal_to', 'true'))).to be(false)
+        expect(matches?(leaf('newsletter_opt_in', 'not_equal_to', 'true'))).to be(true)
+      end
+
       it 'supports contains / starts_with on text' do
         expect(matches?(leaf('email', 'contains', contact.email[2..5]))).to be(true)
         expect(matches?(leaf('city', 'starts_with', 'Bos'))).to be(true)

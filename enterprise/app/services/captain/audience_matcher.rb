@@ -72,9 +72,15 @@ class Captain::AudienceMatcher
   # ignore the "+" prefix, and text compares case-insensitively.
   def value_equal?(key, actual, expected)
     return Array(actual).include?(expected) if key == 'labels'
-    return ActiveModel::Type::Boolean.new.cast(expected) == actual if [true, false].include?(actual)
+    return ActiveModel::Type::Boolean.new.cast(expected) == (actual == true) if boolean_condition?(actual, expected)
 
     normalize(key, actual) == normalize(key, expected)
+  end
+
+  # An unset checkbox attribute counts as false; the expected value identifies
+  # the condition as boolean when the attribute is missing.
+  def boolean_condition?(actual, expected)
+    [true, false].include?(actual) || (actual.nil? && %w[true false].include?(expected.to_s))
   end
 
   def normalize(key, value)
