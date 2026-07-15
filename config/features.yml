@@ -257,3 +257,7 @@
   display_name: Data Import
   enabled: false
   column: feature_flags_ext_1
+- name: api_and_webhooks
+  display_name: API and Webhooks
+  enabled: true
+  column: feature_flags_ext_1
