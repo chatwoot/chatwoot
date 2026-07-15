@@ -5,6 +5,8 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
 
   def perform(pending_execution)
     return if delayed_automations_disabled?
+    # Account flag off pauses (not skips): leave the row pending so re-enabling resumes it.
+    return unless pending_execution.account.feature_enabled?('delayed_automations')
     # Atomic claim: a duplicate enqueue (overlapping sweep or stale reclaim) loses here and returns.
     return unless pending_execution.claim!
 
@@ -28,7 +30,6 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
   def structural_skip_reason(pending_execution)
     rule = pending_execution.automation_rule
     return 'rule_inactive' if rule.nil? || !rule.active?
-    return 'flag_disabled' unless pending_execution.account.feature_enabled?('delayed_automations')
     return 'conversation_gone' if pending_execution.conversation.nil?
 
     nil
