@@ -80,8 +80,6 @@ const DELAY_UNITS = [
 ];
 const MIN_DELAY_MINUTES = 10;
 const MAX_DELAY_MINUTES = 43200; // 30 days
-// Events where a delayed rule is meaningful: status-based waits and awaiting-agent/reply-chase.
-const DELAYED_EVENT_KEYS = ['conversation_updated', 'message_created'];
 // Conversation-level delayed rules can filter on status plus immutable attributes (inbox).
 const DELAYED_CONVERSATION_ATTRS = ['status', 'inbox_id'];
 
@@ -176,18 +174,12 @@ const filterTypes = computed(() => {
   });
 });
 
-const automationRuleEvents = computed(() => {
-  // With a delay selected, only the events that support a meaningful delayed rule are offered.
-  const events = isDelayed.value
-    ? AUTOMATION_RULE_EVENTS.filter(event =>
-        DELAYED_EVENT_KEYS.includes(event.key)
-      )
-    : AUTOMATION_RULE_EVENTS;
-  return events.map(event => ({
+const automationRuleEvents = computed(() =>
+  AUTOMATION_RULE_EVENTS.map(event => ({
     ...event,
     value: t(`AUTOMATION.EVENTS.${event.value}`),
-  }));
-});
+  }))
+);
 
 const hasAutomationMutated = computed(() => {
   return Boolean(
@@ -284,14 +276,11 @@ watch([isDelayed, delayInMinutes], () => {
     : null;
 });
 
-// Turning on a delay narrows the event + condition options; snap an unsupported event and reset
-// conditions the delayed rule can't use. Valid selections (incl. an edited rule) are left intact.
+// Turning on a delay narrows the condition options; reset conditions the delayed rule can't use
+// (e.g. a mutable attribute) to the event default. Valid selections (incl. an edit) are kept.
 watch(isDelayed, delayed => {
   if (!delayed || !automation.value) return;
-  if (!DELAYED_EVENT_KEYS.includes(automation.value.event_name)) {
-    automation.value.event_name = 'conversation_updated';
-    props.onEventChange();
-  } else if (!isDelaySupported.value) {
+  if (!isDelaySupported.value) {
     props.onEventChange();
   }
 });
