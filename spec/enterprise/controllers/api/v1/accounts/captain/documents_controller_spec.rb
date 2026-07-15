@@ -51,6 +51,18 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           expect(json_response[:payload].length).to eq(5)
           expect(json_response[:meta]).to eq({ page: 2, total_count: 30 })
         end
+
+        it 'returns the generated FAQ count for each document' do
+          document = create(:captain_document, assistant: assistant, account: account)
+          create_list(:captain_assistant_response, 2,
+                      assistant: assistant, account: account, documentable: document)
+
+          get "/api/v1/accounts/#{account.id}/captain/documents",
+              headers: agent.create_new_auth_token, as: :json
+
+          matching_document = json_response[:payload].find { |item| item[:id] == document.id }
+          expect(matching_document[:responses_count]).to eq(2)
+        end
       end
 
       context 'when filtering by assistant_id' do
@@ -140,6 +152,10 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expect(json_response[:id]).to eq(document.id)
         expect(json_response[:name]).to eq(document.name)
         expect(json_response[:external_link]).to eq(document.external_link)
+      end
+
+      it 'returns the crawled content for the document' do
+        expect(json_response[:content]).to eq(document.content)
       end
 
       it 'returns sync metadata when the document has been synced' do
@@ -243,7 +259,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         before do
           create_list(:captain_document, 5, assistant: assistant, account: account)
 
-          create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
+          InstallationConfig.find_or_initialize_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').update!(value: captain_limits.to_json)
           post "/api/v1/accounts/#{account.id}/captain/documents",
                params: valid_attributes,
                headers: admin.create_new_auth_token
@@ -281,7 +297,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           expect do
             post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
                  headers: admin.create_new_auth_token, as: :json
-          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document)
+          end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('low')
 
           expect(document.reload).to have_attributes(
             sync_status: 'syncing',
@@ -292,15 +308,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         expect(response).to have_http_status(:accepted)
       end
 
-      it 'rejects documents that already have a sync in progress' do
+      it 'queues documents that already have a sync in progress' do
         document.update!(sync_status: :syncing, last_sync_attempted_at: 1.minute.ago)
 
         expect do
           post "/api/v1/accounts/#{account.id}/captain/documents/#{document.id}/sync",
                headers: admin.create_new_auth_token, as: :json
-        end.not_to have_enqueued_job(Captain::Documents::PerformSyncJob)
+        end.to have_enqueued_job(Captain::Documents::PerformSyncJob).with(document).on_queue('low')
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:accepted)
       end
 
       it 'queues stale syncing documents again' do

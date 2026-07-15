@@ -1079,15 +1079,16 @@
           "availability_status": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent computed by Chatwoot."
+            "readOnly": true,
+            "description": "The effective availability status of the agent, derived from the configured availability, auto-offline setting, and current presence. To update an agent's configured availability, use the availability field in create or update requests."
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away."
+            "description": "Whether the agent is automatically marked offline when they are away."
           },
           "confirmed": {
             "type": "boolean",
@@ -1502,10 +1503,17 @@
                 "contact_updated",
                 "message_created",
                 "message_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The list of subscribed events"
+          },
+          "secret": {
+            "type": "string",
+            "nullable": true,
+            "description": "Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available."
           },
           "account_id": {
             "type": "number",
@@ -2782,19 +2790,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability setting of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
@@ -2814,19 +2822,19 @@
             "description": "Whether its administrator or agent",
             "example": "agent"
           },
-          "availability_status": {
+          "availability": {
             "type": "string",
             "enum": [
-              "available",
+              "online",
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent.",
-            "example": "available"
+            "description": "The configured availability of the agent.",
+            "example": "online"
           },
           "auto_offline": {
             "type": "boolean",
-            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "description": "Whether the agent is automatically marked offline when they are away.",
             "example": true
           }
         }
@@ -3205,72 +3213,121 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the inbox",
+            "description": "The name of the inbox.",
             "example": "Support"
           },
           "avatar": {
             "type": "string",
             "format": "binary",
-            "description": "Image file for avatar"
+            "description": "Image file for avatar."
           },
           "greeting_enabled": {
             "type": "boolean",
-            "description": "Enable greeting message",
+            "description": "Enable greeting message.",
             "example": true
           },
           "greeting_message": {
             "type": "string",
-            "description": "Greeting message to be displayed on the widget",
+            "description": "Greeting message to send when greeting messages are enabled.",
             "example": "Hello, how can I help you?"
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
             "type": "boolean",
-            "description": "Enable CSAT survey",
+            "description": "Enable CSAT survey.",
             "example": true
+          },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
           },
           "enable_auto_assignment": {
             "type": "boolean",
-            "description": "Enable Auto Assignment",
+            "description": "Enable Auto Assignment.",
             "example": true
           },
           "working_hours_enabled": {
             "type": "boolean",
-            "description": "Enable working hours",
+            "description": "Enable working hours.",
             "example": true
           },
           "out_of_office_message": {
             "type": "string",
-            "description": "Out of office message to be displayed on the widget",
+            "description": "Out of office message to send outside working hours.",
             "example": "We are currently out of office. Please leave a message and we will get back to you."
           },
           "timezone": {
             "type": "string",
-            "description": "Timezone of the inbox",
+            "description": "Timezone of the inbox.",
             "example": "America/New_York"
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock to single conversation",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
             "type": "integer",
-            "description": "Id of the help center portal to attach to the inbox",
+            "description": "Id of the help center portal to attach to the inbox.",
             "example": 1
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for the inbox",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -3279,45 +3336,43 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for the inbox",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "description": "Type of the channel",
-                "enum": [
-                  "web_widget",
-                  "api",
-                  "email",
-                  "line",
-                  "telegram",
-                  "whatsapp",
-                  "sms"
-                ],
-                "example": "web_widget"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/inbox_create_web_widget_channel_payload"
               },
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+              {
+                "$ref": "#/components/schemas/inbox_create_api_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_create_email_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_create_line_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_create_telegram_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_create_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_create_sms_channel_payload"
+              }
+            ],
+            "discriminator": {
+              "propertyName": "type",
+              "mapping": {
+                "web_widget": "#/components/schemas/inbox_create_web_widget_channel_payload",
+                "api": "#/components/schemas/inbox_create_api_channel_payload",
+                "email": "#/components/schemas/inbox_create_email_channel_payload",
+                "line": "#/components/schemas/inbox_create_line_channel_payload",
+                "telegram": "#/components/schemas/inbox_create_telegram_channel_payload",
+                "whatsapp": "#/components/schemas/inbox_create_whatsapp_channel_payload",
+                "sms": "#/components/schemas/inbox_create_sms_channel_payload"
               }
             }
           }
@@ -3328,72 +3383,121 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the inbox",
+            "description": "The name of the inbox.",
             "example": "Support"
           },
           "avatar": {
             "type": "string",
             "format": "binary",
-            "description": "Image file for avatar"
+            "description": "Image file for avatar."
           },
           "greeting_enabled": {
             "type": "boolean",
-            "description": "Enable greeting message",
+            "description": "Enable greeting message.",
             "example": true
           },
           "greeting_message": {
             "type": "string",
-            "description": "Greeting message to be displayed on the widget",
+            "description": "Greeting message to send when greeting messages are enabled.",
             "example": "Hello, how can I help you?"
           },
           "enable_email_collect": {
             "type": "boolean",
-            "description": "Enable email collection",
+            "description": "Enable email collection.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "csat_survey_enabled": {
             "type": "boolean",
-            "description": "Enable CSAT survey",
+            "description": "Enable CSAT survey.",
             "example": true
+          },
+          "csat_config": {
+            "type": "object",
+            "description": "CSAT survey configuration.",
+            "properties": {
+              "display_type": {
+                "type": "string",
+                "description": "Display style for the CSAT survey.",
+                "enum": [
+                  "emoji",
+                  "star"
+                ],
+                "example": "emoji"
+              },
+              "message": {
+                "type": "string",
+                "description": "Message shown with the CSAT survey.",
+                "example": "Please rate your conversation"
+              },
+              "button_text": {
+                "type": "string",
+                "description": "Text shown on the CSAT survey button.",
+                "example": "Please rate us"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language code for the CSAT survey.",
+                "example": "en"
+              },
+              "survey_rules": {
+                "type": "object",
+                "description": "Rules that decide when to show the CSAT survey.",
+                "properties": {
+                  "operator": {
+                    "type": "string",
+                    "example": "contains"
+                  },
+                  "values": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "example": [
+                      "billing"
+                    ]
+                  }
+                }
+              }
+            }
           },
           "enable_auto_assignment": {
             "type": "boolean",
-            "description": "Enable Auto Assignment",
+            "description": "Enable Auto Assignment.",
             "example": true
           },
           "working_hours_enabled": {
             "type": "boolean",
-            "description": "Enable working hours",
+            "description": "Enable working hours.",
             "example": true
           },
           "out_of_office_message": {
             "type": "string",
-            "description": "Out of office message to be displayed on the widget",
+            "description": "Out of office message to send outside working hours.",
             "example": "We are currently out of office. Please leave a message and we will get back to you."
           },
           "timezone": {
             "type": "string",
-            "description": "Timezone of the inbox",
+            "description": "Timezone of the inbox.",
             "example": "America/New_York"
           },
           "allow_messages_after_resolved": {
             "type": "boolean",
-            "description": "Allow messages after conversation is resolved",
+            "description": "Allow messages after conversation is resolved.\n\nAvailable for: `Website`\n",
             "example": true
           },
           "lock_to_single_conversation": {
             "type": "boolean",
-            "description": "Lock to single conversation",
+            "description": "Lock contact messages to a single active conversation.\n\nAvailable for: `API` `LINE` `Telegram` `WhatsApp` `SMS`\n",
             "example": true
           },
           "portal_id": {
             "type": "integer",
-            "description": "Id of the help center portal to attach to the inbox",
+            "description": "Id of the help center portal to attach to the inbox.",
             "example": 1
           },
           "sender_name_type": {
             "type": "string",
-            "description": "Sender name type for the inbox",
+            "description": "Sender name type for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "enum": [
               "friendly",
               "professional"
@@ -3402,32 +3506,808 @@
           },
           "business_name": {
             "type": "string",
-            "description": "Business name for the inbox",
+            "description": "Business name for outbound email replies.\n\nAvailable for: `Website` `Email`\n",
             "example": "My Business"
           },
           "channel": {
-            "type": "object",
-            "properties": {
-              "website_url": {
-                "type": "string",
-                "description": "URL at which the widget will be loaded",
-                "example": "https://example.com"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/inbox_update_web_widget_channel_payload"
               },
-              "welcome_title": {
-                "type": "string",
-                "description": "Welcome title to be displayed on the widget",
-                "example": "Welcome to our support"
+              {
+                "$ref": "#/components/schemas/inbox_update_api_channel_payload"
               },
-              "welcome_tagline": {
-                "type": "string",
-                "description": "Welcome tagline to be displayed on the widget",
-                "example": "We are here to help you"
+              {
+                "$ref": "#/components/schemas/inbox_update_email_channel_payload"
               },
-              "widget_color": {
-                "type": "string",
-                "description": "A Hex-color string used to customize the widget",
-                "example": "#FF5733"
+              {
+                "$ref": "#/components/schemas/inbox_update_line_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_telegram_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_whatsapp_channel_payload"
+              },
+              {
+                "$ref": "#/components/schemas/inbox_update_sms_channel_payload"
               }
+            ]
+          }
+        }
+      },
+      "inbox_create_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel",
+        "required": [
+          "type",
+          "website_url"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "web_widget"
+            ],
+            "example": "web_widget"
+          },
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
+          }
+        }
+      },
+      "inbox_create_api_channel_payload": {
+        "type": "object",
+        "title": "API channel",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "api"
+            ],
+            "example": "api"
+          },
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
+          }
+        }
+      },
+      "inbox_create_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel",
+        "required": [
+          "type",
+          "email"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "email"
+            ],
+            "example": "email"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_create_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel",
+        "required": [
+          "type",
+          "line_channel_id",
+          "line_channel_secret",
+          "line_channel_token"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "line"
+            ],
+            "example": "line"
+          },
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_create_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel",
+        "required": [
+          "type",
+          "bot_token"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "telegram"
+            ],
+            "example": "telegram"
+          },
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_create_whatsapp_channel_payload": {
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "WhatsApp Cloud channel",
+            "required": [
+              "type",
+              "phone_number",
+              "provider",
+              "provider_config"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "whatsapp"
+                ],
+                "example": "whatsapp"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "WhatsApp phone number",
+                "example": "+15551234567"
+              },
+              "provider": {
+                "type": "string",
+                "description": "WhatsApp provider",
+                "enum": [
+                  "whatsapp_cloud"
+                ],
+                "example": "whatsapp_cloud"
+              },
+              "provider_config": {
+                "type": "object",
+                "description": "WhatsApp Cloud provider configuration",
+                "required": [
+                  "api_key",
+                  "phone_number_id",
+                  "business_account_id"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "WhatsApp Cloud API key",
+                    "example": "your-api-key"
+                  },
+                  "phone_number_id": {
+                    "type": "string",
+                    "description": "Phone number ID for WhatsApp Cloud",
+                    "example": "your-phone-number-id"
+                  },
+                  "business_account_id": {
+                    "type": "string",
+                    "description": "Business account ID for WhatsApp Cloud",
+                    "example": "your-business-account-id"
+                  }
+                },
+                "example": {
+                  "api_key": "your-api-key",
+                  "phone_number_id": "your-phone-number-id",
+                  "business_account_id": "your-business-account-id"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "title": "Legacy 360dialog WhatsApp channel",
+            "deprecated": true,
+            "required": [
+              "type",
+              "phone_number",
+              "provider_config"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": [
+                  "whatsapp"
+                ],
+                "example": "whatsapp"
+              },
+              "phone_number": {
+                "type": "string",
+                "description": "WhatsApp phone number",
+                "example": "+15551234567"
+              },
+              "provider": {
+                "type": "string",
+                "description": "Legacy 360dialog provider. Omit this field or use `default` only for existing deprecated 360dialog setups.",
+                "enum": [
+                  "default"
+                ],
+                "deprecated": true,
+                "example": "default"
+              },
+              "provider_config": {
+                "type": "object",
+                "description": "Legacy 360dialog provider configuration",
+                "required": [
+                  "api_key"
+                ],
+                "properties": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "360dialog API key",
+                    "example": "your-api-key"
+                  }
+                },
+                "example": {
+                  "api_key": "your-api-key"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "inbox_create_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel",
+        "required": [
+          "type",
+          "phone_number"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "sms"
+            ],
+            "example": "sms"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "account_id": "your-account-id",
+              "application_id": "your-application-id"
+            }
+          }
+        }
+      },
+      "inbox_update_web_widget_channel_payload": {
+        "type": "object",
+        "title": "Website channel settings",
+        "properties": {
+          "website_url": {
+            "type": "string",
+            "description": "URL at which the widget will be loaded",
+            "example": "https://example.com"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget",
+            "example": "Welcome to our support"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget",
+            "example": "We are here to help you"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "A Hex-color string used to customize the widget",
+            "example": "#FF5733"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time shown on the widget",
+            "enum": [
+              "in_a_few_minutes",
+              "in_a_few_hours",
+              "in_a_day"
+            ],
+            "example": "in_a_few_minutes"
+          },
+          "pre_chat_form_enabled": {
+            "type": "boolean",
+            "description": "Enable the pre-chat form before starting a conversation",
+            "example": false
+          },
+          "pre_chat_form_options": {
+            "type": "object",
+            "description": "Pre-chat form configuration",
+            "example": {
+              "pre_chat_message": "Share your queries or comments here.",
+              "pre_chat_fields": [
+                {
+                  "field_type": "standard",
+                  "label": "Email Id",
+                  "name": "emailAddress",
+                  "type": "email",
+                  "required": true,
+                  "enabled": true
+                }
+              ]
+            }
+          },
+          "continuity_via_email": {
+            "type": "boolean",
+            "description": "Continue conversations over email when the contact leaves the website",
+            "example": true
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for contacts using the widget",
+            "example": false
+          },
+          "allowed_domains": {
+            "type": "string",
+            "description": "Comma-separated list of domains where the widget is allowed to load",
+            "example": "example.com"
+          },
+          "selected_feature_flags": {
+            "type": "array",
+            "description": "Enabled widget feature flags",
+            "items": {
+              "type": "string",
+              "enum": [
+                "attachments",
+                "emoji_picker",
+                "end_conversation",
+                "use_inbox_avatar_for_bot",
+                "allow_mobile_webview"
+              ]
+            },
+            "example": [
+              "attachments",
+              "emoji_picker",
+              "end_conversation"
+            ]
+          }
+        }
+      },
+      "inbox_update_api_channel_payload": {
+        "type": "object",
+        "title": "API channel settings",
+        "properties": {
+          "webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for API channel inbox callbacks",
+            "example": "https://example.com/webhook"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Require HMAC verification for incoming API channel messages",
+            "example": false
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes stored on contacts created through the API channel",
+            "example": {
+              "source": "mobile_app"
+            }
+          }
+        }
+      },
+      "inbox_update_email_channel_payload": {
+        "type": "object",
+        "title": "Email channel settings",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "Email address for the inbox",
+            "example": "support@example.com"
+          },
+          "imap_enabled": {
+            "type": "boolean",
+            "description": "Enable IMAP for inbound emails",
+            "example": true
+          },
+          "imap_login": {
+            "type": "string",
+            "description": "IMAP login username",
+            "example": "support@example.com"
+          },
+          "imap_password": {
+            "type": "string",
+            "description": "IMAP login password",
+            "example": "your-imap-password"
+          },
+          "imap_address": {
+            "type": "string",
+            "description": "IMAP server address",
+            "example": "imap.example.com"
+          },
+          "imap_port": {
+            "type": "integer",
+            "description": "IMAP server port",
+            "example": 993
+          },
+          "imap_enable_ssl": {
+            "type": "boolean",
+            "description": "Enable SSL for IMAP",
+            "example": true
+          },
+          "imap_authentication": {
+            "type": "string",
+            "description": "IMAP authentication method",
+            "example": "plain"
+          },
+          "smtp_enabled": {
+            "type": "boolean",
+            "description": "Enable SMTP for outbound emails",
+            "example": true
+          },
+          "smtp_login": {
+            "type": "string",
+            "description": "SMTP login username",
+            "example": "support@example.com"
+          },
+          "smtp_password": {
+            "type": "string",
+            "description": "SMTP login password",
+            "example": "your-smtp-password"
+          },
+          "smtp_address": {
+            "type": "string",
+            "description": "SMTP server address",
+            "example": "smtp.example.com"
+          },
+          "smtp_port": {
+            "type": "integer",
+            "description": "SMTP server port",
+            "example": 587
+          },
+          "smtp_domain": {
+            "type": "string",
+            "description": "SMTP HELO domain",
+            "example": "example.com"
+          },
+          "smtp_enable_starttls_auto": {
+            "type": "boolean",
+            "description": "Automatically enable STARTTLS for SMTP",
+            "example": true
+          },
+          "smtp_enable_ssl_tls": {
+            "type": "boolean",
+            "description": "Enable SSL/TLS for SMTP",
+            "example": false
+          },
+          "smtp_openssl_verify_mode": {
+            "type": "string",
+            "description": "OpenSSL certificate verification mode for SMTP",
+            "example": "none"
+          },
+          "smtp_authentication": {
+            "type": "string",
+            "description": "SMTP authentication method",
+            "example": "login"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Email provider",
+            "example": "google"
+          },
+          "verified_for_sending": {
+            "type": "boolean",
+            "description": "Whether the inbox is verified for sending emails",
+            "example": false
+          }
+        }
+      },
+      "inbox_update_line_channel_payload": {
+        "type": "object",
+        "title": "LINE channel settings",
+        "properties": {
+          "line_channel_id": {
+            "type": "string",
+            "description": "LINE channel ID",
+            "example": "1234567890"
+          },
+          "line_channel_secret": {
+            "type": "string",
+            "description": "LINE channel secret",
+            "example": "line-channel-secret"
+          },
+          "line_channel_token": {
+            "type": "string",
+            "description": "LINE channel access token",
+            "example": "line-channel-token"
+          }
+        }
+      },
+      "inbox_update_telegram_channel_payload": {
+        "type": "object",
+        "title": "Telegram channel settings",
+        "properties": {
+          "bot_token": {
+            "type": "string",
+            "description": "Telegram bot token",
+            "example": "123456789:telegram-bot-token"
+          }
+        }
+      },
+      "inbox_update_whatsapp_channel_payload": {
+        "type": "object",
+        "title": "WhatsApp channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "WhatsApp phone number",
+            "example": "+15551234567"
+          },
+          "provider": {
+            "type": "string",
+            "description": "WhatsApp provider. `default` is supported only for existing deprecated 360dialog setups.",
+            "enum": [
+              "whatsapp_cloud",
+              "default"
+            ],
+            "example": "whatsapp_cloud"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "WhatsApp provider configuration. Cloud channels use `api_key`, `phone_number_id`, and `business_account_id`; legacy 360dialog channels use `api_key`.",
+            "properties": {
+              "api_key": {
+                "type": "string",
+                "description": "Provider API key",
+                "example": "your-api-key"
+              },
+              "phone_number_id": {
+                "type": "string",
+                "description": "Phone number ID for WhatsApp Cloud",
+                "example": "your-phone-number-id"
+              },
+              "business_account_id": {
+                "type": "string",
+                "description": "Business account ID for WhatsApp Cloud",
+                "example": "your-business-account-id"
+              }
+            },
+            "example": {
+              "api_key": "your-api-key",
+              "phone_number_id": "your-phone-number-id",
+              "business_account_id": "your-business-account-id"
+            }
+          }
+        }
+      },
+      "inbox_update_sms_channel_payload": {
+        "type": "object",
+        "title": "SMS channel settings",
+        "properties": {
+          "phone_number": {
+            "type": "string",
+            "description": "SMS phone number",
+            "example": "+15551234567"
+          },
+          "provider_config": {
+            "type": "object",
+            "description": "Provider-specific SMS configuration",
+            "example": {
+              "api_key": "your-api-key",
+              "api_secret": "your-api-secret",
+              "application_id": "your-application-id",
+              "account_id": "your-account-id"
             }
           }
         }
@@ -3526,7 +4406,9 @@
                 "message_updated",
                 "contact_created",
                 "contact_updated",
-                "webwidget_triggered"
+                "webwidget_triggered",
+                "conversation_typing_on",
+                "conversation_typing_off"
               ]
             },
             "description": "The events you want to subscribe to.",

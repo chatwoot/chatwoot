@@ -57,7 +57,8 @@
             "CONTACT_CREATED": "Contacto criado",
             "CONTACT_UPDATED": "Contacto atualizado",
             "CONVERSATION_TYPING_ON": "Conversa: a escrever",
-            "CONVERSATION_TYPING_OFF": "Conversa: a escrever desligada"
+            "CONVERSATION_TYPING_OFF": "Conversa: a escrever desligada",
+            "INBOX_UPDATED": "Inbox updated"
           }
         },
         "NAME": {

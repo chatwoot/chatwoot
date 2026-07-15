@@ -103,7 +103,7 @@ const onMergeContacts = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-8 px-6 py-6">
+  <div class="flex flex-col gap-8 px-6">
     <div class="flex flex-col gap-2">
       <h4 class="text-base text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.TITLE') }}

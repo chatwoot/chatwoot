@@ -11,6 +11,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
     let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
     let(:mock_agent_runner_service) { instance_double(Captain::Assistant::AgentRunnerService) }
     let(:mock_action_classifier_service) { instance_double(Captain::Llm::AssistantActionClassifierService) }
+    let(:mock_false_promise_service) { instance_double(Captain::Llm::AssistantFalsePromiseService) }
+    let(:assistant_model) { Llm::Models.default_model_for('assistant') }
 
     before do
       create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
@@ -22,6 +24,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       allow(mock_agent_runner_service).to receive(:generate_response).and_return({ 'response' => 'Hey, welcome to Captain V2' })
       allow(Captain::Llm::AssistantActionClassifierService).to receive(:new).and_return(mock_action_classifier_service)
       allow(mock_action_classifier_service).to receive(:classify).and_return({ 'action' => 'continue' })
+      allow(Captain::Llm::AssistantFalsePromiseService).to receive(:new).and_return(mock_false_promise_service)
+      allow(mock_false_promise_service).to receive(:detect).and_return({ 'decision' => 'safe', 'reason' => 'safe_response' })
     end
 
     context 'when captain_v2 is disabled' do
@@ -57,6 +61,165 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
 
         expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+      end
+
+      it 'does not run the false promise harness when the account setting is disabled' do
+        expect(Captain::Llm::AssistantFalsePromiseService).not_to receive(:new)
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.messages.last.content).to eq('Hey, welcome to Captain Specs')
+      end
+
+      context 'when false promise harness is enabled in account settings' do
+        before do
+          account.update!(settings: account.settings.merge('captain_false_promise_harness_enabled' => true))
+        end
+
+        it 'sends the original response when the detector marks it safe' do
+          expect(mock_false_promise_service).to receive(:detect).with(
+            message_history: [{ content: 'Hello', role: 'user' }],
+            assistant_response: 'Hey, welcome to Captain Specs'
+          ).and_return({
+                         'decision' => 'safe',
+                         'reason' => 'safe_response',
+                         'model' => assistant_model
+                       })
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain Specs')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
+        end
+
+        it 'regenerates future-work promises through the V1 assistant chat service' do
+          allow(mock_llm_chat_service).to receive(:generate_response)
+            .and_return(
+              { 'response' => 'Let me check the documentation and get back to you.' },
+              { 'response' => 'Could you share the exact error message you see?' }
+            )
+          allow(mock_false_promise_service).to receive(:detect)
+            .and_return(
+              {
+                'decision' => 'future_work_promise',
+                'reason' => 'future_check_or_investigation',
+                'model' => assistant_model
+              },
+              {
+                'decision' => 'safe',
+                'reason' => 'asks_user_to_check_or_provide_info',
+                'model' => assistant_model
+              }
+            )
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.last.content).to eq('Could you share the exact error message you see?')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(1)
+          expect(mock_llm_chat_service).to have_received(:generate_response).with(
+            message_history: [{ content: 'Hello', role: 'user' }]
+          )
+          expect(mock_llm_chat_service).to have_received(:generate_response).with(
+            message_history: [
+              { content: 'Hello', role: 'user' },
+              { role: 'assistant', content: 'Let me check the documentation and get back to you.' }
+            ],
+            additional_message: Captain::Conversation::V1FalsePromiseHandler::FUTURE_PROMISE_REPAIR_INSTRUCTION
+          )
+        end
+
+        it 'hands off instead of sending the unsafe draft when repair generation fails' do
+          allow(mock_llm_chat_service).to receive(:generate_response)
+            .and_return({ 'response' => 'Let me check and get back to you.' })
+          allow(mock_llm_chat_service).to receive(:generate_response)
+            .with(
+              message_history: [
+                { content: 'Hello', role: 'user' },
+                { role: 'assistant', content: 'Let me check and get back to you.' }
+              ],
+              additional_message: Captain::Conversation::V1FalsePromiseHandler::FUTURE_PROMISE_REPAIR_INSTRUCTION
+            ).and_raise(StandardError, 'repair timeout')
+          allow(mock_false_promise_service).to receive(:detect).and_return({
+                                                                             'decision' => 'future_work_promise',
+                                                                             'reason' => 'future_check_or_investigation',
+                                                                             'model' => assistant_model
+                                                                           })
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.outgoing.last.content).to eq(I18n.t('conversations.captain.handoff'))
+          expect(conversation.messages.outgoing.pluck(:content)).not_to include('Let me check and get back to you.')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'hands off instead of sending an unverified repair when repair verification is inconclusive' do
+          allow(mock_llm_chat_service).to receive(:generate_response)
+            .and_return(
+              { 'response' => 'Let me check and get back to you.' },
+              { 'response' => 'Could you share the exact error message you see?' }
+            )
+          allow(mock_false_promise_service).to receive(:detect)
+            .and_return(
+              {
+                'decision' => 'future_work_promise',
+                'reason' => 'future_check_or_investigation',
+                'model' => assistant_model
+              },
+              {
+                'decision' => nil,
+                'reason' => nil,
+                'error' => 'verification timeout',
+                'model' => assistant_model
+              }
+            )
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.outgoing.last.content).to eq(I18n.t('conversations.captain.handoff'))
+          expect(conversation.messages.outgoing.pluck(:content)).not_to include('Could you share the exact error message you see?')
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'hands off when the regenerated response still contains a future-work promise' do
+          allow(mock_llm_chat_service).to receive(:generate_response)
+            .and_return(
+              { 'response' => 'Let me check and get back to you.' },
+              { 'response' => 'I will monitor this and update you later.' }
+            )
+          allow(mock_false_promise_service).to receive(:detect).and_return({
+                                                                             'decision' => 'future_work_promise',
+                                                                             'reason' => 'future_check_or_investigation',
+                                                                             'model' => assistant_model
+                                                                           })
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.outgoing.last.content).to eq(I18n.t('conversations.captain.handoff'))
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'skips the false promise harness when the action classifier already requested handoff' do
+          allow(account).to receive(:feature_enabled?).and_return(false)
+          allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('captain_v1_action_classifier').and_return(true)
+          allow(mock_action_classifier_service).to receive(:classify).and_return({
+                                                                                   'action' => 'handoff',
+                                                                                   'action_reason' => 'explicit_human_request',
+                                                                                   'model' => 'gpt-4.1'
+                                                                                 })
+
+          expect(Captain::Llm::AssistantFalsePromiseService).not_to receive(:new)
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.outgoing.last.content).to eq(I18n.t('conversations.captain.handoff'))
+        end
       end
 
       context 'when V1 action classifier is enabled' do
