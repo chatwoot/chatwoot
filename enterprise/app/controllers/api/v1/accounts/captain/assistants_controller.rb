@@ -112,19 +112,18 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
     permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
-    # The audience is a recursive condition tree that strong params can't whitelist by shape;
-    # route it through separately. Validity is enforced by Captain::AudienceValidator.
     permit_audience_config(permitted)
 
     permitted
   end
 
+  # The audience is a recursive condition tree that strong params can't whitelist by shape;
+  # pass it through raw and let Captain::AudienceValidator enforce validity.
   def permit_audience_config(permitted)
     config = params[:assistant][:config]
-    return unless config.respond_to?(:key?) && config.key?(:audience)
+    return unless config.try(:key?, :audience)
 
     audience = config[:audience]
-    permitted[:config] ||= ActionController::Parameters.new.permit!
     permitted[:config][:audience] = audience.respond_to?(:permit!) ? audience.permit!.to_h : audience
   end
 
