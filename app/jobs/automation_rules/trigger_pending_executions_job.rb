@@ -9,7 +9,7 @@ class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
     started_at = Time.current
     purged = AutomationRulePendingExecution.purge_terminal!
 
-    rows = AutomationRulePendingExecution.sweepable.order(:due_at).limit(sweep_limit).to_a
+    rows = AutomationRulePendingExecution.sweepable.for_enabled_accounts.order(:due_at).limit(sweep_limit).to_a
     rows.each { |row| AutomationRules::ProcessPendingExecutionJob.perform_later(row) }
 
     log_summary(enqueued: rows.size, capped: rows.size >= sweep_limit, purged: purged, started_at: started_at)
