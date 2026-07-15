@@ -1,0 +1,139 @@
+require 'rails_helper'
+
+RSpec.describe AutomationRules::ProcessPendingExecutionJob do
+  subject(:job) { described_class.new }
+
+  let(:account) { create(:account) }
+  let(:conversation) { create(:conversation, account: account, status: :pending) }
+  let(:rule) do
+    create(:automation_rule, account: account, event_name: 'conversation_updated', execution_delay: 60,
+                             conditions: [{ 'values' => ['pending'], 'attribute_key' => 'status', 'query_operator' => nil,
+                                            'filter_operator' => 'equal_to' }],
+                             actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
+  end
+  let(:pending_execution) do
+    AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
+    AutomationRulePendingExecution.last
+  end
+
+  before do
+    GlobalConfig.clear_cache
+    account.enable_features!('delayed_automations')
+  end
+
+  it 'runs the actions and marks the row executed when every guard passes' do
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_executed
+    expect(conversation.reload.label_list).to include('stale')
+  end
+
+  it 'skips with rule_inactive when the rule was disabled' do
+    rule.update!(active: false)
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('rule_inactive')
+    expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'skips with flag_disabled when the account flag was turned off' do
+    account.disable_features!('delayed_automations')
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('flag_disabled')
+  end
+
+  it 'skips with episode_moved when the conversation left the armed status' do
+    pending_execution
+    conversation.update!(status: :resolved)
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('episode_moved')
+    expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'skips with conditions_changed when the re-check no longer matches the edited rule' do
+    pending_execution
+    # Rule edited while pending: the re-check enforces the current conditions (by design).
+    rule.update!(conditions: [{ 'values' => ['open'], 'attribute_key' => 'status', 'query_operator' => nil,
+                                'filter_operator' => 'equal_to' }])
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('conditions_changed')
+  end
+
+  it 'skips with expired when the row is past the due window' do
+    pending_execution.update!(due_at: 4.days.ago)
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('expired')
+    expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'leaves the row untouched without executing when the kill switch is set' do
+    create(:installation_config, name: 'DISABLE_DELAYED_AUTOMATIONS', serialized_value: { value: true }.with_indifferent_access)
+    GlobalConfig.clear_cache
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_pending
+    expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'runs the actions once when the same row is processed twice concurrently' do
+    allow(AutomationRules::ActionService).to receive(:new).and_call_original
+    duplicate = AutomationRulePendingExecution.find(pending_execution.id)
+
+    job.perform(pending_execution.reload)
+    described_class.new.perform(duplicate)
+
+    expect(AutomationRules::ActionService).to have_received(:new).once
+    expect(pending_execution.reload).to be_executed
+  end
+
+  it 'leaves the row processing and reports the error when an action blows up' do
+    allow(AutomationRules::ActionService).to receive(:new).and_raise(StandardError, 'boom')
+    allow(ChatwootExceptionTracker).to receive(:new).and_call_original
+
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_processing
+    expect(ChatwootExceptionTracker).to have_received(:new)
+  end
+
+  it 'sends the follow-up exactly once for the reply-chase story' do
+    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                                            conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
+                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                                            actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
+    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
+    row = AutomationRulePendingExecution.last
+
+    job.perform(row.reload)
+
+    expect(row.reload).to be_executed
+    expect(conversation.messages.outgoing.pluck(:content)).to include('Just checking in')
+  end
+
+  it 'cancels the follow-up when the customer replied before it was due' do
+    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                                            conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
+                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                                            actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
+    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
+    row = AutomationRulePendingExecution.last
+
+    create(:message, conversation: conversation, account: account, message_type: :incoming)
+    job.perform(row.reload)
+
+    expect(row.reload).to be_skipped
+    expect(row.skip_reason).to eq('episode_moved')
+    expect(conversation.messages.outgoing.pluck(:content)).not_to include('Just checking in')
+  end
+end
