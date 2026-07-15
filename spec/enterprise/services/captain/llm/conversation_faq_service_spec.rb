@@ -33,6 +33,109 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         allow(captain_assistant.responses).to receive(:nearest_neighbors).and_return([])
       end
 
+      it 'uses the conversation FAQ generation feature model' do
+        expect(RubyLLM).to receive(:chat).with(
+          model: Llm::Models.default_model_for('conversation_faq_generation')
+        ).and_return(mock_chat)
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
+      it 'uses the conversation FAQ default ahead of the legacy global installation model' do
+        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-mini')
+
+        expect(RubyLLM).to receive(:chat).with(
+          model: Llm::Models.default_model_for('conversation_faq_generation')
+        ).and_return(mock_chat)
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
+      it 'keeps account conversation FAQ model overrides ahead of the feature default' do
+        create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1')
+        conversation.account.update!(captain_models: { 'conversation_faq_generation' => 'gpt-4.1-mini' })
+
+        expect(RubyLLM).to receive(:chat).with(model: 'gpt-4.1-mini').and_return(mock_chat)
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
+      it 'resolves the feature model from the conversation account' do
+        expect(Llm::FeatureRouter).to receive(:resolve).with(
+          feature: 'conversation_faq_generation',
+          account: conversation.account
+        ).and_call_original
+
+        described_class.new(captain_assistant, conversation).generate_and_deduplicate
+      end
+
+      it 'sends only customer and human support agent messages to the LLM' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer question')
+        create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                                       content: 'Bot answer that should not become knowledge')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         content: 'Human answer')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         private: true, content: 'Private note')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         message_type: :activity, content: 'Activity message')
+
+        service.generate_and_deduplicate
+
+        expected_content = satisfy do |content|
+          content.include?('User: Customer question') &&
+            content.include?('Support Agent: Human answer') &&
+            content.exclude?('Bot answer that should not become knowledge') &&
+            content.exclude?('Private note') &&
+            content.exclude?('Activity message')
+        end
+        expect(mock_chat).to have_received(:ask).with(expected_content)
+      end
+
+      it 'keeps external echo outgoing replies from native channels in the LLM transcript' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer asks in a native channel')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: nil, message_type: :outgoing, content: 'Human replied from the native app',
+                         content_attributes: { external_echo: true })
+
+        service.generate_and_deduplicate
+
+        expected_content = satisfy do |content|
+          content.include?('User: Customer asks in a native channel') &&
+            content.include?('Support Agent: Human replied from the native app')
+        end
+        expect(mock_chat).to have_received(:ask).with(expected_content)
+      end
+
+      it 'uses the human-only conversation transcript for instrumentation' do
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:contact, account: conversation.account), message_type: :incoming,
+                         content: 'Customer asks something')
+        create(:message, :bot_message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                                       content: 'Bot-only answer')
+        create(:message, conversation: conversation, account: conversation.account, inbox: conversation.inbox,
+                         sender: create(:user, account: conversation.account), message_type: :outgoing,
+                         content: 'Agent gives a public answer')
+
+        expect(service).to receive(:instrument_llm_call) do |params, &block|
+          user_message = params[:messages].find { |message| message[:role] == 'user' }[:content]
+
+          expect(user_message).to include('User: Customer asks something')
+          expect(user_message).to include('Support Agent: Agent gives a public answer')
+          expect(user_message).not_to include('Bot-only answer')
+
+          block.call
+        end
+
+        service.generate_and_deduplicate
+      end
+
       it 'creates new FAQs for valid conversation content' do
         expect do
           service.generate_and_deduplicate
