@@ -7,19 +7,12 @@ class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
     return if delayed_automations_disabled?
 
     started_at = Time.current
-    reclaimed = AutomationRulePendingExecution.reclaim_stale!
-    expired = AutomationRulePendingExecution.expire_overdue!
-    due_count = AutomationRulePendingExecution.due.count
+    purged = AutomationRulePendingExecution.purge_terminal!
 
-    enqueued = 0
-    AutomationRulePendingExecution.due.limit(sweep_limit).find_each(batch_size: 100) do |pending_execution|
-      next unless pending_execution.mark_processing!
+    rows = AutomationRulePendingExecution.sweepable.order(:due_at).limit(sweep_limit).to_a
+    rows.each { |row| AutomationRules::ProcessPendingExecutionJob.perform_later(row) }
 
-      AutomationRules::ProcessPendingExecutionJob.perform_later(pending_execution)
-      enqueued += 1
-    end
-
-    log_summary(due: due_count, enqueued: enqueued, expired: expired, reclaimed: reclaimed, started_at: started_at)
+    log_summary(enqueued: rows.size, capped: rows.size >= sweep_limit, purged: purged, started_at: started_at)
   end
 
   private
@@ -32,11 +25,8 @@ class AutomationRules::TriggerPendingExecutionsJob < ApplicationJob
     (InstallationConfig.find_by(name: 'AUTOMATION_PENDING_EXECUTIONS_SWEEP_LIMIT')&.value || DEFAULT_SWEEP_LIMIT).to_i
   end
 
-  def log_summary(due:, enqueued:, expired:, reclaimed:, started_at:)
-    summary = {
-      event: 'completed', due: due, enqueued: enqueued, capped: due > enqueued,
-      expired: expired, reclaimed: reclaimed, duration_ms: ((Time.current - started_at) * 1000).round
-    }
+  def log_summary(enqueued:, capped:, purged:, started_at:)
+    summary = { event: 'completed', enqueued: enqueued, capped: capped, purged: purged, duration_ms: ((Time.current - started_at) * 1000).round }
     Rails.logger.info("[AutomationRules::TriggerPendingExecutionsJob] #{summary.to_json}")
   end
 end

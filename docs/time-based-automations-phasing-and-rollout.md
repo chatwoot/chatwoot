@@ -298,9 +298,10 @@ are permanent (header contract in features.yml).
 - **Per-sweep cap**: constant on the job class with an InstallationConfig override
   (Captain ScheduleSyncsJob pattern — gives a no-deploy tuning knob), default 1000;
   overflow logs `capped: true` + remaining count; due rows stay due for the next tick.
-- **Claim transition**: `pending → processing` before enqueue (`Campaign#mark_processing!`
-  precedent) so a re-selected row can't double-fire; stale `processing` rows older than
-  15 min return to eligibility (mechanism per Captain's stale-claim recovery — its
+- **Claim transition**: the sweep only enqueues; the per-row job does the atomic
+  `pending → processing` claim under a row lock, so a row re-enqueued by an overlapping sweep
+  (or a reclaimed stale row) loses the claim and can't double-fire. Stale `processing` rows
+  older than 15 min become claimable again (mechanism per Captain's stale-claim recovery — its
   `SYNC_STALE_TIMEOUT` is 2h; we choose 15 min to match the 5-min cadence).
 - **Kill switch checked in both jobs** (§4.1).
 - **Queue reality** (`config/sidekiq.yml` is strict-priority, no weights): per-row jobs on
@@ -308,7 +309,7 @@ are permanent (header contract in features.yml).
   `scheduled_jobs` (8th) sits *below* `low`, so the sweep itself can be late — `due_at <=
   now` semantics already tolerate that. Note `WebhookJob` is **also** `queue_as :medium`,
   so webhook-heavy delayed rules add to the same queue; covered by the cap.
-- Per-row error isolation: `discard_on ActiveRecord::RecordNotFound`; rescue →
+- Per-row error isolation: `discard_on ActiveJob::DeserializationError`; rescue →
   `ChatwootExceptionTracker.new(e, account:).capture_exception`, continue.
 
 **Fast-follow tolerable** (days, not weeks; needed before Stage C):
@@ -326,8 +327,8 @@ are permanent (header contract in features.yml).
 
 **Structured summary log per sweep**, emitted as JSON so New Relic ingests fields without a
 parsing rule:
-`[AutomationRules::TriggerPendingExecutionsJob] {"event":"completed","due":N,"enqueued":N,
-"capped":false,"expired":N,"reclaimed":N,"duration_ms":N}` — plus per-row terminal
+`[AutomationRules::TriggerPendingExecutionsJob] {"event":"completed","enqueued":N,
+"capped":false,"purged":N,"duration_ms":N}` — plus per-row terminal
 `skip_reason` stored on the row (the support-facing answer to "why didn't my rule fire"
 until Phase 2's history UI).
 

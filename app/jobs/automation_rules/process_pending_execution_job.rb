@@ -1,23 +1,29 @@
 class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
   queue_as :medium
 
-  discard_on ActiveRecord::RecordNotFound
+  discard_on ActiveJob::DeserializationError
 
   def perform(pending_execution)
-    # The sweep also checks this, but rows already enqueued when the switch flips must not
-    # keep firing; they return to pending and replay or expire via the due window.
-    return pending_execution.update!(status: :pending) if delayed_automations_disabled?
+    return if delayed_automations_disabled?
+    # Atomic claim: a duplicate enqueue (overlapping sweep or stale reclaim) loses here and returns.
+    return unless pending_execution.claim!
+
+    return pending_execution.update!(status: :skipped, skip_reason: 'expired') if expired?(pending_execution)
 
     skip_reason = skip_reason_for(pending_execution)
     return pending_execution.update!(status: :skipped, skip_reason: skip_reason) if skip_reason
 
     execute(pending_execution)
   rescue StandardError => e
-    # Row stays `processing`; the sweep's stale reclaim retries it later.
+    # Row stays `processing`; the next sweep reclaims and retries it once the lock goes stale.
     ChatwootExceptionTracker.new(e, account: pending_execution.account).capture_exception
   end
 
   private
+
+  def expired?(pending_execution)
+    pending_execution.due_at < AutomationRulePendingExecution::DUE_WINDOW.ago
+  end
 
   def skip_reason_for(pending_execution)
     rule = pending_execution.automation_rule

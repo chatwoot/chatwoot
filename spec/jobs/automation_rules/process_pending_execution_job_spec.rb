@@ -13,7 +13,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
   end
   let(:pending_execution) do
     AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
-    AutomationRulePendingExecution.last.tap { |row| row.update!(status: :processing) }
+    AutomationRulePendingExecution.last
   end
 
   before do
@@ -66,13 +66,33 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(pending_execution.skip_reason).to eq('conditions_changed')
   end
 
-  it 'reverts the row to pending when the kill switch is set' do
+  it 'skips with expired when the row is past the due window' do
+    pending_execution.update!(due_at: 4.days.ago)
+    job.perform(pending_execution.reload)
+
+    expect(pending_execution.reload).to be_skipped
+    expect(pending_execution.skip_reason).to eq('expired')
+    expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'leaves the row untouched without executing when the kill switch is set' do
     create(:installation_config, name: 'DISABLE_DELAYED_AUTOMATIONS', serialized_value: { value: true }.with_indifferent_access)
     GlobalConfig.clear_cache
     job.perform(pending_execution.reload)
 
     expect(pending_execution.reload).to be_pending
     expect(conversation.reload.label_list).to be_empty
+  end
+
+  it 'runs the actions once when the same row is processed twice concurrently' do
+    allow(AutomationRules::ActionService).to receive(:new).and_call_original
+    duplicate = AutomationRulePendingExecution.find(pending_execution.id)
+
+    job.perform(pending_execution.reload)
+    described_class.new.perform(duplicate)
+
+    expect(AutomationRules::ActionService).to have_received(:new).once
+    expect(pending_execution.reload).to be_executed
   end
 
   it 'leaves the row processing and reports the error when an action blows up' do
@@ -92,7 +112,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
                                             actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
     agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
     AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last.tap { |r| r.update!(status: :processing) }
+    row = AutomationRulePendingExecution.last
 
     job.perform(row.reload)
 
@@ -107,7 +127,7 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
                                             actions: [{ 'action_name' => 'send_message', 'action_params' => ['Just checking in'] }])
     agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
     AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
-    row = AutomationRulePendingExecution.last.tap { |r| r.update!(status: :processing) }
+    row = AutomationRulePendingExecution.last
 
     create(:message, conversation: conversation, account: account, message_type: :incoming)
     job.perform(row.reload)

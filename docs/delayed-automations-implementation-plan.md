@@ -97,20 +97,22 @@ rule fire" for support and drives incident blast-radius queries.
 ### `app/models/automation_rule_pending_execution.rb` (new, flat name per repo convention)
 - `belongs_to :automation_rule, :conversation, :account`; optional `belongs_to :message`.
 - `enum status: { pending: 0, processing: 1, executed: 2, skipped: 3 }`.
-- `scope :due, -> { pending.where(due_at: 3.days.ago..Time.current) }` — **bounded window**
-  (campaign/snooze-reopen precedent) so downtime backlog is finite.
-- `self.expire_overdue!` — pending rows with `due_at < 3.days.ago` → `skipped` /
-  `skip_reason: 'expired'`, returns count (batched updates — global 14s `statement_timeout`).
-- `self.reclaim_stale!` — `processing` rows older than 15 min → back to `pending`
-  (stale-claim recovery; mechanism per Captain's `SYNC_STALE_TIMEOUT`, which uses 2h —
-  15 min fits the 5-min sweep cadence).
-- `#mark_processing!` — compare-and-set from `pending` (the `Campaign#mark_processing!`
-  precedent); the per-row job is enqueued only after a successful claim.
+- `scope :sweepable` — due `pending` rows (`due_at <= now`) **or** `processing` rows whose
+  lock is older than `STALE_PROCESSING_TIMEOUT` (`.or` of two enum scopes). This single scope
+  replaces the old separate `due` window + `reclaim_stale!` bulk update; stale claims simply
+  become claimable again. Expiry (`due_at < 3.days.ago`) is decided per-row at fire time.
+- `self.purge_terminal!` — `executed`/`skipped` rows past `RETENTION_WINDOW` (30 days) are
+  `delete_all`ed in batches of 1000 (keeps the table bounded; `delete_all` skips no needed
+  validation and is not a `SkipsModelValidations` concern).
+- `#claim!` — atomic compare-and-set under `with_lock`: a row is claimable if `pending`, or
+  `processing` but stale. The claim happens **inside the per-row job**, not the sweep, so a
+  duplicate enqueue (overlapping sweep or reclaimed stale row) loses the claim and returns —
+  this is the double-fire guard. Refreshing `updated_at` on claim renews the lock.
 - `self.schedule(rule:, conversation:, message: nil)` — computes `episode_key` + `due_at =
-  Time.current + rule.execution_delay.minutes`, then by anchor type (locked decision #4):
-  - status episodes and incoming-anchored message episodes → `insert` with `unique_by`
-    (conflict = no-op, clock not reset);
-  - outgoing-anchored message episodes → `upsert` updating `due_at` + `message_id`.
+  Time.current + rule.execution_delay.minutes`, then `create!` guarded by the unique episode
+  index. On `RecordNotUnique`: status / incoming-anchored episodes no-op (clock not reset);
+  outgoing-anchored (reply-chase) episodes update `due_at` + `message_id` when still `pending`
+  (a terminal row is never re-armed). Validation-running writes — no `insert`/`upsert`.
 - `#episode_current?` — recomputes the episode key from live conversation state, compares.
 
 ### `app/models/automation_rule.rb`
@@ -164,15 +166,13 @@ Add one line: `AutomationRules::TriggerPendingExecutionsJob.perform_later`. No c
 # which is truthy — the ENABLE_*_CHANNEL_HUMAN_AGENT read pattern):
 return if GlobalConfig.get('DISABLE_DELAYED_AUTOMATIONS')['DISABLE_DELAYED_AUTOMATIONS']
 
-reclaimed = AutomationRulePendingExecution.reclaim_stale!
-expired   = AutomationRulePendingExecution.expire_overdue!
-AutomationRulePendingExecution.due.limit(sweep_limit).find_each(batch_size: 100) do |pending|
-  next unless pending.mark_processing!
-  AutomationRules::ProcessPendingExecutionJob.perform_later(pending)
-end
+purged = AutomationRulePendingExecution.purge_terminal!
+rows = AutomationRulePendingExecution.sweepable.order(:due_at).limit(sweep_limit).to_a
+rows.each { |row| AutomationRules::ProcessPendingExecutionJob.perform_later(row) }
+# The sweep only enqueues — the per-row job claims (double-fire guard), expires, and executes.
 # end-of-run summary, JSON so New Relic ingests fields without a parsing rule:
-# [AutomationRules::TriggerPendingExecutionsJob] {"event":"completed","due":N,"enqueued":N,
-#  "capped":bool,"expired":N,"reclaimed":N,"duration_ms":N}
+# [AutomationRules::TriggerPendingExecutionsJob] {"event":"completed","enqueued":N,
+#  "capped":bool,"purged":N,"duration_ms":N}
 ```
 `sweep_limit`: constant on the job (default 1000) with an InstallationConfig override
 (Captain `ScheduleSyncsJob` pattern — a no-deploy tuning knob). Overflow rows stay `pending`
@@ -187,10 +187,12 @@ is also on `medium`, so webhook-heavy delayed rules share that budget.
 
 ### `app/jobs/automation_rules/process_pending_execution_job.rb` (new, queue `medium`,
 mirrors `Sla::ProcessAppliedSlaJob`)
-`discard_on ActiveRecord::RecordNotFound`. Re-checks the kill switch first (sweep-only
-checking would let a full sweep's already-enqueued rows keep firing after the flip): if set,
-revert the row to `pending` and return — it replays or expires via the window. Guard chain,
-each failure → `skipped!` with `skip_reason`:
+`discard_on ActiveJob::DeserializationError` (a deleted row fails GlobalID lookup). Re-checks
+the kill switch first (sweep-only checking would let a full sweep's already-enqueued rows keep
+firing after the flip): if set, return without claiming — the row stays `pending` and replays
+or expires via the window. Then `claim!` (bail if lost), then the expiry check
+(`due_at < DUE_WINDOW.ago` → `expired`). Guard chain, each failure → `skipped!` with
+`skip_reason`:
 1. rule exists and `active?` → `rule_inactive`
 2. account flag still enabled → `flag_disabled` (the per-account stop)
 3. conversation exists → `conversation_gone`
@@ -202,8 +204,8 @@ each failure → `skipped!` with `skip_reason`:
    then `executed!`
 
 Per-row rescue → `ChatwootExceptionTracker.new(e, account: account).capture_exception`; the
-row stays `processing` on unexpected errors (stale reclaim retries it), it is NOT marked
-skipped.
+row stays `processing` on unexpected errors (the next sweep re-enqueues it once the lock goes
+stale, and `claim!` lets it run again), it is NOT marked skipped.
 
 Loop safety: `ActionService#initialize` already sets `Current.executed_by = rule` and resets
 it in `ensure`, so events emitted by delayed actions carry `performed_by: rule` and are
@@ -253,18 +255,19 @@ Tailwind-only styling; Composition API `<script setup>` (form already is).
 - `spec/models/automation_rule_pending_execution_spec.rb` — episode key derivation (all
   three anchors); insert/upsert semantics (status + incoming-anchored: clock not reset;
   outgoing-anchored: due_at tracks latest agent reply); `episode_current?` incl.
-  agent-reply-clears-`waiting_since` cancellation; `mark_processing!` claim;
-  `reclaim_stale!`; `expire_overdue!`.
+  agent-reply-clears-`waiting_since` cancellation; `claim!` (once-only + stale reclaim);
+  `sweepable` selection; `purge_terminal!`.
 - `spec/models/conversation_spec.rb` — `status_changed_at` set on create and every
   transition, untouched on non-status saves.
 - `spec/listeners/automation_rule_listener_spec.rb` — delayed rule records a pending
   execution and does NOT run actions; nil delay unchanged; `performed_by` automation events
   create no rows; flag off → no arming AND no immediate fallback.
-- `spec/jobs/automation_rules/trigger_pending_executions_job_spec.rb` — only due+pending
-  swept; kill switch no-ops the sweep; window expiry marks `expired`; cap leaves overflow
-  pending; stale `processing` reclaimed.
+- `spec/jobs/automation_rules/trigger_pending_executions_job_spec.rb` — due+pending and stale
+  `processing` enqueued (not future); kill switch no-ops the sweep; cap limits enqueues;
+  terminal rows past retention purged.
 - `spec/jobs/automation_rules/process_pending_execution_job_spec.rb` — full guard chain
-  with `skip_reason` per branch; kill switch reverts row to pending; happy path executes
+  with `skip_reason` per branch; per-row `expired`; kill switch leaves row pending; duplicate
+  enqueue executes once (claim guard); happy path executes
   actions exactly once.
 - `spec/controllers/api/v1/accounts/automation_rules_controller_spec.rb` —
   permits/persists/serializes `execution_delay` when flag on; 422 when submitted with flag

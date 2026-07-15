@@ -25,8 +25,10 @@
 class AutomationRulePendingExecution < ApplicationRecord
   # Rows older than this never fire (bounds backlog replay after downtime).
   DUE_WINDOW = 3.days
-  # Claimed rows abandoned by a crashed worker return to the sweep after this.
+  # A processing row whose lock is older than this is treated as abandoned and reclaimed.
   STALE_PROCESSING_TIMEOUT = 15.minutes
+  # Terminal rows are purged after this to keep the table bounded.
+  RETENTION_WINDOW = 30.days
 
   belongs_to :automation_rule
   belongs_to :conversation
@@ -35,33 +37,24 @@ class AutomationRulePendingExecution < ApplicationRecord
 
   enum status: { pending: 0, processing: 1, executed: 2, skipped: 3 }
 
-  scope :due, -> { pending.where(due_at: DUE_WINDOW.ago..Time.current) }
+  # Rows a sweep should hand to a worker: due pending rows, plus processing rows whose lock went stale.
+  scope :sweepable, lambda {
+    pending.where(due_at: ..Time.current).or(processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago))
+  }
 
   def self.schedule(rule:, conversation:, message: nil)
-    attributes = {
-      automation_rule_id: rule.id,
-      conversation_id: conversation.id,
-      account_id: conversation.account_id,
-      message_id: message&.id,
-      episode_key: episode_key_for(conversation, message),
-      due_at: rule.execution_delay.minutes.from_now,
-      created_at: Time.current,
-      updated_at: Time.current
-    }
+    key = episode_key_for(conversation, message)
+    create!(
+      automation_rule: rule, conversation: conversation, account_id: conversation.account_id,
+      message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.from_now
+    )
+  rescue ActiveRecord::RecordNotUnique
+    # Episode already armed. Reply-chase tracks the latest agent reply, so its clock moves;
+    # status / awaiting-agent episodes keep the first clock. A terminal row is never re-armed.
+    return unless message && !message.incoming?
 
-    # Values are server-computed and the unique episode index is the real guard, so the
-    # validation-skipping conflict-handling writes are safe here (repo bulk-write convention).
-    # rubocop:disable Rails/SkipsModelValidations
-    if message && !message.incoming?
-      # Reply-chase: the clock tracks the latest agent reply. Status is excluded from the
-      # update list so an executed/skipped episode is never re-armed (run-once per episode).
-      upsert(attributes, unique_by: :uniq_automation_pending_execution_episode,
-                         on_duplicate: Arel.sql('due_at = excluded.due_at, message_id = excluded.message_id, updated_at = excluded.updated_at'))
-    else
-      # Status / awaiting-agent episodes: first event wins, the clock is not reset.
-      insert(attributes, unique_by: :uniq_automation_pending_execution_episode)
-    end
-    # rubocop:enable Rails/SkipsModelValidations
+    row = find_by!(automation_rule_id: rule.id, conversation_id: conversation.id, episode_key: key)
+    row.update!(due_at: rule.execution_delay.minutes.from_now, message_id: message.id) if row.pending?
   end
 
   # Episode keys identify one qualifying stretch of conversation state; when the recomputed
@@ -79,38 +72,30 @@ class AutomationRulePendingExecution < ApplicationRecord
     end
   end
 
-  # Bulk state flips on exceptional sets; batched so no statement outlives the global 14s
-  # statement_timeout (repo bulk-write convention, see Agents::DestroyJob).
-  # rubocop:disable Rails/SkipsModelValidations
-  def self.expire_overdue!
-    expired_count = 0
-    pending.where(due_at: ...DUE_WINDOW.ago).in_batches(of: 1000) do |batch|
-      expired_count += batch.update_all(status: statuses[:skipped], skip_reason: 'expired', updated_at: Time.current)
-    end
-    expired_count
+  def self.purge_terminal!
+    where(status: [statuses[:executed], statuses[:skipped]], updated_at: ...RETENTION_WINDOW.ago)
+      .in_batches(of: 1000).delete_all
   end
 
-  def self.reclaim_stale!
-    reclaimed_count = 0
-    processing.where(updated_at: ...STALE_PROCESSING_TIMEOUT.ago).in_batches(of: 1000) do |batch|
-      reclaimed_count += batch.update_all(status: statuses[:pending], updated_at: Time.current)
-    end
-    reclaimed_count
-  end
-  # rubocop:enable Rails/SkipsModelValidations
-
-  # Locked claim so a row re-selected by an overlapping sweep can't double-fire
-  # (Campaign#mark_processing! pattern).
-  def mark_processing!
+  # Atomic claim: only one worker can move a row into processing, so a row re-enqueued by an
+  # overlapping sweep (or after a stale reclaim) cannot double-execute. Refreshing updated_at
+  # renews the lock, keeping the row out of the stale window while this worker holds it.
+  def claim!
     with_lock do
-      next false unless pending?
+      next false unless claimable?
 
-      processing!
+      update!(status: :processing, updated_at: Time.current)
       true
     end
   end
 
   def episode_current?
     self.class.episode_key_for(conversation, message) == episode_key
+  end
+
+  private
+
+  def claimable?
+    pending? || (processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago)
   end
 end

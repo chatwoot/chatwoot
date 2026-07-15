@@ -121,49 +121,51 @@ RSpec.describe AutomationRulePendingExecution do
     end
   end
 
-  describe '#mark_processing!' do
+  describe '#claim!' do
     let(:row) { create(:automation_rule_pending_execution, account: account, conversation: conversation) }
 
-    it 'claims a pending row exactly once' do
-      expect(row.mark_processing!).to be(true)
+    it 'claims a pending row exactly once so a duplicate enqueue cannot double-fire' do
+      expect(row.claim!).to be(true)
       expect(row.reload).to be_processing
-      expect(row.mark_processing!).to be(false)
+      expect(described_class.find(row.id).claim!).to be(false)
     end
 
-    it 'does not claim executed rows' do
+    it 'does not claim terminal rows' do
       row.update!(status: :executed)
-      expect(row.mark_processing!).to be(false)
+      expect(row.claim!).to be(false)
+    end
+
+    it 'reclaims a processing row only after its lock goes stale' do
+      row.update!(status: :processing)
+      expect(row.claim!).to be(false)
+
+      travel_to(20.minutes.from_now) { expect(row.claim!).to be(true) }
     end
   end
 
-  describe '.due / .expire_overdue! / .reclaim_stale!' do
-    it 'selects only pending rows inside the due window' do
+  describe '.sweepable' do
+    it 'selects due pending rows and stale processing rows, but not future or fresh ones' do
       due = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago)
       create(:automation_rule_pending_execution, account: account, due_at: 1.hour.from_now)
-      create(:automation_rule_pending_execution, account: account, due_at: 1.minute.ago, status: :executed)
-
-      expect(described_class.due).to eq([due])
-    end
-
-    it 'expires pending rows older than the due window' do
-      overdue = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 4.days.ago)
-      fresh = create(:automation_rule_pending_execution, account: account, due_at: 1.minute.ago)
-
-      expect(described_class.expire_overdue!).to eq(1)
-      expect(overdue.reload).to be_skipped
-      expect(overdue.skip_reason).to eq('expired')
-      expect(fresh.reload).to be_pending
-    end
-
-    it 'reclaims processing rows stuck longer than the stale timeout' do
+      create(:automation_rule_pending_execution, account: account, status: :processing)
       stale = travel_to(20.minutes.ago) do
         create(:automation_rule_pending_execution, account: account, conversation: conversation, status: :processing)
       end
-      recent = create(:automation_rule_pending_execution, account: account, status: :processing)
 
-      expect(described_class.reclaim_stale!).to eq(1)
-      expect(stale.reload).to be_pending
-      expect(recent.reload).to be_processing
+      expect(described_class.sweepable).to contain_exactly(due, stale)
+    end
+  end
+
+  describe '.purge_terminal!' do
+    it 'deletes terminal rows past the retention window and keeps everything else' do
+      old_executed = travel_to(31.days.ago) { create(:automation_rule_pending_execution, account: account, status: :executed) }
+      recent_skipped = create(:automation_rule_pending_execution, account: account, status: :skipped)
+      pending = create(:automation_rule_pending_execution, account: account, conversation: conversation)
+
+      described_class.purge_terminal!
+
+      expect(described_class.pluck(:id)).to contain_exactly(recent_skipped.id, pending.id)
+      expect { old_executed.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 end
