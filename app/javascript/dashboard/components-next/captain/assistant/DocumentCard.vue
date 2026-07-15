@@ -66,6 +66,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  responsesCount: {
+    type: Number,
+    default: 0,
+  },
   isSelected: {
     type: Boolean,
     default: false,
@@ -112,10 +116,10 @@ const showSyncStatus = computed(() => !isPdf.value);
 const menuItems = computed(() => {
   const allOptions = [
     {
-      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_RELATED_RESPONSES'),
-      value: 'viewRelatedQuestions',
-      action: 'viewRelatedQuestions',
-      icon: 'i-ph-tree-view-duotone',
+      label: t('CAPTAIN.DOCUMENTS.OPTIONS.VIEW_DETAILS'),
+      value: 'viewDetails',
+      action: 'viewDetails',
+      icon: 'i-lucide-eye',
     },
   ];
 
@@ -143,6 +147,9 @@ const menuItems = computed(() => {
 });
 
 const createdAtLabel = computed(() => dynamicTime(props.createdAt));
+const responsesCountLabel = computed(() =>
+  t('CAPTAIN.DOCUMENTS.FAQ_COUNT', { n: props.responsesCount })
+);
 
 const displayLink = computed(() =>
   isPdf.value
@@ -156,6 +163,10 @@ const linkIcon = computed(() =>
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
   emit('action', { action, value, id: props.id });
+};
+
+const handleViewDetails = () => {
+  emit('action', { action: 'viewDetails', id: props.id });
 };
 
 const handleRetry = () => {
@@ -177,9 +188,13 @@ const handleRetry = () => {
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex gap-1 justify-between w-full">
-      <span class="text-base text-n-slate-12 line-clamp-1">
+      <button
+        type="button"
+        class="p-0 text-base text-left bg-transparent border-0 outline-transparent text-n-slate-12 line-clamp-1 underline-offset-2 hover:underline focus-visible:underline"
+        @click="handleViewDetails"
+      >
         {{ name }}
-      </span>
+      </button>
       <div v-if="showMenu" class="flex gap-2 items-center">
         <div
           v-on-clickaway="() => toggleDropdown(false)"
@@ -227,6 +242,9 @@ const handleRetry = () => {
       >
         <Icon :icon="linkIcon" class="shrink-0" />
         <span class="truncate">{{ displayLink }}</span>
+      </span>
+      <span class="text-sm shrink-0 text-n-slate-11">
+        {{ responsesCountLabel }}
       </span>
       <DocumentSyncStatus
         v-if="showSyncStatus"

@@ -37,6 +37,20 @@ class CaptainAssistant extends ApiClient {
       params: { range, timezone_offset: getTimezoneOffset() },
     });
   }
+
+  getDrilldown({ assistantId, metric, range, page, signal }) {
+    const requestConfig = {
+      params: {
+        metric,
+        range,
+        timezone_offset: getTimezoneOffset(),
+        page,
+      },
+    };
+    if (signal) requestConfig.signal = signal;
+
+    return axios.get(`${this.url}/${assistantId}/drilldown`, requestConfig);
+  }
 }
 
 export default new CaptainAssistant();
