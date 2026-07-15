@@ -11,6 +11,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import {
   generateAutomationPayload,
   getAttributes,
+  getDefaultConditions,
   getFileName,
   showActionInput,
 } from 'dashboard/helper/automationHelper';
@@ -276,12 +277,14 @@ watch([isDelayed, delayInMinutes], () => {
     : null;
 });
 
-// Turning on a delay narrows the condition options; reset conditions the delayed rule can't use
-// (e.g. a mutable attribute) to the event default. Valid selections (incl. an edit) are kept.
+// Turning on a delay narrows the condition options; reset only the conditions a delayed rule
+// can't use (e.g. a mutable attribute) to the event default. Actions and valid selections are kept.
 watch(isDelayed, delayed => {
   if (!delayed || !automation.value) return;
   if (!isDelaySupported.value) {
-    props.onEventChange();
+    automation.value.conditions = getDefaultConditions(
+      automation.value.event_name
+    );
   }
 });
 
