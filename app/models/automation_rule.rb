@@ -35,8 +35,11 @@ class AutomationRule < ApplicationRecord
   validates :account_id, presence: true
   validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
   validate :execution_delay_supported_conditions
+  validate :execution_delay_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
+  # Rows already armed under the old delay must not fire on a config the rule no longer has.
+  after_update :cancel_stale_pending_executions, if: -> { saved_change_to_execution_delay? }
 
   scope :active, -> { where(active: true) }
 
@@ -108,6 +111,22 @@ class AutomationRule < ApplicationRecord
     return if conditions.none? { |obj| obj['filter_operator'] == 'attribute_changed' }
 
     errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
+  end
+
+  # Conversation-level events (anything but message_created) key their episode on
+  # status_changed_at alone. A delayed condition on any other attribute (assignee, team,
+  # priority, ...) would collapse distinct qualifying periods into one episode and could
+  # fire on a stale window, so only status conditions are supported until episodes track
+  # per-attribute change times.
+  def execution_delay_supported_event
+    return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
+    return if conditions.all? { |obj| obj['attribute_key'] == 'status' }
+
+    errors.add(:execution_delay, 'only supports status conditions for conversation-level events.')
+  end
+
+  def cancel_stale_pending_executions
+    pending_executions.pending.find_each { |execution| execution.update!(status: :skipped, skip_reason: 'rule_edited') }
   end
 
   def validate_single_condition(condition)
