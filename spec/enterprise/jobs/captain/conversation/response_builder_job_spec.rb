@@ -360,15 +360,21 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'passes message history with resolution markers to agent runner service' do
+        same_second = Time.current.change(usec: 0)
+        conversation.messages.find_by!(content: 'Hello').update!(created_at: same_second, updated_at: same_second)
         create(
           :message,
           conversation: conversation,
           message_type: :activity,
           content: 'Conversation was marked resolved by Alice',
-          content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
+          content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } },
+          created_at: same_second,
+          updated_at: same_second
         )
-        create(:message, conversation: conversation, message_type: :activity, content: 'Assigned to agent')
-        create(:message, conversation: conversation, content: 'Fresh question', message_type: :incoming)
+        create(:message, conversation: conversation, message_type: :activity, content: 'Assigned to agent', created_at: same_second,
+                         updated_at: same_second)
+        create(:message, conversation: conversation, content: 'Fresh question', message_type: :incoming, created_at: same_second,
+                         updated_at: same_second)
 
         expected_messages = [
           { content: 'Hello', role: 'user' },

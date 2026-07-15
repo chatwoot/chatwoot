@@ -16,7 +16,9 @@ class Captain::Conversation::MessageHistoryBuilderService
   private
 
   def conversation_messages_for_context
-    conversation.messages.where(private: false, message_type: [:incoming, :outgoing, :activity])
+    conversation.messages
+                .where(private: false, message_type: [:incoming, :outgoing, :activity])
+                .reorder(created_at: :asc, id: :asc)
   end
 
   def message_hash_for_context(message)
