@@ -34,7 +34,7 @@ class Captain::Assistant::SessionCaptureService
       faq_ids: metadata[:faq_ids] || [],
       document_ids: metadata[:document_ids] || [],
       scenario_ids: scenario_ids,
-      run_context: run_context_payload
+      run_context: current_turn_history
     )
   end
 
@@ -54,28 +54,11 @@ class Captain::Assistant::SessionCaptureService
     ids & @assistant.scenarios.where(id: ids).pluck(:id)
   end
 
-  def run_context_payload
-    {
-      session_id: context[:session_id],
-      current_agent: context[:current_agent],
-      turn_count: context[:turn_count],
-      conversation_history: current_turn_history,
-      usage: usage_payload
-    }
-  end
-
   # Trim to the current turn: the last user message and everything after it
   # (assistant replies, tool calls/results, handoff hops).
   def current_turn_history
     history = Array(context[:conversation_history])
     last_user_index = history.rindex { |message| message[:role].to_s == 'user' }
     last_user_index ? history[last_user_index..] : history
-  end
-
-  def usage_payload
-    usage = @run_result.usage
-    return {} if usage.blank?
-
-    { input_tokens: usage.input_tokens, output_tokens: usage.output_tokens, total_tokens: usage.total_tokens }
   end
 end

@@ -106,15 +106,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
     end
 
     it 'stores the trimmed current turn in run_context' do
-      run_context_payload = service.capture!.run_context
-
-      expect(run_context_payload['session_id']).to eq("#{account.id}_#{conversation.display_id}")
-      expect(run_context_payload['current_agent']).to eq('Assistant')
-      expect(run_context_payload['turn_count']).to eq(2)
-      expect(run_context_payload['usage']).to eq('input_tokens' => 120, 'output_tokens' => 40, 'total_tokens' => 160)
-      expect(run_context_payload).not_to have_key('state')
-
-      history = run_context_payload['conversation_history']
+      history = service.capture!.run_context
       expect(history.size).to eq(4)
       expect(history.first).to include('role' => 'user', 'content' => 'CUST001')
     end
@@ -122,7 +114,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
     it 'stores the full history when it contains no user message' do
       run_context[:conversation_history] = conversation_history.reject { |message| message[:role] == :user }
 
-      history = service.capture!.run_context['conversation_history']
+      history = service.capture!.run_context
 
       expect(history.size).to eq(4)
     end
@@ -139,8 +131,7 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(session.result).to eq(result_message)
       expect(session.faq_ids).to eq([])
       expect(session.document_ids).to eq([])
-      expect(session.run_context['conversation_history']).to eq([])
-      expect(session.run_context['usage']).to eq({})
+      expect(session.run_context).to eq([])
     end
 
     it 'extracts every scenario that authored a message in the current turn' do

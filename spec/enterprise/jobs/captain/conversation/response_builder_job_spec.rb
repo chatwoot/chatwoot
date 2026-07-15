@@ -506,8 +506,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           user_id: nil
         )
         expect(session).to be_session_assistant
-        expect(session.run_context['usage']).to eq('input_tokens' => 100, 'output_tokens' => 20, 'total_tokens' => 120)
-        expect(session.run_context['conversation_history'].first).to include('role' => 'user', 'content' => 'Hello')
+        expect(session.run_context.first).to include('role' => 'user', 'content' => 'Hello')
       end
 
       it 'creates a zero-credit session when the handoff tool fired' do
