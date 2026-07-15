@@ -82,6 +82,8 @@ const MIN_DELAY_MINUTES = 10;
 const MAX_DELAY_MINUTES = 43200; // 30 days
 // Events where a delayed rule is meaningful: status-based waits and awaiting-agent/reply-chase.
 const DELAYED_EVENT_KEYS = ['conversation_updated', 'message_created'];
+// Conversation-level delayed rules can filter on status plus immutable attributes (inbox).
+const DELAYED_CONVERSATION_ATTRS = ['status', 'inbox_id'];
 
 const { t } = useI18n();
 const { isCloudFeatureEnabled } = useAccount();
@@ -129,9 +131,11 @@ const filterTypes = computed(() => {
   if (!event || !props.automationTypes[event]) return [];
 
   let attributes = getTranslatedAttributes(props.automationTypes, event);
-  // A delayed conversation-level rule can only key its episode on status, so offer status alone.
+  // A delayed conversation-level rule can filter only on status and immutable attributes (inbox).
   if (isDelayed.value && event !== 'message_created') {
-    attributes = attributes.filter(attr => attr.key === 'status');
+    attributes = attributes.filter(attr =>
+      DELAYED_CONVERSATION_ATTRS.includes(attr.key)
+    );
   }
 
   return attributes.map(attr => {
@@ -229,7 +233,8 @@ const delayRestrictionReason = computed(() => {
     eventName.value !== 'message_created' &&
     conditions.some(
       condition =>
-        condition.attribute_key && condition.attribute_key !== 'status'
+        condition.attribute_key &&
+        !DELAYED_CONVERSATION_ATTRS.includes(condition.attribute_key)
     )
   ) {
     return 'CONVERSATION_NON_STATUS';
