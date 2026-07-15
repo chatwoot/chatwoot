@@ -1,4 +1,9 @@
-# Chatwoot *web* service (Puma). Worker uses railway.worker.toml.
+# Chatwoot *web* service config (used when Railway source = this GitHub repo).
+# Production web is currently pinned to ghcr.io/railwayapp-templates/chatwoot:Community
+# until fork deploys boot reliably. Worker uses railway.worker.toml.
+#
+# Dockerfile must NOT set ENTRYPOINT rails.sh when Railway startCommand already
+# invokes docker/entrypoints/rails.sh (double-wrap = empty "Stopping Container").
 
 [build]
 builder = "DOCKERFILE"
@@ -6,7 +11,8 @@ dockerfilePath = "docker/Dockerfile"
 watchPatterns = ["docker/**", "app/**", "config/**", "railway.toml", "Gemfile", "Gemfile.lock", "package.json", "pnpm-lock.yaml"]
 
 [deploy]
-startCommand = "bin/rails server -b 0.0.0.0 -p $PORT -e production"
+startCommand = "docker/entrypoints/rails.sh bundle exec rails ip_lookup:setup && bin/rails server -b 0.0.0.0 -p $PORT -e $RAILS_ENV"
+preDeployCommand = ["POSTGRES_STATEMENT_TIMEOUT=600s bundle exec rails db:chatwoot_prepare"]
 healthcheckPath = "/api"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"
