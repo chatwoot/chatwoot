@@ -101,6 +101,13 @@ class Channel::Whatsapp < ApplicationRecord
     end
   end
 
+  # Whether the pending (unsaved) provider_config change drops the embedded_signup
+  # source marker, i.e. this save is an embedded signup → manual setup transfer.
+  def embedded_to_manual_transfer_pending?
+    before, after = provider_config_change
+    before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
+  end
+
   def mark_message_templates_updated
     # rubocop:disable Rails/SkipsModelValidations
     update_column(:message_templates_last_updated, Time.zone.now)

@@ -94,9 +94,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   private
 
-  # Only credential updates on existing channels are transfer attempts; creation failures are regular setup errors. Returns false.
+  # Only saves dropping the embedded_signup source marker are transfer attempts; creation/rotation failures are setup errors. Returns false.
   def log_transfer_failure(check, response)
-    return false unless whatsapp_channel.persisted? && whatsapp_channel.provider_config_changed?
+    return false unless whatsapp_channel.embedded_to_manual_transfer_pending?
 
     error_message = response.parsed_response.is_a?(Hash) ? response.parsed_response.dig('error', 'message') : nil
     Rails.logger.warn("[WHATSAPP_EMBEDDED_TO_MANUAL] failure account_id=#{whatsapp_channel.account_id} channel_id=#{whatsapp_channel.id} " \
