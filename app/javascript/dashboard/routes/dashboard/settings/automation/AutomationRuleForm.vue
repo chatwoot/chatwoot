@@ -128,7 +128,11 @@ const filterTypes = computed(() => {
   const event = eventName.value;
   if (!event || !props.automationTypes[event]) return [];
 
-  const attributes = getTranslatedAttributes(props.automationTypes, event);
+  let attributes = getTranslatedAttributes(props.automationTypes, event);
+  // A delayed conversation-level rule can only key its episode on status, so offer status alone.
+  if (isDelayed.value && event !== 'message_created') {
+    attributes = attributes.filter(attr => attr.key === 'status');
+  }
 
   return attributes.map(attr => {
     if (attr.disabled) {
@@ -138,7 +142,11 @@ const filterTypes = computed(() => {
     const mappedInputType = INPUT_TYPE_MAP[attr.inputType] || 'plainText';
     const options = props.getConditionDropdownValues(attr.key) || [];
 
-    const filterOperators = (attr.filterOperators || []).map(op => {
+    // attribute_changed can't be re-evaluated at fire time, so hide it for delayed rules.
+    const availableOperators = (attr.filterOperators || []).filter(
+      op => !isDelayed.value || op.value !== 'attribute_changed'
+    );
+    const filterOperators = availableOperators.map(op => {
       const enriched = operators.value[op.value];
       if (enriched) return enriched;
       return {
@@ -271,11 +279,14 @@ watch([isDelayed, delayInMinutes], () => {
     : null;
 });
 
-// Turning on a delay narrows the event list; snap an unsupported event to a supported one.
+// Turning on a delay narrows the event + condition options; snap an unsupported event and reset
+// conditions the delayed rule can't use. Valid selections (incl. an edited rule) are left intact.
 watch(isDelayed, delayed => {
   if (!delayed || !automation.value) return;
   if (!DELAYED_EVENT_KEYS.includes(automation.value.event_name)) {
     automation.value.event_name = 'conversation_updated';
+    props.onEventChange();
+  } else if (!isDelaySupported.value) {
     props.onEventChange();
   }
 });
@@ -327,11 +338,7 @@ const emitSaveAutomation = () => {
   syncCustomAttributeTypes();
   const conditionsValid = isConditionsValid();
   errors.value = validateAutomation(automation.value);
-  if (
-    allowsDelayedExecution.value &&
-    isDelayed.value &&
-    (executionDelayInvalid.value || !isDelaySupported.value)
-  ) {
+  if (allowsDelayedExecution.value && executionDelayInvalid.value) {
     errors.value.execution_delay = true;
   }
   if (Object.keys(errors.value).length === 0 && conditionsValid) {
@@ -405,16 +412,6 @@ defineExpose({ open, close });
         >
           {{ $t('AUTOMATION.ADD.FORM.EXECUTE.ERROR') }}
         </span>
-        <p
-          v-else-if="isDelayed && !isDelaySupported"
-          class="text-xs text-n-amber-11 pt-1 mb-0"
-        >
-          {{
-            $t(
-              `AUTOMATION.ADD.FORM.EXECUTE.RESTRICTED.${delayRestrictionReason}`
-            )
-          }}
-        </p>
         <p v-else-if="isDelayed" class="text-xs text-n-slate-11 pt-1 mb-0">
           {{ $t('AUTOMATION.ADD.FORM.EXECUTE.HELP_TEXT') }}
         </p>
