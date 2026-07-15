@@ -43,7 +43,7 @@ class AutomationRulePendingExecution < ApplicationRecord
   }
 
   def self.schedule(rule:, conversation:, message: nil)
-    key = episode_key_for(conversation, message)
+    key = arm_episode_key_for(conversation, message)
     create!(
       automation_rule: rule, conversation: conversation, account_id: conversation.account_id,
       message_id: message&.id, episode_key: key, due_at: rule.execution_delay.minutes.from_now
@@ -57,6 +57,15 @@ class AutomationRulePendingExecution < ApplicationRecord
     row.update!(due_at: rule.execution_delay.minutes.from_now, message_id: message.id) if row.pending?
   end
 
+  # waiting_since is written just after MESSAGE_CREATED dispatches, so it can still be nil when
+  # an awaiting-agent episode arms. It becomes the starting message's created_at, so use that
+  # here; the strict fire-time key (episode_key_for) then matches once waiting_since is settled.
+  def self.arm_episode_key_for(conversation, message)
+    return episode_key_for(conversation, message) unless message&.incoming? && conversation.waiting_since.blank?
+
+    "awaiting_agent:#{message.created_at.to_i}"
+  end
+
   # Episode keys identify one qualifying stretch of conversation state; when the recomputed
   # key no longer matches, the episode ended and the pending action is cancelled at fire time.
   def self.episode_key_for(conversation, message)
@@ -64,10 +73,9 @@ class AutomationRulePendingExecution < ApplicationRecord
       # Sub-second precision so a resolve→reopen inside one second still ends the episode.
       "status:#{(conversation.status_changed_at.presence || conversation.created_at).to_f}"
     elsif message.incoming?
-      # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode. It is
-      # written just after MESSAGE_CREATED dispatches, so it can still be nil when this arms;
-      # fall back to the message's own created_at, which is exactly the value it becomes.
-      "awaiting_agent:#{(conversation.waiting_since.presence || message.created_at).to_i}"
+      # waiting_since is cleared on agent/bot reply, so a reply invalidates this episode.
+      # Strict here: at fire time a nil waiting_since means the agent replied (episode ended).
+      "awaiting_agent:#{conversation.waiting_since.to_i}"
     else
       # A new customer message changes the max incoming id, invalidating this episode.
       "reply_chase:#{conversation.messages.incoming.maximum(:id) || 0}"
