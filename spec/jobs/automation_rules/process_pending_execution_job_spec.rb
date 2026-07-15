@@ -55,15 +55,22 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(conversation.reload.label_list).to be_empty
   end
 
-  it 'skips with conditions_changed when the re-check no longer matches the edited rule' do
-    pending_execution
-    # Rule edited while pending: the re-check enforces the current conditions (by design).
-    rule.update!(conditions: [{ 'values' => ['open'], 'attribute_key' => 'status', 'query_operator' => nil,
-                                'filter_operator' => 'equal_to' }])
-    job.perform(pending_execution.reload)
+  it 'skips with conditions_changed when the conversation drifts but the episode is intact' do
+    # A message_created (reply-chase) rule whose extra condition is the conversation status.
+    message_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                                            conditions: [{ 'values' => ['pending'], 'attribute_key' => 'status',
+                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                                            actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
+    agent_reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+    AutomationRulePendingExecution.schedule(rule: message_rule, conversation: conversation, message: agent_reply)
+    row = AutomationRulePendingExecution.last
 
-    expect(pending_execution.reload).to be_skipped
-    expect(pending_execution.skip_reason).to eq('conditions_changed')
+    # Status change fails the condition but leaves the reply_chase episode (max incoming id) intact.
+    conversation.update!(status: :open)
+    job.perform(row)
+
+    expect(row.reload).to be_skipped
+    expect(row.skip_reason).to eq('conditions_changed')
   end
 
   it 'skips with expired when the row is past the due window' do

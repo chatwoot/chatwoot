@@ -174,5 +174,60 @@ RSpec.describe AutomationRule do
       expect(rule).not_to be_valid
       expect(rule.errors[:execution_delay]).to include('cannot be used with attribute_changed conditions.')
     end
+
+    it 'rejects a delayed conversation-level rule with a non-status condition' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'priority', 'filter_operator' => 'equal_to', 'values' => ['urgent'], 'query_operator' => nil }]
+      expect(rule).not_to be_valid
+      expect(rule.errors[:execution_delay]).to include('only supports status conditions for conversation-level events.')
+    end
+
+    it 'allows a delayed conversation-level rule with only status conditions' do
+      rule.event_name = 'conversation_updated'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
+    it 'allows a delayed message_created rule with a non-status condition' do
+      rule.event_name = 'message_created'
+      rule.execution_delay = 60
+      rule.conditions = [{ 'attribute_key' => 'message_type', 'filter_operator' => 'equal_to', 'values' => ['outgoing'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+  end
+
+  describe 'discarding stale pending executions on edit' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account, status: :pending) }
+    let(:status_condition) { { 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['pending'], 'query_operator' => nil } }
+    let(:rule) do
+      create(:automation_rule, account: account, event_name: 'conversation_updated', execution_delay: 60,
+                               conditions: [status_condition], actions: [{ 'action_name' => 'add_label', 'action_params' => ['stale'] }])
+    end
+
+    before { AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation) }
+
+    it 'discards armed rows when the actions change' do
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'discards armed rows when the delay changes' do
+      rule.update!(execution_delay: 120)
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'frees the episode slot so the new definition re-arms for the same episode' do
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
+      expect(rule.pending_executions.pending.count).to eq(1)
+    end
+
+    it 'leaves armed rows untouched on a name-only edit' do
+      rule.update!(name: 'Renamed rule')
+      expect(rule.pending_executions.pending.count).to eq(1)
+    end
   end
 end

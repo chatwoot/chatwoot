@@ -23,6 +23,18 @@ RSpec.describe AutomationRulePendingExecution do
       expect(described_class.episode_key_for(conversation.reload, message)).to eq("awaiting_agent:#{conversation.waiting_since.to_i}")
     end
 
+    it 'arms an awaiting_agent episode from the message created_at when waiting_since is not yet written' do
+      message = create(:message, conversation: conversation, account: account, message_type: :incoming)
+      # Simulate the race where the listener arms before update_waiting_since commits.
+      conversation.update!(waiting_since: nil)
+      armed_key = described_class.arm_episode_key_for(conversation.reload, message)
+
+      # Once waiting_since settles to the message's created_at, the strict fire-time key matches.
+      conversation.update!(waiting_since: message.created_at)
+      expect(armed_key).to eq("awaiting_agent:#{message.created_at.to_i}")
+      expect(armed_key).to eq(described_class.episode_key_for(conversation.reload, message))
+    end
+
     it 'derives reply_chase episodes from the max incoming message id for outgoing messages' do
       incoming = create(:message, conversation: conversation, account: account, message_type: :incoming)
       outgoing = create(:message, conversation: conversation, account: account, message_type: :outgoing)
