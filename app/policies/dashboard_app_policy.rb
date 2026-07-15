@@ -8,22 +8,14 @@ class DashboardAppPolicy < ApplicationPolicy
   end
 
   def create?
-    administrator?
+    @account_user.administrator?
   end
 
   def update?
-    administrator?
+    @account_user.administrator?
   end
 
   def destroy?
-    administrator?
-  end
-
-  private
-
-  def administrator?
-    return account_user.administrator? if account_user
-
-    account.account_users.administrator.exists?(user_id: user&.id)
+    @account_user.administrator?
   end
 end

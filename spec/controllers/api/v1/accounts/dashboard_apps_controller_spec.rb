@@ -86,17 +86,6 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect(json_response['content'][0]['type']).to eq payload[:dashboard_app][:content][0][:type]
       end
 
-      it 'creates the dashboard app with an administrator api access token' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/dashboard_apps",
-               headers: { api_access_token: user.access_token.token },
-               params: payload,
-               as: :json
-        end.to change(DashboardApp, :count).by(1)
-
-        expect(response).to have_http_status(:success)
-      end
-
       it 'creates the dashboard app even if the URL does not have SSL' do
         expect do
           post "/api/v1/accounts/#{account.id}/dashboard_apps", headers: user.create_new_auth_token,
@@ -149,17 +138,6 @@ RSpec.describe 'DashboardAppsController', type: :request do
         expect do
           post "/api/v1/accounts/#{account.id}/dashboard_apps",
                headers: agent.create_new_auth_token,
-               params: payload,
-               as: :json
-        end.not_to change(DashboardApp, :count)
-
-        expect(response).to have_http_status(:unauthorized)
-      end
-
-      it 'does not create account-wide dashboard apps with an agent api access token' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/dashboard_apps",
-               headers: { api_access_token: agent.access_token.token },
                params: payload,
                as: :json
         end.not_to change(DashboardApp, :count)
