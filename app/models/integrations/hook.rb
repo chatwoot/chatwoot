@@ -29,6 +29,8 @@ class Integrations::Hook < ApplicationRecord
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
   validate :validate_settings_json_schema
   validate :ensure_feature_enabled
+  validate :validate_openai_api_key, if: :validate_openai_api_key?
+  validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -54,6 +56,14 @@ class Integrations::Hook < ApplicationRecord
 
   def dialogflow?
     app_id == 'dialogflow'
+  end
+
+  def openai?
+    app_id == 'openai'
+  end
+
+  def dyte?
+    app_id == 'dyte'
   end
 
   def notion?
@@ -91,8 +101,68 @@ class Integrations::Hook < ApplicationRecord
 
   def validate_settings_json_schema
     return if app.blank? || app.params[:settings_json_schema].blank?
+    return if legacy_dyte_settings_unchanged?
 
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
+  end
+
+  # TODO: When adding credential validation for other integrations (dialogflow, dyte, etc.),
+  # extract this into an app-level config flag in apps.yml instead of hardcoding app_id checks.
+  def validate_openai_api_key?
+    openai? && enabled? && (new_record? || openai_api_key_changed? || will_save_change_to_status?)
+  end
+
+  def validate_cloudflare_realtimekit_credentials?
+    dyte? && enabled? && !legacy_dyte_settings_unchanged? &&
+      (new_record? || cloudflare_realtimekit_credentials_changed? || will_save_change_to_status?)
+  end
+
+  def openai_api_key_changed?
+    settings_api_key(settings) != settings_api_key(settings_in_database)
+  end
+
+  def cloudflare_realtimekit_credentials_changed?
+    settings_cloudflare_realtimekit_credentials(settings) != settings_cloudflare_realtimekit_credentials(settings_in_database)
+  end
+
+  def legacy_dyte_settings_unchanged?
+    dyte? && persisted? && !will_save_change_to_settings? && legacy_dyte_settings?(settings_in_database)
+  end
+
+  def legacy_dyte_settings?(value)
+    return false if value.blank?
+
+    %w[organization_id api_key].any? { |key| settings_value(value, key).present? } &&
+      %w[account_id app_id api_token].none? { |key| settings_value(value, key).present? }
+  end
+
+  def validate_openai_api_key
+    return if Integrations::Openai::KeyValidator.valid?(settings_api_key(settings))
+
+    errors.add(:base, I18n.t('errors.openai.invalid_api_key'))
+  end
+
+  def validate_cloudflare_realtimekit_credentials
+    result = Integrations::Cloudflare::RealtimeKitCredentialsValidator.validate(*settings_cloudflare_realtimekit_credentials(settings))
+    return if result.success?
+
+    errors.add(:base, I18n.t("errors.cloudflare.realtimekit.#{result.error}"))
+  end
+
+  def settings_api_key(value)
+    settings_value(value, 'api_key')
+  end
+
+  def settings_cloudflare_realtimekit_credentials(value)
+    [
+      settings_value(value, 'account_id'),
+      settings_value(value, 'app_id'),
+      settings_value(value, 'api_token')
+    ]
+  end
+
+  def settings_value(value, key)
+    value&.dig(key) || value&.dig(key.to_sym)
   end
 
   def trigger_setup_if_crm

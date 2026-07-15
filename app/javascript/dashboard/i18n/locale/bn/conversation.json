@@ -62,6 +62,7 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "এই বার্তাটি সমর্থিত নয়। আপনি Facebook Messenger অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "এই বার্তাটি সমর্থিত নয়। আপনি Instagram অ্যাপে এই বার্তাটি দেখতে পারেন।",
     "UNSUPPORTED_MESSAGE_TIKTOK": "এই বার্তাটি সমর্থিত নয়। TikTok অ্যাপে এই বার্তাটি দেখতে পারেন।",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "SUCCESS_DELETE_MESSAGE": "বার্তা সফলভাবে মুছে ফেলা হয়েছে",
     "FAIL_DELETE_MESSSAGE": "বার্তা মুছে ফেলা যায়নি! আবার চেষ্টা করুন",
     "NO_RESPONSE": "কোনো উত্তর নেই",
@@ -71,18 +72,30 @@
     "REPLY_MESSAGE_NOT_FOUND": "বার্তাটি পাওয়া যায়নি",
     "CARD": {
       "SHOW_LABELS": "লেবেল দেখান",
-      "HIDE_LABELS": "লেবেল লুকান"
+      "HIDE_LABELS": "লেবেল লুকান",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "ইনকামিং কল",
       "OUTGOING_CALL": "আউটগোয়িং কল",
       "CALL_IN_PROGRESS": "কল চলছে",
       "NO_ANSWER": "উত্তর নেই",
+      "NO_ANSWER_OUTBOUND_LABEL": "উত্তর নেই",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
       "MISSED_CALL": "মিসড কল",
+      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
+      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
       "CALL_ENDED": "কল শেষ হয়েছে",
+      "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
+      "CALLING": "Calling…",
       "THEY_ANSWERED": "তারা উত্তর দিয়েছে",
-      "YOU_ANSWERED": "আপনি উত্তর দিয়েছেন"
+      "YOU_ANSWERED": "আপনি উত্তর দিয়েছেন",
+      "AGENT_ANSWERED": "{agentName} answered",
+      "JOIN_CALL": "কলে যোগ দিন",
+      "CALL_BACK": "Call back",
+      "TRANSCRIPT_SHOW_MORE": "Show more",
+      "TRANSCRIPT_SHOW_LESS": "Show less"
     },
     "HEADER": {
       "RESOLVE_ACTION": "সমাধান করুন",
@@ -92,10 +105,17 @@
       "OPEN": "আরও",
       "CLOSE": "বন্ধ করুন",
       "DETAILS": "বিস্তারিত",
+      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
       "SNOOZED_UNTIL": "স্নুজ করা হয়েছে পর্যন্ত",
       "SNOOZED_UNTIL_TOMORROW": "আগামীকাল পর্যন্ত স্থগিত",
       "SNOOZED_UNTIL_NEXT_WEEK": "পরবর্তী সপ্তাহ পর্যন্ত স্থগিত",
       "SNOOZED_UNTIL_NEXT_REPLY": "পরবর্তী উত্তর পর্যন্ত স্থগিত",
+      "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
+      "VOICE_CALL": "Start call",
+      "VOICE_CALL_FAILED": "Could not start the call.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -211,6 +231,7 @@
       "TIP_AUDIORECORDER_ICON": "অডিও রেকর্ড করুন",
       "TIP_AUDIORECORDER_PERMISSION": "অডিও অ্যাক্সেসের অনুমতি দিন",
       "TIP_AUDIORECORDER_ERROR": "অডিও খোলা যায়নি",
+      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
       "DRAG_DROP": "সংযুক্ত করতে এখানে ড্র্যাগ ও ড্রপ করুন",
       "START_AUDIO_RECORDING": "অডিও রেকর্ডিং শুরু করুন",
       "STOP_AUDIO_RECORDING": "অডিও রেকর্ডিং বন্ধ করুন",
@@ -295,8 +316,13 @@
       "NOT_ANSWERED_YET": "এখনও উত্তর পাওয়া যায়নি",
       "HANDLED_IN_ANOTHER_TAB": "অন্য ট্যাবে পরিচালিত হচ্ছে",
       "REJECT_CALL": "প্রত্যাখ্যান করুন",
+      "DISMISS_CALL": "Dismiss",
       "JOIN_CALL": "কলে যোগ দিন",
-      "END_CALL": "কল শেষ করুন"
+      "END_CALL": "কল শেষ করুন",
+      "MUTE": "Mute mic",
+      "UNMUTE": "Unmute mic",
+      "VIEW_CHAT_HISTORY": "View chat history",
+      "GO_TO_CONVERSATION": "Go to conversation thread"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -362,7 +388,19 @@
       "PREVIOUS_CONVERSATION": "পূর্বের আলোচনা",
       "MACROS": "ম্যাক্রো",
       "LINEAR_ISSUES": "সংযুক্ত Linear সমস্যা",
-      "SHOPIFY_ORDERS": "Shopify অর্ডার"
+      "SHOPIFY_ORDERS": "Shopify অর্ডার",
+      "SHARED_FILES": "Attachments"
+    },
+    "SHARED_FILES": {
+      "EMPTY": "No attachments yet",
+      "DOWNLOAD": "Download file",
+      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
+      "MEDIA_HEADING": "Media",
+      "FILES_HEADING": "Files",
+      "VIEW_ALL": "সব দেখুন",
+      "SHOW_LESS": "Show less",
+      "MORE_COUNT": "+{count}",
+      "UNTITLED_FILE": "Untitled file"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",

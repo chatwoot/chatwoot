@@ -68,6 +68,25 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('#disableImageRendering', () => {
+    it('omits nested and reference images with relative URLs', () => {
+      const message = `Before ![nested [alt]](/relative.png)
+
+![reference][logo]
+
+[logo]: /logo.png
+
+After`;
+      const formatter = new MessageFormatter(message);
+
+      formatter.disableImageRendering();
+
+      expect(formatter.formattedMessage).not.toContain('<img');
+      expect(formatter.formattedMessage).toContain('Before');
+      expect(formatter.formattedMessage).toContain('After');
+    });
+  });
+
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
       const message = 'Chatwoot is an opensource tool';
@@ -123,6 +142,16 @@ describe('#MessageFormatter', () => {
       expect(new MessageFormatter(message).plainText).toMatch(
         'Chatwoot is an opensource tool. https://www.chatwoot.com'
       );
+    });
+  });
+
+  describe('help center table colwidth marker', () => {
+    it('strips the internal colwidths marker from rendered output', () => {
+      const message =
+        '<!--cw-colwidths:120,200-->\n| A | B |\n| --- | --- |\n| 1 | 2 |';
+      const formatter = new MessageFormatter(message);
+      expect(formatter.formattedMessage).not.toContain('cw-colwidths');
+      expect(formatter.plainText).not.toContain('cw-colwidths');
     });
   });
 

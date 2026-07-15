@@ -1,5 +1,6 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   include Captain::Conversation::V1ActionClassifier
+  include Captain::Conversation::V1FalsePromiseHandler
 
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
@@ -38,12 +39,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       message_history: message_history
     )
     classify_v1_response_action(message_history) if conversation_pending?
+    repair_v1_false_promise_response(message_history) if conversation_pending?
     process_response
   end
 
   def generate_response_with_v2
     @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
-      message_history: collect_previous_messages
+      message_history: collect_previous_messages_with_resolution_markers
     )
     process_response
   end
@@ -95,6 +97,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
       message_hash
     end
+  end
+
+  def collect_previous_messages_with_resolution_markers
+    Captain::Conversation::MessageHistoryBuilderService.new(conversation: @conversation).perform
   end
 
   def determine_role(message)

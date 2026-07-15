@@ -40,6 +40,22 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
     process_initiate_call_response(response)
   end
 
+  # Sets WABA calling status ('ENABLED'/'DISABLED'). Returns true, or raises with
+  # Meta's user-facing message on failure so the caller can surface it.
+  def update_calling_status(status)
+    response = HTTParty.post(
+      "#{calls_phone_id_path}/settings",
+      headers: api_headers,
+      body: { calling: { status: status } }.to_json
+    )
+    return true if response.success?
+
+    parsed = response.parsed_response.is_a?(Hash) ? response.parsed_response : {}
+    message = parsed.dig('error', 'error_user_msg') || parsed.dig('error', 'message') || 'Failed to update calling status'
+    Rails.logger.error "[WHATSAPP CALL] update_calling_status failed: status=#{response.code} body=#{response.body}"
+    raise message
+  end
+
   private
 
   def calls_phone_id_path

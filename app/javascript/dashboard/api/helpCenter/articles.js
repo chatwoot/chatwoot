@@ -16,6 +16,7 @@ class ArticlesAPI extends PortalsAPI {
     authorId,
     categorySlug,
     sort,
+    query,
   }) {
     const url = getArticleSearchURL({
       pageNumber,
@@ -25,6 +26,7 @@ class ArticlesAPI extends PortalsAPI {
       authorId,
       categorySlug,
       sort,
+      query,
       host: this.url,
     });
 
@@ -84,6 +86,13 @@ class ArticlesAPI extends PortalsAPI {
     return axios.patch(
       `${this.url}/${portalSlug}/articles/bulk_actions/update_status`,
       { ids: articleIds, status }
+    );
+  }
+
+  bulkUpdateCategory({ portalSlug, articleIds, categoryId }) {
+    return axios.patch(
+      `${this.url}/${portalSlug}/articles/bulk_actions/update_category`,
+      { ids: articleIds, category_id: categoryId }
     );
   }
 

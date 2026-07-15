@@ -21,6 +21,8 @@
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
 class Captain::Scenario < ApplicationRecord
+  DESCRIPTION_LENGTH_LIMIT = 500
+
   include Concerns::CaptainToolsHelpers
   include Concerns::Agentable
 
@@ -43,7 +45,7 @@ class Captain::Scenario < ApplicationRecord
   belongs_to :account
 
   validates :title, presence: true
-  validates :description, presence: true
+  validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :instruction, presence: true
   validates :assistant_id, presence: true
   validates :account_id, presence: true

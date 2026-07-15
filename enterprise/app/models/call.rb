@@ -29,8 +29,8 @@
 #  index_calls_on_provider_and_provider_call_id   (provider,provider_call_id) UNIQUE
 #
 class Call < ApplicationRecord
-  STATUSES = %w[ringing in_progress completed no_answer failed].freeze
-  TERMINAL_STATUSES = %w[completed no_answer failed].freeze
+  STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
+  TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
 
   store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
 
@@ -78,6 +78,17 @@ class Call < ApplicationRecord
     DISPLAY_DIRECTION[direction]
   end
 
+  # Normalize filter values back to stored forms so API/dashboard clients can
+  # query using either the display value (inbound/outbound, in-progress) or the
+  # stored value (incoming/outgoing, in_progress).
+  def self.direction_from_label(value)
+    DISPLAY_DIRECTION.key(value) || value
+  end
+
+  def self.status_from_display(value)
+    value.to_s.tr('-', '_')
+  end
+
   def ringing?
     status == 'ringing'
   end
@@ -116,6 +127,7 @@ class Call < ApplicationRecord
       direction: direction,
       status: display_status,
       duration_seconds: duration_seconds,
+      end_reason: end_reason,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
       accepted_by_agent_name: accepted_by_agent&.available_name,
