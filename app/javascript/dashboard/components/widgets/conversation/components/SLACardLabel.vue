@@ -1,7 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
+import {
+  evaluateSLAStatus,
+  shouldRefreshSLAStatus,
+} from 'dashboard/helper/slaHelper';
 import SLAPopoverCard from './SLAPopoverCard.vue';
 
 const props = defineProps({
@@ -32,7 +35,7 @@ const slaStatus = ref({
 
 const appliedSLA = computed(() => props.chat?.applied_sla);
 const slaEvents = computed(() => props.chat?.sla_events);
-const hasSlaThreshold = computed(() => slaStatus.value?.threshold);
+const hasSlaThreshold = computed(() => slaStatus.value?.type);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 const slaTextStyles = computed(() =>
   isSlaMissed.value ? 'text-n-ruby-11' : 'text-n-amber-11'
@@ -40,12 +43,24 @@ const slaTextStyles = computed(() =>
 
 const slaStatusText = computed(() => {
   const upperCaseType = slaStatus.value?.type?.toUpperCase(); // FRT, NRT, or RT
-  const statusKey = isSlaMissed.value ? 'MISSED' : 'DUE';
+  const status = isSlaMissed.value
+    ? t('CONVERSATION.HEADER.SLA_STATUS.MISSED')
+    : t('CONVERSATION.HEADER.SLA_STATUS.DUE');
 
-  return t(`CONVERSATION.HEADER.SLA_STATUS.${upperCaseType}`, {
-    status: t(`CONVERSATION.HEADER.SLA_STATUS.${statusKey}`),
-  });
+  return {
+    FRT: t('CONVERSATION.HEADER.SLA_STATUS.FRT', { status }),
+    NRT: t('CONVERSATION.HEADER.SLA_STATUS.NRT', { status }),
+    RT: t('CONVERSATION.HEADER.SLA_STATUS.RT', { status }),
+  }[upperCaseType];
 });
+const showFullStatusText = computed(
+  () => props.showExtendedInfo && props.parentWidth > 650
+);
+const slaValueText = computed(
+  () =>
+    slaStatus.value?.threshold ||
+    (showFullStatusText.value ? '' : slaStatusText.value)
+);
 
 const showSlaPopoverCard = computed(
   () => props.showExtendedInfo && slaEvents.value?.length > 0
@@ -65,7 +80,24 @@ const updateSlaStatus = () => {
   });
 };
 
+const clearTimer = () => {
+  if (timer.value) {
+    clearTimeout(timer.value);
+    timer.value = null;
+  }
+};
+
 const createTimer = () => {
+  clearTimer();
+  if (
+    !shouldRefreshSLAStatus({
+      appliedSla: appliedSLA.value,
+      chat: props.chat,
+    })
+  ) {
+    return;
+  }
+
   timer.value = setTimeout(() => {
     updateSlaStatus();
     createTimer();
@@ -76,6 +108,7 @@ watch(
   () => props.chat,
   () => {
     updateSlaStatus();
+    createTimer();
   }
 );
 
@@ -91,9 +124,7 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+  clearTimer();
 });
 </script>
 
@@ -118,7 +149,7 @@ onUnmounted(() => {
           :class="slaTextStyles"
         />
         <span
-          v-if="showExtendedInfo && parentWidth > 650"
+          v-if="showFullStatusText"
           class="text-xs font-medium"
           :class="slaTextStyles"
         >
@@ -126,10 +157,11 @@ onUnmounted(() => {
         </span>
       </div>
       <span
+        v-if="slaValueText"
         class="text-xs font-medium"
         :class="[slaTextStyles, showExtendedInfo && 'ltr:pl-1.5 rtl:pr-1.5']"
       >
-        {{ slaStatus.threshold }}
+        {{ slaValueText }}
       </span>
     </div>
     <SLAPopoverCard

@@ -33,6 +33,18 @@ module Enterprise::Conversation
 
   private
 
+  def handle_resolved_status_change
+    super
+    update_applied_sla_completion
+  end
+
+  def update_applied_sla_completion
+    return unless saved_change_to_status?
+    return if applied_sla.blank? || applied_sla.hit? || applied_sla.missed?
+
+    applied_sla.update!(completed_at: resolved? ? Time.current : nil)
+  end
+
   def dispatch_captain_inference_event(event_name)
     dispatcher_dispatch(event_name)
   end

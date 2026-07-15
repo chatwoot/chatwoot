@@ -4,6 +4,7 @@
 #
 #  id              :bigint           not null, primary key
 #  sla_status      :integer          default("active")
+#  completed_at    :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
@@ -53,6 +54,7 @@ class AppliedSla < ApplicationRecord
       sla_status: sla_status,
       created_at: created_at.to_i,
       updated_at: updated_at.to_i,
+      sla_completed_at: completed_at&.to_i,
       sla_description: sla_policy.description,
       sla_name: sla_policy.name,
       sla_first_response_time_threshold: sla_policy.first_response_time_threshold,

@@ -1,6 +1,10 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
-import { evaluateSLAStatus } from 'dashboard/helper/slaHelper';
+import { useI18n } from 'vue-i18n';
+import {
+  evaluateSLAStatus,
+  shouldRefreshSLAStatus,
+} from 'dashboard/helper/slaHelper';
 
 const props = defineProps({
   conversation: {
@@ -12,6 +16,7 @@ const props = defineProps({
 const REFRESH_INTERVAL = 60000;
 
 const timer = ref(null);
+const { t } = useI18n();
 const slaStatus = ref({
   threshold: null,
   isSlaMissed: false,
@@ -24,12 +29,15 @@ const slaEvents = computed(() => props.conversation?.slaEvents);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
 
 const hasSlaThreshold = computed(() => {
-  return slaStatus.value?.threshold && appliedSLA.value?.id;
+  return slaStatus.value?.type && appliedSLA.value?.id;
 });
 
 const slaStatusText = computed(() => {
   return slaStatus.value?.type?.toUpperCase();
 });
+const slaValueText = computed(
+  () => slaStatus.value?.threshold || t('CONVERSATION.HEADER.SLA_STATUS.MISSED')
+);
 
 const updateSlaStatus = () => {
   slaStatus.value = evaluateSLAStatus({
@@ -39,7 +47,24 @@ const updateSlaStatus = () => {
   });
 };
 
+const clearTimer = () => {
+  if (timer.value) {
+    clearTimeout(timer.value);
+    timer.value = null;
+  }
+};
+
 const createTimer = () => {
+  clearTimer();
+  if (
+    !shouldRefreshSLAStatus({
+      appliedSla: appliedSLA.value,
+      chat: props.conversation,
+    })
+  ) {
+    return;
+  }
+
   timer.value = setTimeout(() => {
     updateSlaStatus();
     createTimer();
@@ -52,12 +77,16 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  if (timer.value) {
-    clearTimeout(timer.value);
-  }
+  clearTimer();
 });
 
-watch(() => props.conversation, updateSlaStatus);
+watch(
+  () => props.conversation,
+  () => {
+    updateSlaStatus();
+    createTimer();
+  }
+);
 
 // This expose is to provide context to the parent component, so that it can decided weather
 // a new row has to be added to the conversation card or not
@@ -96,7 +125,7 @@ defineExpose({
       class="text-sm truncate"
       :class="isSlaMissed ? 'text-n-ruby-11' : 'text-n-slate-11'"
     >
-      {{ `${slaStatusText}: ${slaStatus.threshold}` }}
+      {{ `${slaStatusText}: ${slaValueText}` }}
     </span>
   </div>
 </template>

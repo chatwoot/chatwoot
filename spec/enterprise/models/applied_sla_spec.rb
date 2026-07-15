@@ -17,6 +17,7 @@ RSpec.describe AppliedSla, type: :model do
           sla_status: applied_sla.sla_status,
           created_at: applied_sla.created_at.to_i,
           updated_at: applied_sla.updated_at.to_i,
+          sla_completed_at: nil,
           sla_description: applied_sla.sla_policy.description,
           sla_name: applied_sla.sla_policy.name,
           sla_first_response_time_threshold: applied_sla.sla_policy.first_response_time_threshold,

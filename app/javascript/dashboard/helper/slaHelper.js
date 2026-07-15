@@ -47,6 +47,22 @@ const toUnixTimestamp = value => {
     : Math.floor(parsedTimestamp / 1000);
 };
 
+const isSLACompleted = (sla, conversation) => {
+  const terminalStatuses = ['hit', 'missed'];
+
+  return Boolean(
+    sla.slaCompletedAt ||
+      terminalStatuses.includes(sla.slaStatus) ||
+      conversation.status === 'resolved'
+  );
+};
+
+export const shouldRefreshSLAStatus = ({ appliedSla, chat }) => {
+  if (!appliedSla || !chat) return false;
+
+  return !isSLACompleted(useCamelCase(appliedSla), useCamelCase(chat));
+};
+
 /**
  * Evaluates SLA status using backend-computed due times
  * @param {Object} params - Parameters object
@@ -66,6 +82,9 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
   const conversation = useCamelCase(chat);
   const events = useCamelCase(slaEvents || []);
   const currentTime = Math.floor(Date.now() / 1000);
+  const completionTime = toUnixTimestamp(sla.slaCompletedAt);
+  const isCompleted = isSLACompleted(sla, conversation);
+  const evaluationTime = completionTime || (isCompleted ? null : currentTime);
   const slaStatuses = [];
 
   const dueAtByType = {
@@ -84,47 +103,51 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
 
     slaStatuses.push({
       type,
-      threshold: missedAt - currentTime,
+      threshold: evaluationTime ? missedAt - evaluationTime : null,
       icon: 'flame',
       isSlaMissed: true,
     });
   });
 
-  const firstReplyCreatedAt = toUnixTimestamp(conversation.firstReplyCreatedAt);
-  const shouldCheckFirstResponse =
-    !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
+  if (!isCompleted) {
+    const firstReplyCreatedAt = toUnixTimestamp(
+      conversation.firstReplyCreatedAt
+    );
+    const shouldCheckFirstResponse =
+      !firstReplyCreatedAt || firstReplyCreatedAt > sla.slaFrtDueAt;
 
-  // Check FRT - until first reply is made on time
-  if (sla.slaFrtDueAt && shouldCheckFirstResponse) {
-    const threshold = sla.slaFrtDueAt - currentTime;
-    slaStatuses.push({
-      type: 'FRT',
-      threshold,
-      icon: threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: threshold <= 0,
-    });
-  }
+    // Check FRT - until first reply is made on time
+    if (sla.slaFrtDueAt && shouldCheckFirstResponse) {
+      const threshold = sla.slaFrtDueAt - currentTime;
+      slaStatuses.push({
+        type: 'FRT',
+        threshold,
+        icon: threshold <= 0 ? 'flame' : 'alarm',
+        isSlaMissed: threshold <= 0,
+      });
+    }
 
-  // Check NRT - only if first reply made and waiting for response
-  if (sla.slaNrtDueAt && firstReplyCreatedAt && conversation.waitingSince) {
-    const threshold = sla.slaNrtDueAt - currentTime;
-    slaStatuses.push({
-      type: 'NRT',
-      threshold,
-      icon: threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: threshold <= 0,
-    });
-  }
+    // Check NRT - only if first reply made and waiting for response
+    if (sla.slaNrtDueAt && firstReplyCreatedAt && conversation.waitingSince) {
+      const threshold = sla.slaNrtDueAt - currentTime;
+      slaStatuses.push({
+        type: 'NRT',
+        threshold,
+        icon: threshold <= 0 ? 'flame' : 'alarm',
+        isSlaMissed: threshold <= 0,
+      });
+    }
 
-  // Check RT - only if conversation is unresolved
-  if (sla.slaRtDueAt && conversation.status !== 'resolved') {
-    const threshold = sla.slaRtDueAt - currentTime;
-    slaStatuses.push({
-      type: 'RT',
-      threshold,
-      icon: threshold <= 0 ? 'flame' : 'alarm',
-      isSlaMissed: threshold <= 0,
-    });
+    // Check RT - only if conversation is unresolved
+    if (sla.slaRtDueAt) {
+      const threshold = sla.slaRtDueAt - currentTime;
+      slaStatuses.push({
+        type: 'RT',
+        threshold,
+        icon: threshold <= 0 ? 'flame' : 'alarm',
+        isSlaMissed: threshold <= 0,
+      });
+    }
   }
 
   if (slaStatuses.length === 0) {
@@ -137,13 +160,19 @@ export const evaluateSLAStatus = ({ appliedSla, chat, slaEvents = [] }) => {
       return a.isSlaMissed ? -1 : 1;
     }
 
+    if (a.threshold === null || b.threshold === null) {
+      if (a.threshold === b.threshold) return 0;
+      return a.threshold === null ? -1 : 1;
+    }
+
     return Math.abs(a.threshold) - Math.abs(b.threshold);
   });
   const mostUrgent = slaStatuses[0];
 
   return {
     type: mostUrgent.type,
-    threshold: formatSLATime(mostUrgent.threshold),
+    threshold:
+      mostUrgent.threshold === null ? '' : formatSLATime(mostUrgent.threshold),
     icon: mostUrgent.icon,
     isSlaMissed: mostUrgent.isSlaMissed,
   };
