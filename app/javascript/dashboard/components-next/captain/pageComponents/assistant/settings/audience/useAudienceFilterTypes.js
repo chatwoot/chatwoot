@@ -35,10 +35,12 @@ const CUSTOM_TYPE_ICONS = {
 
 const DEFAULT_ICON = 'i-lucide-tag';
 
-/**
- * Filter types for a Captain assistant audience: contact attributes (reused from the contact
- * segment builder) plus conversation-scoped fields, grouped via disabled header options.
- */
+const header = (id, label) => ({
+  value: `__group_${id}`,
+  label,
+  disabled: true,
+});
+
 export function useAudienceFilterTypes() {
   const { t } = useI18n();
   const { filterTypes: contactFilterTypes } = useContactFilterContext();
@@ -67,7 +69,7 @@ export function useAudienceFilterTypes() {
     attributeModel: 'additional',
   });
 
-  const conversationFilterTypes = computed(() => [
+  const conversationTypes = computed(() => [
     conversationOption(
       'hmac_verified',
       t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.LOGGED_IN'),
@@ -94,22 +96,17 @@ export function useAudienceFilterTypes() {
     ),
   ]);
 
-  const header = (id, label) => ({
-    value: `__group_${id}`,
-    label,
-    disabled: true,
-  });
-
-  const filterTypes = computed(() => {
-    const standard = contactFilterTypes.value
+  const standardTypes = computed(() =>
+    contactFilterTypes.value
       .filter(type => type.attributeModel !== 'customAttributes')
       .map(type => ({
         ...type,
         icon: STANDARD_ICONS[type.attributeKey] || DEFAULT_ICON,
-      }));
+      }))
+  );
 
-    // Only contact-model custom attributes belong here; never conversation/company ones.
-    const custom = contactFilterTypes.value
+  const customTypes = computed(() =>
+    contactFilterTypes.value
       .filter(type => type.attributeModel === 'customAttributes')
       .filter(type => type.attributeKey in customTypeByKey.value)
       .map(type => ({
@@ -117,27 +114,24 @@ export function useAudienceFilterTypes() {
         icon:
           CUSTOM_TYPE_ICONS[customTypeByKey.value[type.attributeKey]] ||
           DEFAULT_ICON,
-      }));
+      }))
+  );
 
-    return [
-      header('contact', t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CONTACT')),
-      ...standard,
-      header(
-        'conversation',
-        t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CONVERSATION')
-      ),
-      ...conversationFilterTypes.value,
-      ...(custom.length
-        ? [
-            header(
-              'custom',
-              t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CUSTOM')
-            ),
-            ...custom,
-          ]
-        : []),
-    ];
-  });
+  const filterTypes = computed(() => [
+    header('contact', t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CONTACT')),
+    ...standardTypes.value,
+    header(
+      'conversation',
+      t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CONVERSATION')
+    ),
+    ...conversationTypes.value,
+    ...(customTypes.value.length
+      ? [
+          header('custom', t('CAPTAIN.ASSISTANTS.FORM.AUDIENCE.GROUP_CUSTOM')),
+          ...customTypes.value,
+        ]
+      : []),
+  ]);
 
   return { filterTypes };
 }
