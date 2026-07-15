@@ -38,8 +38,10 @@ class AutomationRule < ApplicationRecord
   validate :execution_delay_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
-  # Rows already armed under the old delay must not fire on a config the rule no longer has.
-  after_update :cancel_stale_pending_executions, if: -> { saved_change_to_execution_delay? }
+  # Rows already armed under the old definition must not fire on a config the rule no longer
+  # has (different delay, trigger, conditions, or actions). Delete rather than skip so the
+  # freed episode slot lets the new definition re-arm on the next matching event.
+  after_update :discard_stale_pending_executions, if: :execution_config_changed?
 
   scope :active, -> { where(active: true) }
 
@@ -125,8 +127,13 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'only supports status conditions for conversation-level events.')
   end
 
-  def cancel_stale_pending_executions
-    pending_executions.pending.find_each { |execution| execution.update!(status: :skipped, skip_reason: 'rule_edited') }
+  def execution_config_changed?
+    saved_change_to_execution_delay? || saved_change_to_event_name? ||
+      saved_change_to_conditions? || saved_change_to_actions?
+  end
+
+  def discard_stale_pending_executions
+    pending_executions.pending.delete_all
   end
 
   def validate_single_condition(condition)

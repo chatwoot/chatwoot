@@ -136,11 +136,11 @@ const submitAutomation = async (payload, mode) => {
     hideAddPopup();
     hideEditPopup();
   } catch (error) {
-    const errorMessage =
+    const fallbackMessage =
       mode === 'edit'
         ? t('AUTOMATION.EDIT.API.ERROR_MESSAGE')
         : t('AUTOMATION.ADD.API.ERROR_MESSAGE');
-    useAlert(errorMessage);
+    useAlert(error?.response?.data?.error || fallbackMessage);
   }
 };
 const toggleAutomation = async ({ id, name, status }) => {
