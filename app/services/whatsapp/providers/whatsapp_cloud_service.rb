@@ -99,7 +99,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     return false unless whatsapp_channel.persisted? && whatsapp_channel.provider_config_changed?
 
     error_message = response.parsed_response.is_a?(Hash) ? response.parsed_response.dig('error', 'message') : nil
-    Rails.logger.warn("[WHATSAPP_MANUAL_TRANSFER] failure account_id=#{whatsapp_channel.account_id} channel_id=#{whatsapp_channel.id} " \
+    Rails.logger.warn("[WHATSAPP_EMBEDDED_TO_MANUAL] failure account_id=#{whatsapp_channel.account_id} channel_id=#{whatsapp_channel.id} " \
                       "check=#{check} http_status=#{response.code} meta_error=#{error_message}")
     false
   end

@@ -130,13 +130,14 @@ class Channel::Whatsapp < ApplicationRecord
     errors.add(:provider_config, 'Invalid Credentials') unless provider_service.validate_provider_config?
   end
 
-  # Logs only credential changes, so config-only saves (e.g. calling toggles) stay silent.
+  # Logs only the embedded signup → manual migration (the save drops the
+  # embedded_signup source marker), so credential rotations on inboxes that are
+  # already manual stay silent.
   def log_credentials_transfer
     before, after = saved_change_to_provider_config
-    keys = %w[api_key phone_number_id business_account_id]
-    return if before.nil? || before.values_at(*keys) == after.values_at(*keys)
+    return unless before&.dig('source') == 'embedded_signup' && after['source'] != 'embedded_signup'
 
-    Rails.logger.info("[WHATSAPP_MANUAL_TRANSFER] success account_id=#{account_id} channel_id=#{id}")
+    Rails.logger.info("[WHATSAPP_EMBEDDED_TO_MANUAL] success account_id=#{account_id} channel_id=#{id}")
   end
 
   def perform_webhook_setup
