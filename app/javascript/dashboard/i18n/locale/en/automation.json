@@ -30,7 +30,6 @@
         },
         "EXECUTE": {
           "LABEL": "Delayed execution",
-          "IMMEDIATELY": "Immediately",
           "AFTER_DELAY": "After a delay of",
           "UNITS": {
             "MINUTES": "Minutes",
