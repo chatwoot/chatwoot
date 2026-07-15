@@ -42,14 +42,14 @@ class Captain::AudienceMatcher
   def matches_leaf?(leaf)
     key = leaf[:attribute_key]
     actual = attribute_value(key)
-    expected = Array(leaf[:values]).first
+    values = Array(leaf[:values])
 
     case leaf[:filter_operator]
     when 'is_present'     then actual.present?
     when 'is_not_present' then actual.blank?
-    when 'equal_to'       then value_equal?(key, actual, expected)
-    when 'not_equal_to'   then !value_equal?(key, actual, expected)
-    else matches_text_or_range?(leaf[:filter_operator], actual, expected)
+    when 'equal_to'       then values.any? { |expected| value_equal?(key, actual, expected) }
+    when 'not_equal_to'   then values.none? { |expected| value_equal?(key, actual, expected) }
+    else matches_text_or_range?(leaf[:filter_operator], actual, values.first)
     end
   end
 

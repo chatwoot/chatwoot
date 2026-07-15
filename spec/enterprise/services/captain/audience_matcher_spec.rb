@@ -77,6 +77,16 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('labels', 'equal_to', 'vip'))).to be(true)
         expect(matches?(leaf('labels', 'equal_to', 'enterprise'))).to be(false)
       end
+
+      it 'matches any of multiple selected labels' do
+        expect(matches?(leaf('labels', 'equal_to', %w[enterprise vip]))).to be(true)
+        expect(matches?(leaf('labels', 'equal_to', %w[enterprise smb]))).to be(false)
+      end
+
+      it 'not_equal_to rejects contacts carrying any selected label' do
+        expect(matches?(leaf('labels', 'not_equal_to', %w[enterprise vip]))).to be(false)
+        expect(matches?(leaf('labels', 'not_equal_to', %w[enterprise smb]))).to be(true)
+      end
     end
 
     context 'with conversation language fields' do
