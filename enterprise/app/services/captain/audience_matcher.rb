@@ -100,6 +100,8 @@ class Captain::AudienceMatcher
   def compare(actual, expected)
     return nil if actual.blank?
 
+    actual = Time.zone.parse(actual) if iso_date_string?(actual)
+
     if actual.is_a?(Date) || actual.acts_like?(:time)
       actual.to_time <=> Time.zone.parse(expected.to_s)
     else
@@ -107,6 +109,14 @@ class Captain::AudienceMatcher
     end
   rescue ArgumentError, TypeError
     nil
+  end
+
+  # Custom date attributes store ISO strings in jsonb; treat them as dates the way
+  # Contacts::FilterService does (it casts them in SQL).
+  def iso_date_string?(value)
+    value.is_a?(String) && Date.iso8601(value).present?
+  rescue ArgumentError
+    false
   end
 
   def older_than_days?(actual, days)

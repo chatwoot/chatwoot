@@ -61,6 +61,13 @@ RSpec.describe Captain::AudienceMatcher do
         expect(matches?(leaf('created_at', 'days_before', '30'))).to be(true)
         expect(matches?(leaf('created_at', 'days_before', '60'))).to be(false)
       end
+
+      it 'compares date custom attributes stored as ISO strings' do
+        contact.update!(custom_attributes: contact.custom_attributes.merge('signed_up_on' => '2024-01-15'))
+        expect(matches?(leaf('signed_up_on', 'is_greater_than', '2024-01-01'))).to be(true)
+        expect(matches?(leaf('signed_up_on', 'is_less_than', '2024-01-01'))).to be(false)
+        expect(matches?(leaf('signed_up_on', 'is_less_than', '2024-02-01'))).to be(true)
+      end
     end
 
     context 'with labels' do
