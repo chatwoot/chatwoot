@@ -239,9 +239,9 @@ const executionDelayInvalid = computed(
       delayInMinutes.value > MAX_DELAY_MINUTES)
 );
 
-// Hydrate the delay controls from the automation, using the largest clean unit.
-const syncDelayFromAutomation = () => {
-  const delay = automation.value?.execution_delay;
+// Hydrate the delay controls from a delay (minutes), using the largest clean unit. Passed in
+// by open() rather than read from `automation`, whose model prop only settles a tick later.
+const syncDelayFromDelay = delay => {
   executeMode.value = delay ? 'delayed' : 'immediate';
   if (!delay) {
     delayValue.value = 4;
@@ -300,9 +300,9 @@ const syncCustomAttributeTypes = () => {
   });
 };
 
-const open = () => {
+const open = (executionDelay = null) => {
   resetValidation();
-  syncDelayFromAutomation();
+  syncDelayFromDelay(executionDelay);
   dialogRef.value?.open();
 };
 
