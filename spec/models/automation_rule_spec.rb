@@ -219,6 +219,12 @@ RSpec.describe AutomationRule do
       expect(rule.pending_executions.pending).to be_empty
     end
 
+    it 'discards a stale processing row that the sweep would otherwise reclaim' do
+      rule.pending_executions.first.update!(status: :processing)
+      rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
+      expect(rule.pending_executions.armed).to be_empty
+    end
+
     it 'frees the episode slot so the new definition re-arms for the same episode' do
       rule.update!(actions: [{ 'action_name' => 'add_label', 'action_params' => ['urgent'] }])
       AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation)
