@@ -147,15 +147,15 @@ class Captain::AssistantMigration::DraftApplier
   end
 
   def faq_responses_change
-    faq_materializer.changes
+    faq_applier.changes
   end
 
   def apply_faq_response_changes(changes)
-    faq_materializer.apply(changes)
+    faq_applier.apply(changes)
   end
 
-  def faq_materializer
-    @faq_materializer ||= Captain::AssistantMigration::FaqMaterializer.new(
+  def faq_applier
+    @faq_applier ||= Captain::AssistantMigration::FaqApplier.new(
       assistant: assistant,
       candidates: normalized_faq_document_candidates
     )

@@ -1,4 +1,4 @@
-class Captain::AssistantMigration::FaqMaterializer
+class Captain::AssistantMigration::FaqApplier
   pattr_initialize [:assistant!, :candidates!]
 
   def changes
