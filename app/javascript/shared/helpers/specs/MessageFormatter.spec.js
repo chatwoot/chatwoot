@@ -68,6 +68,25 @@ describe('#MessageFormatter', () => {
     });
   });
 
+  describe('#disableImageRendering', () => {
+    it('omits nested and reference images with relative URLs', () => {
+      const message = `Before ![nested [alt]](/relative.png)
+
+![reference][logo]
+
+[logo]: /logo.png
+
+After`;
+      const formatter = new MessageFormatter(message);
+
+      formatter.disableImageRendering();
+
+      expect(formatter.formattedMessage).not.toContain('<img');
+      expect(formatter.formattedMessage).toContain('Before');
+      expect(formatter.formattedMessage).toContain('After');
+    });
+  });
+
   describe('tweets', () => {
     it('should return the same string if not tags or @mentions', () => {
       const message = 'Chatwoot is an opensource tool';

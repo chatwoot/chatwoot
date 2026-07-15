@@ -107,6 +107,11 @@ class MessageFormatter {
     return this.md.render(updatedMessage);
   }
 
+  disableImageRendering() {
+    this.md.disable(['add-image-sizing']);
+    this.md.renderer.rules.image = () => '';
+  }
+
   get formattedMessage() {
     return this.formatMessage();
   }
