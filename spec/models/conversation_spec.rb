@@ -261,11 +261,11 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
                               content: "#{old_assignee.name} added #{label.title}" }))
-      resolved_activity = conversation.messages.activity.find_by!(content: "Conversation was marked resolved by #{old_assignee.name}")
-      expect(resolved_activity.content).to eq("Conversation was marked resolved by #{old_assignee.name}")
-      expect(resolved_activity.content_attributes).to eq(
-        'activity' => { 'type' => 'conversation_status_changed', 'status' => 'resolved' }
-      )
+      expect(Conversations::ActivityMessageJob)
+        .to(have_been_enqueued.at_least(:once)
+        .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                              content: "Conversation was marked resolved by #{old_assignee.name}",
+                              content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -286,11 +286,10 @@ RSpec.describe Conversation do
                      end
       system_resolved_message = "Conversation was marked resolved by system due to #{message_data[:count]} days of inactivity"
       expect { conversation2.update(status: :resolved) }
-        .to change { conversation2.messages.activity.where(content: system_resolved_message).count }.by(1)
-      resolved_activity = conversation2.messages.activity.find_by!(content: system_resolved_message)
-      expect(resolved_activity.content_attributes).to eq(
-        'activity' => { 'type' => 'conversation_status_changed', 'status' => 'resolved' }
-      )
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
+                               content: system_resolved_message,
+                               content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } } })
     end
   end
 

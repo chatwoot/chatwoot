@@ -147,11 +147,17 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
         user_name: captain_assistant.name,
         reason: 'no outstanding questions'
       )
-      resolved_activity = resolvable_pending_conversation.messages.activity.find_by!(content: expected_content)
-      expect(resolved_activity.content).to eq(expected_content)
-      expect(resolved_activity.content_attributes).to eq(
-        'activity' => { 'type' => 'conversation_status_changed', 'status' => 'resolved' }
-      )
+      expect(Conversations::ActivityMessageJob)
+        .to have_been_enqueued.with(
+          resolvable_pending_conversation,
+          {
+            account_id: resolvable_pending_conversation.account_id,
+            inbox_id: resolvable_pending_conversation.inbox_id,
+            message_type: :activity,
+            content: expected_content,
+            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
+          }
+        )
     end
 
     it 'creates a captain inference resolved reporting event' do

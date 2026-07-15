@@ -56,19 +56,18 @@ module ActivityMessageHandler
 
     return if content.blank?
 
-    message_params = activity_message_params(
-      content,
-      content_attributes: {
-        activity: {
-          type: 'conversation_status_changed',
-          status: status
+    ::Conversations::ActivityMessageJob.perform_later(
+      self,
+      activity_message_params(
+        content,
+        content_attributes: {
+          activity: {
+            type: 'conversation_status_changed',
+            status: status
+          }
         }
-      }
+      )
     )
-
-    return messages.create!(message_params) if resolved?
-
-    ::Conversations::ActivityMessageJob.perform_later(self, message_params)
   end
 
   def auto_resolve_message_key(minutes)
