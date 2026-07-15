@@ -45,12 +45,13 @@ class Captain::Assistant::SessionCaptureService
   end
 
   def scenario_ids
-    match = context[:current_agent].to_s.match(SCENARIO_AGENT_REGEX)
-    return [] if match.blank?
+    ids = current_turn_history.filter_map do |message|
+      next unless message[:role].to_s == 'assistant'
 
-    # TODO: Use structured ai-agents metadata if sessions need every scenario
-    # visited during a run rather than only the final active scenario.
-    @assistant.scenarios.where(id: match[1]).pluck(:id)
+      message[:agent_name].to_s.match(SCENARIO_AGENT_REGEX)&.[](1)&.to_i
+    end.uniq
+
+    ids & @assistant.scenarios.where(id: ids).pluck(:id)
   end
 
   def run_context_payload

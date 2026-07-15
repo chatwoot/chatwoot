@@ -143,11 +143,18 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
       expect(session.run_context['usage']).to eq({})
     end
 
-    it 'extracts the current scenario id from the stable agent name' do
-      scenario = create(:captain_scenario, assistant: assistant, account: account)
-      run_context[:current_agent] = scenario.handoff_key
+    it 'extracts every scenario that authored a message in the current turn' do
+      first_scenario = create(:captain_scenario, assistant: assistant, account: account)
+      second_scenario = create(:captain_scenario, assistant: assistant, account: account)
+      run_context[:conversation_history] = [
+        { role: :user, content: 'Help with my refund' },
+        { role: :assistant, content: '', agent_name: first_scenario.handoff_key, tool_calls: [] },
+        { role: :assistant, content: 'Checking', agent_name: second_scenario.handoff_key },
+        { role: :assistant, content: 'Done', agent_name: first_scenario.handoff_key }
+      ]
+      run_context[:current_agent] = 'Assistant'
 
-      expect(service.capture!.scenario_ids).to eq([scenario.id])
+      expect(service.capture!.scenario_ids).to eq([first_scenario.id, second_scenario.id])
     end
 
     it 'leaves scenario ids empty for the primary assistant agent' do
@@ -158,7 +165,10 @@ RSpec.describe Captain::Assistant::SessionCaptureService do
 
     it 'does not capture a scenario belonging to another assistant' do
       scenario = create(:captain_scenario, assistant: create(:captain_assistant, account: account), account: account)
-      run_context[:current_agent] = scenario.handoff_key
+      run_context[:conversation_history] = [
+        { role: :user, content: 'Help' },
+        { role: :assistant, content: 'No', agent_name: scenario.handoff_key }
+      ]
 
       expect(service.capture!.scenario_ids).to eq([])
     end
