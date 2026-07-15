@@ -190,6 +190,13 @@ RSpec.describe AutomationRule do
       expect(rule).to be_valid
     end
 
+    it 'allows a delayed conversation_created rule (arms on creation)' do
+      rule.event_name = 'conversation_created'
+      rule.execution_delay = 10
+      rule.conditions = [{ 'attribute_key' => 'status', 'filter_operator' => 'equal_to', 'values' => ['open'], 'query_operator' => nil }]
+      expect(rule).to be_valid
+    end
+
     it 'allows a delayed conversation-level rule scoped by status and inbox (immutable)' do
       rule.event_name = 'conversation_updated'
       rule.execution_delay = 60
