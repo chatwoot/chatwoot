@@ -226,6 +226,7 @@ const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
+const kanbanBoards = useMapGetter('kanban/getBoards');
 const getSidebarSectionSort = useMapGetter(
   'sidebarSortPreferences/getSectionSort'
 );
@@ -238,6 +239,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('kanban/getBoards');
 });
 
 watch([accountId, hasConversationUnreadCounts], fetchConversationUnreadCounts, {
@@ -637,6 +639,36 @@ const menuItems = computed(() => {
             { page: 1, search: undefined }
           ),
           activeOn: ['companies_dashboard_index', 'companies_dashboard_show'],
+        },
+      ],
+    },
+    {
+      name: 'Kanban',
+      label: t('SIDEBAR.KANBAN'),
+      icon: 'i-lucide-kanban',
+      activeOn: ['kanban_dashboard_index', 'kanban_board_show'],
+      children: [
+        {
+          name: 'Kanban Overview',
+          label: t('KANBAN.OVERVIEW.MENU_LABEL'),
+          to: accountScopedRoute('kanban_dashboard_index'),
+          activeOn: ['kanban_dashboard_index'],
+        },
+        {
+          name: 'Kanban Boards',
+          label: t('KANBAN.BOARD.MENU_LABEL'),
+          icon: 'i-lucide-list-tree',
+          collapsible: true,
+          showTreeLine: true,
+          children: kanbanBoards.value.map(board => ({
+            name: `${board.name}-${board.id}`,
+            label: board.name,
+            badgeCount: board.cardsCount || 0,
+            activeOn: ['kanban_board_show'],
+            to: accountScopedRoute('kanban_board_show', {
+              boardId: board.id,
+            }),
+          })),
         },
       ],
     },

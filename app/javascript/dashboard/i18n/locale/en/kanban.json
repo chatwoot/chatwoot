@@ -1,0 +1,93 @@
+{
+  "KANBAN": {
+    "HEADER": {
+      "TITLE": "Kanban",
+      "DESCRIPTION": "Track conversations across boards and columns."
+    },
+    "OVERVIEW": {
+      "TITLE": "Boards",
+      "DESCRIPTION": "Choose a board to open its cards and columns.",
+      "MENU_LABEL": "Overview"
+    },
+    "LOADING": "Loading Kanban",
+    "BOARD": {
+      "MENU_LABEL": "Boards",
+      "CREATE": "New board",
+      "CREATE_SUCCESS": "Board created successfully",
+      "CREATE_ERROR": "Could not create board",
+      "EDIT": "Edit board",
+      "UPDATE": "Update board",
+      "EDIT_SUCCESS": "Board updated successfully",
+      "EDIT_ERROR": "Could not update board",
+      "DELETE": "Delete board",
+      "DELETE_CONFIRM": "Delete this board and all of its columns and cards?",
+      "DELETE_SUCCESS": "Board deleted successfully",
+      "DELETE_ERROR": "Could not delete board",
+      "MODAL_TITLE": "Create board",
+      "MODAL_DESCRIPTION": "Create a board to organize conversation stages.",
+      "EDIT_MODAL_TITLE": "Edit board",
+      "EDIT_MODAL_DESCRIPTION": "Update the board name shown in the list and menu.",
+      "NAME_LABEL": "Board name",
+      "NAME_PLACEHOLDER": "Board name",
+      "COUNTS": "{columns} columns, {cards} cards"
+    },
+    "COLUMN": {
+      "CREATE": "Add stage",
+      "CREATE_SUCCESS": "Stage created successfully",
+      "CREATE_ERROR": "Could not create stage",
+      "EDIT": "Edit stage",
+      "UPDATE": "Update",
+      "EDIT_SUCCESS": "Stage updated successfully",
+      "EDIT_ERROR": "Could not update stage",
+      "DELETE": "Delete stage",
+      "DELETE_CONFIRM": "Delete this stage and all of its cards?",
+      "DELETE_SUCCESS": "Stage deleted successfully",
+      "DELETE_ERROR": "Could not delete stage",
+      "MODAL_TITLE": "Create stage",
+      "MODAL_DESCRIPTION": "Add a new stage to this Kanban board.",
+      "EDIT_MODAL_TITLE": "Edit stage in {board}",
+      "ID_LABEL": "ID: {id}",
+      "COPY_ID": "Copy stage ID",
+      "ID_COPIED": "Stage ID copied",
+      "NAME_LABEL": "Stage name",
+      "NAME_PLACEHOLDER": "Stage name",
+      "DESCRIPTION_LABEL": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Type the stage description",
+      "COLOR_LABEL": "Stage color",
+      "WIN_PROBABILITY_LABEL": "Win probability (%)",
+      "WIN_PROBABILITY_HELP": "Probability of winning deals in this stage. Used to calculate weighted pipeline value.",
+      "CARD_COUNT": "{count} cards",
+      "EMPTY": "No cards"
+    },
+    "CARD": {
+      "ADD": "Add task",
+      "CREATE": "Create task",
+      "CREATE_SUCCESS": "Task added successfully",
+      "CREATE_ERROR": "Could not add task",
+      "DELETE": "Remove task",
+      "DELETE_SUCCESS": "Task removed successfully",
+      "DELETE_ERROR": "Could not remove task",
+      "MOVE_ERROR": "Could not move task",
+      "MODAL_TITLE": "Add task",
+      "MODAL_DESCRIPTION": "Select a conversation to add to {column}.",
+      "SEARCH_LABEL": "Conversation",
+      "SEARCH_PLACEHOLDER": "Search by ID, contact, message, inbox, or status",
+      "LOADING_CONVERSATIONS": "Loading conversations",
+      "EMPTY_CONVERSATIONS": "No conversations available",
+      "CONVERSATIONS_ERROR": "Could not load conversations",
+      "CONVERSATION_ID": "Conversation ID",
+      "CONVERSATION_ID_PLACEHOLDER": "ID",
+      "UNKNOWN_CONTACT": "Unknown contact",
+      "UNKNOWN_INBOX": "Unknown inbox",
+      "NO_PREVIEW": "No message preview"
+    },
+    "EMPTY_BOARD": {
+      "TITLE": "Create your first board",
+      "DESCRIPTION": "Boards organize the columns and conversation cards your team works from."
+    },
+    "EMPTY_COLUMN": {
+      "TITLE": "Create your first column",
+      "DESCRIPTION": "Columns hold conversation cards and can represent stages in your workflow."
+    }
+  }
+}

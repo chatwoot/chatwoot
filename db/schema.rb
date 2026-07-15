@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
+ActiveRecord::Schema[7.1].define(version: 2026_07_14_000003) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -952,6 +952,50 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
     t.jsonb "settings", default: {}
   end
 
+  create_table "kanban_boards", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.integer "board_type", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_kanban_boards_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_kanban_boards_on_account_id"
+  end
+
+  create_table "kanban_cards", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "kanban_board_id", null: false
+    t.bigint "kanban_column_id", null: false
+    t.bigint "conversation_id", null: false
+    t.integer "position", default: 0, null: false
+    t.jsonb "metadata", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_kanban_cards_on_account_id"
+    t.index ["conversation_id"], name: "index_kanban_cards_on_conversation_id"
+    t.index ["kanban_board_id", "conversation_id"], name: "index_kanban_cards_on_kanban_board_id_and_conversation_id", unique: true
+    t.index ["kanban_board_id"], name: "index_kanban_cards_on_kanban_board_id"
+    t.index ["kanban_column_id", "position"], name: "index_kanban_cards_on_kanban_column_id_and_position"
+    t.index ["kanban_column_id"], name: "index_kanban_cards_on_kanban_column_id"
+  end
+
+  create_table "kanban_columns", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "kanban_board_id", null: false
+    t.string "name", null: false
+    t.string "color"
+    t.integer "position", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "description"
+    t.decimal "win_probability", precision: 5, scale: 2, default: "100.0", null: false
+    t.index ["account_id"], name: "index_kanban_columns_on_account_id"
+    t.index ["kanban_board_id", "name"], name: "index_kanban_columns_on_kanban_board_id_and_name", unique: true
+    t.index ["kanban_board_id", "position"], name: "index_kanban_columns_on_kanban_board_id_and_position"
+    t.index ["kanban_board_id"], name: "index_kanban_columns_on_kanban_board_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -1367,6 +1411,13 @@ ActiveRecord::Schema[7.1].define(version: 2026_07_06_215758) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "kanban_boards", "accounts"
+  add_foreign_key "kanban_cards", "accounts"
+  add_foreign_key "kanban_cards", "conversations"
+  add_foreign_key "kanban_cards", "kanban_boards"
+  add_foreign_key "kanban_cards", "kanban_columns"
+  add_foreign_key "kanban_columns", "accounts"
+  add_foreign_key "kanban_columns", "kanban_boards"
   add_foreign_key "user_sessions", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

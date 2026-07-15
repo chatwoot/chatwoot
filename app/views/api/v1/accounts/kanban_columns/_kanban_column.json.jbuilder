@@ -1,0 +1,10 @@
+json.id kanban_column.id
+json.name kanban_column.name
+json.description kanban_column.description
+json.color kanban_column.color
+json.position kanban_column.position
+json.win_probability kanban_column.win_probability.to_f
+json.kanban_board_id kanban_column.kanban_board_id
+json.cards_count kanban_column.kanban_cards.count
+json.created_at kanban_column.created_at.to_i
+json.updated_at kanban_column.updated_at.to_i
