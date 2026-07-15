@@ -47,7 +47,7 @@ class Captain::Assistant < ApplicationRecord
   validates :name, presence: true
   validates :description, presence: true, length: { maximum: DESCRIPTION_LENGTH_LIMIT }
   validates :account_id, presence: true
-  validate :validate_audience_structure
+  validates_with Captain::AudienceValidator
   validate :validate_response_window
 
   scope :ordered, -> { order(created_at: :desc) }
@@ -115,37 +115,11 @@ class Captain::Assistant < ApplicationRecord
 
   private
 
-  def validate_audience_structure
-    audience = config['audience']
-    return if audience.blank?
-
-    errors.add(:config, 'audience must be a valid condition tree') unless valid_audience_node?(audience, 1)
-  end
-
   def validate_response_window
-    window = config['response_window']
-    return if window.blank?
+    response_window = config['response_window']
+    return if response_window.blank?
 
-    errors.add(:config, 'invalid response_window') unless RESPONSE_WINDOWS.include?(window)
-  end
-
-  def valid_audience_node?(node, depth)
-    return false unless node.is_a?(Hash) && depth <= Captain::AudienceMatcher::MAX_DEPTH
-
-    node = node.with_indifferent_access
-    return valid_audience_group?(node, depth) if node.key?(:conditions)
-
-    valid_audience_leaf?(node)
-  end
-
-  def valid_audience_group?(node, depth)
-    node[:conditions].is_a?(Array) &&
-      node[:conditions].present? &&
-      node[:conditions].all? { |child| valid_audience_node?(child, depth + 1) }
-  end
-
-  def valid_audience_leaf?(node)
-    node[:attribute_key].present? && Captain::AudienceMatcher::OPERATORS.include?(node[:filter_operator])
+    errors.add(:config, 'invalid response_window') unless RESPONSE_WINDOWS.include?(response_window)
   end
 
   def agent_name

@@ -1,0 +1,29 @@
+class Captain::AudienceValidator < ActiveModel::Validator
+  def validate(record)
+    audience = record.config['audience']
+    return if audience.blank?
+
+    record.errors.add(:config, 'audience must be a valid condition tree') unless valid_node?(audience, 1)
+  end
+
+  private
+
+  def valid_node?(node, depth)
+    return false unless node.is_a?(Hash) && depth <= Captain::AudienceMatcher::MAX_DEPTH
+
+    node = node.with_indifferent_access
+    return valid_group?(node, depth) if node.key?(:conditions)
+
+    valid_leaf?(node)
+  end
+
+  def valid_group?(node, depth)
+    node[:conditions].is_a?(Array) &&
+      node[:conditions].present? &&
+      node[:conditions].all? { |child| valid_node?(child, depth + 1) }
+  end
+
+  def valid_leaf?(node)
+    node[:attribute_key].present? && Captain::AudienceMatcher::OPERATORS.include?(node[:filter_operator])
+  end
+end

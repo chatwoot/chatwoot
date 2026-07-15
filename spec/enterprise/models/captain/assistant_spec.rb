@@ -64,8 +64,13 @@ RSpec.describe Captain::Assistant, type: :model do
   end
 
   describe 'response_window validation' do
+    it 'accepts a blank response_window' do
+      assistant.config['response_window'] = nil
+      expect(assistant).to be_valid
+    end
+
     it 'accepts the known windows' do
-      %w[always business_hours outside_business_hours].each do |window|
+      described_class::RESPONSE_WINDOWS.each do |window|
         assistant.config['response_window'] = window
         expect(assistant).to be_valid
       end
@@ -74,22 +79,52 @@ RSpec.describe Captain::Assistant, type: :model do
     it 'rejects an unknown window' do
       assistant.config['response_window'] = 'weekends'
       expect(assistant).not_to be_valid
+      expect(assistant.errors[:config]).to include('invalid response_window')
     end
   end
 
   describe 'audience validation' do
+    let(:leaf) { { 'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US'] } }
+
+    it 'accepts a blank audience' do
+      assistant.config['audience'] = nil
+      expect(assistant).to be_valid
+    end
+
+    it 'accepts a single leaf' do
+      assistant.config['audience'] = leaf
+      expect(assistant).to be_valid
+    end
+
+    it 'accepts symbol keys' do
+      assistant.config['audience'] = { attribute_key: 'country_code', filter_operator: 'equal_to', values: ['US'] }
+      expect(assistant).to be_valid
+    end
+
     it 'accepts a well-formed nested tree' do
       assistant.config['audience'] = {
         'operator' => 'and',
         'conditions' => [
-          { 'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US'] }
+          { 'operator' => 'or', 'conditions' => [leaf] },
+          leaf
         ]
       }
       expect(assistant).to be_valid
     end
 
+    it 'rejects a node that is not a hash' do
+      assistant.config['audience'] = ['not-a-node']
+      expect(assistant).not_to be_valid
+      expect(assistant.errors[:config]).to include('audience must be a valid condition tree')
+    end
+
     it 'rejects an unknown operator' do
-      assistant.config['audience'] = { 'attribute_key' => 'country_code', 'filter_operator' => 'bogus', 'values' => ['US'] }
+      assistant.config['audience'] = leaf.merge('filter_operator' => 'bogus')
+      expect(assistant).not_to be_valid
+    end
+
+    it 'rejects a leaf missing attribute_key' do
+      assistant.config['audience'] = { 'filter_operator' => 'equal_to', 'values' => ['US'] }
       expect(assistant).not_to be_valid
     end
 
@@ -98,14 +133,22 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(assistant).not_to be_valid
     end
 
+    it 'rejects conditions that is not an array' do
+      assistant.config['audience'] = { 'operator' => 'and', 'conditions' => leaf }
+      expect(assistant).not_to be_valid
+    end
+
+    it 'rejects a group containing an invalid child' do
+      assistant.config['audience'] = { 'operator' => 'and', 'conditions' => [leaf, { 'attribute_key' => '' }] }
+      expect(assistant).not_to be_valid
+    end
+
     it 'rejects nesting deeper than one level' do
       assistant.config['audience'] = {
         'operator' => 'and',
         'conditions' => [
           { 'operator' => 'or', 'conditions' => [
-            { 'operator' => 'and', 'conditions' => [
-              { 'attribute_key' => 'country_code', 'filter_operator' => 'equal_to', 'values' => ['US'] }
-            ] }
+            { 'operator' => 'and', 'conditions' => [leaf] }
           ] }
         ]
       }

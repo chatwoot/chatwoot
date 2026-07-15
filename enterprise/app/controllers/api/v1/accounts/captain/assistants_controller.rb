@@ -113,7 +113,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
     permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
 
     # The audience is a recursive condition tree that strong params can't whitelist by shape;
-    # route it through separately. Validity is enforced by Captain::Assistant#validate_audience_structure.
+    # route it through separately. Validity is enforced by Captain::AudienceValidator.
     permit_audience_config(permitted)
 
     permitted
