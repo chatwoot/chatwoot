@@ -38,9 +38,7 @@ class AutomationRule < ApplicationRecord
   validate :execution_delay_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
-  # Rows already armed under the old definition must not fire on a config the rule no longer
-  # has (different delay, trigger, conditions, or actions). Delete rather than skip so the
-  # freed episode slot lets the new definition re-arm on the next matching event.
+  # Discard rows armed under the old definition; they re-arm on the next matching event.
   after_update :discard_stale_pending_executions, if: :execution_config_changed?
 
   scope :active, -> { where(active: true) }
@@ -115,11 +113,8 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
   end
 
-  # Conversation-level events (anything but message_created) key their episode on
-  # status_changed_at alone. A delayed condition on any other attribute (assignee, team,
-  # priority, ...) would collapse distinct qualifying periods into one episode and could
-  # fire on a stale window, so only status conditions are supported until episodes track
-  # per-attribute change times.
+  # Conversation-level episodes key on status_changed_at alone, so only status conditions
+  # can be delayed; other attributes would collapse distinct periods into one episode.
   def execution_delay_supported_event
     return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
     return if conditions.all? { |obj| obj['attribute_key'] == 'status' }
@@ -133,7 +128,7 @@ class AutomationRule < ApplicationRecord
   end
 
   def discard_stale_pending_executions
-    # Includes stale processing rows: the sweep would otherwise reclaim and fire them.
+    # armed = pending + stale processing, which the sweep would otherwise reclaim.
     pending_executions.armed.delete_all
   end
 
