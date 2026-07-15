@@ -102,6 +102,14 @@ class AutomationRulePendingExecution < ApplicationRecord
       .in_batches(of: 1000).delete_all
   end
 
+  # Rows that came due while an account had delayed automations paused would expire the moment
+  # the sweep reaches them on resume. Reset their clock so pause/resume replays them (still
+  # subject to the fire-time episode/condition re-checks) instead of silently dropping them.
+  def self.reschedule_paused(account)
+    overdue = pending.where(account_id: account.id, due_at: ...DUE_WINDOW.ago)
+    overdue.find_each { |row| row.update!(due_at: Time.current) }
+  end
+
   # Atomic claim: only one worker can move a row into processing, so a row re-enqueued by an
   # overlapping sweep (or after a stale reclaim) cannot double-execute. Refreshing updated_at
   # renews the lock, keeping the row out of the stale window while this worker holds it.
@@ -121,6 +129,8 @@ class AutomationRulePendingExecution < ApplicationRecord
   private
 
   def claimable?
-    pending? || (processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago)
+    # due_at guard: a reply-chase reschedule can push due_at forward after this row was enqueued;
+    # such a row must wait for a later sweep instead of firing early.
+    (pending? && due_at <= Time.current) || (processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago)
   end
 end
