@@ -6,7 +6,10 @@ RSpec.describe AutomationRules::TriggerPendingExecutionsJob do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
 
-  before { GlobalConfig.clear_cache }
+  before do
+    GlobalConfig.clear_cache
+    account.enable_features!('delayed_automations')
+  end
 
   it 'enqueues a per-row job for due pending rows but not future ones' do
     due_row = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago)
@@ -38,6 +41,15 @@ RSpec.describe AutomationRules::TriggerPendingExecutionsJob do
     job.perform
 
     expect { old_row.reload }.to raise_error(ActiveRecord::RecordNotFound)
+  end
+
+  it 'skips rows for accounts with delayed automations disabled so they cannot starve others' do
+    enabled_row = create(:automation_rule_pending_execution, account: account, conversation: conversation, due_at: 1.minute.ago)
+    disabled_account = create(:account) # delayed_automations off by default
+    create(:automation_rule_pending_execution, account: disabled_account, due_at: 2.minutes.ago)
+
+    expect { job.perform }.to have_enqueued_job(AutomationRules::ProcessPendingExecutionJob).exactly(:once)
+    expect(AutomationRules::ProcessPendingExecutionJob).to have_been_enqueued.with(enabled_row)
   end
 
   it 'does nothing when the kill switch is set' do
