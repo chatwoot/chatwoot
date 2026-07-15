@@ -23,6 +23,9 @@ class AutomationRule < ApplicationRecord
   include Reauthorizable
 
   EXECUTION_DELAY_RANGE = (10..43_200) # minutes: 10 min to 30 days
+  # Conversation-level delayed rules key their episode on status; only status and attributes
+  # that never change after the delay (inbox) are safe to also filter on.
+  DELAYED_CONVERSATION_ATTRIBUTES = %w[status inbox_id].freeze
 
   belongs_to :account
   has_many :pending_executions, class_name: 'AutomationRulePendingExecution', dependent: :delete_all
@@ -113,13 +116,13 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'cannot be used with attribute_changed conditions.')
   end
 
-  # Conversation-level episodes key on status_changed_at alone, so only status conditions
-  # can be delayed; other attributes would collapse distinct periods into one episode.
+  # Conversation-level episodes key on status_changed_at alone. Mutable attributes would collapse
+  # distinct periods into one episode, so only status and immutable filters (inbox) are allowed.
   def execution_delay_supported_event
     return if execution_delay.blank? || conditions.blank? || event_name == 'message_created'
-    return if conditions.all? { |obj| obj['attribute_key'] == 'status' }
+    return if conditions.all? { |obj| DELAYED_CONVERSATION_ATTRIBUTES.include?(obj['attribute_key']) }
 
-    errors.add(:execution_delay, 'only supports status conditions for conversation-level events.')
+    errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
   end
 
   def execution_config_changed?
