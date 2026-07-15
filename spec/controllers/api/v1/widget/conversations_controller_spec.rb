@@ -140,6 +140,51 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
     end
 
+    it 'saves contact custom attributes on the widget contact' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: 'contact-email@chatwoot.com',
+               custom_attributes: { cpf: '123.456.789-09' }
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(contact.reload.custom_attributes['cpf']).to eq('123.456.789-09')
+    end
+
+    it 'saves contact custom attributes on the surviving contact when merged into an existing contact' do
+      existing_contact = create(:contact, account: account, email: 'contact-email@chatwoot.com', custom_attributes: { 'cpf' => 'old-value' })
+
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: {
+             website_token: web_widget.website_token,
+             contact: {
+               name: 'contact-name',
+               email: existing_contact.email,
+               custom_attributes: { cpf: '123.456.789-09' }
+             },
+             message: {
+               content: 'This is a test message'
+             }
+           },
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      # the widget contact is merged into the existing contact; the freshly
+      # submitted value must land on the surviving contact and win over stale data
+      expect(Contact.exists?(contact.id)).to be(false)
+      expect(existing_contact.reload.custom_attributes['cpf']).to eq('123.456.789-09')
+    end
+
     it 'doesnt not add phone number if the invalid phone number is provided' do
       existing_contact = create(:contact, account: account)
 
