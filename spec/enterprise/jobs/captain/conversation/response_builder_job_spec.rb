@@ -360,7 +360,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'passes message history with resolution markers to agent runner service' do
-        resolved_activity = create(
+        create(
           :message,
           conversation: conversation,
           message_type: :activity,
@@ -373,11 +373,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expected_messages = [
           { content: 'Hello', role: 'user' },
           {
-            content: format(
-              Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER,
-              resolved_at: resolved_activity.created_at.utc.iso8601,
-              details: resolved_activity.content
-            ),
+            content: Captain::Conversation::MessageHistoryBuilderService::RESOLUTION_MARKER,
             role: 'assistant'
           },
           { content: 'Fresh question', role: 'user' }

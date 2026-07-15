@@ -279,15 +279,10 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(conversation.reload.resolved?).to be true
-        expect(Conversations::ActivityMessageJob).to have_been_enqueued.at_least(:once).with(
-          conversation,
-          {
-            account_id: conversation.account_id,
-            inbox_id: conversation.inbox_id,
-            message_type: :activity,
-            content: "Conversation was resolved by #{contact.name}",
-            content_attributes: { activity: { type: 'conversation_status_changed', status: 'resolved' } }
-          }
+        resolved_activity = conversation.messages.activity.find_by!(content: "Conversation was resolved by #{contact.name}")
+        expect(resolved_activity.content).to eq("Conversation was resolved by #{contact.name}")
+        expect(resolved_activity.content_attributes).to eq(
+          'activity' => { 'type' => 'conversation_status_changed', 'status' => 'resolved' }
         )
       end
     end

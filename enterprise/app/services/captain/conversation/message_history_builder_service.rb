@@ -1,5 +1,5 @@
 class Captain::Conversation::MessageHistoryBuilderService
-  RESOLUTION_MARKER = 'Conversation resolution marker at %<resolved_at>s: %<details>s'.freeze
+  RESOLUTION_MARKER = '<conversation_boundary status="resolved" />'.freeze
 
   pattr_initialize [:conversation!]
 
@@ -33,7 +33,7 @@ class Captain::Conversation::MessageHistoryBuilderService
     return unless activity['type'] == 'conversation_status_changed' && activity['status'] == 'resolved'
 
     {
-      content: format(RESOLUTION_MARKER, resolved_at: message.created_at.utc.iso8601, details: message.content),
+      content: RESOLUTION_MARKER,
       role: 'assistant'
     }
   end
