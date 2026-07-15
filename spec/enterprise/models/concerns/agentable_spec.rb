@@ -56,11 +56,11 @@ RSpec.describe Concerns::Agentable do
       dummy_instance.agent
     end
 
-    it 'converts nil temperature to 0.0' do
+    it 'uses default temperature when temperature is nil' do
       dummy_instance.temperature = nil
 
       expect(Agents::Agent).to receive(:new).with(
-        hash_including(temperature: 0.0)
+        hash_including(temperature: 0.5)
       )
 
       dummy_instance.agent
@@ -177,6 +177,14 @@ RSpec.describe Concerns::Agentable do
       create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
 
       expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-nano')
+    end
+
+    it 'returns the Captain V2 default when Captain V2 is enabled' do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-nano')
+      account.enable_features!('captain_integration_v2')
+
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-5.2')
+      expect(account.reload.captain_models).to be_nil
     end
 
     it 'returns the assistant feature default model when account is nil' do

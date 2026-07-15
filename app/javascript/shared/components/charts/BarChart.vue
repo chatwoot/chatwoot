@@ -19,7 +19,13 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  clickable: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['elementClick']);
 
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale);
 
@@ -67,8 +73,39 @@ const defaultChartOptions = {
   },
 };
 
+const handleClick = (event, elements, chart) => {
+  props.chartOptions.onClick?.(event, elements, chart);
+
+  if (!props.clickable || !elements.length) return;
+
+  const { datasetIndex, index } = elements[0];
+  const dataset = props.collection.datasets?.[datasetIndex] || {};
+
+  emit('elementClick', {
+    datasetIndex,
+    dataIndex: index,
+    dataset,
+    label: props.collection.labels?.[index],
+    value: dataset.data?.[index],
+  });
+};
+
+const handleHover = (event, elements, chart) => {
+  props.chartOptions.onHover?.(event, elements, chart);
+
+  if (!event?.native?.target) return;
+
+  event.native.target.style.cursor =
+    props.clickable && elements.length ? 'pointer' : 'default';
+};
+
 const options = computed(() => {
-  return { ...defaultChartOptions, ...props.chartOptions };
+  return {
+    ...defaultChartOptions,
+    ...props.chartOptions,
+    onClick: handleClick,
+    onHover: handleHover,
+  };
 });
 </script>
 

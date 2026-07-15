@@ -65,7 +65,7 @@ const handleAssistantChange = async assistant => {
 
   const currentRouteName = route.name;
   const targetRouteName =
-    currentRouteName || 'captain_assistants_responses_index';
+    currentRouteName || 'captain_assistants_overview_index';
 
   await fetchDataForRoute(targetRouteName, assistant.id);
 
